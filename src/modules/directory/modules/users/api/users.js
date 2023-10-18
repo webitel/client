@@ -4,9 +4,13 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, snakeToCamel,
-  starToSearch, log, sanitize,
-  generateUrl, mergeEach,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';

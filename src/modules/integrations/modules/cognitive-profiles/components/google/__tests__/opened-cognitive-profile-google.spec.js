@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedCognitiveProfileGoogle
-  from '../opened-cognitive-profile-google.vue';
 import OpenedTabComponentMixinMock
   from '../../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedCognitiveProfileGoogle
+  from '../opened-cognitive-profile-google.vue';
 
 describe('OpenedCognitiveProfileGoogle', () => {
   const computed = {

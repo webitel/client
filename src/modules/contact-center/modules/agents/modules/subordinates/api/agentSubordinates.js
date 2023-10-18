@@ -1,11 +1,11 @@
 import applyTransform, {
-   notify,
+  notify,
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { AgentServiceApiFactory } from 'webitel-sdk';
-import AgentsAPI from '../../../api/agents';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
+import AgentsAPI from '../../../api/agents';
 
 const subordinateService = new AgentServiceApiFactory(configuration, '', instance);
 
@@ -30,7 +30,7 @@ export const getAgentSubordinate = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -49,7 +49,8 @@ export const deleteAgentSubordinate = ({ id, parentId, dataList }) => {
   /* deleted subordinate is in dataList,
    so first we should find it and retrieve his supervisors list */
   const subordinate = dataList.find((sup) => sup.id === id);
-  const newSupervisor = subordinate.supervisor.filter(({ id }) => id !== parentId);
+  const newSupervisor = subordinate.supervisor.filter(({ id }) => id !==
+    parentId);
   const changes = { supervisor: newSupervisor };
   return AgentsAPI.patch({ id, changes });
 };

@@ -3,8 +3,12 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, 
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { RoutingChatPlanServiceApiFactory } from 'webitel-sdk';
@@ -50,7 +54,7 @@ const getChatplanList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -63,7 +67,7 @@ const getChatplan = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -83,7 +87,7 @@ const addChatplan = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -100,7 +104,7 @@ const patchChatplan = async ({ id, changes }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -117,7 +121,7 @@ const updateChatplan = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -129,7 +133,7 @@ const deleteChatplan = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }

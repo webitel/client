@@ -3,30 +3,30 @@
     width="480"
     @close="close"
   >
-    <template v-slot:title>
+    <template #title>
       {{ itemId ? $t('reusable.edit') : $t('reusable.new') }}
       {{ $tc('settings.settings', 1).toLowerCase() }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-input
-          :value="itemInstance.name"
-          :v="v$.itemInstance.name"
-          :label="$t('reusable.name')"
           :disabled="id"
+          :label="$t('reusable.name')"
+          :v="v$.itemInstance.name"
+          :value="itemInstance.name"
           required
           @input="setItemProp({ prop: 'name', value: $event })"
-        ></wt-input>
+        />
         <wt-input
-          :value="itemInstance.value"
-          :v="v$.itemInstance.value"
           :label="$tc('vocabulary.values', 1)"
+          :v="v$.itemInstance.value"
+          :value="itemInstance.value"
           required
           @input="setItemProp({ prop: 'value', value: $event })"
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -51,7 +51,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'settings-popup',
+  name: 'SettingsPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
     namespace: {

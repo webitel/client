@@ -2,12 +2,12 @@
   <wt-error-page
     type="404"
     @back="$router.replace('/start')"
-  ></wt-error-page>
+  />
 </template>
 
 <script>
 export default {
-  name: 'the-not-found-component',
+  name: 'TheNotFoundComponent',
 };
 </script>
 

@@ -4,65 +4,68 @@
       v-if="isCommPopup"
       :edited-index="editedIndex"
       @close="closePopup"
-    ></communication-popup>
+    />
 
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title"
-          :class="{'invalid': v.itemInstance.communications.$error}"
-      >{{ $tc('objects.lookups.communications.communications', 2) }}</h3>
+      <h3
+        :class="{'invalid': v.itemInstance.communications.$error}"
+        class="content-title"
+      >
+        {{ $tc('objects.lookups.communications.communications', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <delete-all-action
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></delete-all-action>
+        />
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
           @click="create"
-        ></wt-icon-btn>
+        />
       </div>
     </header>
 
     <div class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
       >
-        <template v-slot:destination="{ item }">
+        <template #destination="{ item }">
           {{ item.destination }}
         </template>
-        <template v-slot:state="{ item }">
+        <template #state="{ item }">
           {{ item.state }}
         </template>
-        <template v-slot:attempts="{ item }">
+        <template #attempts="{ item }">
           {{ item.attempts }}
         </template>
-        <template v-slot:type="{ item }">
+        <template #type="{ item }">
           {{ item.type.name }}
         </template>
-        <template v-slot:priority="{ item }">
+        <template #priority="{ item }">
           {{ item.priority }}
         </template>
-        <template v-slot:actions="{ index, item }">
+        <template #actions="{ index, item }">
           <wt-icon-action
             action="edit"
             @click="edit(index)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
     </div>
@@ -70,16 +73,16 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import CommunicationPopup from './opened-queue-member-communication-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
 export default {
-  name: 'opened-queue-member-communication',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedQueueMemberCommunication',
   components: { CommunicationPopup },
+  mixins: [openedObjectTableTabMixin],
   data: () => ({
     dataListValue: [],
     searchValue: '',
@@ -97,7 +100,7 @@ export default {
         return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
       },
     }),
-  // override mixin map state
+    // override mixin map state
     dataList: {
       get() {
         return this.dataListValue;
@@ -134,8 +137,8 @@ export default {
     }),
     loadList() {
       this.dataList = this.commList
-        .filter((comm) => comm.destination.includes(this.search))
-        .map((comm) => ({ ...comm, _isSelected: false }));
+      .filter((comm) => comm.destination.includes(this.search))
+      .map((comm) => ({ ...comm, _isSelected: false }));
     },
     create() {
       this.openPopup();

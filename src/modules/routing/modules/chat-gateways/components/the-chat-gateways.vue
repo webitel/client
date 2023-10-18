@@ -1,36 +1,41 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="chat-gateways">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="chat-gateways"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <create-chat-gateway-popup
         v-if="isChatGatewayPopup"
         @close="isChatGatewayPopup = false"
-      ></create-chat-gateway-popup>
+      />
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.routing.chatGateways.allChatGateways') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.routing.chatGateways.allChatGateways') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -40,51 +45,52 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
-        ></wt-dummy>
+          @create="create"
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
-
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:uri="{ item }">
+            <template #uri="{ item }">
               {{ item.uri }}
             </template>
 
-            <template v-slot:flow="{ item }">
+            <template #flow="{ item }">
               <wt-item-link
                 v-if="item.flow"
-                :route-name="RouteNames.FLOW"
                 :id="item.flow.id"
-              >{{ item.flow.name }}
+                :route-name="RouteNames.FLOW"
+              >
+                {{ item.flow.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:provider="{ item }">
+            <template #provider="{ item }">
               <wt-icon
                 v-if="iconType[item.provider] && !Array.isArray(providerIcon(item.provider))"
                 :icon="iconType[item.provider]"
@@ -95,47 +101,49 @@
               >
                 <wt-icon
                   v-for="(icon, key) of providerIcon(item.provider)"
-                  :icon="icon"
                   :key="key"
+                  :icon="icon"
                   size="md"
-                ></wt-icon>
+                />
               </div>
-              <p v-else> {{ item.provider }} </p>
+              <p v-else>
+                {{ item.provider }}
+              </p>
             </template>
 
-            <template v-slot:enabled="{ item, index }">
+            <template #enabled="{ item, index }">
               <wt-switcher
-                :value="item.enabled"
                 :disabled="!hasEditAccess"
+                :value="item.enabled"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event })"
-              ></wt-switcher>
+              />
             </template>
 
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
 
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -143,12 +151,11 @@
 </template>
 
 <script>
-import tableComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const iconType = {
   [ChatGatewayProvider.MESSENGER]: 'meta',
@@ -162,20 +169,20 @@ const iconType = {
 const namespace = 'routing/chatGateways';
 
 export default {
-  name: 'the-chat-gateways',
-  mixins: [tableComponentMixin],
+  name: 'TheChatGateways',
   components: { CreateChatGatewayPopup },
+  mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     isChatGatewayPopup: false,
     iconType,
     routeName: RouteNames.CHAT_GATEWAYS,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     path() {
@@ -196,7 +203,8 @@ export default {
           return [iconType[value], 'send-arrow', 'messenger-whatsapp'];
         case ChatGatewayProvider.MESSENGER:
           return [iconType[value], 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'];
-        default: return iconType[value];
+        default:
+          return iconType[value];
       }
     },
   },

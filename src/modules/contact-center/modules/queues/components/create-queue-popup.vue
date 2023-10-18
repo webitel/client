@@ -1,28 +1,23 @@
 <template>
   <selection-popup
     v-model="selected"
-    :title="$t('objects.ccenter.queues.newQueue')"
     :options="options"
-    @select="createQueue"
+    :title="$t('objects.ccenter.queues.newQueue')"
     @close="$emit('close')"
-  ></selection-popup>
+    @select="createQueue"
+  />
 </template>
 
 <script>
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: 'create-queue-popup',
+  name: 'CreateQueuePopup',
   components: { SelectionPopup },
   data: () => ({
     selected: null,
   }),
-
-  created() {
-    // eslint-disable-next-line prefer-destructuring
-    this.selected = this.options[0];
-  },
 
   computed: {
     options() {
@@ -33,6 +28,11 @@ export default {
         description: this.$t(`${locale}Description`),
       }));
     },
+  },
+
+  created() {
+    // eslint-disable-next-line prefer-destructuring
+    this.selected = this.options[0];
   },
 
   methods: {

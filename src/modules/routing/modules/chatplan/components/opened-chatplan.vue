@@ -1,18 +1,18 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -20,13 +20,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -35,19 +38,19 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import General from './opened-chatplan-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-chatplan-general.vue';
 
 export default {
-  name: 'opened-chatplan',
-  mixins: [openedObjectMixin],
+  name: 'OpenedChatplan',
   components: { General },
-  data: () => ({
-    namespace: 'routing/chatplan',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'routing/chatplan',
   }),
   validations: {
     itemInstance: {
@@ -58,10 +61,12 @@ export default {
 
   computed: {
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        },
+      ];
       return tabs;
     },
     path() {

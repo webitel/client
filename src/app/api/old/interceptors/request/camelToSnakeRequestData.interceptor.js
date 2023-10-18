@@ -7,7 +7,7 @@ const onFulfilled = (DO_NOT_CONVERT_KEYS = []) => (request) => {
     || request.method === 'patch') {
     if (typeof request.data === 'string') {
       request.data = JSON
-        .stringify(objCamelToSnake(JSON.parse(request.data), DO_NOT_CONVERT_KEYS));
+      .stringify(objCamelToSnake(JSON.parse(request.data), DO_NOT_CONVERT_KEYS));
     } else {
       request.data = objCamelToSnake(request.data, DO_NOT_CONVERT_KEYS);
     }

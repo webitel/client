@@ -1,13 +1,13 @@
-import skills from '../modules/skills/store/agent-skills';
-import queues from '../modules/queues/store/agent-queues';
-import subordinates from '../modules/subordinates/store/agent-subordinates';
-import AgentsAPI from '../api/agents';
+import HistoryStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import HistoryStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
+import AgentsAPI from '../api/agents';
+import queues from '../modules/queues/store/agent-queues';
+import skills from '../modules/skills/store/agent-skills';
+import subordinates from '../modules/subordinates/store/agent-subordinates';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -35,19 +35,19 @@ const actions = {
 
 const PERMISSIONS_API_URL = '/call_center/agents';
 const permissions = new PermissionsStoreModule()
-  .generateAPIActions(PERMISSIONS_API_URL)
-  .getModule();
+.generateAPIActions(PERMISSIONS_API_URL)
+.getModule();
 
 const history = new HistoryStoreModule()
-  .generateGetListAction(AgentsAPI.getAgentHistory)
-  .getModule();
+.generateGetListAction(AgentsAPI.getAgentHistory)
+.getModule();
 
 const agents = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(AgentsAPI)
-  .generateAPIActions()
-  .setChildModules({
-    history, skills, queues, subordinates, permissions,
-  })
-  .getModule({ actions });
+.attachAPIModule(AgentsAPI)
+.generateAPIActions()
+.setChildModules({
+  history, skills, queues, subordinates, permissions,
+})
+.getModule({ actions });
 
 export default agents;

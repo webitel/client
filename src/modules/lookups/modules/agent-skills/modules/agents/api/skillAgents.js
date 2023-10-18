@@ -4,8 +4,11 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { SkillServiceApiFactory } from 'webitel-sdk';
@@ -61,7 +64,7 @@ const getAgentSkillsList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -75,7 +78,7 @@ const getAgentSkill = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -95,7 +98,7 @@ const addAgentSkill = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -116,7 +119,7 @@ const patchAgentSkill = async ({ parentId, changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -134,7 +137,7 @@ const updateAgentSkill = async ({ id, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -150,7 +153,7 @@ const deleteAgentSkill = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }

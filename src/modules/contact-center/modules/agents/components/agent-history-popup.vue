@@ -1,7 +1,12 @@
 <template>
-  <wt-popup overflow @close="close">
-    <template v-slot:title>{{ $t('objects.ccenter.agents.statusHistory') }}</template>
-    <template v-slot:main>
+  <wt-popup
+    overflow
+    @close="close"
+  >
+    <template #title>
+      {{ $t('objects.ccenter.agents.statusHistory') }}
+    </template>
+    <template #main>
       <section class="history-popup">
         <div class="history-popup__filters">
           <wt-datepicker
@@ -9,46 +14,47 @@
             :value="from"
             mode="datetime"
             @input="setFrom"
-          ></wt-datepicker>
+          />
           <wt-datepicker
             :label="$t('objects.to')"
             :value="to"
             mode="datetime"
             @input="setTo"
-          ></wt-datepicker>
+          />
         </div>
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="false"
             :headers="headers"
             :selectable="false"
           >
-            <template v-slot:state="{ item }">
+            <template #state="{ item }">
               {{ $t(`${agentState[item.state]}`) }}
             </template>
-            <template v-slot:channel="{ item }">
+            <template #channel="{ item }">
               <span v-if="item.channel">
-              {{ $t(`channel.type.${item.channel}`) }}
+                {{ $t(`channel.type.${item.channel}`) }}
               </span>
             </template>
-            <template v-slot:from="{ item }">
+            <template #from="{ item }">
               {{ prettifyTime(item.joinedAt) }}
             </template>
-            <template v-slot:to="{ item }">
+            <template #to="{ item }">
               <div v-if="item.duration">
                 {{ calcStatusTo(item) }}
               </div>
             </template>
-            <template v-slot:duration="{ item }">
+            <template #duration="{ item }">
               {{ convertDuration(item.duration) }}
             </template>
           </wt-table>
@@ -61,13 +67,20 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
-    <template v-slot:actions>
-      <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
-      <wt-button color="secondary" @click="close"> {{ $t('objects.close') }}</wt-button>
+    <template #actions>
+      <wt-button @click="close">
+        {{ $t('objects.ok') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ $t('objects.close') }}
+      </wt-button>
     </template>
   </wt-popup>
 </template>
@@ -75,11 +88,11 @@
 <script>
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
-import agentState from '../dictionaries/agentState.dictionary';
 import dummyPic from '../assets/adm-agent-history.svg';
+import agentState from '../dictionaries/agentState.dictionary';
 
 export default {
-  name: 'agent-history-popup',
+  name: 'AgentHistoryPopup',
   mixins: [historyPopupMixin],
   data: () => ({
     namespace: 'ccenter/agents/history',
@@ -98,8 +111,8 @@ export default {
     },
     dummy() {
       return !this.dataList.length && {
-          src: dummyPic,
-          text: 'objects.ccenter.agents.emptyPopup',
+        src: dummyPic,
+        text: 'objects.ccenter.agents.emptyPopup',
       };
     },
   },

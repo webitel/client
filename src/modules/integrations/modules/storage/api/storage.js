@@ -1,24 +1,37 @@
-import deepCopy from 'deep-copy';
-import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
-import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
-import StorageTypeAdapter from '../store/_internals/scripts/backendStorageTypeAdapters';
+import DigitalOceanRegions
+  from '../store/_internals/lookups/DigitalOceanRegions.lookup';
+import StorageTypeAdapter
+  from '../store/_internals/scripts/backendStorageTypeAdapters';
 
 const storageService = new BackendProfileServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type', 'disabled'];
-
+const fieldsToSend = [
+  'name',
+  'maxSize',
+  'priority',
+  'properties',
+  'expireDays',
+  'type',
+  'disabled',
+];
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
@@ -28,7 +41,6 @@ const preRequestHandler = (item) => {
   copy.type = StorageTypeAdapter.enumToBackend(copy.type);
   return copy;
 };
-
 
 const getStorageList = async (params) => {
   const defaultObject = {
@@ -84,7 +96,6 @@ const getStorageList = async (params) => {
   }
 };
 
-
 const getStorage = async ({ itemId: id }) => {
   const defaultObject = {
     maxSize: 0,
@@ -97,10 +108,10 @@ const getStorage = async ({ itemId: id }) => {
     if (copy.properties.region) {
       if (copy.properties.endpoint.includes('aws')) {
         copy.properties.region = AWSRegions
-          .find((item) => item.value === copy.properties.region);
+        .find((item) => item.value === copy.properties.region);
       } else if (copy.properties.endpoint.includes('digitalocean')) {
         copy.properties.region = DigitalOceanRegions
-          .find((item) => item.value === copy.properties.region);
+        .find((item) => item.value === copy.properties.region);
       }
     }
     return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
@@ -120,7 +131,6 @@ const getStorage = async ({ itemId: id }) => {
   }
 };
 
-
 const addStorage = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -138,7 +148,6 @@ const addStorage = async ({ itemInstance }) => {
     ]);
   }
 };
-
 
 const updateStorage = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
@@ -158,7 +167,6 @@ const updateStorage = async ({ itemInstance, itemId: id }) => {
   }
 };
 
-
 const patchStorage = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
@@ -175,7 +183,6 @@ const patchStorage = async ({ changes, id }) => {
     ]);
   }
 };
-
 
 const deleteStorage = async ({ id }) => {
   try {

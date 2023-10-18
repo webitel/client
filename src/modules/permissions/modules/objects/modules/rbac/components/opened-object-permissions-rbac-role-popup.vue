@@ -1,37 +1,51 @@
 <template>
-  <wt-popup class="permissions-role-defaults-popup" min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    class="permissions-role-defaults-popup"
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <permissions-role-select
         v-model="newGrantor"
+        :clearable="false"
         :placeholder="$t('objects.permissions.object.grantor')"
         :search-method="loadRoles"
-        :clearable="false"
-      ></permissions-role-select>
+      />
       <permissions-role-select
         v-model="newGrantee"
+        :clearable="false"
         :placeholder="$t('objects.permissions.object.grantee')"
         :search-method="loadRoles"
-        :clearable="false"
-      ></permissions-role-select>
+      />
     </template>
-    <template v-slot:actions>
-      <wt-button @click="save">{{ $t('objects.add') }}</wt-button>
-      <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
+    <template #actions>
+      <wt-button @click="save">
+        {{ $t('objects.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ $t('objects.close') }}
+      </wt-button>
     </template>
   </wt-popup>
 </template>
 
 <script>
-import permissionsTabRolePopupMixins from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
-import PermissionsRoleSelect from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
+import permissionsTabRolePopupMixins
+  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import PermissionsRoleSelect
+  from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
 
 export default {
-  name: 'opened-object-permissions-rbac-role-popup',
-  mixins: [permissionsTabRolePopupMixins],
+  name: 'OpenedObjectPermissionsRbacRolePopup',
   components: { PermissionsRoleSelect },
+  mixins: [permissionsTabRolePopupMixins],
   data: () => ({
     newGrantor: '',
   }),

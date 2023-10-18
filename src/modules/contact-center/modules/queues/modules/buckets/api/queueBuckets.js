@@ -1,23 +1,39 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
 import { QueueBucketServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-import applyTransform, {
-  camelToSnake,
-  
-  merge, mergeEach, notify,
-  sanitize, snakeToCamel,
-  starToSearch
-} from '@webitel/ui-sdk/src/api/transformers';
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 
 const queueBucketsService = new QueueBucketServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['bucket', 'priority', 'queueId', 'disabled'];
 
-const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  queueId: parentId,
+});
 
 const getQueueBucketsList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'id',
+    'parentId',
+  ];
 
   const defaultObject = {
     priority: 0,
@@ -60,7 +76,7 @@ const getQueueBucketsList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -80,7 +96,7 @@ const getQueueBucket = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -99,7 +115,7 @@ const addQueueBucket = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -118,7 +134,7 @@ const updateQueueBucket = async ({ itemInstance, itemId: id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -136,7 +152,7 @@ const patchQueueBucket = async ({ changes, id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -148,12 +164,11 @@ const deleteQueueBucket = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
 };
-
 
 const QueueBucketsAPI = {
   getList: getQueueBucketsList,

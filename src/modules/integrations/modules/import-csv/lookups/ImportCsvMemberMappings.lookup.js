@@ -36,25 +36,37 @@ const ImportCsvMemberMappings = {
     csv: [],
   },
   destination: {
-    locale: [['objects.lookups.communications.communications', 1], 'objects.ccenter.members.destination'],
+    locale: [
+      ['objects.lookups.communications.communications', 1],
+      'objects.ccenter.members.destination',
+    ],
     required: true,
     multiple: true,
     csv: [],
   },
   commPriority: {
-    locale: [['objects.lookups.communications.communications', 1], 'vocabulary.priority'],
+    locale: [
+      ['objects.lookups.communications.communications', 1],
+      'vocabulary.priority',
+    ],
     required: false,
     multiple: true,
     csv: [],
   },
   code: {
-    locale: [['objects.lookups.communications.communications', 1], 'objects.lookups.communications.code'],
+    locale: [
+      ['objects.lookups.communications.communications', 1],
+      'objects.lookups.communications.code',
+    ],
     required: true,
     multiple: true,
     csv: [],
   },
   description: {
-    locale: [['objects.lookups.communications.communications', 1], 'objects.description'],
+    locale: [
+      ['objects.lookups.communications.communications', 1],
+      'objects.description',
+    ],
     required: false,
     multiple: true,
     csv: [],

@@ -1,17 +1,17 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -19,13 +19,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -34,21 +37,21 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import General from './opened-role-general.vue';
-import Permissions from './role-permissions/opened-role-permissions.vue';
-import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-role-general.vue';
+import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
+import Permissions from './role-permissions/opened-role-permissions.vue';
 
 export default {
-  name: 'opened-role',
-  mixins: [openedObjectMixin],
+  name: 'OpenedRole',
   components: { General, Permissions, ApplicationsAccess },
-  data: () => ({
-    namespace: 'permissions/roles',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'permissions/roles',
   }),
   validations: {
     itemInstance: {
@@ -58,16 +61,18 @@ export default {
 
   computed: {
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }, {
-        text: this.$tc('objects.permissions.roles.permissions.permissions', 2),
-        value: 'permissions',
-      }, {
-        text: this.$tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2),
-        value: 'applications-access',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        }, {
+          text: this.$tc('objects.permissions.roles.permissions.permissions', 2),
+          value: 'permissions',
+        }, {
+          text: this.$tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2),
+          value: 'applications-access',
+        },
+      ];
       return tabs;
     },
     path() {

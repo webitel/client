@@ -3,29 +3,29 @@
     <wt-navigation-bar
       :current-app="currentApp"
       :nav="nav"
-    ></wt-navigation-bar>
+    />
     <wt-app-navigator
-      :current-app="currentApp"
       :apps="apps"
-    ></wt-app-navigator>
+      :current-app="currentApp"
+    />
     <wt-header-actions
-      :user="user"
       :build-info="buildInfo"
-      @settings="settings"
+      :user="user"
       @logout="logoutUser"
-    ></wt-header-actions>
+      @settings="settings"
+    />
   </wt-app-header>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
+import { mapGetters, mapState } from 'vuex';
 import navMixin from '../../../../app/mixins/navMixin';
 import router from '../../../../app/router/router';
 
 export default {
-  name: 'app-header',
+  name: 'AppHeader',
   mixins: [navMixin],
   inject: ['$config'],
   data: () => ({

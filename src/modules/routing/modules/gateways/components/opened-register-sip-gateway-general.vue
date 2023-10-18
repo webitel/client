@@ -1,78 +1,81 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
+        :disabled="disableUserInput"
         :label="$t('objects.name')"
-        :disabled="disableUserInput"
+        :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
-        :value="itemInstance.account"
-        :v="v.itemInstance.account"
-        :label="$t('objects.routing.gateways.account')"
         :disabled="disableUserInput"
+        :label="$t('objects.routing.gateways.account')"
+        :v="v.itemInstance.account"
+        :value="itemInstance.account"
         required
         @input="setItemProp({ prop: 'account', value: $event })"
-      ></wt-input>
+      />
       <wt-input
-        :value="itemInstance.username"
+        :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.authID')"
-        :disabled="disableUserInput"
+        :value="itemInstance.username"
         @input="setItemProp({ prop: 'username', value: $event })"
-      ></wt-input>
+      />
       <password-input
-        :value="itemInstance.password"
-        :v="v.itemInstance.password"
         :disabled="disableUserInput"
+        :v="v.itemInstance.password"
+        :value="itemInstance.password"
         required
         @input="setItemProp({ prop: 'password', value: $event })"
-      ></password-input>
+      />
       <wt-select
-        :value="itemInstance.schema"
+        :disabled="disableUserInput"
         :label="$t('objects.routing.schema')"
         :search-method="loadDropdownOptionsList"
-        :disabled="disableUserInput"
+        :value="itemInstance.schema"
         @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
+      />
       <wt-input
-        :value="itemInstance.proxy"
-        :v="v.itemInstance.proxy"
+        :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.outboundProxy')"
-        :disabled="disableUserInput"
+        :v="v.itemInstance.proxy"
+        :value="itemInstance.proxy"
         @input="setItemProp({ prop: 'proxy', value: $event })"
-      ></wt-input>
+      />
       <wt-textarea
-        :value="itemInstance.usage"
+        :disabled="disableUserInput"
         :label="$t('objects.description')"
-        :disabled="disableUserInput"
+        :value="itemInstance.usage"
         @input="setItemProp({ prop: 'usage', value: $event })"
-      ></wt-textarea>
+      />
       <wt-input
-        :value="itemInstance.expires"
-        :v="v.itemInstance.expires"
-        :label="$t('objects.routing.gateways.expire')"
         :disabled="disableUserInput"
-        type="number"
+        :label="$t('objects.routing.gateways.expire')"
+        :v="v.itemInstance.expires"
+        :value="itemInstance.expires"
         required
+        type="number"
         @input="setItemProp({ prop: 'expires', value: +$event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import FlowsAPI from '../../flow/api/flow';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: 'opened-sip-gateway-register-general',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedSipGatewayRegisterGeneral',
   components: { PasswordInput },
+  mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);

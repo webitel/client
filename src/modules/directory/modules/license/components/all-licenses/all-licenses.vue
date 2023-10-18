@@ -3,12 +3,12 @@
     <license-popup
       v-if="isLicensePopup"
       @close="isLicensePopup = false"
-    ></license-popup>
+    />
     <license-users-popup
       v-if="isLicenseUsersPopup"
       :namespace="namespace"
       @close="closeLicenseUsersPopup"
-    ></license-users-popup>
+    />
     <header class="content-header">
       <h3 class="content-title">
         <!--        {{ $t('objects.directory.license.allLicenses') }}-->
@@ -20,7 +20,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -29,21 +29,22 @@
             v-if="hasCreateAccess"
             action="add"
             @click="isLicensePopup = true"
-          ></wt-icon-action>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -52,47 +53,51 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:id="{ item }">
+        <template #id="{ item }">
           <wt-copy-action
             :value="item.id"
-          ></wt-copy-action>
+          />
         </template>
-        <template v-slot:product="{ item }">
+        <template #product="{ item }">
           <div class="all-licenses__product-cell">
             <wt-icon
               icon="license"
               icon-prefix="adm"
-            ></wt-icon>
+            />
             {{ item.product }}
           </div>
         </template>
 
-        <template v-slot:valid-from="{ item }">
+        <template #valid-from="{ item }">
           {{ prettifyDate(item.notBefore) }}
         </template>
 
-        <template v-slot:valid-till="{ item }">
+        <template #valid-till="{ item }">
           {{ prettifyDate(item.notAfter) }}
         </template>
 
-        <template v-slot:used="{ item }">
+        <template #used="{ item }">
           <wt-item-link
             :link="editLink(item)"
             class="name-link"
-          ><wt-icon
+          >
+            <wt-icon
               icon="license-users"
               icon-prefix="adm"
-            ></wt-icon>
+            />
             {{ item.limit - item.remain }}
           </wt-item-link>
         </template>
 
-        <template v-slot:competitive="{ item }">
+        <template #competitive="{ item }">
           {{ item.competitive ? $t('reusable.true') : '' }}
         </template>
 
-        <template v-slot:status="{ item }">
-          <wt-chip :class="statusClass(item.notAfter)" class="license-status">
+        <template #status="{ item }">
+          <wt-chip
+            :class="statusClass(item.notAfter)"
+            class="license-status"
+          >
             {{ statusText(item.notAfter) }}
           </wt-chip>
         </template>
@@ -106,33 +111,33 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
-import { useDummy } from '../../../../../../app/composables/useDummy';
 
 const namespace = 'directory/license';
 
 export default {
-  name: 'all-licenses',
-  mixins: [tableComponentMixin],
+  name: 'AllLicenses',
   components: { LicensePopup, LicenseUsersPopup },
+  mixins: [tableComponentMixin],
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     isLicensePopup: false,
     routeName: RouteNames.LICENSE,
   }),
-  setup() {
-    const { dummy } = useDummy({ namespace });
-    return { dummy };
-  },
   computed: {
     isLicenseUsersPopup() {
       return !!this.$route.params.id;

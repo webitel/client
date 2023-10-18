@@ -1,25 +1,41 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>{{ $t('objects.directory.devices.newDevice') }}</template>
-    <template v-slot:main>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
+      {{ $t('objects.directory.devices.newDevice') }}
+    </template>
+    <template #main>
       <section>
         <ul class="popup-options">
           <li
-              class="popup-options__item-wrap"
-              :class="{'active': selectedOption === option}"
-              v-for="(option, key) of options"
-              :key="key"
-              @click="selectOption(option)"
+            v-for="(option, key) of options"
+            :key="key"
+            :class="{'active': selectedOption === option}"
+            class="popup-options__item-wrap"
+            @click="selectOption(option)"
           >
-            <h4 class="popup-options__item-header">{{ option.title }}</h4>
-            <p class="popup-options__item-text">{{ option.description }}</p>
+            <h4 class="popup-options__item-header">
+              {{ option.title }}
+            </h4>
+            <p class="popup-options__item-text">
+              {{ option.description }}
+            </p>
           </li>
         </ul>
       </section>
     </template>
-    <template v-slot:actions>
-      <wt-button @click="createItemInstance">{{ $t('objects.add') }}</wt-button>
-      <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
+    <template #actions>
+      <wt-button @click="createItemInstance">
+        {{ $t('objects.add') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ $t('objects.close') }}
+      </wt-button>
     </template>
   </wt-popup>
 </template>
@@ -28,22 +44,24 @@
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'create-device-popup',
+  name: 'CreateDevicePopup',
 
   data() {
     return {
       selectedOptionValue: '',
-      options: [{
-        value: 'default',
-        title: this.$tc('objects.directory.devices.devices', 1),
-        description: this.$tc('objects.directory.devices.deviceSettings', 1),
-        routeName: `${RouteNames.DEVICES}-new`,
-      }, {
-        value: 'hotdesk',
-        title: this.$t('objects.directory.devices.hotdeskDevice'),
-        description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
-        routeName: `${RouteNames.DEVICES}-hotdesk-new`,
-      }],
+      options: [
+        {
+          value: 'default',
+          title: this.$tc('objects.directory.devices.devices', 1),
+          description: this.$tc('objects.directory.devices.deviceSettings', 1),
+          routeName: `${RouteNames.DEVICES}-new`,
+        }, {
+          value: 'hotdesk',
+          title: this.$t('objects.directory.devices.hotdeskDevice'),
+          description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
+          routeName: `${RouteNames.DEVICES}-hotdesk-new`,
+        },
+      ],
     };
   },
 
@@ -77,11 +95,11 @@ export default {
 <style lang="scss" scoped>
 .popup-options__item-wrap {
   position: relative;
-  padding: 10px;
   margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
   border: 1px solid var(--form-border-color);
   border-radius: var(--border-radius);
-  cursor: pointer;
 
   &:last-child {
     margin-bottom: 0;

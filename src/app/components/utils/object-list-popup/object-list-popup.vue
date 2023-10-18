@@ -1,16 +1,19 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ title }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <section>
         <wt-table
           :data="dataList"
           :grid-actions="false"
           :headers="tableHeaders"
           :selectable="false"
-        ></wt-table>
+        />
       </section>
     </template>
   </wt-popup>
@@ -18,7 +21,7 @@
 
 <script>
 export default {
-  name: 'object-list-popup',
+  name: 'ObjectListPopup',
   props: {
     title: {
       type: String,

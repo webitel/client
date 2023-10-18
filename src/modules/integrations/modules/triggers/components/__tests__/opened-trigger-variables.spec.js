@@ -1,9 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedTriggerVariables
-  from '../opened-trigger-variables.vue';
 import OpenedTabComponentMixinMock
   from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedTriggerVariables from '../opened-trigger-variables.vue';
 
 describe('OpenedTriggerVariables', () => {
   const computed = {

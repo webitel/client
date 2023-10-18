@@ -3,15 +3,17 @@
     <number-popup
       v-if="isNumberPopup"
       @close="closePopup"
-    ></number-popup>
+    />
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.res.numbers', 1) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.ccenter.res.numbers', 1) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -19,7 +21,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -29,47 +31,48 @@
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></delete-all-action>
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ item.display }}
         </template>
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-icon-action
             action="edit"
             @click="edit(item)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -81,33 +84,34 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import NumberPopup from './opened-resource-numbers-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import NumberPopup from './opened-resource-numbers-popup.vue';
 
 const namespace = 'ccenter/res';
 const subNamespace = 'numbers';
 
 export default {
-  name: 'opened-resource-number',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedResourceNumber',
   components: { NumberPopup },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isNumberPopup: false,
-  }),
+  mixins: [openedObjectTableTabMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    subNamespace,
+    isNumberPopup: false,
+  }),
 
   methods: {
     openPopup() {

@@ -1,29 +1,31 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.permissions.permissionsRole') }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.permissions.permissionsRole') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.roles"
-        :label="$tc('objects.permissions.permissionsRole')"
-        :search-method="loadDropdownOptionsList"
         :close-on-select="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.permissions.permissionsRole')"
+        :search-method="loadDropdownOptionsList"
+        :value="itemInstance.roles"
         multiple
         @input="setItemProp({ prop: 'roles', value: $event })"
-      ></wt-select>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 
 export default {
-  name: 'opened-user-roles',
+  name: 'OpenedUserRoles',
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

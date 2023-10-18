@@ -1,14 +1,18 @@
-import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
+import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
@@ -26,7 +30,6 @@ const preRequestHandler = (item) => {
   copy.rps = copy.cps;
   return copy;
 };
-
 
 const getResourceList = async (params) => {
   const defaultObject = {
@@ -72,7 +75,6 @@ const getResourceList = async (params) => {
   }
 };
 
-
 const getResource = async ({ itemId: id }) => {
   const defaultObject = {
     name: '',
@@ -115,7 +117,6 @@ const getResource = async ({ itemId: id }) => {
   }
 };
 
-
 const addResource = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -133,7 +134,6 @@ const addResource = async ({ itemInstance }) => {
     ]);
   }
 };
-
 
 const updateResource = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
@@ -153,7 +153,6 @@ const updateResource = async ({ itemInstance, itemId: id }) => {
   }
 };
 
-
 const patchResource = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
@@ -171,7 +170,6 @@ const patchResource = async ({ changes, id }) => {
   }
 };
 
-
 const deleteResource = async ({ id }) => {
   try {
     const response = await resService.deleteOutboundResource(id);
@@ -183,12 +181,10 @@ const deleteResource = async ({ id }) => {
   }
 };
 
-
 const getResourcesLookup = (params) => getResourceList({
   ...params,
   fields: params.fields || ['id', 'name'],
 });
-
 
 const ResourcesAPI = {
   getList: getResourceList,
