@@ -19,27 +19,21 @@
           :track-by="null"
           :disabled="id"
           required
-          @input="setItemProp({ prop: 'name', value: $event })"
+          @input="setDefaultValue"
         ></wt-select>
         <div
           v-if="itemInstance.name"
         >
-          <wt-switcher
-            v-if="valueType === 'boolean'"
+          <component
+            :is="`wt-${componentType}`"
             :value="itemInstance.value"
             :v="v$.itemInstance.value"
+            :required="componentType === 'input'"
             :label="$tc('vocabulary.values', 1)"
-            @change="setItemProp({ prop: 'value', value: $event })"
-          ></wt-switcher>
-          <wt-input
-            v-else
-            :value="itemInstance.value"
-            :v="v$.itemInstance.value"
             :type="valueType === 'number' && 'number'"
-            :label="$tc('vocabulary.values', 1)"
+            @change="setItemProp({ prop: 'value', value: $event })"
             @input="setItemProp({ prop: 'value', value: $event })"
-            required
-          ></wt-input>
+           ></component>
         </div>
       </form>
     </template>
@@ -92,7 +86,10 @@ export default {
   },
   computed: {
     valueType() {
-      return SettingsValueTypes.find((setting) => setting.name === this.itemInstance.name).type;
+      return SettingsValueTypes[this.itemInstance.name];
+    },
+    componentType() {
+      return this.valueType === 'boolean' ? 'switcher' : 'input';
     },
   },
   methods: {
@@ -126,15 +123,10 @@ export default {
       ));
       return response;
     },
-  },
-  watch: {
-    'itemInstance.name': {
-      handler() {
-        if (!this.id) {
-          if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
-          if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
-        };
-      },
+    setDefaultValue(event) {
+        this.setItemProp({ prop: 'name', value: event });
+        if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
+        if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
     },
   },
 };
