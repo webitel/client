@@ -19,7 +19,7 @@
           :track-by="null"
           :disabled="id"
           required
-          @input="setDefaultValue"
+          @input="setSettingName"
         />
         <div
           v-if="itemInstance.name"
@@ -155,7 +155,7 @@ export default {
       ));
       return response;
     },
-    setDefaultValue(event) {
+    setSettingName(event) {
       this.setItemProp({ prop: 'name', value: event });
       if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
       if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
