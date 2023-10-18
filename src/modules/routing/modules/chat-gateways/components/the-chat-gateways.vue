@@ -1,28 +1,33 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="chat-gateways">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="chat-gateways"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <create-chat-gateway-popup
         v-if="isChatGatewayPopup"
         @close="isChatGatewayPopup = false"
-      ></create-chat-gateway-popup>
+      />
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.routing.chatGateways.allChatGateways') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.routing.chatGateways.allChatGateways') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -30,7 +35,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -40,12 +45,12 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -53,12 +58,11 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
-
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -66,26 +70,27 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:uri="{ item }">
+            <template #uri="{ item }">
               {{ item.uri }}
             </template>
 
-            <template v-slot:flow="{ item }">
+            <template #flow="{ item }">
               <wt-item-link
                 v-if="item.flow"
                 :id="item.flow.id"
                 :route-name="RouteNames.FLOW"
-              >{{ item.flow.name }}
+              >
+                {{ item.flow.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:provider="{ item }">
+            <template #provider="{ item }">
               <wt-icon
                 v-if="iconType[item.provider] && !Array.isArray(providerIcon(item.provider))"
                 :icon="iconType[item.provider]"
@@ -99,31 +104,33 @@
                   :key="key"
                   :icon="icon"
                   size="md"
-                ></wt-icon>
+                />
               </div>
-              <p v-else> {{ item.provider }} </p>
+              <p v-else>
+                {{ item.provider }}
+              </p>
             </template>
 
-            <template v-slot:enabled="{ item, index }">
+            <template #enabled="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.enabled"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event })"
-              ></wt-switcher>
+              />
             </template>
 
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
 
@@ -136,7 +143,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -162,20 +169,20 @@ const iconType = {
 const namespace = 'routing/chatGateways';
 
 export default {
-  name: 'the-chat-gateways',
-  mixins: [tableComponentMixin],
+  name: 'TheChatGateways',
   components: { CreateChatGatewayPopup },
+  mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     isChatGatewayPopup: false,
     iconType,
     routeName: RouteNames.CHAT_GATEWAYS,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     path() {

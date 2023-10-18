@@ -2,9 +2,9 @@
   <main class="object-wrap">
     <section class="object">
       <wt-notifications-bar />
-      <app-header></app-header>
+      <app-header />
       <div class="object-content-wrap">
-        <router-view></router-view>
+        <router-view />
       </div>
     </section>
   </main>
@@ -14,7 +14,7 @@
 import AppHeader from '../../_reusable/app-header/components/app-header.vue';
 
 export default {
-  name: 'module-wrap',
+  name: 'ModuleWrap',
   components: { AppHeader },
 };
 </script>

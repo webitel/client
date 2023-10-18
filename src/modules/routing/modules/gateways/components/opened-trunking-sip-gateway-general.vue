@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -9,7 +11,7 @@
         :label="$t('objects.name')"
         :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.proxy')"
@@ -17,14 +19,14 @@
         :value="itemInstance.proxy"
         required
         @input="setItemProp({ prop: 'proxy', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.schema')"
         :search-method="loadDropdownOptionsList"
         :value="itemInstance.schema"
         @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.host')"
@@ -32,13 +34,13 @@
         :value="itemInstance.host"
         required
         @input="setItemProp({ prop: 'host', value: $event })"
-      ></wt-input>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.usage"
         @input="setItemProp({ prop: 'usage', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -49,7 +51,7 @@ import openedTabComponentMixin
 import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: 'opened-trunking-sip-gateway-general',
+  name: 'OpenedTrunkingSipGatewayGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

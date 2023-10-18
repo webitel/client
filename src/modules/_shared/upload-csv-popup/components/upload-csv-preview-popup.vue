@@ -4,14 +4,14 @@
     min-width="680"
     @close="close"
   >
-    <template v-slot:title>
+    <template #title>
       {{ $t('objects.importCSV') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <wt-loader
         v-show="isReadingFile"
         class="upload-popup__reading-file-loader"
-      ></wt-loader>
+      />
       <section
         v-show="!isReadingFile"
         class="upload-popup-form"
@@ -21,7 +21,7 @@
           <wt-loader
             v-show="isParsingPreview"
             class="upload-popup__parsing-preview-loader"
-          ></wt-loader>
+          />
           <article
             v-show="!isParsingPreview"
             class="upload-popup-form__file-preview"
@@ -31,30 +31,33 @@
               :grid-actions="false"
               :headers="csvPreviewTableHeaders"
               :selectable="false"
-            ></wt-table>
+            />
           </article>
         </section>
       </section>
       <article
         v-show="!isParsingPreview && parseErrorStackTrace"
         class="upload-popup-form__error-stack-trace"
-      >{{ parseErrorStackTrace }}
+      >
+        {{ parseErrorStackTrace }}
       </article>
     </template>
     <template
       v-if="!isReadingFile"
-      v-slot:actions
+      #actions
     >
       <wt-button
         :disabled="!allowSaveAction"
         :loading="isParsingCSV"
         @click="handleSave"
-      >{{ $t('reusable.save') }}
+      >
+        {{ $t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('reusable.close') }}
+      >
+        {{ $t('reusable.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -64,7 +67,7 @@
 import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
-  name: 'upload-csv-preview-popup',
+  name: 'UploadCsvPreviewPopup',
   mixins: [uploadCSVMixin],
   props: {
     skipHeaders: {

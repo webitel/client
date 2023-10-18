@@ -1,9 +1,9 @@
 <template>
   <wt-popup @close="close">
-    <template v-slot:title>
+    <template #title>
       {{ $tc('objects.ccenter.queues.destination', 2) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <section class="destinations-popup">
         <wt-table
           :data="communications"
@@ -12,23 +12,30 @@
           :selectable="false"
           class="popup-table"
         >
-          <template v-slot:destination="{ item }">
+          <template #destination="{ item }">
             {{ item.destination }}
           </template>
-          <template v-slot:type="{ item }">
+          <template #type="{ item }">
             <div v-if="item.type">
               {{ item.type.name }}
             </div>
           </template>
-          <template v-slot:priority="{ item }">
+          <template #priority="{ item }">
             {{ item.priority }}
           </template>
         </wt-table>
       </section>
     </template>
-    <template v-slot:actions>
-      <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
-      <wt-button color="secondary" @click="close">{{ $t('objects.close') }}</wt-button>
+    <template #actions>
+      <wt-button @click="close">
+        {{ $t('objects.ok') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ $t('objects.close') }}
+      </wt-button>
     </template>
   </wt-popup>
 </template>
@@ -38,7 +45,7 @@ import tableComponentMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
-  name: 'opened-queue-member-destinations-popup',
+  name: 'OpenedQueueMemberDestinationsPopup',
   mixins: [tableComponentMixin],
   props: {
     communications: {

@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.directory.devices.phoneInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.directory.devices.phoneInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
@@ -10,33 +12,33 @@
         :options="phoneOptions"
         :value="itemInstance.phone"
         @input="setDevice"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.ipv4')"
         :v="v.itemInstance.ip"
         :value="itemInstance.ip"
         @input="setItemProp({ prop: 'ip', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.vendor')"
         :value="itemInstance.brand"
         @input="setItemProp({ prop: 'brand', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.model')"
         :value="itemInstance.model"
         @input="setItemProp({ prop: 'model', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.mac')"
         :v="v.itemInstance.mac"
         :value="itemInstance.mac"
         @input="setItemProp({ prop: 'mac', value: $event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -46,7 +48,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-device-phone-info',
+  name: 'OpenedDevicePhoneInfo',
   mixins: [openedTabComponentMixin],
   data: () => ({
     phoneOptions: [

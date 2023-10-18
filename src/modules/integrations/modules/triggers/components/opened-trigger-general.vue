@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -21,7 +23,7 @@
         :value="itemInstance.type"
         track-by="value"
         @input="setItemProp({ prop: 'type', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -31,7 +33,7 @@
         :value="itemInstance.schema"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -41,7 +43,7 @@
         :value="itemInstance.timezone"
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.timeout')"
@@ -50,7 +52,7 @@
         :value="itemInstance.timeout"
         type="number"
         @input="setItemProp({ prop: 'timeout', value: $event })"
-      ></wt-input>
+      />
       <div class="crontab">
         <wt-input
           :custom-validators="cronValidator"
@@ -60,18 +62,20 @@
           :value="itemInstance.expression"
           required
           @input="setItemProp({ prop: 'expression', value: $event })"
-        ></wt-input>
+        />
         <p
           v-show="!v.itemInstance.expression.$error"
           class="crontab__parsed"
-        >{{ parsedCron }}</p>
+        >
+          {{ parsedCron }}
+        </p>
       </div>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -90,7 +94,7 @@ import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 export default {
-  name: 'opened-trigger-general',
+  name: 'OpenedTriggerGeneral',
   mixins: [openedTabComponentMixin],
   data: () => ({
     TriggerTypes,

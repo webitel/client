@@ -20,7 +20,7 @@ import openMessengerWindow from '../../modules/messenger/_shared/scripts/openMes
 import chatGatewaysTelegramAppAPI from '../../modules/telegram-app/api/chatGatewaysTelegramAppAPI';
 
 export default {
-  name: 'telegram-app-button',
+  name: 'TelegramAppButton',
   props: {
     uri: {
       type: String,
@@ -39,6 +39,9 @@ export default {
         ? this.$t('vocabulary.logout')
         : this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
     },
+  },
+  created() {
+    this.loadAuth();
   },
   methods: {
     async handleButtonClick() {
@@ -59,9 +62,6 @@ export default {
     async loadAuth() {
       this.state = await chatGatewaysTelegramAppAPI.getAuth(this.uri);
     },
-  },
-  created() {
-    this.loadAuth();
   },
 };
 </script>

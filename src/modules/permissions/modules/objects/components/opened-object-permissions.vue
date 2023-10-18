@@ -1,15 +1,15 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :secondary-action="close"
         hide-primary
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -17,12 +17,15 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
-        ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -34,7 +37,7 @@ import Obac from '../modules/obac/components/opened-object-permissions-obac.vue'
 import Rbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
 
 export default {
-  name: 'opened-object-permissions',
+  name: 'OpenedObjectPermissions',
   components: { Obac, Rbac },
   mixins: [openedObjectMixin],
   data: () => ({
@@ -64,19 +67,19 @@ export default {
       ];
     },
   },
-
-  methods: {
-    // override headlineNavMixin
-    setPathName() {
-      this.pathName = this.itemInstance.class;
-    },
-  },
   mounted() {
     // override headlineNavMixin
     const unwatch = this.$watch('itemInstance.class', () => {
       this.setPathName();
       unwatch();
     });
+  },
+
+  methods: {
+    // override headlineNavMixin
+    setPathName() {
+      this.pathName = this.itemInstance.class;
+    },
   },
 };
 </script>

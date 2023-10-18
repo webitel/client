@@ -1,9 +1,13 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.buckets.buckets', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :clearable="false"
@@ -13,7 +17,7 @@
           :value="itemInstance.bucket"
           required
           @input="setItemProp({ prop: 'bucket', value: $event })"
-        ></wt-select>
+        />
         <wt-input
           :label="$t('objects.ccenter.queues.bucketPriority')"
           :v="v$.itemInstance.priority"
@@ -21,19 +25,21 @@
           required
           type="number"
           @input="setItemProp({ prop: 'priority', value: $event })"
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -46,15 +52,15 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {
-  name: 'opened-queue-buckets-popup',
+  name: 'OpenedQueueBucketsPopup',
   mixins: [nestedObjectMixin],
-
-  data: () => ({
-    namespace: 'ccenter/queues/buckets',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+
+  data: () => ({
+    namespace: 'ccenter/queues/buckets',
   }),
   validations: {
     itemInstance: {

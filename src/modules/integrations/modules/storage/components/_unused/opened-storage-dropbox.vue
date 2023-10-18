@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.storage.dropbox') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.storage.dropbox') }}
+      </h3>
     </header>
     <form class="object-input-grid">
       <form-input
@@ -9,7 +11,7 @@
         :label="$t('objects.integrations.storage.dropboxKey')"
         :v="v.itemInstance.properties.token"
         required
-      ></form-input>
+      />
     </form>
   </section>
 </template>
@@ -20,7 +22,7 @@ import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-storage-general',
+  name: 'OpenedStorageGeneral',
   mixins: [openedTabComponentMixin],
 
   computed: {

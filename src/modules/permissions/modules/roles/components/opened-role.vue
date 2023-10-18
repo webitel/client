@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -8,10 +8,10 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -19,13 +19,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -40,15 +43,15 @@ import ApplicationsAccess from './role-applications-access/opened-role-applicati
 import Permissions from './role-permissions/opened-role-permissions.vue';
 
 export default {
-  name: 'opened-role',
-  mixins: [openedObjectMixin],
+  name: 'OpenedRole',
   components: { General, Permissions, ApplicationsAccess },
-  data: () => ({
-    namespace: 'permissions/roles',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'permissions/roles',
   }),
   validations: {
     itemInstance: {

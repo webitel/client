@@ -5,25 +5,25 @@
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Chat"
       @change="handleChange"
-    ></wt-checkbox>
+    />
     <wt-checkbox
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Voice}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Voice"
       @change="handleChange"
-    ></wt-checkbox>
+    />
     <wt-checkbox
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Processing}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Processing"
       @change="handleChange"
-    ></wt-checkbox>
+    />
     <wt-checkbox
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Service}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Service"
       @change="handleChange"
-    ></wt-checkbox>
+    />
   </div>
 </template>
 
@@ -32,7 +32,7 @@ import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/bas
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 export default {
-  name: 'flow-type-filter',
+  name: 'FlowTypeFilter',
   mixins: [baseFilterMixin],
   data: () => ({
     EngineRoutingSchemaType,

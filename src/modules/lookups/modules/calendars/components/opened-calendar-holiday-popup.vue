@@ -1,36 +1,42 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.calendars.holidays', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="popup-input-form">
         <wt-input
           v-model="itemInstance.name"
           :label="$t('objects.name')"
           :v="v$.itemInstance.name"
           required
-        ></wt-input>
+        />
         <wt-datepicker
           v-model="itemInstance.date"
           :label="$t('objects.lookups.calendars.date')"
-        ></wt-datepicker>
+        />
         <wt-switcher
           v-model="itemInstance.repeat"
           :label="$t('objects.lookups.calendars.repeat')"
-        ></wt-switcher>
+        />
       </div>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -44,13 +50,16 @@ import { mapActions, mapState } from 'vuex';
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'opened-calendar-holiday-popup',
+  name: 'OpenedCalendarHolidayPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
       type: [Number, Object], // "null" object
     },
   },
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     namespace: 'lookups/calendars',
     itemInstanceValue: {
@@ -58,9 +67,6 @@ export default {
       date: Date.now(),
       repeat: true,
     },
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {

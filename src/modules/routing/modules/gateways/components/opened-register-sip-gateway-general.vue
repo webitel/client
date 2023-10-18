@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -9,7 +11,7 @@
         :label="$t('objects.name')"
         :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.account')"
@@ -17,40 +19,40 @@
         :value="itemInstance.account"
         required
         @input="setItemProp({ prop: 'account', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.authID')"
         :value="itemInstance.username"
         @input="setItemProp({ prop: 'username', value: $event })"
-      ></wt-input>
+      />
       <password-input
         :disabled="disableUserInput"
         :v="v.itemInstance.password"
         :value="itemInstance.password"
         required
         @input="setItemProp({ prop: 'password', value: $event })"
-      ></password-input>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.schema')"
         :search-method="loadDropdownOptionsList"
         :value="itemInstance.schema"
         @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.outboundProxy')"
         :v="v.itemInstance.proxy"
         :value="itemInstance.proxy"
         @input="setItemProp({ prop: 'proxy', value: $event })"
-      ></wt-input>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.usage"
         @input="setItemProp({ prop: 'usage', value: $event })"
-      ></wt-textarea>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.expire')"
@@ -59,7 +61,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'expires', value: +$event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -71,9 +73,9 @@ import openedTabComponentMixin
 import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: 'opened-sip-gateway-register-general',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedSipGatewayRegisterGeneral',
   components: { PasswordInput },
+  mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);

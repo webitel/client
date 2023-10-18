@@ -5,10 +5,12 @@
       :namespace="namespace"
       :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
-    ></role-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.permissions.object.operations') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.permissions.object.operations') }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
@@ -19,13 +21,16 @@
             class="icon-action"
             icon="plus"
             @click="openRoleSelectPopup"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
@@ -35,44 +40,44 @@
           sortable
           @sort="sort"
         >
-          <template v-slot:grantee="{ item }">
-            <role-column :role="item.grantee"></role-column>
+          <template #grantee="{ item }">
+            <role-column :role="item.grantee" />
           </template>
 
-          <template v-slot:read="{ item }">
+          <template #read="{ item }">
             <wt-select
               :clearable="false"
               :disabled="disableUserInput"
               :options="accessOptions"
               :value="item.access.r"
               @input="changeReadAccessMode({ item, mode: $event })"
-            ></wt-select>
+            />
           </template>
 
-          <template v-slot:edit="{ item }">
+          <template #edit="{ item }">
             <wt-select
               :clearable="false"
               :disabled="disableUserInput"
               :options="accessOptions"
               :value="item.access.w"
               @input="changeUpdateAccessMode({ item, mode: $event })"
-            ></wt-select>
+            />
           </template>
 
-          <template v-slot:delete="{ item }">
+          <template #delete="{ item }">
             <wt-select
               :clearable="false"
               :disabled="disableUserInput"
               :options="accessOptions"
               :value="item.access.d"
               @input="changeDeleteAccessMode({ item, mode: $event })"
-            ></wt-select>
+            />
           </template>
-          <template v-slot:actions="{ item }">
+          <template #actions="{ item }">
             <wt-icon-action
               action="delete"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
-            ></wt-icon-action>
+            />
           </template>
         </wt-table>
       </div>
@@ -85,7 +90,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -98,9 +103,9 @@ import RoleColumn from './_internals/permissions-role-column.vue';
 import RolePopup from './permissions-tab-role-popup.vue';
 
 export default {
-  name: 'permissions-tab',
-  mixins: [openedTabComponentMixin, permissionsTabMixin],
+  name: 'PermissionsTab',
   components: { RolePopup, RoleColumn },
+  mixins: [openedTabComponentMixin, permissionsTabMixin],
   data: () => ({
     subNamespace: 'permissions',
   }),

@@ -1,14 +1,20 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.view.view') }}</h3>
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.webchat.view.view') }}
+      </h3>
     </header>
     <section class="webchat-view-main">
       <section class="chat-preview-section">
-        <div id="chat-preview"></div>
+        <div id="chat-preview" />
         <section class="chat-button-preview-section">
-          <div id="chat-button-preview"></div>
+          <div id="chat-button-preview" />
         </section>
       </section>
       <section class="chat-config-section">
@@ -21,7 +27,7 @@
             :options="languages"
             track-by="name"
             @input="setItemMetadata({ prop: 'lang', value: $event.value })"
-          ></wt-select>
+          />
           <wt-select
             v-model="selectedPosition"
             :clearable="false"
@@ -30,7 +36,7 @@
             :options="positionOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'position', value: $event.value })"
-          ></wt-select>
+          />
           <wt-select
             v-model="selectedBorderRadius"
             :clearable="false"
@@ -39,24 +45,28 @@
             :options="borderRadiusOptions"
             track-by="name"
             @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
-          ></wt-select>
+          />
           <wt-input
             :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.webchat.view.logoUrl')"
             :label-props="{
-              hint: this.$t('objects.routing.chatGateways.webchat.view.logoHint'),
+              hint: $t('objects.routing.chatGateways.webchat.view.logoHint'),
               hintPosition: 'right',
-             }"
+            }"
             :v="v.itemInstance.metadata.view.logoUrl"
             :value="itemInstance.metadata.view.logoUrl"
             @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
-          ></wt-input>
+          />
           <section>
             <div class="colorpicker-section">
               <wt-label>
-                {{ this.$t('objects.routing.chatGateways.webchat.view.btnColor') }}
+                {{ $t('objects.routing.chatGateways.webchat.view.btnColor') }}
               </wt-label>
-              <color-picker :value="color" class="colorpicker" @input="setColor" />
+              <color-picker
+                :value="color"
+                class="colorpicker"
+                @input="setColor"
+              />
             </div>
           </section>
         </div>
@@ -74,11 +84,11 @@ import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
 import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
 
 export default {
-  name: 'opened-chat-gateway-webchat-view-tab',
-  mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
+  name: 'OpenedChatGatewayWebchatViewTab',
   components: {
     ColorPicker: Chrome,
   },
+  mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {

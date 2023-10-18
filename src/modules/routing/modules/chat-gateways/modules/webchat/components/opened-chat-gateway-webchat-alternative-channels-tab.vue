@@ -1,10 +1,16 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{
           $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
-        }}</h3>
+        }}
+      </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <div
@@ -15,18 +21,18 @@
         <wt-icon
           :icon="channelIcon[channel]"
           size="lg"
-        ></wt-icon>
+        />
         <copy-input
           :disabled="disableUserInput"
           :placeholder="$t(channelUrlPlaceholder[channel])"
           :value="itemInstance.metadata.alternativeChannels[channel].url"
           @input="handleUrlInput({ channel, value: $event })"
-        ></copy-input>
+        />
         <wt-switcher
           :disabled="disableUserInput"
           :value="itemInstance.metadata.alternativeChannels[channel].enabled"
           @change="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
-        ></wt-switcher>
+        />
       </div>
     </div>
   </section>
@@ -40,7 +46,7 @@ import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.e
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-webchat-alternative-channels-tab',
+  name: 'OpenedChatWebchatAlternativeChannelsTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),

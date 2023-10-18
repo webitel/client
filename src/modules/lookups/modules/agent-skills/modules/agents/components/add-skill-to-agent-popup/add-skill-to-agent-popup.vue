@@ -5,13 +5,13 @@
       :skill-id="skillId"
       @cancel="cancel"
       @select="handleSelectAgents"
-    ></select-agents-popup>
+    />
     <config-agent-skill-popup
       v-if="isAgentConfigSkillPopup"
       @back="handleSkillConfigBack"
       @close="cancel"
       @select="handleSkillConfigSelect"
-    ></config-agent-skill-popup>
+    />
   </div>
 </template>
 

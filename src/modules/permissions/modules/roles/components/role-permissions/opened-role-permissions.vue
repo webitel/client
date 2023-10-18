@@ -4,12 +4,12 @@
       v-if="isPermissionsPopup"
       :edited-index="editedIndex"
       @close="closePopup"
-    ></permissions-popup>
+    />
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
       <h3 class="content-title">
@@ -21,13 +21,13 @@
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
           @click="callDelete(selectedRows)"
-        ></delete-all-action>
+        />
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
           @click="create"
-        ></wt-icon-btn>
+        />
       </div>
     </header>
 
@@ -37,22 +37,22 @@
         :grid-actions="!disableUserInput"
         :headers="headers"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ permissionNameLocale[item.id] }}
         </template>
-        <template v-slot:usage="{ item }">
+        <template #usage="{ item }">
           {{ permissionUsageLocale[item.id] }}
         </template>
-        <template v-slot:actions="{ item, index }">
+        <template #actions="{ item, index }">
           <wt-icon-action
             action="edit"
             @click="edit(index)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
     </div>
@@ -66,9 +66,9 @@ import openedObjectTableTabMixin
 import PermissionsPopup from './opened-role-permissions-popup.vue';
 
 export default {
-  name: 'opened-role-permissions',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedRolePermissions',
   components: { PermissionsPopup },
+  mixins: [openedObjectTableTabMixin],
   data: () => ({
     dataListValue: [],
     searchValue: '',

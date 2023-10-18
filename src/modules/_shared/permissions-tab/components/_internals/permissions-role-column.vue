@@ -3,7 +3,7 @@
     <wt-icon
       :icon="role.user ? 'user' : 'role'"
       class="permissions-role-icon"
-    ></wt-icon>
+    />
     {{ role.name }}
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 
 export default {
-  name: 'permissions-role-column',
+  name: 'PermissionsRoleColumn',
   props: {
     role: {
       type: Object,

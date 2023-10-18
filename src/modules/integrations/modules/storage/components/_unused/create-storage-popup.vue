@@ -1,13 +1,15 @@
 <template>
   <popup
-    :disableAction="!!this.selectedOption"
-    :primaryAction="createItemInstance"
-    :primaryText="$t('objects.create')"
+    :disable-action="!!selectedOption"
+    :primary-action="createItemInstance"
+    :primary-text="$t('objects.create')"
     :title="$t('objects.integrations.storage.newStorage')"
     @close="$emit('close')"
   >
     <section>
-      <p class="popup-subheading">{{ $t('objects.integrations.storage.newStorageDescription') }}</p>
+      <p class="popup-subheading">
+        {{ $t('objects.integrations.storage.newStorageDescription') }}
+      </p>
       <ul class="popup-options">
         <!--                <li-->
         <!--                        class="popup-options__item-wrap"-->
@@ -63,7 +65,7 @@
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'create-storage-popup',
+  name: 'CreateStoragePopup',
 
   data() {
     return {

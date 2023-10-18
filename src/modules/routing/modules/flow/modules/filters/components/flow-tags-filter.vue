@@ -11,14 +11,14 @@
     v-bind="$attrs"
     @input="handleInput"
     @reset="setValueToQuery({ value, filterQuery, storedProp: filterSchema.storedProp })"
-  ></wt-tags-input>
+  />
 </template>
 
 <script>
 import apiFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/apiFilterMixin';
 
 export default {
-  name: 'flow-tags-filter',
+  name: 'FlowTagsFilter',
   mixins: [apiFilterMixin],
   data: () => ({
     filterQuery: 'tags',

@@ -3,14 +3,18 @@
     <wt-button
       :loading="isFilesLoading"
       @click="exportFiles"
-    >{{ $t('utils.downloadFilesBtn.downloadFiles') }}
+    >
+      {{ $t('utils.downloadFilesBtn.downloadFiles') }}
     </wt-button>
-    <div v-show="isFilesLoading" class="files-counter">
+    <div
+      v-show="isFilesLoading"
+      class="files-counter"
+    >
       <div>
         {{ $t('utils.downloadFilesBtn.filesLoaded') }}
         <span class="files-counter__count">
-            {{ filesDownloadProgress }}
-          </span>
+          {{ filesDownloadProgress }}
+        </span>
       </div>
       <div v-show="filesZippingProgress">
         {{ $t('utils.downloadFilesBtn.zippingProgress') }}
@@ -22,7 +26,7 @@
 
 <script>
 export default {
-  name: 'download-files-btn',
+  name: 'DownloadFilesBtn',
   props: {
     isFilesLoading: {
       type: Boolean,

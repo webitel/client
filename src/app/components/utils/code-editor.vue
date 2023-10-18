@@ -8,14 +8,14 @@
       <div
         ref="editor"
         class="code-editor__editor"
-      ></div>
+      />
       <wt-tooltip class="code-editor__fullscreen-btn">
-        <template v-slot:activator>
+        <template #activator>
           <wt-icon-btn
             :icon="fullscreenIcon"
             :size="fullscreenIconSize"
             @click="toggleFullscreen"
-          ></wt-icon-btn>
+          />
         </template>
         {{ fullscreenIconTooltip }}
       </wt-tooltip>
@@ -53,7 +53,10 @@ const config = {
 let autocompleteDisposed = null;
 
 export default {
-  name: 'code-editor',
+  name: 'CodeEditor',
+  model: {
+    event: 'change',
+  },
   props: {
     value: {
       type: [Array, Object, String],
@@ -73,22 +76,10 @@ export default {
       default: false,
     },
   },
-  model: {
-    event: 'change',
-  },
   data: () => ({
     editor: '',
     isFullscreen: false,
   }),
-  watch: {
-    value(value) {
-      if (this.editor) {
-        if (value !== this.editor.getValue()) {
-          this.editor.setValue(value);
-        }
-      }
-    },
-  },
   computed: {
     fullscreenIcon() {
       return this.isFullscreen ? 'collapse' : 'expand';
@@ -101,6 +92,22 @@ export default {
         ? this.$t('iconHints.collapse')
         : this.$t('iconHints.expand');
     },
+  },
+  watch: {
+    value(value) {
+      if (this.editor) {
+        if (value !== this.editor.getValue()) {
+          this.editor.setValue(value);
+        }
+      }
+    },
+  },
+  mounted() {
+    this.initEditor();
+  },
+  unmounted() {
+    this.editor.dispose();
+    autocompleteDisposed.dispose();
   },
   methods: {
     initEditor() {
@@ -158,13 +165,6 @@ export default {
     handleDisabled() {
       if (this.disabled) config.readOnly = true;
     },
-  },
-  mounted() {
-    this.initEditor();
-  },
-  destroyed() {
-    this.editor.dispose();
-    autocompleteDisposed.dispose();
   },
 };
 </script>

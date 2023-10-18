@@ -3,7 +3,7 @@
     v-if="showQueuePage"
     :actions-panel="!!currentTab.filters"
   >
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -11,18 +11,18 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <component
         :is="currentTab.filters"
         :namespace="currentTab.filtersNamespace"
-      ></component>
+      />
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="tabs-page-wrapper"
         @submit.prevent="save"
@@ -30,17 +30,20 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
-  <wt-loader v-else></wt-loader>
+  <wt-loader v-else />
 </template>
 
 <script>
@@ -64,8 +67,7 @@ import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
 
 export default {
-  name: 'opened-queue',
-  mixins: [openedObjectMixin],
+  name: 'OpenedQueue',
   components: {
     General,
     Params,
@@ -80,12 +82,13 @@ export default {
     Logs,
     LogsFilters,
   },
+  mixins: [openedObjectMixin],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
   data: () => ({
     namespace: 'ccenter/queues',
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
   }),
   validations() {
     const defaults = {

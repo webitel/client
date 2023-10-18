@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
@@ -13,13 +15,13 @@
         :value="itemInstance.user"
         required
         @input="setItemProp({ prop: 'user', value: $event })"
-      ></wt-select>
+      />
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.isSupervisor')"
         :value="itemInstance.isSupervisor"
         @change="setItemProp({ prop: 'isSupervisor', value: $event })"
-      ></wt-switcher>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.ccenter.teams.teams', 1)"
@@ -28,7 +30,7 @@
         :value="itemInstance.team"
         required
         @input="setItemProp({ prop: 'team', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         v-show="!itemInstance.isSupervisor"
         :close-on-select="false"
@@ -38,7 +40,7 @@
         :value="itemInstance.supervisor"
         multiple
         @input="setItemProp({ prop: 'supervisor', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :close-on-select="false"
         :disabled="disableUserInput"
@@ -47,21 +49,21 @@
         :value="itemInstance.auditor"
         multiple
         @input="setItemProp({ prop: 'auditor', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.lookups.regions.regions', 1)"
         :search-method="loadRegionsOptions"
         :value="itemInstance.region"
         @input="setItemProp({ prop: 'region', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.lookups.media.mediaFiles', 1)"
         :search-method="loadMediaOptions"
         :value="itemInstance.greetingMedia"
         @input="setItemProp({ prop: 'greetingMedia', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.progressiveCount')"
@@ -71,7 +73,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.chatCount')"
@@ -81,7 +83,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -96,7 +98,7 @@ import TeamsAPI from '../../teams/api/teams';
 import AgentsAPI from '../api/agents';
 
 export default {
-  name: 'opened-agent-general',
+  name: 'OpenedAgentGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadUsersOptions(params) {

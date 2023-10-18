@@ -5,7 +5,7 @@
       :edited-app="editedApp"
       :namespace="namespace"
       @close="closePopup"
-    ></application-access-popup>
+    />
 
     <header class="content-header">
       <h3 class="content-title">
@@ -20,22 +20,22 @@
         :headers="headers"
         :selectable="false"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ item.displayName }}
         </template>
-        <template v-slot:access="{ item }">
+        <template #access="{ item }">
           <wt-switcher
             :value="item.enabled"
             @change="updateAccess({ app: item.name, value: $event })"
-          ></wt-switcher>
+          />
         </template>
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-icon-action
             v-if="item.isEditAction"
             :disabled="!item.enabled"
             action="edit"
             @click="edit(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
     </div>
@@ -50,9 +50,9 @@ import openedObjectTableTabMixin
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
 
 export default {
-  name: 'opened-role-applications-access',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedRoleApplicationsAccess',
   components: { ApplicationAccessPopup },
+  mixins: [openedObjectTableTabMixin],
   data: () => ({
     dataListValue: [],
     searchValue: '',

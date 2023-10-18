@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -21,13 +23,13 @@
         :value="itemInstance.source"
         required
         @input="setItemProp({ prop: 'source', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -39,7 +41,7 @@ import openedTabComponentMixin
 import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 
 export default {
-  name: 'opened-import-csv-general',
+  name: 'OpenedImportCsvGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadQueueOptions(params) {

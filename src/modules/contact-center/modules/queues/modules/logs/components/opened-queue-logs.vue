@@ -1,19 +1,21 @@
 <template>
   <section class="content-wrapper">
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.queues.logs.logs', 1) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.ccenter.queues.logs.logs', 1) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <filter-search
           :namespace="filtersNamespace"
-        ></filter-search>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
+        />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <!--    <wt-dummy-->
     <!--      v-if="dummy && isLoaded"-->
     <!--      :src="dummy.src"-->
@@ -32,37 +34,37 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:destination="{ item }">
+        <template #destination="{ item }">
           <div v-if="item.destination">
             {{ item.destination.destination }}
           </div>
         </template>
-        <template v-slot:agent="{ item }">
+        <template #agent="{ item }">
           <div v-if="item.agent">
             {{ item.agent.name }}
           </div>
         </template>
-        <template v-slot:joinedAt="{ item }">
+        <template #joinedAt="{ item }">
           {{ formatDate(item.joinedAt) }}
         </template>
-        <template v-slot:leavingAt="{ item }">
+        <template #leavingAt="{ item }">
           {{ formatDate(item.leavingAt) }}
         </template>
-        <template v-slot:offeringAt="{ item }">
+        <template #offeringAt="{ item }">
           {{ formatDate(item.offeringAt) }}
         </template>
-        <template v-slot:duration="{ item }">
+        <template #duration="{ item }">
           {{ calcDuration(item) }}
         </template>
-        <template v-slot:viewNumber="{ item }">
+        <template #viewNumber="{ item }">
           <div v-if="item.destination">
             {{ item.destination.description }}
           </div>
         </template>
-        <template v-slot:attempts="{ item }">
+        <template #attempts="{ item }">
           {{ item.attempts || 0 }}
         </template>
-        <template v-slot:result="{ item }">
+        <template #result="{ item }">
           {{ item.result }}
         </template>
       </wt-table>
@@ -75,7 +77,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -90,9 +92,9 @@ const namespace = 'ccenter/queues';
 const subNamespace = 'log';
 
 export default {
-  name: 'opened-queue-logs',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedQueueLogs',
   components: { FilterSearch },
+  mixins: [openedObjectTableTabMixin],
   data: () => ({
     namespace,
     subNamespace,
@@ -110,6 +112,13 @@ export default {
       return `${this.namespace}/${this.subNamespace}/filters`;
     },
   },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
   methods: {
     formatDate(value) {
       if (!value) return '';
@@ -118,13 +127,6 @@ export default {
 
     calcDuration(item) {
       return convertDuration((item.leavingAt - item.joinedAt) / 1000);
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
     },
   },
 };

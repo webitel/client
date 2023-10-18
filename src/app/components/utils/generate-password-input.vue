@@ -12,26 +12,25 @@
     >
       <template
         v-if="!disabled"
-        v-slot:after-input
+        #after-input
       >
         <wt-copy-action
           v-show="passwordRepresentation"
           :value="value"
-        ></wt-copy-action>
+        />
         <wt-tooltip
           class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
         >
-          <template v-slot:activator>
+          <template #activator>
             <wt-icon-btn
               icon="generate"
               @click="generatePassword"
-            ></wt-icon-btn>
+            />
           </template>
           {{ $t('iconHints.generate') }}
         </wt-tooltip>
       </template>
     </wt-input>
-
   </div>
 </template>
 
@@ -39,7 +38,7 @@
 const MIN_HASH_SIZE = 59;
 
 export default {
-  name: 'generate-password-input',
+  name: 'GeneratePasswordInput',
   props: {
     value: {
       type: String,
@@ -64,14 +63,14 @@ export default {
     };
   },
 
-  mounted() {
-    this.isMounted = true;
-  },
-
   computed: {
     passwordRepresentation() {
       return this.value.length <= MIN_HASH_SIZE ? this.value : '';
     },
+  },
+
+  mounted() {
+    this.isMounted = true;
   },
 
   methods: {

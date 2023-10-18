@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         v-model="channel"
         :disabled="savedChannel || disableUserInput"
@@ -20,7 +22,7 @@
         :v="v.itemInstance.channel"
         required
         track-by="value"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.lookups.communications.code')"
@@ -28,13 +30,13 @@
         :value="itemInstance.code"
         required
         @input="setItemProp({ prop: 'code', value: $event })"
-      ></wt-input>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -45,7 +47,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-communications-type',
+  name: 'OpenedCommunicationsType',
   mixins: [openedTabComponentMixin],
   data: () => ({
     savedChannel: '',
@@ -68,17 +70,6 @@ export default {
       }));
     },
   },
-  methods: {
-    setSavedChannel() {
-      this.savedChannel = this.itemInstance.channel;
-    },
-  },
-  mounted() {
-    const unwatch = this.$watch('itemInstance', () => {
-      this.setSavedChannel();
-      unwatch();
-    });
-  },
   watch: {
     'itemInstance._dirty': {
       handler(value) {
@@ -87,6 +78,17 @@ export default {
           this.setSavedChannel();
         }
       },
+    },
+  },
+  mounted() {
+    const unwatch = this.$watch('itemInstance', () => {
+      this.setSavedChannel();
+      unwatch();
+    });
+  },
+  methods: {
+    setSavedChannel() {
+      this.savedChannel = this.itemInstance.channel;
     },
   },
 };

@@ -1,9 +1,13 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.ccenter.resGroups.resGroups', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :clearable="false"
@@ -13,19 +17,21 @@
           :value="itemInstance.resourceGroup"
           required
           @input="setItemProp({ prop: 'resourceGroup', value: $event })"
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -38,14 +44,14 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 
 export default {
-  name: 'opened-queue-buckets-popup',
+  name: 'OpenedQueueBucketsPopup',
   mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'ccenter/queues/resGroups',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/queues/resGroups',
   }),
   validations: {
     itemInstance: {

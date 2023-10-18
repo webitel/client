@@ -1,9 +1,13 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.ccenter.agents.addSkill') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :clearable="false"
@@ -13,7 +17,7 @@
           :value="itemInstance.skill"
           required
           @input="setItemProp({ prop: 'skill', value: $event })"
-        ></wt-select>
+        />
         <wt-input
           :label="$t('objects.lookups.skills.capacity')"
           :number-max="100"
@@ -23,19 +27,21 @@
           required
           type="number"
           @input="setItemProp({ prop: 'capacity', value: +$event })"
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -48,14 +54,14 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 
 export default {
-  name: 'opened-agent-skills-popup',
+  name: 'OpenedAgentSkillsPopup',
   mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'ccenter/agents/skills',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/agents/skills',
   }),
   validations: {
     itemInstance: {

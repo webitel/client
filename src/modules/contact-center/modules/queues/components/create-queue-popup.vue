@@ -5,7 +5,7 @@
     :title="$t('objects.ccenter.queues.newQueue')"
     @close="$emit('close')"
     @select="createQueue"
-  ></selection-popup>
+  />
 </template>
 
 <script>
@@ -13,16 +13,11 @@ import SelectionPopup from '../../../../../app/components/utils/selection-popup/
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: 'create-queue-popup',
+  name: 'CreateQueuePopup',
   components: { SelectionPopup },
   data: () => ({
     selected: null,
   }),
-
-  created() {
-    // eslint-disable-next-line prefer-destructuring
-    this.selected = this.options[0];
-  },
 
   computed: {
     options() {
@@ -33,6 +28,11 @@ export default {
         description: this.$t(`${locale}Description`),
       }));
     },
+  },
+
+  created() {
+    // eslint-disable-next-line prefer-destructuring
+    this.selected = this.options[0];
   },
 
   methods: {

@@ -10,11 +10,14 @@
         class="start-nav__category-option start-nav__category-option--lvl-1"
         @click="select(category)"
       >
-        <wt-icon :icon="category.value" icon-prefix="adm"></wt-icon>
+        <wt-icon
+          :icon="category.value"
+          icon-prefix="adm"
+        />
         {{ category.name }}
       </button>
       <div v-show="selected.value === category.value">
-        <slot></slot>
+        <slot />
       </div>
     </li>
   </ul>
@@ -22,7 +25,7 @@
 
 <script>
 export default {
-  name: 'start-category-lvl-1',
+  name: 'StartCategoryLvl1',
   props: {
     categories: {
       type: Array,

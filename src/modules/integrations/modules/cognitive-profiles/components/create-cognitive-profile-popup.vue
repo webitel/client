@@ -9,7 +9,7 @@
     @change="selectOption"
     @close="close"
     @select="create"
-  ></selection-popup>
+  />
 </template>
 
 <script setup>

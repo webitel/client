@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -21,7 +23,7 @@
         :value="itemInstance.gateway"
         required
         @input="setItemProp({ prop: 'gateway', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.cps')"
@@ -30,7 +32,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'cps', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.limit')"
@@ -39,7 +41,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'limit', value: +$event })"
-      ></wt-input>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.cidType')"
@@ -47,7 +49,7 @@
         :track-by="null"
         :value="itemInstance.parameters.cidType"
         @input="setItemParameterProp({ prop: 'cidType', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
@@ -55,20 +57,20 @@
         :track-by="null"
         :value="itemInstance.parameters.ignoreEarlyMedia"
         @input="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
       <wt-tags-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.patterns')"
         :value="itemInstance.patterns"
         taggable
         @input="setItemProp({ prop: 'patterns', value: $event })"
-      ></wt-tags-input>
+      />
     </div>
   </section>
 </template>
@@ -82,7 +84,7 @@ import CidTypeList from '../lookups/CidType.lookup';
 import EarlyMediaList from '../lookups/EarlyMedia.lookup';
 
 export default {
-  name: 'opened-resource-general',
+  name: 'OpenedResourceGeneral',
   mixins: [openedTabComponentMixin],
   data() {
     return {

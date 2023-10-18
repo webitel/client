@@ -9,12 +9,12 @@
         <category-lvl-2
           :categories="subcategories"
           class="d-none d-block-xs"
-        ></category-lvl-2>
+        />
       </category-lvl-1>
       <category-lvl-2
         :categories="subcategories"
         class="d-none-xs"
-      ></category-lvl-2>
+      />
     </article>
   </section>
 </template>
@@ -25,16 +25,12 @@ import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
 import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
 
 export default {
-  name: 'the-start-page',
-  mixins: [navMixin],
+  name: 'TheStartPage',
   components: { CategoryLvl1, CategoryLvl2 },
+  mixins: [navMixin],
   data: () => ({
     selected: {},
   }),
-
-  mounted() {
-    this.initSelected();
-  },
 
   computed: {
     categories() {
@@ -47,6 +43,10 @@ export default {
         return { ...subNav, route };
       });
     },
+  },
+
+  mounted() {
+    this.initSelected();
   },
 
   methods: {

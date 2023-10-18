@@ -1,17 +1,19 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header hide-primary>
         {{ $tc('settings.settings', 2) }}
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <!--This wrapper "settings-section" is needed to place the "settings-section__setting"
       in a column and give them half the width of the screen-->
       <section class="settings-section">
         <article class="settings-section__setting">
           <header class="content-header">
-            <h3 class="content-title">{{ $t('settings.changePassword') }}</h3>
+            <h3 class="content-title">
+              {{ $t('settings.changePassword') }}
+            </h3>
           </header>
           <form @submit="changePassword">
             <wt-input
@@ -20,26 +22,29 @@
               :v="v$.newPassword"
               required
               type="password"
-            ></wt-input>
+            />
             <wt-input
               v-model="confirmNewPassword"
               :label="$t('auth.confirmPassword')"
               :v="v$.confirmNewPassword"
               required
               type="password"
-            ></wt-input>
+            />
             <wt-button
               :disabled="disablePasswordChange"
               :loading="isPasswordPatching"
               type="submit"
               @click.prevent="changePassword"
-            >{{ $t('objects.save') }}
+            >
+              {{ $t('objects.save') }}
             </wt-button>
           </form>
         </article>
         <section class="settings-section__setting">
           <header class="content-header">
-            <h3 class="content-title">{{ $t('settings.language') }}</h3>
+            <h3 class="content-title">
+              {{ $t('settings.language') }}
+            </h3>
           </header>
           <form>
             <wt-select
@@ -48,12 +53,14 @@
               :value="language"
               class="language-list"
               @input="changeLanguage"
-            ></wt-select>
+            />
           </form>
         </section>
         <section class="settings-section__setting">
           <header class="content-header">
-            <h3 class="content-title">{{ $t('settings.webPhone') }}</h3>
+            <h3 class="content-title">
+              {{ $t('settings.webPhone') }}
+            </h3>
           </header>
           <form>
             <div class="settings-section__wrapper settings-section__switcher">
@@ -61,7 +68,7 @@
               <wt-switcher
                 v-model="webrtc"
                 @change="changeWebrtc"
-              ></wt-switcher>
+              />
             </div>
             <div
               v-show="webrtc"
@@ -71,7 +78,7 @@
               <wt-switcher
                 v-model="stun"
                 @change="changeStun"
-              ></wt-switcher>
+              />
             </div>
           </form>
         </section>
@@ -88,8 +95,12 @@ import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 
 export default {
-  name: 'the-settings',
+  name: 'TheSettings',
   inject: ['$eventBus'],
+
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',
@@ -119,10 +130,6 @@ export default {
       },
     ],
   }),
-
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   validations() {
     return {
       newPassword: {
@@ -148,6 +155,15 @@ export default {
       this.v$.$touch();
       return this.v$.$pending || this.v$.$error;
     },
+  },
+  async mounted() {
+    try {
+      const response = await getWebPhone();
+      this.webrtc = response.webrtc;
+      this.stun = response.stun;
+    } catch (error) {
+      throw error;
+    }
   },
 
   methods: {
@@ -199,15 +215,6 @@ export default {
       // if there's a previously set lang, set it
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },
-  },
-  async mounted() {
-    try {
-      const response = await getWebPhone();
-      this.webrtc = response.webrtc;
-      this.stun = response.stun;
-    } catch (error) {
-      throw error;
-    }
   },
 
 };

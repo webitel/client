@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,39 +13,39 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.lookups.pauseCause.limit')"
         :value="itemInstance.limitMin"
         type="number"
         @input="setItemProp({ prop: 'limitMin', value: $event })"
-      ></wt-input>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
       <div class="form-checkbox-wrapper">
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowAdmin')"
           :selected="itemInstance.allowAdmin"
           @change="setItemProp({prop: 'allowAdmin', value: $event })"
-        ></wt-checkbox>
+        />
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowSupervisor')"
           :selected="itemInstance.allowSupervisor"
           @change="setItemProp({prop: 'allowSupervisor', value: $event })"
-        ></wt-checkbox>
+        />
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowAgent')"
           :selected="itemInstance.allowAgent"
           @change="setItemProp({prop: 'allowAgent', value: $event })"
-        ></wt-checkbox>
+        />
       </div>
     </div>
   </section>
@@ -54,7 +56,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-agent-pause-cause-general',
+  name: 'OpenedAgentPauseCauseGeneral',
   mixins: [openedTabComponentMixin],
 };
 </script>

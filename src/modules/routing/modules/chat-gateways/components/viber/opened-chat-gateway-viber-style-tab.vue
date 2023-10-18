@@ -1,8 +1,14 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="viber" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.viber.style.style') }}</h3>
+      <wt-icon
+        icon="viber"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.viber.style.style') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <div class="opened-chat-gateway-viber-color-picker">
@@ -10,11 +16,12 @@
         <color-picker
           :value="itemInstance.metadata.btnBackColor"
           @input="setItemMetadata({ prop: 'btnBackColor', value: $event.hex })"
-        ></color-picker>
+        />
         <wt-button
           color="secondary"
           @click="resetBtnColor('btnBackColor')"
-        >{{ $t('vocabulary.reset') }}
+        >
+          {{ $t('vocabulary.reset') }}
         </wt-button>
       </div>
       <div class="opened-chat-gateway-viber-color-picker">
@@ -22,11 +29,12 @@
         <color-picker
           :value="itemInstance.metadata.btnFontColor"
           @input="setItemMetadata({ prop: 'btnFontColor', value: $event.hex })"
-        ></color-picker>
+        />
         <wt-button
           color="secondary"
           @click="resetBtnColor('btnFontColor')"
-        >{{ $t('vocabulary.reset') }}
+        >
+          {{ $t('vocabulary.reset') }}
         </wt-button>
       </div>
     </div>
@@ -41,11 +49,11 @@ import openedTabComponentMixin
 import viberChatGateway from '../../store/_internals/providers/viberChatGateway';
 
 export default {
-  name: 'opened-chat-viber-general-tab',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedChatViberGeneralTab',
   components: {
     ColorPicker: Chrome,
   },
+  mixins: [openedTabComponentMixin],
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {

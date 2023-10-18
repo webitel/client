@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.authId')"
@@ -19,21 +21,21 @@
         :value="itemInstance.account"
         required
         @input="setItemProp({ prop: 'account', value: $event })"
-      ></wt-input>
+      />
       <password-input
         :disabled="disableUserInput"
         :v="v.itemInstance.password"
         :value="itemInstance.password"
         required
         @input="setItemProp({ prop: 'password', value: $event })"
-      ></password-input>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.directory.users.users', 1)"
         :search-method="loadDropdownOptionsList"
         :value="itemInstance.user"
         @input="setItemProp({ prop: 'user', value: $event })"
-      ></wt-select>
+      />
     </div>
   </section>
 </template>
@@ -45,9 +47,9 @@ import openedTabComponentMixin
 import UsersAPI from '../../users/api/users';
 
 export default {
-  name: 'opened-device-general',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedDeviceGeneral',
   components: { PasswordInput },
+  mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {
       return UsersAPI.getLookup(params);

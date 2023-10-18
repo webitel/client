@@ -1,23 +1,32 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.directory.license.importLicense') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form @submit.prevent="save">
         <wt-input
           v-model="certificate"
           :label="$t('objects.directory.license.licenseKey')"
           :v="v$.certificate"
           required
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
-      <wt-button :disabled="invalid" @click="save">
+    <template #actions>
+      <wt-button
+        :disabled="invalid"
+        @click="save"
+      >
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -30,14 +39,14 @@ import { required } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'license-popup',
-  data: () => ({
-    namespace: 'directory/license',
-    certificate: '',
-  }),
+  name: 'LicensePopup',
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'directory/license',
+    certificate: '',
   }),
   validations: {
     certificate: { required, $autoDirty: true },

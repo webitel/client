@@ -1,9 +1,13 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.ccenter.agents.addSubordinate') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :clearable="false"
@@ -13,19 +17,21 @@
           :value="itemInstance.agent"
           required
           @input="setItemProp({ prop: 'agent', value: $event })"
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -38,14 +44,14 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import AgentsAPI from '../../../api/agents';
 
 export default {
-  name: 'opened-agent-subordinates-popup',
+  name: 'OpenedAgentSubordinatesPopup',
   mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'ccenter/agents/subordinates',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/agents/subordinates',
   }),
   validations: {
     itemInstance: {

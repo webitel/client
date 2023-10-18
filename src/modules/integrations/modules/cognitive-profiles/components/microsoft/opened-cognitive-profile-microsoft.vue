@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="true || disableUserInput"
@@ -20,7 +22,7 @@
         :value="itemInstance.provider"
         required
         @input="setItemProp({ prop: 'provider', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -31,7 +33,7 @@
         required
         track-by="value"
         @input="setItemProp({ prop: 'service', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.key')"
@@ -39,7 +41,7 @@
         :value="itemInstance.properties.key"
         required
         @input="setItemPropertiesProp({ prop: 'key', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -50,7 +52,7 @@
         :value="itemInstance.properties.locale"
         required
         @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -60,13 +62,13 @@
         :value="itemInstance.properties.region"
         required
         @input="setItemPropertiesProp({ prop: 'region', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -80,7 +82,7 @@ import openedTabComponentMixin
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: 'opened-cognitive-profile-microsoft',
+  name: 'OpenedCognitiveProfileMicrosoft',
   mixins: [openedTabComponentMixin],
   data: () => ({
     MicrosoftRegion,

@@ -1,28 +1,33 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="users">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="users"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <upload-popup
         v-if="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
-      ></upload-popup>
+      />
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.directory.users.allUsers') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.directory.users.allUsers') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -30,7 +35,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -40,24 +45,24 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 accept=".csv"
                 class="icon-action"
                 @change="processCSV"
-              ></upload-file-icon-btn>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -69,39 +74,39 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:status="{ item }">
+            <template #status="{ item }">
               <user-status :presence="item.presence" />
             </template>
-            <template v-slot:username="{ item }">
+            <template #username="{ item }">
               {{ item.username }}
             </template>
-            <template v-slot:extensions="{ item }">
+            <template #extensions="{ item }">
               {{ item.extension }}
             </template>
-            <template v-slot:DnD="{ item }">
+            <template #DnD="{ item }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="getDND(item.presence)"
                 @change="setDND({item, value: $event})"
-              ></wt-switcher>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -113,7 +118,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -132,20 +137,20 @@ import UploadPopup from './upload-users-popup.vue';
 const namespace = 'directory/users';
 
 export default {
-  name: 'the-users',
-  mixins: [tableComponentMixin],
+  name: 'TheUsers',
   components: { UploadPopup, UserStatus, UploadFileIconBtn },
+  mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, hiddenText: true });
+    return { dummy };
+  },
   data: () => ({
     isUploadPopup: false,
     csvFile: null,
     namespace,
     routeName: RouteNames.USERS,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
-    return { dummy };
-  },
 
   computed: {
     path() {

@@ -1,16 +1,21 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.resGroups.timerange') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.ccenter.resGroups.timerange') }}
+      </h3>
       <wt-icon-action
         v-if="!disableUserInput"
         action="add"
         @click="addVariable"
-      ></wt-icon-action>
+      />
     </header>
     <div class="object-input-grid">
       <div>
-        <div v-for="(range, key) in itemInstance.time" class="range">
+        <div
+          v-for="(range, key) in itemInstance.time"
+          class="range"
+        >
           <wt-timepicker
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
@@ -19,8 +24,7 @@
             format="hh:mm"
             required
             @input="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
-          >
-          </wt-timepicker>
+          />
           <wt-timepicker
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeTo')"
@@ -29,15 +33,14 @@
             format="hh:mm"
             required
             @input="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
-          >
-          </wt-timepicker>
+          />
           <wt-icon-action
             v-if="key !== 0"
             :disabled="disableUserInput"
             action="delete"
             class="table-action"
             @click="deleteVariable(key)"
-          ></wt-icon-action>
+          />
         </div>
       </div>
     </div>
@@ -49,7 +52,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-resource-group-timerange',
+  name: 'OpenedResourceGroupTimerange',
   mixins: [openedTabComponentMixin],
 };
 </script>

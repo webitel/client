@@ -3,7 +3,7 @@
     :disabled="disableControl"
     :value="!!item.sessions"
     @change="logoutUser"
-  ></wt-switcher>
+  />
 </template>
 
 <script>
@@ -12,7 +12,7 @@ import accessControlMixin from '../../../../../../../app/mixins/baseMixins/acces
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'user-logout-control',
+  name: 'UserLogoutControl',
   mixins: [accessControlMixin],
   props: {
     item: {

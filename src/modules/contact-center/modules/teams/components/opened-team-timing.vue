@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.teams.timing') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.ccenter.teams.timing') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -12,7 +14,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
@@ -21,7 +23,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.callTimeout')"
@@ -30,7 +32,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'callTimeout', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.inviteChatTimeout')"
@@ -39,7 +41,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'inviteChatTimeout', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.wrapUpTime')"
@@ -48,7 +50,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -58,7 +60,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-team-timing',
+  name: 'OpenedTeamTiming',
   mixins: [openedTabComponentMixin],
 };
 </script>

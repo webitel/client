@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.storage.s3') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.storage.s3') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.properties.keyId"
         required
         @input="setItemProp({ prop: 'keyId', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.s3Access')"
@@ -19,7 +21,7 @@
         :value="itemInstance.properties.accessKey"
         required
         @input="setItemProp({ prop: 'accessKey', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.bucket')"
@@ -27,13 +29,13 @@
         :value="itemInstance.properties.bucketName"
         required
         @input="setItemProp({ prop: 'bucketName', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.pathPattern')"
         :value="itemInstance.properties.pathPattern"
         @input="setItemProp({ prop: 'pathPattern', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :disabled="disableService"
         :label="$t('objects.service')"
@@ -41,7 +43,7 @@
         :value="service"
         track-by="value"
         @input="setService"
-      ></wt-select>
+      />
       <wt-select
         v-if="!isCustom"
         :clearable="false"
@@ -53,7 +55,7 @@
         required
         track-by="value"
         @input="setItemProp({ prop: 'region', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         v-if="isCustom"
         :disabled="disableUserInput"
@@ -62,7 +64,7 @@
         :value="itemInstance.properties.endpoint"
         required
         @input="setItemProp({ prop: 'endpoint', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         v-if="isCustom"
         :disabled="disableUserInput"
@@ -71,7 +73,7 @@
         :value="itemInstance.properties.region"
         required
         @input="setItemProp({ prop: 'region', value: $event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -86,7 +88,7 @@ import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions
 import Service from '../store/_internals/lookups/Service.lookup';
 
 export default {
-  name: 'opened-storage-aws',
+  name: 'OpenedStorageAws',
   mixins: [openedTabComponentMixin, storageMixin],
   computed: {
     ...mapState('integrations/storage', {

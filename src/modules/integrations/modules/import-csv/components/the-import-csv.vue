@@ -1,20 +1,20 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
@@ -28,7 +28,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -38,12 +38,12 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -51,7 +51,7 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -63,12 +63,12 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:source="{ item }">
+            <template #source="{ item }">
               <wt-item-link
                 v-if="item.source"
                 :id="item.source.id"
@@ -77,22 +77,22 @@
                 {{ item.source.name }}
               </wt-item-link>
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <upload-action
                 v-if="hasUploadAccess"
                 :item="item"
-              ></upload-action>
+              />
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -104,7 +104,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -120,18 +120,18 @@ import UploadAction from './import-csv-upload-action.vue';
 const namespace = 'integrations/importCsv';
 
 export default {
-  name: 'the-import-csv',
-  mixins: [tableComponentMixin],
+  name: 'TheImportCsv',
   components: { UploadAction },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.IMPORT_CSV,
-  }),
+  mixins: [tableComponentMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace, showAction: true });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.IMPORT_CSV,
+  }),
 
   computed: {
     path() {

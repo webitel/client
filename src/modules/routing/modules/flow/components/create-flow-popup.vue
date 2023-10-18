@@ -8,9 +8,8 @@
     <!--Main flow popup content deed to make in "after-section"
      because in another case a tooltip will display incorrectly,
      and in general this is a specific case-->
-    <template v-slot:after-section>
+    <template #after-section>
       <div class="create-flow-popup__main-wrapper">
-
         <section class="popup-flows">
           <button
             v-for="(editor) of editorOptions"
@@ -19,7 +18,10 @@
             @click="selected = editor"
           >
             <div class="popup-flow-editor__img-wrapper">
-              <img :alt="editor.alt" :src="editor.image">
+              <img
+                :alt="editor.alt"
+                :src="editor.image"
+              >
             </div>
             <p class="popup-flow-editor__title">
               {{ editor.title }}
@@ -33,7 +35,7 @@
           :label="$t('vocabulary.type')"
           :options="typeOptions"
           track-by="value"
-        ></wt-select>
+        />
       </div>
     </template>
   </selection-popup>
@@ -49,7 +51,7 @@ import diagramSelectionPic from '../assets/diagram-selection-pic.svg';
 import FlowEditor from '../enums/FlowEditor.enum';
 
 export default {
-  name: 'create-flow-popup',
+  name: 'CreateFlowPopup',
   components: { SelectionPopup },
 
   data: () => ({

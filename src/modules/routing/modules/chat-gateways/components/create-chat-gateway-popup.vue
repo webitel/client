@@ -7,12 +7,12 @@
     @close="close"
     @select="createGateway"
   >
-    <template v-slot:option="{ option }">
+    <template #option="{ option }">
       <wt-icon
         v-if="option.icon && !Array.isArray(option.icon)"
         :icon="option.icon"
         size="sm"
-      ></wt-icon>
+      />
       <div
         v-if="Array.isArray(option.icon)"
         class="popup-options__icons-wrap"
@@ -22,9 +22,11 @@
           :key="key"
           :icon="icon"
           size="sm"
-        ></wt-icon>
+        />
       </div>
-      <h4 class="popup-options__item-header">{{ option.title }}</h4>
+      <h4 class="popup-options__item-header">
+        {{ option.title }}
+      </h4>
     </template>
   </selection-popup>
 </template>
@@ -35,7 +37,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 
 export default {
-  name: 'create-chat-gateway-popup',
+  name: 'CreateChatGatewayPopup',
   components: { SelectionPopup },
 
   data: () => ({

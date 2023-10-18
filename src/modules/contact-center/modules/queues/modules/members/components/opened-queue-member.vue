@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -8,29 +8,30 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <template v-slot:primary-action>
+        <template #primary-action>
           <wt-button-select
             :color="disabledSave && 'secondary'"
             :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"
-          >{{ $t('objects.save') }}
+          >
+            {{ $t('objects.save') }}
           </wt-button-select>
         </template>
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="main-container">
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
+        />
       </div>
     </template>
   </wt-page-wrapper>
@@ -48,19 +49,19 @@ import General from './opened-queue-member-general.vue';
 import Variables from './opened-queue-member-variables.vue';
 
 export default {
-  name: 'opened-queue-member',
-  mixins: [openedObjectMixin],
+  name: 'OpenedQueueMember',
   components: {
     General,
     Communication,
     Variables,
   },
-  data: () => ({
-    namespace: 'ccenter/queues/members',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/queues/members',
   }),
   validations: {
     itemInstance: {

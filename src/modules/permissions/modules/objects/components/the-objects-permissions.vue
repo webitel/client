@@ -1,12 +1,12 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header hide-primary>
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
@@ -19,21 +19,21 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            ></wt-table-actions>
+            />
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -46,33 +46,33 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.class }}
               </wt-item-link>
             </template>
 
-            <template v-slot:obac="{ item, index }">
+            <template #obac="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.obac"
                 @change="toggleObjectObac({ item, index, value: $event })"
-              ></wt-switcher>
+              />
             </template>
 
-            <template v-slot:rbac="{ item, index }">
+            <template #rbac="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.rbac"
                 @change="toggleObjectRbac({ item, index, value: $event })"
-              ></wt-switcher>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -84,7 +84,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -100,17 +100,17 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'permissions/objects';
 
 export default {
-  name: 'the-objects-permissions',
+  name: 'TheObjectsPermissions',
   mixins: [tableComponentMixin],
-  data: () => ({
-    namespace,
-    routeName: RouteNames.OBJECTS,
-  }),
 
   setup() {
     const { dummy } = useDummy({ namespace, hiddenText: true });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.OBJECTS,
+  }),
 
   computed: {
     hasTableActions() {

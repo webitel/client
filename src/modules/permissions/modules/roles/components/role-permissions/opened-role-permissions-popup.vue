@@ -1,9 +1,13 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.permissions.roles.addPermission') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           v-model="itemInstance.permission"
@@ -12,19 +16,21 @@
           :search-method="loadPermissionsList"
           :v="v$.itemInstance.permission"
           required
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -39,21 +45,21 @@ import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/op
 import RolesAPI from '../../api/roles';
 
 export default {
-  name: 'opened-role-permissions-popup',
+  name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
       type: [Number, Object], // "null" object
     },
   },
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     namespace: 'permissions/roles',
     itemInstanceValue: {
       permission: {},
     },
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {

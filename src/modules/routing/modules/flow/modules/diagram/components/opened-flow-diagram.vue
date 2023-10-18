@@ -5,11 +5,11 @@
       v-show="isLoading"
       class="flow-diagram__loading-overlay"
     >
-      <wt-loader></wt-loader>
+      <wt-loader />
     </div>
     <div
       id="flow-diagram"
-    ></div>
+    />
   </section>
 </template>
 
@@ -31,7 +31,7 @@ import gatewaysAPI from '../../../../gateways/api/gateways';
 import FlowsAPI from '../../../api/flow';
 
 export default {
-  name: 'opened-flow-diagram',
+  name: 'OpenedFlowDiagram',
   mixins: [openedTabComponentMixin],
   data: () => ({
     diagram: null,

@@ -5,8 +5,10 @@
     overflow
     @close="close"
   >
-    <template v-slot:title>{{ title }}</template>
-    <template v-slot:main>
+    <template #title>
+      {{ title }}
+    </template>
+    <template #main>
       <ul class="popup-options">
         <li
           v-for="(option, key) of options"
@@ -15,20 +17,27 @@
           class="popup-options__item-wrap"
           @click="selectOption(option)"
         >
-          <slot name="option" v-bind:option="option">
+          <slot
+            name="option"
+            :option="option"
+          >
             <wt-icon
-              v-if="option.icon" :icon="option.icon" size="sm"
-            ></wt-icon>
-            <h4 class="popup-options__item-header">{{ option.title }}</h4>
+              v-if="option.icon"
+              :icon="option.icon"
+              size="sm"
+            />
+            <h4 class="popup-options__item-header">
+              {{ option.title }}
+            </h4>
             <wt-tooltip
               popper-class="selection-popup__tooltip-popper"
             >
-              <template v-slot:activator>
+              <template #activator>
                 <wt-icon-btn
                   v-if="option.description"
                   color="info"
                   icon="rounded-info"
-                ></wt-icon-btn>
+                />
               </template>
               {{ option.description }}
             </wt-tooltip>
@@ -36,19 +45,21 @@
         </li>
       </ul>
       <!--Slot for displaying specific template styling-->
-      <slot name="after-section"></slot>
+      <slot name="after-section" />
     </template>
 
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="!selected"
         @click="add"
-      >{{ $t('objects.create') }}
+      >
+        {{ $t('objects.create') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -56,7 +67,11 @@
 
 <script>
 export default {
-  name: 'selection-popup',
+  name: 'SelectionPopup',
+  model: {
+    prop: 'selected',
+    event: 'change',
+  },
   props: {
     title: {
       type: String,
@@ -73,10 +88,6 @@ export default {
       type: [String, Number],
       default: 480,
     },
-  },
-  model: {
-    prop: 'selected',
-    event: 'change',
   },
   methods: {
     add() {

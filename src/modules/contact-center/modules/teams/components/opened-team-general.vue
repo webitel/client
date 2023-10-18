@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         v-model="strategy"
         :clearable="false"
@@ -21,7 +23,7 @@
         :v="v.itemInstance.strategy"
         required
         track-by="value"
-      ></wt-select>
+      />
       <wt-select
         :close-on-select="false"
         :disabled="disableUserInput"
@@ -30,13 +32,13 @@
         :value="itemInstance.admin"
         multiple
         @input="setItemProp({ prop: 'admin', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -49,7 +51,7 @@ import AgentsAPI from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
 
 export default {
-  name: 'opened-team-general',
+  name: 'OpenedTeamGeneral',
   mixins: [openedTabComponentMixin],
 
   computed: {

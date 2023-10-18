@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.storage.drive') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.storage.drive') }}
+      </h3>
     </header>
     <form class="object-input-grid">
       <form-input
@@ -9,19 +11,19 @@
         :label="$t('objects.integrations.storage.driveFolder')"
         :v="v.itemInstance.properties.directory"
         required
-      ></form-input>
+      />
       <form-input
         v-model="email"
         :label="$t('objects.integrations.storage.driveEmail')"
         :v="v.itemInstance.properties.email"
         required
-      ></form-input>
+      />
       <form-input
         v-model="privateKey"
         :label="$t('objects.integrations.storage.driveKey')"
         :v="v.itemInstance.properties.privateKey"
         required
-      ></form-input>
+      />
     </form>
   </section>
 </template>
@@ -32,7 +34,7 @@ import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-storage-drive',
+  name: 'OpenedStorageDrive',
   mixins: [openedTabComponentMixin],
 
   computed: {

@@ -1,27 +1,32 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="queues">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="queues"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <queue-popup
         v-if="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
-      ></queue-popup>
+      />
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.queues.allQueues') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.ccenter.queues.allQueues') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -29,7 +34,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -39,12 +44,12 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -52,7 +57,7 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -64,25 +69,25 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:type="{ item }">
+            <template #type="{ item }">
               {{ $t(QueueTypeProperties[item.type].locale) }}
             </template>
-            <template v-slot:activeCalls="{ item }">
+            <template #activeCalls="{ item }">
               {{ item.active }}
             </template>
-            <template v-slot:waiting="{ item }">
+            <template #waiting="{ item }">
               {{ item.waiting }}
             </template>
-            <template v-slot:priority="{ item } ">
+            <template #priority="{ item } ">
               {{ item.priority }}
             </template>
-            <template v-slot:team="{ item } ">
+            <template #team="{ item } ">
               <wt-item-link
                 v-if="item.team"
                 :link="itemTeamLink(item)"
@@ -91,20 +96,20 @@
                 {{ item.team.name }}
               </wt-item-link>
             </template>
-            <template v-slot:state="{ item, index }">
+            <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.enabled"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event})"
-              ></wt-switcher>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-tooltip class="table-action">
-                <template v-slot:activator>
+                <template #activator>
                   <wt-icon-btn
                     icon="queue-member"
                     @click="openMembers(item)"
-                  ></wt-icon-btn>
+                  />
                 </template>
                 {{ $t('iconHints.members') }}
               </wt-tooltip>
@@ -112,13 +117,13 @@
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item, index)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -130,7 +135,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -147,20 +152,20 @@ import QueuePopup from './create-queue-popup.vue';
 const namespace = 'ccenter/queues';
 
 export default {
-  name: 'the-queues',
-  mixins: [tableComponentMixin],
+  name: 'TheQueues',
   components: { QueuePopup },
+  mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     isQueueSelectPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     path() {

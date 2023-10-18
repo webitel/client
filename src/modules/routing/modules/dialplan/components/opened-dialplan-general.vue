@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -21,7 +23,7 @@
         :value="itemInstance.schema"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.dialplan.pattern')"
@@ -29,13 +31,13 @@
         :value="itemInstance.pattern"
         required
         @input="setItemProp({ prop: 'pattern', value: $event })"
-      ></wt-input>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -46,7 +48,7 @@ import openedTabComponentMixin
 import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: 'opened-dialplan',
+  name: 'OpenedDialplan',
   mixins: [openedTabComponentMixin],
   methods: {
     loadFlows(params) {

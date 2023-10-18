@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.res.failure') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.ccenter.res.failure') }}
+      </h3>
     </header>
     <div class="object-input-grid grid-w50">
       <wt-input
@@ -10,7 +12,7 @@
         :value="itemInstance.maxErrors"
         type="number"
         @input="setItemProp({ prop: 'maxErrors', value: +$event })"
-      ></wt-input>
+      />
       <wt-tags-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.errorCodes')"
@@ -18,14 +20,14 @@
         :value="itemInstance.errorIds"
         taggable
         @input="setItemProp({ prop: 'errorIds', value: $event })"
-      ></wt-tags-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.failureDialDelay')"
         :value="itemInstance.failureDialDelay"
         type="number"
         @input="setItemProp({ prop: 'failureDialDelay', value: +$event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -35,7 +37,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-resource-failure',
+  name: 'OpenedResourceFailure',
   mixins: [openedTabComponentMixin],
 
   data: () => ({

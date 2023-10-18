@@ -3,7 +3,7 @@
     <upload-file-icon-btn
       accept=".csv"
       @change="processCSV"
-    ></upload-file-icon-btn>
+    />
     <upload-csv-preview-popup
       v-if="file"
       :add-bulk-items="saveBulkData"
@@ -14,7 +14,7 @@
       :skip-headers="item.parameters.skipHeaders"
       @close="file = null"
       @save="handleSave"
-    ></upload-csv-preview-popup>
+    />
   </div>
 </template>
 
@@ -26,9 +26,9 @@ import normalizeCsvMembers from '../../../../contact-center/modules/queues/modul
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
-  name: 'import-csv-upload-action',
-  mixins: [normalizeCsvMembers],
+  name: 'ImportCsvUploadAction',
   components: { UploadFileIconBtn, UploadCsvPreviewPopup },
+  mixins: [normalizeCsvMembers],
   props: {
     item: {
       type: Object,

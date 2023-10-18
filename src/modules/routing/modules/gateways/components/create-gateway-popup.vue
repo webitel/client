@@ -6,7 +6,7 @@
     @change="selectOption"
     @close="close"
     @select="createGateway"
-  ></selection-popup>
+  />
 </template>
 
 <script>
@@ -14,15 +14,11 @@ import SelectionPopup from '../../../../../app/components/utils/selection-popup/
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'create-gateway-popup',
+  name: 'CreateGatewayPopup',
   components: { SelectionPopup },
   data: () => ({
     selected: null,
   }),
-
-  created() {
-    this.selectOption(this.options[0]);
-  },
 
   computed: {
     options() {
@@ -38,6 +34,10 @@ export default {
       };
       return [register, trunking];
     },
+  },
+
+  created() {
+    this.selectOption(this.options[0]);
   },
 
   methods: {

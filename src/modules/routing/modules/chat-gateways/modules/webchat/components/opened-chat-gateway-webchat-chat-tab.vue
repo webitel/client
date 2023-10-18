@@ -1,16 +1,22 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.chat.chat') }}</h3>
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.webchat.chat.chat') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-switcher
         :label="$t('objects.enabled')"
         :value="itemInstance.metadata.chat.enabled"
         @change="setChatMetadata({ prop: 'enabled', value: $event })"
-      ></wt-switcher>
-      <div></div>
+      />
+      <div />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
@@ -18,7 +24,7 @@
         :value="itemInstance.metadata.readTimeout"
         type="number"
         @input="setItemMetadata({ prop: 'readTimeout', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.routing.flow.flow', 1)"
@@ -26,7 +32,7 @@
         :v="v.itemInstance.flow"
         :value="itemInstance.flow"
         @input="setFlow"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
@@ -34,7 +40,7 @@
         :value="itemInstance.metadata.writeTimeout"
         type="number"
         @input="setItemMetadata({ prop: 'writeTimeout', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
@@ -42,26 +48,26 @@
         :value="itemInstance.metadata.handshakeTimeout"
         type="number"
         @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })"
-      ></wt-input>
+      />
       <wt-switcher
-        :label="this.$t('objects.routing.chatGateways.webchat.chat.openTimeout')"
+        :label="$t('objects.routing.chatGateways.webchat.chat.openTimeout')"
         :value="itemInstance.metadata.chat.timeoutIsActive"
         @change="setChatMetadata({ prop: 'timeoutIsActive', value: $event })"
-      ></wt-switcher>
+      />
       <wt-input
         :disabled="disableOpenTimeout"
-        :label="this.$t('objects.routing.chatGateways.webchat.chat.openTimeoutSec')"
+        :label="$t('objects.routing.chatGateways.webchat.chat.openTimeoutSec')"
         :v="v.itemInstance.metadata.chat.openTimeout"
         :value="itemInstance.metadata.chat.openTimeout"
         type="number"
         @input="setChatMetadata({ prop: 'openTimeout', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         v-model="mediaMaxSize"
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.webchat.metadata.mediaMaxSize')"
         type="number"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -73,7 +79,7 @@ import openedTabComponentMixin
 import FlowsAPI from '../../../../flow/api/flow';
 
 export default {
-  name: 'opened-chat-webchat-general-tab',
+  name: 'OpenedChatWebchatGeneralTab',
   mixins: [openedTabComponentMixin],
   computed: {
     disableOpenTimeout() {

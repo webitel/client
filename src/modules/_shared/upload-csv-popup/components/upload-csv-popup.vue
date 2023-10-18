@@ -4,14 +4,14 @@
     min-width="680"
     @close="close"
   >
-    <template v-slot:title>
+    <template #title>
       {{ $t('objects.importCSV') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <wt-loader
         v-show="isReadingFile"
         class="upload-popup__reading-file-loader"
-      ></wt-loader>
+      />
       <section
         v-show="!isReadingFile"
         class="upload-popup-form"
@@ -20,7 +20,7 @@
           v-model="skipHeaders"
           :label="$t('objects.CSV.skipHeaders')"
           disabled
-        ></wt-checkbox>
+        />
         <form class="upload-popup-form__form">
           <wt-select
             v-model="charset"
@@ -28,12 +28,12 @@
             :label="$t('objects.CSV.charSet')"
             :options="charsetOptions"
             disabled
-          ></wt-select>
+          />
 
           <wt-input
             v-model="separator"
             :label="$t('objects.CSV.separator')"
-          ></wt-input>
+          />
         </form>
 
         <!--        PREVIEW SECTION: preview loader, preview table, parsing stack trace-->
@@ -41,7 +41,7 @@
           <wt-loader
             v-show="isParsingPreview"
             class="upload-popup__parsing-preview-loader"
-          ></wt-loader>
+          />
           <article
             v-show="!isParsingPreview"
             class="upload-popup-form__file-preview"
@@ -51,7 +51,7 @@
               :grid-actions="false"
               :headers="csvPreviewTableHeaders"
               :selectable="false"
-            ></wt-table>
+            />
           </article>
         </section>
 
@@ -81,38 +81,46 @@
               :placeholder="field.text || field.name"
               :track-by="null"
               class="upload-popup-mapping-item__select"
-            ></wt-select>
+            />
             <wt-tags-input
               v-else
               v-model="field.csv"
               :options="csvColumns"
               :placeholder="field.text || field.name"
               class="upload-popup-mapping-item__select"
-            ></wt-tags-input>
-            <div v-if="field.tooltip" class="upload-tooltip">{{ field.tooltip }}</div>
+            />
+            <div
+              v-if="field.tooltip"
+              class="upload-tooltip"
+            >
+              {{ field.tooltip }}
+            </div>
           </li>
         </ul>
       </section>
       <article
         v-show="!isParsingPreview && parseErrorStackTrace"
         class="upload-popup-form__error-stack-trace"
-      >{{ parseErrorStackTrace }}
+      >
+        {{ parseErrorStackTrace }}
       </article>
     </template>
     <template
       v-if="!isReadingFile"
-      v-slot:actions
+      #actions
     >
       <wt-button
         :disabled="!allowSaveAction"
         :loading="isParsingCSV"
         @click="processCSV"
-      >{{ $t('reusable.save') }}
+      >
+        {{ $t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('reusable.close') }}
+      >
+        {{ $t('reusable.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -122,7 +130,7 @@
 import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
-  name: 'upload-csv-popup',
+  name: 'UploadCsvPopup',
   mixins: [uploadCSVMixin],
   data: () => ({
     skipHeaders: true,

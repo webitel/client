@@ -3,17 +3,17 @@
     <wt-navigation-bar
       :current-app="currentApp"
       :nav="nav"
-    ></wt-navigation-bar>
+    />
     <wt-app-navigator
       :apps="apps"
       :current-app="currentApp"
-    ></wt-app-navigator>
+    />
     <wt-header-actions
       :build-info="buildInfo"
       :user="user"
       @logout="logoutUser"
       @settings="settings"
-    ></wt-header-actions>
+    />
   </wt-app-header>
 </template>
 
@@ -25,7 +25,7 @@ import navMixin from '../../../../app/mixins/navMixin';
 import router from '../../../../app/router/router';
 
 export default {
-  name: 'app-header',
+  name: 'AppHeader',
   mixins: [navMixin],
   inject: ['$config'],
   data: () => ({

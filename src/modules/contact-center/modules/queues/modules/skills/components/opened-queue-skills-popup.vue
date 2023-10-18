@@ -1,9 +1,13 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.skills.skills', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :clearable="false"
@@ -13,14 +17,14 @@
           :value="itemInstance.skill"
           required
           @input="setItemProp({ prop: 'skill', value: $event })"
-        ></wt-select>
+        />
         <wt-input
           :label="$t('objects.lookups.skills.lvl')"
           :v="v$.itemInstance.lvl"
           :value="itemInstance.lvl"
           type="number"
           @input="setItemProp({ prop: 'lvl', value: +$event })"
-        ></wt-input>
+        />
         <div class="input-row-wrap">
           <wt-input
             :custom-validators="minCapacityCustomValidator"
@@ -31,7 +35,7 @@
             :value="itemInstance.minCapacity"
             type="number"
             @input="setItemProp({ prop: 'minCapacity', value: +$event })"
-          ></wt-input>
+          />
           <wt-input
             :custom-validators="maxCapacityCustomValidator"
             :label="$t('objects.lookups.skills.maxCapacity')"
@@ -41,7 +45,7 @@
             :value="itemInstance.maxCapacity"
             type="number"
             @input="setItemProp({ prop: 'maxCapacity', value: +$event })"
-          ></wt-input>
+          />
         </div>
         <wt-select
           :close-on-select="false"
@@ -50,19 +54,21 @@
           :value="itemInstance.buckets"
           multiple
           @input="setItemProp({ prop: 'buckets', value: $event })"
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -77,14 +83,14 @@ import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentS
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {
-  name: 'opened-queue-skills-popup',
+  name: 'OpenedQueueSkillsPopup',
   mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'ccenter/queues/skills',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/queues/skills',
   }),
   validations: {
     itemInstance: {

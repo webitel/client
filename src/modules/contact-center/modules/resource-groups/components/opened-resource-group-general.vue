@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -21,13 +23,13 @@
         :value="itemInstance.communication"
         required
         @input="setItemProp({ prop: 'communication', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -38,7 +40,7 @@ import openedTabComponentMixin
 import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
 
 export default {
-  name: 'opened-resource-group-general',
+  name: 'OpenedResourceGroupGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

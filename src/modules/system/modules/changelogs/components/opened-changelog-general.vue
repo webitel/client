@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
@@ -13,7 +15,7 @@
         :value="itemInstance.object"
         required
         @input="setItemProp({ prop: 'object', value: $event })"
-      ></wt-select>
+      />
       <!--      <wt-select-->
       <!--        :value="itemInstance.storage"-->
       <!--        :search-method="getStorageList"-->
@@ -32,7 +34,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'daysToStore', value: +$event })"
-      ></wt-input>
+      />
       <!--      <wt-select-->
       <!--        :value="currentPeriod"-->
       <!--        :options="periodOptions"-->
@@ -46,7 +48,7 @@
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -58,7 +60,7 @@ import storage from '../../../../integrations/modules/storage/api/storage';
 import changelogs from '../api/changelogs';
 
 export default {
-  name: 'opened-changelog-general',
+  name: 'OpenedChangelogGeneral',
   mixins: [openedTabComponentMixin],
   computed: {
     currentPeriod() {

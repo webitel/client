@@ -1,12 +1,14 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.routing.gateways.trunkingACLTitle') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.routing.gateways.trunkingACLTitle') }}
+      </h3>
       <wt-icon-action
         v-if="!disableUserInput"
         action="add"
         @click="addVariable"
-      ></wt-icon-action>
+      />
     </header>
     <div class="object-input-grid grid-w50">
       <div class="variables">
@@ -23,7 +25,7 @@
             :track-by="null"
             :value="acl.proto"
             @input="setVariableProp({ index: key, prop: 'proto', value: $event })"
-          ></wt-select>
+          />
           <wt-input
             :disabled="disableUserInput"
             :label="$t('objects.routing.ip')"
@@ -31,20 +33,20 @@
             :value="acl.ip"
             required
             @input="setVariableProp({ index: key, prop: 'ip', value: $event })"
-          ></wt-input>
+          />
           <wt-input
             :disabled="disableUserInput"
             :label="$t('objects.routing.port')"
             :value="acl.port"
             type="number"
             @input="setVariableProp({ index: key, prop: 'port', value: $event })"
-          ></wt-input>
+          />
           <wt-icon-action
             v-if="!disableUserInput"
             action="delete"
             class="table-action"
             @click="deleteVariable(key)"
-          ></wt-icon-action>
+          />
         </div>
       </div>
     </div>
@@ -56,7 +58,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-sip-gateway-trunking-configuration',
+  name: 'OpenedSipGatewayTrunkingConfiguration',
   mixins: [openedTabComponentMixin],
   data: () => ({
     protocolList: ['any', 'udp', 'tcp'],

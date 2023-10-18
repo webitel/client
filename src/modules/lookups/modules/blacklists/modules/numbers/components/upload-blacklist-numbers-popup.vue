@@ -4,7 +4,7 @@
     :file="file"
     :mapping-fields="mappingFields"
     @close="close"
-  ></upload-csv-popup>
+  />
 </template>
 
 <script>
@@ -13,7 +13,7 @@ import uploadCSVWrapperComponentMixin
 import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 export default {
-  name: 'upload-users-popup',
+  name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   props: {
     parentId: {

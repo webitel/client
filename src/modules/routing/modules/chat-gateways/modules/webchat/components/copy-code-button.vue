@@ -99,7 +99,7 @@ const generateCode = (config) => `
     `;
 
 export default {
-  name: 'copy-code-button',
+  name: 'CopyCodeButton',
   props: {
     itemInstance: {
       type: Object,

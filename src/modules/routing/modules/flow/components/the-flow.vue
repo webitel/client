@@ -1,43 +1,45 @@
 <template>
   <wt-page-wrapper>
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <the-flow-filters
         :namespace="filtersNamespace"
-      ></the-flow-filters>
+      />
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <create-flow-popup
         v-if="isCreateFlowPopup"
         @close="isCreateFlowPopup = false"
-      ></create-flow-popup>
+      />
       <upload-popup
         v-if="isUploadPopup"
         :file="jsonFile"
         @close="closeUploadPopup"
-      ></upload-popup>
+      />
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.routing.flow.allFlowSchemas') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.routing.flow.allFlowSchemas') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <filter-search
               :namespace="filtersNamespace"
-            ></filter-search>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -47,18 +49,18 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 accept=".json"
                 class="icon-action"
                 @change="processJSON"
-              ></upload-file-icon-btn>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <!--        <wt-dummy-->
         <!--          v-if="dummy && isLoaded"-->
         <!--          :src="dummy.src"-->
@@ -78,12 +80,12 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:editor="{ item }">
+            <template #editor="{ item }">
               <div v-if="item.editor">
                 {{ $t('objects.routing.flow.diagram.diagram') }}
               </div>
@@ -91,44 +93,48 @@
                 {{ $t('objects.routing.flow.code.code') }}
               </div>
             </template>
-            <template v-slot:type="{ item }">
+            <template #type="{ item }">
               {{ item.type ? $t(`objects.flow.type.${item.type}`) : '' }}
             </template>
-            <template v-slot:tags="{ item }">
-              <div v-if="item.tags" class="the-flow__tags">
+            <template #tags="{ item }">
+              <div
+                v-if="item.tags"
+                class="the-flow__tags"
+              >
                 <wt-chip
                   v-for="(tag, key) of item.tags"
                   :key="key"
-                >{{ tag.name }}
+                >
+                  {{ tag.name }}
                 </wt-chip>
               </div>
             </template>
 
 
-            <template v-slot:createdAt="{ item }">
+            <template #createdAt="{ item }">
               {{ new Date(+item.createdAt).toLocaleDateString() }}
             </template>
 
-            <template v-slot:updatedAt="{ item }">
+            <template #updatedAt="{ item }">
               {{ new Date(+item.updatedAt).toLocaleDateString() }}
             </template>
 
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 action="download"
                 @click="download(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -140,7 +146,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -162,8 +168,7 @@ import UploadPopup from './upload-flow-popup.vue';
 const namespace = 'routing/flow';
 
 export default {
-  name: 'the-flow',
-  mixins: [tableComponentMixin],
+  name: 'TheFlow',
   components: {
     CreateFlowPopup,
     UploadPopup,
@@ -171,6 +176,7 @@ export default {
     TheFlowFilters,
     FilterSearch,
   },
+  mixins: [tableComponentMixin],
   data: () => ({
     namespace,
     routeName: RouteNames.FLOW,
@@ -196,6 +202,13 @@ export default {
     },
     filtersNamespace() {
       return `${this.namespace}/filters`;
+    },
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
     },
   },
   methods: {
@@ -230,13 +243,6 @@ export default {
           editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
         },
       };
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
     },
   },
 };

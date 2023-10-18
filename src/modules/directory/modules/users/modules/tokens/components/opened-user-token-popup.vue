@@ -1,22 +1,28 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.directory.users.token', 2) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form @submit.prevent="save">
         <wt-input
           :label="$t('objects.name')"
           :value="itemInstance.usage"
           @input="setItemProp({ prop: 'usage', value: $event })"
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -28,7 +34,7 @@ import { mapActions } from 'vuex';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'opened-user-tokens-popup',
+  name: 'OpenedUserTokensPopup',
   mixins: [nestedObjectMixin],
   data: () => ({
     namespace: 'directory/users/tokens',

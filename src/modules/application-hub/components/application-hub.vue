@@ -5,7 +5,7 @@
       :class="{ 'application-hub--sm': $breakpoint.smAndDown}"
       class="application-hub"
     >
-      <div class="application-hub__background"></div>
+      <div class="application-hub__background" />
       <ul class="application-hub__list">
         <li
           v-for="(app, key) of apps"
@@ -134,7 +134,7 @@ const picCrm = {
 };
 
 export default {
-  name: 'the-application-hub',
+  name: 'TheApplicationHub',
   components: { CcHeader },
   inject: ['$config'],
   computed: {

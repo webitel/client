@@ -1,20 +1,22 @@
 <template>
   <section class="content-wrapper">
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.system.changelogs.logs.logs', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.system.changelogs.logs.logs', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-icon-action
           action="download"
           @click="exportCSV({ parentId })"
-        ></wt-icon-action>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
+        />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <!--    <wt-dummy-->
     <!--      v-if="dummy && isLoaded"-->
     <!--      :src="dummy.src"-->
@@ -33,24 +35,25 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:action="{ item }">
+        <template #action="{ item }">
           {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
-        <template v-slot:date="{ item }">
+        <template #date="{ item }">
           {{ new Date(+item.date).toLocaleString() }}
         </template>
-        <template v-slot:object="{ item }">
+        <template #object="{ item }">
           <wt-item-link
             v-if="item.object"
             :id="item.configId"
             :route-name="changelogsRouteName"
-          >{{ item.object.name }}
+          >
+            {{ item.object.name }}
           </wt-item-link>
         </template>
-        <template v-slot:record="{ item }">
+        <template #record="{ item }">
           <record-link
             :item="item"
-          ></record-link>
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -62,7 +65,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -81,9 +84,9 @@ const namespace = 'directory/users';
 const subNamespace = 'logs';
 
 export default {
-  name: 'opened-users-logs',
-  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
+  name: 'OpenedUsersLogs',
   components: { RecordLink },
+  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   data: () => ({
     namespace,
     subNamespace,

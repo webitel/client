@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.storage.backblaze') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.storage.backblaze') }}
+      </h3>
     </header>
     <form class="object-input-grid">
       <form-input
@@ -9,25 +11,25 @@
         :label="$t('objects.integrations.storage.backblazeAccount')"
         :v="v.itemInstance.account"
         required
-      ></form-input>
+      />
       <form-input
         v-model="key"
         :label="$t('objects.integrations.storage.backblazeKey')"
         :v="v.itemInstance.key"
         required
-      ></form-input>
+      />
       <form-input
         v-model="bucket"
         :label="$t('objects.integrations.storage.bucket')"
         :v="v.itemInstance.bucket"
         required
-      ></form-input>
+      />
       <form-input
         v-model="bucketId"
         :label="$t('objects.integrations.storage.backblazeBucketId')"
         :v="v.itemInstance.bucketId"
         required
-      ></form-input>
+      />
     </form>
   </section>
 </template>
@@ -38,7 +40,7 @@ import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-storage-backblaze',
+  name: 'OpenedStorageBackblaze',
   mixins: [openedTabComponentMixin],
 
   computed: {

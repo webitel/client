@@ -4,7 +4,7 @@
     :add-bulk-items="saveBulkData"
     :file="file"
     @close="close"
-  ></upload-csv-popup>
+  />
 </template>
 
 <script>
@@ -15,7 +15,7 @@ import ImportCsvMemberMappings
 import normalizeCsvMembers from '../mixins/normalizeCsvMembers';
 
 export default {
-  name: 'upload-members-popup',
+  name: 'UploadMembersPopup',
   mixins: [uploadCSVWrapperComponentMixin, normalizeCsvMembers],
   props: {
     parentId: {

@@ -1,24 +1,26 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.lookups.blacklist.allBlacklists') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.lookups.blacklist.allBlacklists') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -26,7 +28,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -36,12 +38,12 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -49,7 +51,7 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -61,30 +63,30 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:numbers="{ item }">
+            <template #numbers="{ item }">
               {{ item.count }}
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 action="download"
                 @click="download(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -96,7 +98,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -114,17 +116,17 @@ import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 const namespace = 'lookups/blacklists';
 
 export default {
-  name: 'the-blacklists',
+  name: 'TheBlacklists',
   mixins: [exportCSVMixin, tableComponentMixin],
-  data: () => ({
-    namespace,
-    routeName: RouteNames.BLACKLIST,
-  }),
 
   setup() {
     const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.BLACKLIST,
+  }),
 
   computed: {
     path() {
@@ -135,15 +137,15 @@ export default {
     },
   },
 
+  created() {
+    this.initCSVExport(this.getBlacklistNumbersList, { filename: 'numbers' });
+  },
+
   methods: {
     async download({ id }) {
       return this.exportCSV({ parentId: id, fields: ['number', 'description'] });
     },
     getBlacklistNumbersList: BlacklistNumbersAPI.getList,
-  },
-
-  created() {
-    this.initCSVExport(this.getBlacklistNumbersList, { filename: 'numbers' });
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <wt-page-wrapper
     :actions-panel="!!currentTab.filters"
   >
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -10,18 +10,18 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <component
         :is="currentTab.filters"
         :namespace="currentTab.filtersNamespace"
-      ></component>
+      />
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -29,13 +29,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -55,8 +58,7 @@ import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
 
 export default {
-  name: 'opened-user',
-  mixins: [openedObjectMixin],
+  name: 'OpenedUser',
   components: {
     General,
     Roles,
@@ -67,12 +69,13 @@ export default {
     Logs,
     LogsFilters,
   },
-  data: () => ({
-    namespace: 'directory/users',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'directory/users',
   }),
   validations: {
     itemInstance: {

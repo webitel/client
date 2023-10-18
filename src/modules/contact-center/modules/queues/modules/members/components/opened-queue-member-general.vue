@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <form class="object-input-grid">
       <wt-input
@@ -11,21 +13,21 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.priority')"
         :value="itemInstance.priority"
         type="number"
         @input="setItemProp({ prop: 'priority', value: +$event })"
-      ></wt-input>
+      />
       <wt-datepicker
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.expire')"
         :value="itemInstance.expireAt"
         mode="datetime"
         @input="setItemProp({ prop: 'expireAt', value: $event })"
-      ></wt-datepicker>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -33,21 +35,21 @@
         :search-method="loadDropdownOptionsTimezoneList"
         :value="itemInstance.timezone"
         @input="setItemProp({ prop: 'timezone', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.lookups.buckets.buckets', 1)"
         :search-method="loadDropdownOptionsBucketsList"
         :value="itemInstance.bucket"
         @input="setItemProp({ prop: 'bucket', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.ccenter.agents.agents', 1)"
         :search-method="loadDropdownOptionsAgentsList"
         :value="itemInstance.agent"
         @input="setItemProp({ prop: 'agent', value: $event })"
-      ></wt-select>
+      />
     </form>
   </section>
 </template>
@@ -60,7 +62,7 @@ import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calend
 import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: 'opened-queue-member-general',
+  name: 'OpenedQueueMemberGeneral',
   mixins: [openedTabComponentMixin],
   computed: {
     disableUserInput() {

@@ -1,24 +1,29 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="dialplan">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="dialplan"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.routing.dialplan.dialplanRules') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.routing.dialplan.dialplanRules') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -26,7 +31,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -36,12 +41,12 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -49,7 +54,7 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -62,36 +67,37 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:pattern="{ item }">
+            <template #pattern="{ item }">
               {{ item.pattern }}
             </template>
-            <template v-slot:schema="{ item }">
+            <template #schema="{ item }">
               <wt-item-link
                 v-if="item.schema"
                 :id="item.schema.id"
                 :route-name="RouteNames.FLOW"
-              >{{ item.schema.name }}
+              >
+                {{ item.schema.name }}
               </wt-item-link>
             </template>
-            <template v-slot:state="{ item, index }">
+            <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="!item.disabled"
                 @change="patchProperty({index, prop: 'disabled', value: !$event})"
-              ></wt-switcher>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-tooltip class="table-action dialplan__draggable-icon">
-                <template v-slot:activator>
+                <template #activator>
                   <wt-icon-btn
                     v-if="hasEditAccess"
                     icon="move"
-                  ></wt-icon-btn>
+                  />
                 </template>
                 {{ $t('iconHints.draggable') }}
               </wt-tooltip>
@@ -99,13 +105,13 @@
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -117,7 +123,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -157,17 +163,17 @@ const sortableConfig = {
 const namespace = 'routing/dialplan';
 
 export default {
-  name: 'the-dialplan',
+  name: 'TheDialplan',
   mixins: [tableComponentMixin],
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     routeName: RouteNames.DIALPLAN,
     sortableInstance: null,
   }),
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
   computed: {
     path() {
       return [
@@ -218,7 +224,7 @@ export default {
   mounted() {
     this.initSortable();
   },
-  destroyed() {
+  unmounted() {
     this.destroySortable();
   },
 };

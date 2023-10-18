@@ -1,11 +1,16 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.triggers.logs.logs') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.triggers.logs.logs') }}
+      </h3>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -14,13 +19,13 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:startedAt="{ item }">
+        <template #startedAt="{ item }">
           {{ formatDate(item.startedAt) }}
         </template>
-        <template v-slot:duration="{ item }">
+        <template #duration="{ item }">
           {{ calcDuration(item) }}
         </template>
-        <template v-slot:state="{ item }">
+        <template #state="{ item }">
           {{ $t(`objects.integrations.triggers.logs.resultName.${item.state}`) }}
         </template>
       </wt-table>
@@ -33,7 +38,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -44,7 +49,7 @@ import openedObjectTableTabMixin
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
 export default {
-  name: 'opened-trigger-logs',
+  name: 'OpenedTriggerLogs',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'log',
@@ -52,6 +57,13 @@ export default {
   computed: {
     filtersNamespace() {
       return `${this.namespace}/${this.subNamespace}/filters`;
+    },
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
     },
   },
   methods: {
@@ -62,13 +74,6 @@ export default {
 
     calcDuration(item) {
       return convertDurationWithMilliseconds(item.stoppedAt - item.startedAt);
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
     },
   },
 };

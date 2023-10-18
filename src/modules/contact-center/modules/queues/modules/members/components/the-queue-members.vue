@@ -1,17 +1,18 @@
 <template>
   <wt-page-wrapper class="members">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasEditAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
-        <template v-slot:primary-action>
+        <template #primary-action>
           <wt-button-select
             :options="saveOptions"
             @click="create"
             @click:option="({ callback }) => callback()"
-          >{{ $t('objects.add') }}
+          >
+            {{ $t('objects.add') }}
           </wt-button-select>
           <input
             ref="file-input"
@@ -21,58 +22,60 @@
             @change="inputFileHandler"
           >
         </template>
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <the-queue-members-filters
         :namespace="filtersNamespace"
-      ></the-queue-members-filters>
+      />
     </template>
-    <template v-slot:main>
+    <template #main>
       <destinations-popup
         v-if="isDestinationsPopup"
         :communications="communicationsOnPopup"
         @close="closeDestinationsPopup"
-      ></destinations-popup>
+      />
 
       <upload-popup
         v-if="hasEditAccess && isUploadPopup"
         :file="csvFile"
         :parent-id="parentId"
         @close="closeCSVPopup"
-      ></upload-popup>
+      />
 
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <reset-popup
         v-if="hasEditAccess && isResetPopup"
         :callback="resetMembers"
         @close="closeResetPopup"
-      ></reset-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.members.allMembers') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.ccenter.members.allMembers') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <filter-search
               :namespace="filtersNamespace"
-            ></filter-search>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
               <wt-tooltip v-if="hasEditAccess">
-                <template v-slot:activator>
+                <template #activator>
                   <wt-icon-btn
                     icon="member-reset"
                     icon-prefix="adm"
                     @click="openResetPopup"
-                  ></wt-icon-btn>
+                  />
                 </template>
                 {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
               </wt-tooltip>
@@ -81,17 +84,17 @@
                 :options="deleteOptions"
                 @click="$event.option.method.call()"
               >
-                <template v-slot:activator>
+                <template #activator>
                   <wt-icon-action
                     action="delete"
-                  ></wt-icon-action>
+                  />
                 </template>
               </wt-context-menu>
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <!--        <wt-dummy-->
         <!--          v-if="dummy && isLoaded"-->
         <!--          :src="dummy.src"-->
@@ -109,23 +112,23 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:createdAt="{ item }">
+            <template #createdAt="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
             </template>
-            <template v-slot:offeringAt="{ item }">
+            <template #offeringAt="{ item }">
               <div v-if="item.minOfferingAt">
                 {{ prettifyDateTime(item.minOfferingAt) }}
               </div>
             </template>
-            <template v-slot:priority="{ item }">
+            <template #priority="{ item }">
               {{ item.priority }}
             </template>
-            <template v-slot:endCause="{ item }">
+            <template #endCause="{ item }">
               <div v-if="item.stopCause">
                 {{
                   $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
@@ -134,8 +137,11 @@
                 }}
               </div>
             </template>
-            <template v-slot:destination="{ item }">
-              <div v-if="item.communications.length" class="members__destinations-wrapper">
+            <template #destination="{ item }">
+              <div
+                v-if="item.communications.length"
+                class="members__destinations-wrapper"
+              >
                 {{ item.communications[0].destination }}
                 <span
                   v-if="item.communications.length > 1"
@@ -144,28 +150,29 @@
                 >+{{ item.communications.length - 1 }}</span>
               </div>
             </template>
-            <template v-slot:type="{ item }">
+            <template #type="{ item }">
               {{ item.type }}
             </template>
-            <template v-slot:agent="{ item }">
+            <template #agent="{ item }">
               <wt-item-link
                 v-if="item.agent"
                 :id="item.agent.id"
                 :route-name="RouteNames.AGENTS"
-              >{{ item.agent.name }}
+              >
+                {{ item.agent.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -177,7 +184,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -197,8 +204,7 @@ import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
 
 export default {
-  name: 'the-queue-members',
-  mixins: [tableComponentMixin],
+  name: 'TheQueueMembers',
   components: {
     FilterSearch,
     uploadPopup,
@@ -206,6 +212,7 @@ export default {
     ResetPopup,
     TheQueueMembersFilters,
   },
+  mixins: [tableComponentMixin],
   data: () => ({
     namespace: 'ccenter/queues/members',
     isUploadPopup: false,

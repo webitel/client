@@ -4,25 +4,29 @@
     min-width="480"
     @close="close"
   >
-    <template v-slot:title>{{ $t('objects.deleteConfirmation.title') }}</template>
-    <template v-slot:main>
+    <template #title>
+      {{ $t('objects.deleteConfirmation.title') }}
+    </template>
+    <template #main>
       <p>
         {{ deleteMessage }}
         {{ $t('objects.deleteConfirmation.undoneActionAlert') }}
       </p>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="isDeleting"
         color="secondary"
         @click="cancel"
-      >{{ $t('reusable.cancel') }}
+      >
+        {{ $t('reusable.cancel') }}
       </wt-button>
       <wt-button
         :loading="isDeleting"
         color="error"
         @click="confirm"
-      >{{ $t('reusable.delete') }}
+      >
+        {{ $t('reusable.delete') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -30,7 +34,7 @@
 
 <script>
 export default {
-  name: 'delete-confirmation-popup',
+  name: 'DeleteConfirmationPopup',
   props: {
     payload: {
       type: Object,

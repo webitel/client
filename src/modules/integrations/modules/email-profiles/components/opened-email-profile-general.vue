@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('vocabulary.login')"
@@ -19,13 +21,13 @@
         :value="itemInstance.login"
         required
         @input="setItemProp({ prop: 'login', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.password')"
         :value="itemInstance.password"
         @input="setItemProp({ prop: 'password', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.mailbox')"
@@ -33,7 +35,7 @@
         :value="itemInstance.mailbox"
         required
         @input="setItemProp({ prop: 'mailbox', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.imapHost')"
@@ -41,7 +43,7 @@
         :value="itemInstance.imapHost"
         required
         @input="setItemProp({ prop: 'imapHost', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.imapPort')"
@@ -52,7 +54,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'imapPort', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.smtpHost')"
@@ -60,7 +62,7 @@
         :value="itemInstance.smtpHost"
         required
         @input="setItemProp({ prop: 'smtpHost', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.smtpPort')"
@@ -71,7 +73,7 @@
         required
         type="number"
         @input="setItemProp({ prop: 'smtpPort', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -81,20 +83,20 @@
         :value="itemInstance.schema"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
-      ></wt-select>
+      />
       <wt-timepicker
         :disabled="disableUserInput"
         :label="$t('objects.integrations.emailProfiles.fetchInterval')"
         :v="v.itemInstance.fetchInterval"
         :value="itemInstance.fetchInterval"
         @input="setItemProp({ prop: 'fetchInterval', value: +$event })"
-      ></wt-timepicker>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -105,7 +107,7 @@ import openedTabComponentMixin
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: 'opened-email-profile-general',
+  name: 'OpenedEmailProfileGeneral',
   mixins: [openedTabComponentMixin],
   data: () => ({}),
   methods: {

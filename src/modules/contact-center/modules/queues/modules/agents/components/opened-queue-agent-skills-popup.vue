@@ -1,9 +1,12 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.skills.skills', 2) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <section>
         <wt-table
           :data="dataList"
@@ -11,7 +14,7 @@
           :headers="headers"
           :selectable="false"
         >
-          <template v-slot:skill="{ item }">
+          <template #skill="{ item }">
             {{ item.name }}
           </template>
         </wt-table>
@@ -24,7 +27,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'opened-queue-agent-skills-popup',
+  name: 'OpenedQueueAgentSkillsPopup',
   props: {
     itemId: {
       required: true,

@@ -1,9 +1,12 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.buckets.buckets', 2) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <section class="agent-buckets-popup">
         <wt-table
           :data="dataList"
@@ -11,7 +14,7 @@
           :headers="headers"
           :selectable="false"
         >
-          <template v-slot:bucket="{ item }">
+          <template #bucket="{ item }">
             {{ item.name }}
           </template>
         </wt-table>
@@ -24,7 +27,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'opened-queue-skills-buckets-popup',
+  name: 'OpenedQueueSkillsBucketsPopup',
   props: {
     itemId: {
       required: true,

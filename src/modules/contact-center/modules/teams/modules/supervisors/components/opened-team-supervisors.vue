@@ -3,20 +3,22 @@
     <supervisor-popup
       v-if="isSupervisorPopup"
       @close="closePopup"
-    ></supervisor-popup>
+    />
     <supervisor-subordinates-popup
       v-if="isSupervisorSubordinatesPopup"
       :item-id="supervisorId"
       @close="closeSubordinates"
-    ></supervisor-subordinates-popup>
+    />
     <delete-confirmation-popup
       v-show="deleteConfirmation.isDeleteConfirmationPopup"
       :payload="deleteConfirmation"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.agents.supervisors', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.ccenter.agents.supervisors', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -24,7 +26,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -34,24 +36,24 @@
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></delete-all-action>
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
       class="table-wrapper"
@@ -63,7 +65,7 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           <wt-item-link
             :link="editLink(item)"
             target="_blank"
@@ -72,25 +74,25 @@
           </wt-item-link>
         </template>
 
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-tooltip class="table-action">
-            <template v-slot:activator>
+            <template #activator>
               <wt-icon-btn
                 icon="queue-member"
                 @click="openSubordinates(item)"
-              ></wt-icon-btn>
+              />
             </template>
             {{ $tc('objects.ccenter.agents.subordinates', 2) }}
           </wt-tooltip>
           <wt-icon-action
             action="edit"
             @click="edit(item)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -102,7 +104,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -119,9 +121,14 @@ const namespace = 'ccenter/teams';
 const subNamespace = 'supervisors';
 
 export default {
-  name: 'opened-team-supervisors',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedTeamSupervisors',
   components: { SupervisorPopup, SupervisorSubordinatesPopup },
+  mixins: [openedObjectTableTabMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     subNamespace,
@@ -130,11 +137,6 @@ export default {
     isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
 
   methods: {
     openSubordinates({ id }) {

@@ -1,7 +1,9 @@
 <template>
   <section class="opened-calendar-work-week">
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.lookups.calendars.workWeek') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.lookups.calendars.workWeek') }}
+      </h3>
     </header>
 
     <div class="table-wrapper">
@@ -12,45 +14,45 @@
           :headers="headers"
           :selectable="false"
         >
-          <template v-slot:name="{ item, index }">
+          <template #name="{ item, index }">
             <span v-if="isDayStart(index)">
               {{ weekdaysList[item.day] }}
             </span>
           </template>
-          <template v-slot:start="{ item, index }">
+          <template #start="{ item, index }">
             <wt-timepicker
               :disabled="disableUserInput"
               :value="minToSec(item.start)"
               format="hh:mm"
               @input="setItemProp({prop: 'start', index, value: secToMin($event)})"
-            ></wt-timepicker>
+            />
           </template>
-          <template v-slot:end="{ item, index }">
+          <template #end="{ item, index }">
             <wt-timepicker
               :disabled="disableUserInput"
               :value="minToSec(item.end)"
               format="hh:mm"
               @input="setItemProp({prop: 'end', index, value: secToMin($event)})"
-            ></wt-timepicker>
+            />
           </template>
-          <template v-slot:state="{ item, index }">
+          <template #state="{ item, index }">
             <wt-switcher
               :disabled="disableUserInput"
               :value="!item.disabled"
               @change="setItemProp({prop: 'disabled', index, value: !$event})"
-            ></wt-switcher>
+            />
           </template>
-          <template v-slot:actions="{ item, index }">
+          <template #actions="{ item, index }">
             <wt-icon-action
               v-if="isDayStart(index)"
               action="add"
               @click="addWorkRange(item.day)"
-            ></wt-icon-action>
+            />
             <wt-icon-action
               v-else
               action="delete"
               @click="remove(index)"
-            ></wt-icon-action>
+            />
           </template>
         </wt-table>
       </div>
@@ -64,7 +66,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-calendar-work-week',
+  name: 'OpenedCalendarWorkWeek',
   mixins: [openedTabComponentMixin],
   computed: {
     ...mapState('lookups/calendars', {

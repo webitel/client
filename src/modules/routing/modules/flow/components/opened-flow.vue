@@ -4,9 +4,12 @@
     :namespace="namespace"
     @close="close"
     @save="saveDiagram"
-  ></diagram>
-  <wt-page-wrapper v-else :actions-panel="false">
-    <template v-slot:header>
+  />
+  <wt-page-wrapper
+    v-else
+    :actions-panel="false"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -14,11 +17,11 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -26,13 +29,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -47,18 +53,18 @@ import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 
 export default {
-  name: 'opened-flow',
-  mixins: [openedObjectMixin],
+  name: 'OpenedFlow',
   components: {
     Diagram,
     JsonSchema,
   },
-  data: () => ({
-    namespace: 'routing/flow',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'routing/flow',
   }),
   validations: {
     itemInstance: {

@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -21,33 +23,33 @@
         :value="itemInstance.timezone"
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
-      ></wt-select>
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.fulltime')"
         :value="itemInstance.expires"
         @change="setItemProp({ prop: 'expires', value: $event })"
-      ></wt-switcher>
+      />
       <wt-datepicker
         v-show="itemInstance.expires"
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.start')"
         :value="itemInstance.startAt"
         @input="setItemProp({ prop: 'startAt', value: $event })"
-      ></wt-datepicker>
+      />
       <wt-datepicker
         v-show="itemInstance.expires"
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.end')"
         :value="itemInstance.endAt"
         @input="setItemProp({ prop: 'endAt', value: $event })"
-      ></wt-datepicker>
+      />
     </div>
   </section>
 </template>
@@ -58,7 +60,7 @@ import openedTabComponentMixin
 import CalendarsAPI from '../api/calendars';
 
 export default {
-  name: 'opened-calendar-general',
+  name: 'OpenedCalendarGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadTimezones(params) {

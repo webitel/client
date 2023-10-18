@@ -4,7 +4,7 @@
     :file="file"
     :mapping-fields="mappingFields"
     @close="close"
-  ></upload-csv-popup>
+  />
 </template>
 
 <script>
@@ -12,7 +12,7 @@ import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup
 import UsersAPI from '../api/users';
 
 export default {
-  name: 'upload-users-popup',
+  name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   data: () => ({
     mappingFields: [

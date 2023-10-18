@@ -2,10 +2,10 @@
   <wt-filters-panel-wrapper @reset="resetFilters">
     <flow-tags-filter
       :namespace="namespace"
-    ></flow-tags-filter>
+    />
     <flow-type-filter
       :namespace="namespace"
-    ></flow-type-filter>
+    />
   </wt-filters-panel-wrapper>
 </template>
 
@@ -15,7 +15,7 @@ import FlowTagsFilter from './flow-tags-filter.vue';
 import FlowTypeFilter from './flow-type-filter.vue';
 
 export default {
-  name: 'the-flow-filters',
+  name: 'TheFlowFilters',
   components: {
     FlowTagsFilter,
     FlowTypeFilter,

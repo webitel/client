@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.directory.devices.devices', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.directory.devices.devices', 2) }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
@@ -13,7 +15,7 @@
         track-by="id"
         @input="setItemProp({ prop: 'device', value: $event })"
         @reset="setItemProp({ prop: 'device', value: {} })"
-      ></wt-select>
+      />
       <div>
         <wt-select
           :close-on-select="false"
@@ -23,11 +25,14 @@
           :value="itemInstance.devices"
           multiple
           @input="setItemProp({ prop: 'devices', value: $event })"
-        ></wt-select>
+        />
 
         <div class="hint-link__wrap">
           <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
-          <router-link class="hint-link__link" to="/directory/devices/new">
+          <router-link
+            class="hint-link__link"
+            to="/directory/devices/new"
+          >
             {{ $t('objects.directory.users.createNewDevice') }}
           </router-link>
         </div>
@@ -42,7 +47,7 @@ import openedTabComponentMixin
 import DevicesAPI from '../../devices/api/devices';
 
 export default {
-  name: 'opened-user-devices',
+  name: 'OpenedUserDevices',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(params) {

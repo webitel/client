@@ -1,40 +1,45 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="devices">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="devices"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <history-popup
         v-if="historyId"
         @close="closeHistoryPopup"
-      ></history-popup>
+      />
 
       <upload-popup
         v-if="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
-      ></upload-popup>
+      />
 
       <device-popup
         v-if="isDeviceSelectPopup"
         @close="isDeviceSelectPopup = false"
-      ></device-popup>
+      />
 
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
         :payload="deleteConfirmation"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.directory.devices.allDevices') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.directory.devices.allDevices') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -42,7 +47,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -52,18 +57,18 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="callDelete(selectedRows)"
-              ></delete-all-action>
+              />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 accept=".csv"
                 class="icon-action"
                 @change="processCSV"
-              ></upload-file-icon-btn>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -71,7 +76,7 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -83,18 +88,17 @@
             sortable
             @sort="sort"
           >
-
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:account="{ item }">
+            <template #account="{ item }">
               {{ item.account }}
             </template>
 
-            <template v-slot:user="{ item }">
+            <template #user="{ item }">
               <wt-item-link
                 v-if="item.user"
                 :id="item.user.id"
@@ -105,30 +109,30 @@
             </template>
 
             <!--state classes are specified in table-status component-->
-            <template v-slot:state="{ item }">
+            <template #state="{ item }">
               <wt-indicator
                 :color="stateClass(item.reged ? 1 : 0)"
                 :text="stateText(item.reged ? 1 : 0)"
-              ></wt-indicator>
+              />
             </template>
 
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 action="history"
                 class="table-action"
                 @click="openHistory(item.id)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
                 @click="callDelete(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -140,7 +144,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -161,13 +165,18 @@ import UploadPopup from './upload-devices-popup.vue';
 const namespace = 'directory/devices';
 
 export default {
-  name: 'the-devices',
-  mixins: [tableComponentMixin],
+  name: 'TheDevices',
   components: {
     HistoryPopup,
     UploadPopup,
     DevicePopup,
     UploadFileIconBtn,
+  },
+  mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    return { dummy };
   },
   data: () => ({
     namespace,
@@ -175,11 +184,6 @@ export default {
     isDeviceSelectPopup: false,
     csvFile: null,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     ...mapState({

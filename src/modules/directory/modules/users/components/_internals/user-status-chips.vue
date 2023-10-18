@@ -3,29 +3,33 @@
     <wt-chip
       :color="isWeb ? 'main' : 'outline'"
       class="user-status-chips__chips"
-    >Web
+    >
+      Web
     </wt-chip>
     <wt-chip
       :color="isSip ? 'main' : 'outline'"
       class="user-status-chips__chips"
-    >SIP
+    >
+      SIP
     </wt-chip>
     <wt-chip
       :color="isDlg ? 'main' : 'outline'"
       class="user-status-chips__chips"
-    >Dlg
+    >
+      Dlg
     </wt-chip>
     <wt-chip
       :color="isDnd ? 'main' : 'outline'"
       class="user-status-chips__chips"
-    >DnD
+    >
+      DnD
     </wt-chip>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'user-status-chips',
+  name: 'UserStatusChips',
   props: {
     presence: {
       type: Object,

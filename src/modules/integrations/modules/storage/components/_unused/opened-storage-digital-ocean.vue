@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.storage.digitalOcean') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.storage.digitalOcean') }}
+      </h3>
     </header>
     <form class="object-input-grid">
       <form-input
@@ -9,26 +11,26 @@
         :label="$t('objects.integrations.storage.oceanKey')"
         :v="v.itemInstance.properties.keyId"
         required
-      ></form-input>
+      />
       <form-input
         v-model="accessKey"
         :label="$t('objects.integrations.storage.oceanAccess')"
         :v="v.itemInstance.properties.accessKey"
         required
-      ></form-input>
+      />
       <form-input
         v-model="bucketName"
         :label="$t('objects.integrations.storage.bucket')"
         :v="v.itemInstance.properties.bucketName"
         required
-      ></form-input>
+      />
       <dropdown-select
         v-model="region"
         :label="$t('objects.integrations.storage.region')"
         :options="DigitalOceanRegions"
         :v="v.itemInstance.properties.region"
         required
-      ></dropdown-select>
+      />
     </form>
   </section>
 </template>
@@ -40,7 +42,7 @@ import openedTabComponentMixin
 import { DigitalOceanRegions } from '../../api/storage';
 
 export default {
-  name: 'opened-storage-digital-ocean',
+  name: 'OpenedStorageDigitalOcean',
   mixins: [openedTabComponentMixin],
   data() {
     return {

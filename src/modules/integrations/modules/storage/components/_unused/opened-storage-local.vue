@@ -1,13 +1,15 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.storage.local') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.storage.local') }}
+      </h3>
     </header>
     <form class="object-input-grid">
       <form-input
         v-model="directory"
         :label="$t('objects.integrations.storage.localFolder')"
-      ></form-input>
+      />
     </form>
   </section>
 </template>
@@ -18,7 +20,7 @@ import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-storage-local',
+  name: 'OpenedStorageLocal',
   mixins: [openedTabComponentMixin],
 
   computed: {

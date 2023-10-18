@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.maxSize')"
@@ -20,7 +22,7 @@
         :value="itemInstance.maxSize"
         type="number"
         @input="setItemProp({ prop: 'maxSize', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.expireDays')"
@@ -29,7 +31,7 @@
         :value="itemInstance.expireDays"
         type="number"
         @input="setItemProp({ prop: 'expireDays', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.priority')"
@@ -38,7 +40,7 @@
         :value="itemInstance.priority"
         type="number"
         @input="setItemProp({ prop: 'priority', value: $event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -48,7 +50,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-storage-general',
+  name: 'OpenedStorageGeneral',
   mixins: [openedTabComponentMixin],
 };
 </script>

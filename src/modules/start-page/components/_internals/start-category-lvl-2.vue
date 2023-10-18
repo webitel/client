@@ -9,11 +9,12 @@
             start-nav__category-option--lvl-2
           "
     >
-      <span class="start-nav__category-indicator"></span>
+      <span class="start-nav__category-indicator" />
       <router-link
         :to="category.route"
         class="start-nav__link"
-      >{{ category.name }}
+      >
+        {{ category.name }}
       </router-link>
     </li>
   </ul>
@@ -21,7 +22,7 @@
 
 <script>
 export default {
-  name: 'start-category-lvl-2',
+  name: 'StartCategoryLvl2',
   props: {
     categories: {
       type: Array,
