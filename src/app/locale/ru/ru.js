@@ -959,6 +959,13 @@ export default {
         fetchInterval: 'Интервал обновления',
       },
 
+      singleSignOn: {
+        allTypes: 'Все типы',
+        // TODO: add locale
+        singleSignOn: 'Single Sign-on',
+        type: 'Тип',
+      },
+
       importCsv: {
         importCsv: 'Импорт данных из CSV файла | Импорт данных из CSV файлов',
         allImportsCsv: 'Все импорты данных из CSV файлов',

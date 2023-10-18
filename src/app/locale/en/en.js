@@ -964,9 +964,6 @@ export default {
         allTypes: 'All types',
         singleSignOn: 'Single Sign-on',
         type: 'Type',
-        clientId: 'Client id',
-        clientSecret: 'Client secret',
-        discoveryUrl: 'Discovery url',
       },
 
       importCsv: {

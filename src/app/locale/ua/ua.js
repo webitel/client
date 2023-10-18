@@ -959,7 +959,12 @@ export default {
         imapHost: 'IMAP Хост',
         fetchInterval: 'Інтервал оновлення',
       },
-
+      singleSignOn: {
+        allTypes: 'Всі типи',
+        // TODO: add locale
+        singleSignOn: 'Single Sign-on',
+        type: 'Тип',
+      },
       importCsv: {
         importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',
         allImportsCsv: 'Всі імпорти даних з CSV файлів',
