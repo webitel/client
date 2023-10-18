@@ -4,11 +4,11 @@
     overflow
     @close="close"
   >
-    <template v-slot:title>
+    <template #title>
       {{ id ? $t('reusable.edit') : $t('reusable.new') }}
       {{ $tc('settings.settings', 1).toLowerCase() }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           :value="itemInstance.name"
@@ -20,17 +20,20 @@
           :disabled="id"
           required
           @input="setDefaultValue"
-        ></wt-select>
+        />
         <div
           v-if="itemInstance.name"
         >
+          <!--          https://github.com/vuejs/core/issues/2279#issuecomment-701266701-->
           <component
-            v-bind="componentConfig"
-          ></component>
+            :is="componentConfig.component"
+            v-bind="componentConfig.bind"
+            v-on="componentConfig.on"
+          />
         </div>
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
@@ -48,6 +51,7 @@
 </template>
 
 <script>
+import deepmerge from 'deepmerge';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { EngineSystemSettingName } from 'webitel-sdk';
@@ -58,7 +62,7 @@ import SettingsAPI from '../api/settings';
 import SettingsValueTypes from '../utils/settingsValueTypes';
 
 export default {
-  name: 'settings-popup',
+  name: 'SettingsPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
     id: {
@@ -83,27 +87,29 @@ export default {
     },
     componentConfig() {
       const defaultConfig = {
-        value: this.itemInstance.value,
-        v: this.v$.itemInstance.value,
-        required: true,
-        label: this.$tc('vocabulary.values', 1),
+        bind: {
+          value: this.itemInstance.value,
+          v: this.v$.itemInstance.value,
+          required: true,
+          label: this.$tc('vocabulary.values', 1),
+        },
       };
 
-      const defaultBooleanConfig = {
-        ...defaultConfig,
-        is: 'wt-switcher',
-        'v-on': {
+      const defaultBooleanConfig = deepmerge(defaultConfig, {
+        component: 'wt-switcher',
+        on: {
           change: (event) => this.setItemProp({ prop: 'value', value: event }),
         },
-      };
-      const defaultNumberConfig = {
-        ...defaultConfig,
-        is: 'wt-input',
-        type: 'number',
-        'v-on': {
+      });
+      const defaultNumberConfig = deepmerge(defaultConfig, {
+        component: 'wt-input',
+        bind: {
+          type: 'number',
+        },
+        on: {
           input: (event) => this.setItemProp({ prop: 'value', value: event }),
         },
-      };
+      });
 
       switch (this.itemInstance.name) {
         case EngineSystemSettingName.EnableOmnichannel: {
