@@ -88,7 +88,7 @@ export default {
   }
 
   &:hover, &.active {
-    border-color: var(--accent-color);
+    border-color: var(--primary-color);
   }
 }
 

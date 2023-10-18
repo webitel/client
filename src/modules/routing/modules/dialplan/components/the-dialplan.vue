@@ -249,7 +249,7 @@ export default {
   }
 
   .wt-table .sortable-swap-highlight {
-    background: var(--accent-color);
+    background: var(--primary-color);
   }
 }
 </style>

@@ -6,8 +6,8 @@ import OpenedQueue from '../opened-queue.vue';
 
 describe('OpenedQueue', () => {
   it('renders a component', () => {
-    const mock = jest.fn();
-    jest.spyOn(OpenedQueue.methods, 'loadPageData').mockImplementation(mock);
+    const mock = vi.fn();
+    vi.spyOn(OpenedQueue.methods, 'loadPageData').mockImplementation(mock);
     const wrapper = shallowMount(OpenedQueue, deepmerge.all([
       openedObjectMixinMock(),
       {},

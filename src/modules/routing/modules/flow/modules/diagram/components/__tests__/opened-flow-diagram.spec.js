@@ -11,6 +11,7 @@ describe('OpenedFlowDiagram', () => {
   };
 
   it('renders a component', () => {
+    vi.spyOn(OpenedFlowDiagram.methods, 'initDiagram').mockImplementationOnce(vi.fn());
     const wrapper = shallowMount(OpenedFlowDiagram, deepmerge.all([
       OpenedTabComponentMixinMock(),
       {

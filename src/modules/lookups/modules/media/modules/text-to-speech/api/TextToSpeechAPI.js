@@ -9,7 +9,7 @@ const getTtsStreamUrl = (params, apiUrl = false) => {
     ...objCamelToSnake(params),
     access_token: instance.defaults.headers['X-Webitel-Access'],
   })}`;
-  if (apiUrl) url = `${process.env.VUE_APP_API_URL}${url}`;
+  if (apiUrl) url = `${import.meta.env.VITE_API_URL}${url}`;
   return url;
 };
 

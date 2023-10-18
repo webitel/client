@@ -17,7 +17,7 @@ import path from 'path';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
-const CHAT_URL = process.env.VUE_APP_CHAT_URL;
+const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 

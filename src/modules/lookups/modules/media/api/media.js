@@ -15,7 +15,7 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
 
 const token = localStorage.getItem('access-token');
-const baseUrl = process.env.VUE_APP_API_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const getMediaList = async (params) => {
   const {

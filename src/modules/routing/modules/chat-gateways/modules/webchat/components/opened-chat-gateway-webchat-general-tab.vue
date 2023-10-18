@@ -55,7 +55,7 @@ export default {
     }),
     modifyUriCopy(value) {
       const base = window.location.origin.replace('http', 'ws');
-      return new URL(path.join(process.env.VUE_APP_CHAT_URL, value), base);
+      return new URL(path.join(import.meta.env.VITE_CHAT_URL, value), base);
     },
   },
 };

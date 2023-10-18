@@ -5,7 +5,7 @@ import tableComponentComputedMock
 import TheQueues from '../the-queues.vue';
 import { useDummy } from '../../../../../../app/composables/useDummy';
 
-jest.mock('../../../../../../app/composables/useDummy');
+vi.mock('../../../../../../app/composables/useDummy');
 useDummy.mockImplementation(() => ({ store: reactive({}) }));
 
 describe('TheQueues', () => {

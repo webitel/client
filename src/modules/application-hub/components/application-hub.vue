@@ -145,47 +145,47 @@ export default {
       const agentApp = {
         name: WebitelApplications.AGENT,
         title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
-        href: process.env.VUE_APP_AGENT_URL,
+        href: import.meta.env.VITE_AGENT_URL,
         pic: picAgent,
       };
       const supervisorApp = {
         name: WebitelApplications.SUPERVISOR,
         title: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.name`),
-        href: process.env.VUE_APP_SUPERVISOR_URL,
+        href: import.meta.env.VITE_SUPERVISOR_URL,
         pic: picSupervisor,
       };
       const historyApp = {
         name: WebitelApplications.HISTORY,
         title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
-        href: process.env.VUE_APP_HISTORY_URL,
+        href: import.meta.env.VITE_HISTORY_URL,
         pic: picHistory,
       };
 
       const auditApp = {
         name: WebitelApplications.AUDIT,
         title: this.$t(`WebitelApplications.${WebitelApplications.AUDIT}.name`),
-        href: process.env.VUE_APP_AUDIT_URL,
+        href: import.meta.env.VITE_AUDIT_URL,
         pic: picAudit,
       };
 
       const adminApp = {
         name: WebitelApplications.ADMIN,
         title: this.$t(`WebitelApplications.${WebitelApplications.ADMIN}.name`),
-        href: process.env.VUE_APP_ADMIN_URL,
+        href: import.meta.env.VITE_ADMIN_URL,
         pic: picAdmin,
       };
 
       const grafanaApp = {
         name: WebitelApplications.ANALYTICS,
         title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
-        href: process.env.VUE_APP_GRAFANA_URL,
+        href: import.meta.env.VITE_GRAFANA_URL,
         pic: picGrafana,
       };
 
       const crmApp = {
         name: WebitelApplications.CRM,
         title: this.$t(`WebitelApplications.${WebitelApplications.CRM}.name`),
-        href: process.env.VUE_APP_CRM_URL,
+        href: import.meta.env.VITE_CRM_URL,
         pic: picCrm,
       };
 
