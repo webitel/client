@@ -11,16 +11,16 @@
     ></delete-confirmation-popup>
     <object-list-popup
       v-if="isSupervisorPopup"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorPopup"
     ></object-list-popup>
     <object-list-popup
       v-if="isSkillsPopup"
-      :title="$tc('objects.lookups.skills.skills', 2)"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
+      :title="$tc('objects.lookups.skills.skills', 2)"
       @close="closeSkillsPopup"
     ></object-list-popup>
 
@@ -63,51 +63,53 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
-    <wt-table
-        :headers="headers"
+      class="table-wrapper"
+    >
+      <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
-    >
-      <template v-slot:name="{ item }">
-        <wt-item-link
-          :link="editLink(item)"
-          target="_blank">
-          {{ item.name }}
-        </wt-item-link>
-      </template>
-      <template v-slot:state="{ item }">
-        <wt-indicator
-          :color="statusIndicatorColor[snakeToCamel(item.status)]"
-          :text="statusIndicatorText[snakeToCamel(item.status)]"
-        ></wt-indicator>
-      </template>
-      <template v-slot:supervisor="{ item }">
-        <one-plus-many
-          :collection="item.supervisor"
-          @input="readSupervisor(item)"
-        ></one-plus-many>
-      </template>
-      <template v-slot:skills="{ item }">
-        <one-plus-many
-          :collection="item.skills"
-          @input="readSkills(item)"
-        ></one-plus-many>
-      </template>
-      <template v-slot:actions="{ item }">
-        <wt-icon-action
-          action="edit"
-          @click="edit(item)"
-        ></wt-icon-action>
-        <wt-icon-action
-          action="delete"
-          class="table-action"
-          @click="callDelete(item)"
-        ></wt-icon-action>
-      </template>
-    </wt-table>
+      >
+        <template v-slot:name="{ item }">
+          <wt-item-link
+            :link="editLink(item)"
+            target="_blank"
+          >
+            {{ item.name }}
+          </wt-item-link>
+        </template>
+        <template v-slot:state="{ item }">
+          <wt-indicator
+            :color="statusIndicatorColor[snakeToCamel(item.status)]"
+            :text="statusIndicatorText[snakeToCamel(item.status)]"
+          ></wt-indicator>
+        </template>
+        <template v-slot:supervisor="{ item }">
+          <one-plus-many
+            :collection="item.supervisor"
+            @input="readSupervisor(item)"
+          ></one-plus-many>
+        </template>
+        <template v-slot:skills="{ item }">
+          <one-plus-many
+            :collection="item.skills"
+            @input="readSkills(item)"
+          ></one-plus-many>
+        </template>
+        <template v-slot:actions="{ item }">
+          <wt-icon-action
+            action="edit"
+            @click="edit(item)"
+          ></wt-icon-action>
+          <wt-icon-action
+            action="delete"
+            class="table-action"
+            @click="callDelete(item)"
+          ></wt-icon-action>
+        </template>
+      </wt-table>
       <wt-pagination
         :next="isNext"
         :prev="page > 1"
@@ -125,12 +127,13 @@
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import AgentPopup from './opened-team-agent-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import AgentPopup from './opened-team-agent-popup.vue';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'agents';

@@ -4,16 +4,16 @@
       {{ $t('objects.directory.users.tokenPopupHeader') }}
     </template>
     <template v-slot:main>
-      <div class='token-created-popup__token__wrapper'>
-        <div class='token-created-popup__token__token'>{{ token }}</div>
+      <div class="token-created-popup__token__wrapper">
+        <div class="token-created-popup__token__token">{{ token }}</div>
       </div>
-      <h4 class='token-created-popup__text'>{{ $t('objects.directory.users.tokenPopupText') }}</h4>
+      <h4 class="token-created-popup__text">{{ $t('objects.directory.users.tokenPopupText') }}</h4>
     </template>
     <template v-slot:actions>
       <wt-button @click="copy">
         {{ $t('objects.directory.users.tokenPopupCopy') }}
       </wt-button>
-      <wt-button class='button-save' color="secondary" @click="saveTxt">
+      <wt-button class="button-save" color="secondary" @click="saveTxt">
         {{ $t('objects.directory.users.tokenPopupSave') }}
       </wt-button>
     </template>
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import clipboardCopy from 'clipboard-copy';
+import { mapState } from 'vuex';
 import { downloadAsTXT } from '../../../../../../../app/utils/download';
 
 export default {
@@ -57,8 +57,8 @@ export default {
 <style lang="scss" scoped>
 .token-created-popup__token__wrapper {
   width: 75%;
-  padding: 20px;
   margin: 10px auto 30px;
+  padding: 20px;
   border: 2px solid var(--false-color);
   border-radius: 10px;
 }

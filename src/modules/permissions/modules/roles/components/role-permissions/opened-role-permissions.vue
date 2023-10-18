@@ -34,8 +34,8 @@
     <div class="table-wrapper">
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="!disableUserInput"
+        :headers="headers"
       >
         <template v-slot:name="{ item }">
           {{ permissionNameLocale[item.id] }}
@@ -61,9 +61,9 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import PermissionsPopup from './opened-role-permissions-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import PermissionsPopup from './opened-role-permissions-popup.vue';
 
 export default {
   name: 'opened-role-permissions',
@@ -141,8 +141,8 @@ export default {
     }),
     loadList() {
       this.dataList = this.permissionsList
-        .filter((permission) => permission.name.includes(this.search))
-        .map((permission) => ({ ...permission, _isSelected: false }));
+      .filter((permission) => permission.name.includes(this.search))
+      .map((permission) => ({ ...permission, _isSelected: false }));
     },
     create() {
       this.openPopup();

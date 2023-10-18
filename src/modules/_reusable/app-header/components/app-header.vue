@@ -5,22 +5,22 @@
       :nav="nav"
     ></wt-navigation-bar>
     <wt-app-navigator
-      :current-app="currentApp"
       :apps="apps"
+      :current-app="currentApp"
     ></wt-app-navigator>
     <wt-header-actions
-      :user="user"
       :build-info="buildInfo"
-      @settings="settings"
+      :user="user"
       @logout="logoutUser"
+      @settings="settings"
     ></wt-header-actions>
   </wt-app-header>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
-import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
+import { mapGetters, mapState } from 'vuex';
 import navMixin from '../../../../app/mixins/navMixin';
 import router from '../../../../app/router/router';
 

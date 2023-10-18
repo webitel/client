@@ -51,15 +51,16 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -78,8 +79,8 @@
             <template v-slot:schema="{ item }">
               <wt-item-link
                 v-if="item.schema"
-                :route-name="RouteNames.FLOW"
                 :id="item.schema.id"
+                :route-name="RouteNames.FLOW"
               >
                 {{ item.schema.name }}
               </wt-item-link>
@@ -128,10 +129,10 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'integrations/triggers';
 

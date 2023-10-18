@@ -6,15 +6,15 @@
     <template v-slot:main>
       <permissions-role-select
         v-model="newGrantor"
+        :clearable="false"
         :placeholder="$t('objects.permissions.object.grantor')"
         :search-method="loadRoles"
-        :clearable="false"
       ></permissions-role-select>
       <permissions-role-select
         v-model="newGrantee"
+        :clearable="false"
         :placeholder="$t('objects.permissions.object.grantee')"
         :search-method="loadRoles"
-        :clearable="false"
       ></permissions-role-select>
     </template>
     <template v-slot:actions>
@@ -25,8 +25,10 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
-import PermissionsRoleSelect from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
+import permissionsTabRolePopupMixins
+  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import PermissionsRoleSelect
+  from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
 
 export default {
   name: 'opened-object-permissions-rbac-role-popup',

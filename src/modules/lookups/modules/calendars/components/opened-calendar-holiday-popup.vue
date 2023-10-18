@@ -7,8 +7,8 @@
       <div class="popup-input-form">
         <wt-input
           v-model="itemInstance.name"
-          :v="v$.itemInstance.name"
           :label="$t('objects.name')"
+          :v="v$.itemInstance.name"
           required
         ></wt-input>
         <wt-datepicker
@@ -39,8 +39,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {

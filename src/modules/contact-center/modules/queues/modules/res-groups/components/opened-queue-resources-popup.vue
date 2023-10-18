@@ -6,11 +6,11 @@
     <template v-slot:main>
       <form>
         <wt-select
-          :value="itemInstance.resourceGroup"
-          :v="v$.itemInstance.resourceGroup"
+          :clearable="false"
           :label="$tc('objects.ccenter.resGroups.resGroups', 1)"
           :search-method="loadResGroupsOptions"
-          :clearable="false"
+          :v="v$.itemInstance.resourceGroup"
+          :value="itemInstance.resourceGroup"
           required
           @input="setItemProp({ prop: 'resourceGroup', value: $event })"
         ></wt-select>
@@ -34,8 +34,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 
 export default {
   name: 'opened-queue-buckets-popup',

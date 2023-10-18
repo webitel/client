@@ -90,10 +90,10 @@
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import UsersAPI from '../../../../directory/modules/users/api/users';
+import MediaAPI from '../../../../lookups/modules/media/api/media';
 import RegionsAPI from '../../../../lookups/modules/regions/api/regions';
 import TeamsAPI from '../../teams/api/teams';
 import AgentsAPI from '../api/agents';
-import MediaAPI from '../../../../lookups/modules/media/api/media';
 
 export default {
   name: 'opened-agent-general',

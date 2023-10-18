@@ -5,43 +5,43 @@
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.limitMin"
-        :label="$t('objects.lookups.pauseCause.limit')"
         :disabled="disableUserInput"
+        :label="$t('objects.lookups.pauseCause.limit')"
+        :value="itemInstance.limitMin"
         type="number"
         @input="setItemProp({ prop: 'limitMin', value: $event })"
       ></wt-input>
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
       <div class="form-checkbox-wrapper">
         <wt-checkbox
-          :selected="itemInstance.allowAdmin"
-          :label="$t('objects.lookups.pauseCause.allowAdmin')"
           :disabled="disableUserInput"
+          :label="$t('objects.lookups.pauseCause.allowAdmin')"
+          :selected="itemInstance.allowAdmin"
           @change="setItemProp({prop: 'allowAdmin', value: $event })"
         ></wt-checkbox>
         <wt-checkbox
-          :selected="itemInstance.allowSupervisor"
-          :label="$t('objects.lookups.pauseCause.allowSupervisor')"
           :disabled="disableUserInput"
+          :label="$t('objects.lookups.pauseCause.allowSupervisor')"
+          :selected="itemInstance.allowSupervisor"
           @change="setItemProp({prop: 'allowSupervisor', value: $event })"
         ></wt-checkbox>
         <wt-checkbox
-          :selected="itemInstance.allowAgent"
-          :label="$t('objects.lookups.pauseCause.allowAgent')"
           :disabled="disableUserInput"
+          :label="$t('objects.lookups.pauseCause.allowAgent')"
+          :selected="itemInstance.allowAgent"
           @change="setItemProp({prop: 'allowAgent', value: $event })"
         ></wt-checkbox>
       </div>

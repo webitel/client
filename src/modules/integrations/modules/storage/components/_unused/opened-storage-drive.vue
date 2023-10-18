@@ -1,60 +1,61 @@
 <template>
-    <section>
-        <header class="content-header">
-            <h3 class="content-title">{{$t('objects.integrations.storage.drive')}}</h3>
-        </header>
-        <form class="object-input-grid">
-            <form-input
-                    v-model="directory"
-                    :v="v.itemInstance.properties.directory"
-                    :label="$t('objects.integrations.storage.driveFolder')"
-                    required
-            ></form-input>
-            <form-input
-                    v-model="email"
-                    :v="v.itemInstance.properties.email"
-                    :label="$t('objects.integrations.storage.driveEmail')"
-                    required
-            ></form-input>
-            <form-input
-                    v-model="privateKey"
-                    :v="v.itemInstance.properties.privateKey"
-                    :label="$t('objects.integrations.storage.driveKey')"
-                    required
-            ></form-input>
-        </form>
-    </section>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">{{ $t('objects.integrations.storage.drive') }}</h3>
+    </header>
+    <form class="object-input-grid">
+      <form-input
+        v-model="directory"
+        :label="$t('objects.integrations.storage.driveFolder')"
+        :v="v.itemInstance.properties.directory"
+        required
+      ></form-input>
+      <form-input
+        v-model="email"
+        :label="$t('objects.integrations.storage.driveEmail')"
+        :v="v.itemInstance.properties.email"
+        required
+      ></form-input>
+      <form-input
+        v-model="privateKey"
+        :label="$t('objects.integrations.storage.driveKey')"
+        :v="v.itemInstance.properties.privateKey"
+        required
+      ></form-input>
+    </form>
+  </section>
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
-    import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { mapActions } from 'vuex';
+import openedTabComponentMixin
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-    export default {
-        name: 'opened-storage-drive',
-        mixins: [openedTabComponentMixin],
+export default {
+  name: 'opened-storage-drive',
+  mixins: [openedTabComponentMixin],
 
-        computed: {
-            directory: {
-                get() { return this.$store.state.integrations.storage.itemInstance.properties.directory; },
-                set(value) { this.setItemProp({ prop: 'directory', value }); },
-            },
-            email: {
-                get() { return this.$store.state.integrations.storage.itemInstance.properties.email; },
-                set(value) { this.setItemProp({ prop: 'email', value }); },
-            },
-            privateKey: {
-                get() { return this.$store.state.integrations.storage.itemInstance.properties.privateKey; },
-                set(value) { this.setItemProp({ prop: 'privateKey', value }); },
-            },
-        },
+  computed: {
+    directory: {
+      get() { return this.$store.state.integrations.storage.itemInstance.properties.directory; },
+      set(value) { this.setItemProp({ prop: 'directory', value }); },
+    },
+    email: {
+      get() { return this.$store.state.integrations.storage.itemInstance.properties.email; },
+      set(value) { this.setItemProp({ prop: 'email', value }); },
+    },
+    privateKey: {
+      get() { return this.$store.state.integrations.storage.itemInstance.properties.privateKey; },
+      set(value) { this.setItemProp({ prop: 'privateKey', value }); },
+    },
+  },
 
-        methods: {
-            ...mapActions('integrations/storage', {
-                setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
-            }),
-        },
-    };
+  methods: {
+    ...mapActions('integrations/storage', {
+      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
+    }),
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,8 +1,8 @@
 <template>
   <div class="copy-input">
     <wt-input
-      v-bind="{ ...$attrs }"
       :value="value"
+      v-bind="{ ...$attrs }"
       @input="input"
     >
       <template v-slot:after-input>

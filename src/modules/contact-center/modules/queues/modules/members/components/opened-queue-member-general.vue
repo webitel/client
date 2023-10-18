@@ -5,47 +5,47 @@
     </header>
     <form class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.priority"
-        :label="$t('objects.ccenter.queues.priority')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.priority')"
+        :value="itemInstance.priority"
         type="number"
         @input="setItemProp({ prop: 'priority', value: +$event })"
       ></wt-input>
       <wt-datepicker
-        :value="itemInstance.expireAt"
-        :label="$t('objects.ccenter.queues.expire')"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.expire')"
+        :value="itemInstance.expireAt"
         mode="datetime"
         @input="setItemProp({ prop: 'expireAt', value: $event })"
       ></wt-datepicker>
       <wt-select
-        :value="itemInstance.timezone"
-        :label="$t('objects.ccenter.queues.timezone')"
-        :search-method="loadDropdownOptionsTimezoneList"
         :clearable="false"
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.timezone')"
+        :search-method="loadDropdownOptionsTimezoneList"
+        :value="itemInstance.timezone"
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.bucket"
+        :disabled="disableUserInput"
         :label="$tc('objects.lookups.buckets.buckets', 1)"
         :search-method="loadDropdownOptionsBucketsList"
-        :disabled="disableUserInput"
+        :value="itemInstance.bucket"
         @input="setItemProp({ prop: 'bucket', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.agent"
+        :disabled="disableUserInput"
         :label="$tc('objects.ccenter.agents.agents', 1)"
         :search-method="loadDropdownOptionsAgentsList"
-        :disabled="disableUserInput"
+        :value="itemInstance.agent"
         @input="setItemProp({ prop: 'agent', value: $event })"
       ></wt-select>
     </form>
@@ -53,10 +53,11 @@
 </template>
 
 <script>
+import openedTabComponentMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
 import AgentsAPI from '../../../../agents/api/agents';
-import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-member-general',

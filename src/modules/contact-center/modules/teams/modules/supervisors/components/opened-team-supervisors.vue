@@ -54,18 +54,20 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
         <template v-slot:name="{ item }">
           <wt-item-link
             :link="editLink(item)"
-            target="_blank">
+            target="_blank"
+          >
             {{ item.name }}
           </wt-item-link>
         </template>
@@ -78,7 +80,7 @@
                 @click="openSubordinates(item)"
               ></wt-icon-btn>
             </template>
-              {{ $tc('objects.ccenter.agents.subordinates', 2) }}
+            {{ $tc('objects.ccenter.agents.subordinates', 2) }}
           </wt-tooltip>
           <wt-icon-action
             action="edit"
@@ -106,11 +108,12 @@
 </template>
 
 <script>
-import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
+import SupervisorPopup from './opened-team-supervisors-popup.vue';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'supervisors';

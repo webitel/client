@@ -14,19 +14,20 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-<!--    <wt-dummy-->
-<!--      v-if="dummy && isLoaded"-->
-<!--      :src="dummy.src"-->
-<!--      :text="dummy.text && $t(dummy.text)"-->
-<!--      class="dummy-wrapper"-->
-<!--    ></wt-dummy>-->
+    <!--    <wt-dummy-->
+    <!--      v-if="dummy && isLoaded"-->
+    <!--      :src="dummy.src"-->
+    <!--      :text="dummy.text && $t(dummy.text)"-->
+    <!--      class="dummy-wrapper"-->
+    <!--    ></wt-dummy>-->
     <div
       v-show="isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
@@ -84,7 +85,6 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'log';

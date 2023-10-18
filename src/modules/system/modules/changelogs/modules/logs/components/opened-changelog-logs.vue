@@ -26,9 +26,9 @@
       class="table-wrapper"
     >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
@@ -79,12 +79,11 @@
 </template>
 
 <script>
-import { LoggerAvailableSystemObjects } from 'webitel-sdk';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import LogsAPI from '../api/logs';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import LogsAPI from '../api/logs';
 import RecordLink from './changelog-logs-record-link.vue';
 // import { useDummy } from '../../../../../../../app/composables/useDummy';
 

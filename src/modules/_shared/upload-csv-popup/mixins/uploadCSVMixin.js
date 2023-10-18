@@ -1,6 +1,6 @@
-import { parse } from 'csv-parse';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import { parse } from 'csv-parse';
 
 const processFile = (file, { charset = 'utf-8' } = {}) => (
   new Promise((resolve, reject) => {
@@ -53,7 +53,8 @@ export default {
     csvColumns() {
       return this.skipHeaders
         ? Object.keys(this.csvPreview[0])
-        : Object.keys(this.csvPreview[0]).map((col, index) => `${index + 1} column`);
+        : Object.keys(this.csvPreview[0])
+        .map((col, index) => `${index + 1} column`);
     },
     parseCSVOptions() {
       /* docs: https://csv.js.org/parse/options/ */
@@ -78,7 +79,8 @@ export default {
       return this.csvPreview;
     },
     allowSaveAction() {
-      return this.mappingFields.every((field) => !field.required || !isEmpty(field.csv));
+      return this.mappingFields.every((field) => !field.required ||
+        !isEmpty(field.csv));
     },
   },
   watch: {
@@ -104,7 +106,10 @@ export default {
     async processCSVPreview() {
       try {
         this.parseErrorStackTrace = '';
-        this.csvPreview = await parseCSV(this.parsedFile, { ...this.parseCSVOptions, toLine: 4 });
+        this.csvPreview = await parseCSV(this.parsedFile, {
+          ...this.parseCSVOptions,
+          toLine: 4,
+        });
       } catch (err) {
         this.parseErrorStackTrace = err;
         this.csvPreview = [[]];
@@ -139,7 +144,9 @@ export default {
       return data.map((dataItem) => (
         nonEmptyMappingFields.reduce((normalizedItem, { name, csv }) => ({
           ...normalizedItem,
-          [name]: Array.isArray(csv) ? csv.map((csv) => dataItem[csv]) : dataItem[csv],
+          [name]: Array.isArray(csv)
+            ? csv.map((csv) => dataItem[csv])
+            : dataItem[csv],
         }), {})
       ));
     },
@@ -170,14 +177,18 @@ export default {
         for (; processedChunkIndex <= chunksCount; processedChunkIndex += 1) {
           // eslint-disable-next-line no-await-in-loop
           await this.addBulkItems(data.slice(
-              (processedChunkIndex - 1) * chunkSize,
-              processedChunkIndex * chunkSize,
-            ));
+            (processedChunkIndex - 1) * chunkSize,
+            processedChunkIndex * chunkSize,
+          ));
         }
       } catch (err) {
-        const errMessage = JSON.stringify(err instanceof Error ? err.message : err);
+        const errMessage = JSON.stringify(err instanceof Error
+          ? err.message
+          : err);
         // eslint-disable-next-line no-throw-literal
-        throw new Error(`An error occurred during saving ${(processedChunkIndex - 1) * chunkSize}-${processedChunkIndex * chunkSize} data chunk: ${errMessage}`);
+        throw new Error(`An error occurred during saving ${(processedChunkIndex -
+          1) * chunkSize}-${processedChunkIndex *
+        chunkSize} data chunk: ${errMessage}`);
       }
     },
     close() {

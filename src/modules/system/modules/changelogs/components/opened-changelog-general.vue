@@ -5,46 +5,46 @@
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.object"
-        :search-method="getObjectsList"
         :clearable="false"
-        :label="$t('objects.system.changelogs.objects', 1)"
         :disabled="itemInstance.id || disableUserInput"
+        :label="$t('objects.system.changelogs.objects', 1)"
+        :search-method="getObjectsList"
         :v="v.itemInstance.object"
+        :value="itemInstance.object"
         required
         @input="setItemProp({ prop: 'object', value: $event })"
       ></wt-select>
-<!--      <wt-select-->
-<!--        :value="itemInstance.storage"-->
-<!--        :search-method="getStorageList"-->
-<!--        :clearable="false"-->
-<!--        :label="$t('objects.system.changelogs.storage')"-->
-<!--        :disabled="disableUserInput"-->
-<!--        :v="v.itemInstance.storage"-->
-<!--        required-->
-<!--        @input="setItemProp({ prop: 'storage', value: $event })"-->
-<!--      ></wt-select>-->
+      <!--      <wt-select-->
+      <!--        :value="itemInstance.storage"-->
+      <!--        :search-method="getStorageList"-->
+      <!--        :clearable="false"-->
+      <!--        :label="$t('objects.system.changelogs.storage')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :v="v.itemInstance.storage"-->
+      <!--        required-->
+      <!--        @input="setItemProp({ prop: 'storage', value: $event })"-->
+      <!--      ></wt-select>-->
       <wt-input
-        :value="itemInstance.daysToStore"
-        :label="$t('objects.system.changelogs.daysToStore')"
         :disabled="disableUserInput"
+        :label="$t('objects.system.changelogs.daysToStore')"
         :v="v.itemInstance.daysToStore"
-        type="number"
+        :value="itemInstance.daysToStore"
         required
+        type="number"
         @input="setItemProp({ prop: 'daysToStore', value: +$event })"
       ></wt-input>
-<!--      <wt-select-->
-<!--        :value="currentPeriod"-->
-<!--        :options="periodOptions"-->
-<!--        :label="$t('objects.system.changelogs.period.period')"-->
-<!--        :disabled="disableUserInput"-->
-<!--        :clearable="false"-->
-<!--        @input="this.setItemProp({ prop: 'period', value: $event.id })"-->
-<!--      ></wt-select>-->
+      <!--      <wt-select-->
+      <!--        :value="currentPeriod"-->
+      <!--        :options="periodOptions"-->
+      <!--        :label="$t('objects.system.changelogs.period.period')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :clearable="false"-->
+      <!--        @input="this.setItemProp({ prop: 'period', value: $event.id })"-->
+      <!--      ></wt-select>-->
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </div>
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import changelogs from '../api/changelogs';
-import storage from '../../../../integrations/modules/storage/api/storage';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import storage from '../../../../integrations/modules/storage/api/storage';
+import changelogs from '../api/changelogs';
 
 export default {
   name: 'opened-changelog-general',

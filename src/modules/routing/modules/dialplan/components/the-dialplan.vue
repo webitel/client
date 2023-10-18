@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="dialplan" :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" class="dialplan">
     <template v-slot:header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -23,9 +23,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -44,20 +44,21 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             ref="dialplan-table"
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -72,15 +73,15 @@
             <template v-slot:schema="{ item }">
               <wt-item-link
                 v-if="item.schema"
-                :route-name="RouteNames.FLOW"
                 :id="item.schema.id"
+                :route-name="RouteNames.FLOW"
               >{{ item.schema.name }}
               </wt-item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher
-                :value="!item.disabled"
                 :disabled="!hasEditAccess"
+                :value="!item.disabled"
                 @change="patchProperty({index, prop: 'disabled', value: !$event})"
               ></wt-switcher>
             </template>
@@ -88,11 +89,11 @@
               <wt-tooltip class="table-action dialplan__draggable-icon">
                 <template v-slot:activator>
                   <wt-icon-btn
-                    icon="move"
                     v-if="hasEditAccess"
+                    icon="move"
                   ></wt-icon-btn>
                 </template>
-                  {{ $t('iconHints.draggable') }}
+                {{ $t('iconHints.draggable') }}
               </wt-tooltip>
               <wt-icon-action
                 v-if="hasEditAccess"
@@ -108,14 +109,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -124,11 +125,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import Sortable, { Swap } from 'sortablejs';
+import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 Sortable.mount(new Swap());
 const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
@@ -179,7 +180,7 @@ export default {
     async initSortable() {
       if (!this.hasEditAccess) return;
       if (this.sortableInstance) this.destroySortable();
-        // https://github.com/SortableJS/Sortable#options
+      // https://github.com/SortableJS/Sortable#options
       const tableBody = document.querySelector('.wt-table__body');
       this.sortableInstance = Sortable.create(tableBody, {
         ...sortableConfig,
@@ -243,9 +244,9 @@ export default {
   // Firefox fallback
   .sortable-fallback {
     display: grid;
+    align-items: center;
     grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
     grid-column-gap: 10px;
-    align-items: center;
   }
 
   .wt-table .sortable-swap-highlight {

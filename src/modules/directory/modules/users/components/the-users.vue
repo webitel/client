@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="users" :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" class="users">
     <template v-slot:header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -27,9 +27,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -43,8 +43,8 @@
               ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
-                class="icon-action"
                 accept=".csv"
+                class="icon-action"
                 @change="processCSV"
               ></upload-file-icon-btn>
             </wt-table-actions>
@@ -60,11 +60,12 @@
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -74,7 +75,7 @@
               </wt-item-link>
             </template>
             <template v-slot:status="{ item }">
-              <user-status :presence="item.presence"/>
+              <user-status :presence="item.presence" />
             </template>
             <template v-slot:username="{ item }">
               {{ item.username }}
@@ -84,8 +85,8 @@
             </template>
             <template v-slot:DnD="{ item }">
               <wt-switcher
-                :value="getDND(item.presence)"
                 :disabled="!hasEditAccess"
+                :value="getDND(item.presence)"
                 @change="setDND({item, value: $event})"
               ></wt-switcher>
             </template>
@@ -104,14 +105,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -121,12 +122,12 @@
 
 <script>
 import { mapActions } from 'vuex';
-import UploadPopup from './upload-users-popup.vue';
-import UserStatus from './_internals/user-status-chips.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import UserStatus from './_internals/user-status-chips.vue';
+import UploadPopup from './upload-users-popup.vue';
 
 const namespace = 'directory/users';
 

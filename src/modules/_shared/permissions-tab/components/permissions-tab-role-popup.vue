@@ -11,9 +11,9 @@
     <template v-slot:main>
       <permissions-role-select
         v-model="newGrantee"
+        :clearable="false"
         :placeholder="$tc('objects.permissions.permissionsRole', 1)"
         :search-method="getAvailableGrantees"
-        :clearable="false"
       ></permissions-role-select>
     </template>
     <template v-slot:actions>

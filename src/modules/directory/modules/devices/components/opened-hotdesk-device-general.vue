@@ -5,32 +5,32 @@
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <copy-input
-        :value="itemInstance.account"
-        :v="v.itemInstance.account"
         :label="$t('objects.directory.devices.authId')"
+        :v="v.itemInstance.account"
+        :value="itemInstance.account"
         disabled
         required
       ></copy-input>
       <password-input
-        :value="itemInstance.password"
-        :v="v.itemInstance.password"
         :disabled="disableUserInput"
+        :v="v.itemInstance.password"
+        :value="itemInstance.password"
         required
         @input="setItemProp({ prop: 'password', value: $event })"
       ></password-input>
       <wt-select
-        :value="itemInstance.user"
+        :disabled="disableUserInput"
         :label="$tc('objects.directory.users.users', 1)"
         :search-method="loadDropdownOptionsList"
-        :disabled="disableUserInput"
+        :value="itemInstance.user"
         @input="setItemProp({ prop: 'user', value: $event })"
       ></wt-select>
     </div>
@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import UsersAPI from '../../users/api/users';
 import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import UsersAPI from '../../users/api/users';
 
 export default {
   name: 'opened-hotdesk-device-general',

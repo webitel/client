@@ -5,24 +5,24 @@
       <section class="history-popup">
         <div class="history-popup__filters">
           <wt-datepicker
-            :value="from"
             :label="$t('objects.from')"
+            :value="from"
             mode="datetime"
             @input="setFrom"
           ></wt-datepicker>
           <wt-datepicker
-            :value="to"
             :label="$t('objects.to')"
+            :value="to"
             mode="datetime"
             @input="setTo"
           ></wt-datepicker>
         </div>
         <div class="table-wrapper">
           <wt-table
-            :headers="headers"
             :data="dataList"
-            :selectable="false"
             :grid-actions="false"
+            :headers="headers"
+            :selectable="false"
           >
             <template v-slot:loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}
@@ -37,14 +37,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>

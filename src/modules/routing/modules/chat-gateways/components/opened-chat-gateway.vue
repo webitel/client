@@ -42,9 +42,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import {
-  maxValue, minLength, minValue, numeric, required, url,
-} from '@vuelidate/validators';
+import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -329,7 +327,7 @@ export default {
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
-                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {

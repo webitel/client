@@ -24,10 +24,10 @@
         <form class="upload-popup-form__form">
           <wt-select
             v-model="charset"
-            :options="charsetOptions"
             :clearable="false"
-            disabled
             :label="$t('objects.CSV.charSet')"
+            :options="charsetOptions"
+            disabled
           ></wt-select>
 
           <wt-input
@@ -47,10 +47,10 @@
             class="upload-popup-form__file-preview"
           >
             <wt-table
-              :headers="csvPreviewTableHeaders"
               :data="csvPreviewTableData"
-              :selectable="false"
               :grid-actions="false"
+              :headers="csvPreviewTableHeaders"
+              :selectable="false"
             ></wt-table>
           </article>
         </section>
@@ -66,30 +66,30 @@
             </p>
           </li>
           <li
-            class="upload-popup-mapping-item"
             v-for="(field, key) in mappingFields"
             :key="key"
+            class="upload-popup-mapping-item"
           >
             <p class="upload-popup-mapping-item__field">
               {{ field.text || field.name }}<span v-if="field.required">*</span>
             </p>
             <wt-select
               v-if="!field.multiple"
-              class="upload-popup-mapping-item__select"
               v-model="field.csv"
+              :clearable="!field.required"
               :options="csvColumns"
               :placeholder="field.text || field.name"
-              :clearable="!field.required"
               :track-by="null"
+              class="upload-popup-mapping-item__select"
             ></wt-select>
             <wt-tags-input
               v-else
-              class="upload-popup-mapping-item__select"
               v-model="field.csv"
               :options="csvColumns"
               :placeholder="field.text || field.name"
+              class="upload-popup-mapping-item__select"
             ></wt-tags-input>
-            <div class="upload-tooltip" v-if="field.tooltip">{{field.tooltip}}</div>
+            <div v-if="field.tooltip" class="upload-tooltip">{{ field.tooltip }}</div>
           </li>
         </ul>
       </section>
@@ -104,8 +104,8 @@
       v-slot:actions
     >
       <wt-button
-        :loading="isParsingCSV"
         :disabled="!allowSaveAction"
+        :loading="isParsingCSV"
         @click="processCSV"
       >{{ $t('reusable.save') }}
       </wt-button>
@@ -134,5 +134,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/upload-popup";
+@import '../css/upload-popup';
 </style>

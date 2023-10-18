@@ -46,15 +46,16 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -111,10 +112,10 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UploadAction from './import-csv-upload-action.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'integrations/importCsv';
 

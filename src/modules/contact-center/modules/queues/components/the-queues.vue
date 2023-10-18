@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="queues" :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" class="queues">
     <template v-slot:header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -26,9 +26,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -47,19 +47,20 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -85,14 +86,15 @@
               <wt-item-link
                 v-if="item.team"
                 :link="itemTeamLink(item)"
-                target="_blank">
+                target="_blank"
+              >
                 {{ item.team.name }}
               </wt-item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher
-                :value="item.enabled"
                 :disabled="!hasEditAccess"
+                :value="item.enabled"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event})"
               ></wt-switcher>
             </template>
@@ -104,7 +106,7 @@
                     @click="openMembers(item)"
                   ></wt-icon-btn>
                 </template>
-                  {{ $t('iconHints.members') }}
+                {{ $t('iconHints.members') }}
               </wt-tooltip>
               <wt-icon-action
                 v-if="hasEditAccess"
@@ -120,14 +122,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -136,12 +138,11 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
-import tableComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues';
 

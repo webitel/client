@@ -11,9 +11,9 @@
         <wt-search-bar
           :value="search"
           debounce
+          @enter="loadList"
           @input="setSearch"
           @search="loadList"
-          @enter="loadList"
         ></wt-search-bar>
         <wt-table-actions
           :icons="['refresh']"
@@ -44,11 +44,12 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
@@ -60,8 +61,8 @@
         </template>
         <template v-slot:state="{ item, index }">
           <wt-switcher
-            :value="!item.disabled"
             :disabled="!hasEditAccess"
+            :value="!item.disabled"
             @change="patchItem({ item, index, prop: 'disabled', value: !$event })"
           ></wt-switcher>
         </template>
@@ -78,24 +79,24 @@
         </template>
       </wt-table>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
       ></wt-pagination>
     </div>
   </section>
 </template>
 
 <script>
-import BucketPopup from './opened-queue-buckets-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+import BucketPopup from './opened-queue-buckets-popup.vue';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'buckets';

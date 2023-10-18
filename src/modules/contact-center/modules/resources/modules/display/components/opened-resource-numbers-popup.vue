@@ -6,9 +6,9 @@
     <template v-slot:main>
       <form>
         <wt-input
-          :value="itemInstance.display"
-          :v="v$.itemInstance.display"
           :label="$tc('objects.ccenter.res.numbers', 1)"
+          :v="v$.itemInstance.display"
+          :value="itemInstance.display"
           required
           @input="setItemProp({ prop: 'display', value: $event })"
         ></wt-input>

@@ -6,8 +6,8 @@
     <template v-slot:main>
       <form @submit.prevent="save">
         <wt-input
-          :value="itemInstance.usage"
           :label="$t('objects.name')"
+          :value="itemInstance.usage"
           @input="setItemProp({ prop: 'usage', value: $event })"
         ></wt-input>
       </form>

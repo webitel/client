@@ -1,9 +1,9 @@
-import { reactive } from 'vue';
 import { shallowMount } from '@vue/test-utils';
-import TheTriggers from '../the-triggers.vue';
+import { reactive } from 'vue';
 import tableComponentComputedMock
   from '../../../../../../../tests/unit/mocks/tableComponentComputed.mock';
 import { useDummy } from '../../../../../../app/composables/useDummy';
+import TheTriggers from '../the-triggers.vue';
 
 vi.mock('../../../../../../app/composables/useDummy');
 useDummy.mockImplementation(() => ({ store: reactive({}) }));

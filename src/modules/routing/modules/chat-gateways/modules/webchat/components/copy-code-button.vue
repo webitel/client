@@ -22,16 +22,16 @@ const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
 const filterEmptyValues = (obj) => Object
-  .entries(obj)
-  .reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
+.entries(obj)
+.reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
 
 const processViewConfig = (view) => filterEmptyValues(view);
 
 const processChatConfig = ({
-  enabled,
-  timeoutIsActive,
-  openTimeout,
-  ...rest
+                             enabled,
+                             timeoutIsActive,
+                             openTimeout,
+                             ...rest
                            }, uri) => {
   if (!enabled) return undefined;
   const result = { ...filterEmptyValues(rest) };
@@ -41,17 +41,17 @@ const processChatConfig = ({
 };
 
 const processAppointmentConfig = ({
-  enabled,
-  queue,
-  communicationType,
-  days,
-  duration,
-  availableAgents,
-  showDefaultHeading,
-  successTitle,
-  successSubtitle,
-  ...rest
-  }, uri) => {
+                                    enabled,
+                                    queue,
+                                    communicationType,
+                                    days,
+                                    duration,
+                                    availableAgents,
+                                    showDefaultHeading,
+                                    successTitle,
+                                    successSubtitle,
+                                    ...rest
+                                  }, uri) => {
   if (!enabled) return undefined;
   if (!showDefaultHeading) {
     // eslint-disable-next-line no-param-reassign
@@ -67,9 +67,9 @@ const processAppointmentConfig = ({
 const processAlternativeChannelsConfig = (channels) => {
   const minifyAltChannels = (altChannels) => (
     Object.entries(altChannels)
-          .reduce((channels, [channelName, { enabled, url }]) => (
-            enabled && url ? { ...channels, [channelName]: url } : channels
-          ), {})
+    .reduce((channels, [channelName, { enabled, url }]) => (
+      enabled && url ? { ...channels, [channelName]: url } : channels
+    ), {})
   );
   const result = minifyAltChannels(channels);
   return isEmpty(result) ? undefined : result;

@@ -6,11 +6,11 @@
     <template v-slot:main>
       <section class="destinations-popup">
         <wt-table
-            class="popup-table"
-            :headers="headers"
-            :data="communications"
-            :selectable="false"
-            :grid-actions="false"
+          :data="communications"
+          :grid-actions="false"
+          :headers="headers"
+          :selectable="false"
+          class="popup-table"
         >
           <template v-slot:destination="{ item }">
             {{ item.destination }}
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import tableComponentMixin from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin
+  from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
   name: 'opened-queue-member-destinations-popup',

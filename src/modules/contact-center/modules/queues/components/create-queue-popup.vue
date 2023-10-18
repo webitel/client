@@ -1,16 +1,16 @@
 <template>
   <selection-popup
     v-model="selected"
-    :title="$t('objects.ccenter.queues.newQueue')"
     :options="options"
-    @select="createQueue"
+    :title="$t('objects.ccenter.queues.newQueue')"
     @close="$emit('close')"
+    @select="createQueue"
   ></selection-popup>
 </template>
 
 <script>
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
   name: 'create-queue-popup',

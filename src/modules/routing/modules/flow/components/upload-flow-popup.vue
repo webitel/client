@@ -11,8 +11,8 @@
         ></wt-checkbox>
         <wt-input
           v-model="flow.name"
-          :v="v$.flow.name"
           :label="$t('objects.name')"
+          :v="v$.flow.name"
           required
         ></wt-input>
       </form>

@@ -23,9 +23,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -44,19 +44,20 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -70,22 +71,22 @@
             </template>
             <template v-slot:allowAdmin="{ item, index }">
               <wt-checkbox
-                :selected="item.allowAdmin"
                 :disabled="!hasEditAccess"
+                :selected="item.allowAdmin"
                 @change="changeAdminPermissions({ item, index, value: $event })"
               ></wt-checkbox>
             </template>
             <template v-slot:allowSupervisor="{ item, index }">
               <wt-checkbox
-                :selected="item.allowSupervisor"
                 :disabled="!hasEditAccess"
+                :selected="item.allowSupervisor"
                 @change="changeSupervisorPermissions({ item, index, value: $event })"
               ></wt-checkbox>
             </template>
             <template v-slot:allowAgent="{ item, index }">
               <wt-checkbox
-                :selected="item.allowAgent"
                 :disabled="!hasEditAccess"
+                :selected="item.allowAgent"
                 @change="changeAgentPermissions({ item, index, value: $event })"
               ></wt-checkbox>
             </template>
@@ -104,14 +105,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -121,9 +122,9 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'lookups/pauseCause';
 

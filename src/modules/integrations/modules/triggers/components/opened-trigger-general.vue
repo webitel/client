@@ -23,47 +23,47 @@
         @input="setItemProp({ prop: 'type', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.schema"
-        :v="v.itemInstance.schema"
-        :label="$tc('objects.integrations.triggers.schema')"
         :clearable="false"
-        :search-method="loadDropdownOptionsList"
         :disabled="disableUserInput"
+        :label="$tc('objects.integrations.triggers.schema')"
+        :search-method="loadDropdownOptionsList"
+        :v="v.itemInstance.schema"
+        :value="itemInstance.schema"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.timezone"
-        :v="v.itemInstance.timezone"
+        :clearable="false"
+        :disabled="disableUserInput"
         :label="$tc('date.timezone', 1)"
         :search-method="loadTimezones"
-        :disabled="disableUserInput"
-        :clearable="false"
+        :v="v.itemInstance.timezone"
+        :value="itemInstance.timezone"
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
       ></wt-select>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.timeout')"
+        :number-min="0"
         :v="v.itemInstance.timeout"
         :value="itemInstance.timeout"
         type="number"
-        :number-min="0"
         @input="setItemProp({ prop: 'timeout', value: $event })"
       ></wt-input>
       <div class="crontab">
         <wt-input
+          :custom-validators="cronValidator"
           :disabled="disableUserInput"
           :label="$t('objects.integrations.triggers.expression')"
           :v="v.itemInstance.expression"
           :value="itemInstance.expression"
-          :custom-validators="cronValidator"
           required
           @input="setItemProp({ prop: 'expression', value: $event })"
         ></wt-input>
         <p
-          class="crontab__parsed"
           v-show="!v.itemInstance.expression.$error"
+          class="crontab__parsed"
         >{{ parsedCron }}</p>
       </div>
       <wt-textarea

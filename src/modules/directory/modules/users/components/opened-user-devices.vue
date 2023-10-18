@@ -5,22 +5,22 @@
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.device"
-        :options="itemInstance.devices"
-        :label="$t('objects.directory.users.defaultDevice')"
         :disabled="disableUserInput"
-        track-by="id"
+        :label="$t('objects.directory.users.defaultDevice')"
+        :options="itemInstance.devices"
+        :value="itemInstance.device"
         required
+        track-by="id"
         @input="setItemProp({ prop: 'device', value: $event })"
         @reset="setItemProp({ prop: 'device', value: {} })"
       ></wt-select>
       <div>
         <wt-select
-          :value="itemInstance.devices"
-          :label="$tc('objects.directory.devices.devices', 2)"
-          :search-method="loadDropdownOptionsList"
           :close-on-select="false"
           :disabled="disableUserInput"
+          :label="$tc('objects.directory.devices.devices', 2)"
+          :search-method="loadDropdownOptionsList"
+          :value="itemInstance.devices"
           multiple
           @input="setItemProp({ prop: 'devices', value: $event })"
         ></wt-select>
@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import DevicesAPI from '../../devices/api/devices';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import DevicesAPI from '../../devices/api/devices';
 
 export default {
   name: 'opened-user-devices',

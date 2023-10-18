@@ -2,10 +2,10 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
@@ -23,10 +23,10 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -34,16 +34,16 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minValue } from '@vuelidate/validators';
-import General from './opened-storage-general.vue';
-import Local from './_unused/opened-storage-local.vue';
-import S3 from './opened-storage-s3.vue';
-import Backblaze from './_unused/opened-storage-backblaze.vue';
-import Dropbox from './_unused/opened-storage-dropbox.vue';
-import Drive from './_unused/opened-storage-drive.vue';
+import { minValue, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import storageMixin from '../mixins/storageMixin';
 import Storage from '../store/_internals/enums/Storage.enum';
+import Backblaze from './_unused/opened-storage-backblaze.vue';
+import Drive from './_unused/opened-storage-drive.vue';
+import Dropbox from './_unused/opened-storage-dropbox.vue';
+import Local from './_unused/opened-storage-local.vue';
+import General from './opened-storage-general.vue';
+import S3 from './opened-storage-s3.vue';
 
 export default {
   name: 'opened-storage',
@@ -119,19 +119,26 @@ export default {
             ...itemInstanceDefaults,
           },
         };
-      default: return {};
+      default:
+        return {};
     }
   },
 
   computed: {
     storageType() {
       switch (this.$route.params.type) {
-        case Storage.LOCAL: return Storage.LOCAL;
-        case Storage.S3: return Storage.S3;
-        case Storage.BACKBLAZE: return Storage.BACKBLAZE;
-        case Storage.DROPBOX: return Storage.DROPBOX;
-        case Storage.DRIVE: return Storage.DRIVE;
-        default: return '';
+        case Storage.LOCAL:
+          return Storage.LOCAL;
+        case Storage.S3:
+          return Storage.S3;
+        case Storage.BACKBLAZE:
+          return Storage.BACKBLAZE;
+        case Storage.DROPBOX:
+          return Storage.DROPBOX;
+        case Storage.DRIVE:
+          return Storage.DRIVE;
+        default:
+          return '';
       }
     },
     tabs() {
@@ -152,7 +159,7 @@ export default {
         case Storage.DRIVE:
           tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive' });
           break;
-          default:
+        default:
       }
       return tabs;
     },

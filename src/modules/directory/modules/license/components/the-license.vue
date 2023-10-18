@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import AllLicenses from './all-licenses/all-licenses.vue';
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
+import AllLicenses from './all-licenses/all-licenses.vue';
 
 export default {
   name: 'the-license',

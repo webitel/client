@@ -44,11 +44,12 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
@@ -62,8 +63,8 @@
         </template>
         <template v-slot:state="{ item, index }">
           <wt-switcher
-            :value="item.enabled"
             :disabled="!hasEditAccess"
+            :value="item.enabled"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
@@ -95,9 +96,10 @@
 
 <script>
 import { mapActions } from 'vuex';
-import SkillPopup from './opened-agent-skills-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import SkillPopup from './opened-agent-skills-popup.vue';
 
 const namespace = 'ccenter/agents';
 const subNamespace = 'skills';

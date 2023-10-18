@@ -26,9 +26,9 @@
       class="table-wrapper"
     >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
@@ -69,12 +69,12 @@
 
 <script>
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import LogsAPI from '../api/logs';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import RecordLink
   from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import LogsAPI from '../api/logs';
 // import { useDummy } from '.  ./../../../../../../app/composables/useDummy';
 
 const namespace = 'directory/users';

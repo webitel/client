@@ -35,7 +35,9 @@ export default {
       return this.state.authorized;
     },
     btnText() {
-      return this.isAuthorized ? this.$t('vocabulary.logout') : this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
+      return this.isAuthorized
+        ? this.$t('vocabulary.logout')
+        : this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
     },
   },
   methods: {
@@ -68,6 +70,7 @@ export default {
 .telegram-app-button {
   text-align: center;
 }
+
 .telegram-app-button__button {
   display: block;
   overflow: hidden;

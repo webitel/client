@@ -2,10 +2,10 @@
   <wt-page-wrapper :actions-panel="!!currentTab.filters">
     <template v-slot:header>
       <wt-page-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
@@ -30,10 +30,10 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -41,13 +41,13 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, numeric, minValue } from '@vuelidate/validators';
+import { minValue, numeric, required } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
-import General from './opened-trigger-general.vue';
-import Variables from './opened-trigger-variables.vue';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-trigger-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-trigger-general.vue';
+import Variables from './opened-trigger-variables.vue';
 
 export default {
   name: 'opened-trigger',

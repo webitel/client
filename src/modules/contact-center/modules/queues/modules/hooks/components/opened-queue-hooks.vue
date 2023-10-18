@@ -31,9 +31,9 @@
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
@@ -45,8 +45,8 @@
         </template>
         <template v-slot:state="{ item, index }">
           <wt-switcher
-            :value="item.enabled"
             :disabled="!hasEditAccess"
+            :value="item.enabled"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
@@ -77,9 +77,9 @@
 </template>
 
 <script>
-import HookPopup from './opened-queue-hooks-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import HookPopup from './opened-queue-hooks-popup.vue';
 
 export default {
   name: 'opened-queue-hooks',

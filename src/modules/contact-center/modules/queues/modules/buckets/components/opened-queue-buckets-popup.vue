@@ -6,20 +6,20 @@
     <template v-slot:main>
       <form>
         <wt-select
-          :value="itemInstance.bucket"
-          :v="v$.itemInstance.bucket"
+          :clearable="false"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
-          :clearable="false"
+          :v="v$.itemInstance.bucket"
+          :value="itemInstance.bucket"
           required
           @input="setItemProp({ prop: 'bucket', value: $event })"
         ></wt-select>
         <wt-input
-          :value="itemInstance.priority"
-          :v="v$.itemInstance.priority"
           :label="$t('objects.ccenter.queues.bucketPriority')"
-          type="number"
+          :v="v$.itemInstance.priority"
+          :value="itemInstance.priority"
           required
+          type="number"
           @input="setItemProp({ prop: 'priority', value: $event })"
         ></wt-input>
       </form>
@@ -42,8 +42,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {
   name: 'opened-queue-buckets-popup',

@@ -13,8 +13,9 @@
     ></delete-confirmation-popup>
 
     <header class="content-header">
-      <h3 class="content-title"
-          :class="{'invalid': v.itemInstance.communications.$error}"
+      <h3
+        :class="{'invalid': v.itemInstance.communications.$error}"
+        class="content-title"
       >{{ $tc('objects.lookups.communications.communications', 2) }}</h3>
       <div class="content-header__actions-wrap">
         <delete-all-action
@@ -34,9 +35,9 @@
 
     <div class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
       >
         <template v-slot:destination="{ item }">
           {{ item.destination }}
@@ -70,11 +71,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import CommunicationPopup from './opened-queue-member-communication-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
 export default {
   name: 'opened-queue-member-communication',
@@ -97,7 +98,7 @@ export default {
         return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
       },
     }),
-  // override mixin map state
+    // override mixin map state
     dataList: {
       get() {
         return this.dataListValue;
@@ -134,8 +135,8 @@ export default {
     }),
     loadList() {
       this.dataList = this.commList
-        .filter((comm) => comm.destination.includes(this.search))
-        .map((comm) => ({ ...comm, _isSelected: false }));
+      .filter((comm) => comm.destination.includes(this.search))
+      .map((comm) => ({ ...comm, _isSelected: false }));
     },
     create() {
       this.openPopup();

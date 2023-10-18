@@ -1,6 +1,8 @@
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import CalendarsAPI from '../api/calendars';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import headers from './_internals/headers';
 
 const defaultAccepts = () => {
@@ -84,13 +86,17 @@ const actions = {
   DELETE_SINGLE_EXCEPT_ITEM: async (context, item) => {
     const { excepts } = context.state.itemInstance;
     excepts.splice(
-      excepts.findIndex((except) => except.name === item.name && except.date === item.date),
+      excepts.findIndex((except) => except.name === item.name && except.date ===
+        item.date),
       1,
     );
     context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value: excepts });
     context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
   },
-  DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
+  DELETE_BULK_EXCEPT_ITEMS: async (
+    context,
+    deleted,
+  ) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
 
   SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {
     context.commit('SET_EXCEPT_ITEM_PROPERTY', { index, prop, value });
@@ -110,13 +116,13 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/calendars';
 const permissions = new PermissionsStoreModule()
-  .generateAPIActions(PERMISSIONS_API_URL)
-  .getModule();
+.generateAPIActions(PERMISSIONS_API_URL)
+.getModule();
 
 const calendars = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(CalendarsAPI)
-  .generateAPIActions()
-  .setChildModules({ permissions })
-  .getModule({ actions, mutations });
+.attachAPIModule(CalendarsAPI)
+.generateAPIActions()
+.setChildModules({ permissions })
+.getModule({ actions, mutations });
 
 export default calendars;

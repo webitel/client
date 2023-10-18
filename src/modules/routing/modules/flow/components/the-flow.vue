@@ -50,8 +50,8 @@
               ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
-                class="icon-action"
                 accept=".json"
+                class="icon-action"
                 @change="processJSON"
               ></upload-file-icon-btn>
             </wt-table-actions>
@@ -59,21 +59,22 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-<!--        <wt-dummy-->
-<!--          v-if="dummy && isLoaded"-->
-<!--          :src="dummy.src"-->
-<!--          :text="dummy.text && $t(dummy.text)"-->
-<!--          :show-action="dummy.showAction"-->
-<!--          @create="create"-->
-<!--          class="dummy-wrapper"-->
-<!--        ></wt-dummy>-->
+        <!--        <wt-dummy-->
+        <!--          v-if="dummy && isLoaded"-->
+        <!--          :src="dummy.src"-->
+        <!--          :text="dummy.text && $t(dummy.text)"-->
+        <!--          :show-action="dummy.showAction"-->
+        <!--          @create="create"-->
+        <!--          class="dummy-wrapper"-->
+        <!--        ></wt-dummy>-->
         <div
           v-show="isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -94,7 +95,7 @@
               {{ item.type ? $t(`objects.flow.type.${item.type}`) : '' }}
             </template>
             <template v-slot:tags="{ item }">
-              <div class="the-flow__tags" v-if="item.tags">
+              <div v-if="item.tags" class="the-flow__tags">
                 <wt-chip
                   v-for="(tag, key) of item.tags"
                   :key="key"
@@ -105,18 +106,18 @@
 
 
             <template v-slot:createdAt="{ item }">
-              {{ new Date(+item.createdAt).toLocaleDateString()}}
+              {{ new Date(+item.createdAt).toLocaleDateString() }}
             </template>
 
             <template v-slot:updatedAt="{ item }">
-              {{ new Date(+item.updatedAt).toLocaleDateString()}}
+              {{ new Date(+item.updatedAt).toLocaleDateString() }}
             </template>
 
             <template v-slot:actions="{ item }">
-            <wt-icon-action
-              action="download"
-              @click="download(item)"
-            ></wt-icon-action>
+              <wt-icon-action
+                action="download"
+                @click="download(item)"
+              ></wt-icon-action>
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
@@ -128,17 +129,17 @@
                 class="table-action"
                 @click="callDelete(item)"
               ></wt-icon-action>
-          </template>
+            </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -148,16 +149,15 @@
 
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import CreateFlowPopup from './create-flow-popup.vue';
-import UploadPopup from './upload-flow-popup.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import FlowsAPI from '../api/flow';
-import { downloadAsJSON } from '../../../../../app/utils/download';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { downloadAsJSON } from '../../../../../app/utils/download';
+import FlowsAPI from '../api/flow';
 import FlowEditor from '../enums/FlowEditor.enum';
 import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import CreateFlowPopup from './create-flow-popup.vue';
+import UploadPopup from './upload-flow-popup.vue';
 
 const namespace = 'routing/flow';
 
@@ -245,7 +245,7 @@ export default {
 <style lang="scss" scoped>
 .the-flow__tags {
   display: flex;
-  gap: var(--spacing-xs);
   flex-wrap: wrap;
+  gap: var(--spacing-xs);
 }
 </style>

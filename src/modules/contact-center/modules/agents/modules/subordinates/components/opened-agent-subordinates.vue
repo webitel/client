@@ -6,16 +6,16 @@
     ></subordinate-popup>
     <object-list-popup
       v-if="isSupervisorPopup"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorPopup"
     ></object-list-popup>
     <object-list-popup
       v-if="isSkillsPopup"
-      :title="$tc('objects.lookups.skills.skills', 2)"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
+      :title="$tc('objects.lookups.skills.skills', 2)"
       @close="closeSkillsPopup"
     ></object-list-popup>
 
@@ -58,18 +58,20 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
         <template v-slot:name="{ item }">
           <wt-item-link
             :link="editLink(item)"
-            target="_blank">
+            target="_blank"
+          >
             {{ item.name }}
           </wt-item-link>
         </template>
@@ -113,12 +115,12 @@
 
 <script>
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 
 const namespace = 'ccenter/agents';
 const subNamespace = 'subordinates';

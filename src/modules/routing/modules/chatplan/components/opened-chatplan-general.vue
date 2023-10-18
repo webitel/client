@@ -5,27 +5,27 @@
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
-        :value="itemInstance.schema"
-        :v="v.itemInstance.schema"
-        :label="$tc('objects.routing.flow.flow', 1)"
-        :search-method="loadFlows"
         :clearable="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.routing.flow.flow', 1)"
+        :search-method="loadFlows"
+        :v="v.itemInstance.schema"
+        :value="itemInstance.schema"
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
       ></wt-select>
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </div>
@@ -33,8 +33,9 @@
 </template>
 
 <script>
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-chatplan',

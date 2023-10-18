@@ -1,11 +1,11 @@
 <template>
   <selection-popup
-    :title="$t('objects.routing.gateways.newGateway')"
-    :selected="selected"
     :options="options"
+    :selected="selected"
+    :title="$t('objects.routing.gateways.newGateway')"
     @change="selectOption"
-    @select="createGateway"
     @close="close"
+    @select="createGateway"
   ></selection-popup>
 </template>
 

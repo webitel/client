@@ -2,49 +2,46 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header
-        :primary-action="save"
-        :primary-text="saveText"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
-      </template>
+    </template>
 
-      <template v-slot:main>
-        <form
-          class="main-container"
-          @submit.prevent="save"
-        >
-          <wt-tabs
-            v-model="currentTab"
-            :tabs="tabs"
-          ></wt-tabs>
-          <component
-            :is="currentTab.value"
-            :v="v$"
-            :namespace="namespace"
-          ></component>
-          <input type="submit" hidden> <!--  submit form on Enter  -->
-        </form>
-      </template>
+    <template v-slot:main>
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        ></component>
+        <input hidden type="submit"> <!--  submit form on Enter  -->
+      </form>
+    </template>
   </wt-page-wrapper>
 </template>
 
 <script>
 
 import { useVuelidate } from '@vuelidate/core';
-import {
-  helpers,
-  maxValue, minValue, numeric, required,
-} from '@vuelidate/validators';
+import { helpers, maxValue, minValue, numeric, required } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
-import { sipAccountValidator, gatewayHostValidator, ipValidator } from '../../../../../app/utils/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { gatewayHostValidator, ipValidator, sipAccountValidator } from '../../../../../app/utils/validators';
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
 import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
 import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-sip-gateway',
@@ -96,17 +93,21 @@ export default {
     },
 
     tabs() {
-      const registerTabs = [{
-        text: this.$t('objects.general'),
-        value: 'register-general',
-      }];
-      const trunkingTabs = [{
-        text: this.$t('objects.general'),
-        value: 'trunking-general',
-      }, {
-        text: this.$tc('objects.routing.configuration'),
-        value: 'trunking-configuration',
-      }];
+      const registerTabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'register-general',
+        },
+      ];
+      const trunkingTabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'trunking-general',
+        }, {
+          text: this.$tc('objects.routing.configuration'),
+          value: 'trunking-configuration',
+        },
+      ];
       return this.isRegister ? registerTabs : trunkingTabs;
     },
 

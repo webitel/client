@@ -40,8 +40,7 @@ import openedTabComponentMixin
 export default {
   name: 'opened-chat-gateway-templates-tab',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-  }),
+  data: () => ({}),
   methods: {
     ...mapActions({
       setTemplateValue(dispatch, payload) {

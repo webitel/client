@@ -35,29 +35,29 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.key')"
-        :value="itemInstance.properties.key"
         :v="v.itemInstance.properties.key"
+        :value="itemInstance.properties.key"
         required
         @input="setItemPropertiesProp({ prop: 'key', value: $event })"
       ></wt-input>
       <wt-select
+        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
         :options="MicrosoftLanguageOptions"
-        :value="itemInstance.properties.locale"
-        :v="v.itemInstance.properties.locale"
-        :clearable="false"
         :track-by="null"
+        :v="v.itemInstance.properties.locale"
+        :value="itemInstance.properties.locale"
         required
         @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
       ></wt-select>
       <wt-select
+        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.region')"
         :options="MicrosoftRegion"
-        :value="itemInstance.properties.region"
         :v="v.itemInstance.properties.region"
-        :clearable="false"
+        :value="itemInstance.properties.region"
         required
         @input="setItemPropertiesProp({ prop: 'region', value: $event })"
       ></wt-select>

@@ -27,10 +27,10 @@
             class="upload-popup-form__file-preview"
           >
             <wt-table
-              :headers="csvPreviewTableHeaders"
               :data="csvPreviewTableData"
-              :selectable="false"
               :grid-actions="false"
+              :headers="csvPreviewTableHeaders"
+              :selectable="false"
             ></wt-table>
           </article>
         </section>
@@ -46,8 +46,8 @@
       v-slot:actions
     >
       <wt-button
-        :loading="isParsingCSV"
         :disabled="!allowSaveAction"
+        :loading="isParsingCSV"
         @click="handleSave"
       >{{ $t('reusable.save') }}
       </wt-button>
@@ -84,5 +84,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../css/upload-popup";
+@import '../css/upload-popup';
 </style>

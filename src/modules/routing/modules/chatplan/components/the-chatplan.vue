@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="chatplan" :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" class="chatplan">
     <template v-slot:header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -23,9 +23,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -44,19 +44,20 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -71,15 +72,15 @@
             <template v-slot:schema="{ item }">
               <wt-item-link
                 v-if="item.schema"
-                :route-name="RouteNames.FLOW"
                 :id="item.schema.id"
+                :route-name="RouteNames.FLOW"
               >{{ item.schema.name }}
               </wt-item-link>
             </template>
             <template v-slot:state="{ item, index }">
               <wt-switcher
-                :value="item.enabled"
                 :disabled="!hasEditAccess"
+                :value="item.enabled"
                 @change="patchProperty({ index, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
@@ -98,14 +99,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -115,9 +116,9 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'routing/chatplan';
 

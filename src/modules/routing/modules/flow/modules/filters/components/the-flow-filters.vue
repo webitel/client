@@ -26,8 +26,7 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-  }),
+  data: () => ({}),
   methods: {
     ...mapActions({
       resetFilterValues(dispatch, payload) {
@@ -46,6 +45,7 @@ export default {
 .flow-tags-filter {
   grid-column: 1 / 3;
 }
+
 .flow-type-filter {
   grid-column: 3 / 5;
 }

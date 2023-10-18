@@ -1,15 +1,15 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.triggers.logs.logs')}}</h3>
+      <h3 class="content-title">{{ $t('objects.integrations.triggers.logs.logs') }}</h3>
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
 export default {
   name: 'opened-trigger-logs',

@@ -6,26 +6,26 @@
     <template v-slot:main>
       <form>
         <wt-select
-          :value="itemInstance.resource"
-          :v="v$.itemInstance.resource"
+          :clearable="false"
           :label="$tc('objects.ccenter.res.res', 1)"
           :search-method="loadDropdownOptionsList"
-          :clearable="false"
+          :v="v$.itemInstance.resource"
+          :value="itemInstance.resource"
           required
           @input="setItemProp({ prop: 'resource', value: $event })"
         ></wt-select>
         <wt-input
-          :value="itemInstance.priority"
           :label="$t('objects.ccenter.res.priority')"
+          :value="itemInstance.priority"
           type="number"
           @input="setItemProp({ prop: 'priority', value: +$event })"
         ></wt-input>
         <wt-select
-          :value="itemInstance.reserveResource"
-          :v="v$.itemInstance.reserveResource"
+          :clearable="true"
           :label="$tc('objects.ccenter.res.reserveResource', 1)"
           :search-method="loadDropdownOptionsList"
-          :clearable="true"
+          :v="v$.itemInstance.reserveResource"
+          :value="itemInstance.reserveResource"
           @input="setItemProp({ prop: 'reserveResource', value: $event })"
         ></wt-select>
       </form>
@@ -48,8 +48,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import ResourcesAPI from '../../../../resources/api/resources';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import ResourcesAPI from '../../../../resources/api/resources';
 
 export default {
   name: 'opened-res-numbers-popup',

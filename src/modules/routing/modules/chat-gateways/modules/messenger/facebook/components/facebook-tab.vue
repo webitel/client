@@ -34,10 +34,10 @@
       >
         <template v-slot:id="{ item }">
           <wt-copy-action
-            :value="item.id"
             :tooltips="{
               copy: item.id,
             }"
+            :value="item.id"
           ></wt-copy-action>
         </template>
         <template v-slot:accounts="{ item }">
@@ -63,8 +63,8 @@ import path from 'path';
 import { mapActions } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
+import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
 export default {
   name: 'opened-chat-gateway-facebook-tab',
@@ -84,10 +84,10 @@ export default {
   },
   methods: {
     ...mapActions({
-                    updateSubscriptionState(dispatch, payload) {
-                      return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
-                    },
-                  }),
+      updateSubscriptionState(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
+      },
+    }),
     addOrRemovePagesWindowHandler({ data }) {
       if (data.status === 'success') this.loadList();
       else if (data.status === 'error') {

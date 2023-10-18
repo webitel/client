@@ -12,14 +12,14 @@
     </template>
     <template v-slot:actions>
       <wt-button
-        color="secondary"
         :disabled="isResetting"
+        color="secondary"
         @click="cancel"
       >{{ $t('reusable.cancel') }}
       </wt-button>
       <wt-button
-        color="error"
         :loading="isResetting"
+        color="error"
         @click="confirm"
       >{{ $t('objects.ccenter.members.resetMembers.reset') }}
       </wt-button>
@@ -40,8 +40,7 @@ export default {
   data: () => ({
     isResetting: false,
   }),
-  computed: {
-  },
+  computed: {},
   methods: {
     close() {
       this.$emit('close');

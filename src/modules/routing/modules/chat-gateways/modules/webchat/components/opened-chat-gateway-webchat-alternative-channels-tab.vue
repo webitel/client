@@ -2,7 +2,9 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels') }}</h3>
+      <h3 class="content-title">{{
+          $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
+        }}</h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <div
@@ -44,15 +46,15 @@ export default {
     alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
       ...Object.values(WebchatAlternativeChannel)
-               .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
+      .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
     channelUrlPlaceholder: {
       ...Object.values(WebchatAlternativeChannel)
-               .reduce((channels, channel) => ({
-                 ...channels,
-                 [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-               }), {}),
+      .reduce((channels, channel) => ({
+        ...channels,
+        [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+      }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
       [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
       [WebchatAlternativeChannel.TELEGRAM]: 'objects.routing.chatGateways.webchat.alternativeChannels.telegram',

@@ -16,17 +16,17 @@
           <form @submit="changePassword">
             <wt-input
               v-model="newPassword"
-              :v="v$.newPassword"
               :label="$t('auth.password')"
-              type="password"
+              :v="v$.newPassword"
               required
+              type="password"
             ></wt-input>
             <wt-input
               v-model="confirmNewPassword"
-              :v="v$.confirmNewPassword"
               :label="$t('auth.confirmPassword')"
-              type="password"
+              :v="v$.confirmNewPassword"
               required
+              type="password"
             ></wt-input>
             <wt-button
               :disabled="disablePasswordChange"
@@ -43,10 +43,10 @@
           </header>
           <form>
             <wt-select
-              class="language-list"
-              :value="language"
-              :options="languageOptions"
               :label="$t('settings.language')"
+              :options="languageOptions"
+              :value="language"
+              class="language-list"
               @input="changeLanguage"
             ></wt-select>
           </form>
@@ -65,7 +65,8 @@
             </div>
             <div
               v-show="webrtc"
-              class="settings-section__wrapper">
+              class="settings-section__wrapper"
+            >
               <p>{{ $t('settings.useStun') }}</p>
               <wt-switcher
                 v-model="stun"
@@ -81,8 +82,8 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
+import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { sameAs, required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 
@@ -170,13 +171,13 @@ export default {
     },
 
     async changeWebrtc(value) {
-        try {
-          this.webrtc = value;
-          if (!value) this.stun = false;
-          await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
-        } catch (err) {
-          throw err;
-        }
+      try {
+        this.webrtc = value;
+        if (!value) this.stun = false;
+        await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
+      } catch (err) {
+        throw err;
+      }
     },
 
     async changeStun(value) {
@@ -205,7 +206,7 @@ export default {
       this.webrtc = response.webrtc;
       this.stun = response.stun;
     } catch (error) {
-      throw error
+      throw error;
     }
   },
 
@@ -215,10 +216,10 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   flex: 0 1 50%;
+  flex-direction: column;
   min-width: 200px;
+  gap: var(--spacing-sm);
 
   .wt-button {
     display: block;

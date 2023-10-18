@@ -13,12 +13,12 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
+        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.importCsv.source')"
+        :search-method="loadQueueOptions"
         :v="v.itemInstance.source"
         :value="itemInstance.source"
-        :search-method="loadQueueOptions"
-        :clearable="false"
         required
         @input="setItemProp({ prop: 'source', value: $event })"
       ></wt-select>
@@ -43,9 +43,11 @@ export default {
   mixins: [openedTabComponentMixin],
   methods: {
     loadQueueOptions(params) {
-      const type = [QueueType.OFFLINE_QUEUE, QueueType.OUTBOUND_IVR_QUEUE, QueueType.PREVIEW_DIALER,
-      QueueType.PROGRESSIVE_DIALER, QueueType.PREDICTIVE_DIALER, QueueType.CHAT_INBOUND_QUEUE,
-      QueueType.INBOUND_JOB_QUEUE, QueueType.OUTBOUND_JOB_QUEUE];
+      const type = [
+        QueueType.OFFLINE_QUEUE, QueueType.OUTBOUND_IVR_QUEUE, QueueType.PREVIEW_DIALER,
+        QueueType.PROGRESSIVE_DIALER, QueueType.PREDICTIVE_DIALER, QueueType.CHAT_INBOUND_QUEUE,
+        QueueType.INBOUND_JOB_QUEUE, QueueType.OUTBOUND_JOB_QUEUE,
+      ];
       return QueuesAPI.getLookup({ ...params, type });
     },
   },

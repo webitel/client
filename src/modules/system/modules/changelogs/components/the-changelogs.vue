@@ -19,9 +19,11 @@
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
-            {{ $t('objects.all', {
-            entity: $tc('objects.system.changelogs.changelogs', 2).toLowerCase(),
-          }) }}
+            {{
+              $t('objects.all', {
+                entity: $tc('objects.system.changelogs.changelogs', 2).toLowerCase(),
+              })
+            }}
           </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar

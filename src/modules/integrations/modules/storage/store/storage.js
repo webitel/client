@@ -1,14 +1,18 @@
 import deepMerge from 'deepmerge';
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import StorageAPI from '../api/storage';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import Storage from './_internals/enums/Storage.enum';
-import defaultStorageState from './_internals/storageSchema/defaults/defaultStorage';
+import headers from './_internals/headers';
+import defaultBackblazeStorageState
+  from './_internals/storageSchema/backblazeStorage';
+import defaultStorageState
+  from './_internals/storageSchema/defaults/defaultStorage';
+import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
+import defaultDropboxStorageState
+  from './_internals/storageSchema/dropboxStorage';
 import defaultLocalStorageState from './_internals/storageSchema/localStorage';
 import defaultS3StorageState from './_internals/storageSchema/s3Storage';
-import defaultBackblazeStorageState from './_internals/storageSchema/backblazeStorage';
-import defaultDropboxStorageState from './_internals/storageSchema/dropboxStorage';
-import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
-import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: defaultStorageState(),
@@ -56,8 +60,8 @@ const mutations = {
 };
 
 const storage = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(StorageAPI)
-  .generateAPIActions()
-  .getModule({ actions, mutations });
+.attachAPIModule(StorageAPI)
+.generateAPIActions()
+.getModule({ actions, mutations });
 
 export default storage;

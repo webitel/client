@@ -2,16 +2,16 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
         :primary-disabled="disabledSave"
-        :hide-primary="!hasSaveActionAccess"
         :primary-text="saveText"
         :secondary-action="close"
       >
         <template v-slot:primary-action>
           <wt-button-select
-            :options="saveOptions"
             :color="disabledSave && 'secondary'"
+            :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"
           >{{ $t('objects.save') }}
@@ -28,8 +28,8 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
       </div>
     </template>
@@ -38,14 +38,14 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { required } from '@vuelidate/validators';
-import General from './opened-queue-member-general.vue';
-import Communication from './communications/opened-queue-member-communication.vue';
-import Variables from './opened-queue-member-variables.vue';
-import { requiredArrayValue } from '../../../../../../../app/utils/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { requiredArrayValue } from '../../../../../../../app/utils/validators';
+import Communication from './communications/opened-queue-member-communication.vue';
+import General from './opened-queue-member-general.vue';
+import Variables from './opened-queue-member-variables.vue';
 
 export default {
   name: 'opened-queue-member',

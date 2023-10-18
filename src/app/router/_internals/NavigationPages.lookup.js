@@ -1,7 +1,7 @@
-import WebitelApplications
-  from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import AdminSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum';
+import WebitelApplications
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 
 const nav = Object.freeze([
   {

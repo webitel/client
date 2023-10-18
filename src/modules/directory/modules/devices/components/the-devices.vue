@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="devices" :actions-panel="false">
+  <wt-page-wrapper :actions-panel="false" class="devices">
     <template v-slot:header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -39,9 +39,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -55,8 +55,8 @@
               ></delete-all-action>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
-                class="icon-action"
                 accept=".csv"
+                class="icon-action"
                 @change="processCSV"
               ></upload-file-icon-btn>
             </wt-table-actions>
@@ -66,20 +66,20 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -97,8 +97,8 @@
             <template v-slot:user="{ item }">
               <wt-item-link
                 v-if="item.user"
-                :route-name="RouteNames.USERS"
                 :id="item.user.id"
+                :route-name="RouteNames.USERS"
               >
                 {{ item.user.name }}
               </wt-item-link>
@@ -132,14 +132,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -148,15 +148,15 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import HistoryPopup from './device-history-popup.vue';
-import UploadPopup from './upload-devices-popup.vue';
-import DevicePopup from './create-device-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import DevicePopup from './create-device-popup.vue';
+import HistoryPopup from './device-history-popup.vue';
+import UploadPopup from './upload-devices-popup.vue';
 
 const namespace = 'directory/devices';
 

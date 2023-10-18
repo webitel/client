@@ -7,19 +7,19 @@
       <form>
         <wt-select
           v-model="event"
-          :v="v$.itemInstance.event"
+          :clearable="false"
           :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
-          :clearable="false"
-          track-by="value"
+          :v="v$.itemInstance.event"
           required
+          track-by="value"
         ></wt-select>
         <wt-select
-          :value="itemInstance.schema"
-          :v="v$.itemInstance.schema"
+          :clearable="false"
           :label="$tc('objects.routing.flow.flow', 1)"
           :search-method="loadFlowOptions"
-          :clearable="false"
+          :v="v$.itemInstance.schema"
+          :value="itemInstance.schema"
           required
           @input="setItemProp({ prop: 'schema', value: $event })"
         ></wt-select>

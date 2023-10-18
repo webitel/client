@@ -3,15 +3,18 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  camelToSnake,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../app/api/instance';
-import registerGateway
-  from '../store/_internals/gatewaySchema/registerGateway';
-import trunkingGateway
-  from '../store/_internals/gatewaySchema/trunkingGateway';
+import registerGateway from '../store/_internals/gatewaySchema/registerGateway';
+import trunkingGateway from '../store/_internals/gatewaySchema/trunkingGateway';
 
 const baseUrl = '/sip/gateways';
 
@@ -93,8 +96,24 @@ const getGateway = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['name', 'proxy', 'id', 'host', 'ipacl', 'account', 'username', 'expires',
-  'account', 'registrar', 'name', 'register', 'password', 'schema', 'usage', 'enable'];
+const fieldsToSend = [
+  'name',
+  'proxy',
+  'id',
+  'host',
+  'ipacl',
+  'account',
+  'username',
+  'expires',
+  'account',
+  'registrar',
+  'name',
+  'register',
+  'password',
+  'schema',
+  'usage',
+  'enable',
+];
 
 const addGateway = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [

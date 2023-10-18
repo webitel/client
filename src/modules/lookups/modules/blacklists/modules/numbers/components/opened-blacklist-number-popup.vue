@@ -6,9 +6,9 @@
     <template v-slot:main>
       <form class="opened-blacklist-number-popup__wrapper">
         <wt-input
-          :value="itemInstance.number"
-          :v="v$.itemInstance.number"
           :label="$tc('objects.lookups.blacklist.number', 1)"
+          :v="v$.itemInstance.number"
+          :value="itemInstance.number"
           required
           @input="setItemProp({ prop: 'number', value: $event })"
         ></wt-input>
@@ -18,14 +18,14 @@
         ></wt-switcher>
         <wt-datepicker
           v-if="showExpireDate"
-          :value="itemInstance.expireAt"
           :label="$t('objects.lookups.blacklist.expireAt')"
+          :value="itemInstance.expireAt"
           mode="datetime"
           @input="setItemProp({ prop: 'expireAt', value: $event })"
         ></wt-datepicker>
         <wt-textarea
-          :value="itemInstance.description"
           :label="$t('objects.description')"
+          :value="itemInstance.description"
           @input="setItemProp({ prop: 'description', value: $event })"
         ></wt-textarea>
       </form>

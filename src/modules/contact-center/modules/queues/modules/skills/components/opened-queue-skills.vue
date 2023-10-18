@@ -50,11 +50,12 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
@@ -74,16 +75,17 @@
 
         <template v-slot:buckets="{ item }">
           <div>{{ getFirstBucket(item.buckets) }}
-            <span class="hidden-num"
-                  @click="readBuckets(item)"
-                  v-if="item.buckets.length > 1"
+            <span
+              v-if="item.buckets.length > 1"
+              class="hidden-num"
+              @click="readBuckets(item)"
             >+{{ item.buckets.length - 1 }}</span>
           </div>
         </template>
         <template v-slot:state="{ item, index }">
           <wt-switcher
-            :value="item.enabled"
             :disabled="!hasEditAccess"
+            :value="item.enabled"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           ></wt-switcher>
         </template>
@@ -114,11 +116,11 @@
 </template>
 
 <script>
-import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
-import SkillPopup from './opened-queue-skills-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
+import SkillPopup from './opened-queue-skills-popup.vue';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'skills';
@@ -173,7 +175,7 @@ export default {
   @extend %typo-body-2;
 
   margin-left: 33px;
-  text-decoration: underline;
   cursor: pointer;
+  text-decoration: underline;
 }
 </style>

@@ -46,13 +46,13 @@ export default {
 .files-counter {
   @extend %typo-caption;
   position: absolute;
-  right: 0;
   top: 100%;
-  padding: 10px 15px;
+  right: 0;
   margin-top: 10px;
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
   background: var(--main-color);
   box-shadow: var(--box-shadow);
-  border-radius: var(--border-radius);
 
   &__count {
     @extend %typo-caption;

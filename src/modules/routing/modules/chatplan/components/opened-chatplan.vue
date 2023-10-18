@@ -2,10 +2,10 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
         <wt-headline-nav :path="path"></wt-headline-nav>
@@ -23,10 +23,10 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -35,8 +35,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import General from './opened-chatplan-general.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-chatplan-general.vue';
 
 export default {
   name: 'opened-chatplan',
@@ -58,10 +58,12 @@ export default {
 
   computed: {
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        },
+      ];
       return tabs;
     },
     path() {

@@ -8,10 +8,10 @@
       <form>
         <wt-checkbox
           v-for="(sec, key) of appSectionsAccess"
-          :selected="sec.enabled"
-          :value="true"
           :key="key"
           :label="sec.displayName"
+          :selected="sec.enabled"
+          :value="true"
           @change="updateAccess({ app: editedApp, section: sec.name, value: $event })"
         ></wt-checkbox>
       </form>
@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
@@ -56,8 +56,8 @@ export default {
     }),
     appSectionsAccess() {
       return Object.keys(this.access[this.editedApp])
-        .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
-        .map((section) => ({
+      .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
+      .map((section) => ({
         name: section,
         displayName: this.$t(this.access[this.editedApp][section]._locale),
         enabled: this.access[this.editedApp][section]._enabled,

@@ -128,16 +128,16 @@
 
 <script>
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
-import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
-import MediaAPI from '../../../../lookups/modules/media/api/media';
-import TeamsAPI from '../../teams/api/teams';
-import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import RolesAPI from '../../../../permissions/modules/roles/api/roles';
-import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
+import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import MediaAPI from '../../../../lookups/modules/media/api/media';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
+import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import TeamsAPI from '../../teams/api/teams';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 
 export default {
   name: 'opened-queue-general',
@@ -147,7 +147,7 @@ export default {
     strategy: {
       get() {
         return this.dropdownOptionsStrategyList
-                   .find((strategy) => strategy.value === this.itemInstance.strategy);
+        .find((strategy) => strategy.value === this.itemInstance.strategy);
       },
       set(value) {
         this.setItemProp({ prop: 'strategy', value: value.value });
@@ -162,10 +162,10 @@ export default {
     },
     specificControls() {
       return QueueTypeProperties[this.itemInstance.type].controls
-                                                        .reduce((controls, control) => ({
-                                                          ...controls,
-                                                          [control]: true,
-                                                        }), {});
+      .reduce((controls, control) => ({
+        ...controls,
+        [control]: true,
+      }), {});
     },
   },
 

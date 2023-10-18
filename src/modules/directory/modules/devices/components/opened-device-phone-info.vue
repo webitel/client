@@ -5,36 +5,36 @@
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.phone"
+        :disabled="disableUserInput"
         :label="$t('objects.directory.devices.phone')"
         :options="phoneOptions"
-        :disabled="disableUserInput"
+        :value="itemInstance.phone"
         @input="setDevice"
       ></wt-select>
       <wt-input
-        :value="itemInstance.ip"
-        :v="v.itemInstance.ip"
-        :label="$t('objects.directory.devices.ipv4')"
         :disabled="disableUserInput"
+        :label="$t('objects.directory.devices.ipv4')"
+        :v="v.itemInstance.ip"
+        :value="itemInstance.ip"
         @input="setItemProp({ prop: 'ip', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.brand"
-        :label="$t('objects.directory.devices.vendor')"
         :disabled="disableUserInput"
+        :label="$t('objects.directory.devices.vendor')"
+        :value="itemInstance.brand"
         @input="setItemProp({ prop: 'brand', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.model"
-        :label="$t('objects.directory.devices.model')"
         :disabled="disableUserInput"
+        :label="$t('objects.directory.devices.model')"
+        :value="itemInstance.model"
         @input="setItemProp({ prop: 'model', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.mac"
-        :v="v.itemInstance.mac"
-        :label="$t('objects.directory.devices.mac')"
         :disabled="disableUserInput"
+        :label="$t('objects.directory.devices.mac')"
+        :v="v.itemInstance.mac"
+        :value="itemInstance.mac"
         @input="setItemProp({ prop: 'mac', value: $event })"
       ></wt-input>
     </div>
@@ -49,17 +49,19 @@ export default {
   name: 'opened-device-phone-info',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    phoneOptions: [{
-      name: 'Cisco IP Phone 7821',
-      id: 1,
-      brand: 'cisco',
-      model: '7821',
-    }, {
-      name: 'Yealink SIP-T21P E2',
-      id: 2,
-      brand: 'yealink',
-      model: 'T21',
-    }],
+    phoneOptions: [
+      {
+        name: 'Cisco IP Phone 7821',
+        id: 1,
+        brand: 'cisco',
+        model: '7821',
+      }, {
+        name: 'Yealink SIP-T21P E2',
+        id: 2,
+        brand: 'yealink',
+        model: 'T21',
+      },
+    ],
   }),
 
   methods: {

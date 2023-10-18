@@ -56,7 +56,7 @@
               <wt-label>
                 {{ this.$t('objects.routing.chatGateways.webchat.view.btnColor') }}
               </wt-label>
-              <color-picker :value="color" class="colorpicker" @input="setColor"/>
+              <color-picker :value="color" class="colorpicker" @input="setColor" />
             </div>
           </section>
         </div>
@@ -93,14 +93,14 @@ export default {
 @import '../../../css/chat-gateways';
 
 .webchat-view-main {
+  display: flex;
   width: 50%;
   min-width: 760px;
-  display: flex;
   gap: var(--spacing-sm);
 
   .chat-preview-section {
-    flex-basis: max-content;
     display: flex;
+    flex-basis: max-content;
     flex-direction: column;
 
     :deep(#wt-omni-widget.wt-omni-widget--position-static) {
@@ -108,31 +108,32 @@ export default {
     }
 
     :deep(.chat-button-preview-section) {
-      align-self: center;
-      justify-self: center;
       position: relative;
+      display: flex;
+      align-items: center;
+      align-self: center;
+      justify-content: center;
       width: 100px;
       height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       margin-top: var(--spacing-sm);
+      justify-self: center;
     }
 
     :deep(.chat-button-preview-section::after) {
-      content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      bottom: 0;
       right: 0;
-      background: url('../../../assets/transparent-img.svg') repeat;
+      bottom: 0;
+      left: 0;
+      content: '';
       opacity: 0.3;
+      background: url('../../../assets/transparent-img.svg') repeat;
     }
   }
 
   .chat-config-section {
     width: 50%;
+
     .colorpicker-section {
       position: relative;
       display: flex;

@@ -36,7 +36,7 @@
           :namespace="namespace"
           :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -45,23 +45,23 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { QueueType } from 'webitel-sdk/esm2015/enums';
-import { required, minValue } from '@vuelidate/validators';
+import { minValue, required } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import Agents from '../modules/agents/components/opened-queue-agents.vue';
+import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
+import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
+import Logs from '../modules/logs/components/opened-queue-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
+import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
+import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import General from './opened-queue-general.vue';
 import Params from './opened-queue-params.vue';
 import Processing from './opened-queue-processing.vue';
-import Agents from '../modules/agents/components/opened-queue-agents.vue';
-import Skills from '../modules/skills/components/opened-queue-skills.vue';
-import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
-import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
-import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
 import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
-import Logs from '../modules/logs/components/opened-queue-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
   name: 'opened-queue',
@@ -301,17 +301,17 @@ export default {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.$route.query.type);
     },
-  //   setStartTab() {
-  //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
-  //     if (tab) this.currentTab = tab;
-  //   },
-  //   handleTabChange(tab) {
-  //     this.currentTab = tab;
-  //     /**
-  //      * This method has an issue in it cause "filters reset" resets hash too
-  //      */
-  //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
-  //   },
+    //   setStartTab() {
+    //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
+    //     if (tab) this.currentTab = tab;
+    //   },
+    //   handleTabChange(tab) {
+    //     this.currentTab = tab;
+    //     /**
+    //      * This method has an issue in it cause "filters reset" resets hash too
+    //      */
+    //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
+    //   },
   },
   // created() {
   //   this.setStartTab();

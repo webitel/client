@@ -22,8 +22,8 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :value="itemInstance.password"
         :label="$t('objects.password')"
+        :value="itemInstance.password"
         @input="setItemProp({ prop: 'password', value: $event })"
       ></wt-input>
       <wt-input

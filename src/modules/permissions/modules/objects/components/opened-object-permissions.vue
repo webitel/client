@@ -22,16 +22,16 @@
           :is="currentTab.value"
           :namespace="namespace"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
 <script>
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Obac from '../modules/obac/components/opened-object-permissions-obac.vue';
 import Rbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
   name: 'opened-object-permissions',
@@ -43,13 +43,15 @@ export default {
 
   computed: {
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.permissions.object.ObAC'),
-        value: 'obac',
-      }, {
-        text: this.$t('objects.permissions.object.RbAC'),
-        value: 'rbac',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.permissions.object.ObAC'),
+          value: 'obac',
+        }, {
+          text: this.$t('objects.permissions.object.RbAC'),
+          value: 'rbac',
+        },
+      ];
       return tabs;
     },
 

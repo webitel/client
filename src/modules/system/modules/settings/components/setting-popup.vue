@@ -10,17 +10,17 @@
     <template v-slot:main>
       <form>
         <wt-input
-          :value="itemInstance.name"
-          :v="v$.itemInstance.name"
-          :label="$t('reusable.name')"
           :disabled="id"
+          :label="$t('reusable.name')"
+          :v="v$.itemInstance.name"
+          :value="itemInstance.name"
           required
           @input="setItemProp({ prop: 'name', value: $event })"
         ></wt-input>
         <wt-input
-          :value="itemInstance.value"
-          :v="v$.itemInstance.value"
           :label="$tc('vocabulary.values', 1)"
+          :v="v$.itemInstance.value"
+          :value="itemInstance.value"
           required
           @input="setItemProp({ prop: 'value', value: $event })"
         ></wt-input>

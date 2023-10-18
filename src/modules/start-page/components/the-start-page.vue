@@ -7,24 +7,22 @@
         @select="select"
       >
         <category-lvl-2
-          class="d-none d-block-xs"
           :categories="subcategories"
+          class="d-none d-block-xs"
         ></category-lvl-2>
       </category-lvl-1>
       <category-lvl-2
-        class="d-none-xs"
         :categories="subcategories"
+        class="d-none-xs"
       ></category-lvl-2>
     </article>
   </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import navMixin from '../../../app/mixins/navMixin';
 import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
 import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
-import navMixin from '../../../app/mixins/navMixin';
 
 export default {
   name: 'the-start-page',
@@ -86,25 +84,25 @@ export default {
 }
 
 .start-nav {
-  flex-grow: 1;
   display: flex;
   align-items: center;
+  flex-grow: 1;
   justify-content: center;
 }
 
 .start-nav__wrapper {
   @extend %wt-scrollbar;
 
+  display: grid;
   box-sizing: border-box;
   width: var(--wrapper-width);
   height: var(--wrapper-height);
-  display: grid;
+  margin: auto;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  background: var(--main-color);
   grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  margin: auto;
-  background: var(--main-color);
-  border-radius: var(--border-radius);
 
   @media (#{$media} and #{$media-width-xs}) {
     grid-template-columns: 1fr;

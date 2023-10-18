@@ -2,12 +2,12 @@
   <div class="code-editor">
     <wt-label>{{ label }}</wt-label>
     <div
-      class="code-editor__wrapper"
       :class="{ 'code-editor__wrapper--fullscreen': isFullscreen }"
+      class="code-editor__wrapper"
     >
       <div
-        class="code-editor__editor"
         ref="editor"
+        class="code-editor__editor"
       ></div>
       <wt-tooltip class="code-editor__fullscreen-btn">
         <template v-slot:activator>
@@ -135,11 +135,11 @@ export default {
           return {
             suggestions: this.autocomplete
             .map(({ label, documentation, insertText }) => ({
-                label,
-                range,
-                kind: languages.CompletionItemKind.Function,
-                documentation,
-                insertText: JSON.stringify(insertText, null, 4),
+              label,
+              range,
+              kind: languages.CompletionItemKind.Function,
+              documentation,
+              insertText: JSON.stringify(insertText, null, 4),
             })),
           };
         },
@@ -180,11 +180,11 @@ $line-current: rgba(255, 193, 7, 0.2);
 
   &--fullscreen {
     position: fixed;
+    z-index: 1000;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: 1000;
     width: auto;
     height: auto;
   }
@@ -219,15 +219,15 @@ $line-current: rgba(255, 193, 7, 0.2);
 
       // collaps arrow
       .cldr {
-        height: 16px !important;
         left: 34px !important;
+        height: 16px !important;
       }
     }
   }
 
   .view-overlays .current-line {
-    background: $line-current;
     border: none !important;
+    background: $line-current;
   }
 
   // scrollbar hints canvas
@@ -236,13 +236,13 @@ $line-current: rgba(255, 193, 7, 0.2);
   }
 
   .minimap {
-    left: auto !important;
     right: 10px;
+    left: auto !important;
   }
 
   .slider {
-    background-color: $srollbar-thumb-color;
     border-radius: var(--border-radius);
+    background-color: $srollbar-thumb-color;
   }
 
   // scrollbar
@@ -250,8 +250,8 @@ $line-current: rgba(255, 193, 7, 0.2);
     background: #fff;
 
     &.fade {
-      opacity: 1;
       visibility: visible !important;
+      opacity: 1;
 
       .slider {
         opacity: 0;
@@ -259,16 +259,16 @@ $line-current: rgba(255, 193, 7, 0.2);
     }
 
     .slider {
-      width: 10px !important;
-      left: auto !important;
       right: 0;
+      left: auto !important;
+      width: 10px !important;
     }
   }
 
   // scrollbar
   .horizontal {
-    background: #fff;
     opacity: 1;
+    background: #fff;
 
     .slider {
       height: 10px !important;

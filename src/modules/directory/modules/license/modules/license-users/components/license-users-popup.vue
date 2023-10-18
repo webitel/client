@@ -42,8 +42,8 @@
             <template v-slot:name="{ item }">
               <wt-item-link
                 v-if="item.user"
-                :route-name="RouteNames.USERS"
                 :id="item.user.id"
+                :route-name="RouteNames.USERS"
               >{{ item.user.name }}
               </wt-item-link>
             </template>

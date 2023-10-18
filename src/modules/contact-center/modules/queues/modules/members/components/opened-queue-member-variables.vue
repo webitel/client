@@ -11,20 +11,20 @@
     <form class="object-input-grid">
       <div class="variables">
         <div
-          class="value-pair"
           v-for="(variable, key) in itemInstance.variables"
           :key="key"
+          class="value-pair"
         >
           <wt-input
-            :value="variable.key"
-            :placeholder="$t('objects.ccenter.queues.varKey')"
             :disabled="disableUserInput"
+            :placeholder="$t('objects.ccenter.queues.varKey')"
+            :value="variable.key"
             @input="setVariableProp({index: key, prop: 'key', value: $event})"
           ></wt-input>
           <wt-input
-            :value="variable.value"
-            :placeholder="$t('objects.ccenter.queues.varVal')"
             :disabled="disableUserInput"
+            :placeholder="$t('objects.ccenter.queues.varVal')"
+            :value="variable.value"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
           <wt-icon-action
@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-queue-member-variables',

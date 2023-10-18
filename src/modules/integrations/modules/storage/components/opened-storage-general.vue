@@ -5,38 +5,38 @@
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.maxSize"
-        :v="v.itemInstance.maxSize"
-        :label="$t('objects.integrations.storage.maxSize')"
         :disabled="disableUserInput"
-        type="number"
+        :label="$t('objects.integrations.storage.maxSize')"
         :min-value="0"
+        :v="v.itemInstance.maxSize"
+        :value="itemInstance.maxSize"
+        type="number"
         @input="setItemProp({ prop: 'maxSize', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.expireDays"
-        :v="v.itemInstance.expireDays"
-        :label="$t('objects.integrations.storage.expireDays')"
         :disabled="disableUserInput"
-        type="number"
+        :label="$t('objects.integrations.storage.expireDays')"
         :min-value="0"
+        :v="v.itemInstance.expireDays"
+        :value="itemInstance.expireDays"
+        type="number"
         @input="setItemProp({ prop: 'expireDays', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.priority"
-        :v="v.itemInstance.priority"
-        :label="$t('objects.integrations.storage.priority')"
         :disabled="disableUserInput"
-        type="number"
+        :label="$t('objects.integrations.storage.priority')"
         :min-value="0"
+        :v="v.itemInstance.priority"
+        :value="itemInstance.priority"
+        type="number"
         @input="setItemProp({ prop: 'priority', value: $event })"
       ></wt-input>
     </div>
@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-storage-general',

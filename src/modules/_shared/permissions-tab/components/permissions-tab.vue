@@ -27,54 +27,54 @@
     <wt-loader v-show="!isLoaded"></wt-loader>
     <div v-show="isLoaded" class="table-wrapper">
       <div class="table-wrapper__visible-scroll-wrapper">
-      <wt-table
-        :data="dataList"
-        :headers="headers"
-        :grid-actions="!disableUserInput"
-        :selectable="false"
-        sortable
-        @sort="sort"
-      >
-        <template v-slot:grantee="{ item }">
-          <role-column :role="item.grantee"></role-column>
-        </template>
+        <wt-table
+          :data="dataList"
+          :grid-actions="!disableUserInput"
+          :headers="headers"
+          :selectable="false"
+          sortable
+          @sort="sort"
+        >
+          <template v-slot:grantee="{ item }">
+            <role-column :role="item.grantee"></role-column>
+          </template>
 
-        <template v-slot:read="{ item }">
-          <wt-select
-            :value="item.access.r"
-            :options="accessOptions"
-            :clearable="false"
-            :disabled="disableUserInput"
-            @input="changeReadAccessMode({ item, mode: $event })"
-          ></wt-select>
-        </template>
+          <template v-slot:read="{ item }">
+            <wt-select
+              :clearable="false"
+              :disabled="disableUserInput"
+              :options="accessOptions"
+              :value="item.access.r"
+              @input="changeReadAccessMode({ item, mode: $event })"
+            ></wt-select>
+          </template>
 
-        <template v-slot:edit="{ item }">
-          <wt-select
-            :value="item.access.w"
-            :options="accessOptions"
-            :clearable="false"
-            :disabled="disableUserInput"
-            @input="changeUpdateAccessMode({ item, mode: $event })"
-          ></wt-select>
-        </template>
+          <template v-slot:edit="{ item }">
+            <wt-select
+              :clearable="false"
+              :disabled="disableUserInput"
+              :options="accessOptions"
+              :value="item.access.w"
+              @input="changeUpdateAccessMode({ item, mode: $event })"
+            ></wt-select>
+          </template>
 
-        <template v-slot:delete="{ item }">
-          <wt-select
-            :value="item.access.d"
-            :options="accessOptions"
-            :clearable="false"
-            :disabled="disableUserInput"
-            @input="changeDeleteAccessMode({ item, mode: $event })"
-          ></wt-select>
-        </template>
-        <template v-slot:actions="{ item }">
-          <wt-icon-action
-            action="delete"
-            @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
-          ></wt-icon-action>
-        </template>
-      </wt-table>
+          <template v-slot:delete="{ item }">
+            <wt-select
+              :clearable="false"
+              :disabled="disableUserInput"
+              :options="accessOptions"
+              :value="item.access.d"
+              @input="changeDeleteAccessMode({ item, mode: $event })"
+            ></wt-select>
+          </template>
+          <template v-slot:actions="{ item }">
+            <wt-icon-action
+              action="delete"
+              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+            ></wt-icon-action>
+          </template>
+        </wt-table>
       </div>
       <wt-pagination
         :next="isNext"
@@ -91,10 +91,11 @@
 </template>
 
 <script>
+import openedTabComponentMixin
+  from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from './_internals/permissions-role-column.vue';
 import RolePopup from './permissions-tab-role-popup.vue';
-import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
-import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'permissions-tab',

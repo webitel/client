@@ -7,8 +7,8 @@
       <form @submit.prevent="save">
         <wt-input
           v-model="certificate"
-          :v="v$.certificate"
           :label="$t('objects.directory.license.licenseKey')"
+          :v="v$.certificate"
           required
         ></wt-input>
       </form>
@@ -26,8 +26,8 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapActions } from 'vuex';
 import { required } from '@vuelidate/validators';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'license-popup',
@@ -55,8 +55,8 @@ export default {
     }),
     async save() {
       if (!this.invalid) {
-      await this.updateItem({ certificate: this.certificate });
-      this.close();
+        await this.updateItem({ certificate: this.certificate });
+        this.close();
       }
     },
     close() {

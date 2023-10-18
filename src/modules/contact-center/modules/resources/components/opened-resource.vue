@@ -2,14 +2,14 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
         :primary-disabled="disabledSave"
-        :hide-primary="!hasSaveActionAccess"
         :primary-text="saveText"
         :secondary-action="close"
       >
-      <wt-headline-nav :path="path"></wt-headline-nav>
-    </wt-page-header>
+        <wt-headline-nav :path="path"></wt-headline-nav>
+      </wt-page-header>
     </template>
     <template v-slot:main>
       <form
@@ -22,10 +22,10 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -33,11 +33,11 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minValue, maxValue } from '@vuelidate/validators';
-import General from './opened-resource-general.vue';
+import { maxValue, minValue, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
 import Failure from './opened-resource-failure.vue';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-resource-general.vue';
 
 export default {
   name: 'opened-resource',
@@ -78,16 +78,18 @@ export default {
 
   computed: {
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }, {
-        text: this.$tc('objects.ccenter.res.numbers', 2),
-        value: 'numbers',
-      }, {
-        text: this.$t('objects.ccenter.res.failure'),
-        value: 'failure',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        }, {
+          text: this.$tc('objects.ccenter.res.numbers', 2),
+          value: 'numbers',
+        }, {
+          text: this.$t('objects.ccenter.res.failure'),
+          value: 'failure',
+        },
+      ];
 
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;

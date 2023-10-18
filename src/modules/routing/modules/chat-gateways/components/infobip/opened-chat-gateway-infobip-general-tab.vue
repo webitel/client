@@ -28,12 +28,12 @@
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
       ></copy-input>
-<!--      <wt-input-->
-<!--        :disabled="disableUserInput"-->
-<!--        :label="$t('objects.routing.chatGateways.metadata.number')"-->
-<!--        :value="itemInstance.metadata.number"-->
-<!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
-<!--      ></wt-input>-->
+      <!--      <wt-input-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :label="$t('objects.routing.chatGateways.metadata.number')"-->
+      <!--        :value="itemInstance.metadata.number"-->
+      <!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
+      <!--      ></wt-input>-->
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.routing.flow.flow', 1)"

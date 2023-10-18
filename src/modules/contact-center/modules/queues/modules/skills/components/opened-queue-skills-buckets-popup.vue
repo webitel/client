@@ -7,9 +7,9 @@
       <section class="agent-buckets-popup">
         <wt-table
           :data="dataList"
+          :grid-actions="false"
           :headers="headers"
           :selectable="false"
-          :grid-actions="false"
         >
           <template v-slot:bucket="{ item }">
             {{ item.name }}

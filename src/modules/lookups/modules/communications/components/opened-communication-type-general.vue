@@ -5,34 +5,34 @@
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-select
         v-model="channel"
-        :v="v.itemInstance.channel"
+        :disabled="savedChannel || disableUserInput"
         :label="$t('vocabulary.channel')"
         :options="channelOptions"
-        :disabled="savedChannel || disableUserInput"
+        :v="v.itemInstance.channel"
         required
         track-by="value"
       ></wt-select>
       <wt-input
-        :value="itemInstance.code"
-        :v="v.itemInstance.code"
-        :label="$t('objects.lookups.communications.code')"
         :disabled="disableUserInput"
+        :label="$t('objects.lookups.communications.code')"
+        :v="v.itemInstance.code"
+        :value="itemInstance.code"
         required
         @input="setItemProp({ prop: 'code', value: $event })"
       ></wt-input>
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </div>
@@ -41,7 +41,8 @@
 
 <script>
 import { EngineCommunicationChannels } from 'webitel-sdk';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-communications-type',

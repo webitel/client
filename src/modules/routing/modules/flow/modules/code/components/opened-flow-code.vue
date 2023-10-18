@@ -15,11 +15,11 @@
       <wt-tags-input
         :disabled="disableUserInput"
         :label="$tc('vocabulary.tag', 2)"
-        :value="itemInstance.tags"
         :search-method="loadFlowTagOptions"
+        :value="itemInstance.tags"
         option-label="name"
-        track-by="name"
         taggable
+        track-by="name"
         @input="setItemProp({ prop: 'tags', value: $event })"
       ></wt-tags-input>
     </div>
@@ -39,8 +39,8 @@ import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeAppli
 import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 import FlowsAPI from '../../../api/flow';
+import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 
 export default {
   name: 'opened-flow-code',

@@ -1,8 +1,8 @@
 <template>
   <upload-csv-popup
+    :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
-    :add-bulk-items="saveBulkData"
     @close="close"
   ></upload-csv-popup>
 </template>

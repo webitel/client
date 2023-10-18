@@ -43,7 +43,8 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -79,7 +80,8 @@
           <wt-item-link
             :link="editLink(item)"
             class="name-link"
-          ><wt-icon
+          >
+            <wt-icon
               icon="license-users"
               icon-prefix="adm"
             ></wt-icon>
@@ -112,11 +114,11 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
-import { useDummy } from '../../../../../../app/composables/useDummy';
 
 const namespace = 'directory/license';
 

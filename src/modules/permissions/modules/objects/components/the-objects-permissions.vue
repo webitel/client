@@ -16,9 +16,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -36,12 +36,13 @@
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
-            :selectable="false"
             :grid-actions="hasTableActions"
+            :headers="headers"
+            :selectable="false"
             sortable
             @sort="sort"
           >
@@ -53,16 +54,16 @@
 
             <template v-slot:obac="{ item, index }">
               <wt-switcher
-                :value="item.obac"
                 :disabled="!hasEditAccess"
+                :value="item.obac"
                 @change="toggleObjectObac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
 
             <template v-slot:rbac="{ item, index }">
               <wt-switcher
-                :value="item.rbac"
                 :disabled="!hasEditAccess"
+                :value="item.rbac"
                 @change="toggleObjectRbac({ item, index, value: $event })"
               ></wt-switcher>
             </template>
@@ -75,14 +76,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -92,9 +93,9 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'permissions/objects';
 

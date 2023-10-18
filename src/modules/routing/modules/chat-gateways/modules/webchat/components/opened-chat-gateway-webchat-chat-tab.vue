@@ -6,8 +6,8 @@
     </header>
     <div class="object-input-grid">
       <wt-switcher
-        :value="itemInstance.metadata.chat.enabled"
         :label="$t('objects.enabled')"
+        :value="itemInstance.metadata.chat.enabled"
         @change="setChatMetadata({ prop: 'enabled', value: $event })"
       ></wt-switcher>
       <div></div>

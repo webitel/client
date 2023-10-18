@@ -6,11 +6,11 @@
     <template v-slot:main>
       <form>
         <wt-select
-          :value="itemInstance.agent"
-          :v="v$.itemInstance.agent"
+          :clearable="false"
           :label="$tc('objects.ccenter.agents.agents', 1)"
           :search-method="loadAgentsOptions"
-          :clearable="false"
+          :v="v$.itemInstance.agent"
+          :value="itemInstance.agent"
           required
           @input="setItemProp({ prop: 'agent', value: $event })"
         ></wt-select>
@@ -34,12 +34,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import AgentsAPI from '../../../../agents/api/agents';
+import { mapState } from 'vuex';
 
-import nestedObjectMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
   name: 'opened-team-agents-popup',

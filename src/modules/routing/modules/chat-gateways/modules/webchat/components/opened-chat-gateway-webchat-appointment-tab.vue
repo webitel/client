@@ -6,56 +6,56 @@
     </header>
     <div class="object-input-grid">
       <wt-switcher
-        :value="itemInstance.metadata.appointment.enabled"
         :label="$t('objects.enabled')"
+        :value="itemInstance.metadata.appointment.enabled"
         @change="setAppointmentMetadata({ prop: 'enabled', value: $event })"
       ></wt-switcher>
       <div></div>
       <wt-select
-        :value="itemInstance.metadata.appointment.queue"
-        :label="$tc('objects.ccenter.queues.queues', 1)"
         :clearable="false"
-        :v="v.itemInstance.metadata.appointment.queue"
+        :label="$tc('objects.ccenter.queues.queues', 1)"
         :search-method="searchQueues"
+        :v="v.itemInstance.metadata.appointment.queue"
+        :value="itemInstance.metadata.appointment.queue"
         @input="setAppointmentMetadata({ prop: 'queue', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.metadata.appointment.communicationType"
-        :label="$tc('objects.lookups.communications.communications', 1)"
         :clearable="false"
-        :v="v.itemInstance.metadata.appointment.communicationType"
+        :label="$tc('objects.lookups.communications.communications', 1)"
         :search-method="searchCommunications"
+        :v="v.itemInstance.metadata.appointment.communicationType"
+        :value="itemInstance.metadata.appointment.communicationType"
         @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
       ></wt-select>
       <wt-select
-        :value="itemInstance.metadata.appointment.duration"
-        :label="$t('vocabulary.duration')"
         :clearable="false"
-        :v="v.itemInstance.metadata.appointment.duration"
+        :label="$t('vocabulary.duration')"
         :options="durationOptions"
         :track-by="null"
+        :v="v.itemInstance.metadata.appointment.duration"
+        :value="itemInstance.metadata.appointment.duration"
         @input="setAppointmentMetadata({ prop: 'duration', value: $event })"
       ></wt-select>
       <wt-input
-        :value="itemInstance.metadata.appointment.availableAgents"
-        :v="v.itemInstance.metadata.appointment.availableAgents"
         :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
-        type="number"
         :number-min="1"
+        :v="v.itemInstance.metadata.appointment.availableAgents"
+        :value="itemInstance.metadata.appointment.availableAgents"
+        type="number"
         @input="setAppointmentMetadata({ prop: 'availableAgents', value: $event })"
       ></wt-input>
       <wt-input
-        :value="itemInstance.metadata.appointment.days"
-        :v="v.itemInstance.metadata.appointment.days"
         :label="$t('objects.routing.chatGateways.webchat.appointment.days')"
-        type="number"
-        :number-min="1"
         :number-max="7"
+        :number-min="1"
+        :v="v.itemInstance.metadata.appointment.days"
+        :value="itemInstance.metadata.appointment.days"
+        type="number"
         @input="setAppointmentMetadata({ prop: 'days', value: $event })"
       ></wt-input>
       <wt-switcher
-        :value="itemInstance.metadata.appointment.showMessageField"
         :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
+        :value="itemInstance.metadata.appointment.showMessageField"
         @change="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
       ></wt-switcher>
       <div class="success-settings">
@@ -63,26 +63,26 @@
          {{ $t('objects.routing.chatGateways.webchat.appointment.resultPageText') }}
        </span>
         <wt-switcher
-          :value="itemInstance.metadata.appointment.showDefaultHeading"
           :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
+          :value="itemInstance.metadata.appointment.showDefaultHeading"
           @change="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
         ></wt-switcher>
         <wt-textarea
-          :value="itemInstance.metadata.appointment.successTitle"
-          :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
           :disabled="itemInstance.metadata.appointment.showDefaultHeading"
+          :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
+          :value="itemInstance.metadata.appointment.successTitle"
           @input="handleInput({ prop: 'successTitle', value: $event })"
         ></wt-textarea>
         <wt-textarea
-          :value="itemInstance.metadata.appointment.successSubtitle"
-          :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
           :disabled="itemInstance.metadata.appointment.showDefaultHeading"
+          :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
+          :value="itemInstance.metadata.appointment.successSubtitle"
           @input="handleInput({ prop: 'successSubtitle', value: $event })"
         ></wt-textarea>
       </div>
       <wt-switcher
-        :value="itemInstance.metadata.appointment.showEmailField"
         :label="$t('objects.routing.chatGateways.webchat.appointment.showEmailField')"
+        :value="itemInstance.metadata.appointment.showEmailField"
         @change="setAppointmentMetadata({ prop: 'showEmailField', value: $event })"
       ></wt-switcher>
     </div>

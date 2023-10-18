@@ -5,11 +5,11 @@
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.license"
-        :label="$tc('objects.directory.license.license', 1)"
-        :search-method="loadDropdownOptionsList"
         :close-on-select="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.directory.license.license', 1)"
+        :search-method="loadDropdownOptionsList"
+        :value="itemInstance.license"
         multiple
         @input="setItemProp({ prop: 'license', value: $event })"
       ></wt-select>
@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import LicenseAPI from '../../license/api/license';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import LicenseAPI from '../../license/api/license';
 
 export default {
   name: 'opened-user-license',

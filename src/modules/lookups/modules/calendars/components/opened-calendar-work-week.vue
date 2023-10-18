@@ -7,9 +7,9 @@
     <div class="table-wrapper">
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
-          :headers="headers"
           :data="dataList"
           :grid-actions="!disableUserInput"
+          :headers="headers"
           :selectable="false"
         >
           <template v-slot:name="{ item, index }">
@@ -19,24 +19,24 @@
           </template>
           <template v-slot:start="{ item, index }">
             <wt-timepicker
+              :disabled="disableUserInput"
               :value="minToSec(item.start)"
               format="hh:mm"
-              :disabled="disableUserInput"
               @input="setItemProp({prop: 'start', index, value: secToMin($event)})"
             ></wt-timepicker>
           </template>
           <template v-slot:end="{ item, index }">
             <wt-timepicker
+              :disabled="disableUserInput"
               :value="minToSec(item.end)"
               format="hh:mm"
-              :disabled="disableUserInput"
               @input="setItemProp({prop: 'end', index, value: secToMin($event)})"
             ></wt-timepicker>
           </template>
           <template v-slot:state="{ item, index }">
             <wt-switcher
-              :value="!item.disabled"
               :disabled="disableUserInput"
+              :value="!item.disabled"
               @change="setItemProp({prop: 'disabled', index, value: !$event})"
             ></wt-switcher>
           </template>
@@ -60,7 +60,8 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-calendar-work-week',

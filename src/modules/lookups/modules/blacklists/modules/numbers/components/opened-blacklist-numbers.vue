@@ -38,8 +38,8 @@
           ></delete-all-action>
           <upload-file-icon-btn
             v-if="!disableUserInput"
-            class="icon-action"
             accept=".csv"
+            class="icon-action"
             @change="processCSV"
           ></upload-file-icon-btn>
           <wt-icon-btn
@@ -61,38 +61,39 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
-    <wt-table
-      :headers="headers"
-      :data="dataList"
-      :grid-actions="!disableUserInput"
-      sortable
-      @sort="sort"
+      class="table-wrapper"
     >
-      <template v-slot:number="{ item }">
-        {{ item.number }}
-      </template>
+      <wt-table
+        :data="dataList"
+        :grid-actions="!disableUserInput"
+        :headers="headers"
+        sortable
+        @sort="sort"
+      >
+        <template v-slot:number="{ item }">
+          {{ item.number }}
+        </template>
 
-      <template v-slot:description="{ item }">
-        {{ item.description }}
-      </template>
+        <template v-slot:description="{ item }">
+          {{ item.description }}
+        </template>
 
-      <template v-slot:expireAt="{ item }">
-        {{ prettifyDate(item.expireAt) }}
-      </template>
+        <template v-slot:expireAt="{ item }">
+          {{ prettifyDate(item.expireAt) }}
+        </template>
 
-      <template v-slot:actions="{ item }">
-        <wt-icon-action
-          action="edit"
-          @click="edit(item)"
-        ></wt-icon-action>
-        <wt-icon-action
-          action="delete"
-          class="table-action"
-          @click="callDelete(item)"
-        ></wt-icon-action>
-      </template>
-    </wt-table>
+        <template v-slot:actions="{ item }">
+          <wt-icon-action
+            action="edit"
+            @click="edit(item)"
+          ></wt-icon-action>
+          <wt-icon-action
+            action="delete"
+            class="table-action"
+            @click="callDelete(item)"
+          ></wt-icon-action>
+        </template>
+      </wt-table>
       <wt-pagination
         :next="isNext"
         :prev="page > 1"
@@ -108,11 +109,12 @@
 </template>
 
 <script>
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import numberPopup from './opened-blacklist-number-popup.vue';
-import uploadPopup from './upload-blacklist-numbers-popup.vue';
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import numberPopup from './opened-blacklist-number-popup.vue';
+import uploadPopup from './upload-blacklist-numbers-popup.vue';
 
 const namespace = 'lookups/blacklists';
 const subNamespace = 'numbers';

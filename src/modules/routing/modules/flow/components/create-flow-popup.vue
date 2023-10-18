@@ -57,11 +57,11 @@ export default {
     selected: {},
     type: {},
     typeOptions: Object.values(EngineRoutingSchemaType)
-      .filter((type) => type !== EngineRoutingSchemaType.Default)
-      .map((value) => ({
-        value,
-        locale: `objects.flow.type.${value}`,
-      })),
+    .filter((type) => type !== EngineRoutingSchemaType.Default)
+    .map((value) => ({
+      value,
+      locale: `objects.flow.type.${value}`,
+    })),
   }),
   computed: {
     editorOptions() {

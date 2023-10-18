@@ -223,8 +223,8 @@ export default {
 .tts__footer-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--popup-actions-padding);
   width: 100%;
+  gap: var(--popup-actions-padding);
 }
 
 .tts__footer-actions-wrapper {

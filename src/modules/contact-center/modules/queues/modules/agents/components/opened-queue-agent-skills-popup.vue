@@ -7,9 +7,9 @@
       <section>
         <wt-table
           :data="dataList"
+          :grid-actions="false"
           :headers="headers"
           :selectable="false"
-          :grid-actions="false"
         >
           <template v-slot:skill="{ item }">
             {{ item.name }}

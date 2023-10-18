@@ -11,13 +11,15 @@
             :options="saveOptions"
             @click="create"
             @click:option="({ callback }) => callback()"
-          >{{ $t('objects.add') }}</wt-button-select>
+          >{{ $t('objects.add') }}
+          </wt-button-select>
           <input
             ref="file-input"
+            :accept="'.csv'"
             class="upload-file-input"
             type="file"
-            :accept="'.csv'"
-            @change="inputFileHandler">
+            @change="inputFileHandler"
+          >
         </template>
         <wt-headline-nav :path="path"></wt-headline-nav>
       </wt-page-header>
@@ -72,7 +74,7 @@
                     @click="openResetPopup"
                   ></wt-icon-btn>
                 </template>
-                  {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
+                {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
               </wt-tooltip>
               <wt-context-menu
                 v-if="hasEditAccess && isNotInboundMember"
@@ -90,19 +92,20 @@
         </header>
 
         <wt-loader v-show="!isLoaded"></wt-loader>
-<!--        <wt-dummy-->
-<!--          v-if="dummy && isLoaded"-->
-<!--          :src="dummy.src"-->
-<!--          :text="dummy.text && $t(dummy.text)"-->
-<!--          class="dummy-wrapper"-->
-<!--        ></wt-dummy>-->
+        <!--        <wt-dummy-->
+        <!--          v-if="dummy && isLoaded"-->
+        <!--          :src="dummy.src"-->
+        <!--          :text="dummy.text && $t(dummy.text)"-->
+        <!--          class="dummy-wrapper"-->
+        <!--        ></wt-dummy>-->
         <div
           v-show="isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasEditAccess && isNotInboundMember"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -132,11 +135,12 @@
               </div>
             </template>
             <template v-slot:destination="{ item }">
-              <div class="members__destinations-wrapper" v-if="item.communications.length">
+              <div v-if="item.communications.length" class="members__destinations-wrapper">
                 {{ item.communications[0].destination }}
-                <span class="members__destinations-num"
-                      v-if="item.communications.length > 1"
-                      @click="readDestinations(item)"
+                <span
+                  v-if="item.communications.length > 1"
+                  class="members__destinations-num"
+                  @click="readDestinations(item)"
                 >+{{ item.communications.length - 1 }}</span>
               </div>
             </template>
@@ -146,8 +150,8 @@
             <template v-slot:agent="{ item }">
               <wt-item-link
                 v-if="item.agent"
-                :route-name="RouteNames.AGENTS"
                 :id="item.agent.id"
+                :route-name="RouteNames.AGENTS"
               >{{ item.agent.name }}
               </wt-item-link>
             </template>
@@ -165,14 +169,14 @@
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -191,7 +195,6 @@ import TheQueueMembersFilters from '../modules/filters/components/the-queue-memb
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
-import dummyPic from '../assets/adm-queue-members.svg';
 
 export default {
   name: 'the-queue-members',
@@ -405,8 +408,8 @@ export default {
   @extend %typo-body-2;
 
   margin-left: 20px;
-  text-decoration: underline;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .upload-file-input {

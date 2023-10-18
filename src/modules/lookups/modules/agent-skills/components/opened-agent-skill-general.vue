@@ -5,17 +5,17 @@
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <wt-input
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       ></wt-input>
       <wt-textarea
-        :value="itemInstance.description"
-        :label="$t('objects.description')"
         :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       ></wt-textarea>
     </div>
@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-agent-skill-general',

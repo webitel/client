@@ -90,7 +90,8 @@
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :headers="headers"
@@ -158,12 +159,12 @@ import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exp
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;

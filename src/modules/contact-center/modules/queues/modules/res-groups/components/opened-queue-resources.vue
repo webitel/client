@@ -44,7 +44,8 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
@@ -89,10 +90,10 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import resourcePopup from './opened-queue-resources-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'resGroups';

@@ -2,9 +2,9 @@
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
       <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
         :primary-disabled="disabledSave"
-        :hide-primary="!hasSaveActionAccess"
         :primary-text="saveText"
         :secondary-action="close"
       >
@@ -22,10 +22,10 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -34,11 +34,15 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
-import { requiredArrayValue, timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
-import General from './opened-resource-group-general.vue';
-import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
-import Timerange from './opened-resource-group-timerange.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import {
+  requiredArrayValue,
+  timerangeNotIntersect,
+  timerangeStartLessThanEnd,
+} from '../../../../../app/utils/validators';
+import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
+import General from './opened-resource-group-general.vue';
+import Timerange from './opened-resource-group-timerange.vue';
 
 export default {
   name: 'opened-resource-group',

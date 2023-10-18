@@ -16,8 +16,8 @@
     <div class="table-wrapper">
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         :selectable="false"
       >
         <template v-slot:name="{ item }">
@@ -32,8 +32,8 @@
         <template v-slot:actions="{ item }">
           <wt-icon-action
             v-if="item.isEditAction"
-            action="edit"
             :disabled="!item.enabled"
+            action="edit"
             @click="edit(item)"
           ></wt-icon-action>
         </template>
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
 
 export default {
   name: 'opened-role-applications-access',
@@ -95,14 +95,14 @@ export default {
     }),
     loadList() {
       this.dataList = Object.keys(this.access)
-        .map((app) => ({
-          name: app,
-          displayName: this.$t(this.access[app]._locale),
-          enabled: this.access[app]._enabled,
-          // "_" prefix is reserved for self configuring
-          isEditAction: Object.keys(this.access[app]).filter((key) => key.slice(0, 1) !== '_').length,
-        }))
-        .filter((app) => app.name.includes(this.search) || app.displayName.includes(this.search));
+      .map((app) => ({
+        name: app,
+        displayName: this.$t(this.access[app]._locale),
+        enabled: this.access[app]._enabled,
+        // "_" prefix is reserved for self configuring
+        isEditAction: Object.keys(this.access[app]).filter((key) => key.slice(0, 1) !== '_').length,
+      }))
+      .filter((app) => app.name.includes(this.search) || app.displayName.includes(this.search));
     },
     edit({ name }) {
       this.editedApp = name;

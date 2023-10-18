@@ -7,17 +7,17 @@
       <div class="skill-select-wrapper">
         <wt-select
           v-model="itemInstance.skill"
-          :v="v$.itemInstance.skill"
+          :clearable="false"
           :label="$t('objects.lookups.skills.changeSkillTo')"
           :search-method="loadDropdownOptionsList"
-          :clearable="false"
+          :v="v$.itemInstance.skill"
           required
         ></wt-select>
       </div>
       <wt-switcher
         v-model="skillState"
-        label-left
         :label="$t('objects.lookups.skills.state')"
+        label-left
       >
       </wt-switcher>
     </template>
@@ -39,9 +39,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import SkillsAPI from '../../../api/agentSkills';
 import openedObjectValidationMixin
   from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import SkillsAPI from '../../../api/agentSkills';
 
 export default {
   name: 'opened-skill-agent-change-popup',

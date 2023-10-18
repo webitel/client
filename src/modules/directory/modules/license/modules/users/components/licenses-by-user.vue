@@ -34,7 +34,8 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="false"

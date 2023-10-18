@@ -14,8 +14,8 @@
     <div v-show="isLoaded" class="table-wrapper">
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
@@ -57,8 +57,9 @@
 </template>
 
 <script>
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
   name: 'opened-agent-queues',

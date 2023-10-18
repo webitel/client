@@ -11,22 +11,22 @@
     <div class="object-input-grid">
       <div class="variables">
         <div
-          class="value-pair"
           v-for="(variable, key) in itemInstance.variables"
           :key="key"
+          class="value-pair"
         >
           <wt-input
-            :value="variable.key"
-            :v="v.itemInstance.variables.$each.$response.$data[key].key"
-            :placeholder="$t('objects.directory.users.varKey')"
             :disabled="disableUserInput"
+            :placeholder="$t('objects.directory.users.varKey')"
+            :v="v.itemInstance.variables.$each.$response.$data[key].key"
+            :value="variable.key"
             @input="setVariableProp({index: key, prop: 'key', value: $event})"
           ></wt-input>
           <wt-input
-            :value="variable.value"
-            :v="v.itemInstance.variables.$each.$response.$data[key].value"
-            :placeholder="$t('objects.directory.users.varVal')"
             :disabled="disableUserInput"
+            :placeholder="$t('objects.directory.users.varVal')"
+            :v="v.itemInstance.variables.$each.$response.$data[key].value"
+            :value="variable.value"
             @input="setVariableProp({index: key, prop: 'value', value: $event})"
           ></wt-input>
           <wt-icon-action
@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'opened-user-variables',
@@ -51,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.value-pair__delete-button{
+.value-pair__delete-button {
   margin-bottom: 20px;
 }
 </style>

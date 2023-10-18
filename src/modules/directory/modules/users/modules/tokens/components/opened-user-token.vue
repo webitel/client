@@ -37,11 +37,11 @@
     </header>
 
     <wt-loader v-show="!isLoaded"></wt-loader>
-    <div class="table-wrapper" v-show="isLoaded">
+    <div v-show="isLoaded" class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
@@ -64,24 +64,24 @@
         </template>
       </wt-table>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
       ></wt-pagination>
     </div>
   </section>
 </template>
 
 <script>
-import TokenPopup from './opened-user-token-popup.vue';
-import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import TokenCreatedPopup from './opened-user-token-created-popup.vue';
+import TokenPopup from './opened-user-token-popup.vue';
 
 export default {
   name: 'opened-user-tokens',

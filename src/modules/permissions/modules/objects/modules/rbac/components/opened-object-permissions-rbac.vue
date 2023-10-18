@@ -45,7 +45,8 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
@@ -116,11 +117,11 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import permissionsTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'permissions/objects';
 const subNamespace = 'rbac';

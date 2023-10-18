@@ -41,7 +41,8 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -52,7 +53,8 @@
         <template v-slot:name="{ item }">
           <wt-item-link
             :link="editLink(item)"
-            target="_blank">
+            target="_blank"
+          >
             {{ item.name }}
           </wt-item-link>
         </template>
@@ -103,12 +105,12 @@
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'agents';

@@ -9,9 +9,12 @@ const resettableItemState = {
   },
 };
 
-const agentSubordinates = new NestedObjectStoreModule({ resettableItemState, headers })
-  .attachAPIModule(AgentSubordinatesAPI)
-  .generateAPIActions()
-  .getModule();
+const agentSubordinates = new NestedObjectStoreModule({
+  resettableItemState,
+  headers,
+})
+.attachAPIModule(AgentSubordinatesAPI)
+.generateAPIActions()
+.getModule();
 
 export default agentSubordinates;

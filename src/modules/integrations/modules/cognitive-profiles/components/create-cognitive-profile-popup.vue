@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { StorageProviderType } from 'webitel-sdk';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';

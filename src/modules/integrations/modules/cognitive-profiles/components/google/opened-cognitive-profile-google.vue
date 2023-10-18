@@ -39,18 +39,18 @@
         </wt-label>
         <div v-if="!itemInstance.properties.keyFilename">
           <wt-button
-            color="secondary"
             :disabled="disableUserInput"
             :loading="isKeyLoading"
+            color="secondary"
             wide
             @click="triggerFileInput"
           >{{ $t('reusable.upload') }}
           </wt-button>
           <input
             ref="googleKeyInput"
+            accept="application/json"
             class="google-key__input"
             type="file"
-            accept="application/json"
             @input="handleFileInput"
           >
         </div>
@@ -66,13 +66,13 @@
         </div>
       </div>
       <wt-select
+        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
         :options="LanguageOptions"
-        :value="itemInstance.properties.locale"
-        :v="v.itemInstance.properties.locale"
-        :clearable="false"
         :track-by="null"
+        :v="v.itemInstance.properties.locale"
+        :value="itemInstance.properties.locale"
         required
         @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
       ></wt-select>
@@ -146,10 +146,10 @@ export default {
 .google-key__file-preview-wrap {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   justify-content: space-between;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--secondary-color-50);
   border-radius: var(--border-radius);
-  flex-wrap: nowrap;
+  background: var(--secondary-color-50);
 }
 </style>

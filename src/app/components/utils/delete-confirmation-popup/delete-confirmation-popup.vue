@@ -13,14 +13,14 @@
     </template>
     <template v-slot:actions>
       <wt-button
-        color="secondary"
         :disabled="isDeleting"
+        color="secondary"
         @click="cancel"
       >{{ $t('reusable.cancel') }}
       </wt-button>
       <wt-button
-        color="error"
         :loading="isDeleting"
+        color="error"
         @click="confirm"
       >{{ $t('reusable.delete') }}
       </wt-button>

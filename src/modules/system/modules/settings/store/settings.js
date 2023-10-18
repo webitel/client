@@ -1,5 +1,6 @@
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import SettingsAPI from '../api/settings';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import headers from './_internals/headers';
 
 const actions = {

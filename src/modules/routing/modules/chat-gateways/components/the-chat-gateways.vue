@@ -27,9 +27,9 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
             ></wt-search-bar>
             <wt-table-actions
               :icons="['refresh']"
@@ -48,20 +48,21 @@
         <wt-loader v-show="!isLoaded"></wt-loader>
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
+          @create="create"
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
 
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
@@ -78,8 +79,8 @@
             <template v-slot:flow="{ item }">
               <wt-item-link
                 v-if="item.flow"
-                :route-name="RouteNames.FLOW"
                 :id="item.flow.id"
+                :route-name="RouteNames.FLOW"
               >{{ item.flow.name }}
               </wt-item-link>
             </template>
@@ -95,8 +96,8 @@
               >
                 <wt-icon
                   v-for="(icon, key) of providerIcon(item.provider)"
-                  :icon="icon"
                   :key="key"
+                  :icon="icon"
                   size="md"
                 ></wt-icon>
               </div>
@@ -105,8 +106,8 @@
 
             <template v-slot:enabled="{ item, index }">
               <wt-switcher
-                :value="item.enabled"
                 :disabled="!hasEditAccess"
+                :value="item.enabled"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event })"
               ></wt-switcher>
             </template>
@@ -127,14 +128,14 @@
           </wt-table>
 
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
           ></wt-pagination>
         </div>
       </section>
@@ -143,12 +144,11 @@
 </template>
 
 <script>
-import tableComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const iconType = {
   [ChatGatewayProvider.MESSENGER]: 'meta',
@@ -196,7 +196,8 @@ export default {
           return [iconType[value], 'send-arrow', 'messenger-whatsapp'];
         case ChatGatewayProvider.MESSENGER:
           return [iconType[value], 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'];
-        default: return iconType[value];
+        default:
+          return iconType[value];
       }
     },
   },

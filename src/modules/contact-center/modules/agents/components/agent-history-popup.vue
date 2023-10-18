@@ -25,7 +25,8 @@
         ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="false"
@@ -75,8 +76,8 @@
 <script>
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
-import agentState from '../dictionaries/agentState.dictionary';
 import dummyPic from '../assets/adm-agent-history.svg';
+import agentState from '../dictionaries/agentState.dictionary';
 
 export default {
   name: 'agent-history-popup',
@@ -98,8 +99,8 @@ export default {
     },
     dummy() {
       return !this.dataList.length && {
-          src: dummyPic,
-          text: 'objects.ccenter.agents.emptyPopup',
+        src: dummyPic,
+        text: 'objects.ccenter.agents.emptyPopup',
       };
     },
   },

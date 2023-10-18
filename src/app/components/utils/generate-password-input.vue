@@ -1,19 +1,19 @@
 <template>
   <div class="generate-password-input">
     <wt-input
-        :value="passwordRepresentation"
-        :v="v"
-        :label="$t('objects.password')"
-        :placeholder="$t('objects.password')"
-        :required="required"
-        :disabled="disabled"
-        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-        @input="input"
+      :disabled="disabled"
+      :label="$t('objects.password')"
+      :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+      :placeholder="$t('objects.password')"
+      :required="required"
+      :v="v"
+      :value="passwordRepresentation"
+      @input="input"
     >
       <template
-          v-if="!disabled"
-          v-slot:after-input
-        >
+        v-if="!disabled"
+        v-slot:after-input
+      >
         <wt-copy-action
           v-show="passwordRepresentation"
           :value="value"
@@ -29,7 +29,7 @@
           </template>
           {{ $t('iconHints.generate') }}
         </wt-tooltip>
-        </template>
+      </template>
     </wt-input>
 
   </div>
@@ -65,7 +65,7 @@ export default {
   },
 
   mounted() {
-   this.isMounted = true;
+    this.isMounted = true;
   },
 
   computed: {

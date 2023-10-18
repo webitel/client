@@ -35,7 +35,7 @@
           :namespace="namespace"
           :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -43,18 +43,16 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import {
-  helpers, required, requiredIf, requiredUnless,
-} from '@vuelidate/validators';
+import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
+import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import Devices from './opened-user-devices.vue';
 import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 
 export default {
   name: 'opened-user',

@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router';
 import Auth from '@webitel/ui-sdk/src/modules/Userinfo/components/the-auth.vue';
-import RouteNames from './_internals/RouteNames.enum';
+import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store/store';
+import RouteNames from './_internals/RouteNames.enum';
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
@@ -89,7 +89,7 @@ const checkRouteAccess = ((to, from, next) => {
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-                            // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
   scrollBehavior(to, from, savedPosition) {
     return { left: 0, top: 0 };
   },
@@ -669,7 +669,7 @@ const router = createRouter({
         },
         // ----------PERMISSIONS END-----------------
 
-       // ----------SYSTEM START-----------------
+        // ----------SYSTEM START-----------------
         {
           path: '/system/changelogs',
           name: RouteNames.CHANGELOGS,
@@ -705,13 +705,13 @@ const router = createRouter({
   ],
 });
 
-  router.beforeEach((to, from, next) => {
-    if (!(to.path === '/auth')) {
-      if (!localStorage.getItem('access-token')) {
-        next('/auth');
-      }
+router.beforeEach((to, from, next) => {
+  if (!(to.path === '/auth')) {
+    if (!localStorage.getItem('access-token')) {
+      next('/auth');
     }
-    next();
-  });
+  }
+  next();
+});
 
 export default router;

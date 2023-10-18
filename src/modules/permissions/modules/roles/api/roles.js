@@ -1,12 +1,13 @@
+import ApplicationsAccess
+  from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import deepCopy from 'deep-copy';
 import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
   EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
   EndpointDeleterApiConsumer,
+  EndpointGetterApiConsumer,
+  EndpointListGetterApiConsumer,
+  EndpointUpdaterApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
-import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import instance from '../../../../../app/api/old/instance';
 
 const baseUrl = '/roles';
@@ -33,13 +34,22 @@ const preRequestHandler = (item) => {
 };
 
 const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
-  { defaultSingleObject, itemResponseHandler });
-const extendedRolesListGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
+const itemGetter = new EndpointGetterApiConsumer(
+  { baseUrl, instance },
+  { defaultSingleObject, itemResponseHandler },
+);
+const extendedRolesListGetter = new EndpointListGetterApiConsumer({
+  baseUrl,
+  instance,
+});
+const itemCreator = new EndpointCreatorApiConsumer(
+  { baseUrl, instance },
+  { fieldsToSend, preRequestHandler },
+);
+const itemUpdater = new EndpointUpdaterApiConsumer(
+  { baseUrl, instance },
+  { fieldsToSend, preRequestHandler },
+);
 const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
 
 const PERMISSIONS_LIST_URL = '/permissions';

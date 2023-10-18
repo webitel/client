@@ -1,15 +1,15 @@
 <template>
   <wt-select
     class="permissions-role-select"
+    option-label="name"
     v-bind="$attrs"
     v-on="$listeners"
-    option-label="name"
   >
     <template v-slot:singleLabel="{ option, optionLabel }">
           <span class="multiselect__single-label permissions-tab-role-popup__select-option">
             <wt-icon
-              class="permissions-role-icon"
               :icon="option.user ? 'user' : 'role'"
+              class="permissions-role-icon"
             ></wt-icon>
             {{ option[optionLabel] || option }}
           </span>
@@ -18,8 +18,8 @@
     <template v-slot:option="{ option, optionLabel }">
           <span class="permissions-tab-role-popup__select-option">
             <wt-icon
-              class="permissions-role-icon"
               :icon="option.user ? 'user' : 'role'"
+              class="permissions-role-icon"
             ></wt-icon>
             {{ option[optionLabel] || option }}
           </span>

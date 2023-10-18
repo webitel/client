@@ -1,2 +1,1 @@
-
-export const digitsDtmfOnly = (v) => /^[\d|w|W]*$/g.test(v)
+export const digitsDtmfOnly = (v) => /^[\d|w|W]*$/g.test(v);

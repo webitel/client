@@ -1,15 +1,15 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template v-slot:header>
-    <wt-page-header
-      :primary-action="save"
-      :primary-disabled="disabledSave"
-      :primary-text="saveText"
-      :hide-primary="!hasSaveActionAccess"
-      :secondary-action="close"
-    >
-      <wt-headline-nav :path="path"></wt-headline-nav>
-    </wt-page-header>
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
+        <wt-headline-nav :path="path"></wt-headline-nav>
+      </wt-page-header>
     </template>
     <template v-slot:main>
       <form
@@ -22,10 +22,10 @@
         ></wt-tabs>
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
+          :v="v$"
         ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -34,11 +34,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
-import General from './opened-team-general.vue';
-import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
-import Agents from '../modules/agents/components/opened-team-agents.vue';
-import Timing from './opened-team-timing.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Agents from '../modules/agents/components/opened-team-agents.vue';
+import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
+import General from './opened-team-general.vue';
+import Timing from './opened-team-timing.vue';
 
 export default {
   name: 'opened-team',
@@ -70,19 +70,21 @@ export default {
   },
   computed: {
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'general',
-      }, {
-        text: this.$t('objects.ccenter.teams.timing'),
-        value: 'timing',
-      }, {
-        text: this.$tc('objects.ccenter.agents.supervisors', 2),
-        value: 'supervisors',
-      }, {
-        text: this.$tc('objects.ccenter.agents.agents', 2),
-        value: 'agents',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        }, {
+          text: this.$t('objects.ccenter.teams.timing'),
+          value: 'timing',
+        }, {
+          text: this.$tc('objects.ccenter.agents.supervisors', 2),
+          value: 'supervisors',
+        }, {
+          text: this.$tc('objects.ccenter.agents.agents', 2),
+          value: 'agents',
+        },
+      ];
 
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;

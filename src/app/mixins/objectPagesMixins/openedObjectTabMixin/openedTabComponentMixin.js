@@ -1,9 +1,11 @@
-import { mapState, mapActions } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState
+  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 
 import openedObjectValidationMixin
   from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAccessControlMixin';
+import openedObjectTabAccessControlMixin
+  from './_internals/openedObjectTabAccessControlMixin';
 
 /**
  * @fileOverview contains openedObject tab

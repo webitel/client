@@ -36,9 +36,9 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
-import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
   name: 'opened-import-csv',
