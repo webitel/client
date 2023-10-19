@@ -5,7 +5,7 @@
       :data-list="accountsOnPopup"
       :title="$t('objects.routing.chatGateways.messenger.accounts')"
       @close="closeAccountsPopup"
-    ></object-list-popup>
+    />
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('objects.routing.chatGateways.messenger.instagram.instagram') }}
@@ -16,13 +16,13 @@
           :label="$t('objects.routing.chatGateways.messenger.instagram.comments')"
           :value="itemInstance.metadata.instagramComments"
           @change="setItemMetadata({ prop: 'instagramComments', value: $event })"
-        ></wt-switcher>
+        />
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('objects.routing.chatGateways.messenger.instagram.mentions')"
           :value="itemInstance.metadata.instagramMentions"
           @change="setItemMetadata({ prop: 'instagramMentions', value: $event })"
-        ></wt-switcher>
+        />
       </div>
       <div class="content-header__actions-wrap">
         <wt-table-actions
@@ -32,36 +32,40 @@
           <wt-button
             v-if="!disableUserInput"
             @click="addOrRemovePages"
-          >{{ $t('objects.routing.chatGateways.messenger.addOrRemovePages') }}
+          >
+            {{ $t('objects.routing.chatGateways.messenger.addOrRemovePages') }}
           </wt-button>
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
         :headers="headers"
         :selectable="false"
       >
-        <template v-slot:id="{ item }">
+        <template #id="{ item }">
           <wt-copy-action
             :tooltips="{
               copy: item.id,
             }"
             :value="item.id"
-          ></wt-copy-action>
+          />
         </template>
-        <template v-slot:instagram="{ item }">
+        <template #instagram="{ item }">
           {{ item.instagram.username }}
         </template>
-        <template v-slot:accounts="{ item }">
+        <template #accounts="{ item }">
           <one-plus-many
             :collection="item.accounts"
             @input="openAccountsPopup(item)"
-          ></one-plus-many>
+          />
         </template>
       </wt-table>
     </div>
@@ -77,7 +81,7 @@ import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
 export default {
-  name: 'opened-chat-gateway-instagram-tab',
+  name: 'OpenedChatGatewayInstagramTab',
   mixins: [openedObjectTableTabMixin],
   inject: ['$eventBus'],
   data: () => ({
@@ -87,7 +91,7 @@ export default {
   computed: {
     baseUrl() {
       const originUrl = getChatOriginUrl();
-      const chatUrl = process.env.VUE_APP_CHAT_URL;
+      const chatUrl = import.meta.env.VITE_CHAT_URL;
       const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/CHAT_URI`];
       return new URL(path.join(chatUrl, uri), originUrl);
     },

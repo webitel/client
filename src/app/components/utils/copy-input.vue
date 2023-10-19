@@ -1,14 +1,14 @@
 <template>
   <div class="copy-input">
     <wt-input
-      v-bind="{ ...$attrs }"
       :value="value"
+      v-bind="{ ...$attrs }"
       @input="input"
     >
-      <template v-slot:after-input>
+      <template #after-input>
         <wt-copy-action
           :value="copyValue"
-        ></wt-copy-action>
+        />
       </template>
     </wt-input>
   </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'copy-input',
+  name: 'CopyInput',
   props: {
     value: {
       type: String,
@@ -31,10 +31,6 @@ export default {
       isMounted: false,
     };
   },
-
-  mounted() {
-    this.isMounted = true;
-  },
   computed: {
     copyValue() {
       let copyValue;
@@ -45,6 +41,10 @@ export default {
       }
       return copyValue;
     },
+  },
+
+  mounted() {
+    this.isMounted = true;
   },
 
   methods: {

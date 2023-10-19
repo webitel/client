@@ -1,39 +1,45 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.buckets.buckets', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
-          :value="itemInstance.bucket"
-          :v="v$.itemInstance.bucket"
+          :clearable="false"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
-          :clearable="false"
+          :v="v$.itemInstance.bucket"
+          :value="itemInstance.bucket"
           required
           @input="setItemProp({ prop: 'bucket', value: $event })"
-        ></wt-select>
+        />
         <wt-input
-          :value="itemInstance.priority"
-          :v="v$.itemInstance.priority"
           :label="$t('objects.ccenter.queues.bucketPriority')"
-          type="number"
+          :v="v$.itemInstance.priority"
+          :value="itemInstance.priority"
           required
+          type="number"
           @input="setItemProp({ prop: 'priority', value: $event })"
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -42,19 +48,19 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {
-  name: 'opened-queue-buckets-popup',
+  name: 'OpenedQueueBucketsPopup',
   mixins: [nestedObjectMixin],
-
-  data: () => ({
-    namespace: 'ccenter/queues/buckets',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+
+  data: () => ({
+    namespace: 'ccenter/queues/buckets',
   }),
   validations: {
     itemInstance: {

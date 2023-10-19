@@ -3,7 +3,7 @@ import ChangelogLogsRecordLink from '../changelog-logs-record-link.vue';
 
 const item = {
   object: {
-    name: 'jest',
+    name: 'vi',
   },
   record: {
     id: 14,

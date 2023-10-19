@@ -3,33 +3,35 @@
     min-width="480"
     @close="emit('cancel')"
   >
-    <template v-slot:title>
+    <template #title>
       {{ $t('objects.lookups.skills.selectCapacityAndState') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form class="config-agent-skill-popup-form">
         <wt-input
           v-model="state.capacity"
           :label="$t('objects.lookups.skills.capacity')"
           type="number"
-        ></wt-input>
+        />
         <wt-switcher
           v-model="state.enabled"
           :label="$t('objects.lookups.skills.state')"
           label-left
-        ></wt-switcher>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="v$.$error"
         @click="emit('select', state)"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="emit('back')"
-      >{{ $t('objects.back') }}
+      >
+        {{ $t('objects.back') }}
       </wt-button>
     </template>
   </wt-popup>

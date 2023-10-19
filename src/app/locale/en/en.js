@@ -21,7 +21,7 @@ export default {
       text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
 
       title2: 'Multichannel VS Omni-Channel',
-      text2: "Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it's easier than ever!",
+      text2: 'Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it\'s easier than ever!',
 
       title3: 'Fault-tolerant infrastructure',
       text3: 'No more unplanned downtime. Fast scaling and fault-tolerant architecture allows you to simultaneously serve more than 1000 customer calls per minute from different communication channels.',
@@ -194,7 +194,7 @@ export default {
         license: 'License',
         devices: 'Devices',
         defaultDevice: 'Default device (from list of selected devices)',
-        deviceNotFound: "Didn't find the device?",
+        deviceNotFound: 'Didn\'t find the device?',
         createNewDevice: 'Add new',
         variables: 'Variables',
         varKey: 'Key',
@@ -264,7 +264,7 @@ export default {
           dialog: 'Dialog',
           onhold: 'On hold',
         },
-        passwordSetFromAccount: "If you won't set password, it would be the same as account",
+        passwordSetFromAccount: 'If you won\'t set password, it would be the same as account',
       },
     },
     permissions: {
@@ -1063,7 +1063,7 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: "Looks like you're lost",
+      title: 'Looks like you\'re lost',
       text: 'Sorry, we can\'t find the page you want.',
     },
   },

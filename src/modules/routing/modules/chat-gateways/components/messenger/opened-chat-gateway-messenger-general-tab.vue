@@ -1,8 +1,13 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="meta" size="md"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.messenger.meta') }}</h3>
+      <wt-icon
+        icon="meta"
+        size="md"
+      />
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.messenger.meta') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,14 +16,14 @@
         :v="v.itemInstance.name"
         :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.messenger.metadata.clientId')"
         :v="v.itemInstance.metadata.clientId"
         :value="itemInstance.metadata.clientId"
         @input="setItemMetadata({ prop: 'clientId', value: $event })"
-      ></wt-input>
+      />
       <copy-input
         :copy-modifier="modifyUriCopy"
         :disabled="!isUriEditable"
@@ -27,14 +32,14 @@
         :value="itemInstance.uri"
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
-      ></copy-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.messenger.metadata.clientSecret')"
         :v="v.itemInstance.metadata.clientSecret"
         :value="itemInstance.metadata.clientSecret"
         @input="setItemMetadata({ prop: 'clientSecret', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.routing.flow.flow', 1)"
@@ -42,7 +47,7 @@
         :v="v.itemInstance.flow"
         :value="itemInstance.flow"
         @input="setFlow"
-      ></wt-select>
+      />
     </div>
   </section>
 </template>
@@ -55,7 +60,7 @@ import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-gateway-messenger-general-tab',
+  name: 'OpenedChatGatewayMessengerGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {

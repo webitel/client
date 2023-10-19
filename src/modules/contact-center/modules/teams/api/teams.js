@@ -1,20 +1,25 @@
-import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { AgentTeamServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'description', 'strategy', 'admin', 'maxNoAnswer', 'wrapUpTime',
-  'noAnswerDelayTime', 'callTimeout', 'inviteChatTimeout'];
+const fieldsToSend = [
+  'name', 'description', 'strategy', 'admin', 'maxNoAnswer', 'wrapUpTime',
+  'noAnswerDelayTime', 'callTimeout', 'inviteChatTimeout',
+];
 
 const getTeamsList = async (params) => {
   const {
@@ -57,7 +62,6 @@ const getTeamsList = async (params) => {
   }
 };
 
-
 const getTeam = async ({ itemId: id }) => {
   const defaultObject = {
     name: '',
@@ -86,7 +90,6 @@ const getTeam = async ({ itemId: id }) => {
   }
 };
 
-
 const addTeam = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
@@ -103,7 +106,6 @@ const addTeam = async ({ itemInstance }) => {
     ]);
   }
 };
-
 
 const updateTeam = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
@@ -122,7 +124,6 @@ const updateTeam = async ({ itemInstance, itemId: id }) => {
   }
 };
 
-
 const deleteTeam = async ({ id }) => {
   try {
     const response = await teamService.deleteAgentTeam(id);
@@ -133,7 +134,6 @@ const deleteTeam = async ({ id }) => {
     ]);
   }
 };
-
 
 const getTeamsLookup = (params) => getTeamsList({
   ...params,

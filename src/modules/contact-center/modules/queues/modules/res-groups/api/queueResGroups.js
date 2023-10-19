@@ -1,13 +1,16 @@
-import { QueueResourcesServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { QueueResourcesServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
@@ -55,7 +58,6 @@ const getQueueResGroupsList = async (params) => {
     ]);
   }
 };
-
 
 const getQueueResGroup = async ({ parentId, itemId: id, domainId }) => {
   try {
@@ -106,7 +108,6 @@ const updateQueueResGroup = async ({ parentId, itemInstance, itemId: id }) => {
     ]);
   }
 };
-
 
 const deleteQueueResGroup = async ({ parentId, id, domainId }) => {
   try {

@@ -1,6 +1,6 @@
 import {
-  EndpointListGetterApiConsumer,
   EndpointGetterApiConsumer,
+  EndpointListGetterApiConsumer,
   EndpointPatcherApiConsumer,
 } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../../../../../app/api/old/instance';
@@ -14,7 +14,10 @@ const defaultListObject = { // default object prototype, to merge response with 
   id: 0,
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
+const listGetter = new EndpointListGetterApiConsumer({
+  baseUrl,
+  instance,
+}, { defaultListObject });
 const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance });
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance });
 

@@ -1,12 +1,12 @@
 <template>
   <!--  :class="$i18n.locale" root element class to control fonts on each locale  -->
-  <router-view :class="$i18n.locale"></router-view>
+  <router-view :class="$i18n.locale" />
 </template>
 
 <script>
 
 export default {
-  name: 'app',
+  name: 'App',
   created() {
     this.setLanguage();
   },

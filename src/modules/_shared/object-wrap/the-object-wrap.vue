@@ -1,10 +1,10 @@
 <template>
   <main class="object-wrap">
     <section class="object">
-      <wt-notifications-bar/>
-      <app-header></app-header>
+      <wt-notifications-bar />
+      <app-header />
       <div class="object-content-wrap">
-        <router-view></router-view>
+        <router-view />
       </div>
     </section>
   </main>
@@ -14,7 +14,7 @@
 import AppHeader from '../../_reusable/app-header/components/app-header.vue';
 
 export default {
-  name: 'module-wrap',
+  name: 'ModuleWrap',
   components: { AppHeader },
 };
 </script>
@@ -29,16 +29,16 @@ export default {
 
 // main content itself, without nav but with main header
 .object {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  flex-grow: 1;
   max-width: 100%;
+  min-height: 100%;
   background: var(--page-bg-color);
 }
 
 .object-content-wrap {
-  flex-grow: 1;
   display: flex;
+  flex-grow: 1;
 }
 </style>

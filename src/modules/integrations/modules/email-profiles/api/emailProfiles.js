@@ -1,13 +1,17 @@
-import { EmailProfileServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { EmailProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
@@ -30,8 +34,8 @@ const fieldsToSend = [
 ];
 
 const preRequestHandler = (item) => ({
-    ...item,
-  });
+  ...item,
+});
 
 const getList = async (params) => {
   const defaultObject = {
@@ -74,7 +78,6 @@ const getList = async (params) => {
   }
 };
 
-
 const get = async ({ itemId: id }) => {
   const defaultObject = {
     imapPort: 0,
@@ -82,8 +85,8 @@ const get = async ({ itemId: id }) => {
   };
 
   const responseHandler = (response) => ({
-      ...response,
-    });
+    ...response,
+  });
 
   try {
     const response = await emailProfilesService.readEmailProfile(id);
@@ -98,7 +101,6 @@ const get = async ({ itemId: id }) => {
     ]);
   }
 };
-
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -118,7 +120,6 @@ const add = async ({ itemInstance }) => {
   }
 };
 
-
 const patch = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
@@ -135,7 +136,6 @@ const patch = async ({ changes, id }) => {
     ]);
   }
 };
-
 
 const update = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
@@ -155,7 +155,6 @@ const update = async ({ itemInstance, itemId: id }) => {
   }
 };
 
-
 const deleteItem = async ({ id }) => {
   try {
     const response = await emailProfilesService.deleteEmailProfile(id);
@@ -166,7 +165,6 @@ const deleteItem = async ({ id }) => {
     ]);
   }
 };
-
 
 const getLookup = (params) => getList({
   ...params,

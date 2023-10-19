@@ -1,5 +1,6 @@
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import GatewaysAPI from '../api/gateways';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import registerGateway from './_internals/gatewaySchema/registerGateway';
 import trunkingGateway from './_internals/gatewaySchema/trunkingGateway';
 import headers from './_internals/headers';
@@ -54,8 +55,8 @@ const mutations = {
 };
 
 const gateways = new ObjectStoreModule({ headers })
-  .attachAPIModule(GatewaysAPI)
-  .generateAPIActions()
-  .getModule({ actions, mutations });
+.attachAPIModule(GatewaysAPI)
+.generateAPIActions()
+.getModule({ actions, mutations });
 
 export default gateways;

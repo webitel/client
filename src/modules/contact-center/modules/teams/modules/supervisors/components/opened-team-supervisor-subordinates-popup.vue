@@ -1,17 +1,20 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.ccenter.agents.subordinates', 2) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <section>
         <wt-table
           :data="dataList"
+          :grid-actions="false"
           :headers="headers"
           :selectable="false"
-          :grid-actions="false"
         >
-          <template v-slot:subordinate="{ item }">
+          <template #subordinate="{ item }">
             {{ item.user.name }}
           </template>
         </wt-table>
@@ -25,7 +28,7 @@ import { mapState } from 'vuex';
 import TeamsAPI from '../api/teamSupervisors';
 
 export default {
-  name: 'opened-team-supervisor-subordinates-popup',
+  name: 'OpenedTeamSupervisorSubordinatesPopup',
   props: {
     itemId: {
       required: true,

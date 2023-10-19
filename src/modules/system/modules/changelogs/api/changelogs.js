@@ -4,7 +4,11 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { ConfigServiceApiFactory } from 'webitel-sdk';
@@ -69,7 +73,14 @@ const get = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['object', 'storage', 'daysToStore', 'period', 'enabled', 'description'];
+const fieldsToSend = [
+  'object',
+  'storage',
+  'daysToStore',
+  'period',
+  'enabled',
+  'description',
+];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [

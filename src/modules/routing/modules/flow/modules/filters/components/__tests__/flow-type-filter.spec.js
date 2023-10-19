@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
+import filterComponentMixinMock
+  from '../../../../../../../../../tests/unit/mocks/mixinMocks/filterComponentMixin.mock';
 import FlowTypeFilter from '../flow-type-filter.vue';
-import filterComponentMixinMock from '../../../../../../../../../tests/unit/mocks/mixinMocks/filterComponentMixin.mock';
 
 describe('FlowTypeFilter', () => {
   it('renders a component', () => {

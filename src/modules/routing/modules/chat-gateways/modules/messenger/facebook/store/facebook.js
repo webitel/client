@@ -1,9 +1,14 @@
-import ObjectStoreModule from '../../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule
+  from '../../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import FacebookAPI from '../api/facebook';
 import headers from './_internals/headers';
 
 const getters = {
-  CHAT_URI: (s, g, rootState) => rootState.routing.chatGateways.itemInstance.uri,
+  CHAT_URI: (
+    s,
+    g,
+    rootState,
+  ) => rootState.routing.chatGateways.itemInstance.uri,
 };
 
 const actions = {
@@ -23,8 +28,8 @@ const actions = {
 };
 
 const facebook = new ObjectStoreModule({ headers })
-  .attachAPIModule(FacebookAPI)
-  .generateAPIActions()
-  .getModule({ getters, actions });
+.attachAPIModule(FacebookAPI)
+.generateAPIActions()
+.getModule({ getters, actions });
 
 export default facebook;

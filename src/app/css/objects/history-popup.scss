@@ -1,9 +1,9 @@
 .history-popup {
   .history-popup__filters {
     display: grid;
+    margin-bottom: 20px;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
-    margin-bottom: 20px;
   }
 
   .wt-table {

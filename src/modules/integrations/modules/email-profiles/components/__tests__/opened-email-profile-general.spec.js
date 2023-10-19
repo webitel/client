@@ -1,9 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedEmailProfileGeneral
-  from '../opened-email-profile-general.vue';
 import OpenedTabComponentMixinMock
   from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedEmailProfileGeneral from '../opened-email-profile-general.vue';
 
 describe('OpenedEmailProfileGeneral', () => {
   const computed = {

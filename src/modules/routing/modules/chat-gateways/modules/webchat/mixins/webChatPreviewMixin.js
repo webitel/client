@@ -24,7 +24,7 @@ export default {
       };
     },
     initWidgetPreview() {
-      const baseUrl = process.env.VUE_APP_OMNI_WIDGET_URL;
+      const baseUrl = import.meta.env.VITE_OMNI_WIDGET_URL;
 
       let script = document.createElement('script');
       script.src = `${baseUrl}/WtOmniWidget.umd.js`;

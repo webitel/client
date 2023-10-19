@@ -1,8 +1,16 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels') }}</h3>
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{
+          $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
+        }}
+      </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <div
@@ -13,18 +21,18 @@
         <wt-icon
           :icon="channelIcon[channel]"
           size="lg"
-        ></wt-icon>
+        />
         <copy-input
           :disabled="disableUserInput"
           :placeholder="$t(channelUrlPlaceholder[channel])"
           :value="itemInstance.metadata.alternativeChannels[channel].url"
           @input="handleUrlInput({ channel, value: $event })"
-        ></copy-input>
+        />
         <wt-switcher
           :disabled="disableUserInput"
           :value="itemInstance.metadata.alternativeChannels[channel].enabled"
           @change="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
-        ></wt-switcher>
+        />
       </div>
     </div>
   </section>
@@ -38,21 +46,21 @@ import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.e
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-webchat-alternative-channels-tab',
+  name: 'OpenedChatWebchatAlternativeChannelsTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
       ...Object.values(WebchatAlternativeChannel)
-               .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
+      .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
     channelUrlPlaceholder: {
       ...Object.values(WebchatAlternativeChannel)
-               .reduce((channels, channel) => ({
-                 ...channels,
-                 [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-               }), {}),
+      .reduce((channels, channel) => ({
+        ...channels,
+        [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+      }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
       [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
       [WebchatAlternativeChannel.TELEGRAM]: 'objects.routing.chatGateways.webchat.alternativeChannels.telegram',

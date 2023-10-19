@@ -1,6 +1,6 @@
+import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import qs from 'query-string';
-import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import instance from '../../../../../../../app/api/old/instance';
 
 const getTtsStreamUrl = (params, apiUrl = false) => {
@@ -9,7 +9,7 @@ const getTtsStreamUrl = (params, apiUrl = false) => {
     ...objCamelToSnake(params),
     access_token: instance.defaults.headers['X-Webitel-Access'],
   })}`;
-  if (apiUrl) url = `${process.env.VUE_APP_API_URL}${url}`;
+  if (apiUrl) url = `${import.meta.env.VITE_API_URL}${url}`;
   return url;
 };
 

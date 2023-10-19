@@ -3,9 +3,15 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl, 
-  merge, notify, sanitize, snakeToCamel,
-  starToSearch, log, mergeEach,
+  camelToSnake,
+  generateUrl,
+  log,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';
@@ -45,7 +51,7 @@ const getDeviceList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -67,7 +73,7 @@ const getDevice = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -92,7 +98,7 @@ const addDevice = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -113,7 +119,7 @@ const updateDevice = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -126,7 +132,7 @@ const deleteDevice = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -140,7 +146,15 @@ const getDevicesLookup = (params) => getDeviceList({
 const getDeviceHistory = async ({
                                   parentId, from, to, ...rest
                                 }) => {
-  const fieldsToSend = ['page', 'size', 'search', 'fields', 'id', 'timeFrom', 'timeTo'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'fields',
+    'id',
+    'timeFrom',
+    'timeTo',
+  ];
   const url = applyTransform({ ...rest, timeFrom: from, timeTo: to }, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -162,7 +176,7 @@ const getDeviceHistory = async ({
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }

@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,17 +13,17 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-tags-input
         :disabled="disableUserInput"
         :label="$tc('vocabulary.tag', 2)"
-        :value="itemInstance.tags"
         :search-method="loadFlowTagOptions"
+        :value="itemInstance.tags"
         option-label="name"
-        track-by="name"
         taggable
+        track-by="name"
         @input="setItemProp({ prop: 'tags', value: $event })"
-      ></wt-tags-input>
+      />
     </div>
     <code-editor
       :autocomplete="autocomplete"
@@ -30,7 +32,7 @@
       :value="itemInstance.schema"
       @change="setItemProp({ prop: 'schema', value: $event })"
       @errorListener="isSyntaxError = $event"
-    ></code-editor>
+    />
   </section>
 </template>
 
@@ -39,13 +41,13 @@ import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeAppli
 import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 import FlowsAPI from '../../../api/flow';
+import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 
 export default {
-  name: 'opened-flow-code',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedFlowCode',
   components: { CodeEditor },
+  mixins: [openedTabComponentMixin],
   computed: {
     autocomplete() {
       const { type } = this.itemInstance;
