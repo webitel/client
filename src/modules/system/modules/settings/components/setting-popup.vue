@@ -18,9 +18,6 @@
           :clearable="false"
           :track-by="null"
           :disabled="id"
-          :label="$t('reusable.name')"
-          :v="v$.itemInstance.name"
-          :value="itemInstance.name"
           required
           @input="setSettingName"
         />

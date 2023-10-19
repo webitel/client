@@ -44,7 +44,14 @@
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            />
+              >
+              <delete-all-action
+                v-if="hasDeleteAccess"
+                :class="{'hidden': anySelected}"
+                :selected-count="selectedRows.length"
+                @click="callDelete(selectedRows)"
+              />
+            </wt-table-actions>
           </div>
         </header>
 
@@ -89,21 +96,11 @@
             :prev="page > 1"
             :size="size"
             debounce
-            @enter="loadList"
-            @input="setSearch"
-            @search="loadList"
-          ></wt-search-bar>
-          <wt-table-actions
-            :icons="['refresh']"
-            @input="tableActionsHandler"
-          >
-            <delete-all-action
-              v-if="hasDeleteAccess"
-              :class="{'hidden': anySelected}"
-              :selected-count="selectedRows.length"
-              @click="callDelete(selectedRows)"
-            ></delete-all-action>
-          </wt-table-actions>
+            @change="loadList"
+            @input="setSize"
+            @next="nextPage"
+            @prev="prevPage"
+          />
         </div>
       </section>
     </template>
