@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "test:unit": "vitest",
+    "preview": "vite preview",
     "prepare": "husky install",
     "lint:fix": "eslint --fix --ext .js,.vue src"
   },
