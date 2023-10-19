@@ -15,9 +15,9 @@ const resettableState = {
   },
 };
 
-const singleSingOn = new ObjectStoreModule({ resettableState, headers })
+const singleSignOn = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(SingleSignOnAPI)
 .generateAPIActions()
 .getModule({});
 
-export default singleSingOn;
+export default singleSignOn;

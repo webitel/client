@@ -963,7 +963,6 @@ export default {
       singleSignOn: {
         allTypes: 'All types',
         singleSignOn: 'Single Sign-on',
-        type: 'Type',
       },
 
       importCsv: {

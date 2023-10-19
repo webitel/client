@@ -100,14 +100,12 @@
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = 'integrations/singleSingOn';
-
 export default {
   name: 'the-single-sign-on',
   mixins: [tableComponentMixin],
   data: () => ({
-    namespace,
-    routeName: RouteNames.EMAIL_PROFILES,
+    namespace: 'integrations/singleSignOn',
+    routeName: RouteNames.SINGLE_SIGN_ON,
   }),
 
   computed: {

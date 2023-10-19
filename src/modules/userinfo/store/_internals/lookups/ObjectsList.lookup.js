@@ -37,6 +37,7 @@ export default Object.freeze([
   { field: 'storage_profile', name: AdminSections.STORAGE, route: RouteNames.STORAGE },                   // scope: storage_profile
   { field: 'cognitive_profile', name: AdminSections.COGNITIVE_PROFILES, route: RouteNames.COGNITIVE_PROFILES }, // scope: cognitive_profile
   { field: 'email_profile', name: AdminSections.EMAIL_PROFILES, route: RouteNames.EMAIL_PROFILES },
+  { field: 'single_sign_on', name: AdminSections.SINGLE_SIGN_ON, route: RouteNames.SINGLE_SIGN_ON },
   { field: 'import_template', name: AdminSections.IMPORT_CSV, route: RouteNames.IMPORT_CSV },
   { field: 'trigger', name: AdminSections.TRIGGERS, route: RouteNames.TRIGGERS },
 

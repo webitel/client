@@ -7,7 +7,7 @@
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.singleSignOn.type')"
+        :label="$t('vocabulary.type')"
         :search-method="loadFlows"
         :v="v.itemInstance.name"
         :value="itemInstance.name"
@@ -50,7 +50,6 @@ import SingleSignOnAPI from '../api/singleSignOn';
 export default {
   name: 'opened-single-sign-on-general',
   mixins: [openedTabComponentMixin],
-  data: () => ({}),
   methods: {
     loadFlows(params) {
       return SingleSignOnAPI.getLookup(params);

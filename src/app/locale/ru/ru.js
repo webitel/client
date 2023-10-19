@@ -963,7 +963,6 @@ export default {
         allTypes: 'Все типы',
         // TODO: add locale
         singleSignOn: 'Single Sign-on',
-        type: 'Тип',
       },
 
       importCsv: {

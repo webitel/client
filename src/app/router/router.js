@@ -602,19 +602,19 @@ const router = createRouter({
         },
         {
           path: '/integrations/single-sign-on',
-          name: RouteNames.EMAIL_PROFILES,
+          name: RouteNames.SINGLE_SIGN_ON,
           component: SingleSignOn,
           beforeEnter: checkRouteAccess,
         },
         {
           path: '/integrations/single-sign-on/new',
-          name: `${RouteNames.EMAIL_PROFILES}-new`,
+          name: `${RouteNames.SINGLE_SIGN_ON}-new`,
           component: OpenedSingleSignOn,
           beforeEnter: checkRouteAccess,
         },
         {
           path: '/integrations/single-sign-on/:id',
-          name: `${RouteNames.EMAIL_PROFILES}-edit`,
+          name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
           component: OpenedSingleSignOn,
           beforeEnter: checkRouteAccess,
         },

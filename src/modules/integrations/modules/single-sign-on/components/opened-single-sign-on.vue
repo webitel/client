@@ -39,11 +39,11 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import General from './opened-single-sign-on-general.vue';
 
 export default {
-  name: 'opened-email-profile',
+  name: 'opened-single-sign-on',
   mixins: [openedObjectMixin],
   components: { General },
   data: () => ({
-    namespace: 'integrations/singleSingOn',
+    namespace: 'integrations/singleSignOn',
   }),
 
   setup: () => ({

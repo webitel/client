@@ -4,7 +4,7 @@ import cognitiveProfiles
 import emailProfiles from '../modules/email-profiles/store/email-profiles';
 import importCsv from '../modules/import-csv/store/import-csv';
 import triggers from '../modules/triggers/store/triggers';
-import singleSingOn from '../modules/single-sign-on/store/email-profiles';
+import singleSignOn from '../modules/single-sign-on/store/single-sign-on';
 
 const modules = {
   storage,
@@ -12,7 +12,7 @@ const modules = {
   emailProfiles,
   importCsv,
   triggers,
-  singleSingOn,
+  singleSignOn,
 };
 
 export default {

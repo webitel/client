@@ -135,6 +135,10 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.EMAIL_PROFILES}`,
         route: 'email-profiles',
       }, {
+        value: AdminSections.SINGLE_SIGN_ON,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SINGLE_SIGN_ON}`,
+        route: 'single-sign-on',
+      }, {
         value: AdminSections.IMPORT_CSV,
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.IMPORT_CSV}`,
         route: 'import-csv',
