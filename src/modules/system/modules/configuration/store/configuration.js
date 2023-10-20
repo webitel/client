@@ -1,6 +1,6 @@
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import SettingsAPI from '../api/settings';
+import ConfigurationAPI from '../api/configuration';
 import headers from './_internals/headers';
 
 const actions = {
@@ -19,9 +19,9 @@ const actions = {
   },
 };
 
-const settings = new ObjectStoreModule({ headers })
-.attachAPIModule(SettingsAPI)
+const configuration = new ObjectStoreModule({ headers })
+.attachAPIModule(ConfigurationAPI)
 .generateAPIActions()
 .getModule({ actions });
 
-export default settings;
+export default configuration;

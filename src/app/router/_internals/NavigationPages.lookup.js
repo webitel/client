@@ -170,9 +170,9 @@ const nav = Object.freeze([
         route: 'changelogs',
       },
       {
-        value: AdminSections.SETTINGS,
-        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SETTINGS}`,
-        route: 'settings',
+        value: AdminSections.CONFIGURATION,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CONFIGURATION}`,
+        route: 'configuration',
       },
     ],
   },
