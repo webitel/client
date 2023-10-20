@@ -1043,6 +1043,10 @@ export default {
           },
         },
       },
+      configuration: {
+        configuration: 'Конфигурация | Конфигурации',
+        parameter: 'Параметр',
+      },
     },
     pagination: {
       rowsPerPage: 'Количество строк на странице',

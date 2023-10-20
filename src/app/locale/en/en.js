@@ -1044,6 +1044,10 @@ export default {
         },
 
       },
+      configuration: {
+        configuration: 'Configuration | Configurations',
+        parameter: 'Parameter',
+      },
     },
 
     pagination: {

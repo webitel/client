@@ -3,7 +3,7 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
-        :primary-action="() => isSettingPopup = true"
+        :primary-action="() => isConfigurationPopup = true"
         hide-secondary
       >
         <wt-headline-nav :path="path" />
@@ -11,12 +11,12 @@
     </template>
 
   <template v-slot:main>
-    <setting-popup
-      v-if="isSettingPopup"
+    <configuration-popup
+      v-if="isConfigurationPopup"
       :id="id"
       :namespace="namespace"
-      @close="isSettingPopup = false"
-    ></setting-popup>
+      @close="isConfigurationPopup = false"
+    ></configuration-popup>
 
       <delete-confirmation-popup
         v-show="deleteConfirmation.isDeleteConfirmationPopup"
@@ -29,7 +29,7 @@
           <h3 class="content-title">
             {{
               $t('objects.all', {
-                entity: $tc('settings.settings', 2).toLowerCase(),
+                entity: $tc('objects.system.configuration.configuration', 2).toLowerCase(),
               })
             }}
           </h3>
@@ -81,7 +81,7 @@
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
-                @click="editSetting(item)"
+                @click="editParameter(item)"
               />
               <wt-icon-action
                 v-if="hasDeleteAccess"
@@ -112,13 +112,13 @@ import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import SettingPopup from './setting-popup.vue';
+import ConfigurationPopup from './configuration-popup.vue';
 
-const namespace = 'system/settings';
+const namespace = 'system/configuration';
 
 export default {
-  name: 'TheSettings',
-  components: { SettingPopup },
+  name: 'TheConfiguration',
+  components: { ConfigurationPopup },
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace });
@@ -126,7 +126,7 @@ export default {
   },
   data: () => ({
     namespace,
-    isSettingPopup: false,
+    isConfigurationPopup: false,
   }),
   computed: {
     ...mapState({
@@ -137,7 +137,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.system.system') },
-        { name: this.$tc('settings.settings', 2), route: namespace },
+        { name: this.$tc('objects.system.configuration.configuration', 1), route: namespace },
       ];
     },
   },
@@ -147,9 +147,9 @@ export default {
         return dispatch(`${namespace}/SET_ITEM_ID`, payload);
       },
     }),
-    editSetting(item) {
+    editParameter(item) {
       this.setItemId(item.id);
-      this.isSettingPopup = true;
+      this.isConfigurationPopup = true;
     },
   },
 };

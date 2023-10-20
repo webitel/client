@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
-
+// dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import './app/assets/icons/sprite';
 import ActionComponents from './app/components/actions';
 import App from './app/components/app.vue';
