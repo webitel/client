@@ -116,7 +116,7 @@ const deleteItem = async ({ id }) => {
   }
 };
 
-const SettingsAPI = {
+const ConfigurationAPI = {
   getList,
   get,
   add,
@@ -125,4 +125,4 @@ const SettingsAPI = {
   getLookup,
 };
 
-export default SettingsAPI;
+export default ConfigurationAPI;

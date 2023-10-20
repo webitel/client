@@ -1,10 +1,10 @@
 import changelogs from '../modules/changelogs/store/changelogs';
-import settings from '../modules/settings/store/settings';
+import configuration from '../modules/configuration/store/configuration';
 
 export default {
   namespaced: true,
   modules: {
     changelogs,
-    settings,
+    configuration,
   },
 };

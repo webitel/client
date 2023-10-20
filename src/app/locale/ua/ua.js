@@ -1035,6 +1035,10 @@ export default {
           },
         },
       },
+      configuration: {
+        configuration: 'Конфігурація | Конфігурації',
+        parameter: 'Параметр',
+      },
     },
     pagination: {
       rowsPerPage: 'Кількість записів',

@@ -6,20 +6,20 @@
   >
     <template #title>
       {{ id ? $t('reusable.edit') : $t('reusable.new') }}
-      {{ $tc('settings.settings', 1).toLowerCase() }}
+      {{ $t('objects.system.configuration.parameter').toLowerCase() }}
     </template>
     <template #main>
       <form>
         <wt-select
           :value="itemInstance.name"
           :v="v$.itemInstance.name"
-          :label="$t('reusable.name')"
-          :search-method="loadSettingsNameList"
+          :label="$t('objects.system.configuration.parameter')"
+          :search-method="loadParameterList"
           :clearable="false"
           :track-by="null"
           :disabled="id"
           required
-          @input="setSettingName"
+          @input="setParameterName"
         />
         <div
           v-if="itemInstance.name"
@@ -27,6 +27,7 @@
           <!--          https://github.com/vuejs/core/issues/2279#issuecomment-701266701-->
           <component
             :is="componentConfig.component"
+            :label="componentConfig.label"
             v-bind="componentConfig.bind"
             v-on="componentConfig.on"
           />
@@ -53,16 +54,16 @@
 <script>
 import deepmerge from 'deepmerge';
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { required, minValue } from '@vuelidate/validators';
 import { EngineSystemSettingName } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import SettingsAPI from '../api/settings';
-import SettingsValueTypes from '../utils/settingsValueTypes';
+import ConfigurationAPI from '../api/configuration';
+import ConfigurationValueTypes from '../utils/configurationValueTypes';
 
 export default {
-  name: 'SettingsPopup',
+  name: 'ConfigurationPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
     id: {
@@ -78,12 +79,15 @@ export default {
   validations: {
     itemInstance: {
       name: { required },
-      value: { required },
+      value: {
+        required,
+        minValue: minValue(0),
+      },
     },
   },
   computed: {
     valueType() {
-      return SettingsValueTypes[this.itemInstance.name];
+      return ConfigurationValueTypes[this.itemInstance.name];
     },
     componentConfig() {
       const defaultConfig = {
@@ -91,18 +95,19 @@ export default {
           value: this.itemInstance.value,
           v: this.v$.itemInstance.value,
           required: true,
-          label: this.$tc('vocabulary.values', 1),
         },
       };
 
       const defaultBooleanConfig = deepmerge(defaultConfig, {
         component: 'wt-switcher',
+        label: this.$t('reusable.state'),
         on: {
           change: (event) => this.setItemProp({ prop: 'value', value: event }),
         },
       });
       const defaultNumberConfig = deepmerge(defaultConfig, {
         component: 'wt-input',
+        label: this.$tc('vocabulary.values', 1),
         bind: {
           type: 'number',
         },
@@ -146,8 +151,8 @@ export default {
     close() {
       this.$emit('close');
     },
-    async loadSettingsNameList(params) {
-      const response = await SettingsAPI.getLookup({ ...params, size: 5000 });
+    async loadParameterList(params) {
+      const response = await ConfigurationAPI.getLookup({ ...params, size: 5000 });
 
       response.items = Object.values(EngineSystemSettingName)
       .filter((name) => (
@@ -155,7 +160,7 @@ export default {
       ));
       return response;
     },
-    setSettingName(event) {
+    setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event });
       if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
       if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });

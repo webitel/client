@@ -1,9 +1,9 @@
 import { EngineSystemSettingName } from 'webitel-sdk';
 
-const SettingsValueTypes = Object.freeze({
+const ConfigurationValueTypes = Object.freeze({
     [EngineSystemSettingName.EnableOmnichannel]: 'boolean',
     [EngineSystemSettingName.MemberChunkSize]: 'number',
   },
 );
 
-export default SettingsValueTypes;
+export default ConfigurationValueTypes;
