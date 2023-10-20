@@ -16,7 +16,7 @@
       ></wt-select>
       <wt-input
         :disabled="disableUserInput"
-        :label="'Client id'"
+        :label="$t('objects.integrations.singleSignOn.clientId')"
         :v="v.itemInstance.clientId"
         :value="itemInstance.clientId"
         required
@@ -24,7 +24,7 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="'Client secret'"
+        :label="$t('objects.integrations.singleSignOn.clientSecret')"
         :v="v.itemInstance.clientSecret"
         :value="itemInstance.clientSecret"
         required
@@ -32,7 +32,7 @@
       ></wt-input>
       <wt-input
         :disabled="disableUserInput"
-        :label="'Discovery url'"
+        :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
         :v="v.itemInstance.discoveryUrl"
         :value="itemInstance.discoveryUrl"
         required

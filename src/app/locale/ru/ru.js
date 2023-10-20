@@ -963,6 +963,9 @@ export default {
         allTypes: 'Все типы',
         // TODO: add locale
         singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
       },
 
       importCsv: {
