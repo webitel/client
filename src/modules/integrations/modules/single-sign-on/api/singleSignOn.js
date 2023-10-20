@@ -4,9 +4,13 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, snakeToCamel,
-  starToSearch, log, sanitize,
-  generateUrl, mergeEach,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../app/api/instance';
 
@@ -43,7 +47,6 @@ const getSingleSignOnList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
@@ -71,13 +74,21 @@ const getSingleSignOn = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
 };
 
-const fieldsToSend = ['name', 'type', 'id', 'clientId', 'clientSecret', 'discoveryUrl', 'enabled', 'scopes'];
+const fieldsToSend = [
+  'name',
+  'type',
+  'id',
+  'clientId',
+  'clientSecret',
+  'discoveryUrl',
+  'enabled',
+  'scopes',
+];
 
 const addSingleSignOn = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -91,7 +102,6 @@ const addSingleSignOn = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
@@ -110,7 +120,6 @@ const updateSingleSignOn = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
@@ -129,7 +138,6 @@ const patchSingleSignOn = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
@@ -142,7 +150,6 @@ const deleteSingleSignOn = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-
       notify,
     ]);
   }
