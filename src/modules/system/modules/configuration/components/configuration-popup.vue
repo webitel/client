@@ -112,7 +112,7 @@ export default {
           type: 'number',
         },
         on: {
-          input: (event) => this.setItemProp({ prop: 'value', value: event }),
+          input: (event) => this.setItemProp({ prop: 'value', value: +event }),
         },
       });
 
