@@ -191,6 +191,10 @@ export default {
                   minValue: minValue(1),
                 },
               } : {},
+              call: this.itemInstance.metadata.call.enabled ? {
+                url: { required, url },
+                flow: { required },
+              } : {},
             },
           },
         };

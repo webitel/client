@@ -12,29 +12,51 @@
         }}
       </h3>
     </header>
-    <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-      <div
-        v-for="(channel) of alternativeChannels"
-        :key="channel"
-        class="webchat-alternative-channel"
-      >
-        <wt-icon
-          :icon="channelIcon[channel]"
-          size="lg"
-        />
-        <copy-input
-          :disabled="disableUserInput"
-          :placeholder="$t(channelUrlPlaceholder[channel])"
-          :value="itemInstance.metadata.alternativeChannels[channel].url"
-          @input="handleUrlInput({ channel, value: $event })"
-        />
-        <wt-switcher
-          :disabled="disableUserInput"
-          :value="itemInstance.metadata.alternativeChannels[channel].enabled"
-          @change="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
-        />
-      </div>
-    </div>
+    <section class="webchat-alternative-channels-sections-wrapper">
+      <article class="webchat-alternative-channels-section">
+        <header>{{ $t('objects.routing.chatGateways.webchat.alternativeChannels.messagingChannels') }}</header>
+        <div class="object-input-grid object-input-grid__1-col">
+          <div
+            v-for="(channel) of alternativeChannels"
+            :key="channel"
+            class="webchat-alternative-channel"
+          >
+            <wt-icon
+              :icon="channelIcon[channel]"
+              size="lg"
+            />
+            <copy-input
+              :disabled="disableUserInput"
+              :placeholder="$t(channelUrlPlaceholder[channel])"
+              :value="itemInstance.metadata.alternativeChannels[channel].url"
+              @input="handleUrlInput({ channel, value: $event })"
+            />
+            <wt-switcher
+              :disabled="disableUserInput"
+              :value="itemInstance.metadata.alternativeChannels[channel].enabled"
+              @change="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
+            />
+          </div>
+        </div>
+      </article>
+      <article class="webchat-alternative-channels-section">
+        <header>{{ $t('objects.routing.chatGateways.webchat.alternativeChannels.onlineCall') }}</header>
+        <div class=" object-input-grid object-input-grid__1-col">
+          <wt-switcher
+            :disabled="disableUserInput"
+            :value="itemInstance.metadata.call.enabled"
+            @change="setItemProp({ path: 'metadata.call.enabled', value: $event })"
+          />
+          <wt-input
+            :disabled="disableUserInput"
+            :label="$t('objects.routing.chatGateways.webchat.call.url')"
+            :v="v.itemInstance.metadata.call.url"
+            :value="itemInstance.metadata.call.url"
+            @input="setItemProp({ path: 'metadata.call.url', value: $event })"
+          />
+        </div>
+      </article>
+    </section>
   </section>
 </template>
 
@@ -47,6 +69,7 @@ import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
   name: 'OpenedChatWebchatAlternativeChannelsTab',
+  components: { updatee },
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),
@@ -84,6 +107,18 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../css/chat-gateways';
+
+.webchat-alternative-channels-sections-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.webchat-alternative-channels-section {
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  box-shadow: var(--elevation-10);
+}
 
 .webchat-alternative-channel {
   display: flex;

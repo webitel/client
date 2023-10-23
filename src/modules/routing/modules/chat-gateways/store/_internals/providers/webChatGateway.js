@@ -44,6 +44,11 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       showEmailField: false,
       showMessageField: false,
     },
+    call: {
+      enabled: false,
+      url: '',
+      flow: {},
+    },
     alternativeChannels: Object
     .values(WebchatAlternativeChannel)
     .reduce((channels, channel) => (
