@@ -95,6 +95,11 @@ export default Object.freeze([
     route: RouteNames.EMAIL_PROFILES,
   },
   {
+    field: 'single_sign_on',
+    name: AdminSections.SINGLE_SIGN_ON,
+    route: RouteNames.SINGLE_SIGN_ON,
+  },
+  {
     field: 'import_template',
     name: AdminSections.IMPORT_CSV,
     route: RouteNames.IMPORT_CSV,
