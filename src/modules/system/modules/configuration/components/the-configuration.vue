@@ -137,7 +137,7 @@ export default {
     path() {
       return [
         { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.configuration.configuration', 1), route: namespace },
+        { name: this.$tc('objects.system.configuration.configuration', 1), route: 'configuration' },
       ];
     },
   },
