@@ -1,5 +1,5 @@
 import DeleteConfirmationPopup
-  from '../../../../components/utils/delete-confirmation-popup/delete-confirmation-popup.vue';
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 
 export default {
   components: {
