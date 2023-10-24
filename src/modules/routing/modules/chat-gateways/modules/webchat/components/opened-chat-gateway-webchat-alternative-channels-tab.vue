@@ -14,7 +14,9 @@
     </header>
     <section class="webchat-alternative-channels-sections-wrapper">
       <article class="webchat-alternative-channels-section">
-        <header>{{ $t('objects.routing.chatGateways.webchat.alternativeChannels.messagingChannels') }}</header>
+        <header class="webchat-alternative-channels-section-header">
+          {{ $t('objects.routing.chatGateways.webchat.alternativeChannels.title') }}
+        </header>
         <div class="object-input-grid object-input-grid__1-col">
           <div
             v-for="(channel) of alternativeChannels"
@@ -40,19 +42,34 @@
         </div>
       </article>
       <article class="webchat-alternative-channels-section">
-        <header>{{ $t('objects.routing.chatGateways.webchat.alternativeChannels.onlineCall') }}</header>
-        <div class=" object-input-grid object-input-grid__1-col">
+        <header class="webchat-alternative-channels-section-header">
+          {{ $t('objects.routing.chatGateways.webchat.call.title') }}
+        </header>
+        <div class="webchat-call-section-title-wrapper">
+          <wt-icon
+            icon="call"
+          />
           <wt-switcher
             :disabled="disableUserInput"
             :value="itemInstance.metadata.call.enabled"
             @change="setItemProp({ path: 'metadata.call.enabled', value: $event })"
           />
+        </div>
+        <div class=" object-input-grid object-input-grid__1-col">
           <wt-input
             :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.webchat.call.url')"
             :v="v.itemInstance.metadata.call.url"
             :value="itemInstance.metadata.call.url"
             @input="setItemProp({ path: 'metadata.call.url', value: $event })"
+          />
+          <wt-select
+            :disabled="disableUserInput"
+            :label="$t('objects.routing.flow.flow', 1)"
+            :search-method="loadFlows"
+            :v="v.itemInstance.metadata.call.flow"
+            :value="itemInstance.metadata.call.flow"
+            @input="setItemProp({ path: 'metadata.call.flow', value: $event })"
           />
         </div>
       </article>
@@ -64,29 +81,30 @@
 import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../../flow/api/flow';
 import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
   name: 'OpenedChatWebchatAlternativeChannelsTab',
-  components: { updatee },
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
       ...Object.values(WebchatAlternativeChannel)
-      .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
+               .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
     channelUrlPlaceholder: {
       ...Object.values(WebchatAlternativeChannel)
-      .reduce((channels, channel) => ({
-        ...channels,
-        [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-      }), {}),
+               .reduce((channels, channel) => ({
+                 ...channels,
+                 [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+               }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
       [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
       [WebchatAlternativeChannel.TELEGRAM]: 'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
+      [WebchatAlternativeChannel.MESSENGER]: 'objects.routing.chatGateways.webchat.alternativeChannels.messenger',
     },
   }),
   methods: {
@@ -95,6 +113,7 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE`, payload);
       },
     }),
+    loadFlows: FlowsAPI.getLookup,
     handleUrlInput({ channel, value }) {
       this.setAltChannelValue({ channel, prop: 'url', value });
       if (!value) {
@@ -115,9 +134,17 @@ export default {
 }
 
 .webchat-alternative-channels-section {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   padding: var(--spacing-sm);
   border-radius: var(--border-radius);
   box-shadow: var(--elevation-10);
+  gap: var(--spacing-sm);
+}
+
+.webchat-alternative-channels-section-header {
+  @extend %typo-heading-3;
 }
 
 .webchat-alternative-channel {
@@ -128,5 +155,12 @@ export default {
   .copy-input {
     flex-grow: 1;
   }
+}
+
+.webchat-call-section-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
 }
 </style>

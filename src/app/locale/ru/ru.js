@@ -596,11 +596,17 @@ export default {
             subheadingText: 'Подзаголовок',
             showDefaultHeading: 'Показать стандартный заголовок и подзаголовок на странице результата',
           },
+          call: {
+            title: 'Онлайн-звонок',
+            url: 'WebSocket Endpoint',
+          },
           alternativeChannels: {
             alternativeChannels: 'Альтернативные каналы',
+            title: 'Текстовые каналы',
             email: 'Электронная почта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
           },
         },
         uri: 'URI',

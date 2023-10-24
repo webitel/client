@@ -14,6 +14,7 @@
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import clipboardCopy from 'clipboard-copy';
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
@@ -22,8 +23,8 @@ const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
 const filterEmptyValues = (obj) => Object
-.entries(obj)
-.reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
+  .entries(obj)
+  .reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
 
 const processViewConfig = (view) => filterEmptyValues(view);
 
@@ -67,12 +68,18 @@ const processAppointmentConfig = ({
 const processAlternativeChannelsConfig = (channels) => {
   const minifyAltChannels = (altChannels) => (
     Object.entries(altChannels)
-    .reduce((channels, [channelName, { enabled, url }]) => (
-      enabled && url ? { ...channels, [channelName]: url } : channels
-    ), {})
+          .reduce((channels, [channelName, { enabled, url }]) => (
+            enabled && url ? { ...channels, [channelName]: url } : channels
+          ), {})
   );
   const result = minifyAltChannels(channels);
   return isEmpty(result) ? undefined : result;
+};
+
+const processCallConfig = ({ enabled, url, ...rest }) => {
+  if (!enabled) return undefined;
+  const id = uuidv4();
+  return { url, id };
 };
 
 const generateCode = (config) => `
@@ -128,12 +135,14 @@ export default {
       const alternativeChannels = processAlternativeChannelsConfig(
         this.itemInstance.metadata.alternativeChannels,
       );
+      const call = processCallConfig(this.itemInstance.metadata.call);
 
       const code = generateCode({
         view,
         chat,
         appointment,
         alternativeChannels,
+        call,
       });
 
       clipboardCopy(code);

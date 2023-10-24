@@ -597,11 +597,17 @@ export default {
             subheadingText: 'Підзаголовок',
             showDefaultHeading: 'Показати стандартний заголовок та підзаголовок на сторінці результату',
           },
+          call: {
+            title: 'Онлайн-дзвінок',
+            url: 'WebSocket Endpoint',
+          },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',
+            title: 'Текстові канали',
             email: 'Електронна пошта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
           },
         },
         uri: 'URI',

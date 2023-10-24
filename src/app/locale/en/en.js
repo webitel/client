@@ -598,9 +598,15 @@ export default {
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
+            title: 'Messaging channels',
             email: 'Email',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
+          },
+          call: {
+            title: 'Online call',
+            url: 'WebSocket Endpoint',
           },
         },
         uri: 'URI',

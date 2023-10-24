@@ -49,6 +49,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidate/validators';
+import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -192,7 +193,7 @@ export default {
                 },
               } : {},
               call: this.itemInstance.metadata.call.enabled ? {
-                url: { required, url },
+                url: { required, websocketValidator },
                 flow: { required },
               } : {},
             },
@@ -337,7 +338,7 @@ export default {
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
-      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {
