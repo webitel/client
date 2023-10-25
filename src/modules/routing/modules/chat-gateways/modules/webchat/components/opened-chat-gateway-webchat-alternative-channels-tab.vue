@@ -66,7 +66,7 @@
           <wt-select
             :disabled="disableUserInput"
             :label="$t('objects.routing.flow.flow', 1)"
-            :search-method="loadFlows"
+            :search-method="loadCallFlows"
             :v="v.itemInstance.metadata.call.flow"
             :value="itemInstance.metadata.call.flow"
             @input="setItemProp({ path: 'metadata.call.flow', value: $event })"
@@ -79,6 +79,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../flow/api/flow';
@@ -92,15 +93,15 @@ export default {
     alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
       ...Object.values(WebchatAlternativeChannel)
-               .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
+      .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
     channelUrlPlaceholder: {
       ...Object.values(WebchatAlternativeChannel)
-               .reduce((channels, channel) => ({
-                 ...channels,
-                 [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-               }), {}),
+      .reduce((channels, channel) => ({
+        ...channels,
+        [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+      }), {}),
       [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
       [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
       [WebchatAlternativeChannel.TELEGRAM]: 'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
@@ -113,7 +114,13 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE`, payload);
       },
     }),
-    loadFlows: FlowsAPI.getLookup,
+    loadCallFlows: (params) => FlowsAPI.getLookup({
+      ...params,
+      type: [
+        EngineRoutingSchemaType.Voice,
+        EngineRoutingSchemaType.Default,
+      ],
+    }),
     handleUrlInput({ channel, value }) {
       this.setAltChannelValue({ channel, prop: 'url', value });
       if (!value) {

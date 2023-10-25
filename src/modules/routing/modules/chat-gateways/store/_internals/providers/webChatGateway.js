@@ -48,6 +48,7 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       enabled: false,
       url: '',
       flow: {},
+      id: '',
     },
     alternativeChannels: Object
     .values(WebchatAlternativeChannel)

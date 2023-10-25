@@ -62,6 +62,7 @@ const webchatRequestConverter = (data) => {
   data.metadata.chat = JSON.stringify(data.metadata.chat);
   data.metadata.appointment = JSON.stringify(data.metadata.appointment);
   data.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  data.metadata.call = JSON.stringify(data.metadata.call);
   data.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
   return data;
 };
@@ -104,6 +105,9 @@ const webChatResponseConverter = (data) => {
   }
   if (data.metadata.alternativeChannels) {
     data.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+  }
+  if (data.metadata.call) {
+    data.metadata.call = JSON.parse(data.metadata.call);
   }
   data.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
 

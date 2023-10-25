@@ -16,6 +16,7 @@
           <webchat-copy-code-button
             v-if="isWebchat"
             :item-instance="itemInstance"
+            :namespace="namespace"
             @copied="handleWebchatCodeCopied"
           />
         </template>
@@ -338,7 +339,7 @@ export default {
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
-                 .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
     },
 
     path() {
