@@ -11,7 +11,7 @@ import tableActionsHandlerMixin from './tableActionsMixin';
  */
 export default {
   mixins: [
-    deleteMixin,
+    // deleteMixin,
     itemLinkMixin,
     tableActionsHandlerMixin,
   ],

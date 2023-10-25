@@ -15,6 +15,7 @@ export default {
   }),
   methods: {
     askDeleteConfirmation({ deleted, callback }) {
+      console.log('askDeleteConfirmation');
       if (Array.isArray(deleted)) this.deleteConfirmation.deleteCount = deleted.length;
       else this.deleteConfirmation.deleteCount = 1;
       this.deleteConfirmation.isDeleteConfirmationPopup = true;
