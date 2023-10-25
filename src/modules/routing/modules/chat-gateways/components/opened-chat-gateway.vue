@@ -16,6 +16,7 @@
           <webchat-copy-code-button
             v-if="isWebchat"
             :item-instance="itemInstance"
+            :namespace="namespace"
             @copied="handleWebchatCodeCopied"
           />
         </template>
@@ -49,6 +50,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidate/validators';
+import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -190,6 +192,10 @@ export default {
                   required,
                   minValue: minValue(1),
                 },
+              } : {},
+              call: this.itemInstance.metadata.call.enabled ? {
+                url: { required, websocketValidator },
+                flow: { required },
               } : {},
             },
           },
