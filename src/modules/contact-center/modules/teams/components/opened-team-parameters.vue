@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('objects.ccenter.teams.timing') }}
+        {{ $t('objects.ccenter.teams.parameters') }}
       </h3>
     </header>
     <div class="object-input-grid">
@@ -60,7 +60,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedTeamTiming',
+  name: 'OpenedTeamParameters',
   mixins: [openedTabComponentMixin],
 };
 </script>
