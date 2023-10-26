@@ -1,4 +1,4 @@
-import deleteConfirmationMixin from './deleteConfirmationMixin';
+// import deleteConfirmationMixin from './deleteConfirmationMixin';
 
 export default {
   // mixins: [deleteConfirmationMixin],
@@ -11,7 +11,7 @@ export default {
     //     });
     //   } else this.makeDelete(deleted);
     // },
-    makeDelete(deleted) {
+    deleteData(deleted) {
       return this.dispatchDelete(deleted);
     },
     dispatchDelete() {

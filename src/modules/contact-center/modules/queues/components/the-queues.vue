@@ -45,10 +45,11 @@
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
-                  deleted: [selectedRows],
+                  deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
                 })"
               />
+
             </wt-table-actions>
           </div>
         </header>
@@ -155,10 +156,9 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { useTableStore } from '@webitel/ui-sdk/src/modules/TableStoreModule/composables/useTableStore';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/queues';
 
@@ -178,8 +178,6 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { deleteData } = useTableStore(namespace);
-
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -188,9 +186,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-      deleteData,
     };
   },
+
   data: () => ({
     namespace,
     isQueueSelectPopup: false,

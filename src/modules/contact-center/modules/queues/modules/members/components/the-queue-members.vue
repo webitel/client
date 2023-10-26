@@ -45,9 +45,9 @@
       />
 
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :delete-count="deleteConfirmation.deleteCount"
-        :callback="deleteConfirmation.callback"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       />
 
@@ -172,7 +172,10 @@
               <wt-icon-action
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
               />
             </template>
           </wt-table>
@@ -203,6 +206,9 @@ import TheQueueMembersFilters from '../modules/filters/components/the-queue-memb
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'TheQueueMembers',
@@ -212,8 +218,30 @@ export default {
     destinationsPopup,
     ResetPopup,
     TheQueueMembersFilters,
+    DeleteConfirmationPopup,
   },
   mixins: [tableComponentMixin],
+
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+
   data: () => ({
     namespace: 'ccenter/queues/members',
     isUploadPopup: false,
