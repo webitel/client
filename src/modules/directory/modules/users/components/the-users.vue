@@ -18,9 +18,9 @@
         @close="closeCSVPopup"
       />
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :delete-count="deleteConfirmation.deleteCount"
-        :callback="deleteConfirmation.callback"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       />
 
@@ -45,7 +45,10 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
               />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
@@ -106,7 +109,10 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
               />
             </template>
           </wt-table>
@@ -134,17 +140,42 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
+import DeleteConfirmationPopup
+from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'directory/users';
 
 export default {
   name: 'TheUsers',
-  components: { UploadPopup, UserStatus, UploadFileIconBtn },
+  components: {
+    UploadPopup,
+    UserStatus,
+    UploadFileIconBtn,
+    DeleteConfirmationPopup
+  },
   mixins: [tableComponentMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace, hiddenText: true });
-    return { dummy };
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
   },
   data: () => ({
     isUploadPopup: false,

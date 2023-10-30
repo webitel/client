@@ -13,9 +13,9 @@
       @close="closeAgentSkillPopup"
     />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :delete-count="deleteConfirmation.deleteCount"
-      :callback="deleteConfirmation.callback"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
     />
     <header class="content-header">
@@ -51,7 +51,10 @@
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
-            @click="callDelete(selectedRows)"
+            @click="askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -100,7 +103,10 @@
             v-if="hasDeleteAccess"
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
           />
         </template>
       </wt-table>
@@ -128,10 +134,17 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'OpenedSkillAgents',
-  components: { AddSkillToAgentPopup, ChangeSkillPopup },
+  components: {
+    AddSkillToAgentPopup,
+    ChangeSkillPopup,
+    DeleteConfirmationPopup,
+  },
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
 
   data: () => ({
@@ -141,6 +154,25 @@ export default {
     agentSkillPopup: false,
     isAddSkillToAgentPopup: false,
   }),
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
   mounted() {
     this.handlePatchInput = debounce(this.handlePatchInput);
   },

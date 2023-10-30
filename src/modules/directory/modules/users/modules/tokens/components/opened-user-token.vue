@@ -10,9 +10,9 @@
       @close="closeTokenCreatedPopup"
     />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :delete-count="deleteConfirmation.deleteCount"
-      :callback="deleteConfirmation.callback"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
     />
 
@@ -29,7 +29,10 @@
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
-          @click="callDelete(selectedRows)"
+          @click="askDeleteConfirmation({
+            deleted: selectedRows,
+            callback: () => deleteData(selectedRows),
+          })"
         />
         <wt-icon-action
           v-if="!disableUserInput"
@@ -65,7 +68,10 @@
         <template #actions="{ item }">
           <wt-icon-btn
             icon="bucket"
-            @click="callDelete(item)"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
           />
         </template>
       </wt-table>
@@ -88,11 +94,39 @@ import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import TokenPopup from './opened-user-token-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'OpenedUserTokens',
-  components: { TokenPopup, TokenCreatedPopup },
+  components: {
+    TokenPopup,
+    TokenCreatedPopup,
+    DeleteConfirmationPopup,
+  },
   mixins: [openedObjectTableTabMixin],
+
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+
   data: () => ({
     subNamespace: 'tokens',
     isPopup: false,
