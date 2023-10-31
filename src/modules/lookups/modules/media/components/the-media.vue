@@ -16,9 +16,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :delete-count="deleteConfirmation.deleteCount"
-        :callback="deleteConfirmation.callback"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       />
 
@@ -43,7 +43,10 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
               />
               <text-to-speech-popup
                 @opened="closePlayer"
@@ -132,7 +135,10 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
               />
             </template>
           </wt-table>
@@ -171,6 +177,9 @@ import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;
@@ -183,12 +192,30 @@ export default {
     vueDropzone,
     TextToSpeechPopup,
     MediaFilePreviewTableAction,
+    DeleteConfirmationPopup,
   },
   mixins: [exportFilesMixin, tableComponentMixin],
   inject: ['$eventBus'],
   setup() {
     const { dummy } = useDummy({ namespace, hiddenText: true });
-    return { dummy };
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
   },
   data() {
     return {

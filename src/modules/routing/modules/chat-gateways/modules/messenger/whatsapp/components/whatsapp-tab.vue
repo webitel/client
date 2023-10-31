@@ -1,9 +1,9 @@
 <template>
   <section class="whatsapp-tab">
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :delete-count="deleteConfirmation.deleteCount"
-      :callback="deleteConfirmation.callback"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
     />
 
@@ -68,7 +68,10 @@
             v-if="hasDeleteAccess"
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
           />
         </template>
       </wt-table>
@@ -82,10 +85,33 @@ import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 import WhatsappAPI from '../api/whatsapp';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'OpenedChatGatewayWhatsappTab',
+  components: { DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
   inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'whatsapp',

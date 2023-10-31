@@ -11,9 +11,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :delete-count="deleteConfirmation.deleteCount"
-        :callback="deleteConfirmation.callback"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       />
 
@@ -38,7 +38,10 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
               />
             </wt-table-actions>
           </div>
@@ -86,7 +89,10 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
               />
             </template>
           </wt-table>
@@ -113,16 +119,37 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import dummyPic from '../assets/adm-dummy-blacklist.svg';
 import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'lookups/blacklists';
 
 export default {
   name: 'TheBlacklists',
+  components: { DeleteConfirmationPopup },
   mixins: [exportCSVMixin, tableComponentMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
-    return { dummy };
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
   },
   data: () => ({
     namespace,

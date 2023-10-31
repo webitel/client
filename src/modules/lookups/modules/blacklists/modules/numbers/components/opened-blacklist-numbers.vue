@@ -11,9 +11,9 @@
       @close="closeCSVPopup"
     />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :delete-count="deleteConfirmation.deleteCount"
-      :callback="deleteConfirmation.callback"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
     />
 
@@ -37,7 +37,10 @@
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
-            @click="callDelete(selectedRows)"
+            @click="askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })"
           />
           <upload-file-icon-btn
             v-if="!disableUserInput"
@@ -93,7 +96,10 @@
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
           />
         </template>
       </wt-table>
@@ -118,18 +124,43 @@ import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import numberPopup from './opened-blacklist-number-popup.vue';
 import uploadPopup from './upload-blacklist-numbers-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'lookups/blacklists';
 const subNamespace = 'numbers';
 
 export default {
   name: 'OpenedBlacklistNumbers',
-  components: { numberPopup, uploadPopup, UploadFileIconBtn },
+  components: {
+    numberPopup,
+    uploadPopup,
+    UploadFileIconBtn,
+    DeleteConfirmationPopup,
+  },
   mixins: [openedObjectTableTabMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
   },
   data() {
     return {

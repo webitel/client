@@ -6,9 +6,9 @@
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :delete-count="deleteConfirmation.deleteCount"
-      :callback="deleteConfirmation.callback"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
     />
 
@@ -27,7 +27,10 @@
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
-          @click="callDelete(selectedRows)"
+          @click="askDeleteConfirmation({
+            deleted: selectedRows,
+            callback: () => deleteData(selectedRows),
+          })"
         />
         <wt-icon-btn
           v-if="!disableUserInput"
@@ -71,7 +74,10 @@
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
           />
         </template>
       </wt-table>
@@ -85,11 +91,35 @@ import dummyPic from '../../../../../app/assets/dummy/adm-dummy-after-search.svg
 import openedObjectTableTabMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import holidayPopup from './opened-calendar-holiday-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'OpenedCalendarHolidays',
-  components: { holidayPopup },
+  components: { holidayPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
+
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+
   data: () => ({
     dataListValue: [],
     searchValue: '',

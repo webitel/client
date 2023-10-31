@@ -11,9 +11,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :delete-count="deleteConfirmation.deleteCount"
-        :callback="deleteConfirmation.callback"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       />
 
@@ -42,7 +42,10 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
               />
             </wt-table-actions>
           </div>
@@ -99,7 +102,10 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
               />
             </template>
           </wt-table>
@@ -127,12 +133,15 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import dummyPic from '../assets/adm-dummy-storage.svg';
 import Storage from '../store/_internals/enums/Storage.enum';
 import StoragePopup from './_unused/create-storage-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'integrations/storage';
 
 export default {
   name: 'TheStorage',
-  components: { StoragePopup },
+  components: { StoragePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -141,7 +150,24 @@ export default {
       showAction: true,
       dummyPic,
     });
-    return { dummy };
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
   },
   data: () => ({
     namespace,
