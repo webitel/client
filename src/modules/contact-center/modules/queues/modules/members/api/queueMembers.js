@@ -4,13 +4,14 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
   merge, mergeEach, notify, sanitize, snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import { MemberServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
+
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -40,18 +41,20 @@ const defaultSingleObjectCommunication = {
 };
 
 const mapDefaultCommunications = (item) => {
-  return item.communications ? item.communications
+  const copy = deepCopy(item);
+  return copy.communications ? copy.communications
   .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : [];
 };
 
 const preRequestHandler = (item) => {
-  item.communications
-  .forEach((item) => sanitize(item, communicationsFieldsToSend));
-  const variables = item.variables.reduce((variables, variable) => ({
+  const copy = deepCopy(item);
+  copy.communications
+  .forEach((copy) => sanitize(copy, communicationsFieldsToSend));
+  const variables = copy.variables.reduce((variables, variable) => ({
     ...variables,
     [variable.key]: variable.value,
   }), {});
-  return { ...item, variables };
+  return { ...copy, variables };
 };
 
 const getMembersList = async (params) => {
@@ -59,10 +62,14 @@ const getMembersList = async (params) => {
     createdAt: 'unknown',
     priority: 0,
   }
+
   const listHandler = (items) => {
-    return items.map((item) => ({
+    const copy = deepCopy(items);
+    return copy.map((item) => ({
       ...item,
-      communications: mapDefaultCommunications(item),
+      communications: applyTransform(item, [
+        mapDefaultCommunications,
+      ]),
     }));
   };
 
@@ -123,7 +130,6 @@ const getMembersList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -143,14 +149,15 @@ const getMember = async ({ parentId, itemId: id }) => {
   };
 
   const responseHandler = (response) => {
+    const copy = deepCopy(response);
     let variables = [];
-    if (response.variables) {
-      variables = Object.keys(response.variables).map((key) => ({
+    if (copy.variables) {
+      variables = Object.keys(copy.variables).map((key) => ({
         key,
-        value: response.variables[key],
+        value: copy.variables[key],
       }));
     }
-    const communications = mapDefaultCommunications(response);
+    const communications = mapDefaultCommunications(copy);
     return { ...response, variables, communications };
   };
 
@@ -163,7 +170,6 @@ const getMember = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -182,7 +188,6 @@ const addMember = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -201,7 +206,6 @@ const updateMember = async ({ itemInstance, itemId: id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -213,7 +217,6 @@ const deleteMember = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -227,7 +230,6 @@ const resetMembers = async ({ parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -246,7 +248,6 @@ const addMembersBulk = async (parentId, fileName, items) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -274,7 +275,6 @@ export const deleteMembersBulk = async (parentId, {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
