@@ -4,8 +4,10 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
@@ -35,10 +37,13 @@ const getAgentsList = async (params) => {
     sort,
     fields,
     id,
+    team,
+    skill,
     isSupervisor,
     isNotSupervisor,
     notTeamId,
     supervisorId,
+    notSkillId,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -54,16 +59,17 @@ const getAgentsList = async (params) => {
       id,
       undefined,
       supervisorId,
-      undefined,
+      team,
       undefined,
       undefined,
       isSupervisor,
-      undefined,
+      skill,
       undefined,
       isNotSupervisor,
       undefined,
       undefined,
       notTeamId,
+      notSkillId,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
@@ -77,7 +83,6 @@ const getAgentsList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -105,7 +110,6 @@ const getAgent = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -135,7 +139,6 @@ const addAgent = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -153,7 +156,6 @@ const patchAgent = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -171,7 +173,6 @@ const updateAgent = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -183,7 +184,6 @@ const deleteAgent = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -221,7 +221,6 @@ const getAgentHistory = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -256,7 +255,6 @@ const getAgentUsersOptions = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }

@@ -21,7 +21,7 @@ export default [
   },
   {
     value: 'state',
-    locale: 'objects.enabled',
+    locale: 'reusable.state',
     field: 'enabled',
     sort: SortSymbols.NONE,
   },

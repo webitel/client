@@ -1,5 +1,7 @@
 /* eslint-disable quote-props */
 
+import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
+
 export default {
   auth: {
     register: 'Register',
@@ -19,7 +21,7 @@ export default {
       text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
 
       title2: 'Multichannel VS Omni-Channel',
-      text2: "Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it's easier than ever!",
+      text2: 'Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it\'s easier than ever!',
 
       title3: 'Fault-tolerant infrastructure',
       text3: 'No more unplanned downtime. Fast scaling and fault-tolerant architecture allows you to simultaneously serve more than 1000 customer calls per minute from different communication channels.',
@@ -51,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Settings',
+    settings: 'Setting | Settings',
     changePassword: 'Change password',
     language: 'Language',
     webPhone: 'WebPhone',
@@ -93,6 +95,9 @@ export default {
     permissions: {
       permissions: 'Permissions',
     },
+    system: {
+      system: 'System',
+    },
   },
 
   home: {
@@ -115,6 +120,9 @@ export default {
     saved: 'Saved',
     saveAs: 'Save as',
     close: 'Close',
+    next: 'Next',
+    back: 'Back',
+    change: 'Change',
     name: 'Name',
     description: 'Description',
     user: 'User',
@@ -186,7 +194,7 @@ export default {
         license: 'License',
         devices: 'Devices',
         defaultDevice: 'Default device (from list of selected devices)',
-        deviceNotFound: "Didn't find the device?",
+        deviceNotFound: 'Didn\'t find the device?',
         createNewDevice: 'Add new',
         variables: 'Variables',
         varKey: 'Key',
@@ -196,6 +204,8 @@ export default {
         tokenPopupText: 'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
         tokenPopupCopy: 'Copy to clipboard',
         tokenPopupSave: 'Save as TXT',
+        userIp: 'User IP',
+        userId: 'User ID',
       },
       license: {
         customers: 'Customers',
@@ -254,7 +264,7 @@ export default {
           dialog: 'Dialog',
           onhold: 'On hold',
         },
-        passwordSetFromAccount: "If you won't set password, it would be the same as account",
+        passwordSetFromAccount: 'If you won\'t set password, it would be the same as account',
       },
     },
     permissions: {
@@ -276,6 +286,7 @@ export default {
           manageUserRoles: 'Manage user roles',
           manageUserLicense: 'Manage user license',
           changeUserPassword: 'Change user password',
+          systemSetting: 'Manage system configurations',
           addDescription: 'Grants permission to create any objects',
           deleteDescription: 'Grants permission to remove any objects',
           readDescription: 'Grants permission to select any objects',
@@ -287,6 +298,7 @@ export default {
           manageUserRolesDescription: 'Grants permission to manage a set of user roles',
           manageUserLicenseDescription: 'Grants permission to manage a set of user license',
           changeUserPasswordDescription: 'Grants permission to change the users password',
+          systemSettingDescription: 'Grants permission to access and manage the Configuration section',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -328,6 +340,14 @@ export default {
         agentSkills: 'Agent skill | Agent skills',
         allSkills: 'All skills',
         state: 'State',
+        stateForAll: 'State for all',
+        changeSkillTo: 'Change skill to',
+        changeAgentsSkill: 'Change agent`s skill',
+        totalAgents: 'Total agents',
+        activeSkillAgents: 'Active skill agents',
+        assignSkillToAgents: 'Assign skill to agents',
+        assignAgent: 'Assign agent',
+        selectCapacityAndState: 'Select capacity and state',
       },
       buckets: {
         buckets: 'Bucket | Buckets',
@@ -335,11 +355,13 @@ export default {
         addBucket: 'Add bucket',
       },
       blacklist: {
-        blacklist: 'Call list | Call lists',
-        allBlacklists: 'All call lists',
+        blacklist: 'List | Lists',
+        allBlacklists: 'All lists',
         number: 'Number | Numbers',
         newNumber: 'New number',
         numbersCount: 'Numbers',
+        expireAt: 'Expire',
+        temporary: 'Temporary',
       },
       media: {
         mediaFiles: 'Media file | Media files',
@@ -397,6 +419,11 @@ export default {
         allCommunications: 'All communication types',
         addCommunication: 'Add communication',
         code: 'Code',
+        channels: {
+          [EngineCommunicationChannels.Phone]: 'Phone',
+          [EngineCommunicationChannels.Email]: 'Email',
+          [EngineCommunicationChannels.Messaging]: 'Messaging',
+        },
       },
       pauseCause: {
         pauseCause: 'Agent statuses',
@@ -571,9 +598,15 @@ export default {
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
+            title: 'Messaging channels',
             email: 'Email',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
+          },
+          call: {
+            title: 'Online call',
+            url: 'WebSocket Endpoint',
           },
         },
         uri: 'URI',
@@ -640,12 +673,12 @@ export default {
         teams: 'Team | Teams',
         allTeams: 'All teams',
         strategy: 'Strategy',
-        timing: 'Timing',
-        maxNoAnswer: 'Max no answer',
-        callTimeout: 'Call timeout',
+        parameters: 'Parameters',
+        maxNoAnswer: 'Max count of missed activities',
+        callTimeout: 'Call accept timeout',
         inviteChatTimeout: 'Chat accept timeout',
         wrapUpTime: 'Wrap up time',
-        noAnswerDelayTime: 'No answer delay time',
+        noAnswerDelayTime: 'Delay time after missed activity',
         strategies: {
           random: 'Random',
           fewestCalls: 'Agent with fewest calls',
@@ -745,9 +778,10 @@ export default {
         maxAgentLose: 'Max agent lose calls',
         minAttempts: 'Min predict attempts',
         maxAbandonedRate: 'Max abandoned %',
+        loadFactor: 'Load factor',
         abandonRateAdjustment: 'Abandon rate adjustment',
         playbackSilence: 'Playback silence',
-        targetAbandonedRate: 'Target abandoned rate',
+        targetAbandonedRate: 'Target abandoned rate %',
         maxWaitTime: 'Max wait time',
         maxWaitingSize: 'Max wait count',
         waitBetweenRetries: 'Wait between retries',
@@ -759,6 +793,7 @@ export default {
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
         maxAttempts: 'Max attempts',
+        minOnlineAgents: 'Access to pause when there are more online agents than:',
         waitForResultStatus: 'Wait for result status',
         bucketPriority: 'Priority',
         amd: 'AMD',
@@ -787,6 +822,7 @@ export default {
         initialSilence: 'Initial silence (ms)',
         statisticTime: 'Recalculation interval',
         communications: 'Communication type',
+        manualDistribution: 'Manual distribution',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',
@@ -930,6 +966,13 @@ export default {
         imapHost: 'IMAP Host',
         fetchInterval: 'Refresh interval',
       },
+      singleSignOn: {
+        allTypes: 'All types',
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
 
       importCsv: {
         importCsv: 'Import CSV from file | Imports of CSV from file',
@@ -979,6 +1022,39 @@ export default {
         },
       },
     },
+    system: {
+      system: 'System',
+      changelogs: {
+        changelogs: 'Change log | Change logs',
+        objects: 'Object | Objects',
+        daysToStore: 'Days to store',
+        storage: 'Download to',
+        logs: {
+          logs: 'Log | Logs',
+          actions: 'Operation | Operations',
+          records: 'Record ID | Records ID',
+          actionType: {
+            [LoggerAction.Create]: 'Create',
+            [LoggerAction.Delete]: 'Delete',
+            [LoggerAction.Update]: 'Edit',
+          },
+        },
+        period: {
+          period: 'Period',
+          options: {
+            daily: 'Daily',
+            weekly: 'Weekly',
+            fortnightly: 'Fortnightly',
+            monthly: 'Monthly',
+          },
+        },
+
+      },
+      configuration: {
+        configuration: 'Configuration | Configurations',
+        parameter: 'Parameter',
+      },
+    },
 
     pagination: {
       rowsPerPage: 'Rows per page',
@@ -1000,7 +1076,7 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: "Looks like you're lost",
+      title: 'Looks like you\'re lost',
       text: 'Sorry, we can\'t find the page you want.',
     },
   },
@@ -1031,6 +1107,7 @@ export default {
     pause: 'Pause',
     resume: 'Resume',
     close: 'Close',
+    change: 'Change',
     volume: 'Volume',
     stop: 'Stop',
     members: 'Members',

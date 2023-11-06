@@ -10,7 +10,7 @@ describe('UploadFlowPopup', () => {
       global: {
         mocks: {
           v$: {
-            $touch: jest.fn(),
+            $touch: vi.fn(),
           },
         },
       },

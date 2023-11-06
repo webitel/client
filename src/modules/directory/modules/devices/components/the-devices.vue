@@ -1,48 +1,54 @@
 <template>
-  <wt-page-wrapper class="devices" :actions-panel="false">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="devices"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <history-popup
         v-if="historyId"
         @close="closeHistoryPopup"
-      ></history-popup>
+      />
 
       <upload-popup
         v-if="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
-      ></upload-popup>
+      />
 
       <device-popup
         v-if="isDeviceSelectPopup"
         @close="isDeviceSelectPopup = false"
-      ></device-popup>
+      />
 
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :payload="deleteConfirmation"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.directory.devices.allDevices') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.directory.devices.allDevices') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -51,96 +57,101 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
-              ></delete-all-action>
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
+              />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
-                class="icon-action"
                 accept=".csv"
+                class="icon-action"
                 @change="processCSV"
-              ></upload-file-icon-btn>
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :text="$t(dummy.text)"
           :show-action="dummy.showAction"
-          @create="create"
+          :src="dummy.src"
+          :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+          @create="create"
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
-
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:account="{ item }">
+            <template #account="{ item }">
               {{ item.account }}
             </template>
 
-            <template v-slot:user="{ item }">
+            <template #user="{ item }">
               <wt-item-link
                 v-if="item.user"
-                :route-name="RouteNames.USERS"
                 :id="item.user.id"
+                :route-name="RouteNames.USERS"
               >
                 {{ item.user.name }}
               </wt-item-link>
             </template>
 
             <!--state classes are specified in table-status component-->
-            <template v-slot:state="{ item }">
+            <template #state="{ item }">
               <wt-indicator
                 :color="stateClass(item.reged ? 1 : 0)"
                 :text="stateText(item.reged ? 1 : 0)"
-              ></wt-indicator>
+              />
             </template>
 
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 action="history"
                 class="table-action"
                 @click="openHistory(item.id)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
-              ></wt-icon-action>
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -148,26 +159,52 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import HistoryPopup from './device-history-popup.vue';
-import UploadPopup from './upload-devices-popup.vue';
-import DevicePopup from './create-device-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import DevicePopup from './create-device-popup.vue';
+import HistoryPopup from './device-history-popup.vue';
+import UploadPopup from './upload-devices-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'directory/devices';
 
 export default {
-  name: 'the-devices',
-  mixins: [tableComponentMixin],
+  name: 'TheDevices',
   components: {
     HistoryPopup,
     UploadPopup,
     DevicePopup,
     UploadFileIconBtn,
+    DeleteConfirmationPopup,
+  },
+  mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
   },
   data: () => ({
     namespace,
@@ -175,11 +212,6 @@ export default {
     isDeviceSelectPopup: false,
     csvFile: null,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     ...mapState({

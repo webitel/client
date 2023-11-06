@@ -3,7 +3,7 @@
     v-if="showQueuePage"
     :actions-panel="!!currentTab.filters"
   >
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -11,18 +11,18 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:actions-panel>
+    <template #actions-panel>
       <component
         :is="currentTab.filters"
         :namespace="currentTab.filtersNamespace"
-      ></component>
+      />
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="tabs-page-wrapper"
         @submit.prevent="save"
@@ -30,41 +30,44 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
-  <wt-loader v-else></wt-loader>
+  <wt-loader v-else />
 </template>
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
+import { minValue, required } from '@vuelidate/validators';
+import deepmerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import { required, minValue } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import Agents from '../modules/agents/components/opened-queue-agents.vue';
+import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
+import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
+import Logs from '../modules/logs/components/opened-queue-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
+import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
+import Skills from '../modules/skills/components/opened-queue-skills.vue';
 import General from './opened-queue-general.vue';
 import Params from './opened-queue-params.vue';
 import Processing from './opened-queue-processing.vue';
-import Agents from '../modules/agents/components/opened-queue-agents.vue';
-import Skills from '../modules/skills/components/opened-queue-skills.vue';
-import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
-import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
-import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
 import Amd from './shared/amd/opened-queue-amd.vue';
 import Variables from './shared/variables/opened-queue-variables.vue';
-import Logs from '../modules/logs/components/opened-queue-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: 'opened-queue',
-  mixins: [openedObjectMixin],
+  name: 'OpenedQueue',
   components: {
     General,
     Params,
@@ -79,45 +82,48 @@ export default {
     Logs,
     LogsFilters,
   },
+  mixins: [openedObjectMixin],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
   data: () => ({
     namespace: 'ccenter/queues',
   }),
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   validations() {
     const defaults = {
-      name: { required },
-      calendar: { required },
-      priority: { minValue: minValue(0) },
+      itemInstance: {
+        name: { required },
+        calendar: { required },
+        priority: { minValue: minValue(0) },
+        payload: {
+          minOnlineAgents: { minValue: minValue(0) },
+        },
+      },
     };
     switch (+this.queueType) {
       case QueueType.OFFLINE_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               originateTimeout: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.INBOUND_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             payload: {
               timeBaseScore: { required },
               maxWaitTime: { required, minValue: minValue(0) },
               discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.OUTBOUND_IVR_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -126,11 +132,10 @@ export default {
               minDuration: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.PREVIEW_DIALER:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -138,11 +143,10 @@ export default {
               waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.PROGRESSIVE_DIALER:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -150,11 +154,10 @@ export default {
               waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.PREDICTIVE_DIALER:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -163,11 +166,10 @@ export default {
               maxWaitTime: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.CHAT_INBOUND_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               timeBaseScore: { required },
@@ -175,22 +177,20 @@ export default {
               discardAbandonedAfter: { minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.INBOUND_JOB_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
               waitBetweenRetries: { required, minValue: minValue(0) },
             },
           },
-        };
+        });
       case QueueType.OUTBOUND_JOB_QUEUE:
-        return {
+        return deepmerge(defaults, {
           itemInstance: {
-            ...defaults,
             strategy: { required },
             payload: {
               maxAttempts: { required },
@@ -199,7 +199,7 @@ export default {
               minDuration: { minValue: minValue(0) },
             },
           },
-        };
+        });
       default:
         return {};
     }
@@ -304,17 +304,17 @@ export default {
       await this.setId(this.$route.params.id);
       return this.loadItem(this.$route.query.type);
     },
-  //   setStartTab() {
-  //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
-  //     if (tab) this.currentTab = tab;
-  //   },
-  //   handleTabChange(tab) {
-  //     this.currentTab = tab;
-  //     /**
-  //      * This method has an issue in it cause "filters reset" resets hash too
-  //      */
-  //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
-  //   },
+    //   setStartTab() {
+    //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
+    //     if (tab) this.currentTab = tab;
+    //   },
+    //   handleTabChange(tab) {
+    //     this.currentTab = tab;
+    //     /**
+    //      * This method has an issue in it cause "filters reset" resets hash too
+    //      */
+    //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
+    //   },
   },
   // created() {
   //   this.setStartTab();

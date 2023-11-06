@@ -1,4 +1,5 @@
 import deepCopy from 'deep-copy';
+import set from 'lodash/set';
 
 const state = {
   itemId: 0,
@@ -35,8 +36,13 @@ const mutations = {
   SET_ITEM_ID: (state, id) => {
     state.itemId = id;
   },
-  SET_ITEM_PROPERTY: (state, { prop, value }) => {
-    state.itemInstance[prop] = value;
+  SET_ITEM_PROPERTY: (state, { prop, value, path }) => {
+    if (path) {
+      set(state.itemInstance, path, value);
+    } else {
+      // DEPRECATED, LEGACY CODE
+      state.itemInstance[prop] = value;
+    }
   },
   SET_ITEM: (state, item) => {
     state.itemInstance = item;

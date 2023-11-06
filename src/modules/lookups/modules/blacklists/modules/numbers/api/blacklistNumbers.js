@@ -3,8 +3,11 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, handleUnauthorized,
-  merge, notify, sanitize, snakeToCamel,
+  camelToSnake,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { ListServiceApiFactory } from 'webitel-sdk';
@@ -47,7 +50,7 @@ const getBlacklistNumbersList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -61,13 +64,13 @@ const getBlacklistNumber = async ({ itemId: id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
 };
 
-const fieldsToSend = ['listId', 'description', 'number'];
+const fieldsToSend = ['listId', 'description', 'number', 'expireAt'];
 
 const addBlacklistNumber = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -81,12 +84,16 @@ const addBlacklistNumber = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
 };
-const updateBlacklistNumber = async ({ parentId, itemInstance, itemId: id }) => {
+const updateBlacklistNumber = async ({
+                                       parentId,
+                                       itemInstance,
+                                       itemId: id,
+                                     }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -98,7 +105,7 @@ const updateBlacklistNumber = async ({ parentId, itemInstance, itemId: id }) => 
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -110,7 +117,7 @@ const deleteBlacklistNumber = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }

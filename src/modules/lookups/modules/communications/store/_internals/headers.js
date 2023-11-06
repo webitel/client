@@ -8,6 +8,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'channel',
+    locale: 'vocabulary.channel',
+    field: 'channel',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'code',
     locale: 'objects.lookups.communications.code',
     field: 'code',

@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'one-plus-many-table-cell',
+  name: 'OnePlusManyTableCell',
   props: {
     collection: {
       required: true,

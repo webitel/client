@@ -1,10 +1,10 @@
 <template>
   <upload-csv-popup
+    :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
-    :add-bulk-items="saveBulkData"
     @close="close"
-  ></upload-csv-popup>
+  />
 </template>
 
 <script>
@@ -13,7 +13,7 @@ import uploadCSVWrapperComponentMixin
 import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 export default {
-  name: 'upload-users-popup',
+  name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   props: {
     parentId: {
@@ -30,6 +30,11 @@ export default {
       },
       {
         name: 'description',
+        required: false,
+        csv: '',
+      },
+      {
+        name: 'expireAt',
         required: false,
         csv: '',
       },

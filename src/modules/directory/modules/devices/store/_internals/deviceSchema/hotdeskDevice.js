@@ -1,5 +1,5 @@
-import defaultDevice from './defaults/defaultDevice';
 import generateHotdeskAccount from '../scripts/generateHotdeskAccount';
+import defaultDevice from './defaults/defaultDevice';
 
 const hotdeskDevice = () => ({
   ...defaultDevice(),

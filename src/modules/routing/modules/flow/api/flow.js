@@ -1,21 +1,20 @@
 import {
-  EngineRoutingSchemaType,
-  RoutingSchemaServiceApiFactory,
-} from 'webitel-sdk';
-import applyTransform, {
-  log,
-  merge,
-  starToSearch,
-  camelToSnake,
-  snakeToCamel,
-  handleUnauthorized,
-  notify,
-  sanitize, mergeEach,
-} from '@webitel/ui-sdk/src/api/transformers';
-import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import {
+  EngineRoutingSchemaType,
+  RoutingSchemaServiceApiFactory,
+} from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
@@ -90,7 +89,7 @@ const getFlowList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -110,13 +109,17 @@ const getFlow = async ({ itemId: id }) => {
   try {
     const response = await flowService.readRoutingSchema(id);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
       merge(defaultObject),
       itemResponseHandler,
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -133,16 +136,24 @@ const addFlow = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    ({ payload, schema, ...rest }) => ({
+      payload,
+      schema,
+      ...camelToSnake(doNotConvertKeys)(rest),
+    }),
   ]);
   try {
     const response = await flowService.createRoutingSchema(item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -151,16 +162,24 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    ({ payload, schema, ...rest }) => ({
+      payload,
+      schema,
+      ...camelToSnake(doNotConvertKeys)(rest),
+    }),
   ]);
   try {
     const response = await flowService.updateRoutingSchema(id, item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -172,7 +191,7 @@ const deleteFlow = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -215,7 +234,7 @@ const getFlowTags = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }

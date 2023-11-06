@@ -1,12 +1,12 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header hide-primary>
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
@@ -16,74 +16,75 @@
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-            ></wt-table-actions>
+            />
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
-          :text="$t(dummy.text)"
+          :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
-            :selectable="false"
             :grid-actions="hasTableActions"
+            :headers="headers"
+            :selectable="false"
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.class }}
               </wt-item-link>
             </template>
 
-            <template v-slot:obac="{ item, index }">
+            <template #obac="{ item, index }">
               <wt-switcher
-                :value="item.obac"
                 :disabled="!hasEditAccess"
+                :value="item.obac"
                 @change="toggleObjectObac({ item, index, value: $event })"
-              ></wt-switcher>
+              />
             </template>
 
-            <template v-slot:rbac="{ item, index }">
+            <template #rbac="{ item, index }">
               <wt-switcher
-                :value="item.rbac"
                 :disabled="!hasEditAccess"
+                :value="item.rbac"
                 @change="toggleObjectRbac({ item, index, value: $event })"
-              ></wt-switcher>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -92,24 +93,24 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'permissions/objects';
 
 export default {
-  name: 'the-objects-permissions',
+  name: 'TheObjectsPermissions',
   mixins: [tableComponentMixin],
-  data: () => ({
-    namespace,
-    routeName: RouteNames.OBJECTS,
-  }),
 
   setup() {
     const { dummy } = useDummy({ namespace, hiddenText: true });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.OBJECTS,
+  }),
 
   computed: {
     hasTableActions() {

@@ -1,5 +1,5 @@
 <template>
-  <section v-if="hasAccess" class="start-nav">
+  <section class="start-nav">
     <article class="start-nav__wrapper">
       <category-lvl-1
         :categories="categories"
@@ -7,45 +7,32 @@
         @select="select"
       >
         <category-lvl-2
-          class="d-none d-block-xs"
           :categories="subcategories"
-        ></category-lvl-2>
+          class="d-none d-block-xs"
+        />
       </category-lvl-1>
       <category-lvl-2
-        class="d-none-xs"
         :categories="subcategories"
-      ></category-lvl-2>
+        class="d-none-xs"
+      />
     </article>
   </section>
-  <wt-error-page v-else type="403" @back="$router.push('/')"></wt-error-page>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import navMixin from '../../../app/mixins/navMixin';
 import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
 import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
-import navMixin from '../../../app/mixins/navMixin';
 
 export default {
-  name: 'the-start-page',
-  mixins: [navMixin],
+  name: 'TheStartPage',
   components: { CategoryLvl1, CategoryLvl2 },
+  mixins: [navMixin],
   data: () => ({
     selected: {},
   }),
 
-  mounted() {
-    this.initSelected();
-  },
-
   computed: {
-    ...mapGetters('userinfo', {
-      checkAppAccess: 'CHECK_APP_ACCESS',
-    }),
-    hasAccess() {
-      return this.checkAppAccess(WebitelApplications.ADMIN);
-    },
     categories() {
       return this.nav;
     },
@@ -56,6 +43,10 @@ export default {
         return { ...subNav, route };
       });
     },
+  },
+
+  mounted() {
+    this.initSelected();
   },
 
   methods: {
@@ -75,8 +66,8 @@ export default {
   --wrapper-width: 60%;
   --wrapper-height: calc(
     var(--spacing-sm) * 2
-    + var(--button-min-height) * 6
-    + var(--spacing-sm) * 5
+    + var(--button-min-height) * 7
+    + var(--spacing-2xs) * 6
   );
 
   --lvl-1-bg: hsla(var(--_secondary-color), var(--_opacity--default));
@@ -84,7 +75,6 @@ export default {
 
   @media (#{$media} and #{$media-width-sm}) {
     --wrapper-width: 80%;
-    --wrapper-height: 472px;
   }
 
   @media (#{$media} and #{$media-width-xs}) {
@@ -94,25 +84,25 @@ export default {
 }
 
 .start-nav {
-  flex-grow: 1;
   display: flex;
   align-items: center;
+  flex-grow: 1;
   justify-content: center;
 }
 
 .start-nav__wrapper {
   @extend %wt-scrollbar;
 
+  display: grid;
   box-sizing: border-box;
   width: var(--wrapper-width);
   height: var(--wrapper-height);
-  display: grid;
+  margin: auto;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  background: var(--main-color);
   grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  margin: auto;
-  background: var(--main-color);
-  border-radius: var(--border-radius);
 
   @media (#{$media} and #{$media-width-xs}) {
     grid-template-columns: 1fr;

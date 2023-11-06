@@ -1,84 +1,204 @@
-import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { BackendProfileServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
-import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
-import StorageTypeAdapter from '../store/_internals/scripts/backendStorageTypeAdapters';
+import DigitalOceanRegions
+  from '../store/_internals/lookups/DigitalOceanRegions.lookup';
+import StorageTypeAdapter
+  from '../store/_internals/scripts/backendStorageTypeAdapters';
 
 const storageService = new BackendProfileServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['name', 'maxSize', 'priority', 'properties', 'expireDays', 'type', 'disabled'];
-
-const defaultListObject = {
-  disabled: false,
-  maxSize: 0,
-  expireDays: 0,
-  priority: 0,
-};
-
-const defaultSingleObject = {
-  maxSize: 0,
-  expireDays: 0,
-  priority: 0,
-};
-
-const listResponseHandler = (response) => {
-  const items = response.items.map((item) => (
-    { ...item, type: StorageTypeAdapter.backendToEnum(item.type) }
-    ));
-  return { ...response, items };
-};
-
-const itemResponseHandler = (response) => {
-  if (response.properties.region) {
-    if (response.properties.endpoint.includes('aws')) {
-      // eslint-disable-next-line no-param-reassign
-      response.properties.region = AWSRegions
-        .find((item) => item.value === response.properties.region);
-    } else if (response.properties.endpoint.includes('digitalocean')) {
-      // eslint-disable-next-line no-param-reassign
-      response.properties.region = DigitalOceanRegions
-        .find((item) => item.value === response.properties.region);
-    }
-  }
-  return { ...response, type: StorageTypeAdapter.backendToEnum(response.type) };
-};
+const fieldsToSend = [
+  'name',
+  'maxSize',
+  'priority',
+  'properties',
+  'expireDays',
+  'type',
+  'disabled',
+];
 
 const preRequestHandler = (item) => {
-  if (item.properties.region && item.properties.region.value) {
-    // eslint-disable-next-line no-param-reassign
-    item.properties.region = item.properties.region.value;
+  const copy = deepCopy(item);
+  if (copy.properties.region && copy.properties.region.value) {
+    copy.properties.region = copy.properties.region.value;
   }
-  // eslint-disable-next-line no-param-reassign
-  item.type = StorageTypeAdapter.enumToBackend(item.type);
-  return item;
+  copy.type = StorageTypeAdapter.enumToBackend(copy.type);
+  return copy;
 };
 
-const listGetter = new SdkListGetterApiConsumer(storageService.searchBackendProfile,
-  { defaultListObject, listResponseHandler });
-const itemGetter = new SdkGetterApiConsumer(storageService.readBackendProfile,
-  { defaultSingleObject, itemResponseHandler });
-const itemCreator = new SdkCreatorApiConsumer(storageService.createBackendProfile,
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new SdkPatcherApiConsumer(storageService.patchBackendProfile, { fieldsToSend });
-const itemUpdater = new SdkUpdaterApiConsumer(storageService.updateBackendProfile,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(storageService.deleteBackendProfile);
+const getStorageList = async (params) => {
+  const defaultObject = {
+    disabled: false,
+    maxSize: 0,
+    expireDays: 0,
+    priority: 0,
+  };
 
-const getStorageList = (params) => listGetter.getList(params);
-const getStorage = (params) => itemGetter.getItem(params);
-const addStorage = (params) => itemCreator.createItem(params);
-const patchStorage = (params) => itemPatcher.patchItem(params);
-const updateStorage = (params) => itemUpdater.updateItem(params);
-const deleteStorage = (params) => itemDeleter.deleteItem(params);
+  const responseHandler = (response) => {
+    const items = response.items.map((item) => (
+      { ...item, type: StorageTypeAdapter.backendToEnum(item.type) }
+    ));
+    return { ...response, items };
+  };
+
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await storageService.searchBackendProfile(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+      responseHandler,
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getStorage = async ({ itemId: id }) => {
+  const defaultObject = {
+    maxSize: 0,
+    expireDays: 0,
+    priority: 0,
+  };
+
+  const responseHandler = (response) => {
+    const copy = deepCopy(response);
+    if (copy.properties.region) {
+      if (copy.properties.endpoint.includes('aws')) {
+        copy.properties.region = AWSRegions
+        .find((item) => item.value === copy.properties.region);
+      } else if (copy.properties.endpoint.includes('digitalocean')) {
+        copy.properties.region = DigitalOceanRegions
+        .find((item) => item.value === copy.properties.region);
+      }
+    }
+    return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
+  };
+
+  try {
+    const response = await storageService.readBackendProfile(id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+      responseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const addStorage = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await storageService.createBackendProfile(item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const updateStorage = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await storageService.updateBackendProfile(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const patchStorage = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await storageService.patchBackendProfile(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const deleteStorage = async ({ id }) => {
+  try {
+    const response = await storageService.deleteBackendProfile(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getLookup = (params) => getStorageList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const StorageAPI = {
   getList: getStorageList,
@@ -87,6 +207,7 @@ const StorageAPI = {
   patch: patchStorage,
   update: updateStorage,
   delete: deleteStorage,
+  getLookup,
 };
 
 export default StorageAPI;

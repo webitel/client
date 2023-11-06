@@ -8,7 +8,7 @@ import APIPermissionsGetter
 
 const baseUrl = '/acl/objclass';
 
-const _getObjclassDefaultList = (method) => function (params) {
+const _getObjclassDefaultList = (method) => function(params) {
   const baseUrl = `${this.baseUrl}/${params.parentId}`;
   return method(params, baseUrl);
 };
@@ -16,7 +16,10 @@ const _getObjclassDefaultList = (method) => function (params) {
 const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, {
   listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
 }).setGetListMethod(_getObjclassDefaultList);
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { nestedUrl: 'grantor' });
+const itemPatcher = new EndpointPatcherApiConsumer({
+  baseUrl,
+  instance,
+}, { nestedUrl: 'grantor' });
 
 export const getObjclassDefaultList = (params) => listGetter.getList(params);
 export const patchObjclassDefaultMode = (params) => itemPatcher.patchNestedItem(params);

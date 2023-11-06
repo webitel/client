@@ -1,12 +1,12 @@
 <template>
   <div class="tts">
     <wt-tooltip>
-      <template v-slot:activator>
+      <template #activator>
         <wt-icon-btn
           v-show="!isOpened"
           icon="tts-download"
           @click="openPopup"
-        ></wt-icon-btn>
+        />
       </template>
       {{ $t('objects.lookups.media.tts.hint') }}
     </wt-tooltip>
@@ -16,59 +16,59 @@
       :min-width="480"
       @close="closePopup"
     >
-      <template v-slot:title>
+      <template #title>
         {{ $t('reusable.tts') }}
       </template>
-      <template v-slot:main>
+      <template #main>
         <form class="object-input-grid object-input-grid__1-col">
           <wt-input
             v-model="draft.name"
             :label="$t('reusable.name')"
             :v="v$.draft.name"
-          ></wt-input>
+          />
           <wt-select
             v-model="draft.profile"
             :clearable="false"
             :label="$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)"
             :search-method="searchProfiles"
             :v="v$.draft.profile"
-          ></wt-select>
+          />
           <wt-select
             v-model="draft.textType"
             :clearable="false"
             :label="$t('objects.lookups.media.tts.textType.textType')"
             :options="textTypeOptions"
             track-by="value"
-          ></wt-select>
+          />
           <wt-select
             v-model="draft.language"
             :clearable="false"
             :label="$t('vocabulary.language')"
             :options="TtsMicrosoftLanguage"
             :track-by="null"
-          ></wt-select>
+          />
           <wt-select
             v-model="draft.voice"
             :clearable="false"
             :label="$t('vocabulary.voice')"
             :options="TtsMicrosoftVoice"
             :track-by="null"
-          ></wt-select>
+          />
           <wt-select
             v-model="draft.format"
             :clearable="false"
             :label="$t('vocabulary.format')"
             :track-by="null"
             disabled
-          ></wt-select>
+          />
           <wt-textarea
             v-model="draft.text"
             :label="$t('vocabulary.text')"
             :v="v$.draft.text"
-          ></wt-textarea>
+          />
         </form>
       </template>
-      <template v-slot:actions>
+      <template #actions>
         <div class="tts__footer-wrapper">
           <wt-player
             v-if="audioUrl"
@@ -77,7 +77,7 @@
             :download="false"
             :src="audioUrl"
             position="static"
-          ></wt-player>
+          />
           <div class="tts__footer-actions-wrapper">
             <wt-button
               v-if="audio"
@@ -85,7 +85,8 @@
               :loading="isSaving"
               wide
               @click="save"
-            >{{ $t('reusable.save') }}
+            >
+              {{ $t('reusable.save') }}
             </wt-button>
             <wt-button
               :color="audio ? 'secondary' : 'primary'"
@@ -93,13 +94,15 @@
               :loading="isGenerating"
               wide
               @click="generate"
-            >{{ $t('reusable.generate') }}
+            >
+              {{ $t('reusable.generate') }}
             </wt-button>
             <wt-button
               color="secondary"
               wide
               @click="closePopup"
-            >{{ $t('reusable.close') }}
+            >
+              {{ $t('reusable.close') }}
             </wt-button>
           </div>
         </div>
@@ -132,8 +135,11 @@ const getModel = () => ({
 });
 
 export default {
-  name: 'text-to-speech-popup',
+  name: 'TextToSpeechPopup',
   mixins: [validationMixin],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     isOpened: false,
     draft: {},
@@ -145,9 +151,6 @@ export default {
     isGenerating: false,
     isSaving: false,
   }),
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   validations: {
     draft: {
       name: { required },
@@ -158,6 +161,14 @@ export default {
   computed: {
     disabled() {
       return this.checkValidations('draft');
+    },
+  },
+  watch: {
+    isOpened: {
+      handler() {
+        this.draft = getModel();
+      },
+      immediate: true,
     },
   },
   methods: {
@@ -204,14 +215,6 @@ export default {
       return CognitiveProfilesAPI.getLookup({ ...params, fields, service });
     },
   },
-  watch: {
-    isOpened: {
-      handler() {
-        this.draft = getModel();
-      },
-      immediate: true,
-    },
-  },
 };
 </script>
 
@@ -223,8 +226,8 @@ export default {
 .tts__footer-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--popup-actions-padding);
   width: 100%;
+  gap: var(--popup-actions-padding);
 }
 
 .tts__footer-actions-wrapper {

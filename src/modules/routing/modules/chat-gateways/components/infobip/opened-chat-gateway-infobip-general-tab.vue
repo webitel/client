@@ -1,8 +1,14 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="infobip" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.routing.chatGateways.infobip.infobip') }}</h3>
+      <wt-icon
+        icon="infobip"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{ $t('objects.routing.chatGateways.infobip.infobip') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,14 +17,14 @@
         :v="v.itemInstance.name"
         :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.apiKey')"
         :v="v.itemInstance.metadata.apiKey"
         :value="itemInstance.metadata.apiKey"
         @input="setItemMetadata({ prop: 'apiKey', value: $event })"
-      ></wt-input>
+      />
       <copy-input
         :copy-modifier="modifyUriCopy"
         :disabled="!isUriEditable"
@@ -27,13 +33,13 @@
         :value="itemInstance.uri"
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
-      ></copy-input>
-<!--      <wt-input-->
-<!--        :disabled="disableUserInput"-->
-<!--        :label="$t('objects.routing.chatGateways.metadata.number')"-->
-<!--        :value="itemInstance.metadata.number"-->
-<!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
-<!--      ></wt-input>-->
+      />
+      <!--      <wt-input-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :label="$t('objects.routing.chatGateways.metadata.number')"-->
+      <!--        :value="itemInstance.metadata.number"-->
+      <!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
+      <!--      ></wt-input>-->
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.routing.flow.flow', 1)"
@@ -41,14 +47,14 @@
         :v="v.itemInstance.flow"
         :value="itemInstance.flow"
         @input="setFlow"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
         :v="v.itemInstance.metadata.url"
         :value="itemInstance.metadata.url"
         @input="setItemMetadata({ prop: 'url', value: $event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -61,7 +67,7 @@ import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-gateway-infobip-general-tab',
+  name: 'OpenedChatGatewayInfobipGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {

@@ -1,52 +1,55 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
-          :value="itemInstance.name"
-          :v="v.itemInstance.name"
-          :label="$t('objects.name')"
-          :disabled="disableUserInput"
-          required
-          @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+        :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
+        required
+        @input="setItemProp({ prop: 'name', value: $event })"
+      />
       <wt-input
-          :value="itemInstance.account"
-          :v="v.itemInstance.account"
-          :label="$t('objects.directory.devices.authId')"
-          :disabled="disableUserInput"
-          required
-          @input="setItemProp({ prop: 'account', value: $event })"
-      ></wt-input>
+        :disabled="disableUserInput"
+        :label="$t('objects.directory.devices.authId')"
+        :v="v.itemInstance.account"
+        :value="itemInstance.account"
+        required
+        @input="setItemProp({ prop: 'account', value: $event })"
+      />
       <password-input
-          :value="itemInstance.password"
-          :v="v.itemInstance.password"
-          :disabled="disableUserInput"
-          required
-          @input="setItemProp({ prop: 'password', value: $event })"
-      ></password-input>
+        :disabled="disableUserInput"
+        :v="v.itemInstance.password"
+        :value="itemInstance.password"
+        required
+        @input="setItemProp({ prop: 'password', value: $event })"
+      />
       <wt-select
-          :value="itemInstance.user"
-          :label="$tc('objects.directory.users.users', 1)"
-          :search-method="loadDropdownOptionsList"
-          :disabled="disableUserInput"
-          @input="setItemProp({ prop: 'user', value: $event })"
-      ></wt-select>
+        :disabled="disableUserInput"
+        :label="$tc('objects.directory.users.users', 1)"
+        :search-method="loadDropdownOptionsList"
+        :value="itemInstance.user"
+        @input="setItemProp({ prop: 'user', value: $event })"
+      />
     </div>
   </section>
 </template>
 
 <script>
-import UsersAPI from '../../users/api/users';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import UsersAPI from '../../users/api/users';
 
 export default {
-  name: 'opened-device-general',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedDeviceGeneral',
   components: { PasswordInput },
+  mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {
       return UsersAPI.getLookup(params);

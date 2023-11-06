@@ -7,21 +7,21 @@
 
 .start-nav__category-option__wrapper {
   &:not(:last-child) {
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-2xs);
   }
 }
 
 .start-nav__category-option {
   @extend %typo-body-1;
-  box-sizing: border-box;
-  text-align: left;
   display: flex;
   align-items: center;
-  min-height: var(--button-min-height);
+  box-sizing: border-box;
   width: 100%;
+  min-height: var(--button-min-height);
   padding: 18px 20px;
-  border-radius: var(--border-radius);
   transition: var(--transition);
+  text-align: left;
+  border-radius: var(--border-radius);
 
   .wt-icon {
     margin-right: var(--spacing-xs);

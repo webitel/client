@@ -12,56 +12,65 @@ export default {
   }),
   computed: {
     languages() {
-      return [{
-        name: this.$t('reusable.lang.en'),
-        value: 'en',
-      }, {
-        name: this.$t('reusable.lang.ru'),
-        value: 'ru',
-      }, {
-        name: this.$t('reusable.lang.ua'),
-        value: 'ua',
-      }];
+      return [
+        {
+          name: this.$t('reusable.lang.en'),
+          value: 'en',
+        }, {
+          name: this.$t('reusable.lang.ru'),
+          value: 'ru',
+        }, {
+          name: this.$t('reusable.lang.ua'),
+          value: 'ua',
+        },
+      ];
     },
     borderRadiusOptions() {
-      return [{
-        name: this.$t('objects.routing.chatGateways.webchat.view.square'),
-        value: 'square',
-      }, {
-        name: this.$t('objects.routing.chatGateways.webchat.view.rounded'),
-        value: 'rounded',
-      }];
+      return [
+        {
+          name: this.$t('objects.routing.chatGateways.webchat.view.square'),
+          value: 'square',
+        }, {
+          name: this.$t('objects.routing.chatGateways.webchat.view.rounded'),
+          value: 'rounded',
+        },
+      ];
     },
     positionOptions() {
-      return [{
-        name: this.$t('objects.routing.chatGateways.webchat.view.right'),
-        value: 'right',
-      }, {
-        name: this.$t('objects.routing.chatGateways.webchat.view.left'),
-        value: 'left',
-      },
-      // Uncomment position static if needed. Not available until documentation is ready.
-      // {
-      // name: this.$t('objects.routing.chatGateways.metadata.static'),
-      // value: 'static',
-      // }
+      return [
+        {
+          name: this.$t('objects.routing.chatGateways.webchat.view.right'),
+          value: 'right',
+        },
+        {
+          name: this.$t('objects.routing.chatGateways.webchat.view.left'),
+          value: 'left',
+        },
+        // Uncomment position static if needed. Not available until documentation is ready.
+        // {
+        // name: this.$t('objects.routing.chatGateways.metadata.static'),
+        // value: 'static',
+        // }
       ];
     },
   },
   methods: {
     restoreLanguage(value) {
       if (value) {
-        this.selectedLanguage = this.languages.find((language) => language.value === value);
+        this.selectedLanguage = this.languages.find((language) => language.value ===
+          value);
       }
     },
     restorePosition(value) {
       if (value) {
-        this.selectedPosition = this.positionOptions.find((position) => position.value === value);
+        this.selectedPosition = this.positionOptions.find((position) => position.value ===
+          value);
       }
     },
     restoreBorderRadius(value) {
       if (value) {
-        this.selectedBorderRadius = this.borderRadiusOptions.find((type) => type.value === value);
+        this.selectedBorderRadius = this.borderRadiusOptions.find((type) => type.value ===
+          value);
       }
     },
     setColor(value) {

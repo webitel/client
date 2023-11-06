@@ -1,59 +1,64 @@
 <template>
-  <wt-popup min-width="480" @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.communications.communications', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form class="object-input-grid object-input-grid__1-col">
         <wt-input
           v-model="itemInstance.destination"
-          :v="v$.itemInstance.destination"
           :label="$t('objects.ccenter.members.destination')"
+          :v="v$.itemInstance.destination"
           required
-        ></wt-input>
+        />
         <wt-select
           v-model="itemInstance.type"
-          :v="v$.itemInstance.type"
+          :clearable="false"
           :label="$tc('objects.lookups.communications.communications', 1)"
           :search-method="loadCommTypes"
-          :clearable="false"
+          :v="v$.itemInstance.type"
           required
-        ></wt-select>
+        />
         <wt-select
           v-model="itemInstance.resource"
           :label="$tc('objects.ccenter.res.res', 1)"
           :search-method="loadResources"
-        ></wt-select>
+        />
         <wt-input
           v-model="itemInstance.display"
           :label="$t('objects.ccenter.members.display')"
-        ></wt-input>
+        />
         <wt-input
           v-model="itemInstance.dtmf"
-          :v="v$.itemInstance.dtmf"
           :label="$t('objects.ccenter.members.dtmf')"
-        ></wt-input>
+          :v="v$.itemInstance.dtmf"
+        />
         <wt-input
           v-model="itemInstance.priority"
           :label="$t('objects.ccenter.members.priority')"
           type="number"
-        ></wt-input>
+        />
         <wt-textarea
           v-model="itemInstance.description"
           :label="$t('objects.description')"
-        ></wt-textarea>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="computeDisabled"
         @click="save"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -61,23 +66,28 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import deepCopy from 'deep-copy';
 import { required } from '@vuelidate/validators';
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { digitsDtmfOnly } from '../../validation/dtmf'
-import ResourcesAPI from '../../../../../resources/api/resources';
+import deepCopy from 'deep-copy';
+import { mapActions, mapState } from 'vuex';
+import nestedObjectMixin
+  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
-import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import ResourcesAPI from '../../../../../resources/api/resources';
+import { digitsDtmfOnly } from '../../validation/dtmf';
 
 export default {
-  name: 'opened-agent-skills-popup',
+  name: 'OpenedAgentSkillsPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
       type: [Number, Object], // "null" object
     },
   },
+
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     namespace: 'ccenter/queues/members',
     itemInstanceValue: {
@@ -89,10 +99,6 @@ export default {
       description: '',
       dtmf: '',
     },
-  }),
-
-  setup: () => ({
-    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {

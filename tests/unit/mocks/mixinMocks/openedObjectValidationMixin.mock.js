@@ -1,6 +1,6 @@
 const v = () => ({
   itemInstance: {
-    $touch: jest.fn(),
+    $touch: vi.fn(),
   },
 });
 
