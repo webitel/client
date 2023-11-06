@@ -3,10 +3,10 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, handleUnauthorized,
+  camelToSnake,
   merge, notify, snakeToCamel,
   starToSearch, log, sanitize,
-  generateUrl, mergeEach,
+  generateUrl,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
@@ -21,7 +21,6 @@ const preRequestHandler = (item) => {
   return copy;
 };
 
-// const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
 const getRoleList = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
@@ -45,7 +44,6 @@ const getRoleList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -76,7 +74,6 @@ const getRole = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -105,7 +102,6 @@ const getExtendedRoles = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -124,7 +120,6 @@ const addRole = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -146,7 +141,6 @@ const updateRole = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -159,7 +153,6 @@ const deleteRole = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -195,7 +188,6 @@ const getPermissionsOptions = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
