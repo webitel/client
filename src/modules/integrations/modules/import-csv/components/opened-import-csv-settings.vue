@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.integrations.importCsv.settings') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.integrations.importCsv.settings') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
@@ -11,7 +13,7 @@
         :value="itemInstance.parameters.charset"
         disabled
         @input="setItemParamsProp({ prop: 'charset', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.CSV.separator')"
@@ -19,25 +21,25 @@
         :value="itemInstance.parameters.separator"
         required
         @input="setItemParamsProp({ prop: 'separator', value: $event })"
-      ></wt-input>
+      />
       <wt-switcher
         :label="$t('objects.CSV.skipHeaders')"
         :value="itemInstance.parameters.skipHeaders"
         disabled
         @change="setItemParamsProp({ prop: 'skipHeaders', value: $event })"
-      ></wt-switcher>
+      />
       <wt-switcher
         :label="$t('objects.integrations.importCsv.members.clearMembers')"
         :value="itemInstance.parameters.clearMembers"
         @change="setItemParamsProp({ prop: 'clearMembers', value: $event })"
-      ></wt-switcher>
+      />
       <header class="content-header">
         <h3 class="content-title">
           {{ $t('objects.integrations.importCsv.mappings') }}
         </h3>
         <p>{{ $t('objects.integrations.importCsv.mappingsHint') }}</p>
       </header>
-      <div></div>
+      <div />
       <component
         :is="multiple ? 'wt-tags-input' : 'wt-input'"
         v-for="({ multiple, name, locale, required }) of mappingsList"
@@ -49,7 +51,7 @@
         :value="itemInstance.parameters.mappings[name]"
         taggable
         @input="handleMappingInput({ name, value: $event })"
-      ></component>
+      />
       <!--        <wt-tags-input></wt-tags-input>-->
     </div>
   </section>
@@ -63,7 +65,7 @@ import openedTabComponentMixin
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
-  name: 'opened-import-csv-settings',
+  name: 'OpenedImportCsvSettings',
   mixins: [openedTabComponentMixin],
   data: () => ({}),
   computed: {

@@ -1,7 +1,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import queue from './defaults/defaultQueue';
-import amd from './defaults/amd';
 import { Strategy } from '../enums/Strategy.enum';
+import amd from './defaults/amd';
+import queue from './defaults/defaultQueue';
 import processing from './defaults/processing';
 
 const progressiveDialer = () => ({
@@ -29,6 +29,7 @@ const progressiveDialer = () => ({
     endless: false,
     perNumbers: false,
     autoAnswerTone: null,
+    minOnlineAgents: 0,
   },
 });
 

@@ -1,7 +1,10 @@
-import tokens from '../modules/tokens/store/usersTokens';
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import UsersAPI from '../api/users';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import logs from '../modules/logs/store/logs';
+import tokens from '../modules/tokens/store/usersTokens';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -68,13 +71,13 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/users';
 const permissions = new PermissionsStoreModule()
-  .generateAPIActions(PERMISSIONS_API_URL)
-  .getModule();
+.generateAPIActions(PERMISSIONS_API_URL)
+.getModule();
 
 const users = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(UsersAPI)
-  .generateAPIActions()
-  .setChildModules({ tokens, permissions })
-  .getModule({ actions, mutations });
+.attachAPIModule(UsersAPI)
+.generateAPIActions()
+.setChildModules({ tokens, logs, permissions })
+.getModule({ actions, mutations });
 
 export default users;

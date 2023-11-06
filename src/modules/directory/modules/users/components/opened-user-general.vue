@@ -1,47 +1,48 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
-        :value="itemInstance.name"
-        :label="$t('objects.name')"
         :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
 
       <wt-input
-        :value="itemInstance.username"
-        :v="v.itemInstance.username"
-        :label="$t('objects.directory.users.login')"
         :disabled="disableUserInput"
+        :label="$t('objects.directory.users.login')"
+        :v="v.itemInstance.username"
+        :value="itemInstance.username"
         required
         @input="setItemProp({ prop: 'username', value: $event })"
-      ></wt-input>
+      />
 
       <password-input
-        :value="itemInstance.password"
-        :v="v.itemInstance.password"
         :disabled="disableUserInput"
+        :v="v.itemInstance.password"
+        :value="itemInstance.password"
         required
         @input="setItemProp({ prop: 'password', value: $event })"
-      ></password-input>
+      />
 
       <wt-input
-        :value="itemInstance.extension"
+        :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
-        :disabled="disableUserInput"
+        :value="itemInstance.extension"
         @input="setItemProp({ prop: 'extension', value: $event })"
-      ></wt-input>
+      />
 
       <wt-input
-        :value="itemInstance.email"
-        :label="$t('objects.email')"
         :disabled="disableUserInput"
+        :label="$t('objects.email')"
+        :value="itemInstance.email"
         @input="setItemProp({ prop: 'email', value: $event })"
-      ></wt-input>
-
+      />
     </div>
   </section>
 </template>
@@ -52,9 +53,9 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-user-general',
-  mixins: [openedTabComponentMixin],
+  name: 'OpenedUserGeneral',
   components: { PasswordInput },
+  mixins: [openedTabComponentMixin],
 };
 </script>
 

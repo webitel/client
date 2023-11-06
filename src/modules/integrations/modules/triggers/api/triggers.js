@@ -1,21 +1,25 @@
-import { TriggerServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, handleUnauthorized,
-  merge, notify, snakeToCamel,
-  starToSearch, sanitize, mergeEach,
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
+import { TriggerServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
 
-const doNotConvertKeys = ['variables']
+const doNotConvertKeys = ['variables'];
 const fieldsToSend = [
   'description',
   'enabled',
@@ -42,7 +46,15 @@ const preRequestHandler = (item) => {
 };
 
 const getList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'schemaId'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'id',
+    'schemaId',
+  ];
   const defaultObject = {
     enabled: false,
   };
@@ -83,7 +95,7 @@ const getList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -99,10 +111,10 @@ const get = async ({ itemId: id }) => {
     const copy = deepCopy(response);
     if (response.variables) {
       copy.variables = Object.keys(copy.variables)
-        .map((key) => ({
-          key,
-          value: copy.variables[key],
-        }));
+      .map((key) => ({
+        key,
+        value: copy.variables[key],
+      }));
     }
     return {
       ...copy,
@@ -119,7 +131,7 @@ const get = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -138,7 +150,7 @@ const add = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -156,7 +168,7 @@ const patch = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -175,7 +187,7 @@ const update = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -187,7 +199,7 @@ const deleteItem = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }
@@ -210,12 +222,12 @@ const startTrigger = async (params, item) => {
       snakeToCamel(doNotConvertKeys),
       notify(({ callback }) => callback({
         type: 'info',
-        text: 'Successfully ran'
+        text: 'Successfully ran',
       })),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }

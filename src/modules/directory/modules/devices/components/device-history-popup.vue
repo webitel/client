@@ -1,57 +1,69 @@
 <template>
-  <wt-popup overflow @close="close">
-    <template v-slot:title>{{ $t('objects.directory.devices.deviceHistory') }}</template>
-    <template v-slot:main>
+  <wt-popup
+    overflow
+    @close="close"
+  >
+    <template #title>
+      {{ $t('objects.directory.devices.deviceHistory') }}
+    </template>
+    <template #main>
       <section class="history-popup">
         <div class="history-popup__filters">
           <wt-datepicker
-            :value="from"
             :label="$t('objects.from')"
+            :value="from"
             mode="datetime"
             @input="setFrom"
-          ></wt-datepicker>
+          />
           <wt-datepicker
-            :value="to"
             :label="$t('objects.to')"
+            :value="to"
             mode="datetime"
             @input="setTo"
-          ></wt-datepicker>
+          />
         </div>
         <div class="table-wrapper">
           <wt-table
-            :headers="headers"
             :data="dataList"
-            :selectable="false"
             :grid-actions="false"
+            :headers="headers"
+            :selectable="false"
           >
-            <template v-slot:loggedIn="{ item }">
+            <template #loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}
             </template>
-            <template v-slot:loggedOut="{ item }">
+            <template #loggedOut="{ item }">
               {{ prettifyTime(item.loggedOut) }}
             </template>
-            <template v-slot:user="{ item }">
+            <template #user="{ item }">
               <div v-if="item.user">
                 {{ item.user.name }}
               </div>
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
-    <template v-slot:actions>
-      <wt-button @click="close">{{ $t('objects.ok') }}</wt-button>
-      <wt-button color="secondary" @click="close"> {{ $t('objects.close') }}</wt-button>
+    <template #actions>
+      <wt-button @click="close">
+        {{ $t('objects.ok') }}
+      </wt-button>
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ $t('objects.close') }}
+      </wt-button>
     </template>
   </wt-popup>
 </template>
@@ -60,7 +72,7 @@
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
 
 export default {
-  name: 'device-history-popup',
+  name: 'DeviceHistoryPopup',
   mixins: [historyPopupMixin],
   data: () => ({
     namespace: 'directory/devices/history',

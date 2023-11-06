@@ -1,24 +1,24 @@
 <template>
   <div class="iframe-wrap">
     <wt-tooltip v-show="!playing">
-      <template v-slot:activator>
+      <template #activator>
         <wt-icon-btn
           icon="play"
           @click="$emit('play')"
-        ></wt-icon-btn>
+        />
       </template>
       {{ $t('iconHints.play') }}
     </wt-tooltip>
     <iframe
       v-show="playing"
       :src="`${baseUrl}animations/equalizer/eq.html`"
-    ></iframe>
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'media-audio-preview-table-action',
+  name: 'MediaAudioPreviewTableAction',
   props: {
     playing: {
       type: Boolean,
@@ -26,7 +26,7 @@ export default {
     },
   },
   data: () => ({
-    baseUrl: process.env.BASE_URL, // to resolve iframe equalizer path after build
+    baseUrl: import.meta.env.BASE_URL, // to resolve iframe equalizer path after build
   }),
 };
 </script>

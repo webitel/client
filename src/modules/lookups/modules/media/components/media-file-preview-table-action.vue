@@ -4,12 +4,12 @@
       v-if="isAudio"
       :playing="playing"
       @play="$emit('play')"
-    ></audio-preview>
+    />
     <wt-icon-btn
       v-else
       :icon="typeIcon"
       @click="$emit('open')"
-    ></wt-icon-btn>
+    />
   </div>
 </template>
 
@@ -17,7 +17,7 @@
 import AudioPreview from './media-audio-preview-table-action.vue';
 
 export default {
-  name: 'media-file-preview-table-action',
+  name: 'MediaFilePreviewTableAction',
   components: { AudioPreview },
   props: {
     type: {

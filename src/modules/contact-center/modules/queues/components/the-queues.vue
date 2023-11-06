@@ -1,35 +1,41 @@
 <template>
-  <wt-page-wrapper class="queues" :actions-panel="false">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="queues"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <queue-popup
         v-if="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
-      ></queue-popup>
+      />
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :payload="deleteConfirmation"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.queues.allQueues') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.ccenter.queues.allQueues') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -38,97 +44,106 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
-              ></delete-all-action>
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
+              />
+
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
           class="dummy-wrapper"
-        ></wt-dummy>
+          @create="create"
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
 
-            <template v-slot:type="{ item }">
+            <template #type="{ item }">
               {{ $t(QueueTypeProperties[item.type].locale) }}
             </template>
-            <template v-slot:activeCalls="{ item }">
+            <template #activeCalls="{ item }">
               {{ item.active }}
             </template>
-            <template v-slot:waiting="{ item }">
+            <template #waiting="{ item }">
               {{ item.waiting }}
             </template>
-            <template v-slot:priority="{ item } ">
+            <template #priority="{ item } ">
               {{ item.priority }}
             </template>
-            <template v-slot:team="{ item } ">
+            <template #team="{ item } ">
               <wt-item-link
                 v-if="item.team"
                 :link="itemTeamLink(item)"
-                target="_blank">
+                target="_blank"
+              >
                 {{ item.team.name }}
               </wt-item-link>
             </template>
-            <template v-slot:state="{ item, index }">
+            <template #state="{ item, index }">
               <wt-switcher
-                :value="item.enabled"
                 :disabled="!hasEditAccess"
+                :value="item.enabled"
                 @change="patchItem({ item, index, prop: 'enabled', value: $event})"
-              ></wt-switcher>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-tooltip class="table-action">
-                <template v-slot:activator>
+                <template #activator>
                   <wt-icon-btn
                     icon="queue-member"
                     @click="openMembers(item)"
-                  ></wt-icon-btn>
+                  />
                 </template>
-                  {{ $t('iconHints.members') }}
+                {{ $t('iconHints.members') }}
               </wt-tooltip>
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item, index)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
-              ></wt-icon-action>
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -136,30 +151,50 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
-import tableComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/queues';
 
 export default {
-  name: 'the-queues',
+  name: 'TheQueues',
+  components: { QueuePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
-  components: { QueuePopup },
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+
   data: () => ({
     namespace,
     isQueueSelectPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     path() {

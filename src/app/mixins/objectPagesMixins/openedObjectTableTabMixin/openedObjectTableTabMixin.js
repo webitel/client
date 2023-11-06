@@ -1,9 +1,13 @@
+import getNamespacedState
+  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import ObjectListPopup from '../../../components/utils/object-list-popup/object-list-popup.vue';
-import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
+import ObjectListPopup
+  from '../../../components/utils/object-list-popup/object-list-popup.vue';
+import OnePlusMany
+  from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
-import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
+import openedTabComponentMixin
+  from '../openedObjectTabMixin/openedTabComponentMixin';
 
 /**
  * @fileOverview contains openedObject tab with table
@@ -46,12 +50,17 @@ export default {
       isNext(state) {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).isNextPage;
       },
+      aggs(state) {
+        return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).aggs;
+      },
     }),
     headers() {
       if (!this.headersValue) return [];
       return this.headersValue.map((header) => ({
         ...header,
-        text: typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
+        text: typeof header.locale === 'string'
+          ? this.$t(header.locale)
+          : this.$tc(...header.locale),
       }));
     },
   },
@@ -105,14 +114,20 @@ export default {
           if (!this.parentId) {
             await this.addParentItem();
             const routeName = this.$route.name.replace('-new', '-edit');
-            await this.$router.replace({ name: routeName, params: { id: this.parentId } });
+            await this.$router.replace({
+              name: routeName,
+              params: { id: this.parentId },
+            });
           }
           this.openPopup();
         } catch (err) {
           throw err;
         }
       } else {
-        this.$eventBus.$emit('notification', { type: 'error', text: 'Check your validations!' });
+        this.$eventBus.$emit('notification', {
+          type: 'error',
+          text: 'Check your validations!',
+        });
       }
     },
 

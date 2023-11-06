@@ -1,47 +1,159 @@
-import { QueueHookServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { QueueHookServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueHookService = new QueueHookServiceApiFactory(configuration, '', instance);
 
-const defaultListObject = {
-  enabled: false,
-};
-
-const defaultSingleObject = {
-  event: '',
-  properties: [],
-  schema: {},
-  enabled: false,
-};
-
 const fieldsToSend = ['event', 'properties', 'schema', 'enabled'];
 
-const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  queueId: parentId,
+});
 
-const listGetter = new SdkListGetterApiConsumer(queueHookService.searchQueueHook, { defaultListObject });
-const itemGetter = new SdkGetterApiConsumer(queueHookService.readQueueHook, { defaultSingleObject });
-const itemCreator = new SdkCreatorApiConsumer(queueHookService.createQueueHook,
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new SdkPatcherApiConsumer(queueHookService.patchQueueHook);
-const itemUpdater = new SdkUpdaterApiConsumer(queueHookService.updateQueueHook,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(queueHookService.deleteQueueHook);
+const getQueueHooksList = async (params) => {
+  const defaultObject = {
+    enabled: false,
+  };
 
-const getQueueHooksList = (params) => listGetter.getNestedList(params);
-const getQueueHook = (params) => itemGetter.getNestedItem(params);
-const addQueueHook = (params) => itemCreator.createNestedItem(params);
-const patchQueueHook = (params) => itemPatcher.patchNestedItem(params);
-const updateQueueHook = (params) => itemUpdater.updateNestedItem(params);
-const deleteQueueHook = (params) => itemDeleter.deleteNestedItem(params);
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    parentId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await queueHookService.searchQueueHook(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getQueueHook = async ({ parentId, itemId: id }) => {
+  const defaultObject = {
+    event: '',
+    properties: [],
+    schema: {},
+    enabled: false,
+  };
+
+  try {
+    const response = await queueHookService.readQueueHook(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const addQueueHook = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueHookService.createQueueHook(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const patchQueueHook = async ({ changes, id, parentId }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+
+  try {
+    const response = await queueHookService.patchQueueHook(parentId, id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const updateQueueHook = async ({ itemInstance, itemId: id, parentId }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await queueHookService.updateQueueHook(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const deleteQueueHook = async ({ parentId, id }) => {
+  try {
+    const response = await queueHookService.deleteQueueHook(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
 const QueueHooksAPI = {
   getList: getQueueHooksList,

@@ -2,23 +2,26 @@
   <diagram
     v-if="isDiagram"
     :namespace="namespace"
-    @save="saveDiagram"
     @close="close"
-  ></diagram>
-  <wt-page-wrapper v-else :actions-panel="false">
-    <template v-slot:header>
+    @save="saveDiagram"
+  />
+  <wt-page-wrapper
+    v-else
+    :actions-panel="false"
+  >
+    <template #header>
       <wt-page-header
-        :primary-text="saveText"
-        :primary-action="save"
         :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
         :primary-disabled="disabledSave"
+        :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -26,13 +29,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -40,25 +46,25 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapActions } from 'vuex';
 import { required } from '@vuelidate/validators';
-import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
-import JsonSchema from '../modules/code/components/opened-flow-code.vue';
+import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import JsonSchema from '../modules/code/components/opened-flow-code.vue';
+import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 
 export default {
-  name: 'opened-flow',
-  mixins: [openedObjectMixin],
+  name: 'OpenedFlow',
   components: {
     Diagram,
     JsonSchema,
   },
-  data: () => ({
-    namespace: 'routing/flow',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'routing/flow',
   }),
   validations: {
     itemInstance: {
@@ -75,10 +81,12 @@ export default {
       return this.$route.query.type || this.itemInstance.type;
     },
     tabs() {
-      const tabs = [{
-        text: this.$t('objects.general'),
-        value: 'json-schema',
-      }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'json-schema',
+        },
+      ];
       return tabs;
     },
 

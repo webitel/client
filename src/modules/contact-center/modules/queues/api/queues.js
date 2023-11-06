@@ -4,13 +4,16 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  handleUnauthorized,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import { QueueServiceApiFactory } from 'webitel-sdk';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import deepCopy from 'deep-copy';
+import { QueueServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import processing from '../store/_internals/queueSchema/defaults/processing';
@@ -93,7 +96,6 @@ const getQueuesList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -110,18 +112,18 @@ const getQueue = async ({ itemId: id }) => {
     try {
       if (copy.variables) {
         copy.variables = Object.keys(copy.variables)
-                                   .map((key) => ({
-                                     key,
-                                     value: copy.variables[key],
-                                   }));
+        .map((key) => ({
+          key,
+          value: copy.variables[key],
+        }));
       }
       if (isEmpty(copy.taskProcessing)) {
         copy.taskProcessing = processing({
-         enabled: !!copy.processing,
-         formSchema: copy.formSchema,
-         sec: copy.processingSec || 0,
-         renewalSec: copy.processingRenewalSec || 0,
-       });
+          enabled: !!copy.processing,
+          formSchema: copy.formSchema,
+          sec: copy.processingSec || 0,
+          renewalSec: copy.processingRenewalSec || 0,
+        });
       }
       return copy;
     } catch (err) {
@@ -137,7 +139,6 @@ const getQueue = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -156,7 +157,6 @@ const addQueue = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -175,7 +175,6 @@ const updateQueue = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -193,7 +192,6 @@ const patchQueue = async ({ id, changes }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -205,7 +203,6 @@ const deleteQueue = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }

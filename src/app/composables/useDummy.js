@@ -1,15 +1,18 @@
-import { watch, computed, ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
 import IsEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import defaultDummyPicAfterSearch from '../assets/dummy/adm-dummy-after-search.svg';
+import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import defaultDummyPicAfterSearch
+  from '../assets/dummy/adm-dummy-after-search.svg';
 
 export function useDummy({
                            namespace,
                            showAction,
                            hiddenText,
+                           dummyPic,
+                           dummyText,
                            dummyPicAfterSearch = defaultDummyPicAfterSearch,
                            dummyTextAfterSearch = 'objects.emptyResultSearch',
                          }) {
@@ -30,9 +33,12 @@ export function useDummy({
           text: dummyTextAfterSearch,
         };
       } else return dummy.value = {
+        src: dummyPic,
+        text: dummyText,
         showAction,
+        hiddenText,
       };
     } else return dummy.value = '';
   }, { deep: true });
   return { dummy };
-};
+}

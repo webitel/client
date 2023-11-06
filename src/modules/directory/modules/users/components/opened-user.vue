@@ -1,6 +1,8 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="!!currentTab.filters"
+  >
+    <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
@@ -8,11 +10,18 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #actions-panel>
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      />
+    </template>
+
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -20,13 +29,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -36,6 +48,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Logs from '../modules/logs/components/opened-user-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import Devices from './opened-user-devices.vue';
 import General from './opened-user-general.vue';
@@ -44,8 +58,7 @@ import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
 
 export default {
-  name: 'opened-user',
-  mixins: [openedObjectMixin],
+  name: 'OpenedUser',
   components: {
     General,
     Roles,
@@ -53,13 +66,16 @@ export default {
     Devices,
     Variables,
     Tokens,
+    Logs,
+    LogsFilters,
   },
-  data: () => ({
-    namespace: 'directory/users',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'directory/users',
   }),
   validations: {
     itemInstance: {
@@ -90,34 +106,40 @@ export default {
     },
 
     tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        },
-        {
-          text: this.$t('objects.directory.users.roles'),
-          value: 'roles',
-        },
-        {
-          text: this.$t('objects.directory.users.license'),
-          value: 'license',
-        },
-        {
-          text: this.$t('objects.directory.users.devices'),
-          value: 'devices',
-        },
-        {
-          text: this.$t('objects.directory.users.variables'),
-          value: 'variables',
-        },
-        {
-          text: this.$t('objects.directory.users.tokens'),
-          value: 'tokens',
-        },
-      ];
+      const general = {
+        text: this.$t('objects.general'),
+        value: 'general',
+      };
+      const roles = {
+        text: this.$t('objects.directory.users.roles'),
+        value: 'roles',
+      };
+      const license = {
+        text: this.$t('objects.directory.users.license'),
+        value: 'license',
+      };
+      const devices = {
+        text: this.$t('objects.directory.users.devices'),
+        value: 'devices',
+      };
+      const variables = {
+        text: this.$t('objects.directory.users.variables'),
+        value: 'variables',
+      };
+      const tokens = {
+        text: this.$t('objects.directory.users.tokens'),
+        value: 'tokens',
+      };
+      const logs = {
+        text: this.$t('objects.system.changelogs.changelogs', 2),
+        value: 'logs',
+        filters: 'logs-filters',
+        filtersNamespace: `${this.namespace}/logs/filters`,
+      };
 
-      if (this.id) tabs.push(this.permissionsTab);
+      const tabs = [general, roles, license, devices, variables, tokens];
+
+      if (this.id) tabs.push(logs, this.permissionsTab);
       return tabs;
     },
   },

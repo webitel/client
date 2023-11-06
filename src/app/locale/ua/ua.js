@@ -1,5 +1,7 @@
 /* eslint-disable quote-props */
 
+import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
+
 export default {
   auth: {
     register: 'Створити',
@@ -51,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Налаштування',
+    settings: 'Налаштування | Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
     webPhone: 'Web-телефон',
@@ -93,6 +95,9 @@ export default {
     permissions: {
       permissions: 'Дозволи',
     },
+    system: {
+      system: 'Система',
+    },
   },
 
   home: {
@@ -115,6 +120,9 @@ export default {
     saved: 'Збережено',
     saveAs: 'Зберігти як нового',
     close: 'Закрити',
+    next: 'Далі',
+    back: 'Назад',
+    change: 'Замінити',
     name: 'Ім\'я',
     description: 'Опис',
     user: 'Користувач',
@@ -196,6 +204,8 @@ export default {
         tokenPopupText: 'Завантажте файл з ключем зараз або скопіюйте його для подальшого використання. Якщо Ви не завантажите файл ключа зараз, то не зможете отримати свій токен-ключ знову. Для Вашої безпеки нікому не передвайте свій токен-ключ.',
         tokenPopupCopy: 'Копіювати',
         tokenPopupSave: 'Зберегти у форматі TXT',
+        userIp: 'IP користувача',
+        userId: 'ID користувача',
       },
       license: {
         customers: 'Користувачі',
@@ -276,6 +286,7 @@ export default {
           manageUserRoles: 'Управління ролями користувачів',
           manageUserLicense: 'Управління ліцензіями користувачів',
           changeUserPassword: 'Змінювати паролі користувачів',
+          systemSetting: 'Управління системними конфігураціями',
           addDescription: 'Надає дозвіл на створення об’єктів',
           deleteDescription: 'Надає дозвіл на видалення об’єктів',
           readDescription: 'Надає дозвіл на вибір об’єктів',
@@ -287,6 +298,7 @@ export default {
           manageUserRolesDescription: 'Надає дозвіл на керування набором ролей користувачів',
           manageUserLicenseDescription: 'Надає дозвіл на керування набором ліцензій користувача',
           changeUserPasswordDescription: 'Надає дозвіл на зміну пароля користувача',
+          systemSettingDescription: 'Надає дозвіл на керування розділом Конфігурація',
         },
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
@@ -326,6 +338,14 @@ export default {
         agentSkills: 'Навички оператора | Навички операторів',
         allSkills: 'Всі навички',
         state: 'Стан',
+        stateForAll: 'Стан для всіх',
+        changeSkillTo: 'Замінити навичку на',
+        changeAgentsSkill: 'Замінити навичку операторам',
+        totalAgents: 'Всього операторів',
+        activeSkillAgents: 'З активною навичкою',
+        assignSkillToAgents: 'Назначити навичку операторам',
+        assignAgent: 'Призначити оператора',
+        selectCapacityAndState: 'Вибрати потенціал і стан',
         minCapacityLessOrEqualToMaxCapacityValidator: 'Має бути менше або рівне Максимальному потенціалу',
         maxCapacityMoreOrEqualToMinCapacityValidator: 'Має бути більше або рівне Мінімальному потенціалу',
       },
@@ -335,11 +355,13 @@ export default {
         addBucket: 'Додати кошик',
       },
       blacklist: {
-        blacklist: 'Список обдзвону | Списки обдзвону',
-        allBlacklists: 'Всі списки обдзвону',
+        blacklist: 'Список | Списки',
+        allBlacklists: 'Всі списки',
         number: 'Номер | Номери',
         newNumber: 'Новий номер',
         numbersCount: 'Номери',
+        expireAt: 'Термін дії',
+        temporary: 'Тимчасовий',
       },
       media: {
         mediaFiles: 'Медіафайл| Медіафайли',
@@ -397,6 +419,11 @@ export default {
         allCommunications: 'Всі типи зв\'язку',
         addCommunication: 'Додати тип зв\'язку',
         code: 'Код',
+        channels: {
+          [EngineCommunicationChannels.Phone]: 'Телефон',
+          [EngineCommunicationChannels.Email]: 'Електронна пошта',
+          [EngineCommunicationChannels.Messaging]: 'Повідомлення',
+        },
       },
       pauseCause: {
         pauseCause: 'Статуси оператора',
@@ -570,11 +597,17 @@ export default {
             subheadingText: 'Підзаголовок',
             showDefaultHeading: 'Показати стандартний заголовок та підзаголовок на сторінці результату',
           },
+          call: {
+            title: 'Онлайн-дзвінок',
+            url: 'WebSocket Endpoint',
+          },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',
+            title: 'Текстові канали',
             email: 'Електронна пошта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
           },
         },
         uri: 'URI',
@@ -640,12 +673,12 @@ export default {
         teams: 'Команда| Команди',
         allTeams: 'Всі команди',
         strategy: 'Стратегія',
-        timing: 'Параметри додзвону',
-        maxNoAnswer: 'Максимальна кількість дзвінків без відповіді',
-        callTimeout: 'Тривалість виклику',
-        inviteChatTimeout: 'Час прийняття чату',
+        parameters: 'Параметри',
+        maxNoAnswer: 'Максимальна кількість пропущених активностей',
+        callTimeout: 'Час на прийняття дзвінка',
+        inviteChatTimeout: 'Час на прийняття чату',
         wrapUpTime: 'Тривалість паузи між дзвінками',
-        noAnswerDelayTime: 'Час очікування при відсутності відповіді оператора',
+        noAnswerDelayTime: 'Час затримки після пропущеної активності',
         strategies: {
           random: 'Випадково',
           fewestCalls: 'Оператор з найменшою кількістю дзвінків',
@@ -745,9 +778,10 @@ export default {
         maxAgentLose: 'Максимальна кількість неприйнятих дзвінків для припинення донабору ліній',
         minAttempts: 'Кількість спроб для переходу в предиктивний режим',
         maxAbandonedRate: 'Дозволений % втрачених дзвінків',
+        loadFactor: 'Коефіцієнт навантаження',
         abandonRateAdjustment: 'Коригування втрачених дзвінків',
         playbackSilence: 'Тиша перед програванням аудіофайлу (мс.)',
-        targetAbandonedRate: 'Target abandoned rate',
+        targetAbandonedRate: 'Бажаний % втрачених дзвінків',
         maxWaitTime: 'Максимальний час очікування',
         maxWaitingSize: 'Максимальна кількість очікування',
         waitBetweenRetries: 'Час між спробами',
@@ -757,6 +791,7 @@ export default {
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',
         maxAttempts: 'Максимальна кількість спроб',
+        minOnlineAgents: 'Доступ до паузи, якщо кількість операторів онлайн більше ніж:',
         waitForResultStatus: 'Очікування результату дзвінка',
         retryAbandoned: 'Відновлювати втрачених абонентів',
         playbackFile: 'Програти файл',
@@ -787,6 +822,7 @@ export default {
         initialSilence: 'Максимальна тривалість тиші перед привітанням (мс)',
         statisticTime: 'Інтервал перерахунку',
         communications: 'Тип зв\'язку',
+        manualDistribution: 'Ручне розподілення',
         processing: {
           processing: 'Обробка',
           enabled: 'Очікування результату задачі',
@@ -929,7 +965,14 @@ export default {
         imapHost: 'IMAP Хост',
         fetchInterval: 'Інтервал оновлення',
       },
-
+      singleSignOn: {
+        allTypes: 'Всі типи',
+        // TODO: add locale
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
       importCsv: {
         importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',
         allImportsCsv: 'Всі імпорти даних з CSV файлів',
@@ -976,6 +1019,38 @@ export default {
             error: 'Помилка',
           },
         },
+      },
+    },
+    system: {
+      system: 'Система',
+      changelogs: {
+        changelogs: 'Журнал змін | Журнали змін',
+        objects: 'Об\'єкт | Об\'єкти',
+        daysToStore: 'Днів зберігання',
+        storage: 'Вивантажити в',
+        logs: {
+          logs: 'Лог | Логи',
+          actions: 'Дія | Дії',
+          records: 'ID запису | ID записів',
+          actionType: {
+            [LoggerAction.Create]: 'Створення',
+            [LoggerAction.Delete]: 'Видалення',
+            [LoggerAction.Update]: 'Редагування',
+          },
+        },
+        period: {
+          period: 'Період',
+          options: {
+            daily: 'Щодня',
+            weekly: 'Щотижня',
+            fortnightly: 'Кожні два тижня',
+            monthly: 'Щомісяця',
+          },
+        },
+      },
+      configuration: {
+        configuration: 'Конфігурація | Конфігурації',
+        parameter: 'Параметр',
       },
     },
     pagination: {

@@ -1,28 +1,34 @@
 import deepMerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import agents from '../modules/agents/store/queue-agents';
-import buckets from '../modules/buckets/store/queue-buckets';
-import skills from '../modules/skills/store/queue-skills';
-import hooks from '../modules/hooks/store/queue-hooks';
-import resGroups from '../modules/res-groups/store/queue-res-groups';
-import log from '../modules/logs/store/queue-logs';
-import members from '../modules/members/store/queue-members';
-import QueuesAPI from '../api/queues';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
-import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
-import defaultOutboundIVRQueueState from './_internals/queueSchema/outboundIVRQueue';
-import defaultOfflineQueueState from './_internals/queueSchema/offlineQueue';
-import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
-import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
-import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
-import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
-import defaultInboundJobQueueState from './_internals/queueSchema/inboundJobQueue';
-import defaultOutboundJobQueueState from './_internals/queueSchema/outboundJobQueue';
+import QueuesAPI from '../api/queues';
+import agents from '../modules/agents/store/queue-agents';
+import buckets from '../modules/buckets/store/queue-buckets';
+import hooks from '../modules/hooks/store/queue-hooks';
+import log from '../modules/logs/store/queue-logs';
+import members from '../modules/members/store/queue-members';
+import resGroups from '../modules/res-groups/store/queue-res-groups';
+import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
+import defaultChatInboundQueueState
+  from './_internals/queueSchema/chatInboundQueue';
+import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
+import defaultInboundJobQueueState
+  from './_internals/queueSchema/inboundJobQueue';
+import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
+import defaultOfflineQueueState from './_internals/queueSchema/offlineQueue';
+import defaultOutboundIVRQueueState
+  from './_internals/queueSchema/outboundIVRQueue';
+import defaultOutboundJobQueueState
+  from './_internals/queueSchema/outboundJobQueue';
+import defaultPredictiveDialerState
+  from './_internals/queueSchema/predictiveDialer';
+import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
+import defaultProgressiveDialerState
+  from './_internals/queueSchema/progressiveDialer';
 
 const resettableState = {
   itemInstance: defaultQueueState(),
@@ -110,15 +116,15 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/call_center/queues';
 const permissions = new PermissionsStoreModule()
-  .generateAPIActions(PERMISSIONS_API_URL)
-  .getModule();
+.generateAPIActions(PERMISSIONS_API_URL)
+.getModule();
 
 const queues = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(QueuesAPI)
-  .generateAPIActions()
-  .setChildModules({
-    agents, skills, buckets, resGroups, hooks, log, members, permissions,
-  })
-  .getModule({ actions, mutations });
+.attachAPIModule(QueuesAPI)
+.generateAPIActions()
+.setChildModules({
+  agents, skills, buckets, resGroups, hooks, log, members, permissions,
+})
+.getModule({ actions, mutations });
 
 export default queues;

@@ -1,6 +1,6 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import queue from './defaults/defaultQueue';
 import { Strategy } from '../enums/Strategy.enum';
+import queue from './defaults/defaultQueue';
 import processing from './defaults/processing';
 
 const inboundJobQueue = () => ({
@@ -17,6 +17,7 @@ const inboundJobQueue = () => ({
     waitBetweenRetries: 30 * 60, // required
     maxCalls: 10,
     waitBetweenRetriesDesc: false,
+    minOnlineAgents: 0,
   },
 });
 

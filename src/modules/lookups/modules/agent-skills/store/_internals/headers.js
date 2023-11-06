@@ -13,4 +13,16 @@ export default [
     field: 'description',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'totalAgents',
+    locale: 'objects.lookups.skills.totalAgents',
+    field: 'total_agents',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'activeAgents',
+    locale: 'objects.lookups.skills.activeSkillAgents',
+    field: 'active_agents',
+    sort: SortSymbols.NONE,
+  },
 ];

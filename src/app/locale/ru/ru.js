@@ -1,5 +1,7 @@
 /* eslint-disable quote-props */
 
+import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
+
 export default {
   auth: {
     register: 'Создать',
@@ -51,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Настройки',
+    settings: 'Настройка | Настройки',
     changePassword: 'Изменить пароль',
     language: 'Язык',
     webPhone: 'Web-телефон',
@@ -93,6 +95,9 @@ export default {
     permissions: {
       permissions: 'Разрешения',
     },
+    system: {
+      system: 'Система',
+    },
   },
 
   home: {
@@ -115,6 +120,9 @@ export default {
     saved: 'Сохранено',
     saveAs: 'Сохранить как нового',
     close: 'Закрыть',
+    next: 'Далее',
+    back: 'Назад',
+    change: 'Заменить',
     name: 'Имя',
     description: 'Описание',
     user: 'Пользователь',
@@ -196,6 +204,8 @@ export default {
         tokenPopupText: 'Загрузите файл с ключом сейчас или скопируйте его для дальнейшего использования. Если вы не загрузите файл ключа сейчас, вы не сможете  получить свой токен-ключ снова. Для вашей безопасности никому не передавайте  свой токен-ключ.',
         tokenPopupCopy: 'Копировать',
         tokenPopupSave: 'Сохранить  в формате TXT',
+        userIp: 'IP пользователя',
+        userId: 'ID пользователя',
       },
       license: {
         customers: 'Пользователи',
@@ -276,6 +286,7 @@ export default {
           manageUserRoles: 'Управление ролями пользователей',
           manageUserLicense: 'Управление лицензиями пользователей',
           changeUserPassword: 'Изменять пароли пользователей',
+          systemSetting: 'Управление системными конфигурациями',
           addDescription: 'Предоставляет разрешение на создание объектов',
           deleteDescription: 'Предоставляет разрешение на удаление объектов',
           readDescription: 'Предоставляет разрешение на выбор объектов',
@@ -287,6 +298,7 @@ export default {
           manageUserRolesDescription: 'Предоставляет разрешение на управление набором ролей пользователей',
           manageUserLicenseDescription: 'Предоставляет разрешение на управление набором пользовательских лицензий',
           changeUserPasswordDescription: 'Предоставляет разрешение на изменение пароля пользователя',
+          systemSettingDescription: 'Предоставляет разрешение на управление разделом Конфигурация',
         },
         addPermission: 'Добавить право доступа для роли',
         usage: 'Использование',
@@ -328,6 +340,14 @@ export default {
         agentSkills: 'Навыки оператора | Навыки операторов',
         allSkills: 'Все навыки',
         state: 'Состояние',
+        stateForAll: 'Состояние для всех',
+        changeSkillTo: 'Заменить навык на',
+        changeAgentsSkill: 'Заменить навык операторам',
+        totalAgents: 'Всего операторов',
+        activeSkillAgents: 'С активным навыком',
+        assignSkillToAgents: 'Назначить навык операторам',
+        assignAgent: 'Назначить оператора',
+        selectCapacityAndState: 'Выбрать потенциал и состояние',
       },
       buckets: {
         buckets: 'Корзина | Корзины',
@@ -335,11 +355,13 @@ export default {
         addBucket: 'Добавить корзину',
       },
       blacklist: {
-        blacklist: 'Список обзвона | Списки обзвона',
-        allBlacklists: 'Все списки обзвона',
+        blacklist: 'Список | Списки',
+        allBlacklists: 'Все списки',
         number: 'Номер | Номера',
         newNumber: 'Новый номер',
         numbersCount: 'Номера',
+        expireAt: 'Срок действия',
+        temporary: 'Временный',
       },
       media: {
         mediaFiles: 'Медиафайл| Медиафайлы',
@@ -397,6 +419,11 @@ export default {
         allCommunications: 'Все типы связи',
         addCommunication: 'Добавить связь',
         code: 'Код',
+        channels: {
+          [EngineCommunicationChannels.Phone]: 'Телефон',
+          [EngineCommunicationChannels.Email]: 'Электронная почта',
+          [EngineCommunicationChannels.Messaging]: 'Сообщения',
+        },
       },
       pauseCause: {
         pauseCause: 'Статусы оператора',
@@ -569,11 +596,17 @@ export default {
             subheadingText: 'Подзаголовок',
             showDefaultHeading: 'Показать стандартный заголовок и подзаголовок на странице результата',
           },
+          call: {
+            title: 'Онлайн-звонок',
+            url: 'WebSocket Endpoint',
+          },
           alternativeChannels: {
             alternativeChannels: 'Альтернативные каналы',
+            title: 'Текстовые каналы',
             email: 'Электронная почта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
           },
         },
         uri: 'URI',
@@ -638,12 +671,12 @@ export default {
         teams: 'Команда| Команды',
         allTeams: 'Все команды',
         strategy: 'Стратегия',
-        timing: 'Параметры дозвона',
-        maxNoAnswer: 'Максимальное количество звонков без ответа',
-        callTimeout: 'Длительность вызова',
-        inviteChatTimeout: 'Время принятия чата',
+        parameters: 'Параметры',
+        maxNoAnswer: 'Максимальное количество пропущенных активностей',
+        callTimeout: 'Время на принятие звонка',
+        inviteChatTimeout: 'Время на принятие чата',
         wrapUpTime: 'Длительность паузы между звонками',
-        noAnswerDelayTime: 'Время ожидания при отсутствии ответа оператора',
+        noAnswerDelayTime: 'Время задержки после пропущенной активности',
         strategies: {
           random: 'Случайно',
           fewestCalls: 'Агент с наименьшим количеством звонков',
@@ -743,9 +776,10 @@ export default {
         maxAgentLose: 'Максимальное количество непринятых звонков для прекращения донабора линий',
         minAttempts: 'Количество попыток для перехода в предиктивный режим',
         maxAbandonedRate: 'Разрешенный % потерянных звонков',
+        loadFactor: 'Коэффициент нагрузки',
         abandonRateAdjustment: 'Корректировка потерянных звонков',
         playbackSilence: 'Тишина перед проигрыванием аудиофайла (мс.)',
-        targetAbandonedRate: 'Target abandoned rate',
+        targetAbandonedRate: 'Желаемый % потерянных звонков',
         maxWaitTime: 'Максимальное время ожидания',
         maxWaitingSize: 'Максимальное количество ожидания',
         waitBetweenRetries: 'Время между попытками',
@@ -757,6 +791,7 @@ export default {
         maxNumberOfRetry: 'Максимальное количество попыток звонков',
         minDuration: 'Минимально успешная длительность звонка',
         maxAttempts: 'Максимальное количество попыток',
+        minOnlineAgents: 'Доступ к паузе, если количество операторов онлайн больше чем:',
         waitForResultStatus: 'Ожидание результата звонка',
         bucketPriority: 'Приоритет',
         amd: 'AMD',
@@ -786,6 +821,7 @@ export default {
         initialSilence: 'Максимальная продолжительность тишины перед приветствием (мс)',
         statisticTime: 'Интервал пересчета',
         communications: 'Тип связи',
+        manualDistribution: 'Ручное распределение',
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',
@@ -929,6 +965,15 @@ export default {
         fetchInterval: 'Интервал обновления',
       },
 
+      singleSignOn: {
+        allTypes: 'Все типы',
+        // TODO: add locale
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
+
       importCsv: {
         importCsv: 'Импорт данных из CSV файла | Импорт данных из CSV файлов',
         allImportsCsv: 'Все импорты данных из CSV файлов',
@@ -975,6 +1020,38 @@ export default {
             error: 'Ошибка',
           },
         },
+      },
+    },
+    system: {
+      system: 'Система',
+      changelogs: {
+        changelogs: 'Журнал изменений | Журналы изменений',
+        objects: 'Объект | Объекты',
+        daysToStore: 'Дней хранения',
+        storage: 'Выгрузить в',
+        logs: {
+          logs: 'Лог | Логи',
+          actions: 'Действие | Действия',
+          records: 'ID записи | ID записей',
+          actionType: {
+            [LoggerAction.Create]: 'Создание',
+            [LoggerAction.Delete]: 'Удаление',
+            [LoggerAction.Update]: 'Редактирование',
+          },
+        },
+        period: {
+          period: 'Период',
+          options: {
+            daily: 'Ежедневно',
+            weekly: 'Еженедельно',
+            fortnightly: 'Каждые две недели',
+            monthly: 'Ежемесячно',
+          },
+        },
+      },
+      configuration: {
+        configuration: 'Конфигурация | Конфигурации',
+        parameter: 'Параметр',
       },
     },
     pagination: {

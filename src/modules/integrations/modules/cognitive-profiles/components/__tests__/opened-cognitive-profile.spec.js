@@ -10,7 +10,7 @@ describe('OpenedCognitiveProfile', () => {
       openedObjectMixinMock(),
       {
         // computed: {
-        //   itemInstance: () => ({ provider: 'jest' }),
+        //   itemInstance: () => ({ provider: 'vi' }),
         // },
       },
     ]));

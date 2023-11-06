@@ -1,27 +1,28 @@
 <template>
   <div class="upload-file-icon-btn">
     <wt-tooltip>
-      <template v-slot:activator>
+      <template #activator>
         <wt-icon-btn
           icon="upload"
           @click="triggerFileInput"
-        ></wt-icon-btn>
+        />
       </template>
       {{ $t('iconHints.upload') }}
     </wt-tooltip>
     <input
       ref="file-input"
+      :accept="accept"
       class="upload-file-icon-btn__input"
       type="file"
-      :accept="accept"
       @change="inputFileHandler"
     >
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'upload-file-icon-btn',
+  name: 'UploadFileIconBtn',
   props: {
     accept: {
       type: String,
@@ -52,11 +53,11 @@ export default {
     position: absolute;
     top: -2px;
     left: 0;
+    visibility: hidden;
     width: 24px;
     height: 24px;
-    font-size: 0;
-    visibility: hidden;
     cursor: pointer;
+    font-size: 0;
   }
 }
 </style>

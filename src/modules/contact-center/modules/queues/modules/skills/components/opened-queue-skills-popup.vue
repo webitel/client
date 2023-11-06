@@ -1,68 +1,74 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.lookups.skills.skills', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
-          :value="itemInstance.skill"
-          :v="v$.itemInstance.skill"
+          :clearable="false"
           :label="$tc('objects.lookups.skills.skills', 1)"
           :search-method="loadSkillsOptions"
-          :clearable="false"
+          :v="v$.itemInstance.skill"
+          :value="itemInstance.skill"
           required
           @input="setItemProp({ prop: 'skill', value: $event })"
-        ></wt-select>
+        />
         <wt-input
-          :value="itemInstance.lvl"
-          :v="v$.itemInstance.lvl"
           :label="$t('objects.lookups.skills.lvl')"
+          :v="v$.itemInstance.lvl"
+          :value="itemInstance.lvl"
           type="number"
           @input="setItemProp({ prop: 'lvl', value: +$event })"
-        ></wt-input>
+        />
         <div class="input-row-wrap">
           <wt-input
-            :value="itemInstance.minCapacity"
-            :v="v$.itemInstance.minCapacity"
             :custom-validators="minCapacityCustomValidator"
             :label="$t('objects.lookups.skills.minCapacity')"
-            :number-min="0"
             :number-max="100"
+            :number-min="0"
+            :v="v$.itemInstance.minCapacity"
+            :value="itemInstance.minCapacity"
             type="number"
             @input="setItemProp({ prop: 'minCapacity', value: +$event })"
-          ></wt-input>
+          />
           <wt-input
-            :value="itemInstance.maxCapacity"
-            :v="v$.itemInstance.maxCapacity"
             :custom-validators="maxCapacityCustomValidator"
             :label="$t('objects.lookups.skills.maxCapacity')"
-            :number-min="0"
             :number-max="100"
+            :number-min="0"
+            :v="v$.itemInstance.maxCapacity"
+            :value="itemInstance.maxCapacity"
             type="number"
             @input="setItemProp({ prop: 'maxCapacity', value: +$event })"
-          ></wt-input>
+          />
         </div>
         <wt-select
-          :value="itemInstance.buckets"
+          :close-on-select="false"
           :label="$tc('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
-          :close-on-select="false"
+          :value="itemInstance.buckets"
           multiple
           @input="setItemProp({ prop: 'buckets', value: $event })"
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -70,21 +76,21 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minValue, maxValue } from '@vuelidate/validators';
-import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
-import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
+import { maxValue, minValue, required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
+import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {
-  name: 'opened-queue-skills-popup',
+  name: 'OpenedQueueSkillsPopup',
   mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'ccenter/queues/skills',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/queues/skills',
   }),
   validations: {
     itemInstance: {
@@ -108,10 +114,20 @@ export default {
   },
   computed: {
     minCapacityCustomValidator() {
-      return [{ name: 'lessOrEqualTo', text: this.$t('objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator') }];
+      return [
+        {
+          name: 'lessOrEqualTo',
+          text: this.$t('objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator'),
+        },
+      ];
     },
     maxCapacityCustomValidator() {
-      return [{ name: 'moreOrEqualTo', text: this.$t('objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator') }];
+      return [
+        {
+          name: 'moreOrEqualTo',
+          text: this.$t('objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator'),
+        },
+      ];
     },
   },
 

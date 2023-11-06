@@ -1,6 +1,6 @@
+import deleteMixin from './deleteMixin/tableDeleteMixin';
 import itemLinkMixin from './itemLinkMixin';
 import tableActionsHandlerMixin from './tableActionsMixin';
-import deleteMixin from './deleteMixin/tableDeleteMixin';
 
 /**
  * @fileOverview abstract mixin,

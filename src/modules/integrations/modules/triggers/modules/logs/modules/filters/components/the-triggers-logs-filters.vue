@@ -4,12 +4,12 @@
       :label="`${$t('objects.integrations.triggers.logs.startedAt')}: ${$t('reusable.from')}`"
       :namespace="namespace"
       filter-query="startedAtFrom"
-    ></filter-datetime>
+    />
     <filter-datetime
       :label="`${$t('objects.integrations.triggers.logs.startedAt')}: ${$t('reusable.to')}`"
       :namespace="namespace"
       filter-query="startedAtTo"
-    ></filter-datetime>
+    />
     <component
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter, key) of filters"
@@ -17,12 +17,12 @@
       :filter-query="filter.filterQuery"
       :namespace="namespace"
       class="history-filters__filter"
-    ></component>
+    />
     <filter-from-to
       :label="$t('vocabulary.duration')"
       :namespace="namespace"
       filter-query="duration"
-    ></filter-from-to>
+    />
   </wt-filters-panel-wrapper>
 </template>
 
@@ -34,7 +34,7 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'the-triggers-logs-filters',
+  name: 'TheTriggersLogsFilters',
   components: {
     FilterDatetime,
     FilterFromTo,
@@ -63,7 +63,7 @@ export default {
       this.resetFilterValues();
     },
   },
-  destroyed() {
+  unmounted() {
     this.resetFilters();
   },
 };

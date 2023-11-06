@@ -1,6 +1,6 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import queue from './defaults/defaultQueue';
 import { Strategy } from '../enums/Strategy.enum';
+import queue from './defaults/defaultQueue';
 import processing from './defaults/processing';
 
 const previewDialer = () => ({
@@ -25,6 +25,7 @@ const previewDialer = () => ({
     strictCircuit: false,
     endless: false,
     perNumbers: false,
+    minOnlineAgents: 0,
   },
 });
 

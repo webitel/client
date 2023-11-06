@@ -1,37 +1,36 @@
 <template>
   <div class="generate-password-input">
     <wt-input
-        :value="passwordRepresentation"
-        :v="v"
-        :label="$t('objects.password')"
-        :placeholder="$t('objects.password')"
-        :required="required"
-        :disabled="disabled"
-        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-        @input="input"
+      :disabled="disabled"
+      :label="$t('objects.password')"
+      :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+      :placeholder="$t('objects.password')"
+      :required="required"
+      :v="v"
+      :value="passwordRepresentation"
+      @input="input"
     >
       <template
-          v-if="!disabled"
-          v-slot:after-input
-        >
+        v-if="!disabled"
+        #after-input
+      >
         <wt-copy-action
           v-show="passwordRepresentation"
           :value="value"
-        ></wt-copy-action>
+        />
         <wt-tooltip
           class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
         >
-          <template v-slot:activator>
+          <template #activator>
             <wt-icon-btn
               icon="generate"
               @click="generatePassword"
-            ></wt-icon-btn>
+            />
           </template>
           {{ $t('iconHints.generate') }}
         </wt-tooltip>
-        </template>
+      </template>
     </wt-input>
-
   </div>
 </template>
 
@@ -39,7 +38,7 @@
 const MIN_HASH_SIZE = 59;
 
 export default {
-  name: 'generate-password-input',
+  name: 'GeneratePasswordInput',
   props: {
     value: {
       type: String,
@@ -64,14 +63,14 @@ export default {
     };
   },
 
-  mounted() {
-   this.isMounted = true;
-  },
-
   computed: {
     passwordRepresentation() {
       return this.value.length <= MIN_HASH_SIZE ? this.value : '';
     },
+  },
+
+  mounted() {
+    this.isMounted = true;
   },
 
   methods: {

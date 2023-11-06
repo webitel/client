@@ -1,30 +1,28 @@
 <template>
   <wt-select
     class="permissions-role-select"
+    option-label="name"
     v-bind="$attrs"
     v-on="$listeners"
-    option-label="name"
   >
-    <template v-slot:singleLabel="{ option, optionLabel }">
-          <span class="multiselect__single-label permissions-tab-role-popup__select-option">
-            <wt-icon
-              class="permissions-role-icon"
-              :icon="option.user ? 'user' : 'role'"
-              color="active"
-            ></wt-icon>
-            {{ option[optionLabel] || option }}
-          </span>
+    <template #singleLabel="{ option, optionLabel }">
+      <span class="multiselect__single-label permissions-tab-role-popup__select-option">
+        <wt-icon
+          :icon="option.user ? 'user' : 'role'"
+          class="permissions-role-icon"
+        />
+        {{ option[optionLabel] || option }}
+      </span>
     </template>
 
-    <template v-slot:option="{ option, optionLabel }">
-          <span class="permissions-tab-role-popup__select-option">
-            <wt-icon
-              class="permissions-role-icon"
-              :icon="option.user ? 'user' : 'role'"
-              color="active"
-            ></wt-icon>
-            {{ option[optionLabel] || option }}
-          </span>
+    <template #option="{ option, optionLabel }">
+      <span class="permissions-tab-role-popup__select-option">
+        <wt-icon
+          :icon="option.user ? 'user' : 'role'"
+          class="permissions-role-icon"
+        />
+        {{ option[optionLabel] || option }}
+      </span>
     </template>
   </wt-select>
 </template>
@@ -32,7 +30,7 @@
 <script>
 
 export default {
-  name: 'permissions-role-select',
+  name: 'PermissionsRoleSelect',
 };
 </script>
 
