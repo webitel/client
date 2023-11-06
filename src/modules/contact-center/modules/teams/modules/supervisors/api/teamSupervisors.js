@@ -4,7 +4,7 @@ import { AgentServiceApiFactory } from 'webitel-sdk';import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach,
+  merge,
   notify,
   snakeToCamel,
   starToSearch,
@@ -14,47 +14,9 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
-// const _getTeamSupervisorsList = (getList) => function({
-//                                                         page,
-//                                                         size,
-//                                                         search,
-//                                                         parentId,
-//                                                         sort,
-//                                                       }) {
-//   // parent id == team id
-//   if (!parentId) return;
-//   const isSupervisor = true;
-//   const fields = ['id', 'name'];
-//   const params = [
-//     page, size, search, sort, fields, undefined,
-//     undefined, undefined, parentId, undefined, undefined, isSupervisor,
-//   ];
-//   // eslint-disable-next-line consistent-return
-//   return getList(params);
-// };
-
-// const _getTeamSupervisorSubordinatesList = (getList) => function({
-//                                                                    page,
-//                                                                    size,
-//                                                                    search,
-//                                                                    supervisorId,
-//                                                                    teamId,
-//                                                                  }) {
-//   const fields = ['id', 'user'];
-//   const params = [
-//     page, size, search, undefined, fields, undefined,
-//     undefined, supervisorId, teamId, undefined, undefined,
-//   ];
-//   return getList(params);
-// };
-
-// const subordinateGetterResponseHandler = (agent) => ({ agent });
-
-// const listGetter = new SdkListGetterApiConsumer(teamSupervisorService.searchAgent)
-// .setGetListMethod(_getTeamSupervisorsList);
 const getTeamSupervisorsList = async (params) => {
   const isSupervisor = true;
-  const fields = ['id', 'user'];
+  const fields = ['id', 'name'];
 
   const {
     page,
@@ -97,9 +59,6 @@ const getTeamSupervisorsList = async (params) => {
   }
 };
 
-// const itemGetter = new SdkGetterApiConsumer(teamSupervisorService.readAgent, {
-//   itemResponseHandler: subordinateGetterResponseHandler,
-// });
 const getTeamSupervisor = async ({ itemId: id }) => {
   const responseHandler = (agent) => ({ agent });
 
@@ -116,7 +75,6 @@ const getTeamSupervisor = async ({ itemId: id }) => {
   }
 };
 
-// const itemPatcher = new SdkPatcherApiConsumer(teamSupervisorService.patchAgent);
 const patchAgent = async ({ id, changes }) => {
   const item = applyTransform(changes, [
     camelToSnake(),
@@ -133,8 +91,6 @@ const patchAgent = async ({ id, changes }) => {
   }
 };
 
-// const subordinatesListGetter = new SdkListGetterApiConsumer(teamSupervisorService.searchAgent)
-// .setGetListMethod(_getTeamSupervisorSubordinatesList);
 const getTeamSupervisorSubordinatesList = async (params) => {
   const fields = ['id', 'user'];
 
