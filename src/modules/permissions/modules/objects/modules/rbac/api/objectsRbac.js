@@ -6,7 +6,6 @@ import applyTransform, {
   camelToSnake,
   generateUrl,
   merge,
-  mergeEach,
   notify,
   sanitize,
   snakeToCamel,
@@ -17,25 +16,10 @@ import APIPermissionsGetter
   from '../../../../../../../app/api/old/PermissionsAPIService/APIPermissionsGetter';
 
 const baseUrl = '/acl/objclass';
+const nestedURL = 'grantor';
 
-const _getObjclassDefaultList = (method) => function(params) {
-  const baseUrl = `${this.baseUrl}/${params.parentId}`;
-  return method(params, baseUrl);
-};
-
-// const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, {
-//   listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
-// }).setGetListMethod(_getObjclassDefaultList);
 export const getObjclassDefaultList = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
-
-  const defaultObject = {
-    // default object prototype, to merge response with it to get all fields
-    class: '',
-    obac: false,
-    rbac: false,
-    id: 0,
-  };
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
@@ -43,18 +27,18 @@ export const getObjclassDefaultList = async (params) => {
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),
-    generateUrl(baseUrl),
+    generateUrl(`${baseUrl}/${params.parentId}`),
   ]);
+
   try {
     const response = await instance.get(url);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
+      APIPermissionsGetter.handlePermissionsListResponse,
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items,
       next,
     };
   } catch (err) {
@@ -64,8 +48,21 @@ export const getObjclassDefaultList = async (params) => {
   }
 };
 
-// const itemPatcher = new EndpointPatcherApiConsumer({
-//   baseUrl,
-//   instance,
-// }, { nestedUrl: 'grantor' });
-export const patchObjclassDefaultMode = (params) => itemPatcher.patchNestedItem(params);
+export const patchObjclassDefaultMode = async ({ changes, parentId, id }) => {
+  const body = applyTransform(changes, [
+    camelToSnake(),
+  ]);
+
+  const url = `${baseUrl}/${parentId}/${nestedURL}/${id}`;
+
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
