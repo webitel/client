@@ -3,11 +3,12 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake,
+  camelToSnake, handleUnauthorized,
   merge, notify, snakeToCamel,
-  starToSearch, sanitize,
+  starToSearch, log, sanitize,
   generateUrl, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
 import instance from '../../../../../app/api/instance';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
@@ -21,7 +22,7 @@ const fieldsToSend = [
   'enabled',
   'provider',
   'metadata',
-  'updates'
+  'updates',
 ];
 
 const convertWebchatSeconds = (num) => `${num}s`;
@@ -29,81 +30,87 @@ const convertWebchatSeconds = (num) => `${num}s`;
 const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
 
 const webchatRequestConverter = (data) => {
+  const copyData = deepCopy(data);
   if (data.metadata.readTimeout) {
-    data.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
+    copyData.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    data.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
+    copyData.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
+    copyData.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.allowOrigin) {
-    data.metadata.allowOrigin = data.metadata.allowOrigin.join();
+    copyData.metadata.allowOrigin = data.metadata.allowOrigin.join();
   }
 
-  data.metadata.view = JSON.stringify(data.metadata.view);
-  data.metadata.chat = JSON.stringify(data.metadata.chat);
-  data.metadata.appointment = JSON.stringify(data.metadata.appointment);
-  data.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
-  data.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
-  return data;
+  copyData.metadata.view = JSON.stringify(data.metadata.view);
+  copyData.metadata.chat = JSON.stringify(data.metadata.chat);
+  copyData.metadata.appointment = JSON.stringify(data.metadata.appointment);
+  copyData.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  copyData.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
+  return copyData;
 };
 
 const messengerRequestConverter = (data) => {
-  data.metadata.instagramComments = data.metadata.instagramComments.toString();
-  data.metadata.instagramMentions = data.metadata.instagramMentions.toString();
-  return data;
+  const copyData = deepCopy(data);
+  copyData.metadata.instagramComments = data.metadata.instagramComments.toString();
+  copyData.metadata.instagramMentions = data.metadata.instagramMentions.toString();
+  return copyData;
 };
 
 const viberRequestConverter = (item) => {
-  item.metadata['btn.back.color'] = item.metadata.btnBackColor;
-  delete item.metadata.btnBackColor;
-  item.metadata['btn.font.color'] = item.metadata.btnFontColor;
-  delete item.metadata.btnFontColor;
-  return item;
+  const copyItem = deepCopy(item);
+  copyItem.metadata['btn.back.color'] = item.metadata.btnBackColor;
+  delete copyItem.metadata.btnBackColor;
+  copyItem.metadata['btn.font.color'] = item.metadata.btnFontColor;
+  delete copyItem.metadata.btnFontColor;
+  return copyItem;
 };
 
 const webChatResponseConverter = (data) => {
-  data.metadata.allowOrigin = data.metadata.allowOrigin
+  const copyData = deepCopy(data);
+  copyData.metadata.allowOrigin = data.metadata.allowOrigin
     ? data.metadata.allowOrigin.split(',')
     : [];
   if (data.metadata.readTimeout) {
-    data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
+    copyData.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    data.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
+    copyData.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
+    copyData.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.view) {
-    data.metadata.view = JSON.parse(data.metadata.view);
+    copyData.metadata.view = JSON.parse(data.metadata.view);
   }
   if (data.metadata.chat) {
-    data.metadata.chat = JSON.parse(data.metadata.chat);
+    copyData.metadata.chat = JSON.parse(data.metadata.chat);
   }
   if (data.metadata.appointment) {
-    data.metadata.appointment = JSON.parse(data.metadata.appointment);
+    copyData.metadata.appointment = JSON.parse(data.metadata.appointment);
   }
   if (data.metadata.alternativeChannels) {
-    data.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+    copyData.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
   }
-  data.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
+  copyData.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
 
-  return deepmerge(webChatGateway(), data);
+  return deepmerge(webChatGateway(), copyData);
 };
 
 const messengerResponseConverter = (item) => {
-  item.metadata.instagramComments = item.metadata.instagramComments === 'true';
-  item.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
-  return item;
+  const copyItem = deepCopy(item);
+  copyItem.metadata.instagramComments = item.metadata.instagramComments === 'true';
+  copyItem.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
+  return copyItem;
 };
 
 const viberResponseConverter = (item) => {
-  if (item.metadata['btn.back.color']) item.metadata.btnBackColor = item.metadata['btn.back.color'];
-  if (item.metadata['btn.font.color']) item.metadata.btnFontColor = item.metadata['btn.font.color'];
-  return item;
+  const copyItem = deepCopy(item);
+  if (item.metadata['btn.back.color']) copyItem.metadata.btnBackColor = item.metadata['btn.back.color'];
+  if (item.metadata['btn.font.color']) copyItem.metadata.btnFontColor = item.metadata['btn.font.color'];
+  return copyItem;
 };
 
 const preRequestHandler = (item) => {
@@ -118,7 +125,6 @@ const preRequestHandler = (item) => {
       return item;
   }
 };
-
 
 const getChatGatewayList = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
@@ -161,6 +167,7 @@ const getChatGatewayList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
+      handleUnauthorized,
       notify,
     ]);
   }
@@ -168,7 +175,7 @@ const getChatGatewayList = async (params) => {
 
 const getChatGateway = async ({ itemId: id }) => {
 
-  const responseHandler = (response) => {
+  const itemResponseHandler = (response) => {
     switch (response.provider) {
       case ChatGatewayProvider.WEBCHAT:
         return webChatResponseConverter(response);
@@ -187,10 +194,11 @@ const getChatGateway = async ({ itemId: id }) => {
     const response = await instance.get(url);
     return applyTransform(response.data, [
       snakeToCamel(),
-      responseHandler,
+      itemResponseHandler,
     ]);
   } catch (err) {
     throw applyTransform(err, [
+      handleUnauthorized,
       notify,
     ]);
   }
@@ -209,6 +217,7 @@ const addChatGateway = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
+      handleUnauthorized,
       notify,
     ]);
   }
@@ -229,6 +238,7 @@ const updateChatGateway = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
+      handleUnauthorized,
       notify,
     ]);
   }
@@ -247,6 +257,7 @@ const patchChatGateway = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
+      handleUnauthorized,
       notify,
     ]);
   }
@@ -259,6 +270,7 @@ const deleteChatGateway = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
+      handleUnauthorized,
       notify,
     ]);
   }
