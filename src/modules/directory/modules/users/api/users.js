@@ -150,6 +150,7 @@ const addUser = async ({ itemInstance }) => {
     ]);
   }
 };
+
 const updateUser = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -169,6 +170,7 @@ const updateUser = async ({ itemInstance, itemId: id }) => {
     ]);
   }
 };
+
 const patchUser = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
