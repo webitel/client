@@ -1,33 +1,138 @@
-import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkListGetterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkCreatorApiConsumer,
-  SdkUpdaterApiConsumer,
-  SdkDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['groupId', 'name', 'description', 'resource', 'reserveResource', 'priority'];
+const fieldsToSend = [
+  'groupId',
+  'name',
+  'description',
+  'resource',
+  'reserveResource',
+  'priority',
+];
 
-const preRequestHandler = (item, parentId) => ({ ...item, groupId: parentId });
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  groupId: parentId,
+});
 
-const listGetter = new SdkListGetterApiConsumer(resGrService.searchOutboundResourceInGroup);
-const itemGetter = new SdkGetterApiConsumer(resGrService.readOutboundResourceInGroup);
-const itemCreator = new SdkCreatorApiConsumer(resGrService.createOutboundResourceInGroup,
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new SdkUpdaterApiConsumer(resGrService.updateOutboundResourceInGroup,
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new SdkDeleterApiConsumer(resGrService.deleteOutboundResourceInGroup);
+const getResInGroupList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+    parentId,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const getResInGroupList = (params) => listGetter.getNestedList(params);
-const getResInGroup = (params) => itemGetter.getNestedItem(params);
-const addResInGroup = (params) => itemCreator.createNestedItem(params);
-const updateResInGroup = (params) => itemUpdater.updateNestedItem(params);
-const deleteResInGroup = (params) => itemDeleter.deleteNestedItem(params);
+  try {
+    const response = await resGrService.searchOutboundResourceInGroup(
+      parentId,
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+const getResInGroup = async ({ parentId, itemId: id }) => {
+  try {
+    const response = await resGrService.readOutboundResourceInGroup(parentId, id);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+const addResInGroup = async ({ parentId, itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await resGrService.createOutboundResourceInGroup(parentId, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+const updateResInGroup = async ({ itemInstance, itemId: id, parentId }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await resGrService.updateOutboundResourceInGroup(parentId, id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
+const deleteResInGroup = async ({ parentId, id }) => {
+  try {
+    const response = await resGrService.deleteOutboundResourceInGroup(parentId, id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
 
 const ResInGroupAPI = {
   getList: getResInGroupList,

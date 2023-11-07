@@ -3,18 +3,20 @@
     <bucket-popup
       v-if="isBucketPopup"
       @close="closePopup"
-    ></bucket-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.lookups.buckets.buckets', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.lookups.buckets.buckets', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
+          @enter="loadList"
           @input="setSearch"
           @search="loadList"
-          @enter="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -24,96 +26,97 @@
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="callDelete(selectedRows)"
-          ></delete-all-action>
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
-      :text="$t(dummy.text)"
+      :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ item.bucket.name }}
         </template>
-        <template v-slot:priority="{ item }">
+        <template #priority="{ item }">
           {{ item.priority }}
         </template>
-        <template v-slot:state="{ item, index }">
+        <template #state="{ item, index }">
           <wt-switcher
-            :value="!item.disabled"
             :disabled="!hasEditAccess"
+            :value="!item.disabled"
             @change="patchItem({ item, index, prop: 'disabled', value: !$event })"
-          ></wt-switcher>
+          />
         </template>
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-icon-action
             action="edit"
             @click="edit(item)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
             @click="callDelete(item)"
-          ></wt-icon-action>
+          />
         </template>
       </wt-table>
       <wt-pagination
-        :size="size"
         :next="isNext"
         :prev="page > 1"
+        :size="size"
         debounce
+        @change="loadList"
+        @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-        @input="setSize"
-        @change="loadList"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import BucketPopup from './opened-queue-buckets-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+import BucketPopup from './opened-queue-buckets-popup.vue';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'buckets';
 
 export default {
-  name: 'opened-queue-outbound-ivr-buckets',
-  mixins: [openedObjectTableTabMixin],
+  name: 'OpenedQueueOutboundIvrBuckets',
   components: { BucketPopup },
+  mixins: [openedObjectTableTabMixin],
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   data: () => ({
     namespace,
     subNamespace,
     isBucketPopup: null,
     isDeleteConfirmation: false,
   }),
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
   methods: {
     openPopup() {
       this.isBucketPopup = true;

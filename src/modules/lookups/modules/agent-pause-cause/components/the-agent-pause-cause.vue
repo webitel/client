@@ -1,32 +1,35 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :payload="deleteConfirmation"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.lookups.pauseCause.allPauseCause') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.lookups.pauseCause.allPauseCause') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
+              @enter="loadList"
               @input="setSearch"
               @search="loadList"
-              @enter="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -35,84 +38,91 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
-              ></delete-all-action>
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :text="$t(dummy.text)"
           :show-action="dummy.showAction"
-          @create="create"
+          :src="dummy.src"
+          :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+          @create="create"
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
-            :headers="headers"
             :data="dataList"
             :grid-actions="hasTableActions"
+            :headers="headers"
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:limit="{ item }">
+            <template #limit="{ item }">
               {{ prettifyPauseCauseLimit(item.limitMin) }}
             </template>
-            <template v-slot:allowAdmin="{ item, index }">
+            <template #allowAdmin="{ item, index }">
               <wt-checkbox
+                :disabled="!hasEditAccess"
                 :selected="item.allowAdmin"
-                :disabled="!hasEditAccess"
                 @change="changeAdminPermissions({ item, index, value: $event })"
-              ></wt-checkbox>
+              />
             </template>
-            <template v-slot:allowSupervisor="{ item, index }">
+            <template #allowSupervisor="{ item, index }">
               <wt-checkbox
+                :disabled="!hasEditAccess"
                 :selected="item.allowSupervisor"
-                :disabled="!hasEditAccess"
                 @change="changeSupervisorPermissions({ item, index, value: $event })"
-              ></wt-checkbox>
+              />
             </template>
-            <template v-slot:allowAgent="{ item, index }">
+            <template #allowAgent="{ item, index }">
               <wt-checkbox
-                :selected="item.allowAgent"
                 :disabled="!hasEditAccess"
+                :selected="item.allowAgent"
                 @change="changeAgentPermissions({ item, index, value: $event })"
-              ></wt-checkbox>
+              />
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
-              ></wt-icon-action>
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
           <wt-pagination
-            :size="size"
             :next="isNext"
             :prev="page > 1"
+            :size="size"
             debounce
+            @change="loadList"
+            @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-            @input="setSize"
-            @change="loadList"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -121,25 +131,46 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'lookups/pauseCause';
 
 export default {
-  name: 'the-agent-pause-cause',
+  name: 'TheAgentPauseCause',
+  components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
   data: () => ({
     namespace,
     routeName: RouteNames.PAUSE_CAUSE,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
   computed: {
     path() {
       return [

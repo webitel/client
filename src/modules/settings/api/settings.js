@@ -4,7 +4,10 @@ import instance, { config } from '../../../app/api/old/instance';
 const baseUrl = 'users';
 const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance });
 
-export const changePassword = ({ id, changes }) => itemPatcher.patchItem({ id, changes });
+export const changePassword = ({ id, changes }) => itemPatcher.patchItem({
+  id,
+  changes,
+});
 
 export const changeWebPhone = async (changes) => {
   const url = 'user/settings/phone';

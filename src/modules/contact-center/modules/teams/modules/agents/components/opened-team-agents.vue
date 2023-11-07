@@ -3,29 +3,32 @@
     <agent-popup
       v-if="isAgentPopup"
       @close="closePopup"
-    ></agent-popup>
+    />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :payload="deleteConfirmation"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
     <object-list-popup
       v-if="isSupervisorPopup"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
+      :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorPopup"
-    ></object-list-popup>
+    />
     <object-list-popup
       v-if="isSkillsPopup"
-      :title="$tc('objects.lookups.skills.skills', 2)"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
+      :title="$tc('objects.lookups.skills.skills', 2)"
       @close="closeSkillsPopup"
-    ></object-list-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.agents.agents', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.ccenter.agents.agents', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -33,7 +36,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -42,72 +45,80 @@
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
-            @click="callDelete(selectedRows)"
-          ></delete-all-action>
+            @click="askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })"
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
-      :text="$t(dummy.text)"
+      :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
-    <wt-table
-        :headers="headers"
+      class="table-wrapper"
+    >
+      <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
-    >
-      <template v-slot:name="{ item }">
-        <wt-item-link
-          :link="editLink(item)"
-          target="_blank">
-          {{ item.name }}
-        </wt-item-link>
-      </template>
-      <template v-slot:state="{ item }">
-        <wt-indicator
-          :color="statusIndicatorColor[snakeToCamel(item.status)]"
-          :text="statusIndicatorText[snakeToCamel(item.status)]"
-        ></wt-indicator>
-      </template>
-      <template v-slot:supervisor="{ item }">
-        <one-plus-many
-          :collection="item.supervisor"
-          @input="readSupervisor(item)"
-        ></one-plus-many>
-      </template>
-      <template v-slot:skills="{ item }">
-        <one-plus-many
-          :collection="item.skills"
-          @input="readSkills(item)"
-        ></one-plus-many>
-      </template>
-      <template v-slot:actions="{ item }">
-        <wt-icon-action
-          action="edit"
-          @click="edit(item)"
-        ></wt-icon-action>
-        <wt-icon-action
-          action="delete"
-          class="table-action"
-          @click="callDelete(item)"
-        ></wt-icon-action>
-      </template>
-    </wt-table>
+      >
+        <template #name="{ item }">
+          <wt-item-link
+            :link="editLink(item)"
+            target="_blank"
+          >
+            {{ item.name }}
+          </wt-item-link>
+        </template>
+        <template #state="{ item }">
+          <wt-indicator
+            :color="statusIndicatorColor[snakeToCamel(item.status)]"
+            :text="statusIndicatorText[snakeToCamel(item.status)]"
+          />
+        </template>
+        <template #supervisor="{ item }">
+          <one-plus-many
+            :collection="item.supervisor"
+            @input="readSupervisor(item)"
+          />
+        </template>
+        <template #skills="{ item }">
+          <one-plus-many
+            :collection="item.skills"
+            @input="readSkills(item)"
+          />
+        </template>
+        <template #actions="{ item }">
+          <wt-icon-action
+            action="edit"
+            @click="edit(item)"
+          />
+          <wt-icon-action
+            action="delete"
+            class="table-action"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
+          />
+        </template>
+      </wt-table>
       <wt-pagination
         :next="isNext"
         :prev="page > 1"
@@ -117,7 +128,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
@@ -125,31 +136,52 @@
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import AgentPopup from './opened-team-agent-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import AgentPopup from './opened-team-agent-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'agents';
 
 export default {
-  name: 'opened-team-agents',
+  name: 'OpenedTeamAgents',
+  components: { AgentPopup, ObjectListPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
-  components: { AgentPopup, ObjectListPopup },
+
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
   data: () => ({
     namespace,
     subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isAgentPopup: false,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
 
   methods: {
     openPopup() {

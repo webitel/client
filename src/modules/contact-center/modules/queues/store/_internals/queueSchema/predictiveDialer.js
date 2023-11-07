@@ -1,7 +1,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import queue from './defaults/defaultQueue';
-import amd from './defaults/amd';
 import { Strategy } from '../enums/Strategy.enum';
+import amd from './defaults/amd';
+import queue from './defaults/defaultQueue';
 import processing from './defaults/processing';
 
 const predictiveDialer = () => ({
@@ -31,6 +31,7 @@ const predictiveDialer = () => ({
     minAttempts: 3,
     maxAbandonedRate: 5.0,
     targetAbandonedRate: 3.0,
+    loadFactor: 10,
     maxAgentLose: 1,
     abandonRateAdjustment: 0,
     playbackSilence: 0,
@@ -40,6 +41,7 @@ const predictiveDialer = () => ({
     perNumbers: false,
     stickyAgentSec: 5,
     autoAnswerTone: null,
+    minOnlineAgents: 0,
   },
 });
 

@@ -1,0 +1,87 @@
+<template>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
+    </header>
+    <div class="object-input-grid">
+      <wt-select
+        :clearable="false"
+        :disabled="itemInstance.id || disableUserInput"
+        :label="$t('objects.system.changelogs.objects', 1)"
+        :search-method="getObjectsList"
+        :v="v.itemInstance.object"
+        :value="itemInstance.object"
+        required
+        @input="setItemProp({ prop: 'object', value: $event })"
+      />
+      <!--      <wt-select-->
+      <!--        :value="itemInstance.storage"-->
+      <!--        :search-method="getStorageList"-->
+      <!--        :clearable="false"-->
+      <!--        :label="$t('objects.system.changelogs.storage')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :v="v.itemInstance.storage"-->
+      <!--        required-->
+      <!--        @input="setItemProp({ prop: 'storage', value: $event })"-->
+      <!--      ></wt-select>-->
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.system.changelogs.daysToStore')"
+        :v="v.itemInstance.daysToStore"
+        :value="itemInstance.daysToStore"
+        required
+        type="number"
+        @input="setItemProp({ prop: 'daysToStore', value: +$event })"
+      />
+      <!--      <wt-select-->
+      <!--        :value="currentPeriod"-->
+      <!--        :options="periodOptions"-->
+      <!--        :label="$t('objects.system.changelogs.period.period')"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :clearable="false"-->
+      <!--        @input="this.setItemProp({ prop: 'period', value: $event.id })"-->
+      <!--      ></wt-select>-->
+      <wt-textarea
+        :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      />
+    </div>
+  </section>
+</template>
+
+<script>
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import storage from '../../../../integrations/modules/storage/api/storage';
+import changelogs from '../api/changelogs';
+
+export default {
+  name: 'OpenedChangelogGeneral',
+  mixins: [openedTabComponentMixin],
+  computed: {
+    currentPeriod() {
+      return this.periodOptions.find((period) => period.id === this.itemInstance.period);
+    },
+    periodOptions() {
+      return [
+        { name: this.$t('objects.system.changelogs.period.options.daily'), id: 1 },
+        { name: this.$t('objects.system.changelogs.period.options.weekly'), id: 7 },
+        { name: this.$t('objects.system.changelogs.period.options.fortnightly'), id: 14 },
+        { name: this.$t('objects.system.changelogs.period.options.monthly'), id: 30 },
+      ];
+    },
+  },
+  methods: {
+    getObjectsList: changelogs.getObjectsList,
+    getStorageList: storage.getLookup,
+  },
+};
+</script>
+
+<style scoped>
+
+</style>

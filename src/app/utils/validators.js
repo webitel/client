@@ -3,7 +3,7 @@ export const macValidator = (value) => {
     return true;
   }
   return /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
-    .test(value);
+  .test(value);
 };
 
 export const ipValidator = (value) => {
@@ -14,7 +14,7 @@ export const ipValidator = (value) => {
     return false;
   }
   return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/
-    .test(value);
+  .test(value);
 };
 
 export const gatewayHostValidator = (value) => {
@@ -22,7 +22,8 @@ export const gatewayHostValidator = (value) => {
     return true;
   }
   return /^(sips?:)?(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(:[0-9]{1,5})?$/
-    .test(value) || /^(sips?:)?(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--+)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}/i
+    .test(value) ||
+    /^(sips?:)?(?=.{1,254}$)((?=[a-z0-9-]{1,63}\.)(xn--+)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}/i
     .test(value);
 };
 
@@ -58,8 +59,10 @@ export const timerangeNotIntersect = (array) => {
   return !isIntersecting;
 };
 
-export const lessOrEqualTo = (comparedProp) => (value, vm) => value <= vm[comparedProp];
-export const moreOrEqualTo = (comparedProp) => (value, vm) => value >= vm[comparedProp];
+export const lessOrEqualTo = (comparedProp) => (value, vm) => value <=
+  vm[comparedProp];
+export const moreOrEqualTo = (comparedProp) => (value, vm) => value >=
+  vm[comparedProp];
 
 export const regExpValidator = (value) => {
   try {

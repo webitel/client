@@ -1,44 +1,49 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.queues.queues', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.ccenter.queues.queues', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
+        />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
-    <div v-show="isLoaded" class="table-wrapper">
+    <wt-loader v-show="!isLoaded" />
+    <div
+      v-show="isLoaded"
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           <div v-if="item.queue">
             {{ item.queue.name }}
           </div>
         </template>
 
-        <template v-slot:type="{ item }">
+        <template #type="{ item }">
           {{ $t(QueueTypeProperties[item.type].locale) }}
         </template>
 
-        <template v-slot:count="{ item }">
+        <template #count="{ item }">
           {{ item.countMembers }}
         </template>
 
-        <template v-slot:waiting="{ item }">
+        <template #waiting="{ item }">
           {{ item.waitingMembers }}
         </template>
 
-        <template v-slot:strategy="{ item }">
+        <template #strategy="{ item }">
           {{ item.strategy }}
         </template>
       </wt-table>
@@ -51,17 +56,18 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
 
 <script>
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 export default {
-  name: 'opened-agent-queues',
+  name: 'OpenedAgentQueues',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'queues',

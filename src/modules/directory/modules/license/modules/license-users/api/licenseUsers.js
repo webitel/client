@@ -3,9 +3,15 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl, handleUnauthorized,
+  camelToSnake,
+  generateUrl,
   log,
-  merge, mergeEach, notify, sanitize, snakeToCamel, starToSearch,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
 
@@ -13,7 +19,7 @@ const baseUrl = '/products';
 const nestedUrl = 'users';
 
 const getList = async ({ parentId, ...rest }) => {
-  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     sessions: 0,
@@ -42,7 +48,7 @@ const getList = async ({ parentId, ...rest }) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
+
       notify,
     ]);
   }

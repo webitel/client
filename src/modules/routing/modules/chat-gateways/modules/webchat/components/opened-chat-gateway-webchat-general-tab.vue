@@ -1,8 +1,14 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm"></wt-icon>
-      <h3 class="content-title">{{ $t('objects.general') }}</h3>
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="content-title">
+        {{ $t('objects.general') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,14 +17,14 @@
         :v="v.itemInstance.name"
         :value="itemInstance.name"
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-tags-input
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
         :value="itemInstance.metadata.allowOrigin"
         taggable
         @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
-      ></wt-tags-input>
+      />
       <copy-input
         :copy-modifier="modifyUriCopy"
         :disabled="!isUriEditable"
@@ -27,7 +33,7 @@
         :value="itemInstance.uri"
         required
         @input="setItemProp({ prop: 'uri', value: $event })"
-      ></copy-input>
+      />
     </div>
   </section>
 </template>
@@ -40,7 +46,7 @@ import openedTabComponentMixin
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
-  name: 'opened-chat-webchat-general-tab',
+  name: 'OpenedChatWebchatGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
@@ -55,7 +61,7 @@ export default {
     }),
     modifyUriCopy(value) {
       const base = window.location.origin.replace('http', 'ws');
-      return new URL(path.join(process.env.VUE_APP_CHAT_URL, value), base);
+      return new URL(path.join(import.meta.env.VITE_CHAT_URL, value), base);
     },
   },
 };

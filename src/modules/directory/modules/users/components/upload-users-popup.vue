@@ -1,10 +1,10 @@
 <template>
   <upload-csv-popup
+    :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
-    :add-bulk-items="saveBulkData"
     @close="close"
-  ></upload-csv-popup>
+  />
 </template>
 
 <script>
@@ -12,7 +12,7 @@ import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup
 import UsersAPI from '../api/users';
 
 export default {
-  name: 'upload-users-popup',
+  name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   data: () => ({
     mappingFields: [

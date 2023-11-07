@@ -1,29 +1,31 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.directory.license.license', 1) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.directory.license.license', 1) }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.license"
-        :label="$tc('objects.directory.license.license', 1)"
-        :search-method="loadDropdownOptionsList"
         :close-on-select="false"
         :disabled="disableUserInput"
+        :label="$tc('objects.directory.license.license', 1)"
+        :search-method="loadDropdownOptionsList"
+        :value="itemInstance.license"
         multiple
         @input="setItemProp({ prop: 'license', value: $event })"
-      ></wt-select>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import LicenseAPI from '../../license/api/license';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import LicenseAPI from '../../license/api/license';
 
 export default {
-  name: 'opened-user-license',
+  name: 'OpenedUserLicense',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(params) {

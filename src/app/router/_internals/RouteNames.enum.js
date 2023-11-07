@@ -38,12 +38,17 @@ export default Object.freeze({
   STORAGE: 'storage',
   COGNITIVE_PROFILES: 'cognitive-profiles',
   EMAIL_PROFILES: 'email-profiles',
+  SINGLE_SIGN_ON: 'single-sign-on',
   IMPORT_CSV: 'import-csv',
   TRIGGERS: 'triggers',
 
   // PERMISSIONS
   OBJECTS: 'objects',
   ROLES: 'roles',
+
+  // SYSTEM
+  CHANGELOGS: 'changelogs',
+  CONFIGURATION: 'configuration',
 
   SETTINGS_PAGE: 'settings',
   PAGE_403: 'access-denied',

@@ -1,25 +1,22 @@
-import deepCopy from 'deep-copy';
-import { ImportTemplateServiceApiFactory } from 'webitel-sdk';
 import {
-  SdkCreatorApiConsumer,
-  SdkDeleterApiConsumer,
-  SdkGetterApiConsumer,
-  SdkListGetterApiConsumer,
-  SdkPatcherApiConsumer,
-  SdkUpdaterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
-import instance from '../../../../../app/api/old/instance';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import { ImportTemplateServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
 const importCsvService = new ImportTemplateServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = [
-  'description',
-  'name',
-  'parameters',
-  'source',
-  'sourceType',
-];
+const doNotConvertKeys = ['mappings'];
 
 /*
 * We need to preserve fields order because we draw them dynamically so that
@@ -46,44 +43,130 @@ const fieldsToSend = [
 //   return _item;
 // };
 
-const listGetter = new SdkListGetterApiConsumer(
-  importCsvService.searchImportTemplate,
-);
+const getList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+    id,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
-const itemGetter = new SdkGetterApiConsumer(
-  importCsvService.readImportTemplate,
-  {
-    // itemResponseHandler,
-  },
-);
-const itemCreator = new SdkCreatorApiConsumer(
-  importCsvService.createImportTemplate,
-  {
-    fieldsToSend,
-    // preRequestHandler,
-  },
-);
-const itemPatcher = new SdkPatcherApiConsumer(
-  importCsvService.patchImportTemplate,
-  { fieldsToSend },
-);
-const itemUpdater = new SdkUpdaterApiConsumer(
-  importCsvService.updateImportTemplate,
-  {
-    fieldsToSend,
-    // preRequestHandler,
-  },
-);
-const itemDeleter = new SdkDeleterApiConsumer(importCsvService.deleteImportTemplate);
+  try {
+    const response = await importCsvService.searchImportTemplate(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+      id,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
-const getList = (params) => listGetter.getList(params);
-const get = (params) => itemGetter.getItem(params);
-const add = (params) => itemCreator.createItem(params);
-const patch = (params) => itemPatcher.patchItem(params);
-const update = (params) => itemUpdater.updateItem(params);
-const deleteItem = (params) => itemDeleter.deleteItem(params);
+const get = async ({ itemId: id }) => {
+  try {
+    const response = await importCsvService.readImportTemplate(id);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
-const getLookup = (params) => listGetter.getLookup(params);
+const fieldsToSend = [
+  'description',
+  'name',
+  'parameters',
+  'source',
+  'sourceType',
+];
+
+const add = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await importCsvService.createImportTemplate(item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const patch = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await importCsvService.updateImportTemplate(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const update = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await importCsvService.updateImportTemplate(id, item);
+    return applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const deleteItem = async ({ id }) => {
+  try {
+    const response = await importCsvService.deleteImportTemplate(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getLookup = (params) => getList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const ImportCsvAPI = {
   getList,

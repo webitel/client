@@ -1,40 +1,46 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-select
           v-model="event"
-          :v="v$.itemInstance.event"
+          :clearable="false"
           :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
-          :clearable="false"
-          track-by="value"
+          :v="v$.itemInstance.event"
           required
-        ></wt-select>
+          track-by="value"
+        />
         <wt-select
-          :value="itemInstance.schema"
-          :v="v$.itemInstance.schema"
+          :clearable="false"
           :label="$tc('objects.routing.flow.flow', 1)"
           :search-method="loadFlowOptions"
-          :clearable="false"
+          :v="v$.itemInstance.schema"
+          :value="itemInstance.schema"
           required
           @input="setItemProp({ prop: 'schema', value: $event })"
-        ></wt-select>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="disabledSave"
         @click="save"
-      >{{ $t('objects.save') }}
+      >
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -48,14 +54,14 @@ import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookEvent.enum';
 
 export default {
-  name: 'opened-queue-hooks-popup',
+  name: 'OpenedQueueHooksPopup',
   mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'ccenter/queues/hooks',
-  }),
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/queues/hooks',
   }),
   validations: {
     itemInstance: {

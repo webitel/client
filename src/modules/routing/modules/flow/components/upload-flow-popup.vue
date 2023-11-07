@@ -1,32 +1,38 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.importJSON') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <form>
         <wt-checkbox
           v-model="create"
           :label="$t('objects.routing.flow.createNew')"
-        ></wt-checkbox>
+        />
         <wt-input
           v-model="flow.name"
-          :v="v$.flow.name"
           :label="$t('objects.name')"
+          :v="v$.flow.name"
           required
-        ></wt-input>
+        />
       </form>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="computeDisabledSave"
         @click="save"
-      >{{ $t('objects.add') }}
+      >
+        {{ $t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -38,31 +44,24 @@ import { required } from '@vuelidate/validators';
 import FlowsAPI from '../api/flow';
 
 export default {
-  name: 'upload-flow-popup',
+  name: 'UploadFlowPopup',
   props: {
     file: {
       required: true,
     },
   },
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     create: true,
     fileReader: null,
     flow: { name: 'file.name' },
   }),
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   validations: {
     flow: {
       name: { required },
     },
-  },
-  created() {
-    this.initFileReader();
-    this.processJSON();
-  },
-  destroyed() {
-    this.destroyFileReader();
   },
   computed: {
     computeDisabledSave() {
@@ -71,6 +70,13 @@ export default {
       return this.v$.$pending
         || this.v$.$error;
     },
+  },
+  created() {
+    this.initFileReader();
+    this.processJSON();
+  },
+  unmounted() {
+    this.destroyFileReader();
   },
   methods: {
     async save() {

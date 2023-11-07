@@ -1,29 +1,32 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :payload="deleteConfirmation"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <history-popup
         v-if="historyId"
         @close="closeHistoryPopup"
-      ></history-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.ccenter.agents.allAgents') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.ccenter.agents.allAgents') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -31,7 +34,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -40,24 +43,28 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
-              ></delete-all-action>
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :text="$t(dummy.text)"
           :show-action="dummy.showAction"
-          @create="create"
+          :src="dummy.src"
+          :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-        ></wt-dummy>
+          @create="create"
+        />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper">
+          class="table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -65,44 +72,48 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:state="{ item }">
+            <template #state="{ item }">
               <wt-indicator
                 :color="statusIndicatorColor[snakeToCamel(item.status)]"
                 :text="statusIndicatorText[snakeToCamel(item.status)]"
-              ></wt-indicator>
+              />
             </template>
-            <template v-slot:time="{ item }">
+            <template #time="{ item }">
               {{ item.statusDuration }}
             </template>
-            <template v-slot:team="{ item }">
+            <template #team="{ item }">
               <wt-item-link
                 v-if="item.team"
                 :link="itemTeamLink(item)"
-                target="_blank">
+                target="_blank"
+              >
                 {{ item.team.name }}
               </wt-item-link>
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 action="history"
                 @click="openHistory(item.id)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
-              ></wt-icon-action>
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -114,7 +125,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -125,28 +136,49 @@
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
 import HistoryPopup from './agent-history-popup.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 
 const namespace = 'ccenter/agents';
 
 export default {
-  name: 'the-agents',
+  name: 'TheAgents',
+  components: { HistoryPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin, agentStatusMixin],
-  components: { HistoryPopup },
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
   data: () => ({
     namespace,
     routeName: RouteNames.AGENTS,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     ...mapState({

@@ -1,33 +1,38 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.directory.devices.devices', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.directory.devices.devices', 2) }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
-        :value="itemInstance.device"
-        :options="itemInstance.devices"
-        :label="$t('objects.directory.users.defaultDevice')"
         :disabled="disableUserInput"
-        track-by="id"
+        :label="$t('objects.directory.users.defaultDevice')"
+        :options="itemInstance.devices"
+        :value="itemInstance.device"
         required
+        track-by="id"
         @input="setItemProp({ prop: 'device', value: $event })"
         @reset="setItemProp({ prop: 'device', value: {} })"
-      ></wt-select>
+      />
       <div>
         <wt-select
-          :value="itemInstance.devices"
-          :label="$tc('objects.directory.devices.devices', 2)"
-          :search-method="loadDropdownOptionsList"
           :close-on-select="false"
           :disabled="disableUserInput"
+          :label="$tc('objects.directory.devices.devices', 2)"
+          :search-method="loadDropdownOptionsList"
+          :value="itemInstance.devices"
           multiple
           @input="setItemProp({ prop: 'devices', value: $event })"
-        ></wt-select>
+        />
 
         <div class="hint-link__wrap">
           <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
-          <router-link class="hint-link__link" to="/directory/devices/new">
+          <router-link
+            class="hint-link__link"
+            to="/directory/devices/new"
+          >
             {{ $t('objects.directory.users.createNewDevice') }}
           </router-link>
         </div>
@@ -37,12 +42,12 @@
 </template>
 
 <script>
-import DevicesAPI from '../../devices/api/devices';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import DevicesAPI from '../../devices/api/devices';
 
 export default {
-  name: 'opened-user-devices',
+  name: 'OpenedUserDevices',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(params) {

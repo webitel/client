@@ -1,5 +1,6 @@
+import NestedObjectStoreModule
+  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import AgentSkillAPI from '../api/agentSkills';
-import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import headers from './_internals/headers';
 
 const resettableItemState = {
@@ -10,9 +11,12 @@ const resettableItemState = {
   },
 };
 
-const agentSkills = new NestedObjectStoreModule({ resettableItemState, headers })
-  .attachAPIModule(AgentSkillAPI)
-  .generateAPIActions()
-  .getModule();
+const agentSkills = new NestedObjectStoreModule({
+  resettableItemState,
+  headers,
+})
+.attachAPIModule(AgentSkillAPI)
+.generateAPIActions()
+.getModule();
 
 export default agentSkills;
