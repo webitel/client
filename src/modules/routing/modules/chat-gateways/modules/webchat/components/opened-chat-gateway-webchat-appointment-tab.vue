@@ -14,6 +14,7 @@
       <wt-switcher
         :label="$t('objects.enabled')"
         :value="itemInstance.metadata.appointment.enabled"
+        :disabled="disableUserInput"
         @change="setAppointmentMetadata({ prop: 'enabled', value: $event })"
       />
       <div />
@@ -23,6 +24,7 @@
         :search-method="searchQueues"
         :v="v.itemInstance.metadata.appointment.queue"
         :value="itemInstance.metadata.appointment.queue"
+        :disabled="disableUserInput"
         @input="setAppointmentMetadata({ prop: 'queue', value: $event })"
       />
       <wt-select
@@ -31,6 +33,7 @@
         :search-method="searchCommunications"
         :v="v.itemInstance.metadata.appointment.communicationType"
         :value="itemInstance.metadata.appointment.communicationType"
+        :disabled="disableUserInput"
         @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
       />
       <wt-select
@@ -40,6 +43,7 @@
         :track-by="null"
         :v="v.itemInstance.metadata.appointment.duration"
         :value="itemInstance.metadata.appointment.duration"
+        :disabled="disableUserInput"
         @input="setAppointmentMetadata({ prop: 'duration', value: $event })"
       />
       <wt-input
@@ -47,6 +51,7 @@
         :number-min="1"
         :v="v.itemInstance.metadata.appointment.availableAgents"
         :value="itemInstance.metadata.appointment.availableAgents"
+        :disabled="disableUserInput"
         type="number"
         @input="setAppointmentMetadata({ prop: 'availableAgents', value: $event })"
       />
@@ -56,12 +61,14 @@
         :number-min="1"
         :v="v.itemInstance.metadata.appointment.days"
         :value="itemInstance.metadata.appointment.days"
+        :disabled="disableUserInput"
         type="number"
         @input="setAppointmentMetadata({ prop: 'days', value: $event })"
       />
       <wt-switcher
         :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
         :value="itemInstance.metadata.appointment.showMessageField"
+        :disabled="disableUserInput"
         @change="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
       />
       <div class="success-settings">
@@ -71,16 +78,17 @@
         <wt-switcher
           :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
           :value="itemInstance.metadata.appointment.showDefaultHeading"
+          :disabled="disableUserInput"
           @change="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
         />
         <wt-textarea
-          :disabled="itemInstance.metadata.appointment.showDefaultHeading"
+          :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
           :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
           :value="itemInstance.metadata.appointment.successTitle"
           @input="handleInput({ prop: 'successTitle', value: $event })"
         />
         <wt-textarea
-          :disabled="itemInstance.metadata.appointment.showDefaultHeading"
+          :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
           :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
           :value="itemInstance.metadata.appointment.successSubtitle"
           @input="handleInput({ prop: 'successSubtitle', value: $event })"
@@ -89,6 +97,7 @@
       <wt-switcher
         :label="$t('objects.routing.chatGateways.webchat.appointment.showEmailField')"
         :value="itemInstance.metadata.appointment.showEmailField"
+        :disabled="disableUserInput"
         @change="setAppointmentMetadata({ prop: 'showEmailField', value: $event })"
       />
     </div>

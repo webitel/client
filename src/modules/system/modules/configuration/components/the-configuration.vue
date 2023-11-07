@@ -10,13 +10,13 @@
       </wt-page-header>
     </template>
 
-  <template v-slot:main>
-    <configuration-popup
-      v-if="isConfigurationPopup"
-      :id="id"
-      :namespace="namespace"
-      @close="isConfigurationPopup = false"
-    ></configuration-popup>
+    <template #main>
+      <configuration-popup
+        v-if="isConfigurationPopup"
+        :id="id"
+        :namespace="namespace"
+        @close="isConfigurationPopup = false"
+      />
 
       <delete-confirmation-popup
         v-show="isDeleteConfirmationPopup"
@@ -45,7 +45,7 @@
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
-              >
+            >
               <delete-all-action
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"

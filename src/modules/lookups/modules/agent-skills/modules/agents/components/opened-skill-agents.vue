@@ -146,14 +146,6 @@ export default {
     DeleteConfirmationPopup,
   },
   mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
-
-  data: () => ({
-    namespace: 'lookups/skills',
-    subNamespace: 'agents',
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    agentSkillPopup: false,
-    isAddSkillToAgentPopup: false,
-  }),
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -173,6 +165,14 @@ export default {
       closeDelete,
     };
   },
+
+  data: () => ({
+    namespace: 'lookups/skills',
+    subNamespace: 'agents',
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+    agentSkillPopup: false,
+    isAddSkillToAgentPopup: false,
+  }),
   mounted() {
     this.handlePatchInput = debounce(this.handlePatchInput);
   },

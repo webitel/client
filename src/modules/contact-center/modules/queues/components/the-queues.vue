@@ -49,7 +49,6 @@
                   callback: () => deleteData(selectedRows),
                 })"
               />
-
             </wt-table-actions>
           </div>
         </header>

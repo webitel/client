@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <wt-select
@@ -13,7 +15,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'type', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.singleSignOn.clientId')"
@@ -21,7 +23,7 @@
         :value="itemInstance.clientId"
         required
         @input="setItemProp({ prop: 'clientId', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.singleSignOn.clientSecret')"
@@ -29,7 +31,7 @@
         :value="itemInstance.clientSecret"
         required
         @input="setItemProp({ prop: 'clientSecret', value: $event })"
-      ></wt-input>
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
@@ -37,7 +39,7 @@
         :value="itemInstance.discoveryUrl"
         required
         @input="setItemProp({ prop: 'discoveryUrl', value: $event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -48,7 +50,7 @@ import openedTabComponentMixin
 import SingleSignOnAPI from '../api/singleSignOn';
 
 export default {
-  name: 'opened-single-sign-on-general',
+  name: 'OpenedSingleSignOnGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadFlows(params) {

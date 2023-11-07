@@ -93,6 +93,7 @@ export default {
   name: 'OpenedChatGatewayWhatsappTab',
   components: { DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
+  inject: ['$eventBus'],
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -112,7 +113,6 @@ export default {
       closeDelete,
     };
   },
-  inject: ['$eventBus'],
   data: () => ({
     subNamespace: 'whatsapp',
   }),

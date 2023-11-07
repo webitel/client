@@ -57,14 +57,14 @@
         </div>
         <div class=" object-input-grid object-input-grid__1-col">
           <wt-input
-            :disabled="disableUserInput"
+            :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.chatGateways.webchat.call.url')"
             :v="v.itemInstance.metadata.call.url"
             :value="itemInstance.metadata.call.url"
             @input="setItemProp({ path: 'metadata.call.url', value: $event })"
           />
           <wt-select
-            :disabled="disableUserInput"
+            :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.flow.flow', 1)"
             :search-method="loadCallFlows"
             :v="v.itemInstance.metadata.call.flow"
