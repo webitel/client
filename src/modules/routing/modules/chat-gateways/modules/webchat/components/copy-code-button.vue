@@ -14,8 +14,6 @@
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import clipboardCopy from 'clipboard-copy';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
-import { mapActions } from 'vuex';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
@@ -74,11 +72,6 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      setItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-      },
-    }),
     copyCode() {
       const view = this.processViewConfig(this.itemInstance.metadata.view);
       const chat = this.processChatConfig(this.itemInstance.metadata.chat, this.itemInstance.uri);
@@ -89,7 +82,10 @@ export default {
       const alternativeChannels = this.processAlternativeChannelsConfig(
         this.itemInstance.metadata.alternativeChannels,
       );
-      const call = this.processCallConfig(this.itemInstance.metadata.call);
+      const call = this.processCallConfig(
+        this.itemInstance.metadata.call,
+        this.itemInstance.uri,
+      );
 
       const code = generateCode({
         view,
@@ -158,11 +154,9 @@ export default {
       return isEmpty(result) ? undefined : result;
     },
 
-    processCallConfig({ enabled, url, ...rest }) {
+    processCallConfig({ enabled, url, ...rest }, uri) {
       if (!enabled) return undefined;
-      const id = uuidv4();
-      this.setItemProp({ path: 'metadata.call.id', value: id });
-      return { url, id };
+      return { url, id: uri.slice(1) };
     },
   },
 };
