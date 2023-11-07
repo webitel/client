@@ -3,9 +3,9 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, handleUnauthorized,
+  camelToSnake,
   merge, notify, snakeToCamel,
-  starToSearch, log, sanitize,
+  starToSearch, sanitize,
   generateUrl, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
@@ -30,87 +30,87 @@ const convertWebchatSeconds = (num) => `${num}s`;
 const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
 
 const webchatRequestConverter = (data) => {
-  const copyData = deepCopy(data);
+  const copy = deepCopy(data);
   if (data.metadata.readTimeout) {
-    copyData.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
+    copy.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    copyData.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
+    copy.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    copyData.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
+    copy.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.allowOrigin) {
-    copyData.metadata.allowOrigin = data.metadata.allowOrigin.join();
+    copy.metadata.allowOrigin = data.metadata.allowOrigin.join();
   }
 
-  copyData.metadata.view = JSON.stringify(data.metadata.view);
-  copyData.metadata.chat = JSON.stringify(data.metadata.chat);
-  copyData.metadata.appointment = JSON.stringify(data.metadata.appointment);
-  copyData.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
-  copyData.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
-  return copyData;
+  copy.metadata.view = JSON.stringify(data.metadata.view);
+  copy.metadata.chat = JSON.stringify(data.metadata.chat);
+  copy.metadata.appointment = JSON.stringify(data.metadata.appointment);
+  copy.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
+  return copy;
 };
 
 const messengerRequestConverter = (data) => {
-  const copyData = deepCopy(data);
-  copyData.metadata.instagramComments = data.metadata.instagramComments.toString();
-  copyData.metadata.instagramMentions = data.metadata.instagramMentions.toString();
-  return copyData;
+  const copy = deepCopy(data);
+  copy.metadata.instagramComments = data.metadata.instagramComments.toString();
+  copy.metadata.instagramMentions = data.metadata.instagramMentions.toString();
+  return copy;
 };
 
 const viberRequestConverter = (item) => {
-  const copyItem = deepCopy(item);
-  copyItem.metadata['btn.back.color'] = item.metadata.btnBackColor;
-  delete copyItem.metadata.btnBackColor;
-  copyItem.metadata['btn.font.color'] = item.metadata.btnFontColor;
-  delete copyItem.metadata.btnFontColor;
-  return copyItem;
+  const copy = deepCopy(item);
+  copy.metadata['btn.back.color'] = item.metadata.btnBackColor;
+  delete copy.metadata.btnBackColor;
+  copy.metadata['btn.font.color'] = item.metadata.btnFontColor;
+  delete copy.metadata.btnFontColor;
+  return copy;
 };
 
 const webChatResponseConverter = (data) => {
-  const copyData = deepCopy(data);
-  copyData.metadata.allowOrigin = data.metadata.allowOrigin
+  const copy = deepCopy(data);
+  copy.metadata.allowOrigin = data.metadata.allowOrigin
     ? data.metadata.allowOrigin.split(',')
     : [];
   if (data.metadata.readTimeout) {
-    copyData.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
+    copy.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    copyData.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
+    copy.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    copyData.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
+    copy.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.view) {
-    copyData.metadata.view = JSON.parse(data.metadata.view);
+    copy.metadata.view = JSON.parse(data.metadata.view);
   }
   if (data.metadata.chat) {
-    copyData.metadata.chat = JSON.parse(data.metadata.chat);
+    copy.metadata.chat = JSON.parse(data.metadata.chat);
   }
   if (data.metadata.appointment) {
-    copyData.metadata.appointment = JSON.parse(data.metadata.appointment);
+    copy.metadata.appointment = JSON.parse(data.metadata.appointment);
   }
   if (data.metadata.alternativeChannels) {
-    copyData.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+    copy.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
   }
-  copyData.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
+  copy.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
 
-  return deepmerge(webChatGateway(), copyData);
+  return deepmerge(webChatGateway(), copy);
 };
 
 const messengerResponseConverter = (item) => {
-  const copyItem = deepCopy(item);
-  copyItem.metadata.instagramComments = item.metadata.instagramComments === 'true';
-  copyItem.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
-  return copyItem;
+  const copy = deepCopy(item);
+  copy.metadata.instagramComments = item.metadata.instagramComments === 'true';
+  copy.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
+  return copy;
 };
 
 const viberResponseConverter = (item) => {
-  const copyItem = deepCopy(item);
-  if (item.metadata['btn.back.color']) copyItem.metadata.btnBackColor = item.metadata['btn.back.color'];
-  if (item.metadata['btn.font.color']) copyItem.metadata.btnFontColor = item.metadata['btn.font.color'];
-  return copyItem;
+  const copy = deepCopy(item);
+  if (item.metadata['btn.back.color']) copy.metadata.btnBackColor = item.metadata['btn.back.color'];
+  if (item.metadata['btn.font.color']) copy.metadata.btnFontColor = item.metadata['btn.font.color'];
+  return copy;
 };
 
 const preRequestHandler = (item) => {
@@ -167,7 +167,6 @@ const getChatGatewayList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -198,7 +197,6 @@ const getChatGateway = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -217,7 +215,6 @@ const addChatGateway = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -238,7 +235,6 @@ const updateChatGateway = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -257,7 +253,6 @@ const patchChatGateway = async ({ changes, id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
@@ -270,7 +265,6 @@ const deleteChatGateway = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      handleUnauthorized,
       notify,
     ]);
   }
