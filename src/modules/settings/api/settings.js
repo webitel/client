@@ -1,38 +1,70 @@
-import { EndpointPatcherApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
-import instance, { config } from '../../../app/api/old/instance';
+import instance from '../../../app/api/instance';
+import applyTransform, {
+  camelToSnake,
+  notify,
+  snakeToCamel
+} from '@webitel/ui-sdk/src/api/transformers';
 
 const baseUrl = 'users';
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance });
 
-export const changePassword = ({ id, changes }) => itemPatcher.patchItem({
+export const getWebPhone = async () => {
+
+  const url = 'user/settings/phone';
+
+  try {
+    const response = await instance.get(url);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const changeWebPhone = async (changes) => {
+
+  const item = applyTransform(changes, [
+    camelToSnake(),
+  ]);
+
+  const url = 'user/settings/phone';
+
+  try {
+    const response = await instance.put(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const patchItem = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+export const changePassword = ({ id, changes }) => patchItem({
   id,
   changes,
 });
 
-export const changeWebPhone = async (changes) => {
-  const url = 'user/settings/phone';
-
-  try {
-    config.errors.silent = true;
-    return await instance.put(url, changes);
-  } catch (err) {
-    throw err;
-  } finally {
-    config.errors.silent = false;
-  }
-};
-
-export const getWebPhone = async () => {
-  const url = 'user/settings/phone';
-  try {
-    config.errors.silent = true;
-    return await instance.get(url);
-  } catch (err) {
-    throw err;
-  } finally {
-    config.errors.silent = false;
-  }
-};
 
 export default {
   changePassword,
