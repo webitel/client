@@ -4,9 +4,13 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, snakeToCamel,
-  starToSearch, sanitize,
-  generateUrl, mergeEach,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
@@ -27,7 +31,9 @@ const fieldsToSend = [
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
-const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
+const parseTimeoutSeconds = (item) => (item.includes('s')
+  ? parseInt(item.replace('/s', '/'), 10)
+  : +item);
 
 const webchatRequestConverter = (data) => {
   const copy = deepCopy(data);
@@ -48,6 +54,7 @@ const webchatRequestConverter = (data) => {
   copy.metadata.chat = JSON.stringify(data.metadata.chat);
   copy.metadata.appointment = JSON.stringify(data.metadata.appointment);
   copy.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  copy.metadata.call = JSON.stringify(data.metadata.call);
   copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
   return copy;
 };
@@ -93,6 +100,9 @@ const webChatResponseConverter = (data) => {
   }
   if (data.metadata.alternativeChannels) {
     copy.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+  }
+  if (data.metadata.call) {
+    copy.metadata.call = JSON.parse(data.metadata.call);
   }
   copy.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
 
