@@ -57,19 +57,6 @@ export default {
 
 <style lang="scss" scoped>
 .copy-input {
-  position: relative;
-}
-
-.copy-input__label-wrapper {
-  display: flex;
-  align-items: center;
-
-  .wt-icon-btn {
-    margin-right: 10px;
-  }
-}
-
-.copy-input__icon-btn {
-  margin-left: 10px;
+  z-index: 1;
 }
 </style>
