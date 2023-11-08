@@ -12,16 +12,6 @@ const getTtsStreamUrl = (params, apiUrl = false) => {
     ...objCamelToSnake(params),
     access_token: instance.defaults.headers['X-Webitel-Access'],
   })}`;
-  // console.log('getTtsStreamUrl url1:', url1);
-  // let url = applyTransform(params, [
-  //   merge(getDefaultGetParams()),
-  //   starToSearch('search'),
-  //   (params) => ({ ...params, q: params.search }),
-  //   sanitize(fieldsToSend),
-  //   camelToSnake(),
-  //   generateUrl(baseUrl),
-  // ]);
-  // console.log('getTtsStreamUrl url:', url);
   if (apiUrl) url = `${import.meta.env.VITE_API_URL}${url}`;
   return url;
 };
