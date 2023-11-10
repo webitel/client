@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { StorageProviderType } from 'webitel-sdk';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
@@ -41,9 +41,7 @@ function selectOption(option) {
   selected.value = option;
 }
 
-onMounted(() => {
-  selectOption(options.value[0]);
-});
+selectOption(options.value[0]);
 
 function create() {
   router.push({
