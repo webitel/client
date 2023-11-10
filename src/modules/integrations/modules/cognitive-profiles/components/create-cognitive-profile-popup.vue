@@ -41,6 +41,8 @@ function selectOption(option) {
   selected.value = option;
 }
 
+selectOption(options.value[0]);
+
 function create() {
   router.push({
     name: `${RouteNames.COGNITIVE_PROFILES}-new`,
