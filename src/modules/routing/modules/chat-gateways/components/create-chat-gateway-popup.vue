@@ -79,6 +79,9 @@ export default {
     },
   },
 
+  created() {
+    this.selectOption(this.options[0]);
+  },
   methods: {
     selectOption(option) {
       this.selected = option;
