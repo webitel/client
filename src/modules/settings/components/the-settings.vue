@@ -116,6 +116,10 @@ export default {
         name: 'Español',
         id: 'es',
       },
+      {
+        name: 'Қазақ',
+        id: 'kz',
+      },
     ],
   }),
 
