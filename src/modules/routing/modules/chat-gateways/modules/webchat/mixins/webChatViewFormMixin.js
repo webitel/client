@@ -22,8 +22,10 @@ export default {
         }, {
           name: this.$t('reusable.lang.ua'),
           value: 'ua',
-        },
-      ];
+        }, {
+          name: this.$t('reusable.lang.kz'),
+          value: 'kz',
+        }];
     },
     borderRadiusOptions() {
       return [
