@@ -16,16 +16,16 @@
         required
         @input="setItemProp({ prop: 'object', value: $event })"
       />
-      <!--      <wt-select-->
-      <!--        :value="itemInstance.storage"-->
-      <!--        :search-method="getStorageList"-->
-      <!--        :clearable="false"-->
-      <!--        :label="$t('objects.system.changelogs.storage')"-->
-      <!--        :disabled="disableUserInput"-->
-      <!--        :v="v.itemInstance.storage"-->
-      <!--        required-->
-      <!--        @input="setItemProp({ prop: 'storage', value: $event })"-->
-      <!--      ></wt-select>-->
+      <wt-select
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.system.changelogs.storage')"
+        :search-method="getStorageList"
+        :v="v.itemInstance.storage"
+        :value="itemInstance.storage"
+        required
+        @input="setItemProp({ prop: 'storage', value: $event })"
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.system.changelogs.daysToStore')"
@@ -35,14 +35,14 @@
         type="number"
         @input="setItemProp({ prop: 'daysToStore', value: +$event })"
       />
-      <!--      <wt-select-->
-      <!--        :value="currentPeriod"-->
-      <!--        :options="periodOptions"-->
-      <!--        :label="$t('objects.system.changelogs.period.period')"-->
-      <!--        :disabled="disableUserInput"-->
-      <!--        :clearable="false"-->
-      <!--        @input="this.setItemProp({ prop: 'period', value: $event.id })"-->
-      <!--      ></wt-select>-->
+      <wt-select
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.system.changelogs.period.period')"
+        :options="periodOptions"
+        :value="currentPeriod"
+        @input="setItemProp({ prop: 'period', value: $event.id })"
+      />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
