@@ -1,5 +1,5 @@
 import axios from 'axios';
-import UsersAPI from '../users';
+import AgentSkillsAPI from '../agentSkills';
 
 // axios mock should be copy-pasted :(
 // https://stackoverflow.com/questions/65554910/jest-referenceerror-cannot-access-before-initialization
@@ -11,6 +11,7 @@ vi.mock('axios', () => {
       delete: vi.fn(),
       put: vi.fn(),
       patch: vi.fn(),
+      request: vi.fn(),
       create: vi.fn().mockReturnThis(),
       interceptors: {
         request: {
@@ -23,28 +24,29 @@ vi.mock('axios', () => {
   };
 });
 
-describe('UsersAPI', () => {
+describe('AgentSkillsAPI', () => {
+  beforeEach(() => {
+    axios.request.mockClear();
+  });
+
   it('correctly computes "getList" method api call', async () => {
     const inputParams = {
       fields: ['id', 'name', 'vitest'],
     };
-    const url = '/users?fields=id&fields=name&fields=vitest&page=1&size=10';
-    const mock = axios.get.mockImplementationOnce(() => Promise.resolve({
+    const url = '/call_center/skills?page=1&size=10&fields=id&fields=name&fields=vitest';
+    const mock = axios.request.mockImplementationOnce(() => Promise.resolve({
       data: {},
     }));
-    await UsersAPI.getList(inputParams);
-    expect(mock).toHaveBeenCalledWith(url);
+    await AgentSkillsAPI.getList(inputParams);
+    // https://stackoverflow.com/a/41939921
+    expect(mock.mock.calls[0][0].url).toBe(url);
   });
 
   it('correctly computes "getList" method output', async () => {
     const output = {
       items: [
         {
-          dnd: false,
           id: 1,
-          name: '',
-          state: true,
-          status: '',
           shouldCaseConvert: '',
         },
       ], next: true,
@@ -57,29 +59,25 @@ describe('UsersAPI', () => {
         ], next: true,
       },
     };
-    axios.get.mockImplementationOnce(() => Promise.resolve(response));
-    expect(await UsersAPI.getList({})).toEqual(output);
+    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    expect(await AgentSkillsAPI.getList({})).toEqual(output);
   });
 
   it('correctly computes "get" method api call', async () => {
     const inputParams = {
       itemId: 1,
     };
-    const url = '/users/1';
-    const mock = axios.get.mockImplementationOnce(() => Promise.resolve({
+    const url = '/call_center/skills/1';
+    const mock = axios.request.mockImplementationOnce(() => Promise.resolve({
       data: {},
     }));
-    await UsersAPI.get(inputParams);
-    expect(mock).toHaveBeenCalledWith(url);
+    await AgentSkillsAPI.get(inputParams);
+    expect(mock.mock.calls[0][0].url).toBe(url);
   });
 
   it('correctly computes "get" method output', async () => {
     const output = {
-      id: 1, device: {}, devices: [], license: [], roles: [], variables: [
-        {
-          key: '', value: '',
-        },
-      ],
+      id: 1,
     };
 
     const response = {
@@ -87,8 +85,8 @@ describe('UsersAPI', () => {
         id: 1,
       },
     };
-    axios.get.mockImplementationOnce(() => Promise.resolve(response));
-    expect(await UsersAPI.get({})).toEqual(output);
+    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    expect(await AgentSkillsAPI.get({ itemId: 1 })).toEqual(output);
   });
 
   it('correctly computes "add" method api call', async () => {
@@ -100,15 +98,13 @@ describe('UsersAPI', () => {
 
     const body = {
       name: 'test',
-      profile: {}, // variables field (?)
     };
 
-    const url = '/users';
-    const mock = axios.post.mockImplementationOnce(() => Promise.resolve({
+    const mock = axios.request.mockImplementationOnce(() => Promise.resolve({
       data: {},
     }));
-    await UsersAPI.add(input);
-    expect(mock).toHaveBeenCalledWith(url, body);
+    await AgentSkillsAPI.add(input);
+    expect(mock.mock.calls[0][0].data).toBe(JSON.stringify(body));
   });
 
   it('correctly computes "add" method output', async () => {
@@ -123,8 +119,8 @@ describe('UsersAPI', () => {
         check_case: '',
       },
     };
-    axios.post.mockImplementationOnce(() => Promise.resolve(response));
-    expect(await UsersAPI.add({ itemInstance: {} })).toEqual(output);
+    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    expect(await AgentSkillsAPI.add({ itemInstance: {} })).toEqual(output);
   });
 
   it('correctly computes "update" method api call', async () => {
@@ -137,15 +133,13 @@ describe('UsersAPI', () => {
 
     const body = {
       name: 'test',
-      profile: {}, // variables field (?)
     };
 
-    const url = '/users/1';
-    const mock = axios.put.mockImplementationOnce(() => Promise.resolve({
+    const mock = axios.request.mockImplementationOnce(() => Promise.resolve({
       data: {},
     }));
-    await UsersAPI.update(input);
-    expect(mock).toHaveBeenCalledWith(url, body);
+    await AgentSkillsAPI.update(input);
+    expect(mock.mock.calls[0][0].data).toBe(JSON.stringify(body));
   });
 
   it('correctly computes "update" method output', async () => {
@@ -160,29 +154,9 @@ describe('UsersAPI', () => {
         check_case: '',
       },
     };
-    axios.put.mockImplementationOnce(() => Promise.resolve(response));
-    expect(await UsersAPI.update({ itemInstance: {}, itemId: 1 }))
+    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    expect(await AgentSkillsAPI.update({ itemInstance: {}, itemId: 1 }))
     .toEqual(output);
-  });
-
-  it('correctly computes "patch" method api call', async () => {
-    const input = {
-      changes: {
-        name: 'test',
-      },
-      id: 1,
-    };
-
-    const body = {
-      name: 'test',
-    };
-
-    const url = '/users/1';
-    const mock = axios.patch.mockImplementationOnce(() => Promise.resolve({
-      data: {},
-    }));
-    await UsersAPI.patch(input);
-    expect(mock).toHaveBeenCalledWith(url, body);
   });
 
   it('correctly computes "delete" method api call', async () => {
@@ -190,11 +164,11 @@ describe('UsersAPI', () => {
       id: 1,
     };
 
-    const url = '/users/1?permanent=true';
-    const mock = axios.delete.mockImplementationOnce(() => Promise.resolve({
+    const url = '/call_center/skills/1';
+    const mock = axios.request.mockImplementationOnce(() => Promise.resolve({
       data: {},
     }));
-    await UsersAPI.delete(input);
-    expect(mock).toHaveBeenCalledWith(url);
+    await AgentSkillsAPI.delete(input);
+    expect(mock.mock.calls[0][0].url).toBe(url);
   });
 });
