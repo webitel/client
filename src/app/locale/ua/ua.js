@@ -823,7 +823,7 @@ export default {
         statisticTime: 'Інтервал перерахунку',
         communications: 'Тип зв\'язку',
         manualDistribution: 'Ручне розподілення',
-        timeoutFromTheLastMessage: 'Час очікування від останнього повідомлення',
+        lastMessageTimeout: 'Час очікування від останнього повідомлення',
         processing: {
           processing: 'Обробка',
           enabled: 'Очікування результату задачі',

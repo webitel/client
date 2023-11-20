@@ -823,7 +823,7 @@ export default {
         statisticTime: 'Recalculation interval',
         communications: 'Communication type',
         manualDistribution: 'Manual distribution',
-        timeoutFromTheLastMessage: 'Timeout from the last message',
+        lastMessageTimeout: 'Timeout from the last message',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',
