@@ -136,11 +136,11 @@
       ></wt-input>
       <wt-select
         v-if="specificControls.autoAnswerTone"
-        v-model="autoAnswerTone"
+        clearable
         :disabled="disableUserInput"
+        v-model="autoAnswerTone"
         :label="$t('objects.ccenter.queues.autoAnswerTone')"
         :options="ToneList"
-        clearable
         track-by="value"
       ></wt-select>
       <wt-input
@@ -163,8 +163,8 @@
         v-if="specificControls.minOnlineAgents"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minOnlineAgents')"
-        :v="v.itemInstance.payload.minOnlineAgents"
         :value="itemInstance.payload.minOnlineAgents"
+        :v="v.itemInstance.payload.minOnlineAgents"
         type="number"
         @input="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
       ></wt-input>
@@ -187,16 +187,16 @@
         <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
         <div class="load-factor">
           <wt-slider
-            :max="100"
-            :min="1"
-            :step="1"
             :value="itemInstance.payload.loadFactor"
+            :min="1"
+            :max="100"
+            :step="1"
             @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           ></wt-slider>
           <wt-input
-            :max="100"
-            :min="0"
             :value="itemInstance.payload.loadFactor"
+            :min="0"
+            :max="100"
             type="number"
             @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           ></wt-input>
@@ -316,6 +316,7 @@ export default {
           || this.itemInstance.type === QueueType.PREDICTIVE_DIALER) {
           return this.ToneList.find((tone) => tone.value === 'default');
         }
+        return;
       },
       set(value) {
         this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
@@ -358,8 +359,8 @@ export default {
 <style lang="scss" scoped>
 .load-factor {
   display: grid;
-  align-items: center;
   grid-template-columns: 5fr 1fr;
+  align-items: center;
   gap: var(--spacing-sm);
 
   .wt-slider {
