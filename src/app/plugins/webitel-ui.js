@@ -1,4 +1,8 @@
+import '@webitel/ui-sdk/dist/img/sprite';
 import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk.common';
+
+// import styles
+import '@webitel/ui-sdk/dist/ui-sdk.css';
 
 // import locale
 import WebitelUIEn from '@webitel/ui-sdk/src/locale/en/en';
@@ -8,14 +12,10 @@ import WebitelUIKz from '@webitel/ui-sdk/src/locale/kz/kz';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import i18n from '../locale/i18n';
 
-// import styles
-import '@webitel/ui-sdk/dist/ui-sdk.css';
-
-import '@webitel/ui-sdk/dist/img/sprite';
-
 const globals = {
-  $baseURL: process.env.BASE_URL,
+  $baseURL: import.meta.env.BASE_URL,
 };
+
 // init plugin
 export default [WebitelUI, { eventBus, globals }];
 // add plugin locales to main i18n

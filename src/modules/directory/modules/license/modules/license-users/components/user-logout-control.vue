@@ -1,18 +1,18 @@
 <template>
   <wt-switcher
-    :value="!!item.sessions"
     :disabled="disableControl"
+    :value="!!item.sessions"
     @change="logoutUser"
-  ></wt-switcher>
+  />
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'user-logout-control',
+  name: 'UserLogoutControl',
   mixins: [accessControlMixin],
   props: {
     item: {

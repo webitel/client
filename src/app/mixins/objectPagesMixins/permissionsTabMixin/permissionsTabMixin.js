@@ -1,9 +1,11 @@
+import getNamespacedState
+  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
-import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
 import AccessMode
   from '../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
+import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
+import openedTabComponentMixin
+  from '../openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   mixins: [openedTabComponentMixin, tableComponentMixin],
@@ -42,7 +44,9 @@ export default {
       if (!this.headersValue) return [];
       return this.headersValue.map((header) => ({
         ...header,
-        text: typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
+        text: typeof header.locale === 'string'
+          ? this.$t(header.locale)
+          : this.$tc(...header.locale),
       }));
     },
     dataList() {

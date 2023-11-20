@@ -17,7 +17,10 @@ export default class PermissionsAPI {
 
   static patchByUrl = (url) => {
     const permissionsPatcher = new APIPermissionsPatcher(url);
-    return (parentId, changes) => permissionsPatcher.patchItem({ id: parentId, changes });
+    return (parentId, changes) => permissionsPatcher.patchItem({
+      id: parentId,
+      changes,
+    });
   };
 
   getList(params) {

@@ -1,7 +1,7 @@
-import WebitelApplications
-  from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import AdminSections
   from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum';
+import WebitelApplications
+  from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 
 const nav = Object.freeze([
   {
@@ -135,6 +135,10 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.EMAIL_PROFILES}`,
         route: 'email-profiles',
       }, {
+        value: AdminSections.SINGLE_SIGN_ON,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SINGLE_SIGN_ON}`,
+        route: 'single-sign-on',
+      }, {
         value: AdminSections.IMPORT_CSV,
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.IMPORT_CSV}`,
         route: 'import-csv',
@@ -168,6 +172,11 @@ const nav = Object.freeze([
         value: AdminSections.CHANGELOGS,
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CHANGELOGS}`,
         route: 'changelogs',
+      },
+      {
+        value: AdminSections.CONFIGURATION,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.CONFIGURATION}`,
+        route: 'configuration',
       },
     ],
   },

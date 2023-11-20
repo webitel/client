@@ -3,20 +3,23 @@
     <supervisor-popup
       v-if="isSupervisorPopup"
       @close="closePopup"
-    ></supervisor-popup>
+    />
     <supervisor-subordinates-popup
       v-if="isSupervisorSubordinatesPopup"
       :item-id="supervisorId"
       @close="closeSubordinates"
-    ></supervisor-subordinates-popup>
+    />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :payload="deleteConfirmation"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title">{{ $tc('objects.ccenter.agents.supervisors', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $tc('objects.ccenter.agents.supervisors', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -24,7 +27,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -33,62 +36,70 @@
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
-            @click="callDelete(selectedRows)"
-          ></delete-all-action>
+            @click="askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })"
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
-          ></wt-icon-btn>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           <wt-item-link
             :link="editLink(item)"
-            target="_blank">
+            target="_blank"
+          >
             {{ item.name }}
           </wt-item-link>
         </template>
 
-        <template v-slot:actions="{ item }">
+        <template #actions="{ item }">
           <wt-tooltip class="table-action">
-            <template v-slot:activator>
+            <template #activator>
               <wt-icon-btn
                 icon="queue-member"
                 @click="openSubordinates(item)"
-              ></wt-icon-btn>
+              />
             </template>
-              {{ $tc('objects.ccenter.agents.subordinates', 2) }}
+            {{ $tc('objects.ccenter.agents.subordinates', 2) }}
           </wt-tooltip>
           <wt-icon-action
             action="edit"
             @click="edit(item)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
-          ></wt-icon-action>
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -100,25 +111,55 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
+import SupervisorPopup from './opened-team-supervisors-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'supervisors';
 
 export default {
-  name: 'opened-team-supervisors',
+  name: 'OpenedTeamSupervisors',
+  components: {
+    SupervisorPopup,
+    SupervisorSubordinatesPopup,
+    DeleteConfirmationPopup,
+  },
   mixins: [openedObjectTableTabMixin],
-  components: { SupervisorPopup, SupervisorSubordinatesPopup },
+
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
   data: () => ({
     namespace,
     subNamespace,
@@ -127,11 +168,6 @@ export default {
     isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
 
   methods: {
     openSubordinates({ id }) {

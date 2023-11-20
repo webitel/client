@@ -1,5 +1,6 @@
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import DialplanAPI from '../api/dialplan';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -39,8 +40,8 @@ const mutations = {
 };
 
 const dialplan = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(DialplanAPI)
-  .generateAPIActions()
-  .getModule({ actions, mutations });
+.attachAPIModule(DialplanAPI)
+.generateAPIActions()
+.getModule({ actions, mutations });
 
 export default dialplan;

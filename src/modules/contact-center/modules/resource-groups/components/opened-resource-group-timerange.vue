@@ -1,43 +1,46 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.resGroups.timerange') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.ccenter.resGroups.timerange') }}
+      </h3>
       <wt-icon-action
         v-if="!disableUserInput"
         action="add"
         @click="addVariable"
-      ></wt-icon-action>
+      />
     </header>
     <div class="object-input-grid">
       <div>
-        <div class="range" v-for="(range, key) in itemInstance.time">
+        <div
+          v-for="(range, key) in itemInstance.time"
+          class="range"
+        >
           <wt-timepicker
-            :value="range.start * 60"
+            :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
             :v="v.itemInstance.range"
+            :value="range.start * 60"
             format="hh:mm"
-            :disabled="disableUserInput"
-            @input="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
             required
-          >
-          </wt-timepicker>
+            @input="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
+          />
           <wt-timepicker
-            :value="range.end * 60"
+            :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeTo')"
             :v="v.itemInstance.range"
+            :value="range.end * 60"
             format="hh:mm"
-            :disabled="disableUserInput"
-            @input="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
             required
-          >
-          </wt-timepicker>
+            @input="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
+          />
           <wt-icon-action
             v-if="key !== 0"
-            action="delete"
             :disabled="disableUserInput"
+            action="delete"
             class="table-action"
             @click="deleteVariable(key)"
-          ></wt-icon-action>
+          />
         </div>
       </div>
     </div>
@@ -45,10 +48,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-resource-group-timerange',
+  name: 'OpenedResourceGroupTimerange',
   mixins: [openedTabComponentMixin],
 };
 </script>

@@ -5,7 +5,7 @@ import defaultInterceptorsSetup
   from '../../../../../app/api/old/interceptors/defaultInterceptorsSetup';
 import getChatOriginUrl from '../scripts/getChatOriginUrl';
 
-const chatBaseUrl = new URL(path.normalize(process.env.VUE_APP_CHAT_URL), getChatOriginUrl())
+const chatBaseUrl = new URL(path.normalize(import.meta.env.VITE_CHAT_URL), getChatOriginUrl())
 .toString();
 
 const chatInstance = axios.create({

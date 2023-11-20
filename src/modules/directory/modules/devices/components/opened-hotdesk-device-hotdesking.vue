@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.directory.devices.hotdesk') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.directory.devices.hotdesk') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-tags-input
@@ -13,7 +15,7 @@
         :value="itemInstance.hotdesks"
         taggable
         @input="setItemProp({ prop: 'hotdesks', value: $event })"
-      ></wt-tags-input>
+      />
     </div>
   </section>
 </template>
@@ -23,7 +25,7 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-device-hotdesking',
+  name: 'OpenedDeviceHotdesking',
   mixins: [openedTabComponentMixin],
   computed: {
     hotDeskNameValidator() {

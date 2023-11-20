@@ -4,7 +4,7 @@ import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import defaultCognitiveProfile from './defaultCognitiveProfile';
 
 const microsoftCognitiveProfile = () => ({
-...defaultCognitiveProfile(),
+  ...defaultCognitiveProfile(),
   provider: StorageProviderType.Microsoft,
   properties: {
     key: '',

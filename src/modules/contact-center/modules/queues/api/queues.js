@@ -4,12 +4,16 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import { QueueServiceApiFactory } from 'webitel-sdk';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import deepCopy from 'deep-copy';
+import { QueueServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import processing from '../store/_internals/queueSchema/defaults/processing';
@@ -108,18 +112,18 @@ const getQueue = async ({ itemId: id }) => {
     try {
       if (copy.variables) {
         copy.variables = Object.keys(copy.variables)
-                                   .map((key) => ({
-                                     key,
-                                     value: copy.variables[key],
-                                   }));
+        .map((key) => ({
+          key,
+          value: copy.variables[key],
+        }));
       }
       if (isEmpty(copy.taskProcessing)) {
         copy.taskProcessing = processing({
-         enabled: !!copy.processing,
-         formSchema: copy.formSchema,
-         sec: copy.processingSec || 0,
-         renewalSec: copy.processingRenewalSec || 0,
-       });
+          enabled: !!copy.processing,
+          formSchema: copy.formSchema,
+          sec: copy.processingSec || 0,
+          renewalSec: copy.processingRenewalSec || 0,
+        });
       }
       return copy;
     } catch (err) {

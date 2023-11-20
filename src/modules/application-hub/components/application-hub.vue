@@ -2,41 +2,41 @@
   <div class="application-hub-wrap">
     <cc-header />
     <nav
-      class="application-hub"
       :class="{ 'application-hub--sm': $breakpoint.smAndDown}"
+      class="application-hub"
     >
-      <div class="application-hub__background"></div>
+      <div class="application-hub__background" />
       <ul class="application-hub__list">
         <li
-          class="application-hub__card"
           v-for="(app, key) of apps"
           :key="key"
+          class="application-hub__card"
         >
           <a
-            class="application-link"
             :href="app.href"
             :title="app.title"
+            class="application-link"
           >
             <div class="application-link__pic">
               <img
-                class="application-link__pic__img"
-                :src="app.pic.img"
                 :alt="`${app.name}-pic`"
+                :src="app.pic.img"
+                class="application-link__pic__img"
               >
             </div>
             <div class="application-link__text-wrap">
               <div class="application-link__title-pic">
                 <img
                   v-if="$breakpoint.mdAndUp"
-                  class="application-link__title-pic__img application-link__title-pic__img--md"
-                  :src="app.pic.title.md"
                   :alt="`${app.name}`"
+                  :src="app.pic.title.md"
+                  class="application-link__title-pic__img application-link__title-pic__img--md"
                 >
                 <img
                   v-else
-                  class="application-link__title-pic__img application-link__title-pic__img--sm"
-                  :src="app.pic.title.sm"
                   :alt="`${app.name}-title`"
+                  :src="app.pic.title.sm"
+                  class="application-link__title-pic__img application-link__title-pic__img--sm"
                 >
               </div>
               <h1 class="application-link__title">
@@ -51,37 +51,37 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import { mapGetters } from 'vuex';
 import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
 import admPic from '../assets/img/pictures/admin.svg';
-import admTitleMd from '../assets/img/titles/admin-md.svg';
-import admTitleSm from '../assets/img/titles/admin-sm.svg';
-
-import agentPic from '../assets/img/pictures/workspace.svg';
-import agentTitleMd from '../assets/img/titles/agent-md.svg';
-import agentTitleSm from '../assets/img/titles/agent-sm.svg';
-
-import auditPic from '../assets/img/pictures/audit.svg';
-import auditTitleMd from '../assets/img/titles/audit-md.svg';
-import auditTitleSm from '../assets/img/titles/audit-sm.svg';
-
-import historyPic from '../assets/img/pictures/history.svg';
-import historyTitleMd from '../assets/img/titles/history-md.svg';
-import historyTitleSm from '../assets/img/titles/history-sm.svg';
-
-import supervisorPic from '../assets/img/pictures/supervisor.svg';
-import supervisorTitleMd from '../assets/img/titles/supervisor-md.svg';
-import supervisorTitleSm from '../assets/img/titles/supervisor-sm.svg';
 
 import grafanaPic from '../assets/img/pictures/analytics.svg';
-import grafanaTitleMd from '../assets/img/titles/analytics-md.svg';
-import grafanaTitleSm from '../assets/img/titles/analytics-sm.svg';
+
+import auditPic from '../assets/img/pictures/audit.svg';
 
 import crmPic from '../assets/img/pictures/crm.svg';
+
+import historyPic from '../assets/img/pictures/history.svg';
+
+import supervisorPic from '../assets/img/pictures/supervisor.svg';
+
+import agentPic from '../assets/img/pictures/workspace.svg';
+import admTitleMd from '../assets/img/titles/admin-md.svg';
+import admTitleSm from '../assets/img/titles/admin-sm.svg';
+import agentTitleMd from '../assets/img/titles/agent-md.svg';
+import agentTitleSm from '../assets/img/titles/agent-sm.svg';
+import grafanaTitleMd from '../assets/img/titles/analytics-md.svg';
+import grafanaTitleSm from '../assets/img/titles/analytics-sm.svg';
+import auditTitleMd from '../assets/img/titles/audit-md.svg';
+import auditTitleSm from '../assets/img/titles/audit-sm.svg';
 import crmTitleMd from '../assets/img/titles/crm-md.svg';
 import crmTitleSm from '../assets/img/titles/crm-sm.svg';
+import historyTitleMd from '../assets/img/titles/history-md.svg';
+import historyTitleSm from '../assets/img/titles/history-sm.svg';
+import supervisorTitleMd from '../assets/img/titles/supervisor-md.svg';
+import supervisorTitleSm from '../assets/img/titles/supervisor-sm.svg';
 
 const picAdmin = {
   img: admPic,
@@ -134,7 +134,7 @@ const picCrm = {
 };
 
 export default {
-  name: 'the-application-hub',
+  name: 'TheApplicationHub',
   components: { CcHeader },
   inject: ['$config'],
   computed: {
@@ -145,47 +145,47 @@ export default {
       const agentApp = {
         name: WebitelApplications.AGENT,
         title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
-        href: process.env.VUE_APP_AGENT_URL,
+        href: import.meta.env.VITE_AGENT_URL,
         pic: picAgent,
       };
       const supervisorApp = {
         name: WebitelApplications.SUPERVISOR,
         title: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.name`),
-        href: process.env.VUE_APP_SUPERVISOR_URL,
+        href: import.meta.env.VITE_SUPERVISOR_URL,
         pic: picSupervisor,
       };
       const historyApp = {
         name: WebitelApplications.HISTORY,
         title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
-        href: process.env.VUE_APP_HISTORY_URL,
+        href: import.meta.env.VITE_HISTORY_URL,
         pic: picHistory,
       };
 
       const auditApp = {
         name: WebitelApplications.AUDIT,
         title: this.$t(`WebitelApplications.${WebitelApplications.AUDIT}.name`),
-        href: process.env.VUE_APP_AUDIT_URL,
+        href: import.meta.env.VITE_AUDIT_URL,
         pic: picAudit,
       };
 
       const adminApp = {
         name: WebitelApplications.ADMIN,
         title: this.$t(`WebitelApplications.${WebitelApplications.ADMIN}.name`),
-        href: process.env.VUE_APP_ADMIN_URL,
+        href: import.meta.env.VITE_ADMIN_URL,
         pic: picAdmin,
       };
 
       const grafanaApp = {
         name: WebitelApplications.ANALYTICS,
         title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
-        href: process.env.VUE_APP_GRAFANA_URL,
+        href: import.meta.env.VITE_GRAFANA_URL,
         pic: picGrafana,
       };
 
       const crmApp = {
         name: WebitelApplications.CRM,
         title: this.$t(`WebitelApplications.${WebitelApplications.CRM}.name`),
-        href: process.env.VUE_APP_CRM_URL,
+        href: import.meta.env.VITE_CRM_URL,
         pic: picCrm,
       };
 
@@ -203,11 +203,11 @@ $transition: 0.4s;
 
 // main wrapper, with header and nav
 .application-hub-wrap {
-  width: 100%;
-  min-height: 100vh;
-  height: fit-content;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  min-height: 100vh;
 
   .cc-header {
     flex: 0 0 54px;
@@ -216,24 +216,24 @@ $transition: 0.4s;
 
 .application-hub {
   position: relative;
-  flex-grow: 1;
-  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+  width: 100%;
 
   &__background {
     // full size of image and position absolute with top-left
     // fixation for correct picture cropping on smaller breakpoints
     position: absolute;
-    right: 0;
-    top: 0;
     z-index: 0;
-    min-height: 100%;
+    top: 0;
+    right: 0;
+    width: 1920px;
     min-width: 100%;
     height: 1080px;
-    width: 1920px;
+    min-height: 100%;
     background: url('../assets/img/background.png') no-repeat;
     background-size: cover;
   }
@@ -248,12 +248,12 @@ $transition: 0.4s;
 
 // ul > li's
 .application-hub__card {
+  z-index: 1;
+  box-sizing: border-box;
   width: 408px;
   height: 124px;
-  z-index: 1;
-  border-radius: var(--border-radius);
   transition: $transition;
-  box-sizing: border-box;
+  border-radius: var(--border-radius);
 }
 
 // a tag

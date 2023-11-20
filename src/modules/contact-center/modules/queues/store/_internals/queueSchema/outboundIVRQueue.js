@@ -1,7 +1,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import queue from './defaults/defaultQueue';
-import amd from './defaults/amd';
 import { Strategy } from '../enums/Strategy.enum';
+import amd from './defaults/amd';
+import queue from './defaults/defaultQueue';
 
 const outboundIVRQueue = () => ({
   ...queue(),

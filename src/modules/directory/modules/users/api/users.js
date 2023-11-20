@@ -4,9 +4,13 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, snakeToCamel,
-  starToSearch, log, sanitize,
-  generateUrl, mergeEach,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';
@@ -146,6 +150,7 @@ const addUser = async ({ itemInstance }) => {
     ]);
   }
 };
+
 const updateUser = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
@@ -165,6 +170,7 @@ const updateUser = async ({ itemInstance, itemId: id }) => {
     ]);
   }
 };
+
 const patchUser = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),

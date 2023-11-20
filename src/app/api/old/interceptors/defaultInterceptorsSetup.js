@@ -2,10 +2,12 @@ import applyInterceptors from './apply';
 import InterceptorType from './InterceptorType.enum';
 import attachStarToRequestUrlSearchQuery
   from './request/attachStarToRequestUrlSearchQuery.interceptor';
-import camelToSnakeRequestData from './request/camelToSnakeRequestData.interceptor';
+import camelToSnakeRequestData
+  from './request/camelToSnakeRequestData.interceptor';
 import errorEventBusNotificationResponse
   from './response/errorEventBusNotificationResponse.interceptor';
-import snakeToCamelResponseData from './response/snakeToCamelResponseData.interceptor';
+import snakeToCamelResponseData
+  from './response/snakeToCamelResponseData.interceptor';
 import unauthorizedResponse from './response/unauthorizedResponse.interceptor';
 
 const DO_NOT_CONVERT_KEYS = [

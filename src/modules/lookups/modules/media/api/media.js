@@ -3,8 +3,9 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, 
-  merge, mergeEach, notify, snakeToCamel,
+  merge,
+  notify,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import axios from 'axios';
@@ -15,7 +16,7 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
 
 const token = localStorage.getItem('access-token');
-const baseUrl = process.env.VUE_APP_API_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const getMediaList = async (params) => {
   const {
@@ -49,7 +50,7 @@ const getMediaList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -61,7 +62,7 @@ const getMedia = async ({ itemId }) => {
     return await instance.get(url);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -73,7 +74,7 @@ export const downloadMedia = async (id) => {
     return await instance.get(url);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -98,7 +99,7 @@ const addMedia = async (params) => {
     return response;
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -110,7 +111,7 @@ const deleteMedia = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }

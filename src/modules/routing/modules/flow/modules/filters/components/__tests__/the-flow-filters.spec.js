@@ -5,7 +5,7 @@ describe('TheFlowFilters', () => {
   it('renders a component', () => {
     const wrapper = shallowMount(TheFlowFilters, {
       props: {
-        namespace: 'jest',
+        namespace: 'vi',
       },
     });
     expect(wrapper.isVisible()).toBe(true);

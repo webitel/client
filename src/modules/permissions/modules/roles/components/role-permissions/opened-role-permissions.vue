@@ -4,12 +4,13 @@
       v-if="isPermissionsPopup"
       :edited-index="editedIndex"
       @close="closePopup"
-    ></permissions-popup>
+    />
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :payload="deleteConfirmation"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
       <h3 class="content-title">
@@ -20,39 +21,45 @@
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
-          @click="callDelete(selectedRows)"
-        ></delete-all-action>
+          @click="askDeleteConfirmation({
+            deleted: selectedRows,
+            callback: () => deleteData(selectedRows),
+          })"
+        />
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
           @click="create"
-        ></wt-icon-btn>
+        />
       </div>
     </header>
 
     <div class="table-wrapper">
       <wt-table
         :data="dataList"
-        :headers="headers"
         :grid-actions="!disableUserInput"
+        :headers="headers"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           {{ permissionNameLocale[item.id] }}
         </template>
-        <template v-slot:usage="{ item }">
+        <template #usage="{ item }">
           {{ permissionUsageLocale[item.id] }}
         </template>
-        <template v-slot:actions="{ item, index }">
+        <template #actions="{ item, index }">
           <wt-icon-action
             action="edit"
             @click="edit(index)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
-          ></wt-icon-action>
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
+          />
         </template>
       </wt-table>
     </div>
@@ -61,14 +68,36 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import PermissionsPopup from './opened-role-permissions-popup.vue';
 import openedObjectTableTabMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import PermissionsPopup from './opened-role-permissions-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
-  name: 'opened-role-permissions',
+  name: 'OpenedRolePermissions',
+  components: { PermissionsPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
-  components: { PermissionsPopup },
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
   data: () => ({
     dataListValue: [],
     searchValue: '',
@@ -141,8 +170,8 @@ export default {
     }),
     loadList() {
       this.dataList = this.permissionsList
-        .filter((permission) => permission.name.includes(this.search))
-        .map((permission) => ({ ...permission, _isSelected: false }));
+      .filter((permission) => permission.name.includes(this.search))
+      .map((permission) => ({ ...permission, _isSelected: false }));
     },
     create() {
       this.openPopup();

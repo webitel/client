@@ -4,8 +4,10 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  
-  merge, notify, sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
@@ -48,7 +50,7 @@ const getCalendarList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -93,14 +95,27 @@ const getCalendar = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
 };
 
-const fieldsToSend = ['name', 'description', 'timezone', 'startAt', 'endAt', 'day',
-  'accepts', 'excepts', 'startTimeOfDay', 'endTimeOfDay', 'disabled', 'date', 'repeat'];
+const fieldsToSend = [
+  'name',
+  'description',
+  'timezone',
+  'startAt',
+  'endAt',
+  'day',
+  'accepts',
+  'excepts',
+  'startTimeOfDay',
+  'endTimeOfDay',
+  'disabled',
+  'date',
+  'repeat',
+];
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
@@ -132,7 +147,7 @@ const addCalendar = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -151,7 +166,7 @@ const updateCalendar = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -163,7 +178,7 @@ const deleteCalendar = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -206,7 +221,7 @@ const getTimezonesLookup = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }

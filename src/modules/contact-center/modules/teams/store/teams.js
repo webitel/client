@@ -1,8 +1,10 @@
-import supervisors from '../modules/supervisors/store/team-supervisors';
-import agents from '../modules/agents/store/team-agents';
+import ObjectStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule
+  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import TeamsAPI from '../api/teams';
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import agents from '../modules/agents/store/team-agents';
+import supervisors from '../modules/supervisors/store/team-supervisors';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -29,13 +31,13 @@ const actions = {
 
 const PERMISSIONS_API_URL = '/call_center/teams';
 const permissions = new PermissionsStoreModule()
-  .generateAPIActions(PERMISSIONS_API_URL)
-  .getModule();
+.generateAPIActions(PERMISSIONS_API_URL)
+.getModule();
 
 const teams = new ObjectStoreModule({ resettableState, headers })
-  .attachAPIModule(TeamsAPI)
-  .generateAPIActions()
-  .setChildModules({ supervisors, agents, permissions })
-  .getModule({ actions });
+.attachAPIModule(TeamsAPI)
+.generateAPIActions()
+.setChildModules({ supervisors, agents, permissions })
+.getModule({ actions });
 
 export default teams;

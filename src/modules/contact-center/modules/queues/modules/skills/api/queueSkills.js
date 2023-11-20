@@ -1,26 +1,43 @@
-import { QueueSkillServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { QueueSkillServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
-  'enabled'];
+const fieldsToSend = [
+  'maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
+  'enabled',
+];
 
-const preRequestHandler = (parentId) => (item) => ({ ...item, queueId: parentId });
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  queueId: parentId,
+});
 
 export const getQueueSkillsList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId', 'skillId'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'id',
+    'parentId',
+    'skillId',
+  ];
 
   const defaultObject = {
     agent: {},
@@ -69,7 +86,7 @@ export const getQueueSkillsList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -93,7 +110,7 @@ export const getQueueSkill = async ({ parentId, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -112,7 +129,7 @@ export const addQueueSkill = async ({ parentId, itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -130,13 +147,17 @@ export const patchQueueSkill = async ({ changes, id, parentId }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
 };
 
-export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId }) => {
+export const updateQueueSkill = async ({
+                                         itemInstance,
+                                         itemId: id,
+                                         parentId,
+                                       }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
@@ -149,7 +170,7 @@ export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId }) =
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -161,7 +182,7 @@ export const deleteQueueSkill = async ({ parentId, id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
