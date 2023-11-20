@@ -1,115 +1,126 @@
 import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
-  EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
-  EndpointPatcherApiConsumer,
-  EndpointDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
-import instance from '../../../../../app/api/old/instance';
+import instance from '../../../../../app/api/instance';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
-
-const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata', 'updates'];
-
-const defaultListObject = { // default object prototype, to merge response with it to get all fields
-  enabled: false,
-  name: '',
-  uri: '',
-  flow: {},
-  provider: '',
-  metadata: {},
-  updates: {
-    title: '',
-    close: '',
-    join: '',
-    left: '',
-  },
-};
+const fieldsToSend = [
+  'name',
+  'uri',
+  'flow',
+  'enabled',
+  'provider',
+  'metadata',
+  'updates',
+];
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
-const parseTimeoutSeconds = (item) => (item.includes('s') ? parseInt(item.replace('/s', '/'), 10) : +item);
+const parseTimeoutSeconds = (item) => (item.includes('s')
+  ? parseInt(item.replace('/s', '/'), 10)
+  : +item);
 
 const webchatRequestConverter = (data) => {
+  const copy = deepCopy(data);
   if (data.metadata.readTimeout) {
-    data.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
+    copy.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    data.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
+    copy.metadata.writeTimeout = convertWebchatSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    data.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
+    copy.metadata.handshakeTimeout = convertWebchatSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.allowOrigin) {
-    data.metadata.allowOrigin = data.metadata.allowOrigin.join();
+    copy.metadata.allowOrigin = data.metadata.allowOrigin.join();
   }
 
-  data.metadata.view = JSON.stringify(data.metadata.view);
-  data.metadata.chat = JSON.stringify(data.metadata.chat);
-  data.metadata.appointment = JSON.stringify(data.metadata.appointment);
-  data.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
-  data.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
-  return data;
+  copy.metadata.view = JSON.stringify(data.metadata.view);
+  copy.metadata.chat = JSON.stringify(data.metadata.chat);
+  copy.metadata.appointment = JSON.stringify(data.metadata.appointment);
+  copy.metadata.alternativeChannels = JSON.stringify(data.metadata.alternativeChannels);
+  copy.metadata.call = JSON.stringify(data.metadata.call);
+  copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
+  return copy;
 };
 
 const messengerRequestConverter = (data) => {
-  data.metadata.instagramComments = data.metadata.instagramComments.toString();
-  data.metadata.instagramMentions = data.metadata.instagramMentions.toString();
-  return data;
+  const copy = deepCopy(data);
+  copy.metadata.instagramComments = data.metadata.instagramComments.toString();
+  copy.metadata.instagramMentions = data.metadata.instagramMentions.toString();
+  return copy;
 };
 
 const viberRequestConverter = (item) => {
-  item.metadata['btn.back.color'] = item.metadata.btnBackColor;
-  delete item.metadata.btnBackColor;
-  item.metadata['btn.font.color'] = item.metadata.btnFontColor;
-  delete item.metadata.btnFontColor;
-  return item;
+  const copy = deepCopy(item);
+  copy.metadata['btn.back.color'] = item.metadata.btnBackColor;
+  delete copy.metadata.btnBackColor;
+  copy.metadata['btn.font.color'] = item.metadata.btnFontColor;
+  delete copy.metadata.btnFontColor;
+  return copy;
 };
 
 const webChatResponseConverter = (data) => {
-  data.metadata.allowOrigin = data.metadata.allowOrigin
+  const copy = deepCopy(data);
+  copy.metadata.allowOrigin = data.metadata.allowOrigin
     ? data.metadata.allowOrigin.split(',')
     : [];
   if (data.metadata.readTimeout) {
-    data.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
+    copy.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   }
   if (data.metadata.writeTimeout) {
-    data.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
+    copy.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
   }
   if (data.metadata.handshakeTimeout) {
-    data.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
+    copy.metadata.handshakeTimeout = parseTimeoutSeconds(data.metadata.handshakeTimeout);
   }
   if (data.metadata.view) {
-    data.metadata.view = JSON.parse(data.metadata.view);
+    copy.metadata.view = JSON.parse(data.metadata.view);
   }
   if (data.metadata.chat) {
-    data.metadata.chat = JSON.parse(data.metadata.chat);
+    copy.metadata.chat = JSON.parse(data.metadata.chat);
   }
   if (data.metadata.appointment) {
-    data.metadata.appointment = JSON.parse(data.metadata.appointment);
+    copy.metadata.appointment = JSON.parse(data.metadata.appointment);
   }
   if (data.metadata.alternativeChannels) {
-    data.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
+    copy.metadata.alternativeChannels = JSON.parse(data.metadata.alternativeChannels);
   }
-  data.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
+  if (data.metadata.call) {
+    copy.metadata.call = JSON.parse(data.metadata.call);
+  }
+  copy.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
 
-  return deepmerge(webChatGateway(), data);
+  return deepmerge(webChatGateway(), copy);
 };
 
 const messengerResponseConverter = (item) => {
-  item.metadata.instagramComments = item.metadata.instagramComments === 'true';
-  item.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
-  return item;
+  const copy = deepCopy(item);
+  copy.metadata.instagramComments = item.metadata.instagramComments === 'true';
+  copy.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
+  return copy;
 };
 
 const viberResponseConverter = (item) => {
-  if (item.metadata['btn.back.color']) item.metadata.btnBackColor = item.metadata['btn.back.color'];
-  if (item.metadata['btn.font.color']) item.metadata.btnFontColor = item.metadata['btn.font.color'];
-  return item;
+  const copy = deepCopy(item);
+  if (item.metadata['btn.back.color']) copy.metadata.btnBackColor = item.metadata['btn.back.color'];
+  if (item.metadata['btn.font.color']) copy.metadata.btnFontColor = item.metadata['btn.font.color'];
+  return copy;
 };
 
 const preRequestHandler = (item) => {
@@ -125,36 +136,154 @@ const preRequestHandler = (item) => {
   }
 };
 
-const itemResponseHandler = (response) => {
-  switch (response.provider) {
-    case ChatGatewayProvider.WEBCHAT:
-      return webChatResponseConverter(response);
-    case ChatGatewayProvider.MESSENGER:
-      return messengerResponseConverter(response);
-    case ChatGatewayProvider.VIBER:
-      return viberResponseConverter(response);
-    default:
-      return response;
+const getChatGatewayList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
+
+  const defaultObject = {
+    // default object prototype, to merge response with it to get all fields
+    enabled: false,
+    name: '',
+    uri: '',
+    flow: {},
+    provider: '',
+    metadata: {},
+    updates: {
+      title: '',
+      close: '',
+      join: '',
+      left: '',
+    },
+  };
+
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
   }
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance }, { defaultListObject });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance }, { itemResponseHandler });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemPatcher = new EndpointPatcherApiConsumer({ baseUrl, instance }, { fieldsToSend });
-const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
-const lookupGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
+const getChatGateway = async ({ itemId: id }) => {
 
-const getChatGatewayList = (params) => listGetter.getList(params);
-const getChatGateway = (params) => itemGetter.getItem(params);
-const addChatGateway = (params) => itemCreator.createItem(params);
-const updateChatGateway = (params) => itemUpdater.updateItem(params);
-const patchChatGateway = (params) => itemPatcher.patchItem(params);
-const deleteChatGateway = (params) => itemDeleter.deleteItem(params);
-const getLookup = (params) => lookupGetter.getLookup(params);
+  const itemResponseHandler = (response) => {
+    switch (response.provider) {
+      case ChatGatewayProvider.WEBCHAT:
+        return webChatResponseConverter(response);
+      case ChatGatewayProvider.MESSENGER:
+        return messengerResponseConverter(response);
+      case ChatGatewayProvider.VIBER:
+        return viberResponseConverter(response);
+      default:
+        return response;
+    }
+  };
+
+  const url = `${baseUrl}/${id}`;
+
+  try {
+    const response = await instance.get(url);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const addChatGateway = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await instance.post(baseUrl, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const updateChatGateway = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.put(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const patchChatGateway = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.patch(url, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const deleteChatGateway = async ({ id }) => {
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.delete(url);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getLookup = (params) => getChatGatewayList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const ChatGatewaysAPI = {
   getList: getChatGatewayList,

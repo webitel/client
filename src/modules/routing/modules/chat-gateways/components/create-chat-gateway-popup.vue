@@ -7,24 +7,26 @@
     @close="close"
     @select="createGateway"
   >
-    <template v-slot:option="{ option }">
-          <wt-icon
-            v-if="option.icon && !Array.isArray(option.icon)"
-            :icon="option.icon"
-            size="sm"
-          ></wt-icon>
-          <div
-            v-if="Array.isArray(option.icon)"
-            class="popup-options__icons-wrap"
-          >
-            <wt-icon
-              v-for="(icon, key) of option.icon"
-              :icon="icon"
-              :key="key"
-              size="sm"
-            ></wt-icon>
-          </div>
-          <h4 class="popup-options__item-header">{{ option.title }}</h4>
+    <template #option="{ option }">
+      <wt-icon
+        v-if="option.icon && !Array.isArray(option.icon)"
+        :icon="option.icon"
+        size="sm"
+      />
+      <div
+        v-if="Array.isArray(option.icon)"
+        class="popup-options__icons-wrap"
+      >
+        <wt-icon
+          v-for="(icon, key) of option.icon"
+          :key="key"
+          :icon="icon"
+          size="sm"
+        />
+      </div>
+      <h4 class="popup-options__item-header">
+        {{ option.title }}
+      </h4>
     </template>
   </selection-popup>
 </template>
@@ -35,7 +37,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
 
 export default {
-  name: 'create-chat-gateway-popup',
+  name: 'CreateChatGatewayPopup',
   components: { SelectionPopup },
 
   data: () => ({
@@ -77,6 +79,9 @@ export default {
     },
   },
 
+  created() {
+    this.selectOption(this.options[0]);
+  },
   methods: {
     selectOption(option) {
       this.selected = option;
@@ -108,7 +113,7 @@ export default {
   }
 
   .popup-options__icons-wrap {
-      display: flex;
+    display: flex;
   }
 
 }
