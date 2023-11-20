@@ -206,7 +206,7 @@ const QueueTypeProperties = Object.freeze({
                                                 'stickyAgentSec',
                                                 'minOnlineAgents',
                                                 'manualDistribution',
-                                                'timeoutFromTheLastMessage',
+                                                'lastMessageTimeout',
 
                                                 // processing specific
                                                 'taskProcessing.enabled',
