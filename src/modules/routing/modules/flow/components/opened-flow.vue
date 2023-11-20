@@ -54,7 +54,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
-import { saveAsJSON } from '@webitel/ui-sdk/src/scripts/saveAsJSON';
+import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
@@ -129,14 +129,8 @@ export default {
       }
     },
     async saveCode() {
-      if (this.disabledSave) return;
       try {
-        if (this.id) {
-          await this.updateItem();
-        } else {
-          await this.addItem();
-          await this.redirectToEdit();
-        }
+        await this.save();
         this.isSaveFailedPopup = false;
       } catch (err) {
         this.isSaveFailedPopup = true;
@@ -148,7 +142,6 @@ export default {
       // _dirty is not needed inside JSON file
       const { _dirty, ...content } = this.itemInstance;
       this.saveAsJSON(content.name, content);
-      this.saveAsJSON(this.itemInstance.name, this.itemInstance);
     },
     hideSaveFailedPopup() {
       this.isSaveFailedPopup = false;
