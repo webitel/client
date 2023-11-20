@@ -1,17 +1,18 @@
-import { TriggerServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  merge, notify, snakeToCamel,
+  merge,
+  notify,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { TriggerServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const triggerLogsService = new TriggerServiceApiFactory(configuration, '', instance);
-
 
 const getList = async (params) => {
   const {

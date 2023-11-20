@@ -1,18 +1,20 @@
 <template>
   <ul class="start-nav__category start-nav__category--lvl-2">
-    <li class="
+    <li
+      v-for="(category, key) of categories"
+      :key="key"
+      class="
             start-nav__category-option__wrapper
             start-nav__category-option
             start-nav__category-option--lvl-2
           "
-        v-for="(category, key) of categories"
-        :key="key"
     >
-      <span class="start-nav__category-indicator"></span>
+      <span class="start-nav__category-indicator" />
       <router-link
-        class="start-nav__link"
         :to="category.route"
-      >{{ category.name }}
+        class="start-nav__link"
+      >
+        {{ category.name }}
       </router-link>
     </li>
   </ul>
@@ -20,7 +22,7 @@
 
 <script>
 export default {
-  name: 'start-category-lvl-2',
+  name: 'StartCategoryLvl2',
   props: {
     categories: {
       type: Array,
@@ -46,14 +48,14 @@ export default {
     height: 24px;
 
     &:after {
-      content: '';
       position: absolute;
       top: 50%;
       left: 50%;
       width: 4px;
       height: 4px;
-      border-radius: 50%;
+      content: '';
       transform: translate(-50%, -50%);
+      border-radius: 50%;
       background: var(--contrast-color);
     }
   }

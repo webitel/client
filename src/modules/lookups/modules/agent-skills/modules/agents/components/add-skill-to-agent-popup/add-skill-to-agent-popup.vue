@@ -1,18 +1,18 @@
 <template>
- <div>
-   <select-agents-popup
-     v-if="isSelectAgentsPopup"
-     :skill-id="skillId"
-     @cancel="cancel"
-     @select="handleSelectAgents"
-   ></select-agents-popup>
-   <config-agent-skill-popup
-     v-if="isAgentConfigSkillPopup"
-     @close="cancel"
-     @back="handleSkillConfigBack"
-     @select="handleSkillConfigSelect"
-   ></config-agent-skill-popup>
- </div>
+  <div>
+    <select-agents-popup
+      v-if="isSelectAgentsPopup"
+      :skill-id="skillId"
+      @cancel="cancel"
+      @select="handleSelectAgents"
+    />
+    <config-agent-skill-popup
+      v-if="isAgentConfigSkillPopup"
+      @back="handleSkillConfigBack"
+      @close="cancel"
+      @select="handleSkillConfigSelect"
+    />
+  </div>
 </template>
 
 <script setup>

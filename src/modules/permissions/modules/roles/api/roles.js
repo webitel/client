@@ -1,61 +1,197 @@
-import deepCopy from 'deep-copy';
 import {
-  EndpointListGetterApiConsumer,
-  EndpointGetterApiConsumer,
-  EndpointCreatorApiConsumer,
-  EndpointUpdaterApiConsumer,
-  EndpointDeleterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  merge, notify, snakeToCamel,
+  starToSearch, log, sanitize,
+  generateUrl,
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
 import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
-import instance from '../../../../../app/api/old/instance';
+import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/roles';
-
 const fieldsToSend = ['name', 'description', 'permissions', 'metadata'];
 
-const defaultSingleObject = {
-  name: '',
-  description: '',
-  permissions: [],
-  metadata: {},
-};
-
-const itemResponseHandler = (item) => {
-  // eslint-disable-next-line no-param-reassign
-  item.metadata.access = new ApplicationsAccess({ access: item.metadata.access }).getAccess();
-  return item;
-};
-
 const preRequestHandler = (item) => {
-  const itemCopy = deepCopy(item);
-  itemCopy.metadata.access = ApplicationsAccess.minify(item.metadata.access);
-  return itemCopy;
+  const copy = deepCopy(item);
+  copy.metadata.access = ApplicationsAccess.minify(copy.metadata.access);
+  return copy;
 };
 
-const listGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
-const itemGetter = new EndpointGetterApiConsumer({ baseUrl, instance },
-  { defaultSingleObject, itemResponseHandler });
-const extendedRolesListGetter = new EndpointListGetterApiConsumer({ baseUrl, instance });
-const itemCreator = new EndpointCreatorApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemUpdater = new EndpointUpdaterApiConsumer({ baseUrl, instance },
-  { fieldsToSend, preRequestHandler });
-const itemDeleter = new EndpointDeleterApiConsumer({ baseUrl, instance });
+const getRoleList = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
+
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getRole = async ({ itemId: id }) => {
+  const defaultObject = {
+    name: '',
+    description: '',
+    permissions: [],
+    metadata: {},
+  };
+
+  const itemResponseHandler = (response) => {
+    const copy = deepCopy(response);
+    copy.metadata.access = new ApplicationsAccess({ access: copy.metadata.access }).getAccess();
+    return copy;
+  };
+
+  const url = `${baseUrl}/${id}`;
+
+  try {
+    const response = await instance.get(url);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+      itemResponseHandler,
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getExtendedRoles = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
+
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const addRole = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await instance.post(baseUrl, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const updateRole = async ({ itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [
+    preRequestHandler,
+    log,
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.put(url, item);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const deleteRole = async ({ id }) => {
+  const url = `${baseUrl}/${id}`;
+  try {
+    const response = await instance.delete(url);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
+const getRolesLookup = (params) => getRoleList({
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 const PERMISSIONS_LIST_URL = '/permissions';
-const permissionsListGetter = new EndpointListGetterApiConsumer(
-  { baseUrl: PERMISSIONS_LIST_URL, instance },
-);
 
-const getRoleList = (params) => listGetter.getList(params);
-const getExtendedRoles = (params) => extendedRolesListGetter.getList(params);
-const getRole = (params) => itemGetter.getItem(params);
-const addRole = (params) => itemCreator.createItem(params);
-const updateRole = (params) => itemUpdater.updateItem(params);
-const deleteRole = (params) => itemDeleter.deleteItem(params);
-const getRolesLookup = (params) => listGetter.getLookup(params);
+const getPermissionsOptions = async (params) => {
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
-const getPermissionsOptions = (payload) => permissionsListGetter.getList(payload);
+  const url = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+    (params) => ({ ...params, q: params.search }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+    generateUrl(PERMISSIONS_LIST_URL),
+  ]);
+  try {
+    const response = await instance.get(url);
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
 
 const RolesAPI = {
   getList: getRoleList,

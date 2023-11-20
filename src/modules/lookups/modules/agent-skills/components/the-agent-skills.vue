@@ -1,39 +1,43 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <template v-slot:actions>
+        <template #actions>
           <wt-button
             :disabled="!selectedRows.length"
             color="secondary"
             @click="isAddSkillToAgentPopup = true"
-          >{{ $t('objects.lookups.skills.assignAgent') }}
+          >
+            {{ $t('objects.lookups.skills.assignAgent') }}
           </wt-button>
         </template>
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
 
-    <template v-slot:main>
+    <template #main>
       <delete-confirmation-popup
-        v-show="deleteConfirmation.isDeleteConfirmationPopup"
-        :payload="deleteConfirmation"
+        v-show="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
-      ></delete-confirmation-popup>
+      />
 
       <add-skill-to-agent-popup
         v-if="isAddSkillToAgentPopup"
         :skill-id="selectedRowsId"
         @close="isAddSkillToAgentPopup = false"
         @saved="loadDataList"
-      ></add-skill-to-agent-popup>
+      />
 
       <section class="main-section__wrapper">
         <header class="content-header">
-          <h3 class="content-title">{{ $t('objects.lookups.skills.allSkills') }}</h3>
+          <h3 class="content-title">
+            {{ $t('objects.lookups.skills.allSkills') }}
+          </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
               :value="search"
@@ -41,7 +45,7 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
-            ></wt-search-bar>
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -50,13 +54,16 @@
                 v-if="hasDeleteAccess"
                 :class="{'hidden': anySelected}"
                 :selected-count="selectedRows.length"
-                @click="callDelete(selectedRows)"
-              ></delete-all-action>
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
+              />
             </wt-table-actions>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded"></wt-loader>
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
@@ -64,7 +71,7 @@
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
-        ></wt-dummy>
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -76,32 +83,35 @@
             sortable
             @sort="sort"
           >
-            <template v-slot:name="{ item }">
+            <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
-            <template v-slot:description="{ item }">
+            <template #description="{ item }">
               {{ item.description }}
             </template>
-            <template v-slot:totalAgents="{ item }">
+            <template #totalAgents="{ item }">
               {{ item.totalAgents }}
             </template>
-            <template v-slot:activeAgents="{ item }">
+            <template #activeAgents="{ item }">
               {{ item.activeAgents }}
             </template>
-            <template v-slot:actions="{ item }">
+            <template #actions="{ item }">
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
                 @click="edit(item)"
-              ></wt-icon-action>
+              />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="callDelete(item)"
-              ></wt-icon-action>
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -113,7 +123,7 @@
             @input="setSize"
             @next="nextPage"
             @prev="prevPage"
-          ></wt-pagination>
+          />
         </div>
       </section>
     </template>
@@ -125,23 +135,45 @@ import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
+import DeleteConfirmationPopup
+from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 
 const namespace = 'lookups/skills';
 
 export default {
-  name: 'the-agent-skills',
+  name: 'TheAgentSkills',
+  components: { AddSkillToAgentPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
-  components: { AddSkillToAgentPopup },
+
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+
   data: () => ({
     namespace,
     routeName: RouteNames.SKILLS,
     isAddSkillToAgentPopup: false,
   }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    return { dummy };
-  },
 
   computed: {
     path() {

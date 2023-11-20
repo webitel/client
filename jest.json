@@ -1,0 +1,194 @@
+{
+  "stats": {
+    "duration": 7786,
+    "start": "2023-11-20T12:33:20.662Z",
+    "end": "2023-11-20T12:33:28.448Z",
+    "passes": 30,
+    "failures": 0,
+    "tests": 30
+  },
+  "failures": [],
+  "passes": [
+    {
+      "title": "renders a component",
+      "fullTitle": "FlowTypeFilter renders a component",
+      "duration": 2436,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "AccessControlMixin renders a component",
+      "duration": 4534,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedEmailProfileGeneral renders a component",
+      "duration": 4641,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedTriggerGeneral renders a component",
+      "duration": 4693,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheEmailProfiles renders a component",
+      "duration": 4797,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedFlowDiagram renders a component",
+      "duration": 4767,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedQueueParams renders a component",
+      "duration": 4766,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedTriggerVariables renders a component",
+      "duration": 4788,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedCognitiveProfileGoogle renders a component",
+      "duration": 4816,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedCognitiveProfileMicrosoft renders a component",
+      "duration": 4809,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedQueueGeneral renders a component",
+      "duration": 4833,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheQueues renders a component",
+      "duration": 4950,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedEmailProfile renders a component",
+      "duration": 4867,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedCognitiveProfile renders a component",
+      "duration": 4981,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheCognitiveProfiles renders a component",
+      "duration": 5000,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheMedia renders a component",
+      "duration": 5186,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedTriggerProfile renders a component",
+      "duration": 5236,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheFlow renders a component",
+      "duration": 5335,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "OpenedQueue renders a component",
+      "duration": 5529,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "FlowTagsFilter renders a component",
+      "duration": 847,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "ChangelogLogsRecordLink renders a component",
+      "duration": 621,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TextToSpeechPopup renders a component",
+      "duration": 768,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheFlowFilters renders a component",
+      "duration": 1026,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "MediaAudioPreviewTableAction renders a component",
+      "duration": 552,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "CreateFlowPopup renders a component",
+      "duration": 637,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "TheTriggers renders a component",
+      "duration": 3256,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "CreateQueuePopup renders a component",
+      "duration": 487,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "MediaFilePreviewTableAction renders a component",
+      "duration": 570,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "BaseObjectMixin renders a component",
+      "duration": 440,
+      "errorCount": 0
+    },
+    {
+      "title": "renders a component",
+      "fullTitle": "UploadFlowPopup renders a component",
+      "duration": 525,
+      "errorCount": 0
+    }
+  ],
+  "skipped": []
+}

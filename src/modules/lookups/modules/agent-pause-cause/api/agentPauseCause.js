@@ -3,8 +3,12 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, 
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  camelToSnake,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { AgentPauseCauseServiceApiFactory } from 'webitel-sdk';
@@ -56,7 +60,7 @@ const getPauseCauseList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -79,13 +83,20 @@ const getPauseCause = async ({ itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
 };
 
-const fieldsToSend = ['name', 'limitMin', 'allowAdmin', 'allowSupervisor', 'allowAgent', 'description'];
+const fieldsToSend = [
+  'name',
+  'limitMin',
+  'allowAdmin',
+  'allowSupervisor',
+  'allowAgent',
+  'description',
+];
 
 const addPauseCause = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -99,7 +110,7 @@ const addPauseCause = async ({ itemInstance }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -117,7 +128,7 @@ const patchPauseCause = async ({ id, changes }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -134,7 +145,7 @@ const updatePauseCause = async ({ itemInstance, itemId: id }) => {
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -146,7 +157,7 @@ const deletePauseCause = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }

@@ -1,19 +1,11 @@
-import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import BaseStoreModule
+  from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import BaseOpenedInstanceModule
+  from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
-import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 
 export class HistoryStoreModule extends BaseStoreModule {
-  _resettableState = () => ({
-    ...BaseTableModule.generateState(),
-    parentId: 0,
-    from: new Date().setHours(0, 0, 0, 0),
-    to: Date.now(),
-  });
-
-  state = this._resettableState();
-
   getters = {};
-
   actions = {
     ...BaseTableModule.getActions(),
     ...BaseOpenedInstanceModule.getActions(),
@@ -28,6 +20,14 @@ export class HistoryStoreModule extends BaseStoreModule {
     },
   };
 
+  _resettableState = () => ({
+    ...BaseTableModule.generateState(),
+    parentId: 0,
+    from: new Date().setHours(0, 0, 0, 0),
+    to: Date.now(),
+  });
+
+  state = this._resettableState();
   mutations = {
     ...BaseTableModule.getMutations(),
     ...BaseOpenedInstanceModule.getMutations(),

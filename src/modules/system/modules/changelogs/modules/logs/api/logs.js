@@ -1,20 +1,34 @@
-import { LoggerServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
+  merge,
+  notify,
   sanitize,
-  merge, notify, snakeToCamel,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { LoggerServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const service = new LoggerServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
-  const fieldsToSend = ['parentId', 'page', 'size', 'search', 'sort', 'fields', 'action', 'user', 'from', 'to', 'userIp'];
+  const fieldsToSend = [
+    'parentId',
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'action',
+    'user',
+    'from',
+    'to',
+    'userIp',
+  ];
 
   const {
     parentId,

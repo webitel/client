@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.generalInfo') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -11,7 +13,7 @@
         :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
-      ></wt-input>
+      />
       <wt-select
         :clearable="false"
         :disabled="true || disableUserInput"
@@ -20,7 +22,7 @@
         :value="itemInstance.provider"
         required
         @input="setItemProp({ prop: 'provider', value: $event })"
-      ></wt-select>
+      />
       <wt-select
         :clearable="false"
         :disabled="true || disableUserInput"
@@ -31,26 +33,28 @@
         required
         track-by="value"
         @input="setItemProp({ prop: 'service', value: $event })"
-      ></wt-select>
+      />
       <div class="google-key">
         <wt-label
           :invalid="v.itemInstance.properties.key.$error"
-        >{{ $t('objects.key') }}*
+        >
+          {{ $t('objects.key') }}*
         </wt-label>
         <div v-if="!itemInstance.properties.keyFilename">
           <wt-button
-            color="secondary"
             :disabled="disableUserInput"
             :loading="isKeyLoading"
+            color="secondary"
             wide
             @click="triggerFileInput"
-          >{{ $t('reusable.upload') }}
+          >
+            {{ $t('reusable.upload') }}
           </wt-button>
           <input
             ref="googleKeyInput"
+            accept="application/json"
             class="google-key__input"
             type="file"
-            accept="application/json"
             @input="handleFileInput"
           >
         </div>
@@ -62,27 +66,27 @@
           <wt-icon-action
             action="delete"
             @click="handleFileDelete"
-          ></wt-icon-action>
+          />
         </div>
       </div>
       <wt-select
+        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
         :options="LanguageOptions"
-        :value="itemInstance.properties.locale"
-        :v="v.itemInstance.properties.locale"
-        :clearable="false"
         :track-by="null"
+        :v="v.itemInstance.properties.locale"
+        :value="itemInstance.properties.locale"
         required
         @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
-      ></wt-select>
-      <div></div>
+      />
+      <div />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
-      ></wt-textarea>
+      />
     </div>
   </section>
 </template>
@@ -95,7 +99,7 @@ import openedTabComponentMixin
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: 'opened-cognitive-profile-google',
+  name: 'OpenedCognitiveProfileGoogle',
   mixins: [openedTabComponentMixin],
   inject: ['$eventBus'],
   data: () => ({
@@ -146,10 +150,10 @@ export default {
 .google-key__file-preview-wrap {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   justify-content: space-between;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--secondary-color-50);
   border-radius: var(--border-radius);
-  flex-wrap: nowrap;
+  background: var(--secondary-color-50);
 }
 </style>

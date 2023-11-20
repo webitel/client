@@ -1,7 +1,9 @@
+import BaseStoreModule
+  from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
 import deepCopy from 'deep-copy';
-import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import BaseOpenedInstanceModule
+  from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
-import BaseOpenedInstanceModule from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 
 const DEFAULT_STATE = BaseTableModule.generateState();
 const DEFAULT_ITEM_STATE = BaseOpenedInstanceModule.generateState();
@@ -53,7 +55,10 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
   constructor({ resettableState, resettableItemState, headers } = {}) {
     super();
     const state = { parentId: 0 };
-    this._resettableState = () => deepCopy({ ...DEFAULT_STATE, ...resettableState, headers });
+    this._resettableState = () => deepCopy({
+      ...DEFAULT_STATE, ...resettableState,
+      headers,
+    });
     this._resettableItemState = () => deepCopy({ ...DEFAULT_ITEM_STATE, ...resettableItemState });
     this.state = { ...state, ...this._resettableState(), ...this._resettableItemState() };
   }

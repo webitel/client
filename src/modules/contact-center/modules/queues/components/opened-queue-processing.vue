@@ -1,7 +1,9 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.queues.processing.processing') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.ccenter.queues.processing.processing') }}
+      </h3>
     </header>
     <div class="object-input-grid">
       <wt-switcher
@@ -10,7 +12,7 @@
         :label="$t('objects.ccenter.queues.processing.enabled')"
         :value="itemInstance.taskProcessing.enabled"
         @change="setItemProcessingProp({ prop: 'enabled', value: $event })"
-      ></wt-switcher>
+      />
 
       <!--      v-if-->
       <wt-select
@@ -20,7 +22,7 @@
         :search-method="loadDropdownOptionsSchemaList"
         :value="itemInstance.taskProcessing.formSchema"
         @input="setItemProcessingProp({ prop: 'formSchema', value: $event })"
-      ></wt-select>
+      />
       <wt-input
         v-if="specificControls['taskProcessing.sec']"
         v-show="itemInstance.taskProcessing.enabled"
@@ -29,7 +31,7 @@
         :value="itemInstance.taskProcessing.sec"
         type="number"
         @input="setItemProcessingProp({ prop: 'sec', value: +$event })"
-      ></wt-input>
+      />
       <wt-input
         v-if="specificControls['taskProcessing.renewalSec']"
         v-show="itemInstance.taskProcessing.enabled"
@@ -38,7 +40,7 @@
         :value="itemInstance.taskProcessing.renewalSec"
         type="number"
         @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
-      ></wt-input>
+      />
     </div>
   </section>
 </template>
@@ -52,7 +54,7 @@ import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: 'opened-queue-processing',
+  name: 'OpenedQueueProcessing',
   mixins: [openedTabComponentMixin],
   computed: {
     specificControls() {

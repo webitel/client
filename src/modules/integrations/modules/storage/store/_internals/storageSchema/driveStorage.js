@@ -5,8 +5,7 @@ const driveStorage = () => ({
   ...defaultStorage(),
   type: Storage.DRIVE,
   properties: {
-    properties: {
-    },
+    properties: {},
   },
 });
 

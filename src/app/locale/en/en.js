@@ -21,7 +21,7 @@ export default {
       text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
 
       title2: 'Multichannel VS Omni-Channel',
-      text2: "Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it's easier than ever!",
+      text2: 'Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it\'s easier than ever!',
 
       title3: 'Fault-tolerant infrastructure',
       text3: 'No more unplanned downtime. Fast scaling and fault-tolerant architecture allows you to simultaneously serve more than 1000 customer calls per minute from different communication channels.',
@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Settings',
+    settings: 'Setting | Settings',
     changePassword: 'Change password',
     language: 'Language',
     webPhone: 'WebPhone',
@@ -194,7 +194,7 @@ export default {
         license: 'License',
         devices: 'Devices',
         defaultDevice: 'Default device (from list of selected devices)',
-        deviceNotFound: "Didn't find the device?",
+        deviceNotFound: 'Didn\'t find the device?',
         createNewDevice: 'Add new',
         variables: 'Variables',
         varKey: 'Key',
@@ -264,7 +264,7 @@ export default {
           dialog: 'Dialog',
           onhold: 'On hold',
         },
-        passwordSetFromAccount: "If you won't set password, it would be the same as account",
+        passwordSetFromAccount: 'If you won\'t set password, it would be the same as account',
       },
     },
     permissions: {
@@ -286,7 +286,7 @@ export default {
           manageUserRoles: 'Manage user roles',
           manageUserLicense: 'Manage user license',
           changeUserPassword: 'Change user password',
-          systemSetting: 'Manage system settings',
+          systemSetting: 'Manage system configurations',
           addDescription: 'Grants permission to create any objects',
           deleteDescription: 'Grants permission to remove any objects',
           readDescription: 'Grants permission to select any objects',
@@ -298,7 +298,7 @@ export default {
           manageUserRolesDescription: 'Grants permission to manage a set of user roles',
           manageUserLicenseDescription: 'Grants permission to manage a set of user license',
           changeUserPasswordDescription: 'Grants permission to change the users password',
-          systemSettingDescription: 'Grants permission to access and manage the System section',
+          systemSettingDescription: 'Grants permission to access and manage the Configuration section',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -598,9 +598,15 @@ export default {
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
+            title: 'Messaging channels',
             email: 'Email',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
+          },
+          call: {
+            title: 'Online call',
+            url: 'WebSocket Endpoint',
           },
         },
         uri: 'URI',
@@ -667,12 +673,12 @@ export default {
         teams: 'Team | Teams',
         allTeams: 'All teams',
         strategy: 'Strategy',
-        timing: 'Timing',
-        maxNoAnswer: 'Max no answer',
-        callTimeout: 'Call timeout',
+        parameters: 'Parameters',
+        maxNoAnswer: 'Max count of missed activities',
+        callTimeout: 'Call accept timeout',
         inviteChatTimeout: 'Chat accept timeout',
         wrapUpTime: 'Wrap up time',
-        noAnswerDelayTime: 'No answer delay time',
+        noAnswerDelayTime: 'Delay time after missed activity',
         strategies: {
           random: 'Random',
           fewestCalls: 'Agent with fewest calls',
@@ -961,6 +967,13 @@ export default {
         imapHost: 'IMAP Host',
         fetchInterval: 'Refresh interval',
       },
+      singleSignOn: {
+        allTypes: 'All types',
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
 
       importCsv: {
         importCsv: 'Import CSV from file | Imports of CSV from file',
@@ -1038,6 +1051,10 @@ export default {
         },
 
       },
+      configuration: {
+        configuration: 'Configuration | Configurations',
+        parameter: 'Parameter',
+      },
     },
 
     pagination: {
@@ -1060,7 +1077,7 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: "Looks like you're lost",
+      title: 'Looks like you\'re lost',
       text: 'Sorry, we can\'t find the page you want.',
     },
   },

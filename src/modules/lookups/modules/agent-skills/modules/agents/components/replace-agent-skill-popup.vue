@@ -1,36 +1,41 @@
 <template>
-  <wt-popup min-width="480" overflow @close="close">
-    <template v-slot:title>
+  <wt-popup
+    min-width="480"
+    overflow
+    @close="close"
+  >
+    <template #title>
       {{ $t('objects.lookups.skills.changeAgentsSkill') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="skill-select-wrapper">
         <wt-select
           v-model="itemInstance.skill"
-          :v="v$.itemInstance.skill"
+          :clearable="false"
           :label="$t('objects.lookups.skills.changeSkillTo')"
           :search-method="loadDropdownOptionsList"
-          :clearable="false"
+          :v="v$.itemInstance.skill"
           required
-        ></wt-select>
+        />
       </div>
       <wt-switcher
         v-model="skillState"
-        label-left
         :label="$t('objects.lookups.skills.state')"
-      >
-      </wt-switcher>
+        label-left
+      />
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="computeDisabled"
         @click="change"
-      >{{ $t('objects.change') }}
+      >
+        {{ $t('objects.change') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -39,12 +44,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import SkillsAPI from '../../../api/agentSkills';
 import openedObjectValidationMixin
   from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import SkillsAPI from '../../../api/agentSkills';
 
 export default {
-  name: 'opened-skill-agent-change-popup',
+  name: 'OpenedSkillAgentChangePopup',
   mixins: [openedObjectValidationMixin],
   props: {
     selectedAgents: {
@@ -53,6 +58,9 @@ export default {
     },
   },
   emits: ['close', 'change'],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   data: () => ({
     namespace: 'lookups/skills',
     subNamespace: 'agents',
@@ -61,12 +69,14 @@ export default {
     },
     skillState: false,
   }),
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   validations: {
     itemInstance: {
       skill: { required },
+    },
+  },
+  computed: {
+    computeDisabled() {
+      return this.checkValidations();
     },
   },
   methods: {
@@ -84,11 +94,6 @@ export default {
     },
     close() {
       this.$emit('close');
-    },
-  },
-  computed: {
-    computeDisabled() {
-      return this.checkValidations();
     },
   },
 };

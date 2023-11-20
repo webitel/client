@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Налаштування',
+    settings: 'Налаштування | Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
     webPhone: 'Web-телефон',
@@ -286,7 +286,7 @@ export default {
           manageUserRoles: 'Управління ролями користувачів',
           manageUserLicense: 'Управління ліцензіями користувачів',
           changeUserPassword: 'Змінювати паролі користувачів',
-          systemSetting: 'Управління системними налаштуваннями',
+          systemSetting: 'Управління системними конфігураціями',
           addDescription: 'Надає дозвіл на створення об’єктів',
           deleteDescription: 'Надає дозвіл на видалення об’єктів',
           readDescription: 'Надає дозвіл на вибір об’єктів',
@@ -298,7 +298,7 @@ export default {
           manageUserRolesDescription: 'Надає дозвіл на керування набором ролей користувачів',
           manageUserLicenseDescription: 'Надає дозвіл на керування набором ліцензій користувача',
           changeUserPasswordDescription: 'Надає дозвіл на зміну пароля користувача',
-          systemSettingDescription: 'Надає дозвіл на керування розділом системних налаштувань',
+          systemSettingDescription: 'Надає дозвіл на керування розділом Конфігурація',
         },
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
@@ -597,11 +597,17 @@ export default {
             subheadingText: 'Підзаголовок',
             showDefaultHeading: 'Показати стандартний заголовок та підзаголовок на сторінці результату',
           },
+          call: {
+            title: 'Онлайн-дзвінок',
+            url: 'WebSocket Endpoint',
+          },
           alternativeChannels: {
             alternativeChannels: 'Альтернативні канали',
+            title: 'Текстові канали',
             email: 'Електронна пошта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
           },
         },
         uri: 'URI',
@@ -667,12 +673,12 @@ export default {
         teams: 'Команда| Команди',
         allTeams: 'Всі команди',
         strategy: 'Стратегія',
-        timing: 'Параметри додзвону',
-        maxNoAnswer: 'Максимальна кількість дзвінків без відповіді',
-        callTimeout: 'Тривалість виклику',
-        inviteChatTimeout: 'Час прийняття чату',
+        parameters: 'Параметри',
+        maxNoAnswer: 'Максимальна кількість пропущених активностей',
+        callTimeout: 'Час на прийняття дзвінка',
+        inviteChatTimeout: 'Час на прийняття чату',
         wrapUpTime: 'Тривалість паузи між дзвінками',
-        noAnswerDelayTime: 'Час очікування при відсутності відповіді оператора',
+        noAnswerDelayTime: 'Час затримки після пропущеної активності',
         strategies: {
           random: 'Випадково',
           fewestCalls: 'Оператор з найменшою кількістю дзвінків',
@@ -960,7 +966,14 @@ export default {
         imapHost: 'IMAP Хост',
         fetchInterval: 'Інтервал оновлення',
       },
-
+      singleSignOn: {
+        allTypes: 'Всі типи',
+        // TODO: add locale
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
       importCsv: {
         importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',
         allImportsCsv: 'Всі імпорти даних з CSV файлів',
@@ -1035,6 +1048,10 @@ export default {
             monthly: 'Щомісяця',
           },
         },
+      },
+      configuration: {
+        configuration: 'Конфігурація | Конфігурації',
+        parameter: 'Параметр',
       },
     },
     pagination: {

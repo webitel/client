@@ -1,17 +1,17 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template v-slot:header>
+    <template #header>
       <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
         :primary-action="save"
         :primary-disabled="disabledSave"
-        :hide-primary="!hasSaveActionAccess"
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -19,13 +19,16 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
+        />
         <component
           :is="currentTab.value"
-          :v="v$"
           :namespace="namespace"
-        ></component>
-        <input type="submit" hidden> <!--  submit form on Enter  -->
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -34,26 +37,30 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
-import { requiredArrayValue, timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
-import General from './opened-resource-group-general.vue';
-import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
-import Timerange from './opened-resource-group-timerange.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import {
+  requiredArrayValue,
+  timerangeNotIntersect,
+  timerangeStartLessThanEnd,
+} from '../../../../../app/utils/validators';
+import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
+import General from './opened-resource-group-general.vue';
+import Timerange from './opened-resource-group-timerange.vue';
 
 export default {
-  name: 'opened-resource-group',
-  mixins: [openedObjectMixin],
+  name: 'OpenedResourceGroup',
   components: {
     General,
     Resources,
     Timerange,
   },
-  data: () => ({
-    namespace: 'ccenter/resGroups',
-  }),
+  mixins: [openedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: 'ccenter/resGroups',
   }),
   // by vuelidate
   validations: {

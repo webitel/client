@@ -4,12 +4,12 @@
       :label="$t('reusable.from')"
       :namespace="namespace"
       filter-query="from"
-    ></filter-datetime>
+    />
     <filter-datetime
       :label="$t('reusable.to')"
       :namespace="namespace"
       filter-query="to"
-    ></filter-datetime>
+    />
     <component
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter, key) of filters"
@@ -17,12 +17,12 @@
       :filter-query="filter.filterQuery"
       :namespace="namespace"
       class="history-filters__filter"
-    ></component>
+    />
     <filter-from-to
       :label="$t('objects.ccenter.members.priority')"
       :namespace="namespace"
       filter-query="priority"
-    ></filter-from-to>
+    />
   </wt-filters-panel-wrapper>
 </template>
 
@@ -34,7 +34,7 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'the-queue-members-filters',
+  name: 'TheQueueMembersFilters',
   components: {
     FilterDatetime,
     FilterFromTo,
@@ -65,7 +65,7 @@ export default {
       this.resetFilterValues();
     },
   },
-  destroyed() {
+  unmounted() {
     this.resetFilters();
   },
 };

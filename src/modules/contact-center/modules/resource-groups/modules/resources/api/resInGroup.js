@@ -1,22 +1,34 @@
-import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ['groupId', 'name', 'description', 'resource', 'reserveResource', 'priority'];
+const fieldsToSend = [
+  'groupId',
+  'name',
+  'description',
+  'resource',
+  'reserveResource',
+  'priority',
+];
 
-const preRequestHandler = (parentId) => (item) => ({ ...item, groupId: parentId });
-
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  groupId: parentId,
+});
 
 const getResInGroupList = async (params) => {
   const {
@@ -58,7 +70,6 @@ const getResInGroupList = async (params) => {
   }
 };
 
-
 const getResInGroup = async ({ parentId, itemId: id }) => {
   try {
     const response = await resGrService.readOutboundResourceInGroup(parentId, id);
@@ -72,7 +83,6 @@ const getResInGroup = async ({ parentId, itemId: id }) => {
     ]);
   }
 };
-
 
 const addResInGroup = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -93,7 +103,6 @@ const addResInGroup = async ({ parentId, itemInstance }) => {
   }
 };
 
-
 const updateResInGroup = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -113,7 +122,6 @@ const updateResInGroup = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-
 const deleteResInGroup = async ({ parentId, id }) => {
   try {
     const response = await resGrService.deleteOutboundResourceInGroup(parentId, id);
@@ -125,7 +133,6 @@ const deleteResInGroup = async ({ parentId, id }) => {
     ]);
   }
 };
-
 
 const ResInGroupAPI = {
   getList: getResInGroupList,

@@ -1,9 +1,9 @@
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import log from '../modules/logs/store/trigger-logs';
 import TriggersAPI from '../api/triggers';
-import headers from './_internals/headers';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import log from '../modules/logs/store/trigger-logs';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {

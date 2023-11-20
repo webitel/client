@@ -53,7 +53,7 @@ export default {
   },
 
   settings: {
-    settings: 'Настройки',
+    settings: 'Настройка | Настройки',
     changePassword: 'Изменить пароль',
     language: 'Язык',
     webPhone: 'Web-телефон',
@@ -286,7 +286,7 @@ export default {
           manageUserRoles: 'Управление ролями пользователей',
           manageUserLicense: 'Управление лицензиями пользователей',
           changeUserPassword: 'Изменять пароли пользователей',
-          systemSetting: 'Управление системными настройками',
+          systemSetting: 'Управление системными конфигурациями',
           addDescription: 'Предоставляет разрешение на создание объектов',
           deleteDescription: 'Предоставляет разрешение на удаление объектов',
           readDescription: 'Предоставляет разрешение на выбор объектов',
@@ -298,7 +298,7 @@ export default {
           manageUserRolesDescription: 'Предоставляет разрешение на управление набором ролей пользователей',
           manageUserLicenseDescription: 'Предоставляет разрешение на управление набором пользовательских лицензий',
           changeUserPasswordDescription: 'Предоставляет разрешение на изменение пароля пользователя',
-          systemSettingDescription: 'Предоставляет разрешение на управление разделом системных настроек',
+          systemSettingDescription: 'Предоставляет разрешение на управление разделом Конфигурация',
         },
         addPermission: 'Добавить право доступа для роли',
         usage: 'Использование',
@@ -596,11 +596,17 @@ export default {
             subheadingText: 'Подзаголовок',
             showDefaultHeading: 'Показать стандартный заголовок и подзаголовок на странице результата',
           },
+          call: {
+            title: 'Онлайн-звонок',
+            url: 'WebSocket Endpoint',
+          },
           alternativeChannels: {
             alternativeChannels: 'Альтернативные каналы',
+            title: 'Текстовые каналы',
             email: 'Электронная почта',
             whatsapp: 'WhatsApp',
             telegram: 'Telegram',
+            messenger: 'Messenger',
           },
         },
         uri: 'URI',
@@ -665,12 +671,12 @@ export default {
         teams: 'Команда| Команды',
         allTeams: 'Все команды',
         strategy: 'Стратегия',
-        timing: 'Параметры дозвона',
-        maxNoAnswer: 'Максимальное количество звонков без ответа',
-        callTimeout: 'Длительность вызова',
-        inviteChatTimeout: 'Время принятия чата',
+        parameters: 'Параметры',
+        maxNoAnswer: 'Максимальное количество пропущенных активностей',
+        callTimeout: 'Время на принятие звонка',
+        inviteChatTimeout: 'Время на принятие чата',
         wrapUpTime: 'Длительность паузы между звонками',
-        noAnswerDelayTime: 'Время ожидания при отсутствии ответа оператора',
+        noAnswerDelayTime: 'Время задержки после пропущенной активности',
         strategies: {
           random: 'Случайно',
           fewestCalls: 'Агент с наименьшим количеством звонков',
@@ -960,6 +966,15 @@ export default {
         fetchInterval: 'Интервал обновления',
       },
 
+      singleSignOn: {
+        allTypes: 'Все типы',
+        // TODO: add locale
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
+
       importCsv: {
         importCsv: 'Импорт данных из CSV файла | Импорт данных из CSV файлов',
         allImportsCsv: 'Все импорты данных из CSV файлов',
@@ -1034,6 +1049,10 @@ export default {
             monthly: 'Ежемесячно',
           },
         },
+      },
+      configuration: {
+        configuration: 'Конфигурация | Конфигурации',
+        parameter: 'Параметр',
       },
     },
     pagination: {

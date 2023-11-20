@@ -1,19 +1,18 @@
 <template>
   <upload-csv-popup
+    :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
-    :add-bulk-items="saveBulkData"
     @close="close"
-  ></upload-csv-popup>
+  />
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin
-  from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import DevicesAPI from '../api/devices';
 
 export default {
-  name: 'upload-devices-popup',
+  name: 'UploadDevicesPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   data() {
     return {

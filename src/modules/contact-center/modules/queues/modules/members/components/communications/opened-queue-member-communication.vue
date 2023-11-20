@@ -4,65 +4,75 @@
       v-if="isCommPopup"
       :edited-index="editedIndex"
       @close="closePopup"
-    ></communication-popup>
+    />
 
     <delete-confirmation-popup
-      v-show="deleteConfirmation.isDeleteConfirmationPopup"
-      :payload="deleteConfirmation"
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
-    ></delete-confirmation-popup>
+    />
 
     <header class="content-header">
-      <h3 class="content-title"
-          :class="{'invalid': v.itemInstance.communications.$error}"
-      >{{ $tc('objects.lookups.communications.communications', 2) }}</h3>
+      <h3
+        :class="{'invalid': v.itemInstance.communications.$error}"
+        class="content-title"
+      >
+        {{ $tc('objects.lookups.communications.communications', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <delete-all-action
           v-if="!disableUserInput"
           :class="{'hidden': anySelected}"
           :selected-count="selectedRows.length"
-          @click="callDelete(selectedRows)"
-        ></delete-all-action>
+          @click="askDeleteConfirmation({
+            deleted: selectedRows,
+            callback: () => deleteData(selectedRows),
+          })"
+        />
         <wt-icon-btn
           v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
           @click="create"
-        ></wt-icon-btn>
+        />
       </div>
     </header>
 
     <div class="table-wrapper">
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="!disableUserInput"
+        :headers="headers"
       >
-        <template v-slot:destination="{ item }">
+        <template #destination="{ item }">
           {{ item.destination }}
         </template>
-        <template v-slot:state="{ item }">
+        <template #state="{ item }">
           {{ item.state }}
         </template>
-        <template v-slot:attempts="{ item }">
+        <template #attempts="{ item }">
           {{ item.attempts }}
         </template>
-        <template v-slot:type="{ item }">
+        <template #type="{ item }">
           {{ item.type.name }}
         </template>
-        <template v-slot:priority="{ item }">
+        <template #priority="{ item }">
           {{ item.priority }}
         </template>
-        <template v-slot:actions="{ index, item }">
+        <template #actions="{ index, item }">
           <wt-icon-action
             action="edit"
             @click="edit(index)"
-          ></wt-icon-action>
+          />
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
-          ></wt-icon-action>
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
+          />
         </template>
       </wt-table>
     </div>
@@ -70,16 +80,39 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import CommunicationPopup from './opened-queue-member-communication-popup.vue';
+import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import CommunicationPopup from './opened-queue-member-communication-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 
 export default {
-  name: 'opened-queue-member-communication',
+  name: 'OpenedQueueMemberCommunication',
+  components: { CommunicationPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
-  components: { CommunicationPopup },
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
   data: () => ({
     dataListValue: [],
     searchValue: '',
@@ -97,7 +130,7 @@ export default {
         return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
       },
     }),
-  // override mixin map state
+    // override mixin map state
     dataList: {
       get() {
         return this.dataListValue;
@@ -134,8 +167,8 @@ export default {
     }),
     loadList() {
       this.dataList = this.commList
-        .filter((comm) => comm.destination.includes(this.search))
-        .map((comm) => ({ ...comm, _isSelected: false }));
+      .filter((comm) => comm.destination.includes(this.search))
+      .map((comm) => ({ ...comm, _isSelected: false }));
     },
     create() {
       this.openPopup();

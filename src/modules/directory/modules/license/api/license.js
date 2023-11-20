@@ -3,9 +3,15 @@ import {
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
-  camelToSnake, generateUrl,
-  merge, notify, sanitize, snakeToCamel,
-  starToSearch, log, mergeEach,
+  camelToSnake,
+  generateUrl,
+  log,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../app/api/instance';
 

@@ -1,11 +1,16 @@
-import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify,
-  sanitize, snakeToCamel,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
+import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
@@ -13,8 +18,10 @@ const resService = new OutboundResourceServiceApiFactory(configuration, '', inst
 
 const fieldsToSend = ['display', 'resourceId'];
 
-const preRequestHandler = (parentId) => (item) => ({ ...item, resourceId: parentId });
-
+const preRequestHandler = (parentId) => (item) => ({
+  ...item,
+  resourceId: parentId,
+});
 
 const getResDisplayList = async (params) => {
   const {
@@ -55,7 +62,6 @@ const getResDisplayList = async (params) => {
   }
 };
 
-
 const getResDisplay = async ({ parentId, itemId: id }) => {
   try {
     const response = await resService.readOutboundResourceDisplay(parentId, id);
@@ -68,7 +74,6 @@ const getResDisplay = async ({ parentId, itemId: id }) => {
     ]);
   }
 };
-
 
 const addResDisplay = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -88,7 +93,6 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
   }
 };
 
-
 const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -106,7 +110,6 @@ const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
     ]);
   }
 };
-
 
 const deleteResDisplay = async ({ parentId, id }) => {
   try {

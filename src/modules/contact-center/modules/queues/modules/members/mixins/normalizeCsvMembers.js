@@ -44,8 +44,13 @@ export default {
           delete normalizedItem.agentId;
         }
         if (normalizedItem.variables) {
-          const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
-          normalizedItem.variables = item.variables.reduce((variables, variable, index) => ({
+          const variablesMappings = this.mappingFields.find((field) => field.name ===
+            'variables');
+          normalizedItem.variables = item.variables.reduce((
+            variables,
+            variable,
+            index,
+          ) => ({
             ...variables,
             [variablesMappings.csv[index]]: variable, // csv is arr of tags
           }), {});
@@ -90,7 +95,8 @@ export default {
           };
 
           // fill communication priority, if present
-          if (normalizedItem.commPriority && normalizedItem.commPriority[index]) {
+          if (normalizedItem.commPriority &&
+            normalizedItem.commPriority[index]) {
             communication.priority = normalizedItem.commPriority[index];
           }
 

@@ -1,7 +1,7 @@
-import BaseFilterSchema
-  from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import ApiFilterSchema
   from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
+import BaseFilterSchema
+  from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import QueryFiltersStoreModule
   from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { EngineRoutingSchemaType } from 'webitel-sdk';

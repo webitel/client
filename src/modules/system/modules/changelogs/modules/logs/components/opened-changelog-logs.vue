@@ -1,20 +1,22 @@
 <template>
   <section class="content-wrapper">
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.system.changelogs.logs.logs', 2) }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.system.changelogs.logs.logs', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-icon-action
           action="download"
           @click="exportCSV({ parentId })"
-        ></wt-icon-action>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
-        ></wt-table-actions>
+        />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <!--    <wt-dummy-->
     <!--      v-if="dummy && isLoaded"-->
     <!--      :src="dummy.src"-->
@@ -26,42 +28,44 @@
       class="table-wrapper"
     >
       <wt-table
-        :headers="headers"
         :data="dataList"
         :grid-actions="false"
+        :headers="headers"
         :selectable="false"
         sortable
         @sort="sort"
       >
-        <template v-slot:action="{ item }">
+        <template #action="{ item }">
           {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
-        <template v-slot:date="{ item }">
+        <template #date="{ item }">
           {{ new Date(+item.date).toLocaleString() }}
         </template>
-        <template v-slot:user="{ item }">
+        <template #user="{ item }">
           <wt-item-link
             v-if="item.user"
             :id="item.user.id"
             :route-name="usersRouteName"
-          >{{ item.user.name }}
+          >
+            {{ item.user.name }}
           </wt-item-link>
         </template>
-        <template v-slot:userId="{ item }">
+        <template #userId="{ item }">
           <wt-item-link
             v-if="item.user"
             :id="item.user.id"
             :route-name="usersRouteName"
-          >{{ item.user.id }}
+          >
+            {{ item.user.id }}
           </wt-item-link>
         </template>
-        <template v-slot:object="{ item }">
+        <template #object="{ item }">
           {{ item.object.name }}
         </template>
-        <template v-slot:record="{ item }">
+        <template #record="{ item }">
           <record-link
             :item="item"
-          ></record-link>
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -73,18 +77,17 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </section>
 </template>
 
 <script>
-import { LoggerAvailableSystemObjects } from 'webitel-sdk';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import LogsAPI from '../api/logs';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import LogsAPI from '../api/logs';
 import RecordLink from './changelog-logs-record-link.vue';
 // import { useDummy } from '../../../../../../../app/composables/useDummy';
 
@@ -92,9 +95,9 @@ const namespace = 'system/changelogs';
 const subNamespace = 'logs';
 
 export default {
-  name: 'opened-changelog-logs',
-  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
+  name: 'OpenedChangelogLogs',
   components: { RecordLink },
+  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   data: () => ({
     namespace,
     subNamespace,

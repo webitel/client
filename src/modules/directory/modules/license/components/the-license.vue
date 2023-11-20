@@ -1,28 +1,31 @@
 <template>
-  <wt-page-wrapper :actions-panel="false" class="license">
-    <template v-slot:header>
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="license"
+  >
+    <template #header>
       <wt-page-header :hide-primary="true">
-        <wt-headline-nav :path="path"></wt-headline-nav>
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
-    <template v-slot:main>
+    <template #main>
       <section class="main-section__wrapper">
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        ></wt-tabs>
-        <component :is="currentTab.value"></component>
+        />
+        <component :is="currentTab.value" />
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
 <script>
-import AllLicenses from './all-licenses/all-licenses.vue';
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
+import AllLicenses from './all-licenses/all-licenses.vue';
 
 export default {
-  name: 'the-license',
+  name: 'TheLicense',
   components: {
     AllLicenses,
     LicensesByUser,

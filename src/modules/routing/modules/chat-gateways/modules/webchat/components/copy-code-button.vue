@@ -17,63 +17,13 @@ import path from 'path';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
-const CHAT_URL = process.env.VUE_APP_CHAT_URL;
+const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
 const filterEmptyValues = (obj) => Object
-  .entries(obj)
-  .reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
-
-const processViewConfig = (view) => filterEmptyValues(view);
-
-const processChatConfig = ({
-  enabled,
-  timeoutIsActive,
-  openTimeout,
-  ...rest
-                           }, uri) => {
-  if (!enabled) return undefined;
-  const result = { ...filterEmptyValues(rest) };
-  if (timeoutIsActive) result.openTimeout = +openTimeout;
-  result.url = new URL(path.join(CHAT_URL, uri), WS_SERVER_URL);
-  return result;
-};
-
-const processAppointmentConfig = ({
-  enabled,
-  queue,
-  communicationType,
-  days,
-  duration,
-  availableAgents,
-  showDefaultHeading,
-  successTitle,
-  successSubtitle,
-  ...rest
-  }, uri) => {
-  if (!enabled) return undefined;
-  if (!showDefaultHeading) {
-    // eslint-disable-next-line no-param-reassign
-    rest.successTitle = successTitle;
-    // eslint-disable-next-line no-param-reassign
-    rest.successSubtitle = successSubtitle;
-  }
-  const result = { ...filterEmptyValues(rest) };
-  result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
-  return result;
-};
-
-const processAlternativeChannelsConfig = (channels) => {
-  const minifyAltChannels = (altChannels) => (
-    Object.entries(altChannels)
-          .reduce((channels, [channelName, { enabled, url }]) => (
-            enabled && url ? { ...channels, [channelName]: url } : channels
-          ), {})
-  );
-  const result = minifyAltChannels(channels);
-  return isEmpty(result) ? undefined : result;
-};
+.entries(obj)
+.reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
 
 const generateCode = (config) => `
       const script = document.createElement('script');
@@ -99,10 +49,14 @@ const generateCode = (config) => `
     `;
 
 export default {
-  name: 'copy-code-button',
+  name: 'CopyCodeButton',
   props: {
     itemInstance: {
       type: Object,
+      required: true,
+    },
+    namespace: {
+      type: String,
       required: true,
     },
   },
@@ -119,14 +73,18 @@ export default {
   },
   methods: {
     copyCode() {
-      const view = processViewConfig(this.itemInstance.metadata.view);
-      const chat = processChatConfig(this.itemInstance.metadata.chat, this.itemInstance.uri);
-      const appointment = processAppointmentConfig(
+      const view = this.processViewConfig(this.itemInstance.metadata.view);
+      const chat = this.processChatConfig(this.itemInstance.metadata.chat, this.itemInstance.uri);
+      const appointment = this.processAppointmentConfig(
         this.itemInstance.metadata.appointment,
         this.itemInstance.uri,
       );
-      const alternativeChannels = processAlternativeChannelsConfig(
+      const alternativeChannels = this.processAlternativeChannelsConfig(
         this.itemInstance.metadata.alternativeChannels,
+      );
+      const call = this.processCallConfig(
+        this.itemInstance.metadata.call,
+        this.itemInstance.uri,
       );
 
       const code = generateCode({
@@ -134,6 +92,7 @@ export default {
         chat,
         appointment,
         alternativeChannels,
+        call,
       });
 
       clipboardCopy(code);
@@ -143,6 +102,61 @@ export default {
       }, 1500);
 
       this.$emit('copied');
+    },
+
+    processViewConfig(view) {return filterEmptyValues(view);},
+
+    processChatConfig({
+                        enabled,
+                        timeoutIsActive,
+                        openTimeout,
+                        ...rest
+                      }, uri) {
+      if (!enabled) return undefined;
+      const result = { ...filterEmptyValues(rest) };
+      if (timeoutIsActive) result.openTimeout = +openTimeout;
+      result.url = new URL(path.join(CHAT_URL, uri), WS_SERVER_URL);
+      return result;
+    },
+
+    processAppointmentConfig({
+                               enabled,
+                               queue,
+                               communicationType,
+                               days,
+                               duration,
+                               availableAgents,
+                               showDefaultHeading,
+                               successTitle,
+                               successSubtitle,
+                               ...rest
+                             }, uri) {
+      if (!enabled) return undefined;
+      if (!showDefaultHeading) {
+        // eslint-disable-next-line no-param-reassign
+        rest.successTitle = successTitle;
+        // eslint-disable-next-line no-param-reassign
+        rest.successSubtitle = successSubtitle;
+      }
+      const result = { ...filterEmptyValues(rest) };
+      result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
+      return result;
+    },
+
+    processAlternativeChannelsConfig(channels) {
+      const minifyAltChannels = (altChannels) => (
+        Object.entries(altChannels)
+        .reduce((channels, [channelName, { enabled, url }]) => (
+          enabled && url ? { ...channels, [channelName]: url } : channels
+        ), {})
+      );
+      const result = minifyAltChannels(channels);
+      return isEmpty(result) ? undefined : result;
+    },
+
+    processCallConfig({ enabled, url, ...rest }, uri) {
+      if (!enabled) return undefined;
+      return { url, id: uri.slice(1) };
     },
   },
 };

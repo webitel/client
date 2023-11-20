@@ -5,10 +5,10 @@
     width="1440"
     @close="cancel"
   >
-    <template v-slot:title>
+    <template #title>
       {{ $t('objects.lookups.skills.assignSkillToAgents') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="opened-skill-agent-popup__filters">
         <wt-search-bar
           :value="filters.search"
@@ -16,27 +16,30 @@
           @enter="handleFilterChange"
           @input="filters.search = $event"
           @search="handleFilterChange"
-        ></wt-search-bar>
+        />
         <wt-select
           :placeholder="$t('objects.ccenter.teams.teams', 1)"
           :search-method="TeamsAPI.getLookup"
           :value="filters.teams"
           multiple
           @input="handleTeamsSelect"
-        ></wt-select>
+        />
         <wt-select
           :placeholder="$t('objects.lookups.skills.skills', 1)"
           :search-method="SkillsAPI.getLookup"
           :value="filters.skills"
           multiple
           @input="handleSkillsSelect"
-        ></wt-select>
+        />
         <wt-icon-btn
           icon="clear"
           @click="resetFilters"
-        ></wt-icon-btn>
+        />
       </div>
-      <div ref="infiniteScrollWrap" class="scroll-wrap">
+      <div
+        ref="infiniteScrollWrap"
+        class="scroll-wrap"
+      >
         <wt-table
           :data="dataList"
           :grid-actions="false"
@@ -44,10 +47,10 @@
           sortable
           @sort="sort"
         >
-          <template v-slot:name="{ item }">
+          <template #name="{ item }">
             {{ item.name }}
           </template>
-          <template v-slot:team="{ item }">
+          <template #team="{ item }">
             <div v-if="item.team">
               {{ item.team.name }}
             </div>
@@ -55,16 +58,18 @@
         </wt-table>
       </div>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         :disabled="!selectedRows.length"
         @click="handleNext"
-      >{{ $t('objects.next') }}
+      >
+        {{ $t('objects.next') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="cancel"
-      >{{ $t('objects.close') }}
+      >
+        {{ $t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>

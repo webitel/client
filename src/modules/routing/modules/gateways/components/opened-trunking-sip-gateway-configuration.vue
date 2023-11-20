@@ -1,50 +1,52 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.routing.gateways.trunkingACLTitle') }}</h3>
+      <h3 class="content-title">
+        {{ $t('objects.routing.gateways.trunkingACLTitle') }}
+      </h3>
       <wt-icon-action
         v-if="!disableUserInput"
         action="add"
         @click="addVariable"
-      ></wt-icon-action>
+      />
     </header>
     <div class="object-input-grid grid-w50">
       <div class="variables">
         <div
-          class="value-pair"
           v-for="(acl, key) in itemInstance.ipacl"
           :key="key"
+          class="value-pair"
         >
           <wt-select
-            :value="acl.proto"
+            :clearable="false"
+            :disabled="disableUserInput"
             :label="$t('objects.routing.protocol')"
             :options="protocolList"
             :track-by="null"
-            :clearable="false"
-            :disabled="disableUserInput"
+            :value="acl.proto"
             @input="setVariableProp({ index: key, prop: 'proto', value: $event })"
-          ></wt-select>
+          />
           <wt-input
-            :value="acl.ip"
-            :v="v.itemInstance.ipacl.$each.$response.$data[key].ip"
-            :label="$t('objects.routing.ip')"
             :disabled="disableUserInput"
+            :label="$t('objects.routing.ip')"
+            :v="v.itemInstance.ipacl.$each.$response.$data[key].ip"
+            :value="acl.ip"
             required
             @input="setVariableProp({ index: key, prop: 'ip', value: $event })"
-          ></wt-input>
+          />
           <wt-input
-            :value="acl.port"
-            :label="$t('objects.routing.port')"
             :disabled="disableUserInput"
+            :label="$t('objects.routing.port')"
+            :value="acl.port"
             type="number"
             @input="setVariableProp({ index: key, prop: 'port', value: $event })"
-          ></wt-input>
+          />
           <wt-icon-action
             v-if="!disableUserInput"
             action="delete"
             class="table-action"
             @click="deleteVariable(key)"
-          ></wt-icon-action>
+          />
         </div>
       </div>
     </div>
@@ -52,10 +54,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-sip-gateway-trunking-configuration',
+  name: 'OpenedSipGatewayTrunkingConfiguration',
   mixins: [openedTabComponentMixin],
   data: () => ({
     protocolList: ['any', 'udp', 'tcp'],
@@ -65,8 +68,8 @@ export default {
 
 <style lang="scss" scoped>
 .variables .value-pair {
-  grid-template-columns: 117px 1fr 80px 24px;
   align-items: flex-start;
+  grid-template-columns: 117px 1fr 80px 24px;
 
   .wt-tooltip {
     margin-top: 34px; // MAGIC NUMBER TO VISUALLY ALIGN ICON AT VERTICAL CENTER

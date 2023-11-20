@@ -8,7 +8,10 @@ export default class APIPermissionsGetter {
 
   constructor(url) {
     this.baseUrl = url;
-    this.listGetter = new EndpointListGetterApiConsumer({ baseUrl: this.baseUrl, instance }, {
+    this.listGetter = new EndpointListGetterApiConsumer({
+      baseUrl: this.baseUrl,
+      instance,
+    }, {
       defaultListObject: { user: false },
       listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
       nestedUrl: this._nestedUrl,

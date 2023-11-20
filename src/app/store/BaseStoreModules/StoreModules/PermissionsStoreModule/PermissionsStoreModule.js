@@ -1,8 +1,12 @@
-import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
-import PermissionsAPI from '../../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
+import BaseStoreModule
+  from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import PermissionsAPI
+  from '../../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
+import AccessMode
+  from '../../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
+import BaseOpenedInstanceModule
+  from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
-import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
-import AccessMode from '../../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
 import defaultHeaders from './_internals/headers';
 
 export class PermissionsStoreModule extends BaseStoreModule {
@@ -14,10 +18,22 @@ export class PermissionsStoreModule extends BaseStoreModule {
     ...BaseTableModule.getActions(),
     ...BaseOpenedInstanceModule.getActions(),
 
-    CHANGE_CREATE_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'x', ...payload }),
-    CHANGE_READ_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'r', ...payload }),
-    CHANGE_UPDATE_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'w', ...payload }),
-    CHANGE_DELETE_ACCESS_MODE: (context, payload) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'd', ...payload }),
+    CHANGE_CREATE_ACCESS_MODE: (
+      context,
+      payload,
+    ) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'x', ...payload }),
+    CHANGE_READ_ACCESS_MODE: (
+      context,
+      payload,
+    ) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'r', ...payload }),
+    CHANGE_UPDATE_ACCESS_MODE: (
+      context,
+      payload,
+    ) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'w', ...payload }),
+    CHANGE_DELETE_ACCESS_MODE: (
+      context,
+      payload,
+    ) => context.dispatch('CHANGE_ACCESS_MODE', { ruleName: 'd', ...payload }),
     CHANGE_ACCESS_MODE: async (context, { mode, ruleName, item }) => {
       const have = item.access[ruleName];
       let want;

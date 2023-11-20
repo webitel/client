@@ -11,7 +11,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        ></wt-search-bar>
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -20,21 +20,22 @@
             :headers="headers"
             :static-headers="staticHeaders"
             @change="changeVisibleHeaders"
-          ></wt-table-column-select>
+          />
         </wt-table-actions>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded"></wt-loader>
+    <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
       :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
-    ></wt-dummy>
+    />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper">
+      class="table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :grid-actions="false"
@@ -43,24 +44,25 @@
         sortable
         @sort="sort"
       >
-        <template v-slot:name="{ item }">
+        <template #name="{ item }">
           <wt-item-link
             :id="item.id"
             :route-name="RouteNames.USERS"
-          >{{ item.name }}
+          >
+            {{ item.name }}
           </wt-item-link>
         </template>
 
         <template
           v-for="(license, key) of licenseHeaders"
-          v-slot:[license.value]="{ item }"
+          #[license.value]="{ item }"
         >
           <wt-checkbox
             :key="key"
             :disabled="!hasEditAccess"
             :selected="item.license[license.value]"
             @change="toggleUserLicense({ user: item, license })"
-          ></wt-checkbox>
+          />
         </template>
       </wt-table>
       <wt-pagination
@@ -72,7 +74,7 @@
         @input="setSize"
         @next="nextPage"
         @prev="prevPage"
-      ></wt-pagination>
+      />
     </div>
   </div>
 </template>
@@ -87,16 +89,16 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 const namespace = 'directory/license/users';
 
 export default {
-  name: 'licenses-by-user',
+  name: 'LicensesByUser',
   mixins: [tableComponentMixin],
-  data: () => ({
-    staticHeaders: ['name'],
-    namespace,
-  }),
   setup() {
     const { dummy } = useDummy({ namespace });
     return { dummy };
   },
+  data: () => ({
+    staticHeaders: ['name'],
+    namespace,
+  }),
   computed: {
     licenseHeaders() {
       return this.headers.slice(1); // except 1st column "name"
