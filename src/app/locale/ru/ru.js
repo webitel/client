@@ -822,6 +822,7 @@ export default {
         statisticTime: 'Интервал пересчета',
         communications: 'Тип связи',
         manualDistribution: 'Ручное распределение',
+        timeoutFromTheLastMessage: 'Время ожидания от последнего сообщения',
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',

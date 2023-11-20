@@ -277,6 +277,13 @@
         :value="itemInstance.payload.manualDistribution"
         @change="setItemPayloadProp({ prop: 'manualDistribution', value: $event })"
       />
+      <wt-switcher
+        v-if="specificControls.timeoutFromTheLastMessage"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.timeoutFromTheLastMessage')"
+        :value="itemInstance.payload.timeoutFromTheLastMessage"
+        @change="setItemPayloadProp({ prop: 'timeoutFromTheLastMessage', value: $event })"
+      />
     </div>
   </section>
 </template>
