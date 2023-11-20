@@ -136,11 +136,11 @@
       ></wt-input>
       <wt-select
         v-if="specificControls.autoAnswerTone"
-        clearable
-        :disabled="disableUserInput"
         v-model="autoAnswerTone"
+        :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.autoAnswerTone')"
         :options="ToneList"
+        clearable
         track-by="value"
       ></wt-select>
       <wt-input
@@ -163,8 +163,8 @@
         v-if="specificControls.minOnlineAgents"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minOnlineAgents')"
-        :value="itemInstance.payload.minOnlineAgents"
         :v="v.itemInstance.payload.minOnlineAgents"
+        :value="itemInstance.payload.minOnlineAgents"
         type="number"
         @input="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
       ></wt-input>
@@ -187,16 +187,16 @@
         <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
         <div class="load-factor">
           <wt-slider
-            :value="itemInstance.payload.loadFactor"
-            :min="1"
             :max="100"
+            :min="1"
             :step="1"
+            :value="itemInstance.payload.loadFactor"
             @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           ></wt-slider>
           <wt-input
-            :value="itemInstance.payload.loadFactor"
-            :min="0"
             :max="100"
+            :min="0"
+            :value="itemInstance.payload.loadFactor"
             type="number"
             @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           ></wt-input>
@@ -275,6 +275,13 @@
         :value="itemInstance.payload.manualDistribution"
         @change="setItemPayloadProp({ prop: 'manualDistribution', value: $event })"
       ></wt-switcher>
+      <wt-switcher
+        v-if="specificControls.timeoutFromTheLastMessage"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.timeoutFromTheLastMessage')"
+        :value="itemInstance.payload.timeoutFromTheLastMessage"
+        @change="setItemPayloadProp({ prop: 'timeoutFromTheLastMessage', value: $event })"
+      ></wt-switcher>
     </div>
   </section>
 </template>
@@ -309,7 +316,6 @@ export default {
           || this.itemInstance.type === QueueType.PREDICTIVE_DIALER) {
           return this.ToneList.find((tone) => tone.value === 'default');
         }
-        return;
       },
       set(value) {
         this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
@@ -352,8 +358,8 @@ export default {
 <style lang="scss" scoped>
 .load-factor {
   display: grid;
-  grid-template-columns: 5fr 1fr;
   align-items: center;
+  grid-template-columns: 5fr 1fr;
   gap: var(--spacing-sm);
 
   .wt-slider {
