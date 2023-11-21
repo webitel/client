@@ -131,7 +131,7 @@ export default {
     async saveCode() {
       try {
         await this.save();
-        this.isSaveFailedPopup = false;
+        this.hideSaveFailedPopup();
       } catch (err) {
         this.isSaveFailedPopup = true;
         throw err;
