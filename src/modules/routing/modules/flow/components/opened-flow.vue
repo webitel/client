@@ -12,7 +12,7 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
+        :primary-action="saveCode"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
         :secondary-action="close"
@@ -22,9 +22,15 @@
     </template>
 
     <template #main>
+      <wt-save-failed-popup
+        v-if="isSaveFailedPopup"
+        @download="download"
+        @save="saveCode"
+        @close-popup="hideSaveFailedPopup"
+      />
       <form
         class="main-container"
-        @submit.prevent="save"
+        @submit.prevent="saveCode"
       >
         <wt-tabs
           v-model="currentTab"
@@ -47,6 +53,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
+import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
@@ -57,6 +65,7 @@ export default {
   components: {
     Diagram,
     JsonSchema,
+    WtSaveFailedPopup,
   },
   mixins: [openedObjectMixin],
 
@@ -65,6 +74,7 @@ export default {
   }),
   data: () => ({
     namespace: 'routing/flow',
+    isSaveFailedPopup: false,
   }),
   validations: {
     itemInstance: {
@@ -117,6 +127,24 @@ export default {
       } catch (err) {
         reject(err);
       }
+    },
+    async saveCode() {
+      try {
+        await this.save();
+        this.hideSaveFailedPopup();
+      } catch (err) {
+        this.isSaveFailedPopup = true;
+        throw err;
+      }
+    },
+    saveAsJSON,
+    download() {
+      // _dirty is not needed inside JSON file
+      const { _dirty, ...content } = this.itemInstance;
+      this.saveAsJSON(content.name, content);
+    },
+    hideSaveFailedPopup() {
+      this.isSaveFailedPopup = false;
     },
     initType() {
       if (!this.itemInstance.type && this.type) this.setItemProp({ prop: 'type', value: this.type });
