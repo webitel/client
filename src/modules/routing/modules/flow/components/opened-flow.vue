@@ -133,7 +133,7 @@ export default {
         await this.save();
         this.hideSaveFailedPopup();
       } catch (err) {
-        this.isSaveFailedPopup = true;
+        this.isSaveFailedPopup = err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
         throw err;
       }
     },
