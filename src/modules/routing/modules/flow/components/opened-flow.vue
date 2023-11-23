@@ -133,6 +133,7 @@ export default {
         await this.save();
         this.hideSaveFailedPopup();
       } catch (err) {
+        // Required to prevent an open popup when the error is related to "already existed name"
         this.isSaveFailedPopup = err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
         throw err;
       }
