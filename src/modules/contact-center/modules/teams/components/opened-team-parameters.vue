@@ -1,66 +1,63 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
-        {{ $t('objects.ccenter.teams.parameters') }}
-      </h3>
+      <h3 class="content-title">{{ $t('objects.ccenter.teams.parameters') }}</h3>
     </header>
     <div class="object-input-grid">
       <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.maxNoAnswer')"
-        :v="v.itemInstance.maxNoAnswer"
         :value="itemInstance.maxNoAnswer"
-        required
+        :v="v.itemInstance.maxNoAnswer"
+        :label="$t('objects.ccenter.teams.maxNoAnswer')"
+        :disabled="disableUserInput"
         type="number"
+        required
         @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
-      />
+      ></wt-input>
       <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
-        :v="v.itemInstance.noAnswerDelayTime"
         :value="itemInstance.noAnswerDelayTime"
-        required
+        :v="v.itemInstance.noAnswerDelayTime"
+        :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
+        :disabled="disableUserInput"
         type="number"
+        required
         @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
-      />
+      ></wt-input>
       <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.callTimeout')"
-        :v="v.itemInstance.callTimeout"
         :value="itemInstance.callTimeout"
-        required
+        :v="v.itemInstance.callTimeout"
+        :label="$t('objects.ccenter.teams.callTimeout')"
+        :disabled="disableUserInput"
         type="number"
+        required
         @input="setItemProp({ prop: 'callTimeout', value: +$event })"
-      />
+      ></wt-input>
       <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.inviteChatTimeout')"
-        :v="v.itemInstance.inviteChatTimeout"
         :value="itemInstance.inviteChatTimeout"
-        required
-        type="number"
-        @input="setItemProp({ prop: 'inviteChatTimeout', value: +$event })"
-      />
-      <wt-input
+        :v="v.itemInstance.inviteChatTimeout"
+        :label="$t('objects.ccenter.teams.inviteChatTimeout')"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.wrapUpTime')"
-        :v="v.itemInstance.wrapUpTime"
-        :value="itemInstance.wrapUpTime"
-        required
         type="number"
+        required
+        @input="setItemProp({ prop: 'inviteChatTimeout', value: +$event })"
+      ></wt-input>
+      <wt-input
+        :value="itemInstance.wrapUpTime"
+        :v="v.itemInstance.wrapUpTime"
+        :label="$t('objects.ccenter.teams.wrapUpTime')"
+        :disabled="disableUserInput"
+        type="number"
+        required
         @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
-      />
+      ></wt-input>
     </div>
   </section>
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedTeamParameters',
+  name: 'opened-team-timing',
   mixins: [openedTabComponentMixin],
 };
 </script>

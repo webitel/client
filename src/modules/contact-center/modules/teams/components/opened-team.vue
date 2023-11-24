@@ -1,17 +1,17 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
-    <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
-        <wt-headline-nav :path="path" />
-      </wt-page-header>
+    <template v-slot:header>
+    <wt-page-header
+      :primary-action="save"
+      :primary-disabled="disabledSave"
+      :primary-text="saveText"
+      :hide-primary="!hasSaveActionAccess"
+      :secondary-action="close"
+    >
+      <wt-headline-nav :path="path"></wt-headline-nav>
+    </wt-page-header>
     </template>
-    <template #main>
+    <template v-slot:main>
       <form
         class="main-container"
         @submit.prevent="save"
@@ -19,16 +19,13 @@
         <wt-tabs
           v-model="currentTab"
           :tabs="tabs"
-        />
+        ></wt-tabs>
         <component
           :is="currentTab.value"
-          :namespace="namespace"
           :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+          :namespace="namespace"
+        ></component>
+        <input type="submit" hidden> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -37,28 +34,28 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Agents from '../modules/agents/components/opened-team-agents.vue';
-import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import General from './opened-team-general.vue';
+import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
+import Agents from '../modules/agents/components/opened-team-agents.vue';
 import Parameters from './opened-team-parameters.vue';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
-  name: 'OpenedTeam',
+  name: 'opened-team',
+  mixins: [openedObjectMixin],
   components: {
     General,
     Supervisors,
     Agents,
     Parameters,
   },
-  mixins: [openedObjectMixin],
-
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
 
   data: () => ({
     namespace: 'ccenter/teams',
+  }),
+
+  setup: () => ({
+    v$: useVuelidate(),
   }),
   validations: {
     itemInstance: {
@@ -73,21 +70,19 @@ export default {
   },
   computed: {
     tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        }, {
-          text: this.$t('objects.ccenter.teams.parameters'),
-          value: 'parameters',
-        }, {
-          text: this.$tc('objects.ccenter.agents.supervisors', 2),
-          value: 'supervisors',
-        }, {
-          text: this.$tc('objects.ccenter.agents.agents', 2),
-          value: 'agents',
-        },
-      ];
+      const tabs = [{
+        text: this.$t('objects.general'),
+        value: 'general',
+      }, {
+        text: this.$t('objects.ccenter.teams.timing'),
+        value: 'timing',
+      }, {
+        text: this.$tc('objects.ccenter.agents.supervisors', 2),
+        value: 'supervisors',
+      }, {
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'agents',
+      }];
 
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
