@@ -57,7 +57,7 @@
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-team-timing',
+  name: 'opened-team-parameters',
   mixins: [openedTabComponentMixin],
 };
 </script>
