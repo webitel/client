@@ -37,7 +37,7 @@ import { numeric, required } from '@vuelidate/validators';
 import General from './opened-team-general.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import Agents from '../modules/agents/components/opened-team-agents.vue';
-import Timing from './opened-team-timing.vue';
+import Parameters from './opened-team-parameters.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 
 export default {
@@ -47,7 +47,7 @@ export default {
     General,
     Supervisors,
     Agents,
-    Timing,
+    Parameters,
   },
 
   data: () => ({
@@ -74,8 +74,8 @@ export default {
         text: this.$t('objects.general'),
         value: 'general',
       }, {
-        text: this.$t('objects.ccenter.teams.timing'),
-        value: 'timing',
+        text: this.$t('objects.ccenter.teams.parameters'),
+        value: 'parameters',
       }, {
         text: this.$tc('objects.ccenter.agents.supervisors', 2),
         value: 'supervisors',

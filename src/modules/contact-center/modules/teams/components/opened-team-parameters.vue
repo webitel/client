@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">{{ $t('objects.ccenter.teams.timing') }}</h3>
+      <h3 class="content-title">{{ $t('objects.ccenter.teams.parameters') }}</h3>
     </header>
     <div class="object-input-grid">
       <wt-input
@@ -57,7 +57,7 @@
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'opened-team-timing',
+  name: 'opened-team-parameters',
   mixins: [openedTabComponentMixin],
 };
 </script>
