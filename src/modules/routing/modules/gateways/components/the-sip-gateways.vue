@@ -203,7 +203,7 @@ export default {
 
     computeStatusClass(stateCode) {
       if (stateCode === 3) return 'success';
-      if (stateCode > 3 && stateCode < 8) return 'danger';
+      if (stateCode > 3 && stateCode < 8) return 'error';
       if (stateCode > 7 && stateCode < 2) return 'primary';
       return 'disabled';
     },
