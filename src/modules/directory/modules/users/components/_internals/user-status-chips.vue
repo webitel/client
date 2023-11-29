@@ -1,28 +1,24 @@
 <template>
   <div class="user-status-chips">
     <wt-chip
-      :color="isWeb ? 'main' : 'outline'"
+      :color="isWeb ? 'main' : 'secondary'"
       class="user-status-chips__chips"
-    >
-      Web
+    >Web
     </wt-chip>
     <wt-chip
-      :color="isSip ? 'main' : 'outline'"
+      :color="isSip ? 'main' : 'secondary'"
       class="user-status-chips__chips"
-    >
-      SIP
+    >SIP
     </wt-chip>
     <wt-chip
-      :color="isDlg ? 'main' : 'outline'"
+      :color="isDlg ? 'main' : 'secondary'"
       class="user-status-chips__chips"
-    >
-      Dlg
+    >Dlg
     </wt-chip>
     <wt-chip
-      :color="isDnd ? 'main' : 'outline'"
+      :color="isDnd ? 'main' : 'secondary'"
       class="user-status-chips__chips"
-    >
-      DnD
+    >DnD
     </wt-chip>
   </div>
 </template>
