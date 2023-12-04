@@ -56,9 +56,13 @@ export default {
       content: '';
       transform: translate(-50%, -50%);
       border-radius: 50%;
-      background: var(--contrast-color);
+      background: var(--text-main-color);
     }
   }
+}
+
+.start-nav__link {
+  color: var(--text-main-color);
 }
 
 .start-nav__link:hover, .start-nav__link:active {

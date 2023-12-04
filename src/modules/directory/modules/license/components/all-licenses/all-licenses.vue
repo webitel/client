@@ -173,10 +173,10 @@ export default {
 
 <style lang="scss" scoped>
 .all-licenses {
-  --license--valid: rgba(255, 234, 0, 0.3);
-  --license--90: rgba(255, 234, 0, 0.3);
-  --license--30: rgba(255, 68, 68, 0.3);
-  --license--0: rgba(0, 0, 0, 0.1);
+  --license--valid: var(--success-color);
+  --license--90: var(--success-color);
+  --license--30: var(--warning-color);
+  --license--0: var(--error-color);
 }
 
 .all-licenses__product-cell {

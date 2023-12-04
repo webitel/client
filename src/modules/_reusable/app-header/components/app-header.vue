@@ -4,6 +4,9 @@
       :current-app="currentApp"
       :nav="nav"
     />
+    <wt-switcher
+      @change="toggleDarkTheme"
+    />
     <wt-app-navigator
       :apps="apps"
       :current-app="currentApp"
@@ -86,6 +89,10 @@ export default {
       await authAPI.logout();
       // and throw user to auth page
       return router.replace('/auth');
+    },
+
+    toggleDarkTheme() {
+      document.documentElement.classList.toggle('theme--dark');
     },
   },
 };

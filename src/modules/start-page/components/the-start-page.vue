@@ -70,8 +70,8 @@ export default {
     + var(--spacing-2xs) * 6
   );
 
-  --lvl-1-bg: hsla(var(--_secondary-color), var(--_opacity--default));
-  --lvl-1-bg--hover: hsla(var(--_accent-color), var(--_opacity--default));
+  --lvl-1-bg: var(--dp-18-surface-color);
+  --lvl-1-bg--hover: var(--dp-20-surface-color);
 
   @media (#{$media} and #{$media-width-sm}) {
     --wrapper-width: 80%;
@@ -100,7 +100,7 @@ export default {
   margin: auto;
   padding: var(--spacing-sm);
   border-radius: var(--border-radius);
-  background: var(--main-color);
+  background: var(--dp-20-surface-color);
   grid-template-columns: repeat(2, 1fr);
   grid-gap: var(--spacing-sm);
 

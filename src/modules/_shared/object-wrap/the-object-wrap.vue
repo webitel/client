@@ -34,7 +34,7 @@ export default {
   flex-grow: 1;
   max-width: 100%;
   min-height: 100%;
-  background: var(--page-bg-color);
+  background: var(--wt-page-wrapper-background-color);
 }
 
 .object-content-wrap {

@@ -69,5 +69,6 @@ export default {
 .hint-link__link {
   @extend %typo-subtitle-2;
   text-decoration: underline;
+  color: var(--info-color);
 }
 </style>
