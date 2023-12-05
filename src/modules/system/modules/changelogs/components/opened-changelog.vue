@@ -97,7 +97,7 @@ export default {
       const baseUrl = '/system/changelogs';
       return [
         { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.changelogs.changelogs', 2), route: baseUrl },
+        { name: this.$tc('objects.system.changelogs.changelogs', 1), route: baseUrl },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
