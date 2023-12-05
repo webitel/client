@@ -18,6 +18,7 @@ const getTtsStreamUrl = (params, apiUrl = false) => {
 
 const getTts = async (params) => {
   const url = getTtsStreamUrl(params, true);
+  console.log('url:', url);
 
   try {
     const response = await instance.get(url);
