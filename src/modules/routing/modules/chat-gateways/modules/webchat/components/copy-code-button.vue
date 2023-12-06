@@ -4,7 +4,10 @@
     @click="copyCode"
   >
     {{ text }}
-    <wt-hint v-show="!isCopied">
+    <wt-hint
+      v-show="!isCopied"
+      :icon-color="`on-${color}`"
+    >
       {{ $t('objects.routing.chatGateways.webchat.copyCodeHint') }}
     </wt-hint>
   </wt-button>

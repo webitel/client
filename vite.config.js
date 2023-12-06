@@ -13,6 +13,7 @@ export default ({ mode }) => {
       .replaceAll('VITE_', 'VUE_APP_')),
     },
     server: {
+      host: true,
       port: 8080,
     },
     css: {

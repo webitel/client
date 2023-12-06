@@ -72,6 +72,8 @@ export default {
 
   --lvl-1-bg: var(--dp-18-surface-color);
   --lvl-1-bg--hover: var(--dp-20-surface-color);
+  --lvl-1-bg--selected: var(--primary-color);
+  --lvl-1-text--selected: var(--primary-on-color);
 
   @media (#{$media} and #{$media-width-sm}) {
     --wrapper-width: 80%;

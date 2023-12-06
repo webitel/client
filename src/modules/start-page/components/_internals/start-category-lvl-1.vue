@@ -11,6 +11,7 @@
         @click="select(category)"
       >
         <wt-icon
+          :color="selected.value === category.value ? 'on-primary' : 'default'"
           :icon="category.value"
           icon-prefix="adm"
         />
@@ -50,9 +51,13 @@ export default {
 .start-nav__category-option--lvl-1 {
   background: var(--lvl-1-bg);
 
-  &.start-nav__category-option--selected,
   &:hover {
     background: var(--lvl-1-bg--hover);
+  }
+
+  &.start-nav__category-option--selected {
+    color: var(--lvl-1-text--selected);
+    background: var(--lvl-1-bg--selected);
   }
 }
 </style>
