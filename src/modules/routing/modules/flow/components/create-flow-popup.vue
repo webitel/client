@@ -186,6 +186,7 @@ $pic-height: 136px;
     overflow: hidden;
     text-align: center;
     text-overflow: ellipsis;
+    color: var(--text-main-color);
     grid-column-start: 2;
   }
 }

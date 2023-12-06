@@ -153,6 +153,10 @@ export default {
 
       .colorpicker {
         width: 100%;
+
+        //:deep(.vc-chrome-body) {
+        //  background: var(--content-wrapper-color);
+        //}
       }
     }
   }

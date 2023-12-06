@@ -154,6 +154,6 @@ export default {
   justify-content: space-between;
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius);
-  background: var(--secondary-color-50);
+  background: var(--secondary-color);
 }
 </style>

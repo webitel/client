@@ -122,6 +122,8 @@ export default {
         }
       });
 
+      editor.setTheme('vs-dark');
+
       // eslint-disable-next-line no-unused-vars
       this.editor.onDidChangeModelDecorations((event) => {
         this.checkSyntaxError();

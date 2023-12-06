@@ -30,6 +30,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.nameLink {
+  color: var(--text-main-color);
+}
+
 .wt-chip {
   margin-left: var(--spacing-sm);
 }

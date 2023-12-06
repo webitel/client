@@ -76,5 +76,9 @@ export default {
   .wt-button {
     margin-top: var(--spacing-sm);
   }
+
+  :deep(.vc-chrome-body) {
+    background: var(--content-wrapper-color);
+  }
 }
 </style>

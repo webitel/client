@@ -172,7 +172,7 @@ export default {
   bottom: 0;
   left: 0;
   pointer-events: none;
-  background: var(--page-bg-color);
+  background: var(--wt-page-wrapper-background-color);
 
   .wt-loader {
     position: absolute;

@@ -4,6 +4,7 @@
       :current-app="currentApp"
       :nav="nav"
     />
+    <wt-dark-mode-switcher />
     <wt-app-navigator
       :apps="apps"
       :current-app="currentApp"
@@ -19,6 +20,7 @@
 
 <script>
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
 import { mapGetters, mapState } from 'vuex';
 import navMixin from '../../../../app/mixins/navMixin';
@@ -26,6 +28,9 @@ import router from '../../../../app/router/router';
 
 export default {
   name: 'AppHeader',
+  components: {
+    WtDarkModeSwitcher,
+  },
   mixins: [navMixin],
   inject: ['$config'],
   data: () => ({
@@ -87,12 +92,16 @@ export default {
       // and throw user to auth page
       return router.replace('/auth');
     },
+
+    toggleDarkTheme() {
+      document.documentElement.classList.toggle('theme--dark');
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.wt-navigation-bar {
+.wt-dark-mode-switcher {
   margin-right: auto;
 }
 </style>
