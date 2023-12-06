@@ -95,7 +95,7 @@
 
         <template #status="{ item }">
           <wt-chip
-            :class="statusClass(item.notAfter)"
+            :color="statusColor(item.notAfter)"
             class="license-status"
           >
             {{ statusText(item.notAfter) }}
@@ -160,25 +160,18 @@ export default {
       return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
     },
 
-    statusClass(endDate) {
+    statusColor(endDate) {
       const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) return 'days0';
-      if (daysLeft < 30) return 'days30';
-      if (daysLeft < 90) return 'days90';
-      return 'valid';
+      if (daysLeft <= 0) return 'error';
+      if (daysLeft < 30) return 'warning';
+      if (daysLeft < 90) return 'success';
+      return 'success';
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.all-licenses {
-  --license--valid: var(--success-color);
-  --license--90: var(--success-color);
-  --license--30: var(--warning-color);
-  --license--0: var(--error-color);
-}
-
 .all-licenses__product-cell {
   display: flex;
   align-items: center;
@@ -196,21 +189,5 @@ export default {
   align-self: flex-end;
   width: 93px;
   text-align: center;
-
-  &.valid {
-    background: var(--license--valid);
-  }
-
-  &.days90 {
-    background: var(--license--90);
-  }
-
-  &.days30 {
-    background: var(--license--30);
-  }
-
-  &.days0 {
-    background: var(--license--0);
-  }
 }
 </style>

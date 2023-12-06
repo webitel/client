@@ -26,6 +26,7 @@
 <script>
 import { editor, languages } from 'monaco-editor';
 import { markRaw } from 'vue';
+import { mapState } from 'vuex';
 
 // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
 
@@ -40,7 +41,6 @@ const fullscreenSizeConfig = {
 const config = {
   ...defaultSizeConfig,
   language: 'json',
-  theme: 'vs',
   wordWrap: 'off',
   autoClosingQuotes: true,
   autoClosingBrackets: true,
@@ -81,6 +81,9 @@ export default {
     isFullscreen: false,
   }),
   computed: {
+    ...mapState('appearance', {
+      theme: (state) => state.theme,
+    }),
     fullscreenIcon() {
       return this.isFullscreen ? 'collapse' : 'expand';
     },
@@ -100,6 +103,14 @@ export default {
           this.editor.setValue(value);
         }
       }
+    },
+    theme: {
+      handler() {
+        this.theme === 'dark'
+          ? editor.setTheme('vs-dark')
+          : editor.setTheme('vs');
+      },
+      immediate: true,
     },
   },
   mounted() {
@@ -121,8 +132,6 @@ export default {
           this.$emit('change', value, event);
         }
       });
-
-      editor.setTheme('vs-dark');
 
       // eslint-disable-next-line no-unused-vars
       this.editor.onDidChangeModelDecorations((event) => {

@@ -42,12 +42,15 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import codeSelectionPic from '../assets/code-selection-pic.svg';
-import diagramSelectionPic from '../assets/diagram-selection-pic.svg';
+
+import CodeSectionDark from '../assets/code-section-dark.svg';
+import CodeSectionLight from '../assets/code-section-light.svg';
+import DiagramSectionDark from '../assets/diagram-section-dark.svg';
+import DiagramSectionLight from '../assets/diagram-section-light.svg';
 import FlowEditor from '../enums/FlowEditor.enum';
 
 export default {
@@ -66,19 +69,22 @@ export default {
     })),
   }),
   computed: {
+    ...mapState('appearance', {
+      theme: (state) => state.theme,
+    }),
     editorOptions() {
       const diagram = {
         value: FlowEditor.DIAGRAM,
         title: this.$t('objects.routing.flow.diagram.diagram'),
         description: this.$t('objects.routing.flow.diagram.description'),
-        image: diagramSelectionPic,
+        image: this.theme === 'dark' ? DiagramSectionDark : DiagramSectionLight,
         alt: this.$t('objects.routing.flow.diagram.diagram'),
       };
       const code = {
         value: FlowEditor.CODE,
         title: this.$t('objects.routing.flow.code.code'),
         description: this.$t('objects.routing.flow.code.description'),
-        image: codeSelectionPic,
+        image: this.theme === 'dark' ? CodeSectionDark : CodeSectionLight,
         alt: this.$t('objects.routing.flow.code.code'),
       };
       return [diagram, code];
@@ -128,8 +134,8 @@ export default {
 
 <style lang="scss" scoped>
 // setup pic width and height to prevent layout shift after pic load
-$pic-width: 206px;
-$pic-height: 136px;
+$pic-width: 150px;
+$pic-height: 80px;
 
 //Change some selection-popup styles
 .selection-popup {
@@ -168,8 +174,11 @@ $pic-height: 136px;
   }
 
   .popup-flow-editor__img-wrapper {
+    box-sizing: content-box;
     width: $pic-width;
     height: $pic-height;
+    margin: 0 auto;
+    padding: var(--spacing-md);
   }
 
   &__title {
