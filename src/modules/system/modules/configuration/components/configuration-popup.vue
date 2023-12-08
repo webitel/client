@@ -152,16 +152,10 @@ export default {
       this.$emit('close');
     },
     async loadParameterList(params) {
-      const response = await ConfigurationAPI.getLookup({ ...params, size: 5000 });
-
-      response.items = Object.values(EngineSystemSettingName)
-      .filter((name) => (
-        response.items.every((item) => item.name !== name)
-      ));
-      return response;
+      return await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });
     },
     setParameterName(event) {
-      this.setItemProp({ prop: 'name', value: event });
+      this.setItemProp({ prop: 'name', value: event.name });
       if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
       if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
     },
