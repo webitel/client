@@ -116,6 +116,41 @@ const deleteItem = async ({ id }) => {
   }
 };
 
+const getObjectsList = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
+
+  try {
+    const response = await service.searchAvailableSystemSetting(
+      page,
+      size,
+      search,
+      sort,
+      fields,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const ConfigurationAPI = {
   getList,
   get,
@@ -123,6 +158,7 @@ const ConfigurationAPI = {
   update,
   delete: deleteItem,
   getLookup,
+  getObjectsList,
 };
 
 export default ConfigurationAPI;
