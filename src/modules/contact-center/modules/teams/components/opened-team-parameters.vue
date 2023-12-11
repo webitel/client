@@ -26,6 +26,15 @@
       />
       <wt-input
         :disabled="disableUserInput"
+        :label="$t('objects.ccenter.teams.taskAcceptTimeout')"
+        :v="v.itemInstance.taskAcceptTimeout"
+        :value="itemInstance.taskAcceptTimeout"
+        required
+        type="number"
+        @input="setItemProp({ prop: 'taskAcceptTimeout', value: +$event })"
+      />
+      <wt-input
+        :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.callTimeout')"
         :v="v.itemInstance.callTimeout"
         :value="itemInstance.callTimeout"

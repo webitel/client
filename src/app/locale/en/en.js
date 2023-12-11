@@ -679,6 +679,7 @@ export default {
         inviteChatTimeout: 'Chat accept timeout',
         wrapUpTime: 'Wrap up time',
         noAnswerDelayTime: 'Delay time after missed activity',
+        taskAcceptTimeout: 'Task accept timeout',
         strategies: {
           random: 'Random',
           fewestCalls: 'Agent with fewest calls',

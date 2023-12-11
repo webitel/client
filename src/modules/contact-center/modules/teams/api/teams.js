@@ -18,7 +18,7 @@ const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
   'name', 'description', 'strategy', 'admin', 'maxNoAnswer', 'wrapUpTime',
-  'noAnswerDelayTime', 'callTimeout', 'inviteChatTimeout',
+  'noAnswerDelayTime', 'taskAcceptTimeout', 'callTimeout', 'inviteChatTimeout',
 ];
 
 const getTeamsList = async (params) => {
@@ -72,6 +72,7 @@ const getTeam = async ({ itemId: id }) => {
     callTimeout: 0,
     maxNoAnswer: 0,
     noAnswerDelayTime: 0,
+    taskAcceptTimeout: 0,
     inviteChatTimeout: 0,
     rejectDelayTime: 0,
     wrapUpTime: 0,

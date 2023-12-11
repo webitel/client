@@ -679,6 +679,7 @@ export default {
         inviteChatTimeout: 'Час на прийняття чату',
         wrapUpTime: 'Тривалість паузи між дзвінками',
         noAnswerDelayTime: 'Час затримки після пропущеної активності',
+        taskAcceptTimeout: 'Час на прийняття завдання',
         strategies: {
           random: 'Випадково',
           fewestCalls: 'Оператор з найменшою кількістю дзвінків',

@@ -16,6 +16,7 @@ const resettableState = {
     maxNoAnswer: 3,
     wrapUpTime: 15,
     noAnswerDelayTime: 30,
+    taskAcceptTimeout: 30,
     callTimeout: 60,
     inviteChatTimeout: 30,
   },
