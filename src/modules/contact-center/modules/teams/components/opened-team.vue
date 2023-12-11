@@ -67,6 +67,7 @@ export default {
       maxNoAnswer: { numeric, required },
       wrapUpTime: { numeric, required },
       noAnswerDelayTime: { numeric, required },
+      taskAcceptTimeout: { numeric, required },
       callTimeout: { numeric, required },
       inviteChatTimeout: { numeric, required },
     },

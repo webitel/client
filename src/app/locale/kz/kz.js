@@ -592,6 +592,7 @@ export default {
         inviteChatTimeout: 'Чатты қабылдау уақыты',
         wrapUpTime: 'Қоңыраулар арасындағы үзілістің ұзақтығы',
         noAnswerDelayTime: 'Оператордың жауабы болмаған кезде күту уақыты',
+        taskAcceptTimeout: 'Тапсырысты қабылдау уақыты',
         strategies: {
           random: 'Кездейсоқ',
           fewestCalls: 'Ең аз қоңырау қабылдайтын агент',
