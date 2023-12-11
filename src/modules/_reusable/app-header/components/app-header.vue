@@ -5,6 +5,9 @@
       :dark-mode="darkMode"
       :nav="nav"
     />
+    <wt-logo
+      :dark-mode="darkMode"
+    />
     <wt-dark-mode-switcher />
     <wt-app-navigator
       :apps="apps"
