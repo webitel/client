@@ -100,10 +100,6 @@ export default {
       // and throw user to auth page
       return router.replace('/auth');
     },
-
-    toggleDarkTheme() {
-      document.documentElement.classList.toggle('theme--dark');
-    },
   },
 };
 </script>

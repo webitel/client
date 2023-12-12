@@ -4,12 +4,16 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, notify, snakeToCamel,
-  starToSearch, log, sanitize,
   generateUrl,
+  merge,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import ApplicationsAccess
+  from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import deepCopy from 'deep-copy';
-import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/roles';
@@ -63,7 +67,7 @@ const getRole = async ({ itemId: id }) => {
     return copy;
   };
 
-  const url = `${baseUrl}/${id}`;
+  const url = `${baseUrl}/${id}?fields=metadata&fields=permissions&fields=name&fields=description`;
 
   try {
     const response = await instance.get(url);
@@ -128,7 +132,6 @@ const addRole = async ({ itemInstance }) => {
 const updateRole = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
-    log,
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);

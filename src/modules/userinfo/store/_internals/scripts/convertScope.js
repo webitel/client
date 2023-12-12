@@ -23,9 +23,12 @@ const convertScope = (initialScope) => {
   const communications = ObjectsList.find((obj) => obj.name ===
     AdminSections.COMMUNICATIONS);
   const skills = ObjectsList.find((obj) => obj.name === AdminSections.SKILLS);
+  const pauseCauses = ObjectsList.find((obj) => obj.name ===
+    AdminSections.PAUSE_CAUSE);
   scope.flow = { ...flow, access: 'rxwd' };
   scope.communications = { ...communications, access: 'rxwd' };
   scope.skills = { ...skills, access: 'rxwd' };
+  scope.pauseCauses = { ...pauseCauses, access: 'rxwd' };
 
   return scope;
 };
