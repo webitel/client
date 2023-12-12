@@ -203,6 +203,7 @@ $line-current: rgba(255, 193, 7, 0.2);
 
 .code-editor__fullscreen-btn {
   position: absolute;
+  z-index: 10;
   top: 0;
   right: 15px; // default scroll width
 }
