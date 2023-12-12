@@ -4,14 +4,17 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach, notify, sanitize, snakeToCamel,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import deepCopy from 'deep-copy';
 import { MemberServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
-
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -61,7 +64,7 @@ const getMembersList = async (params) => {
   const defaultObject = {
     createdAt: 'unknown',
     priority: 0,
-  }
+  };
 
   const listHandler = (items) => {
     const copy = deepCopy(items);
@@ -118,7 +121,7 @@ const getMembersList = async (params) => {
       agent,
     );
     const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['variables']),
       merge(getDefaultGetListResponse()),
     ]);
     return {
@@ -164,7 +167,7 @@ const getMember = async ({ parentId, itemId: id }) => {
   try {
     const response = await memberService.readMember(parentId, id);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['variables']),
       merge(defaultObject),
       responseHandler,
     ]);
@@ -179,12 +182,12 @@ const addMember = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(['variables']),
   ]);
   try {
     const response = await memberService.createMember(parentId, item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['variables']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -197,12 +200,12 @@ const updateMember = async ({ itemInstance, itemId: id, parentId }) => {
   const body = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(['variables']),
   ]);
   try {
     const response = await memberService.updateMember(parentId, id, body);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['variables']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -226,7 +229,7 @@ const resetMembers = async ({ parentId }) => {
   try {
     const response = await memberService.resetMembers(parentId, {});
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['variables']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -240,7 +243,7 @@ const addMembersBulk = async (parentId, fileName, items) => {
   try {
     const response = await memberService.createMemberBulk(parentId, body);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['variables']),
       notify(({ callback }) => callback({
         type: 'info',
         text: 'Successfully added',
