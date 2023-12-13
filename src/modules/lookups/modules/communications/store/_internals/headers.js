@@ -20,6 +20,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'default',
+    locale: 'objects.default',
+    field: 'default',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'description',
     locale: 'objects.description',
     field: 'description',

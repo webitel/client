@@ -9,6 +9,7 @@ const resettableState = {
     code: '',
     description: '',
     channel: '',
+    default: false,
   },
 };
 
