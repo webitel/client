@@ -82,6 +82,13 @@
             <template #code="{ item }">
               {{ item.code }}
             </template>
+            <template #default="{ item, index }">
+              <wt-radio
+                :selected="item.default"
+                :value="true"
+                @input="changeDefaultType({ item, index, value: $event })"
+              />
+            </template>
             <template #description="{ item }">
               {{ item.description }}
             </template>
@@ -168,6 +175,18 @@ export default {
       ];
     },
   },
+  methods: {
+    async changeDefaultType({ index, item, value }) {
+      try {
+        await this.patchItem({
+          index, item, prop: 'default', value,
+        });
+        if (value) this.loadList();
+      } catch {
+        this.loadList();
+      }
+    }
+  }
 };
 </script>
 

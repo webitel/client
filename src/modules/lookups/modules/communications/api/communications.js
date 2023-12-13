@@ -4,7 +4,7 @@ import {
 } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge,
+  merge, mergeEach,
   notify,
   sanitize,
   snakeToCamel,
@@ -17,6 +17,10 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const communicationService = new CommunicationTypeServiceApiFactory(configuration, '', instance);
 
 const getCommunicationsList = async (params) => {
+  const defaultObject = {
+    default: false,
+  };
+
   const {
     page,
     size,
@@ -43,7 +47,9 @@ const getCommunicationsList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items,
+      items: applyTransform(items, [
+        mergeEach(defaultObject),
+      ]),
       next,
     };
   } catch (err) {
@@ -68,7 +74,7 @@ const getCommunication = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['code', 'name', 'description', 'channel'];
+const fieldsToSend = ['code', 'name', 'description', 'channel', 'default'];
 
 const addCommunication = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -83,6 +89,23 @@ const addCommunication = async ({ itemInstance }) => {
   } catch (err) {
     throw applyTransform(err, [
 
+      notify,
+    ]);
+  }
+};
+
+const patchCommunication = async ({ changes, id }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await communicationService.patchCommunicationType(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
       notify,
     ]);
   }
@@ -127,6 +150,7 @@ const CommunicationsAPI = {
   getList: getCommunicationsList,
   get: getCommunication,
   add: addCommunication,
+  patch: patchCommunication,
   update: updateCommunication,
   delete: deleteCommunication,
   getLookup: getCommunicationsLookup,
