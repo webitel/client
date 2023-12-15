@@ -8,7 +8,7 @@ import applyTransform, {
   starToSearch,
   camelToSnake,
   snakeToCamel,
-  
+
   notify,
   sanitize, mergeEach,
 } from '@webitel/ui-sdk/src/api/transformers';
@@ -90,7 +90,7 @@ const getFlowList = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -110,13 +110,17 @@ const getFlow = async ({ itemId: id }) => {
   try {
     const response = await flowService.readRoutingSchema(id);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
       merge(defaultObject),
       itemResponseHandler,
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -133,16 +137,24 @@ const addFlow = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    ({ payload, schema, ...rest }) => ({
+      payload,
+      schema,
+      ...camelToSnake(doNotConvertKeys)(rest),
+    }),
   ]);
   try {
     const response = await flowService.createRoutingSchema(item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -151,16 +163,24 @@ const updateFlow = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
+    ({ payload, schema, ...rest }) => ({
+      payload,
+      schema,
+      ...camelToSnake(doNotConvertKeys)(rest),
+    }),
   ]);
   try {
     const response = await flowService.updateRoutingSchema(id, item);
     return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
+      ({ payload, schema, ...rest }) => ({
+        payload,
+        schema,
+        ...snakeToCamel(doNotConvertKeys)(rest),
+      }),
     ]);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -172,7 +192,7 @@ const deleteFlow = async ({ id }) => {
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
@@ -215,7 +235,7 @@ const getFlowTags = async (params) => {
     };
   } catch (err) {
     throw applyTransform(err, [
-      
+
       notify,
     ]);
   }
