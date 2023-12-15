@@ -8,10 +8,6 @@ export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return defineConfig({
-    define: {
-      'process.env': JSON.parse(JSON.stringify(env)
-      .replaceAll('VITE_', 'VUE_APP_')),
-    },
     server: {
       host: true,
       port: 8080,
@@ -41,9 +37,10 @@ export default ({ mode }) => {
       // https://www.npmjs.com/package/vite-plugin-node-polyfills
       nodePolyfills({
         // are needed for csv-parse
-        include: ['buffer', 'stream'],
+        include: ['buffer', 'stream', 'process'],
         globals: {
           Buffer: true, // can also be 'build', 'dev', or false
+          process: true, // csv stringify
         },
       }),
       createSvgSpritePlugin({
