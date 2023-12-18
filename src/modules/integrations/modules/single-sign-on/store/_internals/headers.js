@@ -1,16 +1,17 @@
-import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
-
-export default [
-  {
-    value: 'name',
-    locale: 'objects.name',
-    field: 'name',
-    sort: SortSymbols.NONE,
-  },
-  {
-    value: 'state',
-    locale: 'reusable.state',
-    field: 'enabled',
-    sort: SortSymbols.NONE,
-  },
-];
+// Note: commented out because of singleSignOn feature is not ready yet
+// import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+//
+// export default [
+//   {
+//     value: 'name',
+//     locale: 'objects.name',
+//     field: 'name',
+//     sort: SortSymbols.NONE,
+//   },
+//   {
+//     value: 'state',
+//     locale: 'reusable.state',
+//     field: 'enabled',
+//     sort: SortSymbols.NONE,
+//   },
+// ];

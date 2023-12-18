@@ -4,7 +4,8 @@ import emailProfiles from '../modules/email-profiles/store/email-profiles';
 import importCsv from '../modules/import-csv/store/import-csv';
 import storage from '../modules/storage/store/storage';
 import triggers from '../modules/triggers/store/triggers';
-import singleSignOn from '../modules/single-sign-on/store/single-sign-on';
+// Note: commented out because of singleSignOn feature is not ready yet
+// import singleSignOn from '../modules/single-sign-on/store/single-sign-on';
 
 const modules = {
   storage,
@@ -12,7 +13,8 @@ const modules = {
   emailProfiles,
   importCsv,
   triggers,
-  singleSignOn,
+  // Note: commented out because of singleSignOn feature is not ready yet
+  // singleSignOn,
 };
 
 export default {
