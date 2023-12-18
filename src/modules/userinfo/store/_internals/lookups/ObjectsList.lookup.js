@@ -94,12 +94,11 @@ export default Object.freeze([
     name: AdminSections.EMAIL_PROFILES,
     route: RouteNames.EMAIL_PROFILES,
   },
-  // Note: commented out because of singleSignOn feature is not ready yet
-  // {
-  //   field: 'single_sign_on',
-  //   name: AdminSections.SINGLE_SIGN_ON,
-  //   route: RouteNames.SINGLE_SIGN_ON,
-  // },
+  {
+    field: 'single_sign_on',
+    name: AdminSections.SINGLE_SIGN_ON,
+    route: RouteNames.SINGLE_SIGN_ON,
+  },
   {
     field: 'import_template',
     name: AdminSections.IMPORT_CSV,

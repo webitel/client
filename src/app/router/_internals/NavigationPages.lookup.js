@@ -135,12 +135,11 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.EMAIL_PROFILES}`,
         route: 'email-profiles',
       },
-      // Note: commented out because of singleSignOn feature is not ready yet
-      // {
-      //   value: AdminSections.SINGLE_SIGN_ON,
-      //   locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SINGLE_SIGN_ON}`,
-      //   route: 'single-sign-on',
-      // },
+      {
+        value: AdminSections.SINGLE_SIGN_ON,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SINGLE_SIGN_ON}`,
+        route: 'single-sign-on',
+      },
       {
         value: AdminSections.IMPORT_CSV,
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.IMPORT_CSV}`,
