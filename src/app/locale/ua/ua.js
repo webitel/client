@@ -967,14 +967,13 @@ export default {
         imapHost: 'IMAP Хост',
         fetchInterval: 'Інтервал оновлення',
       },
-      // Note: commented out because of singleSignOn feature is not ready yet
-      // singleSignOn: {
-      //   allTypes: 'Всі типи',
-      //   singleSignOn: 'Single Sign-on',
-      //   clientId: 'Client id',
-      //   clientSecret: 'Client secret',
-      //   discoveryUrl: 'Discovery url',
-      // },
+      singleSignOn: {
+        allTypes: 'Всі типи',
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
       importCsv: {
         importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',
         allImportsCsv: 'Всі імпорти даних з CSV файлів',

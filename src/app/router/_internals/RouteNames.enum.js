@@ -38,8 +38,7 @@ export default Object.freeze({
   STORAGE: 'storage',
   COGNITIVE_PROFILES: 'cognitive-profiles',
   EMAIL_PROFILES: 'email-profiles',
-  // Note: commented out because of singleSignOn feature is not ready yet
-  // SINGLE_SIGN_ON: 'single-sign-on',
+  SINGLE_SIGN_ON: 'single-sign-on',
   IMPORT_CSV: 'import-csv',
   TRIGGERS: 'triggers',
 

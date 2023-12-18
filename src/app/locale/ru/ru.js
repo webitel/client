@@ -967,14 +967,13 @@ export default {
         fetchInterval: 'Интервал обновления',
       },
 
-      // Note: commented out because of singleSignOn feature is not ready yet
-      // singleSignOn: {
-      //   allTypes: 'Все типы',
-      //   singleSignOn: 'Single Sign-on',
-      //   clientId: 'Client id',
-      //   clientSecret: 'Client secret',
-      //   discoveryUrl: 'Discovery url',
-      // },
+      singleSignOn: {
+        allTypes: 'Все типы',
+        singleSignOn: 'Single Sign-on',
+        clientId: 'Client id',
+        clientSecret: 'Client secret',
+        discoveryUrl: 'Discovery url',
+      },
 
       importCsv: {
         importCsv: 'Импорт данных из CSV файла | Импорт данных из CSV файлов',
