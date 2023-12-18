@@ -8,6 +8,10 @@ export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return defineConfig({
+    define: {
+      'process.env': JSON.parse(JSON.stringify(env)
+      .replaceAll('VITE_', 'VUE_APP_')),
+    },
     server: {
       host: true,
       port: 8080,
