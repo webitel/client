@@ -59,14 +59,12 @@ const Storage = () => import('../../modules/integrations/modules/storage/compone
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
 const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
 const EmailProfiles = () => import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
-// Note: commented out because of singleSignOn feature is not ready yet
-// const SingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/the-single-sign-on.vue');
+const SingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/the-single-sign-on.vue');
 const ImportCsv = () => import('../../modules/integrations/modules/import-csv/components/the-import-csv.vue');
 const Triggers = () => import('../../modules/integrations/modules/triggers/components/the-triggers.vue');
 const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
 const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
-// Note: commented out because of singleSignOn feature is not ready yet
-// const OpenedSingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/opened-single-sign-on.vue');
+const OpenedSingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/opened-single-sign-on.vue');
 const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
 const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
 const Changelogs = () => import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
@@ -602,25 +600,24 @@ const router = createRouter({
           component: OpenedEmailProfile,
           beforeEnter: checkRouteAccess,
         },
-        // Note: commented out because of singleSignOn feature is not ready yet
-        // {
-        //   path: '/integrations/single-sign-on',
-        //   name: RouteNames.SINGLE_SIGN_ON,
-        //   component: SingleSignOn,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        // {
-        //   path: '/integrations/single-sign-on/new',
-        //   name: `${RouteNames.SINGLE_SIGN_ON}-new`,
-        //   component: OpenedSingleSignOn,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        // {
-        //   path: '/integrations/single-sign-on/:id',
-        //   name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
-        //   component: OpenedSingleSignOn,
-        //   beforeEnter: checkRouteAccess,
-        // },
+        {
+          path: '/integrations/single-sign-on',
+          name: RouteNames.SINGLE_SIGN_ON,
+          component: SingleSignOn,
+          beforeEnter: checkRouteAccess,
+        },
+        {
+          path: '/integrations/single-sign-on/new',
+          name: `${RouteNames.SINGLE_SIGN_ON}-new`,
+          component: OpenedSingleSignOn,
+          beforeEnter: checkRouteAccess,
+        },
+        {
+          path: '/integrations/single-sign-on/:id',
+          name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
+          component: OpenedSingleSignOn,
+          beforeEnter: checkRouteAccess,
+        },
         {
           path: '/integrations/import-csv',
           name: RouteNames.IMPORT_CSV,
