@@ -968,7 +968,6 @@ export default {
         imapHost: 'IMAP Host',
         fetchInterval: 'Refresh interval',
       },
-
       singleSignOn: {
         allTypes: 'All types',
         singleSignOn: 'Single Sign-on',

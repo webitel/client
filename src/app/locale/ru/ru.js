@@ -969,6 +969,7 @@ export default {
 
       singleSignOn: {
         allTypes: 'Все типы',
+        // TODO: add locale
         singleSignOn: 'Single Sign-on',
         clientId: 'Client id',
         clientSecret: 'Client secret',
