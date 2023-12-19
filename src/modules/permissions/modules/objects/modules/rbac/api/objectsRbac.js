@@ -13,7 +13,7 @@ import applyTransform, {
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
 import APIPermissionsGetter
-  from '../../../../../../../app/api/old/PermissionsAPIService/APIPermissionsGetter';
+  from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 
 const baseUrl = '/acl/objclass';
 const nestedURL = 'grantor';

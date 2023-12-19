@@ -3,12 +3,13 @@ import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
 const defaultListObject = {
   phoneNumbers: [],
 };
-
+console.log('whatsapp');
 /* I decided not to use api consumer because they do not
  have this flexibility to work with base url and params */
 const getList = async ({ uri }) => {
   const url = `${uri}?whatsapp=`;
   const data = await chatInstance.get(url);
+  console.log('whatsapp get list');
   return data.map((item) => ({ ...defaultListObject, ...item }));
 };
 
