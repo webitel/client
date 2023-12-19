@@ -129,7 +129,7 @@ export default {
     });
   },
   methods: {
-    async getDataForCSVExport(...params) {
+    async getDataForCSVExport(params) {
       const filters = this.getFilters;
       const { items, next } = await LogsAPI.getList({
         ...filters,

@@ -100,6 +100,12 @@ export default {
   //   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
   //   return { dummy };
   // },
+
+  computed: {
+    getFilters() {
+      return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
+    },
+  },
   watch: {
     '$route.query': {
       async handler() {
@@ -108,9 +114,29 @@ export default {
     },
   },
   created() {
-    this.initCSVExport(LogsAPI.getList, {
+    this.initCSVExport(this.getDataForCSVExport, {
       filename: `${this.itemInstance.name}-logs-at-${new Date().toLocaleString()}`,
     });
+  },
+  methods: {
+    async getDataForCSVExport(params) {
+      const filters = this.getFilters;
+      const { items, next } = await LogsAPI.getList({
+        ...filters,
+        ...params,
+        parentId: this.parentId,
+      });
+
+      const transformedItems = items.map((item) => ({
+        ...item,
+        date: new Date(+item.date).toLocaleString(),
+      }));
+
+      return {
+        items: transformedItems,
+        next,
+      };
+    },
   },
 };
 </script>
