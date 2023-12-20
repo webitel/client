@@ -1,25 +1,18 @@
 import applyTransform, {
-  camelToSnake,
-  generateUrl,
   notify,
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
+import qs from 'query-string';
+import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import instance from '../../../../../../../app/api/instance';
 
-const baseUrl = '/storage/tts/stream';
-
 const getTtsStreamUrl = (params, apiUrl = false) => {
-  let url = applyTransform(params, [
-    (params) => ({
-      ...params,
-      access_token: instance.defaults.headers['X-Webitel-Access'],
-    }),
-    camelToSnake(),
-    generateUrl(baseUrl),
-  ]);
-
-  if (apiUrl) url = `${process.env.VITE_API_URL}${url}`;
-
+  const baseUrl = '/storage/tts/stream';
+  let url = `${baseUrl}?${qs.stringify({
+    ...objCamelToSnake(params),
+    access_token: instance.defaults.headers['X-Webitel-Access'],
+  })}`;
+  if (apiUrl) url = `${process.env.VUE_APP_API_URL}${url}`;
   return url;
 };
 
@@ -28,7 +21,7 @@ const getTts = async (params) => {
   const url = getTtsStreamUrl(params);
 
   try {
-    const response = await instance.get(url);
+    const response = await fetch(url);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
