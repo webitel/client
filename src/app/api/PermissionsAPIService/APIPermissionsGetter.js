@@ -1,25 +1,67 @@
-import {
-  EndpointListGetterApiConsumer,
-} from 'webitel-sdk/esm2015/api-consumers';
+// import {
+//   EndpointListGetterApiConsumer,
+// } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../instance';
+import applyTransform, {
+  camelToSnake, generateUrl,
+  merge, mergeEach, notify,
+  sanitize, snakeToCamel,
+  starToSearch
+} from '@webitel/ui-sdk/src/api/transformers';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 
 export default class APIPermissionsGetter {
-  _nestedUrl = 'acl';
+  nestedUrl = 'acl';
 
   constructor(url) {
     this.baseUrl = url;
-    this.listGetter = new EndpointListGetterApiConsumer({
-      baseUrl: this.baseUrl,
-      instance,
-    }, {
-      defaultListObject: { user: false },
-      listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
-      nestedUrl: this._nestedUrl,
-    });
+    // this.listGetter = new EndpointListGetterApiConsumer({
+    //   baseUrl: this.baseUrl,
+    //   instance,
+    // }, {
+    //   defaultListObject: { user: false },
+    //   listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
+    //   nestedUrl: this._nestedUrl,
+    // });
+
+    this.listGetter = async ({ parentId, ...params }) => {
+      const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
+
+      const defaultObject = {
+        user: false,
+      };
+
+      const url = applyTransform(params, [
+        merge(getDefaultGetParams()),
+        starToSearch('search'),
+        (params) => ({ ...params, q: params.search }),
+        sanitize(fieldsToSend),
+        camelToSnake(),
+        generateUrl(`${this.baseUrl}/${parentId}/${this.nestedUrl}`),
+      ]);
+      try {
+        const response = await instance.get(url);
+        const { items, next } = applyTransform(response.data, [
+          snakeToCamel(),
+          merge(getDefaultGetListResponse()),
+        ]);
+        return {
+          items: applyTransform(items, [
+            mergeEach(defaultObject),
+            APIPermissionsGetter.handlePermissionsList,
+          ]),
+          next,
+        };
+      } catch (err) {
+        throw applyTransform(err, [
+          notify,
+        ]);
+      }
+    };
   }
 
-  static handlePermissionsListResponse(response) {
-    const items = response.items.map((item) => ({
+  static handlePermissionsList(items) {
+    return items.map((item) => ({
       ...item,
       access: {
         x: {
@@ -40,7 +82,6 @@ export default class APIPermissionsGetter {
         },
       },
     }));
-    return { items, next: response.next };
   }
 
   async getList(params) {
