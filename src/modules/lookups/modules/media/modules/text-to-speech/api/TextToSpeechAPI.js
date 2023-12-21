@@ -1,30 +1,35 @@
 import applyTransform, {
+  camelToSnake,
+  generateUrl,
   notify,
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
-import qs from 'query-string';
-import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
+// import qs from 'query-string';
+// import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import instance from '../../../../../../../app/api/instance';
 
 const getTtsStreamUrl = (params, apiUrl = false) => {
   const baseUrl = '/storage/tts/stream';
-  let url = `${baseUrl}?${qs.stringify({
-    ...objCamelToSnake(params),
-    access_token: instance.defaults.headers['X-Webitel-Access'],
-  })}`;
-  if (apiUrl) url = `${process.env.VUE_APP_API_URL}${url}`;
+  let url = applyTransform(params, [
+    (params) => ({
+      ...params,
+      access_token: instance.defaults.headers['X-Webitel-Access'],
+    }),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+  if (apiUrl) url = `${import.meta.env.VITE_API_URL}${url}`;
   return url;
 };
 
 const getTts = async (params) => {
 
-  const url = getTtsStreamUrl(params);
+  const url = getTtsStreamUrl(params, true);
 
   try {
     const response = await fetch(url);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    if (!response.ok) throw new Error(response.status);
+    return response.blob();
   } catch (err) {
     throw applyTransform(err, [
       notify(({ callback }) => callback({
