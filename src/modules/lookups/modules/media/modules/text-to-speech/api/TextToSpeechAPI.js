@@ -2,10 +2,8 @@ import applyTransform, {
   camelToSnake,
   generateUrl,
   notify,
-  snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
-// import qs from 'query-string';
-// import { objCamelToSnake } from '@webitel/ui-sdk/src/scripts/caseConverters';
+
 import instance from '../../../../../../../app/api/instance';
 
 const getTtsStreamUrl = (params, apiUrl = false) => {
