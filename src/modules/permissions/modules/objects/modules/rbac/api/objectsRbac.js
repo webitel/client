@@ -5,7 +5,7 @@ import {
 import applyTransform, {
   camelToSnake,
   generateUrl,
-  merge,
+  merge, mergeEach,
   notify,
   sanitize,
   snakeToCamel,
@@ -35,10 +35,11 @@ export const getObjclassDefaultList = async (params) => {
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
-      APIPermissionsGetter.handlePermissionsListResponse,
     ]);
     return {
-      items,
+      items: applyTransform(items, [
+        APIPermissionsGetter.handlePermissionsList,
+      ]),
       next,
     };
   } catch (err) {

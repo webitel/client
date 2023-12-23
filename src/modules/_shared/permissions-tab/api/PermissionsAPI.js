@@ -7,11 +7,13 @@ export default class PermissionsAPI {
   constructor(url) {
     this.url = url;
     this._permissionsGetter = new APIPermissionsGetter(url);
+    console.log('this._permissionsGetter:', this._permissionsGetter);
     this._permissionsPatcher = new APIPermissionsPatcher(url);
   }
 
   static getListByUrl = (url) => {
     const permissionsGetter = new APIPermissionsGetter(url);
+    console.log('permissionsGetter:', permissionsGetter);
     return (params) => permissionsGetter.getList(params);
   };
 

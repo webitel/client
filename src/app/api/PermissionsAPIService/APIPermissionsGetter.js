@@ -85,6 +85,6 @@ export default class APIPermissionsGetter {
   }
 
   async getList(params) {
-    return this.listGetter.getNestedList(params);
+    return this.listGetter(params);
   }
 }
