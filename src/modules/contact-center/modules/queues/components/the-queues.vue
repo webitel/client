@@ -1,6 +1,5 @@
 <template>
   <wt-page-wrapper
-    :actions-panel="false"
     class="queues"
   >
     <template #header>
@@ -11,6 +10,12 @@
         <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
+    <template #actions-panel>
+      <the-queues-filters
+        :namespace="'ccenter/queues/filters'"
+      />
+    </template>
+
     <template #main>
       <queue-popup
         v-if="isQueueSelectPopup"
@@ -153,6 +158,7 @@
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
 import DeleteConfirmationPopup
@@ -163,7 +169,7 @@ const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { QueuePopup, DeleteConfirmationPopup },
+  components: { TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -201,6 +207,9 @@ export default {
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
       ];
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
     },
   },
 

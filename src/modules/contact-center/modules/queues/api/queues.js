@@ -63,6 +63,7 @@ const getQueuesList = async (params) => {
     waiting: 0,
     priority: '0',
   };
+  console.log(params);
   const {
     page,
     size,
@@ -70,6 +71,8 @@ const getQueuesList = async (params) => {
     sort,
     fields,
     id,
+    type,
+    // team,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -83,7 +86,11 @@ const getQueuesList = async (params) => {
       sort,
       fields,
       id,
+      [type],
+      // team,
     );
+    console.log(response);
+    console.log(type);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
