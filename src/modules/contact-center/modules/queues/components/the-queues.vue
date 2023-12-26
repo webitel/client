@@ -231,7 +231,13 @@ export default {
       this.isQueueSelectPopup = true;
     },
   },
-
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
 };
 </script>
 

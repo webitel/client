@@ -86,7 +86,7 @@ const getQueuesList = async (params) => {
       sort,
       fields,
       id,
-      [type],
+      type,
       // team,
     );
     console.log(response);
