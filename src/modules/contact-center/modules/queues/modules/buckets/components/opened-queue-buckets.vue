@@ -25,7 +25,7 @@
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
-            @click="callDelete(selectedRows)"
+            @click="deleteData(selectedRows)"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -76,7 +76,7 @@
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
+            @click="deleteData(item)"
           />
         </template>
       </wt-table>
