@@ -1,6 +1,3 @@
-// import {
-//   EndpointListGetterApiConsumer,
-// } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../instance';
 import applyTransform, {
   camelToSnake, generateUrl,
@@ -15,14 +12,6 @@ export default class APIPermissionsGetter {
 
   constructor(url) {
     this.baseUrl = url;
-    // this.listGetter = new EndpointListGetterApiConsumer({
-    //   baseUrl: this.baseUrl,
-    //   instance,
-    // }, {
-    //   defaultListObject: { user: false },
-    //   listResponseHandler: APIPermissionsGetter.handlePermissionsListResponse,
-    //   nestedUrl: this._nestedUrl,
-    // });
 
     this.listGetter = async ({ parentId, ...params }) => {
       const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];

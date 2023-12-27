@@ -1,20 +1,13 @@
-import { EndpointPatcherApiConsumer } from 'webitel-sdk/esm2015/api-consumers';
 import instance from '../instance';
 import applyTransform, {
-  camelToSnake, generateUrl,
-  merge, mergeEach, notify,
-  sanitize, snakeToCamel,
-  starToSearch
+  camelToSnake,
+  notify,
+  snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 
 export default class APIPermissionsPatcher {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
-    // this.patcher = new EndpointPatcherApiConsumer({
-    //   baseUrl: this.baseUrl,
-    //   instance,
-    // });
     this.patcher = async ({ changes, id }) => {
       const afterUrl = 'acl';
       const body = applyTransform(changes, [
