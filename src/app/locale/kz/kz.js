@@ -640,6 +640,8 @@ export default {
         waiting: 'Күту',
         ringtone: 'Әуен',
         priority: 'Басымдық',
+        teams: 'Команда| Командалар',
+        tags: 'Тегтер',
         blacklist: 'Тоқтату ',
         newQueue: 'Жаңа кезек',
         newQueueDescription: 'Кезек түрлері',
@@ -876,6 +878,10 @@ export default {
     pagination: {
       rowsPerPage: 'Бір беттегі жолдар саны',
     },
+  },
+  filters: {
+    team: 'Команда',
+    queueType: 'Кезек түрі',
   },
   utils: {
     downloadFilesBtn: {

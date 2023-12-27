@@ -12,7 +12,7 @@
     </template>
     <template #actions-panel>
       <the-queues-filters
-        :namespace="'ccenter/queues/filters'"
+        :namespace="filtersNamespace"
       />
     </template>
 
@@ -104,6 +104,19 @@
               >
                 {{ item.team.name }}
               </wt-item-link>
+            </template>
+            <template #tags="{ item }">
+              <div
+                v-if="item.tags"
+                class="the-queues__tags"
+              >
+                <wt-chip
+                  v-for="(tag, key) of item.tags"
+                  :key="key"
+                >
+                  {{ tag.name }}
+                </wt-chip>
+              </div>
             </template>
             <template #state="{ item, index }">
               <wt-switcher
@@ -212,6 +225,13 @@ export default {
       return `${this.namespace}/filters`;
     },
   },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
 
   methods: {
     openMembers(item) {
@@ -231,15 +251,13 @@ export default {
       this.isQueueSelectPopup = true;
     },
   },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
 };
 </script>
 
 <style lang="scss" scoped>
+.the-queues__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
 </style>

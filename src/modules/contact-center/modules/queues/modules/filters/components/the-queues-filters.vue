@@ -6,7 +6,10 @@
       :key="filter.filterQuery"
       :filter-query="filter.filterQuery"
       :namespace="namespace"
-    ></component>
+    />
+    <queues-tags-filter
+      :namespace="namespace"
+    />
   </wt-filters-panel-wrapper>
 </template>
 
@@ -14,9 +17,11 @@
 import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 import { mapActions } from 'vuex';
 import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+import QueuesTagsFilter from './queues-tags-filter.vue';
 export default {
   name: 'TheQueuesFilters',
   components: {
+    QueuesTagsFilter,
     AbstractApiFilter,
     AbstractEnumFilter
   },
@@ -28,8 +33,8 @@ export default {
   },
   data: () => ({
     filters: [
-      // { type: 'api', filterQuery: 'team' },
-      { type: 'enum', filterQuery: 'type' },
+      { type: 'api', filterQuery: 'team' },
+      { type: 'enum', filterQuery: 'queueType' },
     ],
   }),
   methods: {
@@ -50,11 +55,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.flow-tags-filter {
-  grid-column: 1 / 3;
-}
-
-.flow-type-filter {
-  grid-column: 3 / 5;
-}
 </style>
