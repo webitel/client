@@ -86,7 +86,7 @@
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="callDelete(item)"
+            @click="deleteData(item)"
           />
         </template>
       </wt-table>
