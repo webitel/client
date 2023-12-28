@@ -730,6 +730,8 @@ export default {
         waiting: 'Очікування',
         ringtone: 'Мелодія',
         priority: 'Пріоритет',
+        teams: 'Команда| Команди',
+        tags: 'Теги',
         blacklist: 'Стоп лист',
         newQueue: 'Нова черга',
         newQueueDescription: 'Типи черг',
@@ -1058,6 +1060,11 @@ export default {
     pagination: {
       rowsPerPage: 'Кількість записів',
     },
+  },
+
+  filters: {
+    team: 'Команда',
+    queueType: 'Тип черги',
   },
 
   utils: {

@@ -728,6 +728,8 @@ export default {
         waiting: 'Ожидание',
         ringtone: 'Мелодия',
         priority: 'Приоритет',
+        teams: 'Команда| Команды',
+        tags: 'Теги',
         blacklist: 'Стоп лист',
         newQueue: 'Новая очередь',
         newQueueDescription: 'Типы очередей',
@@ -1059,6 +1061,11 @@ export default {
     pagination: {
       rowsPerPage: 'Количество строк на странице',
     },
+  },
+
+  filters: {
+    queueType: 'Тип очереди',
+    team: 'Команда',
   },
 
   utils: {

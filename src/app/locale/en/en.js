@@ -730,6 +730,8 @@ export default {
         waiting: 'Waiting',
         ringtone: 'Ringtone',
         priority: 'Priority',
+        teams: 'Team | Teams',
+        tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
         newQueueDescription: 'New queue descriotion',
@@ -1061,6 +1063,11 @@ export default {
     pagination: {
       rowsPerPage: 'Rows per page',
     },
+  },
+
+  filters: {
+    team: 'Team',
+    queueType: 'Queue Type',
   },
 
   utils: {

@@ -1,6 +1,5 @@
 <template>
   <wt-page-wrapper
-    :actions-panel="false"
     class="queues"
   >
     <template #header>
@@ -11,6 +10,12 @@
         <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
+    <template #actions-panel>
+      <the-queues-filters
+        :namespace="filtersNamespace"
+      />
+    </template>
+
     <template #main>
       <queue-popup
         v-if="isQueueSelectPopup"
@@ -100,6 +105,19 @@
                 {{ item.team.name }}
               </wt-item-link>
             </template>
+            <template #tags="{ item }">
+              <div
+                v-if="item.tags"
+                class="the-queues__tags"
+              >
+                <wt-chip
+                  v-for="(tag, key) of item.tags"
+                  :key="key"
+                >
+                  {{ tag.name }}
+                </wt-chip>
+              </div>
+            </template>
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
@@ -153,6 +171,7 @@
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuePopup from './create-queue-popup.vue';
 import DeleteConfirmationPopup
@@ -163,7 +182,7 @@ const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { QueuePopup, DeleteConfirmationPopup },
+  components: { TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -202,6 +221,16 @@ export default {
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
       ];
     },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
   },
 
   methods: {
@@ -222,9 +251,13 @@ export default {
       this.isQueueSelectPopup = true;
     },
   },
-
 };
 </script>
 
 <style lang="scss" scoped>
+.the-queues__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
 </style>
