@@ -67,7 +67,6 @@ const getSingleSignOn = async ({ itemId: id }) => {
 
   try {
     const response = await instance.get(url);
-    console.log(response);
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),

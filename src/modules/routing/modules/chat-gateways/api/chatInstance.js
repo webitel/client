@@ -1,8 +1,6 @@
 import axios from 'axios';
 import path from 'path';
-import instance, { config } from '../../../../../app/api/old/instance';
-import defaultInterceptorsSetup
-  from '../../../../../app/api/old/interceptors/defaultInterceptorsSetup';
+import instance from '../../../../../app/api/instance';
 import getChatOriginUrl from '../scripts/getChatOriginUrl';
 
 const chatBaseUrl = new URL(path.normalize(import.meta.env.VITE_CHAT_URL), getChatOriginUrl())
@@ -13,7 +11,7 @@ const chatInstance = axios.create({
   baseURL: chatBaseUrl,
 });
 
-defaultInterceptorsSetup({ instance: chatInstance, config });
+console.log('chatInstance:', chatInstance);
 
 export default chatInstance;
 export { chatBaseUrl };
