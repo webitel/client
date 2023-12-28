@@ -1,16 +1,28 @@
+import applyTransform, {
+  mergeEach, notify,
+  snakeToCamel,
+} from '@webitel/ui-sdk/src/api/transformers';
 import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
 
 const defaultListObject = {
   accounts: [],
 };
 
-/* I decided not to use api consumer because they do not
- have this flexibility to work with base url and params */
 const getList = async ({ uri }) => {
   const url = `${uri}?pages=`;
-  const data = await chatInstance.get(url);
-  console.log('facebook get list data:', data);
-  return data.map((item) => ({ ...defaultListObject, ...item }));
+  try {
+    const response = await chatInstance.get(url);
+    const { data } = applyTransform(response, [
+      snakeToCamel(),
+    ]);
+    return applyTransform(data, [
+        mergeEach(defaultListObject),
+      ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
 };
 
 const addOrRemovePagesUrl = (uri) => `${chatBaseUrl}/${uri}/?pages=setup`;
