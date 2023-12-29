@@ -1,7 +1,7 @@
 import APIPermissionsGetter
-  from '../../../../app/api/old/PermissionsAPIService/APIPermissionsGetter';
+  from '../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 import APIPermissionsPatcher
-  from '../../../../app/api/old/PermissionsAPIService/APIPermissionsPatcher';
+  from '../../../../app/api/PermissionsAPIService/APIPermissionsPatcher';
 
 export default class PermissionsAPI {
   constructor(url) {
