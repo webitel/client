@@ -198,7 +198,7 @@
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
@@ -257,6 +257,9 @@ export default {
         return getNamespacedState(state, this.namespace).parentQueue;
       },
     }),
+    // ...mapGetters('appearance', {
+    //   darkMode: 'DARK_MODE',
+    // }),
     parentId() {
       return this.$route.params.queueId;
     },
@@ -318,7 +321,7 @@ export default {
 
     // dummy() {
     //   return !this.dataList.length && {
-    //     src: dummyPic,
+    //     src: this.darkMode ? dummyPicDark : dummyPicLight,
     //     text: 'objects.ccenter.members.emptyWorkspace',
     //   };
     // },
