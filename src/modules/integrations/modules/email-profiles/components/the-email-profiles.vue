@@ -123,10 +123,12 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPic from '../assets/adm-dummy-email-profile.svg';
+import dummyPicLight from '../assets/adm-dummy-email-profile-light.svg';
+import dummyPicDark from '../assets/adm-dummy-email-profile-dark.svg';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -139,6 +141,8 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
     const { dummy } = useDummy({
       namespace,
       showAction: true,

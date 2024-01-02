@@ -86,8 +86,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import dummyPic from '../../../../../app/assets/dummy/adm-dummy-after-search.svg';
+import { mapActions, mapState, mapGetters } from 'vuex';
+import dummyPicLight
+  from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
+import dummyPicDark
+  from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
 import openedObjectTableTabMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import holidayPopup from './opened-calendar-holiday-popup.vue';
@@ -131,6 +134,9 @@ export default {
     ...mapState('lookups/calendars', {
       holidayList: (state) => state.itemInstance.excepts,
     }),
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
+    }),
     // override mixin map state
     dataList: {
       get() { return this.dataListValue; },
@@ -148,16 +154,19 @@ export default {
         { value: 'repeat', text: this.$t('objects.lookups.calendars.repeat') },
       ];
     },
+    dummyPic() {
+      return this.darkMode ? dummyPicDark : dummyPicLight
+    },
     dummy() {
       if (!this.dataListValue.length) {
         if (this.searchValue) {
           return {
-            src: dummyPic,
+            src: this.dummyPic,
             text: 'objects.emptyResultSearch',
           };
         } else {
           return {
-            src: dummyPic,
+            src: this.dummyPic,
             text: '',
           };
         }

@@ -126,11 +126,13 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPic from '../assets/adm-dummy-storage.svg';
+import dummyPicLight from '../assets/adm-dummy-storage-light.svg';
+import dummyPicDark from '../assets/adm-dummy-storage-dark.svg';
 import Storage from '../store/_internals/enums/Storage.enum';
 import StoragePopup from './_unused/create-storage-popup.vue';
 import DeleteConfirmationPopup
@@ -145,6 +147,8 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
     const { dummy } = useDummy({
       namespace,
       showAction: true,

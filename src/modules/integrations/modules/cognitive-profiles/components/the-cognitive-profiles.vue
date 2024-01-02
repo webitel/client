@@ -136,10 +136,13 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPic from '../assets/adm-dummy-cognitive-profiles.svg';
+import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
+import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -156,6 +159,9 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
+    const store = useStore();
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
     const { dummy } = useDummy({
       namespace,
       showAction: true,

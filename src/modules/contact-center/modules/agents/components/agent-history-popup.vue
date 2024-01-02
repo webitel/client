@@ -86,9 +86,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
-import dummyPic from '../assets/adm-agent-history.svg';
+import dummyPicLight from '../assets/adm-agent-history-light.svg';
+import dummyPicDark from '../assets/adm-agent-history-dark.svg';
 import agentState from '../dictionaries/agentState.dictionary';
 
 export default {
@@ -100,6 +102,9 @@ export default {
   }),
 
   computed: {
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
+    }),
     headers() {
       return [
         { value: 'state', text: this.$t('objects.ccenter.agents.historyState') },
@@ -111,7 +116,7 @@ export default {
     },
     dummy() {
       return !this.dataList.length && {
-        src: dummyPic,
+        src: this.darkMode ? dummyPicDark : dummyPicLight,
         text: 'objects.ccenter.agents.emptyPopup',
       };
     },

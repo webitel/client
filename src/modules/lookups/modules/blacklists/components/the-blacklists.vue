@@ -113,11 +113,14 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPic from '../assets/adm-dummy-blacklist.svg';
+import dummyPicLight from '../assets/adm-dummy-blacklist-light.svg';
+import dummyPicDark from '../assets/adm-dummy-blacklist-dark.svg';
 import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -131,6 +134,9 @@ export default {
   mixins: [exportCSVMixin, tableComponentMixin],
 
   setup() {
+    const store = useStore();
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
     const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
     const {
       isVisible: isDeleteConfirmationPopup,
