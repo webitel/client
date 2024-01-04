@@ -58,6 +58,7 @@
           :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
+          :dark-mode="darkMode"
           class="dummy-wrapper"
           @create="create"
         />
