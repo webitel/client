@@ -287,14 +287,13 @@ export default {
 
     path() {
       const title = this.$t(QueueTypeProperties[this.queueType].locale);
-      const queueUrl = QueueTypeProperties[this.queueType].subpath;
       const baseUrl = '/contact-center/queues';
       return [
         { name: this.$t('objects.ccenter.ccenter') },
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: baseUrl },
         {
           name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${title})`,
-          route: `${baseUrl}/${queueUrl}/${this.id ? this.id : 'new'}`,
+          route: `${baseUrl}/${this.id ? this.id : 'new'}`,
         },
       ];
     },
