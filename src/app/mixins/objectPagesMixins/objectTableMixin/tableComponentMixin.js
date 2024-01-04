@@ -1,6 +1,6 @@
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapGetters } from 'vuex';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import objectTableAccessControlMixin
   from './_internals/objectTableAccessControlMixin';
@@ -36,6 +36,9 @@ export default {
       isNext(state) {
         return getNamespacedState(state, this.namespace).isNextPage;
       },
+    }),
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     headers() {
       if (!this.headersValue) return [];

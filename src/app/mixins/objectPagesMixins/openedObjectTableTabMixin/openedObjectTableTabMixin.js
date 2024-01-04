@@ -1,6 +1,6 @@
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapGetters } from 'vuex';
 import ObjectListPopup
   from '../../../components/utils/object-list-popup/object-list-popup.vue';
 import OnePlusMany
@@ -53,6 +53,9 @@ export default {
       aggs(state) {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).aggs;
       },
+    }),
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     headers() {
       if (!this.headersValue) return [];

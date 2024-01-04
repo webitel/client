@@ -62,6 +62,7 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           class="dummy-wrapper"
         />
         <div
