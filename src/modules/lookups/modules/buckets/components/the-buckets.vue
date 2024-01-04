@@ -51,6 +51,7 @@
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
           :src="dummy.src"
+          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"

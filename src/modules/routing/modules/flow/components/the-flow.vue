@@ -68,6 +68,7 @@
         <!--        <wt-dummy-->
         <!--          v-if="dummy && isLoaded"-->
         <!--          :src="dummy.src"-->
+        <!--          :dark-mode="darkMode"-->
         <!--          :text="dummy.text && $t(dummy.text)"-->
         <!--          :show-action="dummy.showAction"-->
         <!--          @create="create"-->
