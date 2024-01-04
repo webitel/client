@@ -116,7 +116,7 @@ export default {
 
     path() {
       const baseUrl = '/directory/devices';
-      const url = baseUrl + this.isHotdesk ? '/hotdesk' : '';
+      const url = baseUrl + (this.isHotdesk ? '/hotdesk' : '');
       return [
         { name: this.$t('objects.directory.directory') },
         { name: this.$tc('objects.directory.devices.devices', 2), route: baseUrl },
