@@ -118,6 +118,17 @@
         @input="setItemProp({ prop: 'grantee', value: $event })"
       />
 
+      <wt-tags-input
+        :disabled="disableUserInput"
+        :label="$tc('vocabulary.tag', 2)"
+        :search-method="loadQueuesTagOptions"
+        :value="itemInstance.tags"
+        option-label="name"
+        taggable
+        track-by="name"
+        @input="setItemProp({ prop: 'tags', value: $event })"
+      />
+      
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -138,6 +149,7 @@ import MediaAPI from '../../../../lookups/modules/media/api/media';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import TeamsAPI from '../../teams/api/teams';
+import QueuesAPI from '../api/queues';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 
@@ -193,6 +205,7 @@ export default {
     loadDropdownOptionsRoleList(params) {
       return RolesAPI.getLookup(params);
     },
+    loadQueuesTagOptions: QueuesAPI.getQueuesTags,
   },
 };
 </script>

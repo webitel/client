@@ -1,13 +1,14 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
+    <queues-tags-filter
+      :namespace="namespace"
+    />
     <component
+      class="queues-abstract-filter"
       :is="`abstract-${filter.type}-filter`"
       v-for="(filter) of filters"
       :key="filter.filterQuery"
       :filter-query="filter.filterQuery"
-      :namespace="namespace"
-    />
-    <queues-tags-filter
       :namespace="namespace"
     />
   </wt-filters-panel-wrapper>
@@ -55,4 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.queues-abstract-filter, .queues-tags-filter {
+  grid-column: span 2;
+}
 </style>

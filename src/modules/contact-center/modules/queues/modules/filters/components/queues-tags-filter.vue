@@ -6,7 +6,7 @@
     :search-method="search"
     :track-by="filterSchema.storedProp"
     :value="filterSchema.value"
-    class="flow-tags-filter"
+    class="queues-tags-filter"
     option-label="name"
     v-bind="$attrs"
     @input="handleInput"
