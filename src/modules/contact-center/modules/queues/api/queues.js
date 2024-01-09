@@ -111,6 +111,7 @@ const getQueuesList = async (params) => {
 
 const getQueue = async ({ itemId: id }) => {
   const defaultObject = {
+    tags: [],
     type: 0,
     formSchema: {},
     taskProcessing: {},
