@@ -1,6 +1,6 @@
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import ObjectListPopup
   from '../../../components/utils/object-list-popup/object-list-popup.vue';
 import OnePlusMany

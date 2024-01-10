@@ -141,13 +141,25 @@ export default {
     },
     normalizeCSVData(data) {
       const nonEmptyMappingFields = this.mappingFields.filter((field) => !isEmpty(field.csv));
-      return data.map((dataItem) => (
-        nonEmptyMappingFields.reduce((normalizedItem, { name, csv }) => ({
-          ...normalizedItem,
-          [name]: Array.isArray(csv)
-            ? csv.map((csv) => dataItem[csv])
-            : dataItem[csv],
-        }), {})
+      return data.map((dataItem, index) => (
+        nonEmptyMappingFields.reduce((
+          normalizedItem,
+          { name, csv, required },
+        ) => {
+          // if one of required fields on any row is empty, throw an error
+          if (required &&
+            isEmpty(dataItem[csv])) {
+            // +1 because of indexing starts from 0, but rows counting from 1
+            throw new Error(`Required field is empty: ${name} on row ${index +
+            1}`);
+          }
+          return {
+            ...normalizedItem,
+            [name]: Array.isArray(csv)
+              ? csv.map((csv) => dataItem[csv])
+              : dataItem[csv],
+          };
+        }, {})
       ));
     },
     async readFile() {

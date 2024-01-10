@@ -1,6 +1,6 @@
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
 import objectTableAccessControlMixin
   from './_internals/objectTableAccessControlMixin';
