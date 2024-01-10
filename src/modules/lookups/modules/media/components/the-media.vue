@@ -340,7 +340,7 @@ export default {
   }
 }
 
-.theme--dark #dropzone {
+#dropzone {
   background: var(--content-wrapper-color);
 }
 </style>
