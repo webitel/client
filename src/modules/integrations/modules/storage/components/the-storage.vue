@@ -12,8 +12,8 @@
     <template #main>
       <delete-confirmation-popup
         v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
         @close="closeDelete"
       />
 
@@ -54,9 +54,9 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
-          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
@@ -127,18 +127,20 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed } from 'vue';
-import { mapActions } from 'vuex';
+import { mapActions, useStore } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicLight from '../assets/adm-dummy-storage-light.svg';
 import dummyPicDark from '../assets/adm-dummy-storage-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-storage-light.svg';
 import Storage from '../store/_internals/enums/Storage.enum';
 import StoragePopup from './_unused/create-storage-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'integrations/storage';
 
@@ -148,6 +150,7 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
+    const store = useStore();
     const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
     const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
     const { dummy } = useDummy({
