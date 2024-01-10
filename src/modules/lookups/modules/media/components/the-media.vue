@@ -339,4 +339,8 @@ export default {
     margin-bottom: 3px;
   }
 }
+
+.theme--dark #dropzone {
+  background: var(--content-wrapper-color);
+}
 </style>
