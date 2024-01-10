@@ -33,8 +33,14 @@ export default [
   },
   {
     value: 'team',
-    locale: ['objects.ccenter.teams.teams', 1],
+    locale: ['objects.ccenter.queues.teams', 1],
     field: 'team',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'tags',
+    locale: ['objects.ccenter.queues.tags', 1],
+    field: 'tags',
     sort: SortSymbols.NONE,
   },
   {

@@ -44,6 +44,7 @@ const fieldsToSend = [
   'afterSchema',
   'stickyAgent',
   'grantee',
+  'tags',
 ];
 
 const preRequestHandler = (item) => {
@@ -63,6 +64,7 @@ const getQueuesList = async (params) => {
     waiting: 0,
     priority: '0',
   };
+
   const {
     page,
     size,
@@ -70,6 +72,9 @@ const getQueuesList = async (params) => {
     sort,
     fields,
     id,
+    queueType,
+    team,
+    tags,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -83,6 +88,9 @@ const getQueuesList = async (params) => {
       sort,
       fields,
       id,
+      queueType,
+      team,
+      tags,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(doNotConvertKeys),
@@ -103,6 +111,7 @@ const getQueuesList = async (params) => {
 
 const getQueue = async ({ itemId: id }) => {
   const defaultObject = {
+    tags: [],
     type: 0,
     formSchema: {},
     taskProcessing: {},
@@ -213,6 +222,42 @@ const getQueuesLookup = (params) => getQueuesList({
   fields: params.fields || ['id', 'name', 'type'],
 });
 
+const getQueuesTags = async (params) => {
+  const {
+    page,
+    size,
+    search,
+    sort,
+    fields,
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch(),
+    camelToSnake(doNotConvertKeys),
+  ]);
+  try {
+    const response = await queueService.searchQueueTags(
+        page,
+        size,
+        search,
+        sort,
+        fields,
+    );
+    const { items, next } = applyTransform(response.data, [
+      snakeToCamel(doNotConvertKeys),
+      merge(getDefaultGetListResponse()),
+    ]);
+    return {
+      items,
+      next,
+    };
+  } catch (err) {
+    throw applyTransform(err, [
+
+      notify,
+    ]);
+  }
+};
+
 const QueuesAPI = {
   getList: getQueuesList,
   get: getQueue,
@@ -221,6 +266,7 @@ const QueuesAPI = {
   update: updateQueue,
   delete: deleteQueue,
   getLookup: getQueuesLookup,
+  getQueuesTags,
 };
 
 export default QueuesAPI;

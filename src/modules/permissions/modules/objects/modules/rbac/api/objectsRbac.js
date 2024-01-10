@@ -5,7 +5,7 @@ import {
 import applyTransform, {
   camelToSnake,
   generateUrl,
-  merge,
+  merge, mergeEach,
   notify,
   sanitize,
   snakeToCamel,
@@ -13,7 +13,7 @@ import applyTransform, {
 } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../../../app/api/instance';
 import APIPermissionsGetter
-  from '../../../../../../../app/api/old/PermissionsAPIService/APIPermissionsGetter';
+  from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 
 const baseUrl = '/acl/objclass';
 const nestedURL = 'grantor';
@@ -35,10 +35,11 @@ export const getObjclassDefaultList = async (params) => {
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
-      APIPermissionsGetter.handlePermissionsListResponse,
     ]);
     return {
-      items,
+      items: applyTransform(items, [
+        APIPermissionsGetter.handlePermissionsList,
+      ]),
       next,
     };
   } catch (err) {
