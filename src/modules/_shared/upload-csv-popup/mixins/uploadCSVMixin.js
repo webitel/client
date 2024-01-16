@@ -50,6 +50,15 @@ export default {
     csvPreview: [[]],
   }),
   computed: {
+    csvValues() {
+      return  this.mappingFields
+      .filter(field => field.csv)
+      .map(field => field.csv)
+      .flat();
+    },
+    filteredCsvColumns() {
+      return this.csvColumns.filter(item => this.csvValues.indexOf(item) !== -1);
+    },
     csvColumns() {
       return this.skipHeaders
         ? Object.keys(this.csvPreview[0])
@@ -71,6 +80,12 @@ export default {
     },
     csvPreviewTableHeaders() {
       return this.csvColumns.map((col, index) => ({
+        text: col,
+        value: this.skipHeaders ? col : `${index}`,
+      }));
+    },
+    filteredCsvPreviewTableHeaders() {
+      return this.filteredCsvColumns.map((col, index) => ({
         text: col,
         value: this.skipHeaders ? col : `${index}`,
       }));
