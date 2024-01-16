@@ -128,7 +128,7 @@
         track-by="name"
         @input="setItemProp({ prop: 'tags', value: $event })"
       />
-      
+
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"

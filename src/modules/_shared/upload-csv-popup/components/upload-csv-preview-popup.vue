@@ -29,7 +29,7 @@
             <wt-table
               :data="csvPreviewTableData"
               :grid-actions="false"
-              :headers="csvPreviewTableHeaders"
+              :headers="filteredCsvPreviewTableHeaders"
               :selectable="false"
             />
           </article>
