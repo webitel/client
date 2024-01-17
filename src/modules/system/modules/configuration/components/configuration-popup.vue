@@ -1,7 +1,7 @@
 <template>
   <wt-popup
-    width="480"
     overflow
+    width="480"
     @close="close"
   >
     <template #title>
@@ -11,13 +11,13 @@
     <template #main>
       <form>
         <wt-select
-          :value="itemInstance.name"
-          :v="v$.itemInstance.name"
+          :clearable="false"
+          :disabled="id"
           :label="$t('objects.system.configuration.parameter')"
           :search-method="loadParameterList"
-          :clearable="false"
           :track-by="null"
-          :disabled="id"
+          :v="v$.itemInstance.name"
+          :value="itemInstance.name"
           required
           @input="setParameterName"
         />
@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import deepmerge from 'deepmerge';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minValue } from '@vuelidate/validators';
+import { minValue, required } from '@vuelidate/validators';
+import deepmerge from 'deepmerge';
 import { EngineSystemSettingName } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin
@@ -118,6 +118,9 @@ export default {
 
       switch (this.itemInstance.name) {
         case EngineSystemSettingName.EnableOmnichannel: {
+          return defaultBooleanConfig;
+        }
+        case EngineSystemSettingName.AmdCancelNotHuman: {
           return defaultBooleanConfig;
         }
         case EngineSystemSettingName.MemberChunkSize: {
