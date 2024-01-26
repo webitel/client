@@ -413,6 +413,9 @@ export default {
         fri: 'Пятница',
         sat: 'Суббота',
         sun: 'Воскресение',
+        workingTime: 'Рабочее время',
+        workStart: 'Начало рабочего времени',
+        workStop: 'Конец рабочего времени',
       },
       communications: {
         communications: 'Тип связи| Типы связи',
