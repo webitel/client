@@ -413,6 +413,9 @@ export default {
         fri: 'Friday',
         sat: 'Saturday',
         sun: 'Sunday',
+        workingTime: 'Working time',
+        workStart: 'Working time start',
+        workStop: 'Working time end',
       },
       communications: {
         communications: 'Communication type | Communication types',

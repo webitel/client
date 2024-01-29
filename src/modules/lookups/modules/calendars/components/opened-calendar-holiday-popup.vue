@@ -20,6 +20,29 @@
           :label="$t('objects.lookups.calendars.date')"
         />
         <wt-switcher
+          :value="itemInstance.working"
+          :label="$t('objects.lookups.calendars.workingTime')"
+          @change="changeWorkingSwitcher"
+        />
+        <div
+          v-if="itemInstance.working"
+          class="opened-calendar-holiday-popup__warpper">
+          <wt-timepicker
+            format="hh:mm"
+            :label="$t('objects.lookups.calendars.start')"
+            :v="v$.itemInstance.workStart"
+            :value="itemInstance.workStart * 60"
+            @input="updateWorkingTime($event, 'workStart')"
+          ></wt-timepicker>
+          <wt-timepicker
+            format="hh:mm"
+            :label="$t('objects.lookups.calendars.end')"
+            :v="v$.itemInstance.workStop"
+            :value="itemInstance.workStop * 60"
+            @input="updateWorkingTime($event, 'workStop')"
+          ></wt-timepicker>
+        </div>
+        <wt-switcher
           v-model="itemInstance.repeat"
           :label="$t('objects.lookups.calendars.repeat')"
         />
@@ -44,7 +67,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { maxValue, minValue, numeric, required, requiredIf } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -72,6 +95,17 @@ export default {
     itemInstance: {
       name: { required },
       date: { required },
+      workStart: {
+        numeric,
+        minValue: minValue(0),
+        maxValue: maxValue(1440)
+      },
+      workStop: {
+        numeric,
+        required: requiredIf((value, item) => item.workStart),
+        minValue: minValue(0),
+        maxValue: maxValue(1440)
+      },
     },
   },
   created() {
@@ -117,6 +151,14 @@ export default {
       }
       this.close();
     },
+    changeWorkingSwitcher(event) {
+      this.itemInstance.working = event;
+      this.itemInstance.workStart = this.itemInstance.working ? 9 * 60 : null;
+      this.itemInstance.workStop = this.itemInstance.working ? 20 * 60 : null;
+    },
+    updateWorkingTime(event, prop) {
+      this.itemInstance[prop] = event ? event / 60 : null;
+    },
     loadItem() {},
     resetState() {},
   },
@@ -124,6 +166,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.opened-calendar-holiday-popup__wrapper {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: space-between;
+}
+
 .popup-input-form {
   display: grid;
   grid-gap: var(--spacing-sm);

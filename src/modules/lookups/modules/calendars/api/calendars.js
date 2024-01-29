@@ -82,6 +82,9 @@ const getCalendar = async ({ itemId: id }) => {
         name: except.name || '',
         date: except.date || 0,
         repeat: except.repeat || false,
+        working: except.working || false,
+        workStart: except.workStart || null,
+        workStop: except.workStop || null,
       }));
     }
     return { ...defaultSingleObject, ...copy };
@@ -115,6 +118,9 @@ const fieldsToSend = [
   'disabled',
   'date',
   'repeat',
+  'working',
+  'workStart',
+  'workStop',
 ];
 
 const preRequestHandler = (item) => {

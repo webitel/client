@@ -60,6 +60,16 @@
         <template #date="{ item }">
           {{ prettifyDate(item.date) }}
         </template>
+        <template #workStart="{ item }">
+          <div v-if="item.workStart">
+            {{ ConverDurationWithMinutes(item.workStart) }}
+          </div>
+        </template>
+        <template #workStop="{ item }">
+          <div v-if="item.workStop">
+            {{ ConverDurationWithMinutes(item.workStop) }}
+          </div>
+        </template>
         <template #repeat="{ item, index }">
           <wt-switcher
             :disabled="disableUserInput"
@@ -98,6 +108,7 @@ import holidayPopup from './opened-calendar-holiday-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import ConverDurationWithMinutes from '../scripts/converDurationWithMinutes';
 
 export default {
   name: 'OpenedCalendarHolidays',
@@ -152,6 +163,8 @@ export default {
       return [
         { value: 'name', text: this.$t('objects.name') },
         { value: 'date', text: this.$t('objects.lookups.calendars.date') },
+        { value: 'workStart', text: this.$t('objects.lookups.calendars.workStart') },
+        { value: 'workStop', text: this.$t('objects.lookups.calendars.workStop') },
         { value: 'repeat', text: this.$t('objects.lookups.calendars.repeat') },
       ];
     },
@@ -176,6 +189,7 @@ export default {
   },
 
   methods: {
+    ConverDurationWithMinutes,
     ...mapActions({
       dispatchDelete(dispatch, payload) {
         return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
