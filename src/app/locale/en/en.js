@@ -458,6 +458,7 @@ export default {
           code: 'Code',
           description: 'Create new flow using JSON-schema in code editor',
         },
+        askingAlert: 'Do you want to save the changes you made to "{name}" ?',
       },
 
       dialplan: {

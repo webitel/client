@@ -458,6 +458,7 @@ export default {
           code: 'Код',
           description: 'Создать новую схему используя JSON-схему в редакторе кода',
         },
+        askingAlert: 'Вы хотите сохранить изменения, внесенные в "{name}" ?',
       },
 
       dialplan: {

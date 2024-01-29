@@ -15,10 +15,17 @@
         :primary-action="saveCode"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
-        :secondary-action="close"
+        :secondary-action="handleConfirmationUnsavedChangesPopup"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
+      <confirmation-unsaved-changes-popup
+        v-if="isConfirmationUnsavedChangesPopup"
+        :name="itemInstance.name"
+        @save="saveCode"
+        @closePage="closePage"
+        @closePopup="toggleIsConfirmationUnsavedChangesPopup"
+      ></confirmation-unsaved-changes-popup>
     </template>
 
     <template #main>
@@ -51,29 +58,54 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { mapActions, useStore } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
 import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
-import { mapActions } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
+import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
+import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
 
+const namespace = 'routing/flow';
 export default {
   name: 'OpenedFlow',
   components: {
     Diagram,
     JsonSchema,
     WtSaveFailedPopup,
+    ConfirmationUnsavedChangesPopup,
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup () {
+    const v$ = useVuelidate();
+    const store = useStore();
+    const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
+
+    const {
+      isConfirmationUnsavedChangesPopup,
+      displayConfirmationPopup,
+      addCheckingUnsavedChanges,
+      removeCheckingUnsavedChanges,
+      toggleIsConfirmationUnsavedChangesPopup,
+    } = useCheckingUnsavedChanges(itemInstance);
+
+    return {
+      v$,
+      isConfirmationUnsavedChangesPopup,
+      displayConfirmationPopup,
+      addCheckingUnsavedChanges,
+      removeCheckingUnsavedChanges,
+      toggleIsConfirmationUnsavedChangesPopup,
+    }
+  },
   data: () => ({
-    namespace: 'routing/flow',
+    namespace,
     isSaveFailedPopup: false,
   }),
   validations: {
@@ -132,6 +164,7 @@ export default {
       try {
         await this.save();
         this.hideSaveFailedPopup();
+        this.removeCheckingUnsavedChanges();
       } catch (err) {
         // Required to prevent an open popup when the error is related to "already existed name"
         this.isSaveFailedPopup = err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
@@ -150,9 +183,19 @@ export default {
     initType() {
       if (!this.itemInstance.type && this.type) this.setItemProp({ prop: 'type', value: this.type });
     },
+    closePage() {
+      this.removeCheckingUnsavedChanges();
+      this.close();
+    },
+    handleConfirmationUnsavedChangesPopup() {
+      this.itemInstance._dirty
+        ? this.toggleIsConfirmationUnsavedChangesPopup()
+        : this.closePage();
+    }
   },
   mounted() {
     this.initType();
+    if(!this.isDiagram) this.addCheckingUnsavedChanges();
   },
 };
 </script>
