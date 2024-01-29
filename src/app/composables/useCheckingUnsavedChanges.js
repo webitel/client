@@ -3,9 +3,7 @@ import { useStore } from 'vuex';
 import getNamespacedState
   from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
-export const useCheckingUnsavedChanges = (namespace) => {
-  const store = useStore();
-  const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
+export const useCheckingUnsavedChanges = (itemInstance) => {
   const isConfirmationUnsavedChangesPopup = ref(false);
 
   function showConfirmationPopup(e) {

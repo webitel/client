@@ -58,11 +58,13 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { mapActions, useStore } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
 import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
-import { mapActions } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
@@ -82,6 +84,8 @@ export default {
 
   setup () {
     const v$ = useVuelidate();
+    const store = useStore();
+    const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
 
     const {
       isConfirmationUnsavedChangesPopup,
@@ -89,7 +93,7 @@ export default {
       addCheckingUnsavedChanges,
       removeCheckingUnsavedChanges,
       toggleIsConfirmationUnsavedChangesPopup,
-    } = useCheckingUnsavedChanges(namespace);
+    } = useCheckingUnsavedChanges(itemInstance);
 
     return {
       v$,
