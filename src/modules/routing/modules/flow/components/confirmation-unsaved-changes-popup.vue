@@ -1,6 +1,6 @@
 <template>
   <wt-popup
-    class="flow-close-confirmation-popup"
+    class="confirmation-unsaved-changes-popup"
     :width="500"
     @close="closePopup"
   >
@@ -8,7 +8,7 @@
       {{ $t('reusable.warning') }}
     </template>
     <template v-slot:main>
-      <div class="flow-close-confirmation-popup__wrapper">
+      <div class="confirmation-unsaved-changes-popup__wrapper">
         <wt-icon
           icon="attention"
           color="error"
@@ -23,7 +23,7 @@
       </wt-button>
       <wt-button
         color="secondary"
-        @click="closeSchema"
+        @click="closePage"
       >{{ $t('reusable.doNotSave') }}
       </wt-button>
       <wt-button
@@ -37,7 +37,7 @@
 <script>
 
 export default {
-  name: 'flow-toolbar-confirmation-popup',
+  name: 'confirmation-unsaved-changes-popup',
   props: {
     name: {
       type: String,
@@ -48,20 +48,20 @@ export default {
     closePopup() {
       this.$emit('closePopup');
     },
+    closePage() {
+      this.closePopup();
+      this.$emit('closePage');
+    },
     save() {
       this.$emit('save');
-      this.closeSchema();
-    },
-    closeSchema() {
-      this.closePopup();
-      this.$emit('closeSchema');
+      this.closePage();
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.flow-close-confirmation-popup__wrapper {
+.confirmation-unsaved-changes-popup__wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;

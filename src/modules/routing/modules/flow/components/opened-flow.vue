@@ -15,17 +15,17 @@
         :primary-action="saveCode"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
-        :secondary-action="handleCloseConfirmationPopup"
+        :secondary-action="handleConfirmationUnsavedChangesPopup"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
-      <flow-close-confirmation-popup
-        v-if="isCloseConfirmationPopup"
+      <confirmation-unsaved-changes-popup
+        v-if="isConfirmationUnsavedChangesPopup"
         :name="itemInstance.name"
         @save="saveCode"
-        @closeSchema="closeSchema"
-        @closePopup="toggleIsCloseConfirmationPopup"
-      ></flow-close-confirmation-popup>
+        @closePage="closePage"
+        @closePopup="toggleIsConfirmationUnsavedChangesPopup"
+      ></confirmation-unsaved-changes-popup>
     </template>
 
     <template #main>
@@ -66,25 +66,43 @@ import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
-import FlowCloseConfirmationPopup from './flow-close-confirmation-popup.vue';
+import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
+import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
 
+const namespace = 'routing/flow';
 export default {
   name: 'OpenedFlow',
   components: {
     Diagram,
     JsonSchema,
     WtSaveFailedPopup,
-    FlowCloseConfirmationPopup,
+    ConfirmationUnsavedChangesPopup,
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup () {
+    const v$ = useVuelidate();
+
+    const {
+      isConfirmationUnsavedChangesPopup,
+      displayConfirmationPopup,
+      addCheckingUnsavedChanges,
+      removeCheckingUnsavedChanges,
+      toggleIsConfirmationUnsavedChangesPopup,
+    } = useCheckingUnsavedChanges(namespace);
+
+    return {
+      v$,
+      isConfirmationUnsavedChangesPopup,
+      displayConfirmationPopup,
+      addCheckingUnsavedChanges,
+      removeCheckingUnsavedChanges,
+      toggleIsConfirmationUnsavedChangesPopup,
+    }
+  },
   data: () => ({
-    namespace: 'routing/flow',
+    namespace,
     isSaveFailedPopup: false,
-    isCloseConfirmationPopup: false,
   }),
   validations: {
     itemInstance: {
@@ -138,17 +156,11 @@ export default {
         reject(err);
       }
     },
-    showWarningMessage(e) {
-      if (this.itemInstance._dirty) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    },
     async saveCode() {
       try {
         await this.save();
         this.hideSaveFailedPopup();
-        window.removeEventListener('beforeunload', this.showWarningMessage);
+        this.removeCheckingUnsavedChanges();
       } catch (err) {
         // Required to prevent an open popup when the error is related to "already existed name"
         this.isSaveFailedPopup = err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
@@ -167,22 +179,19 @@ export default {
     initType() {
       if (!this.itemInstance.type && this.type) this.setItemProp({ prop: 'type', value: this.type });
     },
-    closeSchema() {
-      window.removeEventListener('beforeunload', this.showWarningMessage);
+    closePage() {
+      this.removeCheckingUnsavedChanges();
       this.close();
     },
-    toggleIsCloseConfirmationPopup() {
-      this.isCloseConfirmationPopup = !this.isCloseConfirmationPopup;
-    },
-    handleCloseConfirmationPopup() {
+    handleConfirmationUnsavedChangesPopup() {
       this.itemInstance._dirty
-        ? this.toggleIsCloseConfirmationPopup()
-        : this.closeSchema();
+        ? this.toggleIsConfirmationUnsavedChangesPopup()
+        : this.closePage();
     }
   },
   mounted() {
     this.initType();
-    if(!this.isDiagram) window.addEventListener('beforeunload', this.showWarningMessage);
+    if(!this.isDiagram) this.addCheckingUnsavedChanges();
   },
 };
 </script>
