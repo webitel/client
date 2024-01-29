@@ -265,14 +265,20 @@ export const deleteMembersBulk = async (parentId, {
   priority,
   cause,
 }) => {
-  const body = {
+  let body = {
     id,
     q: search,
     createdAt: (from || to) ? { from, to } : undefined,
     priority,
     stopCause: cause,
     bucketId: bucket,
+    withoutMembers: true,
   };
+
+  body = applyTransform(body, [
+    camelToSnake(),
+  ]);
+
   try {
     const response = await memberService.deleteMembers(parentId, body);
     return applyTransform(response.data, []);
