@@ -141,26 +141,46 @@ export default {
     },
     normalizeCSVData(data) {
       const nonEmptyMappingFields = this.mappingFields.filter((field) => !isEmpty(field.csv));
-      return data.map((dataItem, index) => (
-        nonEmptyMappingFields.reduce((
+      return data.map((dataItem, index) => {
+        const normalized = nonEmptyMappingFields.reduce((
           normalizedItem,
           { name, csv, required },
         ) => {
-          // if one of required fields on any row is empty, throw an error
-          if (required &&
-            isEmpty(dataItem[csv])) {
-            // +1 because of indexing starts from 0, but rows counting from 1
+          return {
+            ...normalizedItem,
+            [name]: {
+              required,
+              value: Array.isArray(csv)
+                ? csv.map((csv) => dataItem[csv])
+                : dataItem[csv],
+            },
+          };
+        }, {});
+
+        const filteredEmptyValues = Object.entries(normalized)
+        .reduce((filtered, [name, { required, value }]) => {
+          let filteredValue;
+          if (Array.isArray(value)) {
+            filteredValue = value.filter((item) => !isEmpty(item));
+          } else {
+            filteredValue = value;
+          }
+
+          const isValueEmpty = isEmpty(filteredValue);
+
+          if (required && isValueEmpty) {
             throw new Error(`Required field is empty: ${name} on row ${index +
             1}`);
           }
-          return {
-            ...normalizedItem,
-            [name]: Array.isArray(csv)
-              ? csv.map((csv) => dataItem[csv])
-              : dataItem[csv],
+
+          return isValueEmpty ? filtered : {
+            ...filtered,
+            [name]: filteredValue,
           };
-        }, {})
-      ));
+        }, {});
+
+        return filteredEmptyValues;
+      });
     },
     async readFile() {
       this.parsedFile = await processFile(this.file, {});
