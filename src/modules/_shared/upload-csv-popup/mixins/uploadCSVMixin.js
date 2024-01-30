@@ -1,28 +1,9 @@
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import { parse } from 'csv-parse';
-
-const processFile = (file, { charset = 'utf-8' } = {}) => (
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', (e) => {
-      const loadedFile = e.target.result;
-      resolve(loadedFile);
-    });
-    reader.addEventListener('error', (e) => reject(e));
-    reader.readAsText(file, charset);
-  })
-);
-
-const parseCSV = (csvStr, options = {}) => (
-  new Promise((resolve, reject) => {
-    const callback = (err, output) => {
-      if (output) resolve(output, err);
-      reject(err);
-    };
-    parse(csvStr, options, callback);
-  })
-);
+import normalizeCSVData from '../scripts/normalizeCSVData';
+import parseCSV from '../scripts/parseCSV';
+import processFile from '../scripts/processFile';
+import splitAndSaveData from '../scripts/splitAndSaveData';
 
 export default {
   props: {
@@ -51,13 +32,14 @@ export default {
   }),
   computed: {
     csvValues() {
-      return  this.mappingFields
+      return this.mappingFields
       .filter(field => field.csv)
       .map(field => field.csv)
       .flat();
     },
     filteredCsvColumns() {
-      return this.csvColumns.filter(item => this.csvValues.indexOf(item) !== -1);
+      return this.csvColumns.filter(item => this.csvValues.indexOf(item) !==
+        -1);
     },
     csvColumns() {
       return this.skipHeaders
@@ -98,30 +80,25 @@ export default {
         !isEmpty(field.csv));
     },
   },
-  watch: {
-    skipHeaders() {
-      this.isParsingPreview = true;
-      this.handleParseOptionsChange();
-    },
-    separator() {
-      this.isParsingPreview = true;
-      this.handleParseOptionsChange();
-    },
-  },
   methods: {
-    handleSave() {
-      this.$emit('save');
-      return this.processCSV();
+    async initUploadPopup() {
+      this.isReadingFile = true;
+
+      this.parsedFile = await processFile(this.file, {});
+      await this.createCSVPreview(this.parsedFile);
+
+      this.isReadingFile = false;
     },
-    handleParseOptionsChange() {
-      this.processCSVPreview();
+    async handleParseOptionsChange() {
+      this.isParsingPreview = true;
+      await this.createCSVPreview();
       this.resetMappings();
       this.isParsingPreview = false;
     },
-    async processCSVPreview() {
+    async createCSVPreview(file = this.parsedFile) {
       try {
         this.parseErrorStackTrace = '';
-        this.csvPreview = await parseCSV(this.parsedFile, {
+        this.csvPreview = await parseCSV(file, {
           ...this.parseCSVOptions,
           toLine: 4,
         });
@@ -133,11 +110,24 @@ export default {
     async processCSV() {
       this.isParsingCSV = true;
       try {
-        const sourceData = await this.parseCSV();
-        console.info('upload csv: source data', sourceData);
-        const normalizedData = this.normalizeCSVData(sourceData);
-        console.info('upload csv: normalized data', normalizedData);
-        await this.saveBulkData(normalizedData);
+        this.parseErrorStackTrace = '';
+
+        const sourceData = await parseCSV(this.parsedFile, this.parseCSVOptions);
+
+        console.info('sourceData', sourceData);
+
+        const normalizedData = normalizeCSVData({
+          data: sourceData,
+          mappings: this.mappingFields,
+        });
+
+        console.info('normalizedData', normalizedData);
+
+        await splitAndSaveData({
+          data: normalizedData,
+          saveCallback: this.addBulkItems,
+        });
+
         this.close();
       } catch (err) {
         this.parseErrorStackTrace = err;
@@ -145,68 +135,6 @@ export default {
       } finally {
         this.isParsingCSV = false;
       }
-    },
-    async parseCSV() {
-      try {
-        this.parseErrorStackTrace = '';
-        return await parseCSV(this.parsedFile, this.parseCSVOptions);
-      } catch (err) {
-        throw err;
-      }
-    },
-    normalizeCSVData(data) {
-      const nonEmptyMappingFields = this.mappingFields.filter((field) => !isEmpty(field.csv));
-      return data.map((dataItem, index) => {
-        const normalized = nonEmptyMappingFields.reduce((
-          normalizedItem,
-          { name, csv, required },
-        ) => {
-          return {
-            ...normalizedItem,
-            [name]: {
-              required,
-              value: Array.isArray(csv)
-                ? csv.map((csv) => dataItem[csv])
-                : dataItem[csv],
-            },
-          };
-        }, {});
-
-        const filteredEmptyValues = Object.entries(normalized)
-        .reduce((filtered, [name, { required, value }]) => {
-          let filteredValue;
-          if (Array.isArray(value)) {
-            filteredValue = value.filter((item) => !isEmpty(item));
-          } else {
-            filteredValue = value;
-          }
-
-          const isValueEmpty = isEmpty(filteredValue);
-
-          if (required && isValueEmpty) {
-            throw new Error(`Required field is empty: ${name} on row ${index +
-            1}`);
-          }
-
-          return isValueEmpty ? filtered : {
-            ...filtered,
-            [name]: filteredValue,
-          };
-        }, {});
-
-        return filteredEmptyValues;
-      });
-    },
-    async readFile() {
-      this.parsedFile = await processFile(this.file, {});
-    },
-    async initUploadPopup() {
-      this.isReadingFile = true;
-
-      await this.readFile();
-      await this.processCSVPreview();
-
-      this.isReadingFile = false;
     },
     resetMappings() {
       // reset previously selected values
@@ -216,30 +144,20 @@ export default {
       }));
       this.$emit('changeMappingFields', mappingFields);
     },
-    async saveBulkData(data) {
-      const chunkSize = 100;
-      const chunksCount = Math.ceil(data.length / chunkSize);
-      let processedChunkIndex = 1;
-      try {
-        for (; processedChunkIndex <= chunksCount; processedChunkIndex += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await this.addBulkItems(data.slice(
-            (processedChunkIndex - 1) * chunkSize,
-            processedChunkIndex * chunkSize,
-          ));
-        }
-      } catch (err) {
-        const errMessage = JSON.stringify(err instanceof Error
-          ? err.message
-          : err);
-        // eslint-disable-next-line no-throw-literal
-        throw new Error(`An error occurred during saving ${(processedChunkIndex -
-          1) * chunkSize}-${processedChunkIndex *
-        chunkSize} data chunk: ${errMessage}`);
-      }
+    handleSave() {
+      this.$emit('save');
+      return this.processCSV();
     },
     close() {
       this.$emit('close');
+    },
+  },
+  watch: {
+    async skipHeaders() {
+      await this.handleParseOptionsChange();
+    },
+    async separator() {
+      await this.handleParseOptionsChange();
     },
   },
   created() {
