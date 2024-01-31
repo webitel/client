@@ -57,6 +57,7 @@ describe('normalizeCSVData', () => {
       normalizeCSVData({ data: input, mappings });
     } catch (err) {
       expect(err).toBeTruthy();
+      return;
     }
     expect(false).toBe(true); // reject test if no error
   });
