@@ -26,7 +26,7 @@
         />
         <div
           v-if="itemInstance.working"
-          class="opened-calendar-holiday-popup__warpper">
+          class="opened-calendar-holiday-popup__wrapper">
           <wt-timepicker
             format="hh:mm"
             :label="$t('objects.lookups.calendars.start')"
