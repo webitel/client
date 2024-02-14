@@ -65,6 +65,7 @@ export default {
       team: { required },
       progressiveCount: { required },
       chatCount: { required },
+      taskCount: { required },
     },
   },
 
