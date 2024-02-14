@@ -644,6 +644,7 @@ export default {
         allAgents: 'All agents',
         progressiveCount: 'Progressive call count',
         chatCount: 'Chat count',
+        taskCount: 'Task count',
         state: 'Status',
         isSupervisor: 'Supervisor',
         stateTime: 'Status time',

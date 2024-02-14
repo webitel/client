@@ -643,6 +643,7 @@ export default {
         state: 'Статус',
         progressiveCount: 'Количество одновременных звонков',
         chatCount: 'Количество одновременных чатов',
+        taskCount: 'Количество одновременных задач',
         isSupervisor: 'Супервизор',
         stateTime: 'Длительность',
         addSkill: 'Добавить навык',
