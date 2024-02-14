@@ -19,6 +19,7 @@ const resettableState = {
     region: {},
     progressiveCount: 1,
     chatCount: 1,
+    taskCount: 1,
     isSupervisor: false,
     greetingMedia: {},
   },

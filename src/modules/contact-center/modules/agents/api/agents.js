@@ -97,6 +97,7 @@ const getAgent = async ({ itemId: id }) => {
     region: {},
     progressiveCount: 0,
     chatCount: 0,
+    taskCount: 0,
     isSupervisor: false,
     description: '',
     greetingMedia: {},
@@ -124,6 +125,7 @@ const fieldsToSend = [
   'greetingMedia',
   'progressiveCount',
   'chatCount',
+  'taskCount',
   'isSupervisor',
 ];
 

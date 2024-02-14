@@ -84,6 +84,16 @@
         type="number"
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
       />
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.taskCount')"
+        :min-value="0"
+        :v="v.itemInstance.taskCount"
+        :value="itemInstance.taskCount"
+        required
+        type="number"
+        @input="setItemProp({ prop: 'taskCount', value: +$event })"
+      />
     </div>
   </section>
 </template>
