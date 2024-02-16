@@ -1064,7 +1064,7 @@ export default {
         parameter: 'Parameter',
       },
       globalVariables: {
-        globalVariables: 'Global Variable | Global Variables',
+        globalVariables: 'Global variable | Global variables',
       },
     },
 

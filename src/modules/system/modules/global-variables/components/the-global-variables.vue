@@ -62,15 +62,17 @@ export default {
   // },
 
   data: () => ({
-    // namespace,
+    namespace,
     isGlobalVariablesPopup: false,
+  }),
+  computed: {
     path() {
       return [
         { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.globalVariables.globalVariables', 1), route: '/system/global-variables' },
+        { name: this.$tc('objects.system.globalVariables.globalVariables', 1), route: 'global-variables' },
       ];
-    },
-  }),
+    }
+  },
   methods: {},
 }
 </script>

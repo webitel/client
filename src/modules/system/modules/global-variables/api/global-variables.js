@@ -65,11 +65,11 @@ const get = async ({ itemId: id }) => {
   }
 };
 
-// const fieldsToSend = ['id', 'name', 'value'];
+const fieldsToSend = ['id', 'name', 'value', 'encrypt'];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
-    // sanitize(fieldsToSend),
+    sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
@@ -86,7 +86,7 @@ const add = async ({ itemInstance }) => {
 
 const update = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
-    // sanitize(fieldsToSend),
+    sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
