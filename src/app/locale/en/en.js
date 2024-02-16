@@ -1063,6 +1063,9 @@ export default {
         configuration: 'Configuration | Configurations',
         parameter: 'Parameter',
       },
+      globalVariables: {
+        globalVariables: 'Global Variable | Global Variables',
+      },
     },
 
     pagination: {

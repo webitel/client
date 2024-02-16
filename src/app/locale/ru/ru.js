@@ -1062,6 +1062,9 @@ export default {
         configuration: 'Конфигурация | Конфигурации',
         parameter: 'Параметр',
       },
+      globalVariables: {
+        globalVariables: 'Global Variable | Global Variables',
+      },
     },
     pagination: {
       rowsPerPage: 'Количество строк на странице',

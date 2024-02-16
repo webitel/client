@@ -1061,6 +1061,9 @@ export default {
         configuration: 'Конфігурація | Конфігурації',
         parameter: 'Параметр',
       },
+      globalVariables: {
+        globalVariables: 'Global Variable | Global Variables',
+      },
     },
     pagination: {
       rowsPerPage: 'Кількість записів',
