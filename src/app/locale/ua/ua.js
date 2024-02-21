@@ -1062,7 +1062,8 @@ export default {
         parameter: 'Параметр',
       },
       globalVariables: {
-        globalVariables: 'Global Variable | Global Variables',
+        globalVariables: 'Глобальна змінна | Глобальні змінні',
+        encrypted: 'Зашифровано',
       },
     },
     pagination: {

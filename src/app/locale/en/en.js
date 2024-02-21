@@ -1065,6 +1065,7 @@ export default {
       },
       globalVariables: {
         globalVariables: 'Global variable | Global variables',
+        encrypted: 'Encrypted',
       },
     },
 

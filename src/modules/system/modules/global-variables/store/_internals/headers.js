@@ -2,21 +2,21 @@ import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
 export default [
   {
-    value: 'key',
-    locale: 'objects.system.changelogs.objects',
-    field: 'key',
+    value: 'name',
+    locale: 'objects.key',
+    field: 'name',
     sort: SortSymbols.NONE,
   },
   {
     value: 'value',
-    locale: 'reusable.state',
+    locale: ['vocabulary.values', 1],
     field: 'value',
     sort: SortSymbols.NONE,
   },
   {
-    value: 'encrypted',
-    locale: 'reusable.state',
-    field: 'encrypted',
+    value: 'encrypt',
+    locale: 'objects.system.globalVariables.encrypted',
+    field: 'encrypt',
     sort: SortSymbols.NONE,
   },
 ];

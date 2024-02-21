@@ -3,12 +3,28 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="() => isGlobalVariablesPopup = true"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
     <template #main>
+
+      <delete-confirmation-popup
+        v-if="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
+        @close="closeDelete"
+      />
+
+      <global-variables-popup
+        v-if="isGlobalVariablesPopup"
+        :item="editedItem"
+        :namespace="namespace"
+        @save="addItem"
+        @close="close"
+      />
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
@@ -18,7 +34,84 @@
               })
             }}
           </h3>
+          <div class="content-header__actions-wrap">
+            <wt-search-bar
+              :value="search"
+              debounce
+              @enter="loadList"
+              @input="setSearch"
+              @search="loadList"
+            />
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            >
+              <delete-all-action
+                v-if="hasDeleteAccess"
+                :class="{'hidden': anySelected}"
+                :selected-count="selectedRows.length"
+                @click="askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })"
+              />
+            </wt-table-actions>
+          </div>
         </header>
+
+        <wt-loader v-show="!isLoaded" />
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+          @create="create"
+        />
+
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-wrapper"
+        >
+          <wt-table
+            :data="dataList"
+            :grid-actions="hasTableActions"
+            :headers="headers"
+            sortable
+            @sort="sort"
+          >
+            <template #key="{ item }">
+              {{ item.name }}
+            </template>
+            <template #value="{ item }">
+              {{ item.value }}
+            </template>
+            <template #encrypt="{ item, index }">
+              <wt-switcher
+                :value="item.encrypt"
+                :disabled="item.encrypt"
+                @change="patchItem({ item, index, prop: 'encrypt', value: $event })"
+              />
+            </template>
+            <template #actions="{ item }">
+              <wt-icon-action
+                v-if="hasEditAccess"
+                action="edit"
+                @click="edit(item)"
+              />
+              <wt-icon-action
+                v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
+            </template>
+          </wt-table>
+        </div>
       </section>
     </template>
   </wt-page-wrapper>
@@ -29,50 +122,62 @@
 import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import GlobalVariablesPopup from './global-variables-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '/src/app/composables/useDummy';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
 
-const namespace = 'system/global-variables';
+const namespace = 'system/globalVariables';
 
 export default {
   name: 'TheGlobalVariables',
-  mixins: [tableComponentMixin],
+  components: { DeleteConfirmationPopup, GlobalVariablesPopup },
+  mixins: [tableComponentMixin, baseObjectMixin],
 
-  // setup() {
-  //   const { dummy } = useDummy({ namespace, showAction: true });
-  //   const {
-  //     isVisible: isDeleteConfirmationPopup,
-  //     deleteCount,
-  //     deleteCallback,
-  //
-  //     askDeleteConfirmation,
-  //     closeDelete,
-  //   } = useDeleteConfirmationPopup();
-  //
-  //   return {
-  //     dummy,
-  //     isDeleteConfirmationPopup,
-  //     deleteCount,
-  //     deleteCallback,
-  //
-  //     askDeleteConfirmation,
-  //     closeDelete,
-  //   };
-  // },
+  setup() {
+    const { dummy } = useDummy({ namespace, showAction: true });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
   data: () => ({
     namespace,
     isGlobalVariablesPopup: false,
+    editedItem: null,
   }),
   computed: {
     path() {
       return [
         { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.globalVariables.globalVariables', 1), route: 'global-variables' },
+        { name: this.$tc('objects.system.globalVariables.globalVariables', 1), route: '/system/global-variables' },
       ];
     }
   },
-  methods: {},
+  methods: {
+    edit(item) {
+      this.editedItem = item;
+      this.isGlobalVariablesPopup = true;
+    },
+    close() {
+      this.isGlobalVariablesPopup = false;
+      this.editedItem = null;
+    },
+  },
 }
 </script>

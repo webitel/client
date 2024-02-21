@@ -720,7 +720,7 @@ const router = createRouter({
           path: '/system/global-variables',
           name: RouteNames.GLOBAL_VARIABLES,
           component: GlobalVariables,
-          // beforeEnter: checkRouteAccess,
+          beforeEnter: checkRouteAccess,
         },
       ],
     },

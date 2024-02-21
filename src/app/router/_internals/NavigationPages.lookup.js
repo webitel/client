@@ -182,8 +182,8 @@ const nav = Object.freeze([
         route: 'configuration',
       },
       {
-        value: 'global-variables',
-        locale: `objects.system.global-variables.global-variables`,
+        value: AdminSections.GLOBAL_VARIABLES,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.GLOBAL_VARIABLES}`,
         route: 'global-variables',
       },
     ],

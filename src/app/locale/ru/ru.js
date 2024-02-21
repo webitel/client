@@ -1063,7 +1063,8 @@ export default {
         parameter: 'Параметр',
       },
       globalVariables: {
-        globalVariables: 'Global Variable | Global Variables',
+        globalVariables: 'Глобальная переменная | Глобальные переменные',
+        encrypted: 'Зашифровано',
       },
     },
     pagination: {

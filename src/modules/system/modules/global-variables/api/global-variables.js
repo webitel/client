@@ -67,7 +67,8 @@ const get = async ({ itemId: id }) => {
 
 const fieldsToSend = ['id', 'name', 'value', 'encrypt'];
 
-const add = async ({ itemInstance }) => {
+const add = async ({itemInstance}) => {
+  console.log('add API:', itemInstance)
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -85,10 +86,12 @@ const add = async ({ itemInstance }) => {
 };
 
 const update = async ({ itemInstance, itemId: id }) => {
+  console.log('update API id:', id, 'itemInstance:', itemInstance);
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
+  console.log('update API item:', item);
   try {
     const response = await service.updateSchemaVariable(id, item);
     return applyTransform(response.data, [
@@ -102,6 +105,7 @@ const update = async ({ itemInstance, itemId: id }) => {
 };
 
 const deleteItem = async ({ id }) => {
+  console.log('deleteItem id:', id);
   try {
     const response = await service.deleteSchemaVariable(id);
     return applyTransform(response.data, []);
