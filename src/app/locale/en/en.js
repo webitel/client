@@ -1066,6 +1066,7 @@ export default {
       globalVariables: {
         globalVariables: 'Global variable | Global variables',
         encrypted: 'Encrypted',
+        valueInfo: 'Enter value only if you want to edit',
       },
     },
 

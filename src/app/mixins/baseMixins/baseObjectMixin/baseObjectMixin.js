@@ -23,6 +23,7 @@ export default {
     },
 
     disabledSave() {
+      console.log('this.checkValidations():', this.checkValidations());
       // if there's a validation problem
       // OR it's edit and any fields haven't changed
       return this.checkValidations() ||
@@ -33,12 +34,14 @@ export default {
   methods: {
     ...mapActions({
       loadItem(dispatch, payload) {
+        console.log()
         return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
       },
       addItem(dispatch, payload) {
         return dispatch(`${this.namespace}/ADD_ITEM`, payload);
       },
       updateItem(dispatch, payload) {
+        console.log('updateItem action:', payload, 'this.namespace:', this.namespace);
         return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
       },
     }),

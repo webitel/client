@@ -19,10 +19,9 @@
 
       <global-variables-popup
         v-if="isGlobalVariablesPopup"
-        :item="editedItem"
+        :id="id"
         :namespace="namespace"
-        @save="addItem"
-        @close="close"
+        @close="isGlobalVariablesPopup = false"
       />
 
       <section class="main-section__wrapper">
@@ -85,13 +84,13 @@
               {{ item.name }}
             </template>
             <template #value="{ item }">
-              {{ item.value }}
+              {{ item.value || '*************' }}
             </template>
             <template #encrypt="{ item, index }">
               <wt-switcher
                 :value="item.encrypt"
                 :disabled="item.encrypt"
-                @change="patchItem({ item, index, prop: 'encrypt', value: $event })"
+                @change="updateItem({ ...item, encrypt: $event })"
               />
             </template>
             <template #actions="{ item }">
@@ -111,6 +110,16 @@
               />
             </template>
           </wt-table>
+          <wt-pagination
+            :next="isNext"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="loadList"
+            @input="setSize"
+            @next="nextPage"
+            @prev="prevPage"
+          />
         </div>
       </section>
     </template>
@@ -126,13 +135,16 @@ import GlobalVariablesPopup from './global-variables-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '/src/app/composables/useDummy';
 import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { mapActions, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 const namespace = 'system/globalVariables';
 
 export default {
   name: 'TheGlobalVariables',
   components: { DeleteConfirmationPopup, GlobalVariablesPopup },
-  mixins: [tableComponentMixin, baseObjectMixin],
+  mixins: [tableComponentMixin, baseObjectMixin, openedObjectMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace, showAction: true });
@@ -159,9 +171,14 @@ export default {
   data: () => ({
     namespace,
     isGlobalVariablesPopup: false,
-    editedItem: null,
+    // editedItem: null,
   }),
   computed: {
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+    }),
     path() {
       return [
         { name: this.$t('objects.system.system') },
@@ -170,13 +187,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setItemId(dispatch, payload) {
+        return dispatch(`${namespace}/SET_ITEM_ID`, payload);
+      },
+    }),
     edit(item) {
-      this.editedItem = item;
+      this.setItemId(item.id);
       this.isGlobalVariablesPopup = true;
-    },
-    close() {
-      this.isGlobalVariablesPopup = false;
-      this.editedItem = null;
     },
   },
 }

@@ -1065,6 +1065,7 @@ export default {
       globalVariables: {
         globalVariables: 'Глобальная переменная | Глобальные переменные',
         encrypted: 'Зашифровано',
+        valueInfo: 'Введите значение, если хотите перезаписать его',
       },
     },
     pagination: {

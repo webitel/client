@@ -5,151 +5,114 @@
     @close="close"
   >
     <template #title>
-      {{ item ? t('reusable.edit') : t('reusable.new') }}
-      {{ t('objects.system.globalVariables.globalVariables', 1).toLowerCase() }}
+      {{ id ? $t('reusable.edit') : $t('reusable.new') }}
+      {{ $t('objects.system.globalVariables.globalVariables', 1).toLowerCase() }}
     </template>
     <template #main>
-      {{ props.item }}
+      {{ itemInstance }}
       <wt-input
-        v-model="draft.name"
-        :v="v$.draft.name"
+        v-model="itemInstance.name"
+        :v="v$.itemInstance.name"
         :clearable="false"
-        :label="t('objects.key')"
+        :label="$t('objects.key')"
         required
       />
       isSwitcherOn: {{ isSwitcherOn }} inputType: {{ inputType }}
       <wt-input
-        v-model="draft.value"
-        :v="v$.draft.value"
+        v-model="itemInstance.value"
+        :v="v$.itemInstance.value"
         :clearable="false"
-        :label="t('vocabulary.values', 1)"
+        :label="$t('vocabulary.values', 1)"
+        :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
         required
       />
       <wt-switcher
-        :value="draft.encrypt"
-        :disabled="isSwitcherOn"
-        :label="t('objects.system.globalVariables.encrypted')"
-        @change="draft.encrypt = $event"
+        :value="itemInstance.encrypt"
+        :disabled="startEncryptValue"
+        :label="$t('objects.system.globalVariables.encrypted')"
+        @change="itemInstance.encrypt = $event"
       />
     </template>
     <template #actions>
       <wt-button
-        :disabled="v$.$invalid"
-        :loading="isLoading"
+        :disabled="disabledSave"
         @click="save"
       >
-        {{ t('reusable.save') }}
+        {{ $t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ t('reusable.cancel') }}
+        {{ $t('reusable.cancel') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script setup>
-
-import { computed, onBeforeMount, onUpdated, reactive, ref } from 'vue';
+<script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
-import GlobalVariablesAPI from '../api/global-variables';
+import { required, requiredIf } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-const { t } = useI18n();
-const store = useStore();
-
-const props = defineProps({
-  item: {
-      // if item is passed, that's an edit
-      type: [Object, null],
+export default {
+  name: 'GlobalVariablesPopup',
+  mixins: [openedObjectMixin, openedTabComponentMixin],
+  props: {
+    id: {
+      // if id is passed, that's an edit
+      type: [Number, null],
     },
     namespace: {
       type: String,
       required: true,
     },
-});
-
-const emit = defineEmits(['close']);
-
-const isLoading = ref(false);
-const isSaving = ref(false);
-const inputType = ref(null);
-
-const getDefaultDraft = () => ({
-  name: '',
-  value: '',
-  encrypt: false,
-});
-
-const draft = reactive(getDefaultDraft());
-
-const isSwitcherOn = computed(() => {
-  return props.item ? !!props.item.encrypt : false;
-});
-
-// const inputType = computed(() => {
-//   console.log('isSwitcherOn:', isSwitcherOn)
-//   return isSwitcherOn ? 'password' : 'text';
-// });
-
-const v$ = useVuelidate(computed(() => {
-  return {
-    draft: {
+  },
+  data: () => ({
+    startEncryptValue: false,
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  validations: {
+    itemInstance: {
       name: { required },
-      value: { required },
+      value: {
+        required: requiredIf((value, item) => !item.id),
+      },
     },
-  };
-}), { draft }, { $autoDirty: true });
-
-function initDraft() {
-  draft.name = props.item.name;
-  draft.value = props.item.value;
-  draft.encrypt = props.item.encrypt || false;
-}
-
-v$.value.$touch();
-
-if (props.item) initDraft();
-
-// inputType.value = isSwitcherOn ? 'password' : 'text';
-
-async function save() {
-  try {
-    isSaving.value = true;
-    if (props.item) {
-      console.log('draft:', draft);
-      await updateItem(draft);
-    } else {
-      await addItem(draft);
-    }
-    close();
-  } finally {
-    isSaving.value = false;
-  }
-}
-
-function addItem(item) {
-  console.log('addItem item:', item);
-  return GlobalVariablesAPI.add({ itemInstance: item });
-}
-
-function updateItem(item) {
-  return GlobalVariablesAPI.update({
-    itemInstance: item,
-    itemId: props.item.id
-  });
-}
-
-function close() {
-  emit('close');
-}
-
+  },
+  computed: {
+    // isSwitcherOn() {
+    //   return (this.id && this.itemInstance.encrypt);
+    // }
+  },
+  methods: {
+    async save() {
+        if (this.id) {
+          await this.updateItem();
+        } else {
+          try {
+            await this.addItem();
+          } catch (err) {
+            throw err;
+          }
+        }
+        this.close();
+    },
+    async loadPageData() {
+      try {
+        await this.setId(this.id);
+        await this.loadItem();
+      } finally {
+        this.startEncryptValue = this.itemInstance.encrypt;
+      }
+    },
+    close() {
+      this.$emit('close');
+    },
+  },
+};
 </script>
-
-<style>
-
-</style>
