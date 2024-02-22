@@ -3,29 +3,25 @@ import ObjectStoreModule
 import headers from './_internals/headers';
 import GlobalVariablesAPI from '../api/global-variables';
 
-// const actions = {
-//   // ADD_ITEM: async (context, { itemInstance }) => {
-//   //   try {
-//   //     await context.dispatch('api/POST_ITEM', { itemInstance });
-//   //   } finally {
-//   //     await context.dispatch('LOAD_DATA_LIST');
-//   //   }
-//   // },
-//   UPDATE_ITEM: async (context, { itemInstance }) => {
-//     console.log('UPDATE_ITEM action');
-//     try {
-//       await context.dispatch('api/UPD_ITEM', {
-//         itemInstance,
-//       });
-//     } finally {
-//       await context.dispatch('LOAD_DATA_LIST');
-//     }
-//   },
-// };
+const actions = {
+  ADD_ITEM: async (context) => {
+    if (!context.state.itemId) {
+      const { id } = await context.dispatch('POST_ITEM');
+      context.dispatch('SET_ITEM_ID', id);
+      await context.dispatch('LOAD_DATA_LIST');
+    }
+  },
+  UPDATE_ITEM: async (context) => {
+    if (context.state.itemInstance._dirty) {
+      await context.dispatch('UPD_ITEM');
+      await context.dispatch('LOAD_DATA_LIST');
+    }
+  },
+};
 
 const globalVariables = new ObjectStoreModule({ headers })
   .attachAPIModule(GlobalVariablesAPI)
   .generateAPIActions()
-  .getModule();
+  .getModule({ actions });
 
 export default globalVariables;
