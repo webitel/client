@@ -4,6 +4,7 @@ import ObjectStoreModule
 //   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import EmailProfilesAPI from '../api/emailProfiles';
 import headers from './_internals/headers';
+import { EngineEmailAuthType } from 'webitel-sdk';
 
 const resettableState = {
   itemInstance: {
@@ -20,6 +21,16 @@ const resettableState = {
     password: '',
     schema: {},
     smtpPort: 587,
+    authType: EngineEmailAuthType.Plain,
+    listen: false,
+    logged: false,
+    params: {
+      oauth2: {
+        clientId: '',
+        clientSecret: '',
+        redirectUrl: '',
+      },
+    },
   },
 };
 

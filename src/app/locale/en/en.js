@@ -974,6 +974,9 @@ export default {
         smtpHost: 'SMTP Host',
         imapHost: 'IMAP Host',
         fetchInterval: 'Refresh interval',
+        listen: 'Listen',
+        authType: 'Auth type',
+        authenticatedAs: 'Authenticated as',
       },
       singleSignOn: {
         allTypes: 'All types',

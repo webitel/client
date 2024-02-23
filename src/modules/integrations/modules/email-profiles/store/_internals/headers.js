@@ -20,6 +20,12 @@ export default [
     sort: SortSymbols.NONE,
   },
   {
+    value: 'listen',
+    locale: 'objects.integrations.emailProfiles.listen',
+    field: 'listen',
+    sort: SortSymbols.NONE,
+  },
+  {
     value: 'state',
     locale: 'reusable.state',
     field: 'enabled',

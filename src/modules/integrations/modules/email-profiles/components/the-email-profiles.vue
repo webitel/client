@@ -83,11 +83,18 @@
                 {{ item.schema.name }}
               </wt-item-link>
             </template>
+            <template #listen="{ item, index }">
+              <wt-switcher
+                :disabled="!hasEditAccess"
+                :value="item.listen"
+                @change="patchItem({ item, index, prop: 'listen', value: $event })"
+              />
+            </template>
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.enabled"
-                @change="changeState({ item, index, value: $event })"
+                @change="patchItem({ item, index, prop: 'enabled', value: $event })"
               />
             </template>
             <template #actions="{ item }">
@@ -191,24 +198,6 @@ export default {
   },
 
   methods: {
-    async changeDefaultProfile({ index, item, value }) {
-      try {
-        await this.patchItem({
-          index, item, prop: 'default', value,
-        });
-        if (value) this.loadList();
-      } catch {
-        this.loadList();
-      }
-    },
-    async changeState({ item, index, value }) {
-      await this.patchItem({
-        item, index, prop: 'enabled', value,
-      });
-      if (item.default && !value) {
-        await this.changeDefaultProfile({ item, index, value: false });
-      }
-    },
     flowLink({ schema }) {
       return {
         name: `${RouteNames.FLOW}-edit`,

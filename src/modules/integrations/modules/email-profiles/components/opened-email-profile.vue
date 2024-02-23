@@ -37,7 +37,8 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, required } from '@vuelidate/validators';
+import { maxValue, minValue, required, requiredIf } from '@vuelidate/validators';
+import { EngineEmailAuthType } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-email-profile-general.vue';
 
@@ -52,8 +53,8 @@ export default {
   data: () => ({
     namespace: 'integrations/emailProfiles',
   }),
-  validations: {
-    itemInstance: {
+  validations() {
+    const itemInstance = {
       name: { required },
       schema: { required },
       imapHost: { required },
@@ -63,7 +64,16 @@ export default {
       smtpPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
       login: { required },
       mailbox: { required },
-    },
+      authType: { required },
+      params: {
+        oauth2: {
+          clientId: { required: requiredIf(this.isOauth2AuthType) },
+          clientSecret: { required: requiredIf(this.isOauth2AuthType) },
+          redirectUrl: { required: requiredIf(this.isOauth2AuthType) },
+        },
+      },
+    };
+    return { itemInstance };
   },
 
   computed: {
@@ -76,6 +86,9 @@ export default {
       ];
       // if (this.id) tabs.push(this.permissionsTab);
       return tabs;
+    },
+    isOauth2AuthType() {
+      return this.itemInstance.authType === EngineEmailAuthType.OAuth2;
     },
 
     path() {
