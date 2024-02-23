@@ -11,25 +11,29 @@
     <template #main>
       {{ itemInstance }}
       <wt-input
-        v-model="itemInstance.name"
+        :value="itemInstance.name"
         :v="v$.itemInstance.name"
+        :disabled="disableUserInput"
         :clearable="false"
         :label="$t('objects.key')"
         required
+        @input="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-input
-        v-model="itemInstance.value"
+        :value="itemInstance.value"
         :v="v$.itemInstance.value"
+        :disabled="disableUserInput"
         :clearable="false"
         :label="$t('vocabulary.values', 1)"
         :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
         required
+        @input="setItemProp({ prop: 'value', value: $event })"
       />
       <wt-switcher
         :value="itemInstance.encrypt"
         :disabled="startEncryptValue"
         :label="$t('objects.system.globalVariables.encrypted')"
-        @change="itemInstance.encrypt = $event"
+        @change="setItemProp({ prop: 'encrypt', value: $event })"
       />
     </template>
     <template #actions>
