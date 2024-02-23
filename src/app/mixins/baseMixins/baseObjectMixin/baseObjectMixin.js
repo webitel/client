@@ -23,7 +23,10 @@ export default {
     },
 
     disabledSave() {
-      console.log('this.checkValidations():', this.checkValidations());
+      console.log('this.checkValidations():', this.checkValidations(),
+        'this.itemInstance._dirty:', this.itemInstance._dirty,
+        '!this.itemInstance._dirty && !!this.id:',  !this.itemInstance._dirty && !!this.id,
+        'itemInstance:', this.itemInstance);
       // if there's a validation problem
       // OR it's edit and any fields haven't changed
       return this.checkValidations() ||

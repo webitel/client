@@ -5,7 +5,6 @@ import {
 import applyTransform, {
   camelToSnake,
   merge,
-  mergeEach,
   notify,
   sanitize,
   snakeToCamel,
@@ -68,7 +67,6 @@ const get = async ({ itemId: id }) => {
 const fieldsToSend = ['id', 'name', 'value', 'encrypt'];
 
 const add = async ({itemInstance}) => {
-  console.log('add API:', itemInstance)
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -86,12 +84,10 @@ const add = async ({itemInstance}) => {
 };
 
 const update = async ({ itemInstance, itemId: id }) => {
-  console.log('update API id:', id, 'itemInstance:', itemInstance);
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
-  console.log('update API item:', item);
   try {
     const response = await service.updateSchemaVariable(id, item);
     return applyTransform(response.data, [
@@ -104,8 +100,24 @@ const update = async ({ itemInstance, itemId: id }) => {
   }
 };
 
+const patch = async ({ id, changes }) => {
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await service.patchSchemaVariable(id, body);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const deleteItem = async ({ id }) => {
-  console.log('deleteItem id:', id);
   try {
     const response = await service.deleteSchemaVariable(id);
     return applyTransform(response.data, []);
@@ -127,6 +139,7 @@ const GlobalVariablesAPI = {
   get,
   add,
   update,
+  patch,
   delete: deleteItem,
   getLookup,
 };

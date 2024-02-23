@@ -17,7 +17,6 @@
         :label="$t('objects.key')"
         required
       />
-      isSwitcherOn: {{ isSwitcherOn }} inputType: {{ inputType }}
       <wt-input
         v-model="itemInstance.value"
         :v="v$.itemInstance.value"
@@ -78,19 +77,18 @@ export default {
   }),
   validations: {
     itemInstance: {
-      name: { required },
+      name: { required, $autoDirty: true },
       value: {
         required: requiredIf((value, item) => !item.id),
+        $autoDirty: true
       },
+      encrypt: { $autoDirty: true }
     },
   },
-  computed: {
-    // isSwitcherOn() {
-    //   return (this.id && this.itemInstance.encrypt);
-    // }
-  },
+  computed: {},
   methods: {
     async save() {
+      if (!this.disabledSave) {
         if (this.id) {
           await this.updateItem();
         } else {
@@ -101,6 +99,7 @@ export default {
           }
         }
         this.close();
+      }
     },
     async loadPageData() {
       try {

@@ -84,13 +84,13 @@
               {{ item.name }}
             </template>
             <template #value="{ item }">
-              {{ item.value || '*************' }}
+              {{ item.encrypt ? '*************' : item.value }}
             </template>
             <template #encrypt="{ item, index }">
               <wt-switcher
                 :value="item.encrypt"
                 :disabled="item.encrypt"
-                @change="updateItem({ ...item, encrypt: $event })"
+                @change="patchItem({ item, index, prop: 'encrypt', value: $event })"
               />
             </template>
             <template #actions="{ item }">
@@ -171,7 +171,6 @@ export default {
   data: () => ({
     namespace,
     isGlobalVariablesPopup: false,
-    // editedItem: null,
   }),
   computed: {
     ...mapState({
