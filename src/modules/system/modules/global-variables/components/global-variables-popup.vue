@@ -9,7 +9,6 @@
       {{ $t('objects.system.globalVariables.globalVariables', 1).toLowerCase() }}
     </template>
     <template #main>
-      {{ itemInstance }}
       <wt-input
         :value="itemInstance.name"
         :v="v$.itemInstance.name"
