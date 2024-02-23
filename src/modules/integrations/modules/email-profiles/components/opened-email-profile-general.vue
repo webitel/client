@@ -104,7 +104,7 @@
         <div v-if="!isPlainAuthType">
           <wt-input
             :value="itemInstance.params?.oauth2?.clientId"
-            :v="v.itemInstance.params.oauth2.clientId"
+            :v="v.itemInstance.params?.oauth2?.clientId"
             :label="$t('objects.integrations.singleSignOn.clientId')"
             required
             @input="setItemProp({ path: 'params.oauth2.clientId', value: $event })"
@@ -112,7 +112,7 @@
           </wt-input>
           <wt-input
             :value="itemInstance.params?.oauth2?.clientSecret"
-            :v="v.itemInstance.params.oauth2.clientSecret"
+            :v="v.itemInstance.params?.oauth2?.clientSecret"
             :label="$t('objects.integrations.singleSignOn.clientSecret')"
             required
             @input="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })"
@@ -120,7 +120,7 @@
           </wt-input>
           <wt-input
             :value="itemInstance.params?.oauth2?.redirectUrl"
-            :v="v.itemInstance.params.oauth2.redirectUrl"
+            :v="v.itemInstance.params?.oauth2?.redirectUrl"
             :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
             required
             @input="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })"
