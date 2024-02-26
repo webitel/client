@@ -84,7 +84,7 @@
               {{ item.name }}
             </template>
             <template #value="{ item }">
-              {{ item.encrypt ? '*************' : item.value }}
+              {{ item.encrypt ? '***************' : item.value }}
             </template>
             <template #encrypt="{ item, index }">
               <wt-switcher

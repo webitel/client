@@ -25,7 +25,7 @@
         :clearable="false"
         :label="$t('vocabulary.values', 1)"
         :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
-        required
+        :required="!itemInstance.id || !startEncryptValue"
         @input="setItemProp({ prop: 'value', value: $event })"
       />
       <wt-switcher
@@ -80,15 +80,14 @@ export default {
   }),
   validations: {
     itemInstance: {
-      name: { required, $autoDirty: true },
+      name: { required },
       value: {
-        required: requiredIf((value, item) => !item.id),
-        $autoDirty: true
+        required: requiredIf(function() {
+          return !this.itemInstance.id || !this.startEncryptValue
+        }),
       },
-      encrypt: { $autoDirty: true }
     },
   },
-  computed: {},
   methods: {
     async save() {
       if (!this.disabledSave) {
@@ -111,6 +110,9 @@ export default {
       } finally {
         this.startEncryptValue = this.itemInstance.encrypt;
       }
+    },
+    isValueInputRequired(item) {
+      return !item.id || !this.startEncryptValue
     },
     close() {
       this.$emit('close');
