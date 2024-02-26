@@ -97,6 +97,7 @@
           :options="authTypesList"
           :v="v.itemInstance.authType"
           :track-by="null"
+          :disabled="isDisabledAuthParams"
           :label="$t('objects.integrations.emailProfiles.authType')"
           required
           @input="changeAuthType"
@@ -105,6 +106,7 @@
           <wt-input
             :value="itemInstance.params?.oauth2?.clientId"
             :v="v.itemInstance.params?.oauth2?.clientId"
+            :disabled="isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientId')"
             required
             @input="setItemProp({ path: 'params.oauth2.clientId', value: $event })"
@@ -113,6 +115,7 @@
           <wt-input
             :value="itemInstance.params?.oauth2?.clientSecret"
             :v="v.itemInstance.params?.oauth2?.clientSecret"
+            :disabled="isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientSecret')"
             required
             @input="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })"
@@ -121,6 +124,7 @@
           <wt-input
             :value="itemInstance.params?.oauth2?.redirectUrl"
             :v="v.itemInstance.params?.oauth2?.redirectUrl"
+            :disabled="isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
             required
             @input="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })"
@@ -164,11 +168,12 @@ import { EngineEmailAuthType } from 'webitel-sdk';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import EmailProfilesAPI from '../api/emailProfiles';
 
 export default {
   name: 'OpenedEmailProfileGeneral',
-  mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin, nestedObjectMixin],
   data: () => ({
     EngineEmailAuthType,
     isChangeOauth2Params: false,
@@ -195,6 +200,9 @@ export default {
         ? this.$t('objects.integrations.emailProfiles.authenticatedAs')
         : this.$t('vocabulary.login');
     },
+    isDisabledAuthParams() {
+      return !this.isPlainAuthType && this.itemInstance.logged;
+    },
   },
   methods: {
     loadFlows(params) {
@@ -202,7 +210,13 @@ export default {
     },
     async auth() {
       if (this.itemInstance.logged) {
-        ///  await EmailProfilesAPI.logout(); -- треба апі
+        try {
+          await EmailProfilesAPI.logout({ id: this.itemInstance.id });
+          this.loadItem();
+        } catch (err) {
+          throw err;
+        }
+
       } else {
         try {
           const { redirect_url } = await EmailProfilesAPI.login({ id: this.itemInstance.id });
@@ -210,7 +224,6 @@ export default {
         } catch (err) {
           throw err;
         }
-
       }
     },
     changeAuthType(event) {

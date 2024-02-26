@@ -188,6 +188,17 @@ const login = async ({ id }) => {
   }
 }
 
+const logout = async ({ id }) => {
+  try {
+    const response = await emailProfilesService.logoutEmailProfile(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+}
+
 const EmailProfilesAPI = {
   getList,
   get,
@@ -197,6 +208,7 @@ const EmailProfilesAPI = {
   delete: deleteItem,
   getLookup,
   login,
+  logout,
 };
 
 export default EmailProfilesAPI;
