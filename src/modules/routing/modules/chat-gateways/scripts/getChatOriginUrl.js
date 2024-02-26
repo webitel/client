@@ -1,4 +1,4 @@
-const getChatOriginUrl = () => (import.meta.env.NODE_ENV === 'production'
+const getChatOriginUrl = () => (import.meta.env.PROD
   ? window.location.origin
   : 'https://dev.webitel.com');
 
