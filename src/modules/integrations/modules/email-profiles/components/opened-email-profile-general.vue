@@ -163,17 +163,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import { EngineEmailAuthType } from 'webitel-sdk';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import EmailProfilesAPI from '../api/emailProfiles';
 
 export default {
   name: 'OpenedEmailProfileGeneral',
-  mixins: [openedTabComponentMixin, nestedObjectMixin],
+  mixins: [openedTabComponentMixin],
   data: () => ({
     EngineEmailAuthType,
     isChangeOauth2Params: false,
@@ -205,6 +205,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      loadItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+      },
+    }),
     loadFlows(params) {
       return FlowsAPI.getLookup(params);
     },
