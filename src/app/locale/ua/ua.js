@@ -1064,6 +1064,11 @@ export default {
         configuration: 'Конфігурація | Конфігурації',
         parameter: 'Параметр',
       },
+      globalVariables: {
+        globalVariables: 'Глобальна змінна | Глобальні змінні',
+        encrypted: 'Зашифровано',
+        valueInfo: 'Введіть значення, якщо хочете перезаписати його',
+      },
     },
     pagination: {
       rowsPerPage: 'Кількість записів',

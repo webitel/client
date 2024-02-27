@@ -1066,6 +1066,11 @@ export default {
         configuration: 'Configuration | Configurations',
         parameter: 'Parameter',
       },
+      globalVariables: {
+        globalVariables: 'Global variable | Global variables',
+        encrypted: 'Encrypted',
+        valueInfo: 'Enter value only if you want to edit',
+      },
     },
 
     pagination: {

@@ -49,6 +49,7 @@ export default Object.freeze({
   // SYSTEM
   CHANGELOGS: 'changelogs',
   CONFIGURATION: 'configuration',
+  GLOBAL_VARIABLES: 'global-variables',
 
   SETTINGS_PAGE: 'settings',
   PAGE_403: 'access-denied',

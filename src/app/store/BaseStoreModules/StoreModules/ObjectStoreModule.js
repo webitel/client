@@ -11,7 +11,7 @@ export default class ObjectStoreModule extends BaseStoreModule {
   actions = {
     ...BaseTableModule.getActions(),
     ...BaseOpenedInstanceModule.getActions(),
-
+    // https://webitel.atlassian.net/browse/WTEL-4195
     ADD_ITEM: async (context) => {
       if (!context.state.itemId) {
         const { id } = await context.dispatch('POST_ITEM');

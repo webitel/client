@@ -70,6 +70,7 @@ const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/
 const Changelogs = () => import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
 const OpenedChangelog = () => import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
 const Configuration = () => import('../../modules/system/modules/configuration/components/the-configuration.vue');
+const GlobalVariables = () => import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
 
 const checkAppAccess = (to, from, next) => {
   const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](store.getters['userinfo/THIS_APP']);
@@ -712,6 +713,13 @@ const router = createRouter({
           path: '/system/configuration',
           name: RouteNames.CONFIGURATION,
           component: Configuration,
+          beforeEnter: checkRouteAccess,
+        },
+
+        {
+          path: '/system/global-variables',
+          name: RouteNames.GLOBAL_VARIABLES,
+          component: GlobalVariables,
           beforeEnter: checkRouteAccess,
         },
       ],

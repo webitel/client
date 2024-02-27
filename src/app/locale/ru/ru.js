@@ -1065,6 +1065,11 @@ export default {
         configuration: 'Конфигурация | Конфигурации',
         parameter: 'Параметр',
       },
+      globalVariables: {
+        globalVariables: 'Глобальная переменная | Глобальные переменные',
+        encrypted: 'Зашифровано',
+        valueInfo: 'Введите значение, если хотите перезаписать его',
+      },
     },
     pagination: {
       rowsPerPage: 'Количество строк на странице',
