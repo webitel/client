@@ -972,6 +972,9 @@ export default {
         smtpHost: 'SMTP Хост',
         imapHost: 'IMAP Хост',
         fetchInterval: 'Интервал обновления',
+        listen: 'Прослушивать ',
+        authType: 'Тип аутентификации',
+        authenticatedAs: 'Аутентифицировано как',
       },
 
       singleSignOn: {
