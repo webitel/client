@@ -4,8 +4,7 @@ import ConfigurationAPI from '../api/configuration';
 import headers from './_internals/headers';
 
 const actions = {
-  // actions from ObjectStoreModule must be rewritten because there is a need to reload
-  // the main page of the module after add or update item
+  // https://webitel.atlassian.net/browse/WTEL-4195
   ADD_ITEM: async (context) => {
     if (!context.state.itemId) {
       const { id } = await context.dispatch('POST_ITEM');

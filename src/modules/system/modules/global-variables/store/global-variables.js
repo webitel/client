@@ -4,10 +4,7 @@ import headers from './_internals/headers';
 import GlobalVariablesAPI from '../api/global-variables';
 
 const actions = {
-  // actions from ObjectStoreModule must be rewritten because there is a need to reload
-  // the main page of the module after add ore update item
-  // task: https://webitel.atlassian.net/browse/WTEL-4195
-  // and here we need LOAD_DATA_LIST instead LOAD_ITEM
+  // https://webitel.atlassian.net/browse/WTEL-4195
   ADD_ITEM: async (context) => {
     if (!context.state.itemId) {
       await context.dispatch('POST_ITEM');
