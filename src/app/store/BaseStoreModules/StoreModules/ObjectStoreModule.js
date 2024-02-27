@@ -11,7 +11,11 @@ export default class ObjectStoreModule extends BaseStoreModule {
   actions = {
     ...BaseTableModule.getActions(),
     ...BaseOpenedInstanceModule.getActions(),
-
+    // these actions are not universal, so sometimes they must be rewritten in models stores
+    // because of need to reload the main page of the module after add or update item
+    // like in this task: https://webitel.atlassian.net/browse/WTEL-4195
+    // SET_ITEM_ID and LOAD_ITEM we need if we have separate page for add and update item.
+    // And we need LOAD_DATA_LIST if we have popup for add and update item
     ADD_ITEM: async (context) => {
       if (!context.state.itemId) {
         const { id } = await context.dispatch('POST_ITEM');

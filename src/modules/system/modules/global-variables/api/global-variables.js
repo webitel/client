@@ -129,9 +129,9 @@ const deleteItem = async ({ id }) => {
 };
 
 const getLookup = (params) => getList({
-                                        ...params,
-                                        fields: params.fields || ['name'],
-                                      });
+  ...params,
+  fields: params.fields || ['id', 'name'],
+});
 
 
 const GlobalVariablesAPI = {

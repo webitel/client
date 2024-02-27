@@ -111,9 +111,6 @@ export default {
         this.startEncryptValue = this.itemInstance.encrypt;
       }
     },
-    isValueInputRequired(item) {
-      return !item.id || !this.startEncryptValue
-    },
     close() {
       this.$emit('close');
     },
