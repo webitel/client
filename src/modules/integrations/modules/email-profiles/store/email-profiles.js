@@ -34,6 +34,28 @@ const resettableState = {
   },
 };
 
+const actions = {
+  AUTH: async(context) => {
+    const { itemInstance } = context.state;
+    if (itemInstance.logged) {
+      try {
+        await EmailProfilesAPI.logout({ id: itemInstance.id });
+        await context.dispatch('LOAD_ITEM');
+      } catch (err) {
+        throw err;
+      }
+
+    } else {
+      try {
+        const { redirect_url } = await EmailProfilesAPI.login({ id: itemInstance.id });
+        if (redirect_url) window.parent.location.replace(redirect_url);
+      } catch (err) {
+        throw err;
+      }
+    }
+  },
+}
+
 // const PERMISSIONS_API_URL = '/storage/email_profiles';
 // const permissions = new PermissionsStoreModule()
 // .generateAPIActions(PERMISSIONS_API_URL)
@@ -43,6 +65,6 @@ const skills = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(EmailProfilesAPI)
 .generateAPIActions()
 // .setChildModules({ permissions })
-.getModule({});
+.getModule({ actions });
 
 export default skills;

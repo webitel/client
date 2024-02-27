@@ -97,7 +97,7 @@
           :options="authTypesList"
           :v="v.itemInstance.authType"
           :track-by="null"
-          :disabled="isDisabledAuthParams"
+          :disabled="disableUserInput || isDisabledAuthParams"
           :label="$t('objects.integrations.emailProfiles.authType')"
           required
           @input="changeAuthType"
@@ -106,7 +106,7 @@
           <wt-input
             :value="itemInstance.params?.oauth2?.clientId"
             :v="v.itemInstance.params?.oauth2?.clientId"
-            :disabled="isDisabledAuthParams"
+            :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientId')"
             required
             @input="setItemProp({ path: 'params.oauth2.clientId', value: $event })"
@@ -115,7 +115,7 @@
           <wt-input
             :value="itemInstance.params?.oauth2?.clientSecret"
             :v="v.itemInstance.params?.oauth2?.clientSecret"
-            :disabled="isDisabledAuthParams"
+            :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientSecret')"
             required
             @input="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })"
@@ -124,7 +124,7 @@
           <wt-input
             :value="itemInstance.params?.oauth2?.redirectUrl"
             :v="v.itemInstance.params?.oauth2?.redirectUrl"
-            :disabled="isDisabledAuthParams"
+            :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
             required
             @input="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })"
@@ -206,33 +206,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+
+      // [https://webitel.atlassian.net/browse/WTEL-3114]
+      // Authorization Microsoft Outlook service
+
+      auth(dispatch, payload) {
+        return dispatch(`${this.namespace}/AUTH`, payload);
       },
     }),
     loadFlows(params) {
       return FlowsAPI.getLookup(params);
     },
-    async auth() {
-      if (this.itemInstance.logged) {
-        try {
-          await EmailProfilesAPI.logout({ id: this.itemInstance.id });
-          this.loadItem();
-        } catch (err) {
-          throw err;
-        }
-
-      } else {
-        try {
-          const { redirect_url } = await EmailProfilesAPI.login({ id: this.itemInstance.id });
-          if (redirect_url) window.parent.location.replace(redirect_url);
-        } catch (err) {
-          throw err;
-        }
-      }
-    },
-    changeAuthType(event) {
-      this.setItemProp({ prop: 'authType', value: event });
+    changeAuthType(type) {
+      this.setItemProp({ prop: 'authType', value: type });
       if (this.isPlainAuthType) {
         if (this.itemInstance?.params?.oauth2?.clientId) this.setItemProp({
           path: 'params.oauth2.clientId',
