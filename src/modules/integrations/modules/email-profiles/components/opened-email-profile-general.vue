@@ -149,7 +149,7 @@
           </wt-button>
         </div>
 
-        <wt-input
+        <password-input
           v-if="isPlainAuthType"
           :disabled="disableUserInput"
           :label="$t('objects.password')"
@@ -169,10 +169,11 @@ import { EngineEmailAuthType } from 'webitel-sdk';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import EmailProfilesAPI from '../api/emailProfiles';
+import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 
 export default {
   name: 'OpenedEmailProfileGeneral',
+  components: { PasswordInput },
   mixins: [openedTabComponentMixin],
   data: () => ({
     EngineEmailAuthType,
