@@ -12,6 +12,7 @@ import applyTransform, {
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
 import { EmailProfileServiceApiFactory } from 'webitel-sdk';
+import { EngineEmailAuthType } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
@@ -31,6 +32,10 @@ const fieldsToSend = [
   'password',
   'schema',
   'smtpPort',
+  'authType',
+  'listen',
+  'logged',
+  'params',
 ];
 
 const preRequestHandler = (item) => ({
@@ -82,6 +87,7 @@ const get = async ({ itemId: id }) => {
   const defaultObject = {
     imapPort: 0,
     smtpPort: 0,
+    authType: EngineEmailAuthType.Plain,
   };
 
   const responseHandler = (response) => ({
@@ -171,6 +177,28 @@ const getLookup = (params) => getList({
   fields: params.fields || ['id', 'name'],
 });
 
+const login = async ({ id }) => {
+  try {
+    const response = await emailProfilesService.loginEmailProfile(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+}
+
+const logout = async ({ id }) => {
+  try {
+    const response = await emailProfilesService.logoutEmailProfile(id);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+}
+
 const EmailProfilesAPI = {
   getList,
   get,
@@ -179,6 +207,8 @@ const EmailProfilesAPI = {
   update,
   delete: deleteItem,
   getLookup,
+  login,
+  logout,
 };
 
 export default EmailProfilesAPI;
