@@ -5,8 +5,9 @@
     @close="close"
   >
     <template #title>
-      {{ id ? $t('reusable.edit') : $t('reusable.new') }}
-      {{ $t('objects.system.globalVariables.globalVariables', 1).toLowerCase() }}
+      {{ id
+      ? $t('objects.system.globalVariables.editTitle')
+      : $t('objects.system.globalVariables.newTitle') }}
     </template>
     <template #main>
       <wt-input
