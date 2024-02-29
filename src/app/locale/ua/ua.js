@@ -299,6 +299,8 @@ export default {
           manageUserLicenseDescription: 'Надає дозвіл на керування набором ліцензій користувача',
           changeUserPasswordDescription: 'Надає дозвіл на зміну пароля користувача',
           systemSettingDescription: 'Надає дозвіл на керування розділом Конфігурація',
+          schemeVariables: 'Управління глобальними змінними',
+          schemeVariablesDescription: 'Надає дозвіл на керування розділом Глобальні змінні',
         },
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
@@ -1068,6 +1070,8 @@ export default {
         globalVariables: 'Глобальна змінна | Глобальні змінні',
         encrypted: 'Зашифровано',
         valueInfo: 'Введіть значення, якщо хочете перезаписати його',
+        newTitle: 'Нова глобальна змінна',
+        editTitle: 'Редагувати глобальну змінну',
       },
     },
     pagination: {

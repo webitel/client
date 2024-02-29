@@ -299,6 +299,8 @@ export default {
           manageUserLicenseDescription: 'Grants permission to manage a set of user license',
           changeUserPasswordDescription: 'Grants permission to change the users password',
           systemSettingDescription: 'Grants permission to access and manage the Configuration section',
+          schemeVariables: 'Manage global variables',
+          schemeVariablesDescription: 'Grants permission to access and manage the Global variables section',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -1070,6 +1072,8 @@ export default {
         globalVariables: 'Global variable | Global variables',
         encrypted: 'Encrypted',
         valueInfo: 'Enter value only if you want to edit',
+        newTitle: 'New global variable',
+        editTitle: 'Edit global variable',
       },
     },
 

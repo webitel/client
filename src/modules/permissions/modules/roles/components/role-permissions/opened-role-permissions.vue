@@ -143,6 +143,7 @@ export default {
         manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicense'),
         change_user_password: this.$t('objects.permissions.roles.permissions.changeUserPassword'),
         system_setting: this.$t('objects.permissions.roles.permissions.systemSetting'),
+        scheme_variables: this.$t('objects.permissions.roles.permissions.schemeVariables'),
       };
     },
     permissionUsageLocale() {
@@ -159,6 +160,7 @@ export default {
         manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicenseDescription'),
         change_user_password: this.$t('objects.permissions.roles.permissions.changeUserPasswordDescription'),
         system_setting: this.$t('objects.permissions.roles.permissions.systemSettingDescription'),
+        scheme_variables: this.$t('objects.permissions.roles.permissions.schemeVariablesDescription'),
       };
     },
   },
