@@ -37,14 +37,13 @@
         @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
       />
       <wt-select
+        v-model="channel"
         :clearable="false"
-        :label="$t('vocabulary.duration')"
-        :options="durationOptions"
-        :track-by="null"
-        :v="v.itemInstance.metadata.appointment.duration"
-        :value="itemInstance.metadata.appointment.duration"
         :disabled="disableUserInput"
-        @input="setAppointmentMetadata({ prop: 'duration', value: $event })"
+        :label="$t('vocabulary.duration')"
+        :options="options"
+        :v="v.itemInstance.metadata.appointment.duration"
+        track-by="value"
       />
       <wt-input
         :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
@@ -109,6 +108,8 @@ import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
+import StatisticTimeList
+  from '../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup';
 import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 export default {
@@ -117,6 +118,24 @@ export default {
   data: () => ({
     durationOptions: ['15m', '30m', '45m', '60m'],
   }),
+  computed: {
+    channel: {
+      get() {
+        return this.options.find((duration) => {
+          return duration.value === this.itemInstance.metadata.appointment.duration;
+        });
+      },
+      set(value) {
+        this.setAppointmentMetadata({ prop: 'duration', value: value.value })
+      },
+    },
+    options() {
+      return StatisticTimeList.slice(0, 4).map((time) => ({
+        value: `${time.value}m`,
+        name: this.$t(`objects.ccenter.queues.time.${time.name}`),
+      }));
+    },
+  },
   methods: {
     ...mapActions({
       setAppointmentMetadata(dispatch, payload) {
