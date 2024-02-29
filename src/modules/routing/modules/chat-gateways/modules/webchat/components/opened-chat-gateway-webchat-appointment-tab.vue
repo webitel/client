@@ -37,13 +37,14 @@
         @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
       />
       <wt-select
-        v-model="channel"
         :clearable="false"
         :disabled="disableUserInput"
         :label="$t('vocabulary.duration')"
-        :options="options"
+        :options="durationOptions"
         :v="v.itemInstance.metadata.appointment.duration"
+        :value="duration"
         track-by="value"
+        @input="updateDuration"
       />
       <wt-input
         :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
@@ -115,13 +116,10 @@ import CommunicationsAPI from '../../../../../../lookups/modules/communications/
 export default {
   name: 'OpenedChatGatewayWebchatAppointmentTab',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-    durationOptions: ['15m', '30m', '45m', '60m'],
-  }),
   computed: {
-    channel: {
+    duration: {
       get() {
-        return this.options.find((duration) => {
+        return this.durationOptions.find((duration) => {
           return duration.value === this.itemInstance.metadata.appointment.duration;
         });
       },
@@ -129,7 +127,7 @@ export default {
         this.setAppointmentMetadata({ prop: 'duration', value: value.value })
       },
     },
-    options() {
+    durationOptions() {
       return StatisticTimeList.slice(0, 4).map((time) => ({
         value: `${time.value}m`,
         name: this.$t(`objects.ccenter.queues.time.${time.name}`),
@@ -142,6 +140,9 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_APPOINTMENT_METADATA`, payload);
       },
     }),
+    updateDuration(value) {
+      this.duration = value;
+    },
     searchQueues: QueuesAPI.getLookup,
     searchCommunications: CommunicationsAPI.getLookup,
     handleInput({ prop, value }) {
