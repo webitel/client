@@ -130,7 +130,7 @@ export default {
     durationOptions() {
       return StatisticTimeList.slice(0, 4).map((time) => ({
         value: `${time.value}m`,
-        name: this.$t(`objects.ccenter.queues.time.${time.name}`),
+        name: this.$t(`reusable.time.${time.name}`),
       }));
     },
   },

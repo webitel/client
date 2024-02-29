@@ -844,14 +844,6 @@ export default {
           lifo: 'LIFO (Last In First Out)',
           strict_fifo: 'Strict FIFO (First In First Out)',
         },
-        time: {
-          t15m: '15 min',
-          t30m: '30 min',
-          t45m: '45 min',
-          t1h: '1 hour',
-          t3h: '4 hour',
-          t6h: '6 hour',
-        },
         logs: {
           logs: 'Log | Logs',
           destination: 'Destination',
@@ -1142,5 +1134,15 @@ export default {
   },
   errors: {
     invalidJson: 'JSON is invalid',
+  },
+  reusable: {
+    time: {
+      t15m: '15 min',
+      t30m: '30 min',
+      t45m: '45 min',
+      t1h: '1 hour',
+      t3h: '4 hour',
+      t6h: '6 hour',
+    },
   },
 };
