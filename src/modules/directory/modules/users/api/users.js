@@ -52,7 +52,7 @@ const getUsersList = async (params) => {
   try {
     const response = await instance.get(url);
     const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['profile']),
       merge(getDefaultGetListResponse()),
     ]);
     return {
@@ -103,7 +103,7 @@ const getUser = async ({ itemId: id }) => {
   try {
     const response = await instance.get(url);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['profile']),
       merge(defaultObject),
       itemResponseHandler,
     ]);
@@ -137,12 +137,12 @@ const addUser = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(['profile']),
   ]);
   try {
     const response = await instance.post(baseUrl, item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['profile']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -155,14 +155,14 @@ const updateUser = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler,
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(['profile']),
   ]);
 
   const url = `${baseUrl}/${id}`;
   try {
     const response = await instance.put(url, item);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['profile']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -174,13 +174,13 @@ const updateUser = async ({ itemInstance, itemId: id }) => {
 const patchUser = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(['profile']),
   ]);
   const url = `${baseUrl}/${id}`;
   try {
     const response = await instance.patch(url, body);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['profile']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
@@ -192,13 +192,13 @@ const patchUser = async ({ changes, id }) => {
 const patchUserPresence = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake(['profile']),
   ]);
   const url = `${baseUrl}/${id}/presence`;
   try {
     const response = await instance.patch(url, body);
     return applyTransform(response.data, [
-      snakeToCamel(),
+      snakeToCamel(['profile']),
     ]);
   } catch (err) {
     throw applyTransform(err, [
