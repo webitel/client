@@ -11,7 +11,10 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import { CognitiveProfileServiceApiFactory } from 'webitel-sdk';
+import {
+  CognitiveProfileServiceApiFactory,
+  StorageProviderType,
+} from 'webitel-sdk';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
@@ -108,6 +111,7 @@ const get = async ({ itemId: id }) => {
       result.properties.region = MicrosoftRegion
       .find(({ id }) => id === result.properties.region) || {};
     }
+    if(result.provider === StorageProviderType.Microsoft) result.properties.key = '';
     return result;
   };
 

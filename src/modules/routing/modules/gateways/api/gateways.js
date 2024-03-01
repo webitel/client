@@ -76,6 +76,7 @@ const getGateway = async ({ itemId: id }) => {
   };
 
   const itemResponseHandler = (response) => {
+    response.password = '';
     if (response.register) return coerceRegisterResponse(response);
     return coerceTrunkingResponse(response);
   };

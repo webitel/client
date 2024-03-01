@@ -92,6 +92,7 @@ const get = async ({ itemId: id }) => {
 
   const responseHandler = (response) => ({
     ...response,
+    password: '',
   });
 
   try {

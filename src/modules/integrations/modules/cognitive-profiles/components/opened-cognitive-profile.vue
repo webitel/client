@@ -40,7 +40,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { required, requiredUnless } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { StorageProviderType } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -74,7 +74,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             properties: {
-              key: { required },
+              key: { required: requiredUnless(() => !!this.id) },
               region: { required },
             },
           },

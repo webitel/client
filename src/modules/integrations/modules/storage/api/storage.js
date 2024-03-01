@@ -15,6 +15,7 @@ import deepCopy from 'deep-copy';
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
+import Storage from '../store/_internals/enums/Storage.enum';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions
   from '../store/_internals/lookups/DigitalOceanRegions.lookup';
@@ -114,6 +115,7 @@ const getStorage = async ({ itemId: id }) => {
         .find((item) => item.value === copy.properties.region);
       }
     }
+    if(copy.type === Storage.S3) copy.properties.accessKey = '';
     return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
   };
 
