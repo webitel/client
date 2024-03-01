@@ -117,15 +117,10 @@ export default {
   name: 'OpenedChatGatewayWebchatAppointmentTab',
   mixins: [openedTabComponentMixin],
   computed: {
-    duration: {
-      get() {
-        return this.durationOptions.find((duration) => {
-          return duration.value === this.itemInstance.metadata.appointment.duration;
-        });
-      },
-      set(value) {
-        this.setAppointmentMetadata({ prop: 'duration', value: value.value })
-      },
+    duration() {
+      return this.durationOptions.find((duration) => {
+        return duration.value === this.itemInstance.metadata.appointment.duration;
+      });
     },
     durationOptions() {
       return StatisticTimeList.slice(0, 4).map((time) => ({
