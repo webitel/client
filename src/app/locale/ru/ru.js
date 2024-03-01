@@ -845,14 +845,6 @@ export default {
           lifo: 'LIFO (Последний зашёл Первый вышел)',
           strict_fifo: 'Strict FIFO (Первый зашёл Первый вышел)',
         },
-        time: {
-          t15m: '15 мин',
-          t30m: '30 мин',
-          t45m: '45 мин',
-          t1h: '1 ч',
-          t3h: '4 ч',
-          t6h: '6 ч',
-        },
         logs: {
           logs: 'Лог | Логи',
           destination: 'Назначение',
@@ -1143,5 +1135,15 @@ export default {
   },
   errors: {
     invalidJson: 'Некорректный JSON',
+  },
+  reusable: {
+    time: {
+      t15m: '15 мин',
+      t30m: '30 мин',
+      t45m: '45 мин',
+      t1h: '1 ч',
+      t3h: '4 ч',
+      t6h: '6 ч',
+    },
   },
 };

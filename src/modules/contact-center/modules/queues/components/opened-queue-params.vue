@@ -344,7 +344,7 @@ export default {
     dropdownOptionsStatisticTimeList() {
       return StatisticTimeList.map((time) => ({
         value: time.value,
-        name: this.$t(`objects.ccenter.queues.time.${time.name}`),
+        name: this.$t(`reusable.time.${time.name}`),
       }));
     },
   },

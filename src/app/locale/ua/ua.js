@@ -846,14 +846,6 @@ export default {
           lifo: 'LIFO (Останнім зайшов, першим вийшов)',
           strict_fifo: 'Strict FIFO (Першим зайшов, першим вийшов)',
         },
-        time: {
-          t15m: '15 хв',
-          t30m: '30 хв',
-          t45m: '45 хв',
-          t1h: '1 год',
-          t3h: '4 год',
-          t6h: '6 год',
-        },
         logs: {
           logs: 'Лог | Логи',
           destination: 'Призначення',
@@ -1142,5 +1134,15 @@ export default {
   },
   errors: {
     invalidJson: 'Некоректний JSON',
+  },
+  reusable: {
+    time: {
+      t15m: '15 хв',
+      t30m: '30 хв',
+      t45m: '45 хв',
+      t1h: '1 год',
+      t3h: '4 год',
+      t6h: '6 год',
+    },
   },
 };

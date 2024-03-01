@@ -38,13 +38,13 @@
       />
       <wt-select
         :clearable="false"
+        :disabled="disableUserInput"
         :label="$t('vocabulary.duration')"
         :options="durationOptions"
-        :track-by="null"
         :v="v.itemInstance.metadata.appointment.duration"
-        :value="itemInstance.metadata.appointment.duration"
-        :disabled="disableUserInput"
-        @input="setAppointmentMetadata({ prop: 'duration', value: $event })"
+        :value="duration"
+        track-by="value"
+        @input="setAppointmentMetadata({ prop: 'duration', value: $event.value })"
       />
       <wt-input
         :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
@@ -109,14 +109,26 @@ import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
+import StatisticTimeList
+  from '../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup';
 import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 export default {
   name: 'OpenedChatGatewayWebchatAppointmentTab',
   mixins: [openedTabComponentMixin],
-  data: () => ({
-    durationOptions: ['15m', '30m', '45m', '60m'],
-  }),
+  computed: {
+    duration() {
+      return this.durationOptions.find((duration) => {
+        return duration.value === this.itemInstance.metadata.appointment.duration;
+      });
+    },
+    durationOptions() {
+      return StatisticTimeList.slice(0, 4).map((time) => ({
+        value: `${time.value}m`,
+        name: this.$t(`reusable.time.${time.name}`),
+      }));
+    },
+  },
   methods: {
     ...mapActions({
       setAppointmentMetadata(dispatch, payload) {

@@ -744,14 +744,6 @@ export default {
           lifo: 'LIFO (Соңғысы кірді Бірінші шықты)',
           strict_fifo: 'StrictFIFO (Бірінші кірді Бірінші шықты)',
         },
-        time: {
-          t15m: '15 мин',
-          t30m: '30 мин',
-          t45m: '45 мин',
-          t1h: '1 сағат',
-          t3h: '4 сағат',
-          t6h: '6 сағат',
-        },
         logs: {
           logs: 'Лог | Логтар',
           destination: 'Тағайындау',
@@ -938,5 +930,15 @@ export default {
   },
   errors: {
     invalidJson: 'Жарамсыз JSON',
+  },
+  reusable: {
+    time: {
+      t15m: '15 мин',
+      t30m: '30 мин',
+      t45m: '45 мин',
+      t1h: '1 сағат',
+      t3h: '4 сағат',
+      t6h: '6 сағат',
+    },
   },
 };
