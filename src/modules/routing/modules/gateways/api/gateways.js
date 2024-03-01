@@ -76,7 +76,12 @@ const getGateway = async ({ itemId: id }) => {
   };
 
   const itemResponseHandler = (response) => {
+
+    // https://webitel.atlassian.net/browse/WTEL-4268
+    // Password field can be set to a new value, the current will not be displayed
+
     response.password = '';
+
     if (response.register) return coerceRegisterResponse(response);
     return coerceTrunkingResponse(response);
   };

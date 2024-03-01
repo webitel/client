@@ -111,6 +111,10 @@ const get = async ({ itemId: id }) => {
       result.properties.region = MicrosoftRegion
       .find(({ id }) => id === result.properties.region) || {};
     }
+
+    // https://webitel.atlassian.net/browse/WTEL-4268
+    // Key field can be set to a new value, the current will not be displayed
+
     if(result.provider === StorageProviderType.Microsoft) result.properties.key = '';
     return result;
   };

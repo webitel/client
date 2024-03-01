@@ -115,6 +115,10 @@ const getStorage = async ({ itemId: id }) => {
         .find((item) => item.value === copy.properties.region);
       }
     }
+
+    // AccessKey field can be set to a new value, the current will not be displayed
+    // https://webitel.atlassian.net/browse/WTEL-4268
+
     if(copy.type === Storage.S3) copy.properties.accessKey = '';
     return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
   };

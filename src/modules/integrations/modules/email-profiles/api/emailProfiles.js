@@ -90,6 +90,9 @@ const get = async ({ itemId: id }) => {
     authType: EngineEmailAuthType.Plain,
   };
 
+  // Password field can be set to a new value, the current will not be displayed
+  // https://webitel.atlassian.net/browse/WTEL-4268
+
   const responseHandler = (response) => ({
     ...response,
     password: '',
