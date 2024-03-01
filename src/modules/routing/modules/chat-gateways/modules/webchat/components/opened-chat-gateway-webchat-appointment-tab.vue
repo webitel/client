@@ -44,7 +44,7 @@
         :v="v.itemInstance.metadata.appointment.duration"
         :value="duration"
         track-by="value"
-        @input="updateDuration"
+        @input="setAppointmentMetadata({ prop: 'duration', value: $event.value })"
       />
       <wt-input
         :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
@@ -140,9 +140,6 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_APPOINTMENT_METADATA`, payload);
       },
     }),
-    updateDuration(value) {
-      this.duration = value;
-    },
     searchQueues: QueuesAPI.getLookup,
     searchCommunications: CommunicationsAPI.getLookup,
     handleInput({ prop, value }) {
