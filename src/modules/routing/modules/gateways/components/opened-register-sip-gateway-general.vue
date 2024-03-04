@@ -26,11 +26,13 @@
         :value="itemInstance.username"
         @input="setItemProp({ prop: 'username', value: $event })"
       />
-      <password-input
+      <wt-input
         :disabled="disableUserInput"
         :v="v.itemInstance.password"
         :value="itemInstance.password"
         required
+        :label="$t('objects.password')"
+        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
         @input="setItemProp({ prop: 'password', value: $event })"
       />
       <wt-select
@@ -67,14 +69,12 @@
 </template>
 
 <script>
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
 
 export default {
   name: 'OpenedSipGatewayRegisterGeneral',
-  components: { PasswordInput },
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

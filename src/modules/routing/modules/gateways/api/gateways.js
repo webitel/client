@@ -76,6 +76,14 @@ const getGateway = async ({ itemId: id }) => {
   };
 
   const itemResponseHandler = (response) => {
+
+    // https://webitel.atlassian.net/browse/WTEL-4268
+    // Password field can be set to a new value, the current will not be displayed
+    // !Temporary solution
+    // Fix needed on the backend side that password field is not returned to API (or is encrypted, as it works on Users page)
+
+    response.password = '';
+
     if (response.register) return coerceRegisterResponse(response);
     return coerceTrunkingResponse(response);
   };
