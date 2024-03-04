@@ -39,6 +39,7 @@
         :label="$t('objects.key')"
         :v="v.itemInstance.properties.key"
         :value="itemInstance.properties.key"
+        :label-props="{ hint: $t('objects.integrations.storage.keyInfo'), hintPosition: 'right' }"
         required
         @input="setItemPropertiesProp({ prop: 'key', value: $event })"
       />
