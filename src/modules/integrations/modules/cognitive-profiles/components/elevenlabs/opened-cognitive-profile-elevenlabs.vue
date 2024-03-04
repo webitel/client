@@ -34,14 +34,16 @@
         track-by="value"
         @input="setItemProp({ prop: 'service', value: $event })"
       />
+      <div/>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.key')"
         :v="v.itemInstance.properties.key"
         :value="itemInstance.properties.key"
         required
-        @input="setItemPropertiesProp({ prop: 'key', value: $event })"
+        @input="setItemProp({ path: 'properties.key', value: $event })"
       />
+      <div/>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -53,9 +55,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
-import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import openedTabComponentMixin
   from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
@@ -66,13 +65,6 @@ export default {
   data: () => ({
     CognitiveProfileServices,
   }),
-  methods: {
-    ...mapActions({
-      setItemPropertiesProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
-      },
-    }),
-  },
 };
 </script>
 
