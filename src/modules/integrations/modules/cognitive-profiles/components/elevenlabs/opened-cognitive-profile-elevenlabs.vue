@@ -1,0 +1,81 @@
+<template>
+  <section>
+    <header class="content-header">
+      <h3 class="content-title">
+        {{ $t('objects.generalInfo') }}
+      </h3>
+    </header>
+    <div class="object-input-grid">
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :value="itemInstance.name"
+        required
+        @input="setItemProp({ prop: 'name', value: $event })"
+      />
+      <wt-select
+        :clearable="false"
+        :disabled="true || disableUserInput"
+        :label="$t('objects.provider')"
+        :v="v.itemInstance.provider"
+        :value="itemInstance.provider"
+        required
+        @input="setItemProp({ prop: 'provider', value: $event })"
+      />
+      <wt-select
+        :clearable="false"
+        :disabled="true || disableUserInput"
+        :label="$t('objects.service')"
+        :options="CognitiveProfileServices"
+        :v="v.itemInstance.service"
+        :value="itemInstance.service"
+        required
+        track-by="value"
+        @input="setItemProp({ prop: 'service', value: $event })"
+      />
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.key')"
+        :v="v.itemInstance.properties.key"
+        :value="itemInstance.properties.key"
+        required
+        @input="setItemPropertiesProp({ prop: 'key', value: $event })"
+      />
+      <wt-textarea
+        :disabled="disableUserInput"
+        :label="$t('objects.description')"
+        :value="itemInstance.description"
+        @input="setItemProp({ prop: 'description', value: $event })"
+      />
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapActions } from 'vuex';
+import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
+import openedTabComponentMixin
+  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
+
+export default {
+  name: 'OpenedCognitiveProfileElevenlabs',
+  mixins: [openedTabComponentMixin],
+  data: () => ({
+    CognitiveProfileServices,
+  }),
+  methods: {
+    ...mapActions({
+      setItemPropertiesProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
+      },
+    }),
+  },
+};
+</script>
+
+<style scoped>
+
+</style>
