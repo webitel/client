@@ -1,12 +1,12 @@
 import { StorageProviderType } from 'webitel-sdk';
 import defaultCognitiveProfile from './defaultCognitiveProfile';
 
-const elevenlabsCognitiveProfile = () => ({
+const elevenLabsCognitiveProfile = () => ({
   ...defaultCognitiveProfile(),
-  provider: StorageProviderType.Elevenlabs,
+  provider: StorageProviderType.ElevenLabs,
   properties: {
     key: '',
   },
 });
 
-export default elevenlabsCognitiveProfile;
+export default elevenLabsCognitiveProfile;

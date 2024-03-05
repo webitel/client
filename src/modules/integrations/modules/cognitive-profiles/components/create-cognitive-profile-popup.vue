@@ -36,12 +36,12 @@ const options = computed(() => {
     title: StorageProviderType.Google,
     icon: 'google',
   };
-  const elevenlabs = {
-    value: StorageProviderType.Elevenlabs,
-    title: StorageProviderType.Elevenlabs,
+  const elevenLabs = {
+    value: StorageProviderType.ElevenLabs,
+    title: StorageProviderType.ElevenLabs,
     icon: 'elevenlabs',
   };
-  return [microsoft, google, elevenlabs];
+  return [microsoft, google, elevenLabs];
 });
 
 function selectOption(option) {
