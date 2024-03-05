@@ -60,7 +60,7 @@ import openedTabComponentMixin
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: 'OpenedCognitiveProfileElevenlabs',
+  name: 'OpenedCognitiveProfileElevenLabs',
   mixins: [openedTabComponentMixin],
   data: () => ({
     CognitiveProfileServices,
