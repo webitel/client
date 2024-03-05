@@ -3,6 +3,7 @@
 import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
 
 export default {
+  new: 'New',
   auth: {
     register: 'Register',
     login: 'Login',

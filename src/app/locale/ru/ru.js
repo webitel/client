@@ -3,6 +3,11 @@
 import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
 
 export default {
+  new: ({ named }) => {
+    return named('gender') === 'female'
+      ? 'Новая'
+      : 'Новый';
+  },
   auth: {
     register: 'Создать',
     login: 'Вход',
