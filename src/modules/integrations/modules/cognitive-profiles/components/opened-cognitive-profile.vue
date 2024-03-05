@@ -46,12 +46,14 @@ import { StorageProviderType } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Google from './google/opened-cognitive-profile-google.vue';
 import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
+import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
 
 export default {
   name: 'OpenedCognitiveProfile',
   components: {
     Microsoft,
     Google,
+    ElevenLabs,
   },
   mixins: [openedObjectMixin],
 
@@ -87,6 +89,14 @@ export default {
             },
           },
         });
+      case StorageProviderType.ElevenLabs:
+        return deepmerge(defaults, {
+          itemInstance: {
+            properties: {
+              key: { required },
+            },
+          },
+        });
       default:
         return defaults;
     }
@@ -110,9 +120,15 @@ export default {
         value: 'Google',
       };
 
+      const elevenLabs = {
+        text: StorageProviderType.ElevenLabs,
+        value: 'ElevenLabs',
+      };
+
       const tabs = [];
       if (this.provider === StorageProviderType.Microsoft) tabs.push(microsoft);
       else if (this.provider === StorageProviderType.Google) tabs.push(google);
+      else if (this.provider === StorageProviderType.ElevenLabs) tabs.push(elevenLabs);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },

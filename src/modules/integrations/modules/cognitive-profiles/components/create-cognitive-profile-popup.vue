@@ -29,12 +29,19 @@ const options = computed(() => {
   const microsoft = {
     value: StorageProviderType.Microsoft,
     title: StorageProviderType.Microsoft,
+    icon: 'microsoft',
   };
   const google = {
     value: StorageProviderType.Google,
     title: StorageProviderType.Google,
+    icon: 'google',
   };
-  return [microsoft, google];
+  const elevenLabs = {
+    value: StorageProviderType.ElevenLabs,
+    title: StorageProviderType.ElevenLabs,
+    icon: 'elevenlabs',
+  };
+  return [microsoft, google, elevenLabs];
 });
 
 function selectOption(option) {

@@ -8,6 +8,7 @@ import CognitiveProfilesAPI from '../api/cognitiveProfiles';
 import defaultCognitiveProfile from '../schemas/defaultCognitiveProfile';
 import googleCognitiveProfile from '../schemas/googleCognitiveProfile';
 import microsoftCognitiveProfile from '../schemas/microsoftCognitiveProfile';
+import elevenLabsCognitiveProfile from '../schemas/elevenLabsCognitiveProfile';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -19,6 +20,7 @@ const resettableState = {
 const stateMap = {
   [StorageProviderType.Microsoft]: microsoftCognitiveProfile,
   [StorageProviderType.Google]: googleCognitiveProfile,
+  [StorageProviderType.ElevenLabs]: elevenLabsCognitiveProfile,
 };
 
 const actions = {
