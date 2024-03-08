@@ -15,7 +15,8 @@ import applyTransform, {
 import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
 import instance from '../../../../../app/api/instance';
-import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
+import ChatGatewayProvider
+  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
