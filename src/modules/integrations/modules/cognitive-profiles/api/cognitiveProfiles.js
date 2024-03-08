@@ -118,7 +118,8 @@ const get = async ({ itemId: id }) => {
     // !Temporary solution
     // Fix needed on the backend side that key field is not returned to API (or is encrypted, as it works on Users page)
 
-    if(result.provider === StorageProviderType.Microsoft) result.properties.key = '';
+    if (result.provider === StorageProviderType.Microsoft || result.provider ===
+      StorageProviderType.ElevenLabs) result.properties.key = '';
     return result;
   };
 
