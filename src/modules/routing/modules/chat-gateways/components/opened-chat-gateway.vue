@@ -53,7 +53,8 @@ import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidat
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
+import ChatGatewayProvider
+  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';

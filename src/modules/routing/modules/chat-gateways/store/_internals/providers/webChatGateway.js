@@ -1,4 +1,5 @@
-import ChatGatewayProvider from '../../../enum/ChatGatewayProvider.enum';
+import ChatGatewayProvider
+  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import WebchatAlternativeChannel
   from '../../../enum/WebchatAlternativeChannel.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
