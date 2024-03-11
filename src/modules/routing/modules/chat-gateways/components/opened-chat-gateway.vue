@@ -64,6 +64,8 @@ import OpenedWebchatAppointment from '../modules/webchat/components/opened-chat-
 import OpenedWebchatChat from '../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue';
 
 import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedChatGatewayWebchatRecaptchaTab
+  from '../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue';
 import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
 import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
@@ -95,6 +97,7 @@ export default {
     WebchatCopyCodeButton,
     OpenedWebchatChat,
     OpenedWebchatAppointment,
+    OpenedChatGatewayWebchatRecaptchaTab,
   },
   mixins: [openedObjectMixin],
   setup: () => ({
@@ -173,6 +176,16 @@ export default {
                 maxValue: maxValue(60),
               },
               view: { logoUrl: { url } },
+              captcha: this.itemInstance.metadata.captcha.enabled ? {
+                sitekey: { required },
+                secret: { required },
+                threshold: {
+                  required,
+                  numeric,
+                  minValue: minValue(0),
+                  maxValue: maxValue(1),
+                },
+              } : {},
               chat: {
                 openTimeout: {
                   numeric,
@@ -293,6 +306,10 @@ export default {
         text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
         value: 'OpenedWebchatAlternativeChannels',
       };
+      const webchatReCaptcha = {
+        text: this.$t('objects.routing.chatGateways.webchat.recaptcha.recaptcha'),
+        value: 'OpenedChatGatewayWebchatRecaptchaTab',
+      };
 
       switch (this.chatType) {
         case ChatGatewayProvider.TELEGRAM_BOT:
@@ -313,6 +330,7 @@ export default {
             webchatAppointment,
             webchatAlternativeChannels,
             botTemplates,
+            webchatReCaptcha,
           ];
         default:
           return [];
