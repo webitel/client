@@ -76,7 +76,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             properties: {
-              key: { required: requiredUnless(() => !!this.id) },
+              key: { required },
               region: { required },
             },
           },

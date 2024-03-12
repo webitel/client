@@ -15,7 +15,6 @@ import deepCopy from 'deep-copy';
 import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import Storage from '../store/_internals/enums/Storage.enum';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
 import DigitalOceanRegions
   from '../store/_internals/lookups/DigitalOceanRegions.lookup';
@@ -116,12 +115,6 @@ const getStorage = async ({ itemId: id }) => {
       }
     }
 
-    // AccessKey field can be set to a new value, the current will not be displayed
-    // https://webitel.atlassian.net/browse/WTEL-4268
-    // !Temporary solution
-    // Fix needed on the backend side that accessKey field is not returned to API (or is encrypted, as it works on Users page)
-
-    if(copy.type === Storage.S3) copy.properties.accessKey = '';
     return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
   };
 
