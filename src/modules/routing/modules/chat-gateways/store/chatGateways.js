@@ -47,9 +47,12 @@ const actions = {
     const typedItem = deepMerge(chatGatewayStateMap[type](), item);
     context.commit('SET_ITEM', typedItem);
   },
-  SET_ITEM_METADATA: (context, payload) => {
-    context.commit('SET_ITEM_METADATA', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  SET_ITEM_METADATA: (context, { path, prop, value }) => {
+    context.commit('SET_ITEM_PROPERTY', {
+      path: path || `metadata.${prop}`,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', { path: '_dirty', value: true });
   },
   SET_TEMPLATE: async (context, payload) => {
     context.commit('SET_TEMPLATE', payload);

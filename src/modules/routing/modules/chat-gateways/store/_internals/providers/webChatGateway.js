@@ -25,6 +25,12 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       accentColor: '',
       position: '',
     },
+    captcha: {
+      enabled: false,
+      sitekey: '',
+      secret: '',
+      threshold: 0.5,
+    },
     chat: {
       enabled: true,
       timeoutIsActive: false,

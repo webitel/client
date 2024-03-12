@@ -52,7 +52,7 @@
           <wt-switcher
             :disabled="disableUserInput"
             :value="itemInstance.metadata.call.enabled"
-            @change="setItemProp({ path: 'metadata.call.enabled', value: $event })"
+            @change="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })"
           />
         </div>
         <div class=" object-input-grid object-input-grid__1-col">
@@ -61,7 +61,7 @@
             :label="$t('objects.routing.chatGateways.webchat.call.url')"
             :v="v.itemInstance.metadata.call.url"
             :value="itemInstance.metadata.call.url"
-            @input="setItemProp({ path: 'metadata.call.url', value: $event })"
+            @input="setWebchatMetadata({ path: 'metadata.call.url', value: $event })"
           />
           <wt-select
             :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
@@ -69,7 +69,7 @@
             :search-method="loadCallFlows"
             :v="v.itemInstance.metadata.call.flow"
             :value="itemInstance.metadata.call.flow"
-            @input="setItemProp({ path: 'metadata.call.flow', value: $event })"
+            @input="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })"
           />
         </div>
       </article>
@@ -112,6 +112,9 @@ export default {
     ...mapActions({
       setAltChannelValue(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE`, payload);
+      },
+      setWebchatMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
       },
     }),
     loadCallFlows: (params) => FlowsAPI.getLookup({
