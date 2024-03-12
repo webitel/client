@@ -19,7 +19,6 @@
         :label="$t('objects.integrations.storage.s3Access')"
         :v="v.itemInstance.properties.accessKey"
         :value="itemInstance.properties.accessKey"
-        :label-props="{ hint: $t('objects.integrations.storage.keyInfo'), hintPosition: 'right' }"
         required
         @input="setItemProp({ prop: 'accessKey', value: $event })"
       />
