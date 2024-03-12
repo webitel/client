@@ -37,7 +37,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { minValue, required, requiredUnless } from '@vuelidate/validators';
+import { minValue, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import storageMixin from '../mixins/storageMixin';
 import Storage from '../store/_internals/enums/Storage.enum';
@@ -84,7 +84,7 @@ export default {
           itemInstance: {
             properties: {
               keyId: { required },
-              accessKey: { required: requiredUnless(() => !!this.itemInstance.id), },
+              accessKey: { required },
               bucketName: { required },
               region: { required },
               endpoint: { required },

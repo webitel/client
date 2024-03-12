@@ -90,22 +90,11 @@ const get = async ({ itemId: id }) => {
     authType: EngineEmailAuthType.Plain,
   };
 
-  // Password field can be set to a new value, the current will not be displayed
-  // https://webitel.atlassian.net/browse/WTEL-4268
-  // !Temporary solution
-  // Fix needed on the backend side that password field is not returned to API (or is encrypted, as it works on Users page)
-
-  const responseHandler = (response) => ({
-    ...response,
-    password: '',
-  });
-
   try {
     const response = await emailProfilesService.readEmailProfile(id);
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),
-      responseHandler,
     ]);
   } catch (err) {
     throw applyTransform(err, [

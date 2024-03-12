@@ -38,7 +38,7 @@
 <script>
 
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxValue, minValue, numeric, required, requiredUnless } from '@vuelidate/validators';
+import { helpers, maxValue, minValue, numeric, required } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { gatewayHostValidator, ipValidator, sipAccountValidator } from '../../../../../app/utils/validators';
@@ -67,9 +67,7 @@ export default {
         itemInstance: {
           account: { sipAccountValidator, required },
           proxy: { gatewayHostValidator },
-          password: {
-            required: requiredUnless((value, item) => !!item.id),
-          },
+          password: { required },
           expires: {
             numeric,
             minValue: minValue(32),

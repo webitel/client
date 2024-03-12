@@ -11,10 +11,7 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import {
-  CognitiveProfileServiceApiFactory,
-  StorageProviderType,
-} from 'webitel-sdk';
+import { CognitiveProfileServiceApiFactory } from 'webitel-sdk';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
@@ -112,14 +109,6 @@ const get = async ({ itemId: id }) => {
       .find(({ id }) => id === result.properties.region) || {};
     }
 
-    // https://webitel.atlassian.net/browse/WTEL-4268
-    // Key field can be set to a new value, the current will not be displayed
-
-    // !Temporary solution
-    // Fix needed on the backend side that key field is not returned to API (or is encrypted, as it works on Users page)
-
-    if (result.provider === StorageProviderType.Microsoft || result.provider ===
-      StorageProviderType.ElevenLabs) result.properties.key = '';
     return result;
   };
 

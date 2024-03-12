@@ -950,7 +950,6 @@ export default {
         driveEmail: 'Google Email',
         driveKey: 'Private key',
         s3Endpoint: 'Endpoint',
-        keyInfo: 'Введіть значення, якщо хочете перезаписати (або створити новий) ключ',
       },
 
       cognitiveProfiles: {
