@@ -45,6 +45,7 @@ const getResInGroupList = async (params) => {
   ]);
 
   try {
+    if (!parentId) return;
     const response = await resGrService.searchOutboundResourceInGroup(
       parentId,
       page,
