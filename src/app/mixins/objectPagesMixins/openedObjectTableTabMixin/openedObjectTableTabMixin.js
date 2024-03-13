@@ -74,6 +74,10 @@ export default {
         return dispatch(`${this.namespace}/ADD_ITEM`, payload);
       },
     }),
+    loadDataList(payload) {
+      if (!this.parentId) return;
+      this.loadDataListAction(payload);
+    },
     ...mapActions({
       setParentId(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/SET_PARENT_ITEM_ID`, payload);
@@ -81,7 +85,7 @@ export default {
       setId(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/SET_ITEM_ID`, payload);
       },
-      loadDataList(dispatch, payload) {
+      loadDataListAction(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/LOAD_DATA_LIST`, payload);
       },
       setSize(dispatch, payload) {
