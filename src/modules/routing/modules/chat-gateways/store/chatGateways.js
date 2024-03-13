@@ -2,7 +2,8 @@ import deepMerge from 'deepmerge';
 import ObjectStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import ChatGatewaysAPI from '../api/chatGateways';
-import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
+import ChatGatewayProvider
+  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 
 import facebook from '../modules/messenger/facebook/store/facebook';
 import instagram from '../modules/messenger/instagram/store/instagram';
@@ -46,9 +47,12 @@ const actions = {
     const typedItem = deepMerge(chatGatewayStateMap[type](), item);
     context.commit('SET_ITEM', typedItem);
   },
-  SET_ITEM_METADATA: (context, payload) => {
-    context.commit('SET_ITEM_METADATA', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+  SET_ITEM_METADATA: (context, { path, prop, value }) => {
+    context.commit('SET_ITEM_PROPERTY', {
+      path: path || `metadata.${prop}`,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', { path: '_dirty', value: true });
   },
   SET_TEMPLATE: async (context, payload) => {
     context.commit('SET_TEMPLATE', payload);

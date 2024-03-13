@@ -53,7 +53,8 @@ import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidat
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import ChatGatewayProvider from '../enum/ChatGatewayProvider.enum';
+import ChatGatewayProvider
+  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
@@ -64,6 +65,8 @@ import OpenedWebchatAppointment from '../modules/webchat/components/opened-chat-
 import OpenedWebchatChat from '../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue';
 
 import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedChatGatewayWebchatRecaptchaTab
+  from '../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue';
 import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
 import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
@@ -95,6 +98,7 @@ export default {
     WebchatCopyCodeButton,
     OpenedWebchatChat,
     OpenedWebchatAppointment,
+    OpenedChatGatewayWebchatRecaptchaTab,
   },
   mixins: [openedObjectMixin],
   setup: () => ({
@@ -173,6 +177,16 @@ export default {
                 maxValue: maxValue(60),
               },
               view: { logoUrl: { url } },
+              captcha: this.itemInstance.metadata.captcha.enabled ? {
+                sitekey: { required },
+                secret: { required },
+                threshold: {
+                  required,
+                  numeric,
+                  minValue: minValue(0),
+                  maxValue: maxValue(1),
+                },
+              } : {},
               chat: {
                 openTimeout: {
                   numeric,
@@ -293,6 +307,10 @@ export default {
         text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
         value: 'OpenedWebchatAlternativeChannels',
       };
+      const webchatReCaptcha = {
+        text: this.$t('objects.routing.chatGateways.webchat.recaptcha.recaptcha'),
+        value: 'OpenedChatGatewayWebchatRecaptchaTab',
+      };
 
       switch (this.chatType) {
         case ChatGatewayProvider.TELEGRAM_BOT:
@@ -313,6 +331,7 @@ export default {
             webchatAppointment,
             webchatAlternativeChannels,
             botTemplates,
+            webchatReCaptcha,
           ];
         default:
           return [];

@@ -586,6 +586,12 @@ export default {
             left: 'Left',
             static: 'Static',
           },
+          recaptcha: {
+            recaptcha: 'reCAPTCHA',
+            sitekey: 'Site key',
+            secret: 'Secret key',
+            threshold: 'Threshold',
+          },
           chat: {
             chat: 'Chat',
             openTimeout: 'Open Timeout',

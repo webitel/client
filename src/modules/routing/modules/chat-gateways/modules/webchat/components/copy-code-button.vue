@@ -90,12 +90,18 @@ export default {
         this.itemInstance.uri,
       );
 
+      const captcha = this.processCaptchaConfig(
+        this.itemInstance.metadata.captcha,
+        this.itemInstance.uri,
+      );
+
       const code = generateCode({
         view,
         chat,
         appointment,
         alternativeChannels,
         call,
+        captcha,
       });
 
       clipboardCopy(code);
@@ -160,6 +166,12 @@ export default {
     processCallConfig({ enabled, url, ...rest }, uri) {
       if (!enabled) return undefined;
       return { url, id: uri.slice(1) };
+    },
+
+    processCaptchaConfig({ enabled, sitekey }, uri) {
+      if (!enabled) return undefined;
+      const verifyUrl = new URL(path.join(CHAT_URL, uri, 'captcha'), SCRIPT_URL);
+      return { sitekey, verifyUrl };
     },
   },
 };

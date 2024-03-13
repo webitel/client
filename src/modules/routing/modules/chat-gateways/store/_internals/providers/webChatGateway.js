@@ -1,4 +1,5 @@
-import ChatGatewayProvider from '../../../enum/ChatGatewayProvider.enum';
+import ChatGatewayProvider
+  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import WebchatAlternativeChannel
   from '../../../enum/WebchatAlternativeChannel.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
@@ -23,6 +24,12 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       logoUrl: '',
       accentColor: '',
       position: '',
+    },
+    captcha: {
+      enabled: false,
+      sitekey: '',
+      secret: '',
+      threshold: 0.5,
     },
     chat: {
       enabled: true,

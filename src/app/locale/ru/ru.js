@@ -586,6 +586,12 @@ export default {
             left: 'Слева',
             static: 'Статическая',
           },
+          recaptcha: {
+            recaptcha: 'reCAPTCHA',
+            sitekey: 'Site key',
+            secret: 'Secret key',
+            threshold: 'Порог',
+          },
           chat: {
             chat: 'Чат',
             openTimeout: 'Включить задержку открытия',
