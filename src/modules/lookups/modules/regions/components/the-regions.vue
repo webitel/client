@@ -142,8 +142,6 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { deleteData } = useTableStore(namespace);
-
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -152,7 +150,6 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-      deleteData,
     };
   },
 
