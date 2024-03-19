@@ -38,7 +38,6 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.key')"
-        :label-props="{ hint: $t('objects.integrations.storage.keyInfo'), hintPosition: 'right' }"
         :v="v.itemInstance.properties.key"
         :value="itemInstance.properties.key"
         required
