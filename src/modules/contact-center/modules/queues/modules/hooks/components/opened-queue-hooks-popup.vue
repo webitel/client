@@ -52,6 +52,7 @@ import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookEvent.enum';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 export default {
   name: 'OpenedQueueHooksPopup',
@@ -93,7 +94,7 @@ export default {
 
   methods: {
     loadFlowOptions(params) {
-      return FlowsAPI.getLookup(params);
+      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
   },
 };
