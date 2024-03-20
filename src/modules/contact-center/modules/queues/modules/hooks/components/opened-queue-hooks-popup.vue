@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -93,7 +94,7 @@ export default {
 
   methods: {
     loadFlowOptions(params) {
-      return FlowsAPI.getLookup(params);
+      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
   },
 };
