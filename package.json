@@ -1,13 +1,12 @@
 {
   "name": "web-client",
-  "version": "24.02.0",
+  "version": "24.02.1",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "test:unit": "vitest",
     "preview": "vite preview",
-    "prepare": "husky install",
     "lint:fix": "eslint --fix --ext .js,.vue src"
   },
   "dependencies": {
@@ -46,7 +45,6 @@
     "eslint": "^8.51.0",
     "eslint-plugin-vue": "^9.17.0",
     "happy-dom": "^12.9.1",
-    "husky": "^7.0.0",
     "sass": "^1.49.7",
     "vite": "^4.4.11",
     "vite-plugin-node-polyfills": "^0.15.0",
