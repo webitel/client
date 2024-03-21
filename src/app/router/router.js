@@ -73,11 +73,14 @@ const Configuration = () => import('../../modules/system/modules/configuration/c
 const GlobalVariables = () => import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
 
 const checkAppAccess = (to, from, next) => {
+  // check for === false because it can be undefined
+  if (to.meta.requiresAccess === false) next();
+
   const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](store.getters['userinfo/THIS_APP']);
   if (hasReadAccess) {
     next();
   } else {
-    next('/access-denied');
+    // next('/access-denied');
   }
 };
 
@@ -127,6 +130,10 @@ const router = createRouter({
           path: '/settings',
           name: RouteNames.SETTINGS_PAGE,
           component: Settings,
+          meta: {
+            // prevent beforeEnter: checkAppAccess on parent route [WTEL-4321]
+            requiresAccess: false,
+          },
         },
 
         // ----------DIRECTORY------------
