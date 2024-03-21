@@ -28,10 +28,8 @@
 <script>
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
-import authAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/auth';
-import { mapGetters, mapState } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import navMixin from '../../../../app/mixins/navMixin';
-import router from '../../../../app/router/router';
 
 export default {
   name: 'AppHeader',
@@ -96,14 +94,15 @@ export default {
   },
 
   methods: {
+    ...mapActions('userinfo', {
+      logout: 'LOGOUT',
+    }),
     settings() {
       this.$router.push('/settings');
     },
 
-    async logoutUser() {
-      await authAPI.logout();
-      // and throw user to auth page
-      return router.replace('/auth');
+    logoutUser() {
+      return this.logout();
     },
   },
 };

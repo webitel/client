@@ -1,4 +1,3 @@
-import Auth from '@webitel/ui-sdk/src/modules/Userinfo/components/the-auth.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store/store';
 import RouteNames from './_internals/RouteNames.enum';
@@ -80,7 +79,7 @@ const checkAppAccess = (to, from, next) => {
   if (hasReadAccess) {
     next();
   } else {
-    // next('/access-denied');
+    next('/access-denied');
   }
 };
 
@@ -100,11 +99,6 @@ const router = createRouter({
     return { left: 0, top: 0 };
   },
   routes: [
-    {
-      path: '/auth',
-      name: RouteNames.AUTH,
-      component: Auth,
-    },
     {
       path: '/',
       name: RouteNames.APPLICATION_HUB,
@@ -741,12 +735,20 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!(to.path === '/auth')) {
-    if (!localStorage.getItem('access-token')) {
-      next('/auth');
+  debugger;
+  if (!localStorage.getItem('access-token')) {
+    if (to.query.accessToken) {
+      localStorage.setItem('access-token', to.query.accessToken);
+      const newQuery = { ...to.query };
+      delete newQuery.accessToken;
+      return next({ query: newQuery });
     }
+    const desiredUrl = `${window.location.origin}${encodeURIComponent(to.fullPath)}`;
+    const authUrl = import.meta.env.VITE_AUTH_URL;
+    // console.info(`${authUrl}?redirectTo=${desiredUrl}`);
+    window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
   }
-  next();
+  return next();
 });
 
 export default router;
