@@ -24,6 +24,24 @@ const fetchConfig = async () => {
   return response.json();
 };
 
+const setTokenFromUrl = () => {
+  try {
+    const queryMap = window.location.search.slice(1)
+    .split('&')
+    .reduce((obj, query) => {
+      const [key, value] = query.split('=');
+      obj[key] = value;
+      return obj;
+    }, {});
+
+    if (queryMap.accessToken) {
+      localStorage.setItem('access-token', queryMap.accessToken);
+    }
+  } catch (err) {
+    console.error('Error restoring token from url', err);
+  }
+};
+
 const initSession = async () => store.dispatch('userinfo/OPEN_SESSION', { instance });
 
 const createVueInstance = () => {
@@ -45,6 +63,8 @@ const createVueInstance = () => {
 (async () => {
   let config = {};
   try {
+    setTokenFromUrl();
+
     config = await fetchConfig();
     await initSession();
   } catch (err) {

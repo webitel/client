@@ -735,20 +735,18 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  debugger;
-  if (!localStorage.getItem('access-token')) {
-    if (to.query.accessToken) {
-      localStorage.setItem('access-token', to.query.accessToken);
-      const newQuery = { ...to.query };
-      delete newQuery.accessToken;
-      return next({ query: newQuery });
-    }
+  if (!localStorage.getItem('access-token') && !to.query.accessToken) {
     const desiredUrl = `${window.location.origin}${encodeURIComponent(to.fullPath)}`;
     const authUrl = import.meta.env.VITE_AUTH_URL;
-    // console.info(`${authUrl}?redirectTo=${desiredUrl}`);
     window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
+  } else if (to.query.accessToken) {
+    // assume that access token was set from query before app initialization in main.js
+    const newQuery = { ...to.query };
+    delete newQuery.accessToken;
+    next({ ...to, query: newQuery });
+  } else {
+    next();
   }
-  return next();
 });
 
 export default router;
