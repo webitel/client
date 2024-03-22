@@ -736,7 +736,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('access-token') && !to.query.accessToken) {
-    const desiredUrl = `${window.location.origin}${encodeURIComponent(to.fullPath)}`;
+    const desiredUrl = encodeURIComponent(window.location.href);
     const authUrl = import.meta.env.VITE_AUTH_URL;
     window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
   } else if (to.query.accessToken) {
