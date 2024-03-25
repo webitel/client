@@ -52,8 +52,8 @@ export default {
     async initDiagram() {
       const flowDiagramUrl = import.meta.env.VITE_FLOW_DIAGRAM_URL;
       const script = document.createElement('script');
-      script.type = 'module';
-      script.src = `${flowDiagramUrl}/WtFlowDiagram.js`;
+      // script.type = 'module';
+      script.src = `${flowDiagramUrl}/WtFlowDiagram.umd.cjs`;
 
       script.onload = () => {
         const params = {
