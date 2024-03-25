@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint:fix": "eslint --fix --ext .js,.vue src"
   },
+  "type": "module",
   "dependencies": {
     "@vue/compat": "^3.2.47",
     "@vuelidate/core": "^2.0.0",
