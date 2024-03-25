@@ -52,7 +52,9 @@ export default {
     async initDiagram() {
       const flowDiagramUrl = import.meta.env.VITE_FLOW_DIAGRAM_URL;
       const script = document.createElement('script');
-      script.src = `${flowDiagramUrl}/WtFlowDiagram.umd.min.js`;
+      script.type = 'module';
+      script.src = `${flowDiagramUrl}/WtFlowDiagram.js`;
+
       script.onload = () => {
         const params = {
           // if edit, restore diagram
@@ -82,7 +84,7 @@ export default {
             },
           },
         };
-        const WtFlowDiagram = window.WtFlowDiagram.default;
+        const WtFlowDiagram = window.WtFlowDiagram;
         this.diagram = new WtFlowDiagram('#flow-diagram', params);
 
         const onSave = async ({
