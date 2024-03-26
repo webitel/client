@@ -7,7 +7,7 @@
 
     <header class="content-header">
       <h3 class="content-title">
-        <!--        {{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}-->
+                {{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
@@ -24,7 +24,7 @@
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
-            @click="openPopup"
+            @click="create"
           />
         </wt-table-actions>
       </div>
@@ -43,7 +43,7 @@
         @sort="sort"
       >
         <template #event="{ item }">
-          <!--          {{ $t(objects.ccenter.queues.hooks.eventTypes.${item.event}) }}-->
+          {{ item.event }}
         </template>
         <template #schema="{ item }">
           {{ item.schema.name }}

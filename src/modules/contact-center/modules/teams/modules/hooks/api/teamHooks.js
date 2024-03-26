@@ -11,11 +11,11 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import { TeamHookServiceApi } from 'webitel-sdk';
+import { TeamHookServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const teamHookService = new TeamHookServiceApi(configuration, '', instance);
+const teamHookService = new TeamHookServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = ['event', 'properties', 'schema', 'enabled'];
 
@@ -52,6 +52,7 @@ const getTeamHooksList = async (params) => {
       fields,
       id,
     );
+    console.log('getTeamHooksList');
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -97,6 +98,7 @@ const addTeamHook = async ({ parentId, itemInstance }) => {
     camelToSnake(),
   ]);
   try {
+    console.log('addTeamHook item', item);
     const response = await teamHookService.createTeamHook(parentId, item);
     return applyTransform(response.data, [
       snakeToCamel(),

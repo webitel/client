@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-<!--      {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}-->
+      {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}
     </template>
     <template #main>
       <form>
@@ -74,7 +74,7 @@ export default {
   computed: {
     eventOptions() {
       return Object.values(HookEvent).map((event) => ({
-        // name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+        name: event,
         value: event,
       }));
     },
@@ -82,7 +82,7 @@ export default {
       get() {
         const { event } = this.itemInstance;
         return event ? {
-          // name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+          name: event,
           value: event,
         } : {};
       },

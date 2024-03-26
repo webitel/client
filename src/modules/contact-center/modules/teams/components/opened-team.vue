@@ -89,8 +89,7 @@ export default {
         }, {
           text: this.$tc('objects.ccenter.agents.agents', 2),
           value: 'agents',
-        },
-        {
+        }, {
           text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
           value: 'hooks',
         }
