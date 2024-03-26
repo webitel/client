@@ -534,13 +534,13 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/contact-center/queues/new',
+          path: '/contact-center/queues/new/:type',
           name: `${RouteNames.QUEUES}-new`,
           component: OpenedQueue,
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/contact-center/queues/:id',
+          path: '/contact-center/queues/:id/:type',
           name: `${RouteNames.QUEUES}-edit`,
           component: OpenedQueue,
           beforeEnter: checkRouteAccess,

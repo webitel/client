@@ -21,9 +21,9 @@ export default {
 
   computed: {
     options() {
-      return Object.entries(QueueTypeProperties).map(([type, { locale }]) => ({
+      return Object.entries(QueueTypeProperties).map(([type, { locale, subpath }]) => ({
         value: type, // popup identifies selected option by "value"
-        type,
+        subpath,
         title: this.$t(locale),
         description: this.$t(`${locale}Description`),
       }));
@@ -37,7 +37,7 @@ export default {
 
   methods: {
     createQueue() {
-      this.$router.push({ path: '/contact-center/queues/new', query: { type: this.selected.type } });
+      this.$router.push({ path: `/contact-center/queues/new/${this.selected.subpath}` });
     },
   },
 

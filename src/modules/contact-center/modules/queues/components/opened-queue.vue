@@ -300,8 +300,16 @@ export default {
   },
   methods: {
     async loadPageData() {
+      const type = +(Object.entries(QueueTypeProperties).find(([type, { subpath }]) => {
+        if (subpath === this.$route.params.type) {
+          this.itemInstance.type = +type;
+          return true;
+        }
+        return false;
+      }).at(0));
+
       await this.setId(this.$route.params.id);
-      return this.loadItem(this.$route.query.type);
+      return this.loadItem(type);
     },
     //   setStartTab() {
     //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));

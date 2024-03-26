@@ -23,8 +23,8 @@
       />
       <delete-confirmation-popup
         v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
         @close="closeDelete"
       />
 
@@ -61,9 +61,9 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
-          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
@@ -169,15 +169,17 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueuePopup from './create-queue-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/queues';
 
@@ -246,6 +248,10 @@ export default {
         name: `${RouteNames.TEAMS}-edit`,
         params: { id: team.id },
       };
+    },
+    editLink({ id, type }) {
+      const routeName = this.routeName || this.tableObjectRouteName;
+      return { name: `${routeName}-edit`, params: { id, type: QueueTypeProperties[type].subpath } };
     },
 
     create() {
