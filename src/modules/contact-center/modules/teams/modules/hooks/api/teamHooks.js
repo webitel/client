@@ -52,7 +52,6 @@ const getTeamHooksList = async (params) => {
       fields,
       id,
     );
-    console.log('getTeamHooksList');
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -98,7 +97,6 @@ const addTeamHook = async ({ parentId, itemInstance }) => {
     camelToSnake(),
   ]);
   try {
-    console.log('addTeamHook item', item);
     const response = await teamHookService.createTeamHook(parentId, item);
     return applyTransform(response.data, [
       snakeToCamel(),

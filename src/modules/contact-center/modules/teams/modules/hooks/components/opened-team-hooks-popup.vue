@@ -10,13 +10,14 @@
     <template #main>
       <form>
         <wt-select
-          v-model="event"
+          :value="event"
           :clearable="false"
           :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
           :v="v$.itemInstance.event"
           required
           track-by="value"
+          @input="setItemProp({ prop: 'event', value: $event.value })"
         />
         <wt-select
           :clearable="false"
