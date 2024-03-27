@@ -93,8 +93,6 @@ export default {
   data: () => ({
     subNamespace: 'hooks',
     isHookPopup: false,
-
-    isDeleteConfirmation: false,
   }),
 
   methods: {

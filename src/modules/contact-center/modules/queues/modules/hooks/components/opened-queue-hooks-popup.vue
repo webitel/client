@@ -52,7 +52,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
-import HookEvent from '../enum/HookEvent.enum';
+import HookEvent from '../enum/HookQueueEvent.enum';
 
 export default {
   name: 'OpenedQueueHooksPopup',
