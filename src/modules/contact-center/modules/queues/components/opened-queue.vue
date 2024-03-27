@@ -213,6 +213,16 @@ export default {
       return this.itemInstance.type;
     },
 
+    queueTypeName() {
+      return +(Object.entries(QueueTypeProperties).find(([type, { subpath }]) => {
+        if (subpath === this.$route.params.type) {
+          this.itemInstance.type = +type;
+          return true;
+        }
+        return false;
+      }).at(0))
+    },
+
     tabs() {
       const general = {
         text: this.$t('objects.general'),
@@ -293,23 +303,15 @@ export default {
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: baseUrl },
         {
           name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${title})`,
-          route: `${baseUrl}/${this.id ? this.id : 'new'}`,
+          route: `${baseUrl}/${this.id ? this.id : 'new'}/${QueueTypeProperties[this.queueTypeName].subpath}`,
         },
       ];
     },
   },
   methods: {
     async loadPageData() {
-      const type = +(Object.entries(QueueTypeProperties).find(([type, { subpath }]) => {
-        if (subpath === this.$route.params.type) {
-          this.itemInstance.type = +type;
-          return true;
-        }
-        return false;
-      }).at(0));
-
       await this.setId(this.$route.params.id);
-      return this.loadItem(type);
+      return this.loadItem(this.queueTypeName);
     },
     //   setStartTab() {
     //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
