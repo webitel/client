@@ -89,7 +89,7 @@ export default {
         } : {};
       },
       set({ value }) {
-        this.setItemProp({ prop: 'event', value: value });
+        this.setItemProp({ prop: 'event', value });
       },
     },
   },
