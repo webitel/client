@@ -80,18 +80,13 @@ export default {
         value: event,
       }));
     },
-    event: {
-      get() {
-        const { event } = this.itemInstance;
-        return event ? {
-          name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-          value: event,
-        } : {};
-      },
-      set({ value }) {
-        this.setItemProp({ prop: 'event', value });
-      },
-    },
+    event() {
+      const { event } = this.itemInstance;
+      return event ? {
+        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
+        value: event,
+      } : {};
+    }
   },
 
   methods: {
