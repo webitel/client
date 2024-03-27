@@ -49,6 +49,7 @@
 
 <script>
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -75,7 +76,7 @@ export default {
   computed: {
     eventOptions() {
       return Object.values(HookEvent).map((event) => ({
-        name: event,
+        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
         value: event,
       }));
     },
@@ -83,12 +84,12 @@ export default {
       get() {
         const { event } = this.itemInstance;
         return event ? {
-          name: event,
+          name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
           value: event,
         } : {};
       },
-      set(value) {
-        this.setItemProp({ prop: 'event', value: value.value });
+      set({ value }) {
+        this.setItemProp({ prop: 'event', value: value });
       },
     },
   },
@@ -97,6 +98,7 @@ export default {
     loadFlowOptions(params) {
       return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
+    snakeToCamel,
   },
 };
 </script>

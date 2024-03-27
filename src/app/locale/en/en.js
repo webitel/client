@@ -703,6 +703,11 @@ export default {
           longestIdleAgent: 'Agent with longest idle time',
           skillCapacity: 'By skill level',
         },
+        hooks: {
+          eventTypes: {
+            agentStatus: 'Agent status changed',
+          }
+        },
       },
 
       members: {

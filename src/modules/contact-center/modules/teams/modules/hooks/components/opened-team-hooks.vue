@@ -7,7 +7,7 @@
 
     <header class="content-header">
       <h3 class="content-title">
-                {{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}
+        {{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
         <wt-table-actions
@@ -93,8 +93,6 @@ export default {
   data: () => ({
     subNamespace: 'hooks',
     isHookPopup: false,
-
-    isDeleteConfirmation: false,
   }),
 
   methods: {
