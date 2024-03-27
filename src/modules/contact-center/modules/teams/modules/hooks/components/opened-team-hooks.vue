@@ -43,7 +43,7 @@
         @sort="sort"
       >
         <template #event="{ item }">
-          {{ $t(`objects.ccenter.queues.hooks.eventTypes.${item.event}`) }}
+          {{ item.event }}
         </template>
         <template #schema="{ item }">
           {{ item.schema.name }}
@@ -84,10 +84,10 @@
 <script>
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import HookPopup from './opened-queue-hooks-popup.vue';
+import HookPopup from './opened-team-hooks-popup.vue';
 
 export default {
-  name: 'OpenedQueueHooks',
+  name: 'OpenedTeamHooks',
   components: { HookPopup },
   mixins: [openedObjectTableTabMixin],
   data: () => ({

@@ -1,4 +1,5 @@
-import { AgentServiceApiFactory } from 'webitel-sdk';import {
+import { AgentServiceApiFactory } from 'webitel-sdk';
+import {
   getDefaultGetListResponse,
   getDefaultGetParams,
 } from '@webitel/ui-sdk/src/api/defaults';

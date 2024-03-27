@@ -5,6 +5,7 @@ import PermissionsStoreModule
 import TeamsAPI from '../api/teams';
 import agents from '../modules/agents/store/team-agents';
 import supervisors from '../modules/supervisors/store/team-supervisors';
+import hooks from '../modules/hooks/store/team-hooks';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -27,6 +28,7 @@ const actions = {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/teams/supervisors/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/teams/agents/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/teams/hooks/RESET_STATE', {}, { root: true });
   },
 };
 
@@ -38,7 +40,7 @@ const permissions = new PermissionsStoreModule()
 const teams = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(TeamsAPI)
 .generateAPIActions()
-.setChildModules({ supervisors, agents, permissions })
+.setChildModules({ supervisors, agents, permissions, hooks })
 .getModule({ actions });
 
 export default teams;

@@ -10,13 +10,14 @@
     <template #main>
       <form>
         <wt-select
-          v-model="event"
+          :value="event"
           :clearable="false"
           :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
           :v="v$.itemInstance.event"
           required
           track-by="value"
+          @input="setItemProp({ prop: 'event', value: $event.value })"
         />
         <wt-select
           :clearable="false"
@@ -48,11 +49,12 @@
 
 <script>
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
-import HookEvent from '../enum/HookQueueEvent.enum';
+import HookEvent from '../enum/HookTeamEvent.enum';
 
 export default {
   name: 'OpenedQueueHooksPopup',
@@ -62,7 +64,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: 'ccenter/queues/hooks',
+    namespace: 'ccenter/teams/hooks',
   }),
   validations: {
     itemInstance: {
@@ -74,28 +76,24 @@ export default {
   computed: {
     eventOptions() {
       return Object.values(HookEvent).map((event) => ({
-        name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
         value: event,
       }));
     },
-    event: {
-      get() {
-        const { event } = this.itemInstance;
-        return event ? {
-          name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-          value: event,
-        } : {};
-      },
-      set(value) {
-        this.setItemProp({ prop: 'event', value: value.value });
-      },
-    },
+    event() {
+      const { event } = this.itemInstance;
+      return event ? {
+        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
+        value: event,
+      } : {};
+    }
   },
 
   methods: {
     loadFlowOptions(params) {
       return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
+    snakeToCamel,
   },
 };
 </script>

@@ -42,6 +42,7 @@ import Agents from '../modules/agents/components/opened-team-agents.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import General from './opened-team-general.vue';
 import Parameters from './opened-team-parameters.vue';
+import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
 
 export default {
   name: 'OpenedTeam',
@@ -50,6 +51,7 @@ export default {
     Supervisors,
     Agents,
     Parameters,
+    Hooks,
   },
   mixins: [openedObjectMixin],
 
@@ -87,7 +89,10 @@ export default {
         }, {
           text: this.$tc('objects.ccenter.agents.agents', 2),
           value: 'agents',
-        },
+        }, {
+          text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
+          value: 'hooks',
+        }
       ];
 
       if (this.id) tabs.push(this.permissionsTab);

@@ -701,6 +701,11 @@ export default {
           longestIdleAgent: 'Агент с наибольшим временем простоя',
           skillCapacity: 'По уровню навыка',
         },
+        hooks: {
+          eventTypes: {
+            agentStatus: 'Изменение статуса оператора',
+          }
+        },
       },
 
       members: {
