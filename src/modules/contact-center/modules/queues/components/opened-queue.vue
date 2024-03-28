@@ -293,7 +293,7 @@ export default {
         { name: this.$tc('objects.ccenter.queues.queues', 2), route: baseUrl },
         {
           name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${title})`,
-          route: `${baseUrl}/${this.id ? this.id : 'new'}`,
+          route: `${baseUrl}/${this.id ? this.id : 'new'}/${QueueTypeProperties[this.queueType].subpath}`,
         },
       ];
     },
@@ -307,7 +307,6 @@ export default {
         }
         return false;
       }).at(0));
-
       await this.setId(this.$route.params.id);
       return this.loadItem(type);
     },
