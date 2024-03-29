@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="content-wrapper">
     <hook-popup
       v-if="isHookPopup"
       @close="closePopup"
@@ -31,8 +31,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    />
     <div
-      v-show="isLoaded"
+      v-show="dataList.length && isLoaded"
       class="table-wrapper"
     >
       <wt-table
@@ -85,13 +92,22 @@
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import HookPopup from './opened-team-hooks-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+
+const namespace = 'ccenter/teams';
+const subNamespace = 'hooks';
 
 export default {
   name: 'OpenedTeamHooks',
   components: { HookPopup },
   mixins: [openedObjectTableTabMixin],
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy }
+  },
   data: () => ({
-    subNamespace: 'hooks',
+    namespace,
+    subNamespace,
     isHookPopup: false,
   }),
 
