@@ -591,6 +591,7 @@ export default {
             sitekey: 'Site key',
             secret: 'Secret key',
             threshold: 'Порог',
+            showFlag: 'Показывать значок reCAPTCHA',
           },
           chat: {
             chat: 'Чат',
