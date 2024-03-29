@@ -41,6 +41,12 @@
         required
         @input="setWebchatMetadata({ path: 'metadata.captcha.threshold', value: +$event })"
       />
+      <wt-switcher
+        :disabled="disableCaptchaFields"
+        :label="$t('objects.routing.chatGateways.webchat.recaptcha.showFlag')"
+        :value="itemInstance.metadata.captcha.showFlag"
+        @change="setWebchatMetadata({ path: 'metadata.captcha.showFlag', value: +$event })"
+      />
     </div>
   </section>
 </template>

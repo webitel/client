@@ -168,10 +168,10 @@ export default {
       return { url, id: uri.slice(1) };
     },
 
-    processCaptchaConfig({ enabled, sitekey }, uri) {
+    processCaptchaConfig({ enabled, sitekey, showFlag }, uri) {
       if (!enabled) return undefined;
       const verifyUrl = new URL(path.join(CHAT_URL, uri, 'captcha'), SCRIPT_URL);
-      return { sitekey, verifyUrl };
+      return { sitekey, verifyUrl, showFlag };
     },
   },
 };
