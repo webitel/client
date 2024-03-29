@@ -30,6 +30,7 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       sitekey: '',
       secret: '',
       threshold: 0.5,
+      showFlag: false,
     },
     chat: {
       enabled: true,
