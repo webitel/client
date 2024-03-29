@@ -591,6 +591,7 @@ export default {
             sitekey: 'Site key',
             secret: 'Secret key',
             threshold: 'Threshold',
+            showFlag: 'Show reCAPTCHA badge',
           },
           chat: {
             chat: 'Chat',
@@ -702,6 +703,11 @@ export default {
           roundRobinBucket: 'Round robin bucket',
           longestIdleAgent: 'Agent with longest idle time',
           skillCapacity: 'By skill level',
+        },
+        hooks: {
+          eventTypes: {
+            agentStatus: 'Agent status changed',
+          },
         },
       },
 

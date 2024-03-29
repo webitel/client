@@ -591,6 +591,7 @@ export default {
             sitekey: 'Site key',
             secret: 'Secret key',
             threshold: 'Порог',
+            showFlag: 'Показывать значок reCAPTCHA',
           },
           chat: {
             chat: 'Чат',
@@ -700,6 +701,11 @@ export default {
           roundRobinBucket: 'По порядку корзины',
           longestIdleAgent: 'Агент с наибольшим временем простоя',
           skillCapacity: 'По уровню навыка',
+        },
+        hooks: {
+          eventTypes: {
+            agentStatus: 'Изменение статуса оператора',
+          },
         },
       },
 
