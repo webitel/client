@@ -17,6 +17,9 @@ export const getWebPhone = async () => {
       snakeToCamel(),
     ]);
   } catch (err) {
+    if (err.response.status === 404) return;
+    // phone settings doesn't exist on backend if user is new, and we have to hide notification about this error
+    // https://webitel.atlassian.net/browse/WTEL-4346
     throw applyTransform(err, [
       notify,
     ]);
