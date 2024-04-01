@@ -4,6 +4,12 @@
       v-if="isHookPopup"
       @close="closePopup"
     />
+    <delete-confirmation-popup
+      v-show="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
+      @close="closeDelete"
+    />
 
     <header class="content-header">
       <h3 class="content-title">
@@ -18,7 +24,10 @@
             v-if="!disableUserInput"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
-            @click="deleteData(selectedRows)"
+            @click="askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -70,7 +79,10 @@
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="deleteData(item)"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
           />
         </template>
       </wt-table>
@@ -89,6 +101,9 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
@@ -99,11 +114,27 @@ const subNamespace = 'hooks';
 
 export default {
   name: 'OpenedQueueHooks',
-  components: { HookPopup },
+  components: { DeleteConfirmationPopup, HookPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy }
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+
+      askDeleteConfirmation,
+      closeDelete,
+    }
   },
   data: () => ({
     namespace,
