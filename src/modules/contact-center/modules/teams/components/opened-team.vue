@@ -43,6 +43,7 @@ import Supervisors from '../modules/supervisors/components/opened-team-superviso
 import General from './opened-team-general.vue';
 import Parameters from './opened-team-parameters.vue';
 import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
+import Schemes from '../modules/schemes/components/opened-team-schemes.vue';
 
 export default {
   name: 'OpenedTeam',
@@ -52,6 +53,7 @@ export default {
     Agents,
     Parameters,
     Hooks,
+    Schemes,
   },
   mixins: [openedObjectMixin],
 
@@ -92,6 +94,9 @@ export default {
         }, {
           text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
           value: 'hooks',
+        }, {
+          text: 'schemes',
+          value: 'schemes',
         }
       ];
 
