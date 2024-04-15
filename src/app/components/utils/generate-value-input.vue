@@ -1,13 +1,13 @@
 <template>
-  <div class="generate-password-input">
+  <div class="generate-value-input">
     <wt-input
       :disabled="disabled"
-      :label="$t('objects.password')"
-      :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-      :placeholder="$t('objects.password')"
+      :label="label"
+      :label-props="labelProps"
+      :placeholder="placeholder"
       :required="required"
       :v="v"
-      :value="passwordRepresentation"
+      :value="valueRepresentation"
       @input="input"
     >
       <template
@@ -15,16 +15,16 @@
         #after-input
       >
         <wt-copy-action
-          v-show="passwordRepresentation"
+          v-show="valueRepresentation"
           :value="value"
         />
         <wt-tooltip
-          class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
+          class="generate-value-input__icon-btn generate-value-input__icon-btn--generate"
         >
           <template #activator>
             <wt-icon-btn
               icon="generate"
-              @click="generatePassword"
+              @click="generateValue"
             />
           </template>
           {{ $t('iconHints.generate') }}
@@ -38,7 +38,7 @@
 const MIN_HASH_SIZE = 59;
 
 export default {
-  name: 'GeneratePasswordInput',
+  name: 'GenerateValueInput',
   props: {
     value: {
       type: String,
@@ -55,6 +55,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    label: {
+      type: String,
+      default: ''
+    },
+    labelProps: {
+      type: Object,
+    },
+    placeholder: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -64,7 +75,7 @@ export default {
   },
 
   computed: {
-    passwordRepresentation() {
+    valueRepresentation() {
       return this.value.length <= MIN_HASH_SIZE ? this.value : '';
     },
   },
@@ -74,7 +85,7 @@ export default {
   },
 
   methods: {
-    generatePassword() {
+    generateValue() {
       const length = 12;
       const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let value = '';
@@ -92,17 +103,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.generate-password-input {
+.generate-value-input {
   position: relative;
   z-index: 1;
 }
 
-.generate-password-input__label-wrapper {
+.generate-value-input__label-wrapper {
   display: flex;
   align-items: center;
 }
 
-.generate-password-input__icon-btn {
+.generate-value-input__icon-btn {
   margin-left: var(--spacing-xs);
 }
 </style>
