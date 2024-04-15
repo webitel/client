@@ -95,7 +95,7 @@ export default {
           text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
           value: 'hooks',
         }, {
-          text: 'schemes',
+          text: this.$tc('objects.ccenter.teams.scheme.scheme', 2),
           value: 'schemes',
         }
       ];

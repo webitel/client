@@ -707,6 +707,11 @@ export default {
             agentStatus: 'Изменение статуса оператора',
           }
         },
+        scheme: {
+          scheme: 'Схема | Схемы',
+          addScheme: 'Добавить схему',
+          editScheme: 'Редактировать схему',
+        },
       },
 
       members: {

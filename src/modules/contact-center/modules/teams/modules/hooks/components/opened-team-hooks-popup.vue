@@ -57,7 +57,7 @@ import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
 
 export default {
-  name: 'OpenedQueueHooksPopup',
+  name: 'OpenedTeamHooksPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({

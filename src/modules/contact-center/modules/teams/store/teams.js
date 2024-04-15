@@ -6,6 +6,7 @@ import TeamsAPI from '../api/teams';
 import agents from '../modules/agents/store/team-agents';
 import supervisors from '../modules/supervisors/store/team-supervisors';
 import hooks from '../modules/hooks/store/team-hooks';
+import schemes from '../modules/schemes/store/team-schemes';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -40,7 +41,7 @@ const permissions = new PermissionsStoreModule()
 const teams = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(TeamsAPI)
 .generateAPIActions()
-.setChildModules({ supervisors, agents, permissions, hooks })
+.setChildModules({ supervisors, agents, hooks, schemes, permissions })
 .getModule({ actions });
 
 export default teams;

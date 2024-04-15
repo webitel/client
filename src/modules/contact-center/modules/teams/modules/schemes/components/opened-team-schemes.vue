@@ -1,7 +1,7 @@
 <template>
-  <section>
-    <agent-popup
-      v-if="isSchemesPopup"
+  <section class="content-wrapper">
+    <scheme-popup
+      v-if="isSchemePopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
@@ -13,7 +13,7 @@
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.ccenter.agents.agents', 2) }}
+        {{ $tc('objects.ccenter.teams.scheme.scheme', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
@@ -65,32 +65,19 @@
         sortable
         @sort="sort"
       >
-        <template #name="{ item }">
-          <wt-item-link
-            :link="editLink(item)"
-            target="_blank"
-          >
-            {{ item.name }}
-          </wt-item-link>
+        <template #event="{ item }">
+          {{ item.event }}
+        </template>
+        <template #schema="{ item }">
+          {{ item.schema.name }}
         </template>
         <template #state="{ item, index }">
           <wt-switcher
+            :disabled="!hasEditAccess"
             :value="item.enabled"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           />
         </template>
-<!--        <template #supervisor="{ item }">-->
-<!--          <one-plus-many-->
-<!--            :collection="item.supervisor"-->
-<!--            @input="readSupervisor(item)"-->
-<!--          />-->
-<!--        </template>-->
-<!--        <template #skills="{ item }">-->
-<!--          <one-plus-many-->
-<!--            :collection="item.skills"-->
-<!--            @input="readSkills(item)"-->
-<!--          />-->
-<!--        </template>-->
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
@@ -121,26 +108,20 @@
 </template>
 
 <script>
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import SchemesPopup from './opened-team-schemes-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-// import SchemesPopup from '../../schemes/components/opened-team-schemes-popup';
+import openedObjectTableTabMixin
+  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import SchemePopup from './opened-team-scheme-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'schemes';
 
 export default {
-  name: 'OpenedTeamSchemes',
-  components: { SchemesPopup, DeleteConfirmationPopup },
+  name: 'OpenedTeamHooks',
+  components: { SchemePopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
@@ -167,15 +148,15 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isSchemesPopup: false,
+    isSchemePopup: false,
   }),
 
   methods: {
     openPopup() {
-      this.isSchemesPopup = true;
+      this.isSchemePopup = true;
     },
     closePopup() {
-      this.isSchemesPopup = false;
+      this.isSchemePopup = false;
     },
   },
 };

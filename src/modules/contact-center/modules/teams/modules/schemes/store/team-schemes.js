@@ -5,7 +5,10 @@ import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    agent: {},
+    name: '',
+    description: '',
+    enabled: true,
+    schema: {},
   },
 };
 

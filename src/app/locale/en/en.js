@@ -709,6 +709,11 @@ export default {
             agentStatus: 'Agent status changed',
           }
         },
+        scheme: {
+          scheme: 'Scheme | Schemes',
+          addScheme: 'Add scheme',
+          editScheme: 'Edit scheme',
+        },
       },
 
       members: {

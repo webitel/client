@@ -5,18 +5,27 @@
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.ccenter.agents.agents', 1) }}
+      {{ itemInstance.id
+      ? $tc('objects.ccenter.teams.scheme.editScheme')
+      : $tc('objects.ccenter.teams.scheme.addScheme') }}
     </template>
     <template #main>
       <form>
+        <wt-input
+          :label="$t('objects.name')"
+          :v="v$.itemInstance.name"
+          :value="itemInstance.name"
+          required
+          @input="setItemProp({ prop: 'name', value: $event })"
+        />
         <wt-select
           :clearable="false"
-          :label="$tc('objects.ccenter.agents.agents', 1)"
-          :search-method="loadAgentsOptions"
-          :v="v$.itemInstance.agent"
-          :value="itemInstance.agent"
+          :label="$tc('objects.routing.flow.flow', 1)"
+          :search-method="loadFlowOptions"
+          :v="v$.itemInstance.schema"
+          :value="itemInstance.schema"
           required
-          @input="setItemProp({ prop: 'agent', value: $event })"
+          @input="setItemProp({ prop: 'schema', value: $event })"
         />
       </form>
     </template>
@@ -25,7 +34,7 @@
         :disabled="disabledSave"
         @click="save"
       >
-        {{ $t('objects.add') }}
+        {{ $t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
@@ -38,35 +47,37 @@
 </template>
 
 <script>
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import AgentsAPI from '../../../../agents/api/agents';
+import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: 'OpenedTeamAgentPopup',
+  name: 'OpenedTeamSchemePopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
-
   data: () => ({
-    namespace: 'ccenter/teams/agents',
+    namespace: 'ccenter/teams/schemes',
   }),
   validations: {
     itemInstance: {
-      agent: { required },
+      name: { required },
+      schema: { required },
     },
   },
 
   methods: {
-    loadAgentsOptions(params) {
-      return AgentsAPI.getLookup(params);
+    loadFlowOptions(params) {
+      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
 </style>
