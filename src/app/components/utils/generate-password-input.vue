@@ -1,30 +1,30 @@
 <template>
   <div class="generate-password-input">
     <wt-input
-        :disabled="disabled"
-        :label="$t('objects.password')"
-        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-        :placeholder="$t('objects.password')"
-        :required="required"
-        :v="v"
-        :value="passwordRepresentation"
-        @input="input"
+      :disabled="disabled"
+      :label="$t('objects.password')"
+      :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+      :placeholder="$t('objects.password')"
+      :required="required"
+      :v="v"
+      :value="passwordRepresentation"
+      @input="input"
     >
       <template
-          v-if="!disabled"
-          #after-input
+        v-if="!disabled"
+        #after-input
       >
         <wt-copy-action
-            v-show="passwordRepresentation"
-            :value="value"
+          v-show="passwordRepresentation"
+          :value="value"
         />
         <wt-tooltip
-            class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
+          class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
         >
           <template #activator>
             <wt-icon-btn
-                icon="generate"
-                @click="generatePassword"
+              icon="generate"
+              @click="generatePassword"
             />
           </template>
           {{ $t('iconHints.generate') }}
