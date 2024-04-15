@@ -68,7 +68,7 @@ export default {
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
-      return !this.disableUserInput && this.$route.path.includes('/new');
+      return !this.disableUserInput && !this.$route.params.id;
     },
   },
   methods: {
