@@ -10,7 +10,7 @@ export default [
   {
     value: 'state',
     locale: 'reusable.state',
-    // field: 'enabled',
+    field: 'enabled',
     sort: SortSymbols.NONE,
   },
 ];

@@ -65,15 +65,11 @@
         sortable
         @sort="sort"
       >
-        <template #event="{ item }">
-          {{ item.event }}
-        </template>
         <template #schema="{ item }">
           {{ item.schema.name }}
         </template>
         <template #state="{ item, index }">
           <wt-switcher
-            :disabled="!hasEditAccess"
             :value="item.enabled"
             @change="patchItem({ item, index, prop: 'enabled', value: $event })"
           />

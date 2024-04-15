@@ -69,8 +69,7 @@ const getTeamSchemesList = async (params) => {
   }
 };
 
-const getTeamSchemes = async ({ parentId, itemId: id }) => {
-
+const getTeamScheme = async ({ parentId, itemId: id }) => {
   const defaultObject = {
     name: '',
     description: '',
@@ -91,7 +90,7 @@ const getTeamSchemes = async ({ parentId, itemId: id }) => {
   }
 };
 
-const addTeamSchemes = async ({ parentId, itemInstance }) => {
+const addTeamScheme = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
@@ -109,7 +108,7 @@ const addTeamSchemes = async ({ parentId, itemInstance }) => {
   }
 };
 
-const patchTeamSchemes = async ({ changes, id, parentId }) => {
+const patchTeamScheme = async ({ changes, id, parentId }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -127,7 +126,7 @@ const patchTeamSchemes = async ({ changes, id, parentId }) => {
   }
 };
 
-const updateTeamSchemes = async ({ itemInstance, itemId: id, parentId }) => {
+const updateTeamScheme = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
@@ -145,7 +144,7 @@ const updateTeamSchemes = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-const deleteTeamSchemes = async ({ parentId, id }) => {
+const deleteTeamScheme = async ({ parentId, id }) => {
   try {
     const response = await schemeService.deleteTeamTrigger(parentId, id);
     return applyTransform(response.data, []);
@@ -158,11 +157,11 @@ const deleteTeamSchemes = async ({ parentId, id }) => {
 
 const TeamAgentsAPI = {
   getList: getTeamSchemesList,
-  get: getTeamSchemes,
-  add: addTeamSchemes,
-  update: updateTeamSchemes,
-  patch: patchTeamSchemes,
-  delete: deleteTeamSchemes,
+  get: getTeamScheme,
+  add: addTeamScheme,
+  update: updateTeamScheme,
+  patch: patchTeamScheme,
+  delete: deleteTeamScheme,
 };
 
 export default TeamAgentsAPI;
