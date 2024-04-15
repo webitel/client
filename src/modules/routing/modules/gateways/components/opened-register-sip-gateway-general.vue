@@ -26,10 +26,7 @@
         :value="itemInstance.username"
         @input="setItemProp({ prop: 'username', value: $event })"
       />
-      <generate-value-input
-        :label="$t('objects.password')"
-        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-        :placeholder="$t('objects.password')"
+      <password-input
         :disabled="disableUserInput"
         :v="v.itemInstance.password"
         :value="itemInstance.password"
@@ -73,11 +70,11 @@
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
-import GenerateValueInput from '../../../../../app/components/utils/generate-value-input.vue';
+import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 
 export default {
   name: 'OpenedSipGatewayRegisterGeneral',
-  components: { GenerateValueInput },
+  components: { PasswordInput },
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {
