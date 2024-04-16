@@ -67,7 +67,7 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.progressiveCount')"
-        :min-value="0"
+        :min-value="1"
         :v="v.itemInstance.progressiveCount"
         :value="itemInstance.progressiveCount"
         required
@@ -77,7 +77,7 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.chatCount')"
-        :min-value="0"
+        :min-value="1"
         :v="v.itemInstance.chatCount"
         :value="itemInstance.chatCount"
         required
@@ -87,7 +87,7 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.taskCount')"
-        :min-value="0"
+        :min-value="1"
         :v="v.itemInstance.taskCount"
         :value="itemInstance.taskCount"
         required

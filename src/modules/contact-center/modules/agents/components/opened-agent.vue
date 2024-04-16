@@ -36,7 +36,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { minValue, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Queues from '../modules/queues/components/opened-agent-queues.vue';
 import Skills from '../modules/skills/components/opened-agent-skills.vue';
@@ -63,9 +63,9 @@ export default {
     itemInstance: {
       user: { required },
       team: { required },
-      progressiveCount: { required },
-      chatCount: { required },
-      taskCount: { required },
+      progressiveCount: { required, minValue: minValue(1) },
+      chatCount: { required, minValue: minValue(1) },
+      taskCount: { required, minValue: minValue(1) },
     },
   },
 
