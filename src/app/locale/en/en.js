@@ -124,6 +124,7 @@ export default {
     back: 'Back',
     change: 'Change',
     name: 'Name',
+    title: 'Title',
     description: 'Description',
     user: 'User',
     users: 'Users',
@@ -709,10 +710,10 @@ export default {
             agentStatus: 'Agent status changed',
           }
         },
-        scheme: {
-          scheme: 'Scheme | Schemes',
-          addScheme: 'Add scheme',
-          editScheme: 'Edit scheme',
+        schemas: {
+          schemas: 'Schema | Schemas',
+          addSchema: 'Add schema',
+          editSchema: 'Edit schema',
         },
       },
 

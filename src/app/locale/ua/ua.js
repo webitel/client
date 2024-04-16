@@ -124,6 +124,7 @@ export default {
     back: 'Назад',
     change: 'Замінити',
     name: 'Ім\'я',
+    title: 'Назва',
     description: 'Опис',
     user: 'Користувач',
     users: 'Користувачі',
@@ -684,7 +685,7 @@ export default {
       },
 
       teams: {
-        teams: 'Команда| Команди',
+        teams: 'Команда | Команди',
         allTeams: 'Всі команди',
         strategy: 'Стратегія',
         parameters: 'Параметри',
@@ -709,10 +710,10 @@ export default {
             agentStatus: 'Зміна статуту оператора',
           }
         },
-        scheme: {
-          scheme: 'Схема | Схеми',
-          addScheme: 'Додати схему',
-          editScheme: 'Редагувати схему',
+        schemas: {
+          schemas: 'Схема | Схеми',
+          addSchema: 'Додати схему',
+          editSchema: 'Редагувати схему',
         },
       },
 

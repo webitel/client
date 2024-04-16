@@ -124,6 +124,7 @@ export default {
     back: 'Назад',
     change: 'Заменить',
     name: 'Имя',
+    title: 'Название',
     description: 'Описание',
     user: 'Пользователь',
     users: 'Пользователи',
@@ -707,10 +708,10 @@ export default {
             agentStatus: 'Изменение статуса оператора',
           }
         },
-        scheme: {
-          scheme: 'Схема | Схемы',
-          addScheme: 'Добавить схему',
-          editScheme: 'Редактировать схему',
+        schemas: {
+          schemas: 'Схема | Схемы',
+          addSchema: 'Добавить схему',
+          editSchema: 'Редактировать схему',
         },
       },
 

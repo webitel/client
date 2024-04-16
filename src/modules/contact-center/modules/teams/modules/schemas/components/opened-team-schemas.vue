@@ -1,7 +1,7 @@
 <template>
   <section class="content-wrapper">
-    <scheme-popup
-      v-if="isSchemePopup"
+    <schema-popup
+      v-if="isSchemaPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
@@ -12,9 +12,9 @@
     />
 
     <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.ccenter.teams.scheme.scheme', 2) }}
-      </h3>
+        <h3 class="content-title">
+          {{ $tc('objects.ccenter.teams.schemas.schemas', 2) }}
+        </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -66,7 +66,9 @@
         @sort="sort"
       >
         <template #schema="{ item }">
-          {{ item.schema.name }}
+          <wt-item-link :link="`/routing/flow/${item.schema.id}`">
+            {{ item.name }}
+          </wt-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher
@@ -107,17 +109,18 @@
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import SchemePopup from './opened-team-scheme-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+import SchemaPopup from './opened-team-schema-popup.vue';
+import WtItemLink from '@webitel/ui-sdk/src/components/wt-item-link/wt-item-link.vue'
 
 const namespace = 'ccenter/teams';
-const subNamespace = 'schemes';
+const subNamespace = 'schemas';
 
 export default {
   name: 'OpenedTeamHooks',
-  components: { SchemePopup, DeleteConfirmationPopup },
+  components: { SchemaPopup, DeleteConfirmationPopup, WtItemLink },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
@@ -144,15 +147,15 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isSchemePopup: false,
+    isSchemaPopup: false,
   }),
 
   methods: {
     openPopup() {
-      this.isSchemePopup = true;
+      this.isSchemaPopup = true;
     },
     closePopup() {
-      this.isSchemePopup = false;
+      this.isSchemaPopup = false;
     },
   },
 };

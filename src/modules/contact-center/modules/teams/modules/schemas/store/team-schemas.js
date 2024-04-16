@@ -1,6 +1,6 @@
 import NestedObjectStoreModule
   from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import TeamSchemesAPI from '../api/teamSchemes';
+import TeamSchemasAPI from '../api/teamSchemas';
 import headers from './_internals/headers';
 
 const resettableItemState = {
@@ -12,9 +12,9 @@ const resettableItemState = {
   },
 };
 
-const teamSchemes = new NestedObjectStoreModule({ resettableItemState, headers })
-.attachAPIModule(TeamSchemesAPI)
+const teamSchemas = new NestedObjectStoreModule({ resettableItemState, headers })
+.attachAPIModule(TeamSchemasAPI)
 .generateAPIActions()
 .getModule();
 
-export default teamSchemes;
+export default teamSchemas;

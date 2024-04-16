@@ -6,8 +6,8 @@
   >
     <template #title>
       {{ itemInstance.id
-      ? $tc('objects.ccenter.teams.scheme.editScheme')
-      : $tc('objects.ccenter.teams.scheme.addScheme') }}
+      ? $tc('objects.ccenter.teams.schemas.editSchema')
+      : $tc('objects.ccenter.teams.schemas.addSchema') }}
     </template>
     <template #main>
       <form>
@@ -54,14 +54,14 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: 'OpenedTeamSchemePopup',
+  name: 'OpenedTeamSchemaPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: 'ccenter/teams/schemes',
+    namespace: 'ccenter/teams/schemas',
   }),
   validations: {
     itemInstance: {

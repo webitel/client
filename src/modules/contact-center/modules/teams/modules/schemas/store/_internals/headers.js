@@ -2,8 +2,8 @@ import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
 export default [
   {
-    value: 'name',
-    locale: 'objects.name',
+    value: 'schema',
+    locale: 'objects.title',
     field: 'name',
     sort: SortSymbols.NONE,
   },

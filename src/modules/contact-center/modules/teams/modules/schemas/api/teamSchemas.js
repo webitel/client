@@ -13,7 +13,7 @@ import applyTransform, {
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const schemeService = new TeamTriggerServiceApi(configuration, '', instance);
+const schemaService = new TeamTriggerServiceApi(configuration, '', instance);
 
 const fieldsToSend = ['name', 'schema', 'enabled', 'description'];
 
@@ -22,7 +22,7 @@ const preRequestHandler = (parentId) => (item) => ({
   teamId: parentId,
 });
 
-const getTeamSchemesList = async (params) => {
+const getTeamSchemasList = async (params) => {
   const defaultObject = {
     enabled: false,
   };
@@ -42,7 +42,7 @@ const getTeamSchemesList = async (params) => {
   ]);
 
   try {
-    const response = await schemeService.searchTeamTrigger(
+    const response = await schemaService.searchTeamTrigger(
       parentId,
       page,
       size,
@@ -69,7 +69,7 @@ const getTeamSchemesList = async (params) => {
   }
 };
 
-const getTeamScheme = async ({ parentId, itemId: id }) => {
+const getTeamSchema = async ({ parentId, itemId: id }) => {
   const defaultObject = {
     name: '',
     description: '',
@@ -78,7 +78,7 @@ const getTeamScheme = async ({ parentId, itemId: id }) => {
   };
 
   try {
-    const response = await schemeService.readTeamTrigger(parentId, id);
+    const response = await schemaService.readTeamTrigger(parentId, id);
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),
@@ -90,14 +90,14 @@ const getTeamScheme = async ({ parentId, itemId: id }) => {
   }
 };
 
-const addTeamScheme = async ({ parentId, itemInstance }) => {
+const addTeamSchema = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await schemeService.createTeamTrigger(parentId, item);
+    const response = await schemaService.createTeamTrigger(parentId, item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -108,14 +108,14 @@ const addTeamScheme = async ({ parentId, itemInstance }) => {
   }
 };
 
-const patchTeamScheme = async ({ changes, id, parentId }) => {
+const patchTeamSchema = async ({ changes, id, parentId }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
 
   try {
-    const response = await schemeService.patchTeamTrigger(parentId, id, body);
+    const response = await schemaService.patchTeamTrigger(parentId, id, body);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -126,14 +126,14 @@ const patchTeamScheme = async ({ changes, id, parentId }) => {
   }
 };
 
-const updateTeamScheme = async ({ itemInstance, itemId: id, parentId }) => {
+const updateTeamSchema = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
     camelToSnake(),
   ]);
   try {
-    const response = await schemeService.updateTeamTrigger(parentId, id, item);
+    const response = await schemaService.updateTeamTrigger(parentId, id, item);
     return applyTransform(response.data, [
       snakeToCamel(),
     ]);
@@ -144,9 +144,9 @@ const updateTeamScheme = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-const deleteTeamScheme = async ({ parentId, id }) => {
+const deleteTeamSchema = async ({ parentId, id }) => {
   try {
-    const response = await schemeService.deleteTeamTrigger(parentId, id);
+    const response = await schemaService.deleteTeamTrigger(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [
@@ -156,12 +156,12 @@ const deleteTeamScheme = async ({ parentId, id }) => {
 };
 
 const TeamAgentsAPI = {
-  getList: getTeamSchemesList,
-  get: getTeamScheme,
-  add: addTeamScheme,
-  update: updateTeamScheme,
-  patch: patchTeamScheme,
-  delete: deleteTeamScheme,
+  getList: getTeamSchemasList,
+  get: getTeamSchema,
+  add: addTeamSchema,
+  update: updateTeamSchema,
+  patch: patchTeamSchema,
+  delete: deleteTeamSchema,
 };
 
 export default TeamAgentsAPI;
