@@ -18,6 +18,7 @@ import telegramBotChatGateway
   from './_internals/providers/telegramBotChatGateway';
 import viberChatGateway from './_internals/providers/viberChatGateway';
 import webChatGateway from './_internals/providers/webChatGateway';
+import customChatGateway from './_internals/providers/customChatGateway.js';
 
 const resettableState = {
   itemInstance: {
@@ -32,6 +33,7 @@ const chatGatewayStateMap = {
   [ChatGatewayProvider.INFOBIP]: infobipChatGateway,
   [ChatGatewayProvider.MESSENGER]: messengerChatGateway,
   [ChatGatewayProvider.VIBER]: viberChatGateway,
+  [ChatGatewayProvider.CUSTOM]: customChatGateway,
 };
 
 const actions = {

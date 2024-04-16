@@ -48,7 +48,7 @@ import UsersAPI from '../../users/api/users';
 
 export default {
   name: 'OpenedDeviceGeneral',
-  components: { PasswordInput },
+  components: {PasswordInput},
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

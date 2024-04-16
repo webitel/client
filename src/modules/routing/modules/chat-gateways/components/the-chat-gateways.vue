@@ -176,6 +176,7 @@ const iconType = {
   [ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',
   [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram-bot',
   [ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
+  [ChatGatewayProvider.CUSTOM]: 'custom-chat-gateway',
 };
 
 const namespace = 'routing/chatGateways';

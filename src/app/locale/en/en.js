@@ -178,7 +178,7 @@ export default {
     objectHeader: {},
     directory: {
       directory: 'Directory',
-      passwordInfo: 'Enter value only if you want to edit (or create new) password',
+      passwordInfo: 'Enter value only if you want to edit (or create new) App Secret',
       users: {
         users: 'User | Users',
         allUsers: 'All users',
@@ -621,6 +621,14 @@ export default {
           call: {
             title: 'Online call',
             url: 'WebSocket Endpoint',
+          },
+        },
+        customChat: {
+          customChat: 'Custom chat',
+          appSecretHint: 'Enter value only if you want to edit (or create new) password',
+          metadata: {
+            appSecret: 'App Secret',
+            callback: 'Callback',
           },
         },
         uri: 'URI',

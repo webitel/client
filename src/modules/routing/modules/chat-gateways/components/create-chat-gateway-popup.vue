@@ -76,7 +76,12 @@ export default {
         title: this.$t('objects.routing.chatGateways.webchat.webchat'),
         icon: 'messenger-web-chat',
       };
-      return [telegramBot, telegramApp, infobip, messenger, viber, webchat];
+      const custom = {
+        value: ChatGatewayProvider.CUSTOM,
+        title: this.$t('objects.routing.chatGateways.customChat.customChat'),
+        icon: 'custom-chat-gateway',
+      };
+      return [telegramBot, telegramApp, infobip, messenger, viber, webchat, custom];
     },
   },
 

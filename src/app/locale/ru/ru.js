@@ -623,6 +623,14 @@ export default {
             messenger: 'Messenger',
           },
         },
+        customChat: {
+          customChat: 'Custom chat',
+          appSecretHint: 'Введите значение, если хотите перезаписать (или создать новый) App Secret',
+          metadata: {
+            appSecret: 'App Secret',
+            callback: 'Callback',
+          },
+        },
         uri: 'URI',
         newChatGateway: 'Новый текстовый шлюз',
         metadata: {

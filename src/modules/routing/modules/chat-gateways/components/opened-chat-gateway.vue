@@ -79,6 +79,8 @@ import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-b
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import OpenedViberChatStyle from './viber/opened-chat-gateway-viber-style-tab.vue';
 
+import OpenedChatCustom from './custom/opened-chat-gateway-custom-general-tab.vue';
+
 export default {
   name: 'OpenedChatGateway',
   components: {
@@ -99,6 +101,7 @@ export default {
     OpenedWebchatChat,
     OpenedWebchatAppointment,
     OpenedChatGatewayWebchatRecaptchaTab,
+    OpenedChatCustom,
   },
   mixins: [openedObjectMixin],
   setup: () => ({
@@ -223,6 +226,16 @@ export default {
             },
           },
         };
+      case ChatGatewayProvider.CUSTOM:
+        return {
+          itemInstance: {
+            ...defaults,
+            metadata: {
+              webhook: { required },
+              secret: { required },
+            },
+          },
+        };
       default:
         return { itemInstance: { ...defaults } };
     }
@@ -278,6 +291,11 @@ export default {
         value: 'OpenedChatInfobip',
       };
 
+      const customChatPages = {
+        text: this.$t('objects.general'),
+        value: 'OpenedChatCustom',
+      };
+
       const viberChat = {
         text: this.$t('objects.routing.chatGateways.viber.viber'),
         value: 'OpenedViberChat',
@@ -323,6 +341,8 @@ export default {
           return [infobipChat, botTemplates];
         case ChatGatewayProvider.VIBER:
           return [viberChat, viberStyle, botTemplates];
+          case ChatGatewayProvider.CUSTOM:
+          return [customChatPages, botTemplates];
         case ChatGatewayProvider.WEBCHAT:
           return [
             webChat,
