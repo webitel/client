@@ -624,7 +624,7 @@ export default {
         },
         customChat: {
           customChat: 'Custom Chat',
-          appSecretHint: 'Enter value only if you want to edit (or create new) password',
+          appSecretHint: 'Altering this field will interrupt the integration',
           metadata: {
             appSecret: 'App Secret',
             callback: 'Callback',

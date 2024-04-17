@@ -544,7 +544,7 @@ export default {
         },
         customChat: {
           customChat: 'Custom Chat',
-          appSecretHint: 'Қайта жазу (немесе жаңасын жасау) қажет болса, мәнді енгізіңіз App Secret',
+          appSecretHint: 'Altering this field will interrupt the integration',
           metadata: {
             appSecret: 'App Secret',
             callback: 'Callback',
