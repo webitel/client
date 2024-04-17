@@ -543,7 +543,7 @@ export default {
           },
         },
         customChat: {
-          customChat: 'Custom chat',
+          customChat: 'Custom Chat',
           appSecretHint: 'Қайта жазу (немесе жаңасын жасау) қажет болса, мәнді енгізіңіз App Secret',
           metadata: {
             appSecret: 'App Secret',

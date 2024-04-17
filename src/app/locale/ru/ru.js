@@ -623,7 +623,7 @@ export default {
           },
         },
         customChat: {
-          customChat: 'Custom chat',
+          customChat: 'Custom Chat',
           appSecretHint: 'Введите значение, если хотите перезаписать (или создать новый) App Secret',
           metadata: {
             appSecret: 'App Secret',

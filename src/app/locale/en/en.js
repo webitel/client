@@ -623,7 +623,7 @@ export default {
           },
         },
         customChat: {
-          customChat: 'Custom chat',
+          customChat: 'Custom Chat',
           appSecretHint: 'Enter value only if you want to edit (or create new) password',
           metadata: {
             appSecret: 'App Secret',
