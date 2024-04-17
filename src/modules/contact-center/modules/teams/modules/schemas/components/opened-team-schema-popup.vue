@@ -5,9 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ itemInstance.id
-      ? $tc('objects.ccenter.teams.schemas.editSchema')
-      : $tc('objects.ccenter.teams.schemas.addSchema') }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -68,6 +66,13 @@ export default {
       name: { required },
       schema: { required },
     },
+  },
+  computed: {
+    popupTitle() {
+      return this.itemInstance.id
+        ? this.$tc('objects.ccenter.teams.schemas.editSchema')
+        : this.$tc('objects.ccenter.teams.schemas.addSchema')
+    }
   },
 
   methods: {

@@ -113,14 +113,13 @@ import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import SchemaPopup from './opened-team-schema-popup.vue';
-import WtItemLink from '@webitel/ui-sdk/src/components/wt-item-link/wt-item-link.vue'
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'schemas';
 
 export default {
   name: 'OpenedTeamHooks',
-  components: { SchemaPopup, DeleteConfirmationPopup, WtItemLink },
+  components: { SchemaPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
