@@ -718,10 +718,9 @@ export default {
             agentStatus: 'Agent status changed',
           }
         },
-        schemas: {
-          schemas: 'Schema | Schemas',
-          addSchema: 'Add schema',
-          editSchema: 'Edit schema',
+        flows: {
+          addFlowSchema: 'Add flow schema',
+          editFlowSchema: 'Edit flow schema',
         },
       },
 

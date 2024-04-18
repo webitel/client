@@ -718,10 +718,9 @@ export default {
             agentStatus: 'Зміна статуту оператора',
           }
         },
-        schemas: {
-          schemas: 'Схема | Схеми',
-          addSchema: 'Додати схему',
-          editSchema: 'Редагувати схему',
+        flows: {
+          addFlowSchema: 'Додати схему',
+          editFlowSchema: 'Редагувати схему',
         },
       },
 

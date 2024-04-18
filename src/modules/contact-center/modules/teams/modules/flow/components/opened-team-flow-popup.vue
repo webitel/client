@@ -52,14 +52,14 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: 'OpenedTeamSchemaPopup',
+  name: 'OpenedTeamFlowPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: 'ccenter/teams/schemas',
+    namespace: 'ccenter/teams/flowSchemas',
   }),
   validations: {
     itemInstance: {
@@ -70,8 +70,8 @@ export default {
   computed: {
     popupTitle() {
       return this.itemInstance.id
-        ? this.$tc('objects.ccenter.teams.schemas.editSchema')
-        : this.$tc('objects.ccenter.teams.schemas.addSchema')
+        ? this.$tc('objects.ccenter.teams.flows.editFlowSchema')
+        : this.$tc('objects.ccenter.teams.flows.addFlowSchema')
     }
   },
 

@@ -1,7 +1,7 @@
 <template>
   <section class="content-wrapper">
-    <schema-popup
-      v-if="isSchemaPopup"
+    <flow-popup
+      v-if="isFlowPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
@@ -13,7 +13,7 @@
 
     <header class="content-header">
         <h3 class="content-title">
-          {{ $tc('objects.ccenter.teams.schemas.schemas', 2) }}
+          {{ $tc('objects.routing.flow.flow', 2) }}
         </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
@@ -66,7 +66,10 @@
         @sort="sort"
       >
         <template #schema="{ item }">
-          <wt-item-link :link="`/routing/flow/${item.schema.id}`">
+          <wt-item-link
+            :id="item.schema.id"
+            :route-name="RouteNames.FLOW"
+          >
             {{ item.name }}
           </wt-item-link>
         </template>
@@ -112,14 +115,14 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import SchemaPopup from './opened-team-schema-popup.vue';
+import FlowPopup from './opened-team-flow-popup.vue';
 
 const namespace = 'ccenter/teams';
-const subNamespace = 'schemas';
+const subNamespace = 'flowSchemas';
 
 export default {
-  name: 'OpenedTeamHooks',
-  components: { SchemaPopup, DeleteConfirmationPopup },
+  name: 'OpenedTeamFlows',
+  components: { FlowPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
@@ -146,15 +149,15 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isSchemaPopup: false,
+    isFlowPopup: false,
   }),
 
   methods: {
     openPopup() {
-      this.isSchemaPopup = true;
+      this.isFlowPopup = true;
     },
     closePopup() {
-      this.isSchemaPopup = false;
+      this.isFlowPopup = false;
     },
   },
 };
