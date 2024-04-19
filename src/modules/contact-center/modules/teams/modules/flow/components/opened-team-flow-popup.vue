@@ -59,7 +59,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: 'ccenter/teams/flowSchemas',
+    namespace: 'ccenter/teams/flow',
   }),
   validations: {
     itemInstance: {

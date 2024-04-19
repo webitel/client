@@ -118,7 +118,7 @@ import openedObjectTableTabMixin
 import FlowPopup from './opened-team-flow-popup.vue';
 
 const namespace = 'ccenter/teams';
-const subNamespace = 'flowSchemas';
+const subNamespace = 'flow';
 
 export default {
   name: 'OpenedTeamFlows',

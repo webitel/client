@@ -22,8 +22,7 @@ const preRequestHandler = (parentId) => (item) => ({
   teamId: parentId,
 });
 
-const getTeamFlowsList = async (params) => {
-  console.log();
+const getTeamFlowSchemasList = async (params) => {
   const defaultObject = {
     enabled: false,
   };
@@ -70,7 +69,7 @@ const getTeamFlowsList = async (params) => {
   }
 };
 
-const getTeamFlow = async ({ parentId, itemId: id }) => {
+const getTeamFlowSchema = async ({ parentId, itemId: id }) => {
   const defaultObject = {
     name: '',
     description: '',
@@ -91,7 +90,7 @@ const getTeamFlow = async ({ parentId, itemId: id }) => {
   }
 };
 
-const addTeamFlow = async ({ parentId, itemInstance }) => {
+const addTeamFlowSchema = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
@@ -109,7 +108,7 @@ const addTeamFlow = async ({ parentId, itemInstance }) => {
   }
 };
 
-const patchTeamFlow = async ({ changes, id, parentId }) => {
+const patchTeamFlowSchema = async ({ changes, id, parentId }) => {
   const body = applyTransform(changes, [
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -127,7 +126,7 @@ const patchTeamFlow = async ({ changes, id, parentId }) => {
   }
 };
 
-const updateTeamFlow = async ({ itemInstance, itemId: id, parentId }) => {
+const updateTeamFlowSchema = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
@@ -145,7 +144,7 @@ const updateTeamFlow = async ({ itemInstance, itemId: id, parentId }) => {
   }
 };
 
-const deleteTeamFlow = async ({ parentId, id }) => {
+const deleteTeamFlowSchema = async ({ parentId, id }) => {
   try {
     const response = await flowSchemaService.deleteTeamTrigger(parentId, id);
     return applyTransform(response.data, []);
@@ -157,12 +156,12 @@ const deleteTeamFlow = async ({ parentId, id }) => {
 };
 
 const TeamFlowsAPI = {
-  getList: getTeamFlowsList,
-  get: getTeamFlow,
-  add: addTeamFlow,
-  update: updateTeamFlow,
-  patch: patchTeamFlow,
-  delete: deleteTeamFlow,
+  getList: getTeamFlowSchemasList,
+  get: getTeamFlowSchema,
+  add: addTeamFlowSchema,
+  update: updateTeamFlowSchema,
+  patch: patchTeamFlowSchema,
+  delete: deleteTeamFlowSchema,
 };
 
 export default TeamFlowsAPI;
