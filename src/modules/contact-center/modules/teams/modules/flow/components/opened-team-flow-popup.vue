@@ -10,7 +10,7 @@
     <template #main>
       <form>
         <wt-input
-          :label="$t('objects.name')"
+          :label="$t('objects.title')"
           :v="v$.itemInstance.name"
           :value="itemInstance.name"
           required
