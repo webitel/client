@@ -124,6 +124,7 @@ export default {
     back: 'Back',
     change: 'Change',
     name: 'Name',
+    title: 'Title',
     description: 'Description',
     user: 'User',
     users: 'Users',
@@ -716,6 +717,10 @@ export default {
           eventTypes: {
             agentStatus: 'Agent status changed',
           }
+        },
+        flows: {
+          addFlowSchema: 'Add flow schema',
+          editFlowSchema: 'Edit flow schema',
         },
       },
 
