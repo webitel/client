@@ -124,6 +124,7 @@ export default {
     back: 'Назад',
     change: 'Заменить',
     name: 'Имя',
+    title: 'Название',
     description: 'Описание',
     user: 'Пользователь',
     users: 'Пользователи',
@@ -714,6 +715,10 @@ export default {
           eventTypes: {
             agentStatus: 'Изменение статуса оператора',
           }
+        },
+        flows: {
+          addFlowSchema: 'Добавить схему',
+          editFlowSchema: 'Редактировать схему',
         },
       },
 

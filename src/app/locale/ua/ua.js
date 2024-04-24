@@ -124,6 +124,7 @@ export default {
     back: 'Назад',
     change: 'Замінити',
     name: 'Ім\'я',
+    title: 'Назва',
     description: 'Опис',
     user: 'Користувач',
     users: 'Користувачі',
@@ -692,7 +693,7 @@ export default {
       },
 
       teams: {
-        teams: 'Команда| Команди',
+        teams: 'Команда | Команди',
         allTeams: 'Всі команди',
         strategy: 'Стратегія',
         parameters: 'Параметри',
@@ -716,6 +717,10 @@ export default {
           eventTypes: {
             agentStatus: 'Зміна статуту оператора',
           }
+        },
+        flows: {
+          addFlowSchema: 'Додати схему',
+          editFlowSchema: 'Редагувати схему',
         },
       },
 
