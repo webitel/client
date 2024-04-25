@@ -86,7 +86,7 @@ export default {
 
   methods: {
     generateValue() {
-      const length = 12;
+      const length = 16;
       const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let value = '';
       for (let i = 0; i < length; i += 1) {
