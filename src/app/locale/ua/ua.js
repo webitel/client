@@ -625,8 +625,8 @@ export default {
           },
         },
         customChat: {
-          customChat: 'Custom chat',
-          appSecretHint: 'Введіть значення, якщо хочете перезаписати (або створити новий) App Secret',
+          customChat: 'Custom Chat',
+          appSecretHint: 'Зміна цього поля перерве інтеграцію',
           metadata: {
             appSecret: 'App Secret',
             callback: 'Callback',

@@ -78,7 +78,7 @@ export default {
       };
       const custom = {
         value: ChatGatewayProvider.CUSTOM,
-        title: this.$t('objects.routing.chatGateways.customChat.customChat'),
+        title: this.$t('objects.routing.chatGateways.customChat.customChat') + this.$tc('objects.routing.gateways.gateways', 1),
         icon: 'custom-chat-gateway',
       };
       return [telegramBot, telegramApp, infobip, messenger, viber, webchat, custom];

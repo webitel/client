@@ -542,14 +542,6 @@ export default {
             email: 'Электрондық пошта',
           },
         },
-        customChat: {
-          customChat: 'Custom chat',
-          appSecretHint: 'Қайта жазу (немесе жаңасын жасау) қажет болса, мәнді енгізіңіз App Secret',
-          metadata: {
-            appSecret: 'App Secret',
-            callback: 'Callback',
-          },
-        },
         newChatGateway: 'Жаңа мәтіндік шлюз',
         metadata: {},
       },
