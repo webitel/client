@@ -625,6 +625,7 @@ export default {
         },
         customChat: {
           customChat: 'Custom Chat',
+          customChatGateway: 'Custom Chat Gateway',
           appSecretHint: 'Altering this field will interrupt the integration',
           metadata: {
             appSecret: 'App Secret',

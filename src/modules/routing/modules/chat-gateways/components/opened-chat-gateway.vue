@@ -368,7 +368,7 @@ export default {
           chatTypeLocale = 'telegramBot.telegramBot';
           break;
         case ChatGatewayProvider.CUSTOM:
-          chatTypeLocale = 'customChat.customChat';
+          chatTypeLocale = 'customChat.customChatGateway';
           break;
         case ChatGatewayProvider.MESSENGER:
           chatTypeLocale = `${this.chatType}.meta`;

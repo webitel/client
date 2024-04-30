@@ -626,6 +626,7 @@ export default {
         },
         customChat: {
           customChat: 'Custom Chat',
+          customChatGateway: 'Custom Chat Gateway',
           appSecretHint: 'Зміна цього поля перерве інтеграцію',
           metadata: {
             appSecret: 'App Secret',
