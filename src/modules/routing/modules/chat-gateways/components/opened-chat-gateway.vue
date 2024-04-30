@@ -368,7 +368,7 @@ export default {
           chatTypeLocale = 'telegramBot.telegramBot';
           break;
         case ChatGatewayProvider.CUSTOM:
-          chatTypeLocale = 'customChat.customChatGateway';
+          chatTypeLocale = 'customChat.customChat';
           break;
         case ChatGatewayProvider.MESSENGER:
           chatTypeLocale = `${this.chatType}.meta`;
@@ -380,8 +380,7 @@ export default {
         default:
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
-      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
-      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`);
     },
 
     path() {
