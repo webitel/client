@@ -66,7 +66,7 @@ export default {
       return {
         itemInstance: {
           account: { sipAccountValidator, required },
-          proxy: { gatewayHostValidator },
+          proxy: { gatewayHostValidator, required },
           password: { required },
           expires: {
             numeric,
