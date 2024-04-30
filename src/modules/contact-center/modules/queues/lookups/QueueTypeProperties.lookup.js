@@ -15,6 +15,8 @@ const QueueTypeProperties = Object.freeze({
       'grantee',
       // params specific
       'originateTimeout',
+      'waitBetweenRetries',
+      'maxAttempts',
       'recordings',
       'perNumbers',
       'minOnlineAgents',
