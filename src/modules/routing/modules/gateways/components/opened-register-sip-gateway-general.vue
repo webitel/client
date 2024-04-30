@@ -45,6 +45,7 @@
         :label="$t('objects.routing.gateways.outboundProxy')"
         :v="v.itemInstance.proxy"
         :value="itemInstance.proxy"
+        required
         @input="setItemProp({ prop: 'proxy', value: $event })"
       />
       <wt-textarea
