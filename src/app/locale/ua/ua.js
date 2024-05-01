@@ -996,6 +996,7 @@ export default {
         listen: 'Прослуховувати',
         authType: 'Тип аутентифікації',
         authenticatedAs: 'Аутентифіковано як',
+        passwordInfo: 'Порожнє значення залишить пароль незмінним',
       },
       singleSignOn: {
         allTypes: 'Всі типи',

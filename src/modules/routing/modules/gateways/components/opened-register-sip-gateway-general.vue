@@ -36,6 +36,7 @@
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.schema')"
+        :hint="$t('objects.integrations.emailProfiles.passwordInfo')"
         :search-method="loadDropdownOptionsList"
         :value="itemInstance.schema"
         @input="setItemProp({ prop: 'schema', value: $event })"

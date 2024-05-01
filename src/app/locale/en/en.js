@@ -997,6 +997,7 @@ export default {
         listen: 'Listen',
         authType: 'Auth type',
         authenticatedAs: 'Authenticated as',
+        passwordInfo: 'The empty value will leave the password unchanged',
       },
       singleSignOn: {
         allTypes: 'All types',

@@ -3,7 +3,7 @@
     <wt-input
       :disabled="disabled"
       :label="$t('objects.password')"
-      :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+      :label-props="{ hint: (hint || $t('objects.directory.passwordInfo')), hintPosition: 'right' }"
       :placeholder="$t('objects.password')"
       :required="required"
       :v="v"
@@ -54,6 +54,9 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    hint: {
+      type: String,
     },
   },
   data() {

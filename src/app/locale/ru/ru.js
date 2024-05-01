@@ -995,6 +995,7 @@ export default {
         listen: 'Прослушивать ',
         authType: 'Тип аутентификации',
         authenticatedAs: 'Аутентифицировано как',
+        passwordInfo: 'Пустое значение оставит пароль тем же',
       },
 
       singleSignOn: {

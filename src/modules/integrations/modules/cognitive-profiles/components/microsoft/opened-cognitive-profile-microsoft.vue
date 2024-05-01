@@ -37,6 +37,7 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.key')"
+        :label-props="{ hint: $t('objects.integrations.emailProfiles.passwordInfo'), hintPosition: 'right' }"
         :v="v.itemInstance.properties.key"
         :value="itemInstance.properties.key"
         required

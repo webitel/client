@@ -17,6 +17,7 @@
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.s3Access')"
+        :label-props="{ hint: $t('objects.integrations.emailProfiles.passwordInfo'), hintPosition: 'right' }"
         :v="v.itemInstance.properties.accessKey"
         :value="itemInstance.properties.accessKey"
         required
