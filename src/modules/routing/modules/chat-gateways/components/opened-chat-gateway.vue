@@ -380,8 +380,7 @@ export default {
         default:
           return this.$tc('objects.routing.gateways.gateways', 1);
       }
-      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`)
-      .concat(' ', this.$tc('objects.routing.gateways.gateways', 1));
+      return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`);
     },
 
     path() {
