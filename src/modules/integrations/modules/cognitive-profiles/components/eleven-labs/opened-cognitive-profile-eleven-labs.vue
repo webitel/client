@@ -40,6 +40,7 @@
         :label="$t('objects.key')"
         :v="v.itemInstance.properties.key"
         :value="itemInstance.properties.key"
+        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
         required
         @input="setItemProp({ path: 'properties.key', value: $event })"
       />

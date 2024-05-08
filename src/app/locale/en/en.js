@@ -178,7 +178,7 @@ export default {
     objectHeader: {},
     directory: {
       directory: 'Directory',
-      passwordInfo: 'Enter value only if you want to edit (or create new) App Secret',
+      passwordInfo: 'Enter value only if you want to edit it (or create a new one). The empty field will leave the value unchanged',
       users: {
         users: 'User | Users',
         allUsers: 'All users',
