@@ -152,7 +152,6 @@
           v-if="isPlainAuthType"
           :value="itemInstance.password"
           :disabled="disableUserInput"
-          :hint="$t('objects.integrations.emailProfiles.passwordInfo')"
           @input="setItemProp({ prop: 'password', value: $event })"
         />
       </div>
