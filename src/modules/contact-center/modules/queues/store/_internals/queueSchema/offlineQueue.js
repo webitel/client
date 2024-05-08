@@ -13,6 +13,8 @@ const offlineQueue = () => ({
   grantee: {},
   taskProcessing: processing(),
   payload: {
+    maxAttempts: 3, // required
+    waitBetweenRetries: 30 * 60, // required
     originateTimeout: 60, // required
     recordings: false,
     recordAll: false,
