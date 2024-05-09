@@ -1,6 +1,6 @@
 {
   "name": "web-client",
-  "version": "24.02.2",
+  "version": "24.02.3",
   "private": true,
   "scripts": {
     "dev": "vite",
