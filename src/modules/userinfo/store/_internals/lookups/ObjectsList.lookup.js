@@ -22,10 +22,10 @@ export default Object.freeze([
     route: RouteNames.GATEWAYS,
   },                  // scope: gateways
   {
-    field: 'acr_routing',
+    field: 'acr_chat_plan',
     name: AdminSections.CHATPLAN,
     route: RouteNames.CHATPLAN,
-  },      // scope: acr_routing
+  },      // scope: acr_chat_plan
   {
     field: 'chats',
     name: AdminSections.CHAT_GATEWAYS,
@@ -33,6 +33,11 @@ export default Object.freeze([
   },     // scope: chats
 
   // LOOKUPS
+  {
+    field: 'dictionaries',
+    name: AdminSections.SKILLS,
+    route: RouteNames.SKILLS,
+  },                     // scope: dictionaries
   {
     field: 'cc_list',
     name: AdminSections.BLACKLIST,
@@ -43,27 +48,30 @@ export default Object.freeze([
     name: AdminSections.CALENDARS,
     route: RouteNames.CALENDARS,
   },                // scope: calendars
-  { field: 'lookups', name: AdminSections.REGIONS, route: RouteNames.REGIONS },      // scope: lookups
   {
-    field: 'lookups',
+    field: 'dictionaries',
+    name: AdminSections.REGIONS,
+    route: RouteNames.REGIONS,
+  },      // scope: dictionaries
+  {
+    field: 'dictionaries',
+    name: AdminSections.BUCKETS,
+    route: RouteNames.BUCKETS,
+  },
+  {
+    field: 'dictionaries',
     name: AdminSections.COMMUNICATIONS,
     route: RouteNames.COMMUNICATIONS,
-  },      // scope: lookups
+  },      // scope: dictionaries
   {
-    field: 'lookups',
+    field: 'dictionaries',
     name: AdminSections.PAUSE_CAUSE,
     route: RouteNames.PAUSE_CAUSE,
-  },      // scope: lookups
+  },      // scope: dictionaries
   { field: 'media_file', name: AdminSections.MEDIA, route: RouteNames.MEDIA },                        // scope: media_file
 
   // CONTACT CENTER
-  { field: 'lookups', name: AdminSections.SKILLS, route: RouteNames.SKILLS },                     // scope: lookups
   { field: 'cc_agent', name: AdminSections.AGENTS, route: RouteNames.AGENTS },                      // scope: cc_agent
-  {
-    field: 'cc_bucket',
-    name: AdminSections.BUCKETS,
-    route: RouteNames.BUCKETS,
-  },                    // scope: cc_bucket
   { field: 'cc_queue', name: AdminSections.QUEUES, route: RouteNames.QUEUES },                      // scope: cc_queue
   { field: 'cc_queue', name: AdminSections.MEMBERS, route: RouteNames.MEMBERS },                      // scope: cc_queue
   {
@@ -108,6 +116,11 @@ export default Object.freeze([
     field: 'trigger',
     name: AdminSections.TRIGGERS,
     route: RouteNames.TRIGGERS,
+  },
+  {
+    field: 'schema',
+    name: AdminSections.FLOW,
+    route: RouteNames.FLOW,
   },
 
   // PERMISSIONS
