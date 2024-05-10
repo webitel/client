@@ -123,7 +123,13 @@ export default {
         case EngineSystemSettingName.AmdCancelNotHuman: {
           return defaultBooleanConfig;
         }
+        case EngineSystemSettingName.Enable2fa: {
+          return defaultBooleanConfig;
+        }
         case EngineSystemSettingName.MemberChunkSize: {
+          return defaultNumberConfig;
+        }
+        case EngineSystemSettingName.SchemeVersionLimit: {
           return defaultNumberConfig;
         }
         default: {
