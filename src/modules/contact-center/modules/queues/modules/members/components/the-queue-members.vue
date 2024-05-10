@@ -203,6 +203,7 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import tableComponentMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -269,8 +270,11 @@ export default {
     isNotInboundMember() {
       return !(this.parentQueue.type === 1);
     },
+    queueType() {
+      return QueueTypeProperties[this.parentQueue.type].subpath;
+    },
     path() {
-      const queueUrl = `/contact-center/queues/${this.parentQueue.id}`;
+      const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
         { name: this.$t('objects.ccenter.ccenter') },
