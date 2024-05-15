@@ -3,6 +3,7 @@ import ObjectStoreModule
 import PermissionsStoreModule
   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import UsersAPI from '../api/users';
+import Users2faAPI from '../api/users-2fa.js';
 import logs from '../modules/logs/store/logs';
 import tokens from '../modules/tokens/store/usersTokens';
 import headers from './_internals/headers';
@@ -23,6 +24,7 @@ const resettableState = {
       note: '',
     },
     variables: [],
+    totpUrl: '',
   },
 };
 
@@ -55,6 +57,14 @@ const actions = {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('directory/users/tokens/RESET_STATE', {}, { root: true });
   },
+  REGENERATE_2FA_URL: async (context) => {
+    try {
+      await Users2faAPI.generate({id: context.state.itemId});
+      await context.dispatch('LOAD_ITEM');
+    } catch (err) {
+      throw err;
+    }
+  }
 };
 
 const mutations = {

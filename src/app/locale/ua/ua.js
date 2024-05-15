@@ -207,6 +207,9 @@ export default {
         tokenPopupSave: 'Зберегти у форматі TXT',
         userIp: 'IP користувача',
         userId: 'ID користувача',
+        download: 'Завантажити',
+        regenerate: 'Перегенерувати',
+        askingAlert: 'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
       },
       license: {
         customers: 'Користувачі',
