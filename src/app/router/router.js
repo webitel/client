@@ -573,13 +573,13 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/integrations/cognitive-profile/new',
+          path: '/integrations/cognitive-profiles/new',
           name: `${RouteNames.COGNITIVE_PROFILES}-new`,
           component: OpenedCognitiveProfile,
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/integrations/cognitive-profile/:id',
+          path: '/integrations/cognitive-profiles/:id',
           name: `${RouteNames.COGNITIVE_PROFILES}-edit`,
           component: OpenedCognitiveProfile,
           beforeEnter: checkRouteAccess,
@@ -591,13 +591,13 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/integrations/email-profile/new',
+          path: '/integrations/email-profiles/new',
           name: `${RouteNames.EMAIL_PROFILES}-new`,
           component: OpenedEmailProfile,
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/integrations/email-profile/:id',
+          path: '/integrations/email-profiles/:id',
           name: `${RouteNames.EMAIL_PROFILES}-edit`,
           component: OpenedEmailProfile,
           beforeEnter: checkRouteAccess,
