@@ -79,53 +79,53 @@
       />
       <div>
         <wt-textarea
-          :value="itemInstance.description"
           :disabled="disableUserInput"
           :label="$t('objects.description')"
+          :value="itemInstance.description"
           class="opened-email-profile-general__description"
           @input="setItemProp({ prop: 'description', value: $event })"
         />
         <wt-switcher
-          :value="itemInstance.listen"
           :label="$t('objects.integrations.emailProfiles.listen')"
+          :value="itemInstance.listen"
           @change="setItemProp({ prop: 'listen', value: $event })"
         />
       </div>
       <div>
         <wt-select
-          :value="itemInstance.authType"
-          :options="authTypesList"
-          :v="v.itemInstance.authType"
-          :track-by="null"
           :disabled="disableUserInput || isDisabledAuthParams"
           :label="$t('objects.integrations.emailProfiles.authType')"
+          :options="authTypesList"
+          :track-by="null"
+          :v="v.itemInstance.authType"
+          :value="itemInstance.authType"
           required
           @input="changeAuthType"
         />
         <div v-if="!isPlainAuthType">
           <wt-input
-            :value="itemInstance.params?.oauth2?.clientId"
-            :v="v.itemInstance.params?.oauth2?.clientId"
             :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientId')"
+            :v="v.itemInstance.params?.oauth2?.clientId"
+            :value="itemInstance.params?.oauth2?.clientId"
             required
             @input="setItemProp({ path: 'params.oauth2.clientId', value: $event })"
           >
           </wt-input>
           <wt-input
-            :value="itemInstance.params?.oauth2?.clientSecret"
-            :v="v.itemInstance.params?.oauth2?.clientSecret"
             :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientSecret')"
+            :v="v.itemInstance.params?.oauth2?.clientSecret"
+            :value="itemInstance.params?.oauth2?.clientSecret"
             required
             @input="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })"
           >
           </wt-input>
           <wt-input
-            :value="itemInstance.params?.oauth2?.redirectUrl"
-            :v="v.itemInstance.params?.oauth2?.redirectUrl"
             :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
+            :v="v.itemInstance.params?.oauth2?.redirectUrl"
+            :value="itemInstance.params?.oauth2?.redirectUrl"
             required
             @input="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })"
           >
@@ -133,25 +133,26 @@
         </div>
         <div class="opened-email-profile-general__login-wrapper">
           <wt-input
-            :value="itemInstance.login"
-            :v="v.itemInstance.login"
             :disabled="disableUserInput || itemInstance.logged"
             :label="authLabelText"
+            :v="v.itemInstance.login"
+            :value="itemInstance.login"
             required
             @input="setItemProp({ prop: 'login', value: $event })"
           />
           <wt-button
             v-if="isDisplayAuthBtn"
-            color="secondary"
             :disabled="isUnavailableAuth"
+            color="secondary"
             @click="auth"
           >{{ authBtnText }}
           </wt-button>
         </div>
         <password-input
           v-if="isPlainAuthType"
-          :value="itemInstance.password"
           :disabled="disableUserInput"
+          :v="v.itemInstance.password"
+          :value="itemInstance.password"
           @input="setItemProp({ prop: 'password', value: $event })"
         />
       </div>
@@ -161,13 +162,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import { mapActions } from 'vuex';
 import { EngineEmailAuthType } from 'webitel-sdk';
+import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 
 export default {
   name: 'OpenedEmailProfileGeneral',
@@ -237,13 +238,13 @@ export default {
     },
     updateIsChangeOauth2Params() {
       if (this.itemInstance._dirty) this.isChangeOauth2Params = true;
-    }
+    },
   },
   watch: {
     'itemInstance.login': {
       handler() {
         this.updateIsChangeOauth2Params();
-      }
+      },
     },
     'itemInstance.params.oauth2': {
       handler() {
@@ -268,8 +269,8 @@ export default {
 
   &__login-wrapper {
     display: flex;
-    gap: var(--spacing-xs);
     align-items: center;
+    gap: var(--spacing-xs);
 
     .wt-input {
       width: 100%;
