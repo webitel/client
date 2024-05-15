@@ -12,6 +12,7 @@ I think, this issue should go on migration to Vue 3, so I left it "as is".
 import './app/css/do-not-delete-me.scss';
 import ActionComponents from './app/components/actions';
 import App from './app/components/app.vue';
+import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import i18n from './app/locale/i18n';
 import BreakpointPlugin from './app/plugins/breakpoint';
 import './app/plugins/webitel-flow-ui';
@@ -55,6 +56,8 @@ const createVueInstance = () => {
   ActionComponents.forEach((component) => {
     app.component(component.name, component);
   });
+
+  app.component('adm-item-link', AdmItemLink);
 
   return app;
 };

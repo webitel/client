@@ -11,16 +11,16 @@
     <template #main>
 
       <delete-confirmation-popup
-        v-if="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
       <global-variables-popup
-        v-if="isGlobalVariablesPopup"
         :id="id"
         :namespace="namespace"
+        :shown="isGlobalVariablesPopup"
         @close="isGlobalVariablesPopup = false"
       />
 
@@ -61,9 +61,9 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
-          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="isGlobalVariablesPopup = true"
@@ -88,8 +88,8 @@
             </template>
             <template #encrypt="{ item, index }">
               <wt-switcher
-                :value="item.encrypt"
                 :disabled="item.encrypt"
+                :value="item.encrypt"
                 @change="patchItem({ item, index, prop: 'encrypt', value: $event })"
               />
             </template>
@@ -128,16 +128,18 @@
 
 <script>
 
+import { useDummy } from '/src/app/composables/useDummy';
 import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import GlobalVariablesPopup from './global-variables-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { useDummy } from '/src/app/composables/useDummy';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
 import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import GlobalVariablesPopup from './global-variables-popup.vue';
 
 const namespace = 'system/globalVariables';
 
@@ -183,7 +185,7 @@ export default {
         { name: this.$t('objects.system.system') },
         { name: this.$tc('objects.system.globalVariables.globalVariables', 1), route: '/system/global-variables' },
       ];
-    }
+    },
   },
   methods: {
     ...mapActions({
@@ -196,5 +198,5 @@ export default {
       this.isGlobalVariablesPopup = true;
     },
   },
-}
+};
 </script>

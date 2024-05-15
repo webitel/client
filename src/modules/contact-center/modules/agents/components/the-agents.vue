@@ -11,9 +11,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -55,10 +55,10 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          :dark-mode="darkMode"
           class="dummy-wrapper"
           @create="create"
         />
@@ -144,8 +144,9 @@ import agentStatusMixin from '../../../mixins/agentStatusMixin';
 import HistoryPopup from './agent-history-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/agents';
 

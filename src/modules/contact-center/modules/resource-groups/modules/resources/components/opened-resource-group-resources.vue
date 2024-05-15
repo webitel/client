@@ -1,13 +1,13 @@
 <template>
   <section>
     <res-popup
-      v-if="isResPopup"
+      :shown="isResPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
@@ -49,8 +49,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -113,13 +113,15 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ResPopup from './opened-resource-group-resource-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/resGroups';
 const subNamespace = 'res';

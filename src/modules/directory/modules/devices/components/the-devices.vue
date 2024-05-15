@@ -19,20 +19,20 @@
       />
 
       <upload-popup
-        v-if="isUploadPopup"
         :file="csvFile"
+        :shown="isUploadPopup"
         @close="closeCSVPopup"
       />
 
       <device-popup
-        v-if="isDeviceSelectPopup"
+        :shown="isDeviceSelectPopup"
         @close="isDeviceSelectPopup = false"
       />
 
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -75,9 +75,9 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
-          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
@@ -160,6 +160,11 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
@@ -169,9 +174,6 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import DevicePopup from './create-device-popup.vue';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'directory/devices';
 

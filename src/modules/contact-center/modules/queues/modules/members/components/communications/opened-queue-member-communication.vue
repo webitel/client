@@ -1,15 +1,15 @@
 <template>
   <section>
     <communication-popup
-      v-if="isCommPopup"
       :edited-index="editedIndex"
+      :shown="isCommPopup"
       @close="closePopup"
     />
 
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
@@ -80,15 +80,16 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import openedObjectTableTabMixin
   from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
 
 export default {
   name: 'OpenedQueueMemberCommunication',

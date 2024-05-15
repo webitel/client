@@ -11,14 +11,14 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
       <storage-popup
-        v-if="isStorageSelectPopup"
+        :shown="isStorageSelectPopup"
         @close="closeStorageSelectPopup"
       />
       <section class="main-section__wrapper">

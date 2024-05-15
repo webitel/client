@@ -1,7 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
     overflow
+    size="sm"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>
@@ -10,11 +11,11 @@
     <template #main>
       <form>
         <wt-select
-          :value="event"
           :clearable="false"
           :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
           :v="v$.itemInstance.event"
+          :value="event"
           required
           track-by="value"
           @input="setItemProp({ prop: 'event', value: $event.value })"
@@ -86,7 +87,7 @@ export default {
         name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
         value: event,
       } : {};
-    }
+    },
   },
 
   methods: {

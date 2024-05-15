@@ -1,9 +1,9 @@
 <template>
   <section>
     <application-access-popup
-      v-if="isApplicationAccessPopup"
       :edited-app="editedApp"
       :namespace="namespace"
+      :shown="isApplicationAccessPopup"
       @close="closePopup"
     />
 

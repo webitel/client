@@ -18,13 +18,13 @@
 
     <template #main>
       <queue-popup
-        v-if="isQueueSelectPopup"
+        :shown="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 

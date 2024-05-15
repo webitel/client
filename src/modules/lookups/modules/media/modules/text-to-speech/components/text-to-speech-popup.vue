@@ -12,8 +12,9 @@
     </wt-tooltip>
 
     <wt-popup
-      v-show="isOpened"
-      :min-width="480"
+      :shown="isOpened"
+      size="sm"
+      v-bind="$attrs"
       @close="closePopup"
     >
       <template #title>

@@ -16,9 +16,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -93,8 +93,8 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
-          :src="dummy.src"
           :dark-mode="darkMode"
+          :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
         />
@@ -180,7 +180,9 @@ import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-spee
 import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;

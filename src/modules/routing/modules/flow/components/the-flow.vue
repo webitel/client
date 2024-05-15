@@ -17,18 +17,18 @@
 
     <template #main>
       <create-flow-popup
-        v-if="isCreateFlowPopup"
+        :shown="isCreateFlowPopup"
         @close="isCreateFlowPopup = false"
       />
       <upload-popup
-        v-if="isUploadPopup"
         :file="jsonFile"
+        :shown="isUploadPopup"
         @close="closeUploadPopup"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -162,6 +162,11 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -172,9 +177,6 @@ import FlowEditor from '../enums/FlowEditor.enum';
 import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'routing/flow';
 

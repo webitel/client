@@ -1,8 +1,8 @@
 <template>
   <section>
     <role-popup
-      v-if="isRoleSelectPopup"
       :namespace="namespace"
+      :shown="isRoleSelectPopup"
       :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
     />
@@ -39,8 +39,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />

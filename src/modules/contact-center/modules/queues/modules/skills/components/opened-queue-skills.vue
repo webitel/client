@@ -1,13 +1,13 @@
 <template>
   <section class="content-wrapper">
     <skill-buckets-popup
-      v-if="isSkillBucketsPopup"
       :item-id="agentId"
+      :shown="isSkillBucketsPopup"
       @close="closeBucketsPopup"
     />
 
     <skill-popup
-      v-if="isSkillPopup"
+      :shown="isSkillPopup"
       @close="closePopup"
     />
 
@@ -46,8 +46,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />

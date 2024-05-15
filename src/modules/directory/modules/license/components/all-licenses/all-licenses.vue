@@ -1,12 +1,12 @@
 <template>
   <div class="all-licenses content-wrapper">
     <license-popup
-      v-if="isLicensePopup"
+      :shown="isLicensePopup"
       @close="isLicensePopup = false"
     />
     <license-users-popup
-      v-if="isLicenseUsersPopup"
       :namespace="namespace"
+      :shown="isLicenseUsersPopup"
       @close="closeLicenseUsersPopup"
     />
     <header class="content-header">
@@ -37,8 +37,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -78,16 +78,16 @@
         </template>
 
         <template #used="{ item }">
-          <wt-item-link
-            :link="editLink(item)"
-            class="name-link"
+          <adm-item-link
+            :id="item.id"
+            :route-name="RouteNames.LICENSE"
           >
             <wt-icon
               icon="license-users"
               icon-prefix="adm"
             />
             {{ item.limit - item.remain }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
 
         <template #competitive="{ item }">
@@ -120,7 +120,6 @@
 <script>
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
 
@@ -137,7 +136,6 @@ export default {
   data: () => ({
     namespace,
     isLicensePopup: false,
-    routeName: RouteNames.LICENSE,
   }),
   computed: {
     isLicenseUsersPopup() {
@@ -146,7 +144,7 @@ export default {
   },
   methods: {
     closeLicenseUsersPopup() {
-      this.$router.push({ name: this.routeName }); // remove license id
+      this.$router.go(-1); // remove license id
     },
 
     prettifyDate(date) {
@@ -182,7 +180,7 @@ export default {
   }
 }
 
-.name-link .wt-icon {
+.wt-item-link .wt-icon {
   margin-right: var(--spacing-2xs);
 }
 

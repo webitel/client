@@ -99,8 +99,8 @@ export default {
         { name: this.$t('objects.directory.directory') },
         { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
         {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+          name: this.new ? this.$t('objects.new') : this.pathName,
+          route: this.new ? `${baseUrl}/new` : `${baseUrl}/${this.id}`,
         },
       ];
     },

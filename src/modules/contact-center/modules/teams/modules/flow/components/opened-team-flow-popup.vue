@@ -1,7 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
     overflow
+    size="sm"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>
@@ -71,8 +72,8 @@ export default {
     popupTitle() {
       return this.itemInstance.id
         ? this.$tc('objects.ccenter.teams.flows.editFlowSchema')
-        : this.$tc('objects.ccenter.teams.flows.addFlowSchema')
-    }
+        : this.$tc('objects.ccenter.teams.flows.addFlowSchema');
+    },
   },
 
   methods: {

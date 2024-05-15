@@ -1,5 +1,8 @@
 <template>
-  <wt-popup @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    @close="close"
+  >
     <template #title>
       {{ $tc('objects.ccenter.queues.destination', 2) }}
     </template>

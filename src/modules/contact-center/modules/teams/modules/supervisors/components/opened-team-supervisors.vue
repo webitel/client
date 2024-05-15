@@ -1,18 +1,18 @@
 <template>
   <section>
     <supervisor-popup
-      v-if="isSupervisorPopup"
+      :shown="isSupervisorPopup"
       @close="closePopup"
     />
     <supervisor-subordinates-popup
-      v-if="isSupervisorSubordinatesPopup"
       :item-id="supervisorId"
+      :shown="isSupervisorSubordinatesPopup"
       @close="closeSubordinates"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
@@ -54,8 +54,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -118,15 +118,17 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'supervisors';

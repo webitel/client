@@ -1,21 +1,21 @@
 <template>
   <section>
     <add-skill-to-agent-popup
-      v-if="isAddSkillToAgentPopup"
+      :shown="isAddSkillToAgentPopup"
       :skill-id="parentId"
       @close="isAddSkillToAgentPopup = false"
       @saved="loadDataList"
     />
     <change-skill-popup
-      v-if="agentSkillPopup"
       :selected-agents="selectedRows"
+      :shown="agentSkillPopup"
       @change="change"
       @close="closeAgentSkillPopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
     <header class="content-header">
@@ -125,6 +125,11 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
@@ -134,9 +139,6 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'OpenedSkillAgents',

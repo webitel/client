@@ -1,7 +1,8 @@
 <template>
   <wt-popup
     overflow
-    width="480"
+    size="sm"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>
@@ -11,28 +12,28 @@
     </template>
     <template #main>
       <wt-input
-        :value="itemInstance.name"
-        :v="v$.itemInstance.name"
-        :disabled="disableUserInput"
         :clearable="false"
+        :disabled="disableUserInput"
         :label="$t('objects.key')"
+        :v="v$.itemInstance.name"
+        :value="itemInstance.name"
         required
         @input="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-input
-        :value="itemInstance.value"
-        :v="v$.itemInstance.value"
-        :disabled="disableUserInput"
         :clearable="false"
+        :disabled="disableUserInput"
         :label="$t('vocabulary.values', 1)"
         :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
         :required="!itemInstance.id || !startEncryptValue"
+        :v="v$.itemInstance.value"
+        :value="itemInstance.value"
         @input="setItemProp({ prop: 'value', value: $event })"
       />
       <wt-switcher
-        :value="itemInstance.encrypt"
         :disabled="startEncryptValue"
         :label="$t('objects.system.globalVariables.encrypted')"
+        :value="itemInstance.encrypt"
         @change="setItemProp({ prop: 'encrypt', value: $event })"
       />
     </template>
@@ -84,7 +85,7 @@ export default {
       name: { required },
       value: {
         required: requiredIf(function() {
-          return !this.itemInstance.id || !this.startEncryptValue
+          return !this.itemInstance.id || !this.startEncryptValue;
         }),
       },
     },

@@ -1,8 +1,8 @@
 <template>
   <section>
     <role-popup
-      v-if="isRoleSelectPopup"
       :namespace="namespace"
+      :shown="isRoleSelectPopup"
       :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
     />

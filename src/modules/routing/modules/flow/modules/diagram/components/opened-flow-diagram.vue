@@ -8,7 +8,7 @@
 export default {
   name: 'OpenedFlowDiagram',
   created() {
-    const flowId = this.$route.params.id || 'new';
+    const flowId = this.$route.params.id;
     const flowType = this.$route.query.type || '';
     const redirectUrl = `${import.meta.env.VITE_FLOW_DIAGRAM_URL}/${flowId}/${flowType}`;
 

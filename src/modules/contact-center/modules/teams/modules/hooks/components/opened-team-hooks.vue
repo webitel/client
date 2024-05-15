@@ -1,13 +1,13 @@
 <template>
   <section class="content-wrapper">
     <hook-popup
-      v-if="isHookPopup"
+      :shown="isHookPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
@@ -42,8 +42,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -103,11 +103,13 @@
 <script>
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import HookPopup from './opened-team-hooks-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'hooks';
@@ -136,7 +138,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-    }
+    };
   },
   data: () => ({
     namespace,

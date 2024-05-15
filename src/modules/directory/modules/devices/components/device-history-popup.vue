@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     overflow
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>

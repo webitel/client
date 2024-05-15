@@ -11,9 +11,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -21,10 +21,10 @@
         <header class="content-header">
           <h3 class="content-title">
             {{
-              $t(
-                'objects.all',
-                { entity: $tc('objects.integrations.emailProfiles.emailProfiles', 2) },
-              )
+            $t(
+            'objects.all',
+            { entity: $tc('objects.integrations.emailProfiles.emailProfiles', 2) },
+            )
             }}
           </h3>
           <div class="content-header__actions-wrap">

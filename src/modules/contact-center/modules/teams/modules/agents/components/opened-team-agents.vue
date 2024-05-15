@@ -1,26 +1,26 @@
 <template>
   <section>
     <agent-popup
-      v-if="isAgentPopup"
+      :shown="isAgentPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
     <object-list-popup
-      v-if="isSupervisorPopup"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
+      :shown="isSupervisorPopup"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorPopup"
     />
     <object-list-popup
-      v-if="isSkillsPopup"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
+      :shown="isSkillsPopup"
       :title="$tc('objects.lookups.skills.skills', 2)"
       @close="closeSkillsPopup"
     />
@@ -63,8 +63,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -135,6 +135,11 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
@@ -144,9 +149,6 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 import AgentPopup from './opened-team-agent-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'agents';

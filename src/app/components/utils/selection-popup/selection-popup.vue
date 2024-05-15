@@ -1,8 +1,8 @@
 <template>
   <wt-popup
-    :min-width="minWidth"
     class="selection-popup"
     overflow
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>
@@ -18,8 +18,8 @@
           @click="selectOption(option)"
         >
           <slot
-            name="option"
             :option="option"
+            name="option"
           >
             <wt-icon
               v-if="option.icon"
@@ -83,10 +83,6 @@ export default {
     options: {
       type: Array,
       default: () => [],
-    },
-    minWidth: {
-      type: [String, Number],
-      default: 480,
     },
   },
   methods: {

@@ -1,20 +1,20 @@
 <template>
   <section>
     <subordinate-popup
-      v-if="isSubordinatePopup"
+      :shown="isSubordinatePopup"
       @close="closeSubordinatePopup"
     />
     <object-list-popup
-      v-if="isSupervisorPopup"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
+      :shown="isSupervisorPopup"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorPopup"
     />
     <object-list-popup
-      v-if="isSkillsPopup"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
+      :shown="isSkillsPopup"
       :title="$tc('objects.lookups.skills.skills', 2)"
       @close="closeSkillsPopup"
     />
@@ -54,8 +54,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />

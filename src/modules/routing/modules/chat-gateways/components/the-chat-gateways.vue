@@ -14,13 +14,13 @@
 
     <template #main>
       <create-chat-gateway-popup
-        v-if="isChatGatewayPopup"
+        :shown="isChatGatewayPopup"
         @close="isChatGatewayPopup = false"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -57,9 +57,9 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
-          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
@@ -159,15 +159,16 @@
 </template>
 
 <script>
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const iconType = {
   [ChatGatewayProvider.MESSENGER]: 'meta',

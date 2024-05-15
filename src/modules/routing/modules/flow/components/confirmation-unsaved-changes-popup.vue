@@ -1,7 +1,8 @@
 <template>
   <wt-popup
     class="confirmation-unsaved-changes-popup"
-    :width="500"
+    size="sm"
+    v-bind="$attrs"
     @close="closePopup"
   >
     <template v-slot:title>
@@ -10,8 +11,8 @@
     <template v-slot:main>
       <div class="confirmation-unsaved-changes-popup__wrapper">
         <wt-icon
-          icon="attention"
           color="error"
+          icon="attention"
         ></wt-icon>
         <p>{{ $t('objects.routing.flow.askingAlert', {name}) }}</p>
       </div>
@@ -63,8 +64,8 @@ export default {
 <style lang="scss" scoped>
 .confirmation-unsaved-changes-popup__wrapper {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   text-align: center;
 
   .wt-icon {

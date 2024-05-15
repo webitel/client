@@ -1,14 +1,14 @@
 <template>
   <section>
     <holiday-popup
-      v-if="isHolidayPopup"
       :edited-index="editedIndex"
+      :shown="isHolidayPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
@@ -43,8 +43,8 @@
 
     <wt-dummy
       v-if="dummy"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -97,18 +97,18 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
-import dummyPicLight
-  from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
-import dummyPicDark
-  from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
-import openedObjectTableTabMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import holidayPopup from './opened-calendar-holiday-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
+import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
+import openedObjectTableTabMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ConverDurationWithMinutes from '../scripts/converDurationWithMinutes';
+import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {
   name: 'OpenedCalendarHolidays',
@@ -169,7 +169,7 @@ export default {
       ];
     },
     dummyPic() {
-      return this.darkMode ? dummyPicDark : dummyPicLight
+      return this.darkMode ? dummyPicDark : dummyPicLight;
     },
     dummy() {
       if (!this.dataListValue.length) {

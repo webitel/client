@@ -1,8 +1,8 @@
 <template>
   <wt-popup
     class="opened-skill-agent-popup"
-    min-width="768"
-    width="1440"
+    size="lg"
+    v-bind="$attrs"
     @close="cancel"
   >
     <template #title>

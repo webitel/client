@@ -1,7 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
     overflow
+    size="sm"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>
@@ -20,25 +21,26 @@
           :label="$t('objects.lookups.calendars.date')"
         />
         <wt-switcher
-          :value="itemInstance.working"
           :label="$t('objects.lookups.calendars.workingTime')"
+          :value="itemInstance.working"
           @change="changeWorkingSwitcher"
         />
         <div
           v-if="itemInstance.working"
-          class="opened-calendar-holiday-popup__wrapper">
+          class="opened-calendar-holiday-popup__wrapper"
+        >
           <wt-timepicker
-            format="hh:mm"
             :label="$t('objects.lookups.calendars.start')"
             :v="v$.itemInstance.workStart"
             :value="itemInstance.workStart * 60"
+            format="hh:mm"
             @input="updateWorkingTime($event, 'workStart')"
           ></wt-timepicker>
           <wt-timepicker
-            format="hh:mm"
             :label="$t('objects.lookups.calendars.end')"
             :v="v$.itemInstance.workStop"
             :value="itemInstance.workStop * 60"
+            format="hh:mm"
             @input="updateWorkingTime($event, 'workStop')"
           ></wt-timepicker>
         </div>
@@ -98,13 +100,13 @@ export default {
       workStart: {
         numeric,
         minValue: minValue(0),
-        maxValue: maxValue(1440)
+        maxValue: maxValue(1440),
       },
       workStop: {
         numeric,
         required: requiredIf((value, item) => item.workStart),
         minValue: minValue(0),
-        maxValue: maxValue(1440)
+        maxValue: maxValue(1440),
       },
     },
   },
@@ -168,8 +170,8 @@ export default {
 <style lang="scss" scoped>
 .opened-calendar-holiday-popup__wrapper {
   display: flex;
-  gap: var(--spacing-sm);
   justify-content: space-between;
+  gap: var(--spacing-sm);
 }
 
 .popup-input-form {

@@ -8,19 +8,25 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
+        <adm-item-link
+          id="new"
+          :route-name="RouteNames.USERS"
+        >
+          <wt-button>neww</wt-button>
+        </adm-item-link>
         <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
     <template #main>
       <upload-popup
-        v-if="isUploadPopup"
         :file="csvFile"
+        :shown="isUploadPopup"
         @close="closeCSVPopup"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -63,8 +69,8 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
-          :src="dummy.src"
           :dark-mode="darkMode"
+          :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
         />
@@ -80,9 +86,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="RouteNames.USERS"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #status="{ item }">
               <user-status :presence="item.presence" />
@@ -134,26 +143,30 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
-import DeleteConfirmationPopup
-from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'directory/users';
 
 export default {
   name: 'TheUsers',
   components: {
+    AdmItemLink,
     UploadPopup,
     UserStatus,
     UploadFileIconBtn,
-    DeleteConfirmationPopup
+    DeleteConfirmationPopup,
   },
   mixins: [tableComponentMixin],
 

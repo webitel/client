@@ -1,7 +1,8 @@
 <template>
   <wt-popup
     class="reset-members-popup"
-    min-width="480"
+    size="sm"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>

@@ -1,8 +1,8 @@
 <template>
   <section>
     <object-list-popup
-      v-show="accountsOnPopup"
       :data-list="accountsOnPopup"
+      :shown="accountsOnPopup"
       :title="$t('objects.routing.chatGateways.messenger.accounts')"
       @close="closeAccountsPopup"
     />

@@ -4,7 +4,7 @@
     class="license"
   >
     <template #header>
-      <wt-page-header :hide-primary="true">
+      <wt-page-header hide-primary>
         <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>

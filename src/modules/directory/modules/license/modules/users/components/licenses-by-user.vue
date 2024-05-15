@@ -28,8 +28,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -46,12 +46,12 @@
         @sort="sort"
       >
         <template #name="{ item }">
-          <wt-item-link
+          <adm-item-link
             :id="item.id"
             :route-name="RouteNames.USERS"
           >
             {{ item.name }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
 
         <template

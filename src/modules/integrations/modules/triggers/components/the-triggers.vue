@@ -11,9 +11,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -21,10 +21,10 @@
         <header class="content-header">
           <h3 class="content-title">
             {{
-              $t(
-                'objects.all',
-                { entity: $tc('objects.integrations.triggers.triggers', 2) },
-              )
+            $t(
+            'objects.all',
+            { entity: $tc('objects.integrations.triggers.triggers', 2) },
+            )
             }}
           </h3>
           <div class="content-header__actions-wrap">
@@ -55,9 +55,9 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
+          :dark-mode="darkMode"
           :show-action="dummy.showAction"
           :src="dummy.src"
-          :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
           @create="create"
@@ -143,7 +143,9 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'integrations/triggers';
 

@@ -1,7 +1,7 @@
 <template>
   <section>
     <skill-popup
-      v-if="isSkillPopup"
+      :shown="isSkillPopup"
       @close="closePopup"
     />
 
@@ -40,8 +40,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />

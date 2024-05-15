@@ -11,9 +11,9 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
@@ -50,8 +50,8 @@
         <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
-          :src="dummy.src"
           :dark-mode="darkMode"
+          :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
         />
@@ -113,7 +113,9 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'permissions/roles';
 

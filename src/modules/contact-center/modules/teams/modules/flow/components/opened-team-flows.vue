@@ -1,20 +1,20 @@
 <template>
   <section class="content-wrapper">
     <flow-popup
-      v-if="isFlowPopup"
+      :shown="isFlowPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
     <header class="content-header">
-        <h3 class="content-title">
-          {{ $tc('objects.routing.flow.flow', 2) }}
-        </h3>
+      <h3 class="content-title">
+        {{ $tc('objects.routing.flow.flow', 2) }}
+      </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
           :value="search"
@@ -49,8 +49,8 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
       v-if="dummy && isLoaded"
-      :src="dummy.src"
       :dark-mode="darkMode"
+      :src="dummy.src"
       :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper"
     />
@@ -111,7 +111,9 @@
 <script>
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -144,7 +146,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-    }
+    };
   },
   data: () => ({
     namespace,

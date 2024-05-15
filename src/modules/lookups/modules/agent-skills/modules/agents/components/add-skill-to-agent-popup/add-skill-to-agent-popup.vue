@@ -1,13 +1,13 @@
 <template>
   <div>
     <select-agents-popup
-      v-if="isSelectAgentsPopup"
+      :shown="isSelectAgentsPopup"
       :skill-id="skillId"
       @cancel="cancel"
       @select="handleSelectAgents"
     />
     <config-agent-skill-popup
-      v-if="isAgentConfigSkillPopup"
+      :shown="isAgentConfigSkillPopup"
       @back="handleSkillConfigBack"
       @close="cancel"
       @select="handleSkillConfigSelect"
