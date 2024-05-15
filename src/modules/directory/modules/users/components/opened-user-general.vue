@@ -37,8 +37,8 @@
         @input="setItemProp({ prop: 'username', value: $event })"
       />
 
-      <user-qrcode
-        v-if="itemInstance.totpUrl"
+      <qrcode
+        v-if="displayQRCode"
         :namespace="namespace"
         :url="itemInstance.totpUrl"
       />
@@ -55,15 +55,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import UserQrcode from './_internals/user-qrcode.vue';
+import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {
   name: 'OpenedUserGeneral',
-  components: { PasswordInput, UserQrcode },
+  components: { PasswordInput, Qrcode },
   mixins: [openedTabComponentMixin],
+  computed: {
+    ...mapState('userinfo', {
+      permissions: (state) => state.permissions,
+    }),
+
+    displayQRCode() {
+      return this.itemInstance.totpUrl && this.permissions['change_user_password'];
+    },
+  },
 };
 </script>
 

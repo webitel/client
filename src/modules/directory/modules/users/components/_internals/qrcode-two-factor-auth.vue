@@ -1,9 +1,8 @@
 <template>
-  <div class="user-qrcode">
+  <div class="qrcode-two-factor-auth">
 
     <wt-popup
       v-if="isConfirmationPopup"
-      overflow
       @close="closeConfirmationPopup"
     >
 
@@ -34,7 +33,7 @@
 
     <div
       ref="qrcodeContainer"
-      class="user-qrcode__canvas"
+      class="qrcode-two-factor-auth__canvas"
     >
       <qrcode-vue
         ref="qrcode"
@@ -43,7 +42,7 @@
       />
     </div>
 
-    <div class="user-qrcode__wrapper">
+    <div class="qrcode-two-factor-auth__wrapper">
       <wt-button
         color="secondary"
         @click="download"
@@ -105,7 +104,7 @@ function closeConfirmationPopup() {
 </script>
 
 <style lang="scss" scoped>
-.user-qrcode {
+.qrcode-two-factor-auth {
   display: flex;
   flex-direction: column;
   align-items: center;
