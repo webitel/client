@@ -24,6 +24,8 @@ const getters = {
     }
     return accumulator;
   }, []),
+
+  IS_CHANGE_USER_PASSWORD_ALLOW: (state) => !!state.permissions['change_user_password'],
 };
 
 const actions = {
