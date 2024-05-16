@@ -38,7 +38,7 @@
       />
 
       <qrcode
-        v-if="displayQRCode"
+        v-if="isDisplayQRCode"
         :namespace="namespace"
         :url="itemInstance.totpUrl"
       />
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -66,13 +66,9 @@ export default {
   components: { PasswordInput, Qrcode },
   mixins: [openedTabComponentMixin],
   computed: {
-    ...mapState('userinfo', {
-      permissions: (state) => state.permissions,
+    ...mapGetters('directory/users', {
+      isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
     }),
-
-    displayQRCode() {
-      return this.itemInstance.totpUrl && this.permissions['change_user_password'];
-    },
   },
 };
 </script>

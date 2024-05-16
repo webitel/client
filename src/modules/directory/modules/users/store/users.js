@@ -28,6 +28,16 @@ const resettableState = {
   },
 };
 
+const getters = {
+  IS_DISPLAY_QR_CODE: (
+    state,
+    getters,
+    rootState,
+    rootGetters,
+  ) => rootGetters['userinfo/IS_CHANGE_USER_PASSWORD_ALLOW'] &&
+    !!state.itemInstance.totpUrl,
+};
+
 const actions = {
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
@@ -59,12 +69,12 @@ const actions = {
   },
   REGENERATE_2FA_URL: async (context) => {
     try {
-      await Users2faAPI.generate({id: context.state.itemId});
+      await Users2faAPI.generate({ id: context.state.itemId });
       await context.dispatch('LOAD_ITEM');
     } catch (err) {
       throw err;
     }
-  }
+  },
 };
 
 const mutations = {
@@ -88,6 +98,6 @@ const users = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(UsersAPI)
 .generateAPIActions()
 .setChildModules({ tokens, logs, permissions })
-.getModule({ actions, mutations });
+.getModule({ getters, actions, mutations });
 
 export default users;
