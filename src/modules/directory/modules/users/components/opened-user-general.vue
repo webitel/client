@@ -15,6 +15,22 @@
 
       <wt-input
         :disabled="disableUserInput"
+        :label="$t('objects.directory.users.extensions')"
+        :value="itemInstance.extension"
+        @input="setItemProp({ prop: 'extension', value: $event })"
+      />
+
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.directory.users.login')"
+        :v="v.itemInstance.username"
+        :value="itemInstance.username"
+        required
+        @input="setItemProp({ prop: 'username', value: $event })"
+      />
+
+      <wt-input
+        :disabled="disableUserInput"
         :label="$t('objects.email')"
         :value="itemInstance.email"
         @input="setItemProp({ prop: 'email', value: $event })"
@@ -28,28 +44,11 @@
         @input="setItemProp({ prop: 'password', value: $event })"
       />
 
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.directory.users.login')"
-        :v="v.itemInstance.username"
-        :value="itemInstance.username"
-        required
-        @input="setItemProp({ prop: 'username', value: $event })"
-      />
-
       <qrcode
         v-if="isDisplayQRCode"
         :namespace="namespace"
         :url="itemInstance.totpUrl"
       />
-
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.directory.users.extensions')"
-        :value="itemInstance.extension"
-        @input="setItemProp({ prop: 'extension', value: $event })"
-      />
-
     </div>
   </section>
 </template>
