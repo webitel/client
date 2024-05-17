@@ -116,6 +116,7 @@ function closeConfirmationPopup() {
   }
 
   &__canvas {
+    display: flex;
     box-shadow: var(--elevation-5);
   }
 }
