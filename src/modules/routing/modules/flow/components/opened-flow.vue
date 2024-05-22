@@ -22,9 +22,9 @@
       <confirmation-unsaved-changes-popup
         v-if="isConfirmationUnsavedChangesPopup"
         :name="itemInstance.name"
-        @save="saveCode"
         @closePage="closePage"
         @closePopup="toggleIsConfirmationUnsavedChangesPopup"
+        @save="saveCode"
       ></confirmation-unsaved-changes-popup>
     </template>
 
@@ -58,18 +58,18 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import { mapActions, useStore } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
 import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed } from 'vue';
+import { mapActions, useStore } from 'vuex';
+import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
-import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
 
 const namespace = 'routing/flow';
 export default {
@@ -82,7 +82,7 @@ export default {
   },
   mixins: [openedObjectMixin],
 
-  setup () {
+  setup() {
     const v$ = useVuelidate();
     const store = useStore();
     const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
@@ -102,7 +102,7 @@ export default {
       addCheckingUnsavedChanges,
       removeCheckingUnsavedChanges,
       toggleIsConfirmationUnsavedChangesPopup,
-    }
+    };
   },
   data: () => ({
     namespace,
@@ -191,11 +191,11 @@ export default {
       this.itemInstance._dirty
         ? this.toggleIsConfirmationUnsavedChangesPopup()
         : this.closePage();
-    }
+    },
   },
   mounted() {
     this.initType();
-    if(!this.isDiagram) {
+    if (!this.isDiagram) {
       this.addCheckingUnsavedChanges();
     } else {
 
@@ -203,7 +203,6 @@ export default {
       // Temporary solution - open in a new browser tab Flow diagram and clear itemInstance
 
       this.resetState();
-      this.closePage();
     }
   },
 };

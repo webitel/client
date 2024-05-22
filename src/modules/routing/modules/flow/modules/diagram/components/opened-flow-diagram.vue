@@ -17,6 +17,7 @@ export default {
 
     // window.location.replace(redirectUrl);
     window.open(redirectUrl, '_blank');
+    this.$router.go(-1);
   },
 };
 </script>
