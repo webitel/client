@@ -49,7 +49,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minLength, minValue, numeric, required, url } from '@vuelidate/validators';
+import { maxValue, minLength, minValue, requiredIf, numeric, required, url } from '@vuelidate/validators';
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -163,6 +163,10 @@ export default {
         return {
           itemInstance: {
             ...defaults,
+            flow: { required: requiredIf(function() {
+                return !this.itemInstance.metadata.chat.enabled
+              })
+            },
             metadata: {
               readTimeout: {
                 numeric,
