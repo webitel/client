@@ -163,7 +163,8 @@ export default {
         return {
           itemInstance: {
             ...defaults,
-            flow: { required: requiredIf(function() {
+            flow: {
+              required: requiredIf(() => {
                 return !this.itemInstance.metadata.chat.enabled
               })
             },
