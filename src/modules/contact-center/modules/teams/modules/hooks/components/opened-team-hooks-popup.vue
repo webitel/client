@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -86,6 +86,10 @@ export default {
         name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
         value: event,
       } : {};
+    },
+    popupTitle() {
+      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
+      return action + ' ' + this.$tc('objects.ccenter.queues.hooks.hooks', 1).toLowerCase();
     }
   },
 
