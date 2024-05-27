@@ -726,6 +726,14 @@ export default {
           addFlowSchema: 'Додати схему',
           editFlowSchema: 'Редагувати схему',
         },
+        supervisors: {
+          addSupervisor: 'Додати супервізора',
+          editSupervisor: 'Редагувати супервізора',
+        },
+        agents: {
+          addAgent: 'Додати оператора',
+          editAgent: 'Редагувати оператора',
+        },
       },
 
       members: {
@@ -909,6 +917,14 @@ export default {
             processing: 'Постобробка',
             active: 'Активна дія',
           },
+        },
+        skills: {
+          editSkill: 'Редагувати навичку',
+          addSkill: 'Додати навичку',
+        },
+        buckets: {
+          addBucket: 'Додати кошик',
+          editBucket: 'Редагувати кошик',
         },
       },
 

@@ -726,6 +726,14 @@ export default {
           addFlowSchema: 'Add flow schema',
           editFlowSchema: 'Edit flow schema',
         },
+        supervisors: {
+          addSupervisor: 'Add supervisor',
+          editSupervisor: 'Edit supervisor',
+        },
+        agents: {
+          addAgent: 'Add agent',
+          editAgent: 'Edit agent',
+        },
       },
 
       members: {
@@ -909,6 +917,14 @@ export default {
             processing: 'Processing',
             active: 'Active',
           },
+        },
+        skills: {
+          editSkill: 'Edit skill',
+          addSkill: 'Add skill',
+        },
+        buckets: {
+          addBucket: 'Add bucket',
+          editBucket: 'Edit bucket',
         },
       },
 

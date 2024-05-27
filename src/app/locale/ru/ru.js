@@ -724,6 +724,14 @@ export default {
           addFlowSchema: 'Добавить схему',
           editFlowSchema: 'Редактировать схему',
         },
+        supervisors: {
+          addSupervisor: 'Добавить супервизора',
+          editSupervisor: 'Редактировать супервизора',
+        },
+        agents: {
+          addAgent: 'Добавить оператора',
+          editAgent: 'Редактировать оператора',
+        },
       },
 
       members: {
@@ -908,6 +916,14 @@ export default {
             processing: 'Постобработка',
             active: 'Активное действие',
           },
+        },
+        skills: {
+          editSkill: 'Редактировать навык',
+          addSkill: 'Добавить навык',
+        },
+        buckets: {
+          addBucket: 'Добавить корзину',
+          editBucket: 'Редактировать корзину',
         },
       },
 
