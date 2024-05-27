@@ -165,7 +165,7 @@ export default {
             ...defaults,
             flow: {
               required: requiredIf(() => {
-                return !this.itemInstance.metadata.chat.enabled
+                return this.itemInstance.metadata.chat.enabled
               })
             },
             metadata: {
