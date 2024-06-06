@@ -70,6 +70,11 @@ export default {
     },
 
     close() {
+
+      // Need to close the tab if it was open in a new tab
+      // https://webitel.atlassian.net/browse/WTEL-4575
+
+      if(window.history.length === 1) window.close();
       this.$router.go(-1);
     },
   },
