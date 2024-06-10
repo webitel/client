@@ -32,6 +32,7 @@ export default {
     },
 
     readSkills(item) {
+      console.log();
       this.openedItemId = item.id;
       this.openSkillsPopup();
     },
