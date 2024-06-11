@@ -61,6 +61,7 @@
         :data="dataList"
         :grid-actions="!disableUserInput"
         :headers="headers"
+        :selectable="false"
         sortable
         @sort="sort"
       >
