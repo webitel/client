@@ -4,12 +4,6 @@
       v-if="isAgentPopup"
       @close="closePopup"
     />
-    <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
-      @close="closeDelete"
-    />
     <object-list-popup
       v-if="isSupervisorPopup"
       :data-list="openedItemSupervisors"
@@ -41,15 +35,6 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <delete-all-action
-            v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
-          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
@@ -76,6 +61,7 @@
         :data="dataList"
         :grid-actions="!disableUserInput"
         :headers="headers"
+        :selectable="false"
         sortable
         @sort="sort"
       >
@@ -105,20 +91,6 @@
             @input="readSkills(item)"
           />
         </template>
-        <template #actions="{ item }">
-          <wt-icon-action
-            action="edit"
-            @click="edit(item)"
-          />
-          <wt-icon-action
-            action="delete"
-            class="table-action"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
-        </template>
       </wt-table>
       <wt-pagination
         :next="isNext"
@@ -143,39 +115,19 @@ import openedObjectTableTabMixin
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import AgentPopup from './opened-team-agent-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import AgentPopup from './create-team-agent-popup.vue';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'agents';
 
 export default {
   name: 'OpenedTeamAgents',
-  components: { AgentPopup, ObjectListPopup, DeleteConfirmationPopup },
+  components: { AgentPopup, ObjectListPopup },
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    };
+    return { dummy };
   },
   data: () => ({
     namespace,

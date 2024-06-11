@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ popupTitle }}
+      {{ $t('objects.ccenter.teams.agents.addAgent') }}
     </template>
     <template #main>
       <form>
@@ -57,13 +57,6 @@ export default {
   validations: {
     itemInstance: {
       agent: { required },
-    },
-  },
-  computed: {
-    popupTitle() {
-      return this.id
-        ? this.$t('objects.ccenter.teams.agents.editAgent')
-        : this.$t('objects.ccenter.teams.agents.addAgent');
     },
   },
 
