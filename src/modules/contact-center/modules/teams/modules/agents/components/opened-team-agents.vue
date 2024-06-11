@@ -1,5 +1,9 @@
 <template>
   <section>
+    <agent-popup
+      v-if="isAgentPopup"
+      @close="closePopup"
+    />
     <object-list-popup
       v-if="isSupervisorPopup"
       :data-list="openedItemSupervisors"
@@ -110,13 +114,17 @@ import openedObjectTableTabMixin
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
+import AgentPopup from './create-team-agent-popup.vue';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'agents';
 
 export default {
   name: 'OpenedTeamAgents',
-  components: { ObjectListPopup },
+  components: { AgentPopup, ObjectListPopup },
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
 
   setup() {
@@ -127,9 +135,16 @@ export default {
     namespace,
     subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+    isAgentPopup: false,
   }),
 
   methods: {
+    openPopup() {
+      this.isAgentPopup = true;
+    },
+    closePopup() {
+      this.isAgentPopup = false;
+    },
     openSkillsPopup() {
       this.isSkillsPopup = true;
     },
