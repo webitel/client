@@ -7,10 +7,10 @@ import PermissionsStoreModule
 import QueuesAPI from '../api/queues';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
+import filters from '../modules/filters/store/filters';
 import hooks from '../modules/hooks/store/queue-hooks';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
-import filters from '../modules/filters/store/filters';
 import resGroups from '../modules/res-groups/store/queue-res-groups';
 import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
@@ -88,6 +88,8 @@ const actions = {
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/queues/skills/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/queues/agents/RESET_STATE', {}, { root: true });
+    context.dispatch('ccenter/queues/hooks/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/queues/buckets/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/queues/resGroups/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/queues/members/RESET_STATE', {}, { root: true });
@@ -124,7 +126,7 @@ const queues = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(QueuesAPI)
 .generateAPIActions()
 .setChildModules({
-  agents, skills, buckets, resGroups, hooks, log, members, permissions, filters
+  agents, skills, buckets, resGroups, hooks, log, members, permissions, filters,
 })
 .getModule({ actions, mutations });
 
