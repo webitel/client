@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.ccenter.agents.agents', 1) }}
+      {{ $t('objects.ccenter.teams.agents.addAgent') }}
     </template>
     <template #main>
       <form>
@@ -59,7 +59,6 @@ export default {
       agent: { required },
     },
   },
-
   methods: {
     loadAgentsOptions(params) {
       return AgentsAPI.getLookup(params);
