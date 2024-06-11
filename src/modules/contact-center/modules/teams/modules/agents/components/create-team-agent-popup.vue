@@ -59,7 +59,6 @@ export default {
       agent: { required },
     },
   },
-
   methods: {
     loadAgentsOptions(params) {
       return AgentsAPI.getLookup(params);
