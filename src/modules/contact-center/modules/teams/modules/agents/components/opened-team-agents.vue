@@ -114,7 +114,7 @@ import openedObjectTableTabMixin
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import AgentPopup from './opened-team-agent-popup.vue';
+import AgentPopup from './create-team-agent-popup.vue';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'agents';
