@@ -77,7 +77,6 @@ const getFlowList = async (params) => {
       undefined,
       tags,
     );
-    console.log('tags', tags);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
