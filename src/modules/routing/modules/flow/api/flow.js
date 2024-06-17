@@ -24,7 +24,7 @@ const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instan
 CONVERT "SCHEMA" FIELD TO JSON TO PREVENT ITS CHANGE
 BY CAMEL-SNAKE TRANSFORMERS
  */
-const doNotConvertKeys = ['schema'];
+const doNotConvertKeys = ['schema', 'tags'];
 
 const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor', 'tags'];
 
@@ -77,6 +77,7 @@ const getFlowList = async (params) => {
       undefined,
       tags,
     );
+    console.log('tags', tags);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(doNotConvertKeys),
       merge(getDefaultGetListResponse()),
