@@ -16,6 +16,7 @@ const inboundQueue = () => ({
     timeBaseScore: TimeBaseScore.QUEUE, // required
     maxWaitTime: 60 * 60, // required
     allowGreetingAgent: false,
+    stickyIgnoreStatus: false,
     stickyAgentSec: 5,
     maxWaitingSize: 0,
     autoAnswerTone: null,
