@@ -1,6 +1,7 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    size="sm"
     @close="close"
   >
     <template #title>
@@ -54,12 +55,12 @@ export default {
           value: 'default',
           title: this.$tc('objects.directory.devices.devices', 1),
           description: this.$tc('objects.directory.devices.deviceSettings', 1),
-          routeName: `${RouteNames.DEVICES}-new`,
+          routeName: `${RouteNames.DEVICES}-card`,
         }, {
           value: 'hotdesk',
           title: this.$t('objects.directory.devices.hotdeskDevice'),
           description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
-          routeName: `${RouteNames.DEVICES}-hotdesk-new`,
+          routeName: `${RouteNames.DEVICES}-hotdesk-card`,
         },
       ],
     };
@@ -82,7 +83,7 @@ export default {
     },
 
     createItemInstance() {
-      this.$router.push({ name: this.selectedOption.routeName });
+      this.$router.push({ name: this.selectedOption.routeName, params: { id: 'new' }});
     },
 
     close() {

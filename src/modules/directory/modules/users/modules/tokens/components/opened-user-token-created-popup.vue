@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="token-created-popup"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>

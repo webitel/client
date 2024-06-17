@@ -19,18 +19,18 @@
       />
 
       <upload-popup
-        v-if="isUploadPopup"
+        :shown="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       />
 
       <device-popup
-        v-if="isDeviceSelectPopup"
+        :shown="isDeviceSelectPopup"
         @close="isDeviceSelectPopup = false"
       />
 
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -94,9 +94,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="getRouteName(item)"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <template #account="{ item }">
@@ -104,13 +107,13 @@
             </template>
 
             <template #user="{ item }">
-              <wt-item-link
+              <adm-item-link
                 v-if="item.user"
                 :id="item.user.id"
                 :route-name="RouteNames.USERS"
               >
                 {{ item.user.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <!--state classes are specified in table-status component-->
@@ -162,6 +165,7 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -178,6 +182,7 @@ const namespace = 'directory/devices';
 export default {
   name: 'TheDevices',
   components: {
+    AdmItemLink,
     HistoryPopup,
     UploadPopup,
     DevicePopup,
@@ -212,6 +217,7 @@ export default {
     isUploadPopup: false,
     isDeviceSelectPopup: false,
     csvFile: null,
+    routeName: RouteNames.DEVICES,
   }),
 
   computed: {
@@ -239,15 +245,10 @@ export default {
       this.isDeviceSelectPopup = true;
     },
 
-    editLink(item) {
-      const name = item.hotdesk
-        ? `${RouteNames.DEVICES}-hotdesk-edit`
-        : `${RouteNames.DEVICES}-edit`;
-
-      return {
-        name,
-        params: { id: item.id },
-      };
+    getRouteName(item) {
+      return  item.hotdesk
+        ? `${RouteNames.DEVICES}-hotdesk`
+        : `${RouteNames.DEVICES}`;
     },
 
     processCSV(files) {

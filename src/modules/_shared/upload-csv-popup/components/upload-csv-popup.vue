@@ -1,11 +1,12 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     class="upload-popup"
-    min-width="680"
     @close="close"
   >
     <template #title>
       {{ $t('objects.importCSV') }}
+<!--      <div @click="() => console.log({shown})">test</div>-->
     </template>
     <template #main>
       <wt-loader

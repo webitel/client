@@ -25,13 +25,13 @@ export default {
     Permissions,
   },
   data: () => ({
-    currentTab: {
-      value: 'general',
-    },
+    // currentTab: {
+    //   value: 'general',
+    // },
   }),
 
   created() {
-    this.setInitialTab();
+    // this.setInitialTab();
     this.loadPageData();
   },
 
@@ -48,7 +48,11 @@ export default {
       return {
         text: this.$tc('objects.permissions.permissions', 2),
         value: 'permissions',
+        pathName: this.permissionsTabPathName,
       };
+    },
+    currentTab() {
+      return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
     },
   },
 
@@ -60,6 +64,7 @@ export default {
     }),
 
     async loadPageData() {
+      if (this.new) return;
       await this.setId(this.$route.params.id);
       return this.loadItem();
     },
@@ -77,5 +82,8 @@ export default {
       if(window.history.length === 1) window.close();
       this.$router.go(-1);
     },
+    changeTab(tab) {
+      this.$router.push({name: tab.pathName});
+    }
   },
 };

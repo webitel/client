@@ -1,7 +1,7 @@
 <template>
   <section>
     <token-popup
-      v-if="isPopup"
+      :shown="isPopup"
       @close="closePopup"
       @token-created="openTokenCreatedPopup"
     />
@@ -10,7 +10,7 @@
       @close="closeTokenCreatedPopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -133,11 +133,24 @@ export default {
     isTokenGenerated: false,
   }),
 
+  computed: {
+    tokenId() {
+      return this.$route.params.tokenId;
+    },
+  },
+
   methods: {
+    addItem() {
+      return this.$router.push({
+        ...this.$route,
+        params: { tokenId: 'new' },
+      });
+    },
     openPopup() {
       this.isPopup = true;
     },
     closePopup() {
+      this.$router.go(-1);
       this.isPopup = false;
       this.resetItemState();
     },
@@ -155,6 +168,16 @@ export default {
     prettifyDate(value) {
       return new Date(+value).toLocaleString();
     },
+  },
+  watch: {
+    tokenId: {
+      async handler(value) {
+        if (value === 'new') {
+          this.openPopup();
+        }
+      },
+      immediate: true,
+    }
   },
 };
 </script>

@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store/store';
 import RouteNames from './_internals/RouteNames.enum';
-
+import DevicesRouteNames from './_internals/tabs/DevicesRouteNames.enum.js';
+import LicencesRouteNames from './_internals/tabs/LicencesRouteNames.enum.js';
+import UsersRouteNames from './_internals/tabs/UsersRouteNames.enum.js';
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
 const StartPage = () => import('../../modules/start-page/components/the-start-page.vue');
@@ -70,7 +72,20 @@ const Changelogs = () => import('../../modules/system/modules/changelogs/compone
 const OpenedChangelog = () => import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
 const Configuration = () => import('../../modules/system/modules/configuration/components/the-configuration.vue');
 const GlobalVariables = () => import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
-
+const AllLicenses = () => import('../../modules/directory/modules/license/components/all-licenses/all-licenses.vue');
+const LicensesByUser = () => import('../../modules/directory/modules/license/modules/users/components/licenses-by-user.vue');
+const OpenedUserGeneral = () => import('../../modules/directory/modules/users/components/opened-user-general.vue');
+const OpenedUserRoles = () => import('../../modules/directory/modules/users/components/opened-user-roles.vue');
+const OpenedUserLicense = () => import('../../modules/directory/modules/users/components/opened-user-license.vue');
+const OpenedUserDevices = () => import('../../modules/directory/modules/users/components/opened-user-devices.vue');
+const OpenedUserVariables = () => import('../../modules/directory/modules/users/components/opened-user-variables.vue');
+const OpenedUserLogs = () => import('../../modules/directory/modules/users/modules/logs/components/opened-user-logs.vue');
+const OpenedUserToken = () => import('../../modules/directory/modules/users/modules/tokens/components/opened-user-token.vue');
+const PermissionsTab = () => import('../../modules/_shared/permissions-tab/components/permissions-tab.vue');
+const OpenedDeviceGeneral = () => import('../../modules/directory/modules/devices/components/opened-device-general.vue');
+const OpenedDevicePhoneInfo = () => import('../../modules/directory/modules/devices/components/opened-device-phone-info.vue');
+const OpenedHotdeskDeviceGeneral = () => import('../../modules/directory/modules/devices/components/opened-hotdesk-device-general.vue');
+const OpenedHotdeskDeviceHotdesking = () => import('../../modules/directory/modules/devices/components/opened-hotdesk-device-hotdesking.vue');
 const checkAppAccess = (to, from, next) => {
   // check for === false because it can be undefined
   if (to.meta.requiresAccess === false) next();
@@ -88,6 +103,7 @@ const checkRouteAccess = ((to, from, next) => {
   if (hasReadAccess) {
     next();
   } else {
+    console.log('error?')
     next('/access-denied');
   }
 });
@@ -139,39 +155,65 @@ const router = createRouter({
         },
         {
           path: '/directory/devices/:id',
-          name: `${RouteNames.DEVICES}-edit`,
+          name: `${RouteNames.DEVICES}-card`,
           component: OpenedDevice,
+          redirect: {name: DevicesRouteNames.GENERAL},
           beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/directory/devices/new',
-          name: `${RouteNames.DEVICES}-new`,
-          component: OpenedDevice,
-          beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: DevicesRouteNames.GENERAL,
+              component: OpenedDeviceGeneral,
+            },{
+              path: 'phone-info',
+              name: DevicesRouteNames.PHONE_INFO,
+              component: OpenedDevicePhoneInfo,
+            },{
+              path: 'permissions/:permissionId?',
+              name: `${DevicesRouteNames.PERMISSIONS}-card`,
+              component: PermissionsTab,
+            },
+          ],
         },
         {
           path: '/directory/devices/hotdesk/:id',
-          name: `${RouteNames.DEVICES}-hotdesk-edit`,
+          name: `${RouteNames.DEVICES}-hotdesk-card`,
           component: OpenedDevice,
+          redirect: {name: DevicesRouteNames.HOTDESK_GENERAL},
           beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/directory/devices/hotdesk/new',
-          name: `${RouteNames.DEVICES}-hotdesk-new`,
-          component: OpenedDevice,
-          beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'hotdesk-general',
+              name: DevicesRouteNames.HOTDESK_GENERAL,
+              component: OpenedHotdeskDeviceGeneral,
+            },{
+              path: 'hotdesk-hotdesking',
+              name: DevicesRouteNames.HOTDESK_HOTDESKING,
+              component: OpenedHotdeskDeviceHotdesking,
+            },{
+              path: 'phone-info',
+              name: DevicesRouteNames.HOTDESK_PHONE_INFO,
+              component: OpenedDevicePhoneInfo,
+            },
+          ]
         },
         {
           path: '/directory/license',
           name: RouteNames.LICENSE,
           component: License,
+          redirect: {name: `${LicencesRouteNames.ALL}-card`},
           beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/directory/license/:id',
-          name: `${RouteNames.LICENSE}-edit`,
-          component: License,
-          beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'all/:id?',
+              name: `${LicencesRouteNames.ALL}-card`,
+              component: AllLicenses,
+            },{
+              path: 'by-user',
+              name: LicencesRouteNames.BY_USER,
+              component: LicensesByUser,
+            }
+          ],
         },
         {
           path: '/directory/users',
@@ -181,15 +223,45 @@ const router = createRouter({
         },
         {
           path: '/directory/users/:id',
-          name: `${RouteNames.USERS}-edit`,
+          name: `${RouteNames.USERS}-card`,
           component: OpenedUser,
+          redirect: {name: UsersRouteNames.GENERAL},
           beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/directory/users/new',
-          name: `${RouteNames.USERS}-new`,
-          component: OpenedUser,
-          beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: UsersRouteNames.GENERAL,
+              component: OpenedUserGeneral,
+            },{
+              path: 'roles',
+              name: UsersRouteNames.ROLES,
+              component: OpenedUserRoles,
+            },{
+              path: 'license',
+              name: UsersRouteNames.LICENSE,
+              component: OpenedUserLicense,
+            },{
+              path: 'devices',
+              name: UsersRouteNames.DEVICES,
+              component: OpenedUserDevices,
+            },{
+              path: 'variables',
+              name: UsersRouteNames.VARIABLES,
+              component: OpenedUserVariables,
+            },{
+              path: 'tokens/:tokenId?',
+              name: UsersRouteNames.TOKENS,
+              component: OpenedUserToken,
+            },{
+              path: 'logs',
+              name: UsersRouteNames.LOGS,
+              component: OpenedUserLogs,
+            },{
+              path: 'permissions/:permissionId?',
+              name: `${UsersRouteNames.PERMISSIONS}-card`,
+              component: PermissionsTab,
+            }
+          ],
         },
         // ----------DIRECTORY END------------
 

@@ -11,8 +11,9 @@
     <template #main>
       <section class="main-section__wrapper">
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component :is="currentTab.value" />
       </section>
@@ -23,6 +24,7 @@
 <script>
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
 import AllLicenses from './all-licenses/all-licenses.vue';
+import LicencesRouteNames from '../../../../../app/router/_internals/tabs/LicencesRouteNames.enum.js';
 
 export default {
   name: 'TheLicense',
@@ -30,9 +32,6 @@ export default {
     AllLicenses,
     LicensesByUser,
   },
-  data: () => ({
-    currentTab: { value: 'all-licenses' },
-  }),
   computed: {
     path() {
       return [
@@ -44,12 +43,23 @@ export default {
       const allLicenses = {
         value: 'all-licenses',
         text: this.$t('objects.directory.license.allLicenses'),
+        pathName: `${LicencesRouteNames.ALL}-card`,
       };
       const licensesByUser = {
         value: 'licenses-by-user',
         text: this.$tc('objects.directory.users.users', 2),
+        pathName: LicencesRouteNames.BY_USER,
       };
       return [allLicenses, licensesByUser];
+    },
+    currentTab() {
+      return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
+    //   undefined currentTab
+    }
+  },
+  methods: {
+    changeTab(tab) {
+      this.$router.push({ name: tab.pathName });
     },
   },
 };

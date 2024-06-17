@@ -1,7 +1,8 @@
 <template>
   <wt-popup
     class="permissions-tab-role-popup"
-    min-width="480"
+    size="sm"
+    v-bind="$attrs"
     overflow
     @close="close"
   >

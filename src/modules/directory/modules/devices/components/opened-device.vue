@@ -6,7 +6,7 @@
         :primary-action="save"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
-        :secondary-action="close"
+        :secondary-action="() => close('/directory/devices')"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -39,18 +40,21 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredUnless } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { ipValidator, macValidator } from '../../../../../app/utils/validators';
 import General from './opened-device-general.vue';
 import PhoneInfo from './opened-device-phone-info.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
+import DevicesRouteNames from '../../../../../app/router/_internals/tabs/DevicesRouteNames.enum.js';
 
 const hotDeskNameValidator = (array) => !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
 
 export default {
   name: 'OpenedDevice',
   components: {
+    AdmItemLink,
     General,
     PhoneInfo,
     HotdeskGeneral,
@@ -62,6 +66,7 @@ export default {
   }),
   data: () => ({
     namespace: 'directory/devices',
+    permissionsTabPathName: `${DevicesRouteNames.PERMISSIONS}-card`,
   }),
   validations() {
     let itemInstance = {
@@ -90,9 +95,11 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: DevicesRouteNames.GENERAL,
         }, {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
+          pathName: DevicesRouteNames.PHONE_INFO,
         },
       ];
 
@@ -100,12 +107,15 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'hotdesk-general',
+          pathName: DevicesRouteNames.HOTDESK_GENERAL,
         }, {
           text: this.$t('objects.directory.devices.hotdesk'),
           value: 'hotdesk-hotdesking',
+          pathName: DevicesRouteNames.HOTDESK_HOTDESKING,
         }, {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
+          pathName: DevicesRouteNames.HOTDESK_PHONE_INFO,
         },
       ];
       if (this.isHotdesk) return hotdeskTabs;
@@ -139,6 +149,9 @@ export default {
     },
     loadItem() {
       return this.loadTypedItem(this.isHotdesk);
+    },
+    close(to) {
+      this.$router.push(to);
     },
   },
 };

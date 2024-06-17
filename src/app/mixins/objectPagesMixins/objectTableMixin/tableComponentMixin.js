@@ -85,7 +85,7 @@ export default {
       },
     }),
     create() {
-      this.$router.push({ name: `${this.routeName}-new` });
+      this.$router.push({ name: `${this.routeName}-card`, params: { id: 'new' } });
     },
     edit(item) {
       this.$router.push(this.editLink(item));

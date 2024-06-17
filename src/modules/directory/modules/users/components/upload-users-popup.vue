@@ -3,6 +3,7 @@
     :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
+    v-bind="$attrs"
     @close="close"
   />
 </template>

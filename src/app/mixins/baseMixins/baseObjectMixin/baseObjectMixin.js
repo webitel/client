@@ -15,10 +15,16 @@ export default {
   mixins: [resetOnDestroyMixin, openedObjectValidationMixin],
 
   computed: {
+    id() {
+      throw new Error('Override id param for a component');
+    },
+    new() {
+      return this.$route.params.id === 'new';
+    },
     saveText() {
       // if it's a new item
       // OR any fields have changed
-      return !this.id || this.itemInstance._dirty
+      return this.new || this.itemInstance._dirty
         ? this.$t('objects.save') : this.$t('objects.saved');
     },
 
@@ -26,7 +32,7 @@ export default {
       // if there's a validation problem
       // OR it's edit and any fields haven't changed
       return this.checkValidations() ||
-        (!this.itemInstance._dirty && !!this.id);
+        (!this.itemInstance._dirty && !this.new);
     },
   },
 
@@ -45,7 +51,7 @@ export default {
 
     async save() {
       if (!this.disabledSave) {
-        if (this.id) {
+        if (!this.new) {
           await this.updateItem();
         } else {
           try {
@@ -61,11 +67,9 @@ export default {
     },
 
     async redirectToEdit() {
-      const routeName = this.$route.name.replace('-new', '-edit');
       return this.$router.replace({
-        name: routeName,
-        params: { id: this.id },
-        hash: this.$route.hash,
+        ...this.$route,
+        params: { id },
       });
     },
   },
