@@ -872,6 +872,7 @@ export default {
         manualDistribution: 'Manual distribution',
         lastMessageTimeout: 'Timeout from the last message',
         stickyIgnoreStatus: 'Ignore agent status',
+        ignoreCalendar: 'Ignore calendar',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',

@@ -872,6 +872,7 @@ export default {
         manualDistribution: 'Ручне розподілення',
         lastMessageTimeout: 'Час очікування від останнього повідомлення',
         stickyIgnoreStatus: 'Ігнорувати статус оператора',
+        ignoreCalendar: 'Ігнорувати календар',
         processing: {
           processing: 'Обробка',
           enabled: 'Очікування результату задачі',

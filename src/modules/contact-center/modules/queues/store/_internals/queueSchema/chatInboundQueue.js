@@ -18,6 +18,7 @@ const chatInboundQueue = () => ({
     maxWaitTime: 60 * 60, // required
     stickyAgentSec: 5,
     stickyIgnoreStatus: false,
+    ignoreCalendar: false,
     maxIdleAgent: 60 * 60, // hour
     maxIdleClient: 60 * 60, // hour
     maxIdleDialog: 0,
