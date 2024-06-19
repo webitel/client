@@ -159,9 +159,11 @@ export default {
     async separator() {
       await this.handleParseOptionsChange();
     },
-    '$attrs.shown'() {
-      this.initUploadPopup();
-      this.handleParseOptionsChange = debounce(this.handleParseOptionsChange);
+    '$attrs.shown'(value) {
+      if(value) {
+        this.initUploadPopup();
+        this.handleParseOptionsChange = debounce(this.handleParseOptionsChange);
+      }
     }
   },
 };

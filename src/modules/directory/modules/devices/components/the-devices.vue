@@ -95,8 +95,8 @@
           >
             <template #name="{ item }">
               <adm-item-link
-                :id="item.id"
-                :route-name="getRouteName(item)"
+                :id=" modifyItemId(item)"
+                :route-name="RouteNames.DEVICES"
               >
                 {{ item.name }}
               </adm-item-link>
@@ -245,10 +245,14 @@ export default {
       this.isDeviceSelectPopup = true;
     },
 
-    getRouteName(item) {
-      return  item.hotdesk
-        ? `${RouteNames.DEVICES}-hotdesk`
-        : `${RouteNames.DEVICES}`;
+    edit(item) {
+      this.$router.push({ name: `${this.routeName}-card`, params: { id: this.modifyItemId(item)} })
+    },
+
+    modifyItemId(item) {
+      return item.hotdesk
+        ? `hotdesk-${item.id}`
+        : item.id
     },
 
     processCSV(files) {

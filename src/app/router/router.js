@@ -157,7 +157,11 @@ const router = createRouter({
           path: '/directory/devices/:id',
           name: `${RouteNames.DEVICES}-card`,
           component: OpenedDevice,
-          redirect: {name: DevicesRouteNames.GENERAL},
+          redirect: to => {
+            return  to.params.id.includes('hotdesk')
+              ? {name: DevicesRouteNames.HOTDESK_GENERAL}
+              : {name: DevicesRouteNames.GENERAL};
+          },
           beforeEnter: checkRouteAccess,
           children: [
             {
@@ -169,33 +173,23 @@ const router = createRouter({
               name: DevicesRouteNames.PHONE_INFO,
               component: OpenedDevicePhoneInfo,
             },{
-              path: 'permissions/:permissionId?',
-              name: `${DevicesRouteNames.PERMISSIONS}-card`,
-              component: PermissionsTab,
-            },
-          ],
-        },
-        {
-          path: '/directory/devices/hotdesk/:id',
-          name: `${RouteNames.DEVICES}-hotdesk-card`,
-          component: OpenedDevice,
-          redirect: {name: DevicesRouteNames.HOTDESK_GENERAL},
-          beforeEnter: checkRouteAccess,
-          children: [
-            {
-              path: 'hotdesk-general',
+              path: 'general',
               name: DevicesRouteNames.HOTDESK_GENERAL,
               component: OpenedHotdeskDeviceGeneral,
             },{
-              path: 'hotdesk-hotdesking',
+              path: 'hotdesking',
               name: DevicesRouteNames.HOTDESK_HOTDESKING,
               component: OpenedHotdeskDeviceHotdesking,
             },{
               path: 'phone-info',
               name: DevicesRouteNames.HOTDESK_PHONE_INFO,
               component: OpenedDevicePhoneInfo,
+            },{
+              path: 'permissions/:permissionId?',
+              name: `${DevicesRouteNames.PERMISSIONS}-card`,
+              component: PermissionsTab,
             },
-          ]
+          ],
         },
         {
           path: '/directory/license',

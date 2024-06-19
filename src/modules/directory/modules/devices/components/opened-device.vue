@@ -6,7 +6,7 @@
         :primary-action="save"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
-        :secondary-action="() => close('/directory/devices')"
+        :secondary-action="close"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
@@ -87,7 +87,7 @@ export default {
 
   computed: {
     isHotdesk() {
-      return this.$route.path.includes('hotdesk');
+      return this.$route.params.id.includes('hotdesk');
     },
 
     tabs() {
@@ -144,14 +144,17 @@ export default {
         return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
       },
     }),
-    setInitialTab() {
-      this.currentTab.value = this.isHotdesk ? 'hotdesk-general' : 'general';
+    async loadPageData() {
+      if (this.new) return;
+      const itemId = this.$route.params.id;
+      await this.setId(this.isHotdesk ? itemId.replace('hotdesk-', '') : itemId);
+      return this.loadItem();
     },
     loadItem() {
       return this.loadTypedItem(this.isHotdesk);
     },
-    close(to) {
-      this.$router.push(to);
+    close() {
+      this.$router.push(`/${this.namespace}`);
     },
   },
 };

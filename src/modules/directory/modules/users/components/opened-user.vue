@@ -155,8 +155,8 @@ export default {
     },
   },
   methods: {
-    close(to) {
-      this.$router.push(to);
+    close() {
+      this.$router.push(`/${this.namespace}`);
     },
   }
 };

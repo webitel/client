@@ -60,7 +60,7 @@ export default {
           value: 'hotdesk',
           title: this.$t('objects.directory.devices.hotdeskDevice'),
           description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
-          routeName: `${RouteNames.DEVICES}-hotdesk-card`,
+          routeName: `${RouteNames.DEVICES}-card`,
         },
       ],
     };
@@ -83,7 +83,14 @@ export default {
     },
 
     createItemInstance() {
-      this.$router.push({ name: this.selectedOption.routeName, params: { id: 'new' }});
+      this.$router.push(
+        {
+          name: this.selectedOption.routeName,
+          params: {
+            id: this.selectedOption.value === 'hotdesk' ? 'hotdesk-new' : 'new'
+          },
+        }
+      );
     },
 
     close() {
