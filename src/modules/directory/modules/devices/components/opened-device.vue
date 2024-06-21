@@ -87,9 +87,8 @@ export default {
 
   computed: {
     isHotdesk() {
-      return this.$route.params.id.includes('hotdesk');
+      return this.$route.query.type === 'hotdesk' || this.itemInstance.hotdesk;
     },
-
     tabs() {
       const defaultTabs = [
         {
@@ -107,15 +106,15 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'hotdesk-general',
-          pathName: DevicesRouteNames.HOTDESK_GENERAL,
+          pathName: DevicesRouteNames.GENERAL,
         }, {
           text: this.$t('objects.directory.devices.hotdesk'),
           value: 'hotdesk-hotdesking',
-          pathName: DevicesRouteNames.HOTDESK_HOTDESKING,
+          pathName: DevicesRouteNames.HOTDESKING,
         }, {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
-          pathName: DevicesRouteNames.HOTDESK_PHONE_INFO,
+          pathName: DevicesRouteNames.PHONE_INFO,
         },
       ];
       if (this.isHotdesk) return hotdeskTabs;
@@ -145,9 +144,7 @@ export default {
       },
     }),
     async loadPageData() {
-      if (this.new) return;
-      const itemId = this.$route.params.id;
-      await this.setId(this.isHotdesk ? itemId.replace('hotdesk-', '') : itemId);
+      if (!this.new) await this.setId(this.$route.params.id);
       return this.loadItem();
     },
     loadItem() {
@@ -155,6 +152,9 @@ export default {
     },
     close() {
       this.$router.push(`/${this.namespace}`);
+    },
+    changeTab(tab) {
+      this.$router.push({ name: tab.pathName, query: this.$route.query });
     },
   },
 };

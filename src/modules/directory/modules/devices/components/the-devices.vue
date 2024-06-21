@@ -95,7 +95,7 @@
           >
             <template #name="{ item }">
               <adm-item-link
-                :id=" modifyItemId(item)"
+                :id="item.id"
                 :route-name="RouteNames.DEVICES"
               >
                 {{ item.name }}
@@ -130,11 +130,12 @@
                 class="table-action"
                 @click="openHistory(item.id)"
               />
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName">
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -243,16 +244,6 @@ export default {
 
     create() {
       this.isDeviceSelectPopup = true;
-    },
-
-    edit(item) {
-      this.$router.push({ name: `${this.routeName}-card`, params: { id: this.modifyItemId(item)} })
-    },
-
-    modifyItemId(item) {
-      return item.hotdesk
-        ? `hotdesk-${item.id}`
-        : item.id
     },
 
     processCSV(files) {

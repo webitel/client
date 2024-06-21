@@ -156,12 +156,8 @@ const router = createRouter({
         {
           path: '/directory/devices/:id',
           name: `${RouteNames.DEVICES}-card`,
+          redirect: { name: DevicesRouteNames.GENERAL},
           component: OpenedDevice,
-          redirect: to => {
-            return  to.params.id.includes('hotdesk')
-              ? {name: DevicesRouteNames.HOTDESK_GENERAL}
-              : {name: DevicesRouteNames.GENERAL};
-          },
           beforeEnter: checkRouteAccess,
           children: [
             {
@@ -174,16 +170,12 @@ const router = createRouter({
               component: OpenedDevicePhoneInfo,
             },{
               path: 'general',
-              name: DevicesRouteNames.HOTDESK_GENERAL,
+              name: DevicesRouteNames.GENERAL,
               component: OpenedHotdeskDeviceGeneral,
             },{
               path: 'hotdesking',
-              name: DevicesRouteNames.HOTDESK_HOTDESKING,
+              name: DevicesRouteNames.HOTDESKING,
               component: OpenedHotdeskDeviceHotdesking,
-            },{
-              path: 'phone-info',
-              name: DevicesRouteNames.HOTDESK_PHONE_INFO,
-              component: OpenedDevicePhoneInfo,
             },{
               path: 'permissions/:permissionId?',
               name: `${DevicesRouteNames.PERMISSIONS}-card`,
@@ -285,14 +277,8 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/routing/dialplan/new',
-          name: `${RouteNames.DIALPLAN}-new`,
-          component: OpenedDialplan,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/routing/dialplan/:id',
-          name: `${RouteNames.DIALPLAN}-edit`,
+          name: `${RouteNames.DIALPLAN}-card`,
           component: OpenedDialplan,
           beforeEnter: checkRouteAccess,
         },

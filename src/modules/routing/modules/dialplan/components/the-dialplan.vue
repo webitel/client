@@ -14,7 +14,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -73,9 +73,11 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName">
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #pattern="{ item }">
               {{ item.pattern }}
@@ -106,11 +108,12 @@
                 </template>
                 {{ $t('iconHints.draggable') }}
               </wt-tooltip>
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName">
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -141,6 +144,7 @@
 <script>
 import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -175,7 +179,7 @@ const namespace = 'routing/dialplan';
 
 export default {
   name: 'TheDialplan',
-  components: { DeleteConfirmationPopup },
+  components: { AdmItemLink, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace, showAction: true });

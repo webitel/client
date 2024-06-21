@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     :min-width="minWidth"
     class="selection-popup"
     overflow

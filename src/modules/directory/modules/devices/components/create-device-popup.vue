@@ -86,9 +86,8 @@ export default {
       this.$router.push(
         {
           name: this.selectedOption.routeName,
-          params: {
-            id: this.selectedOption.value === 'hotdesk' ? 'hotdesk-new' : 'new'
-          },
+          params: { id: 'new' },
+          query: { type: this.selectedOption.value },
         }
       );
     },
