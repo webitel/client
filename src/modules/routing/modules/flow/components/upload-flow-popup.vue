@@ -1,6 +1,6 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
     overflow
     @close="close"
   >
@@ -63,6 +63,17 @@ export default {
       name: { required },
     },
   },
+  watch: {
+    '$attrs.shown'(value) {
+      if (value) {
+        this.initFileReader();
+        this.processJSON();
+      }
+      else {
+        this.destroyFileReader();
+      }
+    }
+  },
   computed: {
     computeDisabledSave() {
       this.v$.$touch();
@@ -70,13 +81,6 @@ export default {
       return this.v$.$pending
         || this.v$.$error;
     },
-  },
-  created() {
-    this.initFileReader();
-    this.processJSON();
-  },
-  unmounted() {
-    this.destroyFileReader();
   },
   methods: {
     async save() {

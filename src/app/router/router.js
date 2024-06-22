@@ -1,9 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store/store';
 import RouteNames from './_internals/RouteNames.enum';
-import DevicesRouteNames from './_internals/tabs/DevicesRouteNames.enum.js';
-import LicencesRouteNames from './_internals/tabs/LicencesRouteNames.enum.js';
-import UsersRouteNames from './_internals/tabs/UsersRouteNames.enum.js';
+import DevicesRouteNames from './_internals/tabs/directory/DevicesRouteNames.enum.js';
+import LicencesRouteNames from './_internals/tabs/directory/LicencesRouteNames.enum.js';
+import UsersRouteNames from './_internals/tabs/directory/UsersRouteNames.enum.js';
+import ChatGatewayRoutesNameEnum
+  from './_internals/tabs/routing/ChatGatewayRoutesName.enum.js';
+import ChatplanRoutesNameEnum
+  from './_internals/tabs/routing/ChatplanRoutesName.enum.js';
+import FlowRoutesNameEnum
+  from './_internals/tabs/routing/FlowRoutesName.enum.js';
+import ChangelogRouteNamesEnum
+  from './_internals/tabs/system/ChangelogRouteNames.enum.js';
+import DialplanRoutesNameEnum
+  from './_internals/tabs/routing/DialplanRoutesName.enum.js';
+import GatewaysRoutesNameEnum
+  from './_internals/tabs/routing/GatewaysRoutesName.enum.js';
+
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
 const StartPage = () => import('../../modules/start-page/components/the-start-page.vue');
@@ -86,6 +99,52 @@ const OpenedDeviceGeneral = () => import('../../modules/directory/modules/device
 const OpenedDevicePhoneInfo = () => import('../../modules/directory/modules/devices/components/opened-device-phone-info.vue');
 const OpenedHotdeskDeviceGeneral = () => import('../../modules/directory/modules/devices/components/opened-hotdesk-device-general.vue');
 const OpenedHotdeskDeviceHotdesking = () => import('../../modules/directory/modules/devices/components/opened-hotdesk-device-hotdesking.vue');
+const OpenedChangelogGeneral = () => import('../../modules/system/modules/changelogs/components/opened-changelog-general.vue');
+const OpenedChangelogLogs = () => import('../../modules/system/modules/changelogs/modules/logs/components/opened-changelog-logs.vue');
+const OpenedDialplanGeneral = () => import('../../modules/routing/modules/dialplan/components/opened-dialplan-general.vue');
+const OpenedFlowDiagram = () => import('../../modules/routing/modules/flow/modules/diagram/components/opened-flow-diagram.vue');
+const OpenedRegisterSipGatewayGeneral = () =>
+  import('../../modules/routing/modules/gateways/components/opened-register-sip-gateway-general.vue');
+const OpenedTrunkingSipGatewayGeneral = () =>
+  import('../../modules/routing/modules/gateways/components/opened-trunking-sip-gateway-general.vue');
+const OpenedTrunkingSipGatewayConfiguration =  () =>
+  import('../../modules/routing/modules/gateways/components/opened-trunking-sip-gateway-configuration.vue');
+const OpenedChatplanGeneral = () =>
+  import('../../modules/routing/modules/chatplan/components/opened-chatplan-general.vue');
+const OpenedChatGatewayTelegramBotGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue');
+const OpenedChatGatewayTelegramAppGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/telegram-app/opened-chat-gateway-telegram-app-general-tab.vue');
+const OpenedChatGatewayTemplatesTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/_shared/opened-chat-gateway-templates-tab.vue');
+const OpenedChatGatewayMessengerGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/messenger/opened-chat-gateway-messenger-general-tab.vue');
+const OpenedChatFacebook = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/messenger/facebook/components/facebook-tab.vue');
+const OpenedChatInstagram = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/messenger/instagram/components/instagram-tab.vue');
+const OpenedChatWhatsapp = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/messenger/whatsapp/components/whatsapp-tab.vue');
+const OpenedChatGatewayInfobipGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/infobip/opened-chat-gateway-infobip-general-tab.vue');
+const OpenedChatGatewayViberGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/viber/opened-chat-gateway-viber-general-tab.vue');
+const OpenedChatGatewayViberStyleTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/viber/opened-chat-gateway-viber-style-tab.vue');
+const OpenedChatGatewayWebchatGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue');
+const OpenedChatGatewayWebchatViewTab = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue');
+const OpenedChatGatewayWebchatAlternativeChannelsTab = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue');
+const OpenedChatGatewayWebchatChatTab = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue');
+const OpenedChatGatewayWebchatAppointmentTab = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue');
+const OpenedChatGatewayWebchatRecaptchaTab = () =>
+  import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue');
+const OpenedChatGatewayCustomGeneralTab = () =>
+  import('../../modules/routing/modules/chat-gateways/components/custom/opened-chat-gateway-custom-general-tab.vue');
 const checkAppAccess = (to, from, next) => {
   // check for === false because it can be undefined
   if (to.meta.requiresAccess === false) next();
@@ -259,16 +318,18 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/routing/flow/new',
-          name: `${RouteNames.FLOW}-new`,
-          component: OpenedFlow,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/routing/flow/:id',
-          name: `${RouteNames.FLOW}-edit`,
+          name: `${RouteNames.FLOW}-card`,
+          redirect: { name: FlowRoutesNameEnum.GENERAL },
           component: OpenedFlow,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: FlowRoutesNameEnum.GENERAL,
+              component: OpenedFlowDiagram,
+            }
+          ],
         },
         {
           path: '/routing/dialplan',
@@ -279,8 +340,16 @@ const router = createRouter({
         {
           path: '/routing/dialplan/:id',
           name: `${RouteNames.DIALPLAN}-card`,
+          redirect: { name: DialplanRoutesNameEnum.GENERAL },
           component: OpenedDialplan,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: DialplanRoutesNameEnum.GENERAL,
+              component: OpenedDialplanGeneral,
+            }
+          ],
         },
         {
           path: '/routing/sip-gateways',
@@ -289,28 +358,26 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/routing/sip-gateways/register/new',
-          name: `${RouteNames.GATEWAYS}-reg-new`,
+          path: '/routing/sip-gateways/:id',
+          name: `${RouteNames.GATEWAYS}-card`,
+          redirect: { name: GatewaysRoutesNameEnum.GENERAL },
           component: OpenedGateway,
           beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/routing/sip-gateways/register/:id',
-          name: `${RouteNames.GATEWAYS}-reg-edit`,
-          component: OpenedGateway,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/routing/sip-gateways/trunking/new',
-          name: `${RouteNames.GATEWAYS}-trunk-new`,
-          component: OpenedGateway,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/routing/sip-gateways/trunking/:id',
-          name: `${RouteNames.GATEWAYS}-trunk-edit`,
-          component: OpenedGateway,
-          beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: GatewaysRoutesNameEnum.GENERAL,
+              component: OpenedRegisterSipGatewayGeneral,
+            },{
+              path: 'general',
+              name: GatewaysRoutesNameEnum.GENERAL,
+              component: OpenedTrunkingSipGatewayGeneral,
+            },{
+              path: 'configuration',
+              name: GatewaysRoutesNameEnum.CONFIGURATION,
+              component: OpenedTrunkingSipGatewayConfiguration,
+            }
+          ]
         },
         {
           path: '/routing/chatplan',
@@ -319,16 +386,18 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/routing/chatplan/new',
-          name: `${RouteNames.CHATPLAN}-new`,
-          component: OpenedChatplan,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/routing/chatplan/:id',
-          name: `${RouteNames.CHATPLAN}-edit`,
+          name: `${RouteNames.CHATPLAN}-card`,
+          redirect: { name: ChatplanRoutesNameEnum.GENERAL },
           component: OpenedChatplan,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: ChatplanRoutesNameEnum.GENERAL,
+              component: OpenedChatplanGeneral,
+            }
+          ],
         },
         {
           path: '/routing/chat-gateways',
@@ -337,16 +406,78 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/routing/chat-gateways/new',
-          name: `${RouteNames.CHAT_GATEWAYS}-new`,
-          component: OpenedChatGateways,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/routing/chat-gateways/:id',
-          name: `${RouteNames.CHAT_GATEWAYS}-edit`,
+          name: `${RouteNames.CHAT_GATEWAYS}-card`,
+          redirect: { name: ChatGatewayRoutesNameEnum.GENERAL },
           component: OpenedChatGateways,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'telegram-bot',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayTelegramBotGeneralTab,
+            },{
+              path: 'telegram-app',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayTelegramAppGeneralTab,
+            },{
+              path: 'infobip',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayInfobipGeneralTab,
+            },{
+              path: 'meta',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayMessengerGeneralTab,
+            },{
+              path: 'facebook-pages',
+              name: ChatGatewayRoutesNameEnum.FACEBOOK_PAGES,
+              component: OpenedChatFacebook,
+            },{
+              path: 'instagram',
+              name: ChatGatewayRoutesNameEnum.INSTAGRAM,
+              component: OpenedChatInstagram,
+            },{
+              path: 'whatsapp',
+              name: ChatGatewayRoutesNameEnum.WHATSAPP,
+              component: OpenedChatWhatsapp,
+            },{
+              path: 'viber',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayViberGeneralTab,
+            },{
+              path: 'general',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayWebchatGeneralTab,
+            },{
+              path: 'view',
+              name: ChatGatewayRoutesNameEnum.VIEW,
+              component: OpenedChatGatewayWebchatViewTab,
+            },{
+              path: 'chat',
+              name: ChatGatewayRoutesNameEnum.CHAT,
+              component: OpenedChatGatewayWebchatChatTab,
+            },{
+              path: 'appointment',
+              name: ChatGatewayRoutesNameEnum.APPOINTMENT,
+              component: OpenedChatGatewayWebchatAppointmentTab,
+            },{
+              path: 'alternative-channels',
+              name: ChatGatewayRoutesNameEnum.ALTERNATIVE_CHANNELS,
+              component: OpenedChatGatewayWebchatAlternativeChannelsTab,
+            },{
+              path: 'recapcha',
+              name: ChatGatewayRoutesNameEnum.RE_CAPTCHA,
+              component: OpenedChatGatewayWebchatRecaptchaTab,
+            },{
+              path: 'general',
+              name: ChatGatewayRoutesNameEnum.GENERAL,
+              component: OpenedChatGatewayCustomGeneralTab,
+            },{
+              path: 'templates',
+              name: ChatGatewayRoutesNameEnum.TEMPLATES,
+              component: OpenedChatGatewayTemplatesTab,
+            },
+          ],
         },
         // ----------ROUTING END------------
 
@@ -751,16 +882,22 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/system/changelogs/new',
-          name: `${RouteNames.CHANGELOGS}-new`,
-          component: OpenedChangelog,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/system/changelogs/:id',
-          name: `${RouteNames.CHANGELOGS}-edit`,
+          name: `${RouteNames.CHANGELOGS}-card`,
+          redirect: { name: ChangelogRouteNamesEnum.GENERAl },
           component: OpenedChangelog,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: ChangelogRouteNamesEnum.GENERAl,
+              component: OpenedChangelogGeneral,
+            },{
+              path: 'logs',
+              name: ChangelogRouteNamesEnum.LOGS,
+              component: OpenedChangelogLogs,
+            }
+          ],
         },
         {
           path: '/system/configuration',

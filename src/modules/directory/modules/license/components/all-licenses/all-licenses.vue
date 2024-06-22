@@ -124,7 +124,7 @@
 import AdmItemLink from '../../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import LicencesRouteNames from '../../../../../../app/router/_internals/tabs/LicencesRouteNames.enum.js';
+import LicencesRouteNames from '../../../../../../app/router/_internals/tabs/directory/LicencesRouteNames.enum.js';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';

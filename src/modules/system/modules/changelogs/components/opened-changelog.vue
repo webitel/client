@@ -27,8 +27,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -51,6 +52,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import Logs from '../modules/logs/components/opened-changelog-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue';
 import General from './opened-changelog-general.vue';
+import ChangelogRouteNames from '../../../../../app/router/_internals/tabs/system/ChangelogRouteNames.enum.js';
 
 export default {
   name: 'OpenedChangelog',
@@ -81,6 +83,8 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: ChangelogRouteNames.GENERAl,
+
         },
       ];
       const logs = {
@@ -88,6 +92,7 @@ export default {
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/logs/filters`,
+        pathName: ChangelogRouteNames.LOGS,
       };
       if (this.id) tabs.push(logs);
       return tabs;
@@ -116,6 +121,9 @@ export default {
     setPathName() {
       this.pathName = this.itemInstance.object.name;
     },
+    close() {
+      this.$router.push(`/${this.namespace}`);
+    }
   },
 };
 </script>

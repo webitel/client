@@ -28,6 +28,7 @@ export default {
     // currentTab: {
     //   value: 'general',
     // },
+  //
   }),
 
   created() {

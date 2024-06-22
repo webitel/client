@@ -47,7 +47,7 @@ import General from './opened-device-general.vue';
 import PhoneInfo from './opened-device-phone-info.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
-import DevicesRouteNames from '../../../../../app/router/_internals/tabs/DevicesRouteNames.enum.js';
+import DevicesRouteNames from '../../../../../app/router/_internals/tabs/directory/DevicesRouteNames.enum.js';
 
 const hotDeskNameValidator = (array) => !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
 

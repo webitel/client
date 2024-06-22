@@ -13,11 +13,11 @@
     </template>
     <template #main>
       <gateway-popup
-        v-if="isGatewayPopup"
+        :shown="isGatewayPopup"
         @close="isGatewayPopup = false"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -75,9 +75,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #proxy="{ item }">
               {{ item.proxy }}
@@ -96,11 +99,13 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -133,6 +138,7 @@ import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import GatewayPopup from './create-gateway-popup.vue';
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -141,7 +147,7 @@ const namespace = 'routing/gateways';
 
 export default {
   name: 'TheSipGateways',
-  components: { GatewayPopup, DeleteConfirmationPopup },
+  components: { GatewayPopup, DeleteConfirmationPopup, AdmItemLink },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -169,6 +175,7 @@ export default {
   data: () => ({
     namespace,
     isGatewayPopup: false,
+    routeName: RouteNames.GATEWAYS,
   }),
 
   computed: {
@@ -183,16 +190,6 @@ export default {
   methods: {
     create() {
       this.isGatewayPopup = true;
-    },
-
-    editLink(item) {
-      const name = item.register
-        ? `${RouteNames.GATEWAYS}-reg-edit` : `${RouteNames.GATEWAYS}-trunk-edit`;
-
-      return {
-        name,
-        params: { id: item.id },
-      };
     },
 
     computeStatusText(stateCode) {

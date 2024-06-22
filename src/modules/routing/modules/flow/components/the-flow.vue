@@ -17,16 +17,18 @@
 
     <template #main>
       <create-flow-popup
-        v-if="isCreateFlowPopup"
+        :shown="isCreateFlowPopup"
+        size="sm"
         @close="isCreateFlowPopup = false"
       />
       <upload-popup
-        v-if="isUploadPopup"
+        :shown="isUploadPopup"
+        size="sm"
         :file="jsonFile"
         @close="closeUploadPopup"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -270,7 +272,7 @@ export default {
     editLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
       return {
-        name: `${routeName}-edit`,
+        name: `${routeName}-card`,
         params: { id },
         query: {
           editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,

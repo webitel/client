@@ -1,4 +1,4 @@
-import RouteNames from '../RouteNames.enum.js';
+import RouteNames from '../../RouteNames.enum.js';
 export default Object.freeze({
   GENERAL: `${RouteNames.USERS}-general`,
   ROLES: `${RouteNames.USERS}-roles`,

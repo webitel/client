@@ -66,7 +66,7 @@ export default {
       }
     },
 
-    async redirectToEdit() {
+    async redirectToEdit(id = this.id) {
       return this.$router.replace({
         ...this.$route,
         params: { id },

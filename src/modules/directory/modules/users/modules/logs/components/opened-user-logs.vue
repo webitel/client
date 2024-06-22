@@ -43,13 +43,13 @@
           {{ new Date(+item.date).toLocaleString() }}
         </template>
         <template #object="{ item }">
-          <wt-item-link
+          <adm-item-link
             v-if="item.object"
             :id="item.configId"
             :route-name="changelogsRouteName"
           >
             {{ item.object.name }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
         <template #record="{ item }">
           <record-link
@@ -79,6 +79,7 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import RecordLink
   from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
 import LogsAPI from '../api/logs';
+import AdmItemLink from '../../../../../../../app/components/utils/adm-item-link.vue';
 // import { useDummy } from '.  ./../../../../../../app/composables/useDummy';
 
 const namespace = 'directory/users';
@@ -86,7 +87,7 @@ const subNamespace = 'logs';
 
 export default {
   name: 'OpenedUsersLogs',
-  components: { RecordLink },
+  components: { RecordLink, AdmItemLink },
   mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   data: () => ({
     namespace,

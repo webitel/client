@@ -8,7 +8,7 @@
         :primary-action="save"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
-        :secondary-action="() => close('/directory/users')"
+        :secondary-action="close"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
@@ -57,7 +57,7 @@ import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
-import UsersRouteNames from '../../../../../app/router/_internals/tabs/UsersRouteNames.enum.js';
+import UsersRouteNames from '../../../../../app/router/_internals/tabs/directory/UsersRouteNames.enum.js';
 
 export default {
   name: 'OpenedUser',

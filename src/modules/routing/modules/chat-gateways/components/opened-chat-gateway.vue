@@ -29,8 +29,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -55,6 +56,8 @@ import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ChatGatewayProvider
   from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import ChatGatewayRoutesName from '../../../../../app/router/_internals/tabs/routing/ChatGatewayRoutesName.enum.js';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
@@ -110,6 +113,7 @@ export default {
 
   data: () => ({
     namespace: 'routing/chatGateways',
+    routeName: RouteNames.CHAT_GATEWAYS,
   }),
   validations() {
     const defaults = {
@@ -258,30 +262,37 @@ export default {
       const telegramBotChat = {
         text: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
         value: 'OpenedChatTelegramBot',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
       const botTemplates = {
         text: this.$t('objects.routing.chatGateways.templates.templates'),
         value: 'OpenedChatGatewayTemplates',
+        pathName: ChatGatewayRoutesName.TEMPLATES,
       };
       const telegramAppChat = {
         text: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
         value: 'OpenedChatTelegramApp',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
       const messengerChat = {
         text: this.$t('objects.routing.chatGateways.messenger.meta'),
         value: 'OpenedChatMessenger',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
       const facebookChatPages = {
         text: this.$t('objects.routing.chatGateways.messenger.facebook.pages'),
         value: 'OpenedChatFacebook',
+        pathName: ChatGatewayRoutesName.FACEBOOK_PAGES,
       };
       const instagramChatPages = {
         text: this.$t('objects.routing.chatGateways.messenger.instagram.instagram'),
         value: 'OpenedChatInstagram',
+        pathName: ChatGatewayRoutesName.INSTAGRAM,
       };
       const whatsappChatPages = {
         text: this.$t('objects.routing.chatGateways.messenger.whatsapp.whatsapp'),
         value: 'OpenedChatWhatsapp',
+        pathName: ChatGatewayRoutesName.WHATSAPP,
       };
       const messenger = this.id ? [
         messengerChat,
@@ -294,45 +305,55 @@ export default {
       const infobipChat = {
         text: this.$t('objects.routing.chatGateways.infobip.infobip'),
         value: 'OpenedChatInfobip',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
 
       const customChatPages = {
         text: this.$t('objects.general'),
         value: 'OpenedChatCustom',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
 
       const viberChat = {
         text: this.$t('objects.routing.chatGateways.viber.viber'),
         value: 'OpenedViberChat',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
       const viberStyle = {
         text: this.$t('objects.routing.chatGateways.viber.style.style'),
         value: 'OpenedViberChatStyle',
+        pathName: ChatGatewayRoutesName.STYLE,
       };
 
       const webChat = {
         text: this.$t('objects.general'),
         value: 'OpenedWebchat',
+        pathName: ChatGatewayRoutesName.GENERAL,
       };
       const webchatView = {
         text: this.$t('objects.routing.chatGateways.webchat.view.view'),
         value: 'OpenedWebchatView',
+        pathName: ChatGatewayRoutesName.VIEW,
       };
       const webchatChat = {
         text: this.$t('objects.routing.chatGateways.webchat.chat.chat'),
         value: 'OpenedWebchatChat',
+        pathName: ChatGatewayRoutesName.CHAT,
       };
       const webchatAppointment = {
         text: this.$t('objects.routing.chatGateways.webchat.appointment.appointment'),
         value: 'OpenedWebchatAppointment',
+        pathName: ChatGatewayRoutesName.APPOINTMENT,
       };
       const webchatAlternativeChannels = {
         text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
         value: 'OpenedWebchatAlternativeChannels',
+        pathName: ChatGatewayRoutesName.ALTERNATIVE_CHANNELS,
       };
       const webchatReCaptcha = {
         text: this.$t('objects.routing.chatGateways.webchat.recaptcha.recaptcha'),
         value: 'OpenedChatGatewayWebchatRecaptchaTab',
+        pathName: ChatGatewayRoutesName.RE_CAPTCHA,
       };
 
       switch (this.chatType) {
@@ -413,7 +434,12 @@ export default {
     async loadPageData() {
       await this.setId(this.$route.params.id);
       await this.loadItem(this.$route.query.type);
-      this.setInitialTab();
+    },
+    close() {
+      this.$router.push({ name: this.routeName });
+    },
+    changeTab(tab) {
+      this.$router.push({ name: tab.pathName ,query: this.$route.query });
     },
   },
 };
