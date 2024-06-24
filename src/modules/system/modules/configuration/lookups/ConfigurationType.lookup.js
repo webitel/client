@@ -2,39 +2,25 @@ import { EngineSystemSettingName } from 'webitel-sdk';
 
 const ConfigurationTypeLookup = Object.freeze({
   [EngineSystemSettingName.EnableOmnichannel]: {
-    controls: [
-      'defaultBooleanConfig',
-    ],
+    controls: 'defaultBooleanConfig',
   },
   [EngineSystemSettingName.AmdCancelNotHuman]: {
-    controls: [
-      'defaultBooleanConfig',
-    ],
+    controls: 'defaultBooleanConfig',
   },
   [EngineSystemSettingName.Enable2fa]: {
-    controls: [
-      'defaultBooleanConfig',
-    ],
+    controls: 'defaultBooleanConfig',
   },
   [EngineSystemSettingName.MemberChunkSize]: {
-    controls: [
-      'defaultNumberConfig',
-    ],
+    controls: 'defaultNumberConfig',
   },
   [EngineSystemSettingName.SearchNumberLength]: {
-    controls: [
-      'defaultNumberConfig',
-    ],
+    controls: 'defaultNumberConfig',
   },
   [EngineSystemSettingName.SchemeVersionLimit]: {
-    controls: [
-      'defaultNumberConfig',
-    ],
+    controls: 'defaultNumberConfig',
   },
   [EngineSystemSettingName.ExportSettings]: {
-    controls: [
-      'defaultSelectConfig',
-    ],
+    controls: 'defaultSelectConfig',
   },
 });
 

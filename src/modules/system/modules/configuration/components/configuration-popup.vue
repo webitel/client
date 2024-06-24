@@ -89,7 +89,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
-import exportSettingsEnum from '../enum/exportSettings.enum.js';
+import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationTypeLookup from '../lookups/ConfigurationType.lookup.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 
@@ -167,26 +167,23 @@ export default {
   },
   data() {
     return {
-      exportSettingsEnum,
+      TypesExportedSettings,
     };
   },
   computed: {
     exportSettingOptions() {
-      return Object.keys(exportSettingsEnum)
-      .map(key => ({ name: exportSettingsEnum[key], value: exportSettingsEnum[key], id: exportSettingsEnum[key] }));
+      return Object.keys(TypesExportedSettings)
+      .map(key => ({ name: TypesExportedSettings[key], value: TypesExportedSettings[key], id: TypesExportedSettings[key] }));
     },
     valueType() {
       return ConfigurationValueTypes[this.itemInstance.name];
     },
     specificControls() {
-      return ConfigurationTypeLookup[this.itemInstance.name].controls
-      .reduce((controls, control) => ({
-        ...controls,
-        [control]: true,
-      }), {});
+      const control = ConfigurationTypeLookup[this.itemInstance.name].controls;
+      return { [control]: true };
     },
     isFormatXls() {
-      return this.itemInstance?.format?.value === exportSettingsEnum.XLS;
+      return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
     },
   },
   methods: {
