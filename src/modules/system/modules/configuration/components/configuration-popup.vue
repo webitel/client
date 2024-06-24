@@ -52,7 +52,7 @@
               @input="selectHandler"
             />
             <wt-input
-              v-if="isFormatXls"
+              v-if="isExportSettingsFormatXls"
               :label="$t('objects.CSV.separator')"
               :v="v$.itemInstance.separator"
               :value="itemInstance.separator"
@@ -136,7 +136,7 @@ export default {
         format: { required },
       },
     };
-    if (this.isFormatXls) {
+    if (this.isExportSettingsFormatXls) {
       defaultSelectConfig = {
         itemInstance: {
           format: { required },
@@ -219,7 +219,7 @@ export default {
     },
     selectHandler(selectedValue) {
       this.itemInstance.format = selectedValue;
-      if (!this.isFormatXls) {
+      if (!this.isExportSettingsFormatXls) {
         delete this.itemInstance.separator;
       }
       this.handleDefaultSelectConfigInput();
