@@ -25,7 +25,7 @@
           v-if="itemInstance.name"
         >
           <wt-switcher
-            v-if="specificControls.defaultBooleanConfig"
+            v-if="displayedConfigurationType.boolean"
             :label="$t('reusable.state')"
             :v="v$.itemInstance.value"
             :value="itemInstance.value"
@@ -33,7 +33,7 @@
             @change="setItemProp({ prop: 'value', value: $event })"
           />
           <wt-input
-            v-if="specificControls.defaultNumberConfig"
+            v-if="displayedConfigurationType.number"
             :label="$tc('vocabulary.values', 1)"
             :v="v$.itemInstance.value"
             :value="itemInstance.value"
@@ -41,7 +41,7 @@
             type="number"
             @change="setItemProp({ prop: 'value', value: +$event })"
           />
-          <div v-if="specificControls.defaultSelectConfig">
+          <div v-if="exportSettingsConfigurationType">
             <wt-select
               :clearable="false"
               :label="$t('vocabulary.format')"
@@ -90,7 +90,6 @@ import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
-import ConfigurationTypeLookup from '../lookups/ConfigurationType.lookup.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 
 export default {
@@ -168,6 +167,7 @@ export default {
   data() {
     return {
       TypesExportedSettings,
+      EngineSystemSettingName,
     };
   },
   computed: {
@@ -178,12 +178,15 @@ export default {
     valueType() {
       return ConfigurationValueTypes[this.itemInstance.name];
     },
-    specificControls() {
-      const control = ConfigurationTypeLookup[this.itemInstance.name].controls;
+    displayedConfigurationType() {
+      const control = this.valueType;
       return { [control]: true };
     },
     isFormatXls() {
       return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
+    },
+    exportSettingsConfigurationType() {
+      return this.itemInstance.name === EngineSystemSettingName.ExportSettings;
     },
   },
   methods: {
