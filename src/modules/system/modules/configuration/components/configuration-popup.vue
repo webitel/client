@@ -39,7 +39,7 @@
             :value="itemInstance.value"
             required
             type="number"
-            @change="setItemProp({ prop: 'value', value: +$event })"
+            @input="setItemProp({ prop: 'value', value: +$event })"
           />
           <div v-if="isExportSettingsConfigurationType">
             <wt-select

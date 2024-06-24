@@ -6,6 +6,7 @@ const ConfigurationValueTypes = Object.freeze({
     [EngineSystemSettingName.Enable2fa]: 'boolean',
     [EngineSystemSettingName.MemberChunkSize]: 'number',
     [EngineSystemSettingName.SchemeVersionLimit]: 'number',
+    [EngineSystemSettingName.SearchNumberLength]: 'number',
     [EngineSystemSettingName.ExportSettings]: 'select',
   },
 );
