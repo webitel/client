@@ -30,7 +30,7 @@
             :v="v$.itemInstance.value"
             :value="itemInstance.value"
             required
-            @change="(event) => this.setItemProp({ prop: 'value', value: event })"
+            @change="setItemProp({ prop: 'value', value: $event })"
           />
           <wt-input
             v-if="specificControls.defaultNumberConfig"
@@ -39,12 +39,12 @@
             :value="itemInstance.value"
             required
             type="number"
-            @input="(event) => this.setItemProp({ prop: 'value', value: +event })"
+            @change="setItemProp({ prop: 'value', value: +$event })"
           />
           <div v-if="specificControls.defaultSelectConfig">
             <wt-select
               :clearable="false"
-              :label="$t('objects.configuration.configurationPopup.format')"
+              :label="$t('vocabulary.format')"
               :options="exportSettingOptions"
               :v="v$.itemInstance.format"
               :value="itemInstance.format"
@@ -52,8 +52,8 @@
               @input="selectHandler"
             />
             <wt-input
-              v-if="itemInstance.format?.value === exportSettingsEnum.XLS"
-              :label="$t('objects.configuration.configurationPopup.separator')"
+              v-if="isFormatXls"
+              :label="$t('objects.CSV.separator')"
               :v="v$.itemInstance.separator"
               :value="itemInstance.separator"
               required
@@ -113,26 +113,37 @@ export default {
         name: { required },
       },
     };
+
     const defaultBooleanConfig = {
-      itemInstance:{
+      itemInstance: {
         value: {
           required,
         },
-      }
-    }
+      },
+    };
+
     const defaultNumberConfig = {
-      itemInstance:{
+      itemInstance: {
         value: {
           required,
           minValue: minValue(0),
         },
-      }
-    }
-    const defaultSelectConfig = {
+      },
+    };
+
+    let defaultSelectConfig;
+    defaultSelectConfig = {
       itemInstance: {
         format: { required },
-        separator: { required },
       },
+    };
+    if (this.isFormatXls) {
+      defaultSelectConfig = {
+        itemInstance: {
+          format: { required },
+          separator: { required },
+        },
+      };
     }
 
     switch (this.itemInstance.name) {
@@ -149,20 +160,11 @@ export default {
       case EngineSystemSettingName.SearchNumberLength:
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
-        if (this.itemInstance.format === exportSettingsEnum.XLS) {
-          return deepmerge(defaults, defaultSelectConfig);
-        } else {
-          return deepmerge(defaults, {
-            itemInstance: {
-              format: { required },
-            },
-          });
-        }
+        return deepmerge(defaults, defaultSelectConfig);
       default:
         return defaults;
     }
   },
-
   data() {
     return {
       exportSettingsEnum,
@@ -182,6 +184,9 @@ export default {
         ...controls,
         [control]: true,
       }), {});
+    },
+    isFormatXls() {
+      return this.itemInstance?.format?.value === exportSettingsEnum.XLS;
     },
   },
   methods: {
@@ -206,9 +211,16 @@ export default {
     close() {
       this.$emit('close');
     },
+
+    handleDefaultSelectConfigInput() {
+      this.setItemProp({
+        prop: 'value',
+        value: { format: this.itemInstance.format.name, separator: this.itemInstance.separator },
+      });
+    },
     selectHandler(selectedValue) {
       this.itemInstance.format = selectedValue;
-      if (this.itemInstance.format?.value !== exportSettingsEnum.XLS) {
+      if (!this.isFormatXls) {
         delete this.itemInstance.separator;
       }
       this.handleDefaultSelectConfigInput();
@@ -216,12 +228,6 @@ export default {
     inputHandler(inputValue) {
       this.itemInstance.separator = inputValue;
       this.handleDefaultSelectConfigInput();
-    },
-    handleDefaultSelectConfigInput() {
-      this.setItemProp({
-        prop: 'value',
-        value: { format: this.itemInstance.format.name, separator: this.itemInstance.separator },
-      });
     },
     async loadParameterList(params) {
       return await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });

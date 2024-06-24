@@ -960,12 +960,6 @@ export default {
         timerangeTo: 'До',
       },
     },
-    configuration: {
-      configurationPopup: {
-        format: 'Формат',
-        separator: 'Розділювач',
-      },
-    },
     integrations: {
       integrations: 'Інтеграції',
       emptyWorkspace: 'Профілі у розділі ще не створені',
