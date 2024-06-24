@@ -181,7 +181,7 @@ export default {
     displayedConfigurationType() {
       return { [this.valueType]: true };
     },
-    isFormatXls() {
+    isExportSettingsFormatXls() {
       return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
     },
     isExportSettingsConfigurationType() {
