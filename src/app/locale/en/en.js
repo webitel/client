@@ -961,13 +961,6 @@ export default {
       },
     },
 
-    configuration: {
-      configurationPopup: {
-        format: 'Format',
-        separator: 'Separator',
-      },
-    },
-
     integrations: {
       integrations: 'Integrations',
       emptyWorkspace: 'There are no profiles yet',
