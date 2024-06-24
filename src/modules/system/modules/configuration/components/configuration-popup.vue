@@ -41,7 +41,7 @@
             type="number"
             @change="setItemProp({ prop: 'value', value: +$event })"
           />
-          <div v-if="exportSettingsConfigurationType">
+          <div v-if="isExportSettingsConfigurationType">
             <wt-select
               :clearable="false"
               :label="$t('vocabulary.format')"
@@ -179,13 +179,12 @@ export default {
       return ConfigurationValueTypes[this.itemInstance.name];
     },
     displayedConfigurationType() {
-      const control = this.valueType;
-      return { [control]: true };
+      return { [this.valueType]: true };
     },
     isFormatXls() {
       return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
     },
-    exportSettingsConfigurationType() {
+    isExportSettingsConfigurationType() {
       return this.itemInstance.name === EngineSystemSettingName.ExportSettings;
     },
   },
