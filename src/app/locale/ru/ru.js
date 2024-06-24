@@ -959,6 +959,12 @@ export default {
         timerangeTo: 'До',
       },
     },
+    configuration: {
+      configurationPopup: {
+        format: 'Формат',
+        separator: 'Разделитель',
+      },
+    },
     integrations: {
       integrations: 'Интеграции',
       emptyWorkspace: 'Профили в разделе еще не созданы',
