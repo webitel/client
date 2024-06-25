@@ -94,7 +94,6 @@ export default {
     const defaults = {
       itemInstance: {
         name: { required },
-        calendar: { required },
         priority: { minValue: minValue(0) },
         payload: {
           minOnlineAgents: { minValue: minValue(0) },
@@ -106,6 +105,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               originateTimeout: { required, minValue: minValue(0) },
             },
@@ -125,6 +125,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
@@ -137,6 +138,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
@@ -148,6 +150,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
@@ -159,6 +162,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
@@ -182,6 +186,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               maxAttempts: { required },
               waitBetweenRetries: { required, minValue: minValue(0) },
@@ -192,6 +197,7 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: { required },
+            calendar: { required },
             payload: {
               maxAttempts: { required },
               originateTimeout: { required, minValue: minValue(0) },
