@@ -52,7 +52,7 @@
               @input="selectHandler"
             />
             <wt-input
-              v-if="isExportSettingsFormatXls"
+              v-if="isExportSettingsFormatCSV"
               :label="$t('objects.CSV.separator')"
               :v="v$.itemInstance.separator"
               :value="itemInstance.separator"
@@ -136,7 +136,7 @@ export default {
         format: { required },
       },
     };
-    if (this.isExportSettingsFormatXls) {
+    if (this.isExportSettingsFormatCSV) {
       defaultSelectConfig = {
         itemInstance: {
           format: { required },
@@ -181,8 +181,8 @@ export default {
     displayedConfigurationType() {
       return { [this.valueType]: true };
     },
-    isExportSettingsFormatXls() {
-      return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
+    isExportSettingsFormatCSV() {
+      return this.itemInstance?.format?.value === TypesExportedSettings.CSV;
     },
     isExportSettingsConfigurationType() {
       return this.itemInstance.name === EngineSystemSettingName.ExportSettings;
@@ -219,7 +219,7 @@ export default {
     },
     selectHandler(selectedValue) {
       this.itemInstance.format = selectedValue;
-      if (!this.isExportSettingsFormatXls) {
+      if (!this.isExportSettingsFormatCSV) {
         delete this.itemInstance.separator;
       }
       this.handleDefaultSelectConfigInput();
