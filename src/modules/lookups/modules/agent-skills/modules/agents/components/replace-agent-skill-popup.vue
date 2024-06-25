@@ -1,6 +1,7 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    size="sm"
     overflow
     @close="close"
   >

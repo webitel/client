@@ -4,6 +4,8 @@ import RouteNames from './_internals/RouteNames.enum';
 import DevicesRouteNames from './_internals/tabs/directory/DevicesRouteNames.enum.js';
 import LicencesRouteNames from './_internals/tabs/directory/LicencesRouteNames.enum.js';
 import UsersRouteNames from './_internals/tabs/directory/UsersRouteNames.enum.js';
+import AgentSkillsRoutesNameEnum
+  from './_internals/tabs/lookups/AgentSkillsRoutesName.enum.js';
 import ChatGatewayRoutesNameEnum
   from './_internals/tabs/routing/ChatGatewayRoutesName.enum.js';
 import ChatplanRoutesNameEnum
@@ -145,6 +147,10 @@ const OpenedChatGatewayWebchatRecaptchaTab = () =>
   import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue');
 const OpenedChatGatewayCustomGeneralTab = () =>
   import('../../modules/routing/modules/chat-gateways/components/custom/opened-chat-gateway-custom-general-tab.vue');
+const OpenedAgentSkillGeneral = () =>
+  import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill-general.vue');
+const OpenedSkillAgents = () =>
+  import('../../modules/lookups/modules/agent-skills/modules/agents/components/opened-skill-agents.vue');
 const checkAppAccess = (to, from, next) => {
   // check for === false because it can be undefined
   if (to.meta.requiresAccess === false) next();
@@ -489,16 +495,22 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/skills/new',
-          name: `${RouteNames.SKILLS}-new`,
-          component: OpenedAgentSkill,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/skills/:id',
-          name: `${RouteNames.SKILLS}-edit`,
+          name: `${RouteNames.SKILLS}-card`,
+          redirect: {name: AgentSkillsRoutesNameEnum.GENERAL},
           component: OpenedAgentSkill,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: AgentSkillsRoutesNameEnum.GENERAL,
+              component: OpenedAgentSkillGeneral,
+            },{
+              path: 'agents',
+              name: AgentSkillsRoutesNameEnum.AGENTS,
+              component: OpenedSkillAgents
+            }
+          ],
         },
         {
           path: '/lookups/buckets',
@@ -627,14 +639,8 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/contact-center/agents/new',
-          name: `${RouteNames.AGENTS}-new`,
-          component: OpenedAgent,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/contact-center/agents/:id',
-          name: `${RouteNames.AGENTS}-edit`,
+          name: `${RouteNames.AGENTS}-card`,
           component: OpenedAgent,
           beforeEnter: checkRouteAccess,
         },
@@ -645,14 +651,8 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/contact-center/teams/new',
-          name: `${RouteNames.TEAMS}-new`,
-          component: OpenedTeam,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/contact-center/teams/:id',
-          name: `${RouteNames.TEAMS}-edit`,
+          name: `${RouteNames.TEAMS}-card`,
           component: OpenedTeam,
           beforeEnter: checkRouteAccess,
         },
