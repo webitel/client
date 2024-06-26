@@ -96,15 +96,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <!--        <wt-dummy-->
-        <!--          v-if="dummy && isLoaded"-->
-        <!--          :src="dummy.src"-->
-        <!--          :dark-mode="darkMode"-->
-        <!--          :text="dummy.text && $t(dummy.text)"-->
-        <!--          class="dummy-wrapper"-->
-        <!--        ></wt-dummy>-->
+                <wt-dummy
+                  v-if="dummy && isLoaded"
+                  :src="dummy.src"
+                  :dark-mode="darkMode"
+                  :text="dummy.text && $t(dummy.text)"
+                  class="dummy-wrapper"
+                ></wt-dummy>
         <div
-          v-show="isLoaded"
+          v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
           <wt-table
@@ -213,6 +213,7 @@ import TheQueueMembersFilters from '../modules/filters/components/the-queue-memb
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 export default {
   name: 'TheQueueMembers',
@@ -227,6 +228,8 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`,
+      text: 'objects.ccenter.members.emptyWorkspace', });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -243,6 +246,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      dummy
     };
   },
 
@@ -322,16 +326,6 @@ export default {
       };
       return [importCsv];
     },
-
-    /* https://my.webitel.com/browse/WTEL-3697 */
-    /* Temporarily disabled functionality due to problems with pagination */
-
-    // dummy() {
-    //   return !this.dataList.length && {
-    //     src: this.darkMode ? dummyPicDark : dummyPicLight,
-    //     text: 'objects.ccenter.members.emptyWorkspace',
-    //   };
-    // },
   },
 
   methods: {

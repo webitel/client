@@ -65,17 +65,18 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <!--        <wt-dummy-->
-        <!--          v-if="dummy && isLoaded"-->
-        <!--          :src="dummy.src"-->
-        <!--          :dark-mode="darkMode"-->
-        <!--          :text="dummy.text && $t(dummy.text)"-->
-        <!--          :show-action="dummy.showAction"-->
-        <!--          @create="create"-->
-        <!--          class="dummy-wrapper"-->
-        <!--        ></wt-dummy>-->
+        <wt-dummy
+                  v-if="dummy && isLoaded"
+                  :src="dummy.src"
+                  :dark-mode="darkMode"
+                  :text="dummy.text && $t(dummy.text)"
+                  :show-action="dummy.showAction"
+                  @create="create"
+                  class="dummy-wrapper"
+                ></wt-dummy>
+
         <div
-          v-show="isLoaded"
+          v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
           <wt-table
@@ -162,6 +163,7 @@
 </template>
 
 <script>
+
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -175,6 +177,7 @@ import UploadPopup from './upload-flow-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
 
 const namespace = 'routing/flow';
 
@@ -190,26 +193,6 @@ export default {
   },
   mixins: [tableComponentMixin],
 
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-
   data: () => ({
     namespace,
     routeName: RouteNames.FLOW,
@@ -218,13 +201,25 @@ export default {
     isCreateFlowPopup: false,
   }),
 
-  /* https://my.webitel.com/browse/WTEL-3697 */
-  /* Temporarily disabled functionality due to problems with pagination */
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+    const { dummy } = useDummy({ namespace, showAction: true });
 
-  // setup() {
-  //   const { dummy } = useDummy({ namespace, showAction: true });
-  //   return { dummy };
-  // },
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+      askDeleteConfirmation,
+      closeDelete,
+      dummy
+    };
+  },
 
   computed: {
     path() {

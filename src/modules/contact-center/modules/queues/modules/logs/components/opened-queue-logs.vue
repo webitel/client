@@ -16,15 +16,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <!--    <wt-dummy-->
-    <!--      v-if="dummy && isLoaded"-->
-    <!--      :src="dummy.src"-->
-    <!--      :dark-mode="darkMode"-->
-    <!--      :text="dummy.text && $t(dummy.text)"-->
-    <!--      class="dummy-wrapper"-->
-    <!--    ></wt-dummy>-->
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
     <div
-      v-show="isLoaded"
+      v-show="dataList.length && isLoaded"
       class="table-wrapper"
     >
       <wt-table
@@ -88,6 +88,7 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'log';
@@ -101,13 +102,10 @@ export default {
     subNamespace,
   }),
 
-  /* https://my.webitel.com/browse/WTEL-3697 */
-  /* Temporarily disabled functionality due to problems with pagination */
-
-  // setup() {
-  //   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-  //   return { dummy };
-  // },
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   computed: {
     filtersNamespace() {
       return `${this.namespace}/${this.subNamespace}/filters`;

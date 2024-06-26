@@ -17,15 +17,15 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <!--    <wt-dummy-->
-    <!--      v-if="dummy && isLoaded"-->
-    <!--      :src="dummy.src"-->
-    <!--      :dark-mode="darkMode"-->
-    <!--      :text="dummy.text && $t(dummy.text)"-->
-    <!--      class="dummy-wrapper"-->
-    <!--    ></wt-dummy>-->
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
     <div
-      v-show="isLoaded"
+      v-show="dataList.length && isLoaded"
       class="table-wrapper"
     >
       <wt-table
@@ -90,7 +90,7 @@ import openedObjectTableTabMixin
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import LogsAPI from '../api/logs';
 import RecordLink from './changelog-logs-record-link.vue';
-// import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'system/changelogs';
 const subNamespace = 'logs';
@@ -105,13 +105,10 @@ export default {
     usersRouteName: RouteNames.USERS,
   }),
 
-  /* https://my.webitel.com/browse/WTEL-3697 */
-  /* Temporarily disabled functionality due to problems with pagination */
-
-  // setup() {
-  //   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-  //   return { dummy };
-  // },
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
   computed: {
     getFilters() {
       return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
