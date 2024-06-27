@@ -21,7 +21,7 @@
         :search-method="loadDropdownOptionsCalendarList"
         :v="v.itemInstance.calendar"
         :value="itemInstance.calendar"
-        required
+        :required="v.itemInstance.calendar"
         @input="setItemProp({ prop: 'calendar', value: $event })"
       />
       <wt-select
