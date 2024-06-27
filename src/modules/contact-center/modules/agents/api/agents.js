@@ -23,8 +23,6 @@ const convertStatusDuration = (value) => {
 };
 
 const getAgentsList = async (params) => {
-
-  console.log('getAgentsList', params);
   const listResponseHandler = (items) => {
     return items.map((item) => ({
       ...item,
