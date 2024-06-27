@@ -96,13 +96,13 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-                <wt-dummy
-                  v-if="dummy && isLoaded"
-                  :src="dummy.src"
-                  :dark-mode="darkMode"
-                  :text="dummy.text && $t(dummy.text)"
-                  class="dummy-wrapper"
-                ></wt-dummy>
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -133,9 +133,9 @@
             <template #endCause="{ item }">
               <div v-if="item.stopCause">
                 {{
-                  $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    : item.stopCause
+                $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                : item.stopCause
                 }}
               </div>
             </template>
@@ -197,263 +197,265 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import tableComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
-import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
-import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
-import ResetPopup from './reset-members-popup.vue';
-import uploadPopup from './upload-members-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+  import DeleteConfirmationPopup
+    from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+  import {
+    useDeleteConfirmationPopup,
+  } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+  import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+  import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+  import { mapActions, mapState } from 'vuex';
+  import tableComponentMixin
+    from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+  import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+  import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
+  import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
+  import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+  import ResetPopup from './reset-members-popup.vue';
+  import uploadPopup from './upload-members-popup.vue';
+  import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-export default {
-  name: 'TheQueueMembers',
-  components: {
-    FilterSearch,
-    uploadPopup,
-    destinationsPopup,
-    ResetPopup,
-    TheQueueMembersFilters,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
-
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`,
-      text: 'objects.ccenter.members.emptyWorkspace', });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-      dummy
-    };
-  },
-
-  data: () => ({
-    namespace: 'ccenter/queues/members',
-    isUploadPopup: false,
-    communicationsOnPopup: null,
-    isDestinationsPopup: false,
-    isResetPopup: false,
-    csvFile: null,
-  }),
-
-  computed: {
-    ...mapState({
-      parentQueue(state) {
-        return getNamespacedState(state, this.namespace).parentQueue;
-      },
-    }),
-    // ...mapGetters('appearance', {
-    //   darkMode: 'DARK_MODE',
-    // }),
-    parentId() {
-      return this.$route.params.queueId;
+  export default {
+    name: 'TheQueueMembers',
+    components: {
+      FilterSearch,
+      uploadPopup,
+      destinationsPopup,
+      ResetPopup,
+      TheQueueMembersFilters,
+      DeleteConfirmationPopup,
     },
+    mixins: [tableComponentMixin],
 
-    // if is NOT -- member is immutable. NOT prevents actions load by default
-    isNotInboundMember() {
-      return !(this.parentQueue.type === 1);
-    },
-    queueType() {
-      return QueueTypeProperties[this.parentQueue?.type]?.subpath;
-    },
-    path() {
-      const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
-      const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
-      return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.parentQueue.name, route: queueUrl },
-        { name: this.$tc('objects.ccenter.members.members', 2), route: membersUrl },
-      ];
-    },
-    filtersNamespace() {
-      return `${this.namespace}/filters`;
-    },
-    deleteOptions() {
-      const loadListAfterDecorator = (method) => async (...args) => {
-        try {
-          await method(...args);
-        } finally {
-          await this.loadList();
-        }
-      };
-      const all = {
-        text: this.$t('iconHints.deleteAll'),
-        method: loadListAfterDecorator(this.deleteAll),
-      };
-      const filtered = {
-        text: this.$t('iconHints.deleteFiltered'),
-        method: loadListAfterDecorator(this.deleteFiltered),
-      };
-
-      const selectedCount = this.selectedRows.length;
-      const selected = {
-        text: this.$t('iconHints.deleteSelected', { count: selectedCount }),
-        method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
-      };
-
-      const options = [all, filtered];
-      if (selectedCount) options.push(selected);
-      return options;
-    },
-
-    saveOptions() {
-      const importCsv = {
-        text: this.$tc('objects.integrations.importCsv.importCsv', 2),
-        callback: this.triggerFileInput,
-      };
-      return [importCsv];
-    },
-  },
-
-  methods: {
-    prettifyDateTime(timestamp) {
-      return new Date(+timestamp).toLocaleString();
-    },
-
-    openResetPopup() {
-      this.isResetPopup = true;
-    },
-
-    closeResetPopup() {
-      this.isResetPopup = false;
-    },
-
-    readDestinations(item) {
-      this.communicationsOnPopup = item.communications;
-      this.isDestinationsPopup = true;
-    },
-
-    closeDestinationsPopup() {
-      this.communicationsOnPopup = null;
-      this.isDestinationsPopup = false;
-    },
-
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-        this.isUploadPopup = true;
-      }
-    },
-
-    closeCSVPopup() {
-      this.loadList();
-      this.isUploadPopup = false;
-    },
-
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
-
-    inputFileHandler(event) {
-      const { files } = event.target;
-      this.processCSV(files);
-      this.clearFileInput();
-    },
-
-    clearFileInput() {
-      this.$refs['file-input'].value = null;
-    },
-
-    create() {
-      this.$router.push({
-        name: `${RouteNames.MEMBERS}-new`,
-        params: { queueId: this.parentId },
+    setup() {
+      const { dummy } = useDummy({
+        namespace: `${namespace}/${subNamespace}`,
+        text: 'objects.ccenter.members.emptyWorkspace',
       });
-    },
+      const {
+        isVisible: isDeleteConfirmationPopup,
+        deleteCount,
+        deleteCallback,
 
-    editLink(item) {
+        askDeleteConfirmation,
+        closeDelete,
+      } = useDeleteConfirmationPopup();
+
       return {
-        name: `${RouteNames.MEMBERS}-edit`,
-        params: { queueId: this.parentId, id: item.id },
+        isDeleteConfirmationPopup,
+        deleteCount,
+        deleteCallback,
+
+        askDeleteConfirmation,
+        closeDelete,
+        dummy,
       };
     },
 
-    close() {
-      this.$router.go(-1);
-      this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
-    },
-
-    ...mapActions({
-      setDestinationId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
-      },
-      setParentId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-      },
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-      loadParentQueue(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-      },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_STATE`, payload);
-      },
-      resetMembers(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
-      },
-
-      deleteSelected(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_BULK`, payload);
-      },
-      deleteFiltered(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
-      },
-      deleteAll(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_ALL`, payload);
-      },
+    data: () => ({
+      namespace: 'ccenter/queues/members',
+      isUploadPopup: false,
+      communicationsOnPopup: null,
+      isDestinationsPopup: false,
+      isResetPopup: false,
+      csvFile: null,
     }),
 
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
+    computed: {
+      ...mapState({
+        parentQueue(state) {
+          return getNamespacedState(state, this.namespace).parentQueue;
+        },
+      }),
+      // ...mapGetters('appearance', {
+      //   darkMode: 'DARK_MODE',
+      // }),
+      parentId() {
+        return this.$route.params.queueId;
+      },
+
+      // if is NOT -- member is immutable. NOT prevents actions load by default
+      isNotInboundMember() {
+        return !(this.parentQueue.type === 1);
+      },
+      queueType() {
+        return QueueTypeProperties[this.parentQueue?.type]?.subpath;
+      },
+      path() {
+        const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
+        const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
+        return [
+          { name: this.$t('objects.ccenter.ccenter') },
+          { name: this.parentQueue.name, route: queueUrl },
+          { name: this.$tc('objects.ccenter.members.members', 2), route: membersUrl },
+        ];
+      },
+      filtersNamespace() {
+        return `${this.namespace}/filters`;
+      },
+      deleteOptions() {
+        const loadListAfterDecorator = (method) => async (...args) => {
+          try {
+            await method(...args);
+          } finally {
+            await this.loadList();
+          }
+        };
+        const all = {
+          text: this.$t('iconHints.deleteAll'),
+          method: loadListAfterDecorator(this.deleteAll),
+        };
+        const filtered = {
+          text: this.$t('iconHints.deleteFiltered'),
+          method: loadListAfterDecorator(this.deleteFiltered),
+        };
+
+        const selectedCount = this.selectedRows.length;
+        const selected = {
+          text: this.$t('iconHints.deleteSelected', { count: selectedCount }),
+          method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
+        };
+
+        const options = [all, filtered];
+        if (selectedCount) options.push(selected);
+        return options;
+      },
+
+      saveOptions() {
+        const importCsv = {
+          text: this.$tc('objects.integrations.importCsv.importCsv', 2),
+          callback: this.triggerFileInput,
+        };
+        return [importCsv];
       },
     },
-  },
-};
+
+    methods: {
+      prettifyDateTime(timestamp) {
+        return new Date(+timestamp).toLocaleString();
+      },
+
+      openResetPopup() {
+        this.isResetPopup = true;
+      },
+
+      closeResetPopup() {
+        this.isResetPopup = false;
+      },
+
+      readDestinations(item) {
+        this.communicationsOnPopup = item.communications;
+        this.isDestinationsPopup = true;
+      },
+
+      closeDestinationsPopup() {
+        this.communicationsOnPopup = null;
+        this.isDestinationsPopup = false;
+      },
+
+      processCSV(files) {
+        const file = files[0];
+        if (file) {
+          this.csvFile = file;
+          this.isUploadPopup = true;
+        }
+      },
+
+      closeCSVPopup() {
+        this.loadList();
+        this.isUploadPopup = false;
+      },
+
+      triggerFileInput() {
+        this.$refs['file-input'].click();
+      },
+
+      inputFileHandler(event) {
+        const { files } = event.target;
+        this.processCSV(files);
+        this.clearFileInput();
+      },
+
+      clearFileInput() {
+        this.$refs['file-input'].value = null;
+      },
+
+      create() {
+        this.$router.push({
+          name: `${RouteNames.MEMBERS}-new`,
+          params: { queueId: this.parentId },
+        });
+      },
+
+      editLink(item) {
+        return {
+          name: `${RouteNames.MEMBERS}-edit`,
+          params: { queueId: this.parentId, id: item.id },
+        };
+      },
+
+      close() {
+        this.$router.go(-1);
+        this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
+      },
+
+      ...mapActions({
+        setDestinationId(dispatch, payload) {
+          return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
+        },
+        setParentId(dispatch, payload) {
+          return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+        },
+        setId(dispatch, payload) {
+          return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+        },
+        loadParentQueue(dispatch, payload) {
+          return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
+        },
+        resetState(dispatch, payload) {
+          return dispatch(`${this.namespace}/RESET_STATE`, payload);
+        },
+        resetMembers(dispatch, payload) {
+          return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
+        },
+
+        deleteSelected(dispatch, payload) {
+          return dispatch(`${this.namespace}/DELETE_BULK`, payload);
+        },
+        deleteFiltered(dispatch, payload) {
+          return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
+        },
+        deleteAll(dispatch, payload) {
+          return dispatch(`${this.namespace}/DELETE_ALL`, payload);
+        },
+      }),
+
+    },
+    watch: {
+      '$route.query': {
+        async handler() {
+          await this.loadList();
+        },
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.members__destinations-wrapper {
-  display: flex;
-}
+  .members__destinations-wrapper {
+    display: flex;
+  }
 
-.members__destinations-num {
-  @extend %typo-body-2;
+  .members__destinations-num {
+    @extend %typo-body-2;
 
-  margin-left: 20px;
-  cursor: pointer;
-  text-decoration: underline;
-}
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
 
-.upload-file-input {
-  position: absolute;
-  visibility: hidden;
-}
+  .upload-file-input {
+    position: absolute;
+    visibility: hidden;
+  }
 </style>

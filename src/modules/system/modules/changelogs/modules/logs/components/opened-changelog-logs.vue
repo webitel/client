@@ -17,13 +17,13 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-        ></wt-dummy>
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
       class="table-wrapper"
@@ -84,69 +84,69 @@
 </template>
 
 <script>
-import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import LogsAPI from '../api/logs';
-import RecordLink from './changelog-logs-record-link.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+  import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+  import openedObjectTableTabMixin
+    from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+  import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+  import LogsAPI from '../api/logs';
+  import RecordLink from './changelog-logs-record-link.vue';
+  import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-const namespace = 'system/changelogs';
-const subNamespace = 'logs';
+  const namespace = 'system/changelogs';
+  const subNamespace = 'logs';
 
-export default {
-  name: 'OpenedChangelogLogs',
-  components: { RecordLink },
-  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
-  data: () => ({
-    namespace,
-    subNamespace,
-    usersRouteName: RouteNames.USERS,
-  }),
+  export default {
+    name: 'OpenedChangelogLogs',
+    components: { RecordLink },
+    mixins: [openedObjectTableTabMixin, ExportCSVMixin],
+    data: () => ({
+      namespace,
+      subNamespace,
+      usersRouteName: RouteNames.USERS,
+    }),
 
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  computed: {
-    getFilters() {
-      return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
+    setup() {
+      const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+      return { dummy };
     },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
+    computed: {
+      getFilters() {
+        return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
       },
     },
-  },
-  created() {
-    this.initCSVExport(this.getDataForCSVExport, {
-      filename: `${this.itemInstance.object.name}-logs-at-${new Date().toLocaleString()}`,
-    });
-  },
-  methods: {
-    async getDataForCSVExport(params) {
-      const filters = this.getFilters;
-      const { items, next } = await LogsAPI.getList({
-        ...filters,
-        ...params,
-        parentId: this.parentId,
-      });
-
-      const transformedItems = items.map((item) => ({
-        ...item,
-        date: new Date(+item.date).toLocaleString(),
-      }));
-
-      return {
-        items: transformedItems,
-        next,
-      };
+    watch: {
+      '$route.query': {
+        async handler() {
+          await this.loadList();
+        },
+      },
     },
-  },
-};
+    created() {
+      this.initCSVExport(this.getDataForCSVExport, {
+        filename: `${this.itemInstance.object.name}-logs-at-${new Date().toLocaleString()}`,
+      });
+    },
+    methods: {
+      async getDataForCSVExport(params) {
+        const filters = this.getFilters;
+        const { items, next } = await LogsAPI.getList({
+          ...filters,
+          ...params,
+          parentId: this.parentId,
+        });
+
+        const transformedItems = items.map((item) => ({
+          ...item,
+          date: new Date(+item.date).toLocaleString(),
+        }));
+
+        return {
+          items: transformedItems,
+          next,
+        };
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
