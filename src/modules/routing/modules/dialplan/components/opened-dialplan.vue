@@ -42,7 +42,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { regExpValidator } from '../../../../../app/utils/validators';
 import General from './opened-dialplan-general.vue';
-import DialplanRoutesName from '../../../../../app/router/_internals/tabs/routing/DialplanRoutesName.enum.js';
+import DialplanRoutesName from '../../../../../app/router/_internals/tabs/routing/DialplanRouteNames.enum.js';
 
 export default {
   name: 'OpenedDialplan',

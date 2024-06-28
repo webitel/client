@@ -57,7 +57,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import ChatGatewayProvider
   from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ChatGatewayRoutesName from '../../../../../app/router/_internals/tabs/routing/ChatGatewayRoutesName.enum.js';
+import ChatGatewayRoutesName from '../../../../../app/router/_internals/tabs/routing/ChatGatewayRouteNames.enum.js';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
@@ -434,9 +434,6 @@ export default {
     async loadPageData() {
       await this.setId(this.$route.params.id);
       await this.loadItem(this.$route.query.type);
-    },
-    close() {
-      this.$router.push({ name: this.routeName });
     },
     changeTab(tab) {
       this.$router.push({ name: tab.pathName ,query: this.$route.query });

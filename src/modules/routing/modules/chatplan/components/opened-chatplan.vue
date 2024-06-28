@@ -40,7 +40,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ChatplanRoutesName from '../../../../../app/router/_internals/tabs/routing/ChatplanRoutesName.enum.js';
+import ChatplanRoutesName from '../../../../../app/router/_internals/tabs/routing/ChatplanRouteNames.enum.js';
 import General from './opened-chatplan-general.vue';
 
 export default {
