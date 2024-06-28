@@ -4,9 +4,9 @@ import filters from "../modules/filters/store/filters";
 import headers from "./_internals/headers";
 
 const logs = new NestedObjectStoreModule({ headers })
-	.attachAPIModule(LogsAPI)
-	.generateAPIActions()
-	.setChildModules({ filters })
-	.getModule();
+  .attachAPIModule(LogsAPI)
+  .generateAPIActions()
+  .setChildModules({ filters })
+  .getModule();
 
 export default logs;

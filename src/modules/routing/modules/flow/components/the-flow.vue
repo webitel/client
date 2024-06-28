@@ -178,108 +178,114 @@ import UploadPopup from "./upload-flow-popup.vue";
 const namespace = "routing/flow";
 
 export default {
-	name: "TheFlow",
-	components: {
-		CreateFlowPopup,
-		UploadPopup,
-		UploadFileIconBtn,
-		TheFlowFilters,
-		FilterSearch,
-		DeleteConfirmationPopup,
-	},
-	mixins: [tableComponentMixin],
+  name: "TheFlow",
+  components: {
+    CreateFlowPopup,
+    UploadPopup,
+    UploadFileIconBtn,
+    TheFlowFilters,
+    FilterSearch,
+    DeleteConfirmationPopup,
+  },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		routeName: RouteNames.FLOW,
-		isUploadPopup: false,
-		jsonFile: null,
-		isCreateFlowPopup: false,
-	}),
+  data: () => ({
+    namespace,
+    routeName: RouteNames.FLOW,
+    isUploadPopup: false,
+    jsonFile: null,
+    isCreateFlowPopup: false,
+  }),
 
-	/* https://my.webitel.com/browse/WTEL-3697 */
-	/* Temporarily disabled functionality due to problems with pagination */
+  /* https://my.webitel.com/browse/WTEL-3697 */
+  /* Temporarily disabled functionality due to problems with pagination */
 
-	// setup() {
-	//   const { dummy } = useDummy({ namespace, showAction: true });
-	//   return { dummy };
-	// },
+  // setup() {
+  //   const { dummy } = useDummy({ namespace, showAction: true });
+  //   return { dummy };
+  // },
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{
-					name: this.$tc("objects.routing.flow.flow", 2),
-					route: "/routing/flow",
-				},
-			];
-		},
-		filtersNamespace() {
-			return `${this.namespace}/filters`;
-		},
-	},
-	watch: {
-		"$route.query": {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
-	methods: {
-		create() {
-			this.isCreateFlowPopup = true;
-		},
-		processJSON(files) {
-			const file = files[0];
-			if (file) {
-				this.jsonFile = file;
-				this.openUploadPopup();
-			}
-		},
-		openUploadPopup() {
-			this.isUploadPopup = true;
-		},
-		closeUploadPopup() {
-			this.loadList();
-			this.isUploadPopup = false;
-		},
-		async download({ id, name }) {
-			const flow = await FlowsAPI.get({ itemId: id });
-			const filename = `${name}-schema`;
-			downloadAsJSON(flow, filename);
-		},
-		editLink({ id, editor }) {
-			const routeName = this.routeName || this.tableObjectRouteName;
-			return {
-				name: `${routeName}-edit`,
-				params: { id },
-				query: {
-					editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
-				},
-			};
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$tc("objects.routing.flow.flow", 2),
+          route: "/routing/flow",
+        },
+      ];
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
+  },
+  watch: {
+    "$route.query": {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
+  methods: {
+    create() {
+      this.isCreateFlowPopup = true;
+    },
+    processJSON(files) {
+      const file = files[0];
+      if (file) {
+        this.jsonFile = file;
+        this.openUploadPopup();
+      }
+    },
+    openUploadPopup() {
+      this.isUploadPopup = true;
+    },
+    closeUploadPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+    },
+    async download({ id, name }) {
+      const flow = await FlowsAPI.get({
+        itemId: id,
+      });
+      const filename = `${name}-schema`;
+      downloadAsJSON(flow, filename);
+    },
+    editLink({ id, editor }) {
+      const routeName = this.routeName || this.tableObjectRouteName;
+      return {
+        name: `${routeName}-edit`,
+        params: {
+          id,
+        },
+        query: {
+          editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
+        },
+      };
+    },
+  },
 };
 </script>
 

@@ -3,8 +3,8 @@ import MediaAPI from "../api/media";
 import headers from "./_internals/headers";
 
 const media = new ObjectStoreModule({ headers })
-	.attachAPIModule(MediaAPI)
-	.generateAPIActions()
-	.getModule();
+  .attachAPIModule(MediaAPI)
+  .generateAPIActions()
+  .getModule();
 
 export default media;

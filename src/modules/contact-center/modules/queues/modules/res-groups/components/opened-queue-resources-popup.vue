@@ -44,26 +44,26 @@ import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins
 import ResourceGroupsAPI from "../../../../resource-groups/api/resourceGroups";
 
 export default {
-	name: "OpenedQueueBucketsPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedQueueBucketsPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "ccenter/queues/resGroups",
-	}),
-	validations: {
-		itemInstance: {
-			resourceGroup: { required },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "ccenter/queues/resGroups",
+  }),
+  validations: {
+    itemInstance: {
+      resourceGroup: { required },
+    },
+  },
 
-	methods: {
-		loadResGroupsOptions(params) {
-			return ResourceGroupsAPI.getLookup(params);
-		},
-	},
+  methods: {
+    loadResGroupsOptions(params) {
+      return ResourceGroupsAPI.getLookup(params);
+    },
+  },
 };
 </script>
 

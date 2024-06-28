@@ -170,106 +170,109 @@ import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from "../../../../routing/modules/flow/api/flow";
 
 export default {
-	name: "OpenedEmailProfileGeneral",
-	components: { PasswordInput },
-	mixins: [openedTabComponentMixin],
-	data: () => ({
-		EngineEmailAuthType,
-		isChangeOauth2Params: false,
-	}),
-	computed: {
-		isPlainAuthType() {
-			return (
-				this.itemInstance.authType === EngineEmailAuthType.Plain ||
-				!this.itemInstance.authType
-			);
-		},
-		authTypesList() {
-			return Object.values(EngineEmailAuthType).filter(
-				(type) => type !== EngineEmailAuthType.EmailAuthTypeUndefined,
-			);
-		},
-		isDisplayAuthBtn() {
-			return this.itemInstance.id && !this.isPlainAuthType;
-		},
-		isUnavailableAuth() {
-			if (isEmpty(this.itemInstance.params)) return true;
-			return (
-				Object.values(this.itemInstance?.params?.oauth2).some((item) => !item) ||
-				this.isChangeOauth2Params
-			);
-		},
-		authBtnText() {
-			return this.itemInstance.logged
-				? this.$t("vocabulary.logout")
-				: this.$t("vocabulary.login");
-		},
-		authLabelText() {
-			return this.itemInstance.logged
-				? this.$t("objects.integrations.emailProfiles.authenticatedAs")
-				: this.$t("vocabulary.login");
-		},
-		isDisabledAuthParams() {
-			return !this.isPlainAuthType && this.itemInstance.logged;
-		},
-	},
-	methods: {
-		...mapActions({
-			// [https://webitel.atlassian.net/browse/WTEL-3114]
-			// Authorization Microsoft Outlook service
+  name: "OpenedEmailProfileGeneral",
+  components: { PasswordInput },
+  mixins: [openedTabComponentMixin],
+  data: () => ({
+    EngineEmailAuthType,
+    isChangeOauth2Params: false,
+  }),
+  computed: {
+    isPlainAuthType() {
+      return (
+        this.itemInstance.authType === EngineEmailAuthType.Plain || !this.itemInstance.authType
+      );
+    },
+    authTypesList() {
+      return Object.values(EngineEmailAuthType).filter(
+        (type) => type !== EngineEmailAuthType.EmailAuthTypeUndefined,
+      );
+    },
+    isDisplayAuthBtn() {
+      return this.itemInstance.id && !this.isPlainAuthType;
+    },
+    isUnavailableAuth() {
+      if (isEmpty(this.itemInstance.params)) return true;
+      return (
+        Object.values(this.itemInstance?.params?.oauth2).some((item) => !item) ||
+        this.isChangeOauth2Params
+      );
+    },
+    authBtnText() {
+      return this.itemInstance.logged ? this.$t("vocabulary.logout") : this.$t("vocabulary.login");
+    },
+    authLabelText() {
+      return this.itemInstance.logged
+        ? this.$t("objects.integrations.emailProfiles.authenticatedAs")
+        : this.$t("vocabulary.login");
+    },
+    isDisabledAuthParams() {
+      return !this.isPlainAuthType && this.itemInstance.logged;
+    },
+  },
+  methods: {
+    ...mapActions({
+      // [https://webitel.atlassian.net/browse/WTEL-3114]
+      // Authorization Microsoft Outlook service
 
-			auth(dispatch, payload) {
-				return dispatch(`${this.namespace}/AUTH`, payload);
-			},
-		}),
-		loadFlows(params) {
-			return FlowsAPI.getLookup(params);
-		},
-		changeAuthType(type) {
-			this.setItemProp({ prop: "authType", value: type });
-			if (this.isPlainAuthType) {
-				if (this.itemInstance?.params?.oauth2?.clientId)
-					this.setItemProp({
-						path: "params.oauth2.clientId",
-						value: "",
-					});
-				if (this.itemInstance?.params?.oauth2?.clientSecret)
-					this.setItemProp({
-						path: "params.oauth2.clientSecret",
-						value: "",
-					});
-				if (this.itemInstance?.params?.oauth2?.redirectUrl)
-					this.setItemProp({
-						path: "params.oauth2.redirectUrl",
-						value: "",
-					});
-			} else {
-				if (this.itemInstance?.password)
-					this.setItemProp({ prop: "password", value: "" });
-			}
-		},
-		updateIsChangeOauth2Params() {
-			if (this.itemInstance._dirty) this.isChangeOauth2Params = true;
-		},
-	},
-	watch: {
-		"itemInstance.login": {
-			handler() {
-				this.updateIsChangeOauth2Params();
-			},
-		},
-		"itemInstance.params.oauth2": {
-			handler() {
-				this.updateIsChangeOauth2Params();
-			},
-			deep: true,
-		},
-		"itemInstance._dirty": {
-			handler(value) {
-				if (!value) this.isChangeOauth2Params = false;
-			},
-		},
-	},
+      auth(dispatch, payload) {
+        return dispatch(`${this.namespace}/AUTH`, payload);
+      },
+    }),
+    loadFlows(params) {
+      return FlowsAPI.getLookup(params);
+    },
+    changeAuthType(type) {
+      this.setItemProp({
+        prop: "authType",
+        value: type,
+      });
+      if (this.isPlainAuthType) {
+        if (this.itemInstance?.params?.oauth2?.clientId)
+          this.setItemProp({
+            path: "params.oauth2.clientId",
+            value: "",
+          });
+        if (this.itemInstance?.params?.oauth2?.clientSecret)
+          this.setItemProp({
+            path: "params.oauth2.clientSecret",
+            value: "",
+          });
+        if (this.itemInstance?.params?.oauth2?.redirectUrl)
+          this.setItemProp({
+            path: "params.oauth2.redirectUrl",
+            value: "",
+          });
+      } else {
+        if (this.itemInstance?.password)
+          this.setItemProp({
+            prop: "password",
+            value: "",
+          });
+      }
+    },
+    updateIsChangeOauth2Params() {
+      if (this.itemInstance._dirty) this.isChangeOauth2Params = true;
+    },
+  },
+  watch: {
+    "itemInstance.login": {
+      handler() {
+        this.updateIsChangeOauth2Params();
+      },
+    },
+    "itemInstance.params.oauth2": {
+      handler() {
+        this.updateIsChangeOauth2Params();
+      },
+      deep: true,
+    },
+    "itemInstance._dirty": {
+      handler(value) {
+        if (!value) this.isChangeOauth2Params = false;
+      },
+    },
+  },
 };
 </script>
 

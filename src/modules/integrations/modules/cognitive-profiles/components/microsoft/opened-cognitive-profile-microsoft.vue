@@ -82,20 +82,20 @@ import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMix
 import CognitiveProfileServices from "../../lookups/CognitiveProfileServices.lookup";
 
 export default {
-	name: "OpenedCognitiveProfileMicrosoft",
-	mixins: [openedTabComponentMixin],
-	data: () => ({
-		MicrosoftRegion,
-		CognitiveProfileServices,
-		MicrosoftLanguageOptions: Object.values(MicrosoftLanguage),
-	}),
-	methods: {
-		...mapActions({
-			setItemPropertiesProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
-			},
-		}),
-	},
+  name: "OpenedCognitiveProfileMicrosoft",
+  mixins: [openedTabComponentMixin],
+  data: () => ({
+    MicrosoftRegion,
+    CognitiveProfileServices,
+    MicrosoftLanguageOptions: Object.values(MicrosoftLanguage),
+  }),
+  methods: {
+    ...mapActions({
+      setItemPropertiesProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
+      },
+    }),
+  },
 };
 </script>
 

@@ -55,53 +55,56 @@ import FlowsAPI from "../../../../../../routing/modules/flow/api/flow";
 import HookEvent from "../enum/HookQueueEvent.enum";
 
 export default {
-	name: "OpenedQueueHooksPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedQueueHooksPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "ccenter/queues/hooks",
-	}),
-	validations: {
-		itemInstance: {
-			event: { required },
-			schema: { required },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "ccenter/queues/hooks",
+  }),
+  validations: {
+    itemInstance: {
+      event: { required },
+      schema: { required },
+    },
+  },
 
-	computed: {
-		eventOptions() {
-			return Object.values(HookEvent).map((event) => ({
-				name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-				value: event,
-			}));
-		},
-		event: {
-			get() {
-				const { event } = this.itemInstance;
-				return event
-					? {
-							name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-							value: event,
-						}
-					: {};
-			},
-			set(value) {
-				this.setItemProp({ prop: "event", value: value.value });
-			},
-		},
-	},
+  computed: {
+    eventOptions() {
+      return Object.values(HookEvent).map((event) => ({
+        name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+        value: event,
+      }));
+    },
+    event: {
+      get() {
+        const { event } = this.itemInstance;
+        return event
+          ? {
+              name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+              value: event,
+            }
+          : {};
+      },
+      set(value) {
+        this.setItemProp({
+          prop: "event",
+          value: value.value,
+        });
+      },
+    },
+  },
 
-	methods: {
-		loadFlowOptions(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [EngineRoutingSchemaType.Service],
-			});
-		},
-	},
+  methods: {
+    loadFlowOptions(params) {
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
+    },
+  },
 };
 </script>
 

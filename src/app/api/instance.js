@@ -3,8 +3,8 @@ import updateTokenInterceptor from "@webitel/ui-sdk/src/api/interceptors/request
 import handleUnauthorizedInterceptor from "@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor";
 
 export default generateInstance({
-	interceptors: {
-		request: [updateTokenInterceptor],
-		response: [handleUnauthorizedInterceptor],
-	},
+  interceptors: {
+    request: [updateTokenInterceptor],
+    response: [handleUnauthorizedInterceptor],
+  },
 });

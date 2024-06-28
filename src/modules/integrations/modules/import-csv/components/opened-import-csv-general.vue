@@ -40,23 +40,26 @@ import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins
 import QueuesAPI from "../../../../contact-center/modules/queues/api/queues";
 
 export default {
-	name: "OpenedImportCsvGeneral",
-	mixins: [openedTabComponentMixin],
-	methods: {
-		loadQueueOptions(params) {
-			const type = [
-				QueueType.OFFLINE_QUEUE,
-				QueueType.OUTBOUND_IVR_QUEUE,
-				QueueType.PREVIEW_DIALER,
-				QueueType.PROGRESSIVE_DIALER,
-				QueueType.PREDICTIVE_DIALER,
-				QueueType.CHAT_INBOUND_QUEUE,
-				QueueType.INBOUND_JOB_QUEUE,
-				QueueType.OUTBOUND_JOB_QUEUE,
-			];
-			return QueuesAPI.getLookup({ ...params, type });
-		},
-	},
+  name: "OpenedImportCsvGeneral",
+  mixins: [openedTabComponentMixin],
+  methods: {
+    loadQueueOptions(params) {
+      const type = [
+        QueueType.OFFLINE_QUEUE,
+        QueueType.OUTBOUND_IVR_QUEUE,
+        QueueType.PREVIEW_DIALER,
+        QueueType.PROGRESSIVE_DIALER,
+        QueueType.PREDICTIVE_DIALER,
+        QueueType.CHAT_INBOUND_QUEUE,
+        QueueType.INBOUND_JOB_QUEUE,
+        QueueType.OUTBOUND_JOB_QUEUE,
+      ];
+      return QueuesAPI.getLookup({
+        ...params,
+        type,
+      });
+    },
+  },
 };
 </script>
 

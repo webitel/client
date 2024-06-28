@@ -10,16 +10,16 @@ import system from "../../modules/system/store/system";
 import userinfo from "../../modules/userinfo/store/userinfo";
 
 export default createStore({
-	strict: false,
-	modules: {
-		userinfo,
-		directory,
-		routing,
-		lookups,
-		ccenter,
-		integrations,
-		permissions,
-		system,
-		appearance,
-	},
+  strict: false,
+  modules: {
+    userinfo,
+    directory,
+    routing,
+    lookups,
+    ccenter,
+    integrations,
+    permissions,
+    system,
+    appearance,
+  },
 });

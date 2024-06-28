@@ -211,239 +211,249 @@ import ResetPopup from "./reset-members-popup.vue";
 import uploadPopup from "./upload-members-popup.vue";
 
 export default {
-	name: "TheQueueMembers",
-	components: {
-		FilterSearch,
-		uploadPopup,
-		destinationsPopup,
-		ResetPopup,
-		TheQueueMembersFilters,
-		DeleteConfirmationPopup,
-	},
-	mixins: [tableComponentMixin],
+  name: "TheQueueMembers",
+  components: {
+    FilterSearch,
+    uploadPopup,
+    destinationsPopup,
+    ResetPopup,
+    TheQueueMembersFilters,
+    DeleteConfirmationPopup,
+  },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace: "ccenter/queues/members",
-		isUploadPopup: false,
-		communicationsOnPopup: null,
-		isDestinationsPopup: false,
-		isResetPopup: false,
-		csvFile: null,
-	}),
+  data: () => ({
+    namespace: "ccenter/queues/members",
+    isUploadPopup: false,
+    communicationsOnPopup: null,
+    isDestinationsPopup: false,
+    isResetPopup: false,
+    csvFile: null,
+  }),
 
-	computed: {
-		...mapState({
-			parentQueue(state) {
-				return getNamespacedState(state, this.namespace).parentQueue;
-			},
-		}),
-		// ...mapGetters('appearance', {
-		//   darkMode: 'DARK_MODE',
-		// }),
-		parentId() {
-			return this.$route.params.queueId;
-		},
+  computed: {
+    ...mapState({
+      parentQueue(state) {
+        return getNamespacedState(state, this.namespace).parentQueue;
+      },
+    }),
+    // ...mapGetters('appearance', {
+    //   darkMode: 'DARK_MODE',
+    // }),
+    parentId() {
+      return this.$route.params.queueId;
+    },
 
-		// if is NOT -- member is immutable. NOT prevents actions load by default
-		isNotInboundMember() {
-			return !(this.parentQueue.type === 1);
-		},
-		queueType() {
-			return QueueTypeProperties[this.parentQueue?.type]?.subpath;
-		},
-		path() {
-			const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
-			const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
-			return [
-				{ name: this.$t("objects.ccenter.ccenter") },
-				{ name: this.parentQueue.name, route: queueUrl },
-				{
-					name: this.$tc("objects.ccenter.members.members", 2),
-					route: membersUrl,
-				},
-			];
-		},
-		filtersNamespace() {
-			return `${this.namespace}/filters`;
-		},
-		deleteOptions() {
-			const loadListAfterDecorator =
-				(method) =>
-				async (...args) => {
-					try {
-						await method(...args);
-					} finally {
-						await this.loadList();
-					}
-				};
-			const all = {
-				text: this.$t("iconHints.deleteAll"),
-				method: loadListAfterDecorator(this.deleteAll),
-			};
-			const filtered = {
-				text: this.$t("iconHints.deleteFiltered"),
-				method: loadListAfterDecorator(this.deleteFiltered),
-			};
+    // if is NOT -- member is immutable. NOT prevents actions load by default
+    isNotInboundMember() {
+      return !(this.parentQueue.type === 1);
+    },
+    queueType() {
+      return QueueTypeProperties[this.parentQueue?.type]?.subpath;
+    },
+    path() {
+      const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
+      const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
+      return [
+        {
+          name: this.$t("objects.ccenter.ccenter"),
+        },
+        {
+          name: this.parentQueue.name,
+          route: queueUrl,
+        },
+        {
+          name: this.$tc("objects.ccenter.members.members", 2),
+          route: membersUrl,
+        },
+      ];
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
+    deleteOptions() {
+      const loadListAfterDecorator =
+        (method) =>
+        async (...args) => {
+          try {
+            await method(...args);
+          } finally {
+            await this.loadList();
+          }
+        };
+      const all = {
+        text: this.$t("iconHints.deleteAll"),
+        method: loadListAfterDecorator(this.deleteAll),
+      };
+      const filtered = {
+        text: this.$t("iconHints.deleteFiltered"),
+        method: loadListAfterDecorator(this.deleteFiltered),
+      };
 
-			const selectedCount = this.selectedRows.length;
-			const selected = {
-				text: this.$t("iconHints.deleteSelected", { count: selectedCount }),
-				method: loadListAfterDecorator(
-					this.deleteSelected.bind(this, this.selectedRows),
-				),
-			};
+      const selectedCount = this.selectedRows.length;
+      const selected = {
+        text: this.$t("iconHints.deleteSelected", {
+          count: selectedCount,
+        }),
+        method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
+      };
 
-			const options = [all, filtered];
-			if (selectedCount) options.push(selected);
-			return options;
-		},
+      const options = [all, filtered];
+      if (selectedCount) options.push(selected);
+      return options;
+    },
 
-		saveOptions() {
-			const importCsv = {
-				text: this.$tc("objects.integrations.importCsv.importCsv", 2),
-				callback: this.triggerFileInput,
-			};
-			return [importCsv];
-		},
+    saveOptions() {
+      const importCsv = {
+        text: this.$tc("objects.integrations.importCsv.importCsv", 2),
+        callback: this.triggerFileInput,
+      };
+      return [importCsv];
+    },
 
-		/* https://my.webitel.com/browse/WTEL-3697 */
-		/* Temporarily disabled functionality due to problems with pagination */
+    /* https://my.webitel.com/browse/WTEL-3697 */
+    /* Temporarily disabled functionality due to problems with pagination */
 
-		// dummy() {
-		//   return !this.dataList.length && {
-		//     src: this.darkMode ? dummyPicDark : dummyPicLight,
-		//     text: 'objects.ccenter.members.emptyWorkspace',
-		//   };
-		// },
-	},
+    // dummy() {
+    //   return !this.dataList.length && {
+    //     src: this.darkMode ? dummyPicDark : dummyPicLight,
+    //     text: 'objects.ccenter.members.emptyWorkspace',
+    //   };
+    // },
+  },
 
-	methods: {
-		prettifyDateTime(timestamp) {
-			return new Date(+timestamp).toLocaleString();
-		},
+  methods: {
+    prettifyDateTime(timestamp) {
+      return new Date(+timestamp).toLocaleString();
+    },
 
-		openResetPopup() {
-			this.isResetPopup = true;
-		},
+    openResetPopup() {
+      this.isResetPopup = true;
+    },
 
-		closeResetPopup() {
-			this.isResetPopup = false;
-		},
+    closeResetPopup() {
+      this.isResetPopup = false;
+    },
 
-		readDestinations(item) {
-			this.communicationsOnPopup = item.communications;
-			this.isDestinationsPopup = true;
-		},
+    readDestinations(item) {
+      this.communicationsOnPopup = item.communications;
+      this.isDestinationsPopup = true;
+    },
 
-		closeDestinationsPopup() {
-			this.communicationsOnPopup = null;
-			this.isDestinationsPopup = false;
-		},
+    closeDestinationsPopup() {
+      this.communicationsOnPopup = null;
+      this.isDestinationsPopup = false;
+    },
 
-		processCSV(files) {
-			const file = files[0];
-			if (file) {
-				this.csvFile = file;
-				this.isUploadPopup = true;
-			}
-		},
+    processCSV(files) {
+      const file = files[0];
+      if (file) {
+        this.csvFile = file;
+        this.isUploadPopup = true;
+      }
+    },
 
-		closeCSVPopup() {
-			this.loadList();
-			this.isUploadPopup = false;
-		},
+    closeCSVPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+    },
 
-		triggerFileInput() {
-			this.$refs["file-input"].click();
-		},
+    triggerFileInput() {
+      this.$refs["file-input"].click();
+    },
 
-		inputFileHandler(event) {
-			const { files } = event.target;
-			this.processCSV(files);
-			this.clearFileInput();
-		},
+    inputFileHandler(event) {
+      const { files } = event.target;
+      this.processCSV(files);
+      this.clearFileInput();
+    },
 
-		clearFileInput() {
-			this.$refs["file-input"].value = null;
-		},
+    clearFileInput() {
+      this.$refs["file-input"].value = null;
+    },
 
-		create() {
-			this.$router.push({
-				name: `${RouteNames.MEMBERS}-new`,
-				params: { queueId: this.parentId },
-			});
-		},
+    create() {
+      this.$router.push({
+        name: `${RouteNames.MEMBERS}-new`,
+        params: {
+          queueId: this.parentId,
+        },
+      });
+    },
 
-		editLink(item) {
-			return {
-				name: `${RouteNames.MEMBERS}-edit`,
-				params: { queueId: this.parentId, id: item.id },
-			};
-		},
+    editLink(item) {
+      return {
+        name: `${RouteNames.MEMBERS}-edit`,
+        params: {
+          queueId: this.parentId,
+          id: item.id,
+        },
+      };
+    },
 
-		close() {
-			this.$router.go(-1);
-			this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
-		},
+    close() {
+      this.$router.go(-1);
+      this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
+    },
 
-		...mapActions({
-			setDestinationId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
-			},
-			setParentId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-			},
-			setId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-			loadParentQueue(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-			},
-			resetState(dispatch, payload) {
-				return dispatch(`${this.namespace}/RESET_STATE`, payload);
-			},
-			resetMembers(dispatch, payload) {
-				return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
-			},
+    ...mapActions({
+      setDestinationId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
+      },
+      setParentId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+      },
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+      loadParentQueue(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
+      },
+      resetState(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_STATE`, payload);
+      },
+      resetMembers(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
+      },
 
-			deleteSelected(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_BULK`, payload);
-			},
-			deleteFiltered(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
-			},
-			deleteAll(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_ALL`, payload);
-			},
-		}),
-	},
-	watch: {
-		"$route.query": {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
+      deleteSelected(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_BULK`, payload);
+      },
+      deleteFiltered(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
+      },
+      deleteAll(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_ALL`, payload);
+      },
+    }),
+  },
+  watch: {
+    "$route.query": {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
 };
 </script>
 

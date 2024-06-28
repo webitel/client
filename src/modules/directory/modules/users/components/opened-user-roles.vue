@@ -24,12 +24,12 @@ import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins
 import RolesAPI from "../../../../permissions/modules/roles/api/roles";
 
 export default {
-	name: "OpenedUserRoles",
-	mixins: [openedTabComponentMixin],
-	methods: {
-		loadDropdownOptionsList(params) {
-			return RolesAPI.getLookup(params);
-		},
-	},
+  name: "OpenedUserRoles",
+  mixins: [openedTabComponentMixin],
+  methods: {
+    loadDropdownOptionsList(params) {
+      return RolesAPI.getLookup(params);
+    },
+  },
 };
 </script>

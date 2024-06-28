@@ -13,37 +13,35 @@ import SelectionPopup from "../../../../../app/components/utils/selection-popup/
 import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
 
 export default {
-	name: "CreateQueuePopup",
-	components: { SelectionPopup },
-	data: () => ({
-		selected: null,
-	}),
+  name: "CreateQueuePopup",
+  components: { SelectionPopup },
+  data: () => ({
+    selected: null,
+  }),
 
-	computed: {
-		options() {
-			return Object.entries(QueueTypeProperties).map(
-				([type, { locale, subpath }]) => ({
-					value: type, // popup identifies selected option by "value"
-					subpath,
-					title: this.$t(locale),
-					description: this.$t(`${locale}Description`),
-				}),
-			);
-		},
-	},
+  computed: {
+    options() {
+      return Object.entries(QueueTypeProperties).map(([type, { locale, subpath }]) => ({
+        value: type, // popup identifies selected option by "value"
+        subpath,
+        title: this.$t(locale),
+        description: this.$t(`${locale}Description`),
+      }));
+    },
+  },
 
-	created() {
-		// eslint-disable-next-line prefer-destructuring
-		this.selected = this.options[0];
-	},
+  created() {
+    // eslint-disable-next-line prefer-destructuring
+    this.selected = this.options[0];
+  },
 
-	methods: {
-		createQueue() {
-			this.$router.push({
-				path: `/contact-center/queues/new/${this.selected.subpath}`,
-			});
-		},
-	},
+  methods: {
+    createQueue() {
+      this.$router.push({
+        path: `/contact-center/queues/new/${this.selected.subpath}`,
+      });
+    },
+  },
 };
 </script>
 

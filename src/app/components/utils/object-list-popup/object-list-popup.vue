@@ -21,32 +21,37 @@
 
 <script>
 export default {
-	name: "ObjectListPopup",
-	props: {
-		title: {
-			type: String,
-			default: "",
-		},
-		dataList: {
-			type: Array,
-			default: () => [],
-		},
-		headers: {
-			type: Array,
-			description: 'Or default "name" header',
-		},
-	},
-	computed: {
-		tableHeaders() {
-			const defaultHeaders = [{ value: "name", text: this.$t("reusable.name") }];
-			return this.headers || defaultHeaders;
-		},
-	},
-	methods: {
-		close() {
-			this.$emit("close");
-		},
-	},
+  name: "ObjectListPopup",
+  props: {
+    title: {
+      type: String,
+      default: "",
+    },
+    dataList: {
+      type: Array,
+      default: () => [],
+    },
+    headers: {
+      type: Array,
+      description: 'Or default "name" header',
+    },
+  },
+  computed: {
+    tableHeaders() {
+      const defaultHeaders = [
+        {
+          value: "name",
+          text: this.$t("reusable.name"),
+        },
+      ];
+      return this.headers || defaultHeaders;
+    },
+  },
+  methods: {
+    close() {
+      this.$emit("close");
+    },
+  },
 };
 </script>
 

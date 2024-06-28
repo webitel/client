@@ -57,35 +57,35 @@ import { required } from "@vuelidate/validators";
 import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
 
 export default {
-	name: "OpenedBlacklistNumberPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedBlacklistNumberPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "lookups/blacklists/numbers",
-		showExpireDate: false,
-	}),
-	validations: {
-		itemInstance: {
-			number: { required },
-		},
-	},
-	watch: {
-		showExpireDate() {
-			if (this.itemInstance.expireAt && this.showExpireDate) return;
-			this.setItemProp({
-				prop: "expireAt",
-				value: this.showExpireDate ? Date.now() : 0,
-			});
-		},
-		"itemInstance.id": {
-			handler() {
-				if (this.itemInstance.expireAt) this.showExpireDate = true;
-			},
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "lookups/blacklists/numbers",
+    showExpireDate: false,
+  }),
+  validations: {
+    itemInstance: {
+      number: { required },
+    },
+  },
+  watch: {
+    showExpireDate() {
+      if (this.itemInstance.expireAt && this.showExpireDate) return;
+      this.setItemProp({
+        prop: "expireAt",
+        value: this.showExpireDate ? Date.now() : 0,
+      });
+    },
+    "itemInstance.id": {
+      handler() {
+        if (this.itemInstance.expireAt) this.showExpireDate = true;
+      },
+    },
+  },
 };
 </script>
 

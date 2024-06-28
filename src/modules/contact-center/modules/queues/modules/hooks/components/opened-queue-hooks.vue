@@ -111,46 +111,46 @@ const namespace = "ccenter/queues";
 const subNamespace = "hooks";
 
 export default {
-	name: "OpenedQueueHooks",
-	components: { DeleteConfirmationPopup, HookPopup },
-	mixins: [openedObjectTableTabMixin],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  name: "OpenedQueueHooks",
+  components: { DeleteConfirmationPopup, HookPopup },
+  mixins: [openedObjectTableTabMixin],
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		isHookPopup: false,
-	}),
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    subNamespace,
+    isHookPopup: false,
+  }),
 
-	methods: {
-		openPopup() {
-			this.isHookPopup = true;
-		},
-		closePopup() {
-			this.isHookPopup = false;
-		},
-	},
+  methods: {
+    openPopup() {
+      this.isHookPopup = true;
+    },
+    closePopup() {
+      this.isHookPopup = false;
+    },
+  },
 };
 </script>
 

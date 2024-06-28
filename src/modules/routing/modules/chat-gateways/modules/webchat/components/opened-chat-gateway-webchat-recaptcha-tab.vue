@@ -56,22 +56,20 @@ import { mapActions } from "vuex";
 import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-	name: "OpenedChatWebchatRecaptchaTab",
-	mixins: [openedTabComponentMixin],
-	computed: {
-		disableCaptchaFields() {
-			return (
-				!this.itemInstance.metadata?.captcha?.enabled || this.disableUserInput
-			);
-		},
-	},
-	methods: {
-		...mapActions({
-			setWebchatMetadata(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
-			},
-		}),
-	},
+  name: "OpenedChatWebchatRecaptchaTab",
+  mixins: [openedTabComponentMixin],
+  computed: {
+    disableCaptchaFields() {
+      return !this.itemInstance.metadata?.captcha?.enabled || this.disableUserInput;
+    },
+  },
+  methods: {
+    ...mapActions({
+      setWebchatMetadata(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+      },
+    }),
+  },
 };
 </script>
 

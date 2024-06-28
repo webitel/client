@@ -42,48 +42,50 @@ import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/opene
 import General from "./opened-agent-pause-cause-general.vue";
 
 export default {
-	name: "OpenedAgentPauseCause",
-	components: { General },
-	mixins: [openedObjectMixin],
+  name: "OpenedAgentPauseCause",
+  components: { General },
+  mixins: [openedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "lookups/pauseCause",
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "lookups/pauseCause",
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+    },
+  },
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "general",
-				},
-			];
-			return tabs;
-		},
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "general",
+        },
+      ];
+      return tabs;
+    },
 
-		path() {
-			const baseUrl = "/lookups/pause-cause";
-			return [
-				{ name: this.$t("objects.lookups.lookups") },
-				{
-					name: this.$t("objects.lookups.pauseCause.pauseCause"),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
+    path() {
+      const baseUrl = "/lookups/pause-cause";
+      return [
+        {
+          name: this.$t("objects.lookups.lookups"),
+        },
+        {
+          name: this.$t("objects.lookups.pauseCause.pauseCause"),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
 };
 </script>
 

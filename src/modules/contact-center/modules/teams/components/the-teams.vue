@@ -120,53 +120,58 @@ import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 const namespace = "ccenter/teams";
 
 export default {
-	name: "TheTeams",
-	components: { DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
+  name: "TheTeams",
+  components: { DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.TEAMS,
-	}),
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.TEAMS,
+  }),
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.ccenter.ccenter") },
-				{
-					name: this.$tc("objects.ccenter.teams.teams", 2),
-					route: "/contact-center/teams",
-				},
-			];
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.ccenter.ccenter"),
+        },
+        {
+          name: this.$tc("objects.ccenter.teams.teams", 2),
+          route: "/contact-center/teams",
+        },
+      ];
+    },
+  },
 
-	methods: {
-		computeStrategyDisplay(name) {
-			return this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(name)}`);
-		},
-	},
+  methods: {
+    computeStrategyDisplay(name) {
+      return this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(name)}`);
+    },
+  },
 };
 </script>
 

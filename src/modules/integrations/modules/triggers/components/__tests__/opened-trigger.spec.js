@@ -4,11 +4,11 @@ import openedObjectMixinMock from "../../../../../../../tests/unit/mocks/mixinMo
 import OpenedTriggerProfile from "../opened-trigger.vue";
 
 describe("OpenedTriggerProfile", () => {
-	it("renders a component", () => {
-		const wrapper = shallowMount(
-			OpenedTriggerProfile,
-			deepmerge.all([openedObjectMixinMock(), {}]),
-		);
-		expect(wrapper.exists()).toBe(true);
-	});
+  it("renders a component", () => {
+    const wrapper = shallowMount(
+      OpenedTriggerProfile,
+      deepmerge.all([openedObjectMixinMock(), {}]),
+    );
+    expect(wrapper.exists()).toBe(true);
+  });
 });

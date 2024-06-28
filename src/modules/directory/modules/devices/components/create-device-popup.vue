@@ -44,52 +44,54 @@
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 
 export default {
-	name: "CreateDevicePopup",
+  name: "CreateDevicePopup",
 
-	data() {
-		return {
-			selectedOptionValue: "",
-			options: [
-				{
-					value: "default",
-					title: this.$tc("objects.directory.devices.devices", 1),
-					description: this.$tc("objects.directory.devices.deviceSettings", 1),
-					routeName: `${RouteNames.DEVICES}-new`,
-				},
-				{
-					value: "hotdesk",
-					title: this.$t("objects.directory.devices.hotdeskDevice"),
-					description: this.$t("objects.directory.devices.hotdeskDeviceSettings"),
-					routeName: `${RouteNames.DEVICES}-hotdesk-new`,
-				},
-			],
-		};
-	},
+  data() {
+    return {
+      selectedOptionValue: "",
+      options: [
+        {
+          value: "default",
+          title: this.$tc("objects.directory.devices.devices", 1),
+          description: this.$tc("objects.directory.devices.deviceSettings", 1),
+          routeName: `${RouteNames.DEVICES}-new`,
+        },
+        {
+          value: "hotdesk",
+          title: this.$t("objects.directory.devices.hotdeskDevice"),
+          description: this.$t("objects.directory.devices.hotdeskDeviceSettings"),
+          routeName: `${RouteNames.DEVICES}-hotdesk-new`,
+        },
+      ],
+    };
+  },
 
-	computed: {
-		selectedOption: {
-			get() {
-				return this.selectedOptionValue || this.options[0];
-			},
-			set(value) {
-				this.selectedOptionValue = value;
-			},
-		},
-	},
+  computed: {
+    selectedOption: {
+      get() {
+        return this.selectedOptionValue || this.options[0];
+      },
+      set(value) {
+        this.selectedOptionValue = value;
+      },
+    },
+  },
 
-	methods: {
-		selectOption(option) {
-			this.selectedOption = option;
-		},
+  methods: {
+    selectOption(option) {
+      this.selectedOption = option;
+    },
 
-		createItemInstance() {
-			this.$router.push({ name: this.selectedOption.routeName });
-		},
+    createItemInstance() {
+      this.$router.push({
+        name: this.selectedOption.routeName,
+      });
+    },
 
-		close() {
-			this.$emit("close");
-		},
-	},
+    close() {
+      this.$emit("close");
+    },
+  },
 };
 </script>
 

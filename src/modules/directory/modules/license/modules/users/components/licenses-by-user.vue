@@ -89,39 +89,41 @@ import RouteNames from "../../../../../../../app/router/_internals/RouteNames.en
 const namespace = "directory/license/users";
 
 export default {
-	name: "LicensesByUser",
-	mixins: [tableComponentMixin],
-	setup() {
-		const { dummy } = useDummy({ namespace });
-		return { dummy };
-	},
-	data: () => ({
-		staticHeaders: ["name"],
-		namespace,
-	}),
-	computed: {
-		licenseHeaders() {
-			return this.headers.slice(1); // except 1st column "name"
-		},
-		hasEditAccess() {
-			return this.$store.getters["userinfo/HAS_EDIT_ACCESS"]({
-				route: { name: `${RouteNames.USERS}-edit` },
-			});
-		},
-	},
-	methods: {
-		...mapActions({
-			toggleUserLicense(dispatch, payload) {
-				return dispatch(`${this.namespace}/TOGGLE_USER_LICENSE`, payload);
-			},
-			setHeaders(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_HEADERS`, payload);
-			},
-		}),
-		changeVisibleHeaders(headers) {
-			this.setHeaders(headers);
-		},
-	},
+  name: "LicensesByUser",
+  mixins: [tableComponentMixin],
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    return { dummy };
+  },
+  data: () => ({
+    staticHeaders: ["name"],
+    namespace,
+  }),
+  computed: {
+    licenseHeaders() {
+      return this.headers.slice(1); // except 1st column "name"
+    },
+    hasEditAccess() {
+      return this.$store.getters["userinfo/HAS_EDIT_ACCESS"]({
+        route: {
+          name: `${RouteNames.USERS}-edit`,
+        },
+      });
+    },
+  },
+  methods: {
+    ...mapActions({
+      toggleUserLicense(dispatch, payload) {
+        return dispatch(`${this.namespace}/TOGGLE_USER_LICENSE`, payload);
+      },
+      setHeaders(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_HEADERS`, payload);
+      },
+    }),
+    changeVisibleHeaders(headers) {
+      this.setHeaders(headers);
+    },
+  },
 };
 </script>
 

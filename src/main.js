@@ -20,59 +20,58 @@ import router from "./app/router/router";
 import store from "./app/store/store";
 
 const fetchConfig = async () => {
-	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
-	return response.json();
+  const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
+  return response.json();
 };
 
 const setTokenFromUrl = () => {
-	try {
-		const queryMap = window.location.search
-			.slice(1)
-			.split("&")
-			.reduce((obj, query) => {
-				const [key, value] = query.split("=");
-				obj[key] = value;
-				return obj;
-			}, {});
+  try {
+    const queryMap = window.location.search
+      .slice(1)
+      .split("&")
+      .reduce((obj, query) => {
+        const [key, value] = query.split("=");
+        obj[key] = value;
+        return obj;
+      }, {});
 
-		if (queryMap.accessToken) {
-			localStorage.setItem("access-token", queryMap.accessToken);
-		}
-	} catch (err) {
-		console.error("Error restoring token from url", err);
-	}
+    if (queryMap.accessToken) {
+      localStorage.setItem("access-token", queryMap.accessToken);
+    }
+  } catch (err) {
+    console.error("Error restoring token from url", err);
+  }
 };
 
-const initSession = async () =>
-	store.dispatch("userinfo/OPEN_SESSION", { instance });
+const initSession = async () => store.dispatch("userinfo/OPEN_SESSION", { instance });
 
 const createVueInstance = () => {
-	const app = createApp(App)
-		.use(router)
-		.use(store)
-		.use(i18n)
-		.use(...WebitelUi)
-		.use(BreakpointPlugin);
+  const app = createApp(App)
+    .use(router)
+    .use(store)
+    .use(i18n)
+    .use(...WebitelUi)
+    .use(BreakpointPlugin);
 
-	ActionComponents.forEach((component) => {
-		app.component(component.name, component);
-	});
+  ActionComponents.forEach((component) => {
+    app.component(component.name, component);
+  });
 
-	return app;
+  return app;
 };
 
 // init IIFE
 (async () => {
-	let config = {};
-	try {
-		setTokenFromUrl();
+  let config = {};
+  try {
+    setTokenFromUrl();
 
-		config = await fetchConfig();
-		await initSession();
-	} catch (err) {
-	} finally {
-		const app = createVueInstance();
-		app.provide("$config", config);
-		app.mount("#app");
-	}
+    config = await fetchConfig();
+    await initSession();
+  } catch (err) {
+  } finally {
+    const app = createVueInstance();
+    app.provide("$config", config);
+    app.mount("#app");
+  }
 })();

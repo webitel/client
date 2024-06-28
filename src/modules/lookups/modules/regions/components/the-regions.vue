@@ -125,49 +125,54 @@ import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 const namespace = "lookups/regions";
 
 export default {
-	name: "TheRegions",
-	components: { DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
+  name: "TheRegions",
+  components: { DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
 
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		routeName: RouteNames.REGIONS,
-	}),
+  data: () => ({
+    namespace,
+    routeName: RouteNames.REGIONS,
+  }),
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.lookups.lookups") },
-				{
-					name: this.$tc("objects.lookups.regions.regions", 2),
-					route: "/lookups/regions",
-				},
-			];
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.lookups.lookups"),
+        },
+        {
+          name: this.$tc("objects.lookups.regions.regions", 2),
+          route: "/lookups/regions",
+        },
+      ];
+    },
+  },
 };
 </script>
 

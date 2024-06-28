@@ -94,51 +94,57 @@ import dummyPicLight from "../assets/adm-agent-history-light.svg";
 import agentState from "../dictionaries/agentState.dictionary";
 
 export default {
-	name: "AgentHistoryPopup",
-	mixins: [historyPopupMixin],
-	data: () => ({
-		namespace: "ccenter/agents/history",
-		agentState,
-	}),
+  name: "AgentHistoryPopup",
+  mixins: [historyPopupMixin],
+  data: () => ({
+    namespace: "ccenter/agents/history",
+    agentState,
+  }),
 
-	computed: {
-		...mapGetters("appearance", {
-			darkMode: "DARK_MODE",
-		}),
-		headers() {
-			return [
-				{
-					value: "state",
-					text: this.$t("objects.ccenter.agents.historyState"),
-				},
-				{
-					value: "channel",
-					text: this.$t("objects.ccenter.agents.historyChannel"),
-				},
-				{ value: "from", text: this.$t("objects.ccenter.agents.historyFrom") },
-				{ value: "to", text: this.$t("objects.ccenter.agents.historyTo") },
-				{
-					value: "duration",
-					text: this.$t("objects.ccenter.agents.historyDuration"),
-				},
-			];
-		},
-		dummy() {
-			return (
-				!this.dataList.length && {
-					src: this.darkMode ? dummyPicDark : dummyPicLight,
-					text: "objects.ccenter.agents.emptyPopup",
-				}
-			);
-		},
-	},
+  computed: {
+    ...mapGetters("appearance", {
+      darkMode: "DARK_MODE",
+    }),
+    headers() {
+      return [
+        {
+          value: "state",
+          text: this.$t("objects.ccenter.agents.historyState"),
+        },
+        {
+          value: "channel",
+          text: this.$t("objects.ccenter.agents.historyChannel"),
+        },
+        {
+          value: "from",
+          text: this.$t("objects.ccenter.agents.historyFrom"),
+        },
+        {
+          value: "to",
+          text: this.$t("objects.ccenter.agents.historyTo"),
+        },
+        {
+          value: "duration",
+          text: this.$t("objects.ccenter.agents.historyDuration"),
+        },
+      ];
+    },
+    dummy() {
+      return (
+        !this.dataList.length && {
+          src: this.darkMode ? dummyPicDark : dummyPicLight,
+          text: "objects.ccenter.agents.emptyPopup",
+        }
+      );
+    },
+  },
 
-	methods: {
-		convertDuration,
-		calcStatusTo(item) {
-			return new Date(+item.joinedAt + item.duration * 1000).toLocaleString();
-		},
-	},
+  methods: {
+    convertDuration,
+    calcStatusTo(item) {
+      return new Date(+item.joinedAt + item.duration * 1000).toLocaleString();
+    },
+  },
 };
 </script>
 

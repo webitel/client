@@ -108,49 +108,49 @@ const namespace = "ccenter/res";
 const subNamespace = "numbers";
 
 export default {
-	name: "OpenedResourceNumber",
-	components: { NumberPopup, DeleteConfirmationPopup },
-	mixins: [openedObjectTableTabMixin],
+  name: "OpenedResourceNumber",
+  components: { NumberPopup, DeleteConfirmationPopup },
+  mixins: [openedObjectTableTabMixin],
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		subNamespace,
-		isNumberPopup: false,
-	}),
+  data: () => ({
+    namespace,
+    subNamespace,
+    isNumberPopup: false,
+  }),
 
-	methods: {
-		openPopup() {
-			this.isNumberPopup = true;
-		},
-		closePopup() {
-			this.isNumberPopup = false;
-		},
-	},
+  methods: {
+    openPopup() {
+      this.isNumberPopup = true;
+    },
+    closePopup() {
+      this.isNumberPopup = false;
+    },
+  },
 };
 </script>
 

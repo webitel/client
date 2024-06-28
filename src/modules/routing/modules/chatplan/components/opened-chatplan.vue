@@ -42,48 +42,50 @@ import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/opene
 import General from "./opened-chatplan-general.vue";
 
 export default {
-	name: "OpenedChatplan",
-	components: { General },
-	mixins: [openedObjectMixin],
+  name: "OpenedChatplan",
+  components: { General },
+  mixins: [openedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "routing/chatplan",
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-			schema: { required },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "routing/chatplan",
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+      schema: { required },
+    },
+  },
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "general",
-				},
-			];
-			return tabs;
-		},
-		path() {
-			const baseUrl = "/routing/chatplan";
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{
-					name: this.$tc("objects.routing.chatplan.chatplan", 1),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "general",
+        },
+      ];
+      return tabs;
+    },
+    path() {
+      const baseUrl = "/routing/chatplan";
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$tc("objects.routing.chatplan.chatplan", 1),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
 };
 </script>
 

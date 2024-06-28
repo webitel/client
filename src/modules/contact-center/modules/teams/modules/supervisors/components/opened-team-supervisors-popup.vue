@@ -47,45 +47,45 @@ import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins
 import AgentsAPI from "../../../../agents/api/agents";
 
 export default {
-	name: "OpenedTeamAgentsPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedTeamAgentsPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
-	data: () => ({
-		namespace: "ccenter/teams/supervisors",
-	}),
-	validations: {
-		itemInstance: {
-			agent: { required },
-		},
-	},
+  data: () => ({
+    namespace: "ccenter/teams/supervisors",
+  }),
+  validations: {
+    itemInstance: {
+      agent: { required },
+    },
+  },
 
-	computed: {
-		...mapState({
-			parentId(state) {
-				return getNamespacedState(state, this.namespace).parentId;
-			},
-		}),
-	},
+  computed: {
+    ...mapState({
+      parentId(state) {
+        return getNamespacedState(state, this.namespace).parentId;
+      },
+    }),
+  },
 
-	methods: {
-		async loadAgentsOptions(params) {
-			const fields = ["id", "user"];
-			const response = await AgentsAPI.getSupervisorOptions({
-				...params,
-				fields,
-				notTeamId: this.parentId,
-			});
-			response.items = response.items.map(({ user, id }) => ({
-				name: user.name,
-				id,
-			}));
-			return response;
-		},
-	},
+  methods: {
+    async loadAgentsOptions(params) {
+      const fields = ["id", "user"];
+      const response = await AgentsAPI.getSupervisorOptions({
+        ...params,
+        fields,
+        notTeamId: this.parentId,
+      });
+      response.items = response.items.map(({ user, id }) => ({
+        name: user.name,
+        id,
+      }));
+      return response;
+    },
+  },
 };
 </script>
 

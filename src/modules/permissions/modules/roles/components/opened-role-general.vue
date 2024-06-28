@@ -28,8 +28,8 @@
 import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-	name: "OpenedRoleGeneral",
-	mixins: [openedTabComponentMixin],
+  name: "OpenedRoleGeneral",
+  mixins: [openedTabComponentMixin],
 };
 </script>
 

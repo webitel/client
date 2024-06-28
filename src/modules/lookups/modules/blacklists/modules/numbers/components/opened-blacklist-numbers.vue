@@ -131,71 +131,71 @@ const namespace = "lookups/blacklists";
 const subNamespace = "numbers";
 
 export default {
-	name: "OpenedBlacklistNumbers",
-	components: {
-		numberPopup,
-		uploadPopup,
-		UploadFileIconBtn,
-		DeleteConfirmationPopup,
-	},
-	mixins: [openedObjectTableTabMixin],
+  name: "OpenedBlacklistNumbers",
+  components: {
+    numberPopup,
+    uploadPopup,
+    UploadFileIconBtn,
+    DeleteConfirmationPopup,
+  },
+  mixins: [openedObjectTableTabMixin],
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data() {
-		return {
-			namespace,
-			subNamespace,
-			isNumberPopup: false,
-			isUploadPopup: false,
-			csvFile: null,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data() {
+    return {
+      namespace,
+      subNamespace,
+      isNumberPopup: false,
+      isUploadPopup: false,
+      csvFile: null,
+    };
+  },
 
-	methods: {
-		processCSV(files) {
-			const file = files[0];
-			if (file) {
-				this.csvFile = file;
-				this.isUploadPopup = true;
-			}
-		},
-		closeCSVPopup() {
-			this.loadDataList();
-			this.isUploadPopup = false;
-		},
-		openPopup() {
-			this.isNumberPopup = true;
-		},
-		closePopup() {
-			this.isNumberPopup = false;
-		},
-		prettifyDate(date) {
-			if (date) return new Date(+date).toLocaleDateString();
-		},
-	},
+  methods: {
+    processCSV(files) {
+      const file = files[0];
+      if (file) {
+        this.csvFile = file;
+        this.isUploadPopup = true;
+      }
+    },
+    closeCSVPopup() {
+      this.loadDataList();
+      this.isUploadPopup = false;
+    },
+    openPopup() {
+      this.isNumberPopup = true;
+    },
+    closePopup() {
+      this.isNumberPopup = false;
+    },
+    prettifyDate(date) {
+      if (date) return new Date(+date).toLocaleDateString();
+    },
+  },
 };
 </script>
 

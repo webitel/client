@@ -11,61 +11,63 @@ import resetOnDestroyMixin from "../resetOnDestroyMixin/resetOnDestroyMixin";
  * @extends openedObjectValidationMixin, openedObjectAccessControlMixin
  */
 export default {
-	mixins: [resetOnDestroyMixin, openedObjectValidationMixin],
+  mixins: [resetOnDestroyMixin, openedObjectValidationMixin],
 
-	computed: {
-		saveText() {
-			// if it's a new item
-			// OR any fields have changed
-			return !this.id || this.itemInstance._dirty
-				? this.$t("objects.save")
-				: this.$t("objects.saved");
-		},
+  computed: {
+    saveText() {
+      // if it's a new item
+      // OR any fields have changed
+      return !this.id || this.itemInstance._dirty
+        ? this.$t("objects.save")
+        : this.$t("objects.saved");
+    },
 
-		disabledSave() {
-			// if there's a validation problem
-			// OR it's edit and any fields haven't changed
-			return this.checkValidations() || (!this.itemInstance._dirty && !!this.id);
-		},
-	},
+    disabledSave() {
+      // if there's a validation problem
+      // OR it's edit and any fields haven't changed
+      return this.checkValidations() || (!this.itemInstance._dirty && !!this.id);
+    },
+  },
 
-	methods: {
-		...mapActions({
-			loadItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
-			},
-			addItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/ADD_ITEM`, payload);
-			},
-			updateItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
-			},
-		}),
+  methods: {
+    ...mapActions({
+      loadItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+      },
+      addItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/ADD_ITEM`, payload);
+      },
+      updateItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
+      },
+    }),
 
-		async save() {
-			if (!this.disabledSave) {
-				if (this.id) {
-					await this.updateItem();
-				} else {
-					try {
-						await this.addItem();
-						if (this.id) {
-							await this.redirectToEdit();
-						}
-					} catch (err) {
-						throw err;
-					}
-				}
-			}
-		},
+    async save() {
+      if (!this.disabledSave) {
+        if (this.id) {
+          await this.updateItem();
+        } else {
+          try {
+            await this.addItem();
+            if (this.id) {
+              await this.redirectToEdit();
+            }
+          } catch (err) {
+            throw err;
+          }
+        }
+      }
+    },
 
-		async redirectToEdit() {
-			const routeName = this.$route.name.replace("-new", "-edit");
-			return this.$router.replace({
-				name: routeName,
-				params: { id: this.id },
-				hash: this.$route.hash,
-			});
-		},
-	},
+    async redirectToEdit() {
+      const routeName = this.$route.name.replace("-new", "-edit");
+      return this.$router.replace({
+        name: routeName,
+        params: {
+          id: this.id,
+        },
+        hash: this.$route.hash,
+      });
+    },
+  },
 };

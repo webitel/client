@@ -130,14 +130,14 @@
 import uploadCSVMixin from "../mixins/uploadCSVMixin";
 
 export default {
-	name: "UploadCsvPopup",
-	mixins: [uploadCSVMixin],
-	data: () => ({
-		skipHeaders: true,
-		separator: ",",
-		charsetOptions: [],
-		charset: { name: "UTF-8", value: "utf-8" },
-	}),
+  name: "UploadCsvPopup",
+  mixins: [uploadCSVMixin],
+  data: () => ({
+    skipHeaders: true,
+    separator: ",",
+    charsetOptions: [],
+    charset: { name: "UTF-8", value: "utf-8" },
+  }),
 };
 </script>
 

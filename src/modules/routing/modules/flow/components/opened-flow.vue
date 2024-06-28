@@ -73,141 +73,145 @@ import ConfirmationUnsavedChangesPopup from "./confirmation-unsaved-changes-popu
 
 const namespace = "routing/flow";
 export default {
-	name: "OpenedFlow",
-	components: {
-		Diagram,
-		JsonSchema,
-		WtSaveFailedPopup,
-		ConfirmationUnsavedChangesPopup,
-	},
-	mixins: [openedObjectMixin],
+  name: "OpenedFlow",
+  components: {
+    Diagram,
+    JsonSchema,
+    WtSaveFailedPopup,
+    ConfirmationUnsavedChangesPopup,
+  },
+  mixins: [openedObjectMixin],
 
-	setup() {
-		const v$ = useVuelidate();
-		const store = useStore();
-		const itemInstance = computed(
-			() => getNamespacedState(store.state, namespace).itemInstance,
-		);
+  setup() {
+    const v$ = useVuelidate();
+    const store = useStore();
+    const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
 
-		const {
-			isConfirmationUnsavedChangesPopup,
-			displayConfirmationPopup,
-			addCheckingUnsavedChanges,
-			removeCheckingUnsavedChanges,
-			toggleIsConfirmationUnsavedChangesPopup,
-		} = useCheckingUnsavedChanges(itemInstance);
+    const {
+      isConfirmationUnsavedChangesPopup,
+      displayConfirmationPopup,
+      addCheckingUnsavedChanges,
+      removeCheckingUnsavedChanges,
+      toggleIsConfirmationUnsavedChangesPopup,
+    } = useCheckingUnsavedChanges(itemInstance);
 
-		return {
-			v$,
-			isConfirmationUnsavedChangesPopup,
-			displayConfirmationPopup,
-			addCheckingUnsavedChanges,
-			removeCheckingUnsavedChanges,
-			toggleIsConfirmationUnsavedChangesPopup,
-		};
-	},
-	data: () => ({
-		namespace,
-		isSaveFailedPopup: false,
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-			schema: { required },
-		},
-	},
+    return {
+      v$,
+      isConfirmationUnsavedChangesPopup,
+      displayConfirmationPopup,
+      addCheckingUnsavedChanges,
+      removeCheckingUnsavedChanges,
+      toggleIsConfirmationUnsavedChangesPopup,
+    };
+  },
+  data: () => ({
+    namespace,
+    isSaveFailedPopup: false,
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+      schema: { required },
+    },
+  },
 
-	computed: {
-		isDiagram() {
-			return this.$route.query.editor === "diagram" || this.itemInstance.editor;
-		},
-		type() {
-			return this.$route.query.type || this.itemInstance.type;
-		},
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "json-schema",
-				},
-			];
-			return tabs;
-		},
+  computed: {
+    isDiagram() {
+      return this.$route.query.editor === "diagram" || this.itemInstance.editor;
+    },
+    type() {
+      return this.$route.query.type || this.itemInstance.type;
+    },
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "json-schema",
+        },
+      ];
+      return tabs;
+    },
 
-		path() {
-			const baseUrl = "/routing/flow";
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{ name: this.$tc("objects.routing.flow.flow", 2), route: baseUrl },
-				{
-					name: this.id
-						? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
-						: `${this.$t("objects.new")} (${this.$t(`objects.flow.type.${this.type}`)})`,
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
-	methods: {
-		...mapActions({
-			setItemProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-			},
-		}),
-		async saveDiagram({ resolve, reject }) {
-			try {
-				await this.save();
-				resolve();
-			} catch (err) {
-				reject(err);
-			}
-		},
-		async saveCode() {
-			try {
-				await this.save();
-				this.hideSaveFailedPopup();
-				this.removeCheckingUnsavedChanges();
-			} catch (err) {
-				// Required to prevent an open popup when the error is related to "already existed name"
-				this.isSaveFailedPopup =
-					err.response?.data?.id !== "store.sql_routing_schema.save.valid.name";
-				throw err;
-			}
-		},
-		saveAsJSON,
-		download() {
-			// _dirty is not needed inside JSON file
-			const { _dirty, ...content } = this.itemInstance;
-			this.saveAsJSON(content.name, content);
-		},
-		hideSaveFailedPopup() {
-			this.isSaveFailedPopup = false;
-		},
-		initType() {
-			if (!this.itemInstance.type && this.type)
-				this.setItemProp({ prop: "type", value: this.type });
-		},
-		closePage() {
-			this.removeCheckingUnsavedChanges();
-			this.close();
-		},
-		handleConfirmationUnsavedChangesPopup() {
-			this.itemInstance._dirty
-				? this.toggleIsConfirmationUnsavedChangesPopup()
-				: this.closePage();
-		},
-	},
-	mounted() {
-		this.initType();
-		if (!this.isDiagram) {
-			this.addCheckingUnsavedChanges();
-		} else {
-			// [https://webitel.atlassian.net/browse/WTEL-4509]
-			// Temporary solution - open in a new browser tab Flow diagram and clear itemInstance
+    path() {
+      const baseUrl = "/routing/flow";
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$tc("objects.routing.flow.flow", 2),
+          route: baseUrl,
+        },
+        {
+          name: this.id
+            ? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
+            : `${this.$t("objects.new")} (${this.$t(`objects.flow.type.${this.type}`)})`,
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
+  methods: {
+    ...mapActions({
+      setItemProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
+      },
+    }),
+    async saveDiagram({ resolve, reject }) {
+      try {
+        await this.save();
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    },
+    async saveCode() {
+      try {
+        await this.save();
+        this.hideSaveFailedPopup();
+        this.removeCheckingUnsavedChanges();
+      } catch (err) {
+        // Required to prevent an open popup when the error is related to "already existed name"
+        this.isSaveFailedPopup =
+          err.response?.data?.id !== "store.sql_routing_schema.save.valid.name";
+        throw err;
+      }
+    },
+    saveAsJSON,
+    download() {
+      // _dirty is not needed inside JSON file
+      const { _dirty, ...content } = this.itemInstance;
+      this.saveAsJSON(content.name, content);
+    },
+    hideSaveFailedPopup() {
+      this.isSaveFailedPopup = false;
+    },
+    initType() {
+      if (!this.itemInstance.type && this.type)
+        this.setItemProp({
+          prop: "type",
+          value: this.type,
+        });
+    },
+    closePage() {
+      this.removeCheckingUnsavedChanges();
+      this.close();
+    },
+    handleConfirmationUnsavedChangesPopup() {
+      this.itemInstance._dirty ? this.toggleIsConfirmationUnsavedChangesPopup() : this.closePage();
+    },
+  },
+  mounted() {
+    this.initType();
+    if (!this.isDiagram) {
+      this.addCheckingUnsavedChanges();
+    } else {
+      // [https://webitel.atlassian.net/browse/WTEL-4509]
+      // Temporary solution - open in a new browser tab Flow diagram and clear itemInstance
 
-			this.resetState();
-		}
-	},
+      this.resetState();
+    }
+  },
 };
 </script>
 

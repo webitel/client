@@ -128,35 +128,35 @@ const namespace = "ccenter/agents";
 const subNamespace = "subordinates";
 
 export default {
-	name: "OpenedAgentSubordinates",
-	components: { SubordinatePopup, ObjectListPopup },
-	mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		return { dummy };
-	},
-	data: () => ({
-		namespace,
-		subNamespace, // used in mixin map actions
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-		isSubordinatePopup: false,
+  name: "OpenedAgentSubordinates",
+  components: { SubordinatePopup, ObjectListPopup },
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    return { dummy };
+  },
+  data: () => ({
+    namespace,
+    subNamespace, // used in mixin map actions
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+    isSubordinatePopup: false,
 
-		isDeleteConfirmation: false,
-	}),
-	methods: {
-		openPopup() {
-			return this.openSubordinatePopup();
-		},
-		openSubordinatePopup() {
-			this.isSubordinatePopup = true;
-		},
-		closeSubordinatePopup() {
-			this.isSubordinatePopup = false;
-		},
-	},
+    isDeleteConfirmation: false,
+  }),
+  methods: {
+    openPopup() {
+      return this.openSubordinatePopup();
+    },
+    openSubordinatePopup() {
+      this.isSubordinatePopup = true;
+    },
+    closeSubordinatePopup() {
+      this.isSubordinatePopup = false;
+    },
+  },
 };
 </script>
 

@@ -83,62 +83,60 @@ const namespace = "directory/users";
 const subNamespace = "logs";
 
 export default {
-	name: "OpenedUsersLogs",
-	components: { RecordLink },
-	mixins: [openedObjectTableTabMixin, ExportCSVMixin],
-	data: () => ({
-		namespace,
-		subNamespace,
-		changelogsRouteName: RouteNames.CHANGELOGS,
-	}),
+  name: "OpenedUsersLogs",
+  components: { RecordLink },
+  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
+  data: () => ({
+    namespace,
+    subNamespace,
+    changelogsRouteName: RouteNames.CHANGELOGS,
+  }),
 
-	/* https://my.webitel.com/browse/WTEL-3697 */
-	/* Temporarily disabled functionality due to problems with pagination */
+  /* https://my.webitel.com/browse/WTEL-3697 */
+  /* Temporarily disabled functionality due to problems with pagination */
 
-	// setup() {
-	//   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-	//   return { dummy };
-	// },
+  // setup() {
+  //   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+  //   return { dummy };
+  // },
 
-	computed: {
-		getFilters() {
-			return this.$store.getters[
-				`${namespace}/${subNamespace}/filters/GET_FILTERS`
-			];
-		},
-	},
-	watch: {
-		"$route.query": {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
-	created() {
-		this.initCSVExport(this.getDataForCSVExport, {
-			filename: `${this.itemInstance.name}-logs-at-${new Date().toLocaleString()}`,
-		});
-	},
-	methods: {
-		async getDataForCSVExport(params) {
-			const filters = this.getFilters;
-			const { items, next } = await LogsAPI.getList({
-				...filters,
-				...params,
-				parentId: this.parentId,
-			});
+  computed: {
+    getFilters() {
+      return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
+    },
+  },
+  watch: {
+    "$route.query": {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
+  created() {
+    this.initCSVExport(this.getDataForCSVExport, {
+      filename: `${this.itemInstance.name}-logs-at-${new Date().toLocaleString()}`,
+    });
+  },
+  methods: {
+    async getDataForCSVExport(params) {
+      const filters = this.getFilters;
+      const { items, next } = await LogsAPI.getList({
+        ...filters,
+        ...params,
+        parentId: this.parentId,
+      });
 
-			const transformedItems = items.map((item) => ({
-				...item,
-				date: new Date(+item.date).toLocaleString(),
-			}));
+      const transformedItems = items.map((item) => ({
+        ...item,
+        date: new Date(+item.date).toLocaleString(),
+      }));
 
-			return {
-				items: transformedItems,
-				next,
-			};
-		},
-	},
+      return {
+        items: transformedItems,
+        next,
+      };
+    },
+  },
 };
 </script>
 

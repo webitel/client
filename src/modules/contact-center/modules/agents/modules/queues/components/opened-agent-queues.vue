@@ -66,12 +66,12 @@ import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPag
 import QueueTypeProperties from "../../../../queues/lookups/QueueTypeProperties.lookup";
 
 export default {
-	name: "OpenedAgentQueues",
-	mixins: [openedObjectTableTabMixin],
-	data: () => ({
-		subNamespace: "queues",
-		QueueTypeProperties,
-	}),
+  name: "OpenedAgentQueues",
+  mixins: [openedObjectTableTabMixin],
+  data: () => ({
+    subNamespace: "queues",
+    QueueTypeProperties,
+  }),
 };
 </script>
 

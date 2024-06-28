@@ -13,7 +13,7 @@ import eventBus from "@webitel/ui-sdk/src/scripts/eventBus";
 import i18n from "../locale/i18n";
 
 const globals = {
-	$baseURL: import.meta.env.BASE_URL,
+  $baseURL: import.meta.env.BASE_URL,
 };
 
 // init plugin

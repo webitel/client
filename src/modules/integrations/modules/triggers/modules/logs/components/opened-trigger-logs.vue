@@ -48,33 +48,33 @@ import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPag
 import convertDurationWithMilliseconds from "../scripts/convertDurationWithMilliseconds";
 
 export default {
-	name: "OpenedTriggerLogs",
-	mixins: [openedObjectTableTabMixin],
-	data: () => ({
-		subNamespace: "log",
-	}),
-	computed: {
-		filtersNamespace() {
-			return `${this.namespace}/${this.subNamespace}/filters`;
-		},
-	},
-	watch: {
-		"$route.query": {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
-	methods: {
-		formatDate(value) {
-			if (!value) return "";
-			return new Date(+value).toLocaleString();
-		},
+  name: "OpenedTriggerLogs",
+  mixins: [openedObjectTableTabMixin],
+  data: () => ({
+    subNamespace: "log",
+  }),
+  computed: {
+    filtersNamespace() {
+      return `${this.namespace}/${this.subNamespace}/filters`;
+    },
+  },
+  watch: {
+    "$route.query": {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
+  methods: {
+    formatDate(value) {
+      if (!value) return "";
+      return new Date(+value).toLocaleString();
+    },
 
-		calcDuration(item) {
-			return convertDurationWithMilliseconds(item.stoppedAt - item.startedAt);
-		},
-	},
+    calcDuration(item) {
+      return convertDurationWithMilliseconds(item.stoppedAt - item.startedAt);
+    },
+  },
 };
 </script>
 

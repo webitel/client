@@ -95,132 +95,139 @@ import { mapState } from "vuex";
 import { changePassword, changeWebPhone, getWebPhone } from "../api/settings";
 
 export default {
-	name: "TheSettings",
-	inject: ["$eventBus"],
+  name: "TheSettings",
+  inject: ["$eventBus"],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		newPassword: "",
-		confirmNewPassword: "",
-		isPasswordPatching: false,
-		webrtc: true,
-		stun: false,
-		language: {
-			name: "English",
-			id: "en",
-		},
-		languageOptions: [
-			{
-				name: "English",
-				id: "en",
-			},
-			{
-				name: "Русский",
-				id: "ru",
-			},
-			{
-				name: "Українська",
-				id: "ua",
-			},
-			{
-				name: "Español",
-				id: "es",
-			},
-			{
-				name: "Қазақ",
-				id: "kz",
-			},
-		],
-	}),
-	validations() {
-		return {
-			newPassword: {
-				required,
-			},
-			confirmNewPassword: {
-				sameAs: sameAs(this.newPassword),
-			},
-		};
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    newPassword: "",
+    confirmNewPassword: "",
+    isPasswordPatching: false,
+    webrtc: true,
+    stun: false,
+    language: {
+      name: "English",
+      id: "en",
+    },
+    languageOptions: [
+      {
+        name: "English",
+        id: "en",
+      },
+      {
+        name: "Русский",
+        id: "ru",
+      },
+      {
+        name: "Українська",
+        id: "ua",
+      },
+      {
+        name: "Español",
+        id: "es",
+      },
+      {
+        name: "Қазақ",
+        id: "kz",
+      },
+    ],
+  }),
+  validations() {
+    return {
+      newPassword: {
+        required,
+      },
+      confirmNewPassword: {
+        sameAs: sameAs(this.newPassword),
+      },
+    };
+  },
 
-	created() {
-		this.restoreLanguage();
-	},
+  created() {
+    this.restoreLanguage();
+  },
 
-	computed: {
-		...mapState({
-			userId(state) {
-				return getNamespacedState(state, "userinfo").userId;
-			},
-		}),
-		disablePasswordChange() {
-			this.v$.$touch();
-			return this.v$.$pending || this.v$.$error;
-		},
-	},
-	async mounted() {
-		try {
-			const response = await getWebPhone();
-			this.webrtc = response.webrtc;
-			this.stun = response.stun;
-		} catch (error) {
-			throw error;
-		}
-	},
+  computed: {
+    ...mapState({
+      userId(state) {
+        return getNamespacedState(state, "userinfo").userId;
+      },
+    }),
+    disablePasswordChange() {
+      this.v$.$touch();
+      return this.v$.$pending || this.v$.$error;
+    },
+  },
+  async mounted() {
+    try {
+      const response = await getWebPhone();
+      this.webrtc = response.webrtc;
+      this.stun = response.stun;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-	methods: {
-		async changePassword() {
-			try {
-				this.isPasswordPatching = true;
-				const changes = { password: this.newPassword };
-				await changePassword({
-					id: this.userId,
-					changes,
-				});
-				this.$eventBus.$emit("notification", {
-					type: "info",
-					text: "Password is successfully updated!",
-				});
-			} catch (err) {
-				throw err;
-			} finally {
-				this.isPasswordPatching = false;
-			}
-		},
+  methods: {
+    async changePassword() {
+      try {
+        this.isPasswordPatching = true;
+        const changes = {
+          password: this.newPassword,
+        };
+        await changePassword({
+          id: this.userId,
+          changes,
+        });
+        this.$eventBus.$emit("notification", {
+          type: "info",
+          text: "Password is successfully updated!",
+        });
+      } catch (err) {
+        throw err;
+      } finally {
+        this.isPasswordPatching = false;
+      }
+    },
 
-		async changeWebrtc(value) {
-			try {
-				this.webrtc = value;
-				if (!value) this.stun = false;
-				await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
-			} catch (err) {
-				throw err;
-			}
-		},
+    async changeWebrtc(value) {
+      try {
+        this.webrtc = value;
+        if (!value) this.stun = false;
+        await changeWebPhone({
+          webrtc: this.webrtc,
+          stun: this.stun,
+        });
+      } catch (err) {
+        throw err;
+      }
+    },
 
-		async changeStun(value) {
-			try {
-				this.stun = !this.webrtc ? false : value;
-				await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
-			} catch (err) {
-				throw err;
-			}
-		},
+    async changeStun(value) {
+      try {
+        this.stun = !this.webrtc ? false : value;
+        await changeWebPhone({
+          webrtc: this.webrtc,
+          stun: this.stun,
+        });
+      } catch (err) {
+        throw err;
+      }
+    },
 
-		changeLanguage(value) {
-			localStorage.setItem("lang", value.id);
-			this.language = value;
-			this.$i18n.locale = value.id;
-		},
-		restoreLanguage() {
-			const lang = localStorage.getItem("lang"); // get default lang
-			// if there's a previously set lang, set it
-			if (lang)
-				this.language = this.languageOptions.find((item) => item.id === lang);
-		},
-	},
+    changeLanguage(value) {
+      localStorage.setItem("lang", value.id);
+      this.language = value;
+      this.$i18n.locale = value.id;
+    },
+    restoreLanguage() {
+      const lang = localStorage.getItem("lang"); // get default lang
+      // if there's a previously set lang, set it
+      if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
+    },
+  },
 };
 </script>
 

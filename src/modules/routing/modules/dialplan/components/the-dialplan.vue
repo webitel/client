@@ -150,114 +150,122 @@ import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 Sortable.mount(new Swap());
 const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 const sortableConfig = {
-	swap: true, // Enable swap mode
-	swapClass: "sortable-swap-highlight", // Class name for swap item (if swap mode is enabled)
-	animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-	easing: "cubic-bezier(1, 0, 0, 1)", // Easing for animation. Defaults to null. See https://easings.net/ for examples.
-	ghostClass: "sortable-ghost", // Class name for the drop placeholder
-	chosenClass: "sortable-chosen", // Class name for the chosen item
-	dragClass: "sortable-drag", // Class name for the dragging item
-	handle: ".dialplan__draggable-icon", // handle's class
+  swap: true, // Enable swap mode
+  swapClass: "sortable-swap-highlight", // Class name for swap item (if swap mode is enabled)
+  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+  easing: "cubic-bezier(1, 0, 0, 1)", // Easing for animation. Defaults to null. See https://easings.net/ for examples.
+  ghostClass: "sortable-ghost", // Class name for the drop placeholder
+  chosenClass: "sortable-chosen", // Class name for the chosen item
+  dragClass: "sortable-drag", // Class name for the dragging item
+  handle: ".dialplan__draggable-icon", // handle's class
 
-	direction: "vertical", // Direction of Sortable (will be detected automatically if not given)
+  direction: "vertical", // Direction of Sortable (will be detected automatically if not given)
 
-	forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
-	fallbackClass: "sortable-fallback", // Class name for the cloned DOM Element when using forceFallback
+  forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
+  fallbackClass: "sortable-fallback", // Class name for the cloned DOM Element when using forceFallback
 
-	// eslint-disable-next-line no-unused-vars
-	setData: (dataTransfer, draggedElement) => {
-		dataTransfer.setData("foo", "bar"); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
-	},
+  // eslint-disable-next-line no-unused-vars
+  setData: (dataTransfer, draggedElement) => {
+    dataTransfer.setData("foo", "bar"); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
+  },
 };
 
 const namespace = "routing/dialplan";
 
 export default {
-	name: "TheDialplan",
-	components: { DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  name: "TheDialplan",
+  components: { DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.DIALPLAN,
-		sortableInstance: null,
-	}),
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{
-					name: this.$t("objects.routing.dialplan.dialplan"),
-					route: "/routing/dialplan",
-				},
-			];
-		},
-	},
-	methods: {
-		async initSortable() {
-			if (!this.hasEditAccess) return;
-			if (this.sortableInstance) this.destroySortable();
-			// https://github.com/SortableJS/Sortable#options
-			const tableBody = document.querySelector(".wt-table__body");
-			this.sortableInstance = Sortable.create(tableBody, {
-				...sortableConfig,
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.DIALPLAN,
+    sortableInstance: null,
+  }),
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$t("objects.routing.dialplan.dialplan"),
+          route: "/routing/dialplan",
+        },
+      ];
+    },
+  },
+  methods: {
+    async initSortable() {
+      if (!this.hasEditAccess) return;
+      if (this.sortableInstance) this.destroySortable();
+      // https://github.com/SortableJS/Sortable#options
+      const tableBody = document.querySelector(".wt-table__body");
+      this.sortableInstance = Sortable.create(tableBody, {
+        ...sortableConfig,
 
-				// Element dragging ended
-				onEnd: async (event) => {
-					if (event.oldIndex === event.newIndex) return;
-					const fromId = this.dataList[event.oldIndex].id;
-					const toId = this.dataList[event.newIndex].id;
-					await this.swapRowsAndReloadList({ fromId, toId });
-				},
-			});
-		},
-		destroySortable() {
-			this.sortableInstance.destroy();
-			this.sortableInstance = null;
-		},
-		async swapRowsAndReloadList(swapPayload) {
-			this.isLoading = true;
-			this.destroySortable();
-			await this.swapRows(swapPayload);
-			await this.loadList();
-			await this.initSortable();
-			this.isLoading = false;
-		},
-		...mapActions({
-			patchProperty(dispatch, payload) {
-				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-			},
-			swapRows(dispatch, payload) {
-				return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
-			},
-		}),
-	},
-	mounted() {
-		this.initSortable();
-	},
-	unmounted() {
-		this.destroySortable();
-	},
+        // Element dragging ended
+        onEnd: async (event) => {
+          if (event.oldIndex === event.newIndex) return;
+          const fromId = this.dataList[event.oldIndex].id;
+          const toId = this.dataList[event.newIndex].id;
+          await this.swapRowsAndReloadList({
+            fromId,
+            toId,
+          });
+        },
+      });
+    },
+    destroySortable() {
+      this.sortableInstance.destroy();
+      this.sortableInstance = null;
+    },
+    async swapRowsAndReloadList(swapPayload) {
+      this.isLoading = true;
+      this.destroySortable();
+      await this.swapRows(swapPayload);
+      await this.loadList();
+      await this.initSortable();
+      this.isLoading = false;
+    },
+    ...mapActions({
+      patchProperty(dispatch, payload) {
+        return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
+      },
+      swapRows(dispatch, payload) {
+        return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
+      },
+    }),
+  },
+  mounted() {
+    this.initSortable();
+  },
+  unmounted() {
+    this.destroySortable();
+  },
 };
 </script>
 

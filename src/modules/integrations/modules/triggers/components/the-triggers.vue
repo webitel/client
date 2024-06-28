@@ -147,61 +147,66 @@ import TriggerTypes from "../lookups/TriggerTypes.lookup";
 const namespace = "integrations/triggers";
 
 export default {
-	name: "TheTriggers",
-	components: { DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  name: "TheTriggers",
+  components: { DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.TRIGGERS,
-		TriggerTypes,
-	}),
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.integrations.integrations") },
-				{
-					name: this.$tc("objects.integrations.triggers.triggers", 2),
-					route: "/integrations/triggers",
-				},
-			];
-		},
-	},
-	methods: {
-		async changeState({ item, index, value }) {
-			await this.patchItem({
-				item,
-				index,
-				prop: "enabled",
-				value,
-			});
-		},
-		...mapActions({
-			startTrigger(dispatch, payload) {
-				return dispatch(`${this.namespace}/START_TRIGGER`, payload);
-			},
-		}),
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.TRIGGERS,
+    TriggerTypes,
+  }),
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.integrations.integrations"),
+        },
+        {
+          name: this.$tc("objects.integrations.triggers.triggers", 2),
+          route: "/integrations/triggers",
+        },
+      ];
+    },
+  },
+  methods: {
+    async changeState({ item, index, value }) {
+      await this.patchItem({
+        item,
+        index,
+        prop: "enabled",
+        value,
+      });
+    },
+    ...mapActions({
+      startTrigger(dispatch, payload) {
+        return dispatch(`${this.namespace}/START_TRIGGER`, payload);
+      },
+    }),
+  },
 };
 </script>
 

@@ -130,69 +130,69 @@ const namespace = "ccenter/teams";
 const subNamespace = "supervisors";
 
 export default {
-	name: "OpenedTeamSupervisors",
-	components: {
-		SupervisorPopup,
-		SupervisorSubordinatesPopup,
-		DeleteConfirmationPopup,
-	},
-	mixins: [openedObjectTableTabMixin],
+  name: "OpenedTeamSupervisors",
+  components: {
+    SupervisorPopup,
+    SupervisorSubordinatesPopup,
+    DeleteConfirmationPopup,
+  },
+  mixins: [openedObjectTableTabMixin],
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-		supervisorId: null,
-		isSupervisorPopup: false,
-		isSupervisorSubordinatesPopup: false,
-	}),
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    subNamespace,
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+    supervisorId: null,
+    isSupervisorPopup: false,
+    isSupervisorSubordinatesPopup: false,
+  }),
 
-	methods: {
-		openSubordinates({ id }) {
-			this.supervisorId = id;
-			this.openSubordinatesPopup();
-		},
-		closeSubordinates() {
-			this.supervisorId = null;
-			this.closeSubordinatesPopup();
-		},
-		openPopup() {
-			this.isSupervisorPopup = true;
-		},
-		closePopup() {
-			this.isSupervisorPopup = false;
-		},
-		openSubordinatesPopup() {
-			this.isSupervisorSubordinatesPopup = true;
-		},
-		closeSubordinatesPopup() {
-			this.isSupervisorSubordinatesPopup = false;
-		},
-	},
+  methods: {
+    openSubordinates({ id }) {
+      this.supervisorId = id;
+      this.openSubordinatesPopup();
+    },
+    closeSubordinates() {
+      this.supervisorId = null;
+      this.closeSubordinatesPopup();
+    },
+    openPopup() {
+      this.isSupervisorPopup = true;
+    },
+    closePopup() {
+      this.isSupervisorPopup = false;
+    },
+    openSubordinatesPopup() {
+      this.isSupervisorSubordinatesPopup = true;
+    },
+    closeSubordinatesPopup() {
+      this.isSupervisorSubordinatesPopup = false;
+    },
+  },
 };
 </script>
 

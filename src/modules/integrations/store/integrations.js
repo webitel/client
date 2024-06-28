@@ -6,15 +6,15 @@ import storage from "../modules/storage/store/storage";
 import triggers from "../modules/triggers/store/triggers";
 
 const modules = {
-	storage,
-	cognitiveProfiles,
-	emailProfiles,
-	importCsv,
-	triggers,
-	singleSignOn,
+  storage,
+  cognitiveProfiles,
+  emailProfiles,
+  importCsv,
+  triggers,
+  singleSignOn,
 };
 
 export default {
-	namespaced: true,
-	modules,
+  namespaced: true,
+  modules,
 };

@@ -68,8 +68,8 @@
 import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-	name: "OpenedTeamParameters",
-	mixins: [openedTabComponentMixin],
+  name: "OpenedTeamParameters",
+  mixins: [openedTabComponentMixin],
 };
 </script>
 

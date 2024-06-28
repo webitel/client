@@ -27,30 +27,35 @@
 import { mapGetters } from "vuex";
 
 export default {
-	name: "OpenedQueueSkillsBucketsPopup",
-	props: {
-		itemId: {
-			required: true,
-		},
-	},
+  name: "OpenedQueueSkillsBucketsPopup",
+  props: {
+    itemId: {
+      required: true,
+    },
+  },
 
-	computed: {
-		...mapGetters("ccenter/queues/skills", {
-			getBuckets: "GET_ITEM_BUCKETS",
-		}),
-		dataList() {
-			return this.getBuckets(this.itemId);
-		},
-		headers() {
-			return [{ value: "bucket", text: this.$t("reusable.name") }];
-		},
-	},
+  computed: {
+    ...mapGetters("ccenter/queues/skills", {
+      getBuckets: "GET_ITEM_BUCKETS",
+    }),
+    dataList() {
+      return this.getBuckets(this.itemId);
+    },
+    headers() {
+      return [
+        {
+          value: "bucket",
+          text: this.$t("reusable.name"),
+        },
+      ];
+    },
+  },
 
-	methods: {
-		close() {
-			this.$emit("close");
-		},
-	},
+  methods: {
+    close() {
+      this.$emit("close");
+    },
+  },
 };
 </script>
 

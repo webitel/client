@@ -127,60 +127,62 @@ import ConfigurationPopup from "./configuration-popup.vue";
 const namespace = "system/configuration";
 
 export default {
-	name: "TheConfiguration",
-	components: { ConfigurationPopup, DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
-	setup() {
-		const { dummy } = useDummy({ namespace });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  name: "TheConfiguration",
+  components: { ConfigurationPopup, DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
+  setup() {
+    const { dummy } = useDummy({ namespace });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		isConfigurationPopup: false,
-	}),
-	computed: {
-		...mapState({
-			id(state) {
-				return getNamespacedState(state, this.namespace).itemId;
-			},
-		}),
-		path() {
-			return [
-				{ name: this.$t("objects.system.system") },
-				{
-					name: this.$tc("objects.system.configuration.configuration", 1),
-					route: "configuration",
-				},
-			];
-		},
-	},
-	methods: {
-		...mapActions({
-			setItemId(dispatch, payload) {
-				return dispatch(`${namespace}/SET_ITEM_ID`, payload);
-			},
-		}),
-		editParameter(item) {
-			this.setItemId(item.id);
-			this.isConfigurationPopup = true;
-		},
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    isConfigurationPopup: false,
+  }),
+  computed: {
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+    }),
+    path() {
+      return [
+        {
+          name: this.$t("objects.system.system"),
+        },
+        {
+          name: this.$tc("objects.system.configuration.configuration", 1),
+          route: "configuration",
+        },
+      ];
+    },
+  },
+  methods: {
+    ...mapActions({
+      setItemId(dispatch, payload) {
+        return dispatch(`${namespace}/SET_ITEM_ID`, payload);
+      },
+    }),
+    editParameter(item) {
+      this.setItemId(item.id);
+      this.isConfigurationPopup = true;
+    },
+  },
 };
 </script>

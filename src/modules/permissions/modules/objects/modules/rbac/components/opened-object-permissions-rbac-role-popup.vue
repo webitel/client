@@ -41,26 +41,26 @@ import permissionsTabRolePopupMixins from "../../../../../../../app/mixins/objec
 import PermissionsRoleSelect from "../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue";
 
 export default {
-	name: "OpenedObjectPermissionsRbacRolePopup",
-	components: { PermissionsRoleSelect },
-	mixins: [permissionsTabRolePopupMixins],
-	data: () => ({
-		newGrantor: "",
-	}),
+  name: "OpenedObjectPermissionsRbacRolePopup",
+  components: { PermissionsRoleSelect },
+  mixins: [permissionsTabRolePopupMixins],
+  data: () => ({
+    newGrantor: "",
+  }),
 
-	methods: {
-		async save() {
-			try {
-				await this.addRolePermissions({
-					grantee: this.newGrantee,
-					grantor: this.newGrantor,
-				});
-				this.$emit("close");
-			} catch (err) {
-				throw err;
-			}
-		},
-	},
+  methods: {
+    async save() {
+      try {
+        await this.addRolePermissions({
+          grantee: this.newGrantee,
+          grantor: this.newGrantor,
+        });
+        this.$emit("close");
+      } catch (err) {
+        throw err;
+      }
+    },
+  },
 };
 </script>
 

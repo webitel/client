@@ -12,57 +12,57 @@ import openedObjectAccessControlMixin from "./_internals/openedObjectAccessContr
  * @extends baseObjectMixin
  */
 export default {
-	mixins: [openedObjectAccessControlMixin, headlineNavMixin, baseObjectMixin],
-	components: {
-		Permissions,
-	},
-	data: () => ({
-		currentTab: {
-			value: "general",
-		},
-	}),
+  mixins: [openedObjectAccessControlMixin, headlineNavMixin, baseObjectMixin],
+  components: {
+    Permissions,
+  },
+  data: () => ({
+    currentTab: {
+      value: "general",
+    },
+  }),
 
-	created() {
-		this.setInitialTab();
-		this.loadPageData();
-	},
+  created() {
+    this.setInitialTab();
+    this.loadPageData();
+  },
 
-	computed: {
-		...mapState({
-			id(state) {
-				return getNamespacedState(state, this.namespace).itemId;
-			},
-			itemInstance(state) {
-				return getNamespacedState(state, this.namespace).itemInstance;
-			},
-		}),
-		permissionsTab() {
-			return {
-				text: this.$tc("objects.permissions.permissions", 2),
-				value: "permissions",
-			};
-		},
-	},
+  computed: {
+    ...mapState({
+      id(state) {
+        return getNamespacedState(state, this.namespace).itemId;
+      },
+      itemInstance(state) {
+        return getNamespacedState(state, this.namespace).itemInstance;
+      },
+    }),
+    permissionsTab() {
+      return {
+        text: this.$tc("objects.permissions.permissions", 2),
+        value: "permissions",
+      };
+    },
+  },
 
-	methods: {
-		...mapActions({
-			setId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-		}),
+  methods: {
+    ...mapActions({
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+    }),
 
-		async loadPageData() {
-			await this.setId(this.$route.params.id);
-			return this.loadItem();
-		},
+    async loadPageData() {
+      await this.setId(this.$route.params.id);
+      return this.loadItem();
+    },
 
-		setInitialTab() {
-			// eslint-disable-next-line prefer-destructuring
-			if (this.tabs) this.currentTab = this.tabs[0];
-		},
+    setInitialTab() {
+      // eslint-disable-next-line prefer-destructuring
+      if (this.tabs) this.currentTab = this.tabs[0];
+    },
 
-		close() {
-			this.$router.go(-1);
-		},
-	},
+    close() {
+      this.$router.go(-1);
+    },
+  },
 };

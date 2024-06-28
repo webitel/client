@@ -8,17 +8,17 @@ import media from "../modules/media/store/media";
 import regions from "../modules/regions/store/regions";
 
 const modules = {
-	skills,
-	buckets,
-	blacklists,
-	regions,
-	calendars,
-	communications,
-	pauseCause,
-	media,
+  skills,
+  buckets,
+  blacklists,
+  regions,
+  calendars,
+  communications,
+  pauseCause,
+  media,
 };
 
 export default {
-	namespaced: true,
-	modules,
+  namespaced: true,
+  modules,
 };

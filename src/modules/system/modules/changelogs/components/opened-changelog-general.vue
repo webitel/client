@@ -59,39 +59,37 @@ import storage from "../../../../integrations/modules/storage/api/storage";
 import changelogs from "../api/changelogs";
 
 export default {
-	name: "OpenedChangelogGeneral",
-	mixins: [openedTabComponentMixin],
-	computed: {
-		currentPeriod() {
-			return this.periodOptions.find(
-				(period) => period.id === this.itemInstance.period,
-			);
-		},
-		periodOptions() {
-			return [
-				{
-					name: this.$t("objects.system.changelogs.period.options.daily"),
-					id: 1,
-				},
-				{
-					name: this.$t("objects.system.changelogs.period.options.weekly"),
-					id: 7,
-				},
-				{
-					name: this.$t("objects.system.changelogs.period.options.fortnightly"),
-					id: 14,
-				},
-				{
-					name: this.$t("objects.system.changelogs.period.options.monthly"),
-					id: 30,
-				},
-			];
-		},
-	},
-	methods: {
-		getObjectsList: changelogs.getObjectsList,
-		getStorageList: storage.getLookup,
-	},
+  name: "OpenedChangelogGeneral",
+  mixins: [openedTabComponentMixin],
+  computed: {
+    currentPeriod() {
+      return this.periodOptions.find((period) => period.id === this.itemInstance.period);
+    },
+    periodOptions() {
+      return [
+        {
+          name: this.$t("objects.system.changelogs.period.options.daily"),
+          id: 1,
+        },
+        {
+          name: this.$t("objects.system.changelogs.period.options.weekly"),
+          id: 7,
+        },
+        {
+          name: this.$t("objects.system.changelogs.period.options.fortnightly"),
+          id: 14,
+        },
+        {
+          name: this.$t("objects.system.changelogs.period.options.monthly"),
+          id: 30,
+        },
+      ];
+    },
+  },
+  methods: {
+    getObjectsList: changelogs.getObjectsList,
+    getStorageList: storage.getLookup,
+  },
 };
 </script>
 

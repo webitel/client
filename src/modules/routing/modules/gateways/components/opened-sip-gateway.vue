@@ -38,130 +38,149 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import {
-	helpers,
-	maxValue,
-	minValue,
-	numeric,
-	required,
-	requiredUnless,
+  helpers,
+  maxValue,
+  minValue,
+  numeric,
+  required,
+  requiredUnless,
 } from "@vuelidate/validators";
 import { mapActions } from "vuex";
 import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
 import {
-	gatewayHostValidator,
-	ipValidator,
-	sipAccountValidator,
+  gatewayHostValidator,
+  ipValidator,
+  sipAccountValidator,
 } from "../../../../../app/utils/validators";
 import RegisterGeneral from "./opened-register-sip-gateway-general.vue";
 import TrunkingConfiguration from "./opened-trunking-sip-gateway-configuration.vue";
 import TrunkingGeneral from "./opened-trunking-sip-gateway-general.vue";
 
 export default {
-	name: "OpenedSipGateway",
-	components: {
-		RegisterGeneral,
-		TrunkingGeneral,
-		TrunkingConfiguration,
-	},
-	mixins: [openedObjectMixin],
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
+  name: "OpenedSipGateway",
+  components: {
+    RegisterGeneral,
+    TrunkingGeneral,
+    TrunkingConfiguration,
+  },
+  mixins: [openedObjectMixin],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
-	data: () => ({
-		namespace: "routing/gateways",
-	}),
-	validations() {
-		if (this.isRegister) {
-			return {
-				itemInstance: {
-					account: { sipAccountValidator, required },
-					proxy: { gatewayHostValidator, required },
-					password: { required: requiredUnless(() => !!this.id) },
-					expires: {
-						numeric,
-						minValue: minValue(32),
-						maxValue: maxValue(3600),
-						required,
-					},
-				},
-			};
-		}
-		return {
-			itemInstance: {
-				host: { gatewayHostValidator, required },
-				proxy: { gatewayHostValidator, required },
-				ipacl: {
-					$each: helpers.forEach({
-						ip: { ipValidator, required },
-					}),
-				},
-			},
-		};
-	},
+  data: () => ({
+    namespace: "routing/gateways",
+  }),
+  validations() {
+    if (this.isRegister) {
+      return {
+        itemInstance: {
+          account: {
+            sipAccountValidator,
+            required,
+          },
+          proxy: {
+            gatewayHostValidator,
+            required,
+          },
+          password: {
+            required: requiredUnless(() => !!this.id),
+          },
+          expires: {
+            numeric,
+            minValue: minValue(32),
+            maxValue: maxValue(3600),
+            required,
+          },
+        },
+      };
+    }
+    return {
+      itemInstance: {
+        host: {
+          gatewayHostValidator,
+          required,
+        },
+        proxy: {
+          gatewayHostValidator,
+          required,
+        },
+        ipacl: {
+          $each: helpers.forEach({
+            ip: {
+              ipValidator,
+              required,
+            },
+          }),
+        },
+      },
+    };
+  },
 
-	computed: {
-		isRegister() {
-			return this.$route.path.includes("register");
-		},
+  computed: {
+    isRegister() {
+      return this.$route.path.includes("register");
+    },
 
-		tabs() {
-			const registerTabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "register-general",
-				},
-			];
-			const trunkingTabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "trunking-general",
-				},
-				{
-					text: this.$tc("objects.routing.configuration"),
-					value: "trunking-configuration",
-				},
-			];
-			return this.isRegister ? registerTabs : trunkingTabs;
-		},
+    tabs() {
+      const registerTabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "register-general",
+        },
+      ];
+      const trunkingTabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "trunking-general",
+        },
+        {
+          text: this.$tc("objects.routing.configuration"),
+          value: "trunking-configuration",
+        },
+      ];
+      return this.isRegister ? registerTabs : trunkingTabs;
+    },
 
-		gatewayTitle() {
-			return this.isRegister
-				? this.$t("objects.routing.gateways.registerGateway")
-				: this.$t("objects.routing.gateways.trunkingGateway");
-		},
+    gatewayTitle() {
+      return this.isRegister
+        ? this.$t("objects.routing.gateways.registerGateway")
+        : this.$t("objects.routing.gateways.trunkingGateway");
+    },
 
-		path() {
-			const baseUrl = "/routing/sip-gateways";
-			const url = baseUrl.concat(this.isRegister ? "/register" : "/trunking");
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{
-					name: this.$tc("objects.routing.gateways.gateways", 2),
-					route: baseUrl,
-				},
-				{
-					name: `${this.id ? this.pathName : this.$t("objects.new")} (${this.gatewayTitle})`,
-					route: this.id ? `${url}/${this.id}` : `${url}/new`,
-				},
-			];
-		},
-	},
+    path() {
+      const baseUrl = "/routing/sip-gateways";
+      const url = baseUrl.concat(this.isRegister ? "/register" : "/trunking");
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$tc("objects.routing.gateways.gateways", 2),
+          route: baseUrl,
+        },
+        {
+          name: `${this.id ? this.pathName : this.$t("objects.new")} (${this.gatewayTitle})`,
+          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+        },
+      ];
+    },
+  },
 
-	methods: {
-		...mapActions({
-			loadRegisterItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_REGISTER_ITEM`, payload);
-			},
-			loadTrunkingItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_TRUNKING_ITEM`, payload);
-			},
-		}),
+  methods: {
+    ...mapActions({
+      loadRegisterItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_REGISTER_ITEM`, payload);
+      },
+      loadTrunkingItem(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_TRUNKING_ITEM`, payload);
+      },
+    }),
 
-		loadItem() {
-			if (this.isRegister) this.loadRegisterItem();
-			else this.loadTrunkingItem();
-		},
-	},
+    loadItem() {
+      if (this.isRegister) this.loadRegisterItem();
+      else this.loadTrunkingItem();
+    },
+  },
 };
 </script>

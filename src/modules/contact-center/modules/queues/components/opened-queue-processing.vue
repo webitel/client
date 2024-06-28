@@ -53,32 +53,32 @@ import FlowsAPI from "../../../../routing/modules/flow/api/flow";
 import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
 
 export default {
-	name: "OpenedQueueProcessing",
-	mixins: [openedTabComponentMixin],
-	computed: {
-		specificControls() {
-			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-				(controls, control) => ({
-					...controls,
-					[control]: true,
-				}),
-				{},
-			);
-		},
-	},
-	methods: {
-		...mapActions({
-			setItemProcessingProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`, payload);
-			},
-		}),
-		loadDropdownOptionsSchemaList(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [EngineRoutingSchemaType.Processing, EngineRoutingSchemaType.Default],
-			});
-		},
-	},
+  name: "OpenedQueueProcessing",
+  mixins: [openedTabComponentMixin],
+  computed: {
+    specificControls() {
+      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+        (controls, control) => ({
+          ...controls,
+          [control]: true,
+        }),
+        {},
+      );
+    },
+  },
+  methods: {
+    ...mapActions({
+      setItemProcessingProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`, payload);
+      },
+    }),
+    loadDropdownOptionsSchemaList(params) {
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Processing, EngineRoutingSchemaType.Default],
+      });
+    },
+  },
 };
 </script>
 

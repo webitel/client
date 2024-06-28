@@ -43,75 +43,80 @@ import Failure from "./opened-resource-failure.vue";
 import General from "./opened-resource-general.vue";
 
 export default {
-	name: "OpenedResource",
-	components: {
-		General,
-		Numbers,
-		Failure,
-	},
-	mixins: [openedObjectMixin],
+  name: "OpenedResource",
+  components: {
+    General,
+    Numbers,
+    Failure,
+  },
+  mixins: [openedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
-	data: () => ({
-		namespace: "ccenter/res",
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-			gateway: { required },
-			cps: {
-				required,
-				minValue: minValue(-1),
-				maxValue: maxValue(1000),
-			},
-			limit: {
-				required,
-				minValue: minValue(-1),
-				maxValue: maxValue(1000),
-			},
-			maxErrors: { required },
-			// numberList: {
-			//     requiredArrayValue
-			// }
-		},
-	},
+  data: () => ({
+    namespace: "ccenter/res",
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+      gateway: { required },
+      cps: {
+        required,
+        minValue: minValue(-1),
+        maxValue: maxValue(1000),
+      },
+      limit: {
+        required,
+        minValue: minValue(-1),
+        maxValue: maxValue(1000),
+      },
+      maxErrors: { required },
+      // numberList: {
+      //     requiredArrayValue
+      // }
+    },
+  },
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "general",
-				},
-				{
-					text: this.$tc("objects.ccenter.res.numbers", 2),
-					value: "numbers",
-				},
-				{
-					text: this.$t("objects.ccenter.res.failure"),
-					value: "failure",
-				},
-			];
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "general",
+        },
+        {
+          text: this.$tc("objects.ccenter.res.numbers", 2),
+          value: "numbers",
+        },
+        {
+          text: this.$t("objects.ccenter.res.failure"),
+          value: "failure",
+        },
+      ];
 
-			if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
-		},
+      if (this.id) tabs.push(this.permissionsTab);
+      return tabs;
+    },
 
-		path() {
-			const baseUrl = "/contact-center/resources";
-			return [
-				{ name: this.$t("objects.ccenter.ccenter") },
-				{ name: this.$tc("objects.ccenter.res.res", 2), route: baseUrl },
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
+    path() {
+      const baseUrl = "/contact-center/resources";
+      return [
+        {
+          name: this.$t("objects.ccenter.ccenter"),
+        },
+        {
+          name: this.$tc("objects.ccenter.res.res", 2),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
 };
 </script>
 

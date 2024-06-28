@@ -123,46 +123,46 @@ const namespace = "ccenter/resGroups";
 const subNamespace = "res";
 
 export default {
-	name: "OpenedResourceGroupResources",
-	components: { ResPopup, DeleteConfirmationPopup },
-	mixins: [openedObjectTableTabMixin],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  name: "OpenedResourceGroupResources",
+  components: { ResPopup, DeleteConfirmationPopup },
+  mixins: [openedObjectTableTabMixin],
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		isResPopup: false,
-	}),
-	methods: {
-		openPopup() {
-			this.isResPopup = true;
-		},
-		closePopup() {
-			this.isResPopup = false;
-		},
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    subNamespace,
+    isResPopup: false,
+  }),
+  methods: {
+    openPopup() {
+      this.isResPopup = true;
+    },
+    closePopup() {
+      this.isResPopup = false;
+    },
+  },
 };
 </script>
 

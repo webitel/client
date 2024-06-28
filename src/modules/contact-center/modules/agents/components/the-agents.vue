@@ -148,71 +148,78 @@ import HistoryPopup from "./agent-history-popup.vue";
 const namespace = "ccenter/agents";
 
 export default {
-	name: "TheAgents",
-	components: { HistoryPopup, DeleteConfirmationPopup },
-	mixins: [tableComponentMixin, agentStatusMixin],
+  name: "TheAgents",
+  components: { HistoryPopup, DeleteConfirmationPopup },
+  mixins: [tableComponentMixin, agentStatusMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		routeName: RouteNames.AGENTS,
-	}),
+  data: () => ({
+    namespace,
+    routeName: RouteNames.AGENTS,
+  }),
 
-	computed: {
-		...mapState({
-			historyId(state) {
-				return getNamespacedState(state, `${this.namespace}/history`).parentId;
-			},
-		}),
-		path() {
-			return [
-				{ name: this.$t("objects.ccenter.ccenter") },
-				{
-					name: this.$tc("objects.ccenter.agents.agents", 2),
-					route: "/contact-center/agents",
-				},
-			];
-		},
-	},
+  computed: {
+    ...mapState({
+      historyId(state) {
+        return getNamespacedState(state, `${this.namespace}/history`).parentId;
+      },
+    }),
+    path() {
+      return [
+        {
+          name: this.$t("objects.ccenter.ccenter"),
+        },
+        {
+          name: this.$tc("objects.ccenter.agents.agents", 2),
+          route: "/contact-center/agents",
+        },
+      ];
+    },
+  },
 
-	methods: {
-		...mapActions({
-			openHistory(dispatch, payload) {
-				return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
-			},
-		}),
-		itemTeamLink({ team }) {
-			return {
-				name: `${RouteNames.TEAMS}-edit`,
-				params: { id: team.id },
-			};
-		},
-		closeHistoryPopup() {
-			this.openHistory(null);
-		},
-		snakeToCamel,
-	},
+  methods: {
+    ...mapActions({
+      openHistory(dispatch, payload) {
+        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
+      },
+    }),
+    itemTeamLink({ team }) {
+      return {
+        name: `${RouteNames.TEAMS}-edit`,
+        params: {
+          id: team.id,
+        },
+      };
+    },
+    closeHistoryPopup() {
+      this.openHistory(null);
+    },
+    snakeToCamel,
+  },
 };
 </script>
 

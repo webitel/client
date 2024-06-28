@@ -97,63 +97,63 @@ import TokenCreatedPopup from "./opened-user-token-created-popup.vue";
 import TokenPopup from "./opened-user-token-popup.vue";
 
 export default {
-	name: "OpenedUserTokens",
-	components: {
-		TokenPopup,
-		TokenCreatedPopup,
-		DeleteConfirmationPopup,
-	},
-	mixins: [openedObjectTableTabMixin],
+  name: "OpenedUserTokens",
+  components: {
+    TokenPopup,
+    TokenCreatedPopup,
+    DeleteConfirmationPopup,
+  },
+  mixins: [openedObjectTableTabMixin],
 
-	setup() {
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		subNamespace: "tokens",
-		isPopup: false,
-		isTokenGenerated: false,
-	}),
+  data: () => ({
+    subNamespace: "tokens",
+    isPopup: false,
+    isTokenGenerated: false,
+  }),
 
-	methods: {
-		openPopup() {
-			this.isPopup = true;
-		},
-		closePopup() {
-			this.isPopup = false;
-			this.resetItemState();
-		},
+  methods: {
+    openPopup() {
+      this.isPopup = true;
+    },
+    closePopup() {
+      this.isPopup = false;
+      this.resetItemState();
+    },
 
-		openTokenCreatedPopup() {
-			this.isPopup = false;
-			this.isTokenGenerated = true;
-		},
+    openTokenCreatedPopup() {
+      this.isPopup = false;
+      this.isTokenGenerated = true;
+    },
 
-		closeTokenCreatedPopup() {
-			this.isTokenGenerated = false;
-			this.resetItemState();
-		},
+    closeTokenCreatedPopup() {
+      this.isTokenGenerated = false;
+      this.resetItemState();
+    },
 
-		prettifyDate(value) {
-			return new Date(+value).toLocaleString();
-		},
-	},
+    prettifyDate(value) {
+      return new Date(+value).toLocaleString();
+    },
+  },
 };
 </script>
 

@@ -129,46 +129,51 @@ import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 const namespace = "ccenter/res";
 
 export default {
-	name: "TheResources",
-	components: { DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
+  name: "TheResources",
+  components: { DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.RESOURCES,
-	}),
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
+  data: () => ({
+    namespace,
+    routeName: RouteNames.RESOURCES,
+  }),
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.ccenter.ccenter") },
-				{
-					name: this.$tc("objects.ccenter.res.res", 2),
-					route: "/contact-center/resources",
-				},
-			];
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.ccenter.ccenter"),
+        },
+        {
+          name: this.$tc("objects.ccenter.res.res", 2),
+          route: "/contact-center/resources",
+        },
+      ];
+    },
+  },
 };
 </script>

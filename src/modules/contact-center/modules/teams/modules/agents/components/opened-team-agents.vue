@@ -120,44 +120,40 @@ const namespace = "ccenter/teams";
 const subNamespace = "agents";
 
 export default {
-	name: "OpenedTeamAgents",
-	components: { AgentPopup, ObjectListPopup },
-	mixins: [
-		openedObjectTableTabMixin,
-		agentSupervisorsAndSkillsPopupMixin,
-		agentStatusMixin,
-	],
+  name: "OpenedTeamAgents",
+  components: { AgentPopup, ObjectListPopup },
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
 
-		return { dummy };
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-		isAgentPopup: false,
-	}),
+    return { dummy };
+  },
+  data: () => ({
+    namespace,
+    subNamespace,
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+    isAgentPopup: false,
+  }),
 
-	methods: {
-		openPopup() {
-			this.isAgentPopup = true;
-		},
-		closePopup() {
-			this.isAgentPopup = false;
-		},
-		openSkillsPopup() {
-			this.isSkillsPopup = true;
-		},
-		closeSkillsPopup() {
-			this.isSkillsPopup = false;
-		},
-		snakeToCamel,
-	},
+  methods: {
+    openPopup() {
+      this.isAgentPopup = true;
+    },
+    closePopup() {
+      this.isAgentPopup = false;
+    },
+    openSkillsPopup() {
+      this.isSkillsPopup = true;
+    },
+    closeSkillsPopup() {
+      this.isSkillsPopup = false;
+    },
+    snakeToCamel,
+  },
 };
 </script>
 

@@ -84,125 +84,116 @@ import supervisorTitleMd from "../assets/img/titles/supervisor-md.svg";
 import supervisorTitleSm from "../assets/img/titles/supervisor-sm.svg";
 
 const picAdmin = {
-	img: admPic,
-	title: {
-		md: admTitleMd,
-		sm: admTitleSm,
-	},
+  img: admPic,
+  title: {
+    md: admTitleMd,
+    sm: admTitleSm,
+  },
 };
 const picAgent = {
-	img: agentPic,
-	title: {
-		md: agentTitleMd,
-		sm: agentTitleSm,
-	},
+  img: agentPic,
+  title: {
+    md: agentTitleMd,
+    sm: agentTitleSm,
+  },
 };
 const picAudit = {
-	img: auditPic,
-	title: {
-		md: auditTitleMd,
-		sm: auditTitleSm,
-	},
+  img: auditPic,
+  title: {
+    md: auditTitleMd,
+    sm: auditTitleSm,
+  },
 };
 const picHistory = {
-	img: historyPic,
-	title: {
-		md: historyTitleMd,
-		sm: historyTitleSm,
-	},
+  img: historyPic,
+  title: {
+    md: historyTitleMd,
+    sm: historyTitleSm,
+  },
 };
 const picSupervisor = {
-	img: supervisorPic,
-	title: {
-		md: supervisorTitleMd,
-		sm: supervisorTitleSm,
-	},
+  img: supervisorPic,
+  title: {
+    md: supervisorTitleMd,
+    sm: supervisorTitleSm,
+  },
 };
 const picGrafana = {
-	img: grafanaPic,
-	title: {
-		md: grafanaTitleMd,
-		sm: grafanaTitleSm,
-	},
+  img: grafanaPic,
+  title: {
+    md: grafanaTitleMd,
+    sm: grafanaTitleSm,
+  },
 };
 const picCrm = {
-	img: crmPic,
-	title: {
-		md: crmTitleMd,
-		sm: crmTitleSm,
-	},
+  img: crmPic,
+  title: {
+    md: crmTitleMd,
+    sm: crmTitleSm,
+  },
 };
 
 export default {
-	name: "TheApplicationHub",
-	components: { CcHeader },
-	inject: ["$config"],
-	computed: {
-		...mapGetters("userinfo", {
-			checkAccess: "CHECK_APP_ACCESS",
-		}),
-		apps() {
-			const agentApp = {
-				name: WebitelApplications.AGENT,
-				title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
-				href: import.meta.env.VITE_AGENT_URL,
-				pic: picAgent,
-			};
-			const supervisorApp = {
-				name: WebitelApplications.SUPERVISOR,
-				title: this.$t(
-					`WebitelApplications.${WebitelApplications.SUPERVISOR}.name`,
-				),
-				href: import.meta.env.VITE_SUPERVISOR_URL,
-				pic: picSupervisor,
-			};
-			const historyApp = {
-				name: WebitelApplications.HISTORY,
-				title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
-				href: import.meta.env.VITE_HISTORY_URL,
-				pic: picHistory,
-			};
+  name: "TheApplicationHub",
+  components: { CcHeader },
+  inject: ["$config"],
+  computed: {
+    ...mapGetters("userinfo", {
+      checkAccess: "CHECK_APP_ACCESS",
+    }),
+    apps() {
+      const agentApp = {
+        name: WebitelApplications.AGENT,
+        title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
+        href: import.meta.env.VITE_AGENT_URL,
+        pic: picAgent,
+      };
+      const supervisorApp = {
+        name: WebitelApplications.SUPERVISOR,
+        title: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.name`),
+        href: import.meta.env.VITE_SUPERVISOR_URL,
+        pic: picSupervisor,
+      };
+      const historyApp = {
+        name: WebitelApplications.HISTORY,
+        title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
+        href: import.meta.env.VITE_HISTORY_URL,
+        pic: picHistory,
+      };
 
-			const auditApp = {
-				name: WebitelApplications.AUDIT,
-				title: this.$t(`WebitelApplications.${WebitelApplications.AUDIT}.name`),
-				href: import.meta.env.VITE_AUDIT_URL,
-				pic: picAudit,
-			};
+      const auditApp = {
+        name: WebitelApplications.AUDIT,
+        title: this.$t(`WebitelApplications.${WebitelApplications.AUDIT}.name`),
+        href: import.meta.env.VITE_AUDIT_URL,
+        pic: picAudit,
+      };
 
-			const adminApp = {
-				name: WebitelApplications.ADMIN,
-				title: this.$t(`WebitelApplications.${WebitelApplications.ADMIN}.name`),
-				href: import.meta.env.VITE_ADMIN_URL,
-				pic: picAdmin,
-			};
+      const adminApp = {
+        name: WebitelApplications.ADMIN,
+        title: this.$t(`WebitelApplications.${WebitelApplications.ADMIN}.name`),
+        href: import.meta.env.VITE_ADMIN_URL,
+        pic: picAdmin,
+      };
 
-			const grafanaApp = {
-				name: WebitelApplications.ANALYTICS,
-				title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
-				href: import.meta.env.VITE_GRAFANA_URL,
-				pic: picGrafana,
-			};
+      const grafanaApp = {
+        name: WebitelApplications.ANALYTICS,
+        title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
+        href: import.meta.env.VITE_GRAFANA_URL,
+        pic: picGrafana,
+      };
 
-			const crmApp = {
-				name: WebitelApplications.CRM,
-				title: this.$t(`WebitelApplications.${WebitelApplications.CRM}.name`),
-				href: import.meta.env.VITE_CRM_URL,
-				pic: picCrm,
-			};
+      const crmApp = {
+        name: WebitelApplications.CRM,
+        title: this.$t(`WebitelApplications.${WebitelApplications.CRM}.name`),
+        href: import.meta.env.VITE_CRM_URL,
+        pic: picCrm,
+      };
 
-			const apps = [
-				agentApp,
-				supervisorApp,
-				historyApp,
-				adminApp,
-				auditApp,
-				crmApp,
-			];
-			if (this.$config.ON_SITE) apps.push(grafanaApp);
-			return apps.filter(({ name }) => this.checkAccess(name));
-		},
-	},
+      const apps = [agentApp, supervisorApp, historyApp, adminApp, auditApp, crmApp];
+      if (this.$config.ON_SITE) apps.push(grafanaApp);
+      return apps.filter(({ name }) => this.checkAccess(name));
+    },
+  },
 };
 </script>
 

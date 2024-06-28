@@ -47,13 +47,13 @@ import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from "../../flow/api/flow";
 
 export default {
-	name: "OpenedDialplan",
-	mixins: [openedTabComponentMixin],
-	methods: {
-		loadFlows(params) {
-			return FlowsAPI.getLookup(params);
-		},
-	},
+  name: "OpenedDialplan",
+  mixins: [openedTabComponentMixin],
+  methods: {
+    loadFlows(params) {
+      return FlowsAPI.getLookup(params);
+    },
+  },
 };
 </script>
 

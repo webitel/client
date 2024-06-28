@@ -52,32 +52,32 @@ import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins
 import BucketsAPI from "../../../../../../lookups/modules/buckets/api/buckets";
 
 export default {
-	name: "OpenedQueueBucketsPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedQueueBucketsPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
-	data: () => ({
-		namespace: "ccenter/queues/buckets",
-	}),
-	validations: {
-		itemInstance: {
-			bucket: { required },
-			priority: {
-				numeric,
-				minValue: minValue(0),
-				required,
-			},
-		},
-	},
+  data: () => ({
+    namespace: "ccenter/queues/buckets",
+  }),
+  validations: {
+    itemInstance: {
+      bucket: { required },
+      priority: {
+        numeric,
+        minValue: minValue(0),
+        required,
+      },
+    },
+  },
 
-	methods: {
-		loadBucketsOptions(params) {
-			return BucketsAPI.getLookup(params);
-		},
-	},
+  methods: {
+    loadBucketsOptions(params) {
+      return BucketsAPI.getLookup(params);
+    },
+  },
 };
 </script>
 

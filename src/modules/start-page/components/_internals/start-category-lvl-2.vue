@@ -22,13 +22,13 @@
 
 <script>
 export default {
-	name: "StartCategoryLvl2",
-	props: {
-		categories: {
-			type: Array,
-			default: () => [],
-		},
-	},
+  name: "StartCategoryLvl2",
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+  },
 };
 </script>
 

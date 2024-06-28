@@ -60,11 +60,11 @@ import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMix
 import CognitiveProfileServices from "../../lookups/CognitiveProfileServices.lookup";
 
 export default {
-	name: "OpenedCognitiveProfileElevenLabs",
-	mixins: [openedTabComponentMixin],
-	data: () => ({
-		CognitiveProfileServices,
-	}),
+  name: "OpenedCognitiveProfileElevenLabs",
+  mixins: [openedTabComponentMixin],
+  data: () => ({
+    CognitiveProfileServices,
+  }),
 };
 </script>
 

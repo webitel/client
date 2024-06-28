@@ -45,10 +45,10 @@
 import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-	name: "OpenedQueueVariables",
-	components: {},
+  name: "OpenedQueueVariables",
+  components: {},
 
-	mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin],
 };
 </script>
 

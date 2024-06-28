@@ -44,26 +44,26 @@ import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins
 import AgentsAPI from "../../../../agents/api/agents";
 
 export default {
-	name: "OpenedTeamAgentPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedTeamAgentPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
 
-	data: () => ({
-		namespace: "ccenter/teams/agents",
-	}),
-	validations: {
-		itemInstance: {
-			agent: { required },
-		},
-	},
-	methods: {
-		loadAgentsOptions(params) {
-			return AgentsAPI.getLookup(params);
-		},
-	},
+  data: () => ({
+    namespace: "ccenter/teams/agents",
+  }),
+  validations: {
+    itemInstance: {
+      agent: { required },
+    },
+  },
+  methods: {
+    loadAgentsOptions(params) {
+      return AgentsAPI.getLookup(params);
+    },
+  },
 };
 </script>
 

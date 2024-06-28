@@ -42,48 +42,50 @@ import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/opene
 import General from "./opened-region-general.vue";
 
 export default {
-	name: "OpenedRegion",
-	components: { General },
-	mixins: [openedObjectMixin],
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "lookups/regions",
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-			timezone: { required },
-		},
-	},
+  name: "OpenedRegion",
+  components: { General },
+  mixins: [openedObjectMixin],
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "lookups/regions",
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+      timezone: { required },
+    },
+  },
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "general",
-				},
-			];
-			return tabs;
-		},
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "general",
+        },
+      ];
+      return tabs;
+    },
 
-		path() {
-			const baseUrl = "/lookups/regions";
-			return [
-				{ name: this.$t("objects.lookups.lookups") },
-				{
-					name: this.$tc("objects.lookups.regions.regions", 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
+    path() {
+      const baseUrl = "/lookups/regions";
+      return [
+        {
+          name: this.$t("objects.lookups.lookups"),
+        },
+        {
+          name: this.$tc("objects.lookups.regions.regions", 2),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
 };
 </script>
 

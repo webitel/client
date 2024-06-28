@@ -62,113 +62,133 @@ import ConfigurationAPI from "../api/configuration";
 import ConfigurationValueTypes from "../utils/configurationValueTypes";
 
 export default {
-	name: "ConfigurationPopup",
-	mixins: [openedObjectMixin, openedTabComponentMixin],
-	props: {
-		id: {
-			type: Number,
-		},
-		namespace: {
-			type: String,
-		},
-	},
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-			value: {
-				required,
-				minValue: minValue(0),
-			},
-		},
-	},
-	computed: {
-		valueType() {
-			return ConfigurationValueTypes[this.itemInstance.name];
-		},
-		componentConfig() {
-			const defaultConfig = {
-				bind: {
-					value: this.itemInstance.value,
-					v: this.v$.itemInstance.value,
-					required: true,
-				},
-			};
+  name: "ConfigurationPopup",
+  mixins: [openedObjectMixin, openedTabComponentMixin],
+  props: {
+    id: {
+      type: Number,
+    },
+    namespace: {
+      type: String,
+    },
+  },
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+      value: {
+        required,
+        minValue: minValue(0),
+      },
+    },
+  },
+  computed: {
+    valueType() {
+      return ConfigurationValueTypes[this.itemInstance.name];
+    },
+    componentConfig() {
+      const defaultConfig = {
+        bind: {
+          value: this.itemInstance.value,
+          v: this.v$.itemInstance.value,
+          required: true,
+        },
+      };
 
-			const defaultBooleanConfig = deepmerge(defaultConfig, {
-				component: "wt-switcher",
-				label: this.$t("reusable.state"),
-				on: {
-					change: (event) => this.setItemProp({ prop: "value", value: event }),
-				},
-			});
-			const defaultNumberConfig = deepmerge(defaultConfig, {
-				component: "wt-input",
-				label: this.$tc("vocabulary.values", 1),
-				bind: {
-					type: "number",
-				},
-				on: {
-					input: (event) => this.setItemProp({ prop: "value", value: +event }),
-				},
-			});
+      const defaultBooleanConfig = deepmerge(defaultConfig, {
+        component: "wt-switcher",
+        label: this.$t("reusable.state"),
+        on: {
+          change: (event) =>
+            this.setItemProp({
+              prop: "value",
+              value: event,
+            }),
+        },
+      });
+      const defaultNumberConfig = deepmerge(defaultConfig, {
+        component: "wt-input",
+        label: this.$tc("vocabulary.values", 1),
+        bind: {
+          type: "number",
+        },
+        on: {
+          input: (event) =>
+            this.setItemProp({
+              prop: "value",
+              value: +event,
+            }),
+        },
+      });
 
-			switch (this.itemInstance.name) {
-				case EngineSystemSettingName.EnableOmnichannel: {
-					return defaultBooleanConfig;
-				}
-				case EngineSystemSettingName.AmdCancelNotHuman: {
-					return defaultBooleanConfig;
-				}
-				case EngineSystemSettingName.Enable2fa: {
-					return defaultBooleanConfig;
-				}
-				case EngineSystemSettingName.MemberChunkSize: {
-					return defaultNumberConfig;
-				}
-				case EngineSystemSettingName.SchemeVersionLimit: {
-					return defaultNumberConfig;
-				}
-				default: {
-					return {};
-				}
-			}
-		},
-	},
-	methods: {
-		async save() {
-			if (!this.disabledSave) {
-				if (this.id) {
-					await this.updateItem();
-				} else {
-					try {
-						await this.addItem();
-					} catch (err) {
-						throw err;
-					}
-				}
-				this.close();
-			}
-		},
-		async loadPageData() {
-			await this.setId(this.id);
-			return this.loadItem();
-		},
-		close() {
-			this.$emit("close");
-		},
-		async loadParameterList(params) {
-			return await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });
-		},
-		setParameterName(event) {
-			this.setItemProp({ prop: "name", value: event.name });
-			if (this.valueType === "boolean")
-				this.setItemProp({ prop: "value", value: false });
-			if (this.valueType === "number")
-				this.setItemProp({ prop: "value", value: 0 });
-		},
-	},
+      switch (this.itemInstance.name) {
+        case EngineSystemSettingName.EnableOmnichannel: {
+          return defaultBooleanConfig;
+        }
+        case EngineSystemSettingName.AmdCancelNotHuman: {
+          return defaultBooleanConfig;
+        }
+        case EngineSystemSettingName.Enable2fa: {
+          return defaultBooleanConfig;
+        }
+        case EngineSystemSettingName.MemberChunkSize: {
+          return defaultNumberConfig;
+        }
+        case EngineSystemSettingName.SchemeVersionLimit: {
+          return defaultNumberConfig;
+        }
+        default: {
+          return {};
+        }
+      }
+    },
+  },
+  methods: {
+    async save() {
+      if (!this.disabledSave) {
+        if (this.id) {
+          await this.updateItem();
+        } else {
+          try {
+            await this.addItem();
+          } catch (err) {
+            throw err;
+          }
+        }
+        this.close();
+      }
+    },
+    async loadPageData() {
+      await this.setId(this.id);
+      return this.loadItem();
+    },
+    close() {
+      this.$emit("close");
+    },
+    async loadParameterList(params) {
+      return await ConfigurationAPI.getObjectsList({
+        ...params,
+        size: 5000,
+      });
+    },
+    setParameterName(event) {
+      this.setItemProp({
+        prop: "name",
+        value: event.name,
+      });
+      if (this.valueType === "boolean")
+        this.setItemProp({
+          prop: "value",
+          value: false,
+        });
+      if (this.valueType === "number")
+        this.setItemProp({
+          prop: "value",
+          value: 0,
+        });
+    },
+  },
 };
 </script>

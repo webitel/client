@@ -43,53 +43,55 @@ import Agents from "../modules/agents/components/opened-skill-agents.vue";
 import General from "./opened-agent-skill-general.vue";
 
 export default {
-	name: "OpenedAgentSkill",
-	components: { General, Agents },
-	mixins: [openedObjectMixin],
+  name: "OpenedAgentSkill",
+  components: { General, Agents },
+  mixins: [openedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "lookups/skills",
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "lookups/skills",
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+    },
+  },
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "general",
-				},
-			];
-			const agents = {
-				text: this.$tc("objects.ccenter.agents.agents", 2),
-				value: "agents",
-			};
-			if (this.id) tabs.push(agents);
-			return tabs;
-		},
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "general",
+        },
+      ];
+      const agents = {
+        text: this.$tc("objects.ccenter.agents.agents", 2),
+        value: "agents",
+      };
+      if (this.id) tabs.push(agents);
+      return tabs;
+    },
 
-		path() {
-			const baseUrl = "/lookups/skills";
-			return [
-				{ name: this.$t("objects.lookups.lookups") },
-				{
-					name: this.$tc("objects.lookups.skills.agentSkills", 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
+    path() {
+      const baseUrl = "/lookups/skills";
+      return [
+        {
+          name: this.$t("objects.lookups.lookups"),
+        },
+        {
+          name: this.$tc("objects.lookups.skills.agentSkills", 2),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
 };
 </script>
 

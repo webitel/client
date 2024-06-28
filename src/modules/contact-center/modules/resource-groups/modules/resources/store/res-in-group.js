@@ -3,16 +3,16 @@ import ResInGroupAPI from "../api/resInGroup";
 import headers from "./_internals/headers";
 
 const resettableItemState = {
-	itemInstance: {
-		resource: {},
-		reserveResource: {},
-		priority: 0,
-	},
+  itemInstance: {
+    resource: {},
+    reserveResource: {},
+    priority: 0,
+  },
 };
 
 const resInGroup = new NestedObjectStoreModule({ resettableItemState, headers })
-	.attachAPIModule(ResInGroupAPI)
-	.generateAPIActions()
-	.getModule();
+  .attachAPIModule(ResInGroupAPI)
+  .generateAPIActions()
+  .getModule();
 
 export default resInGroup;

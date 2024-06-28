@@ -107,28 +107,28 @@ import TeamsAPI from "../../teams/api/teams";
 import AgentsAPI from "../api/agents";
 
 export default {
-	name: "OpenedAgentGeneral",
-	mixins: [openedTabComponentMixin],
-	methods: {
-		loadUsersOptions(params) {
-			return AgentsAPI.getAgentUsersOptions(params);
-		},
-		loadTeamsOptions(params) {
-			return TeamsAPI.getLookup(params);
-		},
-		loadSupervisorsOptions(params) {
-			return AgentsAPI.getSupervisorOptions(params);
-		},
-		loadAuditorsOptions(params) {
-			return UsersAPI.getLookup(params);
-		},
-		loadRegionsOptions(params) {
-			return RegionsAPI.getLookup(params);
-		},
-		loadMediaOptions(params) {
-			return MediaAPI.getLookup(params);
-		},
-	},
+  name: "OpenedAgentGeneral",
+  mixins: [openedTabComponentMixin],
+  methods: {
+    loadUsersOptions(params) {
+      return AgentsAPI.getAgentUsersOptions(params);
+    },
+    loadTeamsOptions(params) {
+      return TeamsAPI.getLookup(params);
+    },
+    loadSupervisorsOptions(params) {
+      return AgentsAPI.getSupervisorOptions(params);
+    },
+    loadAuditorsOptions(params) {
+      return UsersAPI.getLookup(params);
+    },
+    loadRegionsOptions(params) {
+      return RegionsAPI.getLookup(params);
+    },
+    loadMediaOptions(params) {
+      return MediaAPI.getLookup(params);
+    },
+  },
 };
 </script>
 

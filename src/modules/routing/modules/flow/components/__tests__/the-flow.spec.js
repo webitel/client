@@ -8,10 +8,10 @@ vi.mock("../../../../../../app/composables/useDummy");
 useDummy.mockImplementation(() => ({ store: reactive({}) }));
 
 describe("TheFlow", () => {
-	it("renders a component", () => {
-		const wrapper = shallowMount(TheFlow, {
-			computed: tableComponentComputedMock(),
-		});
-		expect(wrapper.exists()).toBe(true);
-	});
+  it("renders a component", () => {
+    const wrapper = shallowMount(TheFlow, {
+      computed: tableComponentComputedMock(),
+    });
+    expect(wrapper.exists()).toBe(true);
+  });
 });

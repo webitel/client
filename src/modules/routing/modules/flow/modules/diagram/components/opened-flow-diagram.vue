@@ -5,19 +5,19 @@
 
 <script>
 export default {
-	name: "OpenedFlowDiagram",
-	created() {
-		const flowId = this.$route.params.id || "new";
-		const flowType = this.$route.query.type || "";
-		const redirectUrl = `${import.meta.env.VITE_FLOW_DIAGRAM_URL}/${flowId}/${flowType}`;
+  name: "OpenedFlowDiagram",
+  created() {
+    const flowId = this.$route.params.id || "new";
+    const flowType = this.$route.query.type || "";
+    const redirectUrl = `${import.meta.env.VITE_FLOW_DIAGRAM_URL}/${flowId}/${flowType}`;
 
-		// [https://webitel.atlassian.net/browse/WTEL-4509]
-		// Temporary solution - open in a new browser tab Flow diagram
+    // [https://webitel.atlassian.net/browse/WTEL-4509]
+    // Temporary solution - open in a new browser tab Flow diagram
 
-		// window.location.replace(redirectUrl);
-		window.open(redirectUrl, "_blank");
-		this.$router.go(-1);
-	},
+    // window.location.replace(redirectUrl);
+    window.open(redirectUrl, "_blank");
+    this.$router.go(-1);
+  },
 };
 </script>
 

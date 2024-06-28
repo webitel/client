@@ -136,63 +136,68 @@ import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 const namespace = "lookups/communications";
 
 export default {
-	name: "TheCommunicationTypes",
-	components: { DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
+  name: "TheCommunicationTypes",
+  components: { DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		routeName: RouteNames.COMMUNICATIONS,
-	}),
+  data: () => ({
+    namespace,
+    routeName: RouteNames.COMMUNICATIONS,
+  }),
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.lookups.lookups") },
-				{
-					name: this.$tc("objects.lookups.communications.communications", 2),
-					route: "/lookups/communications",
-				},
-			];
-		},
-	},
-	methods: {
-		async changeDefaultType({ index, item, value }) {
-			try {
-				await this.patchItem({
-					index,
-					item,
-					prop: "default",
-					value,
-				});
-				if (value) this.loadList();
-			} catch {
-				this.loadList();
-			}
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.lookups.lookups"),
+        },
+        {
+          name: this.$tc("objects.lookups.communications.communications", 2),
+          route: "/lookups/communications",
+        },
+      ];
+    },
+  },
+  methods: {
+    async changeDefaultType({ index, item, value }) {
+      try {
+        await this.patchItem({
+          index,
+          item,
+          prop: "default",
+          value,
+        });
+        if (value) this.loadList();
+      } catch {
+        this.loadList();
+      }
+    },
+  },
 };
 </script>
 

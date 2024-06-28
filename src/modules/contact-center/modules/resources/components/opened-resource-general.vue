@@ -83,23 +83,23 @@ import CidTypeList from "../lookups/CidType.lookup";
 import EarlyMediaList from "../lookups/EarlyMedia.lookup";
 
 export default {
-	name: "OpenedResourceGeneral",
-	mixins: [openedTabComponentMixin],
-	data() {
-		return {
-			CidTypeList,
-			EarlyMediaList,
-		};
-	},
-	methods: {
-		...mapActions({
-			setItemParameterProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`, payload);
-			},
-		}),
-		loadDropdownOptionsList(params) {
-			return GatewaysAPI.getLookup(params);
-		},
-	},
+  name: "OpenedResourceGeneral",
+  mixins: [openedTabComponentMixin],
+  data() {
+    return {
+      CidTypeList,
+      EarlyMediaList,
+    };
+  },
+  methods: {
+    ...mapActions({
+      setItemParameterProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`, payload);
+      },
+    }),
+    loadDropdownOptionsList(params) {
+      return GatewaysAPI.getLookup(params);
+    },
+  },
 };
 </script>

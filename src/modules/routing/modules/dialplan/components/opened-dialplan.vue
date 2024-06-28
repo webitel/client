@@ -43,46 +43,54 @@ import { regExpValidator } from "../../../../../app/utils/validators";
 import General from "./opened-dialplan-general.vue";
 
 export default {
-	name: "OpenedDialplan",
-	components: { General },
-	mixins: [openedObjectMixin],
+  name: "OpenedDialplan",
+  components: { General },
+  mixins: [openedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "routing/dialplan",
-	}),
-	validations: {
-		itemInstance: {
-			name: { required },
-			schema: { required },
-			pattern: { required, regExpValidator },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "routing/dialplan",
+  }),
+  validations: {
+    itemInstance: {
+      name: { required },
+      schema: { required },
+      pattern: {
+        required,
+        regExpValidator,
+      },
+    },
+  },
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t("objects.general"),
-					value: "general",
-				},
-			];
-			return tabs;
-		},
-		path() {
-			const baseUrl = "/routing/dialplan";
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{ name: this.$t("objects.routing.dialplan.dialplan"), route: baseUrl },
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
+  computed: {
+    tabs() {
+      const tabs = [
+        {
+          text: this.$t("objects.general"),
+          value: "general",
+        },
+      ];
+      return tabs;
+    },
+    path() {
+      const baseUrl = "/routing/dialplan";
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$t("objects.routing.dialplan.dialplan"),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
+  },
 };
 </script>
 

@@ -181,86 +181,98 @@ import QueuePopup from "./create-queue-popup.vue";
 const namespace = "ccenter/queues";
 
 export default {
-	name: "TheQueues",
-	components: { TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
+  name: "TheQueues",
+  components: { TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		isQueueSelectPopup: false,
-		QueueTypeProperties,
-		routeName: RouteNames.QUEUES,
-	}),
+  data: () => ({
+    namespace,
+    isQueueSelectPopup: false,
+    QueueTypeProperties,
+    routeName: RouteNames.QUEUES,
+  }),
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.ccenter.ccenter") },
-				{
-					name: this.$tc("objects.ccenter.queues.queues", 2),
-					route: "/contact-center/queues",
-				},
-			];
-		},
-		filtersNamespace() {
-			return `${this.namespace}/filters`;
-		},
-	},
-	watch: {
-		"$route.query": {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.ccenter.ccenter"),
+        },
+        {
+          name: this.$tc("objects.ccenter.queues.queues", 2),
+          route: "/contact-center/queues",
+        },
+      ];
+    },
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
+  },
+  watch: {
+    "$route.query": {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
 
-	methods: {
-		openMembers(item) {
-			this.$router.push({
-				name: `${RouteNames.MEMBERS}`,
-				params: { queueId: item.id },
-			});
-		},
-		itemTeamLink({ team }) {
-			return {
-				name: `${RouteNames.TEAMS}-edit`,
-				params: { id: team.id },
-			};
-		},
-		editLink({ id, type }) {
-			const routeName = this.routeName || this.tableObjectRouteName;
-			return {
-				name: `${routeName}-edit`,
-				params: { id, type: QueueTypeProperties[type].subpath },
-			};
-		},
+  methods: {
+    openMembers(item) {
+      this.$router.push({
+        name: `${RouteNames.MEMBERS}`,
+        params: {
+          queueId: item.id,
+        },
+      });
+    },
+    itemTeamLink({ team }) {
+      return {
+        name: `${RouteNames.TEAMS}-edit`,
+        params: {
+          id: team.id,
+        },
+      };
+    },
+    editLink({ id, type }) {
+      const routeName = this.routeName || this.tableObjectRouteName;
+      return {
+        name: `${routeName}-edit`,
+        params: {
+          id,
+          type: QueueTypeProperties[type].subpath,
+        },
+      };
+    },
 
-		create() {
-			this.isQueueSelectPopup = true;
-		},
-	},
+    create() {
+      this.isQueueSelectPopup = true;
+    },
+  },
 };
 </script>
 

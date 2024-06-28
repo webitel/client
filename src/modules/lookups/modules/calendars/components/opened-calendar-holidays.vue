@@ -107,143 +107,153 @@ import ConverDurationWithMinutes from "../scripts/converDurationWithMinutes";
 import holidayPopup from "./opened-calendar-holiday-popup.vue";
 
 export default {
-	name: "OpenedCalendarHolidays",
-	components: { holidayPopup, DeleteConfirmationPopup },
-	mixins: [openedObjectTableTabMixin],
+  name: "OpenedCalendarHolidays",
+  components: { holidayPopup, DeleteConfirmationPopup },
+  mixins: [openedObjectTableTabMixin],
 
-	setup() {
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		dataListValue: [],
-		searchValue: "",
-		isHolidayPopup: false,
-		editedIndex: null,
-	}),
+  data: () => ({
+    dataListValue: [],
+    searchValue: "",
+    isHolidayPopup: false,
+    editedIndex: null,
+  }),
 
-	computed: {
-		...mapState("lookups/calendars", {
-			holidayList: (state) => state.itemInstance.excepts,
-		}),
-		...mapGetters("appearance", {
-			darkMode: "DARK_MODE",
-		}),
-		// override mixin map state
-		dataList: {
-			get() {
-				return this.dataListValue;
-			},
-			set(value) {
-				this.dataListValue = value;
-			},
-		},
-		// override mixin map state
-		search: {
-			get() {
-				return this.searchValue;
-			},
-			set(value) {
-				this.searchValue = value;
-			},
-		},
-		headers() {
-			return [
-				{ value: "name", text: this.$t("objects.name") },
-				{ value: "date", text: this.$t("objects.lookups.calendars.date") },
-				{
-					value: "workStart",
-					text: this.$t("objects.lookups.calendars.workStart"),
-				},
-				{
-					value: "workStop",
-					text: this.$t("objects.lookups.calendars.workStop"),
-				},
-				{ value: "repeat", text: this.$t("objects.lookups.calendars.repeat") },
-			];
-		},
-		dummyPic() {
-			return this.darkMode ? dummyPicDark : dummyPicLight;
-		},
-		dummy() {
-			if (!this.dataListValue.length) {
-				if (this.searchValue) {
-					return {
-						src: this.dummyPic,
-						text: "objects.emptyResultSearch",
-					};
-				}
-				return {
-					src: this.dummyPic,
-					text: "",
-				};
-			}
-			return "";
-		},
-	},
+  computed: {
+    ...mapState("lookups/calendars", {
+      holidayList: (state) => state.itemInstance.excepts,
+    }),
+    ...mapGetters("appearance", {
+      darkMode: "DARK_MODE",
+    }),
+    // override mixin map state
+    dataList: {
+      get() {
+        return this.dataListValue;
+      },
+      set(value) {
+        this.dataListValue = value;
+      },
+    },
+    // override mixin map state
+    search: {
+      get() {
+        return this.searchValue;
+      },
+      set(value) {
+        this.searchValue = value;
+      },
+    },
+    headers() {
+      return [
+        {
+          value: "name",
+          text: this.$t("objects.name"),
+        },
+        {
+          value: "date",
+          text: this.$t("objects.lookups.calendars.date"),
+        },
+        {
+          value: "workStart",
+          text: this.$t("objects.lookups.calendars.workStart"),
+        },
+        {
+          value: "workStop",
+          text: this.$t("objects.lookups.calendars.workStop"),
+        },
+        {
+          value: "repeat",
+          text: this.$t("objects.lookups.calendars.repeat"),
+        },
+      ];
+    },
+    dummyPic() {
+      return this.darkMode ? dummyPicDark : dummyPicLight;
+    },
+    dummy() {
+      if (!this.dataListValue.length) {
+        if (this.searchValue) {
+          return {
+            src: this.dummyPic,
+            text: "objects.emptyResultSearch",
+          };
+        }
+        return {
+          src: this.dummyPic,
+          text: "",
+        };
+      }
+      return "";
+    },
+  },
 
-	methods: {
-		ConverDurationWithMinutes,
-		...mapActions({
-			dispatchDelete(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
-			},
-			setExceptItemProperty(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_EXCEPT_ITEM_PROPERTY`, payload);
-			},
-		}),
-		loadList() {
-			this.dataList = this.holidayList
-				.filter((holiday) =>
-					holiday.name.toLowerCase().includes(this.search.toLowerCase()),
-				)
-				.map((holiday) => ({ ...holiday, _isSelected: false }));
-		},
-		setRepeatValue(payload) {
-			this.setExceptItemProperty(payload);
-			this.loadList();
-		},
-		prettifyDate(date) {
-			return new Date(+date).toLocaleDateString();
-		},
-		create() {
-			this.openHolidayPopup();
-		},
-		edit(index) {
-			this.editedIndex = index;
-			this.openHolidayPopup();
-		},
-		openHolidayPopup() {
-			this.isHolidayPopup = true;
-		},
-		closePopup() {
-			this.isHolidayPopup = false;
-			this.editedIndex = null;
-		},
-		setParentId() {},
-	},
+  methods: {
+    ConverDurationWithMinutes,
+    ...mapActions({
+      dispatchDelete(dispatch, payload) {
+        return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
+      },
+      setExceptItemProperty(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_EXCEPT_ITEM_PROPERTY`, payload);
+      },
+    }),
+    loadList() {
+      this.dataList = this.holidayList
+        .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
+        .map((holiday) => ({
+          ...holiday,
+          _isSelected: false,
+        }));
+    },
+    setRepeatValue(payload) {
+      this.setExceptItemProperty(payload);
+      this.loadList();
+    },
+    prettifyDate(date) {
+      return new Date(+date).toLocaleDateString();
+    },
+    create() {
+      this.openHolidayPopup();
+    },
+    edit(index) {
+      this.editedIndex = index;
+      this.openHolidayPopup();
+    },
+    openHolidayPopup() {
+      this.isHolidayPopup = true;
+    },
+    closePopup() {
+      this.isHolidayPopup = false;
+      this.editedIndex = null;
+    },
+    setParentId() {},
+  },
 
-	watch: {
-		holidayList() {
-			this.loadList();
-		},
-	},
+  watch: {
+    holidayList() {
+      this.loadList();
+    },
+  },
 };
 </script>
 

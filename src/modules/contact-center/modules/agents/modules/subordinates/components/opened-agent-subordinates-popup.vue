@@ -44,35 +44,35 @@ import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins
 import AgentsAPI from "../../../api/agents";
 
 export default {
-	name: "OpenedAgentSubordinatesPopup",
-	mixins: [nestedObjectMixin],
+  name: "OpenedAgentSubordinatesPopup",
+  mixins: [nestedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "ccenter/agents/subordinates",
-	}),
-	validations: {
-		itemInstance: {
-			agent: { required },
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "ccenter/agents/subordinates",
+  }),
+  validations: {
+    itemInstance: {
+      agent: { required },
+    },
+  },
 
-	methods: {
-		async loadDropdownOptionsList(params) {
-			const fields = ["id", "name", "supervisor"];
-			const response = await AgentsAPI.getRegularAgentsOptions({
-				...params,
-				fields,
-			});
-			response.items = response.items.map((item) => ({
-				...item,
-				supervisor: item.supervisor || [],
-			}));
-			return response;
-		},
-	},
+  methods: {
+    async loadDropdownOptionsList(params) {
+      const fields = ["id", "name", "supervisor"];
+      const response = await AgentsAPI.getRegularAgentsOptions({
+        ...params,
+        fields,
+      });
+      response.items = response.items.map((item) => ({
+        ...item,
+        supervisor: item.supervisor || [],
+      }));
+      return response;
+    },
+  },
 };
 </script>
 

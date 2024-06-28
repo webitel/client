@@ -102,12 +102,12 @@ import RoleColumn from "./_internals/permissions-role-column.vue";
 import RolePopup from "./permissions-tab-role-popup.vue";
 
 export default {
-	name: "PermissionsTab",
-	components: { RolePopup, RoleColumn },
-	mixins: [openedTabComponentMixin, permissionsTabMixin],
-	data: () => ({
-		subNamespace: "permissions",
-	}),
+  name: "PermissionsTab",
+  components: { RolePopup, RoleColumn },
+  mixins: [openedTabComponentMixin, permissionsTabMixin],
+  data: () => ({
+    subNamespace: "permissions",
+  }),
 };
 </script>
 

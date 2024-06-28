@@ -118,29 +118,25 @@ const namespace = "ccenter/queues";
 const subNamespace = "agents";
 
 export default {
-	name: "OpenedQueueAgents",
-	components: { ObjectListPopup },
-	mixins: [
-		openedObjectTableTabMixin,
-		agentSupervisorsAndSkillsPopupMixin,
-		agentStatusMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		return { dummy };
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-		isDeleteConfirmation: false,
-	}),
-	methods: {
-		snakeToCamel,
-	},
+  name: "OpenedQueueAgents",
+  components: { ObjectListPopup },
+  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+    return { dummy };
+  },
+  data: () => ({
+    namespace,
+    subNamespace,
+    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+    isDeleteConfirmation: false,
+  }),
+  methods: {
+    snakeToCamel,
+  },
 };
 </script>
 

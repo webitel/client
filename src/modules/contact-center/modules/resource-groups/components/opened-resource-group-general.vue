@@ -39,12 +39,12 @@ import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins
 import CommunicationsAPI from "../../../../lookups/modules/communications/api/communications";
 
 export default {
-	name: "OpenedResourceGroupGeneral",
-	mixins: [openedTabComponentMixin],
-	methods: {
-		loadDropdownOptionsList(params) {
-			return CommunicationsAPI.getLookup(params);
-		},
-	},
+  name: "OpenedResourceGroupGeneral",
+  mixins: [openedTabComponentMixin],
+  methods: {
+    loadDropdownOptionsList(params) {
+      return CommunicationsAPI.getLookup(params);
+    },
+  },
 };
 </script>

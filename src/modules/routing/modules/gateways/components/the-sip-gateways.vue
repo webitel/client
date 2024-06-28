@@ -139,80 +139,85 @@ import GatewayPopup from "./create-gateway-popup.vue";
 const namespace = "routing/gateways";
 
 export default {
-	name: "TheSipGateways",
-	components: { GatewayPopup, DeleteConfirmationPopup },
-	mixins: [tableComponentMixin],
+  name: "TheSipGateways",
+  components: { GatewayPopup, DeleteConfirmationPopup },
+  mixins: [tableComponentMixin],
 
-	setup() {
-		const { dummy } = useDummy({ namespace, showAction: true });
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+    return {
+      dummy,
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
-		};
-	},
+      askDeleteConfirmation,
+      closeDelete,
+    };
+  },
 
-	data: () => ({
-		namespace,
-		isGatewayPopup: false,
-	}),
+  data: () => ({
+    namespace,
+    isGatewayPopup: false,
+  }),
 
-	computed: {
-		path() {
-			return [
-				{ name: this.$t("objects.routing.routing") },
-				{
-					name: this.$tc("objects.routing.gateways.gateways", 2),
-					route: "/routing/sip-gateways",
-				},
-			];
-		},
-	},
+  computed: {
+    path() {
+      return [
+        {
+          name: this.$t("objects.routing.routing"),
+        },
+        {
+          name: this.$tc("objects.routing.gateways.gateways", 2),
+          route: "/routing/sip-gateways",
+        },
+      ];
+    },
+  },
 
-	methods: {
-		create() {
-			this.isGatewayPopup = true;
-		},
+  methods: {
+    create() {
+      this.isGatewayPopup = true;
+    },
 
-		editLink(item) {
-			const name = item.register
-				? `${RouteNames.GATEWAYS}-reg-edit`
-				: `${RouteNames.GATEWAYS}-trunk-edit`;
+    editLink(item) {
+      const name = item.register
+        ? `${RouteNames.GATEWAYS}-reg-edit`
+        : `${RouteNames.GATEWAYS}-trunk-edit`;
 
-			return {
-				name,
-				params: { id: item.id },
-			};
-		},
+      return {
+        name,
+        params: {
+          id: item.id,
+        },
+      };
+    },
 
-		computeStatusText(stateCode) {
-			if (stateCode === 3) return this.$t("objects.routing.gateways.stateSuccess");
-			if (stateCode > 3 && stateCode < 8)
-				return this.$t("objects.routing.gateways.stateFailed");
-			if (stateCode > 7 && stateCode < 2)
-				return this.$t("objects.routing.gateways.stateProgress");
-			return this.$t("objects.routing.gateways.stateNonreg");
-		},
+    computeStatusText(stateCode) {
+      if (stateCode === 3) return this.$t("objects.routing.gateways.stateSuccess");
+      if (stateCode > 3 && stateCode < 8) return this.$t("objects.routing.gateways.stateFailed");
+      if (stateCode > 7 && stateCode < 2) return this.$t("objects.routing.gateways.stateProgress");
+      return this.$t("objects.routing.gateways.stateNonreg");
+    },
 
-		computeStatusClass(stateCode) {
-			if (stateCode === 3) return "success";
-			if (stateCode > 3 && stateCode < 8) return "error";
-			if (stateCode > 7 && stateCode < 2) return "primary";
-			return "disabled";
-		},
-	},
+    computeStatusClass(stateCode) {
+      if (stateCode === 3) return "success";
+      if (stateCode > 3 && stateCode < 8) return "error";
+      if (stateCode > 7 && stateCode < 2) return "primary";
+      return "disabled";
+    },
+  },
 };
 </script>

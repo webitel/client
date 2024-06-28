@@ -46,12 +46,7 @@
 
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import {
-	helpers,
-	required,
-	requiredIf,
-	requiredUnless,
-} from "@vuelidate/validators";
+import { helpers, required, requiredIf, requiredUnless } from "@vuelidate/validators";
 import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
 import Logs from "../modules/logs/components/opened-user-logs.vue";
 import LogsFilters from "../modules/logs/modules/filters/components/opened-user-logs-filters.vue";
@@ -63,91 +58,100 @@ import Roles from "./opened-user-roles.vue";
 import Variables from "./opened-user-variables.vue";
 
 export default {
-	name: "OpenedUser",
-	components: {
-		General,
-		Roles,
-		License,
-		Devices,
-		Variables,
-		Tokens,
-		Logs,
-		LogsFilters,
-	},
-	mixins: [openedObjectMixin],
+  name: "OpenedUser",
+  components: {
+    General,
+    Roles,
+    License,
+    Devices,
+    Variables,
+    Tokens,
+    Logs,
+    LogsFilters,
+  },
+  mixins: [openedObjectMixin],
 
-	setup: () => ({
-		v$: useVuelidate(),
-	}),
-	data: () => ({
-		namespace: "directory/users",
-	}),
-	validations: {
-		itemInstance: {
-			username: { required },
-			password: {
-				required: requiredUnless((value, item) => !!item.id),
-			},
-			variables: {
-				$each: helpers.forEach({
-					key: { required: requiredIf((value, item) => !!item.value) },
-					value: { required: requiredIf((value, item) => !!item.key) },
-				}),
-			},
-		},
-	},
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
+  data: () => ({
+    namespace: "directory/users",
+  }),
+  validations: {
+    itemInstance: {
+      username: { required },
+      password: {
+        required: requiredUnless((value, item) => !!item.id),
+      },
+      variables: {
+        $each: helpers.forEach({
+          key: {
+            required: requiredIf((value, item) => !!item.value),
+          },
+          value: {
+            required: requiredIf((value, item) => !!item.key),
+          },
+        }),
+      },
+    },
+  },
 
-	computed: {
-		path() {
-			const baseUrl = "/directory/users";
-			return [
-				{ name: this.$t("objects.directory.directory") },
-				{ name: this.$tc("objects.directory.users.users", 2), route: baseUrl },
-				{
-					name: this.id ? this.pathName : this.$t("objects.new"),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
+  computed: {
+    path() {
+      const baseUrl = "/directory/users";
+      return [
+        {
+          name: this.$t("objects.directory.directory"),
+        },
+        {
+          name: this.$tc("objects.directory.users.users", 2),
+          route: baseUrl,
+        },
+        {
+          name: this.id ? this.pathName : this.$t("objects.new"),
+          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+        },
+      ];
+    },
 
-		tabs() {
-			const general = {
-				text: this.$t("objects.general"),
-				value: "general",
-			};
-			const roles = {
-				text: this.$t("objects.directory.users.roles"),
-				value: "roles",
-			};
-			const license = {
-				text: this.$t("objects.directory.users.license"),
-				value: "license",
-			};
-			const devices = {
-				text: this.$t("objects.directory.users.devices"),
-				value: "devices",
-			};
-			const variables = {
-				text: this.$t("objects.directory.users.variables"),
-				value: "variables",
-			};
-			const tokens = {
-				text: this.$t("objects.directory.users.tokens"),
-				value: "tokens",
-			};
-			const logs = {
-				text: this.$t("objects.system.changelogs.changelogs", 2),
-				value: "logs",
-				filters: "logs-filters",
-				filtersNamespace: `${this.namespace}/logs/filters`,
-			};
+    tabs() {
+      const general = {
+        text: this.$t("objects.general"),
+        value: "general",
+      };
+      const roles = {
+        text: this.$t("objects.directory.users.roles"),
+        value: "roles",
+      };
+      const license = {
+        text: this.$t("objects.directory.users.license"),
+        value: "license",
+      };
+      const devices = {
+        text: this.$t("objects.directory.users.devices"),
+        value: "devices",
+      };
+      const variables = {
+        text: this.$t("objects.directory.users.variables"),
+        value: "variables",
+      };
+      const tokens = {
+        text: this.$t("objects.directory.users.tokens"),
+        value: "tokens",
+      };
+      const logs = {
+        text: this.$t("objects.system.changelogs.changelogs", 2),
+        value: "logs",
+        filters: "logs-filters",
+        filtersNamespace: `${this.namespace}/logs/filters`,
+      };
 
-			const tabs = [general, roles, license, devices, variables, tokens];
+      const tabs = [general, roles, license, devices, variables, tokens];
 
-			if (this.id) tabs.push(logs, this.permissionsTab);
-			return tabs;
-		},
-	},
+      if (this.id) tabs.push(logs, this.permissionsTab);
+      return tabs;
+    },
+  },
 };
 </script>
 

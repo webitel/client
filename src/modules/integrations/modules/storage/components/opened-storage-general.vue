@@ -49,8 +49,8 @@
 import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-	name: "OpenedStorageGeneral",
-	mixins: [openedTabComponentMixin],
+  name: "OpenedStorageGeneral",
+  mixins: [openedTabComponentMixin],
 };
 </script>
 

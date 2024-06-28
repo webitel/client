@@ -5,15 +5,15 @@ import ru from "./ru/ru";
 import ua from "./ua/ua";
 
 const messages = {
-	en,
-	ru,
-	ua,
-	kz,
+  en,
+  ru,
+  ua,
+  kz,
 };
 
 export default new createI18n({
-	locale: "en",
-	fallbackLocale: "en",
-	allowComposition: true,
-	messages,
+  locale: "en",
+  fallbackLocale: "en",
+  allowComposition: true,
+  messages,
 });

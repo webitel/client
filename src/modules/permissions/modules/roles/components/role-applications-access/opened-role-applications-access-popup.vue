@@ -41,47 +41,43 @@ import { mapActions, mapState } from "vuex";
 import nestedObjectMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
 
 export default {
-	name: "OpenedRolePermissionsPopup",
-	mixins: [nestedObjectMixin],
-	props: {
-		editedApp: {
-			type: String,
-			required: true,
-		},
-		namespace: {
-			type: String,
-			required: true,
-		},
-	},
-	computed: {
-		...mapState({
-			access(state) {
-				return getNamespacedState(state, this.namespace).itemInstance.metadata
-					.access;
-			},
-		}),
-		appSectionsAccess() {
-			return Object.keys(this.access[this.editedApp])
-				.filter((section) => section.slice(0, 1) !== "_") // "functional" properties start with _
-				.map((section) => ({
-					name: section,
-					displayName: this.$t(this.access[this.editedApp][section]._locale),
-					enabled: this.access[this.editedApp][section]._enabled,
-				}));
-		},
-	},
-	methods: {
-		...mapActions({
-			updateAccess(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/UPDATE_APPLICATION_SECTION_ACCESS`,
-					payload,
-				);
-			},
-		}),
-		loadItem() {},
-		resetState() {},
-	},
+  name: "OpenedRolePermissionsPopup",
+  mixins: [nestedObjectMixin],
+  props: {
+    editedApp: {
+      type: String,
+      required: true,
+    },
+    namespace: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapState({
+      access(state) {
+        return getNamespacedState(state, this.namespace).itemInstance.metadata.access;
+      },
+    }),
+    appSectionsAccess() {
+      return Object.keys(this.access[this.editedApp])
+        .filter((section) => section.slice(0, 1) !== "_") // "functional" properties start with _
+        .map((section) => ({
+          name: section,
+          displayName: this.$t(this.access[this.editedApp][section]._locale),
+          enabled: this.access[this.editedApp][section]._enabled,
+        }));
+    },
+  },
+  methods: {
+    ...mapActions({
+      updateAccess(dispatch, payload) {
+        return dispatch(`${this.namespace}/UPDATE_APPLICATION_SECTION_ACCESS`, payload);
+      },
+    }),
+    loadItem() {},
+    resetState() {},
+  },
 };
 </script>
 
