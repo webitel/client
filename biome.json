@@ -19,5 +19,8 @@
     "formatter": {
       "quoteStyle": "single"
     }
+  },
+  "vcs": {
+    "defaultBranch": "main"
   }
 }
