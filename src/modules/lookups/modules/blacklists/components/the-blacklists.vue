@@ -11,7 +11,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -69,9 +69,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #numbers="{ item }">
               {{ item.count }}
@@ -81,11 +84,13 @@
                 action="download"
                 @click="download(item)"
               />
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -117,6 +122,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -131,7 +137,7 @@ const namespace = 'lookups/blacklists';
 
 export default {
   name: 'TheBlacklists',
-  components: { DeleteConfirmationPopup },
+  components: { AdmItemLink, DeleteConfirmationPopup },
   mixins: [exportCSVMixin, tableComponentMixin],
 
   setup() {

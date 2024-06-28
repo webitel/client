@@ -79,9 +79,9 @@ export default {
 
       // Need to close the tab if it was open in a new tab
       // https://webitel.atlassian.net/browse/WTEL-4575
-
+      // TODO delete close method in all opened objects and add to them routeName property
       if(window.history.length === 1) window.close();
-      this.$router.go(-1);
+      this.$router.push({name: this.routeName});
     },
     changeTab(tab) {
       this.$router.push({name: tab.pathName});

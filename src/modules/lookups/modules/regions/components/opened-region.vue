@@ -18,7 +18,7 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -39,6 +39,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RegionRouteNames from '../../../../../app/router/_internals/tabs/lookups/RegionRouteNames.enum.js';
 import General from './opened-region-general.vue';
 
 export default {
@@ -50,6 +52,7 @@ export default {
   }),
   data: () => ({
     namespace: 'lookups/regions',
+    routeName: RouteNames.REGIONS,
   }),
   validations: {
     itemInstance: {
@@ -64,6 +67,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: RegionRouteNames.GENERAL,
         },
       ];
       return tabs;

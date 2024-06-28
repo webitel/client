@@ -5,7 +5,7 @@ import DevicesRouteNames from './_internals/tabs/directory/DevicesRouteNames.enu
 import LicencesRouteNames from './_internals/tabs/directory/LicencesRouteNames.enum.js';
 import UsersRouteNames from './_internals/tabs/directory/UsersRouteNames.enum.js';
 import AgentSkillsRoutesNameEnum
-  from './_internals/tabs/lookups/AgentSkillsRoutesName.enum.js';
+  from './_internals/tabs/lookups/AgentSkillsRouteNames.enum.js';
 import ChatGatewayRoutesNameEnum
   from './_internals/tabs/routing/ChatGatewayRoutesName.enum.js';
 import ChatplanRoutesNameEnum
@@ -18,6 +18,18 @@ import DialplanRoutesNameEnum
   from './_internals/tabs/routing/DialplanRoutesName.enum.js';
 import GatewaysRoutesNameEnum
   from './_internals/tabs/routing/GatewaysRoutesName.enum.js';
+import BucketsRouteNamesEnum
+  from './_internals/tabs/lookups/BucketsRouteNames.enum.js';
+import BlacklistRouteNamesEnum
+  from './_internals/tabs/lookups/BlacklistRouteNames.enum.js';
+import RegionRouteNamesEnum
+  from './_internals/tabs/lookups/RegionRouteNames.enum.js';
+import CalendarRouteNamesEnum
+  from './_internals/tabs/lookups/CalendarRouteNames.enum.js';
+import CommunicationsRouteNamesEnum
+  from './_internals/tabs/lookups/CommunicationsRouteNames.enum.js';
+import AgentPauseCauseRouteNamesEnum
+  from './_internals/tabs/lookups/AgentPauseCauseRouteNames.enum.js';
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
@@ -151,6 +163,23 @@ const OpenedAgentSkillGeneral = () =>
   import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill-general.vue');
 const OpenedSkillAgents = () =>
   import('../../modules/lookups/modules/agent-skills/modules/agents/components/opened-skill-agents.vue');
+const OpenedBucketGeneral = () =>
+  import('../../modules/lookups/modules/buckets/components/opened-bucket-general.vue');
+const OpenedBlacklistGeneral = () =>
+  import('../../modules/lookups/modules/blacklists/components/opened-blacklist-general.vue');
+const OpenedBlacklistNumbers = () =>
+  import('../../modules/lookups/modules/blacklists/modules/numbers/components/opened-blacklist-numbers.vue');
+const OpenedRegionGeneral = () =>
+  import('../../modules/lookups/modules/regions/components/opened-region-general.vue');
+const OpenedCalendarGeneral = () =>
+  import('../../modules/lookups/modules/calendars/components/opened-calendar-general.vue');
+const OpenedCalendarHolidays = () =>
+  import('../../modules/lookups/modules/calendars/components/opened-calendar-holidays.vue');
+const OpenedCalendarWorkingWeek = () =>
+  import('../../modules/lookups/modules/calendars/components/opened-calendar-work-week.vue');
+const OpenedCommunicationTypeGeneral = () =>
+  import('../../modules/lookups/modules/communications/components/opened-communication-type-general.vue');
+const OpenedAgentPauseCauseGeneral = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause-general.vue');
 const checkAppAccess = (to, from, next) => {
   // check for === false because it can be undefined
   if (to.meta.requiresAccess === false) next();
@@ -519,16 +548,18 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/buckets/new',
-          name: `${RouteNames.BUCKETS}-new`,
-          component: OpenedBucket,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/buckets/:id',
-          name: `${RouteNames.BUCKETS}-edit`,
+          name: `${RouteNames.BUCKETS}-card`,
+          redirect: {name: BucketsRouteNamesEnum.GENERAL},
           component: OpenedBucket,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: BucketsRouteNamesEnum.GENERAL,
+              component: OpenedBucketGeneral,
+            }
+          ],
         },
         {
           path: '/lookups/blacklist',
@@ -537,19 +568,29 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/blacklist/new',
-          name: `${RouteNames.BLACKLIST}-new`,
-          component: OpenedBlacklist,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/blacklist/:id',
-          name: `${RouteNames.BLACKLIST}-edit`,
+          name: `${RouteNames.BLACKLIST}-card`,
+          redirect: {name: BlacklistRouteNamesEnum.GENERAL},
           component: OpenedBlacklist,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: BlacklistRouteNamesEnum.GENERAL,
+              component: OpenedBlacklistGeneral,
+            },{
+              path: 'numbers/:numberId?',
+              name: BlacklistRouteNamesEnum.NUMBERS,
+              component: OpenedBlacklistNumbers,
+            },{
+              path: 'permissions/:permissionId?',
+              name: BlacklistRouteNamesEnum.PERMISSIONS,
+              component: PermissionsTab,
+            }
+          ],
         },
         {
-          path: '/lookups/media',
+          path: '/lookups/media/:mediaId?',
           name: RouteNames.MEDIA,
           component: Media,
           beforeEnter: checkRouteAccess,
@@ -561,16 +602,30 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/calendars/new',
-          name: `${RouteNames.CALENDARS}-new`,
-          component: OpenedCalendar,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/calendars/:id',
-          name: `${RouteNames.CALENDARS}-edit`,
+          name: `${RouteNames.CALENDARS}-card`,
+          redirect: {name: CalendarRouteNamesEnum.GENERAL},
           component: OpenedCalendar,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: CalendarRouteNamesEnum.GENERAL,
+              component: OpenedCalendarGeneral,
+            },{
+              path: 'working-week',
+              name: CalendarRouteNamesEnum.WORKING_WEEK,
+              component: OpenedCalendarWorkingWeek,
+            },{
+              path: 'holidays/:holidayIndex?',
+              name: CalendarRouteNamesEnum.HOLIDAYS,
+              component: OpenedCalendarHolidays,
+            },{
+              path: 'permissions/:permissionId?',
+              name: CalendarRouteNamesEnum.PERMISSIONS,
+              component: PermissionsTab,
+            }
+          ],
         },
 
         {
@@ -580,16 +635,18 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/communications/new',
-          name: `${RouteNames.COMMUNICATIONS}-new`,
-          component: OpenedCommunicationType,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/communications/:id',
-          name: `${RouteNames.COMMUNICATIONS}-edit`,
+          name: `${RouteNames.COMMUNICATIONS}-card`,
+          redirect: {name: CommunicationsRouteNamesEnum.GENERAL},
           component: OpenedCommunicationType,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: CommunicationsRouteNamesEnum.GENERAL,
+              component: OpenedCommunicationTypeGeneral,
+            }
+          ],
         },
 
         {
@@ -599,16 +656,18 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/regions/new',
-          name: `${RouteNames.REGIONS}-new`,
-          component: OpenedRegion,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/regions/:id',
-          name: `${RouteNames.REGIONS}-edit`,
+          name: `${RouteNames.REGIONS}-card`,
+          redirect: {name: RegionRouteNamesEnum.GENERAL},
           component: OpenedRegion,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: RegionRouteNamesEnum.GENERAL,
+              component: OpenedRegionGeneral,
+            }
+          ],
         },
 
         {
@@ -618,16 +677,18 @@ const router = createRouter({
           beforeEnter: checkRouteAccess,
         },
         {
-          path: '/lookups/pause-cause/new',
-          name: `${RouteNames.PAUSE_CAUSE}-new`,
-          component: OpenedAgentPauseCause,
-          beforeEnter: checkRouteAccess,
-        },
-        {
           path: '/lookups/pause-cause/:id',
           name: `${RouteNames.PAUSE_CAUSE}-edit`,
+          redirect: {name: AgentPauseCauseRouteNamesEnum.GENERAL},
           component: OpenedAgentPauseCause,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'general',
+              name: AgentPauseCauseRouteNamesEnum.GENERAL,
+              component: OpenedAgentPauseCauseGeneral,
+            }
+          ],
         },
         // ----------LOOKUPS END------------
 
@@ -712,7 +773,7 @@ const router = createRouter({
         },
         {
           path: '/contact-center/queues/:queueId/members/:id',
-          name: `${RouteNames.MEMBERS}-edit`,
+          name: `${RouteNames.MEMBERS}-card`,
           component: OpenedMember,
           beforeEnter: checkRouteAccess,
         },
@@ -724,7 +785,7 @@ const router = createRouter({
         },
         {
           path: '/contact-center/queues/:id/:type',
-          name: `${RouteNames.QUEUES}-edit`,
+          name: `${RouteNames.QUEUES}-card`,
           component: OpenedQueue,
           beforeEnter: checkRouteAccess,
         },

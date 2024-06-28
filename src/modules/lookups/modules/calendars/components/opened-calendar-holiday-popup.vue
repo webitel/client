@@ -1,11 +1,13 @@
 <template>
   <wt-popup
-    min-width="480"
+    :shown="shown"
+    size="sm"
     overflow
     @close="close"
   >
     <template #title>
       {{ $tc('objects.lookups.calendars.holidays', 1) }}
+      <button @click="() => console.log(itemInstance, holidayList[Number(holidayIndex)])">Test</button>
     </template>
     <template #main>
       <div class="popup-input-form">
@@ -75,16 +77,12 @@ import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 export default {
   name: 'OpenedCalendarHolidayPopup',
   mixins: [nestedObjectMixin],
-  props: {
-    editedIndex: {
-      type: [Number, Object], // "null" object
-    },
-  },
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
     namespace: 'lookups/calendars',
+    shown: false,
     itemInstanceValue: {
       name: '',
       date: Date.now(),
@@ -108,9 +106,7 @@ export default {
       },
     },
   },
-  created() {
-    this.initEditedValue();
-  },
+
   computed: {
     ...mapState({
       holidayList(state) {
@@ -125,6 +121,9 @@ export default {
     computeDisabled() {
       return this.checkValidations();
     },
+    holidayIndex() {
+      return this.$route.params.holidayIndex;
+    }
   },
   methods: {
     ...mapActions({
@@ -136,14 +135,21 @@ export default {
       },
     }),
     initEditedValue() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.itemInstance = { ...this.holidayList[this.editedIndex] };
+      if (this.holidayIndex !== 'new') {
+        this.itemInstance = { ...this.holidayList[Number(this.holidayIndex)] };
       }
     },
+    resetItemInstance() {
+      this.itemInstance = {
+        name: '',
+        date: Date.now(),
+        repeat: true,
+      };
+    },
     save() {
-      if (Number.isInteger(this.editedIndex)) {
+      if (this.holidayIndex !== 'new') {
         this.updateHoliday({
-          index: this.editedIndex,
+          index: this.holidayIndex,
           item: this.itemInstance,
         });
       } else {
@@ -161,6 +167,27 @@ export default {
     },
     loadItem() {},
     resetState() {},
+  },
+
+  watch: {
+    holidayList() {
+      this.initEditedValue();
+    },
+    holidayIndex: {
+      handler(value) {
+        if (value === 'new') {
+          this.resetItemInstance();
+          this.shown = true;
+        }
+
+        if (value) {
+          this.initEditedValue();
+          this.shown = true;
+        }
+
+        else this.shown = false;
+      }, immediate: true,
+    }
   },
 };
 </script>

@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -40,6 +41,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import CalendarRouteNames from '../../../../../app/router/_internals/tabs/lookups/CalendarRouteNames.enum.js';
 import General from './opened-calendar-general.vue';
 import Holidays from './opened-calendar-holidays.vue';
 import WorkWeek from './opened-calendar-work-week.vue';
@@ -54,6 +57,8 @@ export default {
   }),
   data: () => ({
     namespace: 'lookups/calendars',
+    routeName: RouteNames.CALENDARS,
+    permissionsTabPathName: CalendarRouteNames.PERMISSIONS,
   }),
   validations: {
     itemInstance: {
@@ -69,9 +74,9 @@ export default {
   computed: {
     tabs() {
       const tabs = [
-        { value: 'general', text: this.$t('objects.general') },
-        { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek') },
-        { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2) },
+        { value: 'general', text: this.$t('objects.general'), pathName: CalendarRouteNames.GENERAL },
+        { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek'), pathName: CalendarRouteNames.WORKING_WEEK },
+        { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2), pathName: CalendarRouteNames.HOLIDAYS },
       ];
 
       if (this.id) tabs.push(this.permissionsTab);

@@ -11,7 +11,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -69,19 +69,24 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #description="{ item }">
               {{ item.description }}
             </template>
             <template #actions="{ item }">
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -110,6 +115,7 @@
 </template>
 
 <script>
+import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -122,7 +128,7 @@ const namespace = 'lookups/calendars';
 
 export default {
   name: 'TheCalendars',
-  components: { DeleteConfirmationPopup },
+  components: { AdmItemLink, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {

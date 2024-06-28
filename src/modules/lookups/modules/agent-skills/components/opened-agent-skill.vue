@@ -42,7 +42,7 @@ import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Agents from '../modules/agents/components/opened-skill-agents.vue';
 import General from './opened-agent-skill-general.vue';
-import AgentSkillsRoutesName from '../../../../../app/router/_internals/tabs/lookups/AgentSkillsRoutesName.enum.js';
+import AgentSkillsRoutesName from '../../../../../app/router/_internals/tabs/lookups/AgentSkillsRouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {

@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    :shown="shown"
+    size="sm"
     overflow
     @close="close"
   >
@@ -63,9 +65,11 @@ export default {
   setup: () => ({
     v$: useVuelidate(),
   }),
+
   data: () => ({
     namespace: 'lookups/blacklists/numbers',
     showExpireDate: false,
+    shown: false,
   }),
   validations: {
     itemInstance: {
@@ -77,6 +81,17 @@ export default {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
     },
+    numberId() {
+      return this.$route.params.numberId;
+    }
+  },
+  methods: {
+    openPopup() {
+      this.shown = true;
+    },
+    closePopup() {
+      this.shown = false;
+    },
   },
   watch: {
     showExpireDate() {
@@ -87,6 +102,21 @@ export default {
       handler() {
         if (this.itemInstance.expireAt) this.showExpireDate = true;
       },
+    },
+    numberId: {
+     async handler(id) {
+       if (id === 'new') {
+         this.openPopup()
+       }
+
+       else if (id) {
+         this.setId(id);
+         this.loadItem();
+         this.openPopup();
+       }
+
+       else this.closePopup();
+     }, immediate: true,
     },
   },
 };
