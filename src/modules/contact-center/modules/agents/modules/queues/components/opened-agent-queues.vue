@@ -26,9 +26,12 @@
         @sort="sort"
       >
         <template #name="{ item }">
-          <div v-if="item.queue">
+          <wt-item-link
+            v-if="item.queue"
+            :link="editLink(item)"
+          >
             {{ item.queue.name }}
-          </div>
+          </wt-item-link>
         </template>
 
         <template #type="{ item }">
@@ -65,14 +68,28 @@
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
+import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
+import AdmItemLink from "../../../../../../../app/components/utils/adm-item-link.vue";
 
 export default {
   name: 'OpenedAgentQueues',
+  components: {AdmItemLink},
   mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'queues',
     QueueTypeProperties,
   }),
+  methods: {
+    editLink(item) {
+      return {
+        name: `${RouteNames.QUEUES}-card`,
+        params: {
+          id: item.queue.id,
+          type: QueueTypeProperties[item.type].subpath,
+        },
+      }
+    }
+  }
 };
 </script>
 

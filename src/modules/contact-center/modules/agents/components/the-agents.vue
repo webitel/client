@@ -74,9 +74,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                  :id="item.id"
+                  :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #state="{ item }">
               <wt-indicator
@@ -88,24 +91,27 @@
               {{ item.statusDuration }}
             </template>
             <template #team="{ item }">
-              <wt-item-link
-                v-if="item.team"
-                :link="itemTeamLink(item)"
-                target="_blank"
+              <adm-item-link
+                  v-if="item.team"
+                  :id="item.team.id"
+                  :route-name="RouteNames.TEAMS"
+                  target="_blank"
               >
                 {{ item.team.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #actions="{ item }">
               <wt-icon-action
                 action="history"
                 @click="openHistory(item.id)"
               />
-              <wt-icon-action
-                v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+              <adm-item-link
+                  v-if="hasEditAccess"
+                  :id="item.id"
+                  :route-name="routeName"
+              >
+                <wt-icon-action action="edit"/>
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -145,13 +151,14 @@ import HistoryPopup from './agent-history-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import AdmItemLink from "../../../../../app/components/utils/adm-item-link.vue";
 
 
 const namespace = 'ccenter/agents';
 
 export default {
   name: 'TheAgents',
-  components: { HistoryPopup, DeleteConfirmationPopup },
+  components: {AdmItemLink, HistoryPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin, agentStatusMixin],
 
   setup() {

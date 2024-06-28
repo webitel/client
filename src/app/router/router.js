@@ -136,27 +136,8 @@ const OpenedCalendarHolidays = () => import('../../modules/lookups/modules/calen
 const OpenedCalendarWorkingWeek = () => import('../../modules/lookups/modules/calendars/components/opened-calendar-work-week.vue');
 const OpenedCommunicationTypeGeneral = () => import('../../modules/lookups/modules/communications/components/opened-communication-type-general.vue');
 const OpenedAgentPauseCauseGeneral = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause-general.vue');
-const checkAppAccess = (to, from, next) => {
-  // check for === false because it can be undefined
-  if (to.meta.requiresAccess === false) next();
-
-  const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](store.getters['userinfo/THIS_APP']);
-  if (hasReadAccess) {
-    next();
-  } else {
-    next('/access-denied');
-  }
-};
-
-const checkRouteAccess = ((to, from, next) => {
-  const hasReadAccess = store.getters['userinfo/HAS_READ_ACCESS']({ route: to });
-  if (hasReadAccess) {
-    next();
-  } else {
-    console.log('error?')
-    next('/access-denied');
-  }
-});
+import AgentRoutes from "../../modules/contact-center/modules/agents/router/agents.js";
+import {checkAppAccess, checkRouteAccess} from "./_internals/checkers.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -649,18 +630,19 @@ const router = createRouter({
         // ----------LOOKUPS END------------
 
         // --------------CONTACT CENTER-------------
-        {
-          path: '/contact-center/agents',
-          name: RouteNames.AGENTS,
-          component: Agents,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/agents/:id',
-          name: `${RouteNames.AGENTS}-card`,
-          component: OpenedAgent,
-          beforeEnter: checkRouteAccess,
-        },
+        // {
+        //   path: '/contact-center/agents',
+        //   name: RouteNames.AGENTS,
+        //   component: Agents,
+        //   beforeEnter: checkRouteAccess,
+        // },
+        // {
+        //   path: '/contact-center/agents/:id',
+        //   name: `${RouteNames.AGENTS}-card`,
+        //   component: OpenedAgent,
+        //   beforeEnter: checkRouteAccess,
+        // },
+        ...AgentRoutes,
         {
           path: '/contact-center/teams',
           name: RouteNames.TEAMS,

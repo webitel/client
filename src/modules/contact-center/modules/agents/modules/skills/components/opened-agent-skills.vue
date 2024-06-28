@@ -57,9 +57,13 @@
         @sort="sort"
       >
         <template #name="{ item }">
-          <div v-if="item.skill">
+          <adm-item-link
+            v-if="item.skill"
+            :id="item.skill.id"
+            :route-name="skillsRoute"
+          >
             {{ item.skill.name }}
-          </div>
+          </adm-item-link>
         </template>
         <template #capacity="{ item }">
           {{ item.capacity }}
@@ -103,13 +107,15 @@ import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import SkillPopup from './opened-agent-skills-popup.vue';
+import AdmItemLink from "../../../../../../../app/components/utils/adm-item-link.vue";
+import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
 
 const namespace = 'ccenter/agents';
 const subNamespace = 'skills';
 
 export default {
   name: 'OpenedAgentSkills',
-  components: { SkillPopup },
+  components: {AdmItemLink, SkillPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
@@ -120,6 +126,7 @@ export default {
     subNamespace,
     isSkillPopup: false,
     isDeleteConfirmation: false,
+    skillsRoute: RouteNames.SKILLS,
   }),
   methods: {
     ...mapActions({
