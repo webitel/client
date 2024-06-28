@@ -101,57 +101,58 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import HookPopup from './opened-team-hooks-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { useDummy } from "../../../../../../../app/composables/useDummy.js";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import HookPopup from "./opened-team-hooks-popup.vue";
 
-const namespace = 'ccenter/teams';
-const subNamespace = 'hooks';
+const namespace = "ccenter/teams";
+const subNamespace = "hooks";
 
 export default {
-  name: 'OpenedTeamHooks',
-  components: { HookPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+	name: "OpenedTeamHooks",
+	components: { HookPopup, DeleteConfirmationPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    }
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isHookPopup: false,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isHookPopup: false,
+	}),
 
-  methods: {
-    openPopup() {
-      this.isHookPopup = true;
-    },
-    closePopup() {
-      this.isHookPopup = false;
-    },
-  },
+	methods: {
+		openPopup() {
+			this.isHookPopup = true;
+		},
+		closePopup() {
+			this.isHookPopup = false;
+		},
+	},
 };
 </script>
 

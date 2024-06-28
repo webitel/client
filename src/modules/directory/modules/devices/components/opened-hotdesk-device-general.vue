@@ -40,21 +40,20 @@
 </template>
 
 <script>
-import CopyInput from '../../../../../app/components/utils/copy-input.vue';
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import UsersAPI from '../../users/api/users';
+import CopyInput from "../../../../../app/components/utils/copy-input.vue";
+import PasswordInput from "../../../../../app/components/utils/generate-password-input.vue";
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import UsersAPI from "../../users/api/users";
 
 export default {
-  name: 'OpenedHotdeskDeviceGeneral',
-  components: { CopyInput, PasswordInput },
-  mixins: [openedTabComponentMixin],
-  methods: {
-    loadDropdownOptionsList(params) {
-      return UsersAPI.getLookup(params);
-    },
-  },
+	name: "OpenedHotdeskDeviceGeneral",
+	components: { CopyInput, PasswordInput },
+	mixins: [openedTabComponentMixin],
+	methods: {
+		loadDropdownOptionsList(params) {
+			return UsersAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

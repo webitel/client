@@ -113,55 +113,56 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import ResPopup from './opened-resource-group-resource-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import ResPopup from "./opened-resource-group-resource-popup.vue";
 
-const namespace = 'ccenter/resGroups';
-const subNamespace = 'res';
+const namespace = "ccenter/resGroups";
+const subNamespace = "res";
 
 export default {
-  name: 'OpenedResourceGroupResources',
-  components: { ResPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: "OpenedResourceGroupResources",
+	components: { ResPopup, DeleteConfirmationPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isResPopup: false,
-  }),
-  methods: {
-    openPopup() {
-      this.isResPopup = true;
-    },
-    closePopup() {
-      this.isResPopup = false;
-    },
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isResPopup: false,
+	}),
+	methods: {
+		openPopup() {
+			this.isResPopup = true;
+		},
+		closePopup() {
+			this.isResPopup = false;
+		},
+	},
 };
 </script>
 

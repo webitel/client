@@ -119,82 +119,83 @@
 </template>
 
 <script>
-import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import numberPopup from './opened-blacklist-number-popup.vue';
-import uploadPopup from './upload-blacklist-numbers-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import UploadFileIconBtn from "../../../../../../../app/components/utils/upload-file-icon-btn.vue";
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import numberPopup from "./opened-blacklist-number-popup.vue";
+import uploadPopup from "./upload-blacklist-numbers-popup.vue";
 
-const namespace = 'lookups/blacklists';
-const subNamespace = 'numbers';
+const namespace = "lookups/blacklists";
+const subNamespace = "numbers";
 
 export default {
-  name: 'OpenedBlacklistNumbers',
-  components: {
-    numberPopup,
-    uploadPopup,
-    UploadFileIconBtn,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin],
+	name: "OpenedBlacklistNumbers",
+	components: {
+		numberPopup,
+		uploadPopup,
+		UploadFileIconBtn,
+		DeleteConfirmationPopup,
+	},
+	mixins: [openedObjectTableTabMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data() {
-    return {
-      namespace,
-      subNamespace,
-      isNumberPopup: false,
-      isUploadPopup: false,
-      csvFile: null,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data() {
+		return {
+			namespace,
+			subNamespace,
+			isNumberPopup: false,
+			isUploadPopup: false,
+			csvFile: null,
+		};
+	},
 
-  methods: {
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-        this.isUploadPopup = true;
-      }
-    },
-    closeCSVPopup() {
-      this.loadDataList();
-      this.isUploadPopup = false;
-    },
-    openPopup() {
-      this.isNumberPopup = true;
-    },
-    closePopup() {
-      this.isNumberPopup = false;
-    },
-    prettifyDate(date) {
-      if (date) return new Date(+date).toLocaleDateString();
-    },
-  },
+	methods: {
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.csvFile = file;
+				this.isUploadPopup = true;
+			}
+		},
+		closeCSVPopup() {
+			this.loadDataList();
+			this.isUploadPopup = false;
+		},
+		openPopup() {
+			this.isNumberPopup = true;
+		},
+		closePopup() {
+			this.isNumberPopup = false;
+		},
+		prettifyDate(date) {
+			if (date) return new Date(+date).toLocaleDateString();
+		},
+	},
 };
 </script>
 

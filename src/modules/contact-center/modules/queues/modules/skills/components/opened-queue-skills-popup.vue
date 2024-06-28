@@ -75,71 +75,78 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, required } from '@vuelidate/validators';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
-import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import { useVuelidate } from "@vuelidate/core";
+import { maxValue, minValue, required } from "@vuelidate/validators";
+import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import {
+	lessOrEqualTo,
+	moreOrEqualTo,
+} from "../../../../../../../app/utils/validators";
+import SkillsAPI from "../../../../../../lookups/modules/agent-skills/api/agentSkills";
+import BucketsAPI from "../../../../../../lookups/modules/buckets/api/buckets";
 
 export default {
-  name: 'OpenedQueueSkillsPopup',
-  mixins: [nestedObjectMixin],
+	name: "OpenedQueueSkillsPopup",
+	mixins: [nestedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'ccenter/queues/skills',
-  }),
-  validations: {
-    itemInstance: {
-      skill: { required },
-      lvl: {
-        required,
-        minValue: minValue(0),
-        maxValue: maxValue(1000),
-      },
-      minCapacity: {
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        lessOrEqualTo: lessOrEqualTo('maxCapacity'),
-      },
-      maxCapacity: {
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        moreOrEqualTo: moreOrEqualTo('minCapacity'),
-      },
-    },
-  },
-  computed: {
-    minCapacityCustomValidator() {
-      return [
-        {
-          name: 'lessOrEqualTo',
-          text: this.$t('objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator'),
-        },
-      ];
-    },
-    maxCapacityCustomValidator() {
-      return [
-        {
-          name: 'moreOrEqualTo',
-          text: this.$t('objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator'),
-        },
-      ];
-    },
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "ccenter/queues/skills",
+	}),
+	validations: {
+		itemInstance: {
+			skill: { required },
+			lvl: {
+				required,
+				minValue: minValue(0),
+				maxValue: maxValue(1000),
+			},
+			minCapacity: {
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				lessOrEqualTo: lessOrEqualTo("maxCapacity"),
+			},
+			maxCapacity: {
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				moreOrEqualTo: moreOrEqualTo("minCapacity"),
+			},
+		},
+	},
+	computed: {
+		minCapacityCustomValidator() {
+			return [
+				{
+					name: "lessOrEqualTo",
+					text: this.$t(
+						"objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator",
+					),
+				},
+			];
+		},
+		maxCapacityCustomValidator() {
+			return [
+				{
+					name: "moreOrEqualTo",
+					text: this.$t(
+						"objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator",
+					),
+				},
+			];
+		},
+	},
 
-  methods: {
-    loadSkillsOptions(params) {
-      return SkillsAPI.getLookup(params);
-    },
+	methods: {
+		loadSkillsOptions(params) {
+			return SkillsAPI.getLookup(params);
+		},
 
-    loadBucketsOptions(params) {
-      return BucketsAPI.getLookup(params);
-    },
-  },
+		loadBucketsOptions(params) {
+			return BucketsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

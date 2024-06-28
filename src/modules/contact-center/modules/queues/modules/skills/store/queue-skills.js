@@ -1,32 +1,31 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import QueueSkillsAPI from '../api/queueSkills';
-import headers from './_internals/headers';
+import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
+import QueueSkillsAPI from "../api/queueSkills";
+import headers from "./_internals/headers";
 
 const resettableItemState = {
-  itemInstance: {
-    skill: {},
-    lvl: 0,
-    minCapacity: 0,
-    maxCapacity: 10,
-    buckets: [],
-    enabled: true,
-  },
+	itemInstance: {
+		skill: {},
+		lvl: 0,
+		minCapacity: 0,
+		maxCapacity: 10,
+		buckets: [],
+		enabled: true,
+	},
 };
 
 const getters = {
-  GET_ITEM_BUCKETS: (state) => (id) => {
-    const item = state.dataList.filter((item) => item.id === id)[0];
-    return item.buckets;
-  },
+	GET_ITEM_BUCKETS: (state) => (id) => {
+		const item = state.dataList.filter((item) => item.id === id)[0];
+		return item.buckets;
+	},
 };
 
 const queueSkills = new NestedObjectStoreModule({
-  resettableItemState,
-  headers,
+	resettableItemState,
+	headers,
 })
-.attachAPIModule(QueueSkillsAPI)
-.generateAPIActions()
-.getModule({ getters });
+	.attachAPIModule(QueueSkillsAPI)
+	.generateAPIActions()
+	.getModule({ getters });
 
 export default queueSkills;

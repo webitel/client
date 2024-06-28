@@ -1,6 +1,3 @@
-const TtsMicrosoftVoice = Object.freeze([
-  'Male',
-  'Female',
-]);
+const TtsMicrosoftVoice = Object.freeze(["Male", "Female"]);
 
 export default TtsMicrosoftVoice;

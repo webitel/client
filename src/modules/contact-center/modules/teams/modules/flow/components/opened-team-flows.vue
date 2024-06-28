@@ -109,57 +109,58 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { useDummy } from '../../../../../../../app/composables/useDummy.js';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import FlowPopup from './opened-team-flow-popup.vue';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { useDummy } from "../../../../../../../app/composables/useDummy.js";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import FlowPopup from "./opened-team-flow-popup.vue";
 
-const namespace = 'ccenter/teams';
-const subNamespace = 'flow';
+const namespace = "ccenter/teams";
+const subNamespace = "flow";
 
 export default {
-  name: 'OpenedTeamFlows',
-  components: { FlowPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+	name: "OpenedTeamFlows",
+	components: { FlowPopup, DeleteConfirmationPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    }
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isFlowPopup: false,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isFlowPopup: false,
+	}),
 
-  methods: {
-    openPopup() {
-      this.isFlowPopup = true;
-    },
-    closePopup() {
-      this.isFlowPopup = false;
-    },
-  },
+	methods: {
+		openPopup() {
+			this.isFlowPopup = true;
+		},
+		closePopup() {
+			this.isFlowPopup = false;
+		},
+	},
 };
 </script>
 

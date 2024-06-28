@@ -38,26 +38,22 @@
 </template>
 
 <script setup>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue } from '@vuelidate/validators';
-import { computed, onMounted, reactive } from 'vue';
+import { useVuelidate } from "@vuelidate/core";
+import { maxValue, minValue } from "@vuelidate/validators";
+import { computed, onMounted, reactive } from "vue";
 
-const emit = defineEmits([
-  'select',
-  'back',
-  'cancel',
-]);
+const emit = defineEmits(["select", "back", "cancel"]);
 
 const state = reactive({
-  capacity: 10,
-  enabled: false,
+	capacity: 10,
+	enabled: false,
 });
 
 const rules = computed(() => ({
-  capacity: {
-    minValue: minValue(0),
-    maxValue: maxValue(100),
-  },
+	capacity: {
+		minValue: minValue(0),
+		maxValue: maxValue(100),
+	},
 }));
 
 const v$ = useVuelidate(rules, state, { $autoDirty: true });

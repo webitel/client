@@ -99,37 +99,36 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import UsersAPI from '../../../../directory/modules/users/api/users';
-import MediaAPI from '../../../../lookups/modules/media/api/media';
-import RegionsAPI from '../../../../lookups/modules/regions/api/regions';
-import TeamsAPI from '../../teams/api/teams';
-import AgentsAPI from '../api/agents';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import UsersAPI from "../../../../directory/modules/users/api/users";
+import MediaAPI from "../../../../lookups/modules/media/api/media";
+import RegionsAPI from "../../../../lookups/modules/regions/api/regions";
+import TeamsAPI from "../../teams/api/teams";
+import AgentsAPI from "../api/agents";
 
 export default {
-  name: 'OpenedAgentGeneral',
-  mixins: [openedTabComponentMixin],
-  methods: {
-    loadUsersOptions(params) {
-      return AgentsAPI.getAgentUsersOptions(params);
-    },
-    loadTeamsOptions(params) {
-      return TeamsAPI.getLookup(params);
-    },
-    loadSupervisorsOptions(params) {
-      return AgentsAPI.getSupervisorOptions(params);
-    },
-    loadAuditorsOptions(params) {
-      return UsersAPI.getLookup(params);
-    },
-    loadRegionsOptions(params) {
-      return RegionsAPI.getLookup(params);
-    },
-    loadMediaOptions(params) {
-      return MediaAPI.getLookup(params);
-    },
-  },
+	name: "OpenedAgentGeneral",
+	mixins: [openedTabComponentMixin],
+	methods: {
+		loadUsersOptions(params) {
+			return AgentsAPI.getAgentUsersOptions(params);
+		},
+		loadTeamsOptions(params) {
+			return TeamsAPI.getLookup(params);
+		},
+		loadSupervisorsOptions(params) {
+			return AgentsAPI.getSupervisorOptions(params);
+		},
+		loadAuditorsOptions(params) {
+			return UsersAPI.getLookup(params);
+		},
+		loadRegionsOptions(params) {
+			return RegionsAPI.getLookup(params);
+		},
+		loadMediaOptions(params) {
+			return MediaAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

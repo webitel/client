@@ -4,18 +4,17 @@
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  created() {
-    this.setLanguage();
-  },
-  methods: {
-    setLanguage() {
-      const lang = localStorage.getItem('lang');
-      if (lang) this.$i18n.locale = lang;
-    },
-  },
+	name: "App",
+	created() {
+		this.setLanguage();
+	},
+	methods: {
+		setLanguage() {
+			const lang = localStorage.getItem("lang");
+			if (lang) this.$i18n.locale = lang;
+		},
+	},
 };
 </script>
 

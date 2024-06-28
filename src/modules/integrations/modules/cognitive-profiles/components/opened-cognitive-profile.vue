@@ -39,119 +39,126 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, requiredUnless } from '@vuelidate/validators';
-import deepmerge from 'deepmerge';
-import { StorageProviderType } from 'webitel-sdk';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Google from './google/opened-cognitive-profile-google.vue';
-import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
-import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
+import { useVuelidate } from "@vuelidate/core";
+import { required, requiredUnless } from "@vuelidate/validators";
+import deepmerge from "deepmerge";
+import { StorageProviderType } from "webitel-sdk";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import ElevenLabs from "./eleven-labs/opened-cognitive-profile-eleven-labs.vue";
+import Google from "./google/opened-cognitive-profile-google.vue";
+import Microsoft from "./microsoft/opened-cognitive-profile-microsoft.vue";
 
 export default {
-  name: 'OpenedCognitiveProfile',
-  components: {
-    Microsoft,
-    Google,
-    ElevenLabs,
-  },
-  mixins: [openedObjectMixin],
+	name: "OpenedCognitiveProfile",
+	components: {
+		Microsoft,
+		Google,
+		ElevenLabs,
+	},
+	mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'integrations/cognitiveProfiles',
-  }),
-  validations() {
-    const defaults = {
-      itemInstance: {
-        name: { required },
-        service: { required },
-        provider: { required },
-      },
-    };
-    switch (this.provider) {
-      case StorageProviderType.Microsoft:
-        return deepmerge(defaults, {
-          itemInstance: {
-            properties: {
-              key: { required: requiredUnless(() => !!this.id) },
-              region: { required },
-            },
-          },
-        });
-      case StorageProviderType.Google:
-        return deepmerge(defaults, {
-          itemInstance: {
-            properties: {
-              key: { required },
-            },
-          },
-        });
-      case StorageProviderType.ElevenLabs:
-        return deepmerge(defaults, {
-          itemInstance: {
-            properties: {
-              key: { required: requiredUnless(() => !!this.id) },
-            },
-          },
-        });
-      default:
-        return defaults;
-    }
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "integrations/cognitiveProfiles",
+	}),
+	validations() {
+		const defaults = {
+			itemInstance: {
+				name: { required },
+				service: { required },
+				provider: { required },
+			},
+		};
+		switch (this.provider) {
+			case StorageProviderType.Microsoft:
+				return deepmerge(defaults, {
+					itemInstance: {
+						properties: {
+							key: { required: requiredUnless(() => !!this.id) },
+							region: { required },
+						},
+					},
+				});
+			case StorageProviderType.Google:
+				return deepmerge(defaults, {
+					itemInstance: {
+						properties: {
+							key: { required },
+						},
+					},
+				});
+			case StorageProviderType.ElevenLabs:
+				return deepmerge(defaults, {
+					itemInstance: {
+						properties: {
+							key: { required: requiredUnless(() => !!this.id) },
+						},
+					},
+				});
+			default:
+				return defaults;
+		}
+	},
 
-  computed: {
-    showPage() {
-      return this.provider !== null;
-    },
-    provider() {
-      return this.itemInstance.provider;
-    },
-    tabs() {
-      const microsoft = {
-        text: StorageProviderType.Microsoft,
-        value: 'Microsoft',
-      };
+	computed: {
+		showPage() {
+			return this.provider !== null;
+		},
+		provider() {
+			return this.itemInstance.provider;
+		},
+		tabs() {
+			const microsoft = {
+				text: StorageProviderType.Microsoft,
+				value: "Microsoft",
+			};
 
-      const google = {
-        text: StorageProviderType.Google,
-        value: 'Google',
-      };
+			const google = {
+				text: StorageProviderType.Google,
+				value: "Google",
+			};
 
-      const elevenLabs = {
-        text: StorageProviderType.ElevenLabs,
-        value: 'ElevenLabs',
-      };
+			const elevenLabs = {
+				text: StorageProviderType.ElevenLabs,
+				value: "ElevenLabs",
+			};
 
-      const tabs = [];
-      if (this.provider === StorageProviderType.Microsoft) tabs.push(microsoft);
-      else if (this.provider === StorageProviderType.Google) tabs.push(google);
-      else if (this.provider === StorageProviderType.ElevenLabs) tabs.push(elevenLabs);
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+			const tabs = [];
+			if (this.provider === StorageProviderType.Microsoft) tabs.push(microsoft);
+			else if (this.provider === StorageProviderType.Google) tabs.push(google);
+			else if (this.provider === StorageProviderType.ElevenLabs)
+				tabs.push(elevenLabs);
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/integrations/cognitive-profiles';
-      return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2), route: baseUrl },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
-  methods: {
-    async loadPageData() {
-      await this.setId(this.$route.params.id);
-      await this.loadItem(this.$route.query.type);
-      this.setInitialTab();
-    },
-  },
+		path() {
+			const baseUrl = "/integrations/cognitive-profiles";
+			return [
+				{ name: this.$t("objects.integrations.integrations") },
+				{
+					name: this.$tc(
+						"objects.integrations.cognitiveProfiles.cognitiveProfiles",
+						2,
+					),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t("objects.new"),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
+	methods: {
+		async loadPageData() {
+			await this.setId(this.$route.params.id);
+			await this.loadItem(this.$route.query.type);
+			this.setInitialTab();
+		},
+	},
 };
 </script>
 

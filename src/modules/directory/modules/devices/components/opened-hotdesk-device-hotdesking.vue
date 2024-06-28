@@ -21,17 +21,21 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-  name: 'OpenedDeviceHotdesking',
-  mixins: [openedTabComponentMixin],
-  computed: {
-    hotDeskNameValidator() {
-      return [{ name: 'hotDeskNameValidator', text: this.$t('objects.directory.devices.hotdeskIncorrectInput') }];
-    },
-  },
+	name: "OpenedDeviceHotdesking",
+	mixins: [openedTabComponentMixin],
+	computed: {
+		hotDeskNameValidator() {
+			return [
+				{
+					name: "hotDeskNameValidator",
+					text: this.$t("objects.directory.devices.hotdeskIncorrectInput"),
+				},
+			];
+		},
+	},
 };
 </script>
 

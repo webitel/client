@@ -37,31 +37,34 @@
 </template>
 
 <script>
-import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup';
-import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../api/flow';
-import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
+import FlowTypeApplications from "@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup";
+import CodeEditor from "../../../../../../../app/components/utils/code-editor.vue";
+import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import FlowsAPI from "../../../api/flow";
+import FlowAppAutocomplete from "../lookups/FlowAppAutocomplete.lookup";
 
 export default {
-  name: 'OpenedFlowCode',
-  components: { CodeEditor },
-  mixins: [openedTabComponentMixin],
-  computed: {
-    autocomplete() {
-      const { type } = this.itemInstance;
-      // if there's app, but no autocomplete -- skip
-      return FlowTypeApplications[type]?.reduce((apps, app) => (
-        FlowAppAutocomplete[app]
-          ? [...apps, FlowAppAutocomplete[app]]
-          : apps
-      ), []) || Object.values(FlowAppAutocomplete);
-    },
-  },
-  methods: {
-    loadFlowTagOptions: FlowsAPI.getFlowTags,
-  },
+	name: "OpenedFlowCode",
+	components: { CodeEditor },
+	mixins: [openedTabComponentMixin],
+	computed: {
+		autocomplete() {
+			const { type } = this.itemInstance;
+			// if there's app, but no autocomplete -- skip
+			return (
+				FlowTypeApplications[type]?.reduce(
+					(apps, app) =>
+						FlowAppAutocomplete[app]
+							? [...apps, FlowAppAutocomplete[app]]
+							: apps,
+					[],
+				) || Object.values(FlowAppAutocomplete)
+			);
+		},
+	},
+	methods: {
+		loadFlowTagOptions: FlowsAPI.getFlowTags,
+	},
 };
 </script>
 

@@ -9,15 +9,14 @@
 </template>
 
 <script>
-
 export default {
-  name: 'PermissionsRoleColumn',
-  props: {
-    role: {
-      type: Object,
-      required: true,
-    },
-  },
+	name: "PermissionsRoleColumn",
+	props: {
+		role: {
+			type: Object,
+			required: true,
+		},
+	},
 };
 </script>
 

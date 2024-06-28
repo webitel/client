@@ -136,70 +136,72 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import TriggerTypes from '../lookups/TriggerTypes.lookup';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { mapActions } from "vuex";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import TriggerTypes from "../lookups/TriggerTypes.lookup";
 
-const namespace = 'integrations/triggers';
+const namespace = "integrations/triggers";
 
 export default {
-  name: 'TheTriggers',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: "TheTriggers",
+	components: { DeleteConfirmationPopup },
+	mixins: [tableComponentMixin],
+	setup() {
+		const { dummy } = useDummy({ namespace, showAction: true });
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.TRIGGERS,
-    TriggerTypes,
-  }),
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.integrations.integrations') },
-        {
-          name: this.$tc('objects.integrations.triggers.triggers', 2),
-          route: '/integrations/triggers',
-        },
-      ];
-    },
-  },
-  methods: {
-    async changeState({ item, index, value }) {
-      await this.patchItem({
-        item, index, prop: 'enabled', value,
-      });
-    },
-    ...mapActions({
-      startTrigger(dispatch, payload) {
-        return dispatch(`${this.namespace}/START_TRIGGER`, payload);
-      },
-    }),
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.TRIGGERS,
+		TriggerTypes,
+	}),
+	computed: {
+		path() {
+			return [
+				{ name: this.$t("objects.integrations.integrations") },
+				{
+					name: this.$tc("objects.integrations.triggers.triggers", 2),
+					route: "/integrations/triggers",
+				},
+			];
+		},
+	},
+	methods: {
+		async changeState({ item, index, value }) {
+			await this.patchItem({
+				item,
+				index,
+				prop: "enabled",
+				value,
+			});
+		},
+		...mapActions({
+			startTrigger(dispatch, payload) {
+				return dispatch(`${this.namespace}/START_TRIGGER`, payload);
+			},
+		}),
+	},
 };
 </script>
 

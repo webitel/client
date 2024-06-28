@@ -54,67 +54,66 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, requiredIf } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { useVuelidate } from "@vuelidate/core";
+import { required, requiredIf } from "@vuelidate/validators";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-  name: 'GlobalVariablesPopup',
-  mixins: [openedObjectMixin, openedTabComponentMixin],
-  props: {
-    id: {
-      // if id is passed, that's an edit
-      type: [Number, null],
-    },
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    startEncryptValue: false,
-  }),
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      value: {
-        required: requiredIf(function() {
-          return !this.itemInstance.id || !this.startEncryptValue
-        }),
-      },
-    },
-  },
-  methods: {
-    async save() {
-      if (!this.disabledSave) {
-        if (this.id) {
-          await this.updateItem();
-        } else {
-          try {
-            await this.addItem();
-          } catch (err) {
-            throw err;
-          }
-        }
-        this.close();
-      }
-    },
-    async loadPageData() {
-      try {
-        await this.setId(this.id);
-        await this.loadItem();
-      } finally {
-        this.startEncryptValue = this.itemInstance.encrypt;
-      }
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
+	name: "GlobalVariablesPopup",
+	mixins: [openedObjectMixin, openedTabComponentMixin],
+	props: {
+		id: {
+			// if id is passed, that's an edit
+			type: [Number, null],
+		},
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({
+		startEncryptValue: false,
+	}),
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	validations: {
+		itemInstance: {
+			name: { required },
+			value: {
+				required: requiredIf(function () {
+					return !this.itemInstance.id || !this.startEncryptValue;
+				}),
+			},
+		},
+	},
+	methods: {
+		async save() {
+			if (!this.disabledSave) {
+				if (this.id) {
+					await this.updateItem();
+				} else {
+					try {
+						await this.addItem();
+					} catch (err) {
+						throw err;
+					}
+				}
+				this.close();
+			}
+		},
+		async loadPageData() {
+			try {
+				await this.setId(this.id);
+				await this.loadItem();
+			} finally {
+				this.startEncryptValue = this.itemInstance.encrypt;
+			}
+		},
+		close() {
+			this.$emit("close");
+		},
+	},
 };
 </script>

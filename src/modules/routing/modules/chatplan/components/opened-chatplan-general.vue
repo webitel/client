@@ -35,18 +35,17 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import FlowsAPI from "../../flow/api/flow";
 
 export default {
-  name: 'OpenedChatplan',
-  mixins: [openedTabComponentMixin],
-  methods: {
-    loadFlows(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+	name: "OpenedChatplan",
+	mixins: [openedTabComponentMixin],
+	methods: {
+		loadFlows(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

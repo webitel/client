@@ -48,38 +48,38 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
+import { useVuelidate } from "@vuelidate/core";
+import { maxValue, minValue, numeric, required } from "@vuelidate/validators";
+import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import SkillsAPI from "../../../../../../lookups/modules/agent-skills/api/agentSkills";
 
 export default {
-  name: 'OpenedAgentSkillsPopup',
-  mixins: [nestedObjectMixin],
+	name: "OpenedAgentSkillsPopup",
+	mixins: [nestedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'ccenter/agents/skills',
-  }),
-  validations: {
-    itemInstance: {
-      skill: { required },
-      capacity: {
-        numeric,
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        required,
-      },
-    },
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "ccenter/agents/skills",
+	}),
+	validations: {
+		itemInstance: {
+			skill: { required },
+			capacity: {
+				numeric,
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				required,
+			},
+		},
+	},
 
-  methods: {
-    loadDropdownOptionsList(params) {
-      return SkillsAPI.getLookup(params);
-    },
-  },
+	methods: {
+		loadDropdownOptionsList(params) {
+			return SkillsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

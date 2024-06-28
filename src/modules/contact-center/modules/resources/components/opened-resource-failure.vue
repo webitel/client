@@ -33,21 +33,14 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-  name: 'OpenedResourceFailure',
-  mixins: [openedTabComponentMixin],
+	name: "OpenedResourceFailure",
+	mixins: [openedTabComponentMixin],
 
-  data: () => ({
-    errorIdsAutocomplete: [
-      '1xx',
-      '2xx',
-      '3xx',
-      '4xx',
-      '5xx',
-    ],
-  }),
+	data: () => ({
+		errorIdsAutocomplete: ["1xx", "2xx", "3xx", "4xx", "5xx"],
+	}),
 };
 </script>

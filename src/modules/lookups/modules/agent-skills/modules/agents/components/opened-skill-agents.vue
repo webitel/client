@@ -125,111 +125,108 @@
 </template>
 
 <script>
-import debounce from '@webitel/ui-sdk/src/scripts/debounce';
-import objectTableAccessControlMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import AgentSkillsAPI from '../api/skillAgents';
-import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
-import ChangeSkillPopup from './replace-agent-skill-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import debounce from "@webitel/ui-sdk/src/scripts/debounce";
+import objectTableAccessControlMixin from "../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
+import AgentSkillsAPI from "../api/skillAgents";
+import AddSkillToAgentPopup from "./add-skill-to-agent-popup/add-skill-to-agent-popup.vue";
+import ChangeSkillPopup from "./replace-agent-skill-popup.vue";
 
 export default {
-  name: 'OpenedSkillAgents',
-  components: {
-    AddSkillToAgentPopup,
-    ChangeSkillPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: "OpenedSkillAgents",
+	components: {
+		AddSkillToAgentPopup,
+		ChangeSkillPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
 
-  data: () => ({
-    namespace: 'lookups/skills',
-    subNamespace: 'agents',
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    agentSkillPopup: false,
-    isAddSkillToAgentPopup: false,
-  }),
-  mounted() {
-    this.handlePatchInput = debounce(this.handlePatchInput);
-  },
-  methods: {
-    openAgentSkillPopup() {
-      this.agentSkillPopup = true;
-    },
-    closeAgentSkillPopup() {
-      this.agentSkillPopup = false;
-    },
-    async changeStateForAll(enabled) {
-      const { parentId } = this;
-      const changes = {
-        enabled,
-      };
-      try {
-        await AgentSkillsAPI.patch({ parentId, changes });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await this.loadDataList();
-      }
-    },
-    async change({ changes, id }) {
-      const { parentId } = this;
-      try {
-        await AgentSkillsAPI.patch({ parentId, changes, id });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await this.loadDataList();
-      }
-    },
-    handlePatchInput(payload) {
-      const modifiedIdPayload = this.payloadIdModifier(payload);
-      this.patchItem(modifiedIdPayload);
-    },
-    async handlePatchEnabled(payload) {
-      const modifiedIdPayload = this.payloadIdModifier(payload);
-      try {
-        await this.patchItem(modifiedIdPayload);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await this.loadDataList();
-      }
-    },
-    payloadIdModifier(payload) {
-      return {
-        ...payload,
-        item: {
-          ...payload.item,
-          id: [payload.item.id],
-        },
-      };
-    },
-  },
+	data: () => ({
+		namespace: "lookups/skills",
+		subNamespace: "agents",
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+		agentSkillPopup: false,
+		isAddSkillToAgentPopup: false,
+	}),
+	mounted() {
+		this.handlePatchInput = debounce(this.handlePatchInput);
+	},
+	methods: {
+		openAgentSkillPopup() {
+			this.agentSkillPopup = true;
+		},
+		closeAgentSkillPopup() {
+			this.agentSkillPopup = false;
+		},
+		async changeStateForAll(enabled) {
+			const { parentId } = this;
+			const changes = {
+				enabled,
+			};
+			try {
+				await AgentSkillsAPI.patch({ parentId, changes });
+			} catch (e) {
+				console.error(e);
+			} finally {
+				await this.loadDataList();
+			}
+		},
+		async change({ changes, id }) {
+			const { parentId } = this;
+			try {
+				await AgentSkillsAPI.patch({ parentId, changes, id });
+			} catch (e) {
+				console.error(e);
+			} finally {
+				await this.loadDataList();
+			}
+		},
+		handlePatchInput(payload) {
+			const modifiedIdPayload = this.payloadIdModifier(payload);
+			this.patchItem(modifiedIdPayload);
+		},
+		async handlePatchEnabled(payload) {
+			const modifiedIdPayload = this.payloadIdModifier(payload);
+			try {
+				await this.patchItem(modifiedIdPayload);
+			} catch (e) {
+				console.error(e);
+			} finally {
+				await this.loadDataList();
+			}
+		},
+		payloadIdModifier(payload) {
+			return {
+				...payload,
+				item: {
+					...payload.item,
+					id: [payload.item.id],
+				},
+			};
+		},
+	},
 };
 </script>
 

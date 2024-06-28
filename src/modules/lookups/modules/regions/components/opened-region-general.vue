@@ -35,18 +35,17 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CalendarsAPI from '../../calendars/api/calendars';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import CalendarsAPI from "../../calendars/api/calendars";
 
 export default {
-  name: 'OpenedRegionGeneral',
-  mixins: [openedTabComponentMixin],
-  methods: {
-    loadTimezones(params) {
-      return CalendarsAPI.getTimezonesLookup(params);
-    },
-  },
+	name: "OpenedRegionGeneral",
+	mixins: [openedTabComponentMixin],
+	methods: {
+		loadTimezones(params) {
+			return CalendarsAPI.getTimezonesLookup(params);
+		},
+	},
 };
 </script>
 

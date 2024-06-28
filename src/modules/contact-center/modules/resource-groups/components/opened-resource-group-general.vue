@@ -35,17 +35,16 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import CommunicationsAPI from "../../../../lookups/modules/communications/api/communications";
 
 export default {
-  name: 'OpenedResourceGroupGeneral',
-  mixins: [openedTabComponentMixin],
-  methods: {
-    loadDropdownOptionsList(params) {
-      return CommunicationsAPI.getLookup(params);
-    },
-  },
+	name: "OpenedResourceGroupGeneral",
+	mixins: [openedTabComponentMixin],
+	methods: {
+		loadDropdownOptionsList(params) {
+			return CommunicationsAPI.getLookup(params);
+		},
+	},
 };
 </script>

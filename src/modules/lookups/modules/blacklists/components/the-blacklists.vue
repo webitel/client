@@ -114,74 +114,81 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicLight from '../assets/adm-dummy-blacklist-light.svg';
-import dummyPicDark from '../assets/adm-dummy-blacklist-dark.svg';
-import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import exportCSVMixin from "@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin";
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import dummyPicDark from "../assets/adm-dummy-blacklist-dark.svg";
+import dummyPicLight from "../assets/adm-dummy-blacklist-light.svg";
+import BlacklistNumbersAPI from "../modules/numbers/api/blacklistNumbers";
 
-const namespace = 'lookups/blacklists';
+const namespace = "lookups/blacklists";
 
 export default {
-  name: 'TheBlacklists',
-  components: { DeleteConfirmationPopup },
-  mixins: [exportCSVMixin, tableComponentMixin],
+	name: "TheBlacklists",
+	components: { DeleteConfirmationPopup },
+	mixins: [exportCSVMixin, tableComponentMixin],
 
-  setup() {
-    const store = useStore();
-    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
-    const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const store = useStore();
+		const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+		const dummyPic = computed(() =>
+			darkMode.value ? dummyPicDark : dummyPicLight,
+		);
+		const { dummy } = useDummy({ namespace, showAction: true, dummyPic });
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.BLACKLIST,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.BLACKLIST,
+	}),
 
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: '/lookups/blacklist' },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{ name: this.$t("objects.lookups.lookups") },
+				{
+					name: this.$tc("objects.lookups.blacklist.blacklist", 2),
+					route: "/lookups/blacklist",
+				},
+			];
+		},
+	},
 
-  created() {
-    this.initCSVExport(this.getBlacklistNumbersList, { filename: 'numbers' });
-  },
+	created() {
+		this.initCSVExport(this.getBlacklistNumbersList, { filename: "numbers" });
+	},
 
-  methods: {
-    async download({ id }) {
-      return this.exportCSV({ parentId: id, fields: ['number', 'description'] });
-    },
-    getBlacklistNumbersList: BlacklistNumbersAPI.getList,
-  },
+	methods: {
+		async download({ id }) {
+			return this.exportCSV({
+				parentId: id,
+				fields: ["number", "description"],
+			});
+		},
+		getBlacklistNumbersList: BlacklistNumbersAPI.getList,
+	},
 };
 </script>
 

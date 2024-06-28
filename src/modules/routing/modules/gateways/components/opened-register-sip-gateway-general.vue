@@ -68,20 +68,19 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
+import PasswordInput from "../../../../../app/components/utils/generate-password-input.vue";
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import FlowsAPI from "../../flow/api/flow";
 
 export default {
-  name: 'OpenedSipGatewayRegisterGeneral',
-  components: { PasswordInput },
-  mixins: [openedTabComponentMixin],
-  methods: {
-    loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+	name: "OpenedSipGatewayRegisterGeneral",
+	components: { PasswordInput },
+	mixins: [openedTabComponentMixin],
+	methods: {
+		loadDropdownOptionsList(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

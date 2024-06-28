@@ -84,52 +84,51 @@
 </template>
 
 <script>
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import FilterSearch from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue";
+import convertDuration from "@webitel/ui-sdk/src/scripts/convertDuration";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'log';
+const namespace = "ccenter/queues";
+const subNamespace = "log";
 
 export default {
-  name: 'OpenedQueueLogs',
-  components: { FilterSearch },
-  mixins: [openedObjectTableTabMixin],
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
+	name: "OpenedQueueLogs",
+	components: { FilterSearch },
+	mixins: [openedObjectTableTabMixin],
+	data: () => ({
+		namespace,
+		subNamespace,
+	}),
 
-  /* https://my.webitel.com/browse/WTEL-3697 */
-  /* Temporarily disabled functionality due to problems with pagination */
+	/* https://my.webitel.com/browse/WTEL-3697 */
+	/* Temporarily disabled functionality due to problems with pagination */
 
-  // setup() {
-  //   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-  //   return { dummy };
-  // },
-  computed: {
-    filtersNamespace() {
-      return `${this.namespace}/${this.subNamespace}/filters`;
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
-  methods: {
-    formatDate(value) {
-      if (!value) return '';
-      return new Date(+value).toLocaleString();
-    },
+	// setup() {
+	//   const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+	//   return { dummy };
+	// },
+	computed: {
+		filtersNamespace() {
+			return `${this.namespace}/${this.subNamespace}/filters`;
+		},
+	},
+	watch: {
+		"$route.query": {
+			async handler() {
+				await this.loadList();
+			},
+		},
+	},
+	methods: {
+		formatDate(value) {
+			if (!value) return "";
+			return new Date(+value).toLocaleString();
+		},
 
-    calcDuration(item) {
-      return convertDuration((item.leavingAt - item.joinedAt) / 1000);
-    },
-  },
+		calcDuration(item) {
+			return convertDuration((item.leavingAt - item.joinedAt) / 1000);
+		},
+	},
 };
 </script>
 

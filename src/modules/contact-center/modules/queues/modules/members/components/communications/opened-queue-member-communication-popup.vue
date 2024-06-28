@@ -65,108 +65,109 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import deepCopy from 'deep-copy';
-import { mapActions, mapState } from 'vuex';
-import nestedObjectMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
-import ResourcesAPI from '../../../../../resources/api/resources';
-import { digitsDtmfOnly } from '../../validation/dtmf';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
+import deepCopy from "deep-copy";
+import { mapActions, mapState } from "vuex";
+import nestedObjectMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import CommunicationsAPI from "../../../../../../../lookups/modules/communications/api/communications";
+import ResourcesAPI from "../../../../../resources/api/resources";
+import { digitsDtmfOnly } from "../../validation/dtmf";
 
 export default {
-  name: 'OpenedAgentSkillsPopup',
-  mixins: [nestedObjectMixin],
-  props: {
-    editedIndex: {
-      type: [Number, Object], // "null" object
-    },
-  },
+	name: "OpenedAgentSkillsPopup",
+	mixins: [nestedObjectMixin],
+	props: {
+		editedIndex: {
+			type: [Number, Object], // "null" object
+		},
+	},
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'ccenter/queues/members',
-    itemInstanceValue: {
-      destination: '',
-      display: '',
-      priority: 0,
-      type: {},
-      resource: {},
-      description: '',
-      dtmf: '',
-    },
-  }),
-  validations: {
-    itemInstance: {
-      destination: { required },
-      type: { required },
-      dtmf: { digitsDtmfOnly },
-    },
-  },
-  created() {
-    this.initEditedValue();
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "ccenter/queues/members",
+		itemInstanceValue: {
+			destination: "",
+			display: "",
+			priority: 0,
+			type: {},
+			resource: {},
+			description: "",
+			dtmf: "",
+		},
+	}),
+	validations: {
+		itemInstance: {
+			destination: { required },
+			type: { required },
+			dtmf: { digitsDtmfOnly },
+		},
+	},
+	created() {
+		this.initEditedValue();
+	},
 
-  computed: {
-    ...mapState({
-      commList(state) {
-        return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
-      },
-    }),
-    // override mixin map state
-    itemInstance: {
-      get() {
-        return this.itemInstanceValue;
-      },
-      set(value) {
-        this.itemInstanceValue = value;
-      },
-    },
-    computeDisabled() {
-      return this.checkValidations();
-    },
-  },
+	computed: {
+		...mapState({
+			commList(state) {
+				return getNamespacedState(state, `${this.namespace}`).itemInstance
+					.communications;
+			},
+		}),
+		// override mixin map state
+		itemInstance: {
+			get() {
+				return this.itemInstanceValue;
+			},
+			set(value) {
+				this.itemInstanceValue = value;
+			},
+		},
+		computeDisabled() {
+			return this.checkValidations();
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      addItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
-      },
-      updateItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`, payload);
-      },
-    }),
-    initEditedValue() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.itemInstance = deepCopy(this.commList[this.editedIndex]);
-      }
-    },
-    save() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.updateItem({
-          index: this.editedIndex,
-          item: this.itemInstance,
-        });
-      } else {
-        this.addItem(this.itemInstance);
-      }
-      this.close();
-    },
-    loadCommTypes(params) {
-      return CommunicationsAPI.getLookup(params);
-    },
-    loadResources(params) {
-      return ResourcesAPI.getLookup(params);
-    },
-    loadItem() {
-    },
-    resetState() {
-    },
-  },
+	methods: {
+		...mapActions({
+			addItem(dispatch, payload) {
+				return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
+			},
+			updateItem(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`,
+					payload,
+				);
+			},
+		}),
+		initEditedValue() {
+			if (Number.isInteger(this.editedIndex)) {
+				this.itemInstance = deepCopy(this.commList[this.editedIndex]);
+			}
+		},
+		save() {
+			if (Number.isInteger(this.editedIndex)) {
+				this.updateItem({
+					index: this.editedIndex,
+					item: this.itemInstance,
+				});
+			} else {
+				this.addItem(this.itemInstance);
+			}
+			this.close();
+		},
+		loadCommTypes(params) {
+			return CommunicationsAPI.getLookup(params);
+		},
+		loadResources(params) {
+			return ResourcesAPI.getLookup(params);
+		},
+		loadItem() {},
+		resetState() {},
+	},
 };
 </script>
 

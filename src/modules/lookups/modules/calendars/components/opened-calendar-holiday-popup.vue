@@ -66,102 +66,112 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, numeric, required, requiredIf } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { useVuelidate } from "@vuelidate/core";
+import {
+	maxValue,
+	minValue,
+	numeric,
+	required,
+	requiredIf,
+} from "@vuelidate/validators";
+import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
+import { mapActions, mapState } from "vuex";
+import nestedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
 
 export default {
-  name: 'OpenedCalendarHolidayPopup',
-  mixins: [nestedObjectMixin],
-  props: {
-    editedIndex: {
-      type: [Number, Object], // "null" object
-    },
-  },
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'lookups/calendars',
-    itemInstanceValue: {
-      name: '',
-      date: Date.now(),
-      repeat: true,
-    },
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      date: { required },
-      workStart: {
-        numeric,
-        minValue: minValue(0),
-        maxValue: maxValue(1440)
-      },
-      workStop: {
-        numeric,
-        required: requiredIf((value, item) => item.workStart),
-        minValue: minValue(0),
-        maxValue: maxValue(1440)
-      },
-    },
-  },
-  created() {
-    this.initEditedValue();
-  },
-  computed: {
-    ...mapState({
-      holidayList(state) {
-        return getNamespacedState(state, this.namespace).itemInstance.excepts;
-      },
-    }),
-    // override mixin map state
-    itemInstance: {
-      get() { return this.itemInstanceValue; },
-      set(value) { this.itemInstanceValue = value; },
-    },
-    computeDisabled() {
-      return this.checkValidations();
-    },
-  },
-  methods: {
-    ...mapActions({
-      addHoliday(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_EXCEPT_ITEM`, payload);
-      },
-      updateHoliday(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_EXCEPT_ITEM`, payload);
-      },
-    }),
-    initEditedValue() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.itemInstance = { ...this.holidayList[this.editedIndex] };
-      }
-    },
-    save() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.updateHoliday({
-          index: this.editedIndex,
-          item: this.itemInstance,
-        });
-      } else {
-        this.addHoliday(this.itemInstance);
-      }
-      this.close();
-    },
-    changeWorkingSwitcher(event) {
-      this.itemInstance.working = event;
-      this.itemInstance.workStart = this.itemInstance.working ? 9 * 60 : null;
-      this.itemInstance.workStop = this.itemInstance.working ? 20 * 60 : null;
-    },
-    updateWorkingTime(event, prop) {
-      this.itemInstance[prop] = event ? event / 60 : null;
-    },
-    loadItem() {},
-    resetState() {},
-  },
+	name: "OpenedCalendarHolidayPopup",
+	mixins: [nestedObjectMixin],
+	props: {
+		editedIndex: {
+			type: [Number, Object], // "null" object
+		},
+	},
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "lookups/calendars",
+		itemInstanceValue: {
+			name: "",
+			date: Date.now(),
+			repeat: true,
+		},
+	}),
+	validations: {
+		itemInstance: {
+			name: { required },
+			date: { required },
+			workStart: {
+				numeric,
+				minValue: minValue(0),
+				maxValue: maxValue(1440),
+			},
+			workStop: {
+				numeric,
+				required: requiredIf((value, item) => item.workStart),
+				minValue: minValue(0),
+				maxValue: maxValue(1440),
+			},
+		},
+	},
+	created() {
+		this.initEditedValue();
+	},
+	computed: {
+		...mapState({
+			holidayList(state) {
+				return getNamespacedState(state, this.namespace).itemInstance.excepts;
+			},
+		}),
+		// override mixin map state
+		itemInstance: {
+			get() {
+				return this.itemInstanceValue;
+			},
+			set(value) {
+				this.itemInstanceValue = value;
+			},
+		},
+		computeDisabled() {
+			return this.checkValidations();
+		},
+	},
+	methods: {
+		...mapActions({
+			addHoliday(dispatch, payload) {
+				return dispatch(`${this.namespace}/ADD_EXCEPT_ITEM`, payload);
+			},
+			updateHoliday(dispatch, payload) {
+				return dispatch(`${this.namespace}/UPDATE_EXCEPT_ITEM`, payload);
+			},
+		}),
+		initEditedValue() {
+			if (Number.isInteger(this.editedIndex)) {
+				this.itemInstance = { ...this.holidayList[this.editedIndex] };
+			}
+		},
+		save() {
+			if (Number.isInteger(this.editedIndex)) {
+				this.updateHoliday({
+					index: this.editedIndex,
+					item: this.itemInstance,
+				});
+			} else {
+				this.addHoliday(this.itemInstance);
+			}
+			this.close();
+		},
+		changeWorkingSwitcher(event) {
+			this.itemInstance.working = event;
+			this.itemInstance.workStart = this.itemInstance.working ? 9 * 60 : null;
+			this.itemInstance.workStop = this.itemInstance.working ? 20 * 60 : null;
+		},
+		updateWorkingTime(event, prop) {
+			this.itemInstance[prop] = event ? event / 60 : null;
+		},
+		loadItem() {},
+		resetState() {},
+	},
 };
 </script>
 

@@ -25,12 +25,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-  name: 'OpenedBucketGeneral',
-  mixins: [openedTabComponentMixin],
+	name: "OpenedBucketGeneral",
+	mixins: [openedTabComponentMixin],
 };
 </script>
 

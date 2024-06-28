@@ -36,25 +36,25 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
 
 export default {
-  name: 'OpenedResNumbersPopup',
-  mixins: [nestedObjectMixin],
+	name: "OpenedResNumbersPopup",
+	mixins: [nestedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'ccenter/res/numbers',
-  }),
-  validations: {
-    itemInstance: {
-      display: { required },
-    },
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "ccenter/res/numbers",
+	}),
+	validations: {
+		itemInstance: {
+			display: { required },
+		},
+	},
 };
 </script>
 

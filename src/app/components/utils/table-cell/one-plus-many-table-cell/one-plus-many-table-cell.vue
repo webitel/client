@@ -15,17 +15,17 @@
 
 <script>
 export default {
-  name: 'OnePlusManyTableCell',
-  props: {
-    collection: {
-      required: true,
-    },
-  },
-  methods: {
-    inputHandler() {
-      this.$emit('input');
-    },
-  },
+	name: "OnePlusManyTableCell",
+	props: {
+		collection: {
+			required: true,
+		},
+	},
+	methods: {
+		inputHandler() {
+			this.$emit("input");
+		},
+	},
 };
 </script>
 

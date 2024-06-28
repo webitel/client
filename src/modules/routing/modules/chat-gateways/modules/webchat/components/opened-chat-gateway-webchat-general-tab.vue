@@ -39,31 +39,30 @@
 </template>
 
 <script>
-import path from 'path';
-import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import uriCopyMixin from '../../../mixins/uriCopyMixin';
+import path from "path";
+import { mapActions } from "vuex";
+import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import uriCopyMixin from "../../../mixins/uriCopyMixin";
 
 export default {
-  name: 'OpenedChatWebchatGeneralTab',
-  mixins: [openedTabComponentMixin, uriCopyMixin],
-  computed: {
-    isUriEditable() {
-      return !this.disableUserInput && this.$route.path.includes('/new');
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
-      },
-    }),
-    modifyUriCopy(value) {
-      const base = window.location.origin.replace('http', 'ws');
-      return new URL(path.join(import.meta.env.VITE_CHAT_URL, value), base);
-    },
-  },
+	name: "OpenedChatWebchatGeneralTab",
+	mixins: [openedTabComponentMixin, uriCopyMixin],
+	computed: {
+		isUriEditable() {
+			return !this.disableUserInput && this.$route.path.includes("/new");
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+			},
+		}),
+		modifyUriCopy(value) {
+			const base = window.location.origin.replace("http", "ws");
+			return new URL(path.join(import.meta.env.VITE_CHAT_URL, value), base);
+		},
+	},
 };
 </script>
 

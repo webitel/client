@@ -76,26 +76,25 @@
 </template>
 
 <script>
-import { Chrome } from 'vue-color';
-import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
-import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
+import { Chrome } from "vue-color";
+import { mapActions } from "vuex";
+import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import webChatPreviewMixin from "../mixins/webChatPreviewMixin";
+import webChatViewFormMixin from "../mixins/webChatViewFormMixin";
 
 export default {
-  name: 'OpenedChatGatewayWebchatViewTab',
-  components: {
-    ColorPicker: Chrome,
-  },
-  mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_METADATA`, payload);
-      },
-    }),
-  },
+	name: "OpenedChatGatewayWebchatViewTab",
+	components: {
+		ColorPicker: Chrome,
+	},
+	mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_METADATA`, payload);
+			},
+		}),
+	},
 };
 </script>
 

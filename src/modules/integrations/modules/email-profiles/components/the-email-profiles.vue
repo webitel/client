@@ -131,80 +131,79 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicDark from '../assets/adm-dummy-email-profile-dark.svg';
-import dummyPicLight from '../assets/adm-dummy-email-profile-light.svg';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import dummyPicDark from "../assets/adm-dummy-email-profile-dark.svg";
+import dummyPicLight from "../assets/adm-dummy-email-profile-light.svg";
 
-const namespace = 'integrations/emailProfiles';
+const namespace = "integrations/emailProfiles";
 
 export default {
-  name: 'TheEmailProfiles',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: "TheEmailProfiles",
+	components: { DeleteConfirmationPopup },
+	mixins: [tableComponentMixin],
 
-  setup() {
-    const store = useStore();
-    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-      dummyPic,
-      dummyText: 'objects.integrations.emptyWorkspace',
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const store = useStore();
+		const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+		const dummyPic = computed(() =>
+			darkMode.value ? dummyPicDark : dummyPicLight,
+		);
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+			dummyPic,
+			dummyText: "objects.integrations.emptyWorkspace",
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.EMAIL_PROFILES,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.EMAIL_PROFILES,
+	}),
 
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.integrations.integrations') },
-        {
-          name: this.$tc('objects.integrations.emailProfiles.emailProfiles', 2),
-          route: '/integrations/email-profiles',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{ name: this.$t("objects.integrations.integrations") },
+				{
+					name: this.$tc("objects.integrations.emailProfiles.emailProfiles", 2),
+					route: "/integrations/email-profiles",
+				},
+			];
+		},
+	},
 
-  methods: {
-    flowLink({ schema }) {
-      return {
-        name: `${RouteNames.FLOW}-edit`,
-        params: { id: schema.id },
-      };
-    },
-  },
+	methods: {
+		flowLink({ schema }) {
+			return {
+				name: `${RouteNames.FLOW}-edit`,
+				params: { id: schema.id },
+			};
+		},
+	},
 };
 </script>
 

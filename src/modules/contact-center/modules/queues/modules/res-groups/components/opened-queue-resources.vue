@@ -93,37 +93,39 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import resourcePopup from './opened-queue-resources-popup.vue';
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import resourcePopup from "./opened-queue-resources-popup.vue";
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'resGroups';
+const namespace = "ccenter/queues";
+const subNamespace = "resGroups";
 
 export default {
-  name: 'OpenedQueueResources',
-  components: { resourcePopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isResGroupPopup: false,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    openPopup() {
-      this.isResGroupPopup = true;
-    },
+	name: "OpenedQueueResources",
+	components: { resourcePopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isResGroupPopup: false,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		openPopup() {
+			this.isResGroupPopup = true;
+		},
 
-    closePopup() {
-      this.isResGroupPopup = false;
-    },
-  },
+		closePopup() {
+			this.isResGroupPopup = false;
+		},
+	},
 };
 </script>
 

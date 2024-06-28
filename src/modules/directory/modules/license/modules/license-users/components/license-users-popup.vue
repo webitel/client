@@ -75,49 +75,57 @@
 </template>
 
 <script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import resetOnDestroyMixin from '../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import UserLogoutControl from './user-logout-control.vue';
+import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
+import { mapActions, mapState } from "vuex";
+import resetOnDestroyMixin from "../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import UserLogoutControl from "./user-logout-control.vue";
 
 export default {
-  name: 'LicenseUsersPopup',
-  components: { UserLogoutControl },
-  mixins: [resetOnDestroyMixin, openedObjectTableTabMixin],
-  data: () => ({
-    subNamespace: 'licenseUsers',
-  }),
-  computed: {
-    ...mapState({
-      license(state) {
-        return getNamespacedState(state, this.namespace)
-        .dataList.find(({ id }) => id === this.parentId) || {};
-      },
-    }),
-  },
-  methods: {
-    ...mapActions({
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-      logoutUser(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/LOGOUT_USER`, payload);
-      },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/RESET_STATE`, payload);
-      },
-    }),
-    async initTableView() {
-      await this.setId(this.$route.params.id);
-      if (this.setParentId) this.setParentId(this.parentId);
-      this.loadList();
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
+	name: "LicenseUsersPopup",
+	components: { UserLogoutControl },
+	mixins: [resetOnDestroyMixin, openedObjectTableTabMixin],
+	data: () => ({
+		subNamespace: "licenseUsers",
+	}),
+	computed: {
+		...mapState({
+			license(state) {
+				return (
+					getNamespacedState(state, this.namespace).dataList.find(
+						({ id }) => id === this.parentId,
+					) || {}
+				);
+			},
+		}),
+	},
+	methods: {
+		...mapActions({
+			setId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+			},
+			logoutUser(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/${this.subNamespace}/LOGOUT_USER`,
+					payload,
+				);
+			},
+			resetState(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/${this.subNamespace}/RESET_STATE`,
+					payload,
+				);
+			},
+		}),
+		async initTableView() {
+			await this.setId(this.$route.params.id);
+			if (this.setParentId) this.setParentId(this.parentId);
+			this.loadList();
+		},
+		close() {
+			this.$emit("close");
+		},
+	},
 };
 </script>
 

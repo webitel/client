@@ -17,26 +17,30 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { mapActions } from "vuex";
+import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
 
 export default {
-  name: 'OpenedStorageGeneral',
-  mixins: [openedTabComponentMixin],
+	name: "OpenedStorageGeneral",
+	mixins: [openedTabComponentMixin],
 
-  computed: {
-    token: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.token; },
-      set(value) { this.setItemProp({ prop: 'token', value }); },
-    },
-  },
+	computed: {
+		token: {
+			get() {
+				return this.$store.state.integrations.storage.itemInstance.properties
+					.token;
+			},
+			set(value) {
+				this.setItemProp({ prop: "token", value });
+			},
+		},
+	},
 
-  methods: {
-    ...mapActions('integrations/storage', {
-      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
-    }),
-  },
+	methods: {
+		...mapActions("integrations/storage", {
+			setItemProp: "SET_ITEM_PROPERTIES_PROPERTY",
+		}),
+	},
 };
 </script>
 

@@ -1,35 +1,30 @@
 import applyTransform, {
-  mergeEach, notify,
-  snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers';
-import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
+	mergeEach,
+	notify,
+	snakeToCamel,
+} from "@webitel/ui-sdk/src/api/transformers";
+import chatInstance, { chatBaseUrl } from "../../../../api/chatInstance";
 
 const defaultListObject = {
-  accounts: [],
+	accounts: [],
 };
 
 const getList = async ({ uri }) => {
-  const url = `${uri}?instagram=`;
-  try {
-    const response = await chatInstance.get(url);
-    const { data } = applyTransform(response, [
-      snakeToCamel(),
-    ]);
-    return applyTransform(data, [
-      mergeEach(defaultListObject),
-    ]);
-  } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
-  }
+	const url = `${uri}?instagram=`;
+	try {
+		const response = await chatInstance.get(url);
+		const { data } = applyTransform(response, [snakeToCamel()]);
+		return applyTransform(data, [mergeEach(defaultListObject)]);
+	} catch (err) {
+		throw applyTransform(err, [notify]);
+	}
 };
 
 const addOrRemovePagesUrl = (uri) => `${chatBaseUrl}/${uri}/?instagram=setup`;
 
 const InstagramAPI = {
-  getList,
-  addOrRemovePagesUrl,
+	getList,
+	addOrRemovePagesUrl,
 };
 
 export default InstagramAPI;

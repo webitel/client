@@ -127,30 +127,29 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import MediaAPI from '../../../../../../lookups/modules/media/api/media';
-import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
+import { mapActions } from "vuex";
+import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import MediaAPI from "../../../../../../lookups/modules/media/api/media";
+import AmdAiLabels from "../../../enums/AmdAiLabels.enum";
 
 export default {
-  name: 'OpenedQueueAmd',
-  mixins: [openedTabComponentMixin],
-  data() {
-    return {
-      AmdAiLabels: [...AmdAiLabels],
-    };
-  },
-  methods: {
-    ...mapActions({
-      setAmdItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_AMD_ITEM_PROPERTY`, payload);
-      },
-    }),
-    loadDropdownOptionsMediaList(params) {
-      return MediaAPI.getLookup(params);
-    },
-  },
+	name: "OpenedQueueAmd",
+	mixins: [openedTabComponentMixin],
+	data() {
+		return {
+			AmdAiLabels: [...AmdAiLabels],
+		};
+	},
+	methods: {
+		...mapActions({
+			setAmdItemProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_AMD_ITEM_PROPERTY`, payload);
+			},
+		}),
+		loadDropdownOptionsMediaList(params) {
+			return MediaAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

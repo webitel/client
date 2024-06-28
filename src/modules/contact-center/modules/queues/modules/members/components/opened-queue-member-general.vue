@@ -55,32 +55,31 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
-import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
-import AgentsAPI from '../../../../agents/api/agents';
+import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import BucketsAPI from "../../../../../../lookups/modules/buckets/api/buckets";
+import CalendarsAPI from "../../../../../../lookups/modules/calendars/api/calendars";
+import AgentsAPI from "../../../../agents/api/agents";
 
 export default {
-  name: 'OpenedQueueMemberGeneral',
-  mixins: [openedTabComponentMixin],
-  computed: {
-    disableUserInput() {
-      return !this.hasEditAccess;
-    },
-  },
+	name: "OpenedQueueMemberGeneral",
+	mixins: [openedTabComponentMixin],
+	computed: {
+		disableUserInput() {
+			return !this.hasEditAccess;
+		},
+	},
 
-  methods: {
-    loadDropdownOptionsBucketsList(params) {
-      return BucketsAPI.getLookup(params);
-    },
-    loadDropdownOptionsTimezoneList(params) {
-      return CalendarsAPI.getTimezonesLookup(params);
-    },
-    loadDropdownOptionsAgentsList(params) {
-      return AgentsAPI.getLookup(params);
-    },
-  },
+	methods: {
+		loadDropdownOptionsBucketsList(params) {
+			return BucketsAPI.getLookup(params);
+		},
+		loadDropdownOptionsTimezoneList(params) {
+			return CalendarsAPI.getTimezonesLookup(params);
+		},
+		loadDropdownOptionsAgentsList(params) {
+			return AgentsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

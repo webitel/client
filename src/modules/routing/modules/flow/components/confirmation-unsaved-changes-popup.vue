@@ -35,28 +35,27 @@
   </wt-popup>
 </template>
 <script>
-
 export default {
-  name: 'confirmation-unsaved-changes-popup',
-  props: {
-    name: {
-      type: String,
-      default: '',
-    },
-  },
-  methods: {
-    closePopup() {
-      this.$emit('closePopup');
-    },
-    closePage() {
-      this.closePopup();
-      this.$emit('closePage');
-    },
-    save() {
-      this.$emit('save');
-      this.closePage();
-    },
-  },
+	name: "confirmation-unsaved-changes-popup",
+	props: {
+		name: {
+			type: String,
+			default: "",
+		},
+	},
+	methods: {
+		closePopup() {
+			this.$emit("closePopup");
+		},
+		closePage() {
+			this.closePopup();
+			this.$emit("closePage");
+		},
+		save() {
+			this.$emit("save");
+			this.closePage();
+		},
+	},
 };
 </script>
 

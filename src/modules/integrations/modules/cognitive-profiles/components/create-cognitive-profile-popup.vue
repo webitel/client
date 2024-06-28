@@ -13,52 +13,52 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { StorageProviderType } from 'webitel-sdk';
-import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { StorageProviderType } from "webitel-sdk";
+import SelectionPopup from "../../../../../app/components/utils/selection-popup/selection-popup.vue";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(["close"]);
 
 const router = useRouter();
 
 const selected = ref({});
 
 const options = computed(() => {
-  const microsoft = {
-    value: StorageProviderType.Microsoft,
-    title: StorageProviderType.Microsoft,
-    icon: 'microsoft',
-  };
-  const google = {
-    value: StorageProviderType.Google,
-    title: StorageProviderType.Google,
-    icon: 'google',
-  };
-  const elevenLabs = {
-    value: StorageProviderType.ElevenLabs,
-    title: StorageProviderType.ElevenLabs,
-    icon: 'elevenlabs',
-  };
-  return [microsoft, google, elevenLabs];
+	const microsoft = {
+		value: StorageProviderType.Microsoft,
+		title: StorageProviderType.Microsoft,
+		icon: "microsoft",
+	};
+	const google = {
+		value: StorageProviderType.Google,
+		title: StorageProviderType.Google,
+		icon: "google",
+	};
+	const elevenLabs = {
+		value: StorageProviderType.ElevenLabs,
+		title: StorageProviderType.ElevenLabs,
+		icon: "elevenlabs",
+	};
+	return [microsoft, google, elevenLabs];
 });
 
 function selectOption(option) {
-  selected.value = option;
+	selected.value = option;
 }
 
 selectOption(options.value[0]);
 
 function create() {
-  router.push({
-    name: `${RouteNames.COGNITIVE_PROFILES}-new`,
-    query: { type: selected.value.value },
-  });
+	router.push({
+		name: `${RouteNames.COGNITIVE_PROFILES}-new`,
+		query: { type: selected.value.value },
+	});
 }
 
 function close() {
-  emit('close');
+	emit("close");
 }
 </script>
 

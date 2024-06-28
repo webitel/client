@@ -120,57 +120,59 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
-import SkillPopup from './opened-queue-skills-popup.vue';
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import SkillBucketsPopup from "./opened-queue-skills-buckets-popup.vue";
+import SkillPopup from "./opened-queue-skills-popup.vue";
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'skills';
+const namespace = "ccenter/queues";
+const subNamespace = "skills";
 
 export default {
-  name: 'OpenedQueueSkills',
-  components: { SkillPopup, SkillBucketsPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isSkillBucketsPopup: null,
-    isSkillPopup: false,
-    agentId: 0,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    getFirstBucket(buckets) {
-      if (buckets.length > 0) {
-        return buckets[0].name;
-      }
-      return '';
-    },
+	name: "OpenedQueueSkills",
+	components: { SkillPopup, SkillBucketsPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isSkillBucketsPopup: null,
+		isSkillPopup: false,
+		agentId: 0,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		getFirstBucket(buckets) {
+			if (buckets.length > 0) {
+				return buckets[0].name;
+			}
+			return "";
+		},
 
-    readBuckets(item) {
-      this.agentId = item.id;
-      this.isSkillBucketsPopup = true;
-    },
+		readBuckets(item) {
+			this.agentId = item.id;
+			this.isSkillBucketsPopup = true;
+		},
 
-    openPopup() {
-      this.isSkillPopup = true;
-    },
+		openPopup() {
+			this.isSkillPopup = true;
+		},
 
-    closePopup() {
-      this.isSkillPopup = false;
-    },
+		closePopup() {
+			this.isSkillPopup = false;
+		},
 
-    closeBucketsPopup() {
-      this.isSkillBucketsPopup = false;
-      this.resetItemState();
-    },
-  },
+		closeBucketsPopup() {
+			this.isSkillBucketsPopup = false;
+			this.resetItemState();
+		},
+	},
 };
 </script>
 

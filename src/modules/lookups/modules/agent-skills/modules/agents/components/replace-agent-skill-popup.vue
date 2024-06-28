@@ -42,60 +42,59 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import openedObjectValidationMixin
-  from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-import SkillsAPI from '../../../api/agentSkills';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import openedObjectValidationMixin from "../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin";
+import SkillsAPI from "../../../api/agentSkills";
 
 export default {
-  name: 'OpenedSkillAgentChangePopup',
-  mixins: [openedObjectValidationMixin],
-  props: {
-    selectedAgents: {
-      type: Array,
-      required: true,
-    },
-  },
-  emits: ['close', 'change'],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'lookups/skills',
-    subNamespace: 'agents',
-    itemInstance: {
-      skill: {},
-    },
-    skillState: false,
-  }),
-  validations: {
-    itemInstance: {
-      skill: { required },
-    },
-  },
-  computed: {
-    computeDisabled() {
-      return this.checkValidations();
-    },
-  },
-  methods: {
-    loadDropdownOptionsList(params) {
-      return SkillsAPI.getLookup(params);
-    },
-    change() {
-      const id = this.selectedAgents.map((item) => item.id);
-      const changes = {
-        enabled: this.skillState,
-        skill: this.itemInstance.skill,
-      };
-      this.$emit('change', { changes, id });
-      this.close();
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
+	name: "OpenedSkillAgentChangePopup",
+	mixins: [openedObjectValidationMixin],
+	props: {
+		selectedAgents: {
+			type: Array,
+			required: true,
+		},
+	},
+	emits: ["close", "change"],
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "lookups/skills",
+		subNamespace: "agents",
+		itemInstance: {
+			skill: {},
+		},
+		skillState: false,
+	}),
+	validations: {
+		itemInstance: {
+			skill: { required },
+		},
+	},
+	computed: {
+		computeDisabled() {
+			return this.checkValidations();
+		},
+	},
+	methods: {
+		loadDropdownOptionsList(params) {
+			return SkillsAPI.getLookup(params);
+		},
+		change() {
+			const id = this.selectedAgents.map((item) => item.id);
+			const changes = {
+				enabled: this.skillState,
+				skill: this.itemInstance.skill,
+			};
+			this.$emit("change", { changes, id });
+			this.close();
+		},
+		close() {
+			this.$emit("close");
+		},
+	},
 };
 </script>
 

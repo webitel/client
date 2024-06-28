@@ -93,49 +93,49 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { mapActions } from "vuex";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 
-const namespace = 'permissions/objects';
+const namespace = "permissions/objects";
 
 export default {
-  name: 'TheObjectsPermissions',
-  mixins: [tableComponentMixin],
+	name: "TheObjectsPermissions",
+	mixins: [tableComponentMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.OBJECTS,
-  }),
+	setup() {
+		const { dummy } = useDummy({ namespace, hiddenText: true });
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.OBJECTS,
+	}),
 
-  computed: {
-    hasTableActions() {
-      return this.hasEditAccess;
-    },
-    path() {
-      const baseUrl = '/permissions/objects';
-      return [
-        { name: this.$t('objects.permissions.permissions') },
-        { name: this.$t('objects.permissions.object.object'), route: baseUrl },
-      ];
-    },
-  },
+	computed: {
+		hasTableActions() {
+			return this.hasEditAccess;
+		},
+		path() {
+			const baseUrl = "/permissions/objects";
+			return [
+				{ name: this.$t("objects.permissions.permissions") },
+				{ name: this.$t("objects.permissions.object.object"), route: baseUrl },
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      toggleObjectObac(dispatch, payload) {
-        return dispatch(`${this.namespace}/TOGGLE_OBJECT_OBAC`, payload);
-      },
-      toggleObjectRbac(dispatch, payload) {
-        return dispatch(`${this.namespace}/TOGGLE_OBJECT_RBAC`, payload);
-      },
-    }),
-  },
+	methods: {
+		...mapActions({
+			toggleObjectObac(dispatch, payload) {
+				return dispatch(`${this.namespace}/TOGGLE_OBJECT_OBAC`, payload);
+			},
+			toggleObjectRbac(dispatch, payload) {
+				return dispatch(`${this.namespace}/TOGGLE_OBJECT_RBAC`, payload);
+			},
+		}),
+	},
 };
 </script>
 

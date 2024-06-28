@@ -80,113 +80,113 @@
 </template>
 
 <script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import openedObjectTableTabMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import CommunicationPopup from './opened-queue-member-communication-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
+import { mapActions, mapState } from "vuex";
+import openedObjectTableTabMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import CommunicationPopup from "./opened-queue-member-communication-popup.vue";
 
 export default {
-  name: 'OpenedQueueMemberCommunication',
-  components: { CommunicationPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: "OpenedQueueMemberCommunication",
+	components: { CommunicationPopup, DeleteConfirmationPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    dataListValue: [],
-    searchValue: '',
-    isCommPopup: false,
-    editedIndex: null,
-  }),
-  watch: {
-    commList() {
-      this.loadList();
-    },
-  },
-  computed: {
-    ...mapState({
-      commList(state) {
-        return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
-      },
-    }),
-    // override mixin map state
-    dataList: {
-      get() {
-        return this.dataListValue;
-      },
-      set(value) {
-        this.dataListValue = value;
-      },
-    },
-    // override mixin map state
-    search: {
-      get() {
-        return this.searchValue;
-      },
-      set(value) {
-        this.searchValue = value;
-      },
-    },
-    disableUserInput() {
-      return !this.hasEditAccess;
-    },
-    headers() {
-      return [
-        { value: 'destination', text: this.$t('objects.name') },
-        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
-      ];
-    },
-  },
-  methods: {
-    ...mapActions({
-      dispatchDelete(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_MEMBER_COMMUNICATION`, payload);
-      },
-    }),
-    loadList() {
-      this.dataList = this.commList
-      .filter((comm) => comm.destination.includes(this.search))
-      .map((comm) => ({ ...comm, _isSelected: false }));
-    },
-    create() {
-      this.openPopup();
-    },
-    edit(index) {
-      this.editedIndex = index;
-      this.openPopup();
-    },
-    openPopup() {
-      this.isCommPopup = true;
-    },
-    closePopup() {
-      this.isCommPopup = false;
-      this.editedIndex = null;
-    },
-    setParentId() {
-    },
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		dataListValue: [],
+		searchValue: "",
+		isCommPopup: false,
+		editedIndex: null,
+	}),
+	watch: {
+		commList() {
+			this.loadList();
+		},
+	},
+	computed: {
+		...mapState({
+			commList(state) {
+				return getNamespacedState(state, `${this.namespace}`).itemInstance
+					.communications;
+			},
+		}),
+		// override mixin map state
+		dataList: {
+			get() {
+				return this.dataListValue;
+			},
+			set(value) {
+				this.dataListValue = value;
+			},
+		},
+		// override mixin map state
+		search: {
+			get() {
+				return this.searchValue;
+			},
+			set(value) {
+				this.searchValue = value;
+			},
+		},
+		disableUserInput() {
+			return !this.hasEditAccess;
+		},
+		headers() {
+			return [
+				{ value: "destination", text: this.$t("objects.name") },
+				{ value: "type", text: this.$t("objects.ccenter.queues.type") },
+				{ value: "priority", text: this.$t("objects.ccenter.queues.priority") },
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			dispatchDelete(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/DELETE_MEMBER_COMMUNICATION`,
+					payload,
+				);
+			},
+		}),
+		loadList() {
+			this.dataList = this.commList
+				.filter((comm) => comm.destination.includes(this.search))
+				.map((comm) => ({ ...comm, _isSelected: false }));
+		},
+		create() {
+			this.openPopup();
+		},
+		edit(index) {
+			this.editedIndex = index;
+			this.openPopup();
+		},
+		openPopup() {
+			this.isCommPopup = true;
+		},
+		closePopup() {
+			this.isCommPopup = false;
+			this.editedIndex = null;
+		},
+		setParentId() {},
+	},
 };
 </script>
 

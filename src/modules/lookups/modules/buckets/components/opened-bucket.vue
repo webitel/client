@@ -35,51 +35,54 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import General from './opened-bucket-general.vue';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import General from "./opened-bucket-general.vue";
 
 export default {
-  name: 'OpenedBucket',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: "OpenedBucket",
+	components: { General },
+	mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'lookups/buckets',
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-    },
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "lookups/buckets",
+	}),
+	validations: {
+		itemInstance: {
+			name: { required },
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        },
-      ];
-      return tabs;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t("objects.general"),
+					value: "general",
+				},
+			];
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/buckets';
-      return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.buckets.buckets', 2), route: baseUrl },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = "/lookups/buckets";
+			return [
+				{ name: this.$t("objects.lookups.lookups") },
+				{
+					name: this.$tc("objects.lookups.buckets.buckets", 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t("objects.new"),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
 };
 </script>
 

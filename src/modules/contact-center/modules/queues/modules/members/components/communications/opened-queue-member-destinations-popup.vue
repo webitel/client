@@ -41,34 +41,36 @@
 </template>
 
 <script>
-import tableComponentMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin from "../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
 
 export default {
-  name: 'OpenedQueueMemberDestinationsPopup',
-  mixins: [tableComponentMixin],
-  props: {
-    communications: {
-      type: Array,
-      required: true,
-    },
-  },
+	name: "OpenedQueueMemberDestinationsPopup",
+	mixins: [tableComponentMixin],
+	props: {
+		communications: {
+			type: Array,
+			required: true,
+		},
+	},
 
-  data() {
-    return {
-      headers: [
-        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
-        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
-      ],
-    };
-  },
+	data() {
+		return {
+			headers: [
+				{
+					value: "destination",
+					text: this.$tc("objects.ccenter.queues.destination", 1),
+				},
+				{ value: "type", text: this.$t("objects.ccenter.queues.type") },
+				{ value: "priority", text: this.$t("objects.ccenter.queues.priority") },
+			],
+		};
+	},
 
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-  },
+	methods: {
+		close() {
+			this.$emit("close");
+		},
+	},
 };
 </script>
 

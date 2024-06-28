@@ -26,22 +26,22 @@
 
 <script>
 export default {
-  name: 'StartCategoryLvl1',
-  props: {
-    categories: {
-      type: Array,
-      default: () => [],
-    },
-    selected: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  methods: {
-    select(category) {
-      this.$emit('select', category);
-    },
-  },
+	name: "StartCategoryLvl1",
+	props: {
+		categories: {
+			type: Array,
+			default: () => [],
+		},
+		selected: {
+			type: Object,
+			default: () => ({}),
+		},
+	},
+	methods: {
+		select(category) {
+			this.$emit("select", category);
+		},
+	},
 };
 </script>
 

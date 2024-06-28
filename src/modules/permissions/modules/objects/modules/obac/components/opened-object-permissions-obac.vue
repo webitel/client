@@ -124,34 +124,36 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import permissionsTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
-import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
-import RolePopup from '../../../../../../_shared/permissions-tab/components/permissions-tab-role-popup.vue';
+import { mapState } from "vuex";
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import permissionsTabMixin from "../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin";
+import RoleColumn from "../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue";
+import RolePopup from "../../../../../../_shared/permissions-tab/components/permissions-tab-role-popup.vue";
 
-const namespace = 'permissions/objects';
-const subNamespace = 'obac';
+const namespace = "permissions/objects";
+const subNamespace = "obac";
 
 export default {
-  name: 'OpenedObjectPermissionsObac',
-  components: { RolePopup, RoleColumn },
-  mixins: [permissionsTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    headerTitle: '',
-  }),
-  computed: {
-    ...mapState('permissions/objects', {
-      id: (state) => state.itemId,
-    }),
-  },
+	name: "OpenedObjectPermissionsObac",
+	components: { RolePopup, RoleColumn },
+	mixins: [permissionsTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		headerTitle: "",
+	}),
+	computed: {
+		...mapState("permissions/objects", {
+			id: (state) => state.itemId,
+		}),
+	},
 };
 </script>
 

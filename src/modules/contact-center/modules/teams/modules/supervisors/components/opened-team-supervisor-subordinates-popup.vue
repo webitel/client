@@ -24,47 +24,50 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import TeamsAPI from '../api/teamSupervisors';
+import { mapState } from "vuex";
+import TeamsAPI from "../api/teamSupervisors";
 
 export default {
-  name: 'OpenedTeamSupervisorSubordinatesPopup',
-  props: {
-    itemId: {
-      required: true,
-    },
-  },
-  data: () => ({
-    dataList: [],
-  }),
-  created() {
-    this.loadDataList();
-  },
-  computed: {
-    ...mapState('ccenter/teams/supervisors', {
-      parentId: (state) => state.parentId,
-    }),
-    headers() {
-      return [
-        { value: 'subordinate', text: this.$tc('objects.ccenter.agents.subordinates', 1) },
-      ];
-    },
-  },
-  methods: {
-    async loadDataList() {
-      const params = {
-        page: 1,
-        size: 100,
-        supervisorId: this.itemId,
-        teamId: this.parentId,
-      };
-      const response = await TeamsAPI.getTeamSupervisorSubordinatesList(params);
-      this.dataList = response.items;
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
+	name: "OpenedTeamSupervisorSubordinatesPopup",
+	props: {
+		itemId: {
+			required: true,
+		},
+	},
+	data: () => ({
+		dataList: [],
+	}),
+	created() {
+		this.loadDataList();
+	},
+	computed: {
+		...mapState("ccenter/teams/supervisors", {
+			parentId: (state) => state.parentId,
+		}),
+		headers() {
+			return [
+				{
+					value: "subordinate",
+					text: this.$tc("objects.ccenter.agents.subordinates", 1),
+				},
+			];
+		},
+	},
+	methods: {
+		async loadDataList() {
+			const params = {
+				page: 1,
+				size: 100,
+				supervisorId: this.itemId,
+				teamId: this.parentId,
+			};
+			const response = await TeamsAPI.getTeamSupervisorSubordinatesList(params);
+			this.dataList = response.items;
+		},
+		close() {
+			this.$emit("close");
+		},
+	},
 };
 </script>
 

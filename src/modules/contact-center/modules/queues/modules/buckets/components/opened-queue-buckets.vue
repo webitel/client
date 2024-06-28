@@ -96,36 +96,38 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import BucketPopup from './opened-queue-buckets-popup.vue';
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import BucketPopup from "./opened-queue-buckets-popup.vue";
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'buckets';
+const namespace = "ccenter/queues";
+const subNamespace = "buckets";
 
 export default {
-  name: 'OpenedQueueOutboundIvrBuckets',
-  components: { BucketPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isBucketPopup: null,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    openPopup() {
-      this.isBucketPopup = true;
-    },
-    closePopup() {
-      this.isBucketPopup = false;
-    },
-  },
+	name: "OpenedQueueOutboundIvrBuckets",
+	components: { BucketPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isBucketPopup: null,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		openPopup() {
+			this.isBucketPopup = true;
+		},
+		closePopup() {
+			this.isBucketPopup = false;
+		},
+	},
 };
 </script>
 

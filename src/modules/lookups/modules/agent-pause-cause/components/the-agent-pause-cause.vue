@@ -131,71 +131,76 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { mapActions } from "vuex";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 
-const namespace = 'lookups/pauseCause';
+const namespace = "lookups/pauseCause";
 
 export default {
-  name: 'TheAgentPauseCause',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: "TheAgentPauseCause",
+	components: { DeleteConfirmationPopup },
+	mixins: [tableComponentMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({ namespace, showAction: true });
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.PAUSE_CAUSE,
-  }),
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$t('objects.lookups.pauseCause.pauseCause'), route: '/lookups/pause-cause' },
-      ];
-    },
-  },
-  methods: {
-    ...mapActions({
-      changeAdminPermissions(dispatch, payload) {
-        return dispatch(`${this.namespace}/CHANGE_ADMIN_PERMISSIONS`, payload);
-      },
-      changeSupervisorPermissions(dispatch, payload) {
-        return dispatch(`${this.namespace}/CHANGE_SUPERVISOR_PERMISSIONS`, payload);
-      },
-      changeAgentPermissions(dispatch, payload) {
-        return dispatch(`${this.namespace}/CHANGE_AGENT_PERMISSIONS`, payload);
-      },
-    }),
-    prettifyPauseCauseLimit(limit) {
-      return `${limit} ${this.$t('objects.lookups.pauseCause.min')}`;
-    },
-  },
+	data: () => ({
+		namespace,
+		routeName: RouteNames.PAUSE_CAUSE,
+	}),
+	computed: {
+		path() {
+			return [
+				{ name: this.$t("objects.lookups.lookups") },
+				{
+					name: this.$t("objects.lookups.pauseCause.pauseCause"),
+					route: "/lookups/pause-cause",
+				},
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			changeAdminPermissions(dispatch, payload) {
+				return dispatch(`${this.namespace}/CHANGE_ADMIN_PERMISSIONS`, payload);
+			},
+			changeSupervisorPermissions(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/CHANGE_SUPERVISOR_PERMISSIONS`,
+					payload,
+				);
+			},
+			changeAgentPermissions(dispatch, payload) {
+				return dispatch(`${this.namespace}/CHANGE_AGENT_PERMISSIONS`, payload);
+			},
+		}),
+		prettifyPauseCauseLimit(limit) {
+			return `${limit} ${this.$t("objects.lookups.pauseCause.min")}`;
+		},
+	},
 };
 </script>
 

@@ -55,46 +55,45 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import GenerateValueInput from '../../../../../../app/components/utils/generate-value-input.vue';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../flow/api/flow';
-import uriCopyMixin from '../../mixins/uriCopyMixin';
+import { mapActions } from "vuex";
+import GenerateValueInput from "../../../../../../app/components/utils/generate-value-input.vue";
+import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import FlowsAPI from "../../../flow/api/flow";
+import uriCopyMixin from "../../mixins/uriCopyMixin";
 
 export default {
-  name: 'OpenedChatGatewayCustomChatGeneralTab',
-  components: { GenerateValueInput },
-  mixins: [openedTabComponentMixin, uriCopyMixin],
-  computed: {
-    isUriEditable() {
-      return !this.disableUserInput && !this.$route.params.id;
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
-      },
-    }),
+	name: "OpenedChatGatewayCustomChatGeneralTab",
+	components: { GenerateValueInput },
+	mixins: [openedTabComponentMixin, uriCopyMixin],
+	computed: {
+		isUriEditable() {
+			return !this.disableUserInput && !this.$route.params.id;
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+			},
+		}),
 
-    setFlow(value) {
-      if (!this.itemInstance.name) {
-        this.setItemProp({
-          prop: 'name',
-          value: value.name,
-        });
-      }
-      this.setItemProp({
-        prop: 'flow',
-        value,
-      });
-    },
+		setFlow(value) {
+			if (!this.itemInstance.name) {
+				this.setItemProp({
+					prop: "name",
+					value: value.name,
+				});
+			}
+			this.setItemProp({
+				prop: "flow",
+				value,
+			});
+		},
 
-    loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+		loadDropdownOptionsList(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

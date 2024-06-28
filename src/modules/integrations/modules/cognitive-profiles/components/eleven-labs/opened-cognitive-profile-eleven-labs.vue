@@ -56,16 +56,15 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
+import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import CognitiveProfileServices from "../../lookups/CognitiveProfileServices.lookup";
 
 export default {
-  name: 'OpenedCognitiveProfileElevenLabs',
-  mixins: [openedTabComponentMixin],
-  data: () => ({
-    CognitiveProfileServices,
-  }),
+	name: "OpenedCognitiveProfileElevenLabs",
+	mixins: [openedTabComponentMixin],
+	data: () => ({
+		CognitiveProfileServices,
+	}),
 };
 </script>
 

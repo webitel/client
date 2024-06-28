@@ -1,5 +1,5 @@
 export default Object.freeze({
-  FORBIDDEN: 1,
-  ALLOW: 2,
-  MANAGE: 3,
+	FORBIDDEN: 1,
+	ALLOW: 2,
+	MANAGE: 3,
 });

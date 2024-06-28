@@ -1,7 +1,5 @@
-import DeleteAllAction from './delete-all-action.vue';
+import DeleteAllAction from "./delete-all-action.vue";
 
-const actions = [
-  DeleteAllAction,
-];
+const actions = [DeleteAllAction];
 
 export default actions;

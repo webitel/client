@@ -54,21 +54,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import Qrcode from './_internals/qrcode-two-factor-auth.vue';
+import { mapGetters } from "vuex";
+import PasswordInput from "../../../../../app/components/utils/generate-password-input.vue";
+import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import Qrcode from "./_internals/qrcode-two-factor-auth.vue";
 
 export default {
-  name: 'OpenedUserGeneral',
-  components: { PasswordInput, Qrcode },
-  mixins: [openedTabComponentMixin],
-  computed: {
-    ...mapGetters('directory/users', {
-      isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
-    }),
-  },
+	name: "OpenedUserGeneral",
+	components: { PasswordInput, Qrcode },
+	mixins: [openedTabComponentMixin],
+	computed: {
+		...mapGetters("directory/users", {
+			isDisplayQRCode: "IS_DISPLAY_QR_CODE",
+		}),
+	},
 };
 </script>
 

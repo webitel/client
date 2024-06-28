@@ -98,42 +98,47 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import SkillPopup from './opened-agent-skills-popup.vue';
+import { mapActions } from "vuex";
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import SkillPopup from "./opened-agent-skills-popup.vue";
 
-const namespace = 'ccenter/agents';
-const subNamespace = 'skills';
+const namespace = "ccenter/agents";
+const subNamespace = "skills";
 
 export default {
-  name: 'OpenedAgentSkills',
-  components: { SkillPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isSkillPopup: false,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    ...mapActions({
-      patchItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
-      },
-    }),
-    openPopup() {
-      this.isSkillPopup = true;
-    },
-    closePopup() {
-      this.isSkillPopup = false;
-    },
-  },
+	name: "OpenedAgentSkills",
+	components: { SkillPopup },
+	mixins: [openedObjectTableTabMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isSkillPopup: false,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		...mapActions({
+			patchItem(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`,
+					payload,
+				);
+			},
+		}),
+		openPopup() {
+			this.isSkillPopup = true;
+		},
+		closePopup() {
+			this.isSkillPopup = false;
+		},
+	},
 };
 </script>
 

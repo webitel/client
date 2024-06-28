@@ -20,43 +20,43 @@
 </template>
 
 <script>
-import navMixin from '../../../app/mixins/navMixin';
-import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
-import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
+import navMixin from "../../../app/mixins/navMixin";
+import CategoryLvl1 from "./_internals/start-category-lvl-1.vue";
+import CategoryLvl2 from "./_internals/start-category-lvl-2.vue";
 
 export default {
-  name: 'TheStartPage',
-  components: { CategoryLvl1, CategoryLvl2 },
-  mixins: [navMixin],
-  data: () => ({
-    selected: {},
-  }),
+	name: "TheStartPage",
+	components: { CategoryLvl1, CategoryLvl2 },
+	mixins: [navMixin],
+	data: () => ({
+		selected: {},
+	}),
 
-  computed: {
-    categories() {
-      return this.nav;
-    },
-    subcategories() {
-      if (!this.selected.subNav) return [];
-      return this.selected.subNav.map((subNav) => {
-        const route = `${this.selected.route}/${subNav.route}`;
-        return { ...subNav, route };
-      });
-    },
-  },
+	computed: {
+		categories() {
+			return this.nav;
+		},
+		subcategories() {
+			if (!this.selected.subNav) return [];
+			return this.selected.subNav.map((subNav) => {
+				const route = `${this.selected.route}/${subNav.route}`;
+				return { ...subNav, route };
+			});
+		},
+	},
 
-  mounted() {
-    this.initSelected();
-  },
+	mounted() {
+		this.initSelected();
+	},
 
-  methods: {
-    initSelected() {
-      this.select(this.categories[0]);
-    },
-    select(category) {
-      this.selected = category;
-    },
-  },
+	methods: {
+		initSelected() {
+			this.select(this.categories[0]);
+		},
+		select(category) {
+			this.selected = category;
+		},
+	},
 };
 </script>
 

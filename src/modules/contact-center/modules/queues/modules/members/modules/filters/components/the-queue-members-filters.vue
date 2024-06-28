@@ -27,47 +27,47 @@
 </template>
 
 <script>
-import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
-import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
-import FilterDatetime from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-datetime.vue';
-import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-from-to.vue';
-import { mapActions } from 'vuex';
+import AbstractApiFilter from "@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue";
+import AbstractEnumFilter from "@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue";
+import FilterDatetime from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-datetime.vue";
+import FilterFromTo from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-from-to.vue";
+import { mapActions } from "vuex";
 
 export default {
-  name: 'TheQueueMembersFilters',
-  components: {
-    FilterDatetime,
-    FilterFromTo,
-    AbstractApiFilter,
-    AbstractEnumFilter,
-  },
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    filters: [
-      { type: 'enum', filterQuery: 'cause' },
-      { type: 'api', filterQuery: 'bucket' },
-      { type: 'api', filterQuery: 'agent' },
-    ],
-  }),
-  methods: {
-    ...mapActions({
-      resetFilterValues(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
-      },
-    }),
-    resetFilters() {
-      this.$router.push({ query: null });
-      this.resetFilterValues();
-    },
-  },
-  unmounted() {
-    this.resetFilters();
-  },
+	name: "TheQueueMembersFilters",
+	components: {
+		FilterDatetime,
+		FilterFromTo,
+		AbstractApiFilter,
+		AbstractEnumFilter,
+	},
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({
+		filters: [
+			{ type: "enum", filterQuery: "cause" },
+			{ type: "api", filterQuery: "bucket" },
+			{ type: "api", filterQuery: "agent" },
+		],
+	}),
+	methods: {
+		...mapActions({
+			resetFilterValues(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+			},
+		}),
+		resetFilters() {
+			this.$router.push({ query: null });
+			this.resetFilterValues();
+		},
+	},
+	unmounted() {
+		this.resetFilters();
+	},
 };
 </script>
 

@@ -118,80 +118,81 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
-import SupervisorPopup from './opened-team-supervisors-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
+import SupervisorSubordinatesPopup from "./opened-team-supervisor-subordinates-popup.vue";
+import SupervisorPopup from "./opened-team-supervisors-popup.vue";
 
-const namespace = 'ccenter/teams';
-const subNamespace = 'supervisors';
+const namespace = "ccenter/teams";
+const subNamespace = "supervisors";
 
 export default {
-  name: 'OpenedTeamSupervisors',
-  components: {
-    SupervisorPopup,
-    SupervisorSubordinatesPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin],
+	name: "OpenedTeamSupervisors",
+	components: {
+		SupervisorPopup,
+		SupervisorSubordinatesPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [openedObjectTableTabMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    supervisorId: null,
-    isSupervisorPopup: false,
-    isSupervisorSubordinatesPopup: false,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+		supervisorId: null,
+		isSupervisorPopup: false,
+		isSupervisorSubordinatesPopup: false,
+	}),
 
-  methods: {
-    openSubordinates({ id }) {
-      this.supervisorId = id;
-      this.openSubordinatesPopup();
-    },
-    closeSubordinates() {
-      this.supervisorId = null;
-      this.closeSubordinatesPopup();
-    },
-    openPopup() {
-      this.isSupervisorPopup = true;
-    },
-    closePopup() {
-      this.isSupervisorPopup = false;
-    },
-    openSubordinatesPopup() {
-      this.isSupervisorSubordinatesPopup = true;
-    },
-    closeSubordinatesPopup() {
-      this.isSupervisorSubordinatesPopup = false;
-    },
-  },
+	methods: {
+		openSubordinates({ id }) {
+			this.supervisorId = id;
+			this.openSubordinatesPopup();
+		},
+		closeSubordinates() {
+			this.supervisorId = null;
+			this.closeSubordinatesPopup();
+		},
+		openPopup() {
+			this.isSupervisorPopup = true;
+		},
+		closePopup() {
+			this.isSupervisorPopup = false;
+		},
+		openSubordinatesPopup() {
+			this.isSupervisorSubordinatesPopup = true;
+		},
+		closeSubordinatesPopup() {
+			this.isSupervisorSubordinatesPopup = false;
+		},
+	},
 };
 </script>
 

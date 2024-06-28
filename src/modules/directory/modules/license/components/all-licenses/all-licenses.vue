@@ -118,57 +118,60 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
-import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
-import LicensePopup from './license-popup.vue';
+import { useDummy } from "../../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../../app/router/_internals/RouteNames.enum";
+import LicenseUsersPopup from "../../modules/license-users/components/license-users-popup.vue";
+import LicensePopup from "./license-popup.vue";
 
-const namespace = 'directory/license';
+const namespace = "directory/license";
 
 export default {
-  name: 'AllLicenses',
-  components: { LicensePopup, LicenseUsersPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    isLicensePopup: false,
-    routeName: RouteNames.LICENSE,
-  }),
-  computed: {
-    isLicenseUsersPopup() {
-      return !!this.$route.params.id;
-    },
-  },
-  methods: {
-    closeLicenseUsersPopup() {
-      this.$router.push({ name: this.routeName }); // remove license id
-    },
+	name: "AllLicenses",
+	components: { LicensePopup, LicenseUsersPopup },
+	mixins: [tableComponentMixin],
+	setup() {
+		const { dummy } = useDummy({ namespace });
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		isLicensePopup: false,
+		routeName: RouteNames.LICENSE,
+	}),
+	computed: {
+		isLicenseUsersPopup() {
+			return !!this.$route.params.id;
+		},
+	},
+	methods: {
+		closeLicenseUsersPopup() {
+			this.$router.push({ name: this.routeName }); // remove license id
+		},
 
-    prettifyDate(date) {
-      return new Date(+date).toLocaleDateString();
-    },
+		prettifyDate(date) {
+			return new Date(+date).toLocaleDateString();
+		},
 
-    statusText(endDate) {
-      const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) return this.$t('objects.directory.license.daysToExpire.0');
-      if (daysLeft < 30) return this.$t('objects.directory.license.daysToExpire.30');
-      if (daysLeft < 90) return this.$t('objects.directory.license.daysToExpire.90');
-      return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
-    },
+		statusText(endDate) {
+			const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+			if (daysLeft <= 0)
+				return this.$t("objects.directory.license.daysToExpire.0");
+			if (daysLeft < 30)
+				return this.$t("objects.directory.license.daysToExpire.30");
+			if (daysLeft < 90)
+				return this.$t("objects.directory.license.daysToExpire.90");
+			return daysLeft + this.$t("objects.directory.license.daysToExpire.days");
+		},
 
-    statusColor(endDate) {
-      const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) return 'error';
-      if (daysLeft < 30) return 'warning';
-      if (daysLeft < 90) return 'success';
-      return 'success';
-    },
-  },
+		statusColor(endDate) {
+			const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+			if (daysLeft <= 0) return "error";
+			if (daysLeft < 30) return "warning";
+			if (daysLeft < 90) return "success";
+			return "success";
+		},
+	},
 };
 </script>
 

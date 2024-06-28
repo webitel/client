@@ -117,44 +117,46 @@
 </template>
 
 <script>
-import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import SubordinatePopup from './opened-agent-subordinates-popup.vue';
+import ObjectListPopup from "../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue";
+import { useDummy } from "../../../../../../../app/composables/useDummy";
+import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
+import agentSupervisorsAndSkillsPopupMixin from "../../../../../mixins/agentSupervisorsAndSkillsPopupMixin";
+import SubordinatePopup from "./opened-agent-subordinates-popup.vue";
 
-const namespace = 'ccenter/agents';
-const subNamespace = 'subordinates';
+const namespace = "ccenter/agents";
+const subNamespace = "subordinates";
 
 export default {
-  name: 'OpenedAgentSubordinates',
-  components: { SubordinatePopup, ObjectListPopup },
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace, // used in mixin map actions
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    isSubordinatePopup: false,
+	name: "OpenedAgentSubordinates",
+	components: { SubordinatePopup, ObjectListPopup },
+	mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return { dummy };
+	},
+	data: () => ({
+		namespace,
+		subNamespace, // used in mixin map actions
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+		isSubordinatePopup: false,
 
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    openPopup() {
-      return this.openSubordinatePopup();
-    },
-    openSubordinatePopup() {
-      this.isSubordinatePopup = true;
-    },
-    closeSubordinatePopup() {
-      this.isSubordinatePopup = false;
-    },
-  },
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		openPopup() {
+			return this.openSubordinatePopup();
+		},
+		openSubordinatePopup() {
+			this.isSubordinatePopup = true;
+		},
+		closeSubordinatePopup() {
+			this.isSubordinatePopup = false;
+		},
+	},
 };
 </script>
 

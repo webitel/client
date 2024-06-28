@@ -38,32 +38,32 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import AgentsAPI from '../../../../agents/api/agents';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import AgentsAPI from "../../../../agents/api/agents";
 
 export default {
-  name: 'OpenedTeamAgentPopup',
-  mixins: [nestedObjectMixin],
+	name: "OpenedTeamAgentPopup",
+	mixins: [nestedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
 
-  data: () => ({
-    namespace: 'ccenter/teams/agents',
-  }),
-  validations: {
-    itemInstance: {
-      agent: { required },
-    },
-  },
-  methods: {
-    loadAgentsOptions(params) {
-      return AgentsAPI.getLookup(params);
-    },
-  },
+	data: () => ({
+		namespace: "ccenter/teams/agents",
+	}),
+	validations: {
+		itemInstance: {
+			agent: { required },
+		},
+	},
+	methods: {
+		loadAgentsOptions(params) {
+			return AgentsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

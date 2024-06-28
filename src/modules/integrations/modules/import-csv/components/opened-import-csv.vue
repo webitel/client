@@ -36,71 +36,75 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
-import General from './opened-import-csv-general.vue';
-import Settings from './opened-import-csv-settings.vue';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import ImportCsvMemberMappings from "../lookups/ImportCsvMemberMappings.lookup";
+import General from "./opened-import-csv-general.vue";
+import Settings from "./opened-import-csv-settings.vue";
 
 export default {
-  name: 'OpenedImportCsv',
-  components: {
-    General,
-    Settings,
-  },
-  mixins: [openedObjectMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'integrations/importCsv',
-  }),
-  validations() {
-    return {
-      itemInstance: {
-        name: { required },
-        source: { required },
-        parameters: {
-          charset: { required },
-          separator: { required },
-          skipHeaders: { required },
-          mappings: Object.entries(ImportCsvMemberMappings)
-          .reduce((mappings, [name, { required: reqField }]) => (reqField
-            ? { ...mappings, [name]: { required } }
-            : mappings), {}),
-        },
-      },
-    };
-  },
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        },
-        {
-          text: this.$t('objects.integrations.importCsv.settings'),
-          value: 'settings',
-        },
-      ];
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+	name: "OpenedImportCsv",
+	components: {
+		General,
+		Settings,
+	},
+	mixins: [openedObjectMixin],
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "integrations/importCsv",
+	}),
+	validations() {
+		return {
+			itemInstance: {
+				name: { required },
+				source: { required },
+				parameters: {
+					charset: { required },
+					separator: { required },
+					skipHeaders: { required },
+					mappings: Object.entries(ImportCsvMemberMappings).reduce(
+						(mappings, [name, { required: reqField }]) =>
+							reqField ? { ...mappings, [name]: { required } } : mappings,
+						{},
+					),
+				},
+			},
+		};
+	},
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t("objects.general"),
+					value: "general",
+				},
+				{
+					text: this.$t("objects.integrations.importCsv.settings"),
+					value: "settings",
+				},
+			];
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/integrations/import-csv';
-      return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.importCsv.importCsv'), route: baseUrl },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = "/integrations/import-csv";
+			return [
+				{ name: this.$t("objects.integrations.integrations") },
+				{
+					name: this.$tc("objects.integrations.importCsv.importCsv"),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t("objects.new"),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
 };
 </script>
 

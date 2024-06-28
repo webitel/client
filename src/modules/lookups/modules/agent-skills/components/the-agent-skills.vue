@@ -132,64 +132,65 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
-import DeleteConfirmationPopup
-from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import AddSkillToAgentPopup from "../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue";
 
-
-const namespace = 'lookups/skills';
+const namespace = "lookups/skills";
 
 export default {
-  name: 'TheAgentSkills',
-  components: { AddSkillToAgentPopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: "TheAgentSkills",
+	components: { AddSkillToAgentPopup, DeleteConfirmationPopup },
+	mixins: [tableComponentMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({ namespace, showAction: true });
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.SKILLS,
-    isAddSkillToAgentPopup: false,
-  }),
+	data: () => ({
+		namespace,
+		routeName: RouteNames.SKILLS,
+		isAddSkillToAgentPopup: false,
+	}),
 
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
-      ];
-    },
-    selectedRows() {
-      return this.dataList.filter((item) => item._isSelected);
-    },
-    selectedRowsId() {
-      return this.selectedRows.map((item) => item.id);
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{ name: this.$t("objects.lookups.lookups") },
+				{
+					name: this.$tc("objects.lookups.skills.agentSkills", 2),
+					route: "/lookups/skills",
+				},
+			];
+		},
+		selectedRows() {
+			return this.dataList.filter((item) => item._isSelected);
+		},
+		selectedRowsId() {
+			return this.selectedRows.map((item) => item.id);
+		},
+	},
 };
 </script>
 

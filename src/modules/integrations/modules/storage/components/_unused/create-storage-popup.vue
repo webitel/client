@@ -62,36 +62,35 @@
 </template>
 
 <script>
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import RouteNames from "../../../../../../app/router/_internals/RouteNames.enum";
 
 export default {
-  name: 'CreateStoragePopup',
+	name: "CreateStoragePopup",
 
-  data() {
-    return {
-      selectedOption: '',
-    };
-  },
+	data() {
+		return {
+			selectedOption: "",
+		};
+	},
 
-  methods: {
-    selectPopupOption(option) {
-      this.selectedOption = option;
-    },
+	methods: {
+		selectPopupOption(option) {
+			this.selectedOption = option;
+		},
 
-    createItemInstance() {
-      if (this.selectedOption) {
-        this.$router.push({
-          name: `${RouteNames.STORAGE}-new`,
-          params: { type: this.selectedOption },
-        });
-      }
-    },
+		createItemInstance() {
+			if (this.selectedOption) {
+				this.$router.push({
+					name: `${RouteNames.STORAGE}-new`,
+					params: { type: this.selectedOption },
+				});
+			}
+		},
 
-    computeSelectedOption(option) {
-      return option === this.selectedOption;
-    },
-  },
-
+		computeSelectedOption(option) {
+			return option === this.selectedOption;
+		},
+	},
 };
 </script>
 

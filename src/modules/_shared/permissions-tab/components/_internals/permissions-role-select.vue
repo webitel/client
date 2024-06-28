@@ -28,9 +28,8 @@
 </template>
 
 <script>
-
 export default {
-  name: 'PermissionsRoleSelect',
+	name: "PermissionsRoleSelect",
 };
 </script>
 

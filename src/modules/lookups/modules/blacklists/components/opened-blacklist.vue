@@ -36,63 +36,67 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
-import General from './opened-blacklist-general.vue';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import Numbers from "../modules/numbers/components/opened-blacklist-numbers.vue";
+import General from "./opened-blacklist-general.vue";
 
 export default {
-  name: 'OpenedBlacklist',
-  components: { General, Numbers },
-  mixins: [openedObjectMixin],
+	name: "OpenedBlacklist",
+	components: { General, Numbers },
+	mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
 
-  data: () => ({
-    namespace: 'lookups/blacklists',
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-    },
-  },
+	data: () => ({
+		namespace: "lookups/blacklists",
+	}),
+	validations: {
+		itemInstance: {
+			name: { required },
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        }, {
-          text: this.$tc('objects.lookups.blacklist.number', 2),
-          value: 'numbers',
-        },
-      ];
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t("objects.general"),
+					value: "general",
+				},
+				{
+					text: this.$tc("objects.lookups.blacklist.number", 2),
+					value: "numbers",
+				},
+			];
 
-      const permissions = {
-        text: this.$tc('objects.permissions.permissions', 2),
-        value: 'permissions',
-      };
+			const permissions = {
+				text: this.$tc("objects.permissions.permissions", 2),
+				value: "permissions",
+			};
 
-      if (this.id) tabs.push(permissions);
-      return tabs;
-    },
+			if (this.id) tabs.push(permissions);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/blacklist';
-      return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.blacklist.blacklist', 2), route: baseUrl },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = "/lookups/blacklist";
+			return [
+				{ name: this.$t("objects.lookups.lookups") },
+				{
+					name: this.$tc("objects.lookups.blacklist.blacklist", 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t("objects.new"),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
 };
 </script>
 

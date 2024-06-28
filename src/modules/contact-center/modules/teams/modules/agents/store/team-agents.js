@@ -1,17 +1,16 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import TeamAgentsAPI from '../api/teamAgents';
-import headers from './_internals/headers';
+import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
+import TeamAgentsAPI from "../api/teamAgents";
+import headers from "./_internals/headers";
 
 const resettableItemState = {
-  itemInstance: {
-    agent: {},
-  },
+	itemInstance: {
+		agent: {},
+	},
 };
 
 const teamAgents = new NestedObjectStoreModule({ resettableItemState, headers })
-.attachAPIModule(TeamAgentsAPI)
-.generateAPIActions()
-.getModule();
+	.attachAPIModule(TeamAgentsAPI)
+	.generateAPIActions()
+	.getModule();
 
 export default teamAgents;

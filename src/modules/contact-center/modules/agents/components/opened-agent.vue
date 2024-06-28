@@ -35,86 +35,88 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, required } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Queues from '../modules/queues/components/opened-agent-queues.vue';
-import Skills from '../modules/skills/components/opened-agent-skills.vue';
-import Subordinates from '../modules/subordinates/components/opened-agent-subordinates.vue';
-import General from './opened-agent-general.vue';
+import { useVuelidate } from "@vuelidate/core";
+import { minValue, required } from "@vuelidate/validators";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import Queues from "../modules/queues/components/opened-agent-queues.vue";
+import Skills from "../modules/skills/components/opened-agent-skills.vue";
+import Subordinates from "../modules/subordinates/components/opened-agent-subordinates.vue";
+import General from "./opened-agent-general.vue";
 
 export default {
-  name: 'OpenedAgent',
-  components: {
-    General,
-    Queues,
-    Skills,
-    Subordinates,
-  },
-  mixins: [openedObjectMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+	name: "OpenedAgent",
+	components: {
+		General,
+		Queues,
+		Skills,
+		Subordinates,
+	},
+	mixins: [openedObjectMixin],
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
 
-  data: () => ({
-    namespace: 'ccenter/agents',
-  }),
-  validations: {
-    itemInstance: {
-      user: { required },
-      team: { required },
-      progressiveCount: { required, minValue: minValue(1) },
-      chatCount: { required, minValue: minValue(1) },
-      taskCount: { required, minValue: minValue(1) },
-    },
-  },
+	data: () => ({
+		namespace: "ccenter/agents",
+	}),
+	validations: {
+		itemInstance: {
+			user: { required },
+			team: { required },
+			progressiveCount: { required, minValue: minValue(1) },
+			chatCount: { required, minValue: minValue(1) },
+			taskCount: { required, minValue: minValue(1) },
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        }, {
-          text: this.$tc('objects.lookups.skills.skills', 2),
-          value: 'skills',
-        }, {
-          text: this.$tc('objects.ccenter.queues.queues', 2),
-          value: 'queues',
-        },
-      ];
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t("objects.general"),
+					value: "general",
+				},
+				{
+					text: this.$tc("objects.lookups.skills.skills", 2),
+					value: "skills",
+				},
+				{
+					text: this.$tc("objects.ccenter.queues.queues", 2),
+					value: "queues",
+				},
+			];
 
-      const subordinates = {
-        text: this.$tc('objects.ccenter.agents.agents', 2),
-        value: 'subordinates',
-      };
+			const subordinates = {
+				text: this.$tc("objects.ccenter.agents.agents", 2),
+				value: "subordinates",
+			};
 
-      if (this.itemInstance.isSupervisor) tabs.push(subordinates);
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+			if (this.itemInstance.isSupervisor) tabs.push(subordinates);
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/contact-center/agents';
-      return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        {
-          name: this.$tc('objects.ccenter.agents.agents', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
-  methods: {
-    // overrides headlineNavMixin method
-    setPathName() {
-      this.pathName = this.itemInstance.user.name;
-    },
-  },
+		path() {
+			const baseUrl = "/contact-center/agents";
+			return [
+				{ name: this.$t("objects.ccenter.ccenter") },
+				{
+					name: this.$tc("objects.ccenter.agents.agents", 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t("objects.new"),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
+	methods: {
+		// overrides headlineNavMixin method
+		setPathName() {
+			this.pathName = this.itemInstance.user.name;
+		},
+	},
 };
 </script>
 

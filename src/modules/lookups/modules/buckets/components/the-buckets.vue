@@ -109,54 +109,56 @@
 </template>
 
 <script>
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { useDummy } from "../../../../../app/composables/useDummy";
+import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
 
-const namespace = 'lookups/buckets';
+const namespace = "lookups/buckets";
 
 export default {
-  name: 'TheAgentBuckets',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: "TheAgentBuckets",
+	components: { DeleteConfirmationPopup },
+	mixins: [tableComponentMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({ namespace, showAction: true });
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.BUCKETS,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.BUCKETS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.buckets.buckets', 2), route: '/lookups/buckets' },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{ name: this.$t("objects.lookups.lookups") },
+				{
+					name: this.$tc("objects.lookups.buckets.buckets", 2),
+					route: "/lookups/buckets",
+				},
+			];
+		},
+	},
 };
 </script>
 

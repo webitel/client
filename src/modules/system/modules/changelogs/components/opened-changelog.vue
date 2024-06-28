@@ -45,78 +45,81 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, required } from '@vuelidate/validators';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Logs from '../modules/logs/components/opened-changelog-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue';
-import General from './opened-changelog-general.vue';
+import { useVuelidate } from "@vuelidate/core";
+import { minValue, required } from "@vuelidate/validators";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import Logs from "../modules/logs/components/opened-changelog-logs.vue";
+import LogsFilters from "../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue";
+import General from "./opened-changelog-general.vue";
 
 export default {
-  name: 'OpenedChangelog',
-  components: {
-    General,
-    Logs,
-    LogsFilters,
-  },
-  mixins: [openedObjectMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'system/changelogs',
-  }),
-  validations: {
-    itemInstance: {
-      object: { required },
-      // storage: { required },
-      daysToStore: { required, minValue: minValue(1) },
-      // period: { required, minValue: minValue(1) },
-    },
-  },
+	name: "OpenedChangelog",
+	components: {
+		General,
+		Logs,
+		LogsFilters,
+	},
+	mixins: [openedObjectMixin],
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: "system/changelogs",
+	}),
+	validations: {
+		itemInstance: {
+			object: { required },
+			// storage: { required },
+			daysToStore: { required, minValue: minValue(1) },
+			// period: { required, minValue: minValue(1) },
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        },
-      ];
-      const logs = {
-        text: this.$tc('objects.system.changelogs.logs.logs', 2),
-        value: 'logs',
-        filters: 'logs-filters',
-        filtersNamespace: `${this.namespace}/logs/filters`,
-      };
-      if (this.id) tabs.push(logs);
-      return tabs;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t("objects.general"),
+					value: "general",
+				},
+			];
+			const logs = {
+				text: this.$tc("objects.system.changelogs.logs.logs", 2),
+				value: "logs",
+				filters: "logs-filters",
+				filtersNamespace: `${this.namespace}/logs/filters`,
+			};
+			if (this.id) tabs.push(logs);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/system/changelogs';
-      return [
-        { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.changelogs.changelogs', 1), route: baseUrl },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
-  mounted() {
-    // override headlineNavMixin
-    const unwatch = this.$watch('itemInstance.object', () => {
-      this.setPathName();
-      unwatch();
-    });
-  },
-  methods: {
-    setPathName() {
-      this.pathName = this.itemInstance.object.name;
-    },
-  },
+		path() {
+			const baseUrl = "/system/changelogs";
+			return [
+				{ name: this.$t("objects.system.system") },
+				{
+					name: this.$tc("objects.system.changelogs.changelogs", 1),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t("objects.new"),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
+	mounted() {
+		// override headlineNavMixin
+		const unwatch = this.$watch("itemInstance.object", () => {
+			this.setPathName();
+			unwatch();
+		});
+	},
+	methods: {
+		setPathName() {
+			this.pathName = this.itemInstance.object.name;
+		},
+	},
 };
 </script>
 

@@ -80,67 +80,76 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import openedObjectTableTabMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
-import WhatsappAPI from '../api/whatsapp';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import { mapActions } from "vuex";
+import openedObjectTableTabMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
+import openMessengerWindow from "../../_shared/scripts/openMessengerWindow";
+import WhatsappAPI from "../api/whatsapp";
 
 export default {
-  name: 'OpenedChatGatewayWhatsappTab',
-  components: { DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  inject: ['$eventBus'],
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: "OpenedChatGatewayWhatsappTab",
+	components: { DeleteConfirmationPopup },
+	mixins: [openedObjectTableTabMixin],
+	inject: ["$eventBus"],
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    subNamespace: 'whatsapp',
-  }),
-  computed: {
-    uri() {
-      return this.$store.getters[`${this.namespace}/${this.subNamespace}/CHAT_URI`];
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
-      },
-      updateSubscriptionState(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
-      },
-    }),
-    addOrRemovePagesWindowHandler({ data }) {
-      if (data.status === 'success') this.loadList();
-      else if (data.status === 'error') {
-        this.$eventBus.$emit('notification', { type: 'error', text: data.detail });
-      }
-    },
-    addOrRemovePages() {
-      const url = WhatsappAPI.addOrRemovePagesUrl(this.uri);
-      openMessengerWindow({ url, listener: this.addOrRemovePagesWindowHandler });
-    },
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		subNamespace: "whatsapp",
+	}),
+	computed: {
+		uri() {
+			return this.$store.getters[
+				`${this.namespace}/${this.subNamespace}/CHAT_URI`
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+			},
+			updateSubscriptionState(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`,
+					payload,
+				);
+			},
+		}),
+		addOrRemovePagesWindowHandler({ data }) {
+			if (data.status === "success") this.loadList();
+			else if (data.status === "error") {
+				this.$eventBus.$emit("notification", {
+					type: "error",
+					text: data.detail,
+				});
+			}
+		},
+		addOrRemovePages() {
+			const url = WhatsappAPI.addOrRemovePagesUrl(this.uri);
+			openMessengerWindow({
+				url,
+				listener: this.addOrRemovePagesWindowHandler,
+			});
+		},
+	},
 };
 </script>
 

@@ -127,74 +127,75 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
+import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
+import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
+import { mapActions, mapState } from "vuex";
+import { useDummy } from "/src/app/composables/useDummy";
+import tableComponentMixin from "/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js";
+import baseObjectMixin from "../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin";
+import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import GlobalVariablesPopup from "./global-variables-popup.vue";
 
-import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import GlobalVariablesPopup from './global-variables-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { useDummy } from '/src/app/composables/useDummy';
-import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-
-const namespace = 'system/globalVariables';
+const namespace = "system/globalVariables";
 
 export default {
-  name: 'TheGlobalVariables',
-  components: { DeleteConfirmationPopup, GlobalVariablesPopup },
-  mixins: [tableComponentMixin, baseObjectMixin, openedObjectMixin],
+	name: "TheGlobalVariables",
+	components: { DeleteConfirmationPopup, GlobalVariablesPopup },
+	mixins: [tableComponentMixin, baseObjectMixin, openedObjectMixin],
 
-  setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({ namespace, showAction: true });
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    isGlobalVariablesPopup: false,
-  }),
-  computed: {
-    ...mapState({
-      id(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-    }),
-    path() {
-      return [
-        { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.globalVariables.globalVariables', 1), route: '/system/global-variables' },
-      ];
-    }
-  },
-  methods: {
-    ...mapActions({
-      setItemId(dispatch, payload) {
-        return dispatch(`${namespace}/SET_ITEM_ID`, payload);
-      },
-    }),
-    edit(item) {
-      this.setItemId(item.id);
-      this.isGlobalVariablesPopup = true;
-    },
-  },
-}
+	data: () => ({
+		namespace,
+		isGlobalVariablesPopup: false,
+	}),
+	computed: {
+		...mapState({
+			id(state) {
+				return getNamespacedState(state, this.namespace).itemId;
+			},
+		}),
+		path() {
+			return [
+				{ name: this.$t("objects.system.system") },
+				{
+					name: this.$tc("objects.system.globalVariables.globalVariables", 1),
+					route: "/system/global-variables",
+				},
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemId(dispatch, payload) {
+				return dispatch(`${namespace}/SET_ITEM_ID`, payload);
+			},
+		}),
+		edit(item) {
+			this.setItemId(item.id);
+			this.isGlobalVariablesPopup = true;
+		},
+	},
+};
 </script>

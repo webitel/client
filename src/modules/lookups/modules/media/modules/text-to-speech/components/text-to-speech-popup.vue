@@ -112,109 +112,110 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { StorageServiceType } from 'webitel-sdk';
-import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
-import validationMixin
-  from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
-import MediaAPI from '../../../api/media';
-import TextToSpeechAPI from '../api/TextToSpeechAPI';
-import TtsMicrosoftVoice from '../enums/TtsMicrosoftVoice.enum';
-import TtsTextType from '../lookups/TtsTextType.lookup';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import { StorageServiceType } from "webitel-sdk";
+import TtsMicrosoftLanguage from "webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum";
+import validationMixin from "../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin";
+import CognitiveProfilesAPI from "../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles";
+import MediaAPI from "../../../api/media";
+import TextToSpeechAPI from "../api/TextToSpeechAPI";
+import TtsMicrosoftVoice from "../enums/TtsMicrosoftVoice.enum";
+import TtsTextType from "../lookups/TtsTextType.lookup";
 
 const getModel = () => ({
-  name: '',
-  profile: {},
-  textType: TtsTextType[0],
-  language: TtsMicrosoftLanguage['en-US'],
-  voice: TtsMicrosoftVoice[0],
-  text: '',
-  format: 'wav',
+	name: "",
+	profile: {},
+	textType: TtsTextType[0],
+	language: TtsMicrosoftLanguage["en-US"],
+	voice: TtsMicrosoftVoice[0],
+	text: "",
+	format: "wav",
 });
 
 export default {
-  name: 'TextToSpeechPopup',
-  mixins: [validationMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    isOpened: false,
-    draft: {},
-    textTypeOptions: TtsTextType,
-    TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
-    TtsMicrosoftVoice,
-    audio: null,
-    audioUrl: '',
-    isGenerating: false,
-    isSaving: false,
-  }),
-  validations: {
-    draft: {
-      name: { required },
-      profile: { required },
-      text: { required },
-    },
-  },
-  computed: {
-    disabled() {
-      return this.checkValidations('draft');
-    },
-  },
-  watch: {
-    isOpened: {
-      handler() {
-        this.draft = getModel();
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    openPopup() {
-      this.$emit('opened');
-      this.isOpened = true;
-    },
-    closePopup() {
-      this.isOpened = false;
-      this.audio = null;
-      this.audioUrl = '';
-    },
-    async generate() {
-      try {
-        this.isGenerating = true;
-        this.audioUrl = '';
-        const params = {
-          profileId: this.draft.profile.id,
-          textType: this.draft.textType.value,
-          language: this.draft.language,
-          voice: this.draft.voice,
-          format: this.draft.format,
-          text: this.draft.text,
-        };
-        this.audio = await TextToSpeechAPI.getTts(params);
-        this.audioUrl = TextToSpeechAPI.getTtsStreamUrl(params, true);
-      } finally {
-        this.isGenerating = false;
-      }
-    },
-    async save() {
-      try {
-        this.isSaving = true;
-        const file = new File([this.audio], `${this.draft.name}.wav`, { type: 'audio/wav' });
-        await MediaAPI.add({ itemInstance: file });
-        this.closePopup();
-      } finally {
-        this.isSaving = false;
-      }
-    },
-    searchProfiles(params) {
-      const fields = ['id', 'name', 'provider'];
-      const service = StorageServiceType.TTS;
-      return CognitiveProfilesAPI.getLookup({ ...params, fields, service });
-    },
-  },
+	name: "TextToSpeechPopup",
+	mixins: [validationMixin],
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		isOpened: false,
+		draft: {},
+		textTypeOptions: TtsTextType,
+		TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
+		TtsMicrosoftVoice,
+		audio: null,
+		audioUrl: "",
+		isGenerating: false,
+		isSaving: false,
+	}),
+	validations: {
+		draft: {
+			name: { required },
+			profile: { required },
+			text: { required },
+		},
+	},
+	computed: {
+		disabled() {
+			return this.checkValidations("draft");
+		},
+	},
+	watch: {
+		isOpened: {
+			handler() {
+				this.draft = getModel();
+			},
+			immediate: true,
+		},
+	},
+	methods: {
+		openPopup() {
+			this.$emit("opened");
+			this.isOpened = true;
+		},
+		closePopup() {
+			this.isOpened = false;
+			this.audio = null;
+			this.audioUrl = "";
+		},
+		async generate() {
+			try {
+				this.isGenerating = true;
+				this.audioUrl = "";
+				const params = {
+					profileId: this.draft.profile.id,
+					textType: this.draft.textType.value,
+					language: this.draft.language,
+					voice: this.draft.voice,
+					format: this.draft.format,
+					text: this.draft.text,
+				};
+				this.audio = await TextToSpeechAPI.getTts(params);
+				this.audioUrl = TextToSpeechAPI.getTtsStreamUrl(params, true);
+			} finally {
+				this.isGenerating = false;
+			}
+		},
+		async save() {
+			try {
+				this.isSaving = true;
+				const file = new File([this.audio], `${this.draft.name}.wav`, {
+					type: "audio/wav",
+				});
+				await MediaAPI.add({ itemInstance: file });
+				this.closePopup();
+			} finally {
+				this.isSaving = false;
+			}
+		},
+		searchProfiles(params) {
+			const fields = ["id", "name", "provider"];
+			const service = StorageServiceType.TTS;
+			return CognitiveProfilesAPI.getLookup({ ...params, fields, service });
+		},
+	},
 };
 </script>
 
