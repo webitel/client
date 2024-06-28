@@ -27,8 +27,8 @@
       />
       <delete-confirmation-popup
         v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
         @close="closeDelete"
       />
 

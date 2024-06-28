@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     fetchAdmins(params) {
-      return AgentsAPI.getSupervisorOptions(params);
+      return AgentsAPI.getList(params);
     },
   },
 };

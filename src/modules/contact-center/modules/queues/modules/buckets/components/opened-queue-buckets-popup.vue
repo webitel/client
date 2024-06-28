@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.lookups.buckets.buckets', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -71,6 +71,13 @@ export default {
         required,
       },
     },
+  },
+  computed: {
+    popupTitle() {
+      return this.id
+        ? this.$t('objects.ccenter.queues.buckets.editBucket')
+        : this.$t('objects.ccenter.queues.buckets.addBucket');
+    }
   },
 
   methods: {

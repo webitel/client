@@ -746,6 +746,14 @@ export default {
           addFlowSchema: 'Добавить схему',
           editFlowSchema: 'Редактировать схему',
         },
+        supervisors: {
+          addSupervisor: 'Добавить супервизора',
+          editSupervisor: 'Редактировать супервизора',
+        },
+        agents: {
+          addAgent: 'Добавить оператора',
+          editAgent: 'Редактировать оператора',
+        },
       },
 
       members: {
@@ -890,6 +898,8 @@ export default {
         communications: 'Тип связи',
         manualDistribution: 'Ручное распределение',
         lastMessageTimeout: 'Время ожидания от последнего сообщения',
+        stickyIgnoreStatus: 'Игнорировать статус оператора',
+        ignoreCalendar: 'Игнорировать календарь',
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',
@@ -936,6 +946,14 @@ export default {
             processing: 'Постобработка',
             active: 'Активное действие',
           },
+        },
+        skills: {
+          editSkill: 'Редактировать навык',
+          addSkill: 'Добавить навык',
+        },
+        buckets: {
+          addBucket: 'Добавить корзину',
+          editBucket: 'Редактировать корзину',
         },
       },
 

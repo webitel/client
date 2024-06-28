@@ -22,11 +22,9 @@ export default {
 
 <style lang="scss" scoped>
 .permissions-role-column {
-  display: flex;
+  display: grid;
   align-items: center;
-
-  .permissions-role-icon {
-    margin-right: var(--spacing-sm);
-  }
+  grid-template-columns: var(--icon-md-size) 1fr;
+  gap: var(--spacing-sm);
 }
 </style>

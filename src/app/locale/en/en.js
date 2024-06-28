@@ -739,6 +739,14 @@ export default {
           addFlowSchema: 'Add flow schema',
           editFlowSchema: 'Edit flow schema',
         },
+        supervisors: {
+          addSupervisor: 'Add supervisor',
+          editSupervisor: 'Edit supervisor',
+        },
+        agents: {
+          addAgent: 'Add agent',
+          editAgent: 'Edit agent',
+        },
       },
 
       members: {
@@ -881,6 +889,8 @@ export default {
         communications: 'Communication type',
         manualDistribution: 'Manual distribution',
         lastMessageTimeout: 'Timeout from the last message',
+        stickyIgnoreStatus: 'Ignore agent status',
+        ignoreCalendar: 'Ignore calendar',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',
@@ -927,6 +937,14 @@ export default {
             processing: 'Processing',
             active: 'Active',
           },
+        },
+        skills: {
+          editSkill: 'Edit skill',
+          addSkill: 'Add skill',
+        },
+        buckets: {
+          addBucket: 'Add bucket',
+          editBucket: 'Edit bucket',
         },
       },
 

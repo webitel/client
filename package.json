@@ -40,7 +40,7 @@
     "vue-router": "^4.2.5",
     "vue2-dropzone": "^3.6.0",
     "vuex": "^4.1.0",
-    "webitel-sdk": "^24.2.12"
+    "webitel-sdk": "^24.4.7"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",

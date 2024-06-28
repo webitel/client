@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.ccenter.agents.supervisors', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -69,6 +69,11 @@ export default {
         return getNamespacedState(state, this.namespace).parentId;
       },
     }),
+    popupTitle() {
+      return this.id
+        ? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
+        : this.$t('objects.ccenter.teams.supervisors.addSupervisor');
+    },
   },
 
   methods: {

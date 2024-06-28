@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ $t('objects.lookups.blacklist.newNumber') }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form class="opened-blacklist-number-popup__wrapper">
@@ -70,6 +70,12 @@ export default {
   validations: {
     itemInstance: {
       number: { required },
+    },
+  },
+  computed: {
+    popupTitle() {
+      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
+      return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
     },
   },
   watch: {

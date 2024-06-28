@@ -271,6 +271,21 @@
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       />
       <wt-switcher
+        v-if="specificControls.stickyIgnoreStatus"
+        v-show="itemInstance.stickyAgent"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.stickyIgnoreStatus')"
+        :value="itemInstance.payload.stickyIgnoreStatus"
+        @change="setItemPayloadProp({ prop: 'stickyIgnoreStatus', value: $event })"
+      />
+      <wt-switcher
+        v-if="specificControls.ignoreCalendar"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.ignoreCalendar')"
+        :value="itemInstance.payload.ignoreCalendar"
+        @change="setItemPayloadProp({ prop: 'ignoreCalendar', value: $event })"
+      />
+      <wt-switcher
         v-if="specificControls.manualDistribution"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.manualDistribution')"
