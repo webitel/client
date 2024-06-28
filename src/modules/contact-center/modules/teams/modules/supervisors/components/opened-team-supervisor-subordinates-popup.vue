@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import TeamsAPI from "../api/teamSupervisors";
+import { mapState } from 'vuex';
+import TeamsAPI from '../api/teamSupervisors';
 
 export default {
-  name: "OpenedTeamSupervisorSubordinatesPopup",
+  name: 'OpenedTeamSupervisorSubordinatesPopup',
   props: {
     itemId: {
       required: true,
@@ -41,14 +41,14 @@ export default {
     this.loadDataList();
   },
   computed: {
-    ...mapState("ccenter/teams/supervisors", {
+    ...mapState('ccenter/teams/supervisors', {
       parentId: (state) => state.parentId,
     }),
     headers() {
       return [
         {
-          value: "subordinate",
-          text: this.$tc("objects.ccenter.agents.subordinates", 1),
+          value: 'subordinate',
+          text: this.$tc('objects.ccenter.agents.subordinates', 1),
         },
       ];
     },
@@ -65,7 +65,7 @@ export default {
       this.dataList = response.items;
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

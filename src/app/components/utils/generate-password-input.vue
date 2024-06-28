@@ -38,11 +38,11 @@
 const MIN_HASH_SIZE = 59;
 
 export default {
-  name: "GeneratePasswordInput",
+  name: 'GeneratePasswordInput',
   props: {
     value: {
       type: String,
-      default: "",
+      default: '',
     },
     v: {
       type: Object,
@@ -65,7 +65,7 @@ export default {
 
   computed: {
     passwordRepresentation() {
-      return this.value.length <= MIN_HASH_SIZE ? this.value : "";
+      return this.value.length <= MIN_HASH_SIZE ? this.value : '';
     },
   },
 
@@ -76,8 +76,8 @@ export default {
   methods: {
     generatePassword() {
       const length = 12;
-      const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let value = "";
+      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let value = '';
       for (let i = 0; i < length; i += 1) {
         value += charset.charAt(Math.floor(Math.random() * charset.length));
       }
@@ -85,7 +85,7 @@ export default {
     },
 
     input(value) {
-      this.$emit("input", value);
+      this.$emit('input', value);
     },
   },
 };

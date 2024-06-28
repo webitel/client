@@ -1,6 +1,6 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import ResInGroupAPI from "../api/resInGroup";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import ResInGroupAPI from '../api/resInGroup';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {

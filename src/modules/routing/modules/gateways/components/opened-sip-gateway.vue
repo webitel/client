@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
+import { useVuelidate } from '@vuelidate/core';
 import {
   helpers,
   maxValue,
@@ -44,20 +44,20 @@ import {
   numeric,
   required,
   requiredUnless,
-} from "@vuelidate/validators";
-import { mapActions } from "vuex";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+} from '@vuelidate/validators';
+import { mapActions } from 'vuex';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import {
   gatewayHostValidator,
   ipValidator,
   sipAccountValidator,
-} from "../../../../../app/utils/validators";
-import RegisterGeneral from "./opened-register-sip-gateway-general.vue";
-import TrunkingConfiguration from "./opened-trunking-sip-gateway-configuration.vue";
-import TrunkingGeneral from "./opened-trunking-sip-gateway-general.vue";
+} from '../../../../../app/utils/validators';
+import RegisterGeneral from './opened-register-sip-gateway-general.vue';
+import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
+import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
 
 export default {
-  name: "OpenedSipGateway",
+  name: 'OpenedSipGateway',
   components: {
     RegisterGeneral,
     TrunkingGeneral,
@@ -69,7 +69,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "routing/gateways",
+    namespace: 'routing/gateways',
   }),
   validations() {
     if (this.isRegister) {
@@ -119,24 +119,24 @@ export default {
 
   computed: {
     isRegister() {
-      return this.$route.path.includes("register");
+      return this.$route.path.includes('register');
     },
 
     tabs() {
       const registerTabs = [
         {
-          text: this.$t("objects.general"),
-          value: "register-general",
+          text: this.$t('objects.general'),
+          value: 'register-general',
         },
       ];
       const trunkingTabs = [
         {
-          text: this.$t("objects.general"),
-          value: "trunking-general",
+          text: this.$t('objects.general'),
+          value: 'trunking-general',
         },
         {
-          text: this.$tc("objects.routing.configuration"),
-          value: "trunking-configuration",
+          text: this.$tc('objects.routing.configuration'),
+          value: 'trunking-configuration',
         },
       ];
       return this.isRegister ? registerTabs : trunkingTabs;
@@ -144,23 +144,23 @@ export default {
 
     gatewayTitle() {
       return this.isRegister
-        ? this.$t("objects.routing.gateways.registerGateway")
-        : this.$t("objects.routing.gateways.trunkingGateway");
+        ? this.$t('objects.routing.gateways.registerGateway')
+        : this.$t('objects.routing.gateways.trunkingGateway');
     },
 
     path() {
-      const baseUrl = "/routing/sip-gateways";
-      const url = baseUrl.concat(this.isRegister ? "/register" : "/trunking");
+      const baseUrl = '/routing/sip-gateways';
+      const url = baseUrl.concat(this.isRegister ? '/register' : '/trunking');
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.gateways.gateways", 2),
+          name: this.$tc('objects.routing.gateways.gateways', 2),
           route: baseUrl,
         },
         {
-          name: `${this.id ? this.pathName : this.$t("objects.new")} (${this.gatewayTitle})`,
+          name: `${this.id ? this.pathName : this.$t('objects.new')} (${this.gatewayTitle})`,
           route: this.id ? `${url}/${this.id}` : `${url}/new`,
         },
       ];

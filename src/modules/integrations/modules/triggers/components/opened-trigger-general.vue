@@ -81,26 +81,26 @@
 </template>
 
 <script>
-import cronstrue from "cronstrue";
-import "cronstrue/locales/en.min";
-import "cronstrue/locales/ru.min";
-import "cronstrue/locales/uk.min";
-import { EngineRoutingSchemaType } from "webitel-sdk";
+import cronstrue from 'cronstrue';
+import 'cronstrue/locales/en.min';
+import 'cronstrue/locales/ru.min';
+import 'cronstrue/locales/uk.min';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import CalendarsAPI from "../../../../lookups/modules/calendars/api/calendars";
-import FlowsAPI from "../../../../routing/modules/flow/api/flow";
-import TriggerTypes from "../lookups/TriggerTypes.lookup";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
 export default {
-  name: "OpenedTriggerGeneral",
+  name: 'OpenedTriggerGeneral',
   mixins: [openedTabComponentMixin],
   data: () => ({
     TriggerTypes,
   }),
   computed: {
     parsedCron() {
-      const locale = this.$i18n.locale === "ua" ? "uk" : this.$i18n.locale; // change ua locale code
+      const locale = this.$i18n.locale === 'ua' ? 'uk' : this.$i18n.locale; // change ua locale code
       return cronstrue.toString(this.itemInstance.expression, {
         locale,
         throwExceptionOnParseError: false,
@@ -109,8 +109,8 @@ export default {
     cronValidator() {
       return [
         {
-          name: "cron",
-          text: this.$t("validation.cron"),
+          name: 'cron',
+          text: this.$t('validation.cron'),
         },
       ];
     },

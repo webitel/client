@@ -137,21 +137,21 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import dummyPicDark from "../assets/adm-dummy-congnitive-profiles-dark.svg";
-import dummyPicLight from "../assets/adm-dummy-congnitive-profiles-light.svg";
-import CreateCognitiveProfilePopup from "./create-cognitive-profile-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
+import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
 
-const namespace = "integrations/cognitiveProfiles";
+const namespace = 'integrations/cognitiveProfiles';
 
 export default {
-  name: "TheCognitiveProfiles",
+  name: 'TheCognitiveProfiles',
   components: {
     CreateCognitiveProfilePopup,
     DeleteConfirmationPopup,
@@ -160,13 +160,13 @@ export default {
 
   setup() {
     const store = useStore();
-    const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
     const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
     const { dummy } = useDummy({
       namespace,
       showAction: true,
       dummyPic,
-      dummyText: "objects.integrations.emptyWorkspace",
+      dummyText: 'objects.integrations.emptyWorkspace',
     });
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -197,11 +197,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.cognitiveProfiles.cognitiveProfiles", 2),
-          route: "/integrations/cognitive-profiles",
+          name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
+          route: '/integrations/cognitive-profiles',
         },
       ];
     },
@@ -216,7 +216,7 @@ export default {
         await this.patchItem({
           index,
           item,
-          prop: "default",
+          prop: 'default',
           value,
         });
         if (value) this.loadList();
@@ -228,7 +228,7 @@ export default {
       await this.patchItem({
         item,
         index,
-        prop: "enabled",
+        prop: 'enabled',
         value,
       });
       if (item.default && !value) {

@@ -1,5 +1,5 @@
-import path from "path";
-import CopyInput from "../../../../../app/components/utils/copy-input.vue";
+import path from 'path';
+import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 
 export default {
   components: { CopyInput },

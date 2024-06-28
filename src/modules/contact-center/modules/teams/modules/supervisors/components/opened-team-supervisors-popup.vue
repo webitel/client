@@ -38,16 +38,16 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapState } from "vuex";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapState } from 'vuex';
 
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import AgentsAPI from "../../../../agents/api/agents";
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: "OpenedTeamAgentsPopup",
+  name: 'OpenedTeamAgentsPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
@@ -55,7 +55,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/teams/supervisors",
+    namespace: 'ccenter/teams/supervisors',
   }),
   validations: {
     itemInstance: {
@@ -73,7 +73,7 @@ export default {
 
   methods: {
     async loadAgentsOptions(params) {
-      const fields = ["id", "user"];
+      const fields = ['id', 'user'];
       const response = await AgentsAPI.getSupervisorOptions({
         ...params,
         fields,

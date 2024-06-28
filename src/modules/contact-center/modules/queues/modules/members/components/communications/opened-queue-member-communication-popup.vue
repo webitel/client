@@ -65,18 +65,18 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import deepCopy from "deep-copy";
-import { mapActions, mapState } from "vuex";
-import nestedObjectMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import CommunicationsAPI from "../../../../../../../lookups/modules/communications/api/communications";
-import ResourcesAPI from "../../../../../resources/api/resources";
-import { digitsDtmfOnly } from "../../validation/dtmf";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import deepCopy from 'deep-copy';
+import { mapActions, mapState } from 'vuex';
+import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
+import ResourcesAPI from '../../../../../resources/api/resources';
+import { digitsDtmfOnly } from '../../validation/dtmf';
 
 export default {
-  name: "OpenedAgentSkillsPopup",
+  name: 'OpenedAgentSkillsPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
@@ -88,15 +88,15 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/queues/members",
+    namespace: 'ccenter/queues/members',
     itemInstanceValue: {
-      destination: "",
-      display: "",
+      destination: '',
+      display: '',
       priority: 0,
       type: {},
       resource: {},
-      description: "",
-      dtmf: "",
+      description: '',
+      dtmf: '',
     },
   }),
   validations: {

@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectValidationMixin from "../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin";
-import SkillsAPI from "../../../api/agentSkills";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectValidationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import SkillsAPI from '../../../api/agentSkills';
 
 export default {
-  name: "OpenedSkillAgentChangePopup",
+  name: 'OpenedSkillAgentChangePopup',
   mixins: [openedObjectValidationMixin],
   props: {
     selectedAgents: {
@@ -56,13 +56,13 @@ export default {
       required: true,
     },
   },
-  emits: ["close", "change"],
+  emits: ['close', 'change'],
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/skills",
-    subNamespace: "agents",
+    namespace: 'lookups/skills',
+    subNamespace: 'agents',
     itemInstance: {
       skill: {},
     },
@@ -88,14 +88,14 @@ export default {
         enabled: this.skillState,
         skill: this.itemInstance.skill,
       };
-      this.$emit("change", {
+      this.$emit('change', {
         changes,
         id,
       });
       this.close();
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

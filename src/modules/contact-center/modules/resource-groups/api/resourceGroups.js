@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   log,
@@ -7,15 +7,15 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import deepCopy from "deep-copy";
-import { OutboundResourceGroupServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, "", instance);
+const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ["name", "description", "strategy", "communication", "time"];
+const fieldsToSend = ['name', 'description', 'strategy', 'communication', 'time'];
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
@@ -29,7 +29,7 @@ const preRequestHandler = (item) => {
 const getResGroupList = async (params) => {
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -56,9 +56,9 @@ const getResGroupList = async (params) => {
 
 const getResGroup = async ({ itemId: id }) => {
   const defaultObject = {
-    name: "",
-    strategy: "",
-    description: "",
+    name: '',
+    strategy: '',
+    description: '',
     communication: {},
     time: [],
   };
@@ -120,7 +120,7 @@ const deleteResGroup = async ({ id }) => {
 const getResGroupsLookup = (params) =>
   getResGroupList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const ResourceGroupsAPI = {

@@ -104,13 +104,13 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: "TheSingleSignOn",
+  name: 'TheSingleSignOn',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
@@ -133,7 +133,7 @@ export default {
     };
   },
   data: () => ({
-    namespace: "integrations/singleSignOn",
+    namespace: 'integrations/singleSignOn',
     routeName: RouteNames.SINGLE_SIGN_ON,
   }),
 
@@ -141,11 +141,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t("objects.integrations.singleSignOn.singleSignOn"),
-          route: "/integrations/single-sign-on",
+          name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
+          route: '/integrations/single-sign-on',
         },
       ];
     },

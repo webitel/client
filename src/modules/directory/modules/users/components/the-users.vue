@@ -134,20 +134,20 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { mapActions } from "vuex";
-import UploadFileIconBtn from "../../../../../app/components/utils/upload-file-icon-btn.vue";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import UserStatus from "./_internals/user-status-chips.vue";
-import UploadPopup from "./upload-users-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions } from 'vuex';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UserStatus from './_internals/user-status-chips.vue';
+import UploadPopup from './upload-users-popup.vue';
 
-const namespace = "directory/users";
+const namespace = 'directory/users';
 
 export default {
-  name: "TheUsers",
+  name: 'TheUsers',
   components: {
     UploadPopup,
     UserStatus,
@@ -191,11 +191,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.directory.directory"),
+          name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc("objects.directory.users.users", 2),
-          route: "/directory/users",
+          name: this.$tc('objects.directory.users.users', 2),
+          route: '/directory/users',
         },
       ];
     },
@@ -210,7 +210,7 @@ export default {
 
     getDND(value) {
       if (value?.status) {
-        return value.status.includes("dnd");
+        return value.status.includes('dnd');
       }
       return false;
     },

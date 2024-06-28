@@ -109,16 +109,16 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "lookups/buckets";
+const namespace = 'lookups/buckets';
 
 export default {
-  name: "TheAgentBuckets",
+  name: 'TheAgentBuckets',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -155,11 +155,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.buckets.buckets", 2),
-          route: "/lookups/buckets",
+          name: this.$tc('objects.lookups.buckets.buckets', 2),
+          route: '/lookups/buckets',
         },
       ];
     },

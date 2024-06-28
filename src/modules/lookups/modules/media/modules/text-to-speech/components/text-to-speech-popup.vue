@@ -112,29 +112,29 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { StorageServiceType } from "webitel-sdk";
-import TtsMicrosoftLanguage from "webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum";
-import validationMixin from "../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin";
-import CognitiveProfilesAPI from "../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles";
-import MediaAPI from "../../../api/media";
-import TextToSpeechAPI from "../api/TextToSpeechAPI";
-import TtsMicrosoftVoice from "../enums/TtsMicrosoftVoice.enum";
-import TtsTextType from "../lookups/TtsTextType.lookup";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { StorageServiceType } from 'webitel-sdk';
+import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
+import validationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
+import MediaAPI from '../../../api/media';
+import TextToSpeechAPI from '../api/TextToSpeechAPI';
+import TtsMicrosoftVoice from '../enums/TtsMicrosoftVoice.enum';
+import TtsTextType from '../lookups/TtsTextType.lookup';
 
 const getModel = () => ({
-  name: "",
+  name: '',
   profile: {},
   textType: TtsTextType[0],
-  language: TtsMicrosoftLanguage["en-US"],
+  language: TtsMicrosoftLanguage['en-US'],
   voice: TtsMicrosoftVoice[0],
-  text: "",
-  format: "wav",
+  text: '',
+  format: 'wav',
 });
 
 export default {
-  name: "TextToSpeechPopup",
+  name: 'TextToSpeechPopup',
   mixins: [validationMixin],
   setup: () => ({
     v$: useVuelidate(),
@@ -146,7 +146,7 @@ export default {
     TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
     TtsMicrosoftVoice,
     audio: null,
-    audioUrl: "",
+    audioUrl: '',
     isGenerating: false,
     isSaving: false,
   }),
@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     disabled() {
-      return this.checkValidations("draft");
+      return this.checkValidations('draft');
     },
   },
   watch: {
@@ -172,18 +172,18 @@ export default {
   },
   methods: {
     openPopup() {
-      this.$emit("opened");
+      this.$emit('opened');
       this.isOpened = true;
     },
     closePopup() {
       this.isOpened = false;
       this.audio = null;
-      this.audioUrl = "";
+      this.audioUrl = '';
     },
     async generate() {
       try {
         this.isGenerating = true;
-        this.audioUrl = "";
+        this.audioUrl = '';
         const params = {
           profileId: this.draft.profile.id,
           textType: this.draft.textType.value,
@@ -202,7 +202,7 @@ export default {
       try {
         this.isSaving = true;
         const file = new File([this.audio], `${this.draft.name}.wav`, {
-          type: "audio/wav",
+          type: 'audio/wav',
         });
         await MediaAPI.add({
           itemInstance: file,
@@ -213,7 +213,7 @@ export default {
       }
     },
     searchProfiles(params) {
-      const fields = ["id", "name", "provider"];
+      const fields = ['id', 'name', 'provider'];
       const service = StorageServiceType.TTS;
       return CognitiveProfilesAPI.getLookup({
         ...params,

@@ -120,16 +120,16 @@
 </template>
 
 <script>
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import SkillBucketsPopup from "./opened-queue-skills-buckets-popup.vue";
-import SkillPopup from "./opened-queue-skills-popup.vue";
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
+import SkillPopup from './opened-queue-skills-popup.vue';
 
-const namespace = "ccenter/queues";
-const subNamespace = "skills";
+const namespace = 'ccenter/queues';
+const subNamespace = 'skills';
 
 export default {
-  name: "OpenedQueueSkills",
+  name: 'OpenedQueueSkills',
   components: { SkillPopup, SkillBucketsPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
@@ -152,7 +152,7 @@ export default {
       if (buckets.length > 0) {
         return buckets[0].name;
       }
-      return "";
+      return '';
     },
 
     readBuckets(item) {

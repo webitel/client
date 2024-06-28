@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: "OpenedStorageLocal",
+  name: 'OpenedStorageLocal',
   mixins: [openedTabComponentMixin],
 
   computed: {
@@ -29,7 +29,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "directory",
+          prop: 'directory',
           value,
         });
       },
@@ -37,8 +37,8 @@ export default {
   },
 
   methods: {
-    ...mapActions("integrations/storage", {
-      setItemProp: "SET_ITEM_PROPERTIES_PROPERTY",
+    ...mapActions('integrations/storage', {
+      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
     }),
   },
 };

@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -8,20 +8,20 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import instance from "../../../../../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../../../app/api/instance';
 
-const baseUrl = "/users";
-const nestedUrl = "tokens";
-const fieldsToSend = ["token", "usage"];
+const baseUrl = '/users';
+const nestedUrl = 'tokens';
+const fieldsToSend = ['token', 'usage'];
 
 const getTokensList = async ({ parentId, ...rest }) => {
-  const fieldsToSend = ["page", "size", "q", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'fields', 'id'];
 
   const url = applyTransform(rest, [
     log,
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),

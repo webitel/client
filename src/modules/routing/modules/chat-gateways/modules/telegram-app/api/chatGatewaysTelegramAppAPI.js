@@ -1,4 +1,4 @@
-import chatInstance from "../../../api/chatInstance";
+import chatInstance from '../../../api/chatInstance';
 
 const getAuth = (uri) => {
   const url = `${uri}`;

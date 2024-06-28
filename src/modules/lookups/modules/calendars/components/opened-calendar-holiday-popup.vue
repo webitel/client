@@ -66,14 +66,14 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { maxValue, minValue, numeric, required, requiredIf } from "@vuelidate/validators";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import nestedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue, numeric, required, requiredIf } from '@vuelidate/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: "OpenedCalendarHolidayPopup",
+  name: 'OpenedCalendarHolidayPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
@@ -84,9 +84,9 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/calendars",
+    namespace: 'lookups/calendars',
     itemInstanceValue: {
-      name: "",
+      name: '',
       date: Date.now(),
       repeat: true,
     },

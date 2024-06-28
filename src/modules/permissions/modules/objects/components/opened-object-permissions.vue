@@ -32,41 +32,41 @@
 </template>
 
 <script>
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Obac from "../modules/obac/components/opened-object-permissions-obac.vue";
-import Rbac from "../modules/rbac/components/opened-object-permissions-rbac.vue";
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Obac from '../modules/obac/components/opened-object-permissions-obac.vue';
+import Rbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
 
 export default {
-  name: "OpenedObjectPermissions",
+  name: 'OpenedObjectPermissions',
   components: { Obac, Rbac },
   mixins: [openedObjectMixin],
   data: () => ({
-    namespace: "permissions/objects",
+    namespace: 'permissions/objects',
   }),
 
   computed: {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.permissions.object.ObAC"),
-          value: "obac",
+          text: this.$t('objects.permissions.object.ObAC'),
+          value: 'obac',
         },
         {
-          text: this.$t("objects.permissions.object.RbAC"),
-          value: "rbac",
+          text: this.$t('objects.permissions.object.RbAC'),
+          value: 'rbac',
         },
       ];
       return tabs;
     },
 
     path() {
-      const baseUrl = "/permissions/objects";
+      const baseUrl = '/permissions/objects';
       return [
         {
-          name: this.$t("objects.permissions.permissions"),
+          name: this.$t('objects.permissions.permissions'),
         },
         {
-          name: this.$t("objects.permissions.object.object"),
+          name: this.$t('objects.permissions.object.object'),
           route: baseUrl,
         },
         {
@@ -78,7 +78,7 @@ export default {
   },
   mounted() {
     // override headlineNavMixin
-    const unwatch = this.$watch("itemInstance.class", () => {
+    const unwatch = this.$watch('itemInstance.class', () => {
       this.setPathName();
       unwatch();
     });

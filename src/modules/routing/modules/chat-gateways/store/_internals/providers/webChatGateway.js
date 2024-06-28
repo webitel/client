@@ -1,6 +1,6 @@
-import ChatGatewayProvider from "@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum";
-import WebchatAlternativeChannel from "../../../enum/WebchatAlternativeChannel.enum";
-import defaultChatGateway from "../defaults/defaultChatGateway";
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
+import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const webChatGateway = (_btnCodeDirty = false) => ({
   ...defaultChatGateway(),
@@ -8,59 +8,59 @@ const webChatGateway = (_btnCodeDirty = false) => ({
   metadata: {
     // start: these fields related to chat functionality but should be in metadata for backend
     allowOrigin: [],
-    readTimeout: "30",
-    writeTimeout: "1",
-    handshakeTimeout: "10",
+    readTimeout: '30',
+    writeTimeout: '1',
+    handshakeTimeout: '10',
     mediaMaxSize: `${10 * 1024 * 1024}`, // 10mb
     // end
 
     _btnCodeDirty, // inner flag, if true, btn "copy code" is highlighted
     view: {
-      borderRadiusStyle: "",
-      lang: "en",
-      btnOpacity: "",
-      logoUrl: "",
-      accentColor: "",
-      position: "",
+      borderRadiusStyle: '',
+      lang: 'en',
+      btnOpacity: '',
+      logoUrl: '',
+      accentColor: '',
+      position: '',
     },
     captcha: {
       enabled: false,
-      sitekey: "",
-      secret: "",
+      sitekey: '',
+      secret: '',
       threshold: 0.5,
       showFlag: false,
     },
     chat: {
       enabled: true,
       timeoutIsActive: false,
-      openTimeout: "",
-      url: "",
+      openTimeout: '',
+      url: '',
     },
     appointment: {
       enabled: false,
-      url: "",
+      url: '',
       queue: {},
       communicationType: {},
-      duration: "30m",
+      duration: '30m',
       days: 3,
       availableAgents: 1,
-      successTitle: "",
-      successSubtitle: "",
+      successTitle: '',
+      successSubtitle: '',
       showDefaultHeading: true,
       showEmailField: false,
       showMessageField: false,
     },
     call: {
       enabled: false,
-      url: "",
+      url: '',
       flow: {},
-      id: "",
+      id: '',
     },
     alternativeChannels: Object.values(WebchatAlternativeChannel).reduce(
       (channels, channel) => ({
         ...channels,
         [channel]: {
-          url: "",
+          url: '',
           enabled: false,
         },
       }),

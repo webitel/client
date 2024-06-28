@@ -76,14 +76,14 @@
 </template>
 
 <script>
-import { Chrome } from "vue-color";
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import webChatPreviewMixin from "../mixins/webChatPreviewMixin";
-import webChatViewFormMixin from "../mixins/webChatViewFormMixin";
+import { Chrome } from 'vue-color';
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
+import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
 
 export default {
-  name: "OpenedChatGatewayWebchatViewTab",
+  name: 'OpenedChatGatewayWebchatViewTab',
   components: {
     ColorPicker: Chrome,
   },

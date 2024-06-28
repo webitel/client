@@ -44,14 +44,14 @@
 </template>
 
 <script>
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import convertDurationWithMilliseconds from "../scripts/convertDurationWithMilliseconds";
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
 export default {
-  name: "OpenedTriggerLogs",
+  name: 'OpenedTriggerLogs',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
-    subNamespace: "log",
+    subNamespace: 'log',
   }),
   computed: {
     filtersNamespace() {
@@ -59,7 +59,7 @@ export default {
     },
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       async handler() {
         await this.loadList();
       },
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     formatDate(value) {
-      if (!value) return "";
+      if (!value) return '';
       return new Date(+value).toLocaleString();
     },
 

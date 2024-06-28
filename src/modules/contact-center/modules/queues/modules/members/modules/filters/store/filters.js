@@ -1,10 +1,10 @@
-import ApiFilterSchema from "@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema";
-import BaseFilterSchema from "@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema";
-import EnumFilterSchema from "@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema";
-import QueryFiltersStoreModule from "@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule";
-import { MemberStopCause } from "webitel-sdk/esm2015/enums";
-import BucketsAPI from "../../../../../../../../lookups/modules/buckets/api/buckets";
-import AgentsAPI from "../../../../../../agents/api/agents";
+import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
+import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
+import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
+import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
+import { MemberStopCause } from 'webitel-sdk/esm2015/enums';
+import BucketsAPI from '../../../../../../../../lookups/modules/buckets/api/buckets';
+import AgentsAPI from '../../../../../../agents/api/agents';
 
 const defaultDateFrom = () => {
   const dateNow = new Date();
@@ -28,19 +28,19 @@ const state = {
       locale: `objects.ccenter.members.endCause.${value}`,
     })),
     locale: {
-      label: "objects.ccenter.queues.endCause",
+      label: 'objects.ccenter.queues.endCause',
     },
   }),
   bucket: new ApiFilterSchema({
     API: BucketsAPI.getLookup,
     locale: {
-      label: ["objects.lookups.buckets.buckets", 1],
+      label: ['objects.lookups.buckets.buckets', 1],
     },
   }),
   agent: new ApiFilterSchema({
     API: AgentsAPI.getLookup,
     locale: {
-      label: ["objects.ccenter.agents.agents", 1],
+      label: ['objects.ccenter.agents.agents', 1],
     },
   }),
   priority: new BaseFilterSchema({

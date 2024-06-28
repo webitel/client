@@ -8,33 +8,33 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from "../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin";
-import UsersAPI from "../api/users";
+import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import UsersAPI from '../api/users';
 
 export default {
-  name: "UploadUsersPopup",
+  name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   data: () => ({
     mappingFields: [
       {
-        name: "username",
+        name: 'username',
         required: true,
-        csv: "",
+        csv: '',
       },
       {
-        name: "name",
+        name: 'name',
         required: false,
-        csv: "",
+        csv: '',
       },
       {
-        name: "extension",
+        name: 'extension',
         required: false,
-        csv: "",
+        csv: '',
       },
       {
-        name: "email",
+        name: 'email',
         required: false,
-        csv: "",
+        csv: '',
       },
     ],
   }),

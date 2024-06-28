@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "DownloadFilesBtn",
+  name: 'DownloadFilesBtn',
   props: {
     isFilesLoading: {
       type: Boolean,
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     exportFiles() {
-      this.$emit("export-files");
+      this.$emit('export-files');
     },
   },
 };

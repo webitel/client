@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -9,14 +9,14 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import instance from "../../../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../app/api/instance';
 
-const LICENSE_URL = "/license";
-const CUSTOMER_URL = "/customer";
+const LICENSE_URL = '/license';
+const CUSTOMER_URL = '/customer';
 
 const getLicenseList = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     remain: 0,
@@ -25,7 +25,7 @@ const getLicenseList = async (params) => {
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),

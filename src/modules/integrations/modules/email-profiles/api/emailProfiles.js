@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,32 +7,32 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { EmailProfileServiceApiFactory } from "webitel-sdk";
-import { EngineEmailAuthType } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { EmailProfileServiceApiFactory } from 'webitel-sdk';
+import { EngineEmailAuthType } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const emailProfilesService = new EmailProfileServiceApiFactory(configuration, "", instance);
+const emailProfilesService = new EmailProfileServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  "name",
-  "description",
-  "domainId",
-  "enabled",
-  "imapHost",
-  "smtpHost",
-  "fetchInterval",
-  "imapPort",
-  "login",
-  "mailbox",
-  "password",
-  "schema",
-  "smtpPort",
-  "authType",
-  "listen",
-  "logged",
-  "params",
+  'name',
+  'description',
+  'domainId',
+  'enabled',
+  'imapHost',
+  'smtpHost',
+  'fetchInterval',
+  'imapPort',
+  'login',
+  'mailbox',
+  'password',
+  'schema',
+  'smtpPort',
+  'authType',
+  'listen',
+  'logged',
+  'params',
 ];
 
 const preRequestHandler = (item) => ({
@@ -46,7 +46,7 @@ const getList = async (params) => {
 
   const { page, size, search, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -135,7 +135,7 @@ const deleteItem = async ({ id }) => {
 const getLookup = (params) =>
   getList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const login = async ({ id }) => {

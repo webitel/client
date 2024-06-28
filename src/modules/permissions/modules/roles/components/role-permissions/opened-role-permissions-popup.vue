@@ -37,15 +37,15 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { snakeToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
-import { mapActions, mapState } from "vuex";
-import nestedObjectMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import RolesAPI from "../../api/roles";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { mapActions, mapState } from 'vuex';
+import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import RolesAPI from '../../api/roles';
 
 export default {
-  name: "OpenedRolePermissionsPopup",
+  name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedIndex: {
@@ -56,7 +56,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "permissions/roles",
+    namespace: 'permissions/roles',
     itemInstanceValue: {
       permission: {},
     },
@@ -70,7 +70,7 @@ export default {
     this.initEditedValue();
   },
   computed: {
-    ...mapState("permissions/roles", {
+    ...mapState('permissions/roles', {
       permissions: (state) => state.itemInstance.permissions,
     }),
     // override mixin map state

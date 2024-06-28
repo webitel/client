@@ -1,9 +1,9 @@
-import debounce from "@webitel/ui-sdk/src/scripts/debounce";
-import isEmpty from "@webitel/ui-sdk/src/scripts/isEmpty";
-import normalizeCSVData from "../scripts/normalizeCSVData";
-import parseCSV from "../scripts/parseCSV";
-import processFile from "../scripts/processFile";
-import splitAndSaveData from "../scripts/splitAndSaveData";
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import normalizeCSVData from '../scripts/normalizeCSVData';
+import parseCSV from '../scripts/parseCSV';
+import processFile from '../scripts/processFile';
+import splitAndSaveData from '../scripts/splitAndSaveData';
 
 export default {
   props: {
@@ -12,22 +12,22 @@ export default {
     },
     mappingFields: {
       type: Array,
-      description: "[{ name: String, required: Boolean, csv: String, multiple: Boolean }]",
+      description: '[{ name: String, required: Boolean, csv: String, multiple: Boolean }]',
     },
     addBulkItems: {
       type: Function,
     },
   },
   model: {
-    prop: "mappingFields",
-    event: "changeMappingFields",
+    prop: 'mappingFields',
+    event: 'changeMappingFields',
   },
   data: () => ({
     isReadingFile: false,
     isParsingCSV: false,
     parsedFile: null,
     isParsingPreview: false,
-    parseErrorStackTrace: "",
+    parseErrorStackTrace: '',
     csvPreview: [[]],
   }),
   computed: {
@@ -91,7 +91,7 @@ export default {
     },
     async createCSVPreview(file = this.parsedFile) {
       try {
-        this.parseErrorStackTrace = "";
+        this.parseErrorStackTrace = '';
         this.csvPreview = await parseCSV(file, {
           ...this.parseCSVOptions,
           toLine: 4,
@@ -104,18 +104,18 @@ export default {
     async processCSV() {
       this.isParsingCSV = true;
       try {
-        this.parseErrorStackTrace = "";
+        this.parseErrorStackTrace = '';
 
         const sourceData = await parseCSV(this.parsedFile, this.parseCSVOptions);
 
-        console.info("sourceData", sourceData);
+        console.info('sourceData', sourceData);
 
         const normalizedData = normalizeCSVData({
           data: sourceData,
           mappings: this.mappingFields,
         });
 
-        console.info("normalizedData", normalizedData);
+        console.info('normalizedData', normalizedData);
 
         await splitAndSaveData({
           data: normalizedData,
@@ -134,16 +134,16 @@ export default {
       // reset previously selected values
       const mappingFields = this.mappingFields.map((field) => ({
         ...field,
-        csv: field.multiple ? [] : "",
+        csv: field.multiple ? [] : '',
       }));
-      this.$emit("changeMappingFields", mappingFields);
+      this.$emit('changeMappingFields', mappingFields);
     },
     handleSave() {
-      this.$emit("save");
+      this.$emit('save');
       return this.processCSV();
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
   watch: {

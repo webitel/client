@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import FlowTagsFilter from "./flow-tags-filter.vue";
-import FlowTypeFilter from "./flow-type-filter.vue";
+import { mapActions } from 'vuex';
+import FlowTagsFilter from './flow-tags-filter.vue';
+import FlowTypeFilter from './flow-type-filter.vue';
 
 export default {
-  name: "TheFlowFilters",
+  name: 'TheFlowFilters',
   components: {
     FlowTagsFilter,
     FlowTypeFilter,

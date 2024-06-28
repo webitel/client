@@ -54,13 +54,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required, requiredIf } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import { useVuelidate } from '@vuelidate/core';
+import { required, requiredIf } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: "GlobalVariablesPopup",
+  name: 'GlobalVariablesPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
     id: {
@@ -112,7 +112,7 @@ export default {
       }
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

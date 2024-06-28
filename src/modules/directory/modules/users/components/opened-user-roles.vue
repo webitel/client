@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import RolesAPI from "../../../../permissions/modules/roles/api/roles";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 
 export default {
-  name: "OpenedUserRoles",
+  name: 'OpenedUserRoles',
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

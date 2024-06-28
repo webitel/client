@@ -1,7 +1,7 @@
 const defaultGateway = () => ({
-  name: "",
-  usage: "",
-  proxy: "",
+  name: '',
+  usage: '',
+  proxy: '',
   schema: {},
   enable: true,
 });

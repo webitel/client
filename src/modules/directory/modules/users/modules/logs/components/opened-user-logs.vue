@@ -72,18 +72,18 @@
 </template>
 
 <script>
-import ExportCSVMixin from "@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
-import RecordLink from "../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue";
-import LogsAPI from "../api/logs";
+import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
+import LogsAPI from '../api/logs';
 // import { useDummy } from '.  ./../../../../../../app/composables/useDummy';
 
-const namespace = "directory/users";
-const subNamespace = "logs";
+const namespace = 'directory/users';
+const subNamespace = 'logs';
 
 export default {
-  name: "OpenedUsersLogs",
+  name: 'OpenedUsersLogs',
   components: { RecordLink },
   mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   data: () => ({
@@ -106,7 +106,7 @@ export default {
     },
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       async handler() {
         await this.loadList();
       },

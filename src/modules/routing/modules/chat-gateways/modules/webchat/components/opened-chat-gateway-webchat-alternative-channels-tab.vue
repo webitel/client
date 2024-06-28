@@ -78,15 +78,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { EngineRoutingSchemaType } from "webitel-sdk";
-import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import FlowsAPI from "../../../../flow/api/flow";
-import WebchatAlternativeChannel from "../../../enum/WebchatAlternativeChannel.enum";
-import uriCopyMixin from "../../../mixins/uriCopyMixin";
+import { mapActions } from 'vuex';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../../flow/api/flow';
+import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
+import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
-  name: "OpenedChatWebchatAlternativeChannelsTab",
+  name: 'OpenedChatWebchatAlternativeChannelsTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),
@@ -98,7 +98,7 @@ export default {
         }),
         {},
       ),
-      [WebchatAlternativeChannel.EMAIL]: "mail--color",
+      [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
     channelUrlPlaceholder: {
       ...Object.values(WebchatAlternativeChannel).reduce(
@@ -109,13 +109,13 @@ export default {
         {},
       ),
       [WebchatAlternativeChannel.EMAIL]:
-        "objects.routing.chatGateways.webchat.alternativeChannels.email",
+        'objects.routing.chatGateways.webchat.alternativeChannels.email',
       [WebchatAlternativeChannel.WHATSAPP]:
-        "objects.routing.chatGateways.webchat.alternativeChannels.whatsapp",
+        'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
       [WebchatAlternativeChannel.TELEGRAM]:
-        "objects.routing.chatGateways.webchat.alternativeChannels.telegram",
+        'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
       [WebchatAlternativeChannel.MESSENGER]:
-        "objects.routing.chatGateways.webchat.alternativeChannels.messenger",
+        'objects.routing.chatGateways.webchat.alternativeChannels.messenger',
     },
   }),
   methods: {
@@ -135,13 +135,13 @@ export default {
     handleUrlInput({ channel, value }) {
       this.setAltChannelValue({
         channel,
-        prop: "url",
+        prop: 'url',
         value,
       });
       if (!value) {
         this.setAltChannelValue({
           channel,
-          prop: "enabled",
+          prop: 'enabled',
           value: false,
         });
       }

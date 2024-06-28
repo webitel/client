@@ -52,19 +52,19 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: "OpenedBlacklistNumberPopup",
+  name: 'OpenedBlacklistNumberPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/blacklists/numbers",
+    namespace: 'lookups/blacklists/numbers',
     showExpireDate: false,
   }),
   validations: {
@@ -76,11 +76,11 @@ export default {
     showExpireDate() {
       if (this.itemInstance.expireAt && this.showExpireDate) return;
       this.setItemProp({
-        prop: "expireAt",
+        prop: 'expireAt',
         value: this.showExpireDate ? Date.now() : 0,
       });
     },
-    "itemInstance.id": {
+    'itemInstance.id': {
       handler() {
         if (this.itemInstance.expireAt) this.showExpireDate = true;
       },

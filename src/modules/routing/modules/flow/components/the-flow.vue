@@ -162,23 +162,23 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import FilterSearch from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue";
-import UploadFileIconBtn from "../../../../../app/components/utils/upload-file-icon-btn.vue";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import { downloadAsJSON } from "../../../../../app/utils/download";
-import FlowsAPI from "../api/flow";
-import FlowEditor from "../enums/FlowEditor.enum";
-import TheFlowFilters from "../modules/filters/components/the-flow-filters.vue";
-import CreateFlowPopup from "./create-flow-popup.vue";
-import UploadPopup from "./upload-flow-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { downloadAsJSON } from '../../../../../app/utils/download';
+import FlowsAPI from '../api/flow';
+import FlowEditor from '../enums/FlowEditor.enum';
+import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
+import CreateFlowPopup from './create-flow-popup.vue';
+import UploadPopup from './upload-flow-popup.vue';
 
-const namespace = "routing/flow";
+const namespace = 'routing/flow';
 
 export default {
-  name: "TheFlow",
+  name: 'TheFlow',
   components: {
     CreateFlowPopup,
     UploadPopup,
@@ -229,11 +229,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.flow.flow", 2),
-          route: "/routing/flow",
+          name: this.$tc('objects.routing.flow.flow', 2),
+          route: '/routing/flow',
         },
       ];
     },
@@ -242,7 +242,7 @@ export default {
     },
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       async handler() {
         await this.loadList();
       },

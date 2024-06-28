@@ -1,10 +1,10 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import QueueBucketsAPI from "../api/queueBuckets";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import QueueBucketsAPI from '../api/queueBuckets';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    bucket: "",
+    bucket: '',
     priority: 0,
     disabled: false,
   },

@@ -1,10 +1,10 @@
-import Storage from "../enums/Storage.enum";
+import Storage from '../enums/Storage.enum';
 
 const storageTypes = {
-  [Storage.LOCAL]: "local",
-  [Storage.S3]: "s3",
-  [Storage.DROPBOX]: "dropbox",
-  [Storage.DRIVE]: "drive",
+  [Storage.LOCAL]: 'local',
+  [Storage.S3]: 's3',
+  [Storage.DROPBOX]: 'dropbox',
+  [Storage.DRIVE]: 'drive',
 };
 
 export const enumToBackendAdapter = (enumType) => storageTypes[enumType];

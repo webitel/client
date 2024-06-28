@@ -106,19 +106,19 @@
 </template>
 
 <script>
-import { snakeToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
-import ObjectListPopup from "../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue";
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
-import agentStatusMixin from "../../../../../mixins/agentStatusMixin";
-import agentSupervisorsAndSkillsPopupMixin from "../../../../../mixins/agentSupervisorsAndSkillsPopupMixin";
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
+import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
 
-const namespace = "ccenter/queues";
-const subNamespace = "agents";
+const namespace = 'ccenter/queues';
+const subNamespace = 'agents';
 
 export default {
-  name: "OpenedQueueAgents",
+  name: 'OpenedQueueAgents',
   components: { ObjectListPopup },
   mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
   setup() {

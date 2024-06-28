@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from "../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin";
-import BlacklistNumbersAPI from "../api/blacklistNumbers";
+import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 export default {
-  name: "UploadUsersPopup",
+  name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   props: {
     parentId: {
@@ -23,19 +23,19 @@ export default {
   data: () => ({
     mappingFields: [
       {
-        name: "number",
+        name: 'number',
         required: true,
-        csv: "",
+        csv: '',
       },
       {
-        name: "description",
+        name: 'description',
         required: false,
-        csv: "",
+        csv: '',
       },
       {
-        name: "expireAt",
+        name: 'expireAt',
         required: false,
-        csv: "",
+        csv: '',
       },
     ],
   }),

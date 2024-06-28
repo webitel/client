@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,16 +7,16 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { AgentPauseCauseServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { AgentPauseCauseServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const pauseCauseService = new AgentPauseCauseServiceApiFactory(configuration, "", instance);
+const pauseCauseService = new AgentPauseCauseServiceApiFactory(configuration, '', instance);
 
 const getPauseCauseList = async (params) => {
   const defaultObject = {
-    name: "",
+    name: '',
     limitMin: 0,
     allowAdmin: false,
     allowSupervisor: false,
@@ -25,7 +25,7 @@ const getPauseCauseList = async (params) => {
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     camelToSnake(),
   ]);
 
@@ -53,7 +53,7 @@ const getPauseCauseList = async (params) => {
 
 const getPauseCause = async ({ itemId: id }) => {
   const defaultObject = {
-    name: "",
+    name: '',
     limitMin: 0,
     allowAdmin: false,
     allowSupervisor: false,
@@ -69,12 +69,12 @@ const getPauseCause = async ({ itemId: id }) => {
 };
 
 const fieldsToSend = [
-  "name",
-  "limitMin",
-  "allowAdmin",
-  "allowSupervisor",
-  "allowAgent",
-  "description",
+  'name',
+  'limitMin',
+  'allowAdmin',
+  'allowSupervisor',
+  'allowAgent',
+  'description',
 ];
 
 const addPauseCause = async ({ itemInstance }) => {

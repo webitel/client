@@ -19,14 +19,14 @@
 </template>
 
 <script>
-import UploadFileIconBtn from "../../../../../app/components/utils/upload-file-icon-btn.vue";
-import UploadCsvPreviewPopup from "../../../../_shared/upload-csv-popup/components/upload-csv-preview-popup.vue";
-import QueueMembersAPI from "../../../../contact-center/modules/queues/modules/members/api/queueMembers";
-import normalizeCsvMembers from "../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers";
-import ImportCsvMemberMappings from "../lookups/ImportCsvMemberMappings.lookup";
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/components/upload-csv-preview-popup.vue';
+import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
+import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
-  name: "ImportCsvUploadAction",
+  name: 'ImportCsvUploadAction',
   components: { UploadFileIconBtn, UploadCsvPreviewPopup },
   mixins: [normalizeCsvMembers],
   props: {

@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,25 +7,25 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import deepCopy from "deep-copy";
-import { BackendProfileServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
-import AWSRegions from "../store/_internals/lookups/AWSRegions.lookup";
-import DigitalOceanRegions from "../store/_internals/lookups/DigitalOceanRegions.lookup";
-import StorageTypeAdapter from "../store/_internals/scripts/backendStorageTypeAdapters";
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { BackendProfileServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
+import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
+import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
+import StorageTypeAdapter from '../store/_internals/scripts/backendStorageTypeAdapters';
 
-const storageService = new BackendProfileServiceApiFactory(configuration, "", instance);
+const storageService = new BackendProfileServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  "name",
-  "maxSize",
-  "priority",
-  "properties",
-  "expireDays",
-  "type",
-  "disabled",
+  'name',
+  'maxSize',
+  'priority',
+  'properties',
+  'expireDays',
+  'type',
+  'disabled',
 ];
 
 const preRequestHandler = (item) => {
@@ -55,7 +55,7 @@ const getStorageList = async (params) => {
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -91,9 +91,9 @@ const getStorage = async ({ itemId: id }) => {
   const responseHandler = (response) => {
     const copy = deepCopy(response);
     if (copy.properties.region) {
-      if (copy.properties.endpoint.includes("aws")) {
+      if (copy.properties.endpoint.includes('aws')) {
         copy.properties.region = AWSRegions.find((item) => item.value === copy.properties.region);
-      } else if (copy.properties.endpoint.includes("digitalocean")) {
+      } else if (copy.properties.endpoint.includes('digitalocean')) {
         copy.properties.region = DigitalOceanRegions.find(
           (item) => item.value === copy.properties.region,
         );
@@ -164,7 +164,7 @@ const deleteStorage = async ({ id }) => {
 const getLookup = (params) =>
   getStorageList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const StorageAPI = {

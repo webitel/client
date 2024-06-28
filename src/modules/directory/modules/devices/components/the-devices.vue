@@ -160,22 +160,22 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import UploadFileIconBtn from "../../../../../app/components/utils/upload-file-icon-btn.vue";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import DevicePopup from "./create-device-popup.vue";
-import HistoryPopup from "./device-history-popup.vue";
-import UploadPopup from "./upload-devices-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DevicePopup from './create-device-popup.vue';
+import HistoryPopup from './device-history-popup.vue';
+import UploadPopup from './upload-devices-popup.vue';
 
-const namespace = "directory/devices";
+const namespace = 'directory/devices';
 
 export default {
-  name: "TheDevices",
+  name: 'TheDevices',
   components: {
     HistoryPopup,
     UploadPopup,
@@ -225,11 +225,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.directory.directory"),
+          name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc("objects.directory.devices.devices", 2),
-          route: "/directory/devices",
+          name: this.$tc('objects.directory.devices.devices', 2),
+          route: '/directory/devices',
         },
       ];
     },
@@ -279,20 +279,20 @@ export default {
     stateClass(state) {
       switch (state) {
         case 0:
-          return "disabled";
+          return 'disabled';
         case 1:
-          return "success";
+          return 'success';
         default:
-          return "";
+          return '';
       }
     },
 
     stateText(state) {
       switch (state) {
         case 0:
-          return this.$t("objects.directory.devices.state.nonreg");
+          return this.$t('objects.directory.devices.state.nonreg');
         case 1:
-          return this.$t("objects.directory.devices.state.reged");
+          return this.$t('objects.directory.devices.state.reged');
         // case 2:
         //   return this.$t('objects.directory.devices.state.ringing');
         // case 3:
@@ -302,7 +302,7 @@ export default {
         // case 5:
         //   return this.$t('objects.directory.devices.state.onhold');
         default:
-          return "unknown";
+          return 'unknown';
       }
     },
   },

@@ -44,13 +44,13 @@
 </template>
 
 <script>
-import { kebabToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import AgentsAPI from "../../agents/api/agents";
-import TeamStrategy from "../store/_internals/enums/TeamStrategy.enum";
+import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import AgentsAPI from '../../agents/api/agents';
+import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
 
 export default {
-  name: "OpenedTeamGeneral",
+  name: 'OpenedTeamGeneral',
   mixins: [openedTabComponentMixin],
 
   computed: {
@@ -62,7 +62,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "strategy",
+          prop: 'strategy',
           value: value.value,
         });
       },

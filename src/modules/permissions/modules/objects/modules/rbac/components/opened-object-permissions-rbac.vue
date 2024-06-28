@@ -118,16 +118,16 @@
 </template>
 
 <script>
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import permissionsTabMixin from "../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin";
-import RoleColumn from "../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue";
-import RolePopup from "./opened-object-permissions-rbac-role-popup.vue";
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
+import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
+import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
 
-const namespace = "permissions/objects";
-const subNamespace = "rbac";
+const namespace = 'permissions/objects';
+const subNamespace = 'rbac';
 
 export default {
-  name: "OpenedObjectPermissionsRbac",
+  name: 'OpenedObjectPermissionsRbac',
   components: {
     RolePopup,
     RoleColumn,
@@ -143,7 +143,7 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    headerTitle: "",
+    headerTitle: '',
   }),
 };
 </script>

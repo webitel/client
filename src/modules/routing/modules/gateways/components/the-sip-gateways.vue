@@ -129,17 +129,17 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import GatewayPopup from "./create-gateway-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import GatewayPopup from './create-gateway-popup.vue';
 
-const namespace = "routing/gateways";
+const namespace = 'routing/gateways';
 
 export default {
-  name: "TheSipGateways",
+  name: 'TheSipGateways',
   components: { GatewayPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -177,11 +177,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.gateways.gateways", 2),
-          route: "/routing/sip-gateways",
+          name: this.$tc('objects.routing.gateways.gateways', 2),
+          route: '/routing/sip-gateways',
         },
       ];
     },
@@ -206,17 +206,17 @@ export default {
     },
 
     computeStatusText(stateCode) {
-      if (stateCode === 3) return this.$t("objects.routing.gateways.stateSuccess");
-      if (stateCode > 3 && stateCode < 8) return this.$t("objects.routing.gateways.stateFailed");
-      if (stateCode > 7 && stateCode < 2) return this.$t("objects.routing.gateways.stateProgress");
-      return this.$t("objects.routing.gateways.stateNonreg");
+      if (stateCode === 3) return this.$t('objects.routing.gateways.stateSuccess');
+      if (stateCode > 3 && stateCode < 8) return this.$t('objects.routing.gateways.stateFailed');
+      if (stateCode > 7 && stateCode < 2) return this.$t('objects.routing.gateways.stateProgress');
+      return this.$t('objects.routing.gateways.stateNonreg');
     },
 
     computeStatusClass(stateCode) {
-      if (stateCode === 3) return "success";
-      if (stateCode > 3 && stateCode < 8) return "error";
-      if (stateCode > 7 && stateCode < 2) return "primary";
-      return "disabled";
+      if (stateCode === 3) return 'success';
+      if (stateCode > 3 && stateCode < 8) return 'error';
+      if (stateCode > 7 && stateCode < 2) return 'primary';
+      return 'disabled';
     },
   },
 };

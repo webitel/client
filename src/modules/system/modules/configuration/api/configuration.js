@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,17 +6,17 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { SystemSettingServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { SystemSettingServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const service = new SystemSettingServiceApiFactory(configuration, "", instance);
+const service = new SystemSettingServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
   const { page, size, search, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -43,7 +43,7 @@ const get = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["id", "name", "value"];
+const fieldsToSend = ['id', 'name', 'value'];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
@@ -68,7 +68,7 @@ const update = async ({ itemInstance, itemId: id }) => {
 const getLookup = (params) =>
   getList({
     ...params,
-    fields: params.fields || ["name"],
+    fields: params.fields || ['name'],
   });
 
 const deleteItem = async ({ id }) => {
@@ -83,7 +83,7 @@ const deleteItem = async ({ id }) => {
 const getObjectsList = async (params) => {
   const { page, size, search, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {

@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "OnePlusManyTableCell",
+  name: 'OnePlusManyTableCell',
   props: {
     collection: {
       required: true,
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     inputHandler() {
-      this.$emit("input");
+      this.$emit('input');
     },
   },
 };

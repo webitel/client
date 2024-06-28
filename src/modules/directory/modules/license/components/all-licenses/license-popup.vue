@@ -34,19 +34,19 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { mapActions } from "vuex";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { mapActions } from 'vuex';
 
 export default {
-  name: "LicensePopup",
+  name: 'LicensePopup',
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "directory/license",
-    certificate: "",
+    namespace: 'directory/license',
+    certificate: '',
   }),
   validations: {
     certificate: { required, $autoDirty: true },
@@ -71,7 +71,7 @@ export default {
       }
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
   mounted() {

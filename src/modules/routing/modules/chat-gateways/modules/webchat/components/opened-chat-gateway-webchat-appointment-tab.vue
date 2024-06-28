@@ -105,14 +105,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import QueuesAPI from "../../../../../../contact-center/modules/queues/api/queues";
-import StatisticTimeList from "../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup";
-import CommunicationsAPI from "../../../../../../lookups/modules/communications/api/communications";
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
+import StatisticTimeList from '../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 export default {
-  name: "OpenedChatGatewayWebchatAppointmentTab",
+  name: 'OpenedChatGatewayWebchatAppointmentTab',
   mixins: [openedTabComponentMixin],
   computed: {
     duration() {
@@ -138,7 +138,7 @@ export default {
     handleInput({ prop, value }) {
       this.setAppointmentMetadata({
         prop,
-        value: value.trimStart().replace(/\s{2,}/g, " "),
+        value: value.trimStart().replace(/\s{2,}/g, ' '),
       });
     },
   },

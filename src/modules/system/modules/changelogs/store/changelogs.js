@@ -1,7 +1,7 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import ChangelogsAPI from "../api/changelogs";
-import logs from "../modules/logs/store/logs";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ChangelogsAPI from '../api/changelogs';
+import logs from '../modules/logs/store/logs';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
@@ -10,7 +10,7 @@ const resettableState = {
     daysToStore: 7,
     storage: {},
     period: 7,
-    description: "",
+    description: '',
   },
 };
 

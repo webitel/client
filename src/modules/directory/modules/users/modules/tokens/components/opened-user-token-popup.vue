@@ -30,14 +30,14 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import { mapActions } from 'vuex';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: "OpenedUserTokensPopup",
+  name: 'OpenedUserTokensPopup',
   mixins: [nestedObjectMixin],
   data: () => ({
-    namespace: "directory/users/tokens",
+    namespace: 'directory/users/tokens',
   }),
 
   methods: {
@@ -49,7 +49,7 @@ export default {
     async save() {
       try {
         await this.addToken();
-        this.$emit("token-created");
+        this.$emit('token-created');
       } catch {}
     },
     resetState() {},

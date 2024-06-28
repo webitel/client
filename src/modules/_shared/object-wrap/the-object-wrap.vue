@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import AppHeader from "../../_reusable/app-header/components/app-header.vue";
+import AppHeader from '../../_reusable/app-header/components/app-header.vue';
 
 export default {
-  name: "ModuleWrap",
+  name: 'ModuleWrap',
   components: { AppHeader },
 };
 </script>

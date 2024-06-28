@@ -1,8 +1,8 @@
-import { EngineTriggerType } from "webitel-sdk";
+import { EngineTriggerType } from 'webitel-sdk';
 
 const TriggerTypes = Object.freeze([
   {
-    locale: "objects.integrations.triggers.cron",
+    locale: 'objects.integrations.triggers.cron',
     value: EngineTriggerType.Cron,
   },
 ]);

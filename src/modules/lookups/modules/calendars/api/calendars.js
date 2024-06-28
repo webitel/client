@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,19 +6,19 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import deepCopy from "deep-copy";
-import { CalendarServiceApiFactory } from "webitel-sdk";
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { CalendarServiceApiFactory } from 'webitel-sdk';
 
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const calendarService = new CalendarServiceApiFactory(configuration, "", instance);
+const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
 
 const getCalendarList = async (params) => {
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -40,9 +40,9 @@ const getCalendar = async ({ itemId: id }) => {
   const itemResponseHandler = (item) => {
     const copy = deepCopy(item);
     const defaultSingleObject = {
-      name: "",
+      name: '',
       timezone: {},
-      description: "",
+      description: '',
       startAt: Date.now(),
       endAt: Date.now(),
       expires: !!(copy.startAt || copy.endAt),
@@ -59,7 +59,7 @@ const getCalendar = async ({ itemId: id }) => {
     if (copy.excepts) {
       // eslint-disable-next-line no-param-reassign
       copy.excepts = copy.excepts.map((except) => ({
-        name: except.name || "",
+        name: except.name || '',
         date: except.date || 0,
         repeat: except.repeat || false,
         working: except.working || false,
@@ -79,22 +79,22 @@ const getCalendar = async ({ itemId: id }) => {
 };
 
 const fieldsToSend = [
-  "name",
-  "description",
-  "timezone",
-  "startAt",
-  "endAt",
-  "day",
-  "accepts",
-  "excepts",
-  "startTimeOfDay",
-  "endTimeOfDay",
-  "disabled",
-  "date",
-  "repeat",
-  "working",
-  "workStart",
-  "workStop",
+  'name',
+  'description',
+  'timezone',
+  'startAt',
+  'endAt',
+  'day',
+  'accepts',
+  'excepts',
+  'startTimeOfDay',
+  'endTimeOfDay',
+  'disabled',
+  'date',
+  'repeat',
+  'working',
+  'workStart',
+  'workStop',
 ];
 
 const preRequestHandler = (item) => {
@@ -154,13 +154,13 @@ const deleteCalendar = async ({ id }) => {
 const getCalendarsLookup = (params) =>
   getCalendarList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const getTimezonesLookup = async (params) => {
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {

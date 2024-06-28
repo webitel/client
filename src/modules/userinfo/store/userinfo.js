@@ -1,7 +1,7 @@
-import WebitelApplications from "@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum";
-import UserinfoStoreModule from "@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule";
-import NavigationPages from "../../../app/router/_internals/NavigationPages.lookup";
-import convertScope from "./_internals/scripts/convertScope";
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule';
+import NavigationPages from '../../../app/router/_internals/NavigationPages.lookup';
+import convertScope from './_internals/scripts/convertScope';
 
 const state = {
   thisApp: WebitelApplications.ADMIN,

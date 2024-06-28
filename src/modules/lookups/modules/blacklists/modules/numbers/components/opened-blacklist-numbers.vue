@@ -119,19 +119,19 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import UploadFileIconBtn from "../../../../../../../app/components/utils/upload-file-icon-btn.vue";
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import numberPopup from "./opened-blacklist-number-popup.vue";
-import uploadPopup from "./upload-blacklist-numbers-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import numberPopup from './opened-blacklist-number-popup.vue';
+import uploadPopup from './upload-blacklist-numbers-popup.vue';
 
-const namespace = "lookups/blacklists";
-const subNamespace = "numbers";
+const namespace = 'lookups/blacklists';
+const subNamespace = 'numbers';
 
 export default {
-  name: "OpenedBlacklistNumbers",
+  name: 'OpenedBlacklistNumbers',
   components: {
     numberPopup,
     uploadPopup,

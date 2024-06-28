@@ -1,6 +1,6 @@
-import ObjectStoreModule from "../../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import FacebookAPI from "../api/facebook";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import FacebookAPI from '../api/facebook';
+import headers from './_internals/headers';
 
 const getters = {
   CHAT_URI: (s, g, rootState) => rootState.routing.chatGateways.itemInstance.uri,
@@ -9,10 +9,10 @@ const getters = {
 const actions = {
   LOAD_DATA_LIST: async (context) => {
     const uri = context.getters.CHAT_URI;
-    const items = await context.dispatch("GET_LIST", {
+    const items = await context.dispatch('GET_LIST', {
       uri,
     });
-    context.commit("SET_DATA_LIST", items);
+    context.commit('SET_DATA_LIST', items);
   },
   UPDATE_SUBSCRIPTION_STATE: async (context, { value, item }) => {
     try {
@@ -23,7 +23,7 @@ const actions = {
         id: item.id,
       });
     } finally {
-      await context.dispatch("LOAD_DATA_LIST");
+      await context.dispatch('LOAD_DATA_LIST');
     }
   },
 };

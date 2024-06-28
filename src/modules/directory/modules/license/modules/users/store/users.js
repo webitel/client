@@ -1,10 +1,10 @@
-import { SortSymbols } from "@webitel/ui-sdk/src/scripts/sortQueryAdapters";
-import ObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import UsersAPI from "../../../../users/api/users";
-import staticHeaders from "./_internals/headers";
+import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import ObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import UsersAPI from '../../../../users/api/users';
+import staticHeaders from './_internals/headers';
 
 const state = {
-  fields: ["id", "name", "license"],
+  fields: ['id', 'name', 'license'],
 };
 
 const actions = {
@@ -19,7 +19,7 @@ const actions = {
       sort: SortSymbols.NONE,
     }));
     const headers = [...staticHeaders, ...licenseHeaders];
-    context.commit("SET_HEADERS", headers);
+    context.commit('SET_HEADERS', headers);
   },
   BEFORE_SET_DATA_LIST_HOOK: (context, { items, ...rest }) => {
     const licenseHeaders = context.state.headers.slice(1); // without "name" column
@@ -50,7 +50,7 @@ const actions = {
           id: licenseId,
         });
       }
-      await context.dispatch("PATCH_ITEM", {
+      await context.dispatch('PATCH_ITEM', {
         id: user.id,
         changes,
       });

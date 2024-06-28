@@ -39,17 +39,17 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required, requiredUnless } from "@vuelidate/validators";
-import deepmerge from "deepmerge";
-import { StorageProviderType } from "webitel-sdk";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import ElevenLabs from "./eleven-labs/opened-cognitive-profile-eleven-labs.vue";
-import Google from "./google/opened-cognitive-profile-google.vue";
-import Microsoft from "./microsoft/opened-cognitive-profile-microsoft.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required, requiredUnless } from '@vuelidate/validators';
+import deepmerge from 'deepmerge';
+import { StorageProviderType } from 'webitel-sdk';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
+import Google from './google/opened-cognitive-profile-google.vue';
+import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
 
 export default {
-  name: "OpenedCognitiveProfile",
+  name: 'OpenedCognitiveProfile',
   components: {
     Microsoft,
     Google,
@@ -61,7 +61,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "integrations/cognitiveProfiles",
+    namespace: 'integrations/cognitiveProfiles',
   }),
   validations() {
     const defaults = {
@@ -126,17 +126,17 @@ export default {
     tabs() {
       const microsoft = {
         text: StorageProviderType.Microsoft,
-        value: "Microsoft",
+        value: 'Microsoft',
       };
 
       const google = {
         text: StorageProviderType.Google,
-        value: "Google",
+        value: 'Google',
       };
 
       const elevenLabs = {
         text: StorageProviderType.ElevenLabs,
-        value: "ElevenLabs",
+        value: 'ElevenLabs',
       };
 
       const tabs = [];
@@ -148,17 +148,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/integrations/cognitive-profiles";
+      const baseUrl = '/integrations/cognitive-profiles';
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.cognitiveProfiles.cognitiveProfiles", 2),
+          name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

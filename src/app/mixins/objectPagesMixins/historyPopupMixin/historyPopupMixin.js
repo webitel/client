@@ -1,6 +1,6 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import tableComponentMixin from "../objectTableMixin/tableComponentMixin";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
 
 export default {
   mixins: [tableComponentMixin],
@@ -30,11 +30,11 @@ export default {
       },
     }),
     prettifyTime(time) {
-      if (!time) return "none";
+      if (!time) return 'none';
       return new Date(+time).toLocaleString();
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

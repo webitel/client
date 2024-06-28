@@ -1,16 +1,16 @@
-import { SortSymbols } from "@webitel/ui-sdk/src/scripts/sortQueryAdapters";
+import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
 export default [
   {
-    value: "name",
-    locale: "objects.name",
-    field: "name",
+    value: 'name',
+    locale: 'objects.name',
+    field: 'name',
     sort: SortSymbols.NONE,
   },
   {
-    value: "numbers",
-    locale: "objects.lookups.blacklist.numbersCount",
-    field: "count",
+    value: 'numbers',
+    locale: 'objects.lookups.blacklist.numbersCount',
+    field: 'count',
     sort: SortSymbols.NONE,
   },
 ];

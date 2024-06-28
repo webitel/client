@@ -35,15 +35,15 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { maxValue, minValue, required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Numbers from "../modules/display/components/opened-resource-numbers.vue";
-import Failure from "./opened-resource-failure.vue";
-import General from "./opened-resource-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Numbers from '../modules/display/components/opened-resource-numbers.vue';
+import Failure from './opened-resource-failure.vue';
+import General from './opened-resource-general.vue';
 
 export default {
-  name: "OpenedResource",
+  name: 'OpenedResource',
   components: {
     General,
     Numbers,
@@ -56,7 +56,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/res",
+    namespace: 'ccenter/res',
   }),
   validations: {
     itemInstance: {
@@ -83,16 +83,16 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          text: this.$tc("objects.ccenter.res.numbers", 2),
-          value: "numbers",
+          text: this.$tc('objects.ccenter.res.numbers', 2),
+          value: 'numbers',
         },
         {
-          text: this.$t("objects.ccenter.res.failure"),
-          value: "failure",
+          text: this.$t('objects.ccenter.res.failure'),
+          value: 'failure',
         },
       ];
 
@@ -101,17 +101,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/contact-center/resources";
+      const baseUrl = '/contact-center/resources';
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.res.res", 2),
+          name: this.$tc('objects.ccenter.res.res', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

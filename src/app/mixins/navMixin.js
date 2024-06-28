@@ -1,9 +1,9 @@
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters("userinfo", {
-      accessibleNav: "ACCESSIBLE_NAV",
+    ...mapGetters('userinfo', {
+      accessibleNav: 'ACCESSIBLE_NAV',
     }),
     nav() {
       const navWithLocale = (nav) => ({

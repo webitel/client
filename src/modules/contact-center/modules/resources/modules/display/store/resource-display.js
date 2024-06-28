@@ -1,10 +1,10 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import ResDisplayAPI from "../api/resourceDisplay";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import ResDisplayAPI from '../api/resourceDisplay';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    display: "",
+    display: '',
   },
 };
 

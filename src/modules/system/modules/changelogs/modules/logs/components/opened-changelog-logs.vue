@@ -84,18 +84,18 @@
 </template>
 
 <script>
-import ExportCSVMixin from "@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
-import LogsAPI from "../api/logs";
-import RecordLink from "./changelog-logs-record-link.vue";
+import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import LogsAPI from '../api/logs';
+import RecordLink from './changelog-logs-record-link.vue';
 // import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-const namespace = "system/changelogs";
-const subNamespace = "logs";
+const namespace = 'system/changelogs';
+const subNamespace = 'logs';
 
 export default {
-  name: "OpenedChangelogLogs",
+  name: 'OpenedChangelogLogs',
   components: { RecordLink },
   mixins: [openedObjectTableTabMixin, ExportCSVMixin],
   data: () => ({
@@ -117,7 +117,7 @@ export default {
     },
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       async handler() {
         await this.loadList();
       },

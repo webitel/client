@@ -1,21 +1,21 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import FlowAPI from "../api/flow";
-import filters from "../modules/filters/store/filters";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import FlowAPI from '../api/flow';
+import filters from '../modules/filters/store/filters';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
-    schema: "[]",
+    name: '',
+    schema: '[]',
     payload: {},
-    type: "",
+    type: '',
     tags: [],
     editor: false,
   },
 };
 
 const state = {
-  fields: ["id"].concat(headers.map((header) => header.field)),
+  fields: ['id'].concat(headers.map((header) => header.field)),
 };
 
 const flow = new ObjectStoreModule({ resettableState, headers })

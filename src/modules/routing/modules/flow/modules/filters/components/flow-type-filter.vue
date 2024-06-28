@@ -28,15 +28,15 @@
 </template>
 
 <script>
-import baseFilterMixin from "@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin";
-import { EngineRoutingSchemaType } from "webitel-sdk";
+import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/baseFilterMixin/baseFilterMixin';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 export default {
-  name: "FlowTypeFilter",
+  name: 'FlowTypeFilter',
   mixins: [baseFilterMixin],
   data: () => ({
     EngineRoutingSchemaType,
-    filterQuery: "type",
+    filterQuery: 'type',
   }),
   methods: {
     handleChange(value) {

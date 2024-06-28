@@ -43,17 +43,17 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, numeric, required } from "@vuelidate/validators";
-import { isValidCron } from "cron-validator";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Logs from "../modules/logs/components/opened-trigger-logs.vue";
-import LogsFilters from "../modules/logs/modules/filters/components/the-triggers-logs-filters.vue";
-import General from "./opened-trigger-general.vue";
-import Variables from "./opened-trigger-variables.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, numeric, required } from '@vuelidate/validators';
+import { isValidCron } from 'cron-validator';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Logs from '../modules/logs/components/opened-trigger-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
+import General from './opened-trigger-general.vue';
+import Variables from './opened-trigger-variables.vue';
 
 export default {
-  name: "OpenedTrigger",
+  name: 'OpenedTrigger',
   components: {
     General,
     Variables,
@@ -66,7 +66,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "integrations/triggers",
+    namespace: 'integrations/triggers',
   }),
   validations: {
     itemInstance: {
@@ -90,17 +90,17 @@ export default {
   computed: {
     tabs() {
       const general = {
-        text: this.$t("objects.general"),
-        value: "general",
+        text: this.$t('objects.general'),
+        value: 'general',
       };
       const variables = {
-        text: this.$tc("vocabulary.variables", 2),
-        value: "variables",
+        text: this.$tc('vocabulary.variables', 2),
+        value: 'variables',
       };
       const logs = {
-        text: this.$t("objects.integrations.triggers.logs.logs"),
-        value: "logs",
-        filters: "logs-filters",
+        text: this.$t('objects.integrations.triggers.logs.logs'),
+        value: 'logs',
+        filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
       };
 
@@ -110,17 +110,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/integrations/triggers";
+      const baseUrl = '/integrations/triggers';
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.triggers.triggers", 2),
+          name: this.$tc('objects.integrations.triggers.triggers', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

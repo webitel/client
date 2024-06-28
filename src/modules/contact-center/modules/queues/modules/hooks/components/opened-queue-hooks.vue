@@ -101,17 +101,17 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../../../app/composables/useDummy.js";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import HookPopup from "./opened-queue-hooks-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import HookPopup from './opened-queue-hooks-popup.vue';
 
-const namespace = "ccenter/queues";
-const subNamespace = "hooks";
+const namespace = 'ccenter/queues';
+const subNamespace = 'hooks';
 
 export default {
-  name: "OpenedQueueHooks",
+  name: 'OpenedQueueHooks',
   components: { DeleteConfirmationPopup, HookPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {

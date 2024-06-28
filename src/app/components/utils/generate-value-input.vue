@@ -38,11 +38,11 @@
 const MIN_HASH_SIZE = 59;
 
 export default {
-  name: "GenerateValueInput",
+  name: 'GenerateValueInput',
   props: {
     value: {
       type: String,
-      default: "",
+      default: '',
     },
     v: {
       type: Object,
@@ -57,14 +57,14 @@ export default {
     },
     label: {
       type: String,
-      default: "",
+      default: '',
     },
     labelProps: {
       type: Object,
     },
     placeholder: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
@@ -76,7 +76,7 @@ export default {
 
   computed: {
     valueRepresentation() {
-      return this.value.length <= MIN_HASH_SIZE ? this.value : "";
+      return this.value.length <= MIN_HASH_SIZE ? this.value : '';
     },
   },
 
@@ -87,8 +87,8 @@ export default {
   methods: {
     generateValue() {
       const length = 16;
-      const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let value = "";
+      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let value = '';
       for (let i = 0; i < length; i += 1) {
         value += charset.charAt(Math.floor(Math.random() * charset.length));
       }
@@ -96,7 +96,7 @@ export default {
     },
 
     input(value) {
-      this.$emit("input", value);
+      this.$emit('input', value);
     },
   },
 };

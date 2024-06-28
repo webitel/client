@@ -55,13 +55,13 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import BucketsAPI from "../../../../../../lookups/modules/buckets/api/buckets";
-import CalendarsAPI from "../../../../../../lookups/modules/calendars/api/calendars";
-import AgentsAPI from "../../../../agents/api/agents";
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
+import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: "OpenedQueueMemberGeneral",
+  name: 'OpenedQueueMemberGeneral',
   mixins: [openedTabComponentMixin],
   computed: {
     disableUserInput() {

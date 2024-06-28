@@ -1,4 +1,4 @@
-import RouteNames from "../../../router/_internals/RouteNames.enum";
+import RouteNames from '../../../router/_internals/RouteNames.enum';
 
 export default {
   data: () => ({

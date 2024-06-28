@@ -131,17 +131,17 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { mapActions } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "lookups/pauseCause";
+const namespace = 'lookups/pauseCause';
 
 export default {
-  name: "TheAgentPauseCause",
+  name: 'TheAgentPauseCause',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -178,11 +178,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$t("objects.lookups.pauseCause.pauseCause"),
-          route: "/lookups/pause-cause",
+          name: this.$t('objects.lookups.pauseCause.pauseCause'),
+          route: '/lookups/pause-cause',
         },
       ];
     },
@@ -200,7 +200,7 @@ export default {
       },
     }),
     prettifyPauseCauseLimit(limit) {
-      return `${limit} ${this.$t("objects.lookups.pauseCause.min")}`;
+      return `${limit} ${this.$t('objects.lookups.pauseCause.min')}`;
     },
   },
 };

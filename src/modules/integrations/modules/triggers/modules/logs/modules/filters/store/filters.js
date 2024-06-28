@@ -1,7 +1,7 @@
-import BaseFilterSchema from "@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema";
-import EnumFilterSchema from "@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema";
-import QueryFiltersStoreModule from "@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule";
-import { EngineTriggerJobState } from "webitel-sdk";
+import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
+import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
+import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
+import { EngineTriggerJobState } from 'webitel-sdk';
 
 const state = {
   startedAtFrom: new BaseFilterSchema({
@@ -18,7 +18,7 @@ const state = {
       locale: `objects.integrations.triggers.logs.resultName.${value}`,
     })),
     locale: {
-      label: "objects.integrations.triggers.logs.result",
+      label: 'objects.integrations.triggers.logs.result',
     },
   }),
   duration: new BaseFilterSchema({

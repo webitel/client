@@ -1,24 +1,24 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
   notify,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { AgentServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { AgentServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const teamSupervisorService = new AgentServiceApiFactory(configuration, "", instance);
+const teamSupervisorService = new AgentServiceApiFactory(configuration, '', instance);
 
 const getTeamSupervisorsList = async (params) => {
   const isSupervisor = true;
-  const fields = ["id", "name"];
+  const fields = ['id', 'name'];
 
   const { page, size, search, parentId, sort } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -71,11 +71,11 @@ const patchAgent = async ({ id, changes }) => {
 };
 
 const getTeamSupervisorSubordinatesList = async (params) => {
-  const fields = ["id", "user"];
+  const fields = ['id', 'user'];
 
   const { page, size, search, supervisorId, teamId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {

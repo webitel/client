@@ -1,6 +1,6 @@
-import CommunicationsAPI from "../../../../../../lookups/modules/communications/api/communications";
-import QueueMembersAPI from "../api/queueMembers";
-import { digitsDtmfOnly } from "../validation/dtmf";
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
+import QueueMembersAPI from '../api/queueMembers';
+import { digitsDtmfOnly } from '../validation/dtmf';
 
 const findCommunicationIdByCode = ({ communications, code }) =>
   communications.find((communication) => communication.code === code).id;
@@ -50,7 +50,7 @@ export default {
           normalizedItem.agentId = undefined;
         }
         if (normalizedItem.variables) {
-          const variablesMappings = this.mappingFields.find((field) => field.name === "variables");
+          const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
           normalizedItem.variables = item.variables.reduce(
             (variables, variable, index) => ({
               ...variables,
@@ -110,7 +110,7 @@ export default {
           // fill communication dtmf, if present
           if (normalizedItem.dtmf?.[index]) {
             if (!digitsDtmfOnly(normalizedItem.dtmf[index])) {
-              throw new SyntaxError("No valid DTMF were passed!");
+              throw new SyntaxError('No valid DTMF were passed!');
             }
             communication.dtmf = normalizedItem.dtmf[index];
           }
@@ -123,7 +123,7 @@ export default {
           remember: we skip communications where's no destination or code
          */
         if (!normalizedItem.communications.length) {
-          throw new RangeError("No valid communications were passed!");
+          throw new RangeError('No valid communications were passed!');
         }
 
         normalizedItem.destination = undefined;

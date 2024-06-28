@@ -24,38 +24,38 @@
 </template>
 
 <script>
-import { editor, languages } from "monaco-editor";
-import { markRaw } from "vue";
-import { mapState } from "vuex";
+import { editor, languages } from 'monaco-editor';
+import { markRaw } from 'vue';
+import { mapState } from 'vuex';
 
 // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
 
 const defaultSizeConfig = {
-  fontSize: "14px",
+  fontSize: '14px',
 };
 
 const fullscreenSizeConfig = {
-  fontSize: "16px",
+  fontSize: '16px',
 };
 
 const config = {
   ...defaultSizeConfig,
-  language: "json",
-  wordWrap: "off",
+  language: 'json',
+  wordWrap: 'off',
   autoClosingQuotes: true,
   autoClosingBrackets: true,
   automaticLayout: true,
   autoIndent: true,
-  horizontal: "scroll",
+  horizontal: 'scroll',
   readOnly: false,
 };
 
 let autocompleteDisposed = null;
 
 export default {
-  name: "CodeEditor",
+  name: 'CodeEditor',
   model: {
-    event: "change",
+    event: 'change',
   },
   props: {
     value: {
@@ -65,7 +65,7 @@ export default {
     options: Object,
     label: {
       type: String,
-      default: "",
+      default: '',
     },
     autocomplete: {
       type: Array,
@@ -77,21 +77,21 @@ export default {
     },
   },
   data: () => ({
-    editor: "",
+    editor: '',
     isFullscreen: false,
   }),
   computed: {
-    ...mapState("appearance", {
+    ...mapState('appearance', {
       theme: (state) => state.theme,
     }),
     fullscreenIcon() {
-      return this.isFullscreen ? "collapse" : "expand";
+      return this.isFullscreen ? 'collapse' : 'expand';
     },
     fullscreenIconSize() {
-      return this.isFullscreen ? "xl" : "md";
+      return this.isFullscreen ? 'xl' : 'md';
     },
     fullscreenIconTooltip() {
-      return this.isFullscreen ? this.$t("iconHints.collapse") : this.$t("iconHints.expand");
+      return this.isFullscreen ? this.$t('iconHints.collapse') : this.$t('iconHints.expand');
     },
   },
   watch: {
@@ -104,7 +104,7 @@ export default {
     },
     theme: {
       handler() {
-        this.theme === "dark" ? editor.setTheme("vs-dark") : editor.setTheme("vs");
+        this.theme === 'dark' ? editor.setTheme('vs-dark') : editor.setTheme('vs');
       },
       immediate: true,
     },
@@ -119,13 +119,13 @@ export default {
   methods: {
     initEditor() {
       this.handleDisabled();
-      config.value = this.value || "[]";
+      config.value = this.value || '[]';
       // https://twitter.com/xanf_ua/status/1607423628387438593
       this.editor = markRaw(editor.create(this.$refs.editor, config));
       this.editor.onDidChangeModelContent((event) => {
         const value = this.editor.getValue();
         if (this.value !== value) {
-          this.$emit("change", value, event);
+          this.$emit('change', value, event);
         }
       });
 
@@ -137,7 +137,7 @@ export default {
       this.setupAutocomplete();
     },
     setupAutocomplete() {
-      autocompleteDisposed = languages.registerCompletionItemProvider("json", {
+      autocompleteDisposed = languages.registerCompletionItemProvider('json', {
         provideCompletionItems: (model, position) => {
           const word = model.getWordUntilPosition(position);
           const range = {
@@ -166,7 +166,7 @@ export default {
     },
     checkSyntaxError() {
       const errors = editor.getModelMarkers();
-      this.$emit("errorListener", !!errors.length);
+      this.$emit('errorListener', !!errors.length);
     },
     handleDisabled() {
       if (this.disabled) config.readOnly = true;

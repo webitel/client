@@ -127,16 +127,16 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "lookups/communications";
+const namespace = 'lookups/communications';
 
 export default {
-  name: "TheCommunicationTypes",
+  name: 'TheCommunicationTypes',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -174,11 +174,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.communications.communications", 2),
-          route: "/lookups/communications",
+          name: this.$tc('objects.lookups.communications.communications', 2),
+          route: '/lookups/communications',
         },
       ];
     },
@@ -189,7 +189,7 @@ export default {
         await this.patchItem({
           index,
           item,
-          prop: "default",
+          prop: 'default',
           value,
         });
         if (value) this.loadList();

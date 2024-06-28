@@ -38,11 +38,11 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { maxValue, minValue } from "@vuelidate/validators";
-import { computed, onMounted, reactive } from "vue";
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue } from '@vuelidate/validators';
+import { computed, onMounted, reactive } from 'vue';
 
-const emit = defineEmits(["select", "back", "cancel"]);
+const emit = defineEmits(['select', 'back', 'cancel']);
 
 const state = reactive({
   capacity: 10,

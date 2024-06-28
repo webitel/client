@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "UserStatusChips",
+  name: 'UserStatusChips',
   props: {
     presence: {
       type: Object,
@@ -34,19 +34,19 @@ export default {
   },
   computed: {
     status() {
-      return this.presence.status || "";
+      return this.presence.status || '';
     },
     isSip() {
-      return this.status.includes("sip");
+      return this.status.includes('sip');
     },
     isWeb() {
-      return this.status.includes("web");
+      return this.status.includes('web');
     },
     isDnd() {
-      return this.status.includes("dnd");
+      return this.status.includes('dnd');
     },
     isDlg() {
-      return this.status.includes("dlg");
+      return this.status.includes('dlg');
     },
   },
 };

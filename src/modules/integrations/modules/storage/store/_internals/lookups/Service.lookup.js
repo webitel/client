@@ -1,18 +1,18 @@
 const StorageServiceOptions = Object.freeze({
   AWS: {
-    name: "AWS S3 Bucket",
-    value: "aws",
-    endpoint: "amazonaws.com",
+    name: 'AWS S3 Bucket',
+    value: 'aws',
+    endpoint: 'amazonaws.com',
   },
   DO: {
-    name: "Digital Ocean Spaces",
-    value: "do",
-    endpoint: "digitaloceanspaces.com",
+    name: 'Digital Ocean Spaces',
+    value: 'do',
+    endpoint: 'digitaloceanspaces.com',
   },
   CUSTOM: {
-    name: "Custom",
-    value: "custom",
-    endpoint: "",
+    name: 'Custom',
+    value: 'custom',
+    endpoint: '',
   },
 });
 

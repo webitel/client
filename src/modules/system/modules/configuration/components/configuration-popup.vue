@@ -52,17 +52,17 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, required } from "@vuelidate/validators";
-import deepmerge from "deepmerge";
-import { EngineSystemSettingName } from "webitel-sdk";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import ConfigurationAPI from "../api/configuration";
-import ConfigurationValueTypes from "../utils/configurationValueTypes";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, required } from '@vuelidate/validators';
+import deepmerge from 'deepmerge';
+import { EngineSystemSettingName } from 'webitel-sdk';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import ConfigurationAPI from '../api/configuration';
+import ConfigurationValueTypes from '../utils/configurationValueTypes';
 
 export default {
-  name: "ConfigurationPopup",
+  name: 'ConfigurationPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
     id: {
@@ -98,26 +98,26 @@ export default {
       };
 
       const defaultBooleanConfig = deepmerge(defaultConfig, {
-        component: "wt-switcher",
-        label: this.$t("reusable.state"),
+        component: 'wt-switcher',
+        label: this.$t('reusable.state'),
         on: {
           change: (event) =>
             this.setItemProp({
-              prop: "value",
+              prop: 'value',
               value: event,
             }),
         },
       });
       const defaultNumberConfig = deepmerge(defaultConfig, {
-        component: "wt-input",
-        label: this.$tc("vocabulary.values", 1),
+        component: 'wt-input',
+        label: this.$tc('vocabulary.values', 1),
         bind: {
-          type: "number",
+          type: 'number',
         },
         on: {
           input: (event) =>
             this.setItemProp({
-              prop: "value",
+              prop: 'value',
               value: +event,
             }),
         },
@@ -165,7 +165,7 @@ export default {
       return this.loadItem();
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     async loadParameterList(params) {
       return await ConfigurationAPI.getObjectsList({
@@ -175,17 +175,17 @@ export default {
     },
     setParameterName(event) {
       this.setItemProp({
-        prop: "name",
+        prop: 'name',
         value: event.name,
       });
-      if (this.valueType === "boolean")
+      if (this.valueType === 'boolean')
         this.setItemProp({
-          prop: "value",
+          prop: 'value',
           value: false,
         });
-      if (this.valueType === "number")
+      if (this.valueType === 'number')
         this.setItemProp({
-          prop: "value",
+          prop: 'value',
           value: 0,
         });
     },

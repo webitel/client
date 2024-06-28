@@ -48,20 +48,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { maxValue, minValue, numeric, required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import SkillsAPI from "../../../../../../lookups/modules/agent-skills/api/agentSkills";
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 
 export default {
-  name: "OpenedAgentSkillsPopup",
+  name: 'OpenedAgentSkillsPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/agents/skills",
+    namespace: 'ccenter/agents/skills',
   }),
   validations: {
     itemInstance: {

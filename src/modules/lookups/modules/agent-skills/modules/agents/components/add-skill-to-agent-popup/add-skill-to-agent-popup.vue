@@ -16,10 +16,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import AgentSkillsAPI from "../../api/skillAgents";
-import ConfigAgentSkillPopup from "./config-agent-skill-popup.vue";
-import SelectAgentsPopup from "./select-agents-popup.vue";
+import { reactive, ref } from 'vue';
+import AgentSkillsAPI from '../../api/skillAgents';
+import ConfigAgentSkillPopup from './config-agent-skill-popup.vue';
+import SelectAgentsPopup from './select-agents-popup.vue';
 
 const props = defineProps({
   skillId: {
@@ -28,7 +28,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["saved", "close"]);
+const emit = defineEmits(['saved', 'close']);
 
 const isSelectAgentsPopup = ref(true);
 const isAgentConfigSkillPopup = ref(false);
@@ -40,7 +40,7 @@ const itemInstance = reactive({
 });
 
 function cancel() {
-  emit("close");
+  emit('close');
 }
 
 function addSkillToAgent(skillId, itemInstance) {
@@ -71,8 +71,8 @@ async function handleSkillConfigSelect({ capacity, enabled }) {
   itemInstance.capacity = capacity;
   itemInstance.enabled = enabled;
   await handleSave(itemInstance);
-  emit("saved");
-  emit("close");
+  emit('saved');
+  emit('close');
 }
 </script>
 

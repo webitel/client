@@ -73,12 +73,12 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import FlowsAPI from "../../../../flow/api/flow";
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../../flow/api/flow';
 
 export default {
-  name: "OpenedChatWebchatGeneralTab",
+  name: 'OpenedChatWebchatGeneralTab',
   mixins: [openedTabComponentMixin],
   computed: {
     disableOpenTimeout() {
@@ -92,7 +92,7 @@ export default {
       set(value) {
         const mbToB = (mb) => `${(mb || 0) * 1024 * 1024}`;
         this.setItemMetadata({
-          prop: "mediaMaxSize",
+          prop: 'mediaMaxSize',
           value: mbToB(value),
         });
       },
@@ -111,12 +111,12 @@ export default {
     setFlow(value) {
       if (!this.itemInstance.name) {
         this.setItemProp({
-          prop: "name",
+          prop: 'name',
           value: value.name,
         });
       }
       this.setItemProp({
-        prop: "flow",
+        prop: 'flow',
         value,
       });
     },

@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,14 +7,14 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { QueueBucketServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { QueueBucketServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const queueBucketsService = new QueueBucketServiceApiFactory(configuration, "", instance);
+const queueBucketsService = new QueueBucketServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ["bucket", "priority", "queueId", "disabled"];
+const fieldsToSend = ['bucket', 'priority', 'queueId', 'disabled'];
 
 const preRequestHandler = (parentId) => (item) => ({
   ...item,
@@ -22,7 +22,7 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 const getQueueBucketsList = async (params) => {
-  const fieldsToSend = ["page", "size", "search", "sort", "fields", "id", "parentId"];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
 
   const defaultObject = {
     priority: 0,
@@ -31,7 +31,7 @@ const getQueueBucketsList = async (params) => {
 
   const { page, size, search, sort, fields, id, parentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     sanitize(fieldsToSend),
   ]);
 

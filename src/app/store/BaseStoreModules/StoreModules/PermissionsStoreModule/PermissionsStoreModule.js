@@ -1,9 +1,9 @@
-import BaseStoreModule from "@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule";
-import PermissionsAPI from "../../../../../modules/_shared/permissions-tab/api/PermissionsAPI";
-import AccessMode from "../../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum";
-import BaseOpenedInstanceModule from "../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin";
-import BaseTableModule from "../../StoreModuleMixins/BaseTableStoreModuleMixin";
-import defaultHeaders from "./_internals/headers";
+import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import PermissionsAPI from '../../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
+import AccessMode from '../../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
+import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
+import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
+import defaultHeaders from './_internals/headers';
 
 export class PermissionsStoreModule extends BaseStoreModule {
   state = {};
@@ -15,23 +15,23 @@ export class PermissionsStoreModule extends BaseStoreModule {
     ...BaseOpenedInstanceModule.getActions(),
 
     CHANGE_CREATE_ACCESS_MODE: (context, payload) =>
-      context.dispatch("CHANGE_ACCESS_MODE", {
-        ruleName: "x",
+      context.dispatch('CHANGE_ACCESS_MODE', {
+        ruleName: 'x',
         ...payload,
       }),
     CHANGE_READ_ACCESS_MODE: (context, payload) =>
-      context.dispatch("CHANGE_ACCESS_MODE", {
-        ruleName: "r",
+      context.dispatch('CHANGE_ACCESS_MODE', {
+        ruleName: 'r',
         ...payload,
       }),
     CHANGE_UPDATE_ACCESS_MODE: (context, payload) =>
-      context.dispatch("CHANGE_ACCESS_MODE", {
-        ruleName: "w",
+      context.dispatch('CHANGE_ACCESS_MODE', {
+        ruleName: 'w',
         ...payload,
       }),
     CHANGE_DELETE_ACCESS_MODE: (context, payload) =>
-      context.dispatch("CHANGE_ACCESS_MODE", {
-        ruleName: "d",
+      context.dispatch('CHANGE_ACCESS_MODE', {
+        ruleName: 'd',
         ...payload,
       }),
     CHANGE_ACCESS_MODE: async (context, { mode, ruleName, item }) => {
@@ -65,32 +65,32 @@ export class PermissionsStoreModule extends BaseStoreModule {
         grants: want,
       };
       try {
-        await context.dispatch("PATCH_ACCESS_MODE", {
+        await context.dispatch('PATCH_ACCESS_MODE', {
           item,
           changes,
         });
       } catch (err) {
         throw err;
       } finally {
-        context.dispatch("LOAD_DATA_LIST");
+        context.dispatch('LOAD_DATA_LIST');
       }
     },
     ADD_ROLE_PERMISSIONS: async (context, role) => {
       const changes = {
         grantee: +role.id,
-        grants: "r",
+        grants: 'r',
       };
       try {
-        await context.dispatch("PATCH_ACCESS_MODE", {
+        await context.dispatch('PATCH_ACCESS_MODE', {
           changes,
         });
       } catch {
       } finally {
-        context.dispatch("LOAD_DATA_LIST");
+        context.dispatch('LOAD_DATA_LIST');
       }
     },
     RESET_ITEM_STATE: async (context) => {
-      context.commit("RESET_ITEM_STATE");
+      context.commit('RESET_ITEM_STATE');
     },
   };
 

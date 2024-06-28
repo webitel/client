@@ -36,20 +36,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, required, requiredUnless } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import storageMixin from "../mixins/storageMixin";
-import Storage from "../store/_internals/enums/Storage.enum";
-import Backblaze from "./_unused/opened-storage-backblaze.vue";
-import Drive from "./_unused/opened-storage-drive.vue";
-import Dropbox from "./_unused/opened-storage-dropbox.vue";
-import Local from "./_unused/opened-storage-local.vue";
-import General from "./opened-storage-general.vue";
-import S3 from "./opened-storage-s3.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, required, requiredUnless } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import storageMixin from '../mixins/storageMixin';
+import Storage from '../store/_internals/enums/Storage.enum';
+import Backblaze from './_unused/opened-storage-backblaze.vue';
+import Drive from './_unused/opened-storage-drive.vue';
+import Dropbox from './_unused/opened-storage-dropbox.vue';
+import Local from './_unused/opened-storage-local.vue';
+import General from './opened-storage-general.vue';
+import S3 from './opened-storage-s3.vue';
 
 export default {
-  name: "OpenedStorage",
+  name: 'OpenedStorage',
   components: {
     General,
     Local,
@@ -63,7 +63,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "integrations/storage",
+    namespace: 'integrations/storage',
   }),
   validations() {
     const itemInstanceDefaults = {
@@ -173,45 +173,45 @@ export default {
         case Storage.DRIVE:
           return Storage.DRIVE;
         default:
-          return "";
+          return '';
       }
     },
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       switch (this.$route.params.type) {
         case Storage.LOCAL:
           tabs.push({
-            text: this.$t("objects.integrations.storage.configuration"),
-            value: "local",
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'local',
           });
           break;
         case Storage.S3:
           tabs.push({
-            text: this.$t("objects.integrations.storage.configuration"),
-            value: "s3",
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 's3',
           });
           break;
         case Storage.BACKBLAZE:
           tabs.push({
-            text: this.$t("objects.integrations.storage.configuration"),
-            value: "backblaze",
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'backblaze',
           });
           break;
         case Storage.DROPBOX:
           tabs.push({
-            text: this.$t("objects.integrations.storage.configuration"),
-            value: "dropbox",
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'dropbox',
           });
           break;
         case Storage.DRIVE:
           tabs.push({
-            text: this.$t("objects.integrations.storage.configuration"),
-            value: "drive",
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'drive',
           });
           break;
         default:
@@ -221,18 +221,18 @@ export default {
 
     path() {
       const { type } = this.$route.params;
-      const baseUrl = "/integrations/storage";
+      const baseUrl = '/integrations/storage';
       const url = `${baseUrl}/${type}`;
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t("objects.integrations.storage.storage"),
+          name: this.$t('objects.integrations.storage.storage'),
           route: baseUrl,
         },
         {
-          name: this.id ? `${this.pathName} (${this.service.name})` : this.$t("objects.new"),
+          name: this.id ? `${this.pathName} (${this.service.name})` : this.$t('objects.new'),
           route: this.id ? `${url}/${this.id}` : `${url}/new`,
         },
       ];

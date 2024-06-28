@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,23 +7,23 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { CognitiveProfileServiceApiFactory } from "webitel-sdk";
-import { MicrosoftRegion } from "webitel-sdk/esm2015/lookups";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
-import CognitiveProfileServices from "../lookups/CognitiveProfileServices.lookup";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { CognitiveProfileServiceApiFactory } from 'webitel-sdk';
+import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
+import CognitiveProfileServices from '../lookups/CognitiveProfileServices.lookup';
 
-const cognitiveProfilesService = new CognitiveProfileServiceApiFactory(configuration, "", instance);
+const cognitiveProfilesService = new CognitiveProfileServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  "name",
-  "default",
-  "enabled",
-  "provider",
-  "service",
-  "description",
-  "properties",
+  'name',
+  'default',
+  'enabled',
+  'provider',
+  'service',
+  'description',
+  'properties',
 ];
 
 const preRequestHandler = (item) => {
@@ -46,7 +46,7 @@ const getList = async (params) => {
 
   const { page, size, search, sort, fields, id, service, enabled } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -152,7 +152,7 @@ const deleteItem = async ({ id }) => {
 const getLookup = (params) =>
   getList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const CognitiveProfilesAPI = {

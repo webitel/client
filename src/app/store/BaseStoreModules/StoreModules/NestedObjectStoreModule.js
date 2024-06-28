@@ -1,7 +1,7 @@
-import BaseStoreModule from "@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule";
-import deepCopy from "deep-copy";
-import BaseOpenedInstanceModule from "../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin";
-import BaseTableModule from "../StoreModuleMixins/BaseTableStoreModuleMixin";
+import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import deepCopy from 'deep-copy';
+import BaseOpenedInstanceModule from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
+import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
 
 const DEFAULT_STATE = BaseTableModule.generateState();
 const DEFAULT_ITEM_STATE = BaseOpenedInstanceModule.generateState();
@@ -18,19 +18,19 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
 
     ADD_ITEM: async (context) => {
       if (!context.state.itemId) {
-        const { id } = await context.dispatch("POST_ITEM");
-        context.dispatch("SET_ITEM_ID", id);
-        await context.dispatch("LOAD_DATA_LIST");
+        const { id } = await context.dispatch('POST_ITEM');
+        context.dispatch('SET_ITEM_ID', id);
+        await context.dispatch('LOAD_DATA_LIST');
       }
     },
     UPDATE_ITEM: async (context) => {
       if (context.state.itemInstance._dirty) {
-        await context.dispatch("UPD_ITEM");
-        await context.dispatch("LOAD_DATA_LIST");
+        await context.dispatch('UPD_ITEM');
+        await context.dispatch('LOAD_DATA_LIST');
       }
     },
     RESET_STATE: (context) => {
-      context.commit("RESET_STATE");
+      context.commit('RESET_STATE');
     },
   };
 

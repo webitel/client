@@ -32,18 +32,18 @@
 </template>
 
 <script>
-import clipboardCopy from "clipboard-copy";
-import { mapState } from "vuex";
-import { downloadAsTXT } from "../../../../../../../app/utils/download";
+import clipboardCopy from 'clipboard-copy';
+import { mapState } from 'vuex';
+import { downloadAsTXT } from '../../../../../../../app/utils/download';
 
 export default {
-  name: "OpenedUserTokenCreatedPopup",
+  name: 'OpenedUserTokenCreatedPopup',
 
   computed: {
-    ...mapState("directory/users", {
+    ...mapState('directory/users', {
       userName: (state) => state.itemInstance.name,
     }),
-    ...mapState("directory/users/tokens", {
+    ...mapState('directory/users/tokens', {
       token: (state) => state.itemInstance.token,
     }),
   },
@@ -59,7 +59,7 @@ export default {
     },
 
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

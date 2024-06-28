@@ -45,20 +45,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required, requiredIf, requiredUnless } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Logs from "../modules/logs/components/opened-user-logs.vue";
-import LogsFilters from "../modules/logs/modules/filters/components/opened-user-logs-filters.vue";
-import Tokens from "../modules/tokens/components/opened-user-token.vue";
-import Devices from "./opened-user-devices.vue";
-import General from "./opened-user-general.vue";
-import License from "./opened-user-license.vue";
-import Roles from "./opened-user-roles.vue";
-import Variables from "./opened-user-variables.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Logs from '../modules/logs/components/opened-user-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
+import Tokens from '../modules/tokens/components/opened-user-token.vue';
+import Devices from './opened-user-devices.vue';
+import General from './opened-user-general.vue';
+import License from './opened-user-license.vue';
+import Roles from './opened-user-roles.vue';
+import Variables from './opened-user-variables.vue';
 
 export default {
-  name: "OpenedUser",
+  name: 'OpenedUser',
   components: {
     General,
     Roles,
@@ -75,7 +75,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "directory/users",
+    namespace: 'directory/users',
   }),
   validations: {
     itemInstance: {
@@ -98,17 +98,17 @@ export default {
 
   computed: {
     path() {
-      const baseUrl = "/directory/users";
+      const baseUrl = '/directory/users';
       return [
         {
-          name: this.$t("objects.directory.directory"),
+          name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc("objects.directory.users.users", 2),
+          name: this.$tc('objects.directory.users.users', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
@@ -116,33 +116,33 @@ export default {
 
     tabs() {
       const general = {
-        text: this.$t("objects.general"),
-        value: "general",
+        text: this.$t('objects.general'),
+        value: 'general',
       };
       const roles = {
-        text: this.$t("objects.directory.users.roles"),
-        value: "roles",
+        text: this.$t('objects.directory.users.roles'),
+        value: 'roles',
       };
       const license = {
-        text: this.$t("objects.directory.users.license"),
-        value: "license",
+        text: this.$t('objects.directory.users.license'),
+        value: 'license',
       };
       const devices = {
-        text: this.$t("objects.directory.users.devices"),
-        value: "devices",
+        text: this.$t('objects.directory.users.devices'),
+        value: 'devices',
       };
       const variables = {
-        text: this.$t("objects.directory.users.variables"),
-        value: "variables",
+        text: this.$t('objects.directory.users.variables'),
+        value: 'variables',
       };
       const tokens = {
-        text: this.$t("objects.directory.users.tokens"),
-        value: "tokens",
+        text: this.$t('objects.directory.users.tokens'),
+        value: 'tokens',
       };
       const logs = {
-        text: this.$t("objects.system.changelogs.changelogs", 2),
-        value: "logs",
-        filters: "logs-filters",
+        text: this.$t('objects.system.changelogs.changelogs', 2),
+        value: 'logs',
+        filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/logs/filters`,
       };
 

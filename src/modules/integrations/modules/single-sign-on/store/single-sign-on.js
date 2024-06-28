@@ -1,14 +1,14 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import SingleSignOnAPI from "../api/singleSignOn";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import SingleSignOnAPI from '../api/singleSignOn';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
-    type: "",
-    clientId: "",
-    clientSecret: "",
-    discoveryUrl: "",
+    name: '',
+    type: '',
+    clientId: '',
+    clientSecret: '',
+    discoveryUrl: '',
     enabled: true,
     scopes: [],
   },

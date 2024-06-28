@@ -41,25 +41,25 @@
 </template>
 
 <script>
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: "CreateDevicePopup",
+  name: 'CreateDevicePopup',
 
   data() {
     return {
-      selectedOptionValue: "",
+      selectedOptionValue: '',
       options: [
         {
-          value: "default",
-          title: this.$tc("objects.directory.devices.devices", 1),
-          description: this.$tc("objects.directory.devices.deviceSettings", 1),
+          value: 'default',
+          title: this.$tc('objects.directory.devices.devices', 1),
+          description: this.$tc('objects.directory.devices.deviceSettings', 1),
           routeName: `${RouteNames.DEVICES}-new`,
         },
         {
-          value: "hotdesk",
-          title: this.$t("objects.directory.devices.hotdeskDevice"),
-          description: this.$t("objects.directory.devices.hotdeskDeviceSettings"),
+          value: 'hotdesk',
+          title: this.$t('objects.directory.devices.hotdeskDevice'),
+          description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
           routeName: `${RouteNames.DEVICES}-hotdesk-new`,
         },
       ],
@@ -89,7 +89,7 @@ export default {
     },
 
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

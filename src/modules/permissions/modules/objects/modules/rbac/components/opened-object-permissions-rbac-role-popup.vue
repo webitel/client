@@ -37,15 +37,15 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins from "../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin";
-import PermissionsRoleSelect from "../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue";
+import permissionsTabRolePopupMixins from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import PermissionsRoleSelect from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
 
 export default {
-  name: "OpenedObjectPermissionsRbacRolePopup",
+  name: 'OpenedObjectPermissionsRbacRolePopup',
   components: { PermissionsRoleSelect },
   mixins: [permissionsTabRolePopupMixins],
   data: () => ({
-    newGrantor: "",
+    newGrantor: '',
   }),
 
   methods: {
@@ -55,7 +55,7 @@ export default {
           grantee: this.newGrantee,
           grantor: this.newGrantor,
         });
-        this.$emit("close");
+        this.$emit('close');
       } catch (err) {
         throw err;
       }

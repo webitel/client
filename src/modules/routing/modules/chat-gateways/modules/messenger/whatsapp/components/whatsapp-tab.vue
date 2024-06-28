@@ -80,18 +80,18 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { mapActions } from "vuex";
-import openedObjectTableTabMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import openMessengerWindow from "../../_shared/scripts/openMessengerWindow";
-import WhatsappAPI from "../api/whatsapp";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions } from 'vuex';
+import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
+import WhatsappAPI from '../api/whatsapp';
 
 export default {
-  name: "OpenedChatGatewayWhatsappTab",
+  name: 'OpenedChatGatewayWhatsappTab',
   components: { DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
-  inject: ["$eventBus"],
+  inject: ['$eventBus'],
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -112,7 +112,7 @@ export default {
     };
   },
   data: () => ({
-    subNamespace: "whatsapp",
+    subNamespace: 'whatsapp',
   }),
   computed: {
     uri() {
@@ -132,10 +132,10 @@ export default {
       },
     }),
     addOrRemovePagesWindowHandler({ data }) {
-      if (data.status === "success") this.loadList();
-      else if (data.status === "error") {
-        this.$eventBus.$emit("notification", {
-          type: "error",
+      if (data.status === 'success') this.loadList();
+      else if (data.status === 'error') {
+        this.$eventBus.$emit('notification', {
+          type: 'error',
           text: data.detail,
         });
       }

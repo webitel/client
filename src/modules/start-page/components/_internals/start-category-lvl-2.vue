@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "StartCategoryLvl2",
+  name: 'StartCategoryLvl2',
   props: {
     categories: {
       type: Array,

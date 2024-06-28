@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -9,26 +9,26 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import deepCopy from "deep-copy";
-import instance from "../../../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import instance from '../../../../../app/api/instance';
 
-const baseUrl = "/devices";
+const baseUrl = '/devices';
 const fieldsToSend = [
-  "name",
-  "account",
-  "password",
-  "user",
-  "mac",
-  "ip",
-  "brand",
-  "model",
-  "hotdesks",
-  "hotdesk",
+  'name',
+  'account',
+  'password',
+  'user',
+  'mac',
+  'ip',
+  'brand',
+  'model',
+  'hotdesks',
+  'hotdesk',
 ];
 
 const getDeviceList = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     state: 0,
@@ -36,7 +36,7 @@ const getDeviceList = async (params) => {
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -122,14 +122,14 @@ const deleteDevice = async ({ id }) => {
 const getDevicesLookup = (params) =>
   getDeviceList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const getDeviceHistory = async ({ parentId, from, to, ...rest }) => {
-  const fieldsToSend = ["page", "size", "search", "fields", "id", "timeFrom", "timeTo"];
+  const fieldsToSend = ['page', 'size', 'search', 'fields', 'id', 'timeFrom', 'timeTo'];
   const url = applyTransform({ ...rest, timeFrom: from, timeTo: to }, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),

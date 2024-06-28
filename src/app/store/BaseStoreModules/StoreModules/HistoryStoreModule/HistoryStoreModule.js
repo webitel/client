@@ -1,6 +1,6 @@
-import BaseStoreModule from "@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule";
-import BaseOpenedInstanceModule from "../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin";
-import BaseTableModule from "../../StoreModuleMixins/BaseTableStoreModuleMixin";
+import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
+import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
 
 export class HistoryStoreModule extends BaseStoreModule {
   getters = {};
@@ -9,12 +9,12 @@ export class HistoryStoreModule extends BaseStoreModule {
     ...BaseOpenedInstanceModule.getActions(),
 
     SET_FROM: (context, from) => {
-      context.commit("SET_FROM", from);
-      context.dispatch("LOAD_DATA_LIST");
+      context.commit('SET_FROM', from);
+      context.dispatch('LOAD_DATA_LIST');
     },
     SET_TO: (context, to) => {
-      context.commit("SET_TO", to);
-      context.dispatch("LOAD_DATA_LIST");
+      context.commit('SET_TO', to);
+      context.dispatch('LOAD_DATA_LIST');
     },
   };
 

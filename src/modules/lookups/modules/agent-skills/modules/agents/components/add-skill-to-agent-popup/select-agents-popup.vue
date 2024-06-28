@@ -76,12 +76,12 @@
 </template>
 
 <script setup>
-import { useInfiniteScroll } from "@vueuse/core";
-import { SortSymbols, sortToQueryAdapter } from "@webitel/ui-sdk/src/scripts/sortQueryAdapters";
-import { computed, reactive, ref } from "vue";
-import AgentsAPI from "../../../../../../../contact-center/modules/agents/api/agents";
-import TeamsAPI from "../../../../../../../contact-center/modules/teams/api/teams";
-import SkillsAPI from "../../../../api/agentSkills";
+import { useInfiniteScroll } from '@vueuse/core';
+import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { computed, reactive, ref } from 'vue';
+import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
+import TeamsAPI from '../../../../../../../contact-center/modules/teams/api/teams';
+import SkillsAPI from '../../../../api/agentSkills';
 
 const props = defineProps({
   skillId: {
@@ -90,29 +90,29 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["select", "cancel"]);
+const emit = defineEmits(['select', 'cancel']);
 
 // we should keep filters schema in separate function
 // in order to reset it completely at "filters reset" action
 const getFilters = () => ({
-  search: "",
+  search: '',
   teams: [],
   skills: [],
-  sort: "",
+  sort: '',
 });
 
 const filters = ref(getFilters());
 const headers = reactive([
   {
-    value: "name",
-    field: "name",
-    locale: "reusable.name",
+    value: 'name',
+    field: 'name',
+    locale: 'reusable.name',
     sort: SortSymbols.NONE,
   },
   {
-    value: "team",
-    field: "team",
-    locale: ["objects.ccenter.teams.teams", 1],
+    value: 'team',
+    field: 'team',
+    locale: ['objects.ccenter.teams.teams', 1],
     sort: SortSymbols.NONE,
   },
 ]);
@@ -166,7 +166,7 @@ function resetFilters() {
 }
 
 function handleNext() {
-  emit("select", selectedRows.value);
+  emit('select', selectedRows.value);
 }
 
 function sort(header, nextSortOrder) {
@@ -184,7 +184,7 @@ function sort(header, nextSortOrder) {
 }
 
 function cancel() {
-  emit("cancel");
+  emit('cancel');
 }
 
 useInfiniteScroll(infiniteScrollWrap, () => {

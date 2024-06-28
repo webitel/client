@@ -1,9 +1,9 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import Permissions from "../../../../modules/_shared/permissions-tab/components/permissions-tab.vue";
-import baseObjectMixin from "../../baseMixins/baseObjectMixin/baseObjectMixin";
-import headlineNavMixin from "../../baseMixins/headlineNavMixin/headlineNavMixin";
-import openedObjectAccessControlMixin from "./_internals/openedObjectAccessControlMixin";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
+import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
+import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
+import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
@@ -18,7 +18,7 @@ export default {
   },
   data: () => ({
     currentTab: {
-      value: "general",
+      value: 'general',
     },
   }),
 
@@ -38,8 +38,8 @@ export default {
     }),
     permissionsTab() {
       return {
-        text: this.$tc("objects.permissions.permissions", 2),
-        value: "permissions",
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
       };
     },
   },

@@ -45,15 +45,15 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Logs from "../modules/logs/components/opened-changelog-logs.vue";
-import LogsFilters from "../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue";
-import General from "./opened-changelog-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Logs from '../modules/logs/components/opened-changelog-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue';
+import General from './opened-changelog-general.vue';
 
 export default {
-  name: "OpenedChangelog",
+  name: 'OpenedChangelog',
   components: {
     General,
     Logs,
@@ -64,7 +64,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "system/changelogs",
+    namespace: 'system/changelogs',
   }),
   validations: {
     itemInstance: {
@@ -82,14 +82,14 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       const logs = {
-        text: this.$tc("objects.system.changelogs.logs.logs", 2),
-        value: "logs",
-        filters: "logs-filters",
+        text: this.$tc('objects.system.changelogs.logs.logs', 2),
+        value: 'logs',
+        filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/logs/filters`,
       };
       if (this.id) tabs.push(logs);
@@ -97,17 +97,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/system/changelogs";
+      const baseUrl = '/system/changelogs';
       return [
         {
-          name: this.$t("objects.system.system"),
+          name: this.$t('objects.system.system'),
         },
         {
-          name: this.$tc("objects.system.changelogs.changelogs", 1),
+          name: this.$tc('objects.system.changelogs.changelogs', 1),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
@@ -115,7 +115,7 @@ export default {
   },
   mounted() {
     // override headlineNavMixin
-    const unwatch = this.$watch("itemInstance.object", () => {
+    const unwatch = this.$watch('itemInstance.object', () => {
       this.setPathName();
       unwatch();
     });

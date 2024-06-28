@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Agents from "../modules/agents/components/opened-skill-agents.vue";
-import General from "./opened-agent-skill-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Agents from '../modules/agents/components/opened-skill-agents.vue';
+import General from './opened-agent-skill-general.vue';
 
 export default {
-  name: "OpenedAgentSkill",
+  name: 'OpenedAgentSkill',
   components: { General, Agents },
   mixins: [openedObjectMixin],
 
@@ -51,7 +51,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/skills",
+    namespace: 'lookups/skills',
   }),
   validations: {
     itemInstance: {
@@ -63,30 +63,30 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       const agents = {
-        text: this.$tc("objects.ccenter.agents.agents", 2),
-        value: "agents",
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'agents',
       };
       if (this.id) tabs.push(agents);
       return tabs;
     },
 
     path() {
-      const baseUrl = "/lookups/skills";
+      const baseUrl = '/lookups/skills';
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.skills.agentSkills", 2),
+          name: this.$tc('objects.lookups.skills.agentSkills', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

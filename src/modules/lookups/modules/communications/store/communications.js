@@ -1,13 +1,13 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import CommunicationsAPI from "../api/communications";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import CommunicationsAPI from '../api/communications';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
-    code: "",
-    description: "",
-    channel: "",
+    name: '',
+    code: '',
+    description: '',
+    channel: '',
     default: false,
   },
 };

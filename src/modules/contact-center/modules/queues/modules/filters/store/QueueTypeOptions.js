@@ -1,4 +1,4 @@
-import { QueueType } from "webitel-sdk/esm2015/enums";
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 
 export default Object.keys(QueueType)
   // eslint-disable-next-line no-restricted-globals

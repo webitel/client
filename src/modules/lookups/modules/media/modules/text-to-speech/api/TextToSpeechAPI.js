@@ -2,16 +2,16 @@ import applyTransform, {
   camelToSnake,
   generateUrl,
   notify,
-} from "@webitel/ui-sdk/src/api/transformers";
+} from '@webitel/ui-sdk/src/api/transformers';
 
-import instance from "../../../../../../../app/api/instance";
+import instance from '../../../../../../../app/api/instance';
 
 const getTtsStreamUrl = (params, apiUrl = false) => {
-  const baseUrl = "/storage/tts/stream";
+  const baseUrl = '/storage/tts/stream';
   let url = applyTransform(params, [
     (params) => ({
       ...params,
-      access_token: instance.defaults.headers["X-Webitel-Access"],
+      access_token: instance.defaults.headers['X-Webitel-Access'],
     }),
     camelToSnake(),
     generateUrl(baseUrl),
@@ -31,7 +31,7 @@ const getTts = async (params) => {
     throw applyTransform(err, [
       notify(({ callback }) =>
         callback({
-          type: "error",
+          type: 'error',
           text: `Failed to process Text-to-Speech: ${err}`,
         }),
       ),

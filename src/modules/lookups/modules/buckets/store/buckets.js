@@ -1,11 +1,11 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import BucketsAPI from "../api/buckets";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import BucketsAPI from '../api/buckets';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
-    description: "",
+    name: '',
+    description: '',
   },
 };
 

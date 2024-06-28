@@ -80,15 +80,15 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import openedObjectTableTabMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import CommunicationPopup from "./opened-queue-member-communication-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
 export default {
-  name: "OpenedQueueMemberCommunication",
+  name: 'OpenedQueueMemberCommunication',
   components: { CommunicationPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
@@ -112,7 +112,7 @@ export default {
   },
   data: () => ({
     dataListValue: [],
-    searchValue: "",
+    searchValue: '',
     isCommPopup: false,
     editedIndex: null,
   }),
@@ -151,16 +151,16 @@ export default {
     headers() {
       return [
         {
-          value: "destination",
-          text: this.$t("objects.name"),
+          value: 'destination',
+          text: this.$t('objects.name'),
         },
         {
-          value: "type",
-          text: this.$t("objects.ccenter.queues.type"),
+          value: 'type',
+          text: this.$t('objects.ccenter.queues.type'),
         },
         {
-          value: "priority",
-          text: this.$t("objects.ccenter.queues.priority"),
+          value: 'priority',
+          text: this.$t('objects.ccenter.queues.priority'),
         },
       ];
     },

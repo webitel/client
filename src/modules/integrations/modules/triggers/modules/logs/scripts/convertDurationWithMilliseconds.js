@@ -1,5 +1,5 @@
 const convertDurationWithMilliseconds = (duration) => {
-  if (!duration) return "00:00:00.000";
+  if (!duration) return '00:00:00.000';
 
   let hour = `${Math.floor(duration / 1000 / 3600)}`;
   // eslint-disable-next-line no-mixed-operators

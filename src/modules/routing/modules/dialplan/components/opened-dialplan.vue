@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import { regExpValidator } from "../../../../../app/utils/validators";
-import General from "./opened-dialplan-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { regExpValidator } from '../../../../../app/utils/validators';
+import General from './opened-dialplan-general.vue';
 
 export default {
-  name: "OpenedDialplan",
+  name: 'OpenedDialplan',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -51,7 +51,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "routing/dialplan",
+    namespace: 'routing/dialplan',
   }),
   validations: {
     itemInstance: {
@@ -68,24 +68,24 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       return tabs;
     },
     path() {
-      const baseUrl = "/routing/dialplan";
+      const baseUrl = '/routing/dialplan';
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$t("objects.routing.dialplan.dialplan"),
+          name: this.$t('objects.routing.dialplan.dialplan'),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

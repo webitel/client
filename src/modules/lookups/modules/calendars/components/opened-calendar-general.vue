@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import CalendarsAPI from "../api/calendars";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CalendarsAPI from '../api/calendars';
 
 export default {
-  name: "OpenedCalendarGeneral",
+  name: 'OpenedCalendarGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadTimezones(params) {

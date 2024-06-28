@@ -21,38 +21,38 @@
 </template>
 
 <script>
-import LicensesByUser from "../modules/users/components/licenses-by-user.vue";
-import AllLicenses from "./all-licenses/all-licenses.vue";
+import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
+import AllLicenses from './all-licenses/all-licenses.vue';
 
 export default {
-  name: "TheLicense",
+  name: 'TheLicense',
   components: {
     AllLicenses,
     LicensesByUser,
   },
   data: () => ({
-    currentTab: { value: "all-licenses" },
+    currentTab: { value: 'all-licenses' },
   }),
   computed: {
     path() {
       return [
         {
-          name: this.$t("objects.directory.directory"),
+          name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc("objects.directory.license.license", 2),
-          route: "/directory/license",
+          name: this.$tc('objects.directory.license.license', 2),
+          route: '/directory/license',
         },
       ];
     },
     tabs() {
       const allLicenses = {
-        value: "all-licenses",
-        text: this.$t("objects.directory.license.allLicenses"),
+        value: 'all-licenses',
+        text: this.$t('objects.directory.license.allLicenses'),
       };
       const licensesByUser = {
-        value: "licenses-by-user",
-        text: this.$tc("objects.directory.users.users", 2),
+        value: 'licenses-by-user',
+        text: this.$tc('objects.directory.users.users', 2),
       };
       return [allLicenses, licensesByUser];
     },

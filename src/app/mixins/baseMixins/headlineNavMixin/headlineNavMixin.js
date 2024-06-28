@@ -1,9 +1,9 @@
 export default {
   data: () => ({
-    pathName: "",
+    pathName: '',
   }),
   watch: {
-    "itemInstance._dirty": {
+    'itemInstance._dirty': {
       handler(value) {
         if (!value) this.setPathName();
       },
@@ -17,7 +17,7 @@ export default {
   mounted() {
     // itemInstance._dirty isn't init as "false",
     // so that we should set up first name representation in other way
-    const unwatch = this.$watch("itemInstance.name", () => {
+    const unwatch = this.$watch('itemInstance.name', () => {
       this.setPathName();
       unwatch();
     });

@@ -1,4 +1,4 @@
-import UploadCsvPopup from "../components/upload-csv-popup.vue";
+import UploadCsvPopup from '../components/upload-csv-popup.vue';
 
 export default {
   components: { UploadCsvPopup },
@@ -12,7 +12,7 @@ export default {
   }),
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

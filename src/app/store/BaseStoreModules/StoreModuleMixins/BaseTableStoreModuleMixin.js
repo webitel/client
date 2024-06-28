@@ -1,14 +1,14 @@
-import { SortSymbols, sortToQueryAdapter } from "@webitel/ui-sdk/src/scripts/sortQueryAdapters";
-import deepCopy from "deep-copy";
+import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import deepCopy from 'deep-copy';
 
 const state = {
   headers: [],
   dataList: [],
   aggs: {},
   size: 10,
-  search: "",
+  search: '',
   page: 1,
-  sort: "",
+  sort: '',
   isNextPage: false,
 };
 
@@ -27,19 +27,19 @@ const actions = {
     preventively disable isNext to handle case when user is clicking
      "next" faster than actual request is made
      */
-    context.commit("SET_IS_NEXT", false);
+    context.commit('SET_IS_NEXT', false);
 
     const query = {
-      ...context.getters["filters/GET_FILTERS"],
+      ...context.getters['filters/GET_FILTERS'],
       ..._query,
     };
     try {
-      let { items = [], next = false, aggs = {} } = await context.dispatch("GET_LIST", query);
+      let { items = [], next = false, aggs = {} } = await context.dispatch('GET_LIST', query);
 
       /* [https://my.webitel.com/browse/WTEL-3793]
        * When deleting the last item from list,
        * if there are other items on the previous page, you need to go back */
-      if (!items.length && context.state.page > 1) return context.dispatch("PREV_PAGE");
+      if (!items.length && context.state.page > 1) return context.dispatch('PREV_PAGE');
 
       /* we should set _isSelected property to all items in tables cause their checkbox selection
        * is based on this property. Previously, this prop was set it api consumers, but now
@@ -50,55 +50,55 @@ const actions = {
         _isSelected: false,
       }));
 
-      const afterHook = await context.dispatch("BEFORE_SET_DATA_LIST_HOOK", {
+      const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', {
         items,
         next,
         aggs,
       });
-      context.commit("SET_DATA_LIST", afterHook.items);
-      context.commit("SET_IS_NEXT", afterHook.next);
-      context.commit("AGGS", afterHook.aggs);
-      context.dispatch("AFTER_SET_DATA_LIST_HOOK", afterHook);
+      context.commit('SET_DATA_LIST', afterHook.items);
+      context.commit('SET_IS_NEXT', afterHook.next);
+      context.commit('AGGS', afterHook.aggs);
+      context.dispatch('AFTER_SET_DATA_LIST_HOOK', afterHook);
     } catch (err) {
       console.error(err);
     }
   },
   SET_SIZE: async (context, size) => {
-    context.commit("SET_SIZE", size);
-    await context.dispatch("RESET_PAGE");
+    context.commit('SET_SIZE', size);
+    await context.dispatch('RESET_PAGE');
   },
   SET_SEARCH: async (context, search) => {
-    context.commit("SET_SEARCH", search);
-    await context.dispatch("RESET_PAGE");
+    context.commit('SET_SEARCH', search);
+    await context.dispatch('RESET_PAGE');
   },
   NEXT_PAGE: (context) => {
     const page = context.state.page + 1;
-    context.commit("SET_PAGE", page);
-    context.dispatch("LOAD_DATA_LIST");
+    context.commit('SET_PAGE', page);
+    context.dispatch('LOAD_DATA_LIST');
   },
   PREV_PAGE: (context) => {
     if (context.state.page > 1) {
       const page = context.state.page - 1;
-      context.commit("SET_PAGE", page);
-      context.dispatch("LOAD_DATA_LIST");
+      context.commit('SET_PAGE', page);
+      context.dispatch('LOAD_DATA_LIST');
     }
   },
   RESET_PAGE: (context) => {
     const page = 1;
-    context.commit("SET_PAGE", page);
+    context.commit('SET_PAGE', page);
   },
-  SET_HEADERS: (context, headers) => context.commit("SET_HEADERS", headers),
+  SET_HEADERS: (context, headers) => context.commit('SET_HEADERS', headers),
   SORT: async (context, { header, nextSortOrder }) => {
     const sort = nextSortOrder
       ? `${sortToQueryAdapter(nextSortOrder)}${header.field}`
       : nextSortOrder;
-    context.commit("SET_SORT", sort);
-    context.dispatch("UPDATE_HEADER_SORT", {
+    context.commit('SET_SORT', sort);
+    context.dispatch('UPDATE_HEADER_SORT', {
       header,
       nextSortOrder,
     });
-    await context.dispatch("RESET_PAGE");
-    return context.dispatch("LOAD_DATA_LIST");
+    await context.dispatch('RESET_PAGE');
+    return context.dispatch('LOAD_DATA_LIST');
   },
   UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
     const headers = context.state.headers.map((oldHeader) => {
@@ -111,10 +111,10 @@ const actions = {
       }
       return oldHeader;
     });
-    context.commit("SET_HEADERS", headers);
+    context.commit('SET_HEADERS', headers);
   },
   PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
-    await context.commit("PATCH_ITEM_PROPERTY", {
+    await context.commit('PATCH_ITEM_PROPERTY', {
       index,
       prop,
       value,
@@ -122,43 +122,43 @@ const actions = {
     const id = item?.id || context.state.dataList[index].id;
     const changes = { [prop]: value };
     try {
-      await context.dispatch("PATCH_ITEM", {
+      await context.dispatch('PATCH_ITEM', {
         id,
         changes,
       });
-      context.commit("PATCH_ITEM_PROPERTY", {
+      context.commit('PATCH_ITEM_PROPERTY', {
         item,
         index,
         prop,
         value,
       });
     } catch {
-      context.dispatch("LOAD_DATA_LIST");
+      context.dispatch('LOAD_DATA_LIST');
     }
   },
   DELETE: async (context, deleted) => {
-    let action = "DELETE_SINGLE";
+    let action = 'DELETE_SINGLE';
     if (Array.isArray(deleted)) {
-      if (deleted.length) action = "DELETE_BULK";
-      else action = "DELETE_ALL";
+      if (deleted.length) action = 'DELETE_BULK';
+      else action = 'DELETE_ALL';
     }
     try {
       await context.dispatch(action, deleted);
     } catch (err) {
       throw err;
     } finally {
-      await context.dispatch("LOAD_DATA_LIST");
+      await context.dispatch('LOAD_DATA_LIST');
     }
   },
   DELETE_SINGLE: async (context, { id }) => {
     try {
-      await context.dispatch("DELETE_ITEM", id);
+      await context.dispatch('DELETE_ITEM', id);
     } catch (err) {
       throw err;
     }
   },
   DELETE_BULK: async (context, deleted) =>
-    Promise.allSettled(deleted.map((item) => context.dispatch("DELETE_SINGLE", item))),
+    Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item))),
   // REMOVE_ITEM: async (context, index) => {
   //   const id = context.state.dataList[index].id;
   //   context.commit('REMOVE_ITEM', index);

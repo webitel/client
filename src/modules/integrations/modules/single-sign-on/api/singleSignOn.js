@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -8,23 +8,23 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import instance from "../../../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../app/api/instance';
 
-const baseUrl = "/oauth/apps";
+const baseUrl = '/oauth/apps';
 
 const getSingleSignOnList = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
-    name: "",
-    type: "",
+    name: '',
+    type: '',
     enabled: false,
   };
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -47,11 +47,11 @@ const getSingleSignOnList = async (params) => {
 
 const getSingleSignOn = async ({ itemId: id }) => {
   const defaultObject = {
-    name: "",
-    type: "",
-    clientId: "",
-    clientSecret: "",
-    discoveryUrl: "",
+    name: '',
+    type: '',
+    clientId: '',
+    clientSecret: '',
+    discoveryUrl: '',
     enabled: false,
     scopes: [],
   };
@@ -67,14 +67,14 @@ const getSingleSignOn = async ({ itemId: id }) => {
 };
 
 const fieldsToSend = [
-  "name",
-  "type",
-  "id",
-  "clientId",
-  "clientSecret",
-  "discoveryUrl",
-  "enabled",
-  "scopes",
+  'name',
+  'type',
+  'id',
+  'clientId',
+  'clientSecret',
+  'discoveryUrl',
+  'enabled',
+  'scopes',
 ];
 
 const addSingleSignOn = async ({ itemInstance }) => {
@@ -122,7 +122,7 @@ const deleteSingleSignOn = async ({ id }) => {
 const getSingleSignOnsLookup = (params) =>
   getSingleSignOnList({
     ...params,
-    fields: params.fields || ["id", "name", "type"],
+    fields: params.fields || ['id', 'name', 'type'],
   });
 
 const SingleSignOnAPI = {

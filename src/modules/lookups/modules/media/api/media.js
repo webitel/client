@@ -1,24 +1,24 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge,
   notify,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import axios from "axios";
-import { MediaFileServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import axios from 'axios';
+import { MediaFileServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const mediaService = new MediaFileServiceApiFactory(configuration, "", instance);
+const mediaService = new MediaFileServiceApiFactory(configuration, '', instance);
 
-const token = localStorage.getItem("access-token");
+const token = localStorage.getItem('access-token');
 const baseUrl = import.meta.env.VITE_API_URL;
 
 const getMediaList = async (params) => {
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -56,7 +56,7 @@ export const downloadMedia = async (id) => {
 
 const addMediaInstance = axios.create({
   headers: {
-    "content-type": "multipart/form-data",
+    'content-type': 'multipart/form-data',
   },
 });
 
@@ -64,13 +64,13 @@ const addMedia = async (params) => {
   const url = `${baseUrl}/storage/media?access_token=${token}`;
 
   const formData = new FormData();
-  formData.append("file", params.itemInstance);
+  formData.append('file', params.itemInstance);
   try {
     const response = await addMediaInstance.post(url, formData);
     applyTransform(response, [
       notify(() => ({
-        type: "info",
-        text: "Successfully added",
+        type: 'info',
+        text: 'Successfully added',
       })),
     ]);
     return response;
@@ -91,7 +91,7 @@ const deleteMedia = async ({ id }) => {
 const getMediaLookup = (params) =>
   getMediaList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const MediaAPI = {

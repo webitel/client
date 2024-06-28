@@ -1,12 +1,12 @@
-import { shallowMount } from "@vue/test-utils";
-import BaseObjectMixin from "../baseObjectMixin";
+import { shallowMount } from '@vue/test-utils';
+import BaseObjectMixin from '../baseObjectMixin';
 
 const Component = {
   render() {},
 };
 
-describe("BaseObjectMixin", () => {
-  it("renders a component", () => {
+describe('BaseObjectMixin', () => {
+  it('renders a component', () => {
     const wrapper = shallowMount(Component, {
       data: () => ({
         itemInstance: {},

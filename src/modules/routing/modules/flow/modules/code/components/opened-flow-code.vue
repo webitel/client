@@ -37,14 +37,14 @@
 </template>
 
 <script>
-import FlowTypeApplications from "@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup";
-import CodeEditor from "../../../../../../../app/components/utils/code-editor.vue";
-import openedTabComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import FlowsAPI from "../../../api/flow";
-import FlowAppAutocomplete from "../lookups/FlowAppAutocomplete.lookup";
+import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup';
+import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../api/flow';
+import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 
 export default {
-  name: "OpenedFlowCode",
+  name: 'OpenedFlowCode',
   components: { CodeEditor },
   mixins: [openedTabComponentMixin],
   computed: {

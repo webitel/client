@@ -48,38 +48,38 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { url, maxValue, minLength, minValue, numeric, required } from "@vuelidate/validators";
-import ChatGatewayProvider from "@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum";
-import websocketValidator from "@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator";
-import { mapActions } from "vuex";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import OpenedChatFacebook from "../modules/messenger/facebook/components/facebook-tab.vue";
-import OpenedChatInstagram from "../modules/messenger/instagram/components/instagram-tab.vue";
-import OpenedChatWhatsapp from "../modules/messenger/whatsapp/components/whatsapp-tab.vue";
-import WebchatCopyCodeButton from "../modules/webchat/components/copy-code-button.vue";
-import OpenedWebchatAlternativeChannels from "../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue";
-import OpenedWebchatAppointment from "../modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue";
-import OpenedWebchatChat from "../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { url, maxValue, minLength, minValue, numeric, required } from '@vuelidate/validators';
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
+import { mapActions } from 'vuex';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
+import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
+import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
+import WebchatCopyCodeButton from '../modules/webchat/components/copy-code-button.vue';
+import OpenedWebchatAlternativeChannels from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import OpenedWebchatAppointment from '../modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue';
+import OpenedWebchatChat from '../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue';
 
-import OpenedWebchat from "../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue";
-import OpenedChatGatewayWebchatRecaptchaTab from "../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue";
-import OpenedWebchatView from "../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue";
-import OpenedChatGatewayTemplates from "./_shared/opened-chat-gateway-templates-tab.vue";
+import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
+import OpenedChatGatewayWebchatRecaptchaTab from '../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue';
+import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
+import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
-import OpenedChatInfobip from "./infobip/opened-chat-gateway-infobip-general-tab.vue";
+import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
 
-import OpenedChatMessenger from "./messenger/opened-chat-gateway-messenger-general-tab.vue";
-import OpenedChatTelegramApp from "./telegram-app/opened-chat-gateway-telegram-app-general-tab.vue";
-import OpenedChatTelegramBot from "./telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue";
+import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
+import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
+import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue';
 
-import OpenedViberChat from "./viber/opened-chat-gateway-viber-general-tab.vue";
-import OpenedViberChatStyle from "./viber/opened-chat-gateway-viber-style-tab.vue";
+import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
+import OpenedViberChatStyle from './viber/opened-chat-gateway-viber-style-tab.vue';
 
-import OpenedChatCustom from "./custom/opened-chat-gateway-custom-general-tab.vue";
+import OpenedChatCustom from './custom/opened-chat-gateway-custom-general-tab.vue';
 
 export default {
-  name: "OpenedChatGateway",
+  name: 'OpenedChatGateway',
   components: {
     OpenedChatGatewayTemplates,
     OpenedChatTelegramBot,
@@ -106,7 +106,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "routing/chatGateways",
+    namespace: 'routing/chatGateways',
   }),
   validations() {
     const defaults = {
@@ -304,32 +304,32 @@ export default {
 
     tabs() {
       const telegramBotChat = {
-        text: this.$t("objects.routing.chatGateways.telegramBot.telegramBot"),
-        value: "OpenedChatTelegramBot",
+        text: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
+        value: 'OpenedChatTelegramBot',
       };
       const botTemplates = {
-        text: this.$t("objects.routing.chatGateways.templates.templates"),
-        value: "OpenedChatGatewayTemplates",
+        text: this.$t('objects.routing.chatGateways.templates.templates'),
+        value: 'OpenedChatGatewayTemplates',
       };
       const telegramAppChat = {
-        text: this.$t("objects.routing.chatGateways.telegramApp.telegramApp"),
-        value: "OpenedChatTelegramApp",
+        text: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
+        value: 'OpenedChatTelegramApp',
       };
       const messengerChat = {
-        text: this.$t("objects.routing.chatGateways.messenger.meta"),
-        value: "OpenedChatMessenger",
+        text: this.$t('objects.routing.chatGateways.messenger.meta'),
+        value: 'OpenedChatMessenger',
       };
       const facebookChatPages = {
-        text: this.$t("objects.routing.chatGateways.messenger.facebook.pages"),
-        value: "OpenedChatFacebook",
+        text: this.$t('objects.routing.chatGateways.messenger.facebook.pages'),
+        value: 'OpenedChatFacebook',
       };
       const instagramChatPages = {
-        text: this.$t("objects.routing.chatGateways.messenger.instagram.instagram"),
-        value: "OpenedChatInstagram",
+        text: this.$t('objects.routing.chatGateways.messenger.instagram.instagram'),
+        value: 'OpenedChatInstagram',
       };
       const whatsappChatPages = {
-        text: this.$t("objects.routing.chatGateways.messenger.whatsapp.whatsapp"),
-        value: "OpenedChatWhatsapp",
+        text: this.$t('objects.routing.chatGateways.messenger.whatsapp.whatsapp'),
+        value: 'OpenedChatWhatsapp',
       };
       const messenger = this.id
         ? [messengerChat, facebookChatPages, instagramChatPages, whatsappChatPages]
@@ -337,49 +337,49 @@ export default {
       messenger.push(botTemplates);
 
       const infobipChat = {
-        text: this.$t("objects.routing.chatGateways.infobip.infobip"),
-        value: "OpenedChatInfobip",
+        text: this.$t('objects.routing.chatGateways.infobip.infobip'),
+        value: 'OpenedChatInfobip',
       };
 
       const customChatPages = {
-        text: this.$t("objects.general"),
-        value: "OpenedChatCustom",
+        text: this.$t('objects.general'),
+        value: 'OpenedChatCustom',
       };
 
       const viberChat = {
-        text: this.$t("objects.routing.chatGateways.viber.viber"),
-        value: "OpenedViberChat",
+        text: this.$t('objects.routing.chatGateways.viber.viber'),
+        value: 'OpenedViberChat',
       };
       const viberStyle = {
-        text: this.$t("objects.routing.chatGateways.viber.style.style"),
-        value: "OpenedViberChatStyle",
+        text: this.$t('objects.routing.chatGateways.viber.style.style'),
+        value: 'OpenedViberChatStyle',
       };
 
       const webChat = {
-        text: this.$t("objects.general"),
-        value: "OpenedWebchat",
+        text: this.$t('objects.general'),
+        value: 'OpenedWebchat',
       };
       const webchatView = {
-        text: this.$t("objects.routing.chatGateways.webchat.view.view"),
-        value: "OpenedWebchatView",
+        text: this.$t('objects.routing.chatGateways.webchat.view.view'),
+        value: 'OpenedWebchatView',
       };
       const webchatChat = {
-        text: this.$t("objects.routing.chatGateways.webchat.chat.chat"),
-        value: "OpenedWebchatChat",
+        text: this.$t('objects.routing.chatGateways.webchat.chat.chat'),
+        value: 'OpenedWebchatChat',
       };
       const webchatAppointment = {
-        text: this.$t("objects.routing.chatGateways.webchat.appointment.appointment"),
-        value: "OpenedWebchatAppointment",
+        text: this.$t('objects.routing.chatGateways.webchat.appointment.appointment'),
+        value: 'OpenedWebchatAppointment',
       };
       const webchatAlternativeChannels = {
         text: this.$t(
-          "objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels",
+          'objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels',
         ),
-        value: "OpenedWebchatAlternativeChannels",
+        value: 'OpenedWebchatAlternativeChannels',
       };
       const webchatReCaptcha = {
-        text: this.$t("objects.routing.chatGateways.webchat.recaptcha.recaptcha"),
-        value: "OpenedChatGatewayWebchatRecaptchaTab",
+        text: this.$t('objects.routing.chatGateways.webchat.recaptcha.recaptcha'),
+        value: 'OpenedChatGatewayWebchatRecaptchaTab',
       };
 
       switch (this.chatType) {
@@ -414,13 +414,13 @@ export default {
       let chatTypeLocale;
       switch (this.chatType) {
         case ChatGatewayProvider.INFOBIP:
-          chatTypeLocale = "infobip.infobip";
+          chatTypeLocale = 'infobip.infobip';
           break;
         case ChatGatewayProvider.TELEGRAM_BOT:
-          chatTypeLocale = "telegramBot.telegramBot";
+          chatTypeLocale = 'telegramBot.telegramBot';
           break;
         case ChatGatewayProvider.CUSTOM:
-          chatTypeLocale = "customChat.customChat";
+          chatTypeLocale = 'customChat.customChat';
           break;
         case ChatGatewayProvider.MESSENGER:
           chatTypeLocale = `${this.chatType}.meta`;
@@ -430,23 +430,23 @@ export default {
           chatTypeLocale = `${this.chatType}.${this.chatType}`;
           break;
         default:
-          return this.$tc("objects.routing.gateways.gateways", 1);
+          return this.$tc('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`);
     },
 
     path() {
-      const baseUrl = "/routing/chat-gateways";
+      const baseUrl = '/routing/chat-gateways';
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.chatGateways.chatGateways", 2),
+          name: this.$tc('objects.routing.chatGateways.chatGateways', 2),
           route: baseUrl,
         },
         {
-          name: `${this.id ? this.pathName : this.$t("objects.new")} ${this.chatGatewayTitle}`,
+          name: `${this.id ? this.pathName : this.$t('objects.new')} ${this.chatGatewayTitle}`,
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

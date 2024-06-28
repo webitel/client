@@ -73,18 +73,18 @@
 </template>
 
 <script>
-import path from "path";
-import { mapActions } from "vuex";
-import openedObjectTableTabMixin from "../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import getChatOriginUrl from "../../../../scripts/getChatOriginUrl";
-import openMessengerWindow from "../../_shared/scripts/openMessengerWindow";
+import path from 'path';
+import { mapActions } from 'vuex';
+import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
+import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
 export default {
-  name: "OpenedChatGatewayInstagramTab",
+  name: 'OpenedChatGatewayInstagramTab',
   mixins: [openedObjectTableTabMixin],
-  inject: ["$eventBus"],
+  inject: ['$eventBus'],
   data: () => ({
-    subNamespace: "instagram",
+    subNamespace: 'instagram',
     accountsOnPopup: null,
   }),
   computed: {
@@ -108,10 +108,10 @@ export default {
       },
     }),
     addOrRemovePagesWindowHandler({ data }) {
-      if (data.status === "success") this.loadList();
-      else if (data.status === "error") {
-        this.$eventBus.$emit("notification", {
-          type: "error",
+      if (data.status === 'success') this.loadList();
+      else if (data.status === 'error') {
+        this.$eventBus.$emit('notification', {
+          type: 'error',
           text: data.detail,
         });
       }

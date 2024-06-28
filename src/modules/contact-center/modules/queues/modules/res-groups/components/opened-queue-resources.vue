@@ -93,15 +93,15 @@
 </template>
 
 <script>
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import resourcePopup from "./opened-queue-resources-popup.vue";
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import resourcePopup from './opened-queue-resources-popup.vue';
 
-const namespace = "ccenter/queues";
-const subNamespace = "resGroups";
+const namespace = 'ccenter/queues';
+const subNamespace = 'resGroups';
 
 export default {
-  name: "OpenedQueueResources",
+  name: 'OpenedQueueResources',
   components: { resourcePopup },
   mixins: [openedObjectTableTabMixin],
   setup() {

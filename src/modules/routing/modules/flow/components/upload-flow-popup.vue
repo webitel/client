@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import FlowsAPI from "../api/flow";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import FlowsAPI from '../api/flow';
 
 export default {
-  name: "UploadFlowPopup",
+  name: 'UploadFlowPopup',
   props: {
     file: {
       required: true,
@@ -56,7 +56,7 @@ export default {
   data: () => ({
     create: true,
     fileReader: null,
-    flow: { name: "file.name" },
+    flow: { name: 'file.name' },
   }),
   validations: {
     flow: {
@@ -98,10 +98,10 @@ export default {
     },
     initFileReader() {
       this.fileReader = new FileReader();
-      this.fileReader.addEventListener("load", this.handleFileLoad);
+      this.fileReader.addEventListener('load', this.handleFileLoad);
     },
     destroyFileReader() {
-      this.fileReader.removeEventListener("load", this.handleFileLoad);
+      this.fileReader.removeEventListener('load', this.handleFileLoad);
     },
     processJSON() {
       this.fileReader.readAsText(this.file);
@@ -111,7 +111,7 @@ export default {
       if (file) this.flow = JSON.parse(file);
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

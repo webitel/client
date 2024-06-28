@@ -127,20 +127,20 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import { useDummy } from "/src/app/composables/useDummy";
-import tableComponentMixin from "/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js";
-import baseObjectMixin from "../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import GlobalVariablesPopup from "./global-variables-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import { useDummy } from '/src/app/composables/useDummy';
+import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
+import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import GlobalVariablesPopup from './global-variables-popup.vue';
 
-const namespace = "system/globalVariables";
+const namespace = 'system/globalVariables';
 
 export default {
-  name: "TheGlobalVariables",
+  name: 'TheGlobalVariables',
   components: { DeleteConfirmationPopup, GlobalVariablesPopup },
   mixins: [tableComponentMixin, baseObjectMixin, openedObjectMixin],
 
@@ -182,11 +182,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.system.system"),
+          name: this.$t('objects.system.system'),
         },
         {
-          name: this.$tc("objects.system.globalVariables.globalVariables", 1),
-          route: "/system/global-variables",
+          name: this.$tc('objects.system.globalVariables.globalVariables', 1),
+          route: '/system/global-variables',
         },
       ];
     },

@@ -96,17 +96,17 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import permissionsTabMixin from "../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin";
-import RoleColumn from "./_internals/permissions-role-column.vue";
-import RolePopup from "./permissions-tab-role-popup.vue";
+import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
+import RoleColumn from './_internals/permissions-role-column.vue';
+import RolePopup from './permissions-tab-role-popup.vue';
 
 export default {
-  name: "PermissionsTab",
+  name: 'PermissionsTab',
   components: { RolePopup, RoleColumn },
   mixins: [openedTabComponentMixin, permissionsTabMixin],
   data: () => ({
-    subNamespace: "permissions",
+    subNamespace: 'permissions',
   }),
 };
 </script>

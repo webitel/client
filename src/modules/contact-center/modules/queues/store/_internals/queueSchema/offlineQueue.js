@@ -1,7 +1,7 @@
-import { QueueType } from "webitel-sdk/esm2015/enums";
-import { Strategy } from "../enums/Strategy.enum";
-import queue from "./defaults/defaultQueue";
-import processing from "./defaults/processing";
+import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { Strategy } from '../enums/Strategy.enum';
+import queue from './defaults/defaultQueue';
+import processing from './defaults/processing';
 
 const offlineQueue = () => ({
   ...queue(),

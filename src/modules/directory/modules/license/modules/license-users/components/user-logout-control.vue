@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import accessControlMixin from "../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
+import { mapState } from 'vuex';
+import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: "UserLogoutControl",
+  name: 'UserLogoutControl',
   mixins: [accessControlMixin],
   props: {
     item: {
@@ -21,14 +21,14 @@ export default {
     },
   },
   computed: {
-    ...mapState("userinfo", {
+    ...mapState('userinfo', {
       domain: (state) => state.domain,
     }),
     disableControl() {
       return !this.item.sessions || !this.hasEditAccess || this.item.domain?.name !== this.domain;
     },
     hasEditAccess() {
-      return this.$store.getters["userinfo/HAS_EDIT_ACCESS"]({
+      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({
         route: {
           name: `${RouteNames.USERS}-edit`,
         },
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     logoutUser() {
-      this.$emit("logout", this.item.user);
+      this.$emit('logout', this.item.user);
     },
   },
 };

@@ -1,6 +1,6 @@
-import { mapActions } from "vuex";
-import openedObjectValidationMixin from "../openedObjectValidationMixin/openedObjectValidationMixin";
-import resetOnDestroyMixin from "../resetOnDestroyMixin/resetOnDestroyMixin";
+import { mapActions } from 'vuex';
+import openedObjectValidationMixin from '../openedObjectValidationMixin/openedObjectValidationMixin';
+import resetOnDestroyMixin from '../resetOnDestroyMixin/resetOnDestroyMixin';
 
 /**
  * @fileOverview abstract mixin,
@@ -18,8 +18,8 @@ export default {
       // if it's a new item
       // OR any fields have changed
       return !this.id || this.itemInstance._dirty
-        ? this.$t("objects.save")
-        : this.$t("objects.saved");
+        ? this.$t('objects.save')
+        : this.$t('objects.saved');
     },
 
     disabledSave() {
@@ -60,7 +60,7 @@ export default {
     },
 
     async redirectToEdit() {
-      const routeName = this.$route.name.replace("-new", "-edit");
+      const routeName = this.$route.name.replace('-new', '-edit');
       return this.$router.replace({
         name: routeName,
         params: {

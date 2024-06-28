@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { maxValue, minValue, required, requiredIf } from "@vuelidate/validators";
-import { EngineEmailAuthType } from "webitel-sdk";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import General from "./opened-email-profile-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { maxValue, minValue, required, requiredIf } from '@vuelidate/validators';
+import { EngineEmailAuthType } from 'webitel-sdk';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-email-profile-general.vue';
 
 export default {
-  name: "OpenedEmailProfile",
+  name: 'OpenedEmailProfile',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -51,7 +51,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "integrations/emailProfiles",
+    namespace: 'integrations/emailProfiles',
   }),
   validations() {
     const itemInstance = {
@@ -97,8 +97,8 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       // if (this.id) tabs.push(this.permissionsTab);
@@ -109,17 +109,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/integrations/email-profiles";
+      const baseUrl = '/integrations/email-profiles';
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.emailProfiles.emailProfiles", 2),
+          name: this.$tc('objects.integrations.emailProfiles.emailProfiles', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,21 +7,21 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { QueueSkillServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { QueueSkillServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const queueSkillService = new QueueSkillServiceApiFactory(configuration, "", instance);
+const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  "maxCapacity",
-  "minCapacity",
-  "queueId",
-  "lvl",
-  "buckets",
-  "skill",
-  "enabled",
+  'maxCapacity',
+  'minCapacity',
+  'queueId',
+  'lvl',
+  'buckets',
+  'skill',
+  'enabled',
 ];
 
 const preRequestHandler = (parentId) => (item) => ({
@@ -30,7 +30,7 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 export const getQueueSkillsList = async (params) => {
-  const fieldsToSend = ["page", "size", "search", "sort", "fields", "id", "parentId", "skillId"];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId', 'skillId'];
 
   const defaultObject = {
     agent: {},
@@ -43,7 +43,7 @@ export const getQueueSkillsList = async (params) => {
 
   const { page, size, search, sort, fields, id, parentId, skillId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     sanitize(fieldsToSend),
   ]);
 

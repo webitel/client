@@ -2,8 +2,8 @@ import applyTransform, {
   mergeEach,
   notify,
   snakeToCamel,
-} from "@webitel/ui-sdk/src/api/transformers";
-import chatInstance, { chatBaseUrl } from "../../../../api/chatInstance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
 
 const defaultListObject = {
   accounts: [],

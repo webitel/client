@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,27 +7,27 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import deepCopy from "deep-copy";
-import { TriggerServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
-import TriggerTypes from "../lookups/TriggerTypes.lookup";
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { TriggerServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
+import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
-const triggersService = new TriggerServiceApiFactory(configuration, "", instance);
+const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
 
-const doNotConvertKeys = ["variables"];
+const doNotConvertKeys = ['variables'];
 const fieldsToSend = [
-  "description",
-  "enabled",
-  "id",
-  "name",
-  "schema",
-  "timeout",
-  "timezone",
-  "type",
-  "variables",
-  "expression",
+  'description',
+  'enabled',
+  'id',
+  'name',
+  'schema',
+  'timeout',
+  'timezone',
+  'type',
+  'variables',
+  'expression',
 ];
 
 const preRequestHandler = (item) => {
@@ -46,14 +46,14 @@ const preRequestHandler = (item) => {
 };
 
 const getList = async (params) => {
-  const fieldsToSend = ["page", "size", "search", "sort", "fields", "id", "schemaId"];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'schemaId'];
   const defaultObject = {
     enabled: false,
   };
 
   const { page, size, search, sort, fields, id, schemaId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     sanitize(fieldsToSend),
   ]);
 
@@ -162,7 +162,7 @@ const deleteItem = async ({ id }) => {
 const getLookup = (params) =>
   getList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const startTrigger = async (params, item) => {
@@ -175,8 +175,8 @@ const startTrigger = async (params, item) => {
       snakeToCamel(doNotConvertKeys),
       notify(({ callback }) =>
         callback({
-          type: "info",
-          text: "Successfully ran",
+          type: 'info',
+          text: 'Successfully ran',
         }),
       ),
     ]);

@@ -36,19 +36,19 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import {
   timerangeNotIntersect,
   timerangeStartLessThanEnd,
-} from "../../../../../app/utils/validators";
-import General from "./opened-calendar-general.vue";
-import Holidays from "./opened-calendar-holidays.vue";
-import WorkWeek from "./opened-calendar-work-week.vue";
+} from '../../../../../app/utils/validators';
+import General from './opened-calendar-general.vue';
+import Holidays from './opened-calendar-holidays.vue';
+import WorkWeek from './opened-calendar-work-week.vue';
 
 export default {
-  name: "OpenedCalendar",
+  name: 'OpenedCalendar',
   components: { General, WorkWeek, Holidays },
   mixins: [openedObjectMixin],
 
@@ -56,7 +56,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/calendars",
+    namespace: 'lookups/calendars',
   }),
   validations: {
     itemInstance: {
@@ -75,16 +75,16 @@ export default {
     tabs() {
       const tabs = [
         {
-          value: "general",
-          text: this.$t("objects.general"),
+          value: 'general',
+          text: this.$t('objects.general'),
         },
         {
-          value: "work-week",
-          text: this.$t("objects.lookups.calendars.workWeek"),
+          value: 'work-week',
+          text: this.$t('objects.lookups.calendars.workWeek'),
         },
         {
-          value: "holidays",
-          text: this.$tc("objects.lookups.calendars.holidays", 2),
+          value: 'holidays',
+          text: this.$tc('objects.lookups.calendars.holidays', 2),
         },
       ];
 
@@ -93,17 +93,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/lookups/calendars";
+      const baseUrl = '/lookups/calendars';
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.calendars.calendars", 2),
+          name: this.$tc('objects.lookups.calendars.calendars', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

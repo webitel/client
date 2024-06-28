@@ -38,18 +38,18 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import openedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import { requiredArrayValue } from "../../../../../../../app/utils/validators";
-import Communication from "./communications/opened-queue-member-communication.vue";
-import General from "./opened-queue-member-general.vue";
-import Variables from "./opened-queue-member-variables.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { requiredArrayValue } from '../../../../../../../app/utils/validators';
+import Communication from './communications/opened-queue-member-communication.vue';
+import General from './opened-queue-member-general.vue';
+import Variables from './opened-queue-member-variables.vue';
 
 export default {
-  name: "OpenedQueueMember",
+  name: 'OpenedQueueMember',
   components: {
     General,
     Communication,
@@ -61,7 +61,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/queues/members",
+    namespace: 'ccenter/queues/members',
   }),
   validations: {
     itemInstance: {
@@ -81,16 +81,16 @@ export default {
     tabs() {
       return [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          text: this.$tc("objects.lookups.communications.communications", 1),
-          value: "communication",
+          text: this.$tc('objects.lookups.communications.communications', 1),
+          value: 'communication',
         },
         {
-          text: this.$tc("objects.ccenter.queues.variables", 2),
-          value: "variables",
+          text: this.$tc('objects.ccenter.queues.variables', 2),
+          value: 'variables',
         },
       ];
     },
@@ -99,14 +99,14 @@ export default {
       const baseUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.members.members", 2),
+          name: this.$tc('objects.ccenter.members.members', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
@@ -116,7 +116,7 @@ export default {
     },
     saveOptions() {
       const saveAsNew = {
-        text: this.$t("objects.saveAs"),
+        text: this.$t('objects.saveAs'),
         callback: this.saveAs,
       };
       return [saveAsNew];
@@ -141,20 +141,20 @@ export default {
     },
     saveAs() {
       this.setItemProp({
-        prop: "endCause",
-        value: "",
+        prop: 'endCause',
+        value: '',
       });
       this.setItemProp({
-        prop: "stopCause",
-        value: "",
+        prop: 'stopCause',
+        value: '',
       });
       this.setItemProp({
-        prop: "attempts",
+        prop: 'attempts',
         value: 0,
       });
       this.setItemProp({
-        prop: "id",
-        value: "",
+        prop: 'id',
+        value: '',
       });
       this.setId(null);
       this.save();

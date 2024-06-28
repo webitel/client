@@ -9,7 +9,7 @@ export default {
   },
 
   methods: {
-    checkValidations(validatedInstance = "itemInstance") {
+    checkValidations(validatedInstance = 'itemInstance') {
       const v = this.v$ ? this.v$ : this.v;
       v[validatedInstance].$touch();
       // if its still pending or an error is returned do not submit

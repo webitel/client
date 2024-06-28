@@ -36,14 +36,14 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Numbers from "../modules/numbers/components/opened-blacklist-numbers.vue";
-import General from "./opened-blacklist-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
+import General from './opened-blacklist-general.vue';
 
 export default {
-  name: "OpenedBlacklist",
+  name: 'OpenedBlacklist',
   components: { General, Numbers },
   mixins: [openedObjectMixin],
 
@@ -52,7 +52,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "lookups/blacklists",
+    namespace: 'lookups/blacklists',
   }),
   validations: {
     itemInstance: {
@@ -64,18 +64,18 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          text: this.$tc("objects.lookups.blacklist.number", 2),
-          value: "numbers",
+          text: this.$tc('objects.lookups.blacklist.number', 2),
+          value: 'numbers',
         },
       ];
 
       const permissions = {
-        text: this.$tc("objects.permissions.permissions", 2),
-        value: "permissions",
+        text: this.$tc('objects.permissions.permissions', 2),
+        value: 'permissions',
       };
 
       if (this.id) tabs.push(permissions);
@@ -83,17 +83,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/lookups/blacklist";
+      const baseUrl = '/lookups/blacklist';
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.blacklist.blacklist", 2),
+          name: this.$tc('objects.lookups.blacklist.blacklist', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

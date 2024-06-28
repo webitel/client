@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,19 +6,19 @@ import applyTransform, {
   notify,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { AgentServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { AgentServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const agentService = new AgentServiceApiFactory(configuration, "", instance);
+const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const getTeamAgentsList = async (params) => {
-  const fields = ["id", "name", "status", "supervisor", "skills"];
+  const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
 
   const defaultObject = {
-    name: "",
-    status: "",
+    name: '',
+    status: '',
     supervisor: {},
     skills: [],
   };
@@ -29,7 +29,7 @@ const getTeamAgentsList = async (params) => {
     size = 10,
     search,
     sort,
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch("search")]);
+  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
 
   try {
     const response = await agentService.searchAgent(

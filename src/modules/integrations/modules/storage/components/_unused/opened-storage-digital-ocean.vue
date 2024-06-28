@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import { DigitalOceanRegions } from "../../api/storage";
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { DigitalOceanRegions } from '../../api/storage';
 
 export default {
-  name: "OpenedStorageDigitalOcean",
+  name: 'OpenedStorageDigitalOcean',
   mixins: [openedTabComponentMixin],
   data() {
     return {
@@ -56,7 +56,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "keyId",
+          prop: 'keyId',
           value,
         });
       },
@@ -67,7 +67,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "accessKey",
+          prop: 'accessKey',
           value,
         });
       },
@@ -78,7 +78,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "bucketName",
+          prop: 'bucketName',
           value,
         });
       },
@@ -89,7 +89,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "region",
+          prop: 'region',
           value,
         });
       },
@@ -97,8 +97,8 @@ export default {
   },
 
   methods: {
-    ...mapActions("integrations/storage", {
-      setItemProp: "SET_ITEM_PROPERTIES_PROPERTY",
+    ...mapActions('integrations/storage', {
+      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
     }),
   },
 };

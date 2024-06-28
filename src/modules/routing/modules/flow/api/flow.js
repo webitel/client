@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,20 +7,20 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { EngineRoutingSchemaType, RoutingSchemaServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { EngineRoutingSchemaType, RoutingSchemaServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const flowService = new RoutingSchemaServiceApiFactory(configuration, "", instance);
+const flowService = new RoutingSchemaServiceApiFactory(configuration, '', instance);
 
 /*
 CONVERT "SCHEMA" FIELD TO JSON TO PREVENT ITS CHANGE
 BY CAMEL-SNAKE TRANSFORMERS
  */
-const doNotConvertKeys = ["schema"];
+const doNotConvertKeys = ['schema'];
 
-const fieldsToSend = ["name", "schema", "type", "payload", "editor", "tags"];
+const fieldsToSend = ['name', 'schema', 'type', 'payload', 'editor', 'tags'];
 
 const getFlowList = async (params) => {
   const defaultObject = {
@@ -42,7 +42,7 @@ const getFlowList = async (params) => {
 
   const { page, size, search, sort, fields, id, name, type, tags } = applyTransform(paramsCopy, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     camelToSnake(doNotConvertKeys),
   ]);
 
@@ -101,7 +101,7 @@ const getFlow = async ({ itemId: id }) => {
 
 const preRequestHandler = (item) => ({
   ...item,
-  schema: typeof item.schema === "string" ? JSON.parse(item.schema) : item.schema,
+  schema: typeof item.schema === 'string' ? JSON.parse(item.schema) : item.schema,
 });
 
 const addFlow = async ({ itemInstance }) => {
@@ -163,7 +163,7 @@ const deleteFlow = async ({ id }) => {
 const getFlowsLookup = (params) =>
   getFlowList({
     ...params,
-    fields: params.fields || ["id", "name", "type"],
+    fields: params.fields || ['id', 'name', 'type'],
   });
 
 const getFlowTags = async (params) => {

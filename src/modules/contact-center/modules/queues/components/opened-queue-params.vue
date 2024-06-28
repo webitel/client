@@ -289,15 +289,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { QueueType } from "webitel-sdk/esm2015/enums";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
-import StatisticTimeList from "../store/_internals/lookups/StatisticTime.lookup";
-import ToneList from "../store/_internals/lookups/Tone.lookup";
+import { mapActions } from 'vuex';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
+import ToneList from '../store/_internals/lookups/Tone.lookup';
 
 export default {
-  name: "OpenedQueueParams",
+  name: 'OpenedQueueParams',
   mixins: [openedTabComponentMixin],
   data: () => ({
     ToneList,
@@ -318,12 +318,12 @@ export default {
           this.itemInstance.type === QueueType.PROGRESSIVE_DIALER ||
           this.itemInstance.type === QueueType.PREDICTIVE_DIALER
         ) {
-          return this.ToneList.find((tone) => tone.value === "default");
+          return this.ToneList.find((tone) => tone.value === 'default');
         }
       },
       set(value) {
         this.setItemPayloadProp({
-          prop: "autoAnswerTone",
+          prop: 'autoAnswerTone',
           value: value.value,
         });
       },
@@ -336,7 +336,7 @@ export default {
       },
       set(value) {
         this.setItemPayloadProp({
-          prop: "statisticTime",
+          prop: 'statisticTime',
           value: value.value,
         });
       },

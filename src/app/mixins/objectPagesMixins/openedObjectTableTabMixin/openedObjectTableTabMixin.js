@@ -1,9 +1,9 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapGetters, mapState } from "vuex";
-import ObjectListPopup from "../../../components/utils/object-list-popup/object-list-popup.vue";
-import OnePlusMany from "../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue";
-import baseTableMixin from "../../baseMixins/baseTableMixin/baseTableMixin";
-import openedTabComponentMixin from "../openedObjectTabMixin/openedTabComponentMixin";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import ObjectListPopup from '../../../components/utils/object-list-popup/object-list-popup.vue';
+import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
+import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
+import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
 
 /**
  * @fileOverview contains openedObject tab with table
@@ -16,7 +16,7 @@ import openedTabComponentMixin from "../openedObjectTabMixin/openedTabComponentM
 export default {
   mixins: [openedTabComponentMixin, baseTableMixin],
   components: { OnePlusMany, ObjectListPopup },
-  inject: ["$eventBus"],
+  inject: ['$eventBus'],
   watch: {
     parentId(value) {
       this.setParentId(value);
@@ -50,15 +50,15 @@ export default {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).aggs;
       },
     }),
-    ...mapGetters("appearance", {
-      darkMode: "DARK_MODE",
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     headers() {
       if (!this.headersValue) return [];
       return this.headersValue.map((header) => ({
         ...header,
         text:
-          typeof header.locale === "string" ? this.$t(header.locale) : this.$tc(...header.locale),
+          typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
       }));
     },
   },
@@ -115,7 +115,7 @@ export default {
         try {
           if (!this.parentId) {
             await this.addParentItem();
-            const routeName = this.$route.name.replace("-new", "-edit");
+            const routeName = this.$route.name.replace('-new', '-edit');
             await this.$router.replace({
               name: routeName,
               params: {
@@ -128,9 +128,9 @@ export default {
           throw err;
         }
       } else {
-        this.$eventBus.$emit("notification", {
-          type: "error",
-          text: "Check your validations!",
+        this.$eventBus.$emit('notification', {
+          type: 'error',
+          text: 'Check your validations!',
         });
       }
     },

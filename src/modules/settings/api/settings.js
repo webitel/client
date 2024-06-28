@@ -2,13 +2,13 @@ import applyTransform, {
   camelToSnake,
   notify,
   snakeToCamel,
-} from "@webitel/ui-sdk/src/api/transformers";
-import instance from "../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../app/api/instance';
 
-const baseUrl = "users";
+const baseUrl = 'users';
 
 export const getWebPhone = async () => {
-  const url = "user/settings/phone";
+  const url = 'user/settings/phone';
 
   try {
     const response = await instance.get(url);
@@ -24,7 +24,7 @@ export const getWebPhone = async () => {
 export const changeWebPhone = async (changes) => {
   const item = applyTransform(changes, [camelToSnake()]);
 
-  const url = "user/settings/phone";
+  const url = 'user/settings/phone';
 
   try {
     const response = await instance.put(url, item);

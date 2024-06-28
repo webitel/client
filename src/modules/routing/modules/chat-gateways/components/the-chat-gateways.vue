@@ -159,28 +159,28 @@
 </template>
 
 <script>
-import ChatGatewayProvider from "@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum";
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import CreateChatGatewayPopup from "./create-chat-gateway-popup.vue";
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 
 const iconType = {
-  [ChatGatewayProvider.MESSENGER]: "meta",
-  [ChatGatewayProvider.INFOBIP]: "messenger-infobip",
-  [ChatGatewayProvider.VIBER]: "messenger-viber",
-  [ChatGatewayProvider.WEBCHAT]: "messenger-web-chat",
-  [ChatGatewayProvider.TELEGRAM_BOT]: "telegram-bot",
-  [ChatGatewayProvider.TELEGRAM_APP]: "messenger-telegram",
-  [ChatGatewayProvider.CUSTOM]: "custom-chat-gateway",
+  [ChatGatewayProvider.MESSENGER]: 'meta',
+  [ChatGatewayProvider.INFOBIP]: 'messenger-infobip',
+  [ChatGatewayProvider.VIBER]: 'messenger-viber',
+  [ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',
+  [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram-bot',
+  [ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
+  [ChatGatewayProvider.CUSTOM]: 'custom-chat-gateway',
 };
 
-const namespace = "routing/chatGateways";
+const namespace = 'routing/chatGateways';
 
 export default {
-  name: "TheChatGateways",
+  name: 'TheChatGateways',
   components: {
     CreateChatGatewayPopup,
     DeleteConfirmationPopup,
@@ -222,11 +222,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.chatGateways.chatGateways", 2),
-          route: "/routing/chat-gateways",
+          name: this.$tc('objects.routing.chatGateways.chatGateways', 2),
+          route: '/routing/chat-gateways',
         },
       ];
     },
@@ -239,14 +239,14 @@ export default {
     providerIcon(value) {
       switch (value) {
         case ChatGatewayProvider.INFOBIP:
-          return [iconType[value], "send-arrow", "messenger-whatsapp"];
+          return [iconType[value], 'send-arrow', 'messenger-whatsapp'];
         case ChatGatewayProvider.MESSENGER:
           return [
             iconType[value],
-            "send-arrow",
-            "messenger-facebook",
-            "instagram",
-            "messenger-whatsapp",
+            'send-arrow',
+            'messenger-facebook',
+            'instagram',
+            'messenger-whatsapp',
           ];
         default:
           return iconType[value];

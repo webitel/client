@@ -129,17 +129,17 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { mapActions } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "routing/chatplan";
+const namespace = 'routing/chatplan';
 
 export default {
-  name: "TheChatplan",
+  name: 'TheChatplan',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
@@ -174,11 +174,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.chatplan.chatplan", 2),
-          route: "/routing/chatplan",
+          name: this.$tc('objects.routing.chatplan.chatplan', 2),
+          route: '/routing/chatplan',
         },
       ];
     },

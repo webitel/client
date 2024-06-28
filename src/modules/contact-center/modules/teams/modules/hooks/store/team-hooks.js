@@ -1,10 +1,10 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import TeamHooksAPI from "../api/teamHooks";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import TeamHooksAPI from '../api/teamHooks';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    event: "",
+    event: '',
     properties: [],
     schema: {},
     enabled: true,

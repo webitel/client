@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import SelectionPopup from "../../../../../app/components/utils/selection-popup/selection-popup.vue";
-import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: "CreateQueuePopup",
+  name: 'CreateQueuePopup',
   components: { SelectionPopup },
   data: () => ({
     selected: null,

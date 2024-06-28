@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import General from "./opened-bucket-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-bucket-general.vue';
 
 export default {
-  name: "OpenedBucket",
+  name: 'OpenedBucket',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -49,7 +49,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/buckets",
+    namespace: 'lookups/buckets',
   }),
   validations: {
     itemInstance: {
@@ -61,25 +61,25 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       return tabs;
     },
 
     path() {
-      const baseUrl = "/lookups/buckets";
+      const baseUrl = '/lookups/buckets';
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.buckets.buckets", 2),
+          name: this.$tc('objects.lookups.buckets.buckets', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

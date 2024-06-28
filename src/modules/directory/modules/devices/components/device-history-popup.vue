@@ -69,29 +69,29 @@
 </template>
 
 <script>
-import historyPopupMixin from "../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin";
+import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
 
 export default {
-  name: "DeviceHistoryPopup",
+  name: 'DeviceHistoryPopup',
   mixins: [historyPopupMixin],
   data: () => ({
-    namespace: "directory/devices/history",
+    namespace: 'directory/devices/history',
   }),
 
   computed: {
     headers() {
       return [
         {
-          value: "user",
-          text: this.$tc("objects.directory.users.users", 1),
+          value: 'user',
+          text: this.$tc('objects.directory.users.users', 1),
         },
         {
-          value: "loggedIn",
-          text: this.$t("objects.directory.devices.loggedIn"),
+          value: 'loggedIn',
+          text: this.$t('objects.directory.devices.loggedIn'),
         },
         {
-          value: "loggedOut",
-          text: this.$t("objects.directory.devices.loggedOut"),
+          value: 'loggedOut',
+          text: this.$t('objects.directory.devices.loggedOut'),
         },
       ];
     },

@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import { chatBaseUrl } from "../../api/chatInstance";
-import openMessengerWindow from "../../modules/messenger/_shared/scripts/openMessengerWindow";
-import chatGatewaysTelegramAppAPI from "../../modules/telegram-app/api/chatGatewaysTelegramAppAPI";
+import { chatBaseUrl } from '../../api/chatInstance';
+import openMessengerWindow from '../../modules/messenger/_shared/scripts/openMessengerWindow';
+import chatGatewaysTelegramAppAPI from '../../modules/telegram-app/api/chatGatewaysTelegramAppAPI';
 
 export default {
-  name: "TelegramAppButton",
+  name: 'TelegramAppButton',
   props: {
     uri: {
       type: String,
@@ -36,8 +36,8 @@ export default {
     },
     btnText() {
       return this.isAuthorized
-        ? this.$t("vocabulary.logout")
-        : this.$t("objects.routing.chatGateways.telegramApp.joinTelegram");
+        ? this.$t('vocabulary.logout')
+        : this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
     },
   },
   created() {
@@ -56,7 +56,7 @@ export default {
         openMessengerWindow({
           url,
           listener: ({ data }) => {
-            if (data.status === "success") this.loadAuth();
+            if (data.status === 'success') this.loadAuth();
           },
         });
       }

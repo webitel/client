@@ -1,6 +1,6 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import AgentSubordinatesAPI from "../api/agentSubordinates";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import AgentSubordinatesAPI from '../api/agentSubordinates';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {

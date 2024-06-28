@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import SelectionPopup from "../../../../../app/components/utils/selection-popup/selection-popup.vue";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: "CreateGatewayPopup",
+  name: 'CreateGatewayPopup',
   components: { SelectionPopup },
   data: () => ({
     selected: null,
@@ -23,14 +23,14 @@ export default {
   computed: {
     options() {
       const register = {
-        value: "reg",
-        title: this.$t("objects.routing.gateways.SIPregistrations"),
-        usage: this.$t("objects.routing.gateways.SIPregistrationsDescription"),
+        value: 'reg',
+        title: this.$t('objects.routing.gateways.SIPregistrations'),
+        usage: this.$t('objects.routing.gateways.SIPregistrationsDescription'),
       };
       const trunking = {
-        value: "trunk",
-        title: this.$t("objects.routing.gateways.SIPtrunking"),
-        usage: this.$t("objects.routing.gateways.SIPtrunkingDescription"),
+        value: 'trunk',
+        title: this.$t('objects.routing.gateways.SIPtrunking'),
+        usage: this.$t('objects.routing.gateways.SIPtrunkingDescription'),
       };
       return [register, trunking];
     },
@@ -52,7 +52,7 @@ export default {
       }
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

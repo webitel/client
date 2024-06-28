@@ -1,8 +1,8 @@
-import { createI18n } from "vue-i18n";
-import en from "./en/en";
-import kz from "./kz/kz";
-import ru from "./ru/ru";
-import ua from "./ua/ua";
+import { createI18n } from 'vue-i18n';
+import en from './en/en';
+import kz from './kz/kz';
+import ru from './ru/ru';
+import ua from './ua/ua';
 
 const messages = {
   en,
@@ -12,8 +12,8 @@ const messages = {
 };
 
 export default new createI18n({
-  locale: "en",
-  fallbackLocale: "en",
+  locale: 'en',
+  fallbackLocale: 'en',
   allowComposition: true,
   messages,
 });

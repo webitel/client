@@ -1,7 +1,7 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapGetters, mapState } from "vuex";
-import baseTableMixin from "../../baseMixins/baseTableMixin/baseTableMixin";
-import objectTableAccessControlMixin from "./_internals/objectTableAccessControlMixin";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
+import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -35,8 +35,8 @@ export default {
         return getNamespacedState(state, this.namespace).isNextPage;
       },
     }),
-    ...mapGetters("appearance", {
-      darkMode: "DARK_MODE",
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     headers() {
       if (!this.headersValue) return [];
@@ -45,7 +45,7 @@ export default {
         // set "false" if no locale prop
         if (header.locale) {
           localizedText =
-            !header.locale || typeof header.locale === "string"
+            !header.locale || typeof header.locale === 'string'
               ? this.$t(header.locale)
               : this.$tc(...header.locale);
         }

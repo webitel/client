@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -8,20 +8,20 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import ChatGatewayProvider from "@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum";
-import deepCopy from "deep-copy";
-import deepmerge from "deepmerge";
-import instance from "../../../../../app/api/instance";
-import webChatGateway from "../store/_internals/providers/webChatGateway";
+} from '@webitel/ui-sdk/src/api/transformers';
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import deepCopy from 'deep-copy';
+import deepmerge from 'deepmerge';
+import instance from '../../../../../app/api/instance';
+import webChatGateway from '../store/_internals/providers/webChatGateway';
 
-const baseUrl = "/chat/bots";
-const fieldsToSend = ["name", "uri", "flow", "enabled", "provider", "metadata", "updates"];
+const baseUrl = '/chat/bots';
+const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata', 'updates'];
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
 const parseTimeoutSeconds = (item) =>
-  item.includes("s") ? Number.parseInt(item.replace("/s", "/"), 10) : +item;
+  item.includes('s') ? Number.parseInt(item.replace('/s', '/'), 10) : +item;
 
 const webchatRequestConverter = (data) => {
   const copy = deepCopy(data);
@@ -62,16 +62,16 @@ const messengerRequestConverter = (data) => {
 
 const viberRequestConverter = (item) => {
   const copy = deepCopy(item);
-  copy.metadata["btn.back.color"] = item.metadata.btnBackColor;
+  copy.metadata['btn.back.color'] = item.metadata.btnBackColor;
   copy.metadata.btnBackColor = undefined;
-  copy.metadata["btn.font.color"] = item.metadata.btnFontColor;
+  copy.metadata['btn.font.color'] = item.metadata.btnFontColor;
   copy.metadata.btnFontColor = undefined;
   return copy;
 };
 
 const webChatResponseConverter = (data) => {
   const copy = deepCopy(data);
-  copy.metadata.allowOrigin = data.metadata.allowOrigin ? data.metadata.allowOrigin.split(",") : [];
+  copy.metadata.allowOrigin = data.metadata.allowOrigin ? data.metadata.allowOrigin.split(',') : [];
   if (data.metadata.readTimeout) {
     copy.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   }
@@ -99,22 +99,22 @@ const webChatResponseConverter = (data) => {
   if (data.metadata.captcha) {
     copy.metadata.captcha = JSON.parse(data.metadata.captcha);
   }
-  copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty === "true";
+  copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty === 'true';
 
   return deepmerge(webChatGateway(), copy);
 };
 
 const messengerResponseConverter = (item) => {
   const copy = deepCopy(item);
-  copy.metadata.instagramComments = item.metadata.instagramComments === "true";
-  copy.metadata.instagramMentions = item.metadata.instagramMentions === "true";
+  copy.metadata.instagramComments = item.metadata.instagramComments === 'true';
+  copy.metadata.instagramMentions = item.metadata.instagramMentions === 'true';
   return copy;
 };
 
 const viberResponseConverter = (item) => {
   const copy = deepCopy(item);
-  if (item.metadata["btn.back.color"]) copy.metadata.btnBackColor = item.metadata["btn.back.color"];
-  if (item.metadata["btn.font.color"]) copy.metadata.btnFontColor = item.metadata["btn.font.color"];
+  if (item.metadata['btn.back.color']) copy.metadata.btnBackColor = item.metadata['btn.back.color'];
+  if (item.metadata['btn.font.color']) copy.metadata.btnFontColor = item.metadata['btn.font.color'];
   return copy;
 };
 
@@ -132,27 +132,27 @@ const preRequestHandler = (item) => {
 };
 
 const getChatGatewayList = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     // default object prototype, to merge response with it to get all fields
     enabled: false,
-    name: "",
-    uri: "",
+    name: '',
+    uri: '',
     flow: {},
-    provider: "",
+    provider: '',
     metadata: {},
     updates: {
-      title: "",
-      close: "",
-      join: "",
-      left: "",
+      title: '',
+      close: '',
+      join: '',
+      left: '',
     },
   };
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -251,7 +251,7 @@ const deleteChatGateway = async ({ id }) => {
 const getLookup = (params) =>
   getChatGatewayList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const ChatGatewaysAPI = {

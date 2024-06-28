@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,28 +7,28 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import deepCopy from "deep-copy";
-import { OutboundResourceServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import deepCopy from 'deep-copy';
+import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const resService = new OutboundResourceServiceApiFactory(configuration, "", instance);
+const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  "limit",
-  "enabled",
-  "rps",
-  "maxSuccessivelyErrors",
-  "name",
-  "errorIds",
-  "display",
-  "description",
-  "resourceId",
-  "gateway",
-  "patterns",
-  "failureDialDelay",
-  "parameters",
+  'limit',
+  'enabled',
+  'rps',
+  'maxSuccessivelyErrors',
+  'name',
+  'errorIds',
+  'display',
+  'description',
+  'resourceId',
+  'gateway',
+  'patterns',
+  'failureDialDelay',
+  'parameters',
 ];
 
 const preRequestHandler = (item) => {
@@ -46,7 +46,7 @@ const getResourceList = async (params) => {
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -66,18 +66,18 @@ const getResourceList = async (params) => {
 
 const getResource = async ({ itemId: id }) => {
   const defaultObject = {
-    name: "",
+    name: '',
     gateway: {},
     rps: 0,
     limit: 0,
-    description: "",
+    description: '',
     maxSuccessivelyErrors: 0,
     errorIds: [],
     patterns: [],
     failureDialDelay: 0,
     parameters: {
-      cidType: "",
-      ignoreEarlyMedia: "",
+      cidType: '',
+      ignoreEarlyMedia: '',
     },
   };
 
@@ -150,7 +150,7 @@ const deleteResource = async ({ id }) => {
 const getResourcesLookup = (params) =>
   getResourceList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const ResourcesAPI = {

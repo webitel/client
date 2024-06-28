@@ -38,13 +38,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import AgentsAPI from "../../../../agents/api/agents";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: "OpenedTeamAgentPopup",
+  name: 'OpenedTeamAgentPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
@@ -52,7 +52,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/teams/agents",
+    namespace: 'ccenter/teams/agents',
   }),
   validations: {
     itemInstance: {

@@ -1,4 +1,4 @@
-import ObjectsList from "../lookups/ObjectsList.lookup";
+import ObjectsList from '../lookups/ObjectsList.lookup';
 
 const convertScope = (initialScope) => {
   let scope = {};

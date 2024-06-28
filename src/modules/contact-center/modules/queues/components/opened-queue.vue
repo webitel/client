@@ -47,27 +47,27 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, required } from "@vuelidate/validators";
-import deepmerge from "deepmerge";
-import { QueueType } from "webitel-sdk/esm2015/enums";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
-import Agents from "../modules/agents/components/opened-queue-agents.vue";
-import Buckets from "../modules/buckets/components/opened-queue-buckets.vue";
-import Hooks from "../modules/hooks/components/opened-queue-hooks.vue";
-import Logs from "../modules/logs/components/opened-queue-logs.vue";
-import LogsFilters from "../modules/logs/modules/filters/components/the-queue-logs-filters.vue";
-import Resources from "../modules/res-groups/components/opened-queue-resources.vue";
-import Skills from "../modules/skills/components/opened-queue-skills.vue";
-import General from "./opened-queue-general.vue";
-import Params from "./opened-queue-params.vue";
-import Processing from "./opened-queue-processing.vue";
-import Amd from "./shared/amd/opened-queue-amd.vue";
-import Variables from "./shared/variables/opened-queue-variables.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, required } from '@vuelidate/validators';
+import deepmerge from 'deepmerge';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import Agents from '../modules/agents/components/opened-queue-agents.vue';
+import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
+import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
+import Logs from '../modules/logs/components/opened-queue-logs.vue';
+import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
+import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
+import Skills from '../modules/skills/components/opened-queue-skills.vue';
+import General from './opened-queue-general.vue';
+import Params from './opened-queue-params.vue';
+import Processing from './opened-queue-processing.vue';
+import Amd from './shared/amd/opened-queue-amd.vue';
+import Variables from './shared/variables/opened-queue-variables.vue';
 
 export default {
-  name: "OpenedQueue",
+  name: 'OpenedQueue',
   components: {
     General,
     Params,
@@ -88,7 +88,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/queues",
+    namespace: 'ccenter/queues',
   }),
   validations() {
     const defaults = {
@@ -307,49 +307,49 @@ export default {
 
     tabs() {
       const general = {
-        text: this.$t("objects.general"),
-        value: "general",
+        text: this.$t('objects.general'),
+        value: 'general',
       };
       const params = {
-        text: this.$t("objects.ccenter.queues.params"),
-        value: "params",
+        text: this.$t('objects.ccenter.queues.params'),
+        value: 'params',
       };
       const processing = {
-        text: this.$t("objects.ccenter.queues.processing.processing"),
-        value: "processing",
+        text: this.$t('objects.ccenter.queues.processing.processing'),
+        value: 'processing',
       };
       const agents = {
-        text: this.$tc("objects.ccenter.agents.agents", 2),
-        value: "agents",
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'agents',
       };
       const skills = {
-        text: this.$tc("objects.lookups.skills.skills", 2),
-        value: "skills",
+        text: this.$tc('objects.lookups.skills.skills', 2),
+        value: 'skills',
       };
       const resources = {
-        text: this.$tc("objects.ccenter.res.res", 2),
-        value: "resources",
+        text: this.$tc('objects.ccenter.res.res', 2),
+        value: 'resources',
       };
       const buckets = {
-        text: this.$tc("objects.lookups.buckets.buckets", 2),
-        value: "buckets",
+        text: this.$tc('objects.lookups.buckets.buckets', 2),
+        value: 'buckets',
       };
       const hooks = {
-        text: this.$tc("objects.ccenter.queues.hooks.hooks", 2),
-        value: "hooks",
+        text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
+        value: 'hooks',
       };
       const amd = {
-        text: this.$t("objects.ccenter.queues.amd"),
-        value: "amd",
+        text: this.$t('objects.ccenter.queues.amd'),
+        value: 'amd',
       };
       const variables = {
-        text: this.$tc("objects.ccenter.queues.variables", 2),
-        value: "variables",
+        text: this.$tc('objects.ccenter.queues.variables', 2),
+        value: 'variables',
       };
       const logs = {
-        text: this.$tc("objects.ccenter.queues.logs.logs", 2),
-        value: "logs",
-        filters: "logs-filters",
+        text: this.$tc('objects.ccenter.queues.logs.logs', 2),
+        value: 'logs',
+        filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
       };
 
@@ -379,18 +379,18 @@ export default {
 
     path() {
       const title = this.$t(QueueTypeProperties[this.queueType].locale);
-      const baseUrl = "/contact-center/queues";
+      const baseUrl = '/contact-center/queues';
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.queues.queues", 2),
+          name: this.$tc('objects.ccenter.queues.queues', 2),
           route: baseUrl,
         },
         {
-          name: `${this.id ? this.pathName : this.$t("objects.new")} (${title})`,
-          route: `${baseUrl}/${this.id ? this.id : "new"}/${QueueTypeProperties[this.queueType].subpath}`,
+          name: `${this.id ? this.pathName : this.$t('objects.new')} (${title})`,
+          route: `${baseUrl}/${this.id ? this.id : 'new'}/${QueueTypeProperties[this.queueType].subpath}`,
         },
       ];
     },

@@ -68,12 +68,12 @@
 </template>
 
 <script>
-import PasswordInput from "../../../../../app/components/utils/generate-password-input.vue";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import FlowsAPI from "../../flow/api/flow";
+import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: "OpenedSipGatewayRegisterGeneral",
+  name: 'OpenedSipGatewayRegisterGeneral',
   components: { PasswordInput },
   mixins: [openedTabComponentMixin],
   methods: {

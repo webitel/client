@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -8,17 +8,17 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import instance from "../../../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../../../../../app/api/instance';
 
-const baseUrl = "/objclass";
+const baseUrl = '/objclass';
 
 const getObjectList = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const defaultObject = {
     // default object prototype, to merge response with it to get all fields
-    class: "",
+    class: '',
     obac: false,
     rbac: false,
     id: 0,
@@ -26,7 +26,7 @@ const getObjectList = async (params) => {
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),

@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "PermissionsRoleColumn",
+  name: 'PermissionsRoleColumn',
   props: {
     role: {
       type: Object,

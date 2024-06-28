@@ -1,4 +1,4 @@
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   destroyed() {

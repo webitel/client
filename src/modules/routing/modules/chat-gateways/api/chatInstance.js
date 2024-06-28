@@ -1,7 +1,7 @@
-import path from "path";
-import axios from "axios";
-import instance from "../../../../../app/api/instance";
-import getChatOriginUrl from "../scripts/getChatOriginUrl";
+import path from 'path';
+import axios from 'axios';
+import instance from '../../../../../app/api/instance';
+import getChatOriginUrl from '../scripts/getChatOriginUrl';
 
 const chatBaseUrl = new URL(
   path.normalize(import.meta.env.VITE_CHAT_URL),
@@ -13,7 +13,7 @@ const chatInstance = axios.create({
   baseURL: chatBaseUrl,
 });
 
-console.log("chatInstance:", chatInstance);
+console.log('chatInstance:', chatInstance);
 
 export default chatInstance;
 export { chatBaseUrl };

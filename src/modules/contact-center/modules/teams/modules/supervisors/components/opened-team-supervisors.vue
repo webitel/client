@@ -118,19 +118,19 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
-import SupervisorSubordinatesPopup from "./opened-team-supervisor-subordinates-popup.vue";
-import SupervisorPopup from "./opened-team-supervisors-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
+import SupervisorPopup from './opened-team-supervisors-popup.vue';
 
-const namespace = "ccenter/teams";
-const subNamespace = "supervisors";
+const namespace = 'ccenter/teams';
+const subNamespace = 'supervisors';
 
 export default {
-  name: "OpenedTeamSupervisors",
+  name: 'OpenedTeamSupervisors',
   components: {
     SupervisorPopup,
     SupervisorSubordinatesPopup,

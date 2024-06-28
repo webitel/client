@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import SingleSignOnAPI from "../api/singleSignOn";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import SingleSignOnAPI from '../api/singleSignOn';
 
 export default {
-  name: "OpenedSingleSignOnGeneral",
+  name: 'OpenedSingleSignOnGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadFlows(params) {

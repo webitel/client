@@ -60,17 +60,17 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import FlowsAPI from "../../../flow/api/flow";
-import uriCopyMixin from "../../mixins/uriCopyMixin";
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../../flow/api/flow';
+import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {
-  name: "OpenedChatGatewayInfobipGeneralTab",
+  name: 'OpenedChatGatewayInfobipGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
     isUriEditable() {
-      return !this.disableUserInput && this.$route.path.includes("/new");
+      return !this.disableUserInput && this.$route.path.includes('/new');
     },
   },
   methods: {
@@ -83,12 +83,12 @@ export default {
     setFlow(value) {
       if (!this.itemInstance.name) {
         this.setItemProp({
-          prop: "name",
+          prop: 'name',
           value: value.name,
         });
       }
       this.setItemProp({
-        prop: "flow",
+        prop: 'flow',
         value,
       });
     },

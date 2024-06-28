@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,14 +6,14 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { OutboundResourceGroupServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { OutboundResourceGroupServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, "", instance);
+const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = ["groupId", "name", "description", "resource", "reserveResource", "priority"];
+const fieldsToSend = ['groupId', 'name', 'description', 'resource', 'reserveResource', 'priority'];
 
 const preRequestHandler = (parentId) => (item) => ({
   ...item,
@@ -23,7 +23,7 @@ const preRequestHandler = (parentId) => (item) => ({
 const getResInGroupList = async (params) => {
   const { page, size, search, sort, fields, id, parentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {

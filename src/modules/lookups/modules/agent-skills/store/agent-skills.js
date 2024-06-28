@@ -1,12 +1,12 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import SkillsAPI from "../api/agentSkills";
-import agents from "../modules/agents/store/skill-agents";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import SkillsAPI from '../api/agentSkills';
+import agents from '../modules/agents/store/skill-agents';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
-    description: "",
+    name: '',
+    description: '',
   },
 };
 

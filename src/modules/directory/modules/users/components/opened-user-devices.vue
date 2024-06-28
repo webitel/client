@@ -42,15 +42,15 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import DevicesAPI from "../../devices/api/devices";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import DevicesAPI from '../../devices/api/devices';
 
 export default {
-  name: "OpenedUserDevices",
+  name: 'OpenedUserDevices',
   mixins: [openedTabComponentMixin],
   methods: {
     async loadDropdownOptionsList(params) {
-      const fields = ["id", "name", "hotdesk"];
+      const fields = ['id', 'name', 'hotdesk'];
       const response = await DevicesAPI.getLookup({
         ...params,
         fields,

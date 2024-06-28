@@ -54,13 +54,13 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: "OpenedSipGatewayTrunkingConfiguration",
+  name: 'OpenedSipGatewayTrunkingConfiguration',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    protocolList: ["any", "udp", "tcp"],
+    protocolList: ['any', 'udp', 'tcp'],
   }),
 };
 </script>

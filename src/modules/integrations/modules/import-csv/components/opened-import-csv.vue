@@ -36,15 +36,15 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import ImportCsvMemberMappings from "../lookups/ImportCsvMemberMappings.lookup";
-import General from "./opened-import-csv-general.vue";
-import Settings from "./opened-import-csv-settings.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
+import General from './opened-import-csv-general.vue';
+import Settings from './opened-import-csv-settings.vue';
 
 export default {
-  name: "OpenedImportCsv",
+  name: 'OpenedImportCsv',
   components: {
     General,
     Settings,
@@ -54,7 +54,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "integrations/importCsv",
+    namespace: 'integrations/importCsv',
   }),
   validations() {
     return {
@@ -95,12 +95,12 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          text: this.$t("objects.integrations.importCsv.settings"),
-          value: "settings",
+          text: this.$t('objects.integrations.importCsv.settings'),
+          value: 'settings',
         },
       ];
       if (this.id) tabs.push(this.permissionsTab);
@@ -108,17 +108,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/integrations/import-csv";
+      const baseUrl = '/integrations/import-csv';
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.importCsv.importCsv"),
+          name: this.$tc('objects.integrations.importCsv.importCsv'),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

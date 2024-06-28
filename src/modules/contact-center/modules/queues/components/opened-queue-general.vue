@@ -140,20 +140,20 @@
 </template>
 
 <script>
-import { EngineRoutingSchemaType } from "webitel-sdk";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import BlacklistsAPI from "../../../../lookups/modules/blacklists/api/blacklists";
-import CalendarsAPI from "../../../../lookups/modules/calendars/api/calendars";
-import MediaAPI from "../../../../lookups/modules/media/api/media";
-import RolesAPI from "../../../../permissions/modules/roles/api/roles";
-import FlowsAPI from "../../../../routing/modules/flow/api/flow";
-import TeamsAPI from "../../teams/api/teams";
-import QueuesAPI from "../api/queues";
-import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
-import { StrategyList } from "../store/_internals/enums/Strategy.enum";
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
+import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import MediaAPI from '../../../../lookups/modules/media/api/media';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
+import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import TeamsAPI from '../../teams/api/teams';
+import QueuesAPI from '../api/queues';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 
 export default {
-  name: "OpenedQueueGeneral",
+  name: 'OpenedQueueGeneral',
   mixins: [openedTabComponentMixin],
 
   computed: {
@@ -165,7 +165,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "strategy",
+          prop: 'strategy',
           value: value.value,
         });
       },

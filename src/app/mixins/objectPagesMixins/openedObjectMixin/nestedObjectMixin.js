@@ -1,6 +1,6 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import baseObjectMixin from "../../baseMixins/baseObjectMixin/baseObjectMixin";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 
 /**
  * @fileOverview contains nestedObject common logic
@@ -48,7 +48,7 @@ export default {
     },
 
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

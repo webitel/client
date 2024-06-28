@@ -4,7 +4,7 @@ export default {
       return this.dispatchDelete(deleted);
     },
     dispatchDelete() {
-      throw new TypeError("implement dispatchDelete method first");
+      throw new TypeError('implement dispatchDelete method first');
     },
   },
 };

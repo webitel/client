@@ -1,6 +1,6 @@
-import { QueueType } from "webitel-sdk/esm2015/enums";
-import { Strategy } from "../enums/Strategy.enum";
-import queue from "./defaults/defaultQueue";
+import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { Strategy } from '../enums/Strategy.enum';
+import queue from './defaults/defaultQueue';
 
 const outboundJobQueue = () => ({
   ...queue(),

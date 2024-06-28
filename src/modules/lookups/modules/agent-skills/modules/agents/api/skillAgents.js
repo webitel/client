@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,12 +7,12 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { SkillServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { SkillServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const skillService = new SkillServiceApiFactory(configuration, "", instance);
+const skillService = new SkillServiceApiFactory(configuration, '', instance);
 
 const defaultObject = {
   agent: {},
@@ -25,7 +25,7 @@ const defaultObject = {
 const getAgentSkillsList = async (params) => {
   const { parentId, page, size, search, sort, fields, id, agentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -62,7 +62,7 @@ const getAgentSkill = async ({ parentId, itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["capacity", "skill", "team", "enabled", "agent", "user"];
+const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'agent', 'user'];
 
 const addAgentSkill = async ({ parentId, itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);

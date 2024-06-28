@@ -86,46 +86,46 @@
 </template>
 
 <script>
-import convertDuration from "@webitel/ui-sdk/src/scripts/convertDuration";
-import { mapGetters } from "vuex";
-import historyPopupMixin from "../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin";
-import dummyPicDark from "../assets/adm-agent-history-dark.svg";
-import dummyPicLight from "../assets/adm-agent-history-light.svg";
-import agentState from "../dictionaries/agentState.dictionary";
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { mapGetters } from 'vuex';
+import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
+import dummyPicDark from '../assets/adm-agent-history-dark.svg';
+import dummyPicLight from '../assets/adm-agent-history-light.svg';
+import agentState from '../dictionaries/agentState.dictionary';
 
 export default {
-  name: "AgentHistoryPopup",
+  name: 'AgentHistoryPopup',
   mixins: [historyPopupMixin],
   data: () => ({
-    namespace: "ccenter/agents/history",
+    namespace: 'ccenter/agents/history',
     agentState,
   }),
 
   computed: {
-    ...mapGetters("appearance", {
-      darkMode: "DARK_MODE",
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     headers() {
       return [
         {
-          value: "state",
-          text: this.$t("objects.ccenter.agents.historyState"),
+          value: 'state',
+          text: this.$t('objects.ccenter.agents.historyState'),
         },
         {
-          value: "channel",
-          text: this.$t("objects.ccenter.agents.historyChannel"),
+          value: 'channel',
+          text: this.$t('objects.ccenter.agents.historyChannel'),
         },
         {
-          value: "from",
-          text: this.$t("objects.ccenter.agents.historyFrom"),
+          value: 'from',
+          text: this.$t('objects.ccenter.agents.historyFrom'),
         },
         {
-          value: "to",
-          text: this.$t("objects.ccenter.agents.historyTo"),
+          value: 'to',
+          text: this.$t('objects.ccenter.agents.historyTo'),
         },
         {
-          value: "duration",
-          text: this.$t("objects.ccenter.agents.historyDuration"),
+          value: 'duration',
+          text: this.$t('objects.ccenter.agents.historyDuration'),
         },
       ];
     },
@@ -133,7 +133,7 @@ export default {
       return (
         !this.dataList.length && {
           src: this.darkMode ? dummyPicDark : dummyPicLight,
-          text: "objects.ccenter.agents.emptyPopup",
+          text: 'objects.ccenter.agents.emptyPopup',
         }
       );
     },

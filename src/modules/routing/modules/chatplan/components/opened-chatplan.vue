@@ -36,13 +36,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import General from "./opened-chatplan-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-chatplan-general.vue';
 
 export default {
-  name: "OpenedChatplan",
+  name: 'OpenedChatplan',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -50,7 +50,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "routing/chatplan",
+    namespace: 'routing/chatplan',
   }),
   validations: {
     itemInstance: {
@@ -63,24 +63,24 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       return tabs;
     },
     path() {
-      const baseUrl = "/routing/chatplan";
+      const baseUrl = '/routing/chatplan';
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.chatplan.chatplan", 1),
+          name: this.$tc('objects.routing.chatplan.chatplan', 1),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

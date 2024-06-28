@@ -1,48 +1,48 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import TriggersAPI from "../api/triggers";
-import TriggerTypes from "../lookups/TriggerTypes.lookup";
-import log from "../modules/logs/store/trigger-logs";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import TriggersAPI from '../api/triggers';
+import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import log from '../modules/logs/store/trigger-logs';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
     id: 0,
-    description: "",
+    description: '',
     enabled: true,
-    name: "",
+    name: '',
     schema: {},
     timeout: 60,
     timezone: {},
     type: TriggerTypes[0],
     variables: [],
-    expression: "0 */1 12 * * *",
+    expression: '0 */1 12 * * *',
   },
 };
 
 const actions = {
   ADD_VARIABLE_PAIR: (context) => {
-    const pair = { key: "", value: "" };
-    context.commit("ADD_VARIABLE_PAIR", pair);
-    context.commit("SET_ITEM_PROPERTY", {
-      prop: "_dirty",
+    const pair = { key: '', value: '' };
+    context.commit('ADD_VARIABLE_PAIR', pair);
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
       value: true,
     });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    context.commit("SET_VARIABLE_PROP", {
+    context.commit('SET_VARIABLE_PROP', {
       index,
       prop,
       value,
     });
-    context.commit("SET_ITEM_PROPERTY", {
-      prop: "_dirty",
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
       value: true,
     });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
-    context.commit("DELETE_VARIABLE_PAIR", index);
-    context.commit("SET_ITEM_PROPERTY", {
-      prop: "_dirty",
+    context.commit('DELETE_VARIABLE_PAIR', index);
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
       value: true,
     });
   },

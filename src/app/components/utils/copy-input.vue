@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "CopyInput",
+  name: 'CopyInput',
   props: {
     value: {
       type: String,
@@ -49,7 +49,7 @@ export default {
 
   methods: {
     input(value) {
-      this.$emit("input", value);
+      this.$emit('input', value);
     },
   },
 };

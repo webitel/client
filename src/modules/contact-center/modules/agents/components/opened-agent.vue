@@ -35,16 +35,16 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Queues from "../modules/queues/components/opened-agent-queues.vue";
-import Skills from "../modules/skills/components/opened-agent-skills.vue";
-import Subordinates from "../modules/subordinates/components/opened-agent-subordinates.vue";
-import General from "./opened-agent-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Queues from '../modules/queues/components/opened-agent-queues.vue';
+import Skills from '../modules/skills/components/opened-agent-skills.vue';
+import Subordinates from '../modules/subordinates/components/opened-agent-subordinates.vue';
+import General from './opened-agent-general.vue';
 
 export default {
-  name: "OpenedAgent",
+  name: 'OpenedAgent',
   components: {
     General,
     Queues,
@@ -57,7 +57,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/agents",
+    namespace: 'ccenter/agents',
   }),
   validations: {
     itemInstance: {
@@ -82,22 +82,22 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          text: this.$tc("objects.lookups.skills.skills", 2),
-          value: "skills",
+          text: this.$tc('objects.lookups.skills.skills', 2),
+          value: 'skills',
         },
         {
-          text: this.$tc("objects.ccenter.queues.queues", 2),
-          value: "queues",
+          text: this.$tc('objects.ccenter.queues.queues', 2),
+          value: 'queues',
         },
       ];
 
       const subordinates = {
-        text: this.$tc("objects.ccenter.agents.agents", 2),
-        value: "subordinates",
+        text: this.$tc('objects.ccenter.agents.agents', 2),
+        value: 'subordinates',
       };
 
       if (this.itemInstance.isSupervisor) tabs.push(subordinates);
@@ -106,17 +106,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/contact-center/agents";
+      const baseUrl = '/contact-center/agents';
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.agents.agents", 2),
+          name: this.$tc('objects.ccenter.agents.agents', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

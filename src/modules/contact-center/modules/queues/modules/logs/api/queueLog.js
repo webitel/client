@@ -1,15 +1,15 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge,
   notify,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { MemberServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { MemberServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, "", instance);
+const queueMemberAttemptsService = new MemberServiceApiFactory(configuration, '', instance);
 
 const getQueueLogs = async (params) => {
   const {
@@ -17,7 +17,7 @@ const getQueueLogs = async (params) => {
     page = 1,
     size = 10,
     search,
-    sort = "+joined_at",
+    sort = '+joined_at',
     fields,
     joinedAtFrom,
     joinedAtTo,
@@ -29,7 +29,7 @@ const getQueueLogs = async (params) => {
     offeringAtTo,
     durationFrom,
     durationTo,
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch("search")]);
+  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
 
   try {
     const response = await queueMemberAttemptsService.searchAttemptsHistory(

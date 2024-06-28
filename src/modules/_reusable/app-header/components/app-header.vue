@@ -26,18 +26,18 @@
 </template>
 
 <script>
-import WebitelApplications from "@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum";
-import WtDarkModeSwitcher from "@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue";
-import { mapActions, mapGetters, mapState } from "vuex";
-import navMixin from "../../../../app/mixins/navMixin";
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import navMixin from '../../../../app/mixins/navMixin';
 
 export default {
-  name: "AppHeader",
+  name: 'AppHeader',
   components: {
     WtDarkModeSwitcher,
   },
   mixins: [navMixin],
-  inject: ["$config"],
+  inject: ['$config'],
   data: () => ({
     buildInfo: {
       release: process.env.npm_package_version,
@@ -45,15 +45,15 @@ export default {
     },
   }),
   computed: {
-    ...mapState("userinfo", {
+    ...mapState('userinfo', {
       user: (state) => state,
       currentApp: (state) => state.thisApp,
     }),
-    ...mapGetters("userinfo", {
-      checkAccess: "CHECK_APP_ACCESS",
+    ...mapGetters('userinfo', {
+      checkAccess: 'CHECK_APP_ACCESS',
     }),
-    ...mapGetters("appearance", {
-      darkMode: "DARK_MODE",
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     startPageHref() {
       return import.meta.env.VITE_START_PAGE_URL;
@@ -94,11 +94,11 @@ export default {
   },
 
   methods: {
-    ...mapActions("userinfo", {
-      logout: "LOGOUT",
+    ...mapActions('userinfo', {
+      logout: 'LOGOUT',
     }),
     settings() {
-      this.$router.push("/settings");
+      this.$router.push('/settings');
     },
 
     logoutUser() {

@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "OpenedQueueSkillsBucketsPopup",
+  name: 'OpenedQueueSkillsBucketsPopup',
   props: {
     itemId: {
       required: true,
@@ -35,8 +35,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters("ccenter/queues/skills", {
-      getBuckets: "GET_ITEM_BUCKETS",
+    ...mapGetters('ccenter/queues/skills', {
+      getBuckets: 'GET_ITEM_BUCKETS',
     }),
     dataList() {
       return this.getBuckets(this.itemId);
@@ -44,8 +44,8 @@ export default {
     headers() {
       return [
         {
-          value: "bucket",
-          text: this.$t("reusable.name"),
+          value: 'bucket',
+          text: this.$t('reusable.name'),
         },
       ];
     },
@@ -53,7 +53,7 @@ export default {
 
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

@@ -46,13 +46,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { minValue, numeric, required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import BucketsAPI from "../../../../../../lookups/modules/buckets/api/buckets";
+import { useVuelidate } from '@vuelidate/core';
+import { minValue, numeric, required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {
-  name: "OpenedQueueBucketsPopup",
+  name: 'OpenedQueueBucketsPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
@@ -60,7 +60,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/queues/buckets",
+    namespace: 'ccenter/queues/buckets',
   }),
   validations: {
     itemInstance: {

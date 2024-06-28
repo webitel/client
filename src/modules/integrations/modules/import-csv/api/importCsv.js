@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,14 +6,14 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { ImportTemplateServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { ImportTemplateServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const importCsvService = new ImportTemplateServiceApiFactory(configuration, "", instance);
+const importCsvService = new ImportTemplateServiceApiFactory(configuration, '', instance);
 
-const doNotConvertKeys = ["mappings"];
+const doNotConvertKeys = ['mappings'];
 
 /*
  * We need to preserve fields order because we draw them dynamically so that
@@ -43,7 +43,7 @@ const doNotConvertKeys = ["mappings"];
 const getList = async (params) => {
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -77,7 +77,7 @@ const get = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["description", "name", "parameters", "source", "sourceType"];
+const fieldsToSend = ['description', 'name', 'parameters', 'source', 'sourceType'];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -127,7 +127,7 @@ const deleteItem = async ({ id }) => {
 const getLookup = (params) =>
   getList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const ImportCsvAPI = {

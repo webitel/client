@@ -1,4 +1,4 @@
-import FlowApp from "@webitel/flow-ui-sdk/src/enums/FlowApp.enum";
+import FlowApp from '@webitel/flow-ui-sdk/src/enums/FlowApp.enum';
 
 const FlowAppAutocomplete = Object.freeze({
   [FlowApp.CALENDAR]: {
@@ -7,8 +7,8 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.CALENDAR]: {
         extended: false,
-        name: "",
-        setVar: "",
+        name: '',
+        setVar: '',
       },
     },
   },
@@ -17,7 +17,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.EXECUTE,
     insertText: {
       [FlowApp.EXECUTE]: {
-        name: "",
+        name: '',
       },
     },
   },
@@ -26,7 +26,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FUNCTION,
     insertText: {
       [FlowApp.FUNCTION]: {
-        name: "myFunction",
+        name: 'myFunction',
         actions: [],
       },
     },
@@ -34,14 +34,14 @@ const FlowAppAutocomplete = Object.freeze({
   [FlowApp.GOTO]: {
     label: FlowApp.GOTO,
     documentation: FlowApp.GOTO,
-    insertText: { [FlowApp.GOTO]: "tagName" },
+    insertText: { [FlowApp.GOTO]: 'tagName' },
   },
   [FlowApp.IF]: {
     label: FlowApp.IF,
     documentation: FlowApp.IF,
     insertText: {
       [FlowApp.IF]: {
-        expression: "${myVar} == 1",
+        expression: '${myVar} == 1',
         then: [],
         else: [],
       },
@@ -53,7 +53,7 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.JS]: {
         data: "var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + '-' + time.getDate() + '-' + time.getFullYear()",
-        setVar: "myVar",
+        setVar: 'myVar',
       },
     },
   },
@@ -62,9 +62,9 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.MATH,
     insertText: {
       [FlowApp.MATH]: {
-        data: "",
-        setVar: "",
-        fn: "round",
+        data: '',
+        setVar: '',
+        fn: 'round',
       },
     },
   },
@@ -73,7 +73,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.SWITCH,
     insertText: {
       [FlowApp.SWITCH]: {
-        variable: "${getIvrDigit}",
+        variable: '${getIvrDigit}',
         case: {
           1: [],
           2: [],
@@ -88,9 +88,9 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.STRING,
     insertText: {
       [FlowApp.STRING]: {
-        data: "${caller_id_number}",
-        fn: "reverse",
-        setVar: "reverted_caller_id_number",
+        data: '${caller_id_number}',
+        fn: 'reverse',
+        setVar: 'reverted_caller_id_number',
       },
     },
   },
@@ -99,8 +99,8 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.MARK_IVR,
     insertText: {
       [FlowApp.MARK_IVR]: {
-        name: "Log",
-        value: "Входящий звонок",
+        name: 'Log',
+        value: 'Входящий звонок',
       },
     },
   },
@@ -116,7 +116,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.SET_GRANTEE,
     insertText: {
       [FlowApp.SET_GRANTEE]: {
-        name: "",
+        name: '',
         id: 1,
       },
     },
@@ -126,7 +126,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.SCHEMA,
     insertText: {
       [FlowApp.SCHEMA]: {
-        name: "",
+        name: '',
         id: 1,
       },
     },
@@ -135,7 +135,7 @@ const FlowAppAutocomplete = Object.freeze({
     label: FlowApp.LOG,
     documentation: FlowApp.LOG,
     insertText: {
-      [FlowApp.LOG]: "log",
+      [FlowApp.LOG]: 'log',
     },
   },
   [FlowApp.TRIGGER]: {
@@ -153,27 +153,27 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.HTTP_REQUEST]: {
         // eslint-disable-next-line no-template-curly-in-string
-        url: "",
-        method: "POST",
+        url: '',
+        method: 'POST',
         timeout: 1000,
         insecureSkipVerify: false,
-        parser: "application/json",
-        responseCode: "http_response_code",
+        parser: 'application/json',
+        responseCode: 'http_response_code',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           // eslint-disable-next-line no-template-curly-in-string
-          Cookie: "${my_cookie}",
+          Cookie: '${my_cookie}',
         },
         path: {
           id: 0,
         },
         data: {
-          Name: "Supervisor",
-          UserID: "Supervisor",
+          Name: 'Supervisor',
+          UserID: 'Supervisor',
         },
         exportVariables: {
-          effective_caller_id_name: "callerIdName",
-          owner_caller_id_number: "callerIdOwner",
+          effective_caller_id_name: 'callerIdName',
+          owner_caller_id_number: 'callerIdOwner',
         },
       },
     },
@@ -182,7 +182,7 @@ const FlowAppAutocomplete = Object.freeze({
     label: FlowApp.EXPORT_VARIABLES,
     documentation: FlowApp.EXPORT_VARIABLES,
     insertText: {
-      [FlowApp.EXPORT_VARIABLES]: ["reverted_caller_id_number"],
+      [FlowApp.EXPORT_VARIABLES]: ['reverted_caller_id_number'],
     },
   },
   [FlowApp.SET_VARIABLES]: {
@@ -191,8 +191,8 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.SET_VARIABLES]: [
         {
-          key: "",
-          value: "",
+          key: '',
+          value: '',
         },
       ],
     },
@@ -201,7 +201,7 @@ const FlowAppAutocomplete = Object.freeze({
     label: FlowApp.UN_SET_VARIABLES,
     documentation: FlowApp.UN_SET_VARIABLES,
     insertText: {
-      [FlowApp.UN_SET_VARIABLES]: ["reverted_caller_id_number"],
+      [FlowApp.UN_SET_VARIABLES]: ['reverted_caller_id_number'],
     },
   },
   [FlowApp.LIST]: {
@@ -211,9 +211,9 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.LIST]: {
         list: {
           id: 1,
-          name: "",
+          name: '',
         },
-        destination: "",
+        destination: '',
       },
     },
   },
@@ -222,12 +222,12 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.LIST_ADD,
     insertText: {
       [FlowApp.LIST_ADD]: {
-        destination: "",
+        destination: '',
         list: {
           id: 1,
-          name: "",
+          name: '',
         },
-        description: "",
+        description: '',
       },
     },
   },
@@ -239,14 +239,14 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.PLAYBACK]: {
         files: [
           {
-            name: "its_${lang}.wav",
+            name: 'its_${lang}.wav',
           },
         ],
         getDigits: {
           flushDTMF: true,
           max: 4,
           min: 1,
-          setVar: "getIVR",
+          setVar: 'getIVR',
           timeout: 3000,
           tries: 1,
         },
@@ -257,35 +257,35 @@ const FlowAppAutocomplete = Object.freeze({
     label: FlowApp.RING_READY,
     documentation: FlowApp.RING_READY,
     insertText: {
-      [FlowApp.RING_READY]: "",
+      [FlowApp.RING_READY]: '',
     },
   },
   [FlowApp.PRE_ANSWER]: {
     label: FlowApp.PRE_ANSWER,
     documentation: FlowApp.PRE_ANSWER,
     insertText: {
-      [FlowApp.PRE_ANSWER]: "",
+      [FlowApp.PRE_ANSWER]: '',
     },
   },
   [FlowApp.ANSWER]: {
     label: FlowApp.ANSWER,
     documentation: FlowApp.ANSWER,
     insertText: {
-      [FlowApp.ANSWER]: "",
+      [FlowApp.ANSWER]: '',
     },
   },
   [FlowApp.HANGUP]: {
     label: FlowApp.HANGUP,
     documentation: FlowApp.HANGUP,
     insertText: {
-      [FlowApp.HANGUP]: "",
+      [FlowApp.HANGUP]: '',
     },
   },
   [FlowApp.SIP_REDIRECT]: {
     label: FlowApp.SIP_REDIRECT,
     documentation: FlowApp.SIP_REDIRECT,
     insertText: {
-      [FlowApp.SIP_REDIRECT]: "sip:foo@end.com",
+      [FlowApp.SIP_REDIRECT]: 'sip:foo@end.com',
     },
   },
   [FlowApp.RINGBACK]: {
@@ -295,15 +295,15 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.RINGBACK]: {
         all: true,
         call: {
-          name: "%(1000,6000,425);loops=-1",
-          type: "tone",
+          name: '%(1000,6000,425);loops=-1',
+          type: 'tone',
         },
         hold: {
           id: 10,
         },
         transfer: {
-          name: "%(1000,6000,425);loops=-1",
-          type: "tone",
+          name: '%(1000,6000,425);loops=-1',
+          type: 'tone',
         },
       },
     },
@@ -317,15 +317,15 @@ const FlowAppAutocomplete = Object.freeze({
           {
             extension: 1008,
             idle: true,
-            type: "user",
+            type: 'user',
           },
           {
-            dialString: "380732327758",
-            name: "lifecell_out",
-            type: "gateway",
+            dialString: '380732327758',
+            name: 'lifecell_out',
+            type: 'gateway',
             parameters: {
-              origination_caller_id_number: "380732327757",
-              "sip_h_X-FWD-Original": "${caller_id_number}",
+              origination_caller_id_number: '380732327757',
+              'sip_h_X-FWD-Original': '${caller_id_number}',
             },
           },
         ],
@@ -337,9 +337,9 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.CONFERENCE,
     insertText: {
       [FlowApp.CONFERENCE]: {
-        flags: ["audio-always"],
-        name: "CR-$1",
-        profile: "video-mcu-stereo",
+        flags: ['audio-always'],
+        name: 'CR-$1',
+        profile: 'video-mcu-stereo',
       },
     },
   },
@@ -349,8 +349,8 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.GENERATE_LINK]: {
         expire: 604800,
-        server: "https://dev.webitel.com",
-        set: "record_link",
+        server: 'https://dev.webitel.com',
+        set: 'record_link',
       },
     },
   },
@@ -358,7 +358,7 @@ const FlowAppAutocomplete = Object.freeze({
     label: FlowApp.IN_BAND_DTMF,
     documentation: FlowApp.IN_BAND_DTMF,
     insertText: {
-      [FlowApp.IN_BAND_DTMF]: "start",
+      [FlowApp.IN_BAND_DTMF]: 'start',
     },
   },
   [FlowApp.FLUSH_DTMF]: {
@@ -373,8 +373,8 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.UPDATE_CID,
     insertText: {
       [FlowApp.UPDATE_CID]: {
-        name: "Новый клиент",
-        number: "8${effective_caller_id_number}",
+        name: 'Новый клиент',
+        number: '8${effective_caller_id_number}',
       },
     },
   },
@@ -383,9 +383,9 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.PARK,
     insertText: {
       [FlowApp.PARK]: {
-        name: "myPark",
-        lot: "1000-2000",
-        auto: "in",
+        name: 'myPark',
+        lot: '1000-2000',
+        auto: 'in',
       },
     },
   },
@@ -404,7 +404,7 @@ const FlowAppAutocomplete = Object.freeze({
         },
         ringtone: {
           id: 126,
-          type: "wav",
+          type: 'wav',
         },
         timers: [
           {
@@ -413,7 +413,7 @@ const FlowAppAutocomplete = Object.freeze({
                 playback: {
                   files: [
                     {
-                      name: "hold_акции.wav",
+                      name: 'hold_акции.wav',
                     },
                   ],
                 },
@@ -435,10 +435,10 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.RECORD_FILE]: {
         maxSec: 30,
-        name: "${uuid}",
+        name: '${uuid}',
         silenceHits: 5,
-        terminators: "#",
-        type: "mp3",
+        terminators: '#',
+        type: 'mp3',
         voiceMail: true,
       },
     },
@@ -448,12 +448,12 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.RECORD_SESSION,
     insertText: {
       [FlowApp.RECORD_SESSION]: {
-        action: "start",
+        action: 'start',
         bridged: false,
         followTransfer: true,
         minSec: 2,
         stereo: true,
-        type: "mp3",
+        type: 'mp3',
       },
     },
   },
@@ -462,10 +462,10 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.TTS,
     insertText: {
       [FlowApp.TTS]: {
-        language: "ru-RU",
-        provider: "google",
-        text: "",
-        textType: "ssml",
+        language: 'ru-RU',
+        provider: 'google',
+        text: '',
+        textType: 'ssml',
       },
     },
   },
@@ -476,12 +476,12 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.MEMBER_INFO]: {
         bucket_i: 1,
         completed: false,
-        destination: "${caller_id_number}",
-        name: "Customer Name",
+        destination: '${caller_id_number}',
+        name: 'Customer Name',
         queue_ids: [8],
         set: {
-          member_var1: "sum",
-          member_var2: "credit",
+          member_var1: 'sum',
+          member_var2: 'credit',
         },
         today: true,
       },
@@ -496,11 +496,11 @@ const FlowAppAutocomplete = Object.freeze({
           id: 2,
         },
         set: {
-          res_count: "count",
-          res_offline: "offline",
-          res_online: "online",
-          res_pause: "pause",
-          res_waiting: "waiting",
+          res_count: 'count',
+          res_offline: 'offline',
+          res_online: 'online',
+          res_pause: 'pause',
+          res_waiting: 'waiting',
         },
       },
     },
@@ -515,7 +515,7 @@ const FlowAppAutocomplete = Object.freeze({
         },
         bridged: [
           {
-            log: "request 1C",
+            log: 'request 1C',
           },
         ],
         cancel_distribute: true,
@@ -524,7 +524,7 @@ const FlowAppAutocomplete = Object.freeze({
           renewal_sec: 5,
           sec: 30,
         },
-        queue_name: "${cc_queue_name}",
+        queue_name: '${cc_queue_name}',
       },
     },
   },
@@ -534,16 +534,16 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.CALLBACK_QUEUE]: {
         communication: {
-          destination: "${caller_id_number}",
+          destination: '${caller_id_number}',
           type_id: 1,
         },
         holdSec: 1,
-        name: "${caller_id_number}",
+        name: '${caller_id_number}',
         queue_id: 26,
         variables: {
-          DPD: "${DPD}",
-          internal_operator_id: "${internal_operator_id}",
-          loan_id: "${Loan}",
+          DPD: '${DPD}',
+          internal_operator_id: '${internal_operator_id}',
+          loan_id: '${Loan}',
         },
       },
     },
@@ -555,17 +555,17 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.PATCH_MEMBERS]: {
         bucket_id: 1,
         completed: false,
-        destination: "${caller_id_number}",
-        name: "Customer Name",
+        destination: '${caller_id_number}',
+        name: 'Customer Name',
         queue_ids: [8],
         patch: {
           bucket_id: 2,
-          name: "sum",
-          priority: "credit",
+          name: 'sum',
+          priority: 'credit',
           ready_at: 2147483647,
-          stop_cause: "cancel",
+          stop_cause: 'cancel',
           variables: {
-            new_var: "var",
+            new_var: 'var',
           },
         },
         today: true,
@@ -578,7 +578,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.RECV_MESSAGE,
     insertText: {
       [FlowApp.RECV_MESSAGE]: {
-        set: "response",
+        set: 'response',
         timeout: 60,
       },
     },
@@ -588,7 +588,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.SEND_TEXT,
     insertText: {
       [FlowApp.SEND_TEXT]: {
-        text: "",
+        text: '',
       },
     },
   },
@@ -599,8 +599,8 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.SEND_FILE]: {
         file: {},
         server: window.location.origin,
-        source: "media",
-        text: "",
+        source: 'media',
+        text: '',
       },
     },
   },
@@ -609,23 +609,23 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.SEND_EMAIL,
     insertText: {
       [FlowApp.SEND_EMAIL]: {
-        from: "",
+        from: '',
         to: [],
         cc: [],
-        message: "",
+        message: '',
         smtp: {
           _isAuth: false,
           auth: {
-            password: "",
-            user: "",
+            password: '',
+            user: '',
           },
-          port: "",
-          server: "",
+          port: '',
+          server: '',
           tls: true,
         },
-        responseCode: "",
-        subject: "",
-        replyToId: "",
+        responseCode: '',
+        subject: '',
+        replyToId: '',
       },
     },
   },
@@ -635,8 +635,8 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.CLASSIFIER]: {
         cluster: [],
-        input: "",
-        set: "",
+        input: '',
+        set: '',
       },
     },
   },
@@ -645,11 +645,11 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.MENU,
     insertText: {
       [FlowApp.MENU]: {
-        text: "",
+        text: '',
         // eslint-disable-next-line no-template-curly-in-string
-        set: "${onClick.Menu}",
+        set: '${onClick.Menu}',
         buttons: [],
-        type: "",
+        type: '',
       },
     },
   },
@@ -660,8 +660,8 @@ const FlowAppAutocomplete = Object.freeze({
       [FlowApp.BROADCAST_CHAT_MESSAGE]: {
         peer: [],
         profile: {},
-        text: "",
-        type: "text",
+        text: '',
+        type: 'text',
       },
     },
   },
@@ -671,12 +671,12 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FORM_TEXTFIELD,
     insertText: {
       formComponent: {
-        id: "",
+        id: '',
         view: {
-          label: "",
-          hint: "",
-          initialValue: "",
-          component: "wt-input",
+          label: '',
+          hint: '',
+          initialValue: '',
+          component: 'wt-input',
         },
       },
     },
@@ -686,14 +686,14 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FORM_SELECT,
     insertText: {
       formComponent: {
-        id: "",
+        id: '',
         view: {
-          label: "",
-          hint: "",
-          initialValue: "",
+          label: '',
+          hint: '',
+          initialValue: '',
           options: [],
           multiple: false,
-          component: "wt-select",
+          component: 'wt-select',
         },
       },
     },
@@ -703,13 +703,13 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FORM_TEXT,
     insertText: {
       formComponent: {
-        id: "",
+        id: '',
         view: {
-          label: "",
-          hint: "",
-          initialValue: "",
-          color: "default",
-          component: "form-text",
+          label: '',
+          hint: '',
+          initialValue: '',
+          color: 'default',
+          component: 'form-text',
         },
       },
     },
@@ -719,12 +719,12 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FORM_DATETIME_PICKER,
     insertText: {
       formComponent: {
-        id: "",
+        id: '',
         view: {
-          label: "",
-          hint: "",
+          label: '',
+          hint: '',
           initialValue: Date.now(),
-          component: "wt-datetimepicker",
+          component: 'wt-datetimepicker',
         },
       },
     },
@@ -734,13 +734,13 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FORM_RICH_TEXT_EDITOR,
     insertText: {
       formComponent: {
-        id: "",
+        id: '',
         view: {
-          label: "",
-          hint: "",
-          initialValue: "",
-          output: "html",
-          component: "rich-text-editor",
+          label: '',
+          hint: '',
+          initialValue: '',
+          output: 'html',
+          component: 'rich-text-editor',
         },
       },
     },
@@ -750,15 +750,15 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.GENERATE_FORM,
     insertText: {
       [FlowApp.GENERATE_FORM]: {
-        id: "",
-        title: "",
+        id: '',
+        title: '',
         body: [],
         actions: [
           {
-            id: "id",
+            id: 'id',
             view: {
-              color: "primary",
-              text: "Send",
+              color: 'primary',
+              text: 'Send',
             },
           },
         ],
@@ -771,7 +771,7 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.ATTEMPT_RESULT]: {
         stickyDisplay: true,
-        description: "",
+        description: '',
       },
     },
   },
@@ -781,11 +781,11 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.GET_EMAIL]: {
         email: {
-          id: "",
-          messageId: "",
+          id: '',
+          messageId: '',
         },
         set: {
-          myA: "attachments",
+          myA: 'attachments',
         },
       },
     },
@@ -795,13 +795,13 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.FORM_FILE,
     insertText: {
       [FlowApp.FORM_FILE]: {
-        id: "id",
+        id: 'id',
         view: {
-          initialValue: "initialValue",
-          label: "Logo",
-          hint: "Hint",
+          initialValue: 'initialValue',
+          label: 'Logo',
+          hint: 'Hint',
           readonly: true,
-          component: "form-file",
+          component: 'form-file',
         },
       },
     },
@@ -811,11 +811,11 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.CHAT_HISTORY,
     insertText: {
       [FlowApp.CHAT_HISTORY]: {
-        conversationId: "${id}",
-        variable: "my_var",
-        format: "html",
-        timeout: "3000",
-        limit: "150",
+        conversationId: '${id}',
+        variable: 'my_var',
+        format: 'html',
+        timeout: '3000',
+        limit: '150',
       },
     },
   },
@@ -824,8 +824,8 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.WHILE,
     insertText: {
       [FlowApp.WHILE]: {
-        condition: "${myVar} < 10",
-        maxSteps: "1000",
+        condition: '${myVar} < 10',
+        maxSteps: '1000',
         do: [],
       },
     },

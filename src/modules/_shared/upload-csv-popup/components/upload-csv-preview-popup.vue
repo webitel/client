@@ -64,10 +64,10 @@
 </template>
 
 <script>
-import uploadCSVMixin from "../mixins/uploadCSVMixin";
+import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
-  name: "UploadCsvPreviewPopup",
+  name: 'UploadCsvPreviewPopup',
   mixins: [uploadCSVMixin],
   props: {
     skipHeaders: {
@@ -76,11 +76,11 @@ export default {
     },
     separator: {
       type: String,
-      default: ",",
+      default: ',',
     },
     charset: {
       type: String,
-      default: "utf-8",
+      default: 'utf-8',
     },
   },
 };

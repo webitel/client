@@ -35,18 +35,18 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { numeric, required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import Agents from "../modules/agents/components/opened-team-agents.vue";
-import Flows from "../modules/flow/components/opened-team-flows.vue";
-import Hooks from "../modules/hooks/components/opened-team-hooks.vue";
-import Supervisors from "../modules/supervisors/components/opened-team-supervisors.vue";
-import General from "./opened-team-general.vue";
-import Parameters from "./opened-team-parameters.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { numeric, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import Agents from '../modules/agents/components/opened-team-agents.vue';
+import Flows from '../modules/flow/components/opened-team-flows.vue';
+import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
+import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
+import General from './opened-team-general.vue';
+import Parameters from './opened-team-parameters.vue';
 
 export default {
-  name: "OpenedTeam",
+  name: 'OpenedTeam',
   components: {
     General,
     Supervisors,
@@ -62,7 +62,7 @@ export default {
   }),
 
   data: () => ({
-    namespace: "ccenter/teams",
+    namespace: 'ccenter/teams',
   }),
   validations: {
     itemInstance: {
@@ -98,28 +98,28 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          text: this.$t("objects.ccenter.teams.parameters"),
-          value: "parameters",
+          text: this.$t('objects.ccenter.teams.parameters'),
+          value: 'parameters',
         },
         {
-          text: this.$tc("objects.ccenter.agents.supervisors", 2),
-          value: "supervisors",
+          text: this.$tc('objects.ccenter.agents.supervisors', 2),
+          value: 'supervisors',
         },
         {
-          text: this.$tc("objects.ccenter.agents.agents", 2),
-          value: "agents",
+          text: this.$tc('objects.ccenter.agents.agents', 2),
+          value: 'agents',
         },
         {
-          text: this.$tc("objects.ccenter.queues.hooks.hooks", 2),
-          value: "hooks",
+          text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
+          value: 'hooks',
         },
         {
-          text: this.$tc("objects.routing.flow.flow", 2),
-          value: "flows",
+          text: this.$tc('objects.routing.flow.flow', 2),
+          value: 'flows',
         },
       ];
 
@@ -128,17 +128,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/contact-center/teams";
+      const baseUrl = '/contact-center/teams';
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.teams.teams", 2),
+          name: this.$tc('objects.ccenter.teams.teams', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

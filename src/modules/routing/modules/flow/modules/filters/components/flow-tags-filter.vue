@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import apiFilterMixin from "@webitel/ui-sdk/src/modules/QueryFilters/mixins/apiFilterMixin";
+import apiFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/apiFilterMixin';
 
 export default {
-  name: "FlowTagsFilter",
+  name: 'FlowTagsFilter',
   mixins: [apiFilterMixin],
   data: () => ({
-    filterQuery: "tags",
+    filterQuery: 'tags',
   }),
   methods: {
     handleInput(value) {

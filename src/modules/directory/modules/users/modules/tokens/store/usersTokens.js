@@ -1,20 +1,20 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import UserTokensAPI from "../api/userTokens";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import UserTokensAPI from '../api/userTokens';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    token: "",
-    usage: "",
+    token: '',
+    usage: '',
   },
 };
 
 const actions = {
   ADD_TOKEN: async (context) => {
     try {
-      const { token } = await context.dispatch("POST_ITEM");
-      await context.dispatch("LOAD_DATA_LIST");
-      context.commit("SET_TOKEN", token);
+      const { token } = await context.dispatch('POST_ITEM');
+      await context.dispatch('LOAD_DATA_LIST');
+      context.commit('SET_TOKEN', token);
     } catch (err) {
       throw err;
     }

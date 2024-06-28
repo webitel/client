@@ -1,6 +1,6 @@
 const queue = () => ({
-  name: "", // required
-  description: "",
+  name: '', // required
+  description: '',
   priority: 0,
   dncList: {},
   calendar: {}, // required

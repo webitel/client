@@ -36,13 +36,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import General from "./opened-single-sign-on-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-single-sign-on-general.vue';
 
 export default {
-  name: "OpenedSingleSignOn",
+  name: 'OpenedSingleSignOn',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -50,7 +50,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "integrations/singleSignOn",
+    namespace: 'integrations/singleSignOn',
   }),
   validations: {
     itemInstance: {
@@ -66,25 +66,25 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       return tabs;
     },
 
     path() {
-      const baseUrl = "/integrations/single-sign-on";
+      const baseUrl = '/integrations/single-sign-on';
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t("objects.integrations.singleSignOn.singleSignOn"),
+          name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

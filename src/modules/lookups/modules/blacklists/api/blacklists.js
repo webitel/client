@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,22 +7,22 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { ListServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { ListServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const listService = new ListServiceApiFactory(configuration, "", instance);
+const listService = new ListServiceApiFactory(configuration, '', instance);
 
 const getBlacklistList = async (params) => {
   const defaultObject = {
-    name: "",
+    name: '',
     count: 0,
   };
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     camelToSnake(),
   ]);
 
@@ -50,7 +50,7 @@ const getBlacklist = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["name", "description"];
+const fieldsToSend = ['name', 'description'];
 
 const addBlacklist = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
@@ -83,7 +83,7 @@ const deleteBlacklist = async ({ id }) => {
 const getBlacklistsLookup = (params) =>
   getBlacklistList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const BlacklistsAPI = {

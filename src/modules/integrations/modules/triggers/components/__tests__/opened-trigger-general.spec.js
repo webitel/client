@@ -1,14 +1,14 @@
-import { shallowMount } from "@vue/test-utils";
-import deepmerge from "deepmerge";
-import OpenedTabComponentMixinMock from "../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock";
-import OpenedTriggerGeneral from "../opened-trigger-general.vue";
+import { shallowMount } from '@vue/test-utils';
+import deepmerge from 'deepmerge';
+import OpenedTabComponentMixinMock from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedTriggerGeneral from '../opened-trigger-general.vue';
 
-describe("OpenedTriggerGeneral", () => {
+describe('OpenedTriggerGeneral', () => {
   const computed = {
     itemInstance: () => ({}),
   };
 
-  it("renders a component", () => {
+  it('renders a component', () => {
     const wrapper = shallowMount(
       OpenedTriggerGeneral,
       deepmerge.all([

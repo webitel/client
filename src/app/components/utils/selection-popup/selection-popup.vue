@@ -67,10 +67,10 @@
 
 <script>
 export default {
-  name: "SelectionPopup",
+  name: 'SelectionPopup',
   model: {
-    prop: "selected",
-    event: "change",
+    prop: 'selected',
+    event: 'change',
   },
   props: {
     title: {
@@ -91,13 +91,13 @@ export default {
   },
   methods: {
     add() {
-      this.$emit("select", this.selected);
+      this.$emit('select', this.selected);
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     selectOption(option) {
-      this.$emit("change", option);
+      this.$emit('change', option);
     },
     isSelected(option) {
       return option === this.selected;

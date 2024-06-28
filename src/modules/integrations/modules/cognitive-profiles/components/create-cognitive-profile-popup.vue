@@ -13,13 +13,13 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
-import { StorageProviderType } from "webitel-sdk";
-import SelectionPopup from "../../../../../app/components/utils/selection-popup/selection-popup.vue";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { StorageProviderType } from 'webitel-sdk';
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close']);
 
 const router = useRouter();
 
@@ -29,17 +29,17 @@ const options = computed(() => {
   const microsoft = {
     value: StorageProviderType.Microsoft,
     title: StorageProviderType.Microsoft,
-    icon: "microsoft",
+    icon: 'microsoft',
   };
   const google = {
     value: StorageProviderType.Google,
     title: StorageProviderType.Google,
-    icon: "google",
+    icon: 'google',
   };
   const elevenLabs = {
     value: StorageProviderType.ElevenLabs,
     title: StorageProviderType.ElevenLabs,
-    icon: "elevenlabs",
+    icon: 'elevenlabs',
   };
   return [microsoft, google, elevenLabs];
 });
@@ -58,7 +58,7 @@ function create() {
 }
 
 function close() {
-  emit("close");
+  emit('close');
 }
 </script>
 

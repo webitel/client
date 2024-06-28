@@ -1,37 +1,37 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge,
   notify,
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { LoggerServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { LoggerServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const service = new LoggerServiceApiFactory(configuration, "", instance);
+const service = new LoggerServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
   const fieldsToSend = [
-    "parentId",
-    "page",
-    "size",
-    "search",
-    "sort",
-    "fields",
-    "action",
-    "object",
-    "from",
-    "to",
-    "userIp",
+    'parentId',
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'action',
+    'object',
+    'from',
+    'to',
+    'userIp',
   ];
 
   const { parentId, page, size, search, sort, fields, action, object, from, to, userIp } =
     applyTransform(params, [
       sanitize(fieldsToSend),
       merge(getDefaultGetParams()),
-      starToSearch("search"),
+      starToSearch('search'),
     ]);
 
   try {
@@ -40,7 +40,7 @@ const getList = async (params) => {
       page,
       size,
       search,
-      sort || "-date",
+      sort || '-date',
       fields,
       object,
       action,

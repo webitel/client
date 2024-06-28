@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "DeleteAllAction",
+  name: 'DeleteAllAction',
   props: {
     selectedCount: {
       type: Number,
@@ -25,10 +25,10 @@ export default {
   computed: {
     actionPanelDeleteTooltip() {
       return this.selectedCount
-        ? this.$t("iconHints.deleteSelected", {
+        ? this.$t('iconHints.deleteSelected', {
             count: this.selectedCount,
           })
-        : this.$t("iconHints.deleteAll");
+        : this.$t('iconHints.deleteAll');
     },
   },
 };

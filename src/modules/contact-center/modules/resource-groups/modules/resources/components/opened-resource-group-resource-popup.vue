@@ -52,20 +52,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import ResourcesAPI from "../../../../resources/api/resources";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import ResourcesAPI from '../../../../resources/api/resources';
 
 export default {
-  name: "OpenedResNumbersPopup",
+  name: 'OpenedResNumbersPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/resGroups/res",
+    namespace: 'ccenter/resGroups/res',
   }),
   validations: {
     itemInstance: {

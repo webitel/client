@@ -1,9 +1,9 @@
-import axios from "axios";
-import AgentSkillsAPI from "../agentSkills";
+import axios from 'axios';
+import AgentSkillsAPI from '../agentSkills';
 
 // axios mock should be copy-pasted :(
 // https://stackoverflow.com/questions/65554910/jest-referenceerror-cannot-access-before-initialization
-vi.mock("axios", () => {
+vi.mock('axios', () => {
   return {
     default: {
       post: vi.fn(),
@@ -27,16 +27,16 @@ vi.mock("axios", () => {
   };
 });
 
-describe("AgentSkillsAPI", () => {
+describe('AgentSkillsAPI', () => {
   beforeEach(() => {
     axios.request.mockClear();
   });
 
   it('correctly computes "getList" method api call', async () => {
     const inputParams = {
-      fields: ["id", "name", "vitest"],
+      fields: ['id', 'name', 'vitest'],
     };
-    const url = "/call_center/skills?page=1&size=10&fields=id&fields=name&fields=vitest";
+    const url = '/call_center/skills?page=1&size=10&fields=id&fields=name&fields=vitest';
     const mock = axios.request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
@@ -52,7 +52,7 @@ describe("AgentSkillsAPI", () => {
       items: [
         {
           id: 1,
-          shouldCaseConvert: "",
+          shouldCaseConvert: '',
         },
       ],
       next: true,
@@ -63,7 +63,7 @@ describe("AgentSkillsAPI", () => {
         items: [
           {
             id: 1,
-            should_case_convert: "",
+            should_case_convert: '',
           },
         ],
         next: true,
@@ -77,7 +77,7 @@ describe("AgentSkillsAPI", () => {
     const inputParams = {
       itemId: 1,
     };
-    const url = "/call_center/skills/1";
+    const url = '/call_center/skills/1';
     const mock = axios.request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
@@ -108,12 +108,12 @@ describe("AgentSkillsAPI", () => {
   it('correctly computes "add" method api call', async () => {
     const input = {
       itemInstance: {
-        name: "test",
+        name: 'test',
       },
     };
 
     const body = {
-      name: "test",
+      name: 'test',
     };
 
     const mock = axios.request.mockImplementationOnce(() =>
@@ -128,13 +128,13 @@ describe("AgentSkillsAPI", () => {
   it('correctly computes "add" method output', async () => {
     const output = {
       id: 1,
-      checkCase: "",
+      checkCase: '',
     };
 
     const response = {
       data: {
         id: 1,
-        check_case: "",
+        check_case: '',
       },
     };
     axios.request.mockImplementationOnce(() => Promise.resolve(response));
@@ -148,13 +148,13 @@ describe("AgentSkillsAPI", () => {
   it('correctly computes "update" method api call', async () => {
     const input = {
       itemInstance: {
-        name: "test",
+        name: 'test',
       },
       itemId: 1,
     };
 
     const body = {
-      name: "test",
+      name: 'test',
     };
 
     const mock = axios.request.mockImplementationOnce(() =>
@@ -169,13 +169,13 @@ describe("AgentSkillsAPI", () => {
   it('correctly computes "update" method output', async () => {
     const output = {
       id: 1,
-      checkCase: "",
+      checkCase: '',
     };
 
     const response = {
       data: {
         id: 1,
-        check_case: "",
+        check_case: '',
       },
     };
     axios.request.mockImplementationOnce(() => Promise.resolve(response));
@@ -192,7 +192,7 @@ describe("AgentSkillsAPI", () => {
       id: 1,
     };
 
-    const url = "/call_center/skills/1";
+    const url = '/call_center/skills/1';
     const mock = axios.request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},

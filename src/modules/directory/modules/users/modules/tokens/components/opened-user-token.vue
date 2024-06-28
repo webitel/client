@@ -90,14 +90,14 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import TokenCreatedPopup from "./opened-user-token-created-popup.vue";
-import TokenPopup from "./opened-user-token-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import TokenCreatedPopup from './opened-user-token-created-popup.vue';
+import TokenPopup from './opened-user-token-popup.vue';
 
 export default {
-  name: "OpenedUserTokens",
+  name: 'OpenedUserTokens',
   components: {
     TokenPopup,
     TokenCreatedPopup,
@@ -126,7 +126,7 @@ export default {
   },
 
   data: () => ({
-    subNamespace: "tokens",
+    subNamespace: 'tokens',
     isPopup: false,
     isTokenGenerated: false,
   }),

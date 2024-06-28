@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import { QueueType } from "webitel-sdk/esm2015/enums";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import QueuesAPI from "../../../../contact-center/modules/queues/api/queues";
+import { QueueType } from 'webitel-sdk/esm2015/enums';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 
 export default {
-  name: "OpenedImportCsvGeneral",
+  name: 'OpenedImportCsvGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadQueueOptions(params) {

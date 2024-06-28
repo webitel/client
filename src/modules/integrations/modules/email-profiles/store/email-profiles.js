@@ -1,23 +1,23 @@
-import { EngineEmailAuthType } from "webitel-sdk";
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
+import { EngineEmailAuthType } from 'webitel-sdk';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 // import PermissionsStoreModule
 //   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import EmailProfilesAPI from "../api/emailProfiles";
-import headers from "./_internals/headers";
+import EmailProfilesAPI from '../api/emailProfiles';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    description: "",
-    domainId: "",
+    description: '',
+    domainId: '',
     enabled: true,
-    imapHost: "",
-    smtpHost: "",
+    imapHost: '',
+    smtpHost: '',
     fetchInterval: 60,
     imapPort: 993,
-    login: "",
-    mailbox: "",
-    name: "",
-    password: "",
+    login: '',
+    mailbox: '',
+    name: '',
+    password: '',
     schema: {},
     smtpPort: 587,
     authType: EngineEmailAuthType.Plain,
@@ -25,9 +25,9 @@ const resettableState = {
     logged: false,
     params: {
       oauth2: {
-        clientId: "",
-        clientSecret: "",
-        redirectUrl: "",
+        clientId: '',
+        clientSecret: '',
+        redirectUrl: '',
       },
     },
   },
@@ -41,7 +41,7 @@ const actions = {
         await EmailProfilesAPI.logout({
           id: itemInstance.id,
         });
-        await context.dispatch("LOAD_ITEM");
+        await context.dispatch('LOAD_ITEM');
       } catch (err) {
         throw err;
       }

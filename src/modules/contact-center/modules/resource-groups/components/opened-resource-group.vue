@@ -35,20 +35,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import {
   requiredArrayValue,
   timerangeNotIntersect,
   timerangeStartLessThanEnd,
-} from "../../../../../app/utils/validators";
-import Resources from "../modules/resources/components/opened-resource-group-resources.vue";
-import General from "./opened-resource-group-general.vue";
-import Timerange from "./opened-resource-group-timerange.vue";
+} from '../../../../../app/utils/validators';
+import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
+import General from './opened-resource-group-general.vue';
+import Timerange from './opened-resource-group-timerange.vue';
 
 export default {
-  name: "OpenedResourceGroup",
+  name: 'OpenedResourceGroup',
   components: {
     General,
     Resources,
@@ -60,7 +60,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/resGroups",
+    namespace: 'ccenter/resGroups',
   }),
   // by vuelidate
   validations: {
@@ -80,16 +80,16 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
         {
-          value: "resources",
-          text: this.$tc("objects.ccenter.res.res", 2),
+          value: 'resources',
+          text: this.$tc('objects.ccenter.res.res', 2),
         },
         {
-          value: "timerange",
-          text: this.$t("objects.ccenter.resGroups.timerange"),
+          value: 'timerange',
+          text: this.$t('objects.ccenter.resGroups.timerange'),
         },
       ];
       if (this.id) tabs.push(this.permissionsTab);
@@ -97,17 +97,17 @@ export default {
     },
 
     path() {
-      const baseUrl = "/contact-center/resource-groups";
+      const baseUrl = '/contact-center/resource-groups';
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.resGroups.resGroups", 2),
+          name: this.$tc('objects.ccenter.resGroups.resGroups', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

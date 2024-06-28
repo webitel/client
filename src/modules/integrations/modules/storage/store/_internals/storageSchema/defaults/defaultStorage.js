@@ -1,5 +1,5 @@
 const defaultStorage = () => ({
-  name: "",
+  name: '',
   maxSize: 0,
   expireDays: 0,
   priority: 0,

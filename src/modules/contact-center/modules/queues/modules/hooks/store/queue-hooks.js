@@ -1,10 +1,10 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import QueueHooksAPI from "../api/queueHooks";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import QueueHooksAPI from '../api/queueHooks';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    event: "",
+    event: '',
     properties: [],
     schema: {},
     enabled: true,

@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,16 +6,16 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import convertDuration from "@webitel/ui-sdk/src/scripts/convertDuration";
-import { AgentServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { AgentServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const agentService = new AgentServiceApiFactory(configuration, "", instance);
+const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const convertStatusDuration = (value) => {
-  if (value > 60 * 60 * 24) return ">24:00:00";
+  if (value > 60 * 60 * 24) return '>24:00:00';
   return convertDuration(value);
 };
 
@@ -41,7 +41,7 @@ const getAgentsList = async (params) => {
     notTeamId,
     supervisorId,
     notSkillId,
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch("search")]);
+  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
 
   try {
     const response = await agentService.searchAgent(
@@ -89,7 +89,7 @@ const getAgent = async ({ itemId: id }) => {
     chatCount: 0,
     taskCount: 0,
     isSupervisor: false,
-    description: "",
+    description: '',
     greetingMedia: {},
   };
 
@@ -102,16 +102,16 @@ const getAgent = async ({ itemId: id }) => {
 };
 
 const fieldsToSend = [
-  "user",
-  "team",
-  "supervisor",
-  "auditor",
-  "region",
-  "greetingMedia",
-  "progressiveCount",
-  "chatCount",
-  "taskCount",
-  "isSupervisor",
+  'user',
+  'team',
+  'supervisor',
+  'auditor',
+  'region',
+  'greetingMedia',
+  'progressiveCount',
+  'chatCount',
+  'taskCount',
+  'isSupervisor',
 ];
 
 const addAgent = async ({ itemInstance }) => {
@@ -156,7 +156,7 @@ const deleteAgent = async ({ id }) => {
 const getAgentsLookup = (params) =>
   getAgentsList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const getAgentHistory = async (params) => {
@@ -166,8 +166,8 @@ const getAgentHistory = async (params) => {
     to,
     page,
     size,
-    sort = "-joined_at",
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch("search")]);
+    sort = '-joined_at',
+  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
 
   try {
     const response = await agentService.searchAgentStateHistory(
@@ -194,7 +194,7 @@ const getAgentHistory = async (params) => {
 const getAgentUsersOptions = async (params) => {
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {

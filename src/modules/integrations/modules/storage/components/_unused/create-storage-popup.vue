@@ -62,14 +62,14 @@
 </template>
 
 <script>
-import RouteNames from "../../../../../../app/router/_internals/RouteNames.enum";
+import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: "CreateStoragePopup",
+  name: 'CreateStoragePopup',
 
   data() {
     return {
-      selectedOption: "",
+      selectedOption: '',
     };
   },
 

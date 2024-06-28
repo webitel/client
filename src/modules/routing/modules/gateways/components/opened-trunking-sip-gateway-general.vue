@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import FlowsAPI from "../../flow/api/flow";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: "OpenedTrunkingSipGatewayGeneral",
+  name: 'OpenedTrunkingSipGatewayGeneral',
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

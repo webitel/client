@@ -97,17 +97,17 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { mapActions, mapGetters, mapState } from "vuex";
-import dummyPicDark from "../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg";
-import dummyPicLight from "../../../../../app/assets/dummy/adm-dummy-after-search-light.svg";
-import openedObjectTableTabMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import ConverDurationWithMinutes from "../scripts/converDurationWithMinutes";
-import holidayPopup from "./opened-calendar-holiday-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
+import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
+import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import ConverDurationWithMinutes from '../scripts/converDurationWithMinutes';
+import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {
-  name: "OpenedCalendarHolidays",
+  name: 'OpenedCalendarHolidays',
   components: { holidayPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
 
@@ -133,17 +133,17 @@ export default {
 
   data: () => ({
     dataListValue: [],
-    searchValue: "",
+    searchValue: '',
     isHolidayPopup: false,
     editedIndex: null,
   }),
 
   computed: {
-    ...mapState("lookups/calendars", {
+    ...mapState('lookups/calendars', {
       holidayList: (state) => state.itemInstance.excepts,
     }),
-    ...mapGetters("appearance", {
-      darkMode: "DARK_MODE",
+    ...mapGetters('appearance', {
+      darkMode: 'DARK_MODE',
     }),
     // override mixin map state
     dataList: {
@@ -166,24 +166,24 @@ export default {
     headers() {
       return [
         {
-          value: "name",
-          text: this.$t("objects.name"),
+          value: 'name',
+          text: this.$t('objects.name'),
         },
         {
-          value: "date",
-          text: this.$t("objects.lookups.calendars.date"),
+          value: 'date',
+          text: this.$t('objects.lookups.calendars.date'),
         },
         {
-          value: "workStart",
-          text: this.$t("objects.lookups.calendars.workStart"),
+          value: 'workStart',
+          text: this.$t('objects.lookups.calendars.workStart'),
         },
         {
-          value: "workStop",
-          text: this.$t("objects.lookups.calendars.workStop"),
+          value: 'workStop',
+          text: this.$t('objects.lookups.calendars.workStop'),
         },
         {
-          value: "repeat",
-          text: this.$t("objects.lookups.calendars.repeat"),
+          value: 'repeat',
+          text: this.$t('objects.lookups.calendars.repeat'),
         },
       ];
     },
@@ -195,15 +195,15 @@ export default {
         if (this.searchValue) {
           return {
             src: this.dummyPic,
-            text: "objects.emptyResultSearch",
+            text: 'objects.emptyResultSearch',
           };
         }
         return {
           src: this.dummyPic,
-          text: "",
+          text: '',
         };
       }
-      return "";
+      return '';
     },
   },
 

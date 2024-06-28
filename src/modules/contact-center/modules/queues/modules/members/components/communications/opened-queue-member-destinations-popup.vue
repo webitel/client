@@ -41,10 +41,10 @@
 </template>
 
 <script>
-import tableComponentMixin from "../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
+import tableComponentMixin from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
-  name: "OpenedQueueMemberDestinationsPopup",
+  name: 'OpenedQueueMemberDestinationsPopup',
   mixins: [tableComponentMixin],
   props: {
     communications: {
@@ -57,16 +57,16 @@ export default {
     return {
       headers: [
         {
-          value: "destination",
-          text: this.$tc("objects.ccenter.queues.destination", 1),
+          value: 'destination',
+          text: this.$tc('objects.ccenter.queues.destination', 1),
         },
         {
-          value: "type",
-          text: this.$t("objects.ccenter.queues.type"),
+          value: 'type',
+          text: this.$t('objects.ccenter.queues.type'),
         },
         {
-          value: "priority",
-          text: this.$t("objects.ccenter.queues.priority"),
+          value: 'priority',
+          text: this.$t('objects.ccenter.queues.priority'),
         },
       ],
     };
@@ -74,7 +74,7 @@ export default {
 
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import ChatGatewayProvider from "@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum";
-import SelectionPopup from "../../../../../app/components/utils/selection-popup/selection-popup.vue";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: "CreateChatGatewayPopup",
+  name: 'CreateChatGatewayPopup',
   components: { SelectionPopup },
 
   data: () => ({
@@ -47,38 +47,38 @@ export default {
     options() {
       const telegramBot = {
         value: ChatGatewayProvider.TELEGRAM_BOT,
-        title: this.$t("objects.routing.chatGateways.telegramBot.telegramBot"),
-        icon: "messenger-telegram",
+        title: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
+        icon: 'messenger-telegram',
       };
       const telegramApp = {
         value: ChatGatewayProvider.TELEGRAM_APP,
-        title: this.$t("objects.routing.chatGateways.telegramApp.telegramApp"),
-        icon: "messenger-telegram",
+        title: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
+        icon: 'messenger-telegram',
       };
       const infobip = {
         value: ChatGatewayProvider.INFOBIP,
-        title: this.$t("objects.routing.chatGateways.infobip.infobip"),
-        icon: ["messenger-infobip", "send-arrow", "messenger-whatsapp"],
+        title: this.$t('objects.routing.chatGateways.infobip.infobip'),
+        icon: ['messenger-infobip', 'send-arrow', 'messenger-whatsapp'],
       };
       const messenger = {
         value: ChatGatewayProvider.MESSENGER,
-        title: this.$t("objects.routing.chatGateways.messenger.meta"),
-        icon: ["meta", "send-arrow", "messenger-facebook", "instagram", "messenger-whatsapp"],
+        title: this.$t('objects.routing.chatGateways.messenger.meta'),
+        icon: ['meta', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
       };
       const viber = {
         value: ChatGatewayProvider.VIBER,
-        title: this.$t("objects.routing.chatGateways.viber.viber"),
-        icon: "messenger-viber",
+        title: this.$t('objects.routing.chatGateways.viber.viber'),
+        icon: 'messenger-viber',
       };
       const webchat = {
         value: ChatGatewayProvider.WEBCHAT,
-        title: this.$t("objects.routing.chatGateways.webchat.webchat"),
-        icon: "messenger-web-chat",
+        title: this.$t('objects.routing.chatGateways.webchat.webchat'),
+        icon: 'messenger-web-chat',
       };
       const custom = {
         value: ChatGatewayProvider.CUSTOM,
-        title: this.$t("objects.routing.chatGateways.customChat.customChatGateway"),
-        icon: "custom-chat-gateway",
+        title: this.$t('objects.routing.chatGateways.customChat.customChatGateway'),
+        icon: 'custom-chat-gateway',
       };
       return [telegramBot, telegramApp, infobip, messenger, viber, webchat, custom];
     },
@@ -100,7 +100,7 @@ export default {
       });
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

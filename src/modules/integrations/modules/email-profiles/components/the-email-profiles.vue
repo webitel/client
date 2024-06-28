@@ -131,32 +131,32 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import dummyPicDark from "../assets/adm-dummy-email-profile-dark.svg";
-import dummyPicLight from "../assets/adm-dummy-email-profile-light.svg";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import dummyPicDark from '../assets/adm-dummy-email-profile-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-email-profile-light.svg';
 
-const namespace = "integrations/emailProfiles";
+const namespace = 'integrations/emailProfiles';
 
 export default {
-  name: "TheEmailProfiles",
+  name: 'TheEmailProfiles',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
     const store = useStore();
-    const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
     const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
     const { dummy } = useDummy({
       namespace,
       showAction: true,
       dummyPic,
-      dummyText: "objects.integrations.emptyWorkspace",
+      dummyText: 'objects.integrations.emptyWorkspace',
     });
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -186,11 +186,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.emailProfiles.emailProfiles", 2),
-          route: "/integrations/email-profiles",
+          name: this.$tc('objects.integrations.emailProfiles.emailProfiles', 2),
+          route: '/integrations/email-profiles',
         },
       ];
     },

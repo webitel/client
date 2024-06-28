@@ -168,25 +168,25 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import exportFilesMixin from "@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin";
-import prettifyFileSize from "@webitel/ui-sdk/src/scripts/prettifyFileSize";
-import vueDropzone from "vue2-dropzone";
-import DownloadFilesBtn from "../../../../../app/components/utils/download-files-btn.vue";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import { download } from "../../../../../app/utils/download";
-import MediaAPI from "../api/media";
-import TextToSpeechPopup from "../modules/text-to-speech/components/text-to-speech-popup.vue";
-import MediaFilePreviewTableAction from "./media-file-preview-table-action.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
+import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
+import vueDropzone from 'vue2-dropzone';
+import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import { download } from '../../../../../app/utils/download';
+import MediaAPI from '../api/media';
+import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
+import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
 
-const token = localStorage.getItem("access-token");
+const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;
-const namespace = "lookups/media";
+const namespace = 'lookups/media';
 
 export default {
-  name: "TheMedia",
+  name: 'TheMedia',
   components: {
     DownloadFilesBtn,
     vueDropzone,
@@ -195,7 +195,7 @@ export default {
     DeleteConfirmationPopup,
   },
   mixins: [exportFilesMixin, tableComponentMixin],
-  inject: ["$eventBus"],
+  inject: ['$eventBus'],
   setup() {
     const { dummy } = useDummy({
       namespace,
@@ -227,7 +227,7 @@ export default {
       isLoadingFiles: false,
       loadedCount: 0,
       allLoadingCount: 0,
-      audioLink: "",
+      audioLink: '',
       playingIndex: null,
       currentlyPlaying: true,
 
@@ -244,11 +244,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.media.mediaFiles", 2),
-          route: "/lookups/media",
+          name: this.$tc('objects.lookups.media.mediaFiles', 2),
+          route: '/lookups/media',
         },
       ];
     },
@@ -256,7 +256,7 @@ export default {
   created() {
     this.initFilesExport({
       fetchMethod: this.getMediaList, // API call method
-      filename: "media", // name of downloaded file. default is 'files'
+      filename: 'media', // name of downloaded file. default is 'files'
       filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
     });
   },
@@ -264,7 +264,7 @@ export default {
   methods: {
     openFile({ id }) {
       const url = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
-      window.open(url, "_blank");
+      window.open(url, '_blank');
     },
     async downloadFile({ id, name }) {
       const url = `${API_URL}/storage/media/${id}/download?access_token=${token}`;
@@ -295,8 +295,8 @@ export default {
     // used for updating loaded files number on UI
     onFileError(file, message) {
       this.loadedCount += 1;
-      this.$eventBus.$emit("notification", {
-        type: "error",
+      this.$eventBus.$emit('notification', {
+        type: 'error',
         text: message.message || message,
       });
     },
@@ -316,14 +316,14 @@ export default {
 
     closePlayer() {
       this.playingIndex = null;
-      this.audioLink = "";
+      this.audioLink = '';
     },
     getMediaList: MediaAPI.getList,
     prettifyDate(date) {
       return new Date(+date).toLocaleDateString();
     },
     prettifyFormat(format) {
-      return format.split("/").pop();
+      return format.split('/').pop();
     },
     prettifyFileSize,
   },

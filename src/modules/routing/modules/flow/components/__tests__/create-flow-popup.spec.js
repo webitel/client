@@ -1,16 +1,16 @@
-import { shallowMount } from "@vue/test-utils";
-import { createStore } from "vuex";
-import appearance from "../../../../../appearance/store/appearance";
-import CreateFlowPopup from "../create-flow-popup.vue";
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
+import appearance from '../../../../../appearance/store/appearance';
+import CreateFlowPopup from '../create-flow-popup.vue';
 
-describe("CreateFlowPopup", () => {
+describe('CreateFlowPopup', () => {
   const store = createStore({
     modules: {
       appearance,
     },
   });
 
-  it("renders a component", () => {
+  it('renders a component', () => {
     const wrapper = shallowMount(CreateFlowPopup, {
       global: {
         plugins: [store],

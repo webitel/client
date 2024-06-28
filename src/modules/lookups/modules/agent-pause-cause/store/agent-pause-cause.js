@@ -1,32 +1,32 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import PauseCauseAPI from "../api/agentPauseCause";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PauseCauseAPI from '../api/agentPauseCause';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
+    name: '',
     limitMin: 60,
     allowAdmin: true,
     allowSupervisor: true,
     allowAgent: true,
-    description: "",
+    description: '',
   },
 };
 
 const actions = {
   CHANGE_ADMIN_PERMISSIONS: (context, payload) =>
-    context.dispatch("PATCH_ITEM_PROPERTY", {
-      prop: "allowAdmin",
+    context.dispatch('PATCH_ITEM_PROPERTY', {
+      prop: 'allowAdmin',
       ...payload,
     }),
   CHANGE_SUPERVISOR_PERMISSIONS: (context, payload) =>
-    context.dispatch("PATCH_ITEM_PROPERTY", {
-      prop: "allowSupervisor",
+    context.dispatch('PATCH_ITEM_PROPERTY', {
+      prop: 'allowSupervisor',
       ...payload,
     }),
   CHANGE_AGENT_PERMISSIONS: (context, payload) =>
-    context.dispatch("PATCH_ITEM_PROPERTY", {
-      prop: "allowAgent",
+    context.dispatch('PATCH_ITEM_PROPERTY', {
+      prop: 'allowAgent',
       ...payload,
     }),
 };

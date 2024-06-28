@@ -197,21 +197,21 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import FilterSearch from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import tableComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
-import QueueTypeProperties from "../../../lookups/QueueTypeProperties.lookup.js";
-import TheQueueMembersFilters from "../modules/filters/components/the-queue-members-filters.vue";
-import destinationsPopup from "./communications/opened-queue-member-destinations-popup.vue";
-import ResetPopup from "./reset-members-popup.vue";
-import uploadPopup from "./upload-members-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
+import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
+import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import ResetPopup from './reset-members-popup.vue';
+import uploadPopup from './upload-members-popup.vue';
 
 export default {
-  name: "TheQueueMembers",
+  name: 'TheQueueMembers',
   components: {
     FilterSearch,
     uploadPopup,
@@ -243,7 +243,7 @@ export default {
   },
 
   data: () => ({
-    namespace: "ccenter/queues/members",
+    namespace: 'ccenter/queues/members',
     isUploadPopup: false,
     communicationsOnPopup: null,
     isDestinationsPopup: false,
@@ -276,14 +276,14 @@ export default {
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
           name: this.parentQueue.name,
           route: queueUrl,
         },
         {
-          name: this.$tc("objects.ccenter.members.members", 2),
+          name: this.$tc('objects.ccenter.members.members', 2),
           route: membersUrl,
         },
       ];
@@ -302,17 +302,17 @@ export default {
           }
         };
       const all = {
-        text: this.$t("iconHints.deleteAll"),
+        text: this.$t('iconHints.deleteAll'),
         method: loadListAfterDecorator(this.deleteAll),
       };
       const filtered = {
-        text: this.$t("iconHints.deleteFiltered"),
+        text: this.$t('iconHints.deleteFiltered'),
         method: loadListAfterDecorator(this.deleteFiltered),
       };
 
       const selectedCount = this.selectedRows.length;
       const selected = {
-        text: this.$t("iconHints.deleteSelected", {
+        text: this.$t('iconHints.deleteSelected', {
           count: selectedCount,
         }),
         method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
@@ -325,7 +325,7 @@ export default {
 
     saveOptions() {
       const importCsv = {
-        text: this.$tc("objects.integrations.importCsv.importCsv", 2),
+        text: this.$tc('objects.integrations.importCsv.importCsv', 2),
         callback: this.triggerFileInput,
       };
       return [importCsv];
@@ -379,7 +379,7 @@ export default {
     },
 
     triggerFileInput() {
-      this.$refs["file-input"].click();
+      this.$refs['file-input'].click();
     },
 
     inputFileHandler(event) {
@@ -389,7 +389,7 @@ export default {
     },
 
     clearFileInput() {
-      this.$refs["file-input"].value = null;
+      this.$refs['file-input'].value = null;
     },
 
     create() {
@@ -448,7 +448,7 @@ export default {
     }),
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       async handler() {
         await this.loadList();
       },

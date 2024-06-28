@@ -80,18 +80,18 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import storageMixin from "../mixins/storageMixin";
-import AWSRegions from "../store/_internals/lookups/AWSRegions.lookup";
-import DigitalOceanRegions from "../store/_internals/lookups/DigitalOceanRegions.lookup";
-import Service from "../store/_internals/lookups/Service.lookup";
+import { mapActions, mapState } from 'vuex';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import storageMixin from '../mixins/storageMixin';
+import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
+import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
+import Service from '../store/_internals/lookups/Service.lookup';
 
 export default {
-  name: "OpenedStorageAws",
+  name: 'OpenedStorageAws',
   mixins: [openedTabComponentMixin, storageMixin],
   computed: {
-    ...mapState("integrations/storage", {
+    ...mapState('integrations/storage', {
       id: (state) => state.itemId,
     }),
 
@@ -119,18 +119,18 @@ export default {
   },
 
   methods: {
-    ...mapActions("integrations/storage", {
-      setItemProp: "SET_ITEM_PROPERTIES_PROPERTY",
+    ...mapActions('integrations/storage', {
+      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
     }),
 
     setService({ endpoint }) {
       this.setItemProp({
-        prop: "endpoint",
+        prop: 'endpoint',
         value: endpoint,
       });
       this.setItemProp({
-        prop: "region",
-        value: "",
+        prop: 'region',
+        value: '',
       });
     },
   },

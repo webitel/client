@@ -42,23 +42,23 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import { EngineRoutingSchemaType } from "webitel-sdk";
-import SelectionPopup from "../../../../../app/components/utils/selection-popup/selection-popup.vue";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import { mapActions, mapState } from 'vuex';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-import CodeSectionDark from "../assets/code-section-dark.svg";
-import CodeSectionLight from "../assets/code-section-light.svg";
-import DiagramSectionDark from "../assets/diagram-section-dark.svg";
-import DiagramSectionLight from "../assets/diagram-section-light.svg";
-import FlowEditor from "../enums/FlowEditor.enum";
+import CodeSectionDark from '../assets/code-section-dark.svg';
+import CodeSectionLight from '../assets/code-section-light.svg';
+import DiagramSectionDark from '../assets/diagram-section-dark.svg';
+import DiagramSectionLight from '../assets/diagram-section-light.svg';
+import FlowEditor from '../enums/FlowEditor.enum';
 
 export default {
-  name: "CreateFlowPopup",
+  name: 'CreateFlowPopup',
   components: { SelectionPopup },
 
   data: () => ({
-    namespace: "routing/flow",
+    namespace: 'routing/flow',
     selected: {},
     type: {},
     typeOptions: Object.values(EngineRoutingSchemaType)
@@ -69,23 +69,23 @@ export default {
       })),
   }),
   computed: {
-    ...mapState("appearance", {
+    ...mapState('appearance', {
       theme: (state) => state.theme,
     }),
     editorOptions() {
       const diagram = {
         value: FlowEditor.DIAGRAM,
-        title: this.$t("objects.routing.flow.diagram.diagram"),
-        description: this.$t("objects.routing.flow.diagram.description"),
-        image: this.theme === "dark" ? DiagramSectionDark : DiagramSectionLight,
-        alt: this.$t("objects.routing.flow.diagram.diagram"),
+        title: this.$t('objects.routing.flow.diagram.diagram'),
+        description: this.$t('objects.routing.flow.diagram.description'),
+        image: this.theme === 'dark' ? DiagramSectionDark : DiagramSectionLight,
+        alt: this.$t('objects.routing.flow.diagram.diagram'),
       };
       const code = {
         value: FlowEditor.CODE,
-        title: this.$t("objects.routing.flow.code.code"),
-        description: this.$t("objects.routing.flow.code.description"),
-        image: this.theme === "dark" ? CodeSectionDark : CodeSectionLight,
-        alt: this.$t("objects.routing.flow.code.code"),
+        title: this.$t('objects.routing.flow.code.code'),
+        description: this.$t('objects.routing.flow.code.description'),
+        image: this.theme === 'dark' ? CodeSectionDark : CodeSectionLight,
+        alt: this.$t('objects.routing.flow.code.code'),
       };
       return [diagram, code];
     },
@@ -99,14 +99,14 @@ export default {
     }),
 
     create() {
-      if (this.selected.value === "diagram") {
+      if (this.selected.value === 'diagram') {
         this.setItemProp({
-          prop: "editor",
+          prop: 'editor',
           value: true,
         });
       } else {
         this.setItemProp({
-          prop: "editor",
+          prop: 'editor',
           value: false,
         });
       }
@@ -119,7 +119,7 @@ export default {
       });
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     initializeFields() {
       [this.selected] = this.editorOptions;

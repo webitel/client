@@ -58,13 +58,13 @@
 </template>
 
 <script>
-import deepCopy from "deep-copy";
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import ImportCsvMemberMappings from "../lookups/ImportCsvMemberMappings.lookup";
+import deepCopy from 'deep-copy';
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
-  name: "OpenedImportCsvSettings",
+  name: 'OpenedImportCsvSettings',
   mixins: [openedTabComponentMixin],
   data: () => ({}),
   computed: {
@@ -91,16 +91,16 @@ export default {
       const mappings = deepCopy(this.itemInstance.parameters.mappings);
       mappings[name] = value;
       this.setItemParamsProp({
-        prop: "mappings",
+        prop: 'mappings',
         value: mappings,
       });
     },
     localizeName(locale) {
       if (Array.isArray(locale)) {
-        if (typeof locale[1] === "number") return this.$tc(...locale);
+        if (typeof locale[1] === 'number') return this.$tc(...locale);
         return locale.reduce((text, _locale) => {
           return `${text} ${this.localizeName(_locale)}`;
-        }, "");
+        }, '');
       }
       return this.$t(locale);
     },

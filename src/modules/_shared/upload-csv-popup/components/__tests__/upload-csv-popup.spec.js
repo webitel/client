@@ -1,12 +1,12 @@
-import { shallowMount } from "@vue/test-utils";
-import UploadCsvPopup from "../upload-csv-popup.vue";
+import { shallowMount } from '@vue/test-utils';
+import UploadCsvPopup from '../upload-csv-popup.vue';
 
-describe("UploadCsvPopup", () => {
+describe('UploadCsvPopup', () => {
   const props = {
     file: {},
   };
 
-  it("renders a component", () => {
+  it('renders a component', () => {
     const wrapper = shallowMount(UploadCsvPopup, {
       props,
     });

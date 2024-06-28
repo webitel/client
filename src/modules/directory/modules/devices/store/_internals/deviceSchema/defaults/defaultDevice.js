@@ -1,13 +1,13 @@
 const defaultDevice = () => ({
-  name: "",
-  account: "",
-  password: "",
+  name: '',
+  account: '',
+  password: '',
   user: {},
   phone: {},
-  ip: "",
-  brand: "",
-  model: "",
-  mac: "",
+  ip: '',
+  brand: '',
+  model: '',
+  mac: '',
   vars: [],
 });
 

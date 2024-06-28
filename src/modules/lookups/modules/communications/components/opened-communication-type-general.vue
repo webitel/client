@@ -42,14 +42,14 @@
 </template>
 
 <script>
-import { EngineCommunicationChannels } from "webitel-sdk";
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import { EngineCommunicationChannels } from 'webitel-sdk';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: "OpenedCommunicationsType",
+  name: 'OpenedCommunicationsType',
   mixins: [openedTabComponentMixin],
   data: () => ({
-    savedChannel: "",
+    savedChannel: '',
   }),
   computed: {
     channel: {
@@ -58,7 +58,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "channel",
+          prop: 'channel',
           value: value.value,
         });
       },
@@ -73,7 +73,7 @@ export default {
     },
   },
   watch: {
-    "itemInstance._dirty": {
+    'itemInstance._dirty': {
       handler(value) {
         if (!value) {
           if (!this.itemInstance.id) return;
@@ -83,7 +83,7 @@ export default {
     },
   },
   mounted() {
-    const unwatch = this.$watch("itemInstance", () => {
+    const unwatch = this.$watch('itemInstance', () => {
       this.setSavedChannel();
       unwatch();
     });

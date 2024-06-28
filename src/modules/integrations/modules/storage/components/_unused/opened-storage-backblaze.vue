@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
+import { mapActions } from 'vuex';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: "OpenedStorageBackblaze",
+  name: 'OpenedStorageBackblaze',
   mixins: [openedTabComponentMixin],
 
   computed: {
@@ -49,7 +49,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "key",
+          prop: 'key',
           value,
         });
       },
@@ -60,7 +60,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "access",
+          prop: 'access',
           value,
         });
       },
@@ -71,7 +71,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "bucket",
+          prop: 'bucket',
           value,
         });
       },
@@ -82,7 +82,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "region",
+          prop: 'region',
           value,
         });
       },
@@ -90,8 +90,8 @@ export default {
   },
 
   methods: {
-    ...mapActions("integrations/storage", {
-      setItemProp: "SET_ITEM_PROPERTY",
+    ...mapActions('integrations/storage', {
+      setItemProp: 'SET_ITEM_PROPERTY',
     }),
   },
 };

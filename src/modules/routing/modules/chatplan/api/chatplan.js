@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,19 +7,19 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { RoutingChatPlanServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { RoutingChatPlanServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const chatplanService = new RoutingChatPlanServiceApiFactory(configuration, "", instance);
+const chatplanService = new RoutingChatPlanServiceApiFactory(configuration, '', instance);
 
 const getChatplanList = async (params) => {
   const defaultObject = { enabled: false };
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     camelToSnake(),
   ]);
 
@@ -46,7 +46,7 @@ const getChatplan = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["name", "schema", "description", "enabled"];
+const fieldsToSend = ['name', 'schema', 'description', 'enabled'];
 
 const addChatplan = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);

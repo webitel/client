@@ -1,14 +1,14 @@
-import deepMerge from "deepmerge";
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import StorageAPI from "../api/storage";
-import Storage from "./_internals/enums/Storage.enum";
-import headers from "./_internals/headers";
-import defaultBackblazeStorageState from "./_internals/storageSchema/backblazeStorage";
-import defaultStorageState from "./_internals/storageSchema/defaults/defaultStorage";
-import defaultDriveStorageState from "./_internals/storageSchema/driveStorage";
-import defaultDropboxStorageState from "./_internals/storageSchema/dropboxStorage";
-import defaultLocalStorageState from "./_internals/storageSchema/localStorage";
-import defaultS3StorageState from "./_internals/storageSchema/s3Storage";
+import deepMerge from 'deepmerge';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import StorageAPI from '../api/storage';
+import Storage from './_internals/enums/Storage.enum';
+import headers from './_internals/headers';
+import defaultBackblazeStorageState from './_internals/storageSchema/backblazeStorage';
+import defaultStorageState from './_internals/storageSchema/defaults/defaultStorage';
+import defaultDriveStorageState from './_internals/storageSchema/driveStorage';
+import defaultDropboxStorageState from './_internals/storageSchema/dropboxStorage';
+import defaultLocalStorageState from './_internals/storageSchema/localStorage';
+import defaultS3StorageState from './_internals/storageSchema/s3Storage';
 
 const resettableState = {
   itemInstance: defaultStorageState(),
@@ -17,13 +17,13 @@ const resettableState = {
 const actions = {
   LOAD_ITEM: async (context, type) => {
     if (context.state.itemId) {
-      const item = await context.dispatch("GET_ITEM");
-      context.dispatch("SET_TYPED_ITEM", {
+      const item = await context.dispatch('GET_ITEM');
+      context.dispatch('SET_TYPED_ITEM', {
         item,
         type: item.type,
       });
     } else {
-      context.dispatch("SET_TYPED_ITEM", {
+      context.dispatch('SET_TYPED_ITEM', {
         type,
       });
     }
@@ -46,12 +46,12 @@ const actions = {
         item = deepMerge(defaultDriveStorageState(), item);
         break;
     }
-    context.commit("SET_ITEM", item);
+    context.commit('SET_ITEM', item);
   },
   SET_ITEM_PROPERTIES_PROPERTY: (context, payload) => {
-    context.commit("SET_ITEM_PROPERTIES_PROPERTY", payload);
-    context.dispatch("SET_ITEM_PROPERTY", {
-      prop: "_dirty",
+    context.commit('SET_ITEM_PROPERTIES_PROPERTY', payload);
+    context.dispatch('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
       value: true,
     });
   },

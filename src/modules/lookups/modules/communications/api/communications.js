@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,12 +7,12 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { CommunicationTypeServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { CommunicationTypeServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const communicationService = new CommunicationTypeServiceApiFactory(configuration, "", instance);
+const communicationService = new CommunicationTypeServiceApiFactory(configuration, '', instance);
 
 const getCommunicationsList = async (params) => {
   const defaultObject = {
@@ -21,7 +21,7 @@ const getCommunicationsList = async (params) => {
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -55,7 +55,7 @@ const getCommunication = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["code", "name", "description", "channel", "default"];
+const fieldsToSend = ['code', 'name', 'description', 'channel', 'default'];
 
 const addCommunication = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
@@ -99,7 +99,7 @@ const deleteCommunication = async ({ id }) => {
 const getCommunicationsLookup = (params) =>
   getCommunicationsList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const CommunicationsAPI = {

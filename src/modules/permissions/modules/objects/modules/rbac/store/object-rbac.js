@@ -1,6 +1,6 @@
-import { PermissionsStoreModule } from "../../../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule";
-import { getObjclassDefaultList, patchObjclassDefaultMode } from "../api/objectsRbac";
-import headers from "./_internals/headers";
+import { PermissionsStoreModule } from '../../../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import { getObjclassDefaultList, patchObjclassDefaultMode } from '../api/objectsRbac';
+import headers from './_internals/headers';
 
 const actions = {
   GET_LIST: (context) => getObjclassDefaultList(context.state),
@@ -15,18 +15,18 @@ const actions = {
     const changes = {
       grantor: +grantor.id,
       grantee: +grantee.id,
-      granted: "r",
+      granted: 'r',
     };
     const item = { grantor, grantee };
     try {
-      await context.dispatch("PATCH_ACCESS_MODE", {
+      await context.dispatch('PATCH_ACCESS_MODE', {
         item,
         changes,
       });
     } catch (err) {
       throw err;
     } finally {
-      context.dispatch("LOAD_DATA_LIST");
+      context.dispatch('LOAD_DATA_LIST');
     }
   },
 };

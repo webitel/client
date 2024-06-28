@@ -38,20 +38,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import ResourceGroupsAPI from "../../../../resource-groups/api/resourceGroups";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 
 export default {
-  name: "OpenedQueueBucketsPopup",
+  name: 'OpenedQueueBucketsPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/queues/resGroups",
+    namespace: 'ccenter/queues/resGroups',
   }),
   validations: {
     itemInstance: {

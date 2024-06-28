@@ -48,23 +48,23 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { snakeToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
-import { EngineRoutingSchemaType } from "webitel-sdk";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import FlowsAPI from "../../../../../../routing/modules/flow/api/flow";
-import HookEvent from "../enum/HookTeamEvent.enum";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
+import HookEvent from '../enum/HookTeamEvent.enum';
 
 export default {
-  name: "OpenedTeamHooksPopup",
+  name: 'OpenedTeamHooksPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/teams/hooks",
+    namespace: 'ccenter/teams/hooks',
   }),
   validations: {
     itemInstance: {

@@ -127,28 +127,28 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { computed } from "vue";
-import { mapActions, useStore } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import dummyPicDark from "../assets/adm-dummy-storage-dark.svg";
-import dummyPicLight from "../assets/adm-dummy-storage-light.svg";
-import Storage from "../store/_internals/enums/Storage.enum";
-import StoragePopup from "./_unused/create-storage-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { computed } from 'vue';
+import { mapActions, useStore } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import dummyPicDark from '../assets/adm-dummy-storage-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-storage-light.svg';
+import Storage from '../store/_internals/enums/Storage.enum';
+import StoragePopup from './_unused/create-storage-popup.vue';
 
-const namespace = "integrations/storage";
+const namespace = 'integrations/storage';
 
 export default {
-  name: "TheStorage",
+  name: 'TheStorage',
   components: { StoragePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
     const store = useStore();
-    const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
     const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
     const { dummy } = useDummy({
       namespace,
@@ -184,11 +184,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t("objects.integrations.storage.storage"),
-          route: "/integrations/storage",
+          name: this.$t('objects.integrations.storage.storage'),
+          route: '/integrations/storage',
         },
       ];
     },
@@ -223,17 +223,17 @@ export default {
     prettifyType(type) {
       switch (type) {
         case Storage.LOCAL:
-          return "Local";
+          return 'Local';
         case Storage.S3:
-          return "S3 Bucket";
+          return 'S3 Bucket';
         case Storage.BACKBLAZE:
-          return "Backblaze";
+          return 'Backblaze';
         case Storage.DROPBOX:
-          return "Dropbox";
+          return 'Dropbox';
         case Storage.DRIVE:
-          return "Google Drive";
+          return 'Google Drive';
         default:
-          return "";
+          return '';
       }
     },
   },

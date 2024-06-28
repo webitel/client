@@ -1,4 +1,4 @@
-import isEmpty from "@webitel/ui-sdk/src/scripts/isEmpty";
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 
 /**
  *

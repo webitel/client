@@ -2,8 +2,8 @@ import applyTransform, {
   mergeEach,
   notify,
   snakeToCamel,
-} from "@webitel/ui-sdk/src/api/transformers";
-import chatInstance, { chatBaseUrl } from "../../../../api/chatInstance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
 
 const defaultListObject = {
   accounts: [],
@@ -23,7 +23,7 @@ const getList = async ({ uri }) => {
 const addOrRemovePagesUrl = (uri) => `${chatBaseUrl}/${uri}/?pages=setup`;
 
 const updateSubscribe = ({ uri, value, id }) => {
-  const action = value ? "subscribe" : "unsubscribe";
+  const action = value ? 'subscribe' : 'unsubscribe';
   const url = `${uri}?pages=${action}&id=${id}`;
   return chatInstance.get(url);
 };

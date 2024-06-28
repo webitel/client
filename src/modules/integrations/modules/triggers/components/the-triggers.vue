@@ -136,18 +136,18 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { mapActions } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import TriggerTypes from "../lookups/TriggerTypes.lookup";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TriggerTypes from '../lookups/TriggerTypes.lookup';
 
-const namespace = "integrations/triggers";
+const namespace = 'integrations/triggers';
 
 export default {
-  name: "TheTriggers",
+  name: 'TheTriggers',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
@@ -183,11 +183,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.triggers.triggers", 2),
-          route: "/integrations/triggers",
+          name: this.$tc('objects.integrations.triggers.triggers', 2),
+          route: '/integrations/triggers',
         },
       ];
     },
@@ -197,7 +197,7 @@ export default {
       await this.patchItem({
         item,
         index,
-        prop: "enabled",
+        prop: 'enabled',
         value,
       });
     },

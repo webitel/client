@@ -1,6 +1,6 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { computed, ref } from "vue";
-import { useStore } from "vuex";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export const useCheckingUnsavedChanges = (itemInstance) => {
   const isConfirmationUnsavedChangesPopup = ref(false);
@@ -8,16 +8,16 @@ export const useCheckingUnsavedChanges = (itemInstance) => {
   function showConfirmationPopup(e) {
     if (itemInstance.value._dirty) {
       e.preventDefault();
-      e.returnValue = "";
+      e.returnValue = '';
     }
   }
 
   function addCheckingUnsavedChanges() {
-    window.addEventListener("beforeunload", showConfirmationPopup);
+    window.addEventListener('beforeunload', showConfirmationPopup);
   }
 
   function removeCheckingUnsavedChanges() {
-    window.removeEventListener("beforeunload", showConfirmationPopup);
+    window.removeEventListener('beforeunload', showConfirmationPopup);
   }
 
   function toggleIsConfirmationUnsavedChangesPopup() {

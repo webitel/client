@@ -134,21 +134,21 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { snakeToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import agentStatusMixin from "../../../mixins/agentStatusMixin";
-import HistoryPopup from "./agent-history-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import agentStatusMixin from '../../../mixins/agentStatusMixin';
+import HistoryPopup from './agent-history-popup.vue';
 
-const namespace = "ccenter/agents";
+const namespace = 'ccenter/agents';
 
 export default {
-  name: "TheAgents",
+  name: 'TheAgents',
   components: { HistoryPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin, agentStatusMixin],
 
@@ -191,11 +191,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.agents.agents", 2),
-          route: "/contact-center/agents",
+          name: this.$tc('objects.ccenter.agents.agents', 2),
+          route: '/contact-center/agents',
         },
       ];
     },

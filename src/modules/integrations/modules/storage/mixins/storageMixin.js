@@ -1,4 +1,4 @@
-import Service from "../store/_internals/lookups/Service.lookup";
+import Service from '../store/_internals/lookups/Service.lookup';
 
 export default {
   computed: {

@@ -5,16 +5,16 @@ export default {
   methods: {
     tableActionsHandler(eventName) {
       switch (eventName) {
-        case "refresh":
+        case 'refresh':
           this.refreshList();
           break;
-        case "columnSelect":
+        case 'columnSelect':
           this.openColumnSelect();
           break;
-        case "filterReset":
+        case 'filterReset':
           this.resetFilters();
           break;
-        case "settings":
+        case 'settings':
           this.expandFilters();
           break;
         default:

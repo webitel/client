@@ -1,5 +1,5 @@
-import { shallowMount } from "@vue/test-utils";
-import UploadCsvMixin from "../uploadCSVMixin.js";
+import { shallowMount } from '@vue/test-utils';
+import UploadCsvMixin from '../uploadCSVMixin.js';
 
 const Component = {
   mixins: [UploadCsvMixin],
@@ -7,12 +7,12 @@ const Component = {
 };
 
 const makeFile = (content) => {
-  const blob = new Blob([content], { type: "text/csv" });
-  return new File([blob], "test.csv", { type: "text/csv" });
+  const blob = new Blob([content], { type: 'text/csv' });
+  return new File([blob], 'test.csv', { type: 'text/csv' });
 };
 
-describe("UploadCsvMixin", () => {
-  it("renders a component with mixin", () => {
+describe('UploadCsvMixin', () => {
+  it('renders a component with mixin', () => {
     const wrapper = shallowMount(Component, {
       props: {
         file: {},
@@ -21,21 +21,21 @@ describe("UploadCsvMixin", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("parses and saves simple csv", async () => {
+  it('parses and saves simple csv', async () => {
     const csv = `
       col1,col2
       John,30
       Jane,25
-      `.replaceAll(/ +?/g, ""); // replace all whitespaces, but not newlines
+      `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
       {
-        name: "name",
-        csv: "col1",
+        name: 'name',
+        csv: 'col1',
       },
       {
-        name: "age",
-        csv: "col2",
+        name: 'age',
+        csv: 'col2',
       },
     ];
 
@@ -59,27 +59,27 @@ describe("UploadCsvMixin", () => {
 
     await wrapper.vm.processCSV();
     expect(saveCallback).toHaveBeenCalledWith([
-      { name: "John", age: "30" },
-      { name: "Jane", age: "25" },
+      { name: 'John', age: '30' },
+      { name: 'Jane', age: '25' },
     ]);
   });
 
-  it("parsing of csv with empty required throws error", async () => {
+  it('parsing of csv with empty required throws error', async () => {
     const csv = `
       col1,col2
       John,
       Jane,25
-      `.replaceAll(/ +?/g, ""); // replace all whitespaces, but not newlines
+      `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
       {
-        name: "name",
-        csv: "col1",
+        name: 'name',
+        csv: 'col1',
         required: true,
       },
       {
-        name: "age",
-        csv: "col2",
+        name: 'age',
+        csv: 'col2',
         required: true,
       },
     ];
@@ -111,21 +111,21 @@ describe("UploadCsvMixin", () => {
     expect(saveCallback).not.toHaveBeenCalled();
   });
 
-  it("parses and saves simple csv", async () => {
+  it('parses and saves simple csv', async () => {
     const csv = `
       col1,col2
       John,30
       Jane,25
-      `.replaceAll(/ +?/g, ""); // replace all whitespaces, but not newlines
+      `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
       {
-        name: "name",
-        csv: "col1",
+        name: 'name',
+        csv: 'col1',
       },
       {
-        name: "age",
-        csv: "col2",
+        name: 'age',
+        csv: 'col2',
       },
     ];
 
@@ -149,27 +149,27 @@ describe("UploadCsvMixin", () => {
 
     await wrapper.vm.processCSV();
     expect(saveCallback).toHaveBeenCalledWith([
-      { name: "John", age: "30" },
-      { name: "Jane", age: "25" },
+      { name: 'John', age: '30' },
+      { name: 'Jane', age: '25' },
     ]);
   });
 
-  it("parsing of csv with multiple columns selected to required field", async () => {
+  it('parsing of csv with multiple columns selected to required field', async () => {
     const csv = `
       col1,col2,col3
       John,,30
       Jane,25,
-      `.replaceAll(/ +?/g, ""); // replace all whitespaces, but not newlines
+      `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
       {
-        name: "name",
-        csv: "col1",
+        name: 'name',
+        csv: 'col1',
         required: true,
       },
       {
-        name: "age",
-        csv: ["col2", "col3"],
+        name: 'age',
+        csv: ['col2', 'col3'],
         required: true,
       },
     ];
@@ -195,12 +195,12 @@ describe("UploadCsvMixin", () => {
     await wrapper.vm.processCSV();
     expect(saveCallback).toHaveBeenCalledWith([
       {
-        name: "John",
-        age: ["30"],
+        name: 'John',
+        age: ['30'],
       },
       {
-        name: "Jane",
-        age: ["25"],
+        name: 'Jane',
+        age: ['25'],
       },
     ]);
   });

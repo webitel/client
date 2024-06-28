@@ -1,10 +1,10 @@
-import IsEmpty from "@webitel/ui-sdk/src/scripts/isEmpty";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { computed, ref, watch } from "vue";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
-import defaultDummyPicAfterSearchDark from "../assets/dummy/adm-dummy-after-search-dark.svg";
-import defaultDummyPicAfterSearchLight from "../assets/dummy/adm-dummy-after-search-light.svg";
+import IsEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import defaultDummyPicAfterSearchDark from '../assets/dummy/adm-dummy-after-search-dark.svg';
+import defaultDummyPicAfterSearchLight from '../assets/dummy/adm-dummy-after-search-light.svg';
 
 export function useDummy({
   namespace,
@@ -13,17 +13,17 @@ export function useDummy({
   dummyPic,
   dummyText,
   dummyPicAfterSearch,
-  dummyTextAfterSearch = "objects.emptyResultSearch",
+  dummyTextAfterSearch = 'objects.emptyResultSearch',
 }) {
   const store = useStore();
   const route = useRoute();
 
-  const dummy = ref("");
+  const dummy = ref('');
 
   const dataList = computed(() => getNamespacedState(store.state, namespace).dataList);
   const search = computed(() => getNamespacedState(store.state, namespace).search);
 
-  const darkMode = computed(() => store.getters["appearance/DARK_MODE"]);
+  const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
   const dummyImgAfterSearch = computed(() => {
     if (dummyPicAfterSearch) return dummyPicAfterSearch;
     return darkMode.value ? defaultDummyPicAfterSearchDark : defaultDummyPicAfterSearchLight;
@@ -50,7 +50,7 @@ export function useDummy({
           hiddenText,
         });
       }
-      return (dummy.value = "");
+      return (dummy.value = '');
     },
     { deep: true },
   );

@@ -116,18 +116,18 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import ConfigurationPopup from "./configuration-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import ConfigurationPopup from './configuration-popup.vue';
 
-const namespace = "system/configuration";
+const namespace = 'system/configuration';
 
 export default {
-  name: "TheConfiguration",
+  name: 'TheConfiguration',
   components: { ConfigurationPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
@@ -164,11 +164,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.system.system"),
+          name: this.$t('objects.system.system'),
         },
         {
-          name: this.$tc("objects.system.configuration.configuration", 1),
-          route: "configuration",
+          name: this.$tc('objects.system.configuration.configuration', 1),
+          route: 'configuration',
         },
       ];
     },

@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import nestedObjectMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: "OpenedRolePermissionsPopup",
+  name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
   props: {
     editedApp: {
@@ -61,7 +61,7 @@ export default {
     }),
     appSectionsAccess() {
       return Object.keys(this.access[this.editedApp])
-        .filter((section) => section.slice(0, 1) !== "_") // "functional" properties start with _
+        .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
         .map((section) => ({
           name: section,
           displayName: this.$t(this.access[this.editedApp][section]._locale),

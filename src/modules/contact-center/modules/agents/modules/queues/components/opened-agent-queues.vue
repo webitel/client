@@ -62,14 +62,14 @@
 </template>
 
 <script>
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import QueueTypeProperties from "../../../../queues/lookups/QueueTypeProperties.lookup";
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: "OpenedAgentQueues",
+  name: 'OpenedAgentQueues',
   mixins: [openedObjectTableTabMixin],
   data: () => ({
-    subNamespace: "queues",
+    subNamespace: 'queues',
     QueueTypeProperties,
   }),
 };

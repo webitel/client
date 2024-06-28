@@ -125,18 +125,18 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import debounce from "@webitel/ui-sdk/src/scripts/debounce";
-import objectTableAccessControlMixin from "../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
-import AgentSkillsAPI from "../api/skillAgents";
-import AddSkillToAgentPopup from "./add-skill-to-agent-popup/add-skill-to-agent-popup.vue";
-import ChangeSkillPopup from "./replace-agent-skill-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
+import objectTableAccessControlMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import AgentSkillsAPI from '../api/skillAgents';
+import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
+import ChangeSkillPopup from './replace-agent-skill-popup.vue';
 
 export default {
-  name: "OpenedSkillAgents",
+  name: 'OpenedSkillAgents',
   components: {
     AddSkillToAgentPopup,
     ChangeSkillPopup,
@@ -164,8 +164,8 @@ export default {
   },
 
   data: () => ({
-    namespace: "lookups/skills",
-    subNamespace: "agents",
+    namespace: 'lookups/skills',
+    subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     agentSkillPopup: false,
     isAddSkillToAgentPopup: false,

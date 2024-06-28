@@ -75,18 +75,18 @@
 </template>
 
 <script>
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import resetOnDestroyMixin from "../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import UserLogoutControl from "./user-logout-control.vue";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import resetOnDestroyMixin from '../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import UserLogoutControl from './user-logout-control.vue';
 
 export default {
-  name: "LicenseUsersPopup",
+  name: 'LicenseUsersPopup',
   components: { UserLogoutControl },
   mixins: [resetOnDestroyMixin, openedObjectTableTabMixin],
   data: () => ({
-    subNamespace: "licenseUsers",
+    subNamespace: 'licenseUsers',
   }),
   computed: {
     ...mapState({
@@ -117,7 +117,7 @@ export default {
       this.loadList();
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

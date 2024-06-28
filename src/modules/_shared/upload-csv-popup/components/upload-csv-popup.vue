@@ -127,16 +127,16 @@
 </template>
 
 <script>
-import uploadCSVMixin from "../mixins/uploadCSVMixin";
+import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
-  name: "UploadCsvPopup",
+  name: 'UploadCsvPopup',
   mixins: [uploadCSVMixin],
   data: () => ({
     skipHeaders: true,
-    separator: ",",
+    separator: ',',
     charsetOptions: [],
-    charset: { name: "UTF-8", value: "utf-8" },
+    charset: { name: 'UTF-8', value: 'utf-8' },
   }),
 };
 </script>

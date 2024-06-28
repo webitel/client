@@ -120,17 +120,17 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import UploadAction from "./import-csv-upload-action.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UploadAction from './import-csv-upload-action.vue';
 
-const namespace = "integrations/importCsv";
+const namespace = 'integrations/importCsv';
 
 export default {
-  name: "TheImportCsv",
+  name: 'TheImportCsv',
   components: { UploadAction, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -167,11 +167,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.integrations.integrations"),
+          name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc("objects.integrations.importCsv.importCsv", 2),
-          route: "/integrations/import-csv",
+          name: this.$tc('objects.integrations.importCsv.importCsv', 2),
+          route: '/integrations/import-csv',
         },
       ];
     },

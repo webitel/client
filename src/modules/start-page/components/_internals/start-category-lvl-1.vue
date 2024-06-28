@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "StartCategoryLvl1",
+  name: 'StartCategoryLvl1',
   props: {
     categories: {
       type: Array,
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     select(category) {
-      this.$emit("select", category);
+      this.$emit('select', category);
     },
   },
 };

@@ -62,9 +62,9 @@
 </template>
 
 <script setup>
-import QrcodeVue from "qrcode.vue";
-import { ref } from "vue";
-import { useStore } from "vuex";
+import QrcodeVue from 'qrcode.vue';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   namespace: {
@@ -82,10 +82,10 @@ const qrcodeContainer = ref();
 const isConfirmationPopup = ref(false);
 
 function download() {
-  const canvas = qrcodeContainer.value.querySelector("canvas");
-  const link = document.createElement("a");
-  link.download = "qr-code.png";
-  link.href = canvas.toDataURL("image/png");
+  const canvas = qrcodeContainer.value.querySelector('canvas');
+  const link = document.createElement('a');
+  link.download = 'qr-code.png';
+  link.href = canvas.toDataURL('image/png');
   link.click();
 }
 

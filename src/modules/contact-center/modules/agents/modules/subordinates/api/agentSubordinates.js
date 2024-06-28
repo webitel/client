@@ -1,15 +1,15 @@
-import applyTransform, { notify, snakeToCamel } from "@webitel/ui-sdk/src/api/transformers";
-import { AgentServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../../../app/api/instance";
-import configuration from "../../../../../../../app/api/openAPIConfig";
-import AgentsAPI from "../../../api/agents";
+import applyTransform, { notify, snakeToCamel } from '@webitel/ui-sdk/src/api/transformers';
+import { AgentServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../../../app/api/instance';
+import configuration from '../../../../../../../app/api/openAPIConfig';
+import AgentsAPI from '../../../api/agents';
 
-const subordinateService = new AgentServiceApiFactory(configuration, "", instance);
+const subordinateService = new AgentServiceApiFactory(configuration, '', instance);
 
 export const getAgentSubordinatesList = (params) => {
   const cleanedParams = {
     ...params,
-    fields: ["id", "name", "supervisor", "skills"],
+    fields: ['id', 'name', 'supervisor', 'skills'],
     supervisorId: params.parentId,
   };
   cleanedParams.parentId = undefined;

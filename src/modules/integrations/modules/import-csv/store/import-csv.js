@@ -1,22 +1,22 @@
-import { StorageImportSourceType } from "webitel-sdk";
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import PermissionsStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule";
-import ImportCsvAPI from "../api/importCsv";
-import ImportCsvMemberMappings from "../lookups/ImportCsvMemberMappings.lookup";
-import headers from "./_internals/headers";
+import { StorageImportSourceType } from 'webitel-sdk';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import ImportCsvAPI from '../api/importCsv';
+import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    description: "",
-    name: "",
+    description: '',
+    name: '',
     source: {},
     sourceType: StorageImportSourceType.Dialer,
     parameters: {
       charset: {
-        name: "UTF-8",
-        value: "utf-8",
+        name: 'UTF-8',
+        value: 'utf-8',
       },
-      separator: ",",
+      separator: ',',
       skipHeaders: true,
       clearMembers: false,
       mappings: Object.entries(ImportCsvMemberMappings).reduce(
@@ -36,14 +36,14 @@ const actions = {
       ...context.state.itemInstance.parameters,
       [prop]: value,
     };
-    return context.dispatch("SET_ITEM_PROPERTY", {
-      prop: "parameters",
+    return context.dispatch('SET_ITEM_PROPERTY', {
+      prop: 'parameters',
       value: parameters,
     });
   },
 };
 
-const PERMISSIONS_API_URL = "/storage/import_templates";
+const PERMISSIONS_API_URL = '/storage/import_templates';
 const permissions = new PermissionsStoreModule()
   .generateAPIActions(PERMISSIONS_API_URL)
   .getModule();

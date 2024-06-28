@@ -1,10 +1,10 @@
-import NestedObjectStoreModule from "../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule";
-import AgentSkillAPI from "../api/agentSkills";
-import headers from "./_internals/headers";
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import AgentSkillAPI from '../api/agentSkills';
+import headers from './_internals/headers';
 
 const resettableItemState = {
   itemInstance: {
-    skill: "",
+    skill: '',
     capacity: 10,
     enabled: true,
   },

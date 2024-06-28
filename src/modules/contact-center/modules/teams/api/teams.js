@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,30 +6,30 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { AgentTeamServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { AgentTeamServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const teamService = new AgentTeamServiceApiFactory(configuration, "", instance);
+const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  "name",
-  "description",
-  "strategy",
-  "admin",
-  "maxNoAnswer",
-  "wrapUpTime",
-  "noAnswerDelayTime",
-  "taskAcceptTimeout",
-  "callTimeout",
-  "inviteChatTimeout",
+  'name',
+  'description',
+  'strategy',
+  'admin',
+  'maxNoAnswer',
+  'wrapUpTime',
+  'noAnswerDelayTime',
+  'taskAcceptTimeout',
+  'callTimeout',
+  'inviteChatTimeout',
 ];
 
 const getTeamsList = async (params) => {
   const { page, size, search, sort, fields, id, strategy, adminId } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -58,10 +58,10 @@ const getTeamsList = async (params) => {
 
 const getTeam = async ({ itemId: id }) => {
   const defaultObject = {
-    name: "",
+    name: '',
     strategy: {},
     admin: [],
-    description: "",
+    description: '',
     busyDelayTime: 0,
     callTimeout: 0,
     maxNoAnswer: 0,
@@ -112,7 +112,7 @@ const deleteTeam = async ({ id }) => {
 const getTeamsLookup = (params) =>
   getTeamsList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
 const TeamsAPI = {

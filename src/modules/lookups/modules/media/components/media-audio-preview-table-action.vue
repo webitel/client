@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "MediaAudioPreviewTableAction",
+  name: 'MediaAudioPreviewTableAction',
   props: {
     playing: {
       type: Boolean,

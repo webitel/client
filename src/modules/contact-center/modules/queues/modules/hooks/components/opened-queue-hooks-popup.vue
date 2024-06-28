@@ -47,22 +47,22 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { EngineRoutingSchemaType } from "webitel-sdk";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import FlowsAPI from "../../../../../../routing/modules/flow/api/flow";
-import HookEvent from "../enum/HookQueueEvent.enum";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
+import HookEvent from '../enum/HookQueueEvent.enum';
 
 export default {
-  name: "OpenedQueueHooksPopup",
+  name: 'OpenedQueueHooksPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/queues/hooks",
+    namespace: 'ccenter/queues/hooks',
   }),
   validations: {
     itemInstance: {
@@ -90,7 +90,7 @@ export default {
       },
       set(value) {
         this.setItemProp({
-          prop: "event",
+          prop: 'event',
           value: value.value,
         });
       },

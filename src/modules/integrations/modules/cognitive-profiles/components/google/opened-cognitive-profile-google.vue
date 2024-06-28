@@ -92,15 +92,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { MicrosoftLanguage } from "webitel-sdk/esm2015/enums";
-import openedTabComponentMixin from "../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import CognitiveProfileServices from "../../lookups/CognitiveProfileServices.lookup";
+import { mapActions } from 'vuex';
+import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: "OpenedCognitiveProfileGoogle",
+  name: 'OpenedCognitiveProfileGoogle',
   mixins: [openedTabComponentMixin],
-  inject: ["$eventBus"],
+  inject: ['$eventBus'],
   data: () => ({
     CognitiveProfileServices,
     LanguageOptions: Object.values(MicrosoftLanguage),
@@ -122,33 +122,33 @@ export default {
         try {
           const value = JSON.parse(e.target.result);
           this.setItemPropertiesProp({
-            prop: "key",
+            prop: 'key',
             value,
           });
           this.setItemPropertiesProp({
-            prop: "keyFilename",
+            prop: 'keyFilename',
             value: event.target.files[0].name,
           });
         } catch (err) {
-          this.$eventBus.$emit("notification", {
-            type: "error",
-            text: this.$t("errors.invalidJson"),
+          this.$eventBus.$emit('notification', {
+            type: 'error',
+            text: this.$t('errors.invalidJson'),
           });
         } finally {
           this.isKeyLoading = false;
-          this.$refs.googleKeyInput.value = "";
+          this.$refs.googleKeyInput.value = '';
         }
       };
       reader.readAsText(event.target.files[0]);
     },
     handleFileDelete() {
       this.setItemPropertiesProp({
-        prop: "key",
-        value: "",
+        prop: 'key',
+        value: '',
       });
       this.setItemPropertiesProp({
-        prop: "keyFilename",
-        value: "",
+        prop: 'keyFilename',
+        value: '',
       });
     },
   },

@@ -1,12 +1,12 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import ChatplanAPI from "../api/chatplan";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ChatplanAPI from '../api/chatplan';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
+    name: '',
     schema: {},
-    description: "",
+    description: '',
     enabled: true,
   },
 };

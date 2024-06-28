@@ -45,21 +45,21 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { EngineRoutingSchemaType } from "webitel-sdk";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import FlowsAPI from "../../../../../../routing/modules/flow/api/flow";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: "OpenedTeamFlowPopup",
+  name: 'OpenedTeamFlowPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/teams/flow",
+    namespace: 'ccenter/teams/flow',
   }),
   validations: {
     itemInstance: {
@@ -70,8 +70,8 @@ export default {
   computed: {
     popupTitle() {
       return this.itemInstance.id
-        ? this.$tc("objects.ccenter.teams.flows.editFlowSchema")
-        : this.$tc("objects.ccenter.teams.flows.addFlowSchema");
+        ? this.$tc('objects.ccenter.teams.flows.editFlowSchema')
+        : this.$tc('objects.ccenter.teams.flows.addFlowSchema');
     },
   },
 

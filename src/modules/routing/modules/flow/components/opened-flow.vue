@@ -58,22 +58,22 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import WtSaveFailedPopup from "@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue";
-import saveAsJSON from "@webitel/ui-sdk/src/scripts/saveAsJSON";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { computed } from "vue";
-import { mapActions, useStore } from "vuex";
-import { useCheckingUnsavedChanges } from "../../../../../app/composables/useCheckingUnsavedChanges";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import JsonSchema from "../modules/code/components/opened-flow-code.vue";
-import Diagram from "../modules/diagram/components/opened-flow-diagram.vue";
-import ConfirmationUnsavedChangesPopup from "./confirmation-unsaved-changes-popup.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
+import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed } from 'vue';
+import { mapActions, useStore } from 'vuex';
+import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import JsonSchema from '../modules/code/components/opened-flow-code.vue';
+import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
+import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
 
-const namespace = "routing/flow";
+const namespace = 'routing/flow';
 export default {
-  name: "OpenedFlow",
+  name: 'OpenedFlow',
   components: {
     Diagram,
     JsonSchema,
@@ -117,7 +117,7 @@ export default {
 
   computed: {
     isDiagram() {
-      return this.$route.query.editor === "diagram" || this.itemInstance.editor;
+      return this.$route.query.editor === 'diagram' || this.itemInstance.editor;
     },
     type() {
       return this.$route.query.type || this.itemInstance.type;
@@ -125,27 +125,27 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "json-schema",
+          text: this.$t('objects.general'),
+          value: 'json-schema',
         },
       ];
       return tabs;
     },
 
     path() {
-      const baseUrl = "/routing/flow";
+      const baseUrl = '/routing/flow';
       return [
         {
-          name: this.$t("objects.routing.routing"),
+          name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc("objects.routing.flow.flow", 2),
+          name: this.$tc('objects.routing.flow.flow', 2),
           route: baseUrl,
         },
         {
           name: this.id
             ? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
-            : `${this.$t("objects.new")} (${this.$t(`objects.flow.type.${this.type}`)})`,
+            : `${this.$t('objects.new')} (${this.$t(`objects.flow.type.${this.type}`)})`,
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];
@@ -173,7 +173,7 @@ export default {
       } catch (err) {
         // Required to prevent an open popup when the error is related to "already existed name"
         this.isSaveFailedPopup =
-          err.response?.data?.id !== "store.sql_routing_schema.save.valid.name";
+          err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
         throw err;
       }
     },
@@ -189,7 +189,7 @@ export default {
     initType() {
       if (!this.itemInstance.type && this.type)
         this.setItemProp({
-          prop: "type",
+          prop: 'type',
           value: this.type,
         });
     },

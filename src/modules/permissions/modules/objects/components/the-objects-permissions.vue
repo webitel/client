@@ -93,15 +93,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "permissions/objects";
+const namespace = 'permissions/objects';
 
 export default {
-  name: "TheObjectsPermissions",
+  name: 'TheObjectsPermissions',
   mixins: [tableComponentMixin],
 
   setup() {
@@ -121,13 +121,13 @@ export default {
       return this.hasEditAccess;
     },
     path() {
-      const baseUrl = "/permissions/objects";
+      const baseUrl = '/permissions/objects';
       return [
         {
-          name: this.$t("objects.permissions.permissions"),
+          name: this.$t('objects.permissions.permissions'),
         },
         {
-          name: this.$t("objects.permissions.object.object"),
+          name: this.$t('objects.permissions.object.object'),
           route: baseUrl,
         },
       ];

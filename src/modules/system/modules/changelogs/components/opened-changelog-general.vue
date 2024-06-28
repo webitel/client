@@ -54,12 +54,12 @@
 </template>
 
 <script>
-import openedTabComponentMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin";
-import storage from "../../../../integrations/modules/storage/api/storage";
-import changelogs from "../api/changelogs";
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import storage from '../../../../integrations/modules/storage/api/storage';
+import changelogs from '../api/changelogs';
 
 export default {
-  name: "OpenedChangelogGeneral",
+  name: 'OpenedChangelogGeneral',
   mixins: [openedTabComponentMixin],
   computed: {
     currentPeriod() {
@@ -68,19 +68,19 @@ export default {
     periodOptions() {
       return [
         {
-          name: this.$t("objects.system.changelogs.period.options.daily"),
+          name: this.$t('objects.system.changelogs.period.options.daily'),
           id: 1,
         },
         {
-          name: this.$t("objects.system.changelogs.period.options.weekly"),
+          name: this.$t('objects.system.changelogs.period.options.weekly'),
           id: 7,
         },
         {
-          name: this.$t("objects.system.changelogs.period.options.fortnightly"),
+          name: this.$t('objects.system.changelogs.period.options.fortnightly'),
           id: 14,
         },
         {
-          name: this.$t("objects.system.changelogs.period.options.monthly"),
+          name: this.$t('objects.system.changelogs.period.options.monthly'),
           id: 30,
         },
       ];

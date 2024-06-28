@@ -96,15 +96,15 @@
 </template>
 
 <script>
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import openedObjectTableTabMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin";
-import BucketPopup from "./opened-queue-buckets-popup.vue";
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import BucketPopup from './opened-queue-buckets-popup.vue';
 
-const namespace = "ccenter/queues";
-const subNamespace = "buckets";
+const namespace = 'ccenter/queues';
+const subNamespace = 'buckets';
 
 export default {
-  name: "OpenedQueueOutboundIvrBuckets",
+  name: 'OpenedQueueOutboundIvrBuckets',
   components: { BucketPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {

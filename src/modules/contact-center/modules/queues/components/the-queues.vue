@@ -169,19 +169,19 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
-import QueueTypeProperties from "../lookups/QueueTypeProperties.lookup";
-import TheQueuesFilters from "../modules/filters/components/the-queues-filters.vue";
-import QueuePopup from "./create-queue-popup.vue";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
+import QueuePopup from './create-queue-popup.vue';
 
-const namespace = "ccenter/queues";
+const namespace = 'ccenter/queues';
 
 export default {
-  name: "TheQueues",
+  name: 'TheQueues',
   components: { TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -221,11 +221,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.ccenter.ccenter"),
+          name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc("objects.ccenter.queues.queues", 2),
-          route: "/contact-center/queues",
+          name: this.$tc('objects.ccenter.queues.queues', 2),
+          route: '/contact-center/queues',
         },
       ];
     },
@@ -234,7 +234,7 @@ export default {
     },
   },
   watch: {
-    "$route.query": {
+    '$route.query': {
       async handler() {
         await this.loadList();
       },

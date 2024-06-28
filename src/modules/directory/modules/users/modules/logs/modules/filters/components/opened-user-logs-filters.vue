@@ -26,14 +26,14 @@
 </template>
 
 <script>
-import AbstractApiFilter from "@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue";
-import AbstractEnumFilter from "@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue";
-import FilterDatetime from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-datetime.vue";
-import FilterFromTo from "@webitel/ui-sdk/src/modules/QueryFilters/components/filter-from-to.vue";
-import { mapActions } from "vuex";
+import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
+import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
+import FilterDatetime from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-datetime.vue';
+import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-from-to.vue';
+import { mapActions } from 'vuex';
 
 export default {
-  name: "OpenedUserLogsFilters",
+  name: 'OpenedUserLogsFilters',
   components: {
     FilterDatetime,
     FilterFromTo,
@@ -49,12 +49,12 @@ export default {
   data: () => ({
     filters: [
       {
-        type: "enum",
-        filterQuery: "action",
+        type: 'enum',
+        filterQuery: 'action',
       },
       {
-        type: "api",
-        filterQuery: "object",
+        type: 'api',
+        filterQuery: 'object',
       },
     ],
   }),

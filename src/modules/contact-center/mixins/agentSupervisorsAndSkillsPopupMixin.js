@@ -8,28 +8,28 @@ export default {
     openedItemSupervisors() {
       return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](
         this.openedItemId,
-        "supervisor",
+        'supervisor',
       );
     },
     openedItemSupervisorHeaders() {
       return [
         {
-          value: "name",
-          text: this.$t("reusable.name"),
+          value: 'name',
+          text: this.$t('reusable.name'),
         },
       ];
     },
     openedItemSkills() {
       return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](
         this.openedItemId,
-        "skills",
+        'skills',
       );
     },
     openedItemSkillsHeaders() {
       return [
         {
-          value: "name",
-          text: this.$t("reusable.name"),
+          value: 'name',
+          text: this.$t('reusable.name'),
         },
       ];
     },

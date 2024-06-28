@@ -8,50 +8,50 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from "../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin";
-import DevicesAPI from "../api/devices";
+import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import DevicesAPI from '../api/devices';
 
 export default {
-  name: "UploadDevicesPopup",
+  name: 'UploadDevicesPopup',
   mixins: [uploadCSVWrapperComponentMixin],
   data() {
     return {
       mappingFields: [
         {
-          name: "account",
+          name: 'account',
           required: true,
-          csv: "",
+          csv: '',
         },
         {
-          name: "name",
+          name: 'name',
           required: false,
-          csv: "",
+          csv: '',
         },
         {
-          name: "vendor",
+          name: 'vendor',
           required: false,
-          csv: "",
+          csv: '',
         },
         {
-          name: "model",
+          name: 'model',
           required: false,
-          csv: "",
+          csv: '',
         },
         {
-          name: "mac",
+          name: 'mac',
           required: false,
-          csv: "",
+          csv: '',
         },
         {
-          name: "ip",
+          name: 'ip',
           required: false,
-          csv: "",
+          csv: '',
         },
         {
-          name: "password",
+          name: 'password',
           required: false,
-          csv: "",
-          tooltip: this.$t("objects.directory.devices.passwordSetFromAccount"),
+          csv: '',
+          tooltip: this.$t('objects.directory.devices.passwordSetFromAccount'),
         },
       ],
     };

@@ -33,8 +33,8 @@
 
 <script>
 export default {
-  name: "ResetMembersPopup",
-  inject: ["$eventBus"],
+  name: 'ResetMembersPopup',
+  inject: ['$eventBus'],
   props: {
     callback: {
       type: Function,
@@ -47,16 +47,16 @@ export default {
   computed: {},
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     async confirm() {
       try {
         this.isResetting = true;
         const response = await this.callback();
         const { count = 0 } = response;
-        this.$eventBus.$emit("notification", {
-          type: "info",
-          text: this.$t("objects.ccenter.members.resetMembers.successResetCount", {
+        this.$eventBus.$emit('notification', {
+          type: 'info',
+          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', {
             count,
           }),
         });
@@ -68,7 +68,7 @@ export default {
       }
     },
     cancel() {
-      this.$emit("cancel");
+      this.$emit('cancel');
       this.close();
     },
   },

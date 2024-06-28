@@ -81,22 +81,22 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { useDummy } from "../../../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum";
+import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "directory/license/users";
+const namespace = 'directory/license/users';
 
 export default {
-  name: "LicensesByUser",
+  name: 'LicensesByUser',
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace });
     return { dummy };
   },
   data: () => ({
-    staticHeaders: ["name"],
+    staticHeaders: ['name'],
     namespace,
   }),
   computed: {
@@ -104,7 +104,7 @@ export default {
       return this.headers.slice(1); // except 1st column "name"
     },
     hasEditAccess() {
-      return this.$store.getters["userinfo/HAS_EDIT_ACCESS"]({
+      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({
         route: {
           name: `${RouteNames.USERS}-edit`,
         },

@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,12 +7,12 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import { ConfigServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
+} from '@webitel/ui-sdk/src/api/transformers';
+import { ConfigServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const service = new ConfigServiceApiFactory(configuration, "", instance);
+const service = new ConfigServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
   const defaultObject = {
@@ -21,7 +21,7 @@ const getList = async (params) => {
 
   const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -48,7 +48,7 @@ const get = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ["object", "storage", "daysToStore", "period", "enabled", "description"];
+const fieldsToSend = ['object', 'storage', 'daysToStore', 'period', 'enabled', 'description'];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
@@ -92,7 +92,7 @@ const deleteItem = async ({ id }) => {
 const getLookup = (params) =>
   getList({
     ...params,
-    fields: params.fields || ["id", "object"],
+    fields: params.fields || ['id', 'object'],
   });
 
 const getObjectsList = async ({ includeExisting } = {}) => {

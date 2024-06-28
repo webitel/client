@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -7,13 +7,13 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import ApplicationsAccess from "@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess";
-import deepCopy from "deep-copy";
-import instance from "../../../../../app/api/instance";
+} from '@webitel/ui-sdk/src/api/transformers';
+import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
+import deepCopy from 'deep-copy';
+import instance from '../../../../../app/api/instance';
 
-const baseUrl = "/roles";
-const fieldsToSend = ["name", "description", "permissions", "metadata"];
+const baseUrl = '/roles';
+const fieldsToSend = ['name', 'description', 'permissions', 'metadata'];
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
@@ -22,11 +22,11 @@ const preRequestHandler = (item) => {
 };
 
 const getRoleList = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -49,8 +49,8 @@ const getRoleList = async (params) => {
 
 const getRole = async ({ itemId: id }) => {
   const defaultObject = {
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     permissions: [],
     metadata: {},
   };
@@ -78,11 +78,11 @@ const getRole = async ({ itemId: id }) => {
 };
 
 const getExtendedRoles = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),
@@ -146,17 +146,17 @@ const deleteRole = async ({ id }) => {
 const getRolesLookup = (params) =>
   getRoleList({
     ...params,
-    fields: params.fields || ["id", "name"],
+    fields: params.fields || ['id', 'name'],
   });
 
-const PERMISSIONS_LIST_URL = "/permissions";
+const PERMISSIONS_LIST_URL = '/permissions';
 
 const getPermissionsOptions = async (params) => {
-  const fieldsToSend = ["page", "size", "q", "sort", "fields", "id"];
+  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
   const url = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
     (params) => ({ ...params, q: params.search }),
     sanitize(fieldsToSend),
     camelToSnake(),

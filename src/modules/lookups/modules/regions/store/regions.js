@@ -1,12 +1,12 @@
-import ObjectStoreModule from "../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule";
-import RegionsAPI from "../api/regions";
-import headers from "./_internals/headers";
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import RegionsAPI from '../api/regions';
+import headers from './_internals/headers';
 
 const resettableState = {
   itemInstance: {
-    name: "",
+    name: '',
     timezone: {},
-    description: "",
+    description: '',
   },
 };
 

@@ -1,12 +1,12 @@
-import defaultGateway from "./defaults/defaultGateway";
+import defaultGateway from './defaults/defaultGateway';
 
 const registerGateway = () => ({
   ...defaultGateway(),
   register: true,
-  account: "",
-  username: "",
+  account: '',
+  username: '',
   expires: 600,
-  password: "",
+  password: '',
 });
 
 export default registerGateway;

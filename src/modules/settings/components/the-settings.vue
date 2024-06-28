@@ -88,49 +88,49 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required, sameAs } from "@vuelidate/validators";
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapState } from "vuex";
-import { changePassword, changeWebPhone, getWebPhone } from "../api/settings";
+import { useVuelidate } from '@vuelidate/core';
+import { required, sameAs } from '@vuelidate/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapState } from 'vuex';
+import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 
 export default {
-  name: "TheSettings",
-  inject: ["$eventBus"],
+  name: 'TheSettings',
+  inject: ['$eventBus'],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    newPassword: "",
-    confirmNewPassword: "",
+    newPassword: '',
+    confirmNewPassword: '',
     isPasswordPatching: false,
     webrtc: true,
     stun: false,
     language: {
-      name: "English",
-      id: "en",
+      name: 'English',
+      id: 'en',
     },
     languageOptions: [
       {
-        name: "English",
-        id: "en",
+        name: 'English',
+        id: 'en',
       },
       {
-        name: "Русский",
-        id: "ru",
+        name: 'Русский',
+        id: 'ru',
       },
       {
-        name: "Українська",
-        id: "ua",
+        name: 'Українська',
+        id: 'ua',
       },
       {
-        name: "Español",
-        id: "es",
+        name: 'Español',
+        id: 'es',
       },
       {
-        name: "Қазақ",
-        id: "kz",
+        name: 'Қазақ',
+        id: 'kz',
       },
     ],
   }),
@@ -152,7 +152,7 @@ export default {
   computed: {
     ...mapState({
       userId(state) {
-        return getNamespacedState(state, "userinfo").userId;
+        return getNamespacedState(state, 'userinfo').userId;
       },
     }),
     disablePasswordChange() {
@@ -181,9 +181,9 @@ export default {
           id: this.userId,
           changes,
         });
-        this.$eventBus.$emit("notification", {
-          type: "info",
-          text: "Password is successfully updated!",
+        this.$eventBus.$emit('notification', {
+          type: 'info',
+          text: 'Password is successfully updated!',
         });
       } catch (err) {
         throw err;
@@ -218,12 +218,12 @@ export default {
     },
 
     changeLanguage(value) {
-      localStorage.setItem("lang", value.id);
+      localStorage.setItem('lang', value.id);
       this.language = value;
       this.$i18n.locale = value.id;
     },
     restoreLanguage() {
-      const lang = localStorage.getItem("lang"); // get default lang
+      const lang = localStorage.getItem('lang'); // get default lang
       // if there's a previously set lang, set it
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },

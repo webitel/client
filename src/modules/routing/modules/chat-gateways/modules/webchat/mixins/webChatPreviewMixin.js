@@ -4,7 +4,7 @@ export default {
     buttonPreview: null,
   }),
   watch: {
-    "itemInstance.metadata": {
+    'itemInstance.metadata': {
       handler() {
         this.updateChatPreview();
         this.updateButtonPreview();
@@ -17,7 +17,7 @@ export default {
       return {
         view: {
           ...this.itemInstance.metadata.view,
-          position: "static",
+          position: 'static',
           _previewMode: previewMode,
         },
         chat: {}, // show chat btn
@@ -26,35 +26,35 @@ export default {
     initWidgetPreview() {
       const baseUrl = import.meta.env.VITE_OMNI_WIDGET_URL;
 
-      let script = document.createElement("script");
+      let script = document.createElement('script');
       script.src = `${baseUrl}/WtOmniWidget.umd.js`;
       script.onload = () => {
-        this.chatPreview = new WtOmniWidget("#chat-preview", this.getPreviewConfig("chat"));
+        this.chatPreview = new WtOmniWidget('#chat-preview', this.getPreviewConfig('chat'));
       };
       document.head.appendChild(script);
 
-      script = document.createElement("script");
+      script = document.createElement('script');
       script.src = `${baseUrl}/WtOmniWidget.umd.js`;
       script.onload = () => {
         this.buttonPreview = new WtOmniWidget(
-          "#chat-button-preview",
-          this.getPreviewConfig("button"),
+          '#chat-button-preview',
+          this.getPreviewConfig('button'),
         );
       };
       document.head.appendChild(script);
 
-      const link = document.createElement("link");
+      const link = document.createElement('link');
       link.href = `${baseUrl}/WtOmniWidget.css`;
-      link.type = "text/css";
-      link.rel = "stylesheet";
-      link.media = "screen,print";
+      link.type = 'text/css';
+      link.rel = 'stylesheet';
+      link.media = 'screen,print';
       document.head.appendChild(link);
     },
     updateChatPreview() {
-      this.chatPreview.setConfig(this.getPreviewConfig("chat"));
+      this.chatPreview.setConfig(this.getPreviewConfig('chat'));
     },
     updateButtonPreview() {
-      this.buttonPreview.setConfig(this.getPreviewConfig("button"));
+      this.buttonPreview.setConfig(this.getPreviewConfig('button'));
     },
   },
   created() {

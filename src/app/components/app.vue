@@ -5,13 +5,13 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   created() {
     this.setLanguage();
   },
   methods: {
     setLanguage() {
-      const lang = localStorage.getItem("lang");
+      const lang = localStorage.getItem('lang');
       if (lang) this.$i18n.locale = lang;
     },
   },

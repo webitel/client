@@ -1,6 +1,6 @@
-import getNamespacedState from "@webitel/ui-sdk/src/store/helpers/getNamespacedState";
-import { mapActions, mapState } from "vuex";
-import RolesAPI from "../../../../modules/permissions/modules/roles/api/roles";
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+import RolesAPI from '../../../../modules/permissions/modules/roles/api/roles';
 
 export default {
   props: {
@@ -14,7 +14,7 @@ export default {
     },
   },
   data: () => ({
-    newGrantee: "",
+    newGrantee: '',
   }),
   computed: {
     ...mapState({
@@ -47,14 +47,14 @@ export default {
       return roles;
     },
     async loadRoles(params) {
-      const fields = ["name", "id", "user"];
+      const fields = ['name', 'id', 'user'];
       return RolesAPI.getExtendedRoles({
         ...params,
         fields,
       });
     },
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

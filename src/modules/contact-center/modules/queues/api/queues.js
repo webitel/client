@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from "@webitel/ui-sdk/src/api/defaults";
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,41 +7,41 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from "@webitel/ui-sdk/src/api/transformers";
-import isEmpty from "@webitel/ui-sdk/src/scripts/isEmpty";
-import deepCopy from "deep-copy";
-import { QueueServiceApiFactory } from "webitel-sdk";
-import instance from "../../../../../app/api/instance";
-import configuration from "../../../../../app/api/openAPIConfig";
-import processing from "../store/_internals/queueSchema/defaults/processing";
+} from '@webitel/ui-sdk/src/api/transformers';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import deepCopy from 'deep-copy';
+import { QueueServiceApiFactory } from 'webitel-sdk';
+import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
+import processing from '../store/_internals/queueSchema/defaults/processing';
 
-const queueService = new QueueServiceApiFactory(configuration, "", instance);
+const queueService = new QueueServiceApiFactory(configuration, '', instance);
 
-const doNotConvertKeys = ["variables"];
+const doNotConvertKeys = ['variables'];
 
 const fieldsToSend = [
-  "name",
-  "type",
-  "strategy",
-  "team",
-  "priority",
-  "dncList",
-  "schema",
-  "payload",
-  "taskProcessing",
-  "maxOfRetry",
-  "timeout",
-  "secBetweenRetries",
-  "variables",
-  "calendar",
-  "description",
-  "enabled",
-  "ringtone",
-  "doSchema",
-  "afterSchema",
-  "stickyAgent",
-  "grantee",
-  "tags",
+  'name',
+  'type',
+  'strategy',
+  'team',
+  'priority',
+  'dncList',
+  'schema',
+  'payload',
+  'taskProcessing',
+  'maxOfRetry',
+  'timeout',
+  'secBetweenRetries',
+  'variables',
+  'calendar',
+  'description',
+  'enabled',
+  'ringtone',
+  'doSchema',
+  'afterSchema',
+  'stickyAgent',
+  'grantee',
+  'tags',
 ];
 
 const preRequestHandler = (item) => {
@@ -62,12 +62,12 @@ const getQueuesList = async (params) => {
     enabled: false,
     active: 0,
     waiting: 0,
-    priority: "0",
+    priority: '0',
   };
 
   const { page, size, search, sort, fields, id, queueType, team, tags } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch("search"),
+    starToSearch('search'),
   ]);
 
   try {
@@ -186,7 +186,7 @@ const deleteQueue = async ({ id }) => {
 const getQueuesLookup = (params) =>
   getQueuesList({
     ...params,
-    fields: params.fields || ["id", "name", "type"],
+    fields: params.fields || ['id', 'name', 'type'],
   });
 
 const getQueuesTags = async (params) => {

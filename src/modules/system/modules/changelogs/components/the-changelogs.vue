@@ -117,16 +117,16 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue";
-import { useDeleteConfirmationPopup } from "@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup";
-import { useDummy } from "../../../../../app/composables/useDummy";
-import tableComponentMixin from "../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin";
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum";
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = "system/changelogs";
+const namespace = 'system/changelogs';
 
 export default {
-  name: "TheChangelogs",
+  name: 'TheChangelogs',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
@@ -163,11 +163,11 @@ export default {
     path() {
       return [
         {
-          name: this.$t("objects.system.system"),
+          name: this.$t('objects.system.system'),
         },
         {
-          name: this.$tc("objects.system.changelogs.changelogs", 1),
-          route: "/system/changelogs",
+          name: this.$tc('objects.system.changelogs.changelogs', 1),
+          route: '/system/changelogs',
         },
       ];
     },

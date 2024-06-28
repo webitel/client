@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import navMixin from "../../../app/mixins/navMixin";
-import CategoryLvl1 from "./_internals/start-category-lvl-1.vue";
-import CategoryLvl2 from "./_internals/start-category-lvl-2.vue";
+import navMixin from '../../../app/mixins/navMixin';
+import CategoryLvl1 from './_internals/start-category-lvl-1.vue';
+import CategoryLvl2 from './_internals/start-category-lvl-2.vue';
 
 export default {
-  name: "TheStartPage",
+  name: 'TheStartPage',
   components: { CategoryLvl1, CategoryLvl2 },
   mixins: [navMixin],
   data: () => ({

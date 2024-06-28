@@ -21,11 +21,11 @@
 
 <script>
 export default {
-  name: "ObjectListPopup",
+  name: 'ObjectListPopup',
   props: {
     title: {
       type: String,
-      default: "",
+      default: '',
     },
     dataList: {
       type: Array,
@@ -40,8 +40,8 @@ export default {
     tableHeaders() {
       const defaultHeaders = [
         {
-          value: "name",
-          text: this.$t("reusable.name"),
+          value: 'name',
+          text: this.$t('reusable.name'),
         },
       ];
       return this.headers || defaultHeaders;
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
   },
 };

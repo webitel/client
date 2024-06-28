@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "UploadFileIconBtn",
+  name: 'UploadFileIconBtn',
   props: {
     accept: {
       type: String,
@@ -29,15 +29,15 @@ export default {
   },
   methods: {
     triggerFileInput() {
-      this.$refs["file-input"].click();
+      this.$refs['file-input'].click();
     },
     inputFileHandler(event) {
       const { files } = event.target;
-      this.$emit("change", files, event);
+      this.$emit('change', files, event);
       this.clearFileInput();
     },
     clearFileInput() {
-      this.$refs["file-input"].value = null;
+      this.$refs['file-input'].value = null;
     },
   },
 };

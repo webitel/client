@@ -36,23 +36,23 @@
 </template>
 <script>
 export default {
-  name: "confirmation-unsaved-changes-popup",
+  name: 'confirmation-unsaved-changes-popup',
   props: {
     name: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   methods: {
     closePopup() {
-      this.$emit("closePopup");
+      this.$emit('closePopup');
     },
     closePage() {
       this.closePopup();
-      this.$emit("closePage");
+      this.$emit('closePage');
     },
     save() {
-      this.$emit("save");
+      this.$emit('save');
       this.closePage();
     },
   },

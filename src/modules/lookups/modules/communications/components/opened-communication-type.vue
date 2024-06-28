@@ -36,13 +36,13 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import openedObjectMixin from "../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin";
-import General from "./opened-communication-type-general.vue";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import General from './opened-communication-type-general.vue';
 
 export default {
-  name: "OpenedCommunicationsType",
+  name: 'OpenedCommunicationsType',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -50,7 +50,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "lookups/communications",
+    namespace: 'lookups/communications',
   }),
   validations: {
     itemInstance: {
@@ -64,24 +64,24 @@ export default {
     tabs() {
       const tabs = [
         {
-          text: this.$t("objects.general"),
-          value: "general",
+          text: this.$t('objects.general'),
+          value: 'general',
         },
       ];
       return tabs;
     },
     path() {
-      const baseUrl = "/lookups/communications";
+      const baseUrl = '/lookups/communications';
       return [
         {
-          name: this.$t("objects.lookups.lookups"),
+          name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc("objects.lookups.communications.communications", 2),
+          name: this.$tc('objects.lookups.communications.communications', 2),
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t("objects.new"),
+          name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

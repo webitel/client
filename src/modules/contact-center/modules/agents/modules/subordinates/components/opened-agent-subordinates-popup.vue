@@ -38,20 +38,20 @@
 </template>
 
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import nestedObjectMixin from "../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin";
-import AgentsAPI from "../../../api/agents";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import AgentsAPI from '../../../api/agents';
 
 export default {
-  name: "OpenedAgentSubordinatesPopup",
+  name: 'OpenedAgentSubordinatesPopup',
   mixins: [nestedObjectMixin],
 
   setup: () => ({
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: "ccenter/agents/subordinates",
+    namespace: 'ccenter/agents/subordinates',
   }),
   validations: {
     itemInstance: {
@@ -61,7 +61,7 @@ export default {
 
   methods: {
     async loadDropdownOptionsList(params) {
-      const fields = ["id", "name", "supervisor"];
+      const fields = ['id', 'name', 'supervisor'];
       const response = await AgentsAPI.getRegularAgentsOptions({
         ...params,
         fields,

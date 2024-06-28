@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import path from "path";
-import isEmpty from "@webitel/ui-sdk/src/scripts/isEmpty";
-import clipboardCopy from "clipboard-copy";
-import getChatOriginUrl from "../../../scripts/getChatOriginUrl";
+import path from 'path';
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+import clipboardCopy from 'clipboard-copy';
+import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
 const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 
-const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, "ws");
+const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
 const filterEmptyValues = (obj) =>
   Object.entries(obj).reduce(
@@ -38,7 +38,7 @@ const filterEmptyValues = (obj) =>
 
 const generateCode = (config) => `
       const script = document.createElement('script');
-      script.src = '${new URL(path.normalize("/omni-widget/WtOmniWidget.umd.js"), SCRIPT_URL)}';
+      script.src = '${new URL(path.normalize('/omni-widget/WtOmniWidget.umd.js'), SCRIPT_URL)}';
       script.onload = function () {
         const body = document.querySelector('body');
         const widgetEl = document.createElement('div');
@@ -52,7 +52,7 @@ const generateCode = (config) => `
       document.head.appendChild(script);
 
       const link = document.createElement('link');
-      link.href = '${new URL(path.normalize("/omni-widget/WtOmniWidget.css"), SCRIPT_URL)}';
+      link.href = '${new URL(path.normalize('/omni-widget/WtOmniWidget.css'), SCRIPT_URL)}';
       link.type = 'text/css';
       link.rel = 'stylesheet';
       link.media = 'screen,print';
@@ -60,7 +60,7 @@ const generateCode = (config) => `
     `;
 
 export default {
-  name: "CopyCodeButton",
+  name: 'CopyCodeButton',
   props: {
     itemInstance: {
       type: Object,
@@ -77,11 +77,11 @@ export default {
   computed: {
     text() {
       return this.isCopied
-        ? this.$t("objects.copied")
-        : this.$t("objects.routing.chatGateways.webchat.copyCode");
+        ? this.$t('objects.copied')
+        : this.$t('objects.routing.chatGateways.webchat.copyCode');
     },
     color() {
-      return this.itemInstance.metadata?._btnCodeDirty ? "primary" : "secondary";
+      return this.itemInstance.metadata?._btnCodeDirty ? 'primary' : 'secondary';
     },
   },
   methods: {
@@ -117,7 +117,7 @@ export default {
         this.isCopied = false;
       }, 1500);
 
-      this.$emit("copied");
+      this.$emit('copied');
     },
 
     processViewConfig(view) {
@@ -159,7 +159,7 @@ export default {
       const result = {
         ...filterEmptyValues(rest),
       };
-      result.url = new URL(path.join(CHAT_URL.replace("chat", "appointments"), uri), SCRIPT_URL);
+      result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
       return result;
     },
 
@@ -189,7 +189,7 @@ export default {
 
     processCaptchaConfig({ enabled, sitekey, showFlag }, uri) {
       if (!enabled) return undefined;
-      const verifyUrl = new URL(path.join(CHAT_URL, uri, "captcha"), SCRIPT_URL);
+      const verifyUrl = new URL(path.join(CHAT_URL, uri, 'captcha'), SCRIPT_URL);
       return {
         sitekey,
         verifyUrl,

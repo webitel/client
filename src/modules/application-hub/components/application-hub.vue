@@ -51,37 +51,37 @@
 </template>
 
 <script>
-import WebitelApplications from "@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum";
-import { mapGetters } from "vuex";
-import CcHeader from "../../_reusable/app-header/components/app-header.vue";
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import { mapGetters } from 'vuex';
+import CcHeader from '../../_reusable/app-header/components/app-header.vue';
 
-import admPic from "../assets/img/pictures/admin.svg";
+import admPic from '../assets/img/pictures/admin.svg';
 
-import grafanaPic from "../assets/img/pictures/analytics.svg";
+import grafanaPic from '../assets/img/pictures/analytics.svg';
 
-import auditPic from "../assets/img/pictures/audit.svg";
+import auditPic from '../assets/img/pictures/audit.svg';
 
-import crmPic from "../assets/img/pictures/crm.svg";
+import crmPic from '../assets/img/pictures/crm.svg';
 
-import historyPic from "../assets/img/pictures/history.svg";
+import historyPic from '../assets/img/pictures/history.svg';
 
-import supervisorPic from "../assets/img/pictures/supervisor.svg";
+import supervisorPic from '../assets/img/pictures/supervisor.svg';
 
-import agentPic from "../assets/img/pictures/workspace.svg";
-import admTitleMd from "../assets/img/titles/admin-md.svg";
-import admTitleSm from "../assets/img/titles/admin-sm.svg";
-import agentTitleMd from "../assets/img/titles/agent-md.svg";
-import agentTitleSm from "../assets/img/titles/agent-sm.svg";
-import grafanaTitleMd from "../assets/img/titles/analytics-md.svg";
-import grafanaTitleSm from "../assets/img/titles/analytics-sm.svg";
-import auditTitleMd from "../assets/img/titles/audit-md.svg";
-import auditTitleSm from "../assets/img/titles/audit-sm.svg";
-import crmTitleMd from "../assets/img/titles/crm-md.svg";
-import crmTitleSm from "../assets/img/titles/crm-sm.svg";
-import historyTitleMd from "../assets/img/titles/history-md.svg";
-import historyTitleSm from "../assets/img/titles/history-sm.svg";
-import supervisorTitleMd from "../assets/img/titles/supervisor-md.svg";
-import supervisorTitleSm from "../assets/img/titles/supervisor-sm.svg";
+import agentPic from '../assets/img/pictures/workspace.svg';
+import admTitleMd from '../assets/img/titles/admin-md.svg';
+import admTitleSm from '../assets/img/titles/admin-sm.svg';
+import agentTitleMd from '../assets/img/titles/agent-md.svg';
+import agentTitleSm from '../assets/img/titles/agent-sm.svg';
+import grafanaTitleMd from '../assets/img/titles/analytics-md.svg';
+import grafanaTitleSm from '../assets/img/titles/analytics-sm.svg';
+import auditTitleMd from '../assets/img/titles/audit-md.svg';
+import auditTitleSm from '../assets/img/titles/audit-sm.svg';
+import crmTitleMd from '../assets/img/titles/crm-md.svg';
+import crmTitleSm from '../assets/img/titles/crm-sm.svg';
+import historyTitleMd from '../assets/img/titles/history-md.svg';
+import historyTitleSm from '../assets/img/titles/history-sm.svg';
+import supervisorTitleMd from '../assets/img/titles/supervisor-md.svg';
+import supervisorTitleSm from '../assets/img/titles/supervisor-sm.svg';
 
 const picAdmin = {
   img: admPic,
@@ -134,12 +134,12 @@ const picCrm = {
 };
 
 export default {
-  name: "TheApplicationHub",
+  name: 'TheApplicationHub',
   components: { CcHeader },
-  inject: ["$config"],
+  inject: ['$config'],
   computed: {
-    ...mapGetters("userinfo", {
-      checkAccess: "CHECK_APP_ACCESS",
+    ...mapGetters('userinfo', {
+      checkAccess: 'CHECK_APP_ACCESS',
     }),
     apps() {
       const agentApp = {
