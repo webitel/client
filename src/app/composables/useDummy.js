@@ -25,6 +25,11 @@ export function useDummy({
 
   const dataList = computed(() => getNamespacedState(store.state, namespace).dataList);
   const search = computed(() => getNamespacedState(store.state, namespace).search);
+  const page = computed(() => getNamespacedState(store.state, namespace).page);
+
+  async function activePrevPage(payload) {
+    await store.dispatch(`${namespace}/PREV_PAGE`, payload);
+  }
 
   const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
   const dummyImgAfterSearch = computed(() => {
@@ -34,6 +39,8 @@ export function useDummy({
 
   watch(() => dataList, () => {
     if (!dataList.value.length) {
+      if (page !== 1) return activePrevPage();
+
       if (IsEmpty(route?.query) ? search.value : Object.values(route.query)
       .some((query) => query.length)) {
         return dummy.value = {
