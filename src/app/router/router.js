@@ -11,9 +11,7 @@ const StartPage = () =>
 const Settings = () =>
 	import("../../modules/settings/components/the-settings.vue");
 const AccessDenied = () =>
-	import(
-		"../../modules/error-pages/components/the-access-denied-component.vue"
-	);
+	import("../../modules/error-pages/components/the-access-denied-component.vue");
 const NotFound = () =>
 	import("../../modules/error-pages/components/the-not-found-component.vue");
 const PermissionsRoles = () =>
@@ -31,9 +29,7 @@ const OpenedPermissionsObjects = () =>
 const Devices = () =>
 	import("../../modules/directory/modules/devices/components/the-devices.vue");
 const OpenedDevice = () =>
-	import(
-		"../../modules/directory/modules/devices/components/opened-device.vue"
-	);
+	import("../../modules/directory/modules/devices/components/opened-device.vue");
 const Users = () =>
 	import("../../modules/directory/modules/users/components/the-users.vue");
 const OpenedUser = () =>
@@ -51,9 +47,7 @@ const OpenedBlacklist = () =>
 		"../../modules/lookups/modules/blacklists/components/opened-blacklist.vue"
 	);
 const Calendars = () =>
-	import(
-		"../../modules/lookups/modules/calendars/components/the-calendars.vue"
-	);
+	import("../../modules/lookups/modules/calendars/components/the-calendars.vue");
 const OpenedCalendar = () =>
 	import(
 		"../../modules/lookups/modules/calendars/components/opened-calendar.vue"

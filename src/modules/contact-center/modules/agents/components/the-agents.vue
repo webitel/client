@@ -199,10 +199,7 @@ export default {
 	methods: {
 		...mapActions({
 			openHistory(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/history/SET_PARENT_ITEM_ID`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
 			},
 		}),
 		itemTeamLink({ team }) {

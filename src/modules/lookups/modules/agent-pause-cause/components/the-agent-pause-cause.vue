@@ -188,10 +188,7 @@ export default {
 				return dispatch(`${this.namespace}/CHANGE_ADMIN_PERMISSIONS`, payload);
 			},
 			changeSupervisorPermissions(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/CHANGE_SUPERVISOR_PERMISSIONS`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/CHANGE_SUPERVISOR_PERMISSIONS`, payload);
 			},
 			changeAgentPermissions(dispatch, payload) {
 				return dispatch(`${this.namespace}/CHANGE_AGENT_PERMISSIONS`, payload);

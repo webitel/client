@@ -25,9 +25,7 @@ export default {
 		disabledSave() {
 			// if there's a validation problem
 			// OR it's edit and any fields haven't changed
-			return (
-				this.checkValidations() || (!this.itemInstance._dirty && !!this.id)
-			);
+			return this.checkValidations() || (!this.itemInstance._dirty && !!this.id);
 		},
 	},
 

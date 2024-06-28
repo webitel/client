@@ -19,10 +19,8 @@ export default {
 	computed: {
 		...mapState({
 			dataList(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).dataList;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.dataList;
 			},
 		}),
 	},

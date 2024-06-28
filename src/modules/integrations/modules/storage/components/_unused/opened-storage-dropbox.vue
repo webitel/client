@@ -27,8 +27,7 @@ export default {
 	computed: {
 		token: {
 			get() {
-				return this.$store.state.integrations.storage.itemInstance.properties
-					.token;
+				return this.$store.state.integrations.storage.itemInstance.properties.token;
 			},
 			set(value) {
 				this.setItemProp({ prop: "token", value });

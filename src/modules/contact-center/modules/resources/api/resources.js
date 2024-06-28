@@ -147,10 +147,7 @@ const updateResource = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchResource = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await resService.patchOutboundResource(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

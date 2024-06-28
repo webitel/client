@@ -71,10 +71,7 @@ const getQueueHook = async ({ parentId, itemId: id }) => {
 
 	try {
 		const response = await queueHookService.readQueueHook(parentId, id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -95,10 +92,7 @@ const addQueueHook = async ({ parentId, itemInstance }) => {
 };
 
 const patchQueueHook = async ({ changes, id, parentId }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 
 	try {
 		const response = await queueHookService.patchQueueHook(parentId, id, body);

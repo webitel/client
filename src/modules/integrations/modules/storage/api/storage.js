@@ -153,10 +153,7 @@ const updateStorage = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchStorage = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await storageService.patchBackendProfile(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

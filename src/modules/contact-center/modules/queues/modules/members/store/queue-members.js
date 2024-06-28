@@ -45,10 +45,7 @@ const actions = {
 		const id = deleted.map((item) => item.id);
 		return MembersAPI.deleteBulk(context.state.parentId, { id });
 	},
-	DELETE_FILTERED: (
-		context,
-		query = context.getters["filters/GET_FILTERS"],
-	) => {
+	DELETE_FILTERED: (context, query = context.getters["filters/GET_FILTERS"]) => {
 		return MembersAPI.deleteBulk(context.state.parentId, query);
 	},
 	DELETE_ALL: (context) =>

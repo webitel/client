@@ -85,10 +85,7 @@ const update = async ({ itemInstance, itemId: id }) => {
 };
 
 const patch = async ({ id, changes }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await service.patchSchemaVariable(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

@@ -59,9 +59,7 @@ export default {
 				{
 					value: "hotdesk",
 					title: this.$t("objects.directory.devices.hotdeskDevice"),
-					description: this.$t(
-						"objects.directory.devices.hotdeskDeviceSettings",
-					),
+					description: this.$t("objects.directory.devices.hotdeskDeviceSettings"),
 					routeName: `${RouteNames.DEVICES}-hotdesk-new`,
 				},
 			],

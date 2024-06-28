@@ -54,9 +54,7 @@ export default {
 			return (
 				FlowTypeApplications[type]?.reduce(
 					(apps, app) =>
-						FlowAppAutocomplete[app]
-							? [...apps, FlowAppAutocomplete[app]]
-							: apps,
+						FlowAppAutocomplete[app] ? [...apps, FlowAppAutocomplete[app]] : apps,
 					[],
 				) || Object.values(FlowAppAutocomplete)
 			);

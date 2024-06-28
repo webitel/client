@@ -66,9 +66,7 @@ export default {
 		},
 		strategyOptions() {
 			return Object.values(TeamStrategy).map((strategy) => ({
-				name: this.$t(
-					`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`,
-				),
+				name: this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`),
 				value: strategy,
 			}));
 		},

@@ -102,10 +102,7 @@ const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
 
 const deleteResDisplay = async ({ parentId, id }) => {
 	try {
-		const response = await resService.deleteOutboundResourceDisplay(
-			parentId,
-			id,
-		);
+		const response = await resService.deleteOutboundResourceDisplay(parentId, id);
 		return applyTransform(response.data, []);
 	} catch (err) {
 		throw applyTransform(err, [notify]);

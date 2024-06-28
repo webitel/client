@@ -262,13 +262,7 @@ export default {
 			};
 
 			const queueTabsMap = {
-				[QueueType.OFFLINE_QUEUE]: [
-					processing,
-					agents,
-					skills,
-					resources,
-					buckets,
-				],
+				[QueueType.OFFLINE_QUEUE]: [processing, agents, skills, resources, buckets],
 				[QueueType.INBOUND_QUEUE]: [processing, agents, skills],
 				[QueueType.OUTBOUND_IVR_QUEUE]: [resources, buckets, amd],
 				[QueueType.PREVIEW_DIALER]: [

@@ -633,8 +633,7 @@ export default {
 						resultPageText: "Result page text",
 						headingText: "Heading text",
 						subheadingText: "Subheading text",
-						showDefaultHeading:
-							"Show default heading and subheading on result page",
+						showDefaultHeading: "Show default heading and subheading on result page",
 					},
 					alternativeChannels: {
 						alternativeChannels: "Alternative Channels",
@@ -806,8 +805,7 @@ export default {
 				offlineQueueDescription:
 					"An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it's their turn.",
 				previewDialer: "Preview dialer",
-				previewDialerDescription:
-					"Preview the contact before auto dialing them.",
+				previewDialerDescription: "Preview the contact before auto dialing them.",
 				progressiveDialer: "Progressive dialer",
 				progressiveDialerDescription:
 					"Progressive dialing minimizes wasted time between calls by automatically dialing a number from a call list as soon as an agent becomes available.",
@@ -815,8 +813,7 @@ export default {
 				predictiveDialerDescription:
 					"A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.",
 				chatInboundQueue: "Chat inbound queue",
-				chatInboundQueueDescription:
-					"The same as inbound queue, but with chats",
+				chatInboundQueueDescription: "The same as inbound queue, but with chats",
 				inboundJobQueue: "Inbound task queue",
 				inboundJobQueueDescription: "Inbound task queue",
 				outboundJobQueue: "Outbound task queue",
@@ -863,8 +860,7 @@ export default {
 				maxNumberOfRetry: "Max number of retry",
 				minDuration: "Minimum succeed call duration",
 				maxAttempts: "Max attempts",
-				minOnlineAgents:
-					"Access to pause when there are more online agents than:",
+				minOnlineAgents: "Access to pause when there are more online agents than:",
 				waitForResultStatus: "Wait for result status",
 				bucketPriority: "Priority",
 				amd: "AMD",

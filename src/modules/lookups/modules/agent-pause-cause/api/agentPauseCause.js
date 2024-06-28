@@ -69,10 +69,7 @@ const getPauseCause = async ({ itemId: id }) => {
 
 	try {
 		const response = await pauseCauseService.readAgentPauseCause(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -101,10 +98,7 @@ const addPauseCause = async ({ itemInstance }) => {
 };
 
 const patchPauseCause = async ({ id, changes }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await pauseCauseService.patchAgentPauseCause(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

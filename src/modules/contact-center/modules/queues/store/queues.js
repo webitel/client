@@ -83,11 +83,7 @@ const actions = {
 		context.dispatch("ccenter/queues/agents/RESET_STATE", {}, { root: true });
 		context.dispatch("ccenter/queues/hooks/RESET_STATE", {}, { root: true });
 		context.dispatch("ccenter/queues/buckets/RESET_STATE", {}, { root: true });
-		context.dispatch(
-			"ccenter/queues/resGroups/RESET_STATE",
-			{},
-			{ root: true },
-		);
+		context.dispatch("ccenter/queues/resGroups/RESET_STATE", {}, { root: true });
 		context.dispatch("ccenter/queues/members/RESET_STATE", {}, { root: true });
 	},
 };

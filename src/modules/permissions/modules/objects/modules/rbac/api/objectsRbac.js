@@ -37,9 +37,7 @@ export const getObjclassDefaultList = async (params) => {
 			merge(getDefaultGetListResponse()),
 		]);
 		return {
-			items: applyTransform(items, [
-				APIPermissionsGetter.handlePermissionsList,
-			]),
+			items: applyTransform(items, [APIPermissionsGetter.handlePermissionsList]),
 			next,
 		};
 	} catch (err) {

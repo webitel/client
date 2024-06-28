@@ -117,9 +117,7 @@ export default {
 	computed: {
 		duration() {
 			return this.durationOptions.find((duration) => {
-				return (
-					duration.value === this.itemInstance.metadata.appointment.duration
-				);
+				return duration.value === this.itemInstance.metadata.appointment.duration;
 			});
 		},
 		durationOptions() {

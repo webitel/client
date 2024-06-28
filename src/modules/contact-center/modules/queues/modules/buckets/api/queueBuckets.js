@@ -84,10 +84,7 @@ const getQueueBucket = async ({ parentId, itemId: id }) => {
 
 	try {
 		const response = await queueBucketsService.readQueueBucket(parentId, id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -100,10 +97,7 @@ const addQueueBucket = async ({ parentId, itemInstance }) => {
 		camelToSnake(),
 	]);
 	try {
-		const response = await queueBucketsService.createQueueBucket(
-			parentId,
-			item,
-		);
+		const response = await queueBucketsService.createQueueBucket(parentId, item);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
@@ -129,10 +123,7 @@ const updateQueueBucket = async ({ itemInstance, itemId: id, parentId }) => {
 };
 
 const patchQueueBucket = async ({ changes, id, parentId }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await queueBucketsService.patchQueueBucket(
 			parentId,

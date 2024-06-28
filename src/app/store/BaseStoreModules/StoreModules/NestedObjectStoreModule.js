@@ -41,11 +41,7 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
 		...BaseOpenedInstanceModule.getMutations(),
 
 		RESET_STATE: (state) => {
-			Object.assign(
-				state,
-				this._resettableState(),
-				this._resettableItemState(),
-			);
+			Object.assign(state, this._resettableState(), this._resettableItemState());
 		},
 		RESET_ITEM_STATE: (state) => {
 			Object.assign(state, this._resettableItemState());

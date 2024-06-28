@@ -84,10 +84,7 @@ const actions = {
 			value: appointment,
 		});
 	},
-	SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (
-		context,
-		{ channel, prop, value },
-	) => {
+	SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE: (context, { channel, prop, value }) => {
 		context.commit("SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE", {
 			channel,
 			prop,

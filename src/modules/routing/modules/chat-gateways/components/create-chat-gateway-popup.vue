@@ -83,9 +83,7 @@ export default {
 			};
 			const custom = {
 				value: ChatGatewayProvider.CUSTOM,
-				title: this.$t(
-					"objects.routing.chatGateways.customChat.customChatGateway",
-				),
+				title: this.$t("objects.routing.chatGateways.customChat.customChatGateway"),
 				icon: "custom-chat-gateway",
 			};
 			return [

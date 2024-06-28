@@ -75,9 +75,7 @@ export default {
 				: this.$t("objects.routing.chatGateways.webchat.copyCode");
 		},
 		color() {
-			return this.itemInstance.metadata?._btnCodeDirty
-				? "primary"
-				: "secondary";
+			return this.itemInstance.metadata?._btnCodeDirty ? "primary" : "secondary";
 		},
 	},
 	methods: {
@@ -182,10 +180,7 @@ export default {
 
 		processCaptchaConfig({ enabled, sitekey, showFlag }, uri) {
 			if (!enabled) return undefined;
-			const verifyUrl = new URL(
-				path.join(CHAT_URL, uri, "captcha"),
-				SCRIPT_URL,
-			);
+			const verifyUrl = new URL(path.join(CHAT_URL, uri, "captcha"), SCRIPT_URL);
 			return { sitekey, verifyUrl, showFlag };
 		},
 	},

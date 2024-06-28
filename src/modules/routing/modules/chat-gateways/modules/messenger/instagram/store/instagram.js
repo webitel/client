@@ -3,8 +3,7 @@ import InstagramAPI from "../api/instagram";
 import headers from "./_internals/headers";
 
 const getters = {
-	CHAT_URI: (s, g, rootState) =>
-		rootState.routing.chatGateways.itemInstance.uri,
+	CHAT_URI: (s, g, rootState) => rootState.routing.chatGateways.itemInstance.uri,
 };
 
 const actions = {

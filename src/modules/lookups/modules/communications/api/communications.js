@@ -78,15 +78,9 @@ const addCommunication = async ({ itemInstance }) => {
 };
 
 const patchCommunication = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
-		const response = await communicationService.patchCommunicationType(
-			id,
-			body,
-		);
+		const response = await communicationService.patchCommunicationType(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
@@ -99,10 +93,7 @@ const updateCommunication = async ({ itemInstance, itemId: id }) => {
 		camelToSnake(),
 	]);
 	try {
-		const response = await communicationService.updateCommunicationType(
-			id,
-			item,
-		);
+		const response = await communicationService.updateCommunicationType(id, item);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);

@@ -84,9 +84,7 @@ export default {
 						});
 					} catch (err) {
 						// if there's no id, show console error
-						console.error(
-							`cannot find communication: ${normalizedItem.code[index]}`,
-						);
+						console.error(`cannot find communication: ${normalizedItem.code[index]}`);
 					}
 
 					// if there's no (required) id or destination, skip to the next one

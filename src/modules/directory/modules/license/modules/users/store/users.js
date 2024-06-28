@@ -39,9 +39,7 @@ const actions = {
 	TOGGLE_USER_LICENSE: async (context, { user, license }) => {
 		try {
 			const licenseId = license.value; // "value" from license col header is its id
-			const licenseIndex = user._license.findIndex(
-				({ id }) => id === licenseId,
-			);
+			const licenseIndex = user._license.findIndex(({ id }) => id === licenseId);
 			const changes = { license: [...user._license] };
 			if (licenseIndex !== -1) {
 				changes.license.splice(licenseIndex, 1);

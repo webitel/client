@@ -78,10 +78,7 @@ const getTeam = async ({ itemId: id }) => {
 
 	try {
 		const response = await teamService.readAgentTeam(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}

@@ -117,8 +117,7 @@ export default {
 				}))
 				.filter(
 					(app) =>
-						app.name.includes(this.search) ||
-						app.displayName.includes(this.search),
+						app.name.includes(this.search) || app.displayName.includes(this.search),
 				);
 		},
 		edit({ name }) {

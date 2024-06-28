@@ -37,9 +37,7 @@ const parseTimeoutSeconds = (item) =>
 const webchatRequestConverter = (data) => {
 	const copy = deepCopy(data);
 	if (data.metadata.readTimeout) {
-		copy.metadata.readTimeout = convertWebchatSeconds(
-			data.metadata.readTimeout,
-		);
+		copy.metadata.readTimeout = convertWebchatSeconds(data.metadata.readTimeout);
 	}
 	if (data.metadata.writeTimeout) {
 		copy.metadata.writeTimeout = convertWebchatSeconds(
@@ -97,9 +95,7 @@ const webChatResponseConverter = (data) => {
 		copy.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
 	}
 	if (data.metadata.writeTimeout) {
-		copy.metadata.writeTimeout = parseTimeoutSeconds(
-			data.metadata.writeTimeout,
-		);
+		copy.metadata.writeTimeout = parseTimeoutSeconds(data.metadata.writeTimeout);
 	}
 	if (data.metadata.handshakeTimeout) {
 		copy.metadata.handshakeTimeout = parseTimeoutSeconds(
@@ -257,10 +253,7 @@ const updateChatGateway = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchChatGateway = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	const url = `${baseUrl}/${id}`;
 	try {
 		const response = await instance.patch(url, body);

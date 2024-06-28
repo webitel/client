@@ -11,9 +11,7 @@ const actions = {
 	LOGOUT_USER: async (context, _user) => {
 		try {
 			await UsersAPI.logoutUser(_user);
-			const thisUser = context.state.dataList.find(
-				({ user }) => user === _user,
-			);
+			const thisUser = context.state.dataList.find(({ user }) => user === _user);
 			/* i decided to mutate user directly to avoid all dataList redraw */
 			thisUser.sessions = 0;
 		} catch (err) {

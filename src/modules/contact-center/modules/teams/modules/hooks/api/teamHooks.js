@@ -71,10 +71,7 @@ const getTeamHook = async ({ parentId, itemId: id }) => {
 
 	try {
 		const response = await teamHookService.readTeamHook(parentId, id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -95,10 +92,7 @@ const addTeamHook = async ({ parentId, itemInstance }) => {
 };
 
 const patchTeamHook = async ({ changes, id, parentId }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 
 	try {
 		const response = await teamHookService.patchTeamHook(parentId, id, body);

@@ -12,8 +12,7 @@ const state = {
 		options: Object.values(LoggerAction)
 			.filter(
 				(action) =>
-					action !== LoggerAction.DefaultNoAction &&
-					action !== LoggerAction.Read,
+					action !== LoggerAction.DefaultNoAction && action !== LoggerAction.Read,
 			)
 			.map((action) => ({
 				value: action,

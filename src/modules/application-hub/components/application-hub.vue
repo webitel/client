@@ -158,9 +158,7 @@ export default {
 			};
 			const historyApp = {
 				name: WebitelApplications.HISTORY,
-				title: this.$t(
-					`WebitelApplications.${WebitelApplications.HISTORY}.name`,
-				),
+				title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
 				href: import.meta.env.VITE_HISTORY_URL,
 				pic: picHistory,
 			};
@@ -181,9 +179,7 @@ export default {
 
 			const grafanaApp = {
 				name: WebitelApplications.ANALYTICS,
-				title: this.$t(
-					`WebitelApplications.${WebitelApplications.ANALYTICS}.name`,
-				),
+				title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
 				href: import.meta.env.VITE_GRAFANA_URL,
 				pic: picGrafana,
 			};

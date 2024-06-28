@@ -46,9 +46,7 @@ const normalizeCSVData = ({ data, mappings }) => {
 				const isValueEmpty = isEmpty(filteredValue);
 
 				if (required && isValueEmpty) {
-					throw new Error(
-						`Required field is empty: ${name} on row ${index + 1}`,
-					);
+					throw new Error(`Required field is empty: ${name} on row ${index + 1}`);
 				}
 
 				return isValueEmpty

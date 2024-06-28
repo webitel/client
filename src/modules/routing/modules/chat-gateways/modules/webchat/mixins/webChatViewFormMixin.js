@@ -110,9 +110,7 @@ export default {
 		restoreConfig() {
 			this.restoreLanguage(this.itemInstance.metadata.view.lang);
 			this.restorePosition(this.itemInstance.metadata.view.position);
-			this.restoreBorderRadius(
-				this.itemInstance.metadata.view.borderRadiusStyle,
-			);
+			this.restoreBorderRadius(this.itemInstance.metadata.view.borderRadiusStyle);
 			this.restoreColor(this.itemInstance.metadata.view.accentColor);
 			this.restoreOpacity(this.itemInstance.metadata.view.btnOpacity);
 		},

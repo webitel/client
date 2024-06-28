@@ -19,40 +19,28 @@ export default {
 				return getNamespacedState(state, `${this.namespace}`).itemId;
 			},
 			headersValue(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).headers;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.headers;
 			},
 			dataListValue(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).dataList;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.dataList;
 			},
 			page(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).page;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.page;
 			},
 			size(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).size;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.size;
 			},
 			search(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).search;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.search;
 			},
 			isNext(state) {
-				return getNamespacedState(
-					state,
-					`${this.namespace}/${this.subNamespace}`,
-				).isNextPage;
+				return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`)
+					.isNextPage;
 			},
 		}),
 		headers() {
@@ -102,10 +90,7 @@ export default {
 				);
 			},
 			setSize(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/${this.subNamespace}/SET_SIZE`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/${this.subNamespace}/SET_SIZE`, payload);
 			},
 			setSearch(dispatch, payload) {
 				return dispatch(

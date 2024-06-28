@@ -25,11 +25,7 @@ const resettableState = {
 const actions = {
 	RESET_ITEM_STATE: (context) => {
 		context.commit("RESET_ITEM_STATE");
-		context.dispatch(
-			"ccenter/teams/supervisors/RESET_STATE",
-			{},
-			{ root: true },
-		);
+		context.dispatch("ccenter/teams/supervisors/RESET_STATE", {}, { root: true });
 		context.dispatch("ccenter/teams/agents/RESET_STATE", {}, { root: true });
 		context.dispatch("ccenter/teams/hooks/RESET_STATE", {}, { root: true });
 		context.dispatch("ccenter/teams/flows/RESET_STATE", {}, { root: true });

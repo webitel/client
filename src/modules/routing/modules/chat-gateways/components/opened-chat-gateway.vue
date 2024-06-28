@@ -281,24 +281,15 @@ export default {
 				value: "OpenedChatFacebook",
 			};
 			const instagramChatPages = {
-				text: this.$t(
-					"objects.routing.chatGateways.messenger.instagram.instagram",
-				),
+				text: this.$t("objects.routing.chatGateways.messenger.instagram.instagram"),
 				value: "OpenedChatInstagram",
 			};
 			const whatsappChatPages = {
-				text: this.$t(
-					"objects.routing.chatGateways.messenger.whatsapp.whatsapp",
-				),
+				text: this.$t("objects.routing.chatGateways.messenger.whatsapp.whatsapp"),
 				value: "OpenedChatWhatsapp",
 			};
 			const messenger = this.id
-				? [
-						messengerChat,
-						facebookChatPages,
-						instagramChatPages,
-						whatsappChatPages,
-					]
+				? [messengerChat, facebookChatPages, instagramChatPages, whatsappChatPages]
 				: [messengerChat];
 			messenger.push(botTemplates);
 
@@ -346,9 +337,7 @@ export default {
 				value: "OpenedWebchatAlternativeChannels",
 			};
 			const webchatReCaptcha = {
-				text: this.$t(
-					"objects.routing.chatGateways.webchat.recaptcha.recaptcha",
-				),
+				text: this.$t("objects.routing.chatGateways.webchat.recaptcha.recaptcha"),
 				value: "OpenedChatGatewayWebchatRecaptchaTab",
 			};
 
@@ -427,10 +416,7 @@ export default {
 	methods: {
 		...mapActions({
 			handleWebchatCodeCopied(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/RESET_WEBCHAT_COPY_DIRTY_FLAG`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/RESET_WEBCHAT_COPY_DIRTY_FLAG`, payload);
 			},
 		}),
 		async loadPageData() {

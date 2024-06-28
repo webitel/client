@@ -195,9 +195,8 @@ export default {
 		isUnavailableAuth() {
 			if (isEmpty(this.itemInstance.params)) return true;
 			return (
-				Object.values(this.itemInstance?.params?.oauth2).some(
-					(item) => !item,
-				) || this.isChangeOauth2Params
+				Object.values(this.itemInstance?.params?.oauth2).some((item) => !item) ||
+				this.isChangeOauth2Params
 			);
 		},
 		authBtnText() {

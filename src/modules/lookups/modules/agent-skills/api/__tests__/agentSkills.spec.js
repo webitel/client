@@ -167,9 +167,9 @@ describe("AgentSkillsAPI", () => {
 			},
 		};
 		axios.request.mockImplementationOnce(() => Promise.resolve(response));
-		expect(
-			await AgentSkillsAPI.update({ itemInstance: {}, itemId: 1 }),
-		).toEqual(output);
+		expect(await AgentSkillsAPI.update({ itemInstance: {}, itemId: 1 })).toEqual(
+			output,
+		);
 	});
 
 	it('correctly computes "delete" method api call', async () => {

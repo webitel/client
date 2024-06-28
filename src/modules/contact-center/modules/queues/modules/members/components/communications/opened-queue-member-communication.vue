@@ -160,10 +160,7 @@ export default {
 	methods: {
 		...mapActions({
 			dispatchDelete(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/DELETE_MEMBER_COMMUNICATION`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/DELETE_MEMBER_COMMUNICATION`, payload);
 			},
 		}),
 		loadList() {

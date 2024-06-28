@@ -63,10 +63,7 @@ const getSingleSignOn = async ({ itemId: id }) => {
 
 	try {
 		const response = await instance.get(url);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -111,10 +108,7 @@ const updateSingleSignOn = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchSingleSignOn = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	const url = `${baseUrl}/${id}`;
 	try {
 		const response = await instance.patch(url, body);

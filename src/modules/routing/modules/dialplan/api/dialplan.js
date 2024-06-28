@@ -89,10 +89,7 @@ const updateDialplan = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchDialplan = async ({ id, changes }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await dialplanService.patchRoutingOutboundCall(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

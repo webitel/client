@@ -123,8 +123,7 @@ const add = async ({ itemInstance }) => {
 		camelToSnake(),
 	]);
 	try {
-		const response =
-			await cognitiveProfilesService.createCognitiveProfile(item);
+		const response = await cognitiveProfilesService.createCognitiveProfile(item);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
@@ -132,10 +131,7 @@ const add = async ({ itemInstance }) => {
 };
 
 const patch = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await cognitiveProfilesService.patchCognitiveProfile(
 			id,

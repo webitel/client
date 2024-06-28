@@ -38,9 +38,7 @@ export default {
 				.flatMap((field) => field.csv);
 		},
 		filteredCsvColumns() {
-			return this.csvColumns.filter(
-				(item) => this.csvValues.indexOf(item) !== -1,
-			);
+			return this.csvColumns.filter((item) => this.csvValues.indexOf(item) !== -1);
 		},
 		csvColumns() {
 			return this.skipHeaders
@@ -115,10 +113,7 @@ export default {
 			try {
 				this.parseErrorStackTrace = "";
 
-				const sourceData = await parseCSV(
-					this.parsedFile,
-					this.parseCSVOptions,
-				);
+				const sourceData = await parseCSV(this.parsedFile, this.parseCSVOptions);
 
 				console.info("sourceData", sourceData);
 

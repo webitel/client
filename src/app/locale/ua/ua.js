@@ -202,8 +202,7 @@ export default {
 				roleAdmin: "Адміністратор",
 				license: "Ліцензія",
 				devices: "Пристрій",
-				defaultDevice:
-					"Пристрій за замовчуванням (зі списку вибраних пристроїв)",
+				defaultDevice: "Пристрій за замовчуванням (зі списку вибраних пристроїв)",
 				deviceNotFound: "Не знайшли свій пристрій?",
 				createNewDevice: "Додати новий",
 				variables: "Змінні",
@@ -309,8 +308,7 @@ export default {
 					deleteDescription: "Надає дозвіл на видалення об’єктів",
 					readDescription: "Надає дозвіл на вибір об’єктів",
 					writeDescription: "Надає дозвіл змінювати об’єкти",
-					eavesdropCallDescription:
-						"Надає дозвіл прослуховувати активну розмову",
+					eavesdropCallDescription: "Надає дозвіл прослуховувати активну розмову",
 					playbackRecordFileDescription:
 						"Надає дозвіл на відтворення файлів записів дзвінків",
 					exportDataGridDescription: "Надає дозвіл на експорт даних",
@@ -320,8 +318,7 @@ export default {
 						"Надає дозвіл на керування набором ролей користувачів",
 					manageUserLicenseDescription:
 						"Надає дозвіл на керування набором ліцензій користувача",
-					changeUserPasswordDescription:
-						"Надає дозвіл на зміну пароля користувача",
+					changeUserPasswordDescription: "Надає дозвіл на зміну пароля користувача",
 					systemSettingDescription:
 						"Надає дозвіл на керування розділом Конфігурація",
 					schemeVariables: "Управління глобальними змінними",
@@ -485,8 +482,7 @@ export default {
 				editor: "Редактор",
 				diagram: {
 					diagram: "Діаграма",
-					description:
-						"Створити нову схему використовуючи Webitel Flow Diagram",
+					description: "Створити нову схему використовуючи Webitel Flow Diagram",
 				},
 				code: {
 					code: "Код",
@@ -612,8 +608,7 @@ export default {
 						position: "Розміщення",
 						btnColor: "Колір кнопки",
 						logoUrl: "URL логотипу",
-						logoHint:
-							"Підтримуваний формат логотипу - 'JPEG' or 'PNG', 24x24px",
+						logoHint: "Підтримуваний формат логотипу - 'JPEG' or 'PNG', 24x24px",
 						rounded: "Кругла",
 						square: "Квадратна",
 						right: "Справа",
@@ -816,8 +811,7 @@ export default {
 				previewDialerDescription:
 					"Ініціатором дзвінка виступає оператор. Він попередньо переглядає контакт перед автоматичним набором номеру.",
 				progressiveDialer: "Прогресивний обдзвін",
-				progressiveDialerDescription:
-					"Вихідна кампанія з резервуванням оператора.",
+				progressiveDialerDescription: "Вихідна кампанія з резервуванням оператора.",
 				predictiveDialer: "Предиктивний обдзвін",
 				predictiveDialerDescription:
 					"Вихідна кампанія без попереднього резервування оператора для максимального скорочення часу очікування дзвінка.",

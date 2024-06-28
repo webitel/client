@@ -69,19 +69,13 @@ export default {
 	methods: {
 		...mapActions({
 			setItemProcessingProp(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`, payload);
 			},
 		}),
 		loadDropdownOptionsSchemaList(params) {
 			return FlowsAPI.getLookup({
 				...params,
-				type: [
-					EngineRoutingSchemaType.Processing,
-					EngineRoutingSchemaType.Default,
-				],
+				type: [EngineRoutingSchemaType.Processing, EngineRoutingSchemaType.Default],
 			});
 		},
 	},

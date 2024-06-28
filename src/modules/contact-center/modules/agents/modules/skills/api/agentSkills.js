@@ -81,16 +81,9 @@ const addAgentSkill = async ({ parentId, itemInstance }) => {
 };
 
 const patchAgentSkill = async ({ parentId, id, changes }) => {
-	const item = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const item = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
-		const response = await agentSkillService.patchAgentSkill(
-			parentId,
-			id,
-			item,
-		);
+		const response = await agentSkillService.patchAgentSkill(parentId, id, item);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
@@ -103,11 +96,7 @@ const updateAgentSkill = async ({ parentId, itemInstance, itemId: id }) => {
 		camelToSnake(),
 	]);
 	try {
-		const response = await agentSkillService.updateAgentSkill(
-			parentId,
-			id,
-			item,
-		);
+		const response = await agentSkillService.updateAgentSkill(parentId, id, item);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);

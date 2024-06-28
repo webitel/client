@@ -38,9 +38,7 @@ export default {
 	},
 	computed: {
 		tableHeaders() {
-			const defaultHeaders = [
-				{ value: "name", text: this.$t("reusable.name") },
-			];
+			const defaultHeaders = [{ value: "name", text: this.$t("reusable.name") }];
 			return this.headers || defaultHeaders;
 		},
 	},

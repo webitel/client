@@ -83,8 +83,7 @@ export default {
 	computed: {
 		disableOpenTimeout() {
 			return (
-				!this.itemInstance.metadata.chat.timeoutIsActive ||
-				this.disableUserInput
+				!this.itemInstance.metadata.chat.timeoutIsActive || this.disableUserInput
 			);
 		},
 		mediaMaxSize: {

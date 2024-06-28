@@ -48,8 +48,7 @@ export default {
 		},
 		email: {
 			get() {
-				return this.$store.state.integrations.storage.itemInstance.properties
-					.email;
+				return this.$store.state.integrations.storage.itemInstance.properties.email;
 			},
 			set(value) {
 				this.setItemProp({ prop: "email", value });

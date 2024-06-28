@@ -94,10 +94,7 @@ export default {
 	methods: {
 		...mapActions({
 			setItemParameterProp(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`, payload);
 			},
 		}),
 		loadDropdownOptionsList(params) {

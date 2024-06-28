@@ -137,10 +137,7 @@ export default {
 				return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
 			},
 			updateItem(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`,
-					payload,
-				);
+				return dispatch(`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`, payload);
 			},
 		}),
 		initEditedValue() {

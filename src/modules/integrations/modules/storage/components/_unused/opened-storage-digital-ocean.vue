@@ -52,8 +52,7 @@ export default {
 	computed: {
 		keyId: {
 			get() {
-				return this.$store.state.integrations.storage.itemInstance.properties
-					.keyId;
+				return this.$store.state.integrations.storage.itemInstance.properties.keyId;
 			},
 			set(value) {
 				this.setItemProp({ prop: "keyId", value });

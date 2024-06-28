@@ -75,10 +75,7 @@ const addChatplan = async ({ itemInstance }) => {
 	}
 };
 const patchChatplan = async ({ id, changes }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await chatplanService.patchChatPlan(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

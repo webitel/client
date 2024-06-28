@@ -105,8 +105,7 @@ const actions = {
 			if (oldHeader.sort !== undefined) {
 				return {
 					...oldHeader,
-					sort:
-						oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
+					sort: oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
 				};
 			}
 			return oldHeader;

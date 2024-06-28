@@ -65,10 +65,7 @@ const getResInGroupList = async (params) => {
 
 const getResInGroup = async ({ parentId, itemId: id }) => {
 	try {
-		const response = await resGrService.readOutboundResourceInGroup(
-			parentId,
-			id,
-		);
+		const response = await resGrService.readOutboundResourceInGroup(parentId, id);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);

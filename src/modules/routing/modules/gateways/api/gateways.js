@@ -130,10 +130,7 @@ const updateGateway = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchGateway = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	const url = `${baseUrl}/${id}`;
 	try {
 		const response = await instance.patch(url, body);

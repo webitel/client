@@ -70,10 +70,7 @@ const getDevice = async ({ itemId: id }) => {
 
 	try {
 		const response = await instance.get(url);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}

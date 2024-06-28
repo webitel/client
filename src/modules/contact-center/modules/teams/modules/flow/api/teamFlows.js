@@ -73,10 +73,7 @@ const getTeamFlowSchema = async ({ parentId, itemId: id }) => {
 
 	try {
 		const response = await flowSchemaService.readTeamTrigger(parentId, id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -97,17 +94,10 @@ const addTeamFlowSchema = async ({ parentId, itemInstance }) => {
 };
 
 const patchTeamFlowSchema = async ({ changes, id, parentId }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 
 	try {
-		const response = await flowSchemaService.patchTeamTrigger(
-			parentId,
-			id,
-			body,
-		);
+		const response = await flowSchemaService.patchTeamTrigger(parentId, id, body);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);

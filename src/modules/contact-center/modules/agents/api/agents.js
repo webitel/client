@@ -101,10 +101,7 @@ const getAgent = async ({ itemId: id }) => {
 
 	try {
 		const response = await agentService.readAgent(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -137,10 +134,7 @@ const addAgent = async ({ itemInstance }) => {
 };
 
 const patchAgent = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await agentService.patchAgent(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

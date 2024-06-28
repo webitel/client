@@ -173,13 +173,9 @@ export default {
 		permissionUsageLocale() {
 			return {
 				add: this.$t("objects.permissions.roles.permissions.addDescription"),
-				delete: this.$t(
-					"objects.permissions.roles.permissions.deleteDescription",
-				),
+				delete: this.$t("objects.permissions.roles.permissions.deleteDescription"),
 				read: this.$t("objects.permissions.roles.permissions.readDescription"),
-				write: this.$t(
-					"objects.permissions.roles.permissions.writeDescription",
-				),
+				write: this.$t("objects.permissions.roles.permissions.writeDescription"),
 				eavesdrop_call: this.$t(
 					"objects.permissions.roles.permissions.eavesdropCallDescription",
 				),

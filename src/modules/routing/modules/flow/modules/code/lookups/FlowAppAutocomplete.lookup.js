@@ -52,7 +52,8 @@ const FlowAppAutocomplete = Object.freeze({
 		documentation: FlowApp.JS,
 		insertText: {
 			[FlowApp.JS]: {
-				data: "var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + '-' + time.getDate() + '-' + time.getFullYear()",
+				data:
+					"var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + '-' + time.getDate() + '-' + time.getFullYear()",
 				setVar: "myVar",
 			},
 		},

@@ -199,8 +199,7 @@ export default {
 		},
 
 		computeStatusText(stateCode) {
-			if (stateCode === 3)
-				return this.$t("objects.routing.gateways.stateSuccess");
+			if (stateCode === 3) return this.$t("objects.routing.gateways.stateSuccess");
 			if (stateCode > 3 && stateCode < 8)
 				return this.$t("objects.routing.gateways.stateFailed");
 			if (stateCode > 7 && stateCode < 2)

@@ -94,9 +94,7 @@ const actions = {
 	},
 	DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) =>
 		Promise.allSettled(
-			deleted.map((item) =>
-				context.dispatch("DELETE_SINGLE_EXCEPT_ITEM", item),
-			),
+			deleted.map((item) => context.dispatch("DELETE_SINGLE_EXCEPT_ITEM", item)),
 		),
 
 	SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {

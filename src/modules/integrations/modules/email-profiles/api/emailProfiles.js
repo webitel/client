@@ -86,10 +86,7 @@ const get = async ({ itemId: id }) => {
 
 	try {
 		const response = await emailProfilesService.readEmailProfile(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -110,10 +107,7 @@ const add = async ({ itemInstance }) => {
 };
 
 const patch = async ({ changes, id }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
 		const response = await emailProfilesService.patchEmailProfile(id, body);
 		return applyTransform(response.data, [snakeToCamel()]);

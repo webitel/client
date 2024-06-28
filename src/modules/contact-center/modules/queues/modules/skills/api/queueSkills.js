@@ -100,10 +100,7 @@ export const getQueueSkill = async ({ parentId, itemId: id }) => {
 
 	try {
 		const response = await queueSkillService.readQueueSkill(parentId, id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			merge(defaultObject),
-		]);
+		return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
 	}
@@ -124,16 +121,9 @@ export const addQueueSkill = async ({ parentId, itemInstance }) => {
 };
 
 export const patchQueueSkill = async ({ changes, id, parentId }) => {
-	const body = applyTransform(changes, [
-		sanitize(fieldsToSend),
-		camelToSnake(),
-	]);
+	const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 	try {
-		const response = await queueSkillService.patchQueueSkill(
-			parentId,
-			id,
-			body,
-		);
+		const response = await queueSkillService.patchQueueSkill(parentId, id, body);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);
@@ -151,11 +141,7 @@ export const updateQueueSkill = async ({
 		camelToSnake(),
 	]);
 	try {
-		const response = await queueSkillService.updateQueueSkill(
-			parentId,
-			id,
-			item,
-		);
+		const response = await queueSkillService.updateQueueSkill(parentId, id, item);
 		return applyTransform(response.data, [snakeToCamel()]);
 	} catch (err) {
 		throw applyTransform(err, [notify]);

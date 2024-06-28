@@ -106,9 +106,7 @@ export default {
 		},
 		theme: {
 			handler() {
-				this.theme === "dark"
-					? editor.setTheme("vs-dark")
-					: editor.setTheme("vs");
+				this.theme === "dark" ? editor.setTheme("vs-dark") : editor.setTheme("vs");
 			},
 			immediate: true,
 		},
@@ -166,9 +164,7 @@ export default {
 		},
 		toggleFullscreen() {
 			this.isFullscreen = !this.isFullscreen;
-			const options = this.isFullscreen
-				? fullscreenSizeConfig
-				: defaultSizeConfig;
+			const options = this.isFullscreen ? fullscreenSizeConfig : defaultSizeConfig;
 			this.editor.updateOptions(options);
 			this.editor.layout();
 		},
