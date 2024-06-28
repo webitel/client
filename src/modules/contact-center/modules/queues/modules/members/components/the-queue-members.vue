@@ -197,16 +197,12 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import tableComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
@@ -279,22 +275,32 @@ export default {
       const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.parentQueue.name, route: queueUrl },
-        { name: this.$tc('objects.ccenter.members.members', 2), route: membersUrl },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.parentQueue.name,
+          route: queueUrl,
+        },
+        {
+          name: this.$tc('objects.ccenter.members.members', 2),
+          route: membersUrl,
+        },
       ];
     },
     filtersNamespace() {
       return `${this.namespace}/filters`;
     },
     deleteOptions() {
-      const loadListAfterDecorator = (method) => async (...args) => {
-        try {
-          await method(...args);
-        } finally {
-          await this.loadList();
-        }
-      };
+      const loadListAfterDecorator =
+        (method) =>
+        async (...args) => {
+          try {
+            await method(...args);
+          } finally {
+            await this.loadList();
+          }
+        };
       const all = {
         text: this.$t('iconHints.deleteAll'),
         method: loadListAfterDecorator(this.deleteAll),
@@ -306,7 +312,9 @@ export default {
 
       const selectedCount = this.selectedRows.length;
       const selected = {
-        text: this.$t('iconHints.deleteSelected', { count: selectedCount }),
+        text: this.$t('iconHints.deleteSelected', {
+          count: selectedCount,
+        }),
         method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
       };
 
@@ -387,14 +395,19 @@ export default {
     create() {
       this.$router.push({
         name: `${RouteNames.MEMBERS}-new`,
-        params: { queueId: this.parentId },
+        params: {
+          queueId: this.parentId,
+        },
       });
     },
 
     editLink(item) {
       return {
         name: `${RouteNames.MEMBERS}-edit`,
-        params: { queueId: this.parentId, id: item.id },
+        params: {
+          queueId: this.parentId,
+          id: item.id,
+        },
       };
     },
 
@@ -433,7 +446,6 @@ export default {
         return dispatch(`${this.namespace}/DELETE_ALL`, payload);
       },
     }),
-
   },
   watch: {
     '$route.query': {

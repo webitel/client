@@ -96,8 +96,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from './_internals/permissions-role-column.vue';
 import RolePopup from './permissions-tab-role-popup.vue';

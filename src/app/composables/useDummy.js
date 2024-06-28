@@ -1,23 +1,20 @@
 import IsEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import defaultDummyPicAfterSearchLight
-  from '../assets/dummy/adm-dummy-after-search-light.svg';
-import defaultDummyPicAfterSearchDark
-  from '../assets/dummy/adm-dummy-after-search-dark.svg';
+import defaultDummyPicAfterSearchDark from '../assets/dummy/adm-dummy-after-search-dark.svg';
+import defaultDummyPicAfterSearchLight from '../assets/dummy/adm-dummy-after-search-light.svg';
 
 export function useDummy({
-                           namespace,
-                           showAction,
-                           hiddenText,
-                           dummyPic,
-                           dummyText,
-                           dummyPicAfterSearch,
-                           dummyTextAfterSearch = 'objects.emptyResultSearch',
-                         }) {
+  namespace,
+  showAction,
+  hiddenText,
+  dummyPic,
+  dummyText,
+  dummyPicAfterSearch,
+  dummyTextAfterSearch = 'objects.emptyResultSearch',
+}) {
   const store = useStore();
   const route = useRoute();
 
@@ -28,25 +25,34 @@ export function useDummy({
 
   const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
   const dummyImgAfterSearch = computed(() => {
-    if(dummyPicAfterSearch) return dummyPicAfterSearch;
+    if (dummyPicAfterSearch) return dummyPicAfterSearch;
     return darkMode.value ? defaultDummyPicAfterSearchDark : defaultDummyPicAfterSearchLight;
-  })
+  });
 
-  watch(() => dataList, () => {
-    if (!dataList.value.length) {
-      if (IsEmpty(route?.query) ? search.value : Object.values(route.query)
-      .some((query) => query.length)) {
-        return dummy.value = {
-          src: dummyImgAfterSearch,
-          text: dummyTextAfterSearch,
-        };
-      } else return dummy.value = {
-        src: dummyPic,
-        text: dummyText,
-        showAction,
-        hiddenText,
-      };
-    } else return dummy.value = '';
-  }, { deep: true });
+  watch(
+    () => dataList,
+    () => {
+      if (!dataList.value.length) {
+        if (
+          IsEmpty(route?.query)
+            ? search.value
+            : Object.values(route.query).some((query) => query.length)
+        ) {
+          return (dummy.value = {
+            src: dummyImgAfterSearch,
+            text: dummyTextAfterSearch,
+          });
+        }
+        return (dummy.value = {
+          src: dummyPic,
+          text: dummyText,
+          showAction,
+          hiddenText,
+        });
+      }
+      return (dummy.value = '');
+    },
+    { deep: true },
+  );
   return { dummy };
 }

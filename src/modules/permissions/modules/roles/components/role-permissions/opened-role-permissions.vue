@@ -67,13 +67,11 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import openedObjectTableTabMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import PermissionsPopup from './opened-role-permissions-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions, mapState } from 'vuex';
+import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import PermissionsPopup from './opened-role-permissions-popup.vue';
 
 export default {
   name: 'OpenedRolePermissions',
@@ -115,18 +113,32 @@ export default {
     }),
     // override mixin map state
     dataList: {
-      get() { return this.dataListValue; },
-      set(value) { this.dataListValue = value; },
+      get() {
+        return this.dataListValue;
+      },
+      set(value) {
+        this.dataListValue = value;
+      },
     },
     // override mixin map state
     search: {
-      get() { return this.searchValue; },
-      set(value) { this.searchValue = value; },
+      get() {
+        return this.searchValue;
+      },
+      set(value) {
+        this.searchValue = value;
+      },
     },
     headers() {
       return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'usage', text: this.$t('objects.permissions.roles.usage') },
+        {
+          value: 'name',
+          text: this.$t('objects.name'),
+        },
+        {
+          value: 'usage',
+          text: this.$t('objects.permissions.roles.usage'),
+        },
       ];
     },
     permissionNameLocale() {
@@ -138,7 +150,9 @@ export default {
         eavesdrop_call: this.$t('objects.permissions.roles.permissions.eavesdropCall'),
         playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFile'),
         export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGrid'),
-        view_cdr_phone_numbers: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbers'),
+        view_cdr_phone_numbers: this.$t(
+          'objects.permissions.roles.permissions.viewCdrPhoneNumbers',
+        ),
         manage_user_roles: this.$t('objects.permissions.roles.permissions.manageUserRoles'),
         manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicense'),
         change_user_password: this.$t('objects.permissions.roles.permissions.changeUserPassword'),
@@ -153,14 +167,28 @@ export default {
         read: this.$t('objects.permissions.roles.permissions.readDescription'),
         write: this.$t('objects.permissions.roles.permissions.writeDescription'),
         eavesdrop_call: this.$t('objects.permissions.roles.permissions.eavesdropCallDescription'),
-        playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFileDescription'),
-        export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGridDescription'),
-        view_cdr_phone_numbers: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription'),
-        manage_user_roles: this.$t('objects.permissions.roles.permissions.manageUserRolesDescription'),
-        manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicenseDescription'),
-        change_user_password: this.$t('objects.permissions.roles.permissions.changeUserPasswordDescription'),
+        playback_record_file: this.$t(
+          'objects.permissions.roles.permissions.playbackRecordFileDescription',
+        ),
+        export_data_grid: this.$t(
+          'objects.permissions.roles.permissions.exportDataGridDescription',
+        ),
+        view_cdr_phone_numbers: this.$t(
+          'objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription',
+        ),
+        manage_user_roles: this.$t(
+          'objects.permissions.roles.permissions.manageUserRolesDescription',
+        ),
+        manage_user_license: this.$t(
+          'objects.permissions.roles.permissions.manageUserLicenseDescription',
+        ),
+        change_user_password: this.$t(
+          'objects.permissions.roles.permissions.changeUserPasswordDescription',
+        ),
         system_setting: this.$t('objects.permissions.roles.permissions.systemSettingDescription'),
-        scheme_variables: this.$t('objects.permissions.roles.permissions.schemeVariablesDescription'),
+        scheme_variables: this.$t(
+          'objects.permissions.roles.permissions.schemeVariablesDescription',
+        ),
       };
     },
   },
@@ -172,8 +200,11 @@ export default {
     }),
     loadList() {
       this.dataList = this.permissionsList
-      .filter((permission) => permission.name.includes(this.search))
-      .map((permission) => ({ ...permission, _isSelected: false }));
+        .filter((permission) => permission.name.includes(this.search))
+        .map((permission) => ({
+          ...permission,
+          _isSelected: false,
+        }));
     },
     create() {
       this.openPopup();
@@ -189,8 +220,7 @@ export default {
       this.isPermissionsPopup = false;
       this.editedIndex = null;
     },
-    setParentId() {
-    },
+    setParentId() {},
   },
 };
 </script>

@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -26,16 +23,7 @@ const defaultObject = {
 };
 
 const getAgentSkillsList = async (params) => {
-  const {
-    parentId,
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    agentId,
-  } = applyTransform(params, [
+  const { parentId, page, size, search, sort, fields, id, agentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -56,106 +44,66 @@ const getAgentSkillsList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
       aggs,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getAgentSkill = async ({ parentId, itemId: id }) => {
   try {
     const response = await skillService.readSkill(id, parentId);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const fieldsToSend = ['capacity', 'skill', 'team', 'enabled', 'agent', 'user'];
 
 const addAgentSkill = async ({ parentId, itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await skillService.createSkillAgent(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchAgentSkill = async ({ parentId, changes, id }) => {
-  const sanitizedChanges = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const sanitizedChanges = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
-    const response = await skillService.patchSkillAgent(
-      parentId,
-      { ...sanitizedChanges, id },
-    );
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    const response = await skillService.patchSkillAgent(parentId, {
+      ...sanitizedChanges,
+      id,
+    });
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const updateAgentSkill = async ({ id, itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await skillService.updateSkill(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const deleteAgentSkill = async ({ parentId, id }) => {
   const itemId = { id: [id] };
   try {
-    const response = await skillService.deleteSkillAgent(
-      parentId,
-      itemId,
-    );
+    const response = await skillService.deleteSkillAgent(parentId, itemId);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

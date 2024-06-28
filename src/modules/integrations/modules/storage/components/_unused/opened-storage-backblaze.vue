@@ -36,8 +36,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedStorageBackblaze',
@@ -45,20 +44,48 @@ export default {
 
   computed: {
     key: {
-      get() { return this.$store.state.integrations.storage.itemInstance.key; },
-      set(value) { this.setItemProp({ prop: 'key', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.key;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'key',
+          value,
+        });
+      },
     },
     access: {
-      get() { return this.$store.state.integrations.storage.itemInstance.access; },
-      set(value) { this.setItemProp({ prop: 'access', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.access;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'access',
+          value,
+        });
+      },
     },
     bucket: {
-      get() { return this.$store.state.integrations.storage.itemInstance.bucket; },
-      set(value) { this.setItemProp({ prop: 'bucket', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.bucket;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'bucket',
+          value,
+        });
+      },
     },
     region: {
-      get() { return this.$store.state.integrations.storage.itemInstance.region; },
-      set(value) { this.setItemProp({ prop: 'region', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.region;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'region',
+          value,
+        });
+      },
     },
   },
 

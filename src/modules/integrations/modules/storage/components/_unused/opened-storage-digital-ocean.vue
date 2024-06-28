@@ -37,8 +37,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { DigitalOceanRegions } from '../../api/storage';
 
 export default {
@@ -52,20 +51,48 @@ export default {
 
   computed: {
     keyId: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.keyId; },
-      set(value) { this.setItemProp({ prop: 'keyId', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.keyId;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'keyId',
+          value,
+        });
+      },
     },
     accessKey: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.accessKey; },
-      set(value) { this.setItemProp({ prop: 'accessKey', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.accessKey;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'accessKey',
+          value,
+        });
+      },
     },
     bucketName: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.bucketName; },
-      set(value) { this.setItemProp({ prop: 'bucketName', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.bucketName;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'bucketName',
+          value,
+        });
+      },
     },
     region: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.region; },
-      set(value) { this.setItemProp({ prop: 'region', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.region;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'region',
+          value,
+        });
+      },
     },
   },
 

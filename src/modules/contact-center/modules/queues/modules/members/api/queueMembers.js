@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -19,8 +16,17 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  'queueId', 'name', 'priority', 'bucket', 'timezone', 'communications',
-  'variables', 'expireAt', 'minOfferingAt', 'agent', 'stopCause',
+  'queueId',
+  'name',
+  'priority',
+  'bucket',
+  'timezone',
+  'communications',
+  'variables',
+  'expireAt',
+  'minOfferingAt',
+  'agent',
+  'stopCause',
 ];
 
 const communicationsFieldsToSend = [
@@ -45,18 +51,24 @@ const defaultSingleObjectCommunication = {
 
 const mapDefaultCommunications = (item) => {
   const copy = deepCopy(item);
-  return copy.communications ? copy.communications
-  .map((comm) => ({ ...defaultSingleObjectCommunication, ...comm })) : [];
+  return copy.communications
+    ? copy.communications.map((comm) => ({
+        ...defaultSingleObjectCommunication,
+        ...comm,
+      }))
+    : [];
 };
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
-  copy.communications
-  .forEach((copy) => sanitize(copy, communicationsFieldsToSend));
-  const variables = copy.variables.reduce((variables, variable) => ({
-    ...variables,
-    [variable.key]: variable.value,
-  }), {});
+  copy.communications.forEach((copy) => sanitize(copy, communicationsFieldsToSend));
+  const variables = copy.variables.reduce(
+    (variables, variable) => ({
+      ...variables,
+      [variable.key]: variable.value,
+    }),
+    {},
+  );
   return { ...copy, variables };
 };
 
@@ -70,9 +82,7 @@ const getMembersList = async (params) => {
     const copy = deepCopy(items);
     return copy.map((item) => ({
       ...item,
-      communications: applyTransform(item, [
-        mapDefaultCommunications,
-      ]),
+      communications: applyTransform(item, [mapDefaultCommunications]),
     }));
   };
 
@@ -92,10 +102,7 @@ const getMembersList = async (params) => {
     priority,
     cause,
     agent,
-  } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-  ]);
+  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
 
   try {
     const response = await memberService.searchMemberInQueue(
@@ -125,16 +132,11 @@ const getMembersList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-        listHandler,
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject), listHandler]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -172,9 +174,7 @@ const getMember = async ({ parentId, itemId: id }) => {
       responseHandler,
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -186,13 +186,9 @@ const addMember = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await memberService.createMember(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(['variables']),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(['variables'])]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -204,13 +200,9 @@ const updateMember = async ({ itemInstance, itemId: id, parentId }) => {
   ]);
   try {
     const response = await memberService.updateMember(parentId, id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(['variables']),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(['variables'])]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -219,22 +211,16 @@ const deleteMember = async ({ parentId, id }) => {
     const response = await memberService.deleteMember(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const resetMembers = async ({ parentId }) => {
   try {
     const response = await memberService.resetMembers(parentId, {});
-    return applyTransform(response.data, [
-      snakeToCamel(['variables']),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(['variables'])]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -244,48 +230,39 @@ const addMembersBulk = async (parentId, fileName, items) => {
     const response = await memberService.createMemberBulk(parentId, body);
     return applyTransform(response.data, [
       snakeToCamel(['variables']),
-      notify(({ callback }) => callback({
-        type: 'info',
-        text: 'Successfully added',
-      })),
+      notify(({ callback }) =>
+        callback({
+          type: 'info',
+          text: 'Successfully added',
+        }),
+      ),
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-export const deleteMembersBulk = async (parentId, {
-  search,
-  id,
-  from,
-  to,
-  bucket,
-  priority,
-  cause,
-}) => {
+export const deleteMembersBulk = async (
+  parentId,
+  { search, id, from, to, bucket, priority, cause },
+) => {
   let body = {
     id,
     q: search,
-    createdAt: (from || to) ? { from, to } : undefined,
+    createdAt: from || to ? { from, to } : undefined,
     priority,
     stopCause: cause,
     bucketId: bucket,
     withoutMembers: true,
   };
 
-  body = applyTransform(body, [
-    camelToSnake(),
-  ]);
+  body = applyTransform(body, [camelToSnake()]);
 
   try {
     const response = await memberService.deleteMembers(parentId, body);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

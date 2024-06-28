@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import LicenseAPI from '../api/license';
 import licenseUsers from '../modules/license-users/store/licenseUsers';
 import users from '../modules/users/store/users';
@@ -7,7 +6,9 @@ import headers from './_internals/headers';
 
 const actions = {
   AFTER_SET_DATA_LIST_HOOK: (context, payload) => {
-    context.dispatch('directory/license/users/INITIALIZE_HEADERS', null, { root: true });
+    context.dispatch('directory/license/users/INITIALIZE_HEADERS', null, {
+      root: true,
+    });
     return payload;
   },
 
@@ -19,9 +20,9 @@ const actions = {
 };
 
 const license = new ObjectStoreModule({ headers })
-.attachAPIModule(LicenseAPI)
-.generateAPIActions()
-.setChildModules({ users, licenseUsers })
-.getModule({ actions });
+  .attachAPIModule(LicenseAPI)
+  .generateAPIActions()
+  .setChildModules({ users, licenseUsers })
+  .getModule({ actions });
 
 export default license;

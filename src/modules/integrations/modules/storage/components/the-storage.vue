@@ -127,11 +127,8 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed } from 'vue';
 import { mapActions, useStore } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
@@ -152,7 +149,7 @@ export default {
   setup() {
     const store = useStore();
     const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
+    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
     const { dummy } = useDummy({
       namespace,
       showAction: true,
@@ -186,8 +183,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$t('objects.integrations.storage.storage'), route: '/integrations/storage' },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$t('objects.integrations.storage.storage'),
+          route: '/integrations/storage',
+        },
       ];
     },
   },
@@ -199,10 +201,21 @@ export default {
       },
     }),
     create() {
-      this.$router.push({ name: `${RouteNames.STORAGE}-new`, params: { type: Storage.S3 } });
+      this.$router.push({
+        name: `${RouteNames.STORAGE}-new`,
+        params: {
+          type: Storage.S3,
+        },
+      });
     },
     editLink({ type, id }) {
-      return { name: `${RouteNames.STORAGE}-edit`, params: { type, id } };
+      return {
+        name: `${RouteNames.STORAGE}-edit`,
+        params: {
+          type,
+          id,
+        },
+      };
     },
     closeStorageSelectPopup() {
       this.isStorageSelectPopup = false;

@@ -1,7 +1,5 @@
-import APIPermissionsGetter
-  from '../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
-import APIPermissionsPatcher
-  from '../../../../app/api/PermissionsAPIService/APIPermissionsPatcher';
+import APIPermissionsGetter from '../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
+import APIPermissionsPatcher from '../../../../app/api/PermissionsAPIService/APIPermissionsPatcher';
 
 export default class PermissionsAPI {
   constructor(url) {
@@ -17,10 +15,11 @@ export default class PermissionsAPI {
 
   static patchByUrl = (url) => {
     const permissionsPatcher = new APIPermissionsPatcher(url);
-    return (parentId, changes) => permissionsPatcher.patchItem({
-      id: parentId,
-      changes,
-    });
+    return (parentId, changes) =>
+      permissionsPatcher.patchItem({
+        id: parentId,
+        changes,
+      });
   };
 
   getList(params) {
@@ -28,6 +27,9 @@ export default class PermissionsAPI {
   }
 
   patch(parentId, changes) {
-    return this._permissionsPatcher.patchItem({ id: parentId, changes });
+    return this._permissionsPatcher.patchItem({
+      id: parentId,
+      changes,
+    });
   }
 }

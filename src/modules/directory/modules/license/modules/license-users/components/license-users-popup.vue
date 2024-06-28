@@ -78,8 +78,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import resetOnDestroyMixin from '../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import UserLogoutControl from './user-logout-control.vue';
 
 export default {
@@ -92,8 +91,11 @@ export default {
   computed: {
     ...mapState({
       license(state) {
-        return getNamespacedState(state, this.namespace)
-        .dataList.find(({ id }) => id === this.parentId) || {};
+        return (
+          getNamespacedState(state, this.namespace).dataList.find(
+            ({ id }) => id === this.parentId,
+          ) || {}
+        );
       },
     }),
   },

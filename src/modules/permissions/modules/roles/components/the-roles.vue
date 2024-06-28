@@ -108,12 +108,11 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'permissions/roles';
 
@@ -122,7 +121,10 @@ export default {
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace,
+      hiddenText: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -149,8 +151,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.permissions.permissions') },
-        { name: this.$tc('objects.permissions.permissionsRole', 2), route: '/permissions/roles' },
+        {
+          name: this.$t('objects.permissions.permissions'),
+        },
+        {
+          name: this.$tc('objects.permissions.permissionsRole', 2),
+          route: '/permissions/roles',
+        },
       ];
     },
   },

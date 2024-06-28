@@ -174,7 +174,9 @@ export default {
     async changePassword() {
       try {
         this.isPasswordPatching = true;
-        const changes = { password: this.newPassword };
+        const changes = {
+          password: this.newPassword,
+        };
         await changePassword({
           id: this.userId,
           changes,
@@ -194,7 +196,10 @@ export default {
       try {
         this.webrtc = value;
         if (!value) this.stun = false;
-        await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
+        await changeWebPhone({
+          webrtc: this.webrtc,
+          stun: this.stun,
+        });
       } catch (err) {
         throw err;
       }
@@ -203,7 +208,10 @@ export default {
     async changeStun(value) {
       try {
         this.stun = !this.webrtc ? false : value;
-        await changeWebPhone({ webrtc: this.webrtc, stun: this.stun });
+        await changeWebPhone({
+          webrtc: this.webrtc,
+          stun: this.stun,
+        });
       } catch (err) {
         throw err;
       }
@@ -220,7 +228,6 @@ export default {
       if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
     },
   },
-
 };
 </script>
 

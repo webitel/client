@@ -137,17 +137,16 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
 import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'integrations/cognitiveProfiles';
 
@@ -162,7 +161,7 @@ export default {
   setup() {
     const store = useStore();
     const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => darkMode.value ? dummyPicDark : dummyPicLight);
+    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
     const { dummy } = useDummy({
       namespace,
       showAction: true,
@@ -197,7 +196,9 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.integrations.integrations') },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
         {
           name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
           route: '/integrations/cognitive-profiles',
@@ -213,7 +214,10 @@ export default {
     async changeDefaultProfile({ index, item, value }) {
       try {
         await this.patchItem({
-          index, item, prop: 'default', value,
+          index,
+          item,
+          prop: 'default',
+          value,
         });
         if (value) this.loadList();
       } catch {
@@ -222,10 +226,17 @@ export default {
     },
     async changeState({ item, index, value }) {
       await this.patchItem({
-        item, index, prop: 'enabled', value,
+        item,
+        index,
+        prop: 'enabled',
+        value,
       });
       if (item.default && !value) {
-        await this.changeDefaultProfile({ item, index, value: false });
+        await this.changeDefaultProfile({
+          item,
+          index,
+          value: false,
+        });
       }
     },
   },

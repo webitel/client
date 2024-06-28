@@ -1,9 +1,7 @@
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapGetters, mapState } from 'vuex';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
-import objectTableAccessControlMixin
-  from './_internals/objectTableAccessControlMixin';
+import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -46,9 +44,10 @@ export default {
         let localizedText;
         // set "false" if no locale prop
         if (header.locale) {
-          localizedText = !header.locale || typeof header.locale === 'string'
-            ? this.$t(header.locale)
-            : this.$tc(...header.locale);
+          localizedText =
+            !header.locale || typeof header.locale === 'string'
+              ? this.$t(header.locale)
+              : this.$tc(...header.locale);
         }
         return {
           ...header,
@@ -85,13 +84,18 @@ export default {
       },
     }),
     create() {
-      this.$router.push({ name: `${this.routeName}-new` });
+      this.$router.push({
+        name: `${this.routeName}-new`,
+      });
     },
     edit(item) {
       this.$router.push(this.editLink(item));
     },
     sort(...params) {
-      this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
+      this.dispatchSort({
+        header: params[0],
+        nextSortOrder: params[1],
+      });
     },
   },
 };

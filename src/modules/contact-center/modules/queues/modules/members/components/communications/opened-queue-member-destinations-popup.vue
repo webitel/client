@@ -41,8 +41,7 @@
 </template>
 
 <script>
-import tableComponentMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 
 export default {
   name: 'OpenedQueueMemberDestinationsPopup',
@@ -57,9 +56,18 @@ export default {
   data() {
     return {
       headers: [
-        { value: 'destination', text: this.$tc('objects.ccenter.queues.destination', 1) },
-        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
+        {
+          value: 'destination',
+          text: this.$tc('objects.ccenter.queues.destination', 1),
+        },
+        {
+          value: 'type',
+          text: this.$t('objects.ccenter.queues.type'),
+        },
+        {
+          value: 'priority',
+          text: this.$t('objects.ccenter.queues.priority'),
+        },
       ],
     };
   },

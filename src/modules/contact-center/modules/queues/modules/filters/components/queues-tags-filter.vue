@@ -17,7 +17,7 @@
 <script>
 import apiFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/apiFilterMixin';
 
-export default  {
+export default {
   name: 'QueuesTagsFilter',
   mixins: [apiFilterMixin],
   data: () => ({
@@ -25,7 +25,10 @@ export default  {
   }),
   methods: {
     handleInput(value) {
-      this.setValue({ filter: this.filterQuery, value });
+      this.setValue({
+        filter: this.filterQuery,
+        value,
+      });
       this.setValueToQuery({
         value,
         filterQuery: this.filterQuery,
@@ -36,7 +39,9 @@ export default  {
       return this.filterSchema.search(params);
     },
     fetchSelected(tags) {
-      return tags.map((name) => ({ name }));
+      return tags.map((name) => ({
+        name,
+      }));
     },
   },
 };

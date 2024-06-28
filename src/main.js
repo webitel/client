@@ -26,13 +26,14 @@ const fetchConfig = async () => {
 
 const setTokenFromUrl = () => {
   try {
-    const queryMap = window.location.search.slice(1)
-    .split('&')
-    .reduce((obj, query) => {
-      const [key, value] = query.split('=');
-      obj[key] = value;
-      return obj;
-    }, {});
+    const queryMap = window.location.search
+      .slice(1)
+      .split('&')
+      .reduce((obj, query) => {
+        const [key, value] = query.split('=');
+        obj[key] = value;
+        return obj;
+      }, {});
 
     if (queryMap.accessToken) {
       localStorage.setItem('access-token', queryMap.accessToken);
@@ -46,11 +47,11 @@ const initSession = async () => store.dispatch('userinfo/OPEN_SESSION', { instan
 
 const createVueInstance = () => {
   const app = createApp(App)
-  .use(router)
-  .use(store)
-  .use(i18n)
-  .use(...WebitelUi)
-  .use(BreakpointPlugin);
+    .use(router)
+    .use(store)
+    .use(i18n)
+    .use(...WebitelUi)
+    .use(BreakpointPlugin);
 
   ActionComponents.forEach((component) => {
     app.component(component.name, component);

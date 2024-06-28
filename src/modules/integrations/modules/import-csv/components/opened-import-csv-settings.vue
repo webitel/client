@@ -60,8 +60,7 @@
 <script>
 import deepCopy from 'deep-copy';
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
@@ -70,8 +69,16 @@ export default {
   data: () => ({}),
   computed: {
     mappingsList() {
-      return Object.entries(ImportCsvMemberMappings)
-      .reduce((list, [name, value]) => [...list, { name, ...value }], []);
+      return Object.entries(ImportCsvMemberMappings).reduce(
+        (list, [name, value]) => [
+          ...list,
+          {
+            name,
+            ...value,
+          },
+        ],
+        [],
+      );
     },
   },
   methods: {
@@ -83,7 +90,10 @@ export default {
     handleMappingInput({ name, value }) {
       const mappings = deepCopy(this.itemInstance.parameters.mappings);
       mappings[name] = value;
-      this.setItemParamsProp({ prop: 'mappings', value: mappings });
+      this.setItemParamsProp({
+        prop: 'mappings',
+        value: mappings,
+      });
     },
     localizeName(locale) {
       if (Array.isArray(locale)) {
