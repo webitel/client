@@ -31,7 +31,7 @@ const AgentRoutes =  [
         name: AgentsRouteNames.GENERAL,
         component: General,
       },{
-        path: 'skills',
+        path: 'skills/:skillId?',
         name: AgentsRouteNames.SKILLS,
         component: Skills,
       },{

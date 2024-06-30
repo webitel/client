@@ -1,7 +1,7 @@
 <template>
   <wt-popup
     v-bind="$attrs"
-    :shown="shown"
+    :shown="!!numberId"
     size="sm"
     overflow
     @close="close"
@@ -69,7 +69,6 @@ export default {
   data: () => ({
     namespace: 'lookups/blacklists/numbers',
     showExpireDate: false,
-    shown: false,
   }),
   validations: {
     itemInstance: {
@@ -85,14 +84,6 @@ export default {
       return this.$route.params.numberId;
     }
   },
-  methods: {
-    openPopup() {
-      this.shown = true;
-    },
-    closePopup() {
-      this.shown = false;
-    },
-  },
   watch: {
     showExpireDate() {
       if (this.itemInstance.expireAt && this.showExpireDate) return;
@@ -105,17 +96,10 @@ export default {
     },
     numberId: {
      async handler(id) {
-       if (id === 'new') {
-         this.openPopup()
-       }
-
-       else if (id) {
+       if (id) {
          this.setId(id);
          this.loadItem();
-         this.openPopup();
        }
-
-       else this.closePopup();
      }, immediate: true,
     },
   },

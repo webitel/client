@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    size="sm"
+    :shown="!!skillId"
     overflow
     @close="close"
   >
@@ -75,11 +77,28 @@ export default {
     },
   },
 
+  computed: {
+    skillId() {
+      return this.$route.params.skillId;
+    }
+  },
+
   methods: {
     loadDropdownOptionsList(params) {
       return SkillsAPI.getLookup(params);
     },
   },
+
+  watch: {
+    skillId: {
+      handler(id) {
+        if (id) {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 

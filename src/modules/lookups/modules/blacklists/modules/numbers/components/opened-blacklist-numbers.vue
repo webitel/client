@@ -91,7 +91,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -193,8 +193,7 @@ export default {
       this.resetItemState();
       this.$router.go(-1);
     },
-    edit(item) {
-      this.setId(item.id);
+    editItem(item) {
       this.$router.push({
         ...this.$route,
         params: {numberId: item.id},

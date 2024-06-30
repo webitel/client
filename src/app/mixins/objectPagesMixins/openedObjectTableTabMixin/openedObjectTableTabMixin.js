@@ -136,11 +136,6 @@ export default {
         });
       }
     },
-
-    edit(item) {
-      this.setId(item.id);
-      this.openPopup();
-    },
     sort(...params) {
       this.dispatchSort({ header: params[0], nextSortOrder: params[1] });
     },

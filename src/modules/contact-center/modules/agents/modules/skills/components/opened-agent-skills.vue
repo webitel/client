@@ -1,7 +1,6 @@
 <template>
   <section>
     <skill-popup
-      v-if="isSkillPopup"
       @close="closePopup"
     />
 
@@ -78,7 +77,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -134,11 +133,15 @@ export default {
         return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
-    openPopup() {
-      this.isSkillPopup = true;
+    addItem() {
+     return this.$router.push({params: {skillId : 'new'}});
+    },
+    editItem(item) {
+      return this.$router.push({params: {skillId : item.id}});
     },
     closePopup() {
-      this.isSkillPopup = false;
+      this.resetItemState();
+      this.$router.go(-1);
     },
   },
 };
