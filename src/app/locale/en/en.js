@@ -59,6 +59,7 @@ export default {
     webPhone: 'WebPhone',
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
+    callEnd: 'Call end tune infroming',
   },
 
   validation: {
