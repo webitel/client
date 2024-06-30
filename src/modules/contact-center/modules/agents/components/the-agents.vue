@@ -11,14 +11,13 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
       />
 
       <history-popup
-        v-if="historyId"
         @close="closeHistoryPopup"
       />
 
@@ -189,11 +188,6 @@ export default {
   }),
 
   computed: {
-    ...mapState({
-      historyId(state) {
-        return getNamespacedState(state, `${this.namespace}/history`).parentId;
-      },
-    }),
     path() {
       return [
         { name: this.$t('objects.ccenter.ccenter') },
@@ -206,19 +200,14 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      openHistory(dispatch, payload) {
-        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
-      },
-    }),
-    itemTeamLink({ team }) {
-      return {
-        name: `${RouteNames.TEAMS}-edit`,
-        params: { id: team.id },
-      };
+    openHistory(id) {
+      return this.$router.push({
+        ...this.$route,
+        query:{ history: id }
+      })
     },
     closeHistoryPopup() {
-      this.openHistory(null);
+      return this.$router.push({name: this.routeName});
     },
     snakeToCamel,
   },

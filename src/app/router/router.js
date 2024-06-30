@@ -642,7 +642,7 @@ const router = createRouter({
         //   component: OpenedAgent,
         //   beforeEnter: checkRouteAccess,
         // },
-        ...AgentRoutes,
+        ...AgentRoutes, // TODO check it out
         {
           path: '/contact-center/teams',
           name: RouteNames.TEAMS,

@@ -1,5 +1,7 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!isHistoryOpened"
     overflow
     @close="close"
   >
@@ -13,13 +15,13 @@
             :label="$t('objects.from')"
             :value="from"
             mode="datetime"
-            @input="setFrom"
+            @input="selectForm"
           />
           <wt-datepicker
             :label="$t('objects.to')"
             :value="to"
             mode="datetime"
-            @input="setTo"
+            @input="selectTo"
           />
         </div>
         <div class="table-wrapper">

@@ -14,7 +14,6 @@
 
     <template #main>
       <history-popup
-        v-if="historyId"
         @close="closeHistoryPopup"
       />
 
@@ -222,11 +221,6 @@ export default {
   }),
 
   computed: {
-    ...mapState({
-      historyId(state) {
-        return getNamespacedState(state, `${this.namespace}/history`).parentId;
-      },
-    }),
     path() {
       return [
         { name: this.$t('objects.directory.directory') },
@@ -236,12 +230,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      openHistory(dispatch, payload) {
-        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
-      },
-    }),
-
     create() {
       this.isDeviceSelectPopup = true;
     },
@@ -253,9 +241,14 @@ export default {
         this.isUploadPopup = true;
       }
     },
-
+    openHistory(id) {
+      return this.$router.push({
+        ...this.$route,
+        query:{ history: id }
+      })
+    },
     closeHistoryPopup() {
-      this.openHistory(null);
+      return this.$router.push({name: this.routeName});
     },
 
     closeCSVPopup() {
