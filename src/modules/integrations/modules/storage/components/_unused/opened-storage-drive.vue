@@ -30,8 +30,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedStorageDrive',
@@ -39,16 +38,37 @@ export default {
 
   computed: {
     directory: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.directory; },
-      set(value) { this.setItemProp({ prop: 'directory', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.directory;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'directory',
+          value,
+        });
+      },
     },
     email: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.email; },
-      set(value) { this.setItemProp({ prop: 'email', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.email;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'email',
+          value,
+        });
+      },
     },
     privateKey: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.privateKey; },
-      set(value) { this.setItemProp({ prop: 'privateKey', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.privateKey;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'privateKey',
+          value,
+        });
+      },
     },
   },
 

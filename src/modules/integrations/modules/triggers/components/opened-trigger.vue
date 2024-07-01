@@ -79,7 +79,10 @@ export default {
       },
       expression: {
         required,
-        cron: (value) => isValidCron(value, { seconds: true }),
+        cron: (value) =>
+          isValidCron(value, {
+            seconds: true,
+          }),
       },
     },
   },
@@ -101,10 +104,7 @@ export default {
         filtersNamespace: `${this.namespace}/log/filters`,
       };
 
-      const tabs = [
-        general,
-        variables,
-      ];
+      const tabs = [general, variables];
       if (this.id) tabs.push(logs);
       return tabs;
     },
@@ -112,8 +112,13 @@ export default {
     path() {
       const baseUrl = '/integrations/triggers';
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.triggers.triggers', 2), route: baseUrl },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$tc('objects.integrations.triggers.triggers', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

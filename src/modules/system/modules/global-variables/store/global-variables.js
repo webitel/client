@@ -1,7 +1,6 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import headers from './_internals/headers';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import GlobalVariablesAPI from '../api/global-variables';
+import headers from './_internals/headers';
 
 const actions = {
   // https://webitel.atlassian.net/browse/WTEL-4195

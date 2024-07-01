@@ -1,6 +1,5 @@
 import { mapActions } from 'vuex';
-import openedObjectValidationMixin
-  from '../openedObjectValidationMixin/openedObjectValidationMixin';
+import openedObjectValidationMixin from '../openedObjectValidationMixin/openedObjectValidationMixin';
 import resetOnDestroyMixin from '../resetOnDestroyMixin/resetOnDestroyMixin';
 
 /**
@@ -19,14 +18,14 @@ export default {
       // if it's a new item
       // OR any fields have changed
       return !this.id || this.itemInstance._dirty
-        ? this.$t('objects.save') : this.$t('objects.saved');
+        ? this.$t('objects.save')
+        : this.$t('objects.saved');
     },
 
     disabledSave() {
       // if there's a validation problem
       // OR it's edit and any fields haven't changed
-      return this.checkValidations() ||
-        (!this.itemInstance._dirty && !!this.id);
+      return this.checkValidations() || (!this.itemInstance._dirty && !!this.id);
     },
   },
 
@@ -64,7 +63,9 @@ export default {
       const routeName = this.$route.name.replace('-new', '-edit');
       return this.$router.replace({
         name: routeName,
-        params: { id: this.id },
+        params: {
+          id: this.id,
+        },
         hash: this.$route.hash,
       });
     },

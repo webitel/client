@@ -62,9 +62,9 @@
 </template>
 
 <script setup>
+import QrcodeVue from 'qrcode.vue';
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import QrcodeVue from 'qrcode.vue';
 
 const props = defineProps({
   namespace: {

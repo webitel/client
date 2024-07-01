@@ -87,8 +87,7 @@ import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
@@ -108,12 +107,20 @@ export default {
       });
     },
     cronValidator() {
-      return [{ name: 'cron', text: this.$t('validation.cron') }];
+      return [
+        {
+          name: 'cron',
+          text: this.$t('validation.cron'),
+        },
+      ];
     },
   },
   methods: {
     loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
     },
     loadTimezones(params) {
       return CalendarsAPI.getTimezonesLookup(params);

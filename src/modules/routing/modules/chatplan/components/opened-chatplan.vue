@@ -72,8 +72,13 @@ export default {
     path() {
       const baseUrl = '/routing/chatplan';
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.chatplan.chatplan', 1), route: baseUrl },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.chatplan.chatplan', 1),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

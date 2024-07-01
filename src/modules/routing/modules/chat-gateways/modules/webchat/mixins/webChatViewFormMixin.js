@@ -16,23 +16,28 @@ export default {
         {
           name: this.$t('reusable.lang.en'),
           value: 'en',
-        }, {
+        },
+        {
           name: this.$t('reusable.lang.ru'),
           value: 'ru',
-        }, {
+        },
+        {
           name: this.$t('reusable.lang.ua'),
           value: 'ua',
-        }, {
+        },
+        {
           name: this.$t('reusable.lang.kz'),
           value: 'kz',
-        }];
+        },
+      ];
     },
     borderRadiusOptions() {
       return [
         {
           name: this.$t('objects.routing.chatGateways.webchat.view.square'),
           value: 'square',
-        }, {
+        },
+        {
           name: this.$t('objects.routing.chatGateways.webchat.view.rounded'),
           value: 'rounded',
         },
@@ -59,20 +64,17 @@ export default {
   methods: {
     restoreLanguage(value) {
       if (value) {
-        this.selectedLanguage = this.languages.find((language) => language.value ===
-          value);
+        this.selectedLanguage = this.languages.find((language) => language.value === value);
       }
     },
     restorePosition(value) {
       if (value) {
-        this.selectedPosition = this.positionOptions.find((position) => position.value ===
-          value);
+        this.selectedPosition = this.positionOptions.find((position) => position.value === value);
       }
     },
     restoreBorderRadius(value) {
       if (value) {
-        this.selectedBorderRadius = this.borderRadiusOptions.find((type) => type.value ===
-          value);
+        this.selectedBorderRadius = this.borderRadiusOptions.find((type) => type.value === value);
       }
     },
     setColor(value) {
@@ -81,8 +83,14 @@ export default {
       const s = value.hsl.s.toFixed(2) * 100;
       const l = value.hsl.l.toFixed(2) * 100;
       const hsl = `hsl(${h}, ${s}%, ${l}%)`;
-      this.setItemMetadata({ prop: 'accentColor', value: hsl });
-      this.setItemMetadata({ prop: 'btnOpacity', value: `${value.a}` });
+      this.setItemMetadata({
+        prop: 'accentColor',
+        value: hsl,
+      });
+      this.setItemMetadata({
+        prop: 'btnOpacity',
+        value: `${value.a}`,
+      });
     },
     restoreOpacity(value) {
       if (value) {

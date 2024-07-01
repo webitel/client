@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ popupTitle }}
+      {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}
     </template>
     <template #main>
       <form>
@@ -48,10 +48,10 @@
 </template>
 
 <script>
-import { EngineRoutingSchemaType } from 'webitel-sdk';
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
@@ -82,20 +82,21 @@ export default {
     },
     event() {
       const { event } = this.itemInstance;
-      return event ? {
-        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-        value: event,
-      } : {};
+      return event
+        ? {
+            name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
+            value: event,
+          }
+        : {};
     },
-    popupTitle() {
-      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
-      return action + ' ' + this.$tc('objects.ccenter.queues.hooks.hooks', 1).toLowerCase();
-    }
   },
 
   methods: {
     loadFlowOptions(params) {
-      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
     },
     snakeToCamel,
   },

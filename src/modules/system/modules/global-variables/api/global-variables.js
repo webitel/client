@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -17,25 +14,13 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const service = new SchemaVariablesServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await service.searchSchemaVariable(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-    );
+    const response = await service.searchSchemaVariable(page, size, search, sort, fields);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -45,75 +30,48 @@ const getList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const get = async ({ itemId: id }) => {
   try {
     const response = await service.readSchemaVariable(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const fieldsToSend = ['id', 'name', 'value', 'encrypt'];
 
-const add = async ({itemInstance}) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+const add = async ({ itemInstance }) => {
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await service.createSchemaVariable(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const update = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await service.updateSchemaVariable(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patch = async ({ id, changes }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await service.patchSchemaVariable(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -122,17 +80,15 @@ const deleteItem = async ({ id }) => {
     const response = await service.deleteSchemaVariable(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
-
+const getLookup = (params) =>
+  getList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const GlobalVariablesAPI = {
   getList,

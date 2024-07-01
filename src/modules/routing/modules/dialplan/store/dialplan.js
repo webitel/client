@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import DialplanAPI from '../api/dialplan';
 import headers from './_internals/headers';
 
@@ -21,7 +20,10 @@ const actions = {
     await context.commit('SWAP_ROWS', {fromId, toId});
     */
     try {
-      await DialplanAPI.moveDialplan({ fromId, toId });
+      await DialplanAPI.moveDialplan({
+        fromId,
+        toId,
+      });
     } catch {
     } finally {
       // context.dispatch('LOAD_DATA_LIST');
@@ -40,8 +42,8 @@ const mutations = {
 };
 
 const dialplan = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(DialplanAPI)
-.generateAPIActions()
-.getModule({ actions, mutations });
+  .attachAPIModule(DialplanAPI)
+  .generateAPIActions()
+  .getModule({ actions, mutations });
 
 export default dialplan;

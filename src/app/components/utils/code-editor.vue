@@ -91,9 +91,7 @@ export default {
       return this.isFullscreen ? 'xl' : 'md';
     },
     fullscreenIconTooltip() {
-      return this.isFullscreen
-        ? this.$t('iconHints.collapse')
-        : this.$t('iconHints.expand');
+      return this.isFullscreen ? this.$t('iconHints.collapse') : this.$t('iconHints.expand');
     },
   },
   watch: {
@@ -106,9 +104,7 @@ export default {
     },
     theme: {
       handler() {
-        this.theme === 'dark'
-          ? editor.setTheme('vs-dark')
-          : editor.setTheme('vs');
+        this.theme === 'dark' ? editor.setTheme('vs-dark') : editor.setTheme('vs');
       },
       immediate: true,
     },
@@ -151,8 +147,7 @@ export default {
             endColumn: word.endColumn,
           };
           return {
-            suggestions: this.autocomplete
-            .map(({ label, documentation, insertText }) => ({
+            suggestions: this.autocomplete.map(({ label, documentation, insertText }) => ({
               label,
               range,
               kind: languages.CompletionItemKind.Function,

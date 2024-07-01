@@ -56,7 +56,9 @@ export default {
         const { count = 0 } = response;
         this.$eventBus.$emit('notification', {
           type: 'info',
-          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', { count }),
+          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', {
+            count,
+          }),
         });
       } catch (err) {
         throw err;

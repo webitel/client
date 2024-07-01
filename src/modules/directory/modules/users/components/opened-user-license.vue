@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import LicenseAPI from '../../license/api/license';
 
 export default {
@@ -30,8 +29,14 @@ export default {
   methods: {
     async loadDropdownOptionsList(params) {
       const fields = ['product', 'id'];
-      const response = await LicenseAPI.getList({ ...params, fields });
-      response.items = response.items.map(({ product, id }) => ({ name: product, id }));
+      const response = await LicenseAPI.getList({
+        ...params,
+        fields,
+      });
+      response.items = response.items.map(({ product, id }) => ({
+        name: product,
+        id,
+      }));
       return response;
     },
   },

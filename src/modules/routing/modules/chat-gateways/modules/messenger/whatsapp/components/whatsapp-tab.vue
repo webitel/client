@@ -80,14 +80,12 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
-import openedObjectTableTabMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 import WhatsappAPI from '../api/whatsapp';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'OpenedChatGatewayWhatsappTab',
@@ -127,18 +125,27 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
       updateSubscriptionState(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
+        return dispatch(
+          `${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`,
+          payload,
+        );
       },
     }),
     addOrRemovePagesWindowHandler({ data }) {
       if (data.status === 'success') this.loadList();
       else if (data.status === 'error') {
-        this.$eventBus.$emit('notification', { type: 'error', text: data.detail });
+        this.$eventBus.$emit('notification', {
+          type: 'error',
+          text: data.detail,
+        });
       }
     },
     addOrRemovePages() {
       const url = WhatsappAPI.addOrRemovePagesUrl(this.uri);
-      openMessengerWindow({ url, listener: this.addOrRemovePagesWindowHandler });
+      openMessengerWindow({
+        url,
+        listener: this.addOrRemovePagesWindowHandler,
+      });
     },
   },
 };

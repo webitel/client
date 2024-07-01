@@ -6,76 +6,139 @@ const ApplicationHub = () => import('../../modules/application-hub/components/ap
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
 const StartPage = () => import('../../modules/start-page/components/the-start-page.vue');
 const Settings = () => import('../../modules/settings/components/the-settings.vue');
-const AccessDenied = () => import('../../modules/error-pages/components/the-access-denied-component.vue');
+const AccessDenied = () =>
+  import('../../modules/error-pages/components/the-access-denied-component.vue');
 const NotFound = () => import('../../modules/error-pages/components/the-not-found-component.vue');
-const PermissionsRoles = () => import('../../modules/permissions/modules/roles/components/the-roles.vue');
-const OpenedPermissionsRoles = () => import('../../modules/permissions/modules/roles/components/opened-role.vue');
-const PermissionsObjects = () => import('../../modules/permissions/modules/objects/components/the-objects-permissions.vue');
-const OpenedPermissionsObjects = () => import('../../modules/permissions/modules/objects/components/opened-object-permissions.vue');
+const PermissionsRoles = () =>
+  import('../../modules/permissions/modules/roles/components/the-roles.vue');
+const OpenedPermissionsRoles = () =>
+  import('../../modules/permissions/modules/roles/components/opened-role.vue');
+const PermissionsObjects = () =>
+  import('../../modules/permissions/modules/objects/components/the-objects-permissions.vue');
+const OpenedPermissionsObjects = () =>
+  import('../../modules/permissions/modules/objects/components/opened-object-permissions.vue');
 const Devices = () => import('../../modules/directory/modules/devices/components/the-devices.vue');
-const OpenedDevice = () => import('../../modules/directory/modules/devices/components/opened-device.vue');
+const OpenedDevice = () =>
+  import('../../modules/directory/modules/devices/components/opened-device.vue');
 const Users = () => import('../../modules/directory/modules/users/components/the-users.vue');
 const OpenedUser = () => import('../../modules/directory/modules/users/components/opened-user.vue');
 const License = () => import('../../modules/directory/modules/license/components/the-license.vue');
-const Blacklists = () => import('../../modules/lookups/modules/blacklists/components/the-blacklists.vue');
+const Blacklists = () =>
+  import('../../modules/lookups/modules/blacklists/components/the-blacklists.vue');
 const Media = () => import('../../modules/lookups/modules/media/components/the-media.vue');
-const OpenedBlacklist = () => import('../../modules/lookups/modules/blacklists/components/opened-blacklist.vue');
-const Calendars = () => import('../../modules/lookups/modules/calendars/components/the-calendars.vue');
-const OpenedCalendar = () => import('../../modules/lookups/modules/calendars/components/opened-calendar.vue');
-const CommunicationTypes = () => import('../../modules/lookups/modules/communications/components/the-communication-types.vue');
-const OpenedCommunicationType = () => import('../../modules/lookups/modules/communications/components/opened-communication-type.vue');
+const OpenedBlacklist = () =>
+  import('../../modules/lookups/modules/blacklists/components/opened-blacklist.vue');
+const Calendars = () =>
+  import('../../modules/lookups/modules/calendars/components/the-calendars.vue');
+const OpenedCalendar = () =>
+  import('../../modules/lookups/modules/calendars/components/opened-calendar.vue');
+const CommunicationTypes = () =>
+  import('../../modules/lookups/modules/communications/components/the-communication-types.vue');
+const OpenedCommunicationType = () =>
+  import('../../modules/lookups/modules/communications/components/opened-communication-type.vue');
 const Regions = () => import('../../modules/lookups/modules/regions/components/the-regions.vue');
-const OpenedRegion = () => import('../../modules/lookups/modules/regions/components/opened-region.vue');
-const AgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/the-agent-pause-cause.vue');
-const OpenedAgentPauseCause = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause.vue');
-const SipGateways = () => import('../../modules/routing/modules/gateways/components/the-sip-gateways.vue');
-const OpenedGateway = () => import('../../modules/routing/modules/gateways/components/opened-sip-gateway.vue');
-const ChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways.vue');
-const OpenedChatGateways = () => import('../../modules/routing/modules/chat-gateways/components/opened-chat-gateway.vue');
+const OpenedRegion = () =>
+  import('../../modules/lookups/modules/regions/components/opened-region.vue');
+const AgentPauseCause = () =>
+  import('../../modules/lookups/modules/agent-pause-cause/components/the-agent-pause-cause.vue');
+const OpenedAgentPauseCause = () =>
+  import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause.vue');
+const SipGateways = () =>
+  import('../../modules/routing/modules/gateways/components/the-sip-gateways.vue');
+const OpenedGateway = () =>
+  import('../../modules/routing/modules/gateways/components/opened-sip-gateway.vue');
+const ChatGateways = () =>
+  import('../../modules/routing/modules/chat-gateways/components/the-chat-gateways.vue');
+const OpenedChatGateways = () =>
+  import('../../modules/routing/modules/chat-gateways/components/opened-chat-gateway.vue');
 const Flow = () => import('../../modules/routing/modules/flow/components/the-flow.vue');
 const OpenedFlow = () => import('../../modules/routing/modules/flow/components/opened-flow.vue');
 const Dialplan = () => import('../../modules/routing/modules/dialplan/components/the-dialplan.vue');
-const OpenedDialplan = () => import('../../modules/routing/modules/dialplan/components/opened-dialplan.vue');
+const OpenedDialplan = () =>
+  import('../../modules/routing/modules/dialplan/components/opened-dialplan.vue');
 const Chatplan = () => import('../../modules/routing/modules/chatplan/components/the-chatplan.vue');
-const OpenedChatplan = () => import('../../modules/routing/modules/chatplan/components/opened-chatplan.vue');
-const TheResources = () => import('../../modules/contact-center/modules/resources/components/the-resources.vue');
-const OpenedResource = () => import('../../modules/contact-center/modules/resources/components/opened-resource.vue');
-const ResourceGroups = () => import('../../modules/contact-center/modules/resource-groups/components/the-resource-groups.vue');
-const OpenedResourceGroup = () => import('../../modules/contact-center/modules/resource-groups/components/opened-resource-group.vue');
-const Agents = () => import('../../modules/contact-center/modules/agents/components/the-agents.vue');
-const OpenedAgent = () => import('../../modules/contact-center/modules/agents/components/opened-agent.vue');
+const OpenedChatplan = () =>
+  import('../../modules/routing/modules/chatplan/components/opened-chatplan.vue');
+const TheResources = () =>
+  import('../../modules/contact-center/modules/resources/components/the-resources.vue');
+const OpenedResource = () =>
+  import('../../modules/contact-center/modules/resources/components/opened-resource.vue');
+const ResourceGroups = () =>
+  import('../../modules/contact-center/modules/resource-groups/components/the-resource-groups.vue');
+const OpenedResourceGroup = () =>
+  import(
+    '../../modules/contact-center/modules/resource-groups/components/opened-resource-group.vue'
+  );
+const Agents = () =>
+  import('../../modules/contact-center/modules/agents/components/the-agents.vue');
+const OpenedAgent = () =>
+  import('../../modules/contact-center/modules/agents/components/opened-agent.vue');
 const Teams = () => import('../../modules/contact-center/modules/teams/components/the-teams.vue');
-const OpenedTeam = () => import('../../modules/contact-center/modules/teams/components/opened-team.vue');
-const AgentSkills = () => import('../../modules/lookups/modules/agent-skills/components/the-agent-skills.vue');
-const OpenedAgentSkill = () => import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill.vue');
+const OpenedTeam = () =>
+  import('../../modules/contact-center/modules/teams/components/opened-team.vue');
+const AgentSkills = () =>
+  import('../../modules/lookups/modules/agent-skills/components/the-agent-skills.vue');
+const OpenedAgentSkill = () =>
+  import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill.vue');
 const Buckets = () => import('../../modules/lookups/modules/buckets/components/the-buckets.vue');
-const OpenedBucket = () => import('../../modules/lookups/modules/buckets/components/opened-bucket.vue');
-const Queues = () => import('../../modules/contact-center/modules/queues/components/the-queues.vue');
-const Members = () => import('../../modules/contact-center/modules/queues/modules/members/components/the-queue-members.vue');
-const OpenedMember = () => import('../../modules/contact-center/modules/queues/modules/members/components/opened-queue-member.vue');
-const OpenedQueue = () => import('../../modules/contact-center/modules/queues/components/opened-queue.vue');
-const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
-const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
-const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
-const EmailProfiles = () => import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
-const SingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/the-single-sign-on.vue');
-const ImportCsv = () => import('../../modules/integrations/modules/import-csv/components/the-import-csv.vue');
-const Triggers = () => import('../../modules/integrations/modules/triggers/components/the-triggers.vue');
-const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
-const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
-const OpenedSingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/opened-single-sign-on.vue');
-const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
-const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
-const Changelogs = () => import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
-const OpenedChangelog = () => import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
-const Configuration = () => import('../../modules/system/modules/configuration/components/the-configuration.vue');
-const GlobalVariables = () => import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
+const OpenedBucket = () =>
+  import('../../modules/lookups/modules/buckets/components/opened-bucket.vue');
+const Queues = () =>
+  import('../../modules/contact-center/modules/queues/components/the-queues.vue');
+const Members = () =>
+  import(
+    '../../modules/contact-center/modules/queues/modules/members/components/the-queue-members.vue'
+  );
+const OpenedMember = () =>
+  import(
+    '../../modules/contact-center/modules/queues/modules/members/components/opened-queue-member.vue'
+  );
+const OpenedQueue = () =>
+  import('../../modules/contact-center/modules/queues/components/opened-queue.vue');
+const Storage = () =>
+  import('../../modules/integrations/modules/storage/components/the-storage.vue');
+const OpenedStorage = () =>
+  import('../../modules/integrations/modules/storage/components/opened-storage.vue');
+const CognitiveProfiles = () =>
+  import(
+    '../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue'
+  );
+const EmailProfiles = () =>
+  import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
+const SingleSignOn = () =>
+  import('../../modules/integrations/modules/single-sign-on/components/the-single-sign-on.vue');
+const ImportCsv = () =>
+  import('../../modules/integrations/modules/import-csv/components/the-import-csv.vue');
+const Triggers = () =>
+  import('../../modules/integrations/modules/triggers/components/the-triggers.vue');
+const OpenedCognitiveProfile = () =>
+  import(
+    '../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue'
+  );
+const OpenedEmailProfile = () =>
+  import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
+const OpenedSingleSignOn = () =>
+  import('../../modules/integrations/modules/single-sign-on/components/opened-single-sign-on.vue');
+const OpenedImportCsv = () =>
+  import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
+const OpenedTrigger = () =>
+  import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
+const Changelogs = () =>
+  import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
+const OpenedChangelog = () =>
+  import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
+const Configuration = () =>
+  import('../../modules/system/modules/configuration/components/the-configuration.vue');
+const GlobalVariables = () =>
+  import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
 
 const checkAppAccess = (to, from, next) => {
   // check for === false because it can be undefined
   if (to.meta.requiresAccess === false) next();
 
-  const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](store.getters['userinfo/THIS_APP']);
+  const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](
+    store.getters['userinfo/THIS_APP'],
+  );
   if (hasReadAccess) {
     next();
   } else {
@@ -83,14 +146,16 @@ const checkAppAccess = (to, from, next) => {
   }
 };
 
-const checkRouteAccess = ((to, from, next) => {
-  const hasReadAccess = store.getters['userinfo/HAS_READ_ACCESS']({ route: to });
+const checkRouteAccess = (to, from, next) => {
+  const hasReadAccess = store.getters['userinfo/HAS_READ_ACCESS']({
+    route: to,
+  });
   if (hasReadAccess) {
     next();
   } else {
     next('/access-denied');
   }
-});
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -742,7 +807,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.query.accessToken) {
     // assume that access token was set from query before app initialization in main.js
     const newQuery = { ...to.query };
-    delete newQuery.accessToken;
+    newQuery.accessToken = undefined;
     next({ ...to, query: newQuery });
   } else {
     next();

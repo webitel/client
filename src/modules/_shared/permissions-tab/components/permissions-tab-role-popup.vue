@@ -31,8 +31,7 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins
-  from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import permissionsTabRolePopupMixins from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 import PermissionsRoleSelect from './_internals/permissions-role-select.vue';
 
 export default {

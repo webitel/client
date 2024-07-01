@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import SingleSignOnAPI from '../api/singleSignOn';
 import headers from './_internals/headers';
 
@@ -16,8 +15,8 @@ const resettableState = {
 };
 
 const singleSignOn = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(SingleSignOnAPI)
-.generateAPIActions()
-.getModule({});
+  .attachAPIModule(SingleSignOnAPI)
+  .generateAPIActions()
+  .getModule({});
 
 export default singleSignOn;

@@ -43,7 +43,10 @@ export default {
     },
     headers() {
       return [
-        { value: 'skill', text: this.$tc('objects.lookups.skills.skills', 1) },
+        {
+          value: 'skill',
+          text: this.$tc('objects.lookups.skills.skills', 1),
+        },
       ];
     },
   },

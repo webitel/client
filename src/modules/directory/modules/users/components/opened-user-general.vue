@@ -56,8 +56,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {

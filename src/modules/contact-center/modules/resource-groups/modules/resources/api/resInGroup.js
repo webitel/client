@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -16,14 +13,7 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 
 const resGrService = new OutboundResourceGroupServiceApiFactory(configuration, '', instance);
 
-const fieldsToSend = [
-  'groupId',
-  'name',
-  'description',
-  'resource',
-  'reserveResource',
-  'priority',
-];
+const fieldsToSend = ['groupId', 'name', 'description', 'resource', 'reserveResource', 'priority'];
 
 const preRequestHandler = (parentId) => (item) => ({
   ...item,
@@ -31,15 +21,7 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 const getResInGroupList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    parentId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, parentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -63,24 +45,16 @@ const getResInGroupList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getResInGroup = async ({ parentId, itemId: id }) => {
   try {
     const response = await resGrService.readOutboundResourceInGroup(parentId, id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -92,14 +66,9 @@ const addResInGroup = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await resGrService.createOutboundResourceInGroup(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -111,14 +80,9 @@ const updateResInGroup = async ({ itemInstance, itemId: id, parentId }) => {
   ]);
   try {
     const response = await resGrService.updateOutboundResourceInGroup(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -127,10 +91,7 @@ const deleteResInGroup = async ({ parentId, id }) => {
     const response = await resGrService.deleteOutboundResourceInGroup(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

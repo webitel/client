@@ -49,24 +49,21 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minLength, minValue, requiredIf, numeric, required, url } from '@vuelidate/validators';
+import { url, maxValue, minLength, minValue, numeric, required } from '@vuelidate/validators';
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
 import WebchatCopyCodeButton from '../modules/webchat/components/copy-code-button.vue';
-import OpenedWebchatAlternativeChannels
-  from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
+import OpenedWebchatAlternativeChannels from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedWebchatAppointment from '../modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue';
 import OpenedWebchatChat from '../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue';
 
 import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
-import OpenedChatGatewayWebchatRecaptchaTab
-  from '../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue';
+import OpenedChatGatewayWebchatRecaptchaTab from '../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue';
 import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
 import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
 
@@ -114,9 +111,14 @@ export default {
   validations() {
     const defaults = {
       name: { required },
-      uri: { required, minLength: minLength(3) },
+      uri: {
+        required,
+        minLength: minLength(3),
+      },
       flow: {
-        name: { required },
+        name: {
+          required,
+        },
       },
     };
     switch (this.chatType) {
@@ -125,7 +127,9 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              token: { required },
+              token: {
+                required,
+              },
             },
           },
         };
@@ -134,8 +138,13 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              apiId: { required, numeric },
-              apiHash: { required },
+              apiId: {
+                required,
+                numeric,
+              },
+              apiHash: {
+                required,
+              },
             },
           },
         };
@@ -144,8 +153,12 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              clientId: { required },
-              clientSecret: { required },
+              clientId: {
+                required,
+              },
+              clientSecret: {
+                required,
+              },
             },
           },
         };
@@ -154,8 +167,13 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              apiKey: { required },
-              url: { required, url },
+              apiKey: {
+                required,
+              },
+              url: {
+                required,
+                url,
+              },
             },
           },
         };
@@ -163,11 +181,6 @@ export default {
         return {
           itemInstance: {
             ...defaults,
-            flow: {
-              required: requiredIf(() => {
-                return this.itemInstance.metadata.chat.enabled
-              })
-            },
             metadata: {
               readTimeout: {
                 numeric,
@@ -184,41 +197,66 @@ export default {
                 minValue: minValue(10),
                 maxValue: maxValue(60),
               },
-              view: { logoUrl: { url } },
-              captcha: this.itemInstance.metadata.captcha.enabled ? {
-                sitekey: { required },
-                secret: { required },
-                threshold: {
-                  required,
-                  numeric,
-                  minValue: minValue(0),
-                  maxValue: maxValue(1),
+              view: {
+                logoUrl: {
+                  url,
                 },
-              } : {},
+              },
+              captcha: this.itemInstance.metadata.captcha.enabled
+                ? {
+                    sitekey: {
+                      required,
+                    },
+                    secret: {
+                      required,
+                    },
+                    threshold: {
+                      required,
+                      numeric,
+                      minValue: minValue(0),
+                      maxValue: maxValue(1),
+                    },
+                  }
+                : {},
               chat: {
                 openTimeout: {
                   numeric,
                   minValue: minValue(0),
                 },
               },
-              appointment: this.itemInstance.metadata.appointment.enabled ? {
-                queue: { required },
-                communicationType: { required },
-                duration: { required },
-                days: {
-                  required,
-                  minValue: minValue(1),
-                  maxValue: maxValue(7),
-                },
-                availableAgents: {
-                  required,
-                  minValue: minValue(1),
-                },
-              } : {},
-              call: this.itemInstance.metadata.call.enabled ? {
-                url: { required, websocketValidator },
-                flow: { required },
-              } : {},
+              appointment: this.itemInstance.metadata.appointment.enabled
+                ? {
+                    queue: {
+                      required,
+                    },
+                    communicationType: {
+                      required,
+                    },
+                    duration: {
+                      required,
+                    },
+                    days: {
+                      required,
+                      minValue: minValue(1),
+                      maxValue: maxValue(7),
+                    },
+                    availableAgents: {
+                      required,
+                      minValue: minValue(1),
+                    },
+                  }
+                : {},
+              call: this.itemInstance.metadata.call.enabled
+                ? {
+                    url: {
+                      required,
+                      websocketValidator,
+                    },
+                    flow: {
+                      required,
+                    },
+                  }
+                : {},
             },
           },
         };
@@ -227,7 +265,9 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              token: { required },
+              token: {
+                required,
+              },
             },
           },
         };
@@ -236,13 +276,21 @@ export default {
           itemInstance: {
             ...defaults,
             metadata: {
-              webhook: { required },
-              secret: { required },
+              webhook: {
+                required,
+              },
+              secret: {
+                required,
+              },
             },
           },
         };
       default:
-        return { itemInstance: { ...defaults } };
+        return {
+          itemInstance: {
+            ...defaults,
+          },
+        };
     }
   },
 
@@ -283,12 +331,9 @@ export default {
         text: this.$t('objects.routing.chatGateways.messenger.whatsapp.whatsapp'),
         value: 'OpenedChatWhatsapp',
       };
-      const messenger = this.id ? [
-        messengerChat,
-        facebookChatPages,
-        instagramChatPages,
-        whatsappChatPages,
-      ] : [messengerChat];
+      const messenger = this.id
+        ? [messengerChat, facebookChatPages, instagramChatPages, whatsappChatPages]
+        : [messengerChat];
       messenger.push(botTemplates);
 
       const infobipChat = {
@@ -327,7 +372,9 @@ export default {
         value: 'OpenedWebchatAppointment',
       };
       const webchatAlternativeChannels = {
-        text: this.$t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels'),
+        text: this.$t(
+          'objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels',
+        ),
         value: 'OpenedWebchatAlternativeChannels',
       };
       const webchatReCaptcha = {
@@ -346,7 +393,7 @@ export default {
           return [infobipChat, botTemplates];
         case ChatGatewayProvider.VIBER:
           return [viberChat, viberStyle, botTemplates];
-          case ChatGatewayProvider.CUSTOM:
+        case ChatGatewayProvider.CUSTOM:
           return [customChatPages, botTemplates];
         case ChatGatewayProvider.WEBCHAT:
           return [
@@ -391,10 +438,15 @@ export default {
     path() {
       const baseUrl = '/routing/chat-gateways';
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: baseUrl },
         {
-          name: `${(this.id ? this.pathName : this.$t('objects.new'))} ${this.chatGatewayTitle}`,
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.chatGateways.chatGateways', 2),
+          route: baseUrl,
+        },
+        {
+          name: `${this.id ? this.pathName : this.$t('objects.new')} ${this.chatGatewayTitle}`,
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
         },
       ];

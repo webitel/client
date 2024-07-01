@@ -1,7 +1,4 @@
-import {
-  SortSymbols,
-  sortToQueryAdapter,
-} from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import deepCopy from 'deep-copy';
 
 const state = {
@@ -32,25 +29,26 @@ const actions = {
      */
     context.commit('SET_IS_NEXT', false);
 
-    const query = { ...context.getters['filters/GET_FILTERS'], ..._query };
+    const query = {
+      ...context.getters['filters/GET_FILTERS'],
+      ..._query,
+    };
     try {
-      let {
-        items = [],
-        next = false,
-        aggs = {},
-      } = await context.dispatch('GET_LIST', query);
+      let { items = [], next = false, aggs = {} } = await context.dispatch('GET_LIST', query);
 
       /* [https://my.webitel.com/browse/WTEL-3793]
-      * When deleting the last item from list,
-      * if there are other items on the previous page, you need to go back */
-      if (!items.length && context.state.page >
-        1) return context.dispatch('PREV_PAGE');
+       * When deleting the last item from list,
+       * if there are other items on the previous page, you need to go back */
+      if (!items.length && context.state.page > 1) return context.dispatch('PREV_PAGE');
 
       /* we should set _isSelected property to all items in tables cause their checkbox selection
-      * is based on this property. Previously, this prop was set it api consumers, but now
-      * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
-      * weird to set this property in each api file through defaultListObject */
-      items = items.map((item) => ({ ...item, _isSelected: false }));
+       * is based on this property. Previously, this prop was set it api consumers, but now
+       * admin-specific were replaced by webitel-sdk consumers and i supposed it will be
+       * weird to set this property in each api file through defaultListObject */
+      items = items.map((item) => ({
+        ...item,
+        _isSelected: false,
+      }));
 
       const afterHook = await context.dispatch('BEFORE_SET_DATA_LIST_HOOK', {
         items,
@@ -95,7 +93,10 @@ const actions = {
       ? `${sortToQueryAdapter(nextSortOrder)}${header.field}`
       : nextSortOrder;
     context.commit('SET_SORT', sort);
-    context.dispatch('UPDATE_HEADER_SORT', { header, nextSortOrder });
+    context.dispatch('UPDATE_HEADER_SORT', {
+      header,
+      nextSortOrder,
+    });
     await context.dispatch('RESET_PAGE');
     return context.dispatch('LOAD_DATA_LIST');
   },
@@ -105,25 +106,31 @@ const actions = {
       if (oldHeader.sort !== undefined) {
         return {
           ...oldHeader,
-          sort: oldHeader.field === header.field
-            ? nextSortOrder
-            : SortSymbols.NONE,
+          sort: oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE,
         };
       }
       return oldHeader;
     });
     context.commit('SET_HEADERS', headers);
   },
-  PATCH_ITEM_PROPERTY: async (context, {
-    item, index, prop, value,
-  }) => {
-    await context.commit('PATCH_ITEM_PROPERTY', { index, prop, value });
+  PATCH_ITEM_PROPERTY: async (context, { item, index, prop, value }) => {
+    await context.commit('PATCH_ITEM_PROPERTY', {
+      index,
+      prop,
+      value,
+    });
     const id = item?.id || context.state.dataList[index].id;
     const changes = { [prop]: value };
     try {
-      await context.dispatch('PATCH_ITEM', { id, changes });
+      await context.dispatch('PATCH_ITEM', {
+        id,
+        changes,
+      });
       context.commit('PATCH_ITEM_PROPERTY', {
-        item, index, prop, value,
+        item,
+        index,
+        prop,
+        value,
       });
     } catch {
       context.dispatch('LOAD_DATA_LIST');
@@ -150,10 +157,8 @@ const actions = {
       throw err;
     }
   },
-  DELETE_BULK: async (
-    context,
-    deleted,
-  ) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item))),
+  DELETE_BULK: async (context, deleted) =>
+    Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE', item))),
   // REMOVE_ITEM: async (context, index) => {
   //   const id = context.state.dataList[index].id;
   //   context.commit('REMOVE_ITEM', index);

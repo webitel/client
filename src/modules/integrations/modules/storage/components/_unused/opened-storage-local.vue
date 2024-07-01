@@ -16,8 +16,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedStorageLocal',
@@ -25,8 +24,15 @@ export default {
 
   computed: {
     directory: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.directory; },
-      set(value) { this.setItemProp({ prop: 'directory', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.directory;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'directory',
+          value,
+        });
+      },
     },
   },
 

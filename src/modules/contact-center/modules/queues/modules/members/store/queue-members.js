@@ -1,5 +1,4 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import QueuesAPI from '../../../api/queues';
 import MembersAPI from '../api/queueMembers';
 import filters from '../modules/filters/store/filters';
@@ -22,7 +21,9 @@ const resettableItemState = {
 const actions = {
   LOAD_PARENT_QUEUE: async (context) => {
     try {
-      const queue = await QueuesAPI.get({ itemId: context.state.parentId });
+      const queue = await QueuesAPI.get({
+        itemId: context.state.parentId,
+      });
       context.commit('SET_PARENT_QUEUE', queue);
     } catch (err) {
       throw err;
@@ -46,13 +47,13 @@ const actions = {
     const id = deleted.map((item) => item.id);
     return MembersAPI.deleteBulk(context.state.parentId, { id });
   },
-  DELETE_FILTERED: (
-    context,
-    query = context.getters['filters/GET_FILTERS'],
-  ) => {
+  DELETE_FILTERED: (context, query = context.getters['filters/GET_FILTERS']) => {
     return MembersAPI.deleteBulk(context.state.parentId, query);
   },
-  DELETE_ALL: (context) => MembersAPI.deleteBulk(context.state.parentId, { id: [] }),
+  DELETE_ALL: (context) =>
+    MembersAPI.deleteBulk(context.state.parentId, {
+      id: [],
+    }),
   RESET_MEMBERS: (context) => {
     const response = MembersAPI.resetMembers(context.state);
     context.dispatch('LOAD_DATA_LIST');
@@ -64,14 +65,26 @@ const actions = {
   },
   ADD_MEMBER_COMMUNICATION: (context, item) => {
     const value = context.state.itemInstance.communications.concat(item);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'communications',
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   UPDATE_MEMBER_COMMUNICATION: (context, { index, item }) => {
     const value = [...context.state.itemInstance.communications];
     value.splice(index, 1, item);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'communications', value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'communications',
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_MEMBER_COMMUNICATION: (context, deleted) => {
     let action = 'DELETE_SINGLE_COMMUNICATION';
@@ -88,17 +101,23 @@ const actions = {
       prop: 'communications',
       value: communications,
     });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_BULK_COMMUNICATIONS: (context, deleted) => {
-    const communications = context.state.itemInstance.communications
-    .filter((comm) => !deleted.some((delComm) => delComm.destination ===
-      comm.destination));
+    const communications = context.state.itemInstance.communications.filter(
+      (comm) => !deleted.some((delComm) => delComm.destination === comm.destination),
+    );
     context.commit('SET_ITEM_PROPERTY', {
       prop: 'communications',
       value: communications,
     });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_ALL_COMMUNICATIONS: (context) => {
     const communications = [];
@@ -106,20 +125,36 @@ const actions = {
       prop: 'communications',
       value: communications,
     });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
     context.commit('ADD_VARIABLE_PAIR', pair);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    context.commit('SET_VARIABLE_PROP', { index, prop, value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_VARIABLE_PROP', {
+      index,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 };
 
@@ -142,9 +177,9 @@ const queueMembers = new NestedObjectStoreModule({
   resettableItemState,
   headers,
 })
-.attachAPIModule(MembersAPI)
-.generateAPIActions()
-.setChildModules({ filters })
-.getModule({ actions, mutations });
+  .attachAPIModule(MembersAPI)
+  .generateAPIActions()
+  .setChildModules({ filters })
+  .getModule({ actions, mutations });
 
 export default queueMembers;

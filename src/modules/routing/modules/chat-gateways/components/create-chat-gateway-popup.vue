@@ -32,10 +32,9 @@
 </template>
 
 <script>
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 
 export default {
   name: 'CreateChatGatewayPopup',
@@ -95,7 +94,9 @@ export default {
     createGateway() {
       this.$router.push({
         name: `${RouteNames.CHAT_GATEWAYS}-new`,
-        query: { type: this.selected.value },
+        query: {
+          type: this.selected.value,
+        },
       });
     },
     close() {

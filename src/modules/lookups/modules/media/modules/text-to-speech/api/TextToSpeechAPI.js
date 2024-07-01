@@ -21,7 +21,6 @@ const getTtsStreamUrl = (params, apiUrl = false) => {
 };
 
 const getTts = async (params) => {
-
   const url = getTtsStreamUrl(params, true);
 
   try {
@@ -30,10 +29,12 @@ const getTts = async (params) => {
     return response.blob();
   } catch (err) {
     throw applyTransform(err, [
-      notify(({ callback }) => callback({
-        type: 'error',
-        text: `Failed to process Text-to-Speech: ${err}`,
-      })),
+      notify(({ callback }) =>
+        callback({
+          type: 'error',
+          text: `Failed to process Text-to-Speech: ${err}`,
+        }),
+      ),
     ]);
   }
 };

@@ -10,11 +10,7 @@ import tableActionsHandlerMixin from './tableActionsMixin';
  * @extends itemLinkMixin, tableActionsHandlerMixin
  */
 export default {
-  mixins: [
-    deleteMixin,
-    itemLinkMixin,
-    tableActionsHandlerMixin,
-  ],
+  mixins: [deleteMixin, itemLinkMixin, tableActionsHandlerMixin],
 
   data: () => ({
     isLoaded: false,

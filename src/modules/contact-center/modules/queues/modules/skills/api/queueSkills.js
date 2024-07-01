@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -18,7 +15,12 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const queueSkillService = new QueueSkillServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  'maxCapacity', 'minCapacity', 'queueId', 'lvl', 'buckets', 'skill',
+  'maxCapacity',
+  'minCapacity',
+  'queueId',
+  'lvl',
+  'buckets',
+  'skill',
   'enabled',
 ];
 
@@ -28,16 +30,7 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 export const getQueueSkillsList = async (params) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'sort',
-    'fields',
-    'id',
-    'parentId',
-    'skillId',
-  ];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId', 'skillId'];
 
   const defaultObject = {
     agent: {},
@@ -48,16 +41,7 @@ export const getQueueSkillsList = async (params) => {
     enabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    parentId,
-    skillId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, parentId, skillId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
     sanitize(fieldsToSend),
@@ -79,16 +63,11 @@ export const getQueueSkillsList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -104,15 +83,9 @@ export const getQueueSkill = async ({ parentId, itemId: id }) => {
 
   try {
     const response = await queueSkillService.readQueueSkill(parentId, id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -124,40 +97,23 @@ export const addQueueSkill = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await queueSkillService.createQueueSkill(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 export const patchQueueSkill = async ({ changes, id, parentId }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await queueSkillService.patchQueueSkill(parentId, id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-export const updateQueueSkill = async ({
-                                         itemInstance,
-                                         itemId: id,
-                                         parentId,
-                                       }) => {
+export const updateQueueSkill = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),
@@ -165,14 +121,9 @@ export const updateQueueSkill = async ({
   ]);
   try {
     const response = await queueSkillService.updateQueueSkill(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -181,10 +132,7 @@ export const deleteQueueSkill = async ({ parentId, id }) => {
     const response = await queueSkillService.deleteQueueSkill(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

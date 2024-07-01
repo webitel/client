@@ -44,9 +44,9 @@ import { required, requiredUnless } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { StorageProviderType } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
 import Google from './google/opened-cognitive-profile-google.vue';
 import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
-import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
 
 export default {
   name: 'OpenedCognitiveProfile',
@@ -66,9 +66,15 @@ export default {
   validations() {
     const defaults = {
       itemInstance: {
-        name: { required },
-        service: { required },
-        provider: { required },
+        name: {
+          required,
+        },
+        service: {
+          required,
+        },
+        provider: {
+          required,
+        },
       },
     };
     switch (this.provider) {
@@ -76,8 +82,12 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             properties: {
-              key: { required: requiredUnless(() => !!this.id) },
-              region: { required },
+              key: {
+                required: requiredUnless(() => !!this.id),
+              },
+              region: {
+                required,
+              },
             },
           },
         });
@@ -85,7 +95,9 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             properties: {
-              key: { required },
+              key: {
+                required,
+              },
             },
           },
         });
@@ -93,7 +105,9 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             properties: {
-              key: { required: requiredUnless(() => !!this.id) },
+              key: {
+                required: requiredUnless(() => !!this.id),
+              },
             },
           },
         });
@@ -136,8 +150,13 @@ export default {
     path() {
       const baseUrl = '/integrations/cognitive-profiles';
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2), route: baseUrl },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
