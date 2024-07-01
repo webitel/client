@@ -1,3 +1,4 @@
+import { generateUrl } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import instance from '../../../app/api/instance';
 import applyTransform, {
   camelToSnake,
@@ -46,6 +47,32 @@ export const changeWebPhone = async (changes) => {
   }
 };
 
+export const getRingtones = async (params) => {
+
+  const baseUrl = '/ringtones/index.json';
+
+  let url = applyTransform(params, [
+    (params) => ({
+      ...params,
+      access_token: instance.defaults.headers['X-Webitel-Access'],
+    }),
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+
+  try {
+    const response = await fetch(url);
+    console.log('response', response.data, 'response.blob():', response.blob());
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const patchItem = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     camelToSnake(),
@@ -73,4 +100,5 @@ export default {
   changePassword,
   changeWebPhone,
   getWebPhone,
+  getRingtones,
 };

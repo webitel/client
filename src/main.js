@@ -21,6 +21,7 @@ import store from './app/store/store';
 
 const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
+  console.log('import.meta.env.BASE_URL', import.meta.env.BASE_URL);
   return response.json();
 };
 
