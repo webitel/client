@@ -11,19 +11,16 @@ export class HistoryStoreModule extends BaseStoreModule {
     ...BaseOpenedInstanceModule.getActions(),
 
     SET_PERIOD: (context, period) => {
-      console.log('period', period)
       context.commit('SET_FROM', period.from);
       context.commit('SET_TO', period.to);
       context.dispatch('LOAD_DATA_LIST');
     },
 
     SET_FROM: (context, from) => {
-      console.log('from', from)
       context.commit('SET_FROM', from);
       context.dispatch('LOAD_DATA_LIST');
     },
     SET_TO: (context, to) => {
-      console.log('to', to)
       context.commit('SET_TO', to);
       context.dispatch('LOAD_DATA_LIST');
     },

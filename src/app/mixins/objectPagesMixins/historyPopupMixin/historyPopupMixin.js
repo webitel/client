@@ -48,13 +48,13 @@ export default {
     selectForm(from) {
       return this.$router.push({
         ...this.$route,
-        query: { ...this.$route.query, from },
+        query: { ...this.$route.query, from, to: this.toQuery || Date.now() },
       })
     },
     selectTo(to){
       return this.$router.push({
         ...this.$route,
-        query: { ...this.$route.query, to },
+        query: { ...this.$route.query, to, from: this.fromQuery || Date.now() },
       })
     },
     prettifyTime(time) {
