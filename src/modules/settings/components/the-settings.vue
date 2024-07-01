@@ -164,6 +164,7 @@ export default {
 
   created() {
     this.restoreLanguage();
+    this.callEndSound = !!localStorage.getItem('callEndSound');
   },
 
   computed: {
