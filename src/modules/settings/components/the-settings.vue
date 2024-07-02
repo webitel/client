@@ -260,10 +260,6 @@ export default {
   min-width: 200px;
   gap: var(--spacing-sm);
 
-  //.content-title {
-  //  @extend %typo-subtitle-1;
-  //}
-
   &__setting {
     width: 50%;
     display: flex;
