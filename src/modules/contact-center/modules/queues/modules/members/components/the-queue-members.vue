@@ -96,15 +96,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <!--        <wt-dummy-->
-        <!--          v-if="dummy && isLoaded"-->
-        <!--          :src="dummy.src"-->
-        <!--          :dark-mode="darkMode"-->
-        <!--          :text="dummy.text && $t(dummy.text)"-->
-        <!--          class="dummy-wrapper"-->
-        <!--        ></wt-dummy>-->
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
         <div
-          v-show="isLoaded"
+          v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
           <wt-table
@@ -133,9 +133,9 @@
             <template #endCause="{ item }">
               <div v-if="item.stopCause">
                 {{
-                  $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    : item.stopCause
+                $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                : item.stopCause
                 }}
               </div>
             </template>
@@ -209,60 +209,66 @@ import TheQueueMembersFilters from '../modules/filters/components/the-queue-memb
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-export default {
-  name: 'TheQueueMembers',
-  components: {
-    FilterSearch,
-    uploadPopup,
-    destinationsPopup,
-    ResetPopup,
-    TheQueueMembersFilters,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
-
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-
-  data: () => ({
-    namespace: 'ccenter/queues/members',
-    isUploadPopup: false,
-    communicationsOnPopup: null,
-    isDestinationsPopup: false,
-    isResetPopup: false,
-    csvFile: null,
-  }),
-
-  computed: {
-    ...mapState({
-      parentQueue(state) {
-        return getNamespacedState(state, this.namespace).parentQueue;
-      },
-    }),
-    // ...mapGetters('appearance', {
-    //   darkMode: 'DARK_MODE',
-    // }),
-    parentId() {
-      return this.$route.params.queueId;
+  export default {
+    name: 'TheQueueMembers',
+    components: {
+      FilterSearch,
+      uploadPopup,
+      destinationsPopup,
+      ResetPopup,
+      TheQueueMembersFilters,
+      DeleteConfirmationPopup,
     },
+    mixins: [tableComponentMixin],
+
+    setup() {
+      const { dummy } = useDummy({
+        namespace: `${namespace}/${subNamespace}`,
+        text: 'objects.ccenter.members.emptyWorkspace',
+      });
+      const {
+        isVisible: isDeleteConfirmationPopup,
+        deleteCount,
+        deleteCallback,
+
+        askDeleteConfirmation,
+        closeDelete,
+      } = useDeleteConfirmationPopup();
+
+      return {
+        isDeleteConfirmationPopup,
+        deleteCount,
+        deleteCallback,
+
+        askDeleteConfirmation,
+        closeDelete,
+        dummy,
+      };
+    },
+
+    data: () => ({
+      namespace: 'ccenter/queues/members',
+      isUploadPopup: false,
+      communicationsOnPopup: null,
+      isDestinationsPopup: false,
+      isResetPopup: false,
+      csvFile: null,
+    }),
+
+    computed: {
+      ...mapState({
+        parentQueue(state) {
+          return getNamespacedState(state, this.namespace).parentQueue;
+        },
+      }),
+      // ...mapGetters('appearance', {
+      //   darkMode: 'DARK_MODE',
+      // }),
+      parentId() {
+        return this.$route.params.queueId;
+      },
 
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
@@ -318,79 +324,69 @@ export default {
         method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
       };
 
-      const options = [all, filtered];
-      if (selectedCount) options.push(selected);
-      return options;
+        const options = [all, filtered];
+        if (selectedCount) options.push(selected);
+        return options;
+      },
+
+      saveOptions() {
+        const importCsv = {
+          text: this.$tc('objects.integrations.importCsv.importCsv', 2),
+          callback: this.triggerFileInput,
+        };
+        return [importCsv];
+      },
     },
 
-    saveOptions() {
-      const importCsv = {
-        text: this.$tc('objects.integrations.importCsv.importCsv', 2),
-        callback: this.triggerFileInput,
-      };
-      return [importCsv];
-    },
+    methods: {
+      prettifyDateTime(timestamp) {
+        return new Date(+timestamp).toLocaleString();
+      },
 
-    /* https://my.webitel.com/browse/WTEL-3697 */
-    /* Temporarily disabled functionality due to problems with pagination */
+      openResetPopup() {
+        this.isResetPopup = true;
+      },
 
-    // dummy() {
-    //   return !this.dataList.length && {
-    //     src: this.darkMode ? dummyPicDark : dummyPicLight,
-    //     text: 'objects.ccenter.members.emptyWorkspace',
-    //   };
-    // },
-  },
+      closeResetPopup() {
+        this.isResetPopup = false;
+      },
 
-  methods: {
-    prettifyDateTime(timestamp) {
-      return new Date(+timestamp).toLocaleString();
-    },
+      readDestinations(item) {
+        this.communicationsOnPopup = item.communications;
+        this.isDestinationsPopup = true;
+      },
 
-    openResetPopup() {
-      this.isResetPopup = true;
-    },
+      closeDestinationsPopup() {
+        this.communicationsOnPopup = null;
+        this.isDestinationsPopup = false;
+      },
 
-    closeResetPopup() {
-      this.isResetPopup = false;
-    },
+      processCSV(files) {
+        const file = files[0];
+        if (file) {
+          this.csvFile = file;
+          this.isUploadPopup = true;
+        }
+      },
 
-    readDestinations(item) {
-      this.communicationsOnPopup = item.communications;
-      this.isDestinationsPopup = true;
-    },
+      closeCSVPopup() {
+        this.loadList();
+        this.isUploadPopup = false;
+      },
 
-    closeDestinationsPopup() {
-      this.communicationsOnPopup = null;
-      this.isDestinationsPopup = false;
-    },
+      triggerFileInput() {
+        this.$refs['file-input'].click();
+      },
 
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-        this.isUploadPopup = true;
-      }
-    },
+      inputFileHandler(event) {
+        const { files } = event.target;
+        this.processCSV(files);
+        this.clearFileInput();
+      },
 
-    closeCSVPopup() {
-      this.loadList();
-      this.isUploadPopup = false;
-    },
-
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
-
-    inputFileHandler(event) {
-      const { files } = event.target;
-      this.processCSV(files);
-      this.clearFileInput();
-    },
-
-    clearFileInput() {
-      this.$refs['file-input'].value = null;
-    },
+      clearFileInput() {
+        this.$refs['file-input'].value = null;
+      },
 
     create() {
       this.$router.push({
@@ -411,30 +407,30 @@ export default {
       };
     },
 
-    close() {
-      this.$router.go(-1);
-      this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
-    },
+      close() {
+        this.$router.go(-1);
+        this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
+      },
 
-    ...mapActions({
-      setDestinationId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
-      },
-      setParentId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-      },
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-      loadParentQueue(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-      },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_STATE`, payload);
-      },
-      resetMembers(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
-      },
+      ...mapActions({
+        setDestinationId(dispatch, payload) {
+          return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
+        },
+        setParentId(dispatch, payload) {
+          return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+        },
+        setId(dispatch, payload) {
+          return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+        },
+        loadParentQueue(dispatch, payload) {
+          return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
+        },
+        resetState(dispatch, payload) {
+          return dispatch(`${this.namespace}/RESET_STATE`, payload);
+        },
+        resetMembers(dispatch, payload) {
+          return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
+        },
 
       deleteSelected(dispatch, payload) {
         return dispatch(`${this.namespace}/DELETE_BULK`, payload);
@@ -458,20 +454,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.members__destinations-wrapper {
-  display: flex;
-}
+  .members__destinations-wrapper {
+    display: flex;
+  }
 
-.members__destinations-num {
-  @extend %typo-body-2;
+  .members__destinations-num {
+    @extend %typo-body-2;
 
-  margin-left: 20px;
-  cursor: pointer;
-  text-decoration: underline;
-}
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
 
-.upload-file-input {
-  position: absolute;
-  visibility: hidden;
-}
+  .upload-file-input {
+    position: absolute;
+    visibility: hidden;
+  }
 </style>
