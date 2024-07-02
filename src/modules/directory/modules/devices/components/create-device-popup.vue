@@ -55,7 +55,8 @@ export default {
           title: this.$tc('objects.directory.devices.devices', 1),
           description: this.$tc('objects.directory.devices.deviceSettings', 1),
           routeName: `${RouteNames.DEVICES}-new`,
-        }, {
+        },
+        {
           value: 'hotdesk',
           title: this.$t('objects.directory.devices.hotdeskDevice'),
           description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
@@ -82,7 +83,9 @@ export default {
     },
 
     createItemInstance() {
-      this.$router.push({ name: this.selectedOption.routeName });
+      this.$router.push({
+        name: this.selectedOption.routeName,
+      });
     },
 
     close() {

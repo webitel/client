@@ -1,5 +1,4 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import TeamSupervisorsAPI from '../api/teamSupervisors';
 import headers from './_internals/headers';
 
@@ -13,8 +12,8 @@ const teamSupervisors = new NestedObjectStoreModule({
   resettableItemState,
   headers,
 })
-.attachAPIModule(TeamSupervisorsAPI)
-.generateAPIActions()
-.getModule();
+  .attachAPIModule(TeamSupervisorsAPI)
+  .generateAPIActions()
+  .getModule();
 
 export default teamSupervisors;

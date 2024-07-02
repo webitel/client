@@ -75,7 +75,9 @@ export default {
     addItem(item) {
       // eslint-disable-next-line no-param-reassign
       if (!item.password) item.password = item.account;
-      return DevicesAPI.add({ itemInstance: item });
+      return DevicesAPI.add({
+        itemInstance: item,
+      });
     },
   },
 };

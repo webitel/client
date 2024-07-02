@@ -5,19 +5,18 @@ const splitAndSaveData = async ({ data, saveCallback }) => {
   try {
     for (; processedChunkIndex <= chunksCount; processedChunkIndex += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await saveCallback(data.slice(
-        (processedChunkIndex - 1) * chunkSize,
-        processedChunkIndex * chunkSize,
-      ));
+      await saveCallback(
+        data.slice((processedChunkIndex - 1) * chunkSize, processedChunkIndex * chunkSize),
+      );
     }
   } catch (err) {
-    const errMessage = JSON.stringify(err instanceof Error
-      ? err.message
-      : err);
+    const errMessage = JSON.stringify(err instanceof Error ? err.message : err);
     // eslint-disable-next-line no-throw-literal
-    throw new Error(`An error occurred during saving ${(processedChunkIndex -
-      1) * chunkSize}-${processedChunkIndex *
-    chunkSize} data chunk: ${errMessage}`);
+    throw new Error(
+      `An error occurred during saving ${
+        (processedChunkIndex - 1) * chunkSize
+      }-${processedChunkIndex * chunkSize} data chunk: ${errMessage}`,
+    );
   }
 };
 

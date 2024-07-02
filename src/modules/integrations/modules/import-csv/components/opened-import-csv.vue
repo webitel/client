@@ -59,16 +59,34 @@ export default {
   validations() {
     return {
       itemInstance: {
-        name: { required },
-        source: { required },
+        name: {
+          required,
+        },
+        source: {
+          required,
+        },
         parameters: {
-          charset: { required },
-          separator: { required },
-          skipHeaders: { required },
-          mappings: Object.entries(ImportCsvMemberMappings)
-          .reduce((mappings, [name, { required: reqField }]) => (reqField
-            ? { ...mappings, [name]: { required } }
-            : mappings), {}),
+          charset: {
+            required,
+          },
+          separator: {
+            required,
+          },
+          skipHeaders: {
+            required,
+          },
+          mappings: Object.entries(ImportCsvMemberMappings).reduce(
+            (mappings, [name, { required: reqField }]) =>
+              reqField
+                ? {
+                    ...mappings,
+                    [name]: {
+                      required,
+                    },
+                  }
+                : mappings,
+            {},
+          ),
         },
       },
     };
@@ -92,8 +110,13 @@ export default {
     path() {
       const baseUrl = '/integrations/import-csv';
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.importCsv.importCsv'), route: baseUrl },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$tc('objects.integrations.importCsv.importCsv'),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

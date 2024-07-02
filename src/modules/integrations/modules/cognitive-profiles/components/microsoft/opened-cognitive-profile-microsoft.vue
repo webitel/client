@@ -78,8 +78,7 @@
 import { mapActions } from 'vuex';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {

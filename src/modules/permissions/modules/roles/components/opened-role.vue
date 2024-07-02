@@ -65,10 +65,12 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        }, {
+        },
+        {
           text: this.$tc('objects.permissions.roles.permissions.permissions', 2),
           value: 'permissions',
-        }, {
+        },
+        {
           text: this.$tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2),
           value: 'applications-access',
         },
@@ -78,8 +80,13 @@ export default {
     path() {
       const baseUrl = '/permissions/roles';
       return [
-        { name: this.$t('objects.permissions.permissions') },
-        { name: this.$tc('objects.permissions.permissionsRole', 2), route: baseUrl },
+        {
+          name: this.$t('objects.permissions.permissions'),
+        },
+        {
+          name: this.$tc('objects.permissions.permissionsRole', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

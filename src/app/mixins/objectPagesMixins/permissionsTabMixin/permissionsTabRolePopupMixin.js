@@ -1,5 +1,4 @@
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import RolesAPI from '../../../../modules/permissions/modules/roles/api/roles';
 
@@ -42,13 +41,17 @@ export default {
     // filter new roles
     async getAvailableGrantees(params) {
       const roles = await this.loadRoles(params);
-      roles.items = roles.items.filter((role) => (
-        !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id)));
+      roles.items = roles.items.filter(
+        (role) => !this.dataList.some((usedRoles) => role.id === usedRoles.grantee.id),
+      );
       return roles;
     },
     async loadRoles(params) {
       const fields = ['name', 'id', 'user'];
-      return RolesAPI.getExtendedRoles({ ...params, fields });
+      return RolesAPI.getExtendedRoles({
+        ...params,
+        fields,
+      });
     },
     close() {
       this.$emit('close');

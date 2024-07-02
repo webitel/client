@@ -98,13 +98,13 @@ export default {
       workStart: {
         numeric,
         minValue: minValue(0),
-        maxValue: maxValue(1440)
+        maxValue: maxValue(1440),
       },
       workStop: {
         numeric,
         required: requiredIf((value, item) => item.workStart),
         minValue: minValue(0),
-        maxValue: maxValue(1440)
+        maxValue: maxValue(1440),
       },
     },
   },
@@ -119,8 +119,12 @@ export default {
     }),
     // override mixin map state
     itemInstance: {
-      get() { return this.itemInstanceValue; },
-      set(value) { this.itemInstanceValue = value; },
+      get() {
+        return this.itemInstanceValue;
+      },
+      set(value) {
+        this.itemInstanceValue = value;
+      },
     },
     computeDisabled() {
       return this.checkValidations();
@@ -137,7 +141,9 @@ export default {
     }),
     initEditedValue() {
       if (Number.isInteger(this.editedIndex)) {
-        this.itemInstance = { ...this.holidayList[this.editedIndex] };
+        this.itemInstance = {
+          ...this.holidayList[this.editedIndex],
+        };
       }
     },
     save() {

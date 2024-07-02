@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge,
   notify,
@@ -30,23 +27,12 @@ const getList = async (params) => {
     'userIp',
   ];
 
-  const {
-    parentId,
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    action,
-    object,
-    from,
-    to,
-    userIp,
-  } = applyTransform(params, [
-    sanitize(fieldsToSend),
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-  ]);
+  const { parentId, page, size, search, sort, fields, action, object, from, to, userIp } =
+    applyTransform(params, [
+      sanitize(fieldsToSend),
+      merge(getDefaultGetParams()),
+      starToSearch('search'),
+    ]);
 
   try {
     const response = await service.searchLogByUserId(
@@ -71,9 +57,7 @@ const getList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

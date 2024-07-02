@@ -46,7 +46,8 @@ import PhoneInfo from './opened-device-phone-info.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 
-const hotDeskNameValidator = (array) => !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
+const hotDeskNameValidator = (array) =>
+  !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
 
 export default {
   name: 'OpenedDevice',
@@ -66,7 +67,9 @@ export default {
   validations() {
     let itemInstance = {
       name: { required },
-      password: { required: requiredUnless('id') },
+      password: {
+        required: requiredUnless('id'),
+      },
       account: { required },
       ip: { ipValidator },
       mac: { macValidator },
@@ -74,7 +77,9 @@ export default {
     if (this.itemInstance.hotdesk) {
       itemInstance = {
         ...itemInstance,
-        hotdesks: { hotDeskNameValidator },
+        hotdesks: {
+          hotDeskNameValidator,
+        },
       };
     }
     return { itemInstance };
@@ -90,7 +95,8 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        }, {
+        },
+        {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
         },
@@ -100,10 +106,12 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'hotdesk-general',
-        }, {
+        },
+        {
           text: this.$t('objects.directory.devices.hotdesk'),
           value: 'hotdesk-hotdesking',
-        }, {
+        },
+        {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
         },
@@ -118,8 +126,13 @@ export default {
       const baseUrl = '/directory/devices';
       const url = baseUrl + (this.isHotdesk ? '/hotdesk' : '');
       return [
-        { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.devices.devices', 2), route: baseUrl },
+        {
+          name: this.$t('objects.directory.directory'),
+        },
+        {
+          name: this.$tc('objects.directory.devices.devices', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${url}/${this.id}` : `${baseUrl}/new`,

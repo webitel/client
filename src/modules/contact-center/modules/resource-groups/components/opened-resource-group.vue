@@ -79,9 +79,18 @@ export default {
   computed: {
     tabs() {
       const tabs = [
-        { text: this.$t('objects.general'), value: 'general' },
-        { value: 'resources', text: this.$tc('objects.ccenter.res.res', 2) },
-        { value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange') },
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        },
+        {
+          value: 'resources',
+          text: this.$tc('objects.ccenter.res.res', 2),
+        },
+        {
+          value: 'timerange',
+          text: this.$t('objects.ccenter.resGroups.timerange'),
+        },
       ];
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
@@ -90,8 +99,13 @@ export default {
     path() {
       const baseUrl = '/contact-center/resource-groups';
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.resGroups.resGroups', 2), route: baseUrl },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.$tc('objects.ccenter.resGroups.resGroups', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

@@ -48,8 +48,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
@@ -58,11 +57,13 @@ export default {
   mixins: [openedTabComponentMixin],
   computed: {
     specificControls() {
-      return QueueTypeProperties[this.itemInstance.type].controls
-      .reduce((controls, control) => ({
-        ...controls,
-        [control]: true,
-      }), {});
+      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+        (controls, control) => ({
+          ...controls,
+          [control]: true,
+        }),
+        {},
+      );
     },
   },
   methods: {

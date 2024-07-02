@@ -62,8 +62,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedCalendarWorkWeek',
@@ -85,10 +84,22 @@ export default {
     },
     headers() {
       return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'start', text: this.$t('objects.lookups.calendars.start') },
-        { value: 'end', text: this.$t('objects.lookups.calendars.end') },
-        { value: 'state', text: this.$t('reusable.state') },
+        {
+          value: 'name',
+          text: this.$t('objects.name'),
+        },
+        {
+          value: 'start',
+          text: this.$t('objects.lookups.calendars.start'),
+        },
+        {
+          value: 'end',
+          text: this.$t('objects.lookups.calendars.end'),
+        },
+        {
+          value: 'state',
+          text: this.$t('reusable.state'),
+        },
       ];
     },
   },
@@ -101,8 +112,10 @@ export default {
     }),
     isDayStart(index) {
       if (index === 0) return true;
-      return this.dataList[index].day // this day index is not equal to
-        !== (this.dataList[index - 1]).day; // prev day index
+      return (
+        this.dataList[index].day !== // this day index is not equal to
+        this.dataList[index - 1].day
+      ); // prev day index
     },
     minToSec(min) {
       return min * 60;

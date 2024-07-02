@@ -1,5 +1,1 @@
-export default Object.freeze([
-  'none',
-  'rpid',
-  'pid',
-]);
+export default Object.freeze(['none', 'rpid', 'pid']);

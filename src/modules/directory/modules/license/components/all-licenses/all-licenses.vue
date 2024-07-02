@@ -146,7 +146,9 @@ export default {
   },
   methods: {
     closeLicenseUsersPopup() {
-      this.$router.push({ name: this.routeName }); // remove license id
+      this.$router.push({
+        name: this.routeName,
+      }); // remove license id
     },
 
     prettifyDate(date) {

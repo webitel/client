@@ -105,7 +105,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace,
+      hiddenText: true,
+    });
     return { dummy };
   },
   data: () => ({
@@ -120,8 +123,13 @@ export default {
     path() {
       const baseUrl = '/permissions/objects';
       return [
-        { name: this.$t('objects.permissions.permissions') },
-        { name: this.$t('objects.permissions.object.object'), route: baseUrl },
+        {
+          name: this.$t('objects.permissions.permissions'),
+        },
+        {
+          name: this.$t('objects.permissions.object.object'),
+          route: baseUrl,
+        },
       ];
     },
   },

@@ -13,7 +13,10 @@ describe('chatGateways store', () => {
     };
     const prop = 'appointment';
     const value = { prop: 'newValue' };
-    chatGateways.mutations.SET_ITEM_METADATA(state, { prop, value });
+    chatGateways.mutations.SET_ITEM_METADATA(state, {
+      prop,
+      value,
+    });
     expect(state.itemInstance.metadata.appointment).toEqual(value);
   });
 });

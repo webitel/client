@@ -49,9 +49,18 @@ export default {
   },
   data: () => ({
     filters: [
-      { type: 'enum', filterQuery: 'cause' },
-      { type: 'api', filterQuery: 'bucket' },
-      { type: 'api', filterQuery: 'agent' },
+      {
+        type: 'enum',
+        filterQuery: 'cause',
+      },
+      {
+        type: 'api',
+        filterQuery: 'bucket',
+      },
+      {
+        type: 'api',
+        filterQuery: 'agent',
+      },
     ],
   }),
   methods: {
@@ -61,7 +70,9 @@ export default {
       },
     }),
     resetFilters() {
-      this.$router.push({ query: null });
+      this.$router.push({
+        query: null,
+      });
       this.resetFilterValues();
     },
   },

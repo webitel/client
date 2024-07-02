@@ -76,8 +76,13 @@ export default {
     path() {
       const baseUrl = '/integrations/single-sign-on';
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$t('objects.integrations.singleSignOn.singleSignOn'), route: baseUrl },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

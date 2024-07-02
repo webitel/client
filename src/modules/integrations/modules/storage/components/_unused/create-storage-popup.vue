@@ -82,7 +82,9 @@ export default {
       if (this.selectedOption) {
         this.$router.push({
           name: `${RouteNames.STORAGE}-new`,
-          params: { type: this.selectedOption },
+          params: {
+            type: this.selectedOption,
+          },
         });
       }
     },
@@ -91,7 +93,6 @@ export default {
       return option === this.selectedOption;
     },
   },
-
 };
 </script>
 

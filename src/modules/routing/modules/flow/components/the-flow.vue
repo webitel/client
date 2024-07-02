@@ -162,6 +162,8 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -172,9 +174,6 @@ import FlowEditor from '../enums/FlowEditor.enum';
 import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
 import CreateFlowPopup from './create-flow-popup.vue';
 import UploadPopup from './upload-flow-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'routing/flow';
 
@@ -229,8 +228,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.flow.flow', 2),
+          route: '/routing/flow',
+        },
       ];
     },
     filtersNamespace() {
@@ -263,7 +267,9 @@ export default {
       this.isUploadPopup = false;
     },
     async download({ id, name }) {
-      const flow = await FlowsAPI.get({ itemId: id });
+      const flow = await FlowsAPI.get({
+        itemId: id,
+      });
       const filename = `${name}-schema`;
       downloadAsJSON(flow, filename);
     },
@@ -271,7 +277,9 @@ export default {
       const routeName = this.routeName || this.tableObjectRouteName;
       return {
         name: `${routeName}-edit`,
-        params: { id },
+        params: {
+          id,
+        },
         query: {
           editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
         },

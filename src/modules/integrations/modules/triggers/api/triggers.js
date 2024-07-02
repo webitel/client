@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -37,7 +34,10 @@ const preRequestHandler = (item) => {
   const copy = deepCopy(item);
   copy.variables = copy.variables.reduce((variables, variable) => {
     if (!variable.key) return variables;
-    return { ...variables, [variable.key]: variable.value };
+    return {
+      ...variables,
+      [variable.key]: variable.value,
+    };
   }, {});
   return {
     ...copy,
@@ -46,28 +46,12 @@ const preRequestHandler = (item) => {
 };
 
 const getList = async (params) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'sort',
-    'fields',
-    'id',
-    'schemaId',
-  ];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'schemaId'];
   const defaultObject = {
     enabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    schemaId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, schemaId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
     sanitize(fieldsToSend),
@@ -88,16 +72,11 @@ const getList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -110,8 +89,7 @@ const get = async ({ itemId: id }) => {
   const responseHandler = (response) => {
     const copy = deepCopy(response);
     if (response.variables) {
-      copy.variables = Object.keys(copy.variables)
-      .map((key) => ({
+      copy.variables = Object.keys(copy.variables).map((key) => ({
         key,
         value: copy.variables[key],
       }));
@@ -130,10 +108,7 @@ const get = async ({ itemId: id }) => {
       responseHandler,
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -145,32 +120,19 @@ const add = async ({ itemInstance }) => {
   ]);
   try {
     const response = await triggersService.createTrigger(item);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patch = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake(doNotConvertKeys)]);
   try {
     const response = await triggersService.patchTrigger(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -182,14 +144,9 @@ const update = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await triggersService.updateTrigger(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -198,38 +155,33 @@ const deleteItem = async ({ id }) => {
     const response = await triggersService.deleteTrigger(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getLookup = (params) =>
+  getList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const startTrigger = async (params, item) => {
   const url = `/trigger/${item.id}/job`;
 
-  const body = applyTransform(item, [
-    camelToSnake(doNotConvertKeys),
-  ]);
+  const body = applyTransform(item, [camelToSnake(doNotConvertKeys)]);
   try {
     const response = await instance.post(url, body);
     return applyTransform(response.data, [
       snakeToCamel(doNotConvertKeys),
-      notify(({ callback }) => callback({
-        type: 'info',
-        text: 'Successfully ran',
-      })),
+      notify(({ callback }) =>
+        callback({
+          type: 'info',
+          text: 'Successfully ran',
+        }),
+      ),
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

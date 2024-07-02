@@ -50,8 +50,7 @@ export default {
       try {
         await this.addToken();
         this.$emit('token-created');
-      } catch {
-      }
+      } catch {}
     },
     resetState() {},
   },

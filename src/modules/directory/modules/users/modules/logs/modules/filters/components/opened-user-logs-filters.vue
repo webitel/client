@@ -48,8 +48,14 @@ export default {
   },
   data: () => ({
     filters: [
-      { type: 'enum', filterQuery: 'action' },
-      { type: 'api', filterQuery: 'object' },
+      {
+        type: 'enum',
+        filterQuery: 'action',
+      },
+      {
+        type: 'api',
+        filterQuery: 'object',
+      },
     ],
   }),
   methods: {
@@ -59,7 +65,9 @@ export default {
       },
     }),
     resetFilters() {
-      this.$router.push({ query: null });
+      this.$router.push({
+        query: null,
+      });
       this.resetFilterValues();
     },
   },

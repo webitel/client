@@ -1,5 +1,4 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import BlacklistNumbersAPI from '../api/blacklistNumbers';
 import headers from './_internals/headers';
 
@@ -19,8 +18,8 @@ const blacklistNumbers = new NestedObjectStoreModule({
   resettableItemState,
   headers,
 })
-.attachAPIModule(BlacklistNumbersAPI)
-.generateAPIActions()
-.getModule({ state });
+  .attachAPIModule(BlacklistNumbersAPI)
+  .generateAPIActions()
+  .getModule({ state });
 
 export default blacklistNumbers;

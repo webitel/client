@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -11,8 +8,7 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
-import ApplicationsAccess
-  from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
+import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import deepCopy from 'deep-copy';
 import instance from '../../../../../app/api/instance';
 
@@ -47,9 +43,7 @@ const getRoleList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -63,7 +57,9 @@ const getRole = async ({ itemId: id }) => {
 
   const itemResponseHandler = (response) => {
     const copy = deepCopy(response);
-    copy.metadata.access = new ApplicationsAccess({ access: copy.metadata.access }).getAccess();
+    copy.metadata.access = new ApplicationsAccess({
+      access: copy.metadata.access,
+    }).getAccess();
     return copy;
   };
 
@@ -77,9 +73,7 @@ const getRole = async ({ itemId: id }) => {
       itemResponseHandler,
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -105,9 +99,7 @@ const getExtendedRoles = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -119,13 +111,9 @@ const addRole = async ({ itemInstance }) => {
   ]);
   try {
     const response = await instance.post(baseUrl, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -139,13 +127,9 @@ const updateRole = async ({ itemInstance, itemId: id }) => {
   const url = `${baseUrl}/${id}`;
   try {
     const response = await instance.put(url, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -155,16 +139,15 @@ const deleteRole = async ({ id }) => {
     const response = await instance.delete(url);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getRolesLookup = (params) => getRoleList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getRolesLookup = (params) =>
+  getRoleList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const PERMISSIONS_LIST_URL = '/permissions';
 
@@ -190,9 +173,7 @@ const getPermissionsOptions = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
