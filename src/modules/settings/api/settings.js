@@ -5,6 +5,7 @@ import applyTransform, {
   notify,
   snakeToCamel
 } from '@webitel/ui-sdk/src/api/transformers';
+import axios from 'axios';
 
 const baseUrl = 'users';
 
@@ -49,23 +50,57 @@ export const changeWebPhone = async (changes) => {
 
 export const getRingtones = async (params) => {
 
-  const baseUrl = '/ringtones/index.json';
+  // const baseUrl = '/ringtones/index.json';
 
-  let url = applyTransform(params, [
-    (params) => ({
-      ...params,
-      access_token: instance.defaults.headers['X-Webitel-Access'],
-    }),
-    camelToSnake(),
-    generateUrl(baseUrl),
-  ]);
+  // let url = applyTransform(params, [
+  //   (params) => ({
+  //     ...params,
+  //     access_token: instance.defaults.headers['X-Webitel-Access'],
+  //   }),
+  //   camelToSnake(),
+  //   generateUrl(baseUrl),
+  // ]);
 
   try {
-    const response = await fetch(url);
-    console.log('response', response.data, 'response.blob():', response.blob());
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    // const baseUrl = '/storage/tts/stream';
+    // let url = applyTransform(params, [
+    //   (params) => ({
+    //     ...params,
+    //     // access_token: instance.defaults.headers['X-Webitel-Access'],
+    //   }),
+    //   camelToSnake(),
+    //   generateUrl(import.meta.env.VITE_RINGTONES_URL),
+    // ]);
+    // if (apiUrl) url = `${import.meta.env.VITE_API_URL}${url}`;
+
+    const baseUrl = 'https://dev.webitel.com/ringtones/index.json';
+    // let url = applyTransform(params, [
+    //   (params) => ({
+    //     ...params,
+    //     access_token: instance.defaults.headers['X-Webitel-Access'],
+    //   }),
+    //   camelToSnake(),
+    //   generateUrl(baseUrl),
+    // ]);
+    const resp = await axios.get('https://dev.webitel.com/ringtones/index.json', {
+      headers: {
+        'X-Webitel-Access': localStorage.getItem('access-token') || '',
+        'Access-Control-Allow-Origin': 'http://localhost:8080/settings',
+      },
+    });
+    console.log('resp', resp);
+    // fetch('https://dev.webitel.com/ringtones/index.json',
+    //   { method: "GET", mode: 'cors', headers: {
+    //     'Content-Type': 'application/json',
+    //       'Access-Control-Allow-Origin': '*'
+    //   }})
+    // .then(response => response.json())
+    // .then(data => console.log(data));
+
+    // console.log('response', response, 'response.blob():', response.blob());
+    // return applyTransform(response.data, [
+    //   snakeToCamel(),
+    // ]);
   } catch (err) {
     throw applyTransform(err, [
       notify,
