@@ -82,20 +82,17 @@ export const getRingtones = async (params) => {
     //   camelToSnake(),
     //   generateUrl(baseUrl),
     // ]);
-    const resp = await axios.get('https://dev.webitel.com/ringtones/index.json', {
-      headers: {
-        'X-Webitel-Access': localStorage.getItem('access-token') || '',
-        'Access-Control-Allow-Origin': 'http://localhost:8080/settings',
-      },
-    });
-    console.log('resp', resp);
-    // fetch('https://dev.webitel.com/ringtones/index.json',
-    //   { method: "GET", mode: 'cors', headers: {
-    //     'Content-Type': 'application/json',
-    //       'Access-Control-Allow-Origin': '*'
-    //   }})
-    // .then(response => response.json())
-    // .then(data => console.log(data));
+    // const resp = await axios.get('https://dev.webitel.com/ringtones/index.json', {
+    //   headers: {
+    //     'X-Webitel-Access': localStorage.getItem('access-token') || '',
+    //     'Access-Control-Allow-Origin': '*',
+    //   },
+    // });
+    // const response = await fetch(`https://dev.webitel.com/ringtones/index.json`);
+    // console.log('resp', response.);
+    fetch('https://dev.webitel.com/ringtones/index.json')
+    .then(response => response.json())
+    .then(data => console.log(data));
 
     // console.log('response', response, 'response.blob():', response.blob());
     // return applyTransform(response.data, [
