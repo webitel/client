@@ -83,6 +83,22 @@
             </div>
           </form>
         </section>
+        <section class="settings-section__setting">
+          <header class="content-header">
+            <h3 class="content-title">
+              {{ $t('settings.callEnd') }}
+            </h3>
+          </header>
+          <form>
+            <div class="settings-section__wrapper">
+              <p>{{ $t('objects.status') }}</p>
+              <wt-switcher
+                v-model="callEndSound"
+                @change="changeCallEndSoundState"
+              />
+            </div>
+          </form>
+        </section>
       </section>
     </template>
   </wt-page-wrapper>
@@ -108,6 +124,7 @@ export default {
     isPasswordPatching: false,
     webrtc: true,
     stun: false,
+    callEndSound: false,
     language: {
       name: 'English',
       id: 'en',
@@ -148,6 +165,7 @@ export default {
 
   created() {
     this.restoreLanguage();
+    this.callEndSound = !!localStorage.getItem('callEndSound');
   },
 
   computed: {
@@ -218,6 +236,13 @@ export default {
       }
     },
 
+    changeCallEndSoundState(value) {
+      value
+        ? localStorage.setItem('callEndSound', 'true')
+        : localStorage.removeItem('callEndSound');
+      this.callEndSound = value;
+    },
+
     changeLanguage(value) {
       localStorage.setItem('lang', value.id);
       this.language = value;
@@ -235,10 +260,22 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   display: flex;
-  flex: 0 1 50%;
+  max-height: 700px;
+  width: 100%;
+
+  flex-wrap: wrap;
   flex-direction: column;
   min-width: 200px;
   gap: var(--spacing-sm);
+
+  &__setting {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing-sm) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    box-shadow: var(--elevation-5);
+  }
 
   .wt-button {
     display: block;
@@ -251,7 +288,7 @@ export default {
   }
 
   &__switcher {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
   }
 }
 </style>
