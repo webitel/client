@@ -92,7 +92,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
-import { changePassword, changeWebPhone, getWebPhone, getRingtones } from '../api/settings';
+import { changePassword, changeWebPhone, getWebPhone, getRingtonesList } from '../api/settings';
 
 export default {
   name: 'TheSettings',
@@ -163,7 +163,7 @@ export default {
   async mounted() {
     try {
       const response = await getWebPhone();
-      await getRingtones();
+      await getRingtonesList();
       this.webrtc = response.webrtc;
       this.stun = response.stun;
     } catch (error) {

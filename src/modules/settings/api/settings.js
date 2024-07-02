@@ -48,56 +48,16 @@ export const changeWebPhone = async (changes) => {
   }
 };
 
-export const getRingtones = async (params) => {
-
-  // const baseUrl = '/ringtones/index.json';
-
-  // let url = applyTransform(params, [
-  //   (params) => ({
-  //     ...params,
-  //     access_token: instance.defaults.headers['X-Webitel-Access'],
-  //   }),
-  //   camelToSnake(),
-  //   generateUrl(baseUrl),
-  // ]);
+export const getRingtonesList = async (params) => {
+  const baseUrl = '/ringtones';
+  const localUrl = 'https://dev.webitel.com/ringtones/index.json';
 
   try {
-    // const baseUrl = '/storage/tts/stream';
-    // let url = applyTransform(params, [
-    //   (params) => ({
-    //     ...params,
-    //     // access_token: instance.defaults.headers['X-Webitel-Access'],
-    //   }),
-    //   camelToSnake(),
-    //   generateUrl(import.meta.env.VITE_RINGTONES_URL),
-    // ]);
-    // if (apiUrl) url = `${import.meta.env.VITE_API_URL}${url}`;
-
-    const baseUrl = 'https://dev.webitel.com/ringtones/index.json';
-    // let url = applyTransform(params, [
-    //   (params) => ({
-    //     ...params,
-    //     access_token: instance.defaults.headers['X-Webitel-Access'],
-    //   }),
-    //   camelToSnake(),
-    //   generateUrl(baseUrl),
-    // ]);
-    // const resp = await axios.get('https://dev.webitel.com/ringtones/index.json', {
-    //   headers: {
-    //     'X-Webitel-Access': localStorage.getItem('access-token') || '',
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    // });
-    // const response = await fetch(`https://dev.webitel.com/ringtones/index.json`);
-    // console.log('resp', response.);
-    fetch('https://dev.webitel.com/ringtones/index.json')
-    .then(response => response.json())
-    .then(data => console.log(data));
-
-    // console.log('response', response, 'response.blob():', response.blob());
-    // return applyTransform(response.data, [
-    //   snakeToCamel(),
-    // ]);
+    // const response = await fetch(`${import.meta.env.VITE_RINGTONES_URL}/index.json`)
+    const response = await fetch(localUrl)
+    .then(response => response.json());
+    console.log('response', response);
+    return response;
   } catch (err) {
     throw applyTransform(err, [
       notify,
@@ -132,5 +92,5 @@ export default {
   changePassword,
   changeWebPhone,
   getWebPhone,
-  getRingtones,
+  getRingtonesList,
 };
