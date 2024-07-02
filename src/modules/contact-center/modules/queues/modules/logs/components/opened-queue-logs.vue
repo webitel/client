@@ -16,13 +16,13 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-        ></wt-dummy>
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
       class="table-wrapper"
@@ -84,50 +84,51 @@
 </template>
 
 <script>
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+  import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+  import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+  import openedObjectTableTabMixin
+    from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+  import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'log';
+  const namespace = 'ccenter/queues';
+  const subNamespace = 'log';
 
-export default {
-  name: 'OpenedQueueLogs',
-  components: { FilterSearch },
-  mixins: [openedObjectTableTabMixin],
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
+  export default {
+    name: 'OpenedQueueLogs',
+    components: { FilterSearch },
+    mixins: [openedObjectTableTabMixin],
+    data: () => ({
+      namespace,
+      subNamespace,
+    }),
 
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  computed: {
-    filtersNamespace() {
-      return `${this.namespace}/${this.subNamespace}/filters`;
+    setup() {
+      const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+      return { dummy };
     },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
+    computed: {
+      filtersNamespace() {
+        return `${this.namespace}/${this.subNamespace}/filters`;
       },
     },
-  },
-  methods: {
-    formatDate(value) {
-      if (!value) return '';
-      return new Date(+value).toLocaleString();
+    watch: {
+      '$route.query': {
+        async handler() {
+          await this.loadList();
+        },
+      },
     },
+    methods: {
+      formatDate(value) {
+        if (!value) return '';
+        return new Date(+value).toLocaleString();
+      },
 
-    calcDuration(item) {
-      return convertDuration((item.leavingAt - item.joinedAt) / 1000);
+      calcDuration(item) {
+        return convertDuration((item.leavingAt - item.joinedAt) / 1000);
+      },
     },
-  },
-};
+  };
 </script>
 
 <style lang="scss" scoped>
