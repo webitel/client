@@ -61,6 +61,7 @@ const actions = {
       context.commit('SET_IS_NEXT', afterHook.next);
       context.commit('AGGS', afterHook.aggs);
       context.dispatch('AFTER_SET_DATA_LIST_HOOK', afterHook);
+
     } catch (err) {
       console.error(err);
     }
@@ -198,8 +199,10 @@ const mutations = {
   // },
 };
 
+
 export default {
   getActions: () => actions,
   getMutations: () => mutations,
   generateState: () => deepCopy(state),
+  generateGetters: ()  => getters,
 };

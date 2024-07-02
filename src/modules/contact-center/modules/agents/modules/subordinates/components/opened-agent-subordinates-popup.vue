@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    size="sm"
+    :shown="!!subordinateId"
     overflow
     @close="close"
   >
@@ -59,6 +61,12 @@ export default {
     },
   },
 
+  computed: {
+    subordinateId() {
+      return this.$route.params.subordinateId;
+    },
+  },
+
   methods: {
     async loadDropdownOptionsList(params) {
       const fields = ['id', 'name', 'supervisor'];
@@ -68,6 +76,19 @@ export default {
         supervisor: item.supervisor || [],
       }));
       return response;
+    },
+  },
+  watch: {
+    subordinateId: {
+      handler(id) {
+        if (id) {
+          this.setId(id);
+          this.loadItem();
+        } else {
+          this.resetState();
+        }
+      },
+      immediate: true,
     },
   },
 };

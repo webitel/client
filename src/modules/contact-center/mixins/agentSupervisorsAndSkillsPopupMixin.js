@@ -1,17 +1,23 @@
+import {mapActions} from 'vuex';
+
 export default {
   data: () => ({
     openedItemId: null, // "selected" id object list popup
-    isSupervisorPopup: false, // object list popup
-    isSkillsPopup: false, // object list popup
   }),
   computed: {
+    isSkillsQuery() {
+      return this.$route.query.skills;
+    },
+    isSupervisorQuery() {
+      return this.$route.query.supervisor;
+    },
     openedItemSupervisors() {
       return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.openedItemId, 'supervisor');
     },
     openedItemSupervisorHeaders() {
       return [{ value: 'name', text: this.$t('reusable.name') }];
     },
-    openedItemSkills() {
+   openedItemSkills() {
       return this.$store.getters[`${this.namespace}/${this.subNamespace}/GET_ITEM_PROP_BY_ID`](this.openedItemId, 'skills');
     },
     openedItemSkillsHeaders() {
@@ -19,28 +25,45 @@ export default {
     },
   },
   methods: {
-    readSupervisor(item) {
-      this.openedItemId = item.id;
-      this.openSupervisorPopup();
+    ...mapActions({
+      setChildId(dispatch, payload) {
+        return dispatch(`${this.namespace}/${this.subNamespace}/SET_CHILD_ID`, payload);
+      }
+    }),
+    setSupervisorQuery(item) {
+      this.$router.push({
+        ...this.$route,
+        query: {supervisor: item.id}
+      })
     },
-    openSupervisorPopup() {
-      this.isSupervisorPopup = true;
+    setSkillsQuery(item) {
+      this.$router.push({
+        ...this.$route,
+        query: {skills: item.id}
+      })
     },
-    closeSupervisorPopup() {
-      this.isSupervisorPopup = false;
+    setId(id) {
+      this.openedItemId = id;
+    },
+    closePopup() {
+      this.$router.go(-1);
       this.openedItemId = null;
+    },
+  },
+  watch: {
+    isSkillsQuery: {
+       handler(id) {
+          if (id) this.setChildId(id);
+           if (id) this.setId(id);
+
+      }, immediate: true
     },
 
-    readSkills(item) {
-      this.openedItemId = item.id;
-      this.openSkillsPopup();
-    },
-    openSkillsPopup() {
-      this.isSkillsPopup = true;
-    },
-    closeSkillsPopup() {
-      this.isSkillsPopup = false;
-      this.openedItemId = null;
+    isSupervisorQuery: {
+      handler(id) {
+          if (id) this.setChildId(id);
+          if (id) this.setId(id);
+      }, immediate: true
     },
   },
 };

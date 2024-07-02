@@ -10,12 +10,12 @@ const DEFAULT_ITEM_STATE = BaseOpenedInstanceModule.generateState();
 
 export default class NestedObjectStoreModule extends BaseStoreModule {
   getters = {
-    GET_ITEM_BY_ID: (state) => (itemId) => (
-      state.dataList.find((item) => item.id === itemId)
-    ),
-    GET_ITEM_PROP_BY_ID: (state, getters) => (itemId, prop) => (
-      getters.GET_ITEM_BY_ID(itemId)[prop]
-    ),
+    GET_ITEM_BY_ID: (state) => (itemId) => {
+     return state.dataList.find((item) => item.id === itemId);
+    },
+    GET_ITEM_PROP_BY_ID: (state, getters) => (itemId, prop) => {
+      if (itemId) return getters.GET_ITEM_BY_ID(itemId)[prop];
+    },
   };
 
   actions = {
@@ -38,6 +38,9 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
     RESET_STATE: (context) => {
       context.commit('RESET_STATE');
     },
+    SET_CHILD_ID: (context, id) => {
+      context.commit('SET_CHILD_ID', id);
+    }
   };
 
   mutations = {
@@ -50,11 +53,14 @@ export default class NestedObjectStoreModule extends BaseStoreModule {
     RESET_ITEM_STATE: (state) => {
       Object.assign(state, this._resettableItemState());
     },
+    SET_CHILD_ID: (state, id) => {
+      state.childId = id;
+    }
   };
 
   constructor({ resettableState, resettableItemState, headers } = {}) {
     super();
-    const state = { parentId: 0 };
+    const state = { parentId: 0, childId: 0, };
     this._resettableState = () => deepCopy({
       ...DEFAULT_STATE, ...resettableState,
       headers,

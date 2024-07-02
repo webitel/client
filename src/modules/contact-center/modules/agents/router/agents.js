@@ -39,7 +39,7 @@ const AgentRoutes =  [
         name: AgentsRouteNames.QUEUES,
         component: Queues,
       },{
-        path: 'subordinates',
+        path: 'subordinates/:subordinateId?',
         name: AgentsRouteNames.SUBORDINATES,
         component: Subordinates,
       },{
