@@ -53,7 +53,6 @@
               :value="language"
               class="language-list"
               @input="changeLanguage"
-              :clearable="false"
             />
           </form>
         </section>
