@@ -44,8 +44,7 @@
 </template>
 
 <script>
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
 export default {

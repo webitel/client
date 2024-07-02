@@ -18,8 +18,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedStorageGeneral',
@@ -27,8 +26,15 @@ export default {
 
   computed: {
     token: {
-      get() { return this.$store.state.integrations.storage.itemInstance.properties.token; },
-      set(value) { this.setItemProp({ prop: 'token', value }); },
+      get() {
+        return this.$store.state.integrations.storage.itemInstance.properties.token;
+      },
+      set(value) {
+        this.setItemProp({
+          prop: 'token',
+          value,
+        });
+      },
     },
   },
 

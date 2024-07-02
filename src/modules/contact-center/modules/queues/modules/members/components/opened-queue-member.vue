@@ -66,7 +66,9 @@ export default {
   validations: {
     itemInstance: {
       name: { required },
-      communications: { requiredArrayValue },
+      communications: {
+        requiredArrayValue,
+      },
     },
   },
 
@@ -81,10 +83,12 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        }, {
+        },
+        {
           text: this.$tc('objects.lookups.communications.communications', 1),
           value: 'communication',
-        }, {
+        },
+        {
           text: this.$tc('objects.ccenter.queues.variables', 2),
           value: 'variables',
         },
@@ -94,8 +98,13 @@ export default {
     path() {
       const baseUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.members.members', 2), route: baseUrl },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.$tc('objects.ccenter.members.members', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
@@ -131,10 +140,22 @@ export default {
       return this.loadItem();
     },
     saveAs() {
-      this.setItemProp({ prop: 'endCause', value: '' });
-      this.setItemProp({ prop: 'stopCause', value: '' });
-      this.setItemProp({ prop: 'attempts', value: 0 });
-      this.setItemProp({ prop: 'id', value: '' });
+      this.setItemProp({
+        prop: 'endCause',
+        value: '',
+      });
+      this.setItemProp({
+        prop: 'stopCause',
+        value: '',
+      });
+      this.setItemProp({
+        prop: 'attempts',
+        value: 0,
+      });
+      this.setItemProp({
+        prop: 'id',
+        value: '',
+      });
       this.setId(null);
       this.save();
     },

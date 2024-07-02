@@ -22,7 +22,10 @@ const actions = {
   },
   SET_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PROPERTY', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');

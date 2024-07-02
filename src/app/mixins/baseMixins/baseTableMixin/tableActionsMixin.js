@@ -31,7 +31,9 @@ export default {
       this.isFilterFieldsOpened = true;
     },
     resetFilters() {
-      this.$router.replace({ query: null });
+      this.$router.replace({
+        query: null,
+      });
     },
   },
 };

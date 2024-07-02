@@ -42,8 +42,7 @@
 <script>
 import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import UsersAPI from '../../users/api/users';
 
 export default {

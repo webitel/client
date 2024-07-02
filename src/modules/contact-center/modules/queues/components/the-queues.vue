@@ -169,11 +169,8 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -189,7 +186,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -220,8 +220,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.queues.queues', 2), route: '/contact-center/queues' },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.$tc('objects.ccenter.queues.queues', 2),
+          route: '/contact-center/queues',
+        },
       ];
     },
     filtersNamespace() {
@@ -240,18 +245,28 @@ export default {
     openMembers(item) {
       this.$router.push({
         name: `${RouteNames.MEMBERS}`,
-        params: { queueId: item.id },
+        params: {
+          queueId: item.id,
+        },
       });
     },
     itemTeamLink({ team }) {
       return {
         name: `${RouteNames.TEAMS}-edit`,
-        params: { id: team.id },
+        params: {
+          id: team.id,
+        },
       };
     },
     editLink({ id, type }) {
       const routeName = this.routeName || this.tableObjectRouteName;
-      return { name: `${routeName}-edit`, params: { id, type: QueueTypeProperties[type].subpath } };
+      return {
+        name: `${routeName}-edit`,
+        params: {
+          id,
+          type: QueueTypeProperties[type].subpath,
+        },
+      };
     },
 
     create() {

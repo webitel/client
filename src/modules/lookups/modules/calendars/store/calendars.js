@@ -1,7 +1,5 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import CalendarsAPI from '../api/calendars';
 import headers from './_internals/headers';
 
@@ -34,7 +32,10 @@ const resettableState = {
 const actions = {
   SET_ACCEPT_ITEM_PROPERTY: async (context, payload) => {
     context.commit('SET_ACCEPT_ITEM_PROPERTY', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 
   ADD_ACCEPT_ITEM: (context, day) => {
@@ -48,28 +49,52 @@ const actions = {
       end: 20 * 60,
     };
     value.splice(dayIndex, 0, dayItem);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'accepts', value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'accepts',
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 
   REMOVE_ACCEPT_ITEM: (context, index) => {
     const value = context.state.itemInstance.accepts;
     value.splice(index, 1);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'accepts', value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'accepts',
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 
   ADD_EXCEPT_ITEM: (context, item) => {
     const value = context.state.itemInstance.excepts.concat(item);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'excepts',
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 
   UPDATE_EXCEPT_ITEM: (context, { index, item }) => {
     const value = context.state.itemInstance.excepts;
     value.splice(index, 1, item);
-    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'excepts',
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 
   DELETE_EXCEPT_ITEM: async (context, deleted) => {
@@ -86,21 +111,31 @@ const actions = {
   DELETE_SINGLE_EXCEPT_ITEM: async (context, item) => {
     const { excepts } = context.state.itemInstance;
     excepts.splice(
-      excepts.findIndex((except) => except.name === item.name && except.date ===
-        item.date),
+      excepts.findIndex((except) => except.name === item.name && except.date === item.date),
       1,
     );
-    context.commit('SET_ITEM_PROPERTY', { prop: 'excepts', value: excepts });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'excepts',
+      value: excepts,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
-  DELETE_BULK_EXCEPT_ITEMS: async (
-    context,
-    deleted,
-  ) => Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
+  DELETE_BULK_EXCEPT_ITEMS: async (context, deleted) =>
+    Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
 
   SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {
-    context.commit('SET_EXCEPT_ITEM_PROPERTY', { index, prop, value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_EXCEPT_ITEM_PROPERTY', {
+      index,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 };
 
@@ -116,13 +151,13 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/calendars';
 const permissions = new PermissionsStoreModule()
-.generateAPIActions(PERMISSIONS_API_URL)
-.getModule();
+  .generateAPIActions(PERMISSIONS_API_URL)
+  .getModule();
 
 const calendars = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(CalendarsAPI)
-.generateAPIActions()
-.setChildModules({ permissions })
-.getModule({ actions, mutations });
+  .attachAPIModule(CalendarsAPI)
+  .generateAPIActions()
+  .setChildModules({ permissions })
+  .getModule({ actions, mutations });
 
 export default calendars;

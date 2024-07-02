@@ -28,10 +28,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'saved',
-  'close',
-]);
+const emit = defineEmits(['saved', 'close']);
 
 const isSelectAgentsPopup = ref(true);
 const isAgentConfigSkillPopup = ref(false);

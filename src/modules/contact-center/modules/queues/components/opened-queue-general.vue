@@ -140,74 +140,82 @@
 </template>
 
 <script>
-  import { EngineRoutingSchemaType } from 'webitel-sdk';
-  import openedTabComponentMixin
-    from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-  import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
-  import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
-  import MediaAPI from '../../../../lookups/modules/media/api/media';
-  import RolesAPI from '../../../../permissions/modules/roles/api/roles';
-  import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-  import TeamsAPI from '../../teams/api/teams';
-  import QueuesAPI from '../api/queues';
-  import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-  import { StrategyList } from '../store/_internals/enums/Strategy.enum';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
+import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
+import MediaAPI from '../../../../lookups/modules/media/api/media';
+import RolesAPI from '../../../../permissions/modules/roles/api/roles';
+import FlowsAPI from '../../../../routing/modules/flow/api/flow';
+import TeamsAPI from '../../teams/api/teams';
+import QueuesAPI from '../api/queues';
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 
   export default {
     name: 'OpenedQueueGeneral',
     mixins: [openedTabComponentMixin],
 
-    computed: {
-      strategy: {
-        get() {
-          return this.dropdownOptionsStrategyList
-          .find((strategy) => strategy.value === this.itemInstance.strategy);
-        },
-        set(value) {
-          this.setItemProp({ prop: 'strategy', value: value.value });
-        },
+  computed: {
+    strategy: {
+      get() {
+        return this.dropdownOptionsStrategyList.find(
+          (strategy) => strategy.value === this.itemInstance.strategy,
+        );
       },
+      set(value) {
+        this.setItemProp({
+          prop: 'strategy',
+          value: value.value,
+        });
+      },
+    },
 
-      dropdownOptionsStrategyList() {
-        return StrategyList.map((strategy) => ({
-          value: strategy.value,
-          name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
-        }));
-      },
-      specificControls() {
-        return QueueTypeProperties[this.itemInstance.type].controls
-        .reduce((controls, control) => ({
+    dropdownOptionsStrategyList() {
+      return StrategyList.map((strategy) => ({
+        value: strategy.value,
+        name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
+      }));
+    },
+    specificControls() {
+      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+        (controls, control) => ({
           ...controls,
           [control]: true,
-        }), {});
-      },
+        }),
+        {},
+      );
     },
+  },
 
-    methods: {
-      loadDropdownOptionsCalendarList(params) {
-        return CalendarsAPI.getLookup(params);
-      },
-      loadDropdownOptionsBlacklistList(params) {
-        return BlacklistsAPI.getLookup(params);
-      },
-      loadDropdownOptionsTeamList(params) {
-        return TeamsAPI.getLookup(params);
-      },
-      loadDropdownOptionsSchemaList(params) {
-        return FlowsAPI.getLookup(params);
-      },
-      loadDropdownOptionsServiceSchemaList(params) {
-        return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
-      },
-      loadDropdownOptionsMediaList(params) {
-        return MediaAPI.getLookup(params);
-      },
-      loadDropdownOptionsRoleList(params) {
-        return RolesAPI.getLookup(params);
-      },
-      loadQueuesTagOptions: QueuesAPI.getQueuesTags,
+  methods: {
+    loadDropdownOptionsCalendarList(params) {
+      return CalendarsAPI.getLookup(params);
     },
-  };
+    loadDropdownOptionsBlacklistList(params) {
+      return BlacklistsAPI.getLookup(params);
+    },
+    loadDropdownOptionsTeamList(params) {
+      return TeamsAPI.getLookup(params);
+    },
+    loadDropdownOptionsSchemaList(params) {
+      return FlowsAPI.getLookup(params);
+    },
+    loadDropdownOptionsServiceSchemaList(params) {
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
+    },
+    loadDropdownOptionsMediaList(params) {
+      return MediaAPI.getLookup(params);
+    },
+    loadDropdownOptionsRoleList(params) {
+      return RolesAPI.getLookup(params);
+    },
+    loadQueuesTagOptions: QueuesAPI.getQueuesTags,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

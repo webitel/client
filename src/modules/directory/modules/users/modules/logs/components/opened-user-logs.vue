@@ -73,11 +73,9 @@
 
 <script>
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import RecordLink
-  from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
+import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
 import LogsAPI from '../api/logs';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 

@@ -39,7 +39,10 @@ export default {
   computed: {
     tableHeaders() {
       const defaultHeaders = [
-        { value: 'name', text: this.$t('reusable.name') },
+        {
+          value: 'name',
+          text: this.$t('reusable.name'),
+        },
       ];
       return this.headers || defaultHeaders;
     },

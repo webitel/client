@@ -1,5 +1,4 @@
-import CognitiveProfileServices
-  from '../lookups/CognitiveProfileServices.lookup';
+import CognitiveProfileServices from '../lookups/CognitiveProfileServices.lookup';
 
 const defaultCognitiveProfile = () => ({
   name: '',

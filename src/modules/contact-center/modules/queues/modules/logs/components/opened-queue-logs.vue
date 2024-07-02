@@ -86,8 +86,7 @@
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues';

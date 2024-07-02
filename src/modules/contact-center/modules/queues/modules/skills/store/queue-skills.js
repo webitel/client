@@ -1,5 +1,4 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import QueueSkillsAPI from '../api/queueSkills';
 import headers from './_internals/headers';
 
@@ -25,8 +24,8 @@ const queueSkills = new NestedObjectStoreModule({
   resettableItemState,
   headers,
 })
-.attachAPIModule(QueueSkillsAPI)
-.generateAPIActions()
-.getModule({ getters });
+  .attachAPIModule(QueueSkillsAPI)
+  .generateAPIActions()
+  .getModule({ getters });
 
 export default queueSkills;

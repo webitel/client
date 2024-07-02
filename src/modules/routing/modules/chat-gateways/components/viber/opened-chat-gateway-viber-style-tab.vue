@@ -44,8 +44,7 @@
 <script>
 import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import viberChatGateway from '../../store/_internals/providers/viberChatGateway';
 
 export default {
@@ -63,7 +62,10 @@ export default {
 
     resetBtnColor(prop) {
       const value = viberChatGateway().metadata[prop];
-      return this.setItemMetadata({ prop, value });
+      return this.setItemMetadata({
+        prop,
+        value,
+      });
     },
   },
 };

@@ -104,11 +104,10 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 export default {
   name: 'TheSingleSignOn',
@@ -141,7 +140,9 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.integrations.integrations') },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
         {
           name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
           route: '/integrations/single-sign-on',

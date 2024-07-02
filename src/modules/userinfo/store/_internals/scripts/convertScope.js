@@ -5,11 +5,16 @@ const convertScope = (initialScope) => {
   if (initialScope) {
     // iterate over ObjectsList and collect included classes
     scope = ObjectsList.reduce((objects, object) => {
-      const initialScopeObject = initialScope.find((obj) => obj.class ===
-        object.field);
+      const initialScopeObject = initialScope.find((obj) => obj.class === object.field);
       if (initialScopeObject) {
-        const newObject = { ...object, access: initialScopeObject.access };
-        return { ...objects, [object.name]: newObject };
+        const newObject = {
+          ...object,
+          access: initialScopeObject.access,
+        };
+        return {
+          ...objects,
+          [object.name]: newObject,
+        };
       }
       return objects;
     }, {});

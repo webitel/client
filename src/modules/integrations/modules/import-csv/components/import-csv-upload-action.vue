@@ -59,7 +59,9 @@ export default {
     },
     handleSave() {
       if (this.item.parameters.clearMembers) {
-        QueueMembersAPI.deleteBulk(this.parentId, { ids: [] });
+        QueueMembersAPI.deleteBulk(this.parentId, {
+          ids: [],
+        });
       }
     },
   },

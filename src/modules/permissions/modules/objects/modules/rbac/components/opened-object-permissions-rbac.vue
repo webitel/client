@@ -119,8 +119,7 @@
 
 <script>
 import { useDummy } from '../../../../../../../app/composables/useDummy';
-import permissionsTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
+import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
 
@@ -135,7 +134,10 @@ export default {
   },
   mixins: [permissionsTabMixin],
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
     return { dummy };
   },
   data: () => ({
@@ -144,7 +146,6 @@ export default {
     headerTitle: '',
   }),
 };
-
 </script>
 
 <style lang="scss" scoped>

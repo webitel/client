@@ -1,11 +1,8 @@
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import AccessMode
-  from '../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
+import AccessMode from '../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
 import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
-import openedTabComponentMixin
-  from '../openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   mixins: [openedTabComponentMixin, tableComponentMixin],
@@ -44,9 +41,8 @@ export default {
       if (!this.headersValue) return [];
       return this.headersValue.map((header) => ({
         ...header,
-        text: typeof header.locale === 'string'
-          ? this.$t(header.locale)
-          : this.$tc(...header.locale),
+        text:
+          typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
       }));
     },
     dataList() {
@@ -58,7 +54,10 @@ export default {
             name: this.$t(`objects.permissions.object.accessMode.${item.access[rule].id}`),
           };
         });
-        return { ...item, access };
+        return {
+          ...item,
+          access,
+        };
       });
     },
     accessOptions() {
@@ -93,16 +92,25 @@ export default {
         return dispatch(`${this.namespace}/${this.subNamespace}/SORT`, payload);
       },
       changeCreateAccessMode(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_CREATE_ACCESS_MODE`, payload);
+        return dispatch(
+          `${this.namespace}/${this.subNamespace}/CHANGE_CREATE_ACCESS_MODE`,
+          payload,
+        );
       },
       changeReadAccessMode(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_READ_ACCESS_MODE`, payload);
       },
       changeUpdateAccessMode(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_UPDATE_ACCESS_MODE`, payload);
+        return dispatch(
+          `${this.namespace}/${this.subNamespace}/CHANGE_UPDATE_ACCESS_MODE`,
+          payload,
+        );
       },
       changeDeleteAccessMode(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/CHANGE_DELETE_ACCESS_MODE`, payload);
+        return dispatch(
+          `${this.namespace}/${this.subNamespace}/CHANGE_DELETE_ACCESS_MODE`,
+          payload,
+        );
       },
       resetState(dispatch, payload) {
         return dispatch(`${this.namespace}/${this.subNamespace}/RESET_ITEM_STATE`, payload);

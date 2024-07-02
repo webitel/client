@@ -1,9 +1,7 @@
 import deepMerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import QueuesAPI from '../api/queues';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
@@ -14,22 +12,16 @@ import members from '../modules/members/store/queue-members';
 import resGroups from '../modules/res-groups/store/queue-res-groups';
 import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
-import defaultChatInboundQueueState
-  from './_internals/queueSchema/chatInboundQueue';
+import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
-import defaultInboundJobQueueState
-  from './_internals/queueSchema/inboundJobQueue';
+import defaultInboundJobQueueState from './_internals/queueSchema/inboundJobQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
 import defaultOfflineQueueState from './_internals/queueSchema/offlineQueue';
-import defaultOutboundIVRQueueState
-  from './_internals/queueSchema/outboundIVRQueue';
-import defaultOutboundJobQueueState
-  from './_internals/queueSchema/outboundJobQueue';
-import defaultPredictiveDialerState
-  from './_internals/queueSchema/predictiveDialer';
+import defaultOutboundIVRQueueState from './_internals/queueSchema/outboundIVRQueue';
+import defaultOutboundJobQueueState from './_internals/queueSchema/outboundJobQueue';
+import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
 import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
-import defaultProgressiveDialerState
-  from './_internals/queueSchema/progressiveDialer';
+import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
 
 const resettableState = {
   itemInstance: defaultQueueState(),
@@ -51,9 +43,14 @@ const actions = {
   LOAD_ITEM: async (context, type) => {
     if (context.state.itemId) {
       const item = await context.dispatch('GET_ITEM');
-      context.dispatch('SET_TYPED_ITEM', { item, type: item.type });
+      context.dispatch('SET_TYPED_ITEM', {
+        item,
+        type: item.type,
+      });
     } else {
-      context.dispatch('SET_TYPED_ITEM', { type });
+      context.dispatch('SET_TYPED_ITEM', {
+        type,
+      });
     }
   },
   SET_TYPED_ITEM: (context, { type, item = {} }) => {
@@ -62,28 +59,50 @@ const actions = {
   },
   SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PAYLOAD_PROPERTY', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_ITEM_PROCESSING_PROPERTY: (context, payload) => {
     context.commit('SET_ITEM_PROCESSING_PROPERTY', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_AMD_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_AMD_ITEM_PROPERTY', payload);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
     context.commit('ADD_VARIABLE_PAIR', pair);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    context.commit('SET_VARIABLE_PROP', { index, prop, value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_VARIABLE_PROP', {
+      index,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   RESET_ITEM_STATE: async (context) => {
     context.commit('RESET_ITEM_STATE');
@@ -119,15 +138,23 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/call_center/queues';
 const permissions = new PermissionsStoreModule()
-.generateAPIActions(PERMISSIONS_API_URL)
-.getModule();
+  .generateAPIActions(PERMISSIONS_API_URL)
+  .getModule();
 
 const queues = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(QueuesAPI)
-.generateAPIActions()
-.setChildModules({
-  agents, skills, buckets, resGroups, hooks, log, members, permissions, filters,
-})
-.getModule({ actions, mutations });
+  .attachAPIModule(QueuesAPI)
+  .generateAPIActions()
+  .setChildModules({
+    agents,
+    skills,
+    buckets,
+    resGroups,
+    hooks,
+    log,
+    members,
+    permissions,
+    filters,
+  })
+  .getModule({ actions, mutations });
 
 export default queues;

@@ -1,7 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedTabComponentMixinMock
-  from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedTabComponentMixinMock from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
 import OpenedQueueGeneral from '../opened-queue-general.vue';
 
 describe('OpenedQueueGeneral', () => {
@@ -13,12 +12,15 @@ describe('OpenedQueueGeneral', () => {
   };
 
   it('renders a component', () => {
-    const wrapper = shallowMount(OpenedQueueGeneral, deepmerge.all([
-      OpenedTabComponentMixinMock(),
-      {
-        computed,
-      },
-    ]));
+    const wrapper = shallowMount(
+      OpenedQueueGeneral,
+      deepmerge.all([
+        OpenedTabComponentMixinMock(),
+        {
+          computed,
+        },
+      ]),
+    );
     expect(wrapper.exists()).toBe(true);
   });
 });

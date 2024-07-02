@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge,
   mergeEach,
@@ -17,15 +14,7 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const agentService = new AgentServiceApiFactory(configuration, '', instance);
 
 const getQueueAgentsList = async (params) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'sort',
-    'fields',
-    'id',
-    'parentId',
-  ];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
   const fields = ['id', 'name', 'status', 'supervisor', 'skills'];
 
   const defaultObject = {
@@ -69,16 +58,11 @@ const getQueueAgentsList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

@@ -84,7 +84,10 @@ export default {
         fields,
         notTeamId: this.parentId,
       });
-      response.items = response.items.map(({ user, id }) => ({ name: user.name, id }));
+      response.items = response.items.map(({ user, id }) => ({
+        name: user.name,
+        id,
+      }));
       return response;
     },
   },

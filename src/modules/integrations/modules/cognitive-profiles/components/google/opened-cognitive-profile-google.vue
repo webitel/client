@@ -94,8 +94,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
-import openedTabComponentMixin
-  from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
@@ -122,10 +121,19 @@ export default {
       reader.onload = (e) => {
         try {
           const value = JSON.parse(e.target.result);
-          this.setItemPropertiesProp({ prop: 'key', value });
-          this.setItemPropertiesProp({ prop: 'keyFilename', value: event.target.files[0].name });
+          this.setItemPropertiesProp({
+            prop: 'key',
+            value,
+          });
+          this.setItemPropertiesProp({
+            prop: 'keyFilename',
+            value: event.target.files[0].name,
+          });
         } catch (err) {
-          this.$eventBus.$emit('notification', { type: 'error', text: this.$t('errors.invalidJson') });
+          this.$eventBus.$emit('notification', {
+            type: 'error',
+            text: this.$t('errors.invalidJson'),
+          });
         } finally {
           this.isKeyLoading = false;
           this.$refs.googleKeyInput.value = '';
@@ -134,8 +142,14 @@ export default {
       reader.readAsText(event.target.files[0]);
     },
     handleFileDelete() {
-      this.setItemPropertiesProp({ prop: 'key', value: '' });
-      this.setItemPropertiesProp({ prop: 'keyFilename', value: '' });
+      this.setItemPropertiesProp({
+        prop: 'key',
+        value: '',
+      });
+      this.setItemPropertiesProp({
+        prop: 'keyFilename',
+        value: '',
+      });
     },
   },
 };

@@ -55,7 +55,9 @@ export default {
         const url = `${chatBaseUrl}${this.uri}?auth`;
         openMessengerWindow({
           url,
-          listener: ({ data }) => { if (data.status === 'success') this.loadAuth(); },
+          listener: ({ data }) => {
+            if (data.status === 'success') this.loadAuth();
+          },
         });
       }
     },

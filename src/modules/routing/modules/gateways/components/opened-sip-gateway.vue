@@ -36,12 +36,22 @@
 </template>
 
 <script>
-
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxValue, minValue, numeric, required, requiredUnless } from '@vuelidate/validators';
+import {
+  helpers,
+  maxValue,
+  minValue,
+  numeric,
+  required,
+  requiredUnless,
+} from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import { gatewayHostValidator, ipValidator, sipAccountValidator } from '../../../../../app/utils/validators';
+import {
+  gatewayHostValidator,
+  ipValidator,
+  sipAccountValidator,
+} from '../../../../../app/utils/validators';
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
 import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
 import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
@@ -65,9 +75,17 @@ export default {
     if (this.isRegister) {
       return {
         itemInstance: {
-          account: { sipAccountValidator, required },
-          proxy: { gatewayHostValidator, required },
-          password: { required: requiredUnless(() => !!this.id) },
+          account: {
+            sipAccountValidator,
+            required,
+          },
+          proxy: {
+            gatewayHostValidator,
+            required,
+          },
+          password: {
+            required: requiredUnless(() => !!this.id),
+          },
           expires: {
             numeric,
             minValue: minValue(32),
@@ -79,11 +97,20 @@ export default {
     }
     return {
       itemInstance: {
-        host: { gatewayHostValidator, required },
-        proxy: { gatewayHostValidator, required },
+        host: {
+          gatewayHostValidator,
+          required,
+        },
+        proxy: {
+          gatewayHostValidator,
+          required,
+        },
         ipacl: {
           $each: helpers.forEach({
-            ip: { ipValidator, required },
+            ip: {
+              ipValidator,
+              required,
+            },
           }),
         },
       },
@@ -106,7 +133,8 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'trunking-general',
-        }, {
+        },
+        {
           text: this.$tc('objects.routing.configuration'),
           value: 'trunking-configuration',
         },
@@ -124,10 +152,15 @@ export default {
       const baseUrl = '/routing/sip-gateways';
       const url = baseUrl.concat(this.isRegister ? '/register' : '/trunking');
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.gateways.gateways', 2), route: baseUrl },
         {
-          name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${this.gatewayTitle})`,
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.gateways.gateways', 2),
+          route: baseUrl,
+        },
+        {
+          name: `${this.id ? this.pathName : this.$t('objects.new')} (${this.gatewayTitle})`,
           route: this.id ? `${url}/${this.id}` : `${url}/new`,
         },
       ];

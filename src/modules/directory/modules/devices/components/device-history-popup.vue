@@ -81,9 +81,18 @@ export default {
   computed: {
     headers() {
       return [
-        { value: 'user', text: this.$tc('objects.directory.users.users', 1) },
-        { value: 'loggedIn', text: this.$t('objects.directory.devices.loggedIn') },
-        { value: 'loggedOut', text: this.$t('objects.directory.devices.loggedOut') },
+        {
+          value: 'user',
+          text: this.$tc('objects.directory.users.users', 1),
+        },
+        {
+          value: 'loggedIn',
+          text: this.$t('objects.directory.devices.loggedIn'),
+        },
+        {
+          value: 'loggedOut',
+          text: this.$t('objects.directory.devices.loggedOut'),
+        },
       ];
     },
   },

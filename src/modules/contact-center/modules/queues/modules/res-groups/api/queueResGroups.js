@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -21,15 +18,7 @@ const fieldsToSend = ['resourceGroup', 'queueId', 'communication'];
 const preRequestHandler = (item, parentId) => ({ ...item, queueId: parentId });
 
 const getQueueResGroupsList = async (params) => {
-  const {
-    parentId,
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { parentId, page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -53,23 +42,16 @@ const getQueueResGroupsList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getQueueResGroup = async ({ parentId, itemId: id, domainId }) => {
   try {
     const response = await queueResService.readQueueResourceGroup(parentId, id, domainId);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -81,13 +63,9 @@ const addQueueResGroup = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await queueResService.createQueueResourceGroup(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -99,13 +77,9 @@ const updateQueueResGroup = async ({ parentId, itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await queueResService.updateQueueResourceGroup(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -114,9 +88,7 @@ const deleteQueueResGroup = async ({ parentId, id, domainId }) => {
     const response = await queueResService.deleteQueueResourceGroup(parentId, id, domainId);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
