@@ -293,9 +293,9 @@ export default {
     grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
     grid-column-gap: 10px;
   }
-
-  .wt-table .sortable-swap-highlight {
+  :deep(.wt-table .sortable-swap-highlight){
     background: var(--primary-color);
   }
 }
 </style>
+
