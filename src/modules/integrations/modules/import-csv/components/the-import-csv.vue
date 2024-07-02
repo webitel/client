@@ -78,13 +78,13 @@
                 {{ item.source ? item.source.name : '' }}
               </p>
 
-<!--              <wt-item-link-->
-<!--              v-if="item.source"-->
-<!--              :id="item.source.id"-->
-<!--              :route-name="RouteNames.QUEUES"-->
-<!--              >-->
-<!--              {{ item.source.name }}-->
-<!--              </wt-item-link>-->
+              <!--              <wt-item-link-->
+              <!--              v-if="item.source"-->
+              <!--              :id="item.source.id"-->
+              <!--              :route-name="RouteNames.QUEUES"-->
+              <!--              >-->
+              <!--              {{ item.source.name }}-->
+              <!--              </wt-item-link>-->
 
             </template>
             <template #actions="{ item }">
