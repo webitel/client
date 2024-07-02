@@ -74,8 +74,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../flow/api/flow';
 
 export default {
@@ -92,7 +91,10 @@ export default {
       },
       set(value) {
         const mbToB = (mb) => `${(mb || 0) * 1024 * 1024}`;
-        this.setItemMetadata({ prop: 'mediaMaxSize', value: mbToB(value) });
+        this.setItemMetadata({
+          prop: 'mediaMaxSize',
+          value: mbToB(value),
+        });
       },
     },
   },

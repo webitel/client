@@ -100,8 +100,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import SkillPopup from './opened-agent-skills-popup.vue';
 
 const namespace = 'ccenter/agents';
@@ -112,7 +111,10 @@ export default {
   components: { SkillPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
     return { dummy };
   },
   data: () => ({

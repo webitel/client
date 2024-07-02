@@ -60,17 +60,33 @@ export default {
       imapHost: { required },
       smtpHost: { required },
       fetchInterval: { required },
-      imapPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
-      smtpPort: { required, minValue: minValue(0), maxValue: maxValue(65535) },
+      imapPort: {
+        required,
+        minValue: minValue(0),
+        maxValue: maxValue(65535),
+      },
+      smtpPort: {
+        required,
+        minValue: minValue(0),
+        maxValue: maxValue(65535),
+      },
       login: { required },
       mailbox: { required },
       authType: { required },
-      password: !this.id && { required },
+      password: !this.id && {
+        required,
+      },
       params: {
         oauth2: {
-          clientId: { required: requiredIf(this.isOauth2AuthType) },
-          clientSecret: { required: requiredIf(this.isOauth2AuthType) },
-          redirectUrl: { required: requiredIf(this.isOauth2AuthType) },
+          clientId: {
+            required: requiredIf(this.isOauth2AuthType),
+          },
+          clientSecret: {
+            required: requiredIf(this.isOauth2AuthType),
+          },
+          redirectUrl: {
+            required: requiredIf(this.isOauth2AuthType),
+          },
         },
       },
     };
@@ -95,8 +111,13 @@ export default {
     path() {
       const baseUrl = '/integrations/email-profiles';
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$tc('objects.integrations.emailProfiles.emailProfiles', 2), route: baseUrl },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$tc('objects.integrations.emailProfiles.emailProfiles', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

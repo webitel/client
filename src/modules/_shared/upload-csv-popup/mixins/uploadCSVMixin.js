@@ -32,20 +32,15 @@ export default {
   }),
   computed: {
     csvValues() {
-      return this.mappingFields
-      .filter(field => field.csv)
-      .map(field => field.csv)
-      .flat();
+      return this.mappingFields.filter((field) => field.csv).flatMap((field) => field.csv);
     },
     filteredCsvColumns() {
-      return this.csvColumns.filter(item => this.csvValues.indexOf(item) !==
-        -1);
+      return this.csvColumns.filter((item) => this.csvValues.indexOf(item) !== -1);
     },
     csvColumns() {
       return this.skipHeaders
         ? Object.keys(this.csvPreview[0])
-        : Object.keys(this.csvPreview[0])
-        .map((col, index) => `${index + 1} column`);
+        : Object.keys(this.csvPreview[0]).map((col, index) => `${index + 1} column`);
     },
     parseCSVOptions() {
       /* docs: https://csv.js.org/parse/options/ */
@@ -76,8 +71,7 @@ export default {
       return this.csvPreview;
     },
     allowSaveAction() {
-      return this.mappingFields.every((field) => !field.required ||
-        !isEmpty(field.csv));
+      return this.mappingFields.every((field) => !field.required || !isEmpty(field.csv));
     },
   },
   methods: {

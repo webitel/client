@@ -25,7 +25,9 @@ export default {
   computed: {
     actionPanelDeleteTooltip() {
       return this.selectedCount
-        ? this.$t('iconHints.deleteSelected', { count: this.selectedCount })
+        ? this.$t('iconHints.deleteSelected', {
+            count: this.selectedCount,
+          })
         : this.$t('iconHints.deleteAll');
     },
   },

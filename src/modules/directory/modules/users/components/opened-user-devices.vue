@@ -42,8 +42,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import DevicesAPI from '../../devices/api/devices';
 
 export default {
@@ -52,7 +51,10 @@ export default {
   methods: {
     async loadDropdownOptionsList(params) {
       const fields = ['id', 'name', 'hotdesk'];
-      const response = await DevicesAPI.getLookup({ ...params, fields });
+      const response = await DevicesAPI.getLookup({
+        ...params,
+        fields,
+      });
       response.items = response.items.filter((item) => !item.hotdesk);
       return response;
     },

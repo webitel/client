@@ -80,15 +80,12 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import openedObjectTableTabMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
 
 export default {
   name: 'OpenedQueueMemberCommunication',
@@ -153,9 +150,18 @@ export default {
     },
     headers() {
       return [
-        { value: 'destination', text: this.$t('objects.name') },
-        { value: 'type', text: this.$t('objects.ccenter.queues.type') },
-        { value: 'priority', text: this.$t('objects.ccenter.queues.priority') },
+        {
+          value: 'destination',
+          text: this.$t('objects.name'),
+        },
+        {
+          value: 'type',
+          text: this.$t('objects.ccenter.queues.type'),
+        },
+        {
+          value: 'priority',
+          text: this.$t('objects.ccenter.queues.priority'),
+        },
       ];
     },
   },
@@ -167,8 +173,11 @@ export default {
     }),
     loadList() {
       this.dataList = this.commList
-      .filter((comm) => comm.destination.includes(this.search))
-      .map((comm) => ({ ...comm, _isSelected: false }));
+        .filter((comm) => comm.destination.includes(this.search))
+        .map((comm) => ({
+          ...comm,
+          _isSelected: false,
+        }));
     },
     create() {
       this.openPopup();
@@ -184,8 +193,7 @@ export default {
       this.isCommPopup = false;
       this.editedIndex = null;
     },
-    setParentId() {
-    },
+    setParentId() {},
   },
 };
 </script>

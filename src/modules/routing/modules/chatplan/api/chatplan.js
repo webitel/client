@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -20,110 +17,62 @@ const chatplanService = new RoutingChatPlanServiceApiFactory(configuration, '', 
 const getChatplanList = async (params) => {
   const defaultObject = { enabled: false };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
     camelToSnake(),
   ]);
 
   try {
-    const response = await chatplanService.searchChatPlan(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-      id,
-    );
+    const response = await chatplanService.searchChatPlan(page, size, search, sort, fields, id);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 const getChatplan = async ({ itemId: id }) => {
   try {
     const response = await chatplanService.readChatPlan(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const fieldsToSend = ['name', 'schema', 'description', 'enabled'];
 
 const addChatplan = async ({ itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await chatplanService.createChatPlan(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 const patchChatplan = async ({ id, changes }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await chatplanService.patchChatPlan(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 const updateChatplan = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await chatplanService.updateChatPlan(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -132,10 +81,7 @@ const deleteChatplan = async ({ id }) => {
     const response = await chatplanService.deleteChatPlan(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

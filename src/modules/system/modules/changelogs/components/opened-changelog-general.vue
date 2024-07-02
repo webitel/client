@@ -54,8 +54,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storage from '../../../../integrations/modules/storage/api/storage';
 import changelogs from '../api/changelogs';
 
@@ -68,10 +67,22 @@ export default {
     },
     periodOptions() {
       return [
-        { name: this.$t('objects.system.changelogs.period.options.daily'), id: 1 },
-        { name: this.$t('objects.system.changelogs.period.options.weekly'), id: 7 },
-        { name: this.$t('objects.system.changelogs.period.options.fortnightly'), id: 14 },
-        { name: this.$t('objects.system.changelogs.period.options.monthly'), id: 30 },
+        {
+          name: this.$t('objects.system.changelogs.period.options.daily'),
+          id: 1,
+        },
+        {
+          name: this.$t('objects.system.changelogs.period.options.weekly'),
+          id: 7,
+        },
+        {
+          name: this.$t('objects.system.changelogs.period.options.fortnightly'),
+          id: 14,
+        },
+        {
+          name: this.$t('objects.system.changelogs.period.options.monthly'),
+          id: 30,
+        },
       ];
     },
   },

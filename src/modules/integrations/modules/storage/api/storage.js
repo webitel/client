@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -16,10 +13,8 @@ import { BackendProfileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
-import DigitalOceanRegions
-  from '../store/_internals/lookups/DigitalOceanRegions.lookup';
-import StorageTypeAdapter
-  from '../store/_internals/scripts/backendStorageTypeAdapters';
+import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
+import StorageTypeAdapter from '../store/_internals/scripts/backendStorageTypeAdapters';
 
 const storageService = new BackendProfileServiceApiFactory(configuration, '', instance);
 
@@ -35,7 +30,7 @@ const fieldsToSend = [
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
-  if (copy.properties.region && copy.properties.region.value) {
+  if (copy.properties.region?.value) {
     copy.properties.region = copy.properties.region.value;
   }
   copy.type = StorageTypeAdapter.enumToBackend(copy.type);
@@ -51,20 +46,14 @@ const getStorageList = async (params) => {
   };
 
   const responseHandler = (response) => {
-    const items = response.items.map((item) => (
-      { ...item, type: StorageTypeAdapter.backendToEnum(item.type) }
-    ));
+    const items = response.items.map((item) => ({
+      ...item,
+      type: StorageTypeAdapter.backendToEnum(item.type),
+    }));
     return { ...response, items };
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -84,15 +73,11 @@ const getStorageList = async (params) => {
       responseHandler,
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -107,28 +92,25 @@ const getStorage = async ({ itemId: id }) => {
     const copy = deepCopy(response);
     if (copy.properties.region) {
       if (copy.properties.endpoint.includes('aws')) {
-        copy.properties.region = AWSRegions
-        .find((item) => item.value === copy.properties.region);
+        copy.properties.region = AWSRegions.find((item) => item.value === copy.properties.region);
       } else if (copy.properties.endpoint.includes('digitalocean')) {
-        copy.properties.region = DigitalOceanRegions
-        .find((item) => item.value === copy.properties.region);
+        copy.properties.region = DigitalOceanRegions.find(
+          (item) => item.value === copy.properties.region,
+        );
       }
     }
 
-    return { ...copy, type: StorageTypeAdapter.backendToEnum(copy.type) };
+    return {
+      ...copy,
+      type: StorageTypeAdapter.backendToEnum(copy.type),
+    };
   };
 
   try {
     const response = await storageService.readBackendProfile(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-      responseHandler,
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject), responseHandler]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -140,13 +122,9 @@ const addStorage = async ({ itemInstance }) => {
   ]);
   try {
     const response = await storageService.createBackendProfile(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -158,30 +136,19 @@ const updateStorage = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await storageService.updateBackendProfile(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchStorage = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await storageService.patchBackendProfile(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -190,16 +157,15 @@ const deleteStorage = async ({ id }) => {
     const response = await storageService.deleteBackendProfile(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getStorageList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getLookup = (params) =>
+  getStorageList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const StorageAPI = {
   getList: getStorageList,

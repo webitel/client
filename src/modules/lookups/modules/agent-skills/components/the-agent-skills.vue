@@ -132,14 +132,12 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
-import DeleteConfirmationPopup
-from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
 
 const namespace = 'lookups/skills';
 
@@ -149,7 +147,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -179,8 +180,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.skills.agentSkills', 2), route: '/lookups/skills' },
+        {
+          name: this.$t('objects.lookups.lookups'),
+        },
+        {
+          name: this.$tc('objects.lookups.skills.agentSkills', 2),
+          route: '/lookups/skills',
+        },
       ];
     },
     selectedRows() {

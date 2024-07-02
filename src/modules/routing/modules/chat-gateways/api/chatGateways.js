@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -12,29 +9,19 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
 import instance from '../../../../../app/api/instance';
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 
 const baseUrl = '/chat/bots';
-const fieldsToSend = [
-  'name',
-  'uri',
-  'flow',
-  'enabled',
-  'provider',
-  'metadata',
-  'updates',
-];
+const fieldsToSend = ['name', 'uri', 'flow', 'enabled', 'provider', 'metadata', 'updates'];
 
 const convertWebchatSeconds = (num) => `${num}s`;
 
-const parseTimeoutSeconds = (item) => (item.includes('s')
-  ? parseInt(item.replace('/s', '/'), 10)
-  : +item);
+const parseTimeoutSeconds = (item) =>
+  item.includes('s') ? Number.parseInt(item.replace('/s', '/'), 10) : +item;
 
 const webchatRequestConverter = (data) => {
   const copy = deepCopy(data);
@@ -60,7 +47,7 @@ const webchatRequestConverter = (data) => {
   if (copy.metadata.captcha.enabled) {
     copy.metadata.captcha = JSON.stringify(data.metadata.captcha);
   } else {
-    delete copy.metadata.captcha;
+    copy.metadata.captcha = undefined;
   }
   copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty.toString();
   return copy;
@@ -76,17 +63,15 @@ const messengerRequestConverter = (data) => {
 const viberRequestConverter = (item) => {
   const copy = deepCopy(item);
   copy.metadata['btn.back.color'] = item.metadata.btnBackColor;
-  delete copy.metadata.btnBackColor;
+  copy.metadata.btnBackColor = undefined;
   copy.metadata['btn.font.color'] = item.metadata.btnFontColor;
-  delete copy.metadata.btnFontColor;
+  copy.metadata.btnFontColor = undefined;
   return copy;
 };
 
 const webChatResponseConverter = (data) => {
   const copy = deepCopy(data);
-  copy.metadata.allowOrigin = data.metadata.allowOrigin
-    ? data.metadata.allowOrigin.split(',')
-    : [];
+  copy.metadata.allowOrigin = data.metadata.allowOrigin ? data.metadata.allowOrigin.split(',') : [];
   if (data.metadata.readTimeout) {
     copy.metadata.readTimeout = parseTimeoutSeconds(data.metadata.readTimeout);
   }
@@ -114,7 +99,7 @@ const webChatResponseConverter = (data) => {
   if (data.metadata.captcha) {
     copy.metadata.captcha = JSON.parse(data.metadata.captcha);
   }
-  copy.metadata._btnCodeDirty = (data.metadata._btnCodeDirty === 'true');
+  copy.metadata._btnCodeDirty = data.metadata._btnCodeDirty === 'true';
 
   return deepmerge(webChatGateway(), copy);
 };
@@ -180,20 +165,15 @@ const getChatGatewayList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getChatGateway = async ({ itemId: id }) => {
-
   const itemResponseHandler = (response) => {
     switch (response.provider) {
       case ChatGatewayProvider.WEBCHAT:
@@ -211,14 +191,9 @@ const getChatGateway = async ({ itemId: id }) => {
 
   try {
     const response = await instance.get(url);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      itemResponseHandler,
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -230,13 +205,9 @@ const addChatGateway = async ({ itemInstance }) => {
   ]);
   try {
     const response = await instance.post(baseUrl, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -250,31 +221,20 @@ const updateChatGateway = async ({ itemInstance, itemId: id }) => {
   const url = `${baseUrl}/${id}`;
   try {
     const response = await instance.put(url, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchChatGateway = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   const url = `${baseUrl}/${id}`;
   try {
     const response = await instance.patch(url, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -284,16 +244,15 @@ const deleteChatGateway = async ({ id }) => {
     const response = await instance.delete(url);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getChatGatewayList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getLookup = (params) =>
+  getChatGatewayList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const ChatGatewaysAPI = {
   getList: getChatGatewayList,

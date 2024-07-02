@@ -36,7 +36,10 @@ export default {
       script = document.createElement('script');
       script.src = `${baseUrl}/WtOmniWidget.umd.js`;
       script.onload = () => {
-        this.buttonPreview = new WtOmniWidget('#chat-button-preview', this.getPreviewConfig('button'));
+        this.buttonPreview = new WtOmniWidget(
+          '#chat-button-preview',
+          this.getPreviewConfig('button'),
+        );
       };
       document.head.appendChild(script);
 

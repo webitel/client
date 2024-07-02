@@ -1,8 +1,4 @@
-import { AgentServiceApiFactory } from 'webitel-sdk';
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -10,6 +6,7 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { AgentServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
@@ -19,13 +16,7 @@ const getTeamSupervisorsList = async (params) => {
   const isSupervisor = true;
   const fields = ['id', 'name'];
 
-  const {
-    page,
-    size,
-    search,
-    parentId,
-    sort,
-  } = applyTransform(params, [
+  const { page, size, search, parentId, sort } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -54,9 +45,7 @@ const getTeamSupervisorsList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -65,43 +54,26 @@ const getTeamSupervisor = async ({ itemId: id }) => {
 
   try {
     const response = await teamSupervisorService.readAgent(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      responseHandler,
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), responseHandler]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchAgent = async ({ id, changes }) => {
-  const item = applyTransform(changes, [
-    camelToSnake(),
-  ]);
+  const item = applyTransform(changes, [camelToSnake()]);
   try {
     const response = await teamSupervisorService.patchAgent(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getTeamSupervisorSubordinatesList = async (params) => {
   const fields = ['id', 'user'];
 
-  const {
-    page,
-    size,
-    search,
-    supervisorId,
-    teamId,
-  } = applyTransform(params, [
+  const { page, size, search, supervisorId, teamId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -129,9 +101,7 @@ const getTeamSupervisorSubordinatesList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -154,7 +124,6 @@ const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
     throw err;
   }
 };
-
 
 const TeamSupervisorsAPI = {
   getList: getTeamSupervisorsList,

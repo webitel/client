@@ -36,8 +36,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.license.license', 2), route: '/directory/license' },
+        {
+          name: this.$t('objects.directory.directory'),
+        },
+        {
+          name: this.$tc('objects.directory.license.license', 2),
+          route: '/directory/license',
+        },
       ];
     },
     tabs() {

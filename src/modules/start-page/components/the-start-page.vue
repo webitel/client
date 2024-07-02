@@ -40,7 +40,10 @@ export default {
       if (!this.selected.subNav) return [];
       return this.selected.subNav.map((subNav) => {
         const route = `${this.selected.route}/${subNav.route}`;
-        return { ...subNav, route };
+        return {
+          ...subNav,
+          route,
+        };
       });
     },
   },

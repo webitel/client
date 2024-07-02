@@ -75,8 +75,7 @@
 <script>
 import path from 'path';
 import { mapActions } from 'vuex';
-import openedObjectTableTabMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
@@ -102,18 +101,27 @@ export default {
         return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
       },
       updateSubscriptionState(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`, payload);
+        return dispatch(
+          `${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`,
+          payload,
+        );
       },
     }),
     addOrRemovePagesWindowHandler({ data }) {
       if (data.status === 'success') this.loadList();
       else if (data.status === 'error') {
-        this.$eventBus.$emit('notification', { type: 'error', text: data.detail });
+        this.$eventBus.$emit('notification', {
+          type: 'error',
+          text: data.detail,
+        });
       }
     },
     addOrRemovePages() {
       const url = `${this.baseUrl}?instagram=setup`;
-      openMessengerWindow({ url, listener: this.addOrRemovePagesWindowHandler });
+      openMessengerWindow({
+        url,
+        listener: this.addOrRemovePagesWindowHandler,
+      });
     },
     openAccountsPopup(item) {
       this.accountsOnPopup = item.accounts;

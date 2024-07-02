@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -19,9 +16,19 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  'limit', 'enabled', 'rps', 'maxSuccessivelyErrors',
-  'name', 'errorIds', 'display', 'description', 'resourceId', 'gateway',
-  'patterns', 'failureDialDelay', 'parameters',
+  'limit',
+  'enabled',
+  'rps',
+  'maxSuccessivelyErrors',
+  'name',
+  'errorIds',
+  'display',
+  'description',
+  'resourceId',
+  'gateway',
+  'patterns',
+  'failureDialDelay',
+  'parameters',
 ];
 
 const preRequestHandler = (item) => {
@@ -37,41 +44,23 @@ const getResourceList = async (params) => {
     enabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await resService.searchOutboundResource(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-      id,
-    );
+    const response = await resService.searchOutboundResource(page, size, search, sort, fields, id);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -105,15 +94,9 @@ const getResource = async ({ itemId: id }) => {
 
   try {
     const response = await resService.readOutboundResource(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-      responseHandler,
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject), responseHandler]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -125,13 +108,9 @@ const addResource = async ({ itemInstance }) => {
   ]);
   try {
     const response = await resService.createOutboundResource(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -143,30 +122,19 @@ const updateResource = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await resService.updateOutboundResource(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchResource = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await resService.patchOutboundResource(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -175,16 +143,15 @@ const deleteResource = async ({ id }) => {
     const response = await resService.deleteOutboundResource(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getResourcesLookup = (params) => getResourceList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getResourcesLookup = (params) =>
+  getResourceList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const ResourcesAPI = {
   getList: getResourceList,

@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -15,8 +12,7 @@ import { CognitiveProfileServiceApiFactory } from 'webitel-sdk';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import CognitiveProfileServices
-  from '../lookups/CognitiveProfileServices.lookup';
+import CognitiveProfileServices from '../lookups/CognitiveProfileServices.lookup';
 
 const cognitiveProfilesService = new CognitiveProfileServiceApiFactory(configuration, '', instance);
 
@@ -48,16 +44,7 @@ const getList = async (params) => {
     enabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    service,
-    enabled,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, service, enabled } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -78,15 +65,11 @@ const getList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -98,15 +81,14 @@ const get = async ({ itemId: id }) => {
   const responseHandler = (response) => {
     const result = {
       ...response,
-      service: CognitiveProfileServices
-      .find(({ value }) => value === response.service),
+      service: CognitiveProfileServices.find(({ value }) => value === response.service),
       properties: {
         ...response.properties,
       },
     };
     if (result.properties.region) {
-      result.properties.region = MicrosoftRegion
-      .find(({ id }) => id === result.properties.region) || {};
+      result.properties.region =
+        MicrosoftRegion.find(({ id }) => id === result.properties.region) || {};
     }
 
     return result;
@@ -114,15 +96,9 @@ const get = async ({ itemId: id }) => {
 
   try {
     const response = await cognitiveProfilesService.readCognitiveProfile(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-      responseHandler,
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject), responseHandler]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -134,30 +110,19 @@ const add = async ({ itemInstance }) => {
   ]);
   try {
     const response = await cognitiveProfilesService.createCognitiveProfile(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patch = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await cognitiveProfilesService.patchCognitiveProfile(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -169,13 +134,9 @@ const update = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await cognitiveProfilesService.updateCognitiveProfile(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -184,16 +145,15 @@ const deleteItem = async ({ id }) => {
     const response = await cognitiveProfilesService.deleteCognitiveProfile(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getLookup = (params) =>
+  getList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const CognitiveProfilesAPI = {
   getList,

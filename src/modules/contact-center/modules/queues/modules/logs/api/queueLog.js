@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   merge,
   notify,
@@ -32,10 +29,7 @@ const getQueueLogs = async (params) => {
     offeringAtTo,
     durationFrom,
     durationTo,
-  } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-  ]);
+  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
 
   try {
     const response = await queueMemberAttemptsService.searchAttemptsHistory(
@@ -68,9 +62,7 @@ const getQueueLogs = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

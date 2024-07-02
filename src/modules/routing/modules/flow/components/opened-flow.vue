@@ -135,8 +135,13 @@ export default {
     path() {
       const baseUrl = '/routing/flow';
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.flow.flow', 2), route: baseUrl },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.flow.flow', 2),
+          route: baseUrl,
+        },
         {
           name: this.id
             ? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
@@ -167,7 +172,8 @@ export default {
         this.removeCheckingUnsavedChanges();
       } catch (err) {
         // Required to prevent an open popup when the error is related to "already existed name"
-        this.isSaveFailedPopup = err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
+        this.isSaveFailedPopup =
+          err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
         throw err;
       }
     },
@@ -181,16 +187,18 @@ export default {
       this.isSaveFailedPopup = false;
     },
     initType() {
-      if (!this.itemInstance.type && this.type) this.setItemProp({ prop: 'type', value: this.type });
+      if (!this.itemInstance.type && this.type)
+        this.setItemProp({
+          prop: 'type',
+          value: this.type,
+        });
     },
     closePage() {
       this.removeCheckingUnsavedChanges();
       this.close();
     },
     handleConfirmationUnsavedChangesPopup() {
-      this.itemInstance._dirty
-        ? this.toggleIsConfirmationUnsavedChangesPopup()
-        : this.closePage();
+      this.itemInstance._dirty ? this.toggleIsConfirmationUnsavedChangesPopup() : this.closePage();
     },
   },
   mounted() {
@@ -198,7 +206,6 @@ export default {
     if (!this.isDiagram) {
       this.addCheckingUnsavedChanges();
     } else {
-
       // [https://webitel.atlassian.net/browse/WTEL-4509]
       // Temporary solution - open in a new browser tab Flow diagram and clear itemInstance
 

@@ -110,13 +110,11 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
 
 const namespace = 'lookups/calendars';
 
@@ -126,7 +124,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -154,8 +155,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.calendars.calendars', 2), route: '/lookups/calendars' },
+        {
+          name: this.$t('objects.lookups.lookups'),
+        },
+        {
+          name: this.$tc('objects.lookups.calendars.calendars', 2),
+          route: '/lookups/calendars',
+        },
       ];
     },
   },

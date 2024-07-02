@@ -1,6 +1,5 @@
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
-import ObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import UsersAPI from '../../../../users/api/users';
 import staticHeaders from './_internals/headers';
 
@@ -27,26 +26,34 @@ const actions = {
     const _items = items.map((item) => ({
       ...item,
       _license: item.license || [], // save "default" format for api license patching
-      license: licenseHeaders.reduce((licenses, { value: licenseId }) => ({
-        ...licenses,
-        [licenseId]: item.license &&
-        item.license.some(({ id }) => id === licenseId),
-      }), {}),
+      license: licenseHeaders.reduce(
+        (licenses, { value: licenseId }) => ({
+          ...licenses,
+          [licenseId]: item.license?.some(({ id }) => id === licenseId),
+        }),
+        {},
+      ),
     }));
     return { items: _items, ...rest };
   },
   TOGGLE_USER_LICENSE: async (context, { user, license }) => {
     try {
       const licenseId = license.value; // "value" from license col header is its id
-      const licenseIndex = user._license.findIndex(({ id }) => id ===
-        licenseId);
-      const changes = { license: [...user._license] };
+      const licenseIndex = user._license.findIndex(({ id }) => id === licenseId);
+      const changes = {
+        license: [...user._license],
+      };
       if (licenseIndex !== -1) {
         changes.license.splice(licenseIndex, 1);
       } else {
-        changes.license.push({ id: licenseId });
+        changes.license.push({
+          id: licenseId,
+        });
       }
-      await context.dispatch('PATCH_ITEM', { id: user.id, changes });
+      await context.dispatch('PATCH_ITEM', {
+        id: user.id,
+        changes,
+      });
       /* i decided to mutate user directly to avoid all dataList redraw */
       // eslint-disable-next-line no-param-reassign
       user._license = changes.license;
@@ -60,8 +67,8 @@ const actions = {
 };
 
 const license = new ObjectStoreModule({ headers: staticHeaders })
-.attachAPIModule(UsersAPI)
-.generateAPIActions()
-.getModule({ state, actions });
+  .attachAPIModule(UsersAPI)
+  .generateAPIActions()
+  .getModule({ state, actions });
 
 export default license;

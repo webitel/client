@@ -48,9 +48,7 @@ export default {
     },
   },
   data: () => ({
-    filters: [
-      { type: 'enum', filterQuery: 'result' },
-    ],
+    filters: [{ type: 'enum', filterQuery: 'result' }],
   }),
   methods: {
     ...mapActions({
@@ -59,7 +57,9 @@ export default {
       },
     }),
     resetFilters() {
-      this.$router.push({ query: null });
+      this.$router.push({
+        query: null,
+      });
       this.resetFilterValues();
     },
   },

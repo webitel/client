@@ -258,7 +258,9 @@
         this.isUploadPopup = false;
       },
       async download({ id, name }) {
-        const flow = await FlowsAPI.get({ itemId: id });
+        const flow = await FlowsAPI.get({
+          itemId: id,
+        });
         const filename = `${name}-schema`;
         downloadAsJSON(flow, filename);
       },
@@ -266,7 +268,9 @@
         const routeName = this.routeName || this.tableObjectRouteName;
         return {
           name: `${routeName}-edit`,
-          params: { id },
+          params: {
+            id,
+          },
           query: {
             editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
           },

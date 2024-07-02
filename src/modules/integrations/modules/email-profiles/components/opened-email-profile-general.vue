@@ -166,8 +166,7 @@ import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import { mapActions } from 'vuex';
 import { EngineEmailAuthType } from 'webitel-sdk';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 
 export default {
@@ -180,17 +179,24 @@ export default {
   }),
   computed: {
     isPlainAuthType() {
-      return this.itemInstance.authType === EngineEmailAuthType.Plain || !this.itemInstance.authType;
+      return (
+        this.itemInstance.authType === EngineEmailAuthType.Plain || !this.itemInstance.authType
+      );
     },
     authTypesList() {
-      return Object.values(EngineEmailAuthType).filter(type => type !== EngineEmailAuthType.EmailAuthTypeUndefined);
+      return Object.values(EngineEmailAuthType).filter(
+        (type) => type !== EngineEmailAuthType.EmailAuthTypeUndefined,
+      );
     },
     isDisplayAuthBtn() {
       return this.itemInstance.id && !this.isPlainAuthType;
     },
     isUnavailableAuth() {
       if (isEmpty(this.itemInstance.params)) return true;
-      return Object.values(this.itemInstance?.params?.oauth2).some(item => !item) || this.isChangeOauth2Params;
+      return (
+        Object.values(this.itemInstance?.params?.oauth2).some((item) => !item) ||
+        this.isChangeOauth2Params
+      );
     },
     authBtnText() {
       return this.itemInstance.logged ? this.$t('vocabulary.logout') : this.$t('vocabulary.login');
@@ -206,7 +212,6 @@ export default {
   },
   methods: {
     ...mapActions({
-
       // [https://webitel.atlassian.net/browse/WTEL-3114]
       // Authorization Microsoft Outlook service
 
@@ -218,22 +223,32 @@ export default {
       return FlowsAPI.getLookup(params);
     },
     changeAuthType(type) {
-      this.setItemProp({ prop: 'authType', value: type });
+      this.setItemProp({
+        prop: 'authType',
+        value: type,
+      });
       if (this.isPlainAuthType) {
-        if (this.itemInstance?.params?.oauth2?.clientId) this.setItemProp({
-          path: 'params.oauth2.clientId',
-          value: '',
-        });
-        if (this.itemInstance?.params?.oauth2?.clientSecret) this.setItemProp({
-          path: 'params.oauth2.clientSecret',
-          value: '',
-        });
-        if (this.itemInstance?.params?.oauth2?.redirectUrl) this.setItemProp({
-          path: 'params.oauth2.redirectUrl',
-          value: '',
-        });
+        if (this.itemInstance?.params?.oauth2?.clientId)
+          this.setItemProp({
+            path: 'params.oauth2.clientId',
+            value: '',
+          });
+        if (this.itemInstance?.params?.oauth2?.clientSecret)
+          this.setItemProp({
+            path: 'params.oauth2.clientSecret',
+            value: '',
+          });
+        if (this.itemInstance?.params?.oauth2?.redirectUrl)
+          this.setItemProp({
+            path: 'params.oauth2.redirectUrl',
+            value: '',
+          });
       } else {
-        if (this.itemInstance?.password) this.setItemProp({ prop: 'password', value: '' });
+        if (this.itemInstance?.password)
+          this.setItemProp({
+            prop: 'password',
+            value: '',
+          });
       }
     },
     updateIsChangeOauth2Params() {

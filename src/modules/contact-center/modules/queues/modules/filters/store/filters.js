@@ -1,13 +1,10 @@
-import ApiFilterSchema
-  from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
-import BaseFilterSchema
-  from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
-import QueryFiltersStoreModule
-  from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
+import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
+import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
-import QueueTypeOptions from './QueueTypeOptions';
-import TeamLookupApi from '../api/teamLookupApi';
+import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import QueuesAPI from '../../../api/queues';
+import TeamLookupApi from '../api/teamLookupApi';
+import QueueTypeOptions from './QueueTypeOptions';
 
 const state = {
   search: new BaseFilterSchema(),

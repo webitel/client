@@ -32,10 +32,19 @@ describe('normalizeCSVData', () => {
         col3: '012',
       },
     ];
-    const result = normalizeCSVData({ data: input, mappings });
+    const result = normalizeCSVData({
+      data: input,
+      mappings,
+    });
     const output = [
-      { name: 'John', phone: ['123', '456'] },
-      { name: 'Jane', phone: ['789', '012'] },
+      {
+        name: 'John',
+        phone: ['123', '456'],
+      },
+      {
+        name: 'Jane',
+        phone: ['789', '012'],
+      },
     ];
     expect(result).toEqual(output);
   });
@@ -54,7 +63,10 @@ describe('normalizeCSVData', () => {
       },
     ];
     try {
-      normalizeCSVData({ data: input, mappings });
+      normalizeCSVData({
+        data: input,
+        mappings,
+      });
     } catch (err) {
       expect(err).toBeTruthy();
       return;
@@ -77,11 +89,20 @@ describe('normalizeCSVData', () => {
       },
     ];
 
-    const result = normalizeCSVData({ data: input, mappings });
+    const result = normalizeCSVData({
+      data: input,
+      mappings,
+    });
 
     const output = [
-      { name: 'name', phone: ['123'] },
-      { name: 'name', phone: ['123', '012'] },
+      {
+        name: 'name',
+        phone: ['123'],
+      },
+      {
+        name: 'name',
+        phone: ['123', '012'],
+      },
     ];
 
     expect(result).toEqual(output);

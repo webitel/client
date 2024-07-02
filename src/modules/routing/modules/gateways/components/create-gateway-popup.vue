@@ -46,14 +46,15 @@ export default {
     },
     createGateway() {
       if (this.selected) {
-        this.$router.push({ name: `${RouteNames.GATEWAYS}-${this.selected.value}-new` });
+        this.$router.push({
+          name: `${RouteNames.GATEWAYS}-${this.selected.value}-new`,
+        });
       }
     },
     close() {
       this.$emit('close');
     },
   },
-
 };
 </script>
 
