@@ -1,4 +1,7 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -41,7 +44,9 @@ const getAgentsList = async (params) => {
     notTeamId,
     supervisorId,
     notSkillId,
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
+  } = applyTransform(params, [
+    merge(getDefaultGetParams())
+  ]);
 
   try {
     const response = await agentService.searchAgent(
@@ -95,7 +100,10 @@ const getAgent = async ({ itemId: id }) => {
 
   try {
     const response = await agentService.readAgent(id);
-    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
+    return applyTransform(response.data, [
+      snakeToCamel(),
+      merge(defaultObject),
+    ]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
@@ -115,7 +123,10 @@ const fieldsToSend = [
 ];
 
 const addAgent = async ({ itemInstance }) => {
-  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
   try {
     const response = await agentService.createAgent(item);
     return applyTransform(response.data, [snakeToCamel()]);
@@ -125,7 +136,10 @@ const addAgent = async ({ itemInstance }) => {
 };
 
 const patchAgent = async ({ changes, id }) => {
-  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
   try {
     const response = await agentService.patchAgent(id, body);
     return applyTransform(response.data, [snakeToCamel()]);
@@ -135,7 +149,10 @@ const patchAgent = async ({ changes, id }) => {
 };
 
 const updateAgent = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
+  const item = applyTransform(itemInstance, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
   try {
     const response = await agentService.updateAgent(id, item);
     return applyTransform(response.data, [snakeToCamel()]);
@@ -167,7 +184,10 @@ const getAgentHistory = async (params) => {
     page,
     size,
     sort = '-joined_at',
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
+  } = applyTransform(params, [
+    merge(getDefaultGetParams()),
+    starToSearch('search'),
+  ]);
 
   try {
     const response = await agentService.searchAgentStateHistory(
