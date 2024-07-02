@@ -74,13 +74,18 @@
               </wt-item-link>
             </template>
             <template #source="{ item }">
-              <wt-item-link
-                v-if="item.source"
-                :id="item.source.id"
-                :route-name="RouteNames.QUEUES"
-              >
-                {{ item.source.name }}
-              </wt-item-link>
+              <p>
+                {{ item.source ? item.source.name : '' }}
+              </p>
+
+<!--              <wt-item-link-->
+<!--              v-if="item.source"-->
+<!--              :id="item.source.id"-->
+<!--              :route-name="RouteNames.QUEUES"-->
+<!--              >-->
+<!--              {{ item.source.name }}-->
+<!--              </wt-item-link>-->
+
             </template>
             <template #actions="{ item }">
               <upload-action
@@ -120,66 +125,67 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import UploadAction from './import-csv-upload-action.vue';
+  import DeleteConfirmationPopup
+    from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+  import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+  import { useDummy } from '../../../../../app/composables/useDummy';
+  import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+  import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+  import UploadAction from './import-csv-upload-action.vue';
 
-const namespace = 'integrations/importCsv';
+  const namespace = 'integrations/importCsv';
 
-export default {
-  name: 'TheImportCsv',
-  components: { UploadAction, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+  export default {
+    name: 'TheImportCsv',
+    components: { UploadAction, DeleteConfirmationPopup },
+    mixins: [tableComponentMixin],
 
-  setup() {
-    const { dummy } = useDummy({
+    setup() {
+      const { dummy } = useDummy({
+        namespace,
+        showAction: true,
+      });
+      const {
+        isVisible: isDeleteConfirmationPopup,
+        deleteCount,
+        deleteCallback,
+
+        askDeleteConfirmation,
+        closeDelete,
+      } = useDeleteConfirmationPopup();
+
+      return {
+        dummy,
+        isDeleteConfirmationPopup,
+        deleteCount,
+        deleteCallback,
+
+        askDeleteConfirmation,
+        closeDelete,
+      };
+    },
+    data: () => ({
       namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+      routeName: RouteNames.IMPORT_CSV,
+    }),
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.IMPORT_CSV,
-  }),
-
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$tc('objects.integrations.importCsv.importCsv', 2),
-          route: '/integrations/import-csv',
-        },
-      ];
+    computed: {
+      path() {
+        return [
+          {
+            name: this.$t('objects.integrations.integrations'),
+          },
+          {
+            name: this.$tc('objects.integrations.importCsv.importCsv', 2),
+            route: '/integrations/import-csv',
+          },
+        ];
+      },
+      hasUploadAccess() {
+        return true;
+      },
     },
-    hasUploadAccess() {
-      return true;
-    },
-  },
-};
+  };
 </script>
 
 <style scoped>
