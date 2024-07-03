@@ -229,24 +229,11 @@ export default {
 
 <style lang="scss" scoped>
 .settings-section {
-  position: relative;
   display: flex;
-  max-height: 700px;
-  width: 100%;
-
-  flex-wrap: wrap;
+  flex: 0 1 50%;
   flex-direction: column;
   min-width: 200px;
   gap: var(--spacing-sm);
-
-  &__setting {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    padding: 0 var(--spacing-sm) var(--spacing-sm);
-    border-radius: var(--border-radius);
-    box-shadow: var(--elevation-5);
-  }
 
   .wt-button {
     display: block;
