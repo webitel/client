@@ -29,8 +29,14 @@ describe('UploadCsvMixin', () => {
       `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
-      { name: 'name', csv: 'col1' },
-      { name: 'age', csv: 'col2' },
+      {
+        name: 'name',
+        csv: 'col1',
+      },
+      {
+        name: 'age',
+        csv: 'col2',
+      },
     ];
 
     const saveCallback = vi.fn();
@@ -41,7 +47,9 @@ describe('UploadCsvMixin', () => {
         addBulkItems: saveCallback,
         mappingFields: mappings,
       },
-      data: () => ({ skipHeaders: true }),
+      data: () => ({
+        skipHeaders: true,
+      }),
     });
 
     // parse file
@@ -64,8 +72,16 @@ describe('UploadCsvMixin', () => {
       `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
-      { name: 'name', csv: 'col1', required: true },
-      { name: 'age', csv: 'col2', required: true },
+      {
+        name: 'name',
+        csv: 'col1',
+        required: true,
+      },
+      {
+        name: 'age',
+        csv: 'col2',
+        required: true,
+      },
     ];
 
     const saveCallback = vi.fn();
@@ -76,7 +92,9 @@ describe('UploadCsvMixin', () => {
         addBulkItems: saveCallback,
         mappingFields: mappings,
       },
-      data: () => ({ skipHeaders: true }),
+      data: () => ({
+        skipHeaders: true,
+      }),
     });
 
     // parse file
@@ -101,8 +119,14 @@ describe('UploadCsvMixin', () => {
       `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
-      { name: 'name', csv: 'col1' },
-      { name: 'age', csv: 'col2' },
+      {
+        name: 'name',
+        csv: 'col1',
+      },
+      {
+        name: 'age',
+        csv: 'col2',
+      },
     ];
 
     const saveCallback = vi.fn();
@@ -113,7 +137,9 @@ describe('UploadCsvMixin', () => {
         addBulkItems: saveCallback,
         mappingFields: mappings,
       },
-      data: () => ({ skipHeaders: true }),
+      data: () => ({
+        skipHeaders: true,
+      }),
     });
 
     // parse file
@@ -136,8 +162,16 @@ describe('UploadCsvMixin', () => {
       `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
 
     const mappings = [
-      { name: 'name', csv: 'col1', required: true },
-      { name: 'age', csv: ['col2', 'col3'], required: true },
+      {
+        name: 'name',
+        csv: 'col1',
+        required: true,
+      },
+      {
+        name: 'age',
+        csv: ['col2', 'col3'],
+        required: true,
+      },
     ];
 
     const saveCallback = vi.fn();
@@ -148,7 +182,9 @@ describe('UploadCsvMixin', () => {
         addBulkItems: saveCallback,
         mappingFields: mappings,
       },
-      data: () => ({ skipHeaders: true }),
+      data: () => ({
+        skipHeaders: true,
+      }),
     });
 
     // parse file
@@ -158,8 +194,14 @@ describe('UploadCsvMixin', () => {
 
     await wrapper.vm.processCSV();
     expect(saveCallback).toHaveBeenCalledWith([
-      { name: 'John', age: ['30'] },
-      { name: 'Jane', age: ['25'] },
+      {
+        name: 'John',
+        age: ['30'],
+      },
+      {
+        name: 'Jane',
+        age: ['25'],
+      },
     ]);
   });
 });

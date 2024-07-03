@@ -46,7 +46,10 @@ export default {
     }),
     headers() {
       return [
-        { value: 'subordinate', text: this.$tc('objects.ccenter.agents.subordinates', 1) },
+        {
+          value: 'subordinate',
+          text: this.$tc('objects.ccenter.agents.subordinates', 1),
+        },
       ];
     },
   },

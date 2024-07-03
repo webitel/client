@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import FlowAPI from '../api/flow';
 import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
@@ -20,9 +19,9 @@ const state = {
 };
 
 const flow = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(FlowAPI)
-.setChildModules({ filters })
-.generateAPIActions()
-.getModule({ state });
+  .attachAPIModule(FlowAPI)
+  .setChildModules({ filters })
+  .generateAPIActions()
+  .getModule({ state });
 
 export default flow;

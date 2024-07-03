@@ -85,10 +85,12 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        }, {
+        },
+        {
           text: this.$tc('objects.ccenter.res.numbers', 2),
           value: 'numbers',
-        }, {
+        },
+        {
           text: this.$t('objects.ccenter.res.failure'),
           value: 'failure',
         },
@@ -101,8 +103,13 @@ export default {
     path() {
       const baseUrl = '/contact-center/resources';
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.res.res', 2), route: baseUrl },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.$tc('objects.ccenter.res.res', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

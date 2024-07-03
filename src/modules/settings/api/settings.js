@@ -1,16 +1,13 @@
-import { generateUrl } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import instance from '../../../app/api/instance';
 import applyTransform, {
   camelToSnake,
   notify,
-  snakeToCamel
+  snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
-import axios from 'axios';
 
 const baseUrl = 'users';
 
 export const getWebPhone = async () => {
-
   const url = 'user/settings/phone';
 
   try {
@@ -81,7 +78,6 @@ export const changePassword = ({ id, changes }) => patchItem({
   id,
   changes,
 });
-
 
 export default {
   changePassword,

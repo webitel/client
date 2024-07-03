@@ -25,12 +25,14 @@ export default {
       domain: (state) => state.domain,
     }),
     disableControl() {
-      return !this.item.sessions
-        || !this.hasEditAccess
-        || this.item.domain?.name !== this.domain;
+      return !this.item.sessions || !this.hasEditAccess || this.item.domain?.name !== this.domain;
     },
     hasEditAccess() {
-      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({ route: { name: `${RouteNames.USERS}-edit` } });
+      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({
+        route: {
+          name: `${RouteNames.USERS}-edit`,
+        },
+      });
     },
   },
   methods: {

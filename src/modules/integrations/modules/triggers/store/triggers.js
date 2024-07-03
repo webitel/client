@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import TriggersAPI from '../api/triggers';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
 import log from '../modules/logs/store/trigger-logs';
@@ -24,15 +23,28 @@ const actions = {
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
     context.commit('ADD_VARIABLE_PAIR', pair);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    context.commit('SET_VARIABLE_PROP', { index, prop, value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_VARIABLE_PROP', {
+      index,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   START_TRIGGER: async (context, item) => TriggersAPI.start(context, item),
 };
@@ -50,9 +62,9 @@ const mutations = {
 };
 
 const triggers = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(TriggersAPI)
-.generateAPIActions()
-.setChildModules({ log })
-.getModule({ actions, mutations });
+  .attachAPIModule(TriggersAPI)
+  .generateAPIActions()
+  .setChildModules({ log })
+  .getModule({ actions, mutations });
 
 export default triggers;

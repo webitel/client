@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -25,30 +22,14 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 const getQueueBucketsList = async (params) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'sort',
-    'fields',
-    'id',
-    'parentId',
-  ];
+  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'parentId'];
 
   const defaultObject = {
     priority: 0,
     disabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    parentId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, parentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
     sanitize(fieldsToSend),
@@ -69,16 +50,11 @@ const getQueueBucketsList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -90,15 +66,9 @@ const getQueueBucket = async ({ parentId, itemId: id }) => {
 
   try {
     const response = await queueBucketsService.readQueueBucket(parentId, id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -110,14 +80,9 @@ const addQueueBucket = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await queueBucketsService.createQueueBucket(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -129,32 +94,19 @@ const updateQueueBucket = async ({ itemInstance, itemId: id, parentId }) => {
   ]);
   try {
     const response = await queueBucketsService.updateQueueBucket(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchQueueBucket = async ({ changes, id, parentId }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await queueBucketsService.patchQueueBucket(parentId, id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -163,10 +115,7 @@ const deleteQueueBucket = async ({ parentId, id }) => {
     const response = await queueBucketsService.deleteQueueBucket(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

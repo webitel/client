@@ -90,10 +90,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'select',
-  'cancel',
-]);
+const emit = defineEmits(['select', 'cancel']);
 
 // we should keep filters schema in separate function
 // in order to reset it completely at "filters reset" action
@@ -181,9 +178,7 @@ function sort(header, nextSortOrder) {
   headers.forEach((oldHeader) => {
     if (oldHeader.sort !== undefined) {
       // eslint-disable-next-line no-param-reassign
-      oldHeader.sort = oldHeader.field === header.field
-        ? nextSortOrder
-        : SortSymbols.NONE;
+      oldHeader.sort = oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE;
     }
   });
 }
@@ -192,13 +187,10 @@ function cancel() {
   emit('cancel');
 }
 
-useInfiniteScroll(
-  infiniteScrollWrap,
-  () => {
-    page.value += 1;
-    loadDataList();
-  },
-);
+useInfiniteScroll(infiniteScrollWrap, () => {
+  page.value += 1;
+  loadDataList();
+});
 </script>
 
 <style lang="scss">

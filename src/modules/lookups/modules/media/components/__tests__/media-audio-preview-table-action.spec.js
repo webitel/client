@@ -1,6 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import MediaAudioPreviewTableAction
-  from '../media-audio-preview-table-action.vue';
+import MediaAudioPreviewTableAction from '../media-audio-preview-table-action.vue';
 
 describe('MediaAudioPreviewTableAction', () => {
   it('renders a component', () => {

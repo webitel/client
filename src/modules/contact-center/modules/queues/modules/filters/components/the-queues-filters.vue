@@ -35,8 +35,14 @@ export default {
   },
   data: () => ({
     filters: [
-      { type: 'api', filterQuery: 'team' },
-      { type: 'enum', filterQuery: 'queueType' },
+      {
+        type: 'api',
+        filterQuery: 'team',
+      },
+      {
+        type: 'enum',
+        filterQuery: 'queueType',
+      },
     ],
   }),
   methods: {
@@ -46,7 +52,9 @@ export default {
       },
     }),
     resetFilters() {
-      this.$router.push({ query: null });
+      this.$router.push({
+        query: null,
+      });
       this.resetFilterValues();
     },
   },

@@ -43,7 +43,10 @@ export default {
     },
     headers() {
       return [
-        { value: 'bucket', text: this.$t('reusable.name') },
+        {
+          value: 'bucket',
+          text: this.$t('reusable.name'),
+        },
       ];
     },
   },

@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -18,8 +15,16 @@ import instance from '../../../../../app/api/instance';
 
 const baseUrl = '/devices';
 const fieldsToSend = [
-  'name', 'account', 'password', 'user',
-  'mac', 'ip', 'brand', 'model', 'hotdesks', 'hotdesk',
+  'name',
+  'account',
+  'password',
+  'user',
+  'mac',
+  'ip',
+  'brand',
+  'model',
+  'hotdesks',
+  'hotdesk',
 ];
 
 const getDeviceList = async (params) => {
@@ -44,16 +49,11 @@ const getDeviceList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 const getDevice = async ({ itemId: id }) => {
@@ -67,21 +67,15 @@ const getDevice = async ({ itemId: id }) => {
 
   try {
     const response = await instance.get(url);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
-  if (!copy.password) delete copy.password;
+  if (!copy.password) copy.password = undefined;
   return copy;
 };
 
@@ -93,14 +87,9 @@ const addDevice = async ({ itemInstance }) => {
   ]);
   try {
     const response = await instance.post(baseUrl, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -114,14 +103,9 @@ const updateDevice = async ({ itemInstance, itemId: id }) => {
   const url = `${baseUrl}/${id}`;
   try {
     const response = await instance.put(url, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -131,30 +115,18 @@ const deleteDevice = async ({ id }) => {
     const response = await instance.delete(url);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getDevicesLookup = (params) => getDeviceList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getDevicesLookup = (params) =>
+  getDeviceList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
-const getDeviceHistory = async ({
-                                  parentId, from, to, ...rest
-                                }) => {
-  const fieldsToSend = [
-    'page',
-    'size',
-    'search',
-    'fields',
-    'id',
-    'timeFrom',
-    'timeTo',
-  ];
+const getDeviceHistory = async ({ parentId, from, to, ...rest }) => {
+  const fieldsToSend = ['page', 'size', 'search', 'fields', 'id', 'timeFrom', 'timeTo'];
   const url = applyTransform({ ...rest, timeFrom: from, timeTo: to }, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -175,10 +147,7 @@ const getDeviceHistory = async ({
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

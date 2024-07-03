@@ -1,7 +1,6 @@
-import { ref, computed } from 'vue';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 export const useCheckingUnsavedChanges = (itemInstance) => {
   const isConfirmationUnsavedChangesPopup = ref(false);
@@ -31,5 +30,5 @@ export const useCheckingUnsavedChanges = (itemInstance) => {
     addCheckingUnsavedChanges,
     removeCheckingUnsavedChanges,
     toggleIsConfirmationUnsavedChangesPopup,
-  }
-}
+  };
+};

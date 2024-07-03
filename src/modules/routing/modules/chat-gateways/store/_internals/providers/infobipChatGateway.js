@@ -1,5 +1,4 @@
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const infobipChatGateway = () => ({

@@ -1,5 +1,6 @@
 import applyTransform, {
-  mergeEach, notify,
+  mergeEach,
+  notify,
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
 import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
@@ -12,16 +13,10 @@ const getList = async ({ uri }) => {
   const url = `${uri}?instagram=`;
   try {
     const response = await chatInstance.get(url);
-    const { data } = applyTransform(response, [
-      snakeToCamel(),
-    ]);
-    return applyTransform(data, [
-      mergeEach(defaultListObject),
-    ]);
+    const { data } = applyTransform(response, [snakeToCamel()]);
+    return applyTransform(data, [mergeEach(defaultListObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

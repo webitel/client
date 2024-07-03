@@ -9,9 +9,8 @@ const storageTypes = {
 
 export const enumToBackendAdapter = (enumType) => storageTypes[enumType];
 
-export const backendToEnumAdapter = (backendType) => (
-  Object.keys(storageTypes).find((key) => storageTypes[key] === backendType)
-);
+export const backendToEnumAdapter = (backendType) =>
+  Object.keys(storageTypes).find((key) => storageTypes[key] === backendType);
 
 export default {
   backendToEnum: backendToEnumAdapter,

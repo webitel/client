@@ -72,8 +72,13 @@ export default {
     path() {
       const baseUrl = '/lookups/pause-cause';
       return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$t('objects.lookups.pauseCause.pauseCause'), route: baseUrl },
+        {
+          name: this.$t('objects.lookups.lookups'),
+        },
+        {
+          name: this.$t('objects.lookups.pauseCause.pauseCause'),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

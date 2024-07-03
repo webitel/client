@@ -101,13 +101,11 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import HookPopup from './opened-team-hooks-popup.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import HookPopup from './opened-team-hooks-popup.vue';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'hooks';
@@ -117,7 +115,10 @@ export default {
   components: { HookPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
 
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -136,7 +137,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-    }
+    };
   },
   data: () => ({
     namespace,

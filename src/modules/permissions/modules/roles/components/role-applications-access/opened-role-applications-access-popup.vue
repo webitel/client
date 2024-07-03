@@ -61,12 +61,12 @@ export default {
     }),
     appSectionsAccess() {
       return Object.keys(this.access[this.editedApp])
-      .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
-      .map((section) => ({
-        name: section,
-        displayName: this.$t(this.access[this.editedApp][section]._locale),
-        enabled: this.access[this.editedApp][section]._enabled,
-      }));
+        .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
+        .map((section) => ({
+          name: section,
+          displayName: this.$t(this.access[this.editedApp][section]._locale),
+          enabled: this.access[this.editedApp][section]._enabled,
+        }));
     },
   },
   methods: {

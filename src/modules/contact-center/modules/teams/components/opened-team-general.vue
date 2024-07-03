@@ -45,8 +45,7 @@
 
 <script>
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentsAPI from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
 
@@ -57,11 +56,15 @@ export default {
   computed: {
     strategy: {
       get() {
-        return this.strategyOptions
-        .find((strategy) => strategy.value === this.itemInstance.strategy);
+        return this.strategyOptions.find(
+          (strategy) => strategy.value === this.itemInstance.strategy,
+        );
       },
       set(value) {
-        this.setItemProp({ prop: 'strategy', value: value.value });
+        this.setItemProp({
+          prop: 'strategy',
+          value: value.value,
+        });
       },
     },
     strategyOptions() {

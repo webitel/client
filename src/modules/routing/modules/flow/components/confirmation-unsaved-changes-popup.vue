@@ -35,7 +35,6 @@
   </wt-popup>
 </template>
 <script>
-
 export default {
   name: 'confirmation-unsaved-changes-popup',
   props: {

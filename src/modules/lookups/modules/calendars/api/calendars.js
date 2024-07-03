@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -19,27 +16,13 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const calendarService = new CalendarServiceApiFactory(configuration, '', instance);
 
 const getCalendarList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await calendarService.searchCalendar(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-      id,
-    );
+    const response = await calendarService.searchCalendar(page, size, search, sort, fields, id);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -49,10 +32,7 @@ const getCalendarList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -92,15 +72,9 @@ const getCalendar = async ({ itemId: id }) => {
 
   try {
     const response = await calendarService.readCalendar(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      itemResponseHandler,
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -125,10 +99,10 @@ const fieldsToSend = [
 
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
-  delete copy.timezone.offset;
+  copy.timezone.offset = undefined;
   if (!copy.expires) {
-    delete copy.startAt;
-    delete copy.endAt;
+    copy.startAt = undefined;
+    copy.endAt = undefined;
   }
 
   copy.accepts = copy.accepts.map((accept) => ({
@@ -148,14 +122,9 @@ const addCalendar = async ({ itemInstance }) => {
   ]);
   try {
     const response = await calendarService.createCalendar(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -167,14 +136,9 @@ const updateCalendar = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await calendarService.updateCalendar(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -183,40 +147,24 @@ const deleteCalendar = async ({ id }) => {
     const response = await calendarService.deleteCalendar(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getCalendarsLookup = (params) => getCalendarList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getCalendarsLookup = (params) =>
+  getCalendarList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const getTimezonesLookup = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await calendarService.searchTimezones(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-      id,
-    );
+    const response = await calendarService.searchTimezones(page, size, search, sort, fields, id);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -226,10 +174,7 @@ const getTimezonesLookup = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

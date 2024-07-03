@@ -1,5 +1,4 @@
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 
@@ -44,8 +43,7 @@ export default {
             await this.addItem();
           }
           this.close();
-        } catch {
-        }
+        } catch {}
       }
     },
 

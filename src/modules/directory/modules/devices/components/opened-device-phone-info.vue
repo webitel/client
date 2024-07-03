@@ -44,8 +44,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedDevicePhoneInfo',
@@ -57,7 +56,8 @@ export default {
         id: 1,
         brand: 'cisco',
         model: '7821',
-      }, {
+      },
+      {
         name: 'Yealink SIP-T21P E2',
         id: 2,
         brand: 'yealink',
@@ -68,9 +68,18 @@ export default {
 
   methods: {
     setDevice(phone) {
-      this.setItemProp({ prop: 'phone', value: phone });
-      this.setItemProp({ prop: 'brand', value: phone.brand });
-      this.setItemProp({ prop: 'model', value: phone.model });
+      this.setItemProp({
+        prop: 'phone',
+        value: phone,
+      });
+      this.setItemProp({
+        prop: 'brand',
+        value: phone.brand,
+      });
+      this.setItemProp({
+        prop: 'model',
+        value: phone.model,
+      });
     },
   },
 };

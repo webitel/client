@@ -81,7 +81,10 @@ export default {
   watch: {
     showExpireDate() {
       if (this.itemInstance.expireAt && this.showExpireDate) return;
-      this.setItemProp({ prop: 'expireAt', value: this.showExpireDate ? Date.now() : 0 });
+      this.setItemProp({
+        prop: 'expireAt',
+        value: this.showExpireDate ? Date.now() : 0,
+      });
     },
     'itemInstance.id': {
       handler() {

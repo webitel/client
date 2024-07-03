@@ -1,8 +1,6 @@
-import ApplicationsAccess
-  from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
+import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import deepCopy from 'deep-copy';
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import RolesAPI from '../api/roles';
 import headers from './_internals/headers';
 
@@ -18,10 +16,13 @@ const resettableState = {
 };
 
 const actions = {
-  GET_ITEM: (context) => RolesAPI.get({
-    ...context.state,
-    query: { fields: '*,metadata.access' },
-  }),
+  GET_ITEM: (context) =>
+    RolesAPI.get({
+      ...context.state,
+      query: {
+        fields: '*,metadata.access',
+      },
+    }),
   ADD_ROLE_PERMISSION: (context, permission) => {
     const value = context.state.itemInstance.permissions.concat(permission);
     return context.dispatch('SET_ITEM_PROPERTY', {
@@ -47,20 +48,21 @@ const actions = {
   },
   DELETE_SINGLE_PERMISSION: (context, deleted) => {
     const permissions = [...context.state.itemInstance.permissions];
-    permissions.splice(permissions.findIndex(({ id }) => id === deleted.id), 1);
+    permissions.splice(
+      permissions.findIndex(({ id }) => id === deleted.id),
+      1,
+    );
     return context.dispatch('SET_ITEM_PROPERTY', {
       prop: 'permissions',
       value: permissions,
     });
   },
   DELETE_BULK_PERMISSIONS: (context, deleted) => {
-    const permissions = context.state.itemInstance.permissions
-    .filter(({ id: permId }) => {
-        return !deleted.some(({ id: deletedPermId }) => {
-          return deletedPermId === permId;
-        });
-      },
-    );
+    const permissions = context.state.itemInstance.permissions.filter(({ id: permId }) => {
+      return !deleted.some(({ id: deletedPermId }) => {
+        return deletedPermId === permId;
+      });
+    });
     return context.dispatch('SET_ITEM_PROPERTY', {
       prop: 'permissions',
       value: permissions,
@@ -80,15 +82,18 @@ const actions = {
       prop: 'metadata',
       value: metadata,
     });
-    const appSections = Object.keys(metadata.access[app])
-    .filter((section) => section.at(0) !== '_');
-    return Promise.allSettled(appSections.map((section) => (
-      context.dispatch('UPDATE_APPLICATION_SECTION_ACCESS', {
-        app,
-        section,
-        value,
-      })
-    )));
+    const appSections = Object.keys(metadata.access[app]).filter(
+      (section) => section.at(0) !== '_',
+    );
+    return Promise.allSettled(
+      appSections.map((section) =>
+        context.dispatch('UPDATE_APPLICATION_SECTION_ACCESS', {
+          app,
+          section,
+          value,
+        }),
+      ),
+    );
   },
   UPDATE_APPLICATION_SECTION_ACCESS: (context, { app, section, value }) => {
     const metadata = deepCopy(context.state.itemInstance.metadata);
@@ -101,8 +106,8 @@ const actions = {
 };
 
 const roles = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(RolesAPI)
-.generateAPIActions()
-.getModule({ actions });
+  .attachAPIModule(RolesAPI)
+  .generateAPIActions()
+  .getModule({ actions });
 
 export default roles;

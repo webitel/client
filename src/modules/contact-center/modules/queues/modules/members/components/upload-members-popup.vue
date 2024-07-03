@@ -8,10 +8,8 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin
-  from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import ImportCsvMemberMappings
-  from '../../../../../../integrations/modules/import-csv/lookups/ImportCsvMemberMappings.lookup';
+import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import ImportCsvMemberMappings from '../../../../../../integrations/modules/import-csv/lookups/ImportCsvMemberMappings.lookup';
 import normalizeCsvMembers from '../mixins/normalizeCsvMembers';
 
 export default {
