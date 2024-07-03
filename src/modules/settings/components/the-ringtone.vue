@@ -62,7 +62,7 @@ export default {
     },
     audioLink() {
      return this.currentRingtone.name && this.isCustomRingtone ?
-        `https://dev.webitel.com/ringtones/${this.currentRingtone.name}`
+        `${import.meta.env.VITE_RINGTONES_URL}${this.currentRingtone.name}`
      : '';
     },
   },

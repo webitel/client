@@ -48,12 +48,9 @@ export const changeWebPhone = async (changes) => {
   }
 };
 
-export const getRingtonesList = async (params) => {
-  const localUrl = 'https://dev.webitel.com/ringtones/index.json';
-
+export const getRingtonesList = async () => {
   try {
-    // const ringtones = await fetch(`${import.meta.env.VITE_RINGTONES_URL}/index.json`)
-    const ringtones = await fetch(localUrl)
+    const ringtones = await fetch(`${import.meta.env.VITE_RINGTONES_URL}/index.json`)
     .then((res) => res.json());
     return ringtones.ringtones;
   } catch (err) {
