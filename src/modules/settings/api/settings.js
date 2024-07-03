@@ -49,15 +49,13 @@ export const changeWebPhone = async (changes) => {
 };
 
 export const getRingtonesList = async (params) => {
-  const baseUrl = '/ringtones';
   const localUrl = 'https://dev.webitel.com/ringtones/index.json';
 
   try {
-    // const response = await fetch(`${import.meta.env.VITE_RINGTONES_URL}/index.json`)
-    const response = await fetch(localUrl)
-    .then(response => response.json());
-    console.log('response', response);
-    return response;
+    // const ringtones = await fetch(`${import.meta.env.VITE_RINGTONES_URL}/index.json`)
+    const ringtones = await fetch(localUrl)
+    .then((res) => res.json());
+    return ringtones.ringtones;
   } catch (err) {
     throw applyTransform(err, [
       notify,

@@ -82,6 +82,7 @@
             </div>
           </form>
         </section>
+        <the-ringtone class="settings-section__setting" />
       </section>
     </template>
   </wt-page-wrapper>
@@ -93,9 +94,11 @@ import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone, getRingtonesList } from '../api/settings';
+import TheRingtone from './the-ringtone.vue';
 
 export default {
   name: 'TheSettings',
+  components: { TheRingtone },
   inject: ['$eventBus'],
 
   setup: () => ({
@@ -163,7 +166,6 @@ export default {
   async mounted() {
     try {
       const response = await getWebPhone();
-      await getRingtonesList();
       this.webrtc = response.webrtc;
       this.stun = response.stun;
     } catch (error) {
@@ -227,11 +229,24 @@ export default {
 
 <style lang="scss" scoped>
 .settings-section {
+  position: relative;
   display: flex;
-  flex: 0 1 50%;
+  max-height: 700px;
+  width: 100%;
+
+  flex-wrap: wrap;
   flex-direction: column;
   min-width: 200px;
   gap: var(--spacing-sm);
+
+  &__setting {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing-sm) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    box-shadow: var(--elevation-5);
+  }
 
   .wt-button {
     display: block;
@@ -244,7 +259,7 @@ export default {
   }
 
   &__switcher {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
   }
 }
 </style>

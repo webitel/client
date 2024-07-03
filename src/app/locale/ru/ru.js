@@ -59,6 +59,11 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
+    ringtones: {
+      title: 'Поменять рингтон',
+      ringtone: 'Рингтон',
+      customRingtone: 'Использовать кастомный рингтон',
+    },
   },
 
   validation: {
