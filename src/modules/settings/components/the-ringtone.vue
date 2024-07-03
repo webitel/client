@@ -21,6 +21,12 @@
           option-label="label"
           track-by="label"
         />
+        <wt-player
+          v-show="audioLink"
+          :src="audioLink"
+          :closable="false"
+          :autoplay="false"
+        />
         <wt-button
           @click.prevent="saveRingtone"
         >
@@ -28,13 +34,6 @@
         </wt-button>
       </div>
     </form>
-    <wt-player
-      v-show="audioLink"
-      :src="audioLink"
-      class="player"
-      :closable="false"
-      :autoplay="false"
-    />
   </section>
 </template>
 
