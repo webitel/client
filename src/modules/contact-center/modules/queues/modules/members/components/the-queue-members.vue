@@ -211,64 +211,64 @@ import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-  export default {
-    name: 'TheQueueMembers',
-    components: {
-      FilterSearch,
-      uploadPopup,
-      destinationsPopup,
-      ResetPopup,
-      TheQueueMembersFilters,
-      DeleteConfirmationPopup,
-    },
-    mixins: [tableComponentMixin],
+export default {
+  name: 'TheQueueMembers',
+  components: {
+    FilterSearch,
+    uploadPopup,
+    destinationsPopup,
+    ResetPopup,
+    TheQueueMembersFilters,
+    DeleteConfirmationPopup,
+  },
+  mixins: [tableComponentMixin],
 
-    setup() {
-      const { dummy } = useDummy({
-        namespace: `${namespace}/${subNamespace}`,
-        text: 'objects.ccenter.members.emptyWorkspace',
-      });
-      const {
-        isVisible: isDeleteConfirmationPopup,
-        deleteCount,
-        deleteCallback,
+  setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      text: 'objects.ccenter.members.emptyWorkspace',
+    });
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-        askDeleteConfirmation,
-        closeDelete,
-      } = useDeleteConfirmationPopup();
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
 
-      return {
-        isDeleteConfirmationPopup,
-        deleteCount,
-        deleteCallback,
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
 
-        askDeleteConfirmation,
-        closeDelete,
-        dummy,
-      };
-    },
+      askDeleteConfirmation,
+      closeDelete,
+      dummy,
+    };
+  },
 
-    data: () => ({
-      namespace: 'ccenter/queues/members',
-      isUploadPopup: false,
-      communicationsOnPopup: null,
-      isDestinationsPopup: false,
-      isResetPopup: false,
-      csvFile: null,
-    }),
+  data: () => ({
+    namespace: 'ccenter/queues/members',
+    isUploadPopup: false,
+    communicationsOnPopup: null,
+    isDestinationsPopup: false,
+    isResetPopup: false,
+    csvFile: null,
+  }),
 
-    computed: {
-      ...mapState({
-        parentQueue(state) {
-          return getNamespacedState(state, this.namespace).parentQueue;
-        },
-      }),
-      // ...mapGetters('appearance', {
-      //   darkMode: 'DARK_MODE',
-      // }),
-      parentId() {
-        return this.$route.params.queueId;
+  computed: {
+    ...mapState({
+      parentQueue(state) {
+        return getNamespacedState(state, this.namespace).parentQueue;
       },
+    }),
+    // ...mapGetters('appearance', {
+    //   darkMode: 'DARK_MODE',
+    // }),
+    parentId() {
+      return this.$route.params.queueId;
+    },
 
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
@@ -324,69 +324,69 @@ import { useDummy } from '../../../../../../../app/composables/useDummy';
         method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
       };
 
-        const options = [all, filtered];
-        if (selectedCount) options.push(selected);
-        return options;
-      },
-
-      saveOptions() {
-        const importCsv = {
-          text: this.$tc('objects.integrations.importCsv.importCsv', 2),
-          callback: this.triggerFileInput,
-        };
-        return [importCsv];
-      },
+      const options = [all, filtered];
+      if (selectedCount) options.push(selected);
+      return options;
     },
 
-    methods: {
-      prettifyDateTime(timestamp) {
-        return new Date(+timestamp).toLocaleString();
-      },
+    saveOptions() {
+      const importCsv = {
+        text: this.$tc('objects.integrations.importCsv.importCsv', 2),
+        callback: this.triggerFileInput,
+      };
+      return [importCsv];
+    },
+  },
 
-      openResetPopup() {
-        this.isResetPopup = true;
-      },
+  methods: {
+    prettifyDateTime(timestamp) {
+      return new Date(+timestamp).toLocaleString();
+    },
 
-      closeResetPopup() {
-        this.isResetPopup = false;
-      },
+    openResetPopup() {
+      this.isResetPopup = true;
+    },
 
-      readDestinations(item) {
-        this.communicationsOnPopup = item.communications;
-        this.isDestinationsPopup = true;
-      },
+    closeResetPopup() {
+      this.isResetPopup = false;
+    },
 
-      closeDestinationsPopup() {
-        this.communicationsOnPopup = null;
-        this.isDestinationsPopup = false;
-      },
+    readDestinations(item) {
+      this.communicationsOnPopup = item.communications;
+      this.isDestinationsPopup = true;
+    },
 
-      processCSV(files) {
-        const file = files[0];
-        if (file) {
-          this.csvFile = file;
-          this.isUploadPopup = true;
-        }
-      },
+    closeDestinationsPopup() {
+      this.communicationsOnPopup = null;
+      this.isDestinationsPopup = false;
+    },
 
-      closeCSVPopup() {
-        this.loadList();
-        this.isUploadPopup = false;
-      },
+    processCSV(files) {
+      const file = files[0];
+      if (file) {
+        this.csvFile = file;
+        this.isUploadPopup = true;
+      }
+    },
 
-      triggerFileInput() {
-        this.$refs['file-input'].click();
-      },
+    closeCSVPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+    },
 
-      inputFileHandler(event) {
-        const { files } = event.target;
-        this.processCSV(files);
-        this.clearFileInput();
-      },
+    triggerFileInput() {
+      this.$refs['file-input'].click();
+    },
 
-      clearFileInput() {
-        this.$refs['file-input'].value = null;
-      },
+    inputFileHandler(event) {
+      const { files } = event.target;
+      this.processCSV(files);
+      this.clearFileInput();
+    },
+
+    clearFileInput() {
+      this.$refs['file-input'].value = null;
+    },
 
     create() {
       this.$router.push({
@@ -407,30 +407,30 @@ import { useDummy } from '../../../../../../../app/composables/useDummy';
       };
     },
 
-      close() {
-        this.$router.go(-1);
-        this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
-      },
+    close() {
+      this.$router.go(-1);
+      this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
+    },
 
-      ...mapActions({
-        setDestinationId(dispatch, payload) {
-          return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
-        },
-        setParentId(dispatch, payload) {
-          return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-        },
-        setId(dispatch, payload) {
-          return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-        },
-        loadParentQueue(dispatch, payload) {
-          return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-        },
-        resetState(dispatch, payload) {
-          return dispatch(`${this.namespace}/RESET_STATE`, payload);
-        },
-        resetMembers(dispatch, payload) {
-          return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
-        },
+    ...mapActions({
+      setDestinationId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
+      },
+      setParentId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+      },
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+      loadParentQueue(dispatch, payload) {
+        return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
+      },
+      resetState(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_STATE`, payload);
+      },
+      resetMembers(dispatch, payload) {
+        return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
+      },
 
       deleteSelected(dispatch, payload) {
         return dispatch(`${this.namespace}/DELETE_BULK`, payload);

@@ -163,121 +163,119 @@
 </template>
 
 <script>
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { downloadAsJSON } from '../../../../../app/utils/download';
+import FlowsAPI from '../api/flow';
+import FlowEditor from '../enums/FlowEditor.enum';
+import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
+import CreateFlowPopup from './create-flow-popup.vue';
+import UploadPopup from './upload-flow-popup.vue';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useDummy } from '../../../../../app/composables/useDummy';
 
-  import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-  import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-  import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-  import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-  import { downloadAsJSON } from '../../../../../app/utils/download';
-  import FlowsAPI from '../api/flow';
-  import FlowEditor from '../enums/FlowEditor.enum';
-  import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
-  import CreateFlowPopup from './create-flow-popup.vue';
-  import UploadPopup from './upload-flow-popup.vue';
-  import DeleteConfirmationPopup
-    from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-  import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-  import { useDummy } from '../../../../../app/composables/useDummy';
+const namespace = 'routing/flow';
 
-  const namespace = 'routing/flow';
+export default {
+  name: 'TheFlow',
+  components: {
+    CreateFlowPopup,
+    UploadPopup,
+    UploadFileIconBtn,
+    TheFlowFilters,
+    FilterSearch,
+    DeleteConfirmationPopup,
+  },
+  mixins: [tableComponentMixin],
 
-  export default {
-    name: 'TheFlow',
-    components: {
-      CreateFlowPopup,
-      UploadPopup,
-      UploadFileIconBtn,
-      TheFlowFilters,
-      FilterSearch,
-      DeleteConfirmationPopup,
+  data: () => ({
+    namespace,
+    routeName: RouteNames.FLOW,
+    isUploadPopup: false,
+    jsonFile: null,
+    isCreateFlowPopup: false,
+  }),
+
+  setup() {
+    const {
+      isVisible: isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+      askDeleteConfirmation,
+      closeDelete,
+    } = useDeleteConfirmationPopup();
+    const { dummy } = useDummy({ namespace, showAction: true });
+
+    return {
+      isDeleteConfirmationPopup,
+      deleteCount,
+      deleteCallback,
+      askDeleteConfirmation,
+      closeDelete,
+      dummy,
+    };
+  },
+
+  computed: {
+    path() {
+      return [
+        { name: this.$t('objects.routing.routing') },
+        { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
+      ];
     },
-    mixins: [tableComponentMixin],
-
-    data: () => ({
-      namespace,
-      routeName: RouteNames.FLOW,
-      isUploadPopup: false,
-      jsonFile: null,
-      isCreateFlowPopup: false,
-    }),
-
-    setup() {
-      const {
-        isVisible: isDeleteConfirmationPopup,
-        deleteCount,
-        deleteCallback,
-        askDeleteConfirmation,
-        closeDelete,
-      } = useDeleteConfirmationPopup();
-      const { dummy } = useDummy({ namespace, showAction: true });
-
+    filtersNamespace() {
+      return `${this.namespace}/filters`;
+    },
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
+  methods: {
+    create() {
+      this.isCreateFlowPopup = true;
+    },
+    processJSON(files) {
+      const file = files[0];
+      if (file) {
+        this.jsonFile = file;
+        this.openUploadPopup();
+      }
+    },
+    openUploadPopup() {
+      this.isUploadPopup = true;
+    },
+    closeUploadPopup() {
+      this.loadList();
+      this.isUploadPopup = false;
+    },
+    async download({ id, name }) {
+      const flow = await FlowsAPI.get({
+        itemId: id,
+      });
+      const filename = `${name}-schema`;
+      downloadAsJSON(flow, filename);
+    },
+    editLink({ id, editor }) {
+      const routeName = this.routeName || this.tableObjectRouteName;
       return {
-        isDeleteConfirmationPopup,
-        deleteCount,
-        deleteCallback,
-        askDeleteConfirmation,
-        closeDelete,
-        dummy,
+        name: `${routeName}-edit`,
+        params: {
+          id,
+        },
+        query: {
+          editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
+        },
       };
     },
-
-    computed: {
-      path() {
-        return [
-          { name: this.$t('objects.routing.routing') },
-          { name: this.$tc('objects.routing.flow.flow', 2), route: '/routing/flow' },
-        ];
-      },
-      filtersNamespace() {
-        return `${this.namespace}/filters`;
-      },
-    },
-    watch: {
-      '$route.query': {
-        async handler() {
-          await this.loadList();
-        },
-      },
-    },
-    methods: {
-      create() {
-        this.isCreateFlowPopup = true;
-      },
-      processJSON(files) {
-        const file = files[0];
-        if (file) {
-          this.jsonFile = file;
-          this.openUploadPopup();
-        }
-      },
-      openUploadPopup() {
-        this.isUploadPopup = true;
-      },
-      closeUploadPopup() {
-        this.loadList();
-        this.isUploadPopup = false;
-      },
-      async download({ id, name }) {
-        const flow = await FlowsAPI.get({
-          itemId: id,
-        });
-        const filename = `${name}-schema`;
-        downloadAsJSON(flow, filename);
-      },
-      editLink({ id, editor }) {
-        const routeName = this.routeName || this.tableObjectRouteName;
-        return {
-          name: `${routeName}-edit`,
-          params: {
-            id,
-          },
-          query: {
-            editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
-          },
-        };
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
