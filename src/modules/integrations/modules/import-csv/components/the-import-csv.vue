@@ -78,6 +78,8 @@
                 {{ item.source ? item.source.name : '' }}
               </p>
 
+<!--              Помилки з route-name будуть виправлені в таску https://webitel.atlassian.net/browse/WTEL-4559-->
+
               <!--              <wt-item-link-->
               <!--              v-if="item.source"-->
               <!--              :id="item.source.id"-->
