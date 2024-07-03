@@ -7,7 +7,6 @@
   >
     <template #title>
       {{ $tc('objects.lookups.calendars.holidays', 1) }}
-      <button @click="() => console.log(itemInstance, holidayList[Number(holidayIndex)])">Test</button>
     </template>
     <template #main>
       <div class="popup-input-form">

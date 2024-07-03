@@ -144,7 +144,6 @@
 <script>
 import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -179,7 +178,7 @@ const namespace = 'routing/dialplan';
 
 export default {
   name: 'TheDialplan',
-  components: { AdmItemLink, DeleteConfirmationPopup },
+  components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace, showAction: true });

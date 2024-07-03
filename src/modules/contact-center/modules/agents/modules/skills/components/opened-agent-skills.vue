@@ -106,7 +106,6 @@ import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import SkillPopup from './opened-agent-skills-popup.vue';
-import AdmItemLink from "../../../../../../../app/components/utils/adm-item-link.vue";
 import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
 
 const namespace = 'ccenter/agents';
@@ -114,7 +113,7 @@ const subNamespace = 'skills';
 
 export default {
   name: 'OpenedAgentSkills',
-  components: {AdmItemLink, SkillPopup },
+  components: { SkillPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });

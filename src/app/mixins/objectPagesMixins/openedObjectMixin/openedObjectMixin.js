@@ -24,12 +24,6 @@ export default {
   components: {
     Permissions,
   },
-  data: () => ({
-    // currentTab: {
-    //   value: 'general',
-    // },
-  //
-  }),
 
   created() {
     // this.setInitialTab();

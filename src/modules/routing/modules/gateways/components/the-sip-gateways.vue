@@ -138,7 +138,6 @@ import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import GatewayPopup from './create-gateway-popup.vue';
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -147,7 +146,7 @@ const namespace = 'routing/gateways';
 
 export default {
   name: 'TheSipGateways',
-  components: { GatewayPopup, DeleteConfirmationPopup, AdmItemLink },
+  components: { GatewayPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {

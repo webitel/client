@@ -204,5 +204,4 @@ export default {
   getActions: () => actions,
   getMutations: () => mutations,
   generateState: () => deepCopy(state),
-  generateGetters: ()  => getters,
 };

@@ -17,7 +17,7 @@ export default {
         return getNamespacedState(state, this.namespace).to;
       },
       isHistoryOpened() {
-        return this.$route.query.history;
+        return this.$route.params.historyId;
       },
       fromQuery() {
         return this.$route.query.from;

@@ -15,7 +15,6 @@
 import { computed } from 'vue';
 import { LoggerAvailableSystemObjects } from 'webitel-sdk';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import AdmItemLink from '../../../../../../../app/components/utils/adm-item-link.vue';
 
 const props = defineProps({
   item: {

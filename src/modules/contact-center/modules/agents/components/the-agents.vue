@@ -140,24 +140,21 @@
 
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum.js';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
 import HistoryPopup from './agent-history-popup.vue';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import AdmItemLink from "../../../../../app/components/utils/adm-item-link.vue";
-
 
 const namespace = 'ccenter/agents';
 
 export default {
   name: 'TheAgents',
-  components: {AdmItemLink, HistoryPopup, DeleteConfirmationPopup },
+  components: { HistoryPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin, agentStatusMixin],
 
   setup() {
@@ -203,7 +200,8 @@ export default {
     openHistory(id) {
       return this.$router.push({
         ...this.$route,
-        query:{ history: id }
+        name: AgentsRouteNames.HISTORY,
+        params: { historyId: id }
       })
     },
     closeHistoryPopup() {

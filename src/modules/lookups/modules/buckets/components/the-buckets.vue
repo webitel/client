@@ -114,7 +114,6 @@
 </template>
 
 <script>
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -126,7 +125,7 @@ const namespace = 'lookups/buckets';
 
 export default {
   name: 'TheAgentBuckets',
-  components: { AdmItemLink, DeleteConfirmationPopup },
+  components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {

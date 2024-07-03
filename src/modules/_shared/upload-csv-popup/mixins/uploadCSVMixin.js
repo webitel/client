@@ -79,6 +79,9 @@ export default {
       return this.mappingFields.every((field) => !field.required ||
         !isEmpty(field.csv));
     },
+    isUploadPopup() {
+      return this.$route.name.includes('uploadCSV');
+    }
   },
   methods: {
     async initUploadPopup() {
@@ -152,6 +155,9 @@ export default {
       this.$emit('close');
     },
   },
+  created() {
+    this.handleParseOptionsChange = debounce(this.handleParseOptionsChange);
+  },
   watch: {
     async skipHeaders() {
       await this.handleParseOptionsChange();
@@ -159,11 +165,12 @@ export default {
     async separator() {
       await this.handleParseOptionsChange();
     },
-    '$attrs.shown'(value) {
-      if(value) {
-        this.initUploadPopup();
-        this.handleParseOptionsChange = debounce(this.handleParseOptionsChange);
-      }
+    isUploadPopup: {
+      handler() {
+        if(this.isUploadPopup) {
+          this.initUploadPopup();
+        }
+      }, immediate: true,
     }
   },
 };

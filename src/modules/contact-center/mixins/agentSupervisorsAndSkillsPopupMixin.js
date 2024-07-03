@@ -25,11 +25,6 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      setChildId(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/SET_CHILD_ID`, payload);
-      }
-    }),
     setSupervisorQuery(item) {
       this.$router.push({
         ...this.$route,
@@ -53,17 +48,14 @@ export default {
   watch: {
     isSkillsQuery: {
        handler(id) {
-          if (id) this.setChildId(id);
-           if (id) this.setId(id);
-
-      }, immediate: true
+         if (id) this.setId(id);
+      }
     },
 
     isSupervisorQuery: {
       handler(id) {
-          if (id) this.setChildId(id);
-          if (id) this.setId(id);
-      }, immediate: true
+        if (id) this.setId(id);
+      }
     },
   },
 };

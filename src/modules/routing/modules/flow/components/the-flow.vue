@@ -22,8 +22,6 @@
         @close="isCreateFlowPopup = false"
       />
       <upload-popup
-        :shown="isUploadPopup"
-        size="sm"
         :file="jsonFile"
         @close="closeUploadPopup"
       />
@@ -168,6 +166,7 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import FlowRouteNames from '../../../../../app/router/_internals/tabs/routing/FlowRouteNames.enum.js';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import FlowsAPI from '../api/flow';
 import FlowEditor from '../enums/FlowEditor.enum';
@@ -215,7 +214,6 @@ export default {
   data: () => ({
     namespace,
     routeName: RouteNames.FLOW,
-    isUploadPopup: false,
     jsonFile: null,
     isCreateFlowPopup: false,
   }),
@@ -258,11 +256,11 @@ export default {
       }
     },
     openUploadPopup() {
-      this.isUploadPopup = true;
+      this.$router.push({name: FlowRouteNames.UPLOAD_CSV})
     },
     closeUploadPopup() {
       this.loadList();
-      this.isUploadPopup = false;
+      this.$router.go(-1);
     },
     async download({ id, name }) {
       const flow = await FlowsAPI.get({ itemId: id });

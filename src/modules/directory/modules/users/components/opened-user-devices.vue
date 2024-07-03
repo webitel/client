@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import ItemLinkMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/itemLinkMixin.js';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -50,7 +49,6 @@ import DevicesAPI from '../../devices/api/devices';
 
 export default {
   name: 'OpenedUserDevices',
-  components: { AdmItemLink },
   mixins: [openedTabComponentMixin, ItemLinkMixin],
   methods: {
     async loadDropdownOptionsList(params) {

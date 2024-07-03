@@ -69,11 +69,9 @@ import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
-import AdmItemLink from "../../../../../../../app/components/utils/adm-item-link.vue";
 
 export default {
   name: 'OpenedAgentQueues',
-  components: {AdmItemLink},
   mixins: [openedObjectTableTabMixin],
   data: () => ({
     subNamespace: 'queues',

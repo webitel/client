@@ -121,7 +121,6 @@
 </template>
 
 <script>
-import AdmItemLink from '../../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import LicencesRouteNames from '../../../../../../app/router/_internals/tabs/directory/LicencesRouteNames.enum.js';
@@ -133,7 +132,7 @@ const namespace = 'directory/license';
 
 export default {
   name: 'AllLicenses',
-  components: { AdmItemLink, LicensePopup, LicenseUsersPopup },
+  components: { LicensePopup, LicenseUsersPopup },
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace });

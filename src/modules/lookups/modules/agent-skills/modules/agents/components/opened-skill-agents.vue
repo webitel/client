@@ -134,7 +134,6 @@
 
 <script>
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
-import AdmItemLink from '../../../../../../../app/components/utils/adm-item-link.vue';
 import objectTableAccessControlMixin
   from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import openedObjectTableTabMixin
@@ -151,7 +150,6 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 export default {
   name: 'OpenedSkillAgents',
   components: {
-    AdmItemLink,
     AddSkillToAgentPopup,
     ChangeSkillPopup,
     DeleteConfirmationPopup,

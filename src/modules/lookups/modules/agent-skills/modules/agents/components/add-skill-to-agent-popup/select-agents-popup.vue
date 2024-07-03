@@ -89,7 +89,6 @@
 import { useInfiniteScroll } from '@vueuse/core';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, reactive, ref } from 'vue';
-import AdmItemLink from '../../../../../../../../app/components/utils/adm-item-link.vue';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../../api/agentSkills';

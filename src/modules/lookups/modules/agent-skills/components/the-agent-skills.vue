@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import addSkillToAgentMixin from '../mixins/addSkillToAgentPopupMixin.js';
@@ -151,7 +150,7 @@ const namespace = 'lookups/skills';
 
 export default {
   name: 'TheAgentSkills',
-  components: { AdmItemLink, AddSkillToAgentPopup, DeleteConfirmationPopup },
+  components: { AddSkillToAgentPopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin, addSkillToAgentMixin],
 
   setup() {

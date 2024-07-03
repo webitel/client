@@ -18,7 +18,6 @@
       />
 
       <upload-popup
-        :shown="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       />
@@ -163,13 +162,11 @@
 </template>
 
 <script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
 import DevicePopup from './create-device-popup.vue';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
@@ -182,7 +179,6 @@ const namespace = 'directory/devices';
 export default {
   name: 'TheDevices',
   components: {
-    AdmItemLink,
     HistoryPopup,
     UploadPopup,
     DevicePopup,
@@ -214,7 +210,6 @@ export default {
   },
   data: () => ({
     namespace,
-    isUploadPopup: false,
     isDeviceSelectPopup: false,
     csvFile: null,
     routeName: RouteNames.DEVICES,
@@ -238,13 +233,14 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.isUploadPopup = true;
+        this.$router.push({ name: DevicesRouteNames.UPLOAD_CSV })
       }
     },
     openHistory(id) {
       return this.$router.push({
         ...this.$route,
-        query:{ history: id }
+        name: DevicesRouteNames.HISTORY,
+        params: { historyId: id },
       })
     },
     closeHistoryPopup() {
@@ -253,7 +249,7 @@ export default {
 
     closeCSVPopup() {
       this.loadList();
-      this.isUploadPopup = false;
+      this.$router.go(-1);
     },
 
     stateClass(state) {

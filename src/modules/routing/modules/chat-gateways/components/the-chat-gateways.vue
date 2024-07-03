@@ -164,7 +164,6 @@
 </template>
 
 <script>
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -190,7 +189,6 @@ const namespace = 'routing/chatGateways';
 export default {
   name: 'TheChatGateways',
   components: {
-    AdmItemLink,
     CreateChatGatewayPopup,
     DeleteConfirmationPopup,
   },

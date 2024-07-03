@@ -13,7 +13,6 @@
     </template>
     <template #main>
       <upload-popup
-        :shown="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       />
@@ -151,16 +150,15 @@ import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-i
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UsersRouteNamesEnum from '../router/_internals/UsersRouteNames.enum.js';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
-import AdmItemLink from "../../../../../app/components/utils/adm-item-link.vue";
 
 const namespace = 'directory/users';
 
 export default {
   name: 'TheUsers',
   components: {
-    AdmItemLink,
     UploadPopup,
     UserStatus,
     UploadFileIconBtn,
@@ -190,7 +188,6 @@ export default {
     };
   },
   data: () => ({
-    isUploadPopup: false,
     csvFile: null,
     namespace,
     routeName: RouteNames.USERS,
@@ -223,13 +220,15 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.isUploadPopup = true;
+        this.$router.push({
+          name: UsersRouteNamesEnum.UPLOAD_CSV,
+        })
       }
     },
 
     closeCSVPopup() {
       this.loadList();
-      this.isUploadPopup = false;
+      this.$router.go(-1);
     },
   },
 };

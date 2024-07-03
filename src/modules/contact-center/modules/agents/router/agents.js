@@ -8,8 +8,9 @@ const Skills = () => import("../modules/skills/components/opened-agent-skills.vu
 const Queues = () => import("../modules/queues/components/opened-agent-queues.vue");
 const Subordinates = () => import("../modules/subordinates/components/opened-agent-subordinates.vue");
 const Permissions = () => import("../../../../_shared/permissions-tab/components/permissions-tab.vue");
+const HistoryPopup = () => import('../components/agent-history-popup.vue');
 
-import {checkRouteAccess} from "../../../../../app/router/_internals/checkers.js";
+import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
 
 
 const AgentRoutes =  [
@@ -18,6 +19,14 @@ const AgentRoutes =  [
     name: RouteNames.AGENTS,
     component: Agents,
     beforeEnter: checkRouteAccess,
+    children: [
+      {
+        path: 'history/:historyId?',
+        name: AgentsRouteNames.HISTORY,
+        component: Agents,
+        beforeEnter: checkRouteAccess,
+      },
+    ],
   },
   {
     path: '/contact-center/agents/:id',

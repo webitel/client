@@ -122,7 +122,6 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -137,7 +136,7 @@ const namespace = 'lookups/blacklists';
 
 export default {
   name: 'TheBlacklists',
-  components: { AdmItemLink, DeleteConfirmationPopup },
+  components: { DeleteConfirmationPopup },
   mixins: [exportCSVMixin, tableComponentMixin],
 
   setup() {

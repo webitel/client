@@ -1,4 +1,4 @@
-import RouteNames from '../../RouteNames.enum.js';
+import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
 export default Object.freeze({
   GENERAL: `${RouteNames.USERS}-general`,
   ROLES: `${RouteNames.USERS}-roles`,
@@ -8,4 +8,5 @@ export default Object.freeze({
   TOKENS: `${RouteNames.USERS}-tokens`,
   LOGS: `${RouteNames.USERS}-logs`,
   PERMISSIONS: `${RouteNames.USERS}-permissions`,
+  UPLOAD_CSV: `${RouteNames.USERS}-uploadCSV`,
 });

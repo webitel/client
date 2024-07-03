@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import store from '../store/store';
 import RouteNames from './_internals/RouteNames.enum';
-import DevicesRouteNames from './_internals/tabs/directory/DevicesRouteNames.enum.js';
+import DevicesRouteNames from '../../modules/directory/modules/devices/router/_internals/DevicesRouteNames.enum.js';
 import LicencesRouteNames from './_internals/tabs/directory/LicencesRouteNames.enum.js';
-import UsersRouteNames from './_internals/tabs/directory/UsersRouteNames.enum.js';
+import UsersRouteNames from '../../modules/directory/modules/users/router/_internals/UsersRouteNames.enum.js';
 import AgentSkillsRouteNames from './_internals/tabs/lookups/AgentSkillsRouteNames.enum.js';
 import ChatGatewayRouteNames from './_internals/tabs/routing/ChatGatewayRouteNames.enum.js';
 import ChatplanRouteNames from './_internals/tabs/routing/ChatplanRouteNames.enum.js';
@@ -31,7 +31,6 @@ const OpenedPermissionsObjects = () => import('../../modules/permissions/modules
 const Devices = () => import('../../modules/directory/modules/devices/components/the-devices.vue');
 const OpenedDevice = () => import('../../modules/directory/modules/devices/components/opened-device.vue');
 const Users = () => import('../../modules/directory/modules/users/components/the-users.vue');
-const OpenedUser = () => import('../../modules/directory/modules/users/components/opened-user.vue');
 const License = () => import('../../modules/directory/modules/license/components/the-license.vue');
 const Blacklists = () => import('../../modules/lookups/modules/blacklists/components/the-blacklists.vue');
 const Media = () => import('../../modules/lookups/modules/media/components/the-media.vue');
@@ -88,13 +87,6 @@ const Configuration = () => import('../../modules/system/modules/configuration/c
 const GlobalVariables = () => import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
 const AllLicenses = () => import('../../modules/directory/modules/license/components/all-licenses/all-licenses.vue');
 const LicensesByUser = () => import('../../modules/directory/modules/license/modules/users/components/licenses-by-user.vue');
-const OpenedUserGeneral = () => import('../../modules/directory/modules/users/components/opened-user-general.vue');
-const OpenedUserRoles = () => import('../../modules/directory/modules/users/components/opened-user-roles.vue');
-const OpenedUserLicense = () => import('../../modules/directory/modules/users/components/opened-user-license.vue');
-const OpenedUserDevices = () => import('../../modules/directory/modules/users/components/opened-user-devices.vue');
-const OpenedUserVariables = () => import('../../modules/directory/modules/users/components/opened-user-variables.vue');
-const OpenedUserLogs = () => import('../../modules/directory/modules/users/modules/logs/components/opened-user-logs.vue');
-const OpenedUserToken = () => import('../../modules/directory/modules/users/modules/tokens/components/opened-user-token.vue');
 const PermissionsTab = () => import('../../modules/_shared/permissions-tab/components/permissions-tab.vue');
 const OpenedDeviceGeneral = () => import('../../modules/directory/modules/devices/components/opened-device-general.vue');
 const OpenedDevicePhoneInfo = () => import('../../modules/directory/modules/devices/components/opened-device-phone-info.vue');
@@ -136,8 +128,11 @@ const OpenedCalendarHolidays = () => import('../../modules/lookups/modules/calen
 const OpenedCalendarWorkingWeek = () => import('../../modules/lookups/modules/calendars/components/opened-calendar-work-week.vue');
 const OpenedCommunicationTypeGeneral = () => import('../../modules/lookups/modules/communications/components/opened-communication-type-general.vue');
 const OpenedAgentPauseCauseGeneral = () => import('../../modules/lookups/modules/agent-pause-cause/components/opened-agent-pause-cause-general.vue');
+import UsersRoutes from '../../modules/directory/modules/users/router/users.js';
+import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
 import AgentRoutes from "../../modules/contact-center/modules/agents/router/agents.js";
-import {checkAppAccess, checkRouteAccess} from "./_internals/checkers.js";
+
+import { checkAppAccess, checkRouteAccess } from './_internals/guards.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -178,42 +173,7 @@ const router = createRouter({
         },
 
         // ----------DIRECTORY------------
-        {
-          path: '/directory/devices',
-          name: RouteNames.DEVICES,
-          component: Devices,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/directory/devices/:id',
-          name: `${RouteNames.DEVICES}-card`,
-          redirect: { name: DevicesRouteNames.GENERAL},
-          component: OpenedDevice,
-          beforeEnter: checkRouteAccess,
-          children: [
-            {
-              path: 'general',
-              name: DevicesRouteNames.GENERAL,
-              component: OpenedDeviceGeneral,
-            },{
-              path: 'phone-info',
-              name: DevicesRouteNames.PHONE_INFO,
-              component: OpenedDevicePhoneInfo,
-            },{
-              path: 'general',
-              name: DevicesRouteNames.GENERAL,
-              component: OpenedHotdeskDeviceGeneral,
-            },{
-              path: 'hotdesking',
-              name: DevicesRouteNames.HOTDESKING,
-              component: OpenedHotdeskDeviceHotdesking,
-            },{
-              path: 'permissions/:permissionId?',
-              name: `${DevicesRouteNames.PERMISSIONS}-card`,
-              component: PermissionsTab,
-            },
-          ],
-        },
+        ...DevicesRoutes,
         {
           path: '/directory/license',
           name: RouteNames.LICENSE,
@@ -232,54 +192,7 @@ const router = createRouter({
             }
           ],
         },
-        {
-          path: '/directory/users',
-          name: RouteNames.USERS,
-          component: Users,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/directory/users/:id',
-          name: `${RouteNames.USERS}-card`,
-          component: OpenedUser,
-          redirect: {name: UsersRouteNames.GENERAL},
-          beforeEnter: checkRouteAccess,
-          children: [
-            {
-              path: 'general',
-              name: UsersRouteNames.GENERAL,
-              component: OpenedUserGeneral,
-            },{
-              path: 'roles',
-              name: UsersRouteNames.ROLES,
-              component: OpenedUserRoles,
-            },{
-              path: 'license',
-              name: UsersRouteNames.LICENSE,
-              component: OpenedUserLicense,
-            },{
-              path: 'devices',
-              name: UsersRouteNames.DEVICES,
-              component: OpenedUserDevices,
-            },{
-              path: 'variables',
-              name: UsersRouteNames.VARIABLES,
-              component: OpenedUserVariables,
-            },{
-              path: 'tokens/:tokenId?',
-              name: UsersRouteNames.TOKENS,
-              component: OpenedUserToken,
-            },{
-              path: 'logs',
-              name: UsersRouteNames.LOGS,
-              component: OpenedUserLogs,
-            },{
-              path: 'permissions/:permissionId?',
-              name: `${UsersRouteNames.PERMISSIONS}-card`,
-              component: PermissionsTab,
-            }
-          ],
-        },
+        ...UsersRoutes,
         // ----------DIRECTORY END------------
 
         // ----------ROUTING------------
@@ -288,6 +201,13 @@ const router = createRouter({
           name: RouteNames.FLOW,
           component: Flow,
           beforeEnter: checkRouteAccess,
+          children: [
+            {
+              path: 'uploadCSV',
+              name: FlowRouteNames.UPLOAD_CSV,
+              component: Flow,
+            }
+          ],
         },
         {
           path: '/routing/flow/:id',

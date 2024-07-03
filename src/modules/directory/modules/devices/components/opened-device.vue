@@ -40,21 +40,20 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredUnless } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
-import AdmItemLink from '../../../../../app/components/utils/adm-item-link.vue';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { ipValidator, macValidator } from '../../../../../app/utils/validators';
 import General from './opened-device-general.vue';
 import PhoneInfo from './opened-device-phone-info.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
-import DevicesRouteNames from '../../../../../app/router/_internals/tabs/directory/DevicesRouteNames.enum.js';
+import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
 
 const hotDeskNameValidator = (array) => !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
 
 export default {
   name: 'OpenedDevice',
   components: {
-    AdmItemLink,
     General,
     PhoneInfo,
     HotdeskGeneral,
@@ -67,6 +66,7 @@ export default {
   data: () => ({
     namespace: 'directory/devices',
     permissionsTabPathName: `${DevicesRouteNames.PERMISSIONS}-card`,
+    routeName: RouteNames.DEVICES,
   }),
   validations() {
     let itemInstance = {
@@ -151,7 +151,7 @@ export default {
       return this.loadTypedItem(this.isHotdesk);
     },
     close() {
-      this.$router.push(`/${this.namespace}`);
+      this.$router.push({ name: RouteNames.DEVICES });
     },
     changeTab(tab) {
       this.$router.push({ name: tab.pathName, query: this.$route.query });
