@@ -74,13 +74,21 @@
               </wt-item-link>
             </template>
             <template #source="{ item }">
-              <wt-item-link
-                v-if="item.source"
-                :id="item.source.id"
-                :route-name="RouteNames.QUEUES"
-              >
-                {{ item.source.name }}
-              </wt-item-link>
+              <p>
+                {{ item.source ? item.source.name : '' }}
+              </p>
+
+<!--              https://webitel.atlassian.net/browse/WTEL-4559-->
+<!--              There is a bug with route-name in wt-item-link, as a temporary solution, we removed wt-item-link  -->
+
+              <!--              <wt-item-link-->
+              <!--              v-if="item.source"-->
+              <!--              :id="item.source.id"-->
+              <!--              :route-name="RouteNames.QUEUES"-->
+              <!--              >-->
+              <!--              {{ item.source.name }}-->
+              <!--              </wt-item-link>-->
+
             </template>
             <template #actions="{ item }">
               <upload-action
