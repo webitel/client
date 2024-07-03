@@ -84,51 +84,50 @@
 </template>
 
 <script>
-  import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-  import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-  import openedObjectTableTabMixin
-    from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-  import { useDummy } from '../../../../../../../app/composables/useDummy';
+import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-  const namespace = 'ccenter/queues';
-  const subNamespace = 'log';
+const namespace = 'ccenter/queues';
+const subNamespace = 'log';
 
-  export default {
-    name: 'OpenedQueueLogs',
-    components: { FilterSearch },
-    mixins: [openedObjectTableTabMixin],
-    data: () => ({
-      namespace,
-      subNamespace,
-    }),
+export default {
+  name: 'OpenedQueueLogs',
+  components: { FilterSearch },
+  mixins: [openedObjectTableTabMixin],
+  data: () => ({
+    namespace,
+    subNamespace,
+  }),
 
-    setup() {
-      const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-      return { dummy };
+  setup() {
+    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    return { dummy };
+  },
+  computed: {
+    filtersNamespace() {
+      return `${this.namespace}/${this.subNamespace}/filters`;
     },
-    computed: {
-      filtersNamespace() {
-        return `${this.namespace}/${this.subNamespace}/filters`;
+  },
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
       },
     },
-    watch: {
-      '$route.query': {
-        async handler() {
-          await this.loadList();
-        },
-      },
+  },
+  methods: {
+    formatDate(value) {
+      if (!value) return '';
+      return new Date(+value).toLocaleString();
     },
-    methods: {
-      formatDate(value) {
-        if (!value) return '';
-        return new Date(+value).toLocaleString();
-      },
 
-      calcDuration(item) {
-        return convertDuration((item.leavingAt - item.joinedAt) / 1000);
-      },
+    calcDuration(item) {
+      return convertDuration((item.leavingAt - item.joinedAt) / 1000);
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
