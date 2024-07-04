@@ -20,6 +20,7 @@ const QueueTypeProperties = Object.freeze({
       'recordings',
       'perNumbers',
       'minOnlineAgents',
+      'stickyAgent',
 
       // processing specific
       'taskProcessing.enabled',
