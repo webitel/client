@@ -80,7 +80,7 @@ export default {
         !isEmpty(field.csv));
     },
     isUploadPopup() {
-      return this.$route.name.includes('uploadCSV');
+      return this.$route.meta.uploadCSV;
     }
   },
   methods: {

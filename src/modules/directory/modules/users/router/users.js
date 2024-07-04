@@ -23,6 +23,7 @@ const UsersRoutes = [
       {
         path: 'uploadCSV',
         name: UsersRouteNames.UPLOAD_CSV,
+        meta: {uploadCSV: true},
         component: Users,
       },
     ],

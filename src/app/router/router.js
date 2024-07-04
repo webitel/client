@@ -205,6 +205,7 @@ const router = createRouter({
             {
               path: 'uploadCSV',
               name: FlowRouteNames.UPLOAD_CSV,
+              meta: { uploadCSV: true },
               component: Flow,
             }
           ],
