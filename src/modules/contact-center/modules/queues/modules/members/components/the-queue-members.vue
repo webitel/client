@@ -201,7 +201,8 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+import { computed } from 'vue';
+import { mapActions, mapState, useStore } from 'vuex';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
@@ -209,7 +210,11 @@ import TheQueueMembersFilters from '../modules/filters/components/the-queue-memb
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues/members';
 
 export default {
   name: 'TheQueueMembers',
@@ -224,8 +229,16 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`,
-      text: 'objects.ccenter.members.emptyWorkspace', });
+    const store = useStore();
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
+
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+      dummyPic,
+      dummyText: 'objects.ccenter.members.emptyWorkspace',
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -242,7 +255,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-      dummy
+      dummy,
     };
   },
 
