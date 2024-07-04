@@ -791,7 +791,7 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
-        newQueueDescription: 'New queue descriotion',
+        newQueueDescription: 'New queue description',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',
         outboundIVRQueueDescription:
