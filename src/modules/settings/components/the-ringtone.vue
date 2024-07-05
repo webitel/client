@@ -1,19 +1,19 @@
 <template>
-  <section class="settings-section__setting">
+  <section class="ringtone">
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('settings.ringtones.title') }}
       </h3>
     </header>
     <form>
-      <div class="settings-section__wrapper">
+      <div class="ringtone__wrapper">
         <wt-checkbox
-          v-model="isCustomRingtone"
+          :selected="isCustomRingtone"
           :label="$tc('settings.ringtones.customRingtone')"
           @change="selectRingtoneType"
         />
         <wt-select
-          v-model="currentRingtone"
+          v-model="ringtone"
           :options="options"
           :disabled="!isCustomRingtone"
           :clearable="false"
@@ -48,22 +48,25 @@ export default {
   }),
   data: () => ({
     isCustomRingtone: false,
-    currentRingtone: {},
+    ringtone: {},
     options: [],
   }),
   computed: {
-    currentRingtone: {
+    ringtone: {
       get() {
-        return this.currentRingtone;
+        return this.ringtone;
       },
       set(value) {
-        this.currentRingtone = value;
+        this.ringtone = value;
       },
     },
+    isRingtoneSelected() {
+      return this.isCustomRingtone && this.ringtone.name;
+    },
     audioLink() {
-     return this.currentRingtone.name && this.isCustomRingtone ?
-        `${import.meta.env.VITE_RINGTONES_URL}${this.currentRingtone.name}`
-     : '';
+     return this.isRingtoneSelected
+       ? `${import.meta.env.VITE_RINGTONES_URL}/${this.ringtone.name}`
+       : '';
     },
   },
   async mounted() {
@@ -76,11 +79,12 @@ export default {
   },
   methods: {
     selectRingtoneType() {
-      if (this.isCustomRingtone && this.currentRingtone.name) this.currentRingtone = {};
+      this.isCustomRingtone = !this.isCustomRingtone;
+      if (!this.isRingtoneSelected) this.ringtone = {};
     },
     saveRingtone() {
-      this.currentRingtone.name
-        ? localStorage.setItem('ringtone', this.currentRingtone.name)
+      this.ringtone.name
+        ? localStorage.setItem('ringtone', this.ringtone.name)
         : localStorage.removeItem('ringtone');
     },
     async loadRingtonesOptions() {
@@ -89,7 +93,7 @@ export default {
     restoreRingtone() {
       const ringtoneName = localStorage.getItem('ringtone');
       if (ringtoneName) {
-        this.currentRingtone = this.options.find(item => item.name === ringtoneName);
+        this.ringtone = this.options.find(item => item.name === ringtoneName);
         this.isCustomRingtone = true;
       }
     },
@@ -99,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.settings-section__wrapper {
+.ringtone__wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);

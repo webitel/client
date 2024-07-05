@@ -83,7 +83,7 @@
             </div>
           </form>
         </section>
-        <the-ringtone class="settings-section__setting" />
+        <the-ringtone />
       </section>
     </template>
   </wt-page-wrapper>
@@ -94,7 +94,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
-import { changePassword, changeWebPhone, getWebPhone, getRingtonesList } from '../api/settings';
+import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
 import TheRingtone from './the-ringtone.vue';
 
 export default {
