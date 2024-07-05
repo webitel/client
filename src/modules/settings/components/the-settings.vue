@@ -252,13 +252,12 @@ export default {
 .settings-section {
   display: block;
   column-count: 2;
-  column-gap: var(--spacing-md);
+  column-gap: var(--spacing-sm);
   width: 100%;
 
   flex-wrap: wrap;
   flex-direction: column;
   min-width: 200px;
-  gap: var(--spacing-sm);
 
   &__setting {
     display: flex;
