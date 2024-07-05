@@ -92,7 +92,7 @@
             <div class="settings-section__wrapper">
               <p>{{ $t('objects.status') }}</p>
               <wt-switcher
-                v-model="callEndSound"
+                :value="callEndSound"
                 @change="changeCallEndSoundState"
               />
             </div>
@@ -123,7 +123,7 @@ export default {
     isPasswordPatching: false,
     webrtc: true,
     stun: false,
-    callEndSound: false,
+    callEndSound: !!localStorage.getItem('callEndSound'),
     language: {
       name: 'English',
       id: 'en',
@@ -164,7 +164,6 @@ export default {
 
   created() {
     this.restoreLanguage();
-    this.callEndSound = !!localStorage.getItem('callEndSound');
   },
 
   computed: {
@@ -251,8 +250,9 @@ export default {
 
 <style lang="scss" scoped>
 .settings-section {
-  display: flex;
-  max-height: 700px;
+  display: block;
+  column-count: 2;
+  column-gap: var(--spacing-md);
   width: 100%;
 
   flex-wrap: wrap;
@@ -261,12 +261,13 @@ export default {
   gap: var(--spacing-sm);
 
   &__setting {
-    width: 50%;
     display: flex;
     flex-direction: column;
+    margin-bottom: var(--spacing-sm);
     padding: 0 var(--spacing-sm) var(--spacing-sm);
     border-radius: var(--border-radius);
     box-shadow: var(--elevation-5);
+    break-inside: avoid-column;
   }
 
   .wt-button {
