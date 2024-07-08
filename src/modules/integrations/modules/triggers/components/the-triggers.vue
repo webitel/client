@@ -136,14 +136,13 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import TriggerTypes from '../lookups/TriggerTypes.lookup';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'integrations/triggers';
 
@@ -152,7 +151,10 @@ export default {
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -180,7 +182,9 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.integrations.integrations') },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
         {
           name: this.$tc('objects.integrations.triggers.triggers', 2),
           route: '/integrations/triggers',
@@ -191,7 +195,10 @@ export default {
   methods: {
     async changeState({ item, index, value }) {
       await this.patchItem({
-        item, index, prop: 'enabled', value,
+        item,
+        index,
+        prop: 'enabled',
+        value,
       });
     },
     ...mapActions({

@@ -97,18 +97,14 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
-import dummyPicLight
-  from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
-import dummyPicDark
-  from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
-import openedObjectTableTabMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import holidayPopup from './opened-calendar-holiday-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
+import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
+import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ConverDurationWithMinutes from '../scripts/converDurationWithMinutes';
+import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {
   name: 'OpenedCalendarHolidays',
@@ -151,25 +147,48 @@ export default {
     }),
     // override mixin map state
     dataList: {
-      get() { return this.dataListValue; },
-      set(value) { this.dataListValue = value; },
+      get() {
+        return this.dataListValue;
+      },
+      set(value) {
+        this.dataListValue = value;
+      },
     },
     // override mixin map state
     search: {
-      get() { return this.searchValue; },
-      set(value) { this.searchValue = value; },
+      get() {
+        return this.searchValue;
+      },
+      set(value) {
+        this.searchValue = value;
+      },
     },
     headers() {
       return [
-        { value: 'name', text: this.$t('objects.name') },
-        { value: 'date', text: this.$t('objects.lookups.calendars.date') },
-        { value: 'workStart', text: this.$t('objects.lookups.calendars.workStart') },
-        { value: 'workStop', text: this.$t('objects.lookups.calendars.workStop') },
-        { value: 'repeat', text: this.$t('objects.lookups.calendars.repeat') },
+        {
+          value: 'name',
+          text: this.$t('objects.name'),
+        },
+        {
+          value: 'date',
+          text: this.$t('objects.lookups.calendars.date'),
+        },
+        {
+          value: 'workStart',
+          text: this.$t('objects.lookups.calendars.workStart'),
+        },
+        {
+          value: 'workStop',
+          text: this.$t('objects.lookups.calendars.workStop'),
+        },
+        {
+          value: 'repeat',
+          text: this.$t('objects.lookups.calendars.repeat'),
+        },
       ];
     },
     dummyPic() {
-      return this.darkMode ? dummyPicDark : dummyPicLight
+      return this.darkMode ? dummyPicDark : dummyPicLight;
     },
     dummy() {
       if (!this.dataListValue.length) {
@@ -178,13 +197,13 @@ export default {
             src: this.dummyPic,
             text: 'objects.emptyResultSearch',
           };
-        } else {
-          return {
-            src: this.dummyPic,
-            text: '',
-          };
         }
-      } else return '';
+        return {
+          src: this.dummyPic,
+          text: '',
+        };
+      }
+      return '';
     },
   },
 
@@ -200,8 +219,11 @@ export default {
     }),
     loadList() {
       this.dataList = this.holidayList
-      .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
-      .map((holiday) => ({ ...holiday, _isSelected: false }));
+        .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
+        .map((holiday) => ({
+          ...holiday,
+          _isSelected: false,
+        }));
     },
     setRepeatValue(payload) {
       this.setExceptItemProperty(payload);
@@ -224,8 +246,7 @@ export default {
       this.isHolidayPopup = false;
       this.editedIndex = null;
     },
-    setParentId() {
-    },
+    setParentId() {},
   },
 
   watch: {

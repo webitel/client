@@ -1,11 +1,9 @@
-import CommunicationsAPI
-  from '../../../../../../lookups/modules/communications/api/communications';
+import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 import QueueMembersAPI from '../api/queueMembers';
 import { digitsDtmfOnly } from '../validation/dtmf';
 
-const findCommunicationIdByCode = ({ communications, code }) => (
-  communications.find((communication) => communication.code === code).id
-);
+const findCommunicationIdByCode = ({ communications, code }) =>
+  communications.find((communication) => communication.code === code).id;
 
 export default {
   methods: {
@@ -19,7 +17,9 @@ export default {
     },
 
     async getCommunicationTypes() {
-      const communications = await CommunicationsAPI.getList({ size: 5000 });
+      const communications = await CommunicationsAPI.getList({
+        size: 5000,
+      });
       this.allCommunications = communications.items;
     },
 
@@ -32,28 +32,32 @@ export default {
         };
 
         if (normalizedItem.timezoneId) {
-          normalizedItem.timezone = { id: item.timezoneId };
-          delete normalizedItem.timezoneId;
+          normalizedItem.timezone = {
+            id: item.timezoneId,
+          };
+          normalizedItem.timezoneId = undefined;
         }
         if (normalizedItem.bucketId) {
-          normalizedItem.bucket = { id: item.bucketId };
-          delete normalizedItem.bucketId;
+          normalizedItem.bucket = {
+            id: item.bucketId,
+          };
+          normalizedItem.bucketId = undefined;
         }
         if (normalizedItem.agentId) {
-          normalizedItem.agent = { id: item.agentId };
-          delete normalizedItem.agentId;
+          normalizedItem.agent = {
+            id: item.agentId,
+          };
+          normalizedItem.agentId = undefined;
         }
         if (normalizedItem.variables) {
-          const variablesMappings = this.mappingFields.find((field) => field.name ===
-            'variables');
-          normalizedItem.variables = item.variables.reduce((
-            variables,
-            variable,
-            index,
-          ) => ({
-            ...variables,
-            [variablesMappings.csv[index]]: variable, // csv is arr of tags
-          }), {});
+          const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
+          normalizedItem.variables = item.variables.reduce(
+            (variables, variable, index) => ({
+              ...variables,
+              [variablesMappings.csv[index]]: variable, // csv is arr of tags
+            }),
+            {},
+          );
         }
         if (!normalizedItem.priority) {
           normalizedItem.priority = 0;
@@ -66,10 +70,7 @@ export default {
         // if there's destination without code or code without destination,
         // there's no point to even try to fill it because it would be an error,
         // so we find minimum communications count
-        const commLength = Math.min(
-          normalizedItem.destination.length,
-          normalizedItem.code.length,
-        );
+        const commLength = Math.min(normalizedItem.destination.length, normalizedItem.code.length);
 
         // now fill each communication one by one
         for (let index = 0; index < commLength; index += 1) {
@@ -91,22 +92,23 @@ export default {
           // if there's actually an Id, continue processing
           const communication = {
             destination: normalizedItem.destination[index],
-            type: { id },
+            type: {
+              id,
+            },
           };
 
           // fill communication priority, if present
-          if (normalizedItem.commPriority &&
-            normalizedItem.commPriority[index]) {
+          if (normalizedItem.commPriority?.[index]) {
             communication.priority = normalizedItem.commPriority[index];
           }
 
           // fill communication description, if present
-          if (normalizedItem.description && normalizedItem.description[index]) {
+          if (normalizedItem.description?.[index]) {
             communication.description = normalizedItem.description[index];
           }
 
           // fill communication dtmf, if present
-          if (normalizedItem.dtmf && normalizedItem.dtmf[index]) {
+          if (normalizedItem.dtmf?.[index]) {
             if (!digitsDtmfOnly(normalizedItem.dtmf[index])) {
               throw new SyntaxError('No valid DTMF were passed!');
             }
@@ -124,11 +126,11 @@ export default {
           throw new RangeError('No valid communications were passed!');
         }
 
-        delete normalizedItem.destination;
-        delete normalizedItem.code;
-        delete normalizedItem.commPriority;
-        delete normalizedItem.description;
-        delete normalizedItem.dtmf;
+        normalizedItem.destination = undefined;
+        normalizedItem.code = undefined;
+        normalizedItem.commPriority = undefined;
+        normalizedItem.description = undefined;
+        normalizedItem.dtmf = undefined;
 
         return normalizedItem;
       });

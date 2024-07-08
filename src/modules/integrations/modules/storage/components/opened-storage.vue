@@ -68,9 +68,15 @@ export default {
   validations() {
     const itemInstanceDefaults = {
       name: { required },
-      expireDays: { minValue: minValue(0) },
-      maxSize: { minValue: minValue(0) },
-      priority: { minValue: minValue(0) },
+      expireDays: {
+        minValue: minValue(0),
+      },
+      maxSize: {
+        minValue: minValue(0),
+      },
+      priority: {
+        minValue: minValue(0),
+      },
     };
     switch (this.$route.params.type) {
       case Storage.LOCAL:
@@ -83,11 +89,21 @@ export default {
         return {
           itemInstance: {
             properties: {
-              keyId: { required },
-              accessKey: { required: requiredUnless(() => !!this.id) },
-              bucketName: { required },
-              region: { required },
-              endpoint: { required },
+              keyId: {
+                required,
+              },
+              accessKey: {
+                required: requiredUnless(() => !!this.id),
+              },
+              bucketName: {
+                required,
+              },
+              region: {
+                required,
+              },
+              endpoint: {
+                required,
+              },
             },
             ...itemInstanceDefaults,
           },
@@ -95,10 +111,18 @@ export default {
       case Storage.BACKBLAZE:
         return {
           itemInstance: {
-            account: { required },
-            key: { required },
-            bucket: { required },
-            bucketId: { required },
+            account: {
+              required,
+            },
+            key: {
+              required,
+            },
+            bucket: {
+              required,
+            },
+            bucketId: {
+              required,
+            },
             ...itemInstanceDefaults,
           },
         };
@@ -106,7 +130,9 @@ export default {
         return {
           itemInstance: {
             properties: {
-              token: { required },
+              token: {
+                required,
+              },
             },
             ...itemInstanceDefaults,
           },
@@ -115,9 +141,15 @@ export default {
         return {
           itemInstance: {
             properties: {
-              directory: { required },
-              privateKey: { required },
-              email: { required },
+              directory: {
+                required,
+              },
+              privateKey: {
+                required,
+              },
+              email: {
+                required,
+              },
             },
             ...itemInstanceDefaults,
           },
@@ -145,22 +177,42 @@ export default {
       }
     },
     tabs() {
-      const tabs = [{ text: this.$t('objects.general'), value: 'general' }];
+      const tabs = [
+        {
+          text: this.$t('objects.general'),
+          value: 'general',
+        },
+      ];
       switch (this.$route.params.type) {
         case Storage.LOCAL:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'local' });
+          tabs.push({
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'local',
+          });
           break;
         case Storage.S3:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 's3' });
+          tabs.push({
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 's3',
+          });
           break;
         case Storage.BACKBLAZE:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze' });
+          tabs.push({
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'backblaze',
+          });
           break;
         case Storage.DROPBOX:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox' });
+          tabs.push({
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'dropbox',
+          });
           break;
         case Storage.DRIVE:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive' });
+          tabs.push({
+            text: this.$t('objects.integrations.storage.configuration'),
+            value: 'drive',
+          });
           break;
         default:
       }
@@ -172,8 +224,13 @@ export default {
       const baseUrl = '/integrations/storage';
       const url = `${baseUrl}/${type}`;
       return [
-        { name: this.$t('objects.integrations.integrations') },
-        { name: this.$t('objects.integrations.storage.storage'), route: baseUrl },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
+        {
+          name: this.$t('objects.integrations.storage.storage'),
+          route: baseUrl,
+        },
         {
           name: this.id ? `${this.pathName} (${this.service.name})` : this.$t('objects.new'),
           route: this.id ? `${url}/${this.id}` : `${url}/new`,

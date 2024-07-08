@@ -71,8 +71,13 @@ export default {
     path() {
       const baseUrl = '/lookups/buckets';
       return [
-        { name: this.$t('objects.lookups.lookups') },
-        { name: this.$tc('objects.lookups.buckets.buckets', 2), route: baseUrl },
+        {
+          name: this.$t('objects.lookups.lookups'),
+        },
+        {
+          name: this.$tc('objects.lookups.buckets.buckets', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

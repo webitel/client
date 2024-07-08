@@ -1,7 +1,5 @@
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
-import WebchatAlternativeChannel
-  from '../../../enum/WebchatAlternativeChannel.enum';
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const webChatGateway = (_btnCodeDirty = false) => ({
@@ -58,17 +56,16 @@ const webChatGateway = (_btnCodeDirty = false) => ({
       flow: {},
       id: '',
     },
-    alternativeChannels: Object
-    .values(WebchatAlternativeChannel)
-    .reduce((channels, channel) => (
-      {
+    alternativeChannels: Object.values(WebchatAlternativeChannel).reduce(
+      (channels, channel) => ({
         ...channels,
         [channel]: {
           url: '',
           enabled: false,
         },
-      }
-    ), {}),
+      }),
+      {},
+    ),
   },
 });
 

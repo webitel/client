@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import ConfigurationAPI from '../api/configuration';
 import headers from './_internals/headers';
 
@@ -21,8 +20,8 @@ const actions = {
 };
 
 const configuration = new ObjectStoreModule({ headers })
-.attachAPIModule(ConfigurationAPI)
-.generateAPIActions()
-.getModule({ actions });
+  .attachAPIModule(ConfigurationAPI)
+  .generateAPIActions()
+  .getModule({ actions });
 
 export default configuration;

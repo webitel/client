@@ -42,13 +42,12 @@
 
 <script>
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import UsersAPI from '../../users/api/users';
 
 export default {
   name: 'OpenedDeviceGeneral',
-  components: {PasswordInput},
+  components: { PasswordInput },
   mixins: [openedTabComponentMixin],
   methods: {
     loadDropdownOptionsList(params) {

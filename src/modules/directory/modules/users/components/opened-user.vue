@@ -85,8 +85,12 @@ export default {
       },
       variables: {
         $each: helpers.forEach({
-          key: { required: requiredIf((value, item) => !!item.value) },
-          value: { required: requiredIf((value, item) => !!item.key) },
+          key: {
+            required: requiredIf((value, item) => !!item.value),
+          },
+          value: {
+            required: requiredIf((value, item) => !!item.key),
+          },
         }),
       },
     },
@@ -96,8 +100,13 @@ export default {
     path() {
       const baseUrl = '/directory/users';
       return [
-        { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
+        {
+          name: this.$t('objects.directory.directory'),
+        },
+        {
+          name: this.$tc('objects.directory.users.users', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

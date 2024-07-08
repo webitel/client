@@ -139,14 +139,13 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 Sortable.mount(new Swap());
 const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
@@ -178,7 +177,10 @@ export default {
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -206,8 +208,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$t('objects.routing.dialplan.dialplan'), route: '/routing/dialplan' },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$t('objects.routing.dialplan.dialplan'),
+          route: '/routing/dialplan',
+        },
       ];
     },
   },
@@ -225,7 +232,10 @@ export default {
           if (event.oldIndex === event.newIndex) return;
           const fromId = this.dataList[event.oldIndex].id;
           const toId = this.dataList[event.newIndex].id;
-          await this.swapRowsAndReloadList({ fromId, toId });
+          await this.swapRowsAndReloadList({
+            fromId,
+            toId,
+          });
         },
       });
     },
@@ -283,9 +293,9 @@ export default {
     grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
     grid-column-gap: 10px;
   }
-
-  .wt-table .sortable-swap-highlight {
+  :deep(.wt-table .sortable-swap-highlight){
     background: var(--primary-color);
   }
 }
 </style>
+

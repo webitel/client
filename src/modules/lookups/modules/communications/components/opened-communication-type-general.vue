@@ -43,8 +43,7 @@
 
 <script>
 import { EngineCommunicationChannels } from 'webitel-sdk';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedCommunicationsType',
@@ -58,16 +57,19 @@ export default {
         return this.channelOptions.find((channel) => channel.value === this.itemInstance.channel);
       },
       set(value) {
-        this.setItemProp({ prop: 'channel', value: value.value });
+        this.setItemProp({
+          prop: 'channel',
+          value: value.value,
+        });
       },
     },
     channelOptions() {
       return Object.values(EngineCommunicationChannels)
-      .filter((channel) => channel !== EngineCommunicationChannels.Undefined)
-      .map((channel) => ({
-        name: this.$t(`objects.lookups.communications.channels.${channel}`),
-        value: channel,
-      }));
+        .filter((channel) => channel !== EngineCommunicationChannels.Undefined)
+        .map((channel) => ({
+          name: this.$t(`objects.lookups.communications.channels.${channel}`),
+          value: channel,
+        }));
     },
   },
   watch: {

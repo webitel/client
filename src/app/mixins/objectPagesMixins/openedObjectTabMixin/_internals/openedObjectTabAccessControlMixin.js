@@ -1,5 +1,4 @@
-import accessControlMixin
-  from '../../../baseMixins/accessControlMixin/accessControlMixin';
+import accessControlMixin from '../../../baseMixins/accessControlMixin/accessControlMixin';
 
 export default {
   mixins: [accessControlMixin],

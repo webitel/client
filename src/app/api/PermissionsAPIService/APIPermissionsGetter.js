@@ -1,11 +1,15 @@
-import instance from '../instance';
-import applyTransform, {
-  camelToSnake, generateUrl,
-  merge, mergeEach, notify,
-  sanitize, snakeToCamel,
-  starToSearch
-} from '@webitel/ui-sdk/src/api/transformers';
 import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
+import applyTransform, {
+  camelToSnake,
+  generateUrl,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers';
+import instance from '../instance';
 
 export default class APIPermissionsGetter {
   nestedUrl = 'acl';
@@ -23,7 +27,10 @@ export default class APIPermissionsGetter {
       const url = applyTransform(params, [
         merge(getDefaultGetParams()),
         starToSearch('search'),
-        (params) => ({ ...params, q: params.search }),
+        (params) => ({
+          ...params,
+          q: params.search,
+        }),
         sanitize(fieldsToSend),
         camelToSnake(),
         generateUrl(`${this.baseUrl}/${parentId}/${this.nestedUrl}`),
@@ -42,9 +49,7 @@ export default class APIPermissionsGetter {
           next,
         };
       } catch (err) {
-        throw applyTransform(err, [
-          notify,
-        ]);
+        throw applyTransform(err, [notify]);
       }
     };
   }
@@ -54,19 +59,19 @@ export default class APIPermissionsGetter {
       ...item,
       access: {
         x: {
-          id: ((item.granted.match(/x/g) || []).length + 1),
+          id: (item.granted.match(/x/g) || []).length + 1,
           rule: 'x'.repeat((item.granted.match(/x/g) || []).length),
         },
         r: {
-          id: ((item.granted.match(/r/g) || []).length + 1),
+          id: (item.granted.match(/r/g) || []).length + 1,
           rule: 'r'.repeat((item.granted.match(/r/g) || []).length),
         },
         w: {
-          id: ((item.granted.match(/w/g) || []).length + 1),
+          id: (item.granted.match(/w/g) || []).length + 1,
           rule: 'w'.repeat((item.granted.match(/w/g) || []).length),
         },
         d: {
-          id: ((item.granted.match(/d/g) || []).length + 1),
+          id: (item.granted.match(/d/g) || []).length + 1,
           rule: 'd'.repeat((item.granted.match(/d/g) || []).length),
         },
       },

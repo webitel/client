@@ -1,19 +1,16 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   generateUrl,
-  merge, mergeEach,
+  merge,
+  mergeEach,
   notify,
   sanitize,
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import APIPermissionsGetter from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 import instance from '../../../../../../../app/api/instance';
-import APIPermissionsGetter
-  from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 
 const baseUrl = '/acl/objclass';
 const nestedURL = 'grantor';
@@ -37,33 +34,23 @@ export const getObjclassDefaultList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        APIPermissionsGetter.handlePermissionsList,
-      ]),
+      items: applyTransform(items, [APIPermissionsGetter.handlePermissionsList]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 export const patchObjclassDefaultMode = async ({ changes, parentId, id }) => {
-  const body = applyTransform(changes, [
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [camelToSnake()]);
 
   const url = `${baseUrl}/${parentId}/${nestedURL}/${id}`;
 
   try {
     const response = await instance.patch(url, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };

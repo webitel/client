@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -24,15 +21,7 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 const getResDisplayList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    parentId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, parentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -56,22 +45,16 @@ const getResDisplayList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getResDisplay = async ({ parentId, itemId: id }) => {
   try {
     const response = await resService.readOutboundResourceDisplay(parentId, id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -83,13 +66,9 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await resService.createOutboundResourceDisplay(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -101,13 +80,9 @@ const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
   ]);
   try {
     const response = await resService.updateOutboundResourceDisplay(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -116,10 +91,7 @@ const deleteResDisplay = async ({ parentId, id }) => {
     const response = await resService.deleteOutboundResourceDisplay(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

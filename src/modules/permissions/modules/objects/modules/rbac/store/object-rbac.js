@@ -1,21 +1,15 @@
-import {
-  PermissionsStoreModule,
-} from '../../../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import {
-  getObjclassDefaultList,
-  patchObjclassDefaultMode,
-} from '../api/objectsRbac';
+import { PermissionsStoreModule } from '../../../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import { getObjclassDefaultList, patchObjclassDefaultMode } from '../api/objectsRbac';
 import headers from './_internals/headers';
 
 const actions = {
   GET_LIST: (context) => getObjclassDefaultList(context.state),
-  PATCH_ACCESS_MODE: (context, { item, changes }) => (
+  PATCH_ACCESS_MODE: (context, { item, changes }) =>
     patchObjclassDefaultMode({
       ...context.state,
       id: +item.grantor.id,
       changes: [changes],
-    })
-  ),
+    }),
 
   ADD_ROLE_PERMISSIONS: async (context, { grantee, grantor }) => {
     const changes = {
@@ -25,7 +19,10 @@ const actions = {
     };
     const item = { grantor, grantee };
     try {
-      await context.dispatch('PATCH_ACCESS_MODE', { item, changes });
+      await context.dispatch('PATCH_ACCESS_MODE', {
+        item,
+        changes,
+      });
     } catch (err) {
       throw err;
     } finally {
@@ -34,7 +31,6 @@ const actions = {
   },
 };
 
-const rbac = new PermissionsStoreModule({ headers })
-.getModule({ actions });
+const rbac = new PermissionsStoreModule({ headers }).getModule({ actions });
 
 export default rbac;

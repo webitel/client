@@ -96,15 +96,15 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <!--        <wt-dummy-->
-        <!--          v-if="dummy && isLoaded"-->
-        <!--          :src="dummy.src"-->
-        <!--          :dark-mode="darkMode"-->
-        <!--          :text="dummy.text && $t(dummy.text)"-->
-        <!--          class="dummy-wrapper"-->
-        <!--        ></wt-dummy>-->
+                <wt-dummy
+                  v-if="dummy && isLoaded"
+                  :src="dummy.src"
+                  :dark-mode="darkMode"
+                  :text="dummy.text && $t(dummy.text)"
+                  class="dummy-wrapper"
+                ></wt-dummy>
         <div
-          v-show="isLoaded"
+          v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
           <wt-table
@@ -197,22 +197,24 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
-import tableComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import { computed } from 'vue';
+import { mapActions, mapState, useStore } from 'vuex';
+import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
+import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-members-light.svg';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
+
+const namespace = 'ccenter/queues/members';
 
 export default {
   name: 'TheQueueMembers',
@@ -227,6 +229,16 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
+    const store = useStore();
+    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
+
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+      dummyPic,
+      dummyText: 'objects.ccenter.members.emptyWorkspace',
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -243,6 +255,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      dummy,
     };
   },
 
@@ -279,22 +292,32 @@ export default {
       const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.parentQueue.name, route: queueUrl },
-        { name: this.$tc('objects.ccenter.members.members', 2), route: membersUrl },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.parentQueue.name,
+          route: queueUrl,
+        },
+        {
+          name: this.$tc('objects.ccenter.members.members', 2),
+          route: membersUrl,
+        },
       ];
     },
     filtersNamespace() {
       return `${this.namespace}/filters`;
     },
     deleteOptions() {
-      const loadListAfterDecorator = (method) => async (...args) => {
-        try {
-          await method(...args);
-        } finally {
-          await this.loadList();
-        }
-      };
+      const loadListAfterDecorator =
+        (method) =>
+        async (...args) => {
+          try {
+            await method(...args);
+          } finally {
+            await this.loadList();
+          }
+        };
       const all = {
         text: this.$t('iconHints.deleteAll'),
         method: loadListAfterDecorator(this.deleteAll),
@@ -306,7 +329,9 @@ export default {
 
       const selectedCount = this.selectedRows.length;
       const selected = {
-        text: this.$t('iconHints.deleteSelected', { count: selectedCount }),
+        text: this.$t('iconHints.deleteSelected', {
+          count: selectedCount,
+        }),
         method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
       };
 
@@ -322,16 +347,6 @@ export default {
       };
       return [importCsv];
     },
-
-    /* https://my.webitel.com/browse/WTEL-3697 */
-    /* Temporarily disabled functionality due to problems with pagination */
-
-    // dummy() {
-    //   return !this.dataList.length && {
-    //     src: this.darkMode ? dummyPicDark : dummyPicLight,
-    //     text: 'objects.ccenter.members.emptyWorkspace',
-    //   };
-    // },
   },
 
   methods: {
@@ -387,14 +402,19 @@ export default {
     create() {
       this.$router.push({
         name: `${RouteNames.MEMBERS}-new`,
-        params: { queueId: this.parentId },
+        params: {
+          queueId: this.parentId,
+        },
       });
     },
 
     editLink(item) {
       return {
         name: `${RouteNames.MEMBERS}-edit`,
-        params: { queueId: this.parentId, id: item.id },
+        params: {
+          queueId: this.parentId,
+          id: item.id,
+        },
       };
     },
 
@@ -433,7 +453,6 @@ export default {
         return dispatch(`${this.namespace}/DELETE_ALL`, payload);
       },
     }),
-
   },
   watch: {
     '$route.query': {

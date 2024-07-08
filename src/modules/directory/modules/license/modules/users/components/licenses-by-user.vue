@@ -83,8 +83,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
-import tableComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 const namespace = 'directory/license/users';
@@ -105,7 +104,11 @@ export default {
       return this.headers.slice(1); // except 1st column "name"
     },
     hasEditAccess() {
-      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({ route: { name: `${RouteNames.USERS}-edit` } });
+      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({
+        route: {
+          name: `${RouteNames.USERS}-edit`,
+        },
+      });
     },
   },
   methods: {

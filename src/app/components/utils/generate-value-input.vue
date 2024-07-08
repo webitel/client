@@ -57,7 +57,7 @@ export default {
     },
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     labelProps: {
       type: Object,

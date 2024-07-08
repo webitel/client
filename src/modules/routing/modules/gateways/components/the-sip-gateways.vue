@@ -129,13 +129,12 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import GatewayPopup from './create-gateway-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'routing/gateways';
 
@@ -145,7 +144,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -174,8 +176,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.gateways.gateways', 2), route: '/routing/sip-gateways' },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.gateways.gateways', 2),
+          route: '/routing/sip-gateways',
+        },
       ];
     },
   },
@@ -187,11 +194,14 @@ export default {
 
     editLink(item) {
       const name = item.register
-        ? `${RouteNames.GATEWAYS}-reg-edit` : `${RouteNames.GATEWAYS}-trunk-edit`;
+        ? `${RouteNames.GATEWAYS}-reg-edit`
+        : `${RouteNames.GATEWAYS}-trunk-edit`;
 
       return {
         name,
-        params: { id: item.id },
+        params: {
+          id: item.id,
+        },
       };
     },
 

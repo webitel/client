@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -17,21 +14,20 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const teamService = new AgentTeamServiceApiFactory(configuration, '', instance);
 
 const fieldsToSend = [
-  'name', 'description', 'strategy', 'admin', 'maxNoAnswer', 'wrapUpTime',
-  'noAnswerDelayTime', 'taskAcceptTimeout', 'callTimeout', 'inviteChatTimeout',
+  'name',
+  'description',
+  'strategy',
+  'admin',
+  'maxNoAnswer',
+  'wrapUpTime',
+  'noAnswerDelayTime',
+  'taskAcceptTimeout',
+  'callTimeout',
+  'inviteChatTimeout',
 ];
 
 const getTeamsList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    strategy,
-    adminId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, strategy, adminId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -56,9 +52,7 @@ const getTeamsList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -80,48 +74,29 @@ const getTeam = async ({ itemId: id }) => {
 
   try {
     const response = await teamService.readAgentTeam(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const addTeam = async ({ itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await teamService.createAgentTeam(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const updateTeam = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await teamService.updateAgentTeam(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -130,16 +105,15 @@ const deleteTeam = async ({ id }) => {
     const response = await teamService.deleteAgentTeam(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getTeamsLookup = (params) => getTeamsList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getTeamsLookup = (params) =>
+  getTeamsList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const TeamsAPI = {
   getList: getTeamsList,

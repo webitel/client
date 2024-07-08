@@ -80,8 +80,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-import openedTabComponentMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../flow/api/flow';
 import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
@@ -92,20 +91,31 @@ export default {
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
-      ...Object.values(WebchatAlternativeChannel)
-      .reduce((channels, channel) => ({ ...channels, [channel]: `messenger-${channel}` }), {}),
+      ...Object.values(WebchatAlternativeChannel).reduce(
+        (channels, channel) => ({
+          ...channels,
+          [channel]: `messenger-${channel}`,
+        }),
+        {},
+      ),
       [WebchatAlternativeChannel.EMAIL]: 'mail--color',
     },
     channelUrlPlaceholder: {
-      ...Object.values(WebchatAlternativeChannel)
-      .reduce((channels, channel) => ({
-        ...channels,
-        [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-      }), {}),
-      [WebchatAlternativeChannel.EMAIL]: 'objects.routing.chatGateways.webchat.alternativeChannels.email',
-      [WebchatAlternativeChannel.WHATSAPP]: 'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
-      [WebchatAlternativeChannel.TELEGRAM]: 'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
-      [WebchatAlternativeChannel.MESSENGER]: 'objects.routing.chatGateways.webchat.alternativeChannels.messenger',
+      ...Object.values(WebchatAlternativeChannel).reduce(
+        (channels, channel) => ({
+          ...channels,
+          [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+        }),
+        {},
+      ),
+      [WebchatAlternativeChannel.EMAIL]:
+        'objects.routing.chatGateways.webchat.alternativeChannels.email',
+      [WebchatAlternativeChannel.WHATSAPP]:
+        'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
+      [WebchatAlternativeChannel.TELEGRAM]:
+        'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
+      [WebchatAlternativeChannel.MESSENGER]:
+        'objects.routing.chatGateways.webchat.alternativeChannels.messenger',
     },
   }),
   methods: {
@@ -117,17 +127,23 @@ export default {
         return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
       },
     }),
-    loadCallFlows: (params) => FlowsAPI.getLookup({
-      ...params,
-      type: [
-        EngineRoutingSchemaType.Voice,
-        EngineRoutingSchemaType.Default,
-      ],
-    }),
+    loadCallFlows: (params) =>
+      FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Voice, EngineRoutingSchemaType.Default],
+      }),
     handleUrlInput({ channel, value }) {
-      this.setAltChannelValue({ channel, prop: 'url', value });
+      this.setAltChannelValue({
+        channel,
+        prop: 'url',
+        value,
+      });
       if (!value) {
-        this.setAltChannelValue({ channel, prop: 'enabled', value: false });
+        this.setAltChannelValue({
+          channel,
+          prop: 'enabled',
+          value: false,
+        });
       }
     },
   },

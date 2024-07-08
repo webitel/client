@@ -1,7 +1,5 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import UsersAPI from '../api/users';
 import Users2faAPI from '../api/users-2fa.js';
 import logs from '../modules/logs/store/logs';
@@ -29,34 +27,45 @@ const resettableState = {
 };
 
 const getters = {
-  IS_DISPLAY_QR_CODE: (
-    state,
-    getters,
-    rootState,
-    rootGetters,
-  ) => rootGetters['userinfo/IS_CHANGE_USER_PASSWORD_ALLOW'] &&
-    !!state.itemInstance.totpUrl,
+  IS_DISPLAY_QR_CODE: (state, getters, rootState, rootGetters) =>
+    rootGetters['userinfo/IS_CHANGE_USER_PASSWORD_ALLOW'] && !!state.itemInstance.totpUrl,
 };
 
 const actions = {
   ADD_VARIABLE_PAIR: (context) => {
     const pair = { key: '', value: '' };
     context.commit('ADD_VARIABLE_PAIR', pair);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    context.commit('SET_VARIABLE_PROP', { index, prop, value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_VARIABLE_PROP', {
+      index,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   SET_USER_DND: async (context, { item, value }) => {
     const dnd = value ? 'dnd' : '';
     const changes = { status: dnd };
     try {
-      await UsersAPI.patchUserPresence({ id: item.id, changes });
+      await UsersAPI.patchUserPresence({
+        id: item.id,
+        changes,
+      });
     } catch (err) {
       throw err;
     } finally {
@@ -69,7 +78,9 @@ const actions = {
   },
   REGENERATE_2FA_URL: async (context) => {
     try {
-      await Users2faAPI.generate({ id: context.state.itemId });
+      await Users2faAPI.generate({
+        id: context.state.itemId,
+      });
       await context.dispatch('LOAD_ITEM');
     } catch (err) {
       throw err;
@@ -91,13 +102,13 @@ const mutations = {
 
 const PERMISSIONS_API_URL = '/users';
 const permissions = new PermissionsStoreModule()
-.generateAPIActions(PERMISSIONS_API_URL)
-.getModule();
+  .generateAPIActions(PERMISSIONS_API_URL)
+  .getModule();
 
 const users = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(UsersAPI)
-.generateAPIActions()
-.setChildModules({ tokens, logs, permissions })
-.getModule({ getters, actions, mutations });
+  .attachAPIModule(UsersAPI)
+  .generateAPIActions()
+  .setChildModules({ tokens, logs, permissions })
+  .getModule({ getters, actions, mutations });
 
 export default users;

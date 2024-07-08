@@ -159,15 +159,13 @@
 </template>
 
 <script>
+import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import ChatGatewayProvider
-  from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const iconType = {
   [ChatGatewayProvider.MESSENGER]: 'meta',
@@ -190,7 +188,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -220,8 +221,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$tc('objects.routing.chatGateways.chatGateways', 2), route: '/routing/chat-gateways' },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$tc('objects.routing.chatGateways.chatGateways', 2),
+          route: '/routing/chat-gateways',
+        },
       ];
     },
   },
@@ -235,7 +241,13 @@ export default {
         case ChatGatewayProvider.INFOBIP:
           return [iconType[value], 'send-arrow', 'messenger-whatsapp'];
         case ChatGatewayProvider.MESSENGER:
-          return [iconType[value], 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'];
+          return [
+            iconType[value],
+            'send-arrow',
+            'messenger-facebook',
+            'instagram',
+            'messenger-whatsapp',
+          ];
         default:
           return iconType[value];
       }

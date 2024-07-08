@@ -21,7 +21,7 @@
         :search-method="loadDropdownOptionsCalendarList"
         :v="v.itemInstance.calendar"
         :value="itemInstance.calendar"
-        required
+        :required="v.itemInstance.calendar"
         @input="setItemProp({ prop: 'calendar', value: $event })"
       />
       <wt-select
@@ -141,8 +141,7 @@
 
 <script>
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import MediaAPI from '../../../../lookups/modules/media/api/media';
@@ -160,11 +159,15 @@ export default {
   computed: {
     strategy: {
       get() {
-        return this.dropdownOptionsStrategyList
-        .find((strategy) => strategy.value === this.itemInstance.strategy);
+        return this.dropdownOptionsStrategyList.find(
+          (strategy) => strategy.value === this.itemInstance.strategy,
+        );
       },
       set(value) {
-        this.setItemProp({ prop: 'strategy', value: value.value });
+        this.setItemProp({
+          prop: 'strategy',
+          value: value.value,
+        });
       },
     },
 
@@ -175,11 +178,13 @@ export default {
       }));
     },
     specificControls() {
-      return QueueTypeProperties[this.itemInstance.type].controls
-      .reduce((controls, control) => ({
-        ...controls,
-        [control]: true,
-      }), {});
+      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+        (controls, control) => ({
+          ...controls,
+          [control]: true,
+        }),
+        {},
+      );
     },
   },
 
@@ -197,7 +202,10 @@ export default {
       return FlowsAPI.getLookup(params);
     },
     loadDropdownOptionsServiceSchemaList(params) {
-      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
     },
     loadDropdownOptionsMediaList(params) {
       return MediaAPI.getLookup(params);

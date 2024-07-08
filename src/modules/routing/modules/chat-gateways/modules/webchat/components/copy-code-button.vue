@@ -14,9 +14,9 @@
 </template>
 
 <script>
+import path from 'path';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import clipboardCopy from 'clipboard-copy';
-import path from 'path';
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
@@ -24,9 +24,17 @@ const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
-const filterEmptyValues = (obj) => Object
-.entries(obj)
-.reduce((acc, [key, value]) => (isEmpty(value) ? acc : { ...acc, [key]: value }), {});
+const filterEmptyValues = (obj) =>
+  Object.entries(obj).reduce(
+    (acc, [key, value]) =>
+      isEmpty(value)
+        ? acc
+        : {
+            ...acc,
+            [key]: value,
+          },
+    {},
+  );
 
 const generateCode = (config) => `
       const script = document.createElement('script');
@@ -68,7 +76,9 @@ export default {
   }),
   computed: {
     text() {
-      return this.isCopied ? this.$t('objects.copied') : this.$t('objects.routing.chatGateways.webchat.copyCode');
+      return this.isCopied
+        ? this.$t('objects.copied')
+        : this.$t('objects.routing.chatGateways.webchat.copyCode');
     },
     color() {
       return this.itemInstance.metadata?._btnCodeDirty ? 'primary' : 'secondary';
@@ -85,10 +95,7 @@ export default {
       const alternativeChannels = this.processAlternativeChannelsConfig(
         this.itemInstance.metadata.alternativeChannels,
       );
-      const call = this.processCallConfig(
-        this.itemInstance.metadata.call,
-        this.itemInstance.uri,
-      );
+      const call = this.processCallConfig(this.itemInstance.metadata.call, this.itemInstance.uri);
 
       const captcha = this.processCaptchaConfig(
         this.itemInstance.metadata.captcha,
@@ -113,33 +120,35 @@ export default {
       this.$emit('copied');
     },
 
-    processViewConfig(view) {return filterEmptyValues(view);},
+    processViewConfig(view) {
+      return filterEmptyValues(view);
+    },
 
-    processChatConfig({
-                        enabled,
-                        timeoutIsActive,
-                        openTimeout,
-                        ...rest
-                      }, uri) {
+    processChatConfig({ enabled, timeoutIsActive, openTimeout, ...rest }, uri) {
       if (!enabled) return undefined;
-      const result = { ...filterEmptyValues(rest) };
+      const result = {
+        ...filterEmptyValues(rest),
+      };
       if (timeoutIsActive) result.openTimeout = +openTimeout;
       result.url = new URL(path.join(CHAT_URL, uri), WS_SERVER_URL);
       return result;
     },
 
-    processAppointmentConfig({
-                               enabled,
-                               queue,
-                               communicationType,
-                               days,
-                               duration,
-                               availableAgents,
-                               showDefaultHeading,
-                               successTitle,
-                               successSubtitle,
-                               ...rest
-                             }, uri) {
+    processAppointmentConfig(
+      {
+        enabled,
+        queue,
+        communicationType,
+        days,
+        duration,
+        availableAgents,
+        showDefaultHeading,
+        successTitle,
+        successSubtitle,
+        ...rest
+      },
+      uri,
+    ) {
       if (!enabled) return undefined;
       if (!showDefaultHeading) {
         // eslint-disable-next-line no-param-reassign
@@ -147,31 +156,45 @@ export default {
         // eslint-disable-next-line no-param-reassign
         rest.successSubtitle = successSubtitle;
       }
-      const result = { ...filterEmptyValues(rest) };
+      const result = {
+        ...filterEmptyValues(rest),
+      };
       result.url = new URL(path.join(CHAT_URL.replace('chat', 'appointments'), uri), SCRIPT_URL);
       return result;
     },
 
     processAlternativeChannelsConfig(channels) {
-      const minifyAltChannels = (altChannels) => (
-        Object.entries(altChannels)
-        .reduce((channels, [channelName, { enabled, url }]) => (
-          enabled && url ? { ...channels, [channelName]: url } : channels
-        ), {})
-      );
+      const minifyAltChannels = (altChannels) =>
+        Object.entries(altChannels).reduce(
+          (channels, [channelName, { enabled, url }]) =>
+            enabled && url
+              ? {
+                  ...channels,
+                  [channelName]: url,
+                }
+              : channels,
+          {},
+        );
       const result = minifyAltChannels(channels);
       return isEmpty(result) ? undefined : result;
     },
 
     processCallConfig({ enabled, url, ...rest }, uri) {
       if (!enabled) return undefined;
-      return { url, id: uri.slice(1) };
+      return {
+        url,
+        id: uri.slice(1),
+      };
     },
 
     processCaptchaConfig({ enabled, sitekey, showFlag }, uri) {
       if (!enabled) return undefined;
       const verifyUrl = new URL(path.join(CHAT_URL, uri, 'captcha'), SCRIPT_URL);
-      return { sitekey, verifyUrl, showFlag };
+      return {
+        sitekey,
+        verifyUrl,
+        showFlag,
+      };
     },
   },
 };

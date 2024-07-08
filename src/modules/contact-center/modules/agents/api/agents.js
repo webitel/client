@@ -45,8 +45,7 @@ const getAgentsList = async (params) => {
     supervisorId,
     notSkillId,
   } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
+    merge(getDefaultGetParams())
   ]);
 
   try {
@@ -76,15 +75,11 @@ const getAgentsList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        listResponseHandler,
-      ]),
+      items: applyTransform(items, [listResponseHandler]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -110,9 +105,7 @@ const getAgent = async ({ itemId: id }) => {
       merge(defaultObject),
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -136,13 +129,9 @@ const addAgent = async ({ itemInstance }) => {
   ]);
   try {
     const response = await agentService.createAgent(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -153,13 +142,9 @@ const patchAgent = async ({ changes, id }) => {
   ]);
   try {
     const response = await agentService.patchAgent(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -170,13 +155,9 @@ const updateAgent = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await agentService.updateAgent(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -185,16 +166,15 @@ const deleteAgent = async ({ id }) => {
     const response = await agentService.deleteAgent(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getAgentsLookup = (params) => getAgentsList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getAgentsLookup = (params) =>
+  getAgentsList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const getAgentHistory = async (params) => {
   const {
@@ -211,7 +191,12 @@ const getAgentHistory = async (params) => {
 
   try {
     const response = await agentService.searchAgentStateHistory(
-      page, size, from, to, parentId, sort,
+      page,
+      size,
+      from,
+      to,
+      parentId,
+      sort,
     );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
@@ -222,31 +207,18 @@ const getAgentHistory = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getAgentUsersOptions = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await agentService.searchLookupUsersAgentNotExists(
-      page,
-      size,
-      search,
-    );
+    const response = await agentService.searchLookupUsersAgentNotExists(page, size, search);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -256,9 +228,7 @@ const getAgentUsersOptions = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 const getSupervisorOptions = async (params) => {

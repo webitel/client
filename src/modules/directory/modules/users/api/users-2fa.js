@@ -5,12 +5,10 @@ const generateUrl = async ({ id }) => {
   const url = `users/${id}/2fa`;
 
   try {
-    const response = await instance.post(url,{});
+    const response = await instance.post(url, {});
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

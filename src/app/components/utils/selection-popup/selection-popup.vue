@@ -78,7 +78,7 @@ export default {
     },
     selected: {
       type: Object,
-      description: 'Should have following schema: { value: \'\', title: \'\', description: \'\'}',
+      description: "Should have following schema: { value: '', title: '', description: ''}",
     },
     options: {
       type: Array,
