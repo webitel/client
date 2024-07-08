@@ -98,7 +98,6 @@ export default {
   },
   data: () => ({
     dataListValue: [],
-    searchValue: '',
     isPermissionsPopup: false,
     editedIndex: null,
   }),
@@ -118,15 +117,6 @@ export default {
       },
       set(value) {
         this.dataListValue = value;
-      },
-    },
-    // override mixin map state
-    search: {
-      get() {
-        return this.searchValue;
-      },
-      set(value) {
-        this.searchValue = value;
       },
     },
     headers() {
@@ -199,12 +189,10 @@ export default {
       },
     }),
     loadList() {
-      this.dataList = this.permissionsList
-        .filter((permission) => permission.name.includes(this.search))
-        .map((permission) => ({
-          ...permission,
-          _isSelected: false,
-        }));
+      this.dataList = this.permissionsList.map((permission) => ({
+        ...permission,
+        _isSelected: false,
+      }));
     },
     create() {
       this.openPopup();
