@@ -871,6 +871,7 @@ export default {
         communications: 'Communication type',
         manualDistribution: 'Manual distribution',
         lastMessageTimeout: 'Timeout from the last message',
+        stickyIgnoreStatus: 'Ignore agent status',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',

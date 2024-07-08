@@ -870,6 +870,7 @@ export default {
         communications: 'Тип связи',
         manualDistribution: 'Ручное распределение',
         lastMessageTimeout: 'Время ожидания от последнего сообщения',
+        stickyIgnoreStatus: 'Игнорировать статус оператора',
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',
