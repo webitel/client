@@ -58,10 +58,11 @@ export default {
       this.$emit('close');
     },
     handler(id) {
-      if (id === 'new') this.resetState()
-      else {
+      if (id) {
         this.setId(id);
         this.loadItem();
+      } else {
+        this.resetState();
       }
     }
   },

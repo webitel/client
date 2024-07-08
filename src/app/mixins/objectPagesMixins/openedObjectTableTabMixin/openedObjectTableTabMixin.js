@@ -36,7 +36,6 @@ export default {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).headers;
       },
       dataList(state) {
-        console.log('in opened queue skills');
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).dataList;
       },
       page(state) {

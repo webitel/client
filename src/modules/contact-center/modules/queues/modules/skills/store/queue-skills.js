@@ -26,7 +26,6 @@ const actions = {
 
 const mutations = {
   SET_BUCKETS(state, payload) {
-    console.log(payload)
     state.buckets = payload;
   }
 }

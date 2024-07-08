@@ -40,7 +40,7 @@ export default {
     setId(id) {
       this.openedItemId = id;
     },
-    closePopup() {
+    closeSupervisorsAndSkillsPopup() {
       this.$router.go(-1);
       this.openedItemId = null;
     },

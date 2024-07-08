@@ -8,14 +8,14 @@
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      @close="closePopup"
+      @close="closeSupervisorsAndSkillsPopup"
     />
     <object-list-popup
       :shown="!!isSkillsQuery"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
       :title="$tc('objects.lookups.skills.skills', 2)"
-      @close="closePopup"
+      @close="closeSupervisorsAndSkillsPopup"
     />
 
     <header class="content-header">

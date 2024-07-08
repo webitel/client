@@ -16,4 +16,5 @@ export default Object.freeze({
   MEMBERS_COMMUNICATION_TYPE: `${RouteNames.MEMBERS}-communication-type`,
   MEMBERS_VARIABLES: `${RouteNames.MEMBERS}-variables`,
   UPLOAD_CSV: `${RouteNames.MEMBERS}-uploadCSV`,
+  CREATE_QUEUE: `${RouteNames.QUEUES}-create-queue`,
 });

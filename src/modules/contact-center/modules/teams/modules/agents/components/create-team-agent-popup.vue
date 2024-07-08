@@ -71,18 +71,6 @@ export default {
       return AgentsAPI.getLookup(params);
     },
   },
-  // watch: {
-  //   agentId: {
-  //     handler(id) {
-  //       if (id === 'new') {
-  //         this.resetState();
-  //       } else {
-  //         this.setId(id);
-  //         this.loadItem();
-  //       }
-  //     }, immediate: true,
-  //   },
-  // },
 };
 </script>
 

@@ -139,7 +139,6 @@ export default {
     }),
     initEditedValue() {
       if (this.communicationIndex !== 'new') {
-        console.log(this.communicationIndex)
         this.itemInstance = deepCopy(this.commList[this.communicationIndex]);
       }
     },

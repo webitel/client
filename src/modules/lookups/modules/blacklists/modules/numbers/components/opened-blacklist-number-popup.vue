@@ -96,10 +96,7 @@ export default {
     },
     numberId: {
      async handler(id) {
-       if (id) {
-         this.setId(id);
-         this.loadItem();
-       }
+       this.handler(id);
      }, immediate: true,
     },
   },

@@ -176,6 +176,7 @@ import {
 } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
@@ -229,8 +230,8 @@ export default {
   },
   watch: {
     '$route.query': {
-      async handler(query) {
-        if (!query.new) await this.loadList();
+      async handler() {
+        await this.loadList();
       },
     },
   },
@@ -250,7 +251,7 @@ export default {
     create() {
      return this.$router.push({
         ...this.$route,
-        query: {new: true},
+       name: QueuesRoutesName.CREATE_QUEUE,
       })
     },
     closeQueueSelectPopup() {

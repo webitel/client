@@ -81,12 +81,7 @@ export default {
   watch: {
     subordinateId: {
       handler(id) {
-        if (id) {
-          this.setId(id);
-          this.loadItem();
-        } else {
-          this.resetState();
-        }
+        this.handler(id);
       },
       immediate: true,
     },

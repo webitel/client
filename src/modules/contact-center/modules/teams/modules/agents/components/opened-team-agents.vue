@@ -1,21 +1,21 @@
 <template>
   <section>
     <agent-popup
-      @close="closePopup"
+      @close="closeAgentPopup"
     />
     <object-list-popup
       :shown="!!isSupervisorQuery"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      @close="closePopup"
+      @close="closeSupervisorsAndSkillsPopup"
     />
     <object-list-popup
       :shown="!!isSkillsQuery"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
       :title="$tc('objects.lookups.skills.skills', 2)"
-      @close="closePopup"
+      @close="closeSupervisorsAndSkillsPopup"
     />
 
     <header class="content-header">
@@ -139,10 +139,10 @@ export default {
     addItem() {
       return this.$router.push({
         ...this.route,
-        params: {agentId: 'new'}
+        params: { agentId: 'new' }
       })
     },
-    closeSubordinatePopup() {
+    closeAgentPopup() {
       return this.$router.go(-1);
     },
     snakeToCamel,
