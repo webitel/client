@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    :shown="!!isBucket"
+    size="sm"
     @close="close"
   >
     <template #title>
@@ -9,7 +11,7 @@
     <template #main>
       <section class="agent-buckets-popup">
         <wt-table
-          :data="dataList"
+          :data="itemBuckets"
           :grid-actions="false"
           :headers="headers"
           :selectable="false"
@@ -24,35 +26,54 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 export default {
   name: 'OpenedQueueSkillsBucketsPopup',
-  props: {
-    itemId: {
-      required: true,
-    },
-  },
+  data: () => ({
+    buckets: [],
+    itemId: 0,
+  }),
 
   computed: {
-    ...mapGetters('ccenter/queues/skills', {
-      getBuckets: 'GET_ITEM_BUCKETS',
+    ...mapState({
+      itemBuckets(state) {
+        return getNamespacedState(state,'ccenter/queues/skills').buckets;
+      },
     }),
-    dataList() {
-      return this.getBuckets(this.itemId);
-    },
     headers() {
       return [
         { value: 'bucket', text: this.$t('reusable.name') },
       ];
     },
+    isBucket() {
+      return this.$route.query.bucket;
+    }
   },
 
   methods: {
+    async getItemBuckets() {
+      await this.$store.dispatch('ccenter/queues/skills/GET_ITEM_BUCKETS', this.itemId);
+    },
     close() {
       this.$emit('close');
     },
+    setItemId(id) {
+      this.itemId = +id;
+    }
   },
+
+  watch: {
+    isBucket: {
+     async handler(id) {
+        if (id) {
+          this.setItemId(id);
+          await this.getItemBuckets();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 

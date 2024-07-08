@@ -1,5 +1,7 @@
 <template>
   <selection-popup
+    v-bind="$attrs"
+    :shown="!!isNew"
     v-model="selected"
     :options="options"
     :title="$t('objects.ccenter.queues.newQueue')"
@@ -28,11 +30,9 @@ export default {
         description: this.$t(`${locale}Description`),
       }));
     },
-  },
-
-  created() {
-    // eslint-disable-next-line prefer-destructuring
-    this.selected = this.options[0];
+    isNew() {
+      return this.$route.query.new
+    }
   },
 
   methods: {
@@ -41,6 +41,13 @@ export default {
     },
   },
 
+  watch: {
+   isNew: {
+     handler() {
+       this.selected = this.options[0];
+     }, immediate: true
+   }
+  }
 };
 </script>
 

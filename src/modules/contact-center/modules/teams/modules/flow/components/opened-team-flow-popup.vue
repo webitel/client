@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    :shown="!!flowId"
+    size="sm"
     overflow
     @close="close"
   >
@@ -72,7 +74,10 @@ export default {
       return this.itemInstance.id
         ? this.$tc('objects.ccenter.teams.flows.editFlowSchema')
         : this.$tc('objects.ccenter.teams.flows.addFlowSchema')
-    }
+    },
+    flowId() {
+      return this.$route.params.flowId;
+    },
   },
 
   methods: {
@@ -80,6 +85,17 @@ export default {
       return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
     },
   },
+  watch: {
+    flowId: {
+      handler(id) {
+        if (id === 'new') this.resetState()
+        else {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 

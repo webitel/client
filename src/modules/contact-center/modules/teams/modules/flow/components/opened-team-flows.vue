@@ -1,11 +1,10 @@
 <template>
   <section class="content-wrapper">
     <flow-popup
-      v-if="isFlowPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -66,12 +65,12 @@
         @sort="sort"
       >
         <template #schema="{ item }">
-          <wt-item-link
+          <adm-item-link
             :id="item.schema.id"
             :route-name="RouteNames.FLOW"
           >
             {{ item.name }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher
@@ -82,7 +81,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -149,15 +148,23 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isFlowPopup: false,
   }),
 
   methods: {
-    openPopup() {
-      this.isFlowPopup = true;
+    addItem() {
+      this.$router.push({
+        ...this.$route,
+        params: {flowId: 'new'}
+      })
+    },
+    editItem(item) {
+      this.$router.push({
+        ...this.$route,
+        params: {flowId: item.id}
+      })
     },
     closePopup() {
-      this.isFlowPopup = false;
+      this.$router.go(-1);
     },
   },
 };

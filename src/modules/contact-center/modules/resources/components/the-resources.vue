@@ -69,9 +69,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #gateway="{ item }">
               <div v-if="item.gateway">
@@ -87,11 +90,14 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
+
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"

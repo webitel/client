@@ -57,5 +57,12 @@ export default {
     close() {
       this.$emit('close');
     },
+    handler(id) {
+      if (id === 'new') this.resetState()
+      else {
+        this.setId(id);
+        this.loadItem();
+      }
+    }
   },
 };

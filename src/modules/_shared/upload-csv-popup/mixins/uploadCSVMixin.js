@@ -157,6 +157,8 @@ export default {
   },
   created() {
     this.handleParseOptionsChange = debounce(this.handleParseOptionsChange);
+    console.log('isUploadPopup', this.isUploadPopup)
+
   },
   watch: {
     async skipHeaders() {
@@ -165,12 +167,11 @@ export default {
     async separator() {
       await this.handleParseOptionsChange();
     },
-    isUploadPopup: {
-      handler() {
-        if(this.isUploadPopup) {
-          this.initUploadPopup();
-        }
-      }, immediate: true,
-    }
+    isUploadPopup() {
+      console.log('upload')
+      if(this.isUploadPopup) {
+        this.initUploadPopup();
+      }
+    },
   },
 };

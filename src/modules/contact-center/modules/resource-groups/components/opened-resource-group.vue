@@ -17,8 +17,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -38,6 +39,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
   requiredArrayValue,
   timerangeNotIntersect,
@@ -46,6 +48,8 @@ import {
 import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
 import General from './opened-resource-group-general.vue';
 import Timerange from './opened-resource-group-timerange.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
 
 export default {
   name: 'OpenedResourceGroup',
@@ -61,6 +65,8 @@ export default {
   }),
   data: () => ({
     namespace: 'ccenter/resGroups',
+    routeName: RouteNames.RESOURCE_GROUPS,
+    permissionsTabPathName: ResourcesGroupsRouteNames.PERMISSIONS,
   }),
   // by vuelidate
   validations: {
@@ -79,9 +85,9 @@ export default {
   computed: {
     tabs() {
       const tabs = [
-        { text: this.$t('objects.general'), value: 'general' },
-        { value: 'resources', text: this.$tc('objects.ccenter.res.res', 2) },
-        { value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange') },
+        { text: this.$t('objects.general'), value: 'general', pathName: ResourcesGroupsRouteNames.GENERAL},
+        { value: 'resources', text: this.$tc('objects.ccenter.res.res', 2) , pathName: ResourcesGroupsRouteNames.RESOURCES},
+        { value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange'), pathName: ResourcesGroupsRouteNames.TIME_RANGE },
       ];
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;

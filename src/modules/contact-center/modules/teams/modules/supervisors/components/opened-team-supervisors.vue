@@ -1,16 +1,15 @@
 <template>
   <section>
     <supervisor-popup
-      v-if="isSupervisorPopup"
       @close="closePopup"
     />
     <supervisor-subordinates-popup
-      v-if="isSupervisorSubordinatesPopup"
+      :shown="isSupervisorSubordinatesPopup"
       :item-id="supervisorId"
       @close="closeSubordinates"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -91,7 +90,7 @@
           </wt-tooltip>
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -122,6 +121,7 @@ import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin
   from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum.js';
 import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
 import DeleteConfirmationPopup
@@ -166,7 +166,6 @@ export default {
     subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     supervisorId: null,
-    isSupervisorPopup: false,
     isSupervisorSubordinatesPopup: false,
   }),
 
@@ -179,11 +178,20 @@ export default {
       this.supervisorId = null;
       this.closeSubordinatesPopup();
     },
-    openPopup() {
-      this.isSupervisorPopup = true;
+    addItem() {
+      return this.$router.push({
+        ...this.route,
+        params: {supervisorId: 'new'}
+      })
+    },
+    editItem(item){
+      return this.$router.push({
+        ...this.route,
+        params: {supervisorId: item.id}
+      })
     },
     closePopup() {
-      this.isSupervisorPopup = false;
+      this.$router.go(-1);
     },
     openSubordinatesPopup() {
       this.isSupervisorSubordinatesPopup = true;

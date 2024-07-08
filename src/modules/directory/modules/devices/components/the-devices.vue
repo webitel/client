@@ -23,8 +23,7 @@
       />
 
       <device-popup
-        :shown="isDeviceSelectPopup"
-        @close="isDeviceSelectPopup = false"
+        @close="closeDeviceSelectPopup"
       />
 
       <delete-confirmation-popup
@@ -210,7 +209,6 @@ export default {
   },
   data: () => ({
     namespace,
-    isDeviceSelectPopup: false,
     csvFile: null,
     routeName: RouteNames.DEVICES,
   }),
@@ -226,14 +224,23 @@ export default {
 
   methods: {
     create() {
-      this.isDeviceSelectPopup = true;
+      this.$router.push({
+        ...this.$route,
+        query: {new: true},
+      });
+    },
+    closeDeviceSelectPopup() {
+      this.$router.go(-1);
     },
 
     processCSV(files) {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.$router.push({ name: DevicesRouteNames.UPLOAD_CSV })
+        this.$router.push({
+          ...this.$route,
+          name: DevicesRouteNames.UPLOAD_CSV,
+        })
       }
     },
     openHistory(id) {
@@ -246,7 +253,6 @@ export default {
     closeHistoryPopup() {
       return this.$router.push({name: this.routeName});
     },
-
     closeCSVPopup() {
       this.loadList();
       this.$router.go(-1);

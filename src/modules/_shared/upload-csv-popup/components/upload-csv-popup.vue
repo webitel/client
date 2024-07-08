@@ -7,7 +7,6 @@
   >
     <template #title>
       {{ $t('objects.importCSV') }}
-<!--      <div @click="() => console.log({shown})">test</div>-->
     </template>
     <template #main>
       <wt-loader

@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     v-bind="$attrs"
+    :shown="!!isNew"
     size="sm"
     @close="close"
   >
@@ -74,6 +75,9 @@ export default {
       set(value) {
         this.selectedOptionValue = value;
       },
+    },
+    isNew() {
+      return this.$route.query.new;
     },
   },
 

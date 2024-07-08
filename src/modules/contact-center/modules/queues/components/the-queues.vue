@@ -18,11 +18,10 @@
 
     <template #main>
       <queue-popup
-        v-if="isQueueSelectPopup"
-        @close="isQueueSelectPopup = false"
+        @close="closeQueueSelectPopup"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
         @close="closeDelete"
@@ -94,17 +93,18 @@
             <template #waiting="{ item }">
               {{ item.waiting }}
             </template>
-            <template #priority="{ item } ">
+            <template #priority="{ item }">
               {{ item.priority }}
             </template>
-            <template #team="{ item } ">
-              <wt-item-link
+            <template #team="{ item }">
+              <adm-item-link
                 v-if="item.team"
-                :link="itemTeamLink(item)"
+                :id="item.team.id"
+                :route-name="RouteNames.TEAMS"
                 target="_blank"
               >
                 {{ item.team.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #tags="{ item }">
               <div
@@ -212,7 +212,6 @@ export default {
 
   data: () => ({
     namespace,
-    isQueueSelectPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
   }),
@@ -230,8 +229,8 @@ export default {
   },
   watch: {
     '$route.query': {
-      async handler() {
-        await this.loadList();
+      async handler(query) {
+        if (!query.new) await this.loadList();
       },
     },
   },
@@ -243,20 +242,20 @@ export default {
         params: { queueId: item.id },
       });
     },
-    itemTeamLink({ team }) {
-      return {
-        name: `${RouteNames.TEAMS}-edit`,
-        params: { id: team.id },
-      };
-    },
     editLink({ id, type }) {
       const routeName = this.routeName || this.tableObjectRouteName;
-      return { name: `${routeName}-edit`, params: { id, type: QueueTypeProperties[type].subpath } };
+      return { name: `${routeName}-card`, params: { id, type: QueueTypeProperties[type].subpath } };
     },
 
     create() {
-      this.isQueueSelectPopup = true;
+     return this.$router.push({
+        ...this.$route,
+        query: {new: true},
+      })
     },
+    closeQueueSelectPopup() {
+      this.$router.go(-1)
+    }
   },
 };
 </script>

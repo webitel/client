@@ -17,8 +17,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -41,6 +42,8 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
 import Failure from './opened-resource-failure.vue';
 import General from './opened-resource-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import ResourcesRouteNames from '../router/_internals/ResourcesRouteNames.enum.js';
 
 export default {
   name: 'OpenedResource',
@@ -57,6 +60,8 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/res',
+    routeName: RouteNames.RESOURCES,
+    permissionsTabPathName: ResourcesRouteNames.PERMISSIONS,
   }),
   validations: {
     itemInstance: {
@@ -85,12 +90,15 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: ResourcesRouteNames.GENERAL,
         }, {
           text: this.$tc('objects.ccenter.res.numbers', 2),
           value: 'numbers',
+          pathName: ResourcesRouteNames.NUMBERS,
         }, {
           text: this.$t('objects.ccenter.res.failure'),
           value: 'failure',
+          pathName: ResourcesRouteNames.FAILURE,
         },
       ];
 

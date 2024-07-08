@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    :shown="!!agentId"
+    size="sm"
     overflow
     @close="close"
   >
@@ -59,11 +61,28 @@ export default {
       agent: { required },
     },
   },
+  computed: {
+    agentId() {
+      return this.$route.params.agentId;
+    },
+  },
   methods: {
     loadAgentsOptions(params) {
       return AgentsAPI.getLookup(params);
     },
   },
+  // watch: {
+  //   agentId: {
+  //     handler(id) {
+  //       if (id === 'new') {
+  //         this.resetState();
+  //       } else {
+  //         this.setId(id);
+  //         this.loadItem();
+  //       }
+  //     }, immediate: true,
+  //   },
+  // },
 };
 </script>
 

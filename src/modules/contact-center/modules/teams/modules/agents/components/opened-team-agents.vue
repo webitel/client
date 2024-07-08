@@ -1,22 +1,21 @@
 <template>
   <section>
     <agent-popup
-      v-if="isAgentPopup"
       @close="closePopup"
     />
     <object-list-popup
-      v-if="isSupervisorPopup"
+      :shown="!!isSupervisorQuery"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      @close="closeSupervisorPopup"
+      @close="closePopup"
     />
     <object-list-popup
-      v-if="isSkillsPopup"
+      :shown="!!isSkillsQuery"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
       :title="$tc('objects.lookups.skills.skills', 2)"
-      @close="closeSkillsPopup"
+      @close="closePopup"
     />
 
     <header class="content-header">
@@ -82,13 +81,13 @@
         <template #supervisor="{ item }">
           <one-plus-many
             :collection="item.supervisor"
-            @input="readSupervisor(item)"
+            @input="setSupervisorQuery(item)"
           />
         </template>
         <template #skills="{ item }">
           <one-plus-many
             :collection="item.skills"
-            @input="readSkills(item)"
+            @input="setSkillsQuery(item)"
           />
         </template>
       </wt-table>
@@ -134,21 +133,17 @@ export default {
     namespace,
     subNamespace,
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    isAgentPopup: false,
   }),
 
   methods: {
-    openPopup() {
-      this.isAgentPopup = true;
+    addItem() {
+      return this.$router.push({
+        ...this.route,
+        params: {agentId: 'new'}
+      })
     },
-    closePopup() {
-      this.isAgentPopup = false;
-    },
-    openSkillsPopup() {
-      this.isSkillsPopup = true;
-    },
-    closeSkillsPopup() {
-      this.isSkillsPopup = false;
+    closeSubordinatePopup() {
+      return this.$router.go(-1);
     },
     snakeToCamel,
   },

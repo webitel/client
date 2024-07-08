@@ -66,9 +66,6 @@ const OpenedAgentSkill = () => import('../../modules/lookups/modules/agent-skill
 const Buckets = () => import('../../modules/lookups/modules/buckets/components/the-buckets.vue');
 const OpenedBucket = () => import('../../modules/lookups/modules/buckets/components/opened-bucket.vue');
 const Queues = () => import('../../modules/contact-center/modules/queues/components/the-queues.vue');
-const Members = () => import('../../modules/contact-center/modules/queues/modules/members/components/the-queue-members.vue');
-const OpenedMember = () => import('../../modules/contact-center/modules/queues/modules/members/components/opened-queue-member.vue');
-const OpenedQueue = () => import('../../modules/contact-center/modules/queues/components/opened-queue.vue');
 const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
 const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
 const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
@@ -131,6 +128,10 @@ const OpenedAgentPauseCauseGeneral = () => import('../../modules/lookups/modules
 import UsersRoutes from '../../modules/directory/modules/users/router/users.js';
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
 import AgentRoutes from "../../modules/contact-center/modules/agents/router/agents.js";
+import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
+import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
+import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
+import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 
 import { checkAppAccess, checkRouteAccess } from './_internals/guards.js';
 
@@ -551,103 +552,12 @@ const router = createRouter({
         // ----------LOOKUPS END------------
 
         // --------------CONTACT CENTER-------------
-        // {
-        //   path: '/contact-center/agents',
-        //   name: RouteNames.AGENTS,
-        //   component: Agents,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        // {
-        //   path: '/contact-center/agents/:id',
-        //   name: `${RouteNames.AGENTS}-card`,
-        //   component: OpenedAgent,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        ...AgentRoutes, // TODO check it out
-        {
-          path: '/contact-center/teams',
-          name: RouteNames.TEAMS,
-          component: Teams,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/teams/:id',
-          name: `${RouteNames.TEAMS}-card`,
-          component: OpenedTeam,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/resources',
-          name: RouteNames.RESOURCES,
-          component: TheResources,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/resources/new',
-          name: `${RouteNames.RESOURCES}-new`,
-          component: OpenedResource,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/resources/:id',
-          name: `${RouteNames.RESOURCES}-edit`,
-          component: OpenedResource,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/resource-groups',
-          name: RouteNames.RESOURCE_GROUPS,
-          component: ResourceGroups,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/resource-groups/new',
-          name: `${RouteNames.RESOURCE_GROUPS}-new`,
-          component: OpenedResourceGroup,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/resource-groups/:id',
-          name: `${RouteNames.RESOURCE_GROUPS}-edit`,
-          component: OpenedResourceGroup,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/queues',
-          name: RouteNames.QUEUES,
-          component: Queues,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/queues/:queueId/members',
-          name: RouteNames.MEMBERS,
-          component: Members,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/queues/:queueId/members/new',
-          name: `${RouteNames.MEMBERS}-new`,
-          component: OpenedMember,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/queues/:queueId/members/:id',
-          name: `${RouteNames.MEMBERS}-card`,
-          component: OpenedMember,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/queues/new/:type',
-          name: `${RouteNames.QUEUES}-new`,
-          component: OpenedQueue,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/contact-center/queues/:id/:type',
-          name: `${RouteNames.QUEUES}-card`,
-          component: OpenedQueue,
-          beforeEnter: checkRouteAccess,
-        },
+        ...AgentRoutes,
+        ...TeamsRoutes,
+        ...ResourcesRoutes,
+        ...ResourcesGroupRoutes,
+        ...QueuesRoutes,
+
         // --------------CONTACT CENTER END-------------
 
         // ----------INTEGRATIONS-----------------

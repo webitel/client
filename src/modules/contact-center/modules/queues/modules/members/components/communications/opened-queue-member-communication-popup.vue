@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    size="sm"
+    :shown="!!communicationIndex"
     @close="close"
   >
     <template #title>
@@ -79,11 +81,6 @@ import { digitsDtmfOnly } from '../../validation/dtmf';
 export default {
   name: 'OpenedAgentSkillsPopup',
   mixins: [nestedObjectMixin],
-  props: {
-    editedIndex: {
-      type: [Number, Object], // "null" object
-    },
-  },
 
   setup: () => ({
     v$: useVuelidate(),
@@ -107,9 +104,6 @@ export default {
       dtmf: { digitsDtmfOnly },
     },
   },
-  created() {
-    this.initEditedValue();
-  },
 
   computed: {
     ...mapState({
@@ -129,6 +123,9 @@ export default {
     computeDisabled() {
       return this.checkValidations();
     },
+    communicationIndex() {
+      return this.$route.params.communicationIndex;
+    }
   },
 
   methods: {
@@ -141,14 +138,15 @@ export default {
       },
     }),
     initEditedValue() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.itemInstance = deepCopy(this.commList[this.editedIndex]);
+      if (this.communicationIndex !== 'new') {
+        console.log(this.communicationIndex)
+        this.itemInstance = deepCopy(this.commList[this.communicationIndex]);
       }
     },
     save() {
-      if (Number.isInteger(this.editedIndex)) {
+      if (this.communicationIndex !== 'new') {
         this.updateItem({
-          index: this.editedIndex,
+          index: this.communicationIndex,
           item: this.itemInstance,
         });
       } else {
@@ -166,6 +164,13 @@ export default {
     },
     resetState() {
     },
+  },
+  watch: {
+    communicationIndex: {
+       handler(index) {
+        this.initEditedValue();
+      }, immediate: true,
+    }
   },
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    :shown="!!numberId"
+    size="sm"
     overflow
     @close="close"
   >
@@ -59,8 +61,23 @@ export default {
     popupTitle() {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
-    }
-  }
+    },
+    numberId() {
+      return this.$route.params.numberId;
+    },
+  },
+  watch: {
+    numberId: {
+      immediate: true,
+      handler(id) {
+       if (id === 'new') this.resetState()
+       else {
+         this.setId(id);
+         this.loadItem();
+       }
+      },
+    },
+  },
 };
 </script>
 

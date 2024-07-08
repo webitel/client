@@ -1,13 +1,11 @@
 <template>
   <section>
     <communication-popup
-      v-if="isCommPopup"
-      :edited-index="editedIndex"
       @close="closePopup"
     />
 
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -34,7 +32,7 @@
           v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
-          @click="create"
+          @click="addItem"
         />
       </div>
     </header>
@@ -117,7 +115,6 @@ export default {
     dataListValue: [],
     searchValue: '',
     isCommPopup: false,
-    editedIndex: null,
   }),
   watch: {
     commList() {
@@ -170,19 +167,21 @@ export default {
       .filter((comm) => comm.destination.includes(this.search))
       .map((comm) => ({ ...comm, _isSelected: false }));
     },
-    create() {
-      this.openPopup();
-    },
+
     edit(index) {
-      this.editedIndex = index;
-      this.openPopup();
+      this.$router.push({
+        ...this.$route,
+        params: { communicationIndex: index.toString() }
+      })
     },
-    openPopup() {
-      this.isCommPopup = true;
+    addItem(){
+      this.$router.push({
+        ...this.$route,
+        params: { communicationIndex: 'new' }
+      })
     },
     closePopup() {
-      this.isCommPopup = false;
-      this.editedIndex = null;
+      this.$router.go(-1);
     },
     setParentId() {
     },

@@ -1,6 +1,8 @@
 <template>
   <wt-popup
-    min-width="480"
+    v-bind="$attrs"
+    :shown="!!supervisorId"
+    size="sm"
     overflow
     @close="close"
   >
@@ -74,6 +76,9 @@ export default {
         ? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
         : this.$t('objects.ccenter.teams.supervisors.addSupervisor');
     },
+    supervisorId() {
+      return this.$route.params.supervisorId;
+    }
   },
 
   methods: {
@@ -86,6 +91,18 @@ export default {
       });
       response.items = response.items.map(({ user, id }) => ({ name: user.name, id }));
       return response;
+    },
+  },
+  watch: {
+    supervisorId: {
+      handler(id) {
+        if (id === 'new') {
+          this.resetState();
+        } else if (id){
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
     },
   },
 };
