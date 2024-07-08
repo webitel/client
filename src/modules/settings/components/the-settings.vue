@@ -124,7 +124,7 @@ export default {
     isPasswordPatching: false,
     webrtc: true,
     stun: false,
-    callEndSound: !!localStorage.getItem('callEndSound'),
+    callEndSound: !!localStorage.getItem('settings/callEndSound'),
     language: {
       name: 'English',
       id: 'en',
@@ -237,8 +237,8 @@ export default {
 
     changeCallEndSoundState(value) {
       value
-        ? localStorage.setItem('callEndSound', 'true')
-        : localStorage.removeItem('callEndSound');
+        ? localStorage.setItem('settings/callEndSound', 'true')
+        : localStorage.removeItem('settings/callEndSound');
       this.callEndSound = value;
     },
 
@@ -275,6 +275,10 @@ export default {
     border-radius: var(--border-radius);
     box-shadow: var(--elevation-5);
     break-inside: avoid-column;
+  }
+
+  .content-title {
+    @extend %typo-heading-4;
   }
 
   .wt-button {
