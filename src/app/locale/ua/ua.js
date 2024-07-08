@@ -871,6 +871,7 @@ export default {
         communications: 'Тип зв\'язку',
         manualDistribution: 'Ручне розподілення',
         lastMessageTimeout: 'Час очікування від останнього повідомлення',
+        stickyIgnoreStatus: 'Ігнорувати статус оператора',
         processing: {
           processing: 'Обробка',
           enabled: 'Очікування результату задачі',
