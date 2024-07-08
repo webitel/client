@@ -87,7 +87,7 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link :link="editLink(item)" target="_blank">
                 {{ item.name }}
               </wt-item-link>
             </template>

@@ -15,7 +15,7 @@ export default {
     // Temporary solution - open in a new browser tab Flow diagram
 
     // window.location.replace(redirectUrl);
-    window.open(redirectUrl, '_blank');
+    window.location.href = redirectUrl;
     this.$router.go(-1);
   },
 };
