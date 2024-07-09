@@ -148,7 +148,7 @@ export default {
     save() {
       if (this.holidayIndex !== 'new') {
         this.updateHoliday({
-          index: this.holidayIndex,
+          index: Number(this.holidayIndex),
           item: this.itemInstance,
         });
       } else {

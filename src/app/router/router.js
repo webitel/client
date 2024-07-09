@@ -144,6 +144,7 @@ import QueuesRoutes from '../../modules/contact-center/modules/queues/router/que
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 
 import { checkAppAccess, checkRouteAccess } from './_internals/guards.js';
+import ObjectsRoutes from "../../modules/permissions/modules/objects/router/objects.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -598,18 +599,7 @@ const router = createRouter({
 
         // ----------PERMISSIONS-----------------
         ...RolesRoutes,
-        {
-          path: '/permissions/objects',
-          name: RouteNames.OBJECTS,
-          component: PermissionsObjects,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/objects/:id',
-          name: `${RouteNames.OBJECTS}-edit`,
-          component: OpenedPermissionsObjects,
-          beforeEnter: checkRouteAccess,
-        },
+        ...ObjectsRoutes,
         // ----------PERMISSIONS END-----------------
 
         // ----------SYSTEM START-----------------

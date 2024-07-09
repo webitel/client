@@ -15,8 +15,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -33,6 +34,8 @@
 
 <script>
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
+import ObjectsRouteNames from "../router/_internals/ObjectsRouteNames.enum.js";
 import Obac from '../modules/obac/components/opened-object-permissions-obac.vue';
 import Rbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
 
@@ -42,6 +45,7 @@ export default {
   mixins: [openedObjectMixin],
   data: () => ({
     namespace: 'permissions/objects',
+    routeName: RouteNames.OBJECTS,
   }),
 
   computed: {
@@ -50,9 +54,11 @@ export default {
         {
           text: this.$t('objects.permissions.object.ObAC'),
           value: 'obac',
+          pathName: ObjectsRouteNames.OBAC,
         }, {
           text: this.$t('objects.permissions.object.RbAC'),
           value: 'rbac',
+          pathName: ObjectsRouteNames.RBAC,
         },
       ];
       return tabs;

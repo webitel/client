@@ -1,8 +1,6 @@
 <template>
   <section>
     <application-access-popup
-      v-if="isApplicationAccessPopup"
-      :edited-app="editedApp"
       :namespace="namespace"
       @close="closePopup"
     />
@@ -56,8 +54,6 @@ export default {
   data: () => ({
     dataListValue: [],
     searchValue: '',
-    isApplicationAccessPopup: false,
-    editedApp: null,
   }),
   watch: {
     access() {
@@ -106,14 +102,13 @@ export default {
     },
     edit({ name }) {
       this.editedApp = name;
-      this.openPopup();
-    },
-    openPopup() {
-      this.isApplicationAccessPopup = true;
+      this.$router.push({
+        ...this.$route,
+        params: {applicationName: name}
+      });
     },
     closePopup() {
-      this.isApplicationAccessPopup = false;
-      this.editedApp = null;
+      this.$router.go(-1);
     },
     setParentId() {
     },
