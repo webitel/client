@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -39,6 +40,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import ImportCsvRouteName from '../router/_internals/ImportCsvRouteNames.enum.js';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
@@ -55,6 +58,8 @@ export default {
   }),
   data: () => ({
     namespace: 'integrations/importCsv',
+    routeName: RouteNames.IMPORT_CSV,
+    permissionsTabPathName: ImportCsvRouteName.PERMISSIONS,
   }),
   validations() {
     return {
@@ -79,10 +84,12 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: ImportCsvRouteName.GENERAL,
         },
         {
           text: this.$t('objects.integrations.importCsv.settings'),
           value: 'settings',
+          pathName: ImportCsvRouteName.SETTINGS,
         },
       ];
       if (this.id) tabs.push(this.permissionsTab);

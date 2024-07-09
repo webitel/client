@@ -1,5 +1,6 @@
 <template>
   <selection-popup
+    :shown="!!isCreate"
     :options="options"
     :selected="selected"
     :title="`
@@ -14,7 +15,7 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { StorageProviderType } from 'webitel-sdk';
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -22,6 +23,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const emit = defineEmits(['close']);
 
 const router = useRouter();
+const route = useRoute();
 
 const selected = ref({});
 
@@ -44,6 +46,8 @@ const options = computed(() => {
   return [microsoft, google, elevenLabs];
 });
 
+const isCreate = computed(() => route.meta.create);
+
 function selectOption(option) {
   selected.value = option;
 }
@@ -52,8 +56,9 @@ selectOption(options.value[0]);
 
 function create() {
   router.push({
-    name: `${RouteNames.COGNITIVE_PROFILES}-new`,
+    name: `${RouteNames.COGNITIVE_PROFILES}-card`,
     query: { type: selected.value.value },
+    params: { id: 'new' },
   });
 }
 

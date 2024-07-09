@@ -11,7 +11,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -69,29 +69,41 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #source="{ item }">
-              <wt-item-link
-                v-if="item.source"
-                :id="item.source.id"
-                :route-name="RouteNames.QUEUES"
-              >
-                {{ item.source.name }}
-              </wt-item-link>
+              <p>
+                {{ item.source ? item.source.name : '' }}
+              </p>
+
+              <!--              https://webitel.atlassian.net/browse/WTEL-4559-->
+              <!--              There is a bug with route-name in wt-item-link, as a temporary solution, we removed wt-item-link  -->
+
+              <!--              <wt-item-link-->
+              <!--              v-if="item.source"-->
+              <!--              :id="item.source.id"-->
+              <!--              :route-name="RouteNames.QUEUES"-->
+              <!--              >-->
+              <!--              {{ item.source.name }}-->
+              <!--              </wt-item-link>-->
             </template>
             <template #actions="{ item }">
               <upload-action
                 v-if="hasUploadAccess"
                 :item="item"
               />
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"

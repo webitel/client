@@ -21,8 +21,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab && currentTab.value"
@@ -42,6 +43,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredUnless } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
 import { StorageProviderType } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Google from './google/opened-cognitive-profile-google.vue';
@@ -62,6 +65,8 @@ export default {
   }),
   data: () => ({
     namespace: 'integrations/cognitiveProfiles',
+    routeName: RouteNames.COGNITIVE_PROFILES,
+    permissionTabPathName: CognitiveProfilesRouteNames.PERMISSIONS,
   }),
   validations() {
     const defaults = {
@@ -113,16 +118,19 @@ export default {
       const microsoft = {
         text: StorageProviderType.Microsoft,
         value: 'Microsoft',
+        pathName: CognitiveProfilesRouteNames.GENERAL,
       };
 
       const google = {
         text: StorageProviderType.Google,
         value: 'Google',
+        pathName: CognitiveProfilesRouteNames.GENERAL,
       };
 
       const elevenLabs = {
         text: StorageProviderType.ElevenLabs,
         value: 'ElevenLabs',
+        pathName: CognitiveProfilesRouteNames.GENERAL,
       };
 
       const tabs = [];

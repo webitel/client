@@ -1,4 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import CognitiveProfilesRoutes
+  from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
+import EmailProfilesRoutes
+  from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
+import ImportCsvRoutes
+  from '../../modules/integrations/modules/import-csv/router/importCsv.js';
+import TriggersRoutes
+  from '../../modules/integrations/modules/triggers/router/triggers.js';
 import store from '../store/store';
 import RouteNames from './_internals/RouteNames.enum';
 import DevicesRouteNames from '../../modules/directory/modules/devices/router/_internals/DevicesRouteNames.enum.js';
@@ -132,6 +140,7 @@ import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams
 import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
+import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 
 import { checkAppAccess, checkRouteAccess } from './_internals/guards.js';
 
@@ -561,60 +570,11 @@ const router = createRouter({
         // --------------CONTACT CENTER END-------------
 
         // ----------INTEGRATIONS-----------------
-        {
-          path: '/integrations/storage',
-          name: RouteNames.STORAGE,
-          component: Storage,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/storage/:type/new',
-          name: `${RouteNames.STORAGE}-new`,
-          component: OpenedStorage,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/storage/:type/:id',
-          name: `${RouteNames.STORAGE}-edit`,
-          component: OpenedStorage,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/cognitive-profiles',
-          name: RouteNames.COGNITIVE_PROFILES,
-          component: CognitiveProfiles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/cognitive-profiles/new',
-          name: `${RouteNames.COGNITIVE_PROFILES}-new`,
-          component: OpenedCognitiveProfile,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/cognitive-profiles/:id',
-          name: `${RouteNames.COGNITIVE_PROFILES}-edit`,
-          component: OpenedCognitiveProfile,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/email-profiles',
-          name: RouteNames.EMAIL_PROFILES,
-          component: EmailProfiles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/email-profiles/new',
-          name: `${RouteNames.EMAIL_PROFILES}-new`,
-          component: OpenedEmailProfile,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/email-profiles/:id',
-          name: `${RouteNames.EMAIL_PROFILES}-edit`,
-          component: OpenedEmailProfile,
-          beforeEnter: checkRouteAccess,
-        },
+        ...StorageRoutes,
+        ...CognitiveProfilesRoutes,
+        ...EmailProfilesRoutes,
+        ...ImportCsvRoutes,
+        ...TriggersRoutes,
         {
           path: '/integrations/single-sign-on',
           name: RouteNames.SINGLE_SIGN_ON,
@@ -633,42 +593,8 @@ const router = createRouter({
           component: OpenedSingleSignOn,
           beforeEnter: checkRouteAccess,
         },
-        {
-          path: '/integrations/import-csv',
-          name: RouteNames.IMPORT_CSV,
-          component: ImportCsv,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/import-csv/new',
-          name: `${RouteNames.IMPORT_CSV}-new`,
-          component: OpenedImportCsv,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/import-csv/:id',
-          name: `${RouteNames.IMPORT_CSV}-edit`,
-          component: OpenedImportCsv,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/triggers',
-          name: RouteNames.TRIGGERS,
-          component: Triggers,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/triggers/new',
-          name: `${RouteNames.TRIGGERS}-new`,
-          component: OpenedTrigger,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/triggers/:id',
-          name: `${RouteNames.TRIGGERS}-edit`,
-          component: OpenedTrigger,
-          beforeEnter: checkRouteAccess,
-        },
+
+
         // --------------INTEGRATIONS END-------------
 
         // ----------PERMISSIONS-----------------

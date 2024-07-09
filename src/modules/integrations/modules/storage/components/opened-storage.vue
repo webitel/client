@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -38,6 +39,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required, requiredUnless } from '@vuelidate/validators';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import StorageRouteNames from '../router/_internals/StorageRouteNames.enum.js';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import storageMixin from '../mixins/storageMixin';
 import Storage from '../store/_internals/enums/Storage.enum';
@@ -64,6 +67,7 @@ export default {
   }),
   data: () => ({
     namespace: 'integrations/storage',
+    routeName: RouteNames.STORAGE,
   }),
   validations() {
     const itemInstanceDefaults = {
@@ -145,22 +149,22 @@ export default {
       }
     },
     tabs() {
-      const tabs = [{ text: this.$t('objects.general'), value: 'general' }];
+      const tabs = [{ text: this.$t('objects.general'), value: 'general', pathName: StorageRouteNames.GENERAL }];
       switch (this.$route.params.type) {
         case Storage.LOCAL:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'local' });
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'local', pathName: StorageRouteNames.LOCAL});
           break;
         case Storage.S3:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 's3' });
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 's3', pathName: StorageRouteNames.S3});
           break;
         case Storage.BACKBLAZE:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze' });
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'backblaze', pathName: StorageRouteNames.BACKBLAZE});
           break;
         case Storage.DROPBOX:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox' });
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'dropbox', pathName: StorageRouteNames.DROPBOX});
           break;
         case Storage.DRIVE:
-          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive' });
+          tabs.push({ text: this.$t('objects.integrations.storage.configuration'), value: 'drive', pathName: StorageRouteNames.DRIVE});
           break;
         default:
       }

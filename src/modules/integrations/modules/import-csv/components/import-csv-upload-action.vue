@@ -5,14 +5,14 @@
       @change="processCSV"
     />
     <upload-csv-preview-popup
-      v-if="file"
+      :shown="!!isUploadPopup"
       :add-bulk-items="saveBulkData"
       :charset="item.parameters.charset.value"
       :file="file"
       :mapping-fields="mappingFields"
       :separator="item.parameters.separator"
       :skip-headers="item.parameters.skipHeaders"
-      @close="file = null"
+      @close="close"
       @save="handleSave"
     />
   </div>
@@ -24,6 +24,7 @@ import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/componen
 import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
 import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
+import ImportCsvRouteNames from '../router/_internals/ImportCsvRouteNames.enum.js';
 
 export default {
   name: 'ImportCsvUploadAction',
@@ -49,13 +50,24 @@ export default {
         csv: this.item.parameters.mappings[name],
       }));
     },
+    isUploadPopup() {
+      return this.$route.meta.uploadCsv;
+    }
   },
   methods: {
     processCSV(files) {
       const file = files[0];
       if (file) {
         this.file = file;
+        this.$router.push({
+          ...this.$route,
+          name: ImportCsvRouteNames.UPLOAD_CSV
+        })
       }
+    },
+    close() {
+      this.file = null;
+      this.$router.go(-1);
     },
     handleSave() {
       if (this.item.parameters.clearMembers) {

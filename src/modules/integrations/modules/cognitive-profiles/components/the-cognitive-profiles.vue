@@ -11,11 +11,10 @@
 
     <template #main>
       <create-cognitive-profile-popup
-        v-if="isCognitiveProfilePopup"
-        @close="isCognitiveProfilePopup = false"
+        @close="closeCognitiveProfilePopup"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -142,6 +141,7 @@ import { useStore } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
 import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
 import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
@@ -191,7 +191,6 @@ export default {
   data: () => ({
     namespace,
     routeName: RouteNames.COGNITIVE_PROFILES,
-    isCognitiveProfilePopup: false,
   }),
 
   computed: {
@@ -208,7 +207,13 @@ export default {
 
   methods: {
     create() {
-      this.isCognitiveProfilePopup = true;
+      this.$router.push({
+        ...this.$route,
+        name: CognitiveProfilesRouteNames.CREATE_COGNITIVE_PROFILE,
+      })
+    },
+    closeCognitiveProfilePopup() {
+      this.$router.push({name: RouteNames.COGNITIVE_PROFILES});
     },
     async changeDefaultProfile({ index, item, value }) {
       try {

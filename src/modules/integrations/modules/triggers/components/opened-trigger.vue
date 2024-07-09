@@ -25,8 +25,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -46,6 +47,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-trigger-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
@@ -67,6 +70,7 @@ export default {
   }),
   data: () => ({
     namespace: 'integrations/triggers',
+    routeName: RouteNames.TRIGGERS,
   }),
   validations: {
     itemInstance: {
@@ -89,16 +93,19 @@ export default {
       const general = {
         text: this.$t('objects.general'),
         value: 'general',
+        pathName: TriggersRouteNames.GENERAL,
       };
       const variables = {
         text: this.$tc('vocabulary.variables', 2),
         value: 'variables',
+        pathName: TriggersRouteNames.VARIABLES,
       };
       const logs = {
         text: this.$t('objects.integrations.triggers.logs.logs'),
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
+        pathName: TriggersRouteNames.RUNNING_HISTORY
       };
 
       const tabs = [
