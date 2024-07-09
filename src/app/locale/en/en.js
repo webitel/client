@@ -65,6 +65,11 @@ export default {
     webPhone: 'WebPhone',
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
+    ringtones: {
+      title: 'Change ringtone',
+      ringtone: 'Ringtone',
+      customRingtone: 'Use the custom ringtone',
+    },
     callEnd: 'Call end tune infroming',
   },
 

@@ -65,6 +65,11 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
+    ringtones: {
+      title: 'Змінити рінгтон',
+      ringtone: 'Рінгтон',
+      customRingtone: 'Використовувати кастомний рінгтон',
+    },
     callEnd: 'Звукове сповіщення про завершення дзвінка',
   },
 
