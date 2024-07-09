@@ -46,8 +46,9 @@ export const changeWebPhone = async (changes) => {
 };
 
 export const getRingtonesList = async () => {
+  const url = `${import.meta.env.VITE_RINGTONES_URL}/index.json`;
   try {
-    const ringtones = await fetch(`${import.meta.env.VITE_RINGTONES_URL}/index.json`)
+    const ringtones = await fetch(url)
     .then((res) => res.json());
     return ringtones.ringtones;
   } catch (err) {

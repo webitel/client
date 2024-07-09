@@ -99,7 +99,7 @@
             </div>
           </form>
         </section>
-        <the-ringtone />
+        <custom-ringtone />
       </section>
     </template>
   </wt-page-wrapper>
@@ -111,11 +111,11 @@ import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
 import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
-import TheRingtone from './the-ringtone.vue';
+import CustomRingtone from './custom-ringtone.vue';
 
 export default {
   name: 'TheSettings',
-  components: { TheRingtone },
+  components: { CustomRingtone },
   inject: ['$eventBus'],
 
   setup: () => ({
@@ -262,12 +262,9 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   display: block;
-  column-count: 2;
+  columns: 2;
   column-gap: var(--spacing-sm);
   width: 100%;
-
-  flex-wrap: wrap;
-  flex-direction: column;
   min-width: 200px;
 
   &__setting {
@@ -286,7 +283,7 @@ export default {
 
   .wt-button {
     display: block;
-    margin: 3px 0 0 auto;
+    margin: 0 0 0 auto;
   }
 
   &__wrapper {
