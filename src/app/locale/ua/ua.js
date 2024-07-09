@@ -65,6 +65,7 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
+    callEnd: 'Звукове сповіщення про завершення дзвінка',
   },
 
   validation: {

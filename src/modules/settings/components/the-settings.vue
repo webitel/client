@@ -83,6 +83,22 @@
             </div>
           </form>
         </section>
+        <section class="settings-section__setting">
+          <header class="content-header">
+            <h3 class="content-title">
+              {{ $t('settings.callEnd') }}
+            </h3>
+          </header>
+          <form>
+            <div class="settings-section__wrapper">
+              <p>{{ $t('objects.status') }}</p>
+              <wt-switcher
+                :value="callEndSound"
+                @change="changeCallEndSoundState"
+              />
+            </div>
+          </form>
+        </section>
       </section>
     </template>
   </wt-page-wrapper>
@@ -108,6 +124,7 @@ export default {
     isPasswordPatching: false,
     webrtc: true,
     stun: false,
+    callEndSound: !!localStorage.getItem('settings/callEndSound'),
     language: {
       name: 'English',
       id: 'en',
@@ -218,6 +235,13 @@ export default {
       }
     },
 
+    changeCallEndSoundState(value) {
+      value
+        ? localStorage.setItem('settings/callEndSound', 'true')
+        : localStorage.removeItem('settings/callEndSound');
+      this.callEndSound = value;
+    },
+
     changeLanguage(value) {
       localStorage.setItem('lang', value.id);
       this.language = value;
@@ -234,11 +258,28 @@ export default {
 
 <style lang="scss" scoped>
 .settings-section {
-  display: flex;
-  flex: 0 1 50%;
+  display: block;
+  column-count: 2;
+  column-gap: var(--spacing-sm);
+  width: 100%;
+
+  flex-wrap: wrap;
   flex-direction: column;
   min-width: 200px;
-  gap: var(--spacing-sm);
+
+  &__setting {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-sm);
+    padding: 0 var(--spacing-sm) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    box-shadow: var(--elevation-5);
+    break-inside: avoid-column;
+  }
+
+  .content-title {
+    @extend %typo-heading-4;
+  }
 
   .wt-button {
     display: block;
@@ -251,7 +292,7 @@ export default {
   }
 
   &__switcher {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
   }
 }
 </style>
