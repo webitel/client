@@ -7,6 +7,7 @@ import ImportCsvRoutes
   from '../../modules/integrations/modules/import-csv/router/importCsv.js';
 import TriggersRoutes
   from '../../modules/integrations/modules/triggers/router/triggers.js';
+import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import store from '../store/store';
 import RouteNames from './_internals/RouteNames.enum';
 import DevicesRouteNames from '../../modules/directory/modules/devices/router/_internals/DevicesRouteNames.enum.js';
@@ -593,29 +594,10 @@ const router = createRouter({
           component: OpenedSingleSignOn,
           beforeEnter: checkRouteAccess,
         },
-
-
         // --------------INTEGRATIONS END-------------
 
         // ----------PERMISSIONS-----------------
-        {
-          path: '/permissions/roles',
-          name: RouteNames.ROLES,
-          component: PermissionsRoles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/roles/:id',
-          name: `${RouteNames.ROLES}-edit`,
-          component: OpenedPermissionsRoles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/roles/new',
-          name: `${RouteNames.ROLES}-new`,
-          component: OpenedPermissionsRoles,
-          beforeEnter: checkRouteAccess,
-        },
+        ...RolesRoutes,
         {
           path: '/permissions/objects',
           name: RouteNames.OBJECTS,
