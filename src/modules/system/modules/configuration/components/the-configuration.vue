@@ -3,7 +3,7 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
-        :primary-action="() => isConfigurationPopup = true"
+        :primary-action="addItem"
         hide-secondary
       >
         <wt-headline-nav :path="path" />
@@ -12,14 +12,12 @@
 
     <template #main>
       <configuration-popup
-        v-if="isConfigurationPopup"
-        :id="id"
         :namespace="namespace"
-        @close="isConfigurationPopup = false"
+        @close="closeConfigurationPopup"
       />
 
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -116,8 +114,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import ConfigurationPopup from './configuration-popup.vue';
@@ -154,14 +150,8 @@ export default {
   },
   data: () => ({
     namespace,
-    isConfigurationPopup: false,
   }),
   computed: {
-    ...mapState({
-      id(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-    }),
     path() {
       return [
         { name: this.$t('objects.system.system') },
@@ -170,15 +160,23 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      setItemId(dispatch, payload) {
-        return dispatch(`${namespace}/SET_ITEM_ID`, payload);
-      },
-    }),
+    addItem() {
+      this.$router.push({
+        ...this.$route,
+        params: {id: 'new'}
+      })
+    },
+    closeConfigurationPopup() {
+      this.$router.go(-1);
+
+    },
     editParameter(item) {
-      this.setItemId(item.id);
-      this.isConfigurationPopup = true;
+      this.$router.push({
+        ...this.$route,
+        params: {id: item.id}
+      })
     },
   },
+
 };
 </script>

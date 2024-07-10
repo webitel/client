@@ -3,7 +3,7 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
-        :primary-action="() => isGlobalVariablesPopup = true"
+        :primary-action="addItem"
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
@@ -11,17 +11,15 @@
     <template #main>
 
       <delete-confirmation-popup
-        v-if="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
       />
 
       <global-variables-popup
-        v-if="isGlobalVariablesPopup"
-        :id="id"
         :namespace="namespace"
-        @close="isGlobalVariablesPopup = false"
+        @close="closePopup"
       />
 
       <section class="main-section__wrapper">
@@ -173,11 +171,6 @@ export default {
     isGlobalVariablesPopup: false,
   }),
   computed: {
-    ...mapState({
-      id(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-    }),
     path() {
       return [
         { name: this.$t('objects.system.system') },
@@ -186,15 +179,21 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      setItemId(dispatch, payload) {
-        return dispatch(`${namespace}/SET_ITEM_ID`, payload);
-      },
-    }),
-    edit(item) {
-      this.setItemId(item.id);
-      this.isGlobalVariablesPopup = true;
+    addItem() {
+      this.$router.push({
+        ...this.$route,
+        params: {id: 'new'}
+      })
     },
+    edit(item) {
+      this.$router.push({
+        ...this.$route,
+        params: {id: item.id}
+      })
+    },
+    closePopup() {
+      this.$router.go(-1);
+    }
   },
 }
 </script>
