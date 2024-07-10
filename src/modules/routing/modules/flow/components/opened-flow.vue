@@ -203,14 +203,7 @@ export default {
   },
   mounted() {
     this.initType();
-    if (!this.isDiagram) {
-      this.addCheckingUnsavedChanges();
-    } else {
-      // [https://webitel.atlassian.net/browse/WTEL-4509]
-      // Temporary solution - open in a new browser tab Flow diagram and clear itemInstance
-
-      this.resetState();
-    }
+    if(!this.isDiagram) this.addCheckingUnsavedChanges();
   },
 };
 </script>

@@ -14,8 +14,7 @@ export default {
     // [https://webitel.atlassian.net/browse/WTEL-4509]
     // Temporary solution - open in a new browser tab Flow diagram
 
-    // window.location.replace(redirectUrl);
-    window.location.href = redirectUrl;
+    window.location.replace(redirectUrl);
   },
 };
 </script>
