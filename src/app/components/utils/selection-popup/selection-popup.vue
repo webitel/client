@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     :min-width="minWidth"
+    size="sm"
     class="selection-popup"
     overflow
     @close="close"

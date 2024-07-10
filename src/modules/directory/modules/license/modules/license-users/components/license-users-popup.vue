@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="md"
     min-width="600"
     overflow
     @close="close"
