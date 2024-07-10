@@ -67,6 +67,7 @@
       >
         <template #schema="{ item }">
           <wt-item-link
+            target="_blank"
             :id="item.schema.id"
             :route-name="RouteNames.FLOW"
           >
