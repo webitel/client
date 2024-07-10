@@ -66,7 +66,7 @@ export default {
   data: () => ({
     namespace: 'integrations/cognitiveProfiles',
     routeName: RouteNames.COGNITIVE_PROFILES,
-    permissionTabPathName: CognitiveProfilesRouteNames.PERMISSIONS,
+    permissionsTabPathName: CognitiveProfilesRouteNames.PERMISSIONS,
   }),
   validations() {
     const defaults = {
