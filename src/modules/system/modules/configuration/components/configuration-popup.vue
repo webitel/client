@@ -172,8 +172,11 @@ export default {
   },
   computed: {
     exportSettingOptions() {
-      return Object.keys(TypesExportedSettings)
-      .map(key => ({ name: TypesExportedSettings[key], value: TypesExportedSettings[key], id: TypesExportedSettings[key] }));
+      return Object.keys(TypesExportedSettings).map((key) => ({
+        name: TypesExportedSettings[key],
+        value: TypesExportedSettings[key],
+        id: TypesExportedSettings[key],
+      }));
     },
     valueType() {
       return ConfigurationValueTypes[this.itemInstance.name];
@@ -183,9 +186,6 @@ export default {
     },
     isExportSettingsFormatXls() {
       return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
-    },
-    isExportSettingsConfigurationType() {
-      return this.itemInstance.name === EngineSystemSettingName.ExportSettings;
     },
   },
   methods: {
