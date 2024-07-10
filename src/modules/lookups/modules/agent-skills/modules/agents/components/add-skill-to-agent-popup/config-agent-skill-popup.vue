@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     @close="emit('cancel')"
   >

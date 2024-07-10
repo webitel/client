@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="reset-members-popup"
+    size="sm"
     min-width="480"
     @close="close"
   >

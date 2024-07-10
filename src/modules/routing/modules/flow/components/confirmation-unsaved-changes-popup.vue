@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="confirmation-unsaved-changes-popup"
+    size="sm"
     :width="500"
     @close="closePopup"
   >

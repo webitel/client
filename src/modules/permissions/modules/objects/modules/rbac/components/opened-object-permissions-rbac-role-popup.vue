@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="permissions-role-defaults-popup"
+    size="sm"
     min-width="480"
     overflow
     @close="close"
