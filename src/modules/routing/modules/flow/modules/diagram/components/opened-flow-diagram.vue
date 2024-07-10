@@ -16,7 +16,6 @@ export default {
 
     // window.location.replace(redirectUrl);
     window.location.href = redirectUrl;
-    this.$router.go(-1);
   },
 };
 </script>
