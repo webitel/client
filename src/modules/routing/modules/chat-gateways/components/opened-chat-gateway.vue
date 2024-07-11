@@ -49,7 +49,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { url, maxValue, minLength, minValue, numeric, required } from '@vuelidate/validators';
+import { url, maxValue, minLength, minValue, requiredIf, numeric, required } from '@vuelidate/validators';
 import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
@@ -181,6 +181,11 @@ export default {
         return {
           itemInstance: {
             ...defaults,
+            flow: {
+              required: requiredIf(() => {
+                return this.itemInstance.metadata.chat.enabled
+              })
+            },
             metadata: {
               readTimeout: {
                 numeric,
