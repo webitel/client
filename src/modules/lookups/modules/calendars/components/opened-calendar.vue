@@ -42,7 +42,7 @@ import { helpers, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CalendarRouteNames from '../../../../../app/router/_internals/tabs/lookups/CalendarRouteNames.enum.js';
+import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum.js';
 import General from './opened-calendar-general.vue';
 import Holidays from './opened-calendar-holidays.vue';
 import WorkWeek from './opened-calendar-work-week.vue';

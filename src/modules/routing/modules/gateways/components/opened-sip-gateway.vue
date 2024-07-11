@@ -47,7 +47,7 @@ import { gatewayHostValidator, ipValidator, sipAccountValidator } from '../../..
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
 import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
 import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
-import GatewaysRoutesName from '../../../../../app/router/_internals/tabs/routing/GatewaysRouteNames.enum.js';
+import GatewaysRoutesName from '../router/_internals/GatewaysRouteNames.enum.js';
 
 export default {
   name: 'OpenedSipGateway',

@@ -1,6 +1,6 @@
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
-import ChatGatewayRouteNames from "../../../../../app/router/_internals/tabs/routing/ChatGatewayRouteNames.enum.js";
+import ChatGatewayRouteNames from "./_internals/ChatGatewayRouteNames.enum.js";
 
 const ChatGateways = () => import('../components/the-chat-gateways.vue');
 const OpenedChatGateways = () => import('../components/opened-chat-gateway.vue');
