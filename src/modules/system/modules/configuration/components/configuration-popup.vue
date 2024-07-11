@@ -25,13 +25,42 @@
         <div
           v-if="itemInstance.name"
         >
-          <!--          https://github.com/vuejs/core/issues/2279#issuecomment-701266701-->
-          <component
-            :is="componentConfig.component"
-            :label="componentConfig.label"
-            v-bind="componentConfig.bind"
-            v-on="componentConfig.on"
+          <wt-switcher
+            v-if="displayedConfigurationType.boolean"
+            :label="$t('reusable.state')"
+            :v="v$.itemInstance.value"
+            :value="itemInstance.value"
+            required
+            @change="setItemProp({ prop: 'value', value: $event })"
           />
+          <wt-input
+            v-if="displayedConfigurationType.number"
+            :label="$tc('vocabulary.values', 1)"
+            :v="v$.itemInstance.value"
+            :value="itemInstance.value"
+            required
+            type="number"
+            @input="setItemProp({ prop: 'value', value: +$event })"
+          />
+          <div v-if="displayedConfigurationType.select">
+            <wt-select
+              :clearable="false"
+              :label="$t('vocabulary.format')"
+              :options="exportSettingOptions"
+              :v="v$.itemInstance.format"
+              :value="itemInstance.format"
+              required
+              @input="selectHandler"
+            />
+            <wt-input
+              v-if="isExportSettingsFormatXls"
+              :label="$t('objects.CSV.separator')"
+              :v="v$.itemInstance.separator"
+              :value="itemInstance.separator"
+              required
+              @input="inputHandler"
+            />
+          </div>
         </div>
       </form>
     </template>
@@ -60,6 +89,7 @@ import { EngineSystemSettingName } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
+import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 
 export default {
@@ -76,74 +106,86 @@ export default {
   setup: () => ({
     v$: useVuelidate(),
   }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      value: {
-        required,
-        minValue: minValue(0),
+  validations() {
+    const defaults = {
+      itemInstance: {
+        name: { required },
       },
-    },
+    };
+
+    const defaultBooleanConfig = {
+      itemInstance: {
+        value: {
+          required,
+        },
+      },
+    };
+
+    const defaultNumberConfig = {
+      itemInstance: {
+        value: {
+          required,
+          minValue: minValue(0),
+        },
+      },
+    };
+
+    let defaultSelectConfig;
+    defaultSelectConfig = {
+      itemInstance: {
+        format: { required },
+      },
+    };
+    if (this.isExportSettingsFormatXls) {
+      defaultSelectConfig = {
+        itemInstance: {
+          format: { required },
+          separator: { required },
+        },
+      };
+    }
+
+    switch (this.itemInstance.name) {
+      case EngineSystemSettingName.EnableOmnichannel:
+        return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.AmdCancelNotHuman:
+        return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.Enable2fa:
+        return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.MemberChunkSize:
+        return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.SchemeVersionLimit:
+        return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.SearchNumberLength:
+        return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.ExportSettings:
+        return deepmerge(defaults, defaultSelectConfig);
+      default:
+        return defaults;
+    }
+  },
+  data() {
+    return {
+      TypesExportedSettings,
+      EngineSystemSettingName,
+    };
   },
   computed: {
+    exportSettingOptions() {
+      return Object.keys(TypesExportedSettings).map((key) => ({
+        name: TypesExportedSettings[key],
+        value: TypesExportedSettings[key],
+        id: TypesExportedSettings[key],
+      }));
+    },
     valueType() {
       return ConfigurationValueTypes[this.itemInstance.name];
     },
-    componentConfig() {
-      const defaultConfig = {
-        bind: {
-          value: this.itemInstance.value,
-          v: this.v$.itemInstance.value,
-          required: true,
-        },
-      };
-
-      const defaultBooleanConfig = deepmerge(defaultConfig, {
-        component: 'wt-switcher',
-        label: this.$t('reusable.state'),
-        on: {
-          change: (event) =>
-            this.setItemProp({
-              prop: 'value',
-              value: event,
-            }),
-        },
-      });
-      const defaultNumberConfig = deepmerge(defaultConfig, {
-        component: 'wt-input',
-        label: this.$tc('vocabulary.values', 1),
-        bind: {
-          type: 'number',
-        },
-        on: {
-          input: (event) =>
-            this.setItemProp({
-              prop: 'value',
-              value: +event,
-            }),
-        },
-      });
-
-      switch (this.itemInstance.name) {
-        case EngineSystemSettingName.EnableOmnichannel: {
-          return defaultBooleanConfig;
-        }
-        case EngineSystemSettingName.AmdCancelNotHuman: {
-          return defaultBooleanConfig;
-        }
-        case EngineSystemSettingName.Enable2fa: {
-          return defaultBooleanConfig;
-        }
-        case EngineSystemSettingName.MemberChunkSize: {
-          return defaultNumberConfig;
-        }
-        case EngineSystemSettingName.SchemeVersionLimit: {
-          return defaultNumberConfig;
-        }
-        default: {
-          return {};
-        }
-      }
+    displayedConfigurationType() {
+      return { [this.valueType]: true };
+    },
+    isExportSettingsFormatXls() {
+      return this.itemInstance?.format?.value === TypesExportedSettings.XLS;
     },
   },
   methods: {
@@ -168,27 +210,31 @@ export default {
     close() {
       this.$emit('close');
     },
-    async loadParameterList(params) {
-      return await ConfigurationAPI.getObjectsList({
-        ...params,
-        size: 5000,
+
+    handleDefaultSelectConfigInput() {
+      this.setItemProp({
+        prop: 'value',
+        value: { format: this.itemInstance.format.name, separator: this.itemInstance.separator },
       });
     },
+    selectHandler(selectedValue) {
+      this.itemInstance.format = selectedValue;
+      if (!this.isExportSettingsFormatXls) {
+        delete this.itemInstance.separator;
+      }
+      this.handleDefaultSelectConfigInput();
+    },
+    inputHandler(inputValue) {
+      this.itemInstance.separator = inputValue;
+      this.handleDefaultSelectConfigInput();
+    },
+    async loadParameterList(params) {
+      return await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });
+    },
     setParameterName(event) {
-      this.setItemProp({
-        prop: 'name',
-        value: event.name,
-      });
-      if (this.valueType === 'boolean')
-        this.setItemProp({
-          prop: 'value',
-          value: false,
-        });
-      if (this.valueType === 'number')
-        this.setItemProp({
-          prop: 'value',
-          value: 0,
-        });
+      this.setItemProp({ prop: 'name', value: event.name });
+      if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
+      if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
     },
   },
 };
