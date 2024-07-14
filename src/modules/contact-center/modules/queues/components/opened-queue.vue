@@ -326,21 +326,7 @@ export default {
       await this.setId(this.$route.params.id);
       return this.loadItem(type);
     },
-    //   setStartTab() {
-    //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
-    //     if (tab) this.currentTab = tab;
-    //   },
-    //   handleTabChange(tab) {
-    //     this.currentTab = tab;
-    //     /**
-    //      * This method has an issue in it cause "filters reset" resets hash too
-    //      */
-    //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
-    //   },
   },
-  // created() {
-  //   this.setStartTab();
-  // },
 };
 </script>
 

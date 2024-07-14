@@ -80,17 +80,16 @@
               <p>
                 {{ item.source ? item.source.name : '' }}
               </p>
-
-              <!--              https://webitel.atlassian.net/browse/WTEL-4559-->
-              <!--              There is a bug with route-name in wt-item-link, as a temporary solution, we removed wt-item-link  -->
-
-              <!--              <wt-item-link-->
-              <!--              v-if="item.source"-->
-              <!--              :id="item.source.id"-->
-              <!--              :route-name="RouteNames.QUEUES"-->
-              <!--              >-->
-              <!--              {{ item.source.name }}-->
-              <!--              </wt-item-link>-->
+<!--              Need to get the TYPE id from item to select the desired type from QueueTypeProperties.
+                  This ID should be obtained from the response of importCsvService.searchImportTemplate.
+-->
+<!--              <adm-item-link-->
+<!--                :id="item.source.id"-->
+<!--                :route-name="RouteNames.QUEUES"-->
+<!--                type="offline-queue"-->
+<!--              >-->
+<!--                {{ item.source.name }}-->
+<!--              </adm-item-link>-->
             </template>
             <template #actions="{ item }">
               <upload-action

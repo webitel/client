@@ -20,12 +20,19 @@ const props = defineProps({
     type: [String, Number],
     required: true,
   },
+  type: {
+    type: String,
+    required: false,
+  },
 });
 const attrs = useAttrs();
 const link = computed(() => {
+  let params= { id: props.id };
+  if (props.type) params.type = props.type;
+
   return {
     name: `${props.routeName}-card`,
-    params: { id: props.id },
+    params,
   };
 });
 </script>

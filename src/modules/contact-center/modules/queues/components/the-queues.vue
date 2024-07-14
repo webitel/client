@@ -79,9 +79,13 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :type="QueueTypeProperties[item.type].subpath"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <template #type="{ item }">
@@ -136,11 +140,15 @@
                 </template>
                 {{ $t('iconHints.members') }}
               </wt-tooltip>
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item, index)"
-              />
+                :id="item.id"
+                :type="QueueTypeProperties[item.type].subpath"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit"/>
+              </adm-item-link>
+
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -243,11 +251,6 @@ export default {
         params: { queueId: item.id },
       });
     },
-    editLink({ id, type }) {
-      const routeName = this.routeName || this.tableObjectRouteName;
-      return { name: `${routeName}-card`, params: { id, type: QueueTypeProperties[type].subpath } };
-    },
-
     create() {
      return this.$router.push({
         ...this.$route,
