@@ -56,7 +56,7 @@ export default {
         const response = await this.callback();
         const { count = 0 } = response;
         this.$eventBus.$emit('notification', {
-          type: 'info',
+          type: 'success',
           text: this.$t('objects.ccenter.members.resetMembers.successResetCount', {
             count,
           }),

@@ -203,7 +203,7 @@ export default {
           changes,
         });
         this.$eventBus.$emit('notification', {
-          type: 'info',
+          type: 'success',
           text: 'Password is successfully updated!',
         });
       } catch (err) {

@@ -232,7 +232,7 @@ const addMembersBulk = async (parentId, fileName, items) => {
       snakeToCamel(['variables']),
       notify(({ callback }) =>
         callback({
-          type: 'info',
+          type: 'success',
           text: 'Successfully added',
         }),
       ),

@@ -100,7 +100,7 @@ const moveDialplan = async ({ fromId, toId }) => {
     return applyTransform(response.data, [
       notify(({ callback }) =>
         callback({
-          type: 'info',
+          type: 'success',
           text: 'Successfully saved',
         }),
       ),

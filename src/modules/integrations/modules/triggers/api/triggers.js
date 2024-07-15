@@ -175,7 +175,7 @@ const startTrigger = async (params, item) => {
       snakeToCamel(doNotConvertKeys),
       notify(({ callback }) =>
         callback({
-          type: 'info',
+          type: 'success',
           text: 'Successfully ran',
         }),
       ),
