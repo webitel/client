@@ -153,9 +153,6 @@ export default {
     close() {
       this.$router.push({ name: RouteNames.DEVICES });
     },
-    changeTab(tab) {
-      this.$router.push({ name: tab.pathName, query: this.$route.query });
-    },
   },
 };
 </script>

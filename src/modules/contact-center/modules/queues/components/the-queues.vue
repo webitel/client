@@ -81,7 +81,6 @@
             <template #name="{ item }">
               <adm-item-link
                 :id="item.id"
-                :type="QueueTypeProperties[item.type].subpath"
                 :route-name="routeName"
               >
                 {{ item.name }}
@@ -143,7 +142,6 @@
               <adm-item-link
                 v-if="hasEditAccess"
                 :id="item.id"
-                :type="QueueTypeProperties[item.type].subpath"
                 :route-name="routeName"
               >
                 <wt-icon-action action="edit"/>
@@ -184,7 +182,6 @@ import {
 } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
@@ -238,7 +235,8 @@ export default {
   },
   watch: {
     '$route.query': {
-      async handler() {
+      async handler(query) {
+        if (query.type) return;
         await this.loadList();
       },
     },
@@ -246,7 +244,8 @@ export default {
 
   methods: {
     openMembers(item) {
-      this.$router.push({
+     return this.$router.push({
+       ...this.$route,
         name: `${RouteNames.MEMBERS}`,
         params: { queueId: item.id },
       });
@@ -254,12 +253,12 @@ export default {
     create() {
      return this.$router.push({
         ...this.$route,
-       name: QueuesRoutesName.CREATE_QUEUE,
+       query: { type: '0' },
       })
     },
     closeQueueSelectPopup() {
       this.$router.go(-1)
-    }
+    },
   },
 };
 </script>

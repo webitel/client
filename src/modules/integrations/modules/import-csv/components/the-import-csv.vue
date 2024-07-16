@@ -77,19 +77,12 @@
               </adm-item-link>
             </template>
             <template #source="{ item }">
-              <p>
-                {{ item.source ? item.source.name : '' }}
-              </p>
-<!--              Need to get the TYPE id from item to select the desired type from QueueTypeProperties.
-                  This ID should be obtained from the response of importCsvService.searchImportTemplate.
--->
-<!--              <adm-item-link-->
-<!--                :id="item.source.id"-->
-<!--                :route-name="RouteNames.QUEUES"-->
-<!--                type="offline-queue"-->
-<!--              >-->
-<!--                {{ item.source.name }}-->
-<!--              </adm-item-link>-->
+              <adm-item-link
+                :id="item.source.id"
+                :route-name="RouteNames.QUEUES"
+              >
+                {{ item.source.name }}
+              </adm-item-link>
             </template>
             <template #actions="{ item }">
               <upload-action

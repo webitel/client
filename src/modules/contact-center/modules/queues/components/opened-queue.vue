@@ -215,7 +215,7 @@ export default {
       return this.itemInstance.type != null;
     },
     queueType() {
-      return this.itemInstance.type;
+      return this.itemInstance.type || Number(this.$route.query.type);
     },
 
     tabs() {
@@ -316,15 +316,8 @@ export default {
   },
   methods: {
     async loadPageData() {
-      const type = +(Object.entries(QueueTypeProperties).find(([type, { subpath }]) => {
-        if (subpath === this.$route.params.type) {
-          this.itemInstance.type = +type;
-          return true;
-        }
-        return false;
-      }).at(0));
       await this.setId(this.$route.params.id);
-      return this.loadItem(type);
+      return this.loadItem(this.queueType);
     },
   },
 };

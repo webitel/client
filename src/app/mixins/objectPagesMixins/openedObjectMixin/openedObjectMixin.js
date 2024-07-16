@@ -78,7 +78,7 @@ export default {
       this.$router.push({name: this.routeName});
     },
     changeTab(tab) {
-      this.$router.push({name: tab.pathName});
+      this.$router.push({ ...this.$route, name: tab.pathName });
     }
   },
 };

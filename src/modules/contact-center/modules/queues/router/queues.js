@@ -30,17 +30,9 @@ const QueuesRoutes = [
     name: RouteNames.QUEUES,
     component: Queues,
     beforeEnter: checkRouteAccess,
-    children: [
-      {
-        path: 'create-queue',
-        meta: { createQueue: true },
-        name: QueuesRoutesName.CREATE_QUEUE,
-        component: Queues,
-      }
-    ],
   },
   {
-    path: '/contact-center/queues/:id/:type',
+    path: '/contact-center/queues/:id',
     name: `${RouteNames.QUEUES}-card`,
     redirect: {name: QueuesRoutesName.GENERAL},
     component: OpenedQueue,
