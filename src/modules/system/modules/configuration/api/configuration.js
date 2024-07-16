@@ -14,13 +14,13 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const service = new SystemSettingServiceApiFactory(configuration, '', instance);
 
 const getList = async (params) => {
-  const { page, size, search, sort, fields } = applyTransform(params, [
+  const { page, size, search, sort, fields, name } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await service.searchSystemSetting(page, size, search, sort, fields);
+    const response = await service.searchSystemSetting(page, size, search, sort, fields, name);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
