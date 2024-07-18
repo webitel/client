@@ -61,6 +61,14 @@
               @input="inputHandler"
             />
           </div>
+          <wt-input
+            v-if="displayedConfigurationType.string"
+            :label="$tc('vocabulary.values', 1)"
+            :v="v$.itemInstance.value"
+            :value="itemInstance.value"
+            required
+            @input="setItemProp({ prop: 'value', value: $event })"
+          />
         </div>
       </form>
     </template>
@@ -144,6 +152,13 @@ export default {
         },
       };
     }
+    const defaultStringConfig = {
+      itemInstance: {
+        value: {
+          required,
+        },
+      },
+    };
 
     switch (this.itemInstance.name) {
       case EngineSystemSettingName.EnableOmnichannel:
@@ -160,6 +175,8 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
+      case EngineSystemSettingName.ChatAiConnection:
+        return deepmerge(defaults, defaultStringConfig);
       default:
         return defaults;
     }
