@@ -10,6 +10,7 @@ const ConfigurationValueTypes = Object.freeze({
     [EngineSystemSettingName.ExportSettings]: 'select',
     [EngineSystemSettingName.PasswordRegExp]: 'string',
     [EngineSystemSettingName.PasswordValidationText]: 'string',
+    [EngineSystemSettingName.ChatAiConnection]: 'string',
   },
 );
 
