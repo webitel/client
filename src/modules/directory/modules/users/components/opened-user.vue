@@ -48,6 +48,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { isRegExpMatched } from '../../../../../app/utils/validators.js';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
@@ -56,6 +57,8 @@ import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
+import { EngineSystemSettingName } from 'webitel-sdk';
+import ConfigurationAPI from '../../../../system/modules/configuration/api/configuration.js';
 
 export default {
   name: 'OpenedUser',
@@ -76,24 +79,29 @@ export default {
   }),
   data: () => ({
     namespace: 'directory/users',
+    passwordRegExp: '',
+    validationText: '',
   }),
-  validations: {
-    itemInstance: {
-      username: { required },
-      password: {
-        required: requiredUnless((value, item) => !!item.id),
+  validations() {
+    return {
+      itemInstance: {
+        username: { required },
+        password: {
+          required: requiredUnless((value, item) => !!item.id),
+          isRegExpMatched: isRegExpMatched(this.passwordRegExp, this.validationText)
+        },
+        variables: {
+          $each: helpers.forEach({
+            key: {
+              required: requiredIf((value, item) => !!item.value),
+            },
+            value: {
+              required: requiredIf((value, item) => !!item.key),
+            },
+          }),
+        },
       },
-      variables: {
-        $each: helpers.forEach({
-          key: {
-            required: requiredIf((value, item) => !!item.value),
-          },
-          value: {
-            required: requiredIf((value, item) => !!item.key),
-          },
-        }),
-      },
-    },
+    };
   },
 
   computed: {
@@ -152,6 +160,23 @@ export default {
       return tabs;
     },
   },
+  methods: {
+    async checkPasswordRegExp() {
+      const PasswordRegExp = await ConfigurationAPI.getList({ name: EngineSystemSettingName.PasswordRegExp });
+      const exportSettingsValue = PasswordRegExp.items[0]?.value;
+      this.passwordRegExp = new RegExp(exportSettingsValue);
+    },
+
+    async checkPasswordValidationText() {
+      const PasswordRegExp = await ConfigurationAPI.getList({ name: EngineSystemSettingName.PasswordValidationText });
+      const exportSettingsValue = PasswordRegExp.items[0]?.value;
+      this.validationText = new RegExp(exportSettingsValue);
+    },
+  },
+  async mounted() {
+    await this.checkPasswordRegExp();
+    await this.checkPasswordValidationText();
+  }
 };
 </script>
 

@@ -55,10 +55,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { EngineSystemSettingName } from 'webitel-sdk';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import ConfigurationAPI from '../../../../system/modules/configuration/api/configuration.js';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {
@@ -70,16 +68,6 @@ export default {
       isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
     }),
   },
-  methods: {
-    async checkExportSettings() {
-      const PasswordRegExp = await ConfigurationAPI.getList({ name: EngineSystemSettingName.PasswordRegExp });
-      const exportSettingsValue = PasswordRegExp.items[0]?.value;
-      console.log(exportSettingsValue);
-    },
-  },
-  mounted() {
-    this.checkExportSettings();
-  }
 };
 </script>
 

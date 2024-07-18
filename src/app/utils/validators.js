@@ -1,3 +1,5 @@
+import { helpers } from '@vuelidate/validators';
+
 export const macValidator = (value) => {
   if (typeof value === 'undefined' || value === null || value === '') {
     return true;
@@ -80,4 +82,13 @@ export const regExpValidator = (value) => {
   } catch (e) {
     return false;
   }
+};
+export const isRegExpMatched = (regExp, errorMessage) => {
+  return helpers.withParams(
+    { type: 'isRegExpMatched', regExp, errorMessage },
+    (value) => {
+      if (!value) return true;
+      return regExp.test(value);
+    }
+  );
 };
