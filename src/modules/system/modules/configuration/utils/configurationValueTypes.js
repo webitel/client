@@ -8,6 +8,8 @@ const ConfigurationValueTypes = Object.freeze({
     [EngineSystemSettingName.SchemeVersionLimit]: 'number',
     [EngineSystemSettingName.SearchNumberLength]: 'number',
     [EngineSystemSettingName.ExportSettings]: 'select',
+    [EngineSystemSettingName.PasswordRegExp]: 'string',
+    [EngineSystemSettingName.PasswordValidationText]: 'string',
     [EngineSystemSettingName.ChatAiConnection]: 'string',
   },
 );

@@ -152,6 +152,7 @@ export default {
         },
       };
     }
+
     const defaultStringConfig = {
       itemInstance: {
         value: {
@@ -176,6 +177,10 @@ export default {
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
       case EngineSystemSettingName.ChatAiConnection:
+        return deepmerge(defaults, defaultStringConfig);
+      case EngineSystemSettingName.PasswordRegExp:
+        return deepmerge(defaults, defaultStringConfig);
+      case EngineSystemSettingName.PasswordValidationText:
         return deepmerge(defaults, defaultStringConfig);
       default:
         return defaults;
