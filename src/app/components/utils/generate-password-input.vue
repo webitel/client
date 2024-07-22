@@ -1,6 +1,7 @@
 <template>
   <div class="generate-password-input">
     <wt-input
+      v-bind="$attrs"
       :disabled="disabled"
       :label="$t('objects.password')"
       :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
