@@ -50,6 +50,9 @@ const confirmNewPassword = ref('');
 
 const v$ = useVuelidate(
   computed(() => ({
+    newPassword: {
+      required,
+    },
     confirmNewPassword: {
       sameAs: sameAs(newPassword),
     },
@@ -68,6 +71,9 @@ async function changePassword() {
       id: userId.value,
       changes,
     });
+    newPassword.value = '';
+    confirmNewPassword.value = '';
+    v$.value.$reset();
     $eventBus.$emit('notification', {
       type: 'success',
       text: 'Password is successfully updated!',

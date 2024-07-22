@@ -136,10 +136,6 @@ export default {
         return getNamespacedState(state, 'userinfo').userId;
       },
     }),
-    disablePasswordChange() {
-      this.v$.$touch();
-      return this.v$.$pending || this.v$.$error;
-    },
   },
   async mounted() {
     try {
