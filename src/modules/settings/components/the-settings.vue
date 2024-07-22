@@ -10,35 +10,7 @@
       in a column and give them half the width of the screen-->
       <section class="settings-section">
         <article class="settings-section__setting">
-          <header class="content-header">
-            <h3 class="content-title">
-              {{ $t('settings.changePassword') }}
-            </h3>
-          </header>
-          <form @submit="changePassword">
-            <wt-input
-              v-model="newPassword"
-              :label="$t('auth.password')"
-              :v="v$.newPassword"
-              required
-              type="password"
-            />
-            <wt-input
-              v-model="confirmNewPassword"
-              :label="$t('auth.confirmPassword')"
-              :v="v$.confirmNewPassword"
-              required
-              type="password"
-            />
-            <wt-button
-              :disabled="disablePasswordChange"
-              :loading="isPasswordPatching"
-              type="submit"
-              @click.prevent="changePassword"
-            >
-              {{ $t('objects.save') }}
-            </wt-button>
-          </form>
+          <change-password />
         </article>
         <section class="settings-section__setting">
           <header class="content-header">
@@ -106,21 +78,20 @@
 </template>
 
 <script>
-import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
-import { changePassword, changeWebPhone, getWebPhone } from '../api/settings';
+import { changeWebPhone, getWebPhone } from '../api/settings';
+import ChangePassword from './change-password.vue';
 import CustomRingtone from './custom-ringtone.vue';
 
 export default {
   name: 'TheSettings',
-  components: { CustomRingtone },
+  components: {
+    CustomRingtone,
+    ChangePassword,
+  },
   inject: ['$eventBus'],
-
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
   data: () => ({
     newPassword: '',
     confirmNewPassword: '',
@@ -155,17 +126,6 @@ export default {
       },
     ],
   }),
-  validations() {
-    return {
-      newPassword: {
-        required,
-      },
-      confirmNewPassword: {
-        sameAs: sameAs(this.newPassword),
-      },
-    };
-  },
-
   created() {
     this.restoreLanguage();
   },
@@ -192,27 +152,6 @@ export default {
   },
 
   methods: {
-    async changePassword() {
-      try {
-        this.isPasswordPatching = true;
-        const changes = {
-          password: this.newPassword,
-        };
-        await changePassword({
-          id: this.userId,
-          changes,
-        });
-        this.$eventBus.$emit('notification', {
-          type: 'success',
-          text: 'Password is successfully updated!',
-        });
-      } catch (err) {
-        throw err;
-      } finally {
-        this.isPasswordPatching = false;
-      }
-    },
-
     async changeWebrtc(value) {
       try {
         this.webrtc = value;
