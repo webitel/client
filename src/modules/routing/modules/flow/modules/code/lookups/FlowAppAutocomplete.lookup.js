@@ -52,7 +52,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.JS,
     insertText: {
       [FlowApp.JS]: {
-        data: 'var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + \'-\' + time.getDate() + \'-\' + time.getFullYear()',
+        data: "var time = LocalDate(); time.setDate(time.getDate() + (+${dpd}*-1)); return time.getMonth() + '-' + time.getDate() + '-' + time.getFullYear()",
         setVar: 'myVar',
       },
     },
@@ -182,25 +182,26 @@ const FlowAppAutocomplete = Object.freeze({
     label: FlowApp.EXPORT_VARIABLES,
     documentation: FlowApp.EXPORT_VARIABLES,
     insertText: {
-      [FlowApp.EXPORT_VARIABLES]: [
-        'reverted_caller_id_number',
-      ],
+      [FlowApp.EXPORT_VARIABLES]: ['reverted_caller_id_number'],
     },
   },
   [FlowApp.SET_VARIABLES]: {
     label: FlowApp.SET_VARIABLES,
     documentation: FlowApp.SET_VARIABLES,
     insertText: {
-      [FlowApp.SET_VARIABLES]: [{ key: '', value: '' }],
+      [FlowApp.SET_VARIABLES]: [
+        {
+          key: '',
+          value: '',
+        },
+      ],
     },
   },
   [FlowApp.UN_SET_VARIABLES]: {
     label: FlowApp.UN_SET_VARIABLES,
     documentation: FlowApp.UN_SET_VARIABLES,
     insertText: {
-      [FlowApp.UN_SET_VARIABLES]: [
-        'reverted_caller_id_number',
-      ],
+      [FlowApp.UN_SET_VARIABLES]: ['reverted_caller_id_number'],
     },
   },
   [FlowApp.LIST]: {
@@ -336,9 +337,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.CONFERENCE,
     insertText: {
       [FlowApp.CONFERENCE]: {
-        flags: [
-          'audio-always',
-        ],
+        flags: ['audio-always'],
         name: 'CR-$1',
         profile: 'video-mcu-stereo',
       },
@@ -479,9 +478,7 @@ const FlowAppAutocomplete = Object.freeze({
         completed: false,
         destination: '${caller_id_number}',
         name: 'Customer Name',
-        queue_ids: [
-          8,
-        ],
+        queue_ids: [8],
         set: {
           member_var1: 'sum',
           member_var2: 'credit',
@@ -560,9 +557,7 @@ const FlowAppAutocomplete = Object.freeze({
         completed: false,
         destination: '${caller_id_number}',
         name: 'Customer Name',
-        queue_ids: [
-          8,
-        ],
+        queue_ids: [8],
         patch: {
           bucket_id: 2,
           name: 'sum',

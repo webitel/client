@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="permissions-role-defaults-popup"
+    size="sm"
     min-width="480"
     overflow
     @close="close"
@@ -37,10 +38,8 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins
-  from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
-import PermissionsRoleSelect
-  from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
+import permissionsTabRolePopupMixins from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import PermissionsRoleSelect from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-select.vue';
 
 export default {
   name: 'OpenedObjectPermissionsRbacRolePopup',
@@ -53,7 +52,10 @@ export default {
   methods: {
     async save() {
       try {
-        await this.addRolePermissions({ grantee: this.newGrantee, grantor: this.newGrantor });
+        await this.addRolePermissions({
+          grantee: this.newGrantee,
+          grantor: this.newGrantor,
+        });
         this.$emit('close');
       } catch (err) {
         throw err;

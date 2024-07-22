@@ -74,13 +74,21 @@
               </wt-item-link>
             </template>
             <template #source="{ item }">
-              <wt-item-link
-                v-if="item.source"
-                :id="item.source.id"
-                :route-name="RouteNames.QUEUES"
-              >
-                {{ item.source.name }}
-              </wt-item-link>
+              <p>
+                {{ item.source ? item.source.name : '' }}
+              </p>
+
+<!--              https://webitel.atlassian.net/browse/WTEL-4559-->
+<!--              There is a bug with route-name in wt-item-link, as a temporary solution, we removed wt-item-link  -->
+
+              <!--              <wt-item-link-->
+              <!--              v-if="item.source"-->
+              <!--              :id="item.source.id"-->
+              <!--              :route-name="RouteNames.QUEUES"-->
+              <!--              >-->
+              <!--              {{ item.source.name }}-->
+              <!--              </wt-item-link>-->
+
             </template>
             <template #actions="{ item }">
               <upload-action
@@ -120,13 +128,12 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UploadAction from './import-csv-upload-action.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'integrations/importCsv';
 
@@ -136,7 +143,10 @@ export default {
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, showAction: true });
+    const { dummy } = useDummy({
+      namespace,
+      showAction: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -164,7 +174,9 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.integrations.integrations') },
+        {
+          name: this.$t('objects.integrations.integrations'),
+        },
         {
           name: this.$tc('objects.integrations.importCsv.importCsv', 2),
           route: '/integrations/import-csv',

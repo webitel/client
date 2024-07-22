@@ -50,7 +50,8 @@ export default {
         {
           text: this.$t('objects.permissions.object.ObAC'),
           value: 'obac',
-        }, {
+        },
+        {
           text: this.$t('objects.permissions.object.RbAC'),
           value: 'rbac',
         },
@@ -61,9 +62,17 @@ export default {
     path() {
       const baseUrl = '/permissions/objects';
       return [
-        { name: this.$t('objects.permissions.permissions') },
-        { name: this.$t('objects.permissions.object.object'), route: baseUrl },
-        { name: this.pathName, route: `${baseUrl}/${this.id}` },
+        {
+          name: this.$t('objects.permissions.permissions'),
+        },
+        {
+          name: this.$t('objects.permissions.object.object'),
+          route: baseUrl,
+        },
+        {
+          name: this.pathName,
+          route: `${baseUrl}/${this.id}`,
+        },
       ];
     },
   },

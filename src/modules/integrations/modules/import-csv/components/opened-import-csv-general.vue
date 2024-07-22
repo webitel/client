@@ -36,8 +36,7 @@
 
 <script>
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 
 export default {
@@ -46,11 +45,19 @@ export default {
   methods: {
     loadQueueOptions(params) {
       const type = [
-        QueueType.OFFLINE_QUEUE, QueueType.OUTBOUND_IVR_QUEUE, QueueType.PREVIEW_DIALER,
-        QueueType.PROGRESSIVE_DIALER, QueueType.PREDICTIVE_DIALER, QueueType.CHAT_INBOUND_QUEUE,
-        QueueType.INBOUND_JOB_QUEUE, QueueType.OUTBOUND_JOB_QUEUE,
+        QueueType.OFFLINE_QUEUE,
+        QueueType.OUTBOUND_IVR_QUEUE,
+        QueueType.PREVIEW_DIALER,
+        QueueType.PROGRESSIVE_DIALER,
+        QueueType.PREDICTIVE_DIALER,
+        QueueType.CHAT_INBOUND_QUEUE,
+        QueueType.INBOUND_JOB_QUEUE,
+        QueueType.OUTBOUND_JOB_QUEUE,
       ];
-      return QueuesAPI.getLookup({ ...params, type });
+      return QueuesAPI.getLookup({
+        ...params,
+        type,
+      });
     },
   },
 };

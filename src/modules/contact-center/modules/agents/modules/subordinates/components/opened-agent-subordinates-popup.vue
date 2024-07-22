@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
@@ -62,7 +63,10 @@ export default {
   methods: {
     async loadDropdownOptionsList(params) {
       const fields = ['id', 'name', 'supervisor'];
-      const response = await AgentsAPI.getRegularAgentsOptions({ ...params, fields });
+      const response = await AgentsAPI.getRegularAgentsOptions({
+        ...params,
+        fields,
+      });
       response.items = response.items.map((item) => ({
         ...item,
         supervisor: item.supervisor || [],

@@ -37,10 +37,11 @@ export default {
 
   methods: {
     createQueue() {
-      this.$router.push({ path: `/contact-center/queues/new/${this.selected.subpath}` });
+      this.$router.push({
+        path: `/contact-center/queues/new/${this.selected.subpath}`,
+      });
     },
   },
-
 };
 </script>
 

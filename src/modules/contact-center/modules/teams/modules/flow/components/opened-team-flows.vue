@@ -67,6 +67,7 @@
       >
         <template #schema="{ item }">
           <wt-item-link
+            target="_blank"
             :id="item.schema.id"
             :route-name="RouteNames.FLOW"
           >
@@ -109,12 +110,10 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
-import openedObjectTableTabMixin
-  from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import FlowPopup from './opened-team-flow-popup.vue';
 
 const namespace = 'ccenter/teams';
@@ -125,7 +124,10 @@ export default {
   components: { FlowPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
 
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -144,7 +146,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-    }
+    };
   },
   data: () => ({
     namespace,

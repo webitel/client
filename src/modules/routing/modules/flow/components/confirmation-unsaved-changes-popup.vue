@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="confirmation-unsaved-changes-popup"
+    size="sm"
     :width="500"
     @close="closePopup"
   >
@@ -35,7 +36,6 @@
   </wt-popup>
 </template>
 <script>
-
 export default {
   name: 'confirmation-unsaved-changes-popup',
   props: {

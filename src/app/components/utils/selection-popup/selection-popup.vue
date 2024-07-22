@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     :min-width="minWidth"
+    size="sm"
     class="selection-popup"
     overflow
     @close="close"
@@ -78,7 +79,7 @@ export default {
     },
     selected: {
       type: Object,
-      description: 'Should have following schema: { value: \'\', title: \'\', description: \'\'}',
+      description: "Should have following schema: { value: '', title: '', description: ''}",
     },
     options: {
       type: Array,

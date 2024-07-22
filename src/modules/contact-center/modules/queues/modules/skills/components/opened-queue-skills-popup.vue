@@ -1,11 +1,12 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.lookups.skills.skills', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -129,6 +130,11 @@ export default {
         },
       ];
     },
+    popupTitle() {
+      return this.id
+        ? this.$t('objects.ccenter.queues.skills.editSkill')
+        : this.$t('objects.ccenter.queues.skills.addSkill');
+    }
   },
 
   methods: {

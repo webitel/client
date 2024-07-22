@@ -36,12 +36,11 @@
         @input="setItemProp({ prop: 'email', value: $event })"
       />
 
-      <password-input
+      <user-password-input
         :disabled="disableUserInput"
-        :v="v.itemInstance.password"
-        :value="itemInstance.password"
+        :model-value="itemInstance.password"
         required
-        @input="setItemProp({ prop: 'password', value: $event })"
+        @update:model-value="setItemProp({ prop: 'password', value: $event })"
       />
 
       <qrcode
@@ -55,14 +54,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {
   name: 'OpenedUserGeneral',
-  components: { PasswordInput, Qrcode },
+  components: { UserPasswordInput, Qrcode },
   mixins: [openedTabComponentMixin],
   computed: {
     ...mapGetters('directory/users', {

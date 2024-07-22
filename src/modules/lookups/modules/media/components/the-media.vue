@@ -168,6 +168,8 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
@@ -178,9 +180,6 @@ import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;
@@ -198,7 +197,10 @@ export default {
   mixins: [exportFilesMixin, tableComponentMixin],
   inject: ['$eventBus'],
   setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace,
+      hiddenText: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -241,7 +243,9 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.lookups.lookups') },
+        {
+          name: this.$t('objects.lookups.lookups'),
+        },
         {
           name: this.$tc('objects.lookups.media.mediaFiles', 2),
           route: '/lookups/media',
@@ -319,8 +323,7 @@ export default {
       return new Date(+date).toLocaleDateString();
     },
     prettifyFormat(format) {
-      return format.split('/')
-      .pop();
+      return format.split('/').pop();
     },
     prettifyFileSize,
   },

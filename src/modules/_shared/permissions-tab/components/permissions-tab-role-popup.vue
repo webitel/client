@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="permissions-tab-role-popup"
+    size="sm"
     min-width="480"
     overflow
     @close="close"
@@ -31,8 +32,7 @@
 </template>
 
 <script>
-import permissionsTabRolePopupMixins
-  from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
+import permissionsTabRolePopupMixins from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabRolePopupMixin';
 import PermissionsRoleSelect from './_internals/permissions-role-select.vue';
 
 export default {

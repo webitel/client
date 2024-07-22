@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     @close="close"
   >
@@ -43,7 +44,10 @@ export default {
     },
     headers() {
       return [
-        { value: 'bucket', text: this.$t('reusable.name') },
+        {
+          value: 'bucket',
+          text: this.$t('reusable.name'),
+        },
       ];
     },
   },

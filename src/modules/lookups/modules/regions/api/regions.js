@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -17,27 +14,13 @@ import configuration from '../../../../../app/api/openAPIConfig';
 const regionService = new RegionServiceApiFactory(configuration, '', instance);
 
 const getRegionsList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
 
   try {
-    const response = await regionService.searchRegion(
-      page,
-      size,
-      search,
-      sort,
-      fields,
-      id,
-    );
+    const response = await regionService.searchRegion(page, size, search, sort, fields, id);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -47,62 +30,38 @@ const getRegionsList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getRegion = async ({ itemId: id }) => {
   try {
     const response = await regionService.readRegion(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const fieldsToSend = ['name', 'timezone', 'description'];
 
 const addRegion = async ({ itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await regionService.createRegion(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const updateRegion = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await regionService.updateRegion(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -111,17 +70,15 @@ const deleteRegion = async ({ id }) => {
     const response = await regionService.deleteRegion(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getRegionsLookup = (params) => getRegionsList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getRegionsLookup = (params) =>
+  getRegionsList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const RegionsAPI = {
   getList: getRegionsList,

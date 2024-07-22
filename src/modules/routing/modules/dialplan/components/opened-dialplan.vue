@@ -57,7 +57,10 @@ export default {
     itemInstance: {
       name: { required },
       schema: { required },
-      pattern: { required, regExpValidator },
+      pattern: {
+        required,
+        regExpValidator,
+      },
     },
   },
 
@@ -74,8 +77,13 @@ export default {
     path() {
       const baseUrl = '/routing/dialplan';
       return [
-        { name: this.$t('objects.routing.routing') },
-        { name: this.$t('objects.routing.dialplan.dialplan'), route: baseUrl },
+        {
+          name: this.$t('objects.routing.routing'),
+        },
+        {
+          name: this.$t('objects.routing.dialplan.dialplan'),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

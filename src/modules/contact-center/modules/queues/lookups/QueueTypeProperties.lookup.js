@@ -20,6 +20,7 @@ const QueueTypeProperties = Object.freeze({
       'recordings',
       'perNumbers',
       'minOnlineAgents',
+      'stickyAgent',
 
       // processing specific
       'taskProcessing.enabled',
@@ -44,6 +45,8 @@ const QueueTypeProperties = Object.freeze({
       'allowGreetingAgent',
       'stickyAgent',
       'stickyAgentSec',
+      'stickyIgnoreStatus',
+      'ignoreCalendar',
       'autoAnswerTone',
       'minOnlineAgents',
       'manualDistribution',
@@ -206,6 +209,8 @@ const QueueTypeProperties = Object.freeze({
       'maxIdleDialog',
       'stickyAgent',
       'stickyAgentSec',
+      'stickyIgnoreStatus',
+      'ignoreCalendar',
       'minOnlineAgents',
       'manualDistribution',
       'lastMessageTimeout',

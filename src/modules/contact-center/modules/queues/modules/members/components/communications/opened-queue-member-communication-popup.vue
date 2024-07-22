@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     @close="close"
   >
@@ -70,8 +71,7 @@ import { required } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import deepCopy from 'deep-copy';
 import { mapActions, mapState } from 'vuex';
-import nestedObjectMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';
 import { digitsDtmfOnly } from '../../validation/dtmf';
@@ -162,10 +162,8 @@ export default {
     loadResources(params) {
       return ResourcesAPI.getLookup(params);
     },
-    loadItem() {
-    },
-    resetState() {
-    },
+    loadItem() {},
+    resetState() {},
   },
 };
 </script>

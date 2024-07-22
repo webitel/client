@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import GatewaysAPI from '../api/gateways';
 import registerGateway from './_internals/gatewaySchema/registerGateway';
 import trunkingGateway from './_internals/gatewaySchema/trunkingGateway';
@@ -27,12 +26,22 @@ const actions = {
     context.commit('ADD_VARIABLE_PAIR', pair);
   },
   SET_VARIABLE_PROP: (context, { index, prop, value }) => {
-    context.commit('SET_VARIABLE_PROP', { index, prop, value });
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_VARIABLE_PROP', {
+      index,
+      prop,
+      value,
+    });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
   DELETE_VARIABLE_PAIR: (context, index) => {
     context.commit('DELETE_VARIABLE_PAIR', index);
-    context.commit('SET_ITEM_PROPERTY', { prop: '_dirty', value: true });
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
   },
 };
 
@@ -55,8 +64,8 @@ const mutations = {
 };
 
 const gateways = new ObjectStoreModule({ headers })
-.attachAPIModule(GatewaysAPI)
-.generateAPIActions()
-.getModule({ actions, mutations });
+  .attachAPIModule(GatewaysAPI)
+  .generateAPIActions()
+  .getModule({ actions, mutations });
 
 export default gateways;

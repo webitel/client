@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     @close="emit('cancel')"
   >
@@ -42,11 +43,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue } from '@vuelidate/validators';
 import { computed, onMounted, reactive } from 'vue';
 
-const emit = defineEmits([
-  'select',
-  'back',
-  'cancel',
-]);
+const emit = defineEmits(['select', 'back', 'cancel']);
 
 const state = reactive({
   capacity: 10,

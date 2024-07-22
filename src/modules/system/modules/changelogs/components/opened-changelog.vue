@@ -70,7 +70,10 @@ export default {
     itemInstance: {
       object: { required },
       // storage: { required },
-      daysToStore: { required, minValue: minValue(1) },
+      daysToStore: {
+        required,
+        minValue: minValue(1),
+      },
       // period: { required, minValue: minValue(1) },
     },
   },
@@ -96,8 +99,13 @@ export default {
     path() {
       const baseUrl = '/system/changelogs';
       return [
-        { name: this.$t('objects.system.system') },
-        { name: this.$tc('objects.system.changelogs.changelogs', 1), route: baseUrl },
+        {
+          name: this.$t('objects.system.system'),
+        },
+        {
+          name: this.$tc('objects.system.changelogs.changelogs', 1),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

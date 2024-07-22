@@ -271,6 +271,21 @@
         @input="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
       />
       <wt-switcher
+        v-if="specificControls.stickyIgnoreStatus"
+        v-show="itemInstance.stickyAgent"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.stickyIgnoreStatus')"
+        :value="itemInstance.payload.stickyIgnoreStatus"
+        @change="setItemPayloadProp({ prop: 'stickyIgnoreStatus', value: $event })"
+      />
+      <wt-switcher
+        v-if="specificControls.ignoreCalendar"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.ignoreCalendar')"
+        :value="itemInstance.payload.ignoreCalendar"
+        @change="setItemPayloadProp({ prop: 'ignoreCalendar', value: $event })"
+      />
+      <wt-switcher
         v-if="specificControls.manualDistribution"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.manualDistribution')"
@@ -291,8 +306,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
 import ToneList from '../store/_internals/lookups/Tone.lookup';
@@ -307,38 +321,49 @@ export default {
     autoAnswerTone: {
       get() {
         if (this.itemInstance.payload.autoAnswerTone) {
-          return this.ToneList
-          .find((tone) => tone.value === this.itemInstance.payload.autoAnswerTone);
+          return this.ToneList.find(
+            (tone) => tone.value === this.itemInstance.payload.autoAnswerTone,
+          );
         }
         /* https://my.webitel.com/browse/WTEL-3268 */
         /* For queues with types INBOUND_QUEUE, PROGRESSIVE_DIALER, */
         /* PREDICTIVE_DIALER add a default alert tone if there is no value */
-        if (this.itemInstance.type === QueueType.INBOUND_QUEUE
-          || this.itemInstance.type === QueueType.PROGRESSIVE_DIALER
-          || this.itemInstance.type === QueueType.PREDICTIVE_DIALER) {
+        if (
+          this.itemInstance.type === QueueType.INBOUND_QUEUE ||
+          this.itemInstance.type === QueueType.PROGRESSIVE_DIALER ||
+          this.itemInstance.type === QueueType.PREDICTIVE_DIALER
+        ) {
           return this.ToneList.find((tone) => tone.value === 'default');
         }
-
       },
       set(value) {
-        this.setItemPayloadProp({ prop: 'autoAnswerTone', value: value.value });
+        this.setItemPayloadProp({
+          prop: 'autoAnswerTone',
+          value: value.value,
+        });
       },
     },
     statisticTime: {
       get() {
-        return this.dropdownOptionsStatisticTimeList
-        .find((time) => time.value === this.itemInstance.payload.statisticTime);
+        return this.dropdownOptionsStatisticTimeList.find(
+          (time) => time.value === this.itemInstance.payload.statisticTime,
+        );
       },
       set(value) {
-        this.setItemPayloadProp({ prop: 'statisticTime', value: value.value });
+        this.setItemPayloadProp({
+          prop: 'statisticTime',
+          value: value.value,
+        });
       },
     },
     specificControls() {
-      return QueueTypeProperties[this.itemInstance.type].controls
-      .reduce((controls, control) => ({
-        ...controls,
-        [control]: true,
-      }), {});
+      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+        (controls, control) => ({
+          ...controls,
+          [control]: true,
+        }),
+        {},
+      );
     },
 
     dropdownOptionsStatisticTimeList() {

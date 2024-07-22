@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     @close="close"
   >
@@ -50,8 +51,7 @@ export default {
       try {
         await this.addToken();
         this.$emit('token-created');
-      } catch {
-      }
+      } catch {}
     },
     resetState() {},
   },

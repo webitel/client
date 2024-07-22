@@ -2,13 +2,12 @@ import instance from '../../../app/api/instance';
 import applyTransform, {
   camelToSnake,
   notify,
-  snakeToCamel
+  snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers';
 
 const baseUrl = 'users';
 
 export const getWebPhone = async () => {
-
   const url = 'user/settings/phone';
 
   try {
@@ -46,6 +45,19 @@ export const changeWebPhone = async (changes) => {
   }
 };
 
+export const getRingtonesList = async () => {
+  const url = `${import.meta.env.VITE_RINGTONES_URL}/index.json`;
+  try {
+    const ringtones = await fetch(url)
+    .then((res) => res.json());
+    return ringtones.ringtones;
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const patchItem = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     camelToSnake(),
@@ -68,9 +80,9 @@ export const changePassword = ({ id, changes }) => patchItem({
   changes,
 });
 
-
 export default {
   changePassword,
   changeWebPhone,
   getWebPhone,
+  getRingtonesList,
 };

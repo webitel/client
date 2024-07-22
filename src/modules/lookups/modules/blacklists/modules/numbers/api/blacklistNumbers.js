@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -17,15 +14,7 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 const listService = new ListServiceApiFactory(configuration, '', instance);
 
 const getBlacklistNumbersList = async (params) => {
-  const {
-    parentId,
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { parentId, page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -49,65 +38,37 @@ const getBlacklistNumbersList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getBlacklistNumber = async ({ itemId: id, parentId }) => {
   try {
     const response = await listService.readListCommunication(parentId, id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const fieldsToSend = ['listId', 'description', 'number', 'expireAt'];
 
 const addBlacklistNumber = async ({ parentId, itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await listService.createListCommunication(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
-const updateBlacklistNumber = async ({
-                                       parentId,
-                                       itemInstance,
-                                       itemId: id,
-                                     }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+const updateBlacklistNumber = async ({ parentId, itemInstance, itemId: id }) => {
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await listService.updateListCommunication(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -116,10 +77,7 @@ const deleteBlacklistNumber = async ({ parentId, id }) => {
     const response = await listService.deleteListCommunication(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

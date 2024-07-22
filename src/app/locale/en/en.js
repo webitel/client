@@ -18,22 +18,28 @@ export default {
     loginSubmit: 'Log in',
     carousel: {
       title1: 'Cloud vs. On-Site',
-      text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
+      text1:
+        'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
 
       title2: 'Multichannel VS Omni-Channel',
-      text2: 'Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it\'s easier than ever!',
+      text2:
+        "Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it's easier than ever!",
 
       title3: 'Fault-tolerant infrastructure',
-      text3: 'No more unplanned downtime. Fast scaling and fault-tolerant architecture allows you to simultaneously serve more than 1000 customer calls per minute from different communication channels.',
+      text3:
+        'No more unplanned downtime. Fast scaling and fault-tolerant architecture allows you to simultaneously serve more than 1000 customer calls per minute from different communication channels.',
 
       title4: 'Design',
-      text4: 'The new minimalistic interface with the most user-friendly admin panel that allows you to have quick access to all the necessary functions. Less clicks - more features.',
+      text4:
+        'The new minimalistic interface with the most user-friendly admin panel that allows you to have quick access to all the necessary functions. Less clicks - more features.',
 
       title5: 'New agent group work module',
-      text5: 'The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.',
+      text5:
+        'The most efficient call distribution. An agent can have several skills at once for participating in different campaigns. The client is served only by professionals.',
 
       title6: 'Setting Permissions',
-      text6: 'New permissions management module - new opportunities for control. Users can make changes only to sections, as well as to actions.',
+      text6:
+        'New permissions management module - new opportunities for control. Users can make changes only to sections, as well as to actions.',
     },
   },
 
@@ -59,6 +65,12 @@ export default {
     webPhone: 'WebPhone',
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
+    ringtones: {
+      title: 'Change ringtone',
+      ringtone: 'Ringtone',
+      customRingtone: 'Use the custom ringtone',
+    },
+    callEnd: 'Call end tune infroming',
   },
 
   validation: {
@@ -162,7 +174,8 @@ export default {
 
     deleteConfirmation: {
       title: 'Confirm deletion',
-      askingAlert: 'Are you sure you want to delete {count} item? | Are you sure you want to delete {count} items?',
+      askingAlert:
+        'Are you sure you want to delete {count} item? | Are you sure you want to delete {count} items?',
       undoneActionAlert: 'This action cannot be undone.',
       deleteAll: 'ALL',
     },
@@ -178,7 +191,8 @@ export default {
     objectHeader: {},
     directory: {
       directory: 'Directory',
-      passwordInfo: 'Enter value only if you want to edit it (or create a new one). The empty field will leave the value unchanged',
+      passwordInfo:
+        'Enter value only if you want to edit it (or create a new one). The empty field will leave the value unchanged',
       users: {
         users: 'User | Users',
         allUsers: 'All users',
@@ -195,21 +209,23 @@ export default {
         license: 'License',
         devices: 'Devices',
         defaultDevice: 'Default device (from list of selected devices)',
-        deviceNotFound: 'Didn\'t find the device?',
+        deviceNotFound: "Didn't find the device?",
         createNewDevice: 'Add new',
         variables: 'Variables',
         varKey: 'Key',
         varVal: 'Value',
         token: 'Token | Tokens',
         tokenPopupHeader: 'Your token key has been created successfully!',
-        tokenPopupText: 'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
+        tokenPopupText:
+          'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
         tokenPopupCopy: 'Copy to clipboard',
         tokenPopupSave: 'Save as TXT',
         userIp: 'User IP',
         userId: 'User ID',
         download: 'Download',
         regenerate: 'Regenerate',
-        askingAlert: 'Are you sure you want to regenerate the code? The user won’t be able to log in',
+        askingAlert:
+          'Are you sure you want to regenerate the code? The user won’t be able to log in',
       },
       license: {
         customers: 'Customers',
@@ -228,9 +244,9 @@ export default {
         searchPlaceholder: 'Serial, product',
         domain: 'Domain',
         daysToExpire: {
-          '0': 'Expired',
-          '30': '30 or less',
-          '90': '90 or less',
+          0: 'Expired',
+          30: '30 or less',
+          90: '90 or less',
           days: ' days',
         },
         importLicense: 'Import license',
@@ -248,7 +264,8 @@ export default {
         hotdeskDevice: 'Hot desking device',
         hotdeskDeviceSettings: 'Hot desking device settings',
         hotdeskIncorrectInput: 'Incorrect Host Name',
-        hotdeskInputHint: 'To make it easier to identify this device, you should cover it with friendly hot-desk aliases. Valid name must contain following characters: A-Z, a-z, 0-9, -, _',
+        hotdeskInputHint:
+          'To make it easier to identify this device, you should cover it with friendly hot-desk aliases. Valid name must contain following characters: A-Z, a-z, 0-9, -, _',
         deviceSettings: 'Device settings',
         hostName: 'Host Name',
         phoneInfo: 'Phone info',
@@ -268,7 +285,7 @@ export default {
           dialog: 'Dialog',
           onhold: 'On hold',
         },
-        passwordSetFromAccount: 'If you won\'t set password, it would be the same as account',
+        passwordSetFromAccount: "If you won't set password, it would be the same as account",
       },
     },
     permissions: {
@@ -302,9 +319,11 @@ export default {
           manageUserRolesDescription: 'Grants permission to manage a set of user roles',
           manageUserLicenseDescription: 'Grants permission to manage a set of user license',
           changeUserPasswordDescription: 'Grants permission to change the users password',
-          systemSettingDescription: 'Grants permission to access and manage the Configuration section',
+          systemSettingDescription:
+            'Grants permission to access and manage the Configuration section',
           schemeVariables: 'Manage global variables',
-          schemeVariablesDescription: 'Grants permission to access and manage the Global variables section',
+          schemeVariablesDescription:
+            'Grants permission to access and manage the Global variables section',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -327,9 +346,9 @@ export default {
         create: 'Create',
         delete: 'Delete',
         accessMode: {
-          '1': 'Forbidden',
-          '2': 'Allow',
-          '3': 'Allow with delegation',
+          1: 'Forbidden',
+          2: 'Allow',
+          3: 'Allow with delegation',
         },
       },
     },
@@ -509,12 +528,11 @@ export default {
         SIPregistrationsDescription: 'SIP registration description',
         SIPtrunking: 'SIP Trunking',
         SIPtrunkingDescription: 'SIP trunking description',
-
       },
       chatGateways: {
         templates: {
           templates: 'Templates',
-          title: 'Workspace member\'s name',
+          title: "Workspace member's name",
           close: 'Chat complete message',
           join: 'Agent joining message',
           left: 'Agent disconnection message',
@@ -526,7 +544,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram App',
-          signedAs: 'You\'re signed as',
+          signedAs: "You're signed as",
           joinTelegram: 'Sign in to Telegram',
           metadata: {
             apiId: 'API id',
@@ -572,7 +590,8 @@ export default {
         webchat: {
           webchat: 'Web chat',
           copyCode: 'Copy code for site',
-          copyCodeHint: 'You must regenerate and reinsert Widget code to website each time after Widget settings modification',
+          copyCodeHint:
+            'You must regenerate and reinsert Widget code to website each time after Widget settings modification',
           metadata: {
             mediaMaxSize: 'Max media size (Mb)',
           },
@@ -583,7 +602,7 @@ export default {
             position: 'Position',
             btnColor: 'Button Color',
             logoUrl: 'Logo URL',
-            logoHint: 'Supported logo format is \'JPEG\' or \'PNG\', 24x24px',
+            logoHint: "Supported logo format is 'JPEG' or 'PNG', 24x24px",
             rounded: 'Rounded',
             square: 'Square',
             right: 'Right',
@@ -720,11 +739,19 @@ export default {
         hooks: {
           eventTypes: {
             agentStatus: 'Agent status changed',
-          }
+          },
         },
         flows: {
           addFlowSchema: 'Add flow schema',
           editFlowSchema: 'Edit flow schema',
+        },
+        supervisors: {
+          addSupervisor: 'Add supervisor',
+          editSupervisor: 'Edit supervisor',
+        },
+        agents: {
+          addAgent: 'Add agent',
+          editAgent: 'Edit agent',
         },
       },
 
@@ -770,20 +797,25 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
-        newQueueDescription: 'New queue descriotion',
+        newQueueDescription: 'New queue description',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',
-        outboundIVRQueueDescription: 'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
+        outboundIVRQueueDescription:
+          'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
         inboundQueue: 'Inbound queue',
-        inboundQueueDescription: 'An Inbound queue is that it\'s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
+        inboundQueueDescription:
+          "An Inbound queue is that it's where callers are placed on hold, in a queue, while they wait to speak with a live agent.",
         offlineQueue: 'Offline queue',
-        offlineQueueDescription: 'An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it\'s their turn.',
+        offlineQueueDescription:
+          "An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it's their turn.",
         previewDialer: 'Preview dialer',
         previewDialerDescription: 'Preview the contact before auto dialing them.',
         progressiveDialer: 'Progressive dialer',
-        progressiveDialerDescription: 'Progressive dialing minimizes wasted time between calls by automatically dialing a number from a call list as soon as an agent becomes available.',
+        progressiveDialerDescription:
+          'Progressive dialing minimizes wasted time between calls by automatically dialing a number from a call list as soon as an agent becomes available.',
         predictiveDialer: 'Predictive dialer',
-        predictiveDialerDescription: 'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
+        predictiveDialerDescription:
+          'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
         chatInboundQueue: 'Chat inbound queue',
         chatInboundQueueDescription: 'The same as inbound queue, but with chats',
         inboundJobQueue: 'Inbound task queue',
@@ -846,7 +878,7 @@ export default {
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
         maxCalls: 'Max tasks',
-        maxCallsHint: 'If value is 0, dialer won\'t call',
+        maxCallsHint: "If value is 0, dialer won't call",
         recordings: 'Recording',
         recordAll: 'Start record after answer',
         perNumbers: 'Dialing Attempts per each phone number',
@@ -863,6 +895,8 @@ export default {
         communications: 'Communication type',
         manualDistribution: 'Manual distribution',
         lastMessageTimeout: 'Timeout from the last message',
+        stickyIgnoreStatus: 'Ignore agent status',
+        ignoreCalendar: 'Ignore calendar',
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',
@@ -909,6 +943,14 @@ export default {
             processing: 'Processing',
             active: 'Active',
           },
+        },
+        skills: {
+          editSkill: 'Edit skill',
+          addSkill: 'Add skill',
+        },
+        buckets: {
+          addBucket: 'Add bucket',
+          editBucket: 'Edit bucket',
         },
       },
 
@@ -1015,7 +1057,8 @@ export default {
         source: 'Import destination',
         settings: 'Settings',
         mappings: 'Field mappings',
-        mappingsHint: 'In this section you should provide names of CSV file columns in inputs below in accordance with its labels',
+        mappingsHint:
+          'In this section you should provide names of CSV file columns in inputs below in accordance with its labels',
         columnHeader: '{name} column',
         members: {
           clearMembers: 'Purge existing members',
@@ -1026,7 +1069,8 @@ export default {
         tokens: 'Token | Tokens',
         allTokens: 'All tokens',
         expires: 'Expires on',
-        popupMessage: 'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
+        popupMessage:
+          'Download your key file now or copy it. If you do not download the key file now, you will not be able to retrieve your token key again. To help protect your security, store your token key securely and do not share it.',
         tokenCreated: 'Your token has been successfully created!',
       },
 
@@ -1036,7 +1080,8 @@ export default {
         type: 'Type',
         schema: 'Schema',
         newTrigger: 'New trigger',
-        newTriggerDescription: 'Choose a template to get going or start from scratch with a blank canvas',
+        newTriggerDescription:
+          'Choose a template to get going or start from scratch with a blank canvas',
         onEvent: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
@@ -1083,7 +1128,6 @@ export default {
             monthly: 'Monthly',
           },
         },
-
       },
       configuration: {
         configuration: 'Configuration | Configurations',
@@ -1123,8 +1167,8 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: 'Looks like you\'re lost',
-      text: 'Sorry, we can\'t find the page you want.',
+      title: "Looks like you're lost",
+      text: "Sorry, we can't find the page you want.",
     },
   },
 

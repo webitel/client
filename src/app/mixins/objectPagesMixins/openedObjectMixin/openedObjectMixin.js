@@ -1,13 +1,9 @@
-import getNamespacedState
-  from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import Permissions
-  from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
+import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
-import headlineNavMixin
-  from '../../baseMixins/headlineNavMixin/headlineNavMixin';
-import openedObjectAccessControlMixin
-  from './_internals/openedObjectAccessControlMixin';
+import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
+import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
@@ -16,11 +12,7 @@ import openedObjectAccessControlMixin
  * @extends baseObjectMixin
  */
 export default {
-  mixins: [
-    openedObjectAccessControlMixin,
-    headlineNavMixin,
-    baseObjectMixin,
-  ],
+  mixins: [openedObjectAccessControlMixin, headlineNavMixin, baseObjectMixin],
   components: {
     Permissions,
   },
@@ -70,6 +62,11 @@ export default {
     },
 
     close() {
+
+      // Need to close the tab if it was open in a new tab
+      // https://webitel.atlassian.net/browse/WTEL-4575
+
+      if(window.history.length === 1) window.close();
       this.$router.go(-1);
     },
   },

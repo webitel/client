@@ -134,6 +134,8 @@
 </template>
 
 <script>
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
@@ -141,9 +143,6 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
-import DeleteConfirmationPopup
-from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 const namespace = 'directory/users';
 
@@ -153,12 +152,15 @@ export default {
     UploadPopup,
     UserStatus,
     UploadFileIconBtn,
-    DeleteConfirmationPopup
+    DeleteConfirmationPopup,
   },
   mixins: [tableComponentMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace,
+      hiddenText: true,
+    });
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -188,8 +190,13 @@ export default {
   computed: {
     path() {
       return [
-        { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.users.users', 2), route: '/directory/users' },
+        {
+          name: this.$t('objects.directory.directory'),
+        },
+        {
+          name: this.$tc('objects.directory.users.users', 2),
+          route: '/directory/users',
+        },
       ];
     },
   },
@@ -202,7 +209,7 @@ export default {
     }),
 
     getDND(value) {
-      if (value && value.status) {
+      if (value?.status) {
         return value.status.includes('dnd');
       }
       return false;

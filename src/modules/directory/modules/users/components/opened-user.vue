@@ -46,7 +46,10 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, requiredIf, requiredUnless } from '@vuelidate/validators';
+import { helpers, required, requiredIf } from '@vuelidate/validators';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
@@ -56,6 +59,8 @@ import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
+
+const namespace = 'directory/users';
 
 export default {
   name: 'OpenedUser',
@@ -71,33 +76,57 @@ export default {
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'directory/users',
-  }),
-  validations: {
-    itemInstance: {
-      username: { required },
-      password: {
-        required: requiredUnless((value, item) => !!item.id),
-      },
-      variables: {
-        $each: helpers.forEach({
-          key: { required: requiredIf((value, item) => !!item.value) },
-          value: { required: requiredIf((value, item) => !!item.key) },
-        }),
-      },
-    },
+  setup: () => {
+    const store = useStore();
+
+    const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
+
+    /** useVuelidate collects nested validations,
+     *  so that it collects validation from nested user-password-input.vue */
+    const v$ = useVuelidate(
+      computed(() => ({
+        itemInstance: {
+          username: { required },
+
+          /** see comment above */
+          // password: {
+          //   required: requiredUnless((value, item) => !!item.id),
+          // },
+          variables: {
+            $each: helpers.forEach({
+              key: {
+                required: requiredIf((value, item) => !!item.value),
+              },
+              value: {
+                required: requiredIf((value, item) => !!item.key),
+              },
+            }),
+          },
+        },
+      })),
+      { itemInstance },
+      { $autoDirty: true },
+    );
+
+    return { v$ };
   },
+  data: () => ({
+    namespace,
+    passwordRegExp: '',
+    validationText: '',
+  }),
 
   computed: {
     path() {
       const baseUrl = '/directory/users';
       return [
-        { name: this.$t('objects.directory.directory') },
-        { name: this.$tc('objects.directory.users.users', 2), route: baseUrl },
+        {
+          name: this.$t('objects.directory.directory'),
+        },
+        {
+          name: this.$tc('objects.directory.users.users', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

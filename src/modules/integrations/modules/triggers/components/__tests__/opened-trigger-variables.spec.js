@@ -1,7 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
-import OpenedTabComponentMixinMock
-  from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
+import OpenedTabComponentMixinMock from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
 import OpenedTriggerVariables from '../opened-trigger-variables.vue';
 
 describe('OpenedTriggerVariables', () => {
@@ -10,15 +9,20 @@ describe('OpenedTriggerVariables', () => {
   };
 
   it('renders a component', () => {
-    const wrapper = shallowMount(OpenedTriggerVariables, deepmerge.all([
-      OpenedTabComponentMixinMock(),
-      {
-        props: {
-          v: { itemInstance: {} },
+    const wrapper = shallowMount(
+      OpenedTriggerVariables,
+      deepmerge.all([
+        OpenedTabComponentMixinMock(),
+        {
+          props: {
+            v: {
+              itemInstance: {},
+            },
+          },
+          computed,
         },
-        computed,
-      },
-    ]));
+      ]),
+    );
     expect(wrapper.exists()).toBe(true);
   });
 });

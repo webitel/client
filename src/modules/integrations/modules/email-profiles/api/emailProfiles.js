@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -47,13 +44,7 @@ const getList = async (params) => {
     enabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -71,15 +62,11 @@ const getList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -92,14 +79,9 @@ const get = async ({ itemId: id }) => {
 
   try {
     const response = await emailProfilesService.readEmailProfile(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -111,30 +93,19 @@ const add = async ({ itemInstance }) => {
   ]);
   try {
     const response = await emailProfilesService.createEmailProfile(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patch = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await emailProfilesService.patchEmailProfile(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -146,13 +117,9 @@ const update = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await emailProfilesService.updateEmailProfile(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -161,38 +128,33 @@ const deleteItem = async ({ id }) => {
     const response = await emailProfilesService.deleteEmailProfile(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getLookup = (params) =>
+  getList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const login = async ({ id }) => {
   try {
     const response = await emailProfilesService.loginEmailProfile(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
-}
+};
 
 const logout = async ({ id }) => {
   try {
     const response = await emailProfilesService.logoutEmailProfile(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
-}
+};
 
 const EmailProfilesAPI = {
   getList,

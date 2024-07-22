@@ -93,11 +93,19 @@ export default {
   validations() {
     const defaults = {
       itemInstance: {
-        name: { required },
-        calendar: { required },
-        priority: { minValue: minValue(0) },
+        name: {
+          required,
+        },
+        calendar: {
+          required,
+        },
+        priority: {
+          minValue: minValue(0),
+        },
         payload: {
-          minOnlineAgents: { minValue: minValue(0) },
+          minOnlineAgents: {
+            minValue: minValue(0),
+          },
         },
       },
     };
@@ -105,9 +113,14 @@ export default {
       case QueueType.OFFLINE_QUEUE:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              originateTimeout: { required, minValue: minValue(0) },
+              originateTimeout: {
+                required,
+                minValue: minValue(0),
+              },
             },
           },
         });
@@ -115,88 +128,167 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             payload: {
-              timeBaseScore: { required },
-              maxWaitTime: { required, minValue: minValue(0) },
-              discardAbandonedAfter: { minValue: minValue(0) },
+              timeBaseScore: {
+                required,
+              },
+              maxWaitTime: {
+                required,
+                minValue: minValue(0),
+              },
+              discardAbandonedAfter: {
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.OUTBOUND_IVR_QUEUE:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              maxAttempts: { required },
-              originateTimeout: { required, minValue: minValue(0) },
-              waitBetweenRetries: { required, minValue: minValue(0) },
-              minDuration: { minValue: minValue(0) },
+              maxAttempts: {
+                required,
+              },
+              originateTimeout: {
+                required,
+                minValue: minValue(0),
+              },
+              waitBetweenRetries: {
+                required,
+                minValue: minValue(0),
+              },
+              minDuration: {
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.PREVIEW_DIALER:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              maxAttempts: { required },
-              originateTimeout: { required, minValue: minValue(0) },
-              waitBetweenRetries: { required, minValue: minValue(0) },
+              maxAttempts: {
+                required,
+              },
+              originateTimeout: {
+                required,
+                minValue: minValue(0),
+              },
+              waitBetweenRetries: {
+                required,
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.PROGRESSIVE_DIALER:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              maxAttempts: { required },
-              originateTimeout: { required, minValue: minValue(0) },
-              waitBetweenRetries: { required, minValue: minValue(0) },
+              maxAttempts: {
+                required,
+              },
+              originateTimeout: {
+                required,
+                minValue: minValue(0),
+              },
+              waitBetweenRetries: {
+                required,
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.PREDICTIVE_DIALER:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              maxAttempts: { required },
-              originateTimeout: { required, minValue: minValue(0) },
-              waitBetweenRetries: { required, minValue: minValue(0) },
-              maxWaitTime: { minValue: minValue(0) },
+              maxAttempts: {
+                required,
+              },
+              originateTimeout: {
+                required,
+                minValue: minValue(0),
+              },
+              waitBetweenRetries: {
+                required,
+                minValue: minValue(0),
+              },
+              maxWaitTime: {
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.CHAT_INBOUND_QUEUE:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              timeBaseScore: { required },
-              maxWaitTime: { required, minValue: minValue(0) },
-              discardAbandonedAfter: { minValue: minValue(0) },
+              timeBaseScore: {
+                required,
+              },
+              maxWaitTime: {
+                required,
+                minValue: minValue(0),
+              },
+              discardAbandonedAfter: {
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.INBOUND_JOB_QUEUE:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              maxAttempts: { required },
-              waitBetweenRetries: { required, minValue: minValue(0) },
+              maxAttempts: {
+                required,
+              },
+              waitBetweenRetries: {
+                required,
+                minValue: minValue(0),
+              },
             },
           },
         });
       case QueueType.OUTBOUND_JOB_QUEUE:
         return deepmerge(defaults, {
           itemInstance: {
-            strategy: { required },
+            strategy: {
+              required,
+            },
             payload: {
-              maxAttempts: { required },
-              originateTimeout: { required, minValue: minValue(0) },
-              waitBetweenRetries: { required, minValue: minValue(0) },
-              minDuration: { minValue: minValue(0) },
+              maxAttempts: {
+                required,
+              },
+              originateTimeout: {
+                required,
+                minValue: minValue(0),
+              },
+              waitBetweenRetries: {
+                required,
+                minValue: minValue(0),
+              },
+              minDuration: {
+                minValue: minValue(0),
+              },
             },
           },
         });
@@ -289,10 +381,15 @@ export default {
       const title = this.$t(QueueTypeProperties[this.queueType].locale);
       const baseUrl = '/contact-center/queues';
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.queues.queues', 2), route: baseUrl },
         {
-          name: `${(this.id ? this.pathName : this.$t('objects.new'))} (${title})`,
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.$tc('objects.ccenter.queues.queues', 2),
+          route: baseUrl,
+        },
+        {
+          name: `${this.id ? this.pathName : this.$t('objects.new')} (${title})`,
           route: `${baseUrl}/${this.id ? this.id : 'new'}/${QueueTypeProperties[this.queueType].subpath}`,
         },
       ];
@@ -300,13 +397,15 @@ export default {
   },
   methods: {
     async loadPageData() {
-      const type = +(Object.entries(QueueTypeProperties).find(([type, { subpath }]) => {
-        if (subpath === this.$route.params.type) {
-          this.itemInstance.type = +type;
-          return true;
-        }
-        return false;
-      }).at(0));
+      const type = +Object.entries(QueueTypeProperties)
+        .find(([type, { subpath }]) => {
+          if (subpath === this.$route.params.type) {
+            this.itemInstance.type = +type;
+            return true;
+          }
+          return false;
+        })
+        .at(0);
       await this.setId(this.$route.params.id);
       return this.loadItem(type);
     },

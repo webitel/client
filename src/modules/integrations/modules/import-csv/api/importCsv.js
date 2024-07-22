@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -19,9 +16,9 @@ const importCsvService = new ImportTemplateServiceApiFactory(configuration, '', 
 const doNotConvertKeys = ['mappings'];
 
 /*
-* We need to preserve fields order because we draw them dynamically so that
-* we convert it to array before sending to backend and back
-* */
+ * We need to preserve fields order because we draw them dynamically so that
+ * we convert it to array before sending to backend and back
+ * */
 // const itemResponseHandler = (response) => {
 //   // eslint-disable-next-line no-param-reassign
 //   response.parameters.mappings = response.parameters.mappings
@@ -32,9 +29,9 @@ const doNotConvertKeys = ['mappings'];
 // };
 
 /*
-* We need to preserve fields order because we draw them dynamically so that
-* we convert it to array before sending to backend and back
-* */
+ * We need to preserve fields order because we draw them dynamically so that
+ * we convert it to array before sending to backend and back
+ * */
 // const preRequestHandler = (item) => {
 //   const mappings = Object.entries(item.parameters.mappings)
 //   .map(([name, value]) => ({ name, ...value }));
@@ -44,14 +41,7 @@ const doNotConvertKeys = ['mappings'];
 // };
 
 const getList = async (params) => {
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -74,32 +64,20 @@ const getList = async (params) => {
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const get = async ({ itemId: id }) => {
   try {
     const response = await importCsvService.readImportTemplate(id);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const fieldsToSend = [
-  'description',
-  'name',
-  'parameters',
-  'source',
-  'sourceType',
-];
+const fieldsToSend = ['description', 'name', 'parameters', 'source', 'sourceType'];
 
 const add = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
@@ -108,30 +86,19 @@ const add = async ({ itemInstance }) => {
   ]);
   try {
     const response = await importCsvService.createImportTemplate(item);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patch = async ({ changes, id }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(doNotConvertKeys),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake(doNotConvertKeys)]);
   try {
     const response = await importCsvService.updateImportTemplate(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -142,13 +109,9 @@ const update = async ({ itemInstance, itemId: id }) => {
   ]);
   try {
     const response = await importCsvService.updateImportTemplate(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(doNotConvertKeys),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -157,16 +120,15 @@ const deleteItem = async ({ id }) => {
     const response = await importCsvService.deleteImportTemplate(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
-const getLookup = (params) => getList({
-  ...params,
-  fields: params.fields || ['id', 'name'],
-});
+const getLookup = (params) =>
+  getList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
 
 const ImportCsvAPI = {
   getList,

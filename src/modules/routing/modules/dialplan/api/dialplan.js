@@ -1,7 +1,4 @@
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -20,14 +17,7 @@ const dialplanService = new RoutingOutboundCallServiceApiFactory(configuration, 
 const getDialplanList = async (params) => {
   const defaultObject = { disabled: false };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -46,85 +36,52 @@ const getDialplanList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const getDialplan = async ({ itemId: id }) => {
   try {
     const response = await dialplanService.readRoutingOutboundCall(id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const fieldsToSend = ['name', 'schema', 'pattern', 'description', 'disabled'];
 
 const addDialplan = async ({ itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await dialplanService.createRoutingOutboundCall(item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const updateDialplan = async ({ itemInstance, itemId: id }) => {
-  const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await dialplanService.updateRoutingOutboundCall(id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchDialplan = async ({ id, changes }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await dialplanService.patchRoutingOutboundCall(id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -133,10 +90,7 @@ const deleteDialplan = async ({ id }) => {
     const response = await dialplanService.deleteRoutingOutboundCall(id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -144,16 +98,15 @@ const moveDialplan = async ({ fromId, toId }) => {
   try {
     const response = await dialplanService.movePositionRoutingOutboundCall(fromId, toId, {});
     return applyTransform(response.data, [
-      notify(({ callback }) => callback({
-        type: 'info',
-        text: 'Successfully saved',
-      })),
+      notify(({ callback }) =>
+        callback({
+          type: 'success',
+          text: 'Successfully saved',
+        }),
+      ),
     ]);
   } catch (err) {
-    throw applyTransform(err, [
-
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

@@ -8,8 +8,7 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin
-  from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 export default {
@@ -57,7 +56,10 @@ export default {
       }
     },
     addItem(itemInstance) {
-      return BlacklistNumbersAPI.add({ parentId: this.parentId, itemInstance });
+      return BlacklistNumbersAPI.add({
+        parentId: this.parentId,
+        itemInstance,
+      });
     },
   },
 };

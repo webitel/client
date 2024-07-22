@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
@@ -44,8 +45,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import openedObjectValidationMixin
-  from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
+import openedObjectValidationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import SkillsAPI from '../../../api/agentSkills';
 
 export default {
@@ -89,7 +89,10 @@ export default {
         enabled: this.skillState,
         skill: this.itemInstance.skill,
       };
-      this.$emit('change', { changes, id });
+      this.$emit('change', {
+        changes,
+        id,
+      });
       this.close();
     },
     close() {

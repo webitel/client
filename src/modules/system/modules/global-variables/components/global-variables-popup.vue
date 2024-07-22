@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     overflow
+    size="sm"
     width="480"
     @close="close"
   >
@@ -57,8 +58,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'GlobalVariablesPopup',
@@ -83,8 +83,8 @@ export default {
     itemInstance: {
       name: { required },
       value: {
-        required: requiredIf(function() {
-          return !this.itemInstance.id || !this.startEncryptValue
+        required: requiredIf(function () {
+          return !this.itemInstance.id || !this.startEncryptValue;
         }),
       },
     },

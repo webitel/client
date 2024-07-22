@@ -1,11 +1,12 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.ccenter.res.res', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -71,6 +72,12 @@ export default {
     itemInstance: {
       resource: { required },
     },
+  },
+  computed: {
+    popupTitle() {
+      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
+      return action + ' ' + this.$tc('objects.ccenter.res.res', 1).toLowerCase();
+    }
   },
 
   methods: {

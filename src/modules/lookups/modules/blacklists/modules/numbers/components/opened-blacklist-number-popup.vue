@@ -1,11 +1,12 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
   >
     <template #title>
-      {{ $t('objects.lookups.blacklist.newNumber') }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form class="opened-blacklist-number-popup__wrapper">
@@ -72,10 +73,19 @@ export default {
       number: { required },
     },
   },
+  computed: {
+    popupTitle() {
+      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
+      return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
+    },
+  },
   watch: {
     showExpireDate() {
       if (this.itemInstance.expireAt && this.showExpireDate) return;
-      this.setItemProp({ prop: 'expireAt', value: this.showExpireDate ? Date.now() : 0 });
+      this.setItemProp({
+        prop: 'expireAt',
+        value: this.showExpireDate ? Date.now() : 0,
+      });
     },
     'itemInstance.id': {
       handler() {

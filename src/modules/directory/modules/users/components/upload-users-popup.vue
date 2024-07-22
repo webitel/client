@@ -54,7 +54,9 @@ export default {
       }
     },
     addItem(itemInstance) {
-      return UsersAPI.add({ itemInstance });
+      return UsersAPI.add({
+        itemInstance,
+      });
     },
   },
 };

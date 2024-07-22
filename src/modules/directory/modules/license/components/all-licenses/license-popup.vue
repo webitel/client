@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     @close="close"
   >
@@ -64,7 +65,9 @@ export default {
     }),
     async save() {
       if (!this.invalid) {
-        await this.updateItem({ certificate: this.certificate });
+        await this.updateItem({
+          certificate: this.certificate,
+        });
         this.close();
       }
     },

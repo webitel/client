@@ -4,7 +4,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'OpenedFlowDiagram',
   created() {
@@ -15,9 +14,7 @@ export default {
     // [https://webitel.atlassian.net/browse/WTEL-4509]
     // Temporary solution - open in a new browser tab Flow diagram
 
-    // window.location.replace(redirectUrl);
-    window.open(redirectUrl, '_blank');
-    this.$router.go(-1);
+    window.location.replace(redirectUrl);
   },
 };
 </script>

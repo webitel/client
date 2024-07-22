@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
@@ -112,21 +113,22 @@ export default {
       this.close();
     },
     async loadPermissionsList(params) {
-      const response = await RolesAPI.getPermissionsOptions({ ...params, size: 5000 });
+      const response = await RolesAPI.getPermissionsOptions({
+        ...params,
+        size: 5000,
+      });
       response.items = response.items
-      .filter((permission) => (
-        this.permissions.every((addedPermission) => addedPermission.id !== permission.id)
-      ))
-      .map((permission) => ({
-        ...permission,
-        name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
-      }));
+        .filter((permission) =>
+          this.permissions.every((addedPermission) => addedPermission.id !== permission.id),
+        )
+        .map((permission) => ({
+          ...permission,
+          name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
+        }));
       return response;
     },
-    loadItem() {
-    },
-    resetState() {
-    },
+    loadItem() {},
+    resetState() {},
   },
 };
 </script>

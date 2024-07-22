@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="upload-popup"
+    size="md"
     min-width="680"
     @close="close"
   >

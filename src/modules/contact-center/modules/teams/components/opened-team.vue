@@ -39,11 +39,11 @@ import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Agents from '../modules/agents/components/opened-team-agents.vue';
+import Flows from '../modules/flow/components/opened-team-flows.vue';
+import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import General from './opened-team-general.vue';
 import Parameters from './opened-team-parameters.vue';
-import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
-import Flows from '../modules/flow/components/opened-team-flows.vue';
 
 export default {
   name: 'OpenedTeam',
@@ -68,12 +68,30 @@ export default {
     itemInstance: {
       name: { required },
       strategy: { required },
-      maxNoAnswer: { numeric, required },
-      wrapUpTime: { numeric, required },
-      noAnswerDelayTime: { numeric, required },
-      taskAcceptTimeout: { numeric, required },
-      callTimeout: { numeric, required },
-      inviteChatTimeout: { numeric, required },
+      maxNoAnswer: {
+        numeric,
+        required,
+      },
+      wrapUpTime: {
+        numeric,
+        required,
+      },
+      noAnswerDelayTime: {
+        numeric,
+        required,
+      },
+      taskAcceptTimeout: {
+        numeric,
+        required,
+      },
+      callTimeout: {
+        numeric,
+        required,
+      },
+      inviteChatTimeout: {
+        numeric,
+        required,
+      },
     },
   },
   computed: {
@@ -82,22 +100,27 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        }, {
+        },
+        {
           text: this.$t('objects.ccenter.teams.parameters'),
           value: 'parameters',
-        }, {
+        },
+        {
           text: this.$tc('objects.ccenter.agents.supervisors', 2),
           value: 'supervisors',
-        }, {
+        },
+        {
           text: this.$tc('objects.ccenter.agents.agents', 2),
           value: 'agents',
-        }, {
+        },
+        {
           text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
           value: 'hooks',
-        }, {
+        },
+        {
           text: this.$tc('objects.routing.flow.flow', 2),
           value: 'flows',
-        }
+        },
       ];
 
       if (this.id) tabs.push(this.permissionsTab);
@@ -107,8 +130,13 @@ export default {
     path() {
       const baseUrl = '/contact-center/teams';
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
-        { name: this.$tc('objects.ccenter.teams.teams', 2), route: baseUrl },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
+        {
+          name: this.$tc('objects.ccenter.teams.teams', 2),
+          route: baseUrl,
+        },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
           route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,

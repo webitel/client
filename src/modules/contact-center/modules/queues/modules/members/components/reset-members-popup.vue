@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="reset-members-popup"
+    size="sm"
     min-width="480"
     @close="close"
   >
@@ -55,8 +56,10 @@ export default {
         const response = await this.callback();
         const { count = 0 } = response;
         this.$eventBus.$emit('notification', {
-          type: 'info',
-          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', { count }),
+          type: 'success',
+          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', {
+            count,
+          }),
         });
       } catch (err) {
         throw err;

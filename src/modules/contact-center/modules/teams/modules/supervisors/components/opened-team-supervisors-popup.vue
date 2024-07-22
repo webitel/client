@@ -1,11 +1,12 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.ccenter.agents.supervisors', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -69,6 +70,11 @@ export default {
         return getNamespacedState(state, this.namespace).parentId;
       },
     }),
+    popupTitle() {
+      return this.id
+        ? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
+        : this.$t('objects.ccenter.teams.supervisors.addSupervisor');
+    },
   },
 
   methods: {
@@ -79,7 +85,10 @@ export default {
         fields,
         notTeamId: this.parentId,
       });
-      response.items = response.items.map(({ user, id }) => ({ name: user.name, id }));
+      response.items = response.items.map(({ user, id }) => ({
+        name: user.name,
+        id,
+      }));
       return response;
     },
   },

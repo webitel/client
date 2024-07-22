@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    size="sm"
     min-width="480"
     overflow
     @close="close"
@@ -48,10 +49,10 @@
 </template>
 
 <script>
-import { EngineRoutingSchemaType } from 'webitel-sdk';
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { EngineRoutingSchemaType } from 'webitel-sdk';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
@@ -82,16 +83,21 @@ export default {
     },
     event() {
       const { event } = this.itemInstance;
-      return event ? {
-        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-        value: event,
-      } : {};
-    }
+      return event
+        ? {
+            name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
+            value: event,
+          }
+        : {};
+    },
   },
 
   methods: {
     loadFlowOptions(params) {
-      return FlowsAPI.getLookup({ ...params, type: [EngineRoutingSchemaType.Service] });
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
     },
     snakeToCamel,
   },

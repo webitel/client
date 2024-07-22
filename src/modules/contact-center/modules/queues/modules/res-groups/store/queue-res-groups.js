@@ -1,5 +1,4 @@
-import NestedObjectStoreModule
-  from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
+import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
 import QueueResGroupsAPI from '../api/queueResGroups';
 import headers from './_internals/headers';
 
@@ -14,8 +13,8 @@ const queueResGroups = new NestedObjectStoreModule({
   resettableItemState,
   headers,
 })
-.attachAPIModule(QueueResGroupsAPI)
-.generateAPIActions()
-.getModule();
+  .attachAPIModule(QueueResGroupsAPI)
+  .generateAPIActions()
+  .getModule();
 
 export default queueResGroups;

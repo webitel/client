@@ -1,15 +1,14 @@
-import { TeamTriggerServiceApiFactory } from 'webitel-sdk';
-import {
-  getDefaultGetListResponse,
-  getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
 import applyTransform, {
   camelToSnake,
-  merge, mergeEach,
-  notify, sanitize,
+  merge,
+  mergeEach,
+  notify,
+  sanitize,
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers';
+import { TeamTriggerServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
@@ -27,16 +26,7 @@ const getTeamFlowSchemasList = async (params) => {
     enabled: false,
   };
 
-  const {
-    page,
-    size,
-    search,
-    sort,
-    fields,
-    id,
-    enabled,
-    parentId,
-  } = applyTransform(params, [
+  const { page, size, search, sort, fields, id, enabled, parentId } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -57,15 +47,11 @@ const getTeamFlowSchemasList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject),
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -79,14 +65,9 @@ const getTeamFlowSchema = async ({ parentId, itemId: id }) => {
 
   try {
     const response = await flowSchemaService.readTeamTrigger(parentId, id);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-      merge(defaultObject),
-    ]);
+    return applyTransform(response.data, [snakeToCamel(), merge(defaultObject)]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -98,31 +79,20 @@ const addTeamFlowSchema = async ({ parentId, itemInstance }) => {
   ]);
   try {
     const response = await flowSchemaService.createTeamTrigger(parentId, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
 const patchTeamFlowSchema = async ({ changes, id, parentId }) => {
-  const body = applyTransform(changes, [
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
 
   try {
     const response = await flowSchemaService.patchTeamTrigger(parentId, id, body);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -134,13 +104,9 @@ const updateTeamFlowSchema = async ({ itemInstance, itemId: id, parentId }) => {
   ]);
   try {
     const response = await flowSchemaService.updateTeamTrigger(parentId, id, item);
-    return applyTransform(response.data, [
-      snakeToCamel(),
-    ]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 
@@ -149,9 +115,7 @@ const deleteTeamFlowSchema = async ({ parentId, id }) => {
     const response = await flowSchemaService.deleteTeamTrigger(parentId, id);
     return applyTransform(response.data, []);
   } catch (err) {
-    throw applyTransform(err, [
-      notify,
-    ]);
+    throw applyTransform(err, [notify]);
   }
 };
 

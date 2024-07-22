@@ -55,8 +55,7 @@
 </template>
 
 <script>
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../api/calendars';
 
 export default {

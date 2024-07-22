@@ -63,9 +63,18 @@ export default {
     itemInstance: {
       user: { required },
       team: { required },
-      progressiveCount: { required, minValue: minValue(1) },
-      chatCount: { required, minValue: minValue(1) },
-      taskCount: { required, minValue: minValue(1) },
+      progressiveCount: {
+        required,
+        minValue: minValue(1),
+      },
+      chatCount: {
+        required,
+        minValue: minValue(1),
+      },
+      taskCount: {
+        required,
+        minValue: minValue(1),
+      },
     },
   },
 
@@ -75,10 +84,12 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        }, {
+        },
+        {
           text: this.$tc('objects.lookups.skills.skills', 2),
           value: 'skills',
-        }, {
+        },
+        {
           text: this.$tc('objects.ccenter.queues.queues', 2),
           value: 'queues',
         },
@@ -97,7 +108,9 @@ export default {
     path() {
       const baseUrl = '/contact-center/agents';
       return [
-        { name: this.$t('objects.ccenter.ccenter') },
+        {
+          name: this.$t('objects.ccenter.ccenter'),
+        },
         {
           name: this.$tc('objects.ccenter.agents.agents', 2),
           route: baseUrl,
