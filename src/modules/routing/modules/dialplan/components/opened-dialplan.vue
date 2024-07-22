@@ -39,10 +39,11 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import DialplanRoutesName from '../../../../../app/router/_internals/tabs/routing/DialplanRouteNames.enum.js';
+
 import { regExpValidator } from '../../../../../app/utils/validators';
 import General from './opened-dialplan-general.vue';
-import DialplanRoutesName from '../../../../../app/router/_internals/tabs/routing/DialplanRouteNames.enum.js';
 
 export default {
   name: 'OpenedDialplan',
@@ -54,6 +55,7 @@ export default {
   }),
   data: () => ({
     namespace: 'routing/dialplan',
+    routeName: RouteNames.DIALPLAN,
   }),
   validations: {
     itemInstance: {

@@ -215,7 +215,7 @@ export default {
       return this.itemInstance.type != null;
     },
     queueType() {
-      return this.itemInstance.type || Number(this.$route.query.type);
+      return this.itemInstance.type ?? this.$route.query.type;
     },
 
     tabs() {

@@ -18,7 +18,8 @@
 
     <template #main>
       <queue-popup
-        @close="closeQueueSelectPopup"
+        :shown="isQueueSelectPopup"
+        @close="isQueueSelectPopup = false"
       />
       <delete-confirmation-popup
         :shown="isDeleteConfirmationPopup"
@@ -186,6 +187,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueuePopup from './create-queue-popup.vue';
+import QueuesRoutesName from "../router/_internals/QueuesRoutesName.enum.js";
 
 const namespace = 'ccenter/queues';
 
@@ -218,6 +220,7 @@ export default {
 
   data: () => ({
     namespace,
+    isQueueSelectPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
   }),
@@ -235,8 +238,7 @@ export default {
   },
   watch: {
     '$route.query': {
-      async handler(query) {
-        if (query.type) return;
+      async handler() {
         await this.loadList();
       },
     },
@@ -251,13 +253,7 @@ export default {
       });
     },
     create() {
-     return this.$router.push({
-        ...this.$route,
-       query: { type: '0' },
-      })
-    },
-    closeQueueSelectPopup() {
-      this.$router.go(-1)
+      this.isQueueSelectPopup = true;
     },
   },
 };

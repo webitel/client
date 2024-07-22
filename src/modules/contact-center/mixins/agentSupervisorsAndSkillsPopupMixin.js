@@ -5,10 +5,10 @@ export default {
     openedItemId: null, // "selected" id object list popup
   }),
   computed: {
-    isSkillsQuery() {
+    skillsId() {
       return this.$route.query.skills;
     },
-    isSupervisorQuery() {
+    supervisorsId() {
       return this.$route.query.supervisor;
     },
     openedItemSupervisors() {
@@ -37,7 +37,7 @@ export default {
         query: {skills: item.id}
       })
     },
-    setId(id) {
+    setOpenedItemId(id) {
       this.openedItemId = id;
     },
     closeSupervisorsAndSkillsPopup() {
@@ -46,16 +46,12 @@ export default {
     },
   },
   watch: {
-    isSkillsQuery: {
-       handler(id) {
-         if (id) this.setId(id);
-      }
+    skillsId(id) {
+      this.setOpenedItemId(id);
     },
 
-    isSupervisorQuery: {
-      handler(id) {
-        if (id) this.setId(id);
-      }
+    supervisorsId(id) {
+      this.setOpenedItemId(id);
     },
   },
 };

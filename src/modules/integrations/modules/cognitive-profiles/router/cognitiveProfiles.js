@@ -16,14 +16,6 @@ const CognitiveProfilesRoutes = [
     name: RouteNames.COGNITIVE_PROFILES,
     component: CognitiveProfiles,
     beforeEnter: checkRouteAccess,
-    children: [
-      {
-        path: 'create',
-        name: CognitiveProfilesRouteNames.CREATE_COGNITIVE_PROFILE,
-        meta: { create: true },
-        component: CognitiveProfiles,
-      }
-    ]
   },
   {
     path: '/integrations/cognitive-profiles/:id',
@@ -47,6 +39,7 @@ const CognitiveProfilesRoutes = [
       },{
         path: 'permissions/:permissionId?',
         name: CognitiveProfilesRouteNames.PERMISSIONS,
+        component: Permissions,
       }
     ],
   },

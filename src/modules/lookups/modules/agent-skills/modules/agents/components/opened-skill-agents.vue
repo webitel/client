@@ -78,7 +78,7 @@
       >
         <template #name="{ item }">
           <adm-item-link
-            :id="item.id"
+            :id="item.agent.id"
             :route-name="RouteNames.AGENTS"
           >
             {{ item.agent.name }}

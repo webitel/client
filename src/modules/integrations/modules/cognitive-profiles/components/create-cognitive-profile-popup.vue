@@ -1,6 +1,5 @@
 <template>
   <selection-popup
-    :shown="!!isCreate"
     :options="options"
     :selected="selected"
     :title="`
@@ -45,8 +44,6 @@ const options = computed(() => {
   };
   return [microsoft, google, elevenLabs];
 });
-
-const isCreate = computed(() => route.meta.create);
 
 function selectOption(option) {
   selected.value = option;

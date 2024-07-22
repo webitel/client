@@ -1,7 +1,6 @@
 <template>
   <selection-popup
     v-bind="$attrs"
-    :shown="!!type"
     v-model="selected"
     :options="options"
     :title="$t('objects.ccenter.queues.newQueue')"
@@ -31,9 +30,6 @@ export default {
         description: this.$t(`${locale}Description`),
       }));
     },
-    type() {
-      return this.$route.query.type;
-    },
   },
 
   methods: {
@@ -47,13 +43,9 @@ export default {
     },
   },
 
-  watch: {
-    type: {
-      handler(index) {
-        this.selected = this.options[+index];
-      }, immediate: true,
-   }
-  }
+  created() {
+    this.selected = this.options[0];
+  },
 };
 </script>
 

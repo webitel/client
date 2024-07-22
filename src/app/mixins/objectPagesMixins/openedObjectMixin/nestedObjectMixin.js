@@ -57,7 +57,7 @@ export default {
     close() {
       this.$emit('close');
     },
-    handler(id) {
+    handleItemIdTransition(id) {
       if (id) {
         this.setId(id);
         this.loadItem();

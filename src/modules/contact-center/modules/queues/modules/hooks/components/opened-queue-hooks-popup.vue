@@ -109,7 +109,7 @@ export default {
   watch: {
     hookId: {
       handler(id) {
-        this.handler(id);
+        this.handleItemIdTransition(id);
       }, immediate: true,
     },
   },

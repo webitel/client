@@ -96,7 +96,7 @@ export default {
     },
     numberId: {
      async handler(id) {
-       this.handler(id);
+       this.handleItemIdTransition(id);
      }, immediate: true,
     },
   },

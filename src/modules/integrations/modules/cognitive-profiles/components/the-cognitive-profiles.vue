@@ -11,7 +11,8 @@
 
     <template #main>
       <create-cognitive-profile-popup
-        @close="closeCognitiveProfilePopup"
+        :shown="isCognitiveProfilePopup"
+        @close="isCognitiveProfilePopup = false"
       />
       <delete-confirmation-popup
         :shown="isDeleteConfirmationPopup"
@@ -190,6 +191,7 @@ export default {
   },
   data: () => ({
     namespace,
+    isCognitiveProfilePopup: false,
     routeName: RouteNames.COGNITIVE_PROFILES,
   }),
 
@@ -207,13 +209,7 @@ export default {
 
   methods: {
     create() {
-      this.$router.push({
-        ...this.$route,
-        name: CognitiveProfilesRouteNames.CREATE_COGNITIVE_PROFILE,
-      })
-    },
-    closeCognitiveProfilePopup() {
-      this.$router.push({name: RouteNames.COGNITIVE_PROFILES});
+      this.isCognitiveProfilePopup = true;
     },
     async changeDefaultProfile({ index, item, value }) {
       try {

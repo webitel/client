@@ -4,14 +4,14 @@
       @close="closeSubordinatePopup"
     />
     <object-list-popup
-      :shown="!!isSupervisorQuery"
+      :shown="!!supervisorsId"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
       @close="closeSupervisorsAndSkillsPopup"
     />
     <object-list-popup
-      :shown="!!isSkillsQuery"
+      :shown="!!skillsId"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
       :title="$tc('objects.lookups.skills.skills', 2)"
@@ -158,6 +158,17 @@ export default {
     },
     closeSubordinatePopup() {
      return this.$router.go(-1);
+    },
+  },
+  watch: {
+    dataList(data) {
+      if (data && this.skillsId) {
+        this.setOpenedItemId(this.skillsId);
+      }
+
+      if (data && this.supervisorsId) {
+        this.setOpenedItemId(this.supervisorsId);
+      }
     },
   },
 };
