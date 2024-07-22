@@ -37,7 +37,8 @@ const isNew = computed(() => {
 
 const v$ = useVuelidate(
   computed(() => {
-    const vRegexRule = (v) => (vRegex.value ? vRegex.value.test(v) : false);
+    const regexpInstance = new RegExp(vRegex.value);
+    const vRegexRule = (v) => (vRegex.value ? regexpInstance.test(v) : true);
 
     const regex = helpers.withParams(
       { regex: vRegex.value },
@@ -78,7 +79,7 @@ const loadV = async () => {
     ({ name }) => name === EngineSystemSettingName.PasswordValidationText,
   )?.value;
 
-  vRegex.value = new RegExp(regex);
+  vRegex.value = regex;
   vErrorText.value = errorText;
 };
 
