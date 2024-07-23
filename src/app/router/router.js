@@ -88,7 +88,6 @@ const router = createRouter({
         ...DevicesRoutes,
         ...LicenseRoutes,
         ...UsersRoutes,
-        ...ChatplanRoutes,
         // ----------DIRECTORY END------------
 
         // ----------ROUTING------------
@@ -96,7 +95,7 @@ const router = createRouter({
         ...ChatGetewaysRoutes,
         ...DialplanRoutes,
         ...GatewaysRoutes,
-        ...ChatGetewaysRoutes,
+        ...ChatplanRoutes,
         // ----------ROUTING END------------
 
         // ----------LOOKUPS------------
