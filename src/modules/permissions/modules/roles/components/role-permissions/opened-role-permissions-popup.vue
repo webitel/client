@@ -93,7 +93,7 @@ export default  {
       },
     }),
     initEditedValue() {
-      this.itemInstance.permission = this.permissions[Number(this.permissionIndex)];
+      this.itemInstance.permission = this.permissions[+this.permissionIndex];
     },
     save() {
       if (this.permissionIndex !== 'new') {
@@ -129,11 +129,12 @@ export default  {
     },
   },
   watch: {
-    permissionIndex: {
-      handler(index) {
+    permissionIndex(index) {
        if (index !== 'new') this.initEditedValue()
        else this.resetItemInstance();
-      }, immediate: true,
+    },
+    permissions(item) {
+      if (item && this.permissionIndex) this.initEditedValue();
     },
   },
 };
