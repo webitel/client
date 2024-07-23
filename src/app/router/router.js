@@ -7,16 +7,19 @@ import ImportCsvRoutes
   from '../../modules/integrations/modules/import-csv/router/importCsv.js';
 import TriggersRoutes
   from '../../modules/integrations/modules/triggers/router/triggers.js';
-import store from '../store/store';
+import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
+import ChangeLogsRoutes
+  from '../../modules/system/modules/changelogs/router/changelogs.js';
+import ConfigurationRoutes
+  from '../../modules/system/modules/configuration/router/configuration.js';
+import GlobalVariablesRoutes
+  from '../../modules/system/modules/global-variables/router/globalVariables.js';
 import RouteNames from './_internals/RouteNames.enum';
-import DevicesRouteNames from '../../modules/directory/modules/devices/router/_internals/DevicesRouteNames.enum.js';
 import LicencesRouteNames from './_internals/tabs/directory/LicencesRouteNames.enum.js';
-import UsersRouteNames from '../../modules/directory/modules/users/router/_internals/UsersRouteNames.enum.js';
 import AgentSkillsRouteNames from './_internals/tabs/lookups/AgentSkillsRouteNames.enum.js';
 import ChatGatewayRouteNames from './_internals/tabs/routing/ChatGatewayRouteNames.enum.js';
 import ChatplanRouteNames from './_internals/tabs/routing/ChatplanRouteNames.enum.js';
 import FlowRouteNames from './_internals/tabs/routing/FlowRouteNames.enum.js';
-import ChangelogRouteNamesEnum from './_internals/tabs/system/ChangelogRouteNames.enum.js';
 import DialplanRouteNames from './_internals/tabs/routing/DialplanRouteNames.enum.js';
 import GatewaysRouteNames from './_internals/tabs/routing/GatewaysRouteNames.enum.js';
 import BucketsRouteNamesEnum from './_internals/tabs/lookups/BucketsRouteNames.enum.js';
@@ -32,13 +35,6 @@ const StartPage = () => import('../../modules/start-page/components/the-start-pa
 const Settings = () => import('../../modules/settings/components/the-settings.vue');
 const AccessDenied = () => import('../../modules/error-pages/components/the-access-denied-component.vue');
 const NotFound = () => import('../../modules/error-pages/components/the-not-found-component.vue');
-const PermissionsRoles = () => import('../../modules/permissions/modules/roles/components/the-roles.vue');
-const OpenedPermissionsRoles = () => import('../../modules/permissions/modules/roles/components/opened-role.vue');
-const PermissionsObjects = () => import('../../modules/permissions/modules/objects/components/the-objects-permissions.vue');
-const OpenedPermissionsObjects = () => import('../../modules/permissions/modules/objects/components/opened-object-permissions.vue');
-const Devices = () => import('../../modules/directory/modules/devices/components/the-devices.vue');
-const OpenedDevice = () => import('../../modules/directory/modules/devices/components/opened-device.vue');
-const Users = () => import('../../modules/directory/modules/users/components/the-users.vue');
 const License = () => import('../../modules/directory/modules/license/components/the-license.vue');
 const Blacklists = () => import('../../modules/lookups/modules/blacklists/components/the-blacklists.vue');
 const Media = () => import('../../modules/lookups/modules/media/components/the-media.vue');
@@ -61,44 +57,13 @@ const Dialplan = () => import('../../modules/routing/modules/dialplan/components
 const OpenedDialplan = () => import('../../modules/routing/modules/dialplan/components/opened-dialplan.vue');
 const Chatplan = () => import('../../modules/routing/modules/chatplan/components/the-chatplan.vue');
 const OpenedChatplan = () => import('../../modules/routing/modules/chatplan/components/opened-chatplan.vue');
-const TheResources = () => import('../../modules/contact-center/modules/resources/components/the-resources.vue');
-const OpenedResource = () => import('../../modules/contact-center/modules/resources/components/opened-resource.vue');
-const ResourceGroups = () => import('../../modules/contact-center/modules/resource-groups/components/the-resource-groups.vue');
-const OpenedResourceGroup = () => import('../../modules/contact-center/modules/resource-groups/components/opened-resource-group.vue');
-const Agents = () => import('../../modules/contact-center/modules/agents/components/the-agents.vue');
-const OpenedAgent = () => import('../../modules/contact-center/modules/agents/components/opened-agent.vue');
-const Teams = () => import('../../modules/contact-center/modules/teams/components/the-teams.vue');
-const OpenedTeam = () => import('../../modules/contact-center/modules/teams/components/opened-team.vue');
 const AgentSkills = () => import('../../modules/lookups/modules/agent-skills/components/the-agent-skills.vue');
 const OpenedAgentSkill = () => import('../../modules/lookups/modules/agent-skills/components/opened-agent-skill.vue');
 const Buckets = () => import('../../modules/lookups/modules/buckets/components/the-buckets.vue');
 const OpenedBucket = () => import('../../modules/lookups/modules/buckets/components/opened-bucket.vue');
-const Queues = () => import('../../modules/contact-center/modules/queues/components/the-queues.vue');
-const Storage = () => import('../../modules/integrations/modules/storage/components/the-storage.vue');
-const OpenedStorage = () => import('../../modules/integrations/modules/storage/components/opened-storage.vue');
-const CognitiveProfiles = () => import('../../modules/integrations/modules/cognitive-profiles/components/the-cognitive-profiles.vue');
-const EmailProfiles = () => import('../../modules/integrations/modules/email-profiles/components/the-email-profiles.vue');
-const SingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/the-single-sign-on.vue');
-const ImportCsv = () => import('../../modules/integrations/modules/import-csv/components/the-import-csv.vue');
-const Triggers = () => import('../../modules/integrations/modules/triggers/components/the-triggers.vue');
-const OpenedCognitiveProfile = () => import('../../modules/integrations/modules/cognitive-profiles/components/opened-cognitive-profile.vue');
-const OpenedEmailProfile = () => import('../../modules/integrations/modules/email-profiles/components/opened-email-profile.vue');
-const OpenedSingleSignOn = () => import('../../modules/integrations/modules/single-sign-on/components/opened-single-sign-on.vue');
-const OpenedImportCsv = () => import('../../modules/integrations/modules/import-csv/components/opened-import-csv.vue');
-const OpenedTrigger = () => import('../../modules/integrations/modules/triggers/components/opened-trigger.vue');
-const Changelogs = () => import('../../modules/system/modules/changelogs/components/the-changelogs.vue');
-const OpenedChangelog = () => import('../../modules/system/modules/changelogs/components/opened-changelog.vue');
-const Configuration = () => import('../../modules/system/modules/configuration/components/the-configuration.vue');
-const GlobalVariables = () => import('../../modules/system/modules/global-variables/components/the-global-variables.vue');
 const AllLicenses = () => import('../../modules/directory/modules/license/components/all-licenses/all-licenses.vue');
 const LicensesByUser = () => import('../../modules/directory/modules/license/modules/users/components/licenses-by-user.vue');
 const PermissionsTab = () => import('../../modules/_shared/permissions-tab/components/permissions-tab.vue');
-const OpenedDeviceGeneral = () => import('../../modules/directory/modules/devices/components/opened-device-general.vue');
-const OpenedDevicePhoneInfo = () => import('../../modules/directory/modules/devices/components/opened-device-phone-info.vue');
-const OpenedHotdeskDeviceGeneral = () => import('../../modules/directory/modules/devices/components/opened-hotdesk-device-general.vue');
-const OpenedHotdeskDeviceHotdesking = () => import('../../modules/directory/modules/devices/components/opened-hotdesk-device-hotdesking.vue');
-const OpenedChangelogGeneral = () => import('../../modules/system/modules/changelogs/components/opened-changelog-general.vue');
-const OpenedChangelogLogs = () => import('../../modules/system/modules/changelogs/modules/logs/components/opened-changelog-logs.vue');
 const OpenedDialplanGeneral = () => import('../../modules/routing/modules/dialplan/components/opened-dialplan-general.vue');
 const OpenedFlowDiagram = () => import('../../modules/routing/modules/flow/modules/diagram/components/opened-flow-diagram.vue');
 const OpenedRegisterSipGatewayGeneral = () => import('../../modules/routing/modules/gateways/components/opened-register-sip-gateway-general.vue');
@@ -114,7 +79,6 @@ const OpenedChatInstagram = () => import('../../modules/routing/modules/chat-gat
 const OpenedChatWhatsapp = () => import('../../modules/routing/modules/chat-gateways/modules/messenger/whatsapp/components/whatsapp-tab.vue');
 const OpenedChatGatewayInfobipGeneralTab = () => import('../../modules/routing/modules/chat-gateways/components/infobip/opened-chat-gateway-infobip-general-tab.vue');
 const OpenedChatGatewayViberGeneralTab = () => import('../../modules/routing/modules/chat-gateways/components/viber/opened-chat-gateway-viber-general-tab.vue');
-const OpenedChatGatewayViberStyleTab = () => import('../../modules/routing/modules/chat-gateways/components/viber/opened-chat-gateway-viber-style-tab.vue');
 const OpenedChatGatewayWebchatGeneralTab = () => import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue');
 const OpenedChatGatewayWebchatViewTab = () => import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue');
 const OpenedChatGatewayWebchatAlternativeChannelsTab = () => import('../../modules/routing/modules/chat-gateways/modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue');
@@ -143,6 +107,7 @@ import QueuesRoutes from '../../modules/contact-center/modules/queues/router/que
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 
 import { checkAppAccess, checkRouteAccess } from './_internals/guards.js';
+import ObjectsRoutes from "../../modules/permissions/modules/objects/router/objects.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -575,99 +540,37 @@ const router = createRouter({
         ...EmailProfilesRoutes,
         ...ImportCsvRoutes,
         ...TriggersRoutes,
-        {
-          path: '/integrations/single-sign-on',
-          name: RouteNames.SINGLE_SIGN_ON,
-          component: SingleSignOn,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/single-sign-on/new',
-          name: `${RouteNames.SINGLE_SIGN_ON}-new`,
-          component: OpenedSingleSignOn,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/integrations/single-sign-on/:id',
-          name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
-          component: OpenedSingleSignOn,
-          beforeEnter: checkRouteAccess,
-        },
-
-
+        // TODO Find out what purpose of /integrations/single-sign-on
+        // {
+        //   path: '/integrations/single-sign-on',
+        //   name: RouteNames.SINGLE_SIGN_ON,
+        //   component: SingleSignOn,
+        //   beforeEnter: checkRouteAccess,
+        // },
+        // {
+        //   path: '/integrations/single-sign-on/new',
+        //   name: `${RouteNames.SINGLE_SIGN_ON}-new`,
+        //   component: OpenedSingleSignOn,
+        //   beforeEnter: checkRouteAccess,
+        // },
+        // {
+        //   path: '/integrations/single-sign-on/:id',
+        //   name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
+        //   component: OpenedSingleSignOn,
+        //   beforeEnter: checkRouteAccess,
+        // },
         // --------------INTEGRATIONS END-------------
 
         // ----------PERMISSIONS-----------------
-        {
-          path: '/permissions/roles',
-          name: RouteNames.ROLES,
-          component: PermissionsRoles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/roles/:id',
-          name: `${RouteNames.ROLES}-edit`,
-          component: OpenedPermissionsRoles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/roles/new',
-          name: `${RouteNames.ROLES}-new`,
-          component: OpenedPermissionsRoles,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/objects',
-          name: RouteNames.OBJECTS,
-          component: PermissionsObjects,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/permissions/objects/:id',
-          name: `${RouteNames.OBJECTS}-edit`,
-          component: OpenedPermissionsObjects,
-          beforeEnter: checkRouteAccess,
-        },
+        ...RolesRoutes,
+        ...ObjectsRoutes,
         // ----------PERMISSIONS END-----------------
 
         // ----------SYSTEM START-----------------
-        {
-          path: '/system/changelogs',
-          name: RouteNames.CHANGELOGS,
-          component: Changelogs,
-          beforeEnter: checkRouteAccess,
-        },
-        {
-          path: '/system/changelogs/:id',
-          name: `${RouteNames.CHANGELOGS}-card`,
-          redirect: { name: ChangelogRouteNamesEnum.GENERAl },
-          component: OpenedChangelog,
-          beforeEnter: checkRouteAccess,
-          children: [
-            {
-              path: 'general',
-              name: ChangelogRouteNamesEnum.GENERAl,
-              component: OpenedChangelogGeneral,
-            },{
-              path: 'logs',
-              name: ChangelogRouteNamesEnum.LOGS,
-              component: OpenedChangelogLogs,
-            }
-          ],
-        },
-        {
-          path: '/system/configuration',
-          name: RouteNames.CONFIGURATION,
-          component: Configuration,
-          beforeEnter: checkRouteAccess,
-        },
+        ...ChangeLogsRoutes,
+        ...ConfigurationRoutes,
+        ...GlobalVariablesRoutes,
 
-        {
-          path: '/system/global-variables',
-          name: RouteNames.GLOBAL_VARIABLES,
-          component: GlobalVariables,
-          beforeEnter: checkRouteAccess,
-        },
       ],
     },
     {

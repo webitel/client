@@ -43,22 +43,22 @@
           {{ new Date(+item.date).toLocaleString() }}
         </template>
         <template #user="{ item }">
-          <wt-item-link
+          <adm-item-link
             v-if="item.user"
             :id="item.user.id"
             :route-name="usersRouteName"
           >
             {{ item.user.name }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
         <template #userId="{ item }">
-          <wt-item-link
+          <adm-item-link
             v-if="item.user"
             :id="item.user.id"
             :route-name="usersRouteName"
           >
             {{ item.user.id }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
         <template #object="{ item }">
           {{ item.object.name }}

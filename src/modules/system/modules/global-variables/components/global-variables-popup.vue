@@ -1,7 +1,9 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!variableId"
     overflow
-    width="480"
+    size="sm"
     @close="close"
   >
     <template #title>
@@ -64,10 +66,6 @@ export default {
   name: 'GlobalVariablesPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
-    id: {
-      // if id is passed, that's an edit
-      type: [Number, null],
-    },
     namespace: {
       type: String,
       required: true,
@@ -89,6 +87,11 @@ export default {
       },
     },
   },
+  computed: {
+    variableId() {
+      return this.$route.params.id;
+    },
+  },
   methods: {
     async save() {
       if (!this.disabledSave) {
@@ -104,9 +107,9 @@ export default {
         this.close();
       }
     },
-    async loadPageData() {
+    async loadPopupData(id) {
       try {
-        await this.setId(this.id);
+        await this.setId(id);
         await this.loadItem();
       } finally {
         this.startEncryptValue = this.itemInstance.encrypt;
@@ -115,6 +118,20 @@ export default {
     close() {
       this.$emit('close');
     },
+    loadPageData(){},
+  },
+  watch: {
+    variableId: {
+      async handler(id) {
+        if (id) {
+          await this.loadPopupData(id)
+        }
+
+        else {
+          this.resetState()
+        }
+      },
+    }, immediate: true,
   },
 };
 </script>

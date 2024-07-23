@@ -1,12 +1,10 @@
 <template>
   <section>
     <permissions-popup
-      v-if="isPermissionsPopup"
-      :edited-index="editedIndex"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -100,9 +98,6 @@ export default {
   },
   data: () => ({
     dataListValue: [],
-    searchValue: '',
-    isPermissionsPopup: false,
-    editedIndex: null,
   }),
   watch: {
     permissionsList() {
@@ -117,11 +112,6 @@ export default {
     dataList: {
       get() { return this.dataListValue; },
       set(value) { this.dataListValue = value; },
-    },
-    // override mixin map state
-    search: {
-      get() { return this.searchValue; },
-      set(value) { this.searchValue = value; },
     },
     headers() {
       return [
@@ -171,23 +161,28 @@ export default {
       },
     }),
     loadList() {
-      this.dataList = this.permissionsList
-      .filter((permission) => permission.name.includes(this.search))
-      .map((permission) => ({ ...permission, _isSelected: false }));
+      this.dataList = this.permissionsList.map((permission) => ({
+        ...permission,
+        _isSelected: false,
+      }));
     },
     create() {
-      this.openPopup();
+      this.addItem();
     },
     edit(index) {
-      this.editedIndex = index;
-      this.openPopup();
+      this.$router.push({
+        ...this.$route,
+        params: { permissionIndex: index.toString() },
+      })
     },
-    openPopup() {
-      this.isPermissionsPopup = true;
+    addItem() {
+      this.$router.push({
+        ...this.$route,
+        params: { permissionIndex: 'new' },
+      })
     },
     closePopup() {
-      this.isPermissionsPopup = false;
-      this.editedIndex = null;
+      this.$router.go(-1);
     },
     setParentId() {
     },
