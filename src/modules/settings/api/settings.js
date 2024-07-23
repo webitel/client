@@ -49,7 +49,9 @@ export const getRingtonesList = async () => {
   const url = `${import.meta.env.VITE_RINGTONES_URL}/index.json`;
   try {
     const ringtones = await fetch(url)
-    .then((res) => res.json());
+    .then((res) => {
+      if(res && res.ok) res.json()
+    });
     return ringtones.ringtones;
   } catch (err) {
     throw applyTransform(err, [
