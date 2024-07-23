@@ -110,13 +110,15 @@ export default {
           value: false,
         });
       }
-      this.$router.push({
+      const route = this.$router.resolve({
         name: `${RouteNames.FLOW}-new`,
         query: {
           editor: this.selected.value,
           type: this.type.value,
         },
       });
+      window.open(route.href, '_blank');
+      this.close();
     },
     close() {
       this.$emit('close');
