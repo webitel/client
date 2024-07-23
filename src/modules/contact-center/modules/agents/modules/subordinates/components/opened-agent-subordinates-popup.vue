@@ -81,7 +81,7 @@ export default {
   watch: {
     subordinateId: {
       handler(id) {
-        this.handleItemIdTransition(id);
+        this.handeIdChange(id);
       },
       immediate: true,
     },

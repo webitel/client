@@ -153,7 +153,7 @@ export default {
   watch: {
     skillId: {
      handler(id) {
-       this.handleItemIdTransition(id);
+       this.handeIdChange(id);
      }, immediate: true,
     },
   },
