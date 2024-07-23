@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!numberId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -78,6 +79,9 @@ export default {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
     },
+    numberId() {
+      return this.$route.params.numberId;
+    }
   },
   watch: {
     showExpireDate() {
@@ -91,6 +95,11 @@ export default {
       handler() {
         if (this.itemInstance.expireAt) this.showExpireDate = true;
       },
+    },
+    numberId: {
+     async handler(id) {
+       this.handleIdChange(id);
+     }, immediate: true,
     },
   },
 };

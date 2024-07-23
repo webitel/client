@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!resourceId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -77,7 +78,10 @@ export default {
     popupTitle() {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.res.res', 1).toLowerCase();
-    }
+    },
+    resourceId() {
+      return this.$route.params.resourceId;
+    },
   },
 
   methods: {
@@ -85,6 +89,17 @@ export default {
       return ResourcesAPI.getLookup(params);
     },
   },
+  watch: {
+    resourceId: {
+      handler(id) {
+        if (id === 'new') this.resetState()
+        else {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 

@@ -17,8 +17,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -42,6 +43,8 @@ import Queues from '../modules/queues/components/opened-agent-queues.vue';
 import Skills from '../modules/skills/components/opened-agent-skills.vue';
 import Subordinates from '../modules/subordinates/components/opened-agent-subordinates.vue';
 import General from './opened-agent-general.vue';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
+import AgentsRouteNames from "../router/_internals/AgentsRouteNames.enum.js";
 
 export default {
   name: 'OpenedAgent',
@@ -58,6 +61,8 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/agents',
+    routeName: RouteNames.AGENTS,
+    permissionsTabPathName: AgentsRouteNames.PERMISSIONS,
   }),
   validations: {
     itemInstance: {
@@ -84,20 +89,22 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        },
-        {
+          pathName: AgentsRouteNames.GENERAL,
+        }, {
           text: this.$tc('objects.lookups.skills.skills', 2),
           value: 'skills',
-        },
-        {
+          pathName: AgentsRouteNames.SKILLS,
+        }, {
           text: this.$tc('objects.ccenter.queues.queues', 2),
           value: 'queues',
+          pathName: AgentsRouteNames.QUEUES,
         },
       ];
 
       const subordinates = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'subordinates',
+        pathName: AgentsRouteNames.SUBORDINATES,
       };
 
       if (this.itemInstance.isSupervisor) tabs.push(subordinates);

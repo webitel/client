@@ -5,7 +5,7 @@
       class="nameLink"
       tabIndex="0"
       @click.prevent="inputHandler"
-      @keypress.enter.prevent="inputHandler"
+      @keydown.enter.prevent="inputHandler"
     >{{ collection[0].name }}</a>
     <wt-chip v-if="collection.length > 1">
       +{{ collection.length - 1 }}
@@ -32,6 +32,7 @@ export default {
 <style lang="scss" scoped>
 .nameLink {
   color: var(--text-main-color);
+  cursor: pointer;
 }
 
 .wt-chip {

@@ -1,8 +1,9 @@
 <template>
   <wt-popup
-    overflow
+    v-bind="$attrs"
+    :shown="!!configurationId"
     size="sm"
-    width="480"
+    overflow
     @close="close"
   >
     <template #title>
@@ -93,6 +94,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
+import { mapActions, mapState } from 'vuex';
 import { EngineSystemSettingName } from 'webitel-sdk';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -104,9 +106,6 @@ export default {
   name: 'ConfigurationPopup',
   mixins: [openedObjectMixin, openedTabComponentMixin],
   props: {
-    id: {
-      type: Number,
-    },
     namespace: {
       type: String,
     },
@@ -209,8 +208,16 @@ export default {
     isExportSettingsFormatCSV() {
       return this.itemInstance?.format?.value === TypesExportedSettings.CSV;
     },
+    configurationId() {
+      return this.$route.params.id;
+    },
   },
   methods: {
+    ...mapActions({
+      setItemId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+      },
+    }),
     async save() {
       if (!this.disabledSave) {
         if (this.id) {
@@ -225,8 +232,8 @@ export default {
         this.close();
       }
     },
-    async loadPageData() {
-      await this.setId(this.id);
+    async loadPopupData(id) {
+      await this.setId(id);
       return this.loadItem();
     },
     close() {
@@ -258,6 +265,19 @@ export default {
       if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
       if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
     },
+    loadPageData(){},
   },
+  watch: {
+    configurationId: {
+      async handler(id) {
+        if (id) {
+          await this.loadPopupData(id);
+        }
+        else {
+          this.resetState();
+        }
+      }, immediate: true,
+    },
+  }
 };
 </script>

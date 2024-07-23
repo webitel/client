@@ -16,14 +16,8 @@ export default {
   components: {
     Permissions,
   },
-  data: () => ({
-    currentTab: {
-      value: 'general',
-    },
-  }),
 
   created() {
-    this.setInitialTab();
     this.loadPageData();
   },
 
@@ -40,7 +34,11 @@ export default {
       return {
         text: this.$tc('objects.permissions.permissions', 2),
         value: 'permissions',
+        pathName: this.permissionsTabPathName,
       };
+    },
+    currentTab() {
+      return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
     },
   },
 
@@ -52,6 +50,7 @@ export default {
     }),
 
     async loadPageData() {
+      if (this.new) return;
       await this.setId(this.$route.params.id);
       return this.loadItem();
     },
@@ -65,9 +64,12 @@ export default {
 
       // Need to close the tab if it was open in a new tab
       // https://webitel.atlassian.net/browse/WTEL-4575
-
+      // TODO delete close method in all opened objects and add to them routeName property
       if(window.history.length === 1) window.close();
-      this.$router.go(-1);
+      this.$router.push({name: this.routeName});
     },
+    changeTab(tab) {
+      this.$router.push({ ...this.$route, name: tab.pathName });
+    }
   },
 };

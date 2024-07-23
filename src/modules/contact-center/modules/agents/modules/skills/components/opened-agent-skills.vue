@@ -1,7 +1,6 @@
 <template>
   <section>
     <skill-popup
-      v-if="isSkillPopup"
       @close="closePopup"
     />
 
@@ -57,9 +56,13 @@
         @sort="sort"
       >
         <template #name="{ item }">
-          <div v-if="item.skill">
+          <adm-item-link
+            v-if="item.skill"
+            :id="item.skill.id"
+            :route-name="skillsRoute"
+          >
             {{ item.skill.name }}
-          </div>
+          </adm-item-link>
         </template>
         <template #capacity="{ item }">
           {{ item.capacity }}
@@ -74,7 +77,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -102,6 +105,7 @@ import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import SkillPopup from './opened-agent-skills-popup.vue';
+import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
 
 const namespace = 'ccenter/agents';
 const subNamespace = 'skills';
@@ -122,6 +126,7 @@ export default {
     subNamespace,
     isSkillPopup: false,
     isDeleteConfirmation: false,
+    skillsRoute: RouteNames.SKILLS,
   }),
   methods: {
     ...mapActions({
@@ -129,11 +134,15 @@ export default {
         return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
-    openPopup() {
-      this.isSkillPopup = true;
+    addItem() {
+     return this.$router.push({params: {skillId : 'new'}});
+    },
+    editItem(item) {
+      return this.$router.push({params: {skillId : item.id}});
     },
     closePopup() {
-      this.isSkillPopup = false;
+      this.resetItemState();
+      this.$router.go(-1);
     },
   },
 };

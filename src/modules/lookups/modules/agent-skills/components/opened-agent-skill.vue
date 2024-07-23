@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -41,6 +42,8 @@ import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Agents from '../modules/agents/components/opened-skill-agents.vue';
 import General from './opened-agent-skill-general.vue';
+import AgentSkillsRoutesName from '../router/_internals/AgentSkillsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {
   name: 'OpenedAgentSkill',
@@ -52,6 +55,7 @@ export default {
   }),
   data: () => ({
     namespace: 'lookups/skills',
+    routeName: RouteNames.SKILLS,
   }),
   validations: {
     itemInstance: {
@@ -65,11 +69,13 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: AgentSkillsRoutesName.GENERAL,
         },
       ];
       const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
+        pathName: AgentSkillsRoutesName.AGENTS,
       };
       if (this.id) tabs.push(agents);
       return tabs;
@@ -92,6 +98,11 @@ export default {
       ];
     },
   },
+  methods: {
+    close() {
+      this.$router.push({ name: this.routeName })
+    }
+  }
 };
 </script>
 

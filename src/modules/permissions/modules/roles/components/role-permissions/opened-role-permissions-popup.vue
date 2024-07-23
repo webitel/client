@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!permissionIndex"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -48,11 +49,6 @@ import RolesAPI from '../../api/roles';
 export default {
   name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
-  props: {
-    editedIndex: {
-      type: [Number, Object], // "null" object
-    },
-  },
   setup: () => ({
     v$: useVuelidate(),
   }),
@@ -66,9 +62,6 @@ export default {
     itemInstance: {
       permission: { required },
     },
-  },
-  created() {
-    this.initEditedValue();
   },
   computed: {
     ...mapState('permissions/roles', {
@@ -86,6 +79,9 @@ export default {
     computeDisabled() {
       return this.checkValidations();
     },
+    permissionIndex() {
+      return this.$route.params.permissionIndex;
+    }
   },
   methods: {
     ...mapActions({
@@ -97,14 +93,12 @@ export default {
       },
     }),
     initEditedValue() {
-      if (Number.isInteger(this.editedIndex)) {
-        this.itemInstance.permission = this.permissions[this.editedIndex];
-      }
+      this.itemInstance.permission = this.permissions[+this.permissionIndex];
     },
     save() {
-      if (Number.isInteger(this.editedIndex)) {
+      if (this.permissionIndex !== 'new') {
         this.updatePermission({
-          index: this.editedIndex,
+          index: Number(this.permissionIndex),
           permission: this.itemInstance.permission,
         });
       } else {
@@ -127,8 +121,22 @@ export default {
         }));
       return response;
     },
+    resetItemInstance() {
+      this.itemInstance = {
+        permission: {},
+      };
+    },
     loadItem() {},
     resetState() {},
+  },
+  watch: {
+    permissionIndex(index) {
+       if (index !== 'new') this.initEditedValue()
+       else this.resetItemInstance();
+    },
+    permissions(item) {
+      if (item && this.permissionIndex) this.initEditedValue();
+    },
   },
 };
 </script>

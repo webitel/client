@@ -14,23 +14,20 @@
 
     <template #main>
       <history-popup
-        v-if="historyId"
         @close="closeHistoryPopup"
       />
 
       <upload-popup
-        v-if="isUploadPopup"
         :file="csvFile"
         @close="closeCSVPopup"
       />
 
       <device-popup
-        v-if="isDeviceSelectPopup"
-        @close="isDeviceSelectPopup = false"
+        @close="closeDeviceSelectPopup"
       />
 
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -94,9 +91,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="RouteNames.DEVICES"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <template #account="{ item }">
@@ -104,13 +104,13 @@
             </template>
 
             <template #user="{ item }">
-              <wt-item-link
+              <adm-item-link
                 v-if="item.user"
                 :id="item.user.id"
                 :route-name="RouteNames.USERS"
               >
                 {{ item.user.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <!--state classes are specified in table-status component-->
@@ -127,11 +127,12 @@
                 class="table-action"
                 @click="openHistory(item.id)"
               />
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName">
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -168,6 +169,7 @@ import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-i
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
 import DevicePopup from './create-device-popup.vue';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
@@ -211,17 +213,11 @@ export default {
   },
   data: () => ({
     namespace,
-    isUploadPopup: false,
-    isDeviceSelectPopup: false,
     csvFile: null,
+    routeName: RouteNames.DEVICES,
   }),
 
   computed: {
-    ...mapState({
-      historyId(state) {
-        return getNamespacedState(state, `${this.namespace}/history`).parentId;
-      },
-    }),
     path() {
       return [
         {
@@ -236,44 +232,39 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      openHistory(dispatch, payload) {
-        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
-      },
-    }),
-
     create() {
-      this.isDeviceSelectPopup = true;
+      this.$router.push({
+        ...this.$route,
+        query: {new: true},
+      });
     },
-
-    editLink(item) {
-      const name = item.hotdesk
-        ? `${RouteNames.DEVICES}-hotdesk-edit`
-        : `${RouteNames.DEVICES}-edit`;
-
-      return {
-        name,
-        params: {
-          id: item.id,
-        },
-      };
+    closeDeviceSelectPopup() {
+      this.$router.go(-1);
     },
 
     processCSV(files) {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.isUploadPopup = true;
+        this.$router.push({
+          ...this.$route,
+          name: DevicesRouteNames.UPLOAD_CSV,
+        })
       }
     },
-
-    closeHistoryPopup() {
-      this.openHistory(null);
+    openHistory(id) {
+      return this.$router.push({
+        ...this.$route,
+        name: DevicesRouteNames.HISTORY,
+        params: { historyId: id },
+      })
     },
-
+    closeHistoryPopup() {
+      return this.$router.push({name: this.routeName});
+    },
     closeCSVPopup() {
       this.loadList();
-      this.isUploadPopup = false;
+      this.$router.go(-1);
     },
 
     stateClass(state) {

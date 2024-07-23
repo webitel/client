@@ -115,15 +115,12 @@ export default {
         try {
           if (!this.parentId) {
             await this.addParentItem();
-            const routeName = this.$route.name.replace('-new', '-edit');
             await this.$router.replace({
-              name: routeName,
-              params: {
-                id: this.parentId,
-              },
+              ...this.$route,
+              params: { id: this.parentId },
             });
           }
-          this.openPopup();
+          this.addItem();
         } catch (err) {
           throw err;
         }
@@ -133,11 +130,6 @@ export default {
           text: 'Check your validations!',
         });
       }
-    },
-
-    edit(item) {
-      this.setId(item.id);
-      this.openPopup();
     },
     sort(...params) {
       this.dispatchSort({

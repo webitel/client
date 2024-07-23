@@ -72,21 +72,24 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #pattern="{ item }">
               {{ item.pattern }}
             </template>
             <template #schema="{ item }">
-              <wt-item-link
+              <adm-item-link
                 v-if="item.schema"
                 :id="item.schema.id"
                 :route-name="RouteNames.FLOW"
               >
                 {{ item.schema.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #state="{ item, index }">
               <wt-switcher
@@ -96,11 +99,13 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"

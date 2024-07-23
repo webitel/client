@@ -1,5 +1,6 @@
 <template>
   <selection-popup
+    v-bind="$attrs"
     :selected="selected"
     :title="$t('objects.routing.flow.createFlowSelectionPopup')"
     @close="close"
@@ -110,8 +111,9 @@ export default {
           value: false,
         });
       }
-      const route = this.$router.resolve({
-        name: `${RouteNames.FLOW}-new`,
+      this.$router.push({
+        name: `${RouteNames.FLOW}-card`,
+        params: { id: 'new' },
         query: {
           editor: this.selected.value,
           type: this.type.value,

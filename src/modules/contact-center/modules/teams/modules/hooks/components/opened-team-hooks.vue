@@ -1,11 +1,10 @@
 <template>
   <section class="content-wrapper">
     <hook-popup
-      v-if="isHookPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -62,7 +61,12 @@
           {{ item.event }}
         </template>
         <template #schema="{ item }">
-          {{ item.schema.name }}
+          <adm-item-link
+            :id="item.schema.id"
+            :route-name="RouteNames.FLOW"
+          >
+            {{ item.schema.name }}
+          </adm-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher
@@ -74,7 +78,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -142,15 +146,23 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isHookPopup: false,
   }),
 
   methods: {
-    openPopup() {
-      this.isHookPopup = true;
+    addItem() {
+      return this.$router.push({
+        ...this.$route,
+        params: {hookId: 'new'}
+      })
+    },
+    editItem(item) {
+      return this.$router.push({
+        ...this.$route,
+        params: {hookId: item.id}
+      })
     },
     closePopup() {
-      this.isHookPopup = false;
+      this.$router.go(-1)
     },
   },
 };

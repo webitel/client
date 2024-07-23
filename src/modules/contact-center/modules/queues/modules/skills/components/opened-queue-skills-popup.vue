@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!skillId"
     overflow
     @close="close"
   >
@@ -134,6 +135,9 @@ export default {
       return this.id
         ? this.$t('objects.ccenter.queues.skills.editSkill')
         : this.$t('objects.ccenter.queues.skills.addSkill');
+    },
+    skillId() {
+      return this.$route.params.skillId;
     }
   },
 
@@ -144,6 +148,13 @@ export default {
 
     loadBucketsOptions(params) {
       return BucketsAPI.getLookup(params);
+    },
+  },
+  watch: {
+    skillId: {
+     handler(id) {
+       this.handleIdChange(id);
+     }, immediate: true,
     },
   },
 };

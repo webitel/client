@@ -1,5 +1,6 @@
 <template>
   <upload-csv-popup
+    v-bind="$attrs"
     v-model="mappingFields"
     :add-bulk-items="saveBulkData"
     :file="file"

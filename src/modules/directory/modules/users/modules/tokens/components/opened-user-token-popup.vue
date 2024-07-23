@@ -1,7 +1,7 @@
 <template>
   <wt-popup
     size="sm"
-    min-width="480"
+    v-bind="$attrs"
     @close="close"
   >
     <template #title>

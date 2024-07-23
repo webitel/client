@@ -1,7 +1,7 @@
 <template>
   <section>
     <role-popup
-      v-if="isRoleSelectPopup"
+      :shown="isRoleSelectPopup"
       :namespace="namespace"
       :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
@@ -20,7 +20,7 @@
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
-            @click="openRoleSelectPopup"
+            @click="addItem"
           />
         </wt-table-actions>
       </div>

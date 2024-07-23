@@ -18,7 +18,7 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -40,6 +40,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-communication-type-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import CommunicationsRouteNames from '../router/_internals/CommunicationsRouteNames.enum.js'
 
 export default {
   name: 'OpenedCommunicationsType',
@@ -51,6 +53,7 @@ export default {
   }),
   data: () => ({
     namespace: 'lookups/communications',
+    routeName: RouteNames.COMMUNICATIONS,
   }),
   validations: {
     itemInstance: {
@@ -66,6 +69,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: CommunicationsRouteNames.GENERAL,
         },
       ];
       return tabs;

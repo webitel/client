@@ -11,7 +11,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
         @close="closeDelete"
@@ -74,14 +74,20 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #flow="{ item }">
-              <wt-item-link :link="flowLink(item)">
+              <adm-item-link
+                :id="item.schema.id"
+                :route-name="RouteNames.FLOW"
+              >
                 {{ item.schema.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #listen="{ item, index }">
               <wt-switcher
@@ -98,11 +104,13 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -193,17 +201,6 @@ export default {
           route: '/integrations/email-profiles',
         },
       ];
-    },
-  },
-
-  methods: {
-    flowLink({ schema }) {
-      return {
-        name: `${RouteNames.FLOW}-edit`,
-        params: {
-          id: schema.id,
-        },
-      };
     },
   },
 };

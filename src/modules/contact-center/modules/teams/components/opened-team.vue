@@ -17,8 +17,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -38,6 +39,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum.js';
 import Agents from '../modules/agents/components/opened-team-agents.vue';
 import Flows from '../modules/flow/components/opened-team-flows.vue';
 import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
@@ -63,6 +66,8 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/teams',
+    routeName: RouteNames.TEAMS,
+    permissionsTabPathName: TeamsRouteNames.PERMISSIONS,
   }),
   validations: {
     itemInstance: {
@@ -100,27 +105,28 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        },
-        {
+          pathName: TeamsRouteNames.GENERAL,
+        }, {
           text: this.$t('objects.ccenter.teams.parameters'),
           value: 'parameters',
-        },
-        {
+          pathName: TeamsRouteNames.PARAMETERS,
+        }, {
           text: this.$tc('objects.ccenter.agents.supervisors', 2),
           value: 'supervisors',
-        },
-        {
+          pathName: TeamsRouteNames.SUPERVISORS,
+        }, {
           text: this.$tc('objects.ccenter.agents.agents', 2),
           value: 'agents',
-        },
-        {
+          pathName: TeamsRouteNames.AGENTS,
+        }, {
           text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
           value: 'hooks',
-        },
-        {
+          pathName: TeamsRouteNames.HOOKS,
+        }, {
           text: this.$tc('objects.routing.flow.flow', 2),
           value: 'flows',
-        },
+          pathName: TeamsRouteNames.FLOWS,
+        }
       ];
 
       if (this.id) tabs.push(this.permissionsTab);

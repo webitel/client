@@ -18,7 +18,7 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -39,6 +39,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import DialplanRouteNames from "../router/_internals/DialplanRouteNames.enum.js";
 import { regExpValidator } from '../../../../../app/utils/validators';
 import General from './opened-dialplan-general.vue';
 
@@ -52,6 +54,7 @@ export default {
   }),
   data: () => ({
     namespace: 'routing/dialplan',
+    routeName: RouteNames.DIALPLAN,
   }),
   validations: {
     itemInstance: {
@@ -70,6 +73,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: DialplanRouteNames.GENERAL
         },
       ];
       return tabs;

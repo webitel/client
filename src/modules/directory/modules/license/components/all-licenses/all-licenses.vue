@@ -1,8 +1,8 @@
 <template>
   <div class="all-licenses content-wrapper">
     <license-popup
-      v-if="isLicensePopup"
-      @close="isLicensePopup = false"
+      :shown="isLicensePopup"
+      @close="closeLicensePopup"
     />
     <license-users-popup
       v-if="isLicenseUsersPopup"
@@ -25,11 +25,14 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <wt-icon-action
+          <adm-item-link
             v-if="hasCreateAccess"
-            action="add"
-            @click="isLicensePopup = true"
-          />
+            id="new"
+            :route-name="LicencesRouteNames.ALL">
+            <wt-icon-action
+              action="add"
+            />
+          </adm-item-link>
         </wt-table-actions>
       </div>
     </header>
@@ -78,16 +81,16 @@
         </template>
 
         <template #used="{ item }">
-          <wt-item-link
-            :link="editLink(item)"
-            class="name-link"
+          <adm-item-link
+            :id="item.id"
+            :route-name="LicencesRouteNames.ALL"
           >
             <wt-icon
               icon="license-users"
               icon-prefix="adm"
             />
             {{ item.limit - item.remain }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
 
         <template #competitive="{ item }">
@@ -120,6 +123,7 @@
 <script>
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import LicencesRouteNames from '../../router/_internals/LicencesRouteNames.enum.js';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
 import LicensePopup from './license-popup.vue';
@@ -137,18 +141,29 @@ export default {
   data: () => ({
     namespace,
     isLicensePopup: false,
+    isLicenseUsersPopup: false,
+    LicencesRouteNames,
     routeName: RouteNames.LICENSE,
   }),
   computed: {
-    isLicenseUsersPopup() {
-      return !!this.$route.params.id;
+    licenseId() {
+      return this.$route.params.id;
     },
   },
   methods: {
+    openLicensePopup() {
+      this.isLicensePopup = true;
+    },
+    closeLicensePopup() {
+      this.$router.go(-1); // remove license id
+      this.isLicensePopup = false;
+    },
+    openLicenseUsersPopup() {
+      this.isLicenseUsersPopup = true;
+    },
     closeLicenseUsersPopup() {
-      this.$router.push({
-        name: this.routeName,
-      }); // remove license id
+      this.$router.go(-1);
+      this.isLicenseUsersPopup = false;
     },
 
     prettifyDate(date) {
@@ -171,6 +186,18 @@ export default {
       return 'success';
     },
   },
+  watch: {
+    licenseId: {
+     async handler(value) {
+        if(value === 'new') {
+          this.openLicensePopup();
+        } else if (value) {
+          this.openLicenseUsersPopup();
+        }
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 
@@ -184,7 +211,7 @@ export default {
   }
 }
 
-.name-link .wt-icon {
+.wt-item-link .wt-icon {
   margin-right: var(--spacing-2xs);
 }
 

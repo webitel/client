@@ -18,11 +18,11 @@
 
     <template #main>
       <queue-popup
-        v-if="isQueueSelectPopup"
+        :shown="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
         @close="closeDelete"
@@ -80,9 +80,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <template #type="{ item }">
@@ -94,17 +97,18 @@
             <template #waiting="{ item }">
               {{ item.waiting }}
             </template>
-            <template #priority="{ item } ">
+            <template #priority="{ item }">
               {{ item.priority }}
             </template>
-            <template #team="{ item } ">
-              <wt-item-link
+            <template #team="{ item }">
+              <adm-item-link
                 v-if="item.team"
-                :link="itemTeamLink(item)"
+                :id="item.team.id"
+                :route-name="RouteNames.TEAMS"
                 target="_blank"
               >
                 {{ item.team.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #tags="{ item }">
               <div
@@ -136,11 +140,14 @@
                 </template>
                 {{ $t('iconHints.members') }}
               </wt-tooltip>
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item, index)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit"/>
+              </adm-item-link>
+
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -177,6 +184,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueuePopup from './create-queue-popup.vue';
+import QueuesRoutesName from "../router/_internals/QueuesRoutesName.enum.js";
 
 const namespace = 'ccenter/queues';
 
@@ -243,32 +251,14 @@ export default {
 
   methods: {
     openMembers(item) {
-      this.$router.push({
+     return this.$router.push({
+       ...this.$route,
         name: `${RouteNames.MEMBERS}`,
         params: {
           queueId: item.id,
         },
       });
     },
-    itemTeamLink({ team }) {
-      return {
-        name: `${RouteNames.TEAMS}-edit`,
-        params: {
-          id: team.id,
-        },
-      };
-    },
-    editLink({ id, type }) {
-      const routeName = this.routeName || this.tableObjectRouteName;
-      return {
-        name: `${routeName}-edit`,
-        params: {
-          id,
-          type: QueueTypeProperties[type].subpath,
-        },
-      };
-    },
-
     create() {
       this.isQueueSelectPopup = true;
     },

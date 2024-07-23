@@ -1,7 +1,7 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
     @close="close"
   >
     <template #title>
@@ -27,6 +27,7 @@
 <script>
 import { mapState } from 'vuex';
 import TeamsAPI from '../api/teamSupervisors';
+import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum.js';
 
 export default {
   name: 'OpenedTeamSupervisorSubordinatesPopup',
@@ -38,8 +39,10 @@ export default {
   data: () => ({
     dataList: [],
   }),
-  created() {
-    this.loadDataList();
+  watch: {
+    itemId() {
+      this.loadDataList();
+    },
   },
   computed: {
     ...mapState('ccenter/teams/supervisors', {

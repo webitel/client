@@ -1,22 +1,21 @@
 <template>
   <section>
     <subordinate-popup
-      v-if="isSubordinatePopup"
       @close="closeSubordinatePopup"
     />
     <object-list-popup
-      v-if="isSupervisorPopup"
+      :shown="!!supervisorsId"
       :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders"
       :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      @close="closeSupervisorPopup"
+      @close="closeSupervisorsAndSkillsPopup"
     />
     <object-list-popup
-      v-if="isSkillsPopup"
+      :shown="!!skillsId"
       :data-list="openedItemSkills"
       :headers="openedItemSkillsHeaders"
       :title="$tc('objects.lookups.skills.skills', 2)"
-      @close="closeSkillsPopup"
+      @close="closeSupervisorsAndSkillsPopup"
     />
 
     <header class="content-header">
@@ -81,19 +80,19 @@
         <template #supervisor="{ item }">
           <one-plus-many
             :collection="item.supervisor"
-            @input="readSupervisor(item)"
+            @input="setSupervisorQuery(item)"
           />
         </template>
         <template #skills="{ item }">
           <one-plus-many
             :collection="item.skills"
-            @input="readSkills(item)"
+            @input="setSkillsQuery(item)"
           />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -142,19 +141,36 @@ export default {
     namespace,
     subNamespace, // used in mixin map actions
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    isSubordinatePopup: false,
 
     isDeleteConfirmation: false,
   }),
+
   methods: {
-    openPopup() {
-      return this.openSubordinatePopup();
+    addItem() {
+      return this.$router.push({
+        ...this.route,
+        params: {subordinateId: 'new'}
+      })
     },
-    openSubordinatePopup() {
-      this.isSubordinatePopup = true;
+    editItem(item) {
+      return this.$router.push({
+        ...this.route,
+        params: {subordinateId: item.id}
+      })
     },
     closeSubordinatePopup() {
-      this.isSubordinatePopup = false;
+     return this.$router.go(-1);
+    },
+  },
+  watch: {
+    dataList(data) {
+      if (data && this.skillsId) {
+        this.setOpenedItemId(this.skillsId);
+      }
+
+      if (data && this.supervisorsId) {
+        this.setOpenedItemId(this.supervisorsId);
+      }
     },
   },
 };

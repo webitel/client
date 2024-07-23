@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!editedApp"
     size="sm"
-    min-width="480"
     @close="close"
   >
     <template #title>
@@ -45,10 +46,6 @@ export default {
   name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
   props: {
-    editedApp: {
-      type: String,
-      required: true,
-    },
     namespace: {
       type: String,
       required: true,
@@ -61,14 +58,19 @@ export default {
       },
     }),
     appSectionsAccess() {
-      return Object.keys(this.access[this.editedApp])
-        .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
-        .map((section) => ({
-          name: section,
-          displayName: this.$t(this.access[this.editedApp][section]._locale),
-          enabled: this.access[this.editedApp][section]._enabled,
-        }));
+      if (this.editedApp) {
+        return Object.keys(this.access[this.editedApp])
+          .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
+          .map((section) => ({
+            name: section,
+            displayName: this.$t(this.access[this.editedApp][section]._locale),
+            enabled: this.access[this.editedApp][section]._enabled,
+          }));
+      }
     },
+    editedApp() {
+      return this.$route.params.applicationName;
+    }
   },
   methods: {
     ...mapActions({

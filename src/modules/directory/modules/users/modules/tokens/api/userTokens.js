@@ -53,7 +53,6 @@ const addToken = async ({ itemInstance, parentId }) => {
 };
 const deleteToken = async ({ id, parentId }) => {
   const url = `${baseUrl}/${parentId}/${nestedUrl}/${id}`;
-  console.info(url);
   try {
     const response = await instance.delete(url);
     return applyTransform(response.data, []);

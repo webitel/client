@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!agentId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -58,6 +59,11 @@ export default {
   validations: {
     itemInstance: {
       agent: { required },
+    },
+  },
+  computed: {
+    agentId() {
+      return this.$route.params.agentId;
     },
   },
   methods: {

@@ -12,6 +12,8 @@ import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 export default {
   mixins: [baseObjectMixin],
   created() {
+    console.log('TODO: REMOVE create hook')
+    // TODO: check where are used the nestedObjectMixin
     this.loadItem();
   },
 
@@ -30,6 +32,9 @@ export default {
     ...mapActions({
       setItemProp(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
+      },
+      setId(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
       },
     }),
 
@@ -50,5 +55,13 @@ export default {
     close() {
       this.$emit('close');
     },
+    handleIdChange(id) {
+      if (id) {
+        this.setId(id);
+        this.loadItem();
+      } else {
+        this.resetState();
+      }
+    }
   },
 };

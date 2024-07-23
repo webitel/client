@@ -24,8 +24,9 @@
     <template #main>
       <div class="main-container">
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -40,6 +41,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum.js';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -62,6 +65,7 @@ export default {
   }),
   data: () => ({
     namespace: 'ccenter/queues/members',
+    routeName: RouteNames.MEMBERS,
   }),
   validations: {
     itemInstance: {
@@ -83,14 +87,15 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        },
-        {
+          pathName: QueuesRoutesName.MEMBERS_GENERAL,
+        }, {
           text: this.$tc('objects.lookups.communications.communications', 1),
           value: 'communication',
-        },
-        {
+          pathName: QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE,
+        }, {
           text: this.$tc('objects.ccenter.queues.variables', 2),
           value: 'variables',
+          pathName: QueuesRoutesName.MEMBERS_VARIABLES,
         },
       ];
     },

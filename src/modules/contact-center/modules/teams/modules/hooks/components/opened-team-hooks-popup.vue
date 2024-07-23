@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!hookId"
     overflow
     @close="close"
   >
@@ -83,13 +84,14 @@ export default {
     },
     event() {
       const { event } = this.itemInstance;
-      return event
-        ? {
-            name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-            value: event,
-          }
-        : {};
+      return event ? {
+        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
+        value: event,
+      } : {};
     },
+    hookId() {
+      return this.$route.params.hookId;
+    }
   },
 
   methods: {
@@ -101,6 +103,17 @@ export default {
     },
     snakeToCamel,
   },
+  watch: {
+    hookId: {
+      handler(id) {
+        if (id === 'new') this.resetState();
+        if (id) {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true
+    },
+  }
 };
 </script>
 
