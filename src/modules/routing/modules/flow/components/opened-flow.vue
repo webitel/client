@@ -70,7 +70,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
-import FlowRoutesName from '../../../../../app/router/_internals/tabs/routing/FlowRouteNames.enum.js';
+import FlowRoutesName from '../router/_internals/FlowRouteNames.enum.js';
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 
 const namespace = 'routing/flow';

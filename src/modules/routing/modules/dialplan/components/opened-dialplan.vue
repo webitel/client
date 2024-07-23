@@ -44,6 +44,7 @@ import DialplanRoutesName from '../../../../../app/router/_internals/tabs/routin
 
 import { regExpValidator } from '../../../../../app/utils/validators';
 import General from './opened-dialplan-general.vue';
+import DialplanRoutesName from '../../../../../app/router/_internals/tabs/routing/DialplanRouteNames.enum.js';
 
 export default {
   name: 'OpenedDialplan',

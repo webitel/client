@@ -1,4 +1,4 @@
-import RouteNames from '../../RouteNames.enum.js';
+import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
 export default Object.freeze({
   GENERAL: `${RouteNames.CHAT_GATEWAYS}-general`,
   TEMPLATES: `${RouteNames.CHAT_GATEWAYS}-templates`,

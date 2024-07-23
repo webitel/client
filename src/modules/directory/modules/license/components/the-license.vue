@@ -24,7 +24,7 @@
 <script>
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
 import AllLicenses from './all-licenses/all-licenses.vue';
-import LicencesRouteNames from '../../../../../app/router/_internals/tabs/directory/LicencesRouteNames.enum.js';
+import LicencesRouteNames from '../router/_internals/LicencesRouteNames.enum.js';
 
 export default {
   name: 'TheLicense',

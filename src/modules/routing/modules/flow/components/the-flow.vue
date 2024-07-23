@@ -166,7 +166,7 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import FlowRouteNames from '../../../../../app/router/_internals/tabs/routing/FlowRouteNames.enum.js';
+import FlowRouteNames from '../router/_internals/FlowRouteNames.enum.js';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import FlowsAPI from '../api/flow';
 import FlowEditor from '../enums/FlowEditor.enum';

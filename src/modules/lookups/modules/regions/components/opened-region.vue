@@ -40,7 +40,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import RegionRouteNames from '../../../../../app/router/_internals/tabs/lookups/RegionRouteNames.enum.js';
+import RegionRouteNames from '../router/_internals/RegionRouteNames.enum.js';
 import General from './opened-region-general.vue';
 
 export default {

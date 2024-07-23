@@ -1,5 +1,4 @@
-import ObjectStoreModule
-  from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import LicenseAPI from '../api/license';
 import licenseUsers from '../modules/license-users/store/licenseUsers';
 import users from '../modules/users/store/users';

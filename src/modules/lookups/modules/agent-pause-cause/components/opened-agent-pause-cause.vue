@@ -42,7 +42,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import General from './opened-agent-pause-cause-general.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentPauseCauseRouteNames
-  from '../../../../../app/router/_internals/tabs/lookups/AgentPauseCauseRouteNames.enum.js';
+  from '../router/_internals/AgentPauseCauseRouteNames.enum.js';
 
 export default {
   name: 'OpenedAgentPauseCause',

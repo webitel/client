@@ -41,7 +41,7 @@ import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-communication-type-general.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CommunicationsRouteNames from '../../../../../app/router/_internals/tabs/lookups/CommunicationsRouteNames.enum.js'
+import CommunicationsRouteNames from '../router/_internals/CommunicationsRouteNames.enum.js'
 
 export default {
   name: 'OpenedCommunicationsType',

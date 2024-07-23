@@ -43,7 +43,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
 import General from './opened-blacklist-general.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import BlacklistRouteNames from '../../../../../app/router/_internals/tabs/lookups/BlacklistRouteNames.enum.js';
+import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.js';
 
 export default {
   name: 'OpenedBlacklist',

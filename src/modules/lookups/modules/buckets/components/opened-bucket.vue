@@ -39,7 +39,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-bucket-general.vue';
-import BucketsRouteNames from '../../../../../app/router/_internals/tabs/lookups/BucketsRouteNames.enum.js';
+import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {
