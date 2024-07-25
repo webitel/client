@@ -48,10 +48,11 @@ export const changeWebPhone = async (changes) => {
 export const getRingtonesList = async () => {
   const url = `${import.meta.env.VITE_RINGTONES_URL}/index.json`;
   try {
-    const ringtones = await fetch(url)
-    .then((res) => {
-      if(res && res.ok) res.json()
-    });
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Response from \'...ringtones/index.json\' was not ok');
+    }
+    const ringtones = await response.json();
     return ringtones.ringtones;
   } catch (err) {
     throw applyTransform(err, [
