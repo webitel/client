@@ -11,7 +11,7 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
-import { computed, ref, useAttrs } from 'vue';
+import { computed, ref, useAttrs, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { EngineSystemSettingName } from 'webitel-sdk';
 import ConfigurationAPI from '../../../modules/system/modules/configuration/api/configuration.js';
@@ -84,6 +84,10 @@ const loadV = async () => {
 };
 
 loadV();
+
+watch(model, () => {
+  v$.value.$touch();
+});
 </script>
 
 <style lang="scss" scoped>
