@@ -13,6 +13,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import { computed, ref, useAttrs } from 'vue';
 import { useRoute } from 'vue-router';
+import { watch } from 'vue/dist/vue.js';
 import { EngineSystemSettingName } from 'webitel-sdk';
 import ConfigurationAPI from '../../../modules/system/modules/configuration/api/configuration.js';
 import GeneratePasswordInput from './generate-password-input.vue';
@@ -84,6 +85,10 @@ const loadV = async () => {
 };
 
 loadV();
+
+watch(model, () => {
+  v$.value.$touch();
+});
 </script>
 
 <style lang="scss" scoped>
