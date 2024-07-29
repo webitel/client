@@ -11,9 +11,8 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
-import { computed, ref, useAttrs } from 'vue';
+import { computed, ref, useAttrs, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { watch } from 'vue/dist/vue.js';
 import { EngineSystemSettingName } from 'webitel-sdk';
 import ConfigurationAPI from '../../../modules/system/modules/configuration/api/configuration.js';
 import GeneratePasswordInput from './generate-password-input.vue';
@@ -60,9 +59,6 @@ const v$ = useVuelidate(
     };
   }),
   { model },
-  {
-    $autoDirty: true,
-  },
 );
 
 const loadV = async () => {
@@ -86,6 +82,9 @@ const loadV = async () => {
 
 loadV();
 
+//$autoDirty: true not used in useVuelidate because of this bug:
+//https://webitel.atlassian.net/browse/WTEL-4821
+//as for me bug produced by this code model: model.value ? { regex } : {},
 watch(model, () => {
   v$.value.$touch();
 });
