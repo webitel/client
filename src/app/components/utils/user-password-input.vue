@@ -59,9 +59,6 @@ const v$ = useVuelidate(
     };
   }),
   { model },
-  {
-    $autoDirty: true,
-  },
 );
 
 const loadV = async () => {
@@ -85,6 +82,9 @@ const loadV = async () => {
 
 loadV();
 
+//$autoDirty: true not used in useVuelidate because of this bug:
+//https://webitel.atlassian.net/browse/WTEL-4821
+//as for me bug produced by this code model: model.value ? { regex } : {},
 watch(model, () => {
   v$.value.$touch();
 });
