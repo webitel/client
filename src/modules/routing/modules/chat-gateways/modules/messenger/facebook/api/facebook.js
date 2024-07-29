@@ -9,6 +9,8 @@ const defaultListObject = {
   accounts: [],
 };
 
+const token = localStorage.getItem('access-token');
+
 const getList = async ({ uri }) => {
   const url = `${uri}?pages=`;
   try {
@@ -20,7 +22,7 @@ const getList = async ({ uri }) => {
   }
 };
 
-const addOrRemovePagesUrl = (uri) => `${chatBaseUrl}/${uri}/?pages=setup`;
+const addOrRemovePagesUrl = (uri) => `${chatBaseUrl}/${uri}/?pages=setup?access_token=${token}`;
 
 const updateSubscribe = ({ uri, value, id }) => {
   const action = value ? 'subscribe' : 'unsubscribe';

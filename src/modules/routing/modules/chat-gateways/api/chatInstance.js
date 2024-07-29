@@ -8,9 +8,12 @@ const chatBaseUrl = new URL(
   getChatOriginUrl(),
 ).toString();
 
+const token = localStorage.getItem('access-token');
+
 const chatInstance = axios.create({
   ...instance.config,
   baseURL: chatBaseUrl,
+  headers: {'X-Webitel-Access': token}
 });
 
 console.log('chatInstance:', chatInstance);
