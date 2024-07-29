@@ -16,7 +16,5 @@ const chatInstance = axios.create({
   headers: {'X-Webitel-Access': token}
 });
 
-console.log('chatInstance:', chatInstance);
-
 export default chatInstance;
 export { chatBaseUrl };

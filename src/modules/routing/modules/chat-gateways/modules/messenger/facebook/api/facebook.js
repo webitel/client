@@ -9,7 +9,6 @@ const defaultListObject = {
   accounts: [],
 };
 
-
 const getList = async ({ uri }) => {
   const url = `${uri}?pages=`;
   try {
