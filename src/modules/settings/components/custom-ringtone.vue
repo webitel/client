@@ -1,5 +1,5 @@
 <template>
-    <section class="custom-ringtone settings-section__setting">
+    <section class="custom-ringtone settings-section-item">
       <header class="content-header">
         <h3 class="content-title">
           {{ $t('settings.ringtones.title') }}
@@ -92,15 +92,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-ringtone__wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
+.custom-ringtone {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
 
-.wt-button {
-  display: block;
-  margin: 0 0 0 auto;
+  .content-title {
+    @extend %typo-heading-4;
+  }
+
+  .wt-button {
+    display: block;
+    margin: 0 0 0 auto;
+  }
+
+  .wt-player {
+    position: relative;
+    bottom: auto;
+  }
 }
 </style>
 
