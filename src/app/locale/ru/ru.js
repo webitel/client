@@ -70,7 +70,7 @@ export default {
       ringtone: 'Рингтон',
       customRingtone: 'Использовать кастомный рингтон',
     },
-    callEnd: 'Звуковое оповещение про завершение звонка',
+    callEnd: 'Звук завершения вызова',
   },
 
   validation: {

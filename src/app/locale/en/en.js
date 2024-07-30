@@ -70,7 +70,7 @@ export default {
       ringtone: 'Ringtone',
       customRingtone: 'Use the custom ringtone',
     },
-    callEnd: 'Call end tune infroming',
+    callEnd: 'Call end sound',
   },
 
   validation: {
