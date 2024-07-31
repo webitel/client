@@ -38,7 +38,7 @@
               <div class="settings-section__wrapper settings-section__switcher">
                 <p>{{ $t('settings.useWebPhone') }}</p>
                 <wt-switcher
-                  v-model="webrtc"
+                  :value="webrtc"
                   @change="changeWebrtc"
                 />
               </div>
@@ -48,7 +48,7 @@
               >
                 <p>{{ $t('settings.useStun') }}</p>
                 <wt-switcher
-                  v-model="stun"
+                  :value="stun"
                   @change="changeStun"
                 />
               </div>
