@@ -17,7 +17,7 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -39,6 +39,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-bucket-general.vue';
+import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {
   name: 'OpenedBucket',
@@ -50,6 +52,7 @@ export default {
   }),
   data: () => ({
     namespace: 'lookups/buckets',
+    routeName: RouteNames.BUCKETS,
   }),
   validations: {
     itemInstance: {
@@ -63,6 +66,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: BucketsRouteNames.GENERAL
         },
       ];
       return tabs;

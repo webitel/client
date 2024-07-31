@@ -43,13 +43,13 @@
           {{ new Date(+item.date).toLocaleString() }}
         </template>
         <template #object="{ item }">
-          <wt-item-link
+          <adm-item-link
             v-if="item.object"
             :id="item.configId"
             :route-name="changelogsRouteName"
           >
             {{ item.object.name }}
-          </wt-item-link>
+          </adm-item-link>
         </template>
         <template #record="{ item }">
           <record-link

@@ -1,7 +1,7 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="md"
-    min-width="600"
     overflow
     @close="close"
   >
@@ -44,13 +44,13 @@
               </div>
             </template>
             <template #name="{ item }">
-              <wt-item-link
+              <adm-item-link
                 v-if="item.user"
                 :id="item.user.id"
                 :route-name="RouteNames.USERS"
               >
                 {{ item.user.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #used="{ item }">
               <user-logout-control

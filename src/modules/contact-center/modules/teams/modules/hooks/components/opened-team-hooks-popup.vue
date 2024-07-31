@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!hookId"
     overflow
     @close="close"
   >
@@ -62,7 +63,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/teams/hooks',
@@ -83,13 +86,14 @@ export default {
     },
     event() {
       const { event } = this.itemInstance;
-      return event
-        ? {
-            name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-            value: event,
-          }
-        : {};
+      return event ? {
+        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
+        value: event,
+      } : {};
     },
+    hookId() {
+      return this.$route.params.hookId;
+    }
   },
 
   methods: {
@@ -101,6 +105,17 @@ export default {
     },
     snakeToCamel,
   },
+  watch: {
+    hookId: {
+      handler(id) {
+        if (id === 'new') this.resetState();
+        if (id) {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true
+    },
+  }
 };
 </script>
 

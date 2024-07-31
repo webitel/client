@@ -1,5 +1,6 @@
 <template>
   <selection-popup
+    v-bind="$attrs"
     :options="options"
     :selected="selected"
     :title="$t('objects.routing.gateways.newGateway')"
@@ -47,8 +48,10 @@ export default {
     createGateway() {
       if (this.selected) {
         this.$router.push({
-          name: `${RouteNames.GATEWAYS}-${this.selected.value}-new`,
-        });
+            name: `${RouteNames.GATEWAYS}-card`,
+            params: {id: 'new'},
+            query: {type: this.selected.value},
+          });
       }
     },
     close() {

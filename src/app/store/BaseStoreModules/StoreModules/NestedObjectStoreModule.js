@@ -9,7 +9,9 @@ const DEFAULT_ITEM_STATE = BaseOpenedInstanceModule.generateState();
 export default class NestedObjectStoreModule extends BaseStoreModule {
   getters = {
     GET_ITEM_BY_ID: (state) => (itemId) => state.dataList.find((item) => item.id === itemId),
-    GET_ITEM_PROP_BY_ID: (state, getters) => (itemId, prop) => getters.GET_ITEM_BY_ID(itemId)[prop],
+    GET_ITEM_PROP_BY_ID: (state, getters) => (itemId, prop) => {
+      if (itemId) return getters.GET_ITEM_BY_ID(itemId)[prop];
+    },
   };
 
   actions = {

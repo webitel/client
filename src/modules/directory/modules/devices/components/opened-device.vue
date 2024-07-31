@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -40,11 +41,13 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, requiredUnless } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { ipValidator, macValidator } from '../../../../../app/utils/validators';
 import General from './opened-device-general.vue';
 import PhoneInfo from './opened-device-phone-info.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
+import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
 
 const hotDeskNameValidator = (array) =>
   !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
@@ -63,6 +66,8 @@ export default {
   }),
   data: () => ({
     namespace: 'directory/devices',
+    permissionsTabPathName: `${DevicesRouteNames.PERMISSIONS}-card`,
+    routeName: RouteNames.DEVICES,
   }),
   validations() {
     let itemInstance = {
@@ -87,7 +92,7 @@ export default {
 
   computed: {
     isHotdesk() {
-      return this.$route.path.includes('hotdesk');
+      return this.$route.query.type === 'hotdesk' || this.itemInstance.hotdesk;
     },
 
     tabs() {
@@ -95,10 +100,11 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        },
-        {
+          pathName: DevicesRouteNames.GENERAL,
+        }, {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
+          pathName: DevicesRouteNames.PHONE_INFO,
         },
       ];
 
@@ -106,14 +112,15 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'hotdesk-general',
-        },
-        {
+          pathName: DevicesRouteNames.GENERAL,
+        }, {
           text: this.$t('objects.directory.devices.hotdesk'),
           value: 'hotdesk-hotdesking',
-        },
-        {
+          pathName: DevicesRouteNames.HOTDESKING,
+        }, {
           text: this.$t('objects.directory.devices.phoneInfo'),
           value: 'phone-info',
+          pathName: DevicesRouteNames.PHONE_INFO,
         },
       ];
       if (this.isHotdesk) return hotdeskTabs;
@@ -147,11 +154,15 @@ export default {
         return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
       },
     }),
-    setInitialTab() {
-      this.currentTab.value = this.isHotdesk ? 'hotdesk-general' : 'general';
+    async loadPageData() {
+      if (!this.new) await this.setId(this.$route.params.id);
+      return this.loadItem();
     },
     loadItem() {
       return this.loadTypedItem(this.isHotdesk);
+    },
+    close() {
+      this.$router.push({ name: RouteNames.DEVICES });
     },
   },
 };

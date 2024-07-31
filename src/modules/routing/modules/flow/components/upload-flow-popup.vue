@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="isUploadPopup"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -64,19 +65,26 @@ export default {
       name: { required },
     },
   },
+  watch: {
+    isUploadPopup() {
+      if (this.isUploadPopup) {
+        this.initFileReader();
+        this.processJSON();
+      }
+      else {
+        this.destroyFileReader();
+      }
+    }
+  },
   computed: {
     computeDisabledSave() {
       this.v$.$touch();
       // if its still pending or an error is returned do not submit
       return this.v$.$pending || this.v$.$error;
     },
-  },
-  created() {
-    this.initFileReader();
-    this.processJSON();
-  },
-  unmounted() {
-    this.destroyFileReader();
+    isUploadPopup() {
+      return this.$route.name.includes('uploadCSV');
+    }
   },
   methods: {
     async save() {

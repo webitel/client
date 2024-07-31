@@ -1,11 +1,10 @@
 <template>
   <section>
     <res-popup
-      v-if="isResPopup"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -86,7 +85,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -153,14 +152,22 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isResPopup: false,
   }),
   methods: {
-    openPopup() {
-      this.isResPopup = true;
+    addItem() {
+      this.$router.push({
+        ...this.$route,
+        params: {resourceId: 'new'},
+      })
+    },
+    editItem(item) {
+      this.$router.push({
+        ...this.$route,
+        params: {resourceId: item.id},
+      })
     },
     closePopup() {
-      this.isResPopup = false;
+      this.$router.go(-1)
     },
   },
 };

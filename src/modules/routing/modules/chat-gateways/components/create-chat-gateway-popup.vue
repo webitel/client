@@ -1,5 +1,6 @@
 <template>
   <selection-popup
+    v-bind="$attrs"
     :options="options"
     :selected="selected"
     :title="$t('objects.routing.chatGateways.newChatGateway')"
@@ -93,10 +94,9 @@ export default {
     },
     createGateway() {
       this.$router.push({
-        name: `${RouteNames.CHAT_GATEWAYS}-new`,
-        query: {
-          type: this.selected.value,
-        },
+        name: `${RouteNames.CHAT_GATEWAYS}-card`,
+        params: {id: 'new'},
+        query: { type: this.selected.value },
       });
     },
     close() {

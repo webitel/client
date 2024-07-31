@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!agentId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -49,7 +50,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
 
   data: () => ({
@@ -58,6 +61,11 @@ export default {
   validations: {
     itemInstance: {
       agent: { required },
+    },
+  },
+  computed: {
+    agentId() {
+      return this.$route.params.agentId;
     },
   },
   methods: {

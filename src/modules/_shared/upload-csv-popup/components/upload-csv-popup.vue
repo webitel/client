@@ -1,8 +1,8 @@
 <template>
   <wt-popup
+    :shown="!!isUploadPopup"
+    v-bind="$attrs"
     class="upload-popup"
-    size="md"
-    min-width="680"
     @close="close"
   >
     <template #title>

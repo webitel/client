@@ -1,7 +1,7 @@
 <template>
   <section>
     <role-popup
-      v-if="isRoleSelectPopup"
+      :shown="isRoleSelectPopup"
       :namespace="namespace"
       :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup"
@@ -31,7 +31,7 @@
         <wt-icon-action
           v-if="hasEditAccess"
           action="add"
-          @click="openRoleSelectPopup"
+          @click="addItem"
         />
       </div>
     </header>

@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!supervisorId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -52,7 +53,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
 
   data: () => ({
@@ -75,6 +78,9 @@ export default {
         ? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
         : this.$t('objects.ccenter.teams.supervisors.addSupervisor');
     },
+    supervisorId() {
+      return this.$route.params.supervisorId;
+    }
   },
 
   methods: {
@@ -90,6 +96,18 @@ export default {
         id,
       }));
       return response;
+    },
+  },
+  watch: {
+    supervisorId: {
+      handler(id) {
+        if (id === 'new') {
+          this.resetState();
+        } else if (id){
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
     },
   },
 };

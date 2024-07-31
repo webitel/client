@@ -1,7 +1,6 @@
 <template>
   <section>
     <number-popup
-      v-if="isNumberPopup"
       @close="closePopup"
     />
     <upload-popup
@@ -11,7 +10,7 @@
       @close="closeCSVPopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -92,7 +91,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -168,13 +167,18 @@ export default {
     return {
       namespace,
       subNamespace,
-      isNumberPopup: false,
       isUploadPopup: false,
       csvFile: null,
     };
   },
 
   methods: {
+    addItem() {
+      this.$router.push({
+        ...this.$route,
+        params: {numberId: 'new'},
+      })
+    },
     processCSV(files) {
       const file = files[0];
       if (file) {
@@ -186,11 +190,15 @@ export default {
       this.loadDataList();
       this.isUploadPopup = false;
     },
-    openPopup() {
-      this.isNumberPopup = true;
-    },
     closePopup() {
-      this.isNumberPopup = false;
+      this.resetItemState();
+      this.$router.go(-1);
+    },
+    editItem(item) {
+      this.$router.push({
+        ...this.$route,
+        params: {numberId: item.id},
+      })
     },
     prettifyDate(date) {
       if (date) return new Date(+date).toLocaleDateString();

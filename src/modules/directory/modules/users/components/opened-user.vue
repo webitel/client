@@ -27,8 +27,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -59,6 +60,7 @@ import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
+import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
 
 const namespace = 'directory/users';
 
@@ -112,6 +114,7 @@ export default {
   },
   data: () => ({
     namespace,
+    permissionsTabPathName: `${UsersRouteNames.PERMISSIONS}-card`,
     passwordRegExp: '',
     validationText: '',
   }),
@@ -119,6 +122,7 @@ export default {
   computed: {
     path() {
       const baseUrl = '/directory/users';
+
       return [
         {
           name: this.$t('objects.directory.directory'),
@@ -128,8 +132,8 @@ export default {
           route: baseUrl,
         },
         {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+          name: this.new ? this.$t('objects.new') : this.pathName,
+          route: this.new ? `${baseUrl}/new` : `${baseUrl}/${this.id}`,
         },
       ];
     },
@@ -138,32 +142,39 @@ export default {
       const general = {
         text: this.$t('objects.general'),
         value: 'general',
+        pathName: UsersRouteNames.GENERAL,
       };
       const roles = {
         text: this.$t('objects.directory.users.roles'),
         value: 'roles',
+        pathName: UsersRouteNames.ROLES,
       };
       const license = {
         text: this.$t('objects.directory.users.license'),
         value: 'license',
+        pathName: UsersRouteNames.LICENSE
       };
       const devices = {
         text: this.$t('objects.directory.users.devices'),
         value: 'devices',
+        pathName: UsersRouteNames.DEVICES,
       };
       const variables = {
         text: this.$t('objects.directory.users.variables'),
         value: 'variables',
+        pathName: UsersRouteNames.VARIABLES,
       };
       const tokens = {
         text: this.$t('objects.directory.users.tokens'),
         value: 'tokens',
+        pathName: UsersRouteNames.TOKENS,
       };
       const logs = {
         text: this.$t('objects.system.changelogs.changelogs', 2),
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/logs/filters`,
+        pathName: UsersRouteNames.LOGS,
       };
 
       const tabs = [general, roles, license, devices, variables, tokens];
@@ -172,6 +183,11 @@ export default {
       return tabs;
     },
   },
+  methods: {
+    close() {
+      this.$router.push(`/${this.namespace}`);
+    },
+  }
 };
 </script>
 

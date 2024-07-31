@@ -1,7 +1,6 @@
 <template>
   <section class="content-wrapper">
     <resource-popup
-      v-if="isResGroupPopup"
       @close="closePopup"
     />
 
@@ -69,7 +68,7 @@
         <template #actions="{ item, index }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -114,16 +113,27 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isResGroupPopup: false,
     isDeleteConfirmation: false,
   }),
   methods: {
-    openPopup() {
-      this.isResGroupPopup = true;
+    addItem() {
+      return this.$router.push({
+        ...this.$route,
+        params: {
+          resourceId: 'new',
+        }
+      })
     },
-
+    editItem(item) {
+      return this.$router.push({
+        ...this.$route,
+        params: {
+          resourceId: item.id,
+        }
+      })
+    },
     closePopup() {
-      this.isResGroupPopup = false;
+      this.$router.go(-1);
     },
   },
 };

@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -47,6 +48,7 @@ import {
 } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
   gatewayHostValidator,
   ipValidator,
@@ -55,6 +57,7 @@ import {
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
 import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
 import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
+import GatewaysRoutesName from '../router/_internals/GatewaysRouteNames.enum.js';
 
 export default {
   name: 'OpenedSipGateway',
@@ -70,6 +73,7 @@ export default {
 
   data: () => ({
     namespace: 'routing/gateways',
+    routeName: RouteNames.GATEWAYS,
   }),
   validations() {
     if (this.isRegister) {
@@ -119,7 +123,7 @@ export default {
 
   computed: {
     isRegister() {
-      return this.$route.path.includes('register');
+      return this.$route.query.type === 'reg' || this.itemInstance.register;
     },
 
     tabs() {
@@ -127,16 +131,18 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'register-general',
+          pathName: GatewaysRoutesName.GENERAL,
         },
       ];
       const trunkingTabs = [
         {
           text: this.$t('objects.general'),
           value: 'trunking-general',
-        },
-        {
+          pathName: GatewaysRoutesName.GENERAL,
+        }, {
           text: this.$tc('objects.routing.configuration'),
           value: 'trunking-configuration',
+          pathName: GatewaysRoutesName.CONFIGURATION,
         },
       ];
       return this.isRegister ? registerTabs : trunkingTabs;
@@ -180,6 +186,10 @@ export default {
     loadItem() {
       if (this.isRegister) this.loadRegisterItem();
       else this.loadTrunkingItem();
+    },
+
+    changeTab(tab) {
+      this.$router.push({ name: tab.pathName, query: this.$route.query });
     },
   },
 };

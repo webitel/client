@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!skillId"
     overflow
     @close="close"
   >
@@ -59,7 +60,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/agents/skills',
@@ -76,11 +79,28 @@ export default {
     },
   },
 
+  computed: {
+    skillId() {
+      return this.$route.params.skillId;
+    }
+  },
+
   methods: {
     loadDropdownOptionsList(params) {
       return SkillsAPI.getLookup(params);
     },
   },
+
+  watch: {
+    skillId: {
+      handler(id) {
+        if (id) {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 

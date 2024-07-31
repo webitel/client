@@ -40,7 +40,7 @@
         @submit.prevent="saveCode"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -70,6 +70,8 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
 import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
+import FlowRoutesName from '../router/_internals/FlowRouteNames.enum.js';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 
 const namespace = 'routing/flow';
 export default {
@@ -107,6 +109,7 @@ export default {
   data: () => ({
     namespace,
     isSaveFailedPopup: false,
+    routeName: RouteNames.FLOW,
   }),
   validations: {
     itemInstance: {
@@ -127,6 +130,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'json-schema',
+          pathName: FlowRoutesName.GENERAL,
         },
       ];
       return tabs;

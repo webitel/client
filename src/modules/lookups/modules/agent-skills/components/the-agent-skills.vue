@@ -9,7 +9,7 @@
           <wt-button
             :disabled="!selectedRows.length"
             color="secondary"
-            @click="isAddSkillToAgentPopup = true"
+            @click="openAddSkillToAgentPopup"
           >
             {{ $t('objects.lookups.skills.assignAgent') }}
           </wt-button>
@@ -20,16 +20,15 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
       />
 
       <add-skill-to-agent-popup
-        v-if="isAddSkillToAgentPopup"
         :skill-id="selectedRowsId"
-        @close="isAddSkillToAgentPopup = false"
+        @close="closeAddSkillToAgentPopup"
         @saved="loadDataList"
       />
 
@@ -85,9 +84,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                :id="item.id"
+                :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #description="{ item }">
               {{ item.description }}
@@ -99,11 +101,13 @@
               {{ item.activeAgents }}
             </template>
             <template #actions="{ item }">
-              <wt-icon-action
+              <adm-item-link
                 v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+                :id="item.id"
+                :route-name="routeName"
+              >
+                <wt-icon-action action="edit" />
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -136,6 +140,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import addSkillToAgentMixin from '../mixins/addSkillToAgentPopupMixin.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 
@@ -144,7 +149,7 @@ const namespace = 'lookups/skills';
 export default {
   name: 'TheAgentSkills',
   components: { AddSkillToAgentPopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+  mixins: [tableComponentMixin, addSkillToAgentMixin],
 
   setup() {
     const { dummy } = useDummy({
@@ -174,7 +179,6 @@ export default {
   data: () => ({
     namespace,
     routeName: RouteNames.SKILLS,
-    isAddSkillToAgentPopup: false,
   }),
 
   computed: {

@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!numberId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -46,7 +47,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/res/numbers',
@@ -60,8 +63,19 @@ export default {
     popupTitle() {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
-    }
-  }
+    },
+    numberId() {
+      return this.$route.params.numberId;
+    },
+  },
+  watch: {
+    numberId: {
+      immediate: true,
+      handler(id) {
+        this.handleIdChange(id);
+      },
+    },
+  },
 };
 </script>
 

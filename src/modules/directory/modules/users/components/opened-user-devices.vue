@@ -26,15 +26,15 @@
           multiple
           @input="setItemProp({ prop: 'devices', value: $event })"
         />
-
         <div class="hint-link__wrap">
           <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
-          <router-link
-            class="hint-link__link"
-            to="/directory/devices/new"
+          <adm-item-link
+              class="hint-link__link"
+              id="new"
+              :route-name="RouteNames.DEVICES"
           >
             {{ $t('objects.directory.users.createNewDevice') }}
-          </router-link>
+          </adm-item-link>
         </div>
       </div>
     </div>
@@ -42,12 +42,14 @@
 </template>
 
 <script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import ItemLinkMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/itemLinkMixin.js';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import DevicesAPI from '../../devices/api/devices';
 
 export default {
   name: 'OpenedUserDevices',
-  mixins: [openedTabComponentMixin],
+  mixins: [openedTabComponentMixin, ItemLinkMixin],
   methods: {
     async loadDropdownOptionsList(params) {
       const fields = ['id', 'name', 'hotdesk'];
@@ -70,6 +72,7 @@ export default {
 
 .hint-link__link {
   @extend %typo-subtitle-2;
+  display: inline-block;
   text-decoration: underline;
   color: var(--info-color);
 }
