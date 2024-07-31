@@ -63,11 +63,11 @@ const QueuesRoutes = [
         name: QueuesRoutesName.AMD,
         component: Amd,
       },{
-        path: 'resources',
+        path: 'resources/:resourceId?',
         name: QueuesRoutesName.RESOURCES,
         component: Resources,
       },{
-        path: 'buckets',
+        path: 'buckets/:bucketId?',
         name: QueuesRoutesName.BUCKETS,
         component: Buckets,
       },{

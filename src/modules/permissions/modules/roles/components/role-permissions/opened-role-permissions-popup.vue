@@ -121,18 +121,17 @@ export default {
         }));
       return response;
     },
-    resetItemInstance() {
+    loadItem() {},
+    resetState() {
       this.itemInstance = {
         permission: {},
       };
     },
-    loadItem() {},
-    resetState() {},
   },
   watch: {
     permissionIndex(index) {
        if (index !== 'new') this.initEditedValue()
-       else this.resetItemInstance();
+       else this.resetState();
     },
     permissions(item) {
       if (item && this.permissionIndex) this.initEditedValue();

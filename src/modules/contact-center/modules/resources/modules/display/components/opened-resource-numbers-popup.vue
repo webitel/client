@@ -47,7 +47,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/res/numbers',
@@ -70,11 +72,7 @@ export default {
     numberId: {
       immediate: true,
       handler(id) {
-       if (id === 'new') this.resetState()
-       else {
-         this.setId(id);
-         this.loadItem();
-       }
+        this.handleIdChange(id);
       },
     },
   },

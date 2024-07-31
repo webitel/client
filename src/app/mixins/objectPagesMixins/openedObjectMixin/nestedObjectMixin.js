@@ -11,11 +11,6 @@ import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
  */
 export default {
   mixins: [baseObjectMixin],
-  created() {
-    console.log('TODO: REMOVE create hook')
-    // TODO: check where are used the nestedObjectMixin
-    this.loadItem();
-  },
 
   computed: {
     ...mapState({
@@ -59,9 +54,8 @@ export default {
       if (id) {
         this.setId(id);
         this.loadItem();
-      } else {
-        this.resetState();
       }
+      this.resetState();
     }
   },
 };

@@ -1,7 +1,8 @@
 <template>
   <section class="content-wrapper">
     <skill-buckets-popup
-      @close="closePopup"
+      @close="closeBucketsPopup"
+      :shown="!!agentBucketsId"
     />
 
     <skill-popup
@@ -118,6 +119,7 @@
 
 <script>
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import bucketsPopupMixin from "../mixins/bucketsPopupMixin.js";
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
@@ -128,7 +130,7 @@ const subNamespace = 'skills';
 export default {
   name: 'OpenedQueueSkills',
   components: { SkillPopup, SkillBucketsPopup },
-  mixins: [openedObjectTableTabMixin],
+  mixins: [openedObjectTableTabMixin, bucketsPopupMixin],
   setup() {
     const { dummy } = useDummy({
       namespace: `${namespace}/${subNamespace}`,
@@ -140,28 +142,9 @@ export default {
     namespace,
     subNamespace,
     isSkillBucketsPopup: null,
-    agentId: 0,
     isDeleteConfirmation: false,
   }),
-  computed: {
-    isBucket() {
-      return this.$route.query.bucket;
-    },
-  },
   methods: {
-    getFirstBucket(buckets) {
-      if (buckets.length > 0) {
-        return buckets[0].name;
-      }
-      return '';
-    },
-
-    setBucketQuery(item) {
-      this.$router.push({
-        ...this.$route,
-        query: {bucket: item.id}
-      })
-    },
     addItem() {
       this.$router.push({
         ...this.$route,

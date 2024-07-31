@@ -1,5 +1,7 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!resourceId"
     size="sm"
     min-width="480"
     overflow
@@ -49,11 +51,18 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/queues/resGroups',
   }),
+  computed: {
+    resourceId() {
+      return this.$route.params.resourceId;
+    },
+  },
   validations: {
     itemInstance: {
       resourceGroup: { required },
@@ -63,6 +72,15 @@ export default {
   methods: {
     loadResGroupsOptions(params) {
       return ResourceGroupsAPI.getLookup(params);
+    },
+  },
+
+  watch: {
+    resourceId: {
+      immediate: true,
+      handler(id) {
+       if (id) this.handleIdChange(id);
+      },
     },
   },
 };

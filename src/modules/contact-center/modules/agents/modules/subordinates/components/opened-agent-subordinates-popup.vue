@@ -50,7 +50,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/agents/subordinates',

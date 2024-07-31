@@ -1,5 +1,7 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!bucketId"
     size="sm"
     min-width="480"
     overflow
@@ -57,7 +59,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
 
   data: () => ({
@@ -78,12 +82,24 @@ export default {
       return this.id
         ? this.$t('objects.ccenter.queues.buckets.editBucket')
         : this.$t('objects.ccenter.queues.buckets.addBucket');
-    }
+    },
+    bucketId() {
+      return this.$route.params.bucketId;
+    },
   },
 
   methods: {
     loadBucketsOptions(params) {
       return BucketsAPI.getLookup(params);
+    },
+  },
+
+  watch: {
+    bucketId: {
+      immediate: true,
+      handler(id) {
+        if (id) this.handleIdChange(id);
+      },
     },
   },
 };

@@ -20,6 +20,7 @@ const OpenedChatGatewayWebchatChatTab = () => import('../modules/webchat/compone
 const OpenedChatGatewayWebchatAppointmentTab = () => import('../modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue');
 const OpenedChatGatewayWebchatRecaptchaTab = () => import('../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue');
 const OpenedChatGatewayCustomGeneralTab = () => import('../components/custom/opened-chat-gateway-custom-general-tab.vue');
+const OpenedChatGatewayViberStyleTab = () => import("../components/viber/opened-chat-gateway-viber-style-tab.vue");
 
 const ChatGetewaysRoutes = [
   {
@@ -99,7 +100,11 @@ const ChatGetewaysRoutes = [
         path: 'templates',
         name: ChatGatewayRouteNames.TEMPLATES,
         component: OpenedChatGatewayTemplatesTab,
-      },
+      },{
+        path: 'style',
+        name: ChatGatewayRouteNames.STYLE,
+        component: OpenedChatGatewayViberStyleTab,
+      }
     ],
   },
 ];

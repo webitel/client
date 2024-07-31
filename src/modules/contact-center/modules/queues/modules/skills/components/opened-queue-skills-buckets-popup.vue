@@ -1,7 +1,6 @@
 <template>
   <wt-popup
     v-bind="$attrs"
-    :shown="!!isBucket"
     size="sm"
     @close="close"
   >
@@ -26,16 +25,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 
 export default {
   name: 'OpenedQueueSkillsBucketsPopup',
-  data: () => ({
-    buckets: [],
-    itemId: 0,
-  }),
-
   computed: {
     ...mapState({
       itemBuckets(state) {
@@ -50,33 +44,13 @@ export default {
         },
       ];
     },
-    isBucket() {
-      return this.$route.query.bucket;
-    }
   },
 
   methods: {
-    async getItemBuckets() {
-      await this.$store.dispatch('ccenter/queues/skills/GET_ITEM_BUCKETS', this.itemId);
-    },
     close() {
       this.$emit('close');
     },
-    setItemId(id) {
-      this.itemId = +id;
-    }
   },
-
-  watch: {
-    isBucket: {
-     async handler(id) {
-        if (id) {
-          this.setItemId(id);
-          await this.getItemBuckets();
-        }
-      }, immediate: true,
-    }
-  }
 };
 </script>
 

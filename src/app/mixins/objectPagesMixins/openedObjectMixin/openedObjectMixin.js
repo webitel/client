@@ -50,7 +50,6 @@ export default {
     }),
 
     async loadPageData() {
-      if (this.new) return;
       await this.setId(this.$route.params.id);
       return this.loadItem();
     },

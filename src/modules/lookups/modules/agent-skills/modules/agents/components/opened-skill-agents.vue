@@ -138,6 +138,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import objectTableAccessControlMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
@@ -150,7 +151,7 @@ export default {
     ChangeSkillPopup,
     DeleteConfirmationPopup,
   },
-  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin, addSkillToAgentMixin],
+  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin, addSkillToAgentPopupMixin],
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,
