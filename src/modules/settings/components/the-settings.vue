@@ -7,9 +7,7 @@
     </template>
     <template #main>
       <section class="settings-section">
-        <!--This wrapper is needed to set height and place the settings-section-items
-        in 2 columns and have flexible background for this at the same time-->
-        <div class="settings-section__content">
+        <div class="settings-section__column">
           <change-password />
           <section class="settings-section-item">
             <header class="content-header">
@@ -54,6 +52,8 @@
               </div>
             </form>
           </section>
+        </div>
+        <div class="settings-section__column">
           <section class="settings-section-item">
             <header class="content-header">
               <h3 class="content-title">
@@ -196,19 +196,19 @@ export default {
 <style lang="scss" scoped>
 .settings-section {
   width: 100%;
+  display: flex;
+  gap: var(--spacing-sm);
 
-  &__content {
+  &__column {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    max-height: 650px; // we need it to place blocks in 2 columns and have flexible background for this at the same time
+    flex: 1;
     gap: var(--spacing-sm);
   }
 
   &-item {
     display: flex;
     flex-direction: column;
-    width: calc(50% - var(--spacing-sm));
     padding: 0 var(--spacing-sm) var(--spacing-sm);
     border-radius: var(--border-radius);
     box-shadow: var(--elevation-5);
