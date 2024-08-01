@@ -1,42 +1,42 @@
 <template>
-  <section class="custom-ringtone settings-section__setting">
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $t('settings.ringtones.title') }}
-      </h3>
-    </header>
-    <form>
-      <div class="custom-ringtone__wrapper">
-        <wt-checkbox
-          :selected="isCustomRingtone"
-          :label="$tc('settings.ringtones.customRingtone')"
-          @change="selectRingtoneType"
-        />
-        <wt-select
-          :value="ringtone"
-          :options="options"
-          :disabled="!isCustomRingtone"
-          :clearable="false"
-          :label="$tc('settings.ringtones.ringtone')"
-          option-label="label"
-          track-by="label"
-          @input="ringtone = $event"
-        />
-        <wt-player
-          v-show="audioLink"
-          :src="audioLink"
-          :closable="false"
-          :autoplay="false"
-        />
-        <wt-button
-          :disabled="savedRingtone === ringtone.name"
-          @click.prevent="saveRingtone"
-        >
-          {{ $t('objects.save') }}
-        </wt-button>
-      </div>
-    </form>
-  </section>
+    <section class="custom-ringtone settings-section__setting">
+      <header class="content-header">
+        <h3 class="content-title">
+          {{ $t('settings.ringtones.title') }}
+        </h3>
+      </header>
+      <form>
+        <div class="custom-ringtone__wrapper">
+          <wt-checkbox
+            :selected="isCustomRingtone"
+            :label="$tc('settings.ringtones.customRingtone')"
+            @change="selectRingtoneType"
+          />
+          <wt-select
+            :value="ringtone"
+            :options="options"
+            :disabled="!isCustomRingtone"
+            :clearable="false"
+            :label="$tc('settings.ringtones.ringtone')"
+            option-label="label"
+            track-by="label"
+            @input="ringtone = $event"
+          />
+          <wt-player
+            v-show="audioLink"
+            :src="audioLink"
+            :closable="false"
+            :autoplay="false"
+          />
+          <wt-button
+            :disabled="savedRingtone === ringtone.name"
+            @click.prevent="saveRingtone"
+          >
+            {{ $t('objects.save') }}
+          </wt-button>
+        </div>
+      </form>
+    </section>
 </template>
 
 <script>
@@ -58,14 +58,12 @@ export default {
       return this.isRingtoneSelected
         ? `${import.meta.env.VITE_RINGTONES_URL}/${this.ringtone.name}`
         : '';
-    },
+      },
   },
   methods: {
     selectRingtoneType() {
       this.isCustomRingtone = !this.isCustomRingtone;
-      if (!this.isRingtoneSelected) {
-        this.ringtone = {};
-      }
+      if (!this.isRingtoneSelected) this.ringtone = {};
     },
     saveRingtone() {
       this.ringtone.name
