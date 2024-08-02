@@ -29,7 +29,7 @@
             :autoplay="false"
           />
           <wt-button
-            :disabled="savedRingtone === ringtone.name"
+            :disabled="isRingtoneSaved"
             @click.prevent="saveRingtone"
           >
             {{ $t('objects.save') }}
@@ -48,7 +48,7 @@ export default {
     isCustomRingtone: false,
     ringtone: {},
     options: [],
-    savedRingtone: undefined, // value from localStorage
+    savedRingtone: undefined, // value from localStorage, we need undefined for comparison with ringtone.name when it
   }),
   computed: {
     isRingtoneSelected() {
@@ -59,6 +59,9 @@ export default {
         ? `${import.meta.env.VITE_RINGTONES_URL}/${this.ringtone.name}`
         : '';
       },
+    isRingtoneSaved() {
+      return this.savedRingtone === this.ringtone.name;
+    }
   },
   methods: {
     selectRingtoneType() {
