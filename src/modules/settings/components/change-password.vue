@@ -1,5 +1,5 @@
 <template>
-  <article class="change-password">
+  <article class="change-password settings-section-item">
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('settings.changePassword') }}
@@ -86,6 +86,14 @@ async function changePassword() {
 
 <style lang="scss" scoped>
 .change-password {
-
+  .content-title {
+    @extend %typo-heading-4;
+  }
 }
+
+.wt-button {
+  display: block;
+  margin: 0 0 0 auto;
+}
+
 </style>
