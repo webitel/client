@@ -150,7 +150,7 @@ export default {
           name: this.id
             ? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
             : `${this.$t('objects.new')} (${this.$t(`objects.flow.type.${this.type}`)})`,
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+          route: { name: this.currentTab.pathName, query: this.$route.query },
         },
       ];
     },

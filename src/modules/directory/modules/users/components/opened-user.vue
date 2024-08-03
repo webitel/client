@@ -122,7 +122,6 @@ export default {
   computed: {
     path() {
       const baseUrl = '/directory/users';
-
       return [
         {
           name: this.$t('objects.directory.directory'),
@@ -133,7 +132,10 @@ export default {
         },
         {
           name: this.new ? this.$t('objects.new') : this.pathName,
-          route: this.new ? `${baseUrl}/new` : `${baseUrl}/${this.id}`,
+          route: {
+            name: this.currentTab.pathName,
+            query: this.$route.query,
+          },
         },
       ];
     },

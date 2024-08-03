@@ -76,7 +76,10 @@ export default {
         },
         {
           name: this.pathName,
-          route: `${baseUrl}/${this.id}`,
+          route: {
+            name: this.currentTab.pathName,
+            query: this.$route.query,
+          },
         },
       ];
     },

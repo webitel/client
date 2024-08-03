@@ -156,7 +156,6 @@ export default {
 
     path() {
       const baseUrl = '/routing/sip-gateways';
-      const url = baseUrl.concat(this.isRegister ? '/register' : '/trunking');
       return [
         {
           name: this.$t('objects.routing.routing'),
@@ -167,7 +166,10 @@ export default {
         },
         {
           name: `${this.id ? this.pathName : this.$t('objects.new')} (${this.gatewayTitle})`,
-          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+          route: {
+            name: this.currentTab.pathName,
+            query: this.$route.query,
+          },
         },
       ];
     },
