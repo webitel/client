@@ -29,6 +29,7 @@
             :autoplay="false"
           />
           <wt-button
+            :disabled="isRingtoneSaved"
             @click.prevent="saveRingtone"
           >
             {{ $t('objects.save') }}
@@ -47,16 +48,21 @@ export default {
     isCustomRingtone: false,
     ringtone: {},
     options: [],
+    savedRingtone: null,
   }),
   computed: {
     isRingtoneSelected() {
       return this.isCustomRingtone && this.ringtone.name;
     },
     audioLink() {
-     return this.isRingtoneSelected
-       ? `${import.meta.env.VITE_RINGTONES_URL}/${this.ringtone.name}`
-       : '';
-    },
+      return this.isRingtoneSelected
+        ? `${import.meta.env.VITE_RINGTONES_URL}/${this.ringtone.name}`
+        : '';
+      },
+    isRingtoneSaved() {
+      return !this.savedRingtone && !this.ringtone.name // if was chosen default ringtone
+        || this.savedRingtone === this.ringtone.name;
+    }
   },
   methods: {
     selectRingtoneType() {
@@ -67,6 +73,7 @@ export default {
       this.ringtone.name
         ? localStorage.setItem('settings/ringtone', this.ringtone.name)
         : localStorage.removeItem('settings/ringtone');
+      this.savedRingtone = localStorage.getItem('settings/ringtone');
     },
     async loadRingtonesOptions() {
       this.options = await getRingtonesList();
@@ -74,6 +81,7 @@ export default {
     restoreRingtone() {
       const ringtoneName = localStorage.getItem('settings/ringtone');
       if (ringtoneName) {
+        this.savedRingtone = ringtoneName;
         this.ringtone = this.options.find(item => item.name === ringtoneName);
         this.isCustomRingtone = true;
       }
