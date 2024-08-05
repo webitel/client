@@ -204,9 +204,7 @@ export default {
     },
 
     path() {
-      const { type } = this.$route.params;
       const baseUrl = '/integrations/storage';
-      const url = `${baseUrl}/${type}`;
       return [
         {
           name: this.$t('objects.integrations.integrations'),
@@ -217,7 +215,10 @@ export default {
         },
         {
           name: this.id ? `${this.pathName} (${this.service.name})` : this.$t('objects.new'),
-          route: this.id ? `${url}/${this.id}` : `${url}/new`,
+          route: {
+            name: this.currentTab.pathName,
+            query: this.$route.query,
+          },
         },
       ];
     },

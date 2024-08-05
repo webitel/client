@@ -55,6 +55,7 @@ export default {
         } else {
           try {
             await this.addItem();
+
             if (this.id) {
               await this.redirectToEdit();
             }

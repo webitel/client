@@ -131,7 +131,6 @@ export default {
 
     path() {
       const baseUrl = '/directory/devices';
-      const url = baseUrl + (this.isHotdesk ? '/hotdesk' : '');
       return [
         {
           name: this.$t('objects.directory.directory'),
@@ -142,7 +141,10 @@ export default {
         },
         {
           name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${url}/${this.id}` : `${baseUrl}/new`,
+          route: {
+            name: this.currentTab.pathName,
+            query: this.$route.query,
+          },
         },
       ];
     },

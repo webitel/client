@@ -406,7 +406,10 @@ export default {
         },
         {
           name: `${this.id ? this.pathName : this.$t('objects.new')} (${title})`,
-          route: `${baseUrl}/${this.id ? this.id : 'new'}/${QueueTypeProperties[this.queueType].subpath}`,
+          route: {
+            name: this.currentTab.pathName,
+            query: this.$route.query,
+          },
         },
       ];
     },
