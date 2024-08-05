@@ -46,7 +46,8 @@ export const changeWebPhone = async (changes) => {
 };
 
 export const getRingtonesList = async () => {
-  const url = `${import.meta.env.VITE_RINGTONES_URL}/index.json`;
+  // const url = `${import.meta.env.VITE_RINGTONES_URL}/index.json`;
+  const url = 'https://dev.webitel.com/ringtones/index.json';
   try {
     const response = await fetch(url);
     if (!response.ok) {

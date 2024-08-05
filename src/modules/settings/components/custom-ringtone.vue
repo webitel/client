@@ -48,7 +48,7 @@ export default {
     isCustomRingtone: false,
     ringtone: {},
     options: [],
-    savedRingtone: undefined, // value from localStorage, we need undefined for comparison with ringtone.name when it
+    savedRingtone: null,
   }),
   computed: {
     isRingtoneSelected() {
@@ -60,7 +60,8 @@ export default {
         : '';
       },
     isRingtoneSaved() {
-      return this.savedRingtone === this.ringtone.name;
+      return !this.savedRingtone && !this.ringtone.name // if was chosen default ringtone
+        || this.savedRingtone === this.ringtone.name;
     }
   },
   methods: {
@@ -72,7 +73,7 @@ export default {
       this.ringtone.name
         ? localStorage.setItem('settings/ringtone', this.ringtone.name)
         : localStorage.removeItem('settings/ringtone');
-      this.savedRingtone = localStorage.getItem('settings/ringtone') || undefined;
+      this.savedRingtone = localStorage.getItem('settings/ringtone');
     },
     async loadRingtonesOptions() {
       this.options = await getRingtonesList();
