@@ -56,10 +56,6 @@ export default {
           try {
             await this.addItem();
 
-            /* When creating an entity, queries can be added to the route to
-            determine the type of entity, after saving, these queries are no longer needed*/
-            this.$route.query = {};
-
             if (this.id) {
               await this.redirectToEdit();
             }
