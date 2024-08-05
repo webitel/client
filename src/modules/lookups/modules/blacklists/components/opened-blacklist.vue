@@ -18,8 +18,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -41,6 +42,8 @@ import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
 import General from './opened-blacklist-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.js';
 
 export default {
   name: 'OpenedBlacklist',
@@ -53,6 +56,7 @@ export default {
 
   data: () => ({
     namespace: 'lookups/blacklists',
+    routeName: RouteNames.BLACKLIST,
   }),
   validations: {
     itemInstance: {
@@ -66,16 +70,18 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        },
-        {
+          pathName: BlacklistRouteNames.GENERAL,
+        }, {
           text: this.$tc('objects.lookups.blacklist.number', 2),
           value: 'numbers',
+          pathName: BlacklistRouteNames.NUMBERS,
         },
       ];
 
       const permissions = {
         text: this.$tc('objects.permissions.permissions', 2),
         value: 'permissions',
+        pathName: BlacklistRouteNames.PERMISSIONS,
       };
 
       if (this.id) tabs.push(permissions);

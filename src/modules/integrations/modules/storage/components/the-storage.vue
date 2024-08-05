@@ -11,7 +11,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
         @close="closeDelete"
@@ -201,21 +201,10 @@ export default {
       },
     }),
     create() {
-      this.$router.push({
-        name: `${RouteNames.STORAGE}-new`,
-        params: {
-          type: Storage.S3,
-        },
-      });
+      this.$router.push({ name: `${RouteNames.STORAGE}-card`, params: { type: Storage.S3, id: 'new' } });
     },
     editLink({ type, id }) {
-      return {
-        name: `${RouteNames.STORAGE}-edit`,
-        params: {
-          type,
-          id,
-        },
-      };
+      return { name: `${RouteNames.STORAGE}-card`, params: { type, id } };
     },
     closeStorageSelectPopup() {
       this.isStorageSelectPopup = false;

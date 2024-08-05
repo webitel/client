@@ -1,11 +1,11 @@
 <template>
-  <wt-item-link
+  <adm-item-link
     v-if="recordRouteName"
     :id="item.record.id"
     :route-name="recordRouteName"
   >
     {{ item.record.id }}
-  </wt-item-link>
+  </adm-item-link>
   <div v-else>
     {{ item.record.id }}
   </div>

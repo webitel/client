@@ -17,8 +17,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -38,6 +39,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
+import RolesRouteNames from "../router/_internals/RolesRouteNames.enum.js";
 import General from './opened-role-general.vue';
 import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
 import Permissions from './role-permissions/opened-role-permissions.vue';
@@ -52,6 +55,7 @@ export default {
   }),
   data: () => ({
     namespace: 'permissions/roles',
+    routeName: RouteNames.ROLES,
   }),
   validations: {
     itemInstance: {
@@ -65,14 +69,15 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
-        },
-        {
+          pathName: RolesRouteNames.GENERAL,
+        }, {
           text: this.$tc('objects.permissions.roles.permissions.permissions', 2),
           value: 'permissions',
-        },
-        {
+          pathName: RolesRouteNames.ROLE_PERMISSIONS,
+        }, {
           text: this.$tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2),
           value: 'applications-access',
+          pathName: RolesRouteNames.APPLICATIONS_ACCESS,
         },
       ];
       return tabs;

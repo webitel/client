@@ -1,7 +1,6 @@
 <template>
   <section class="content-wrapper">
     <bucket-popup
-      v-if="isBucketPopup"
       @close="closePopup"
     />
 
@@ -72,7 +71,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="edit(item)"
+            @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
@@ -117,15 +116,27 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
-    isBucketPopup: null,
     isDeleteConfirmation: false,
   }),
   methods: {
-    openPopup() {
-      this.isBucketPopup = true;
+    addItem() {
+      return this.$router.push({
+        ...this.route,
+        params: {
+          bucketId: 'new',
+        },
+      });
+    },
+    editItem(item) {
+      return this.$router.push({
+        ...this.route,
+        params: {
+          bucketId: item.id,
+        },
+      });
     },
     closePopup() {
-      this.isBucketPopup = false;
+      return this.$router.go(-1);
     },
   },
 };

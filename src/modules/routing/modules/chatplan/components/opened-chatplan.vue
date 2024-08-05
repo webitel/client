@@ -18,7 +18,7 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -39,6 +39,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import ChatplanRoutesName from '../router/_internals/ChatplanRouteNames.enum.js';
 import General from './opened-chatplan-general.vue';
 
 export default {
@@ -51,6 +53,7 @@ export default {
   }),
   data: () => ({
     namespace: 'routing/chatplan',
+    routeName: RouteNames.CHATPLAN,
   }),
   validations: {
     itemInstance: {
@@ -65,6 +68,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: ChatplanRoutesName.GENERAL,
         },
       ];
       return tabs;

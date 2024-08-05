@@ -6,79 +6,78 @@
       </wt-page-header>
     </template>
     <template #main>
-      <!--This wrapper "settings-section" is needed to place the "settings-section__setting"
-      in a column and give them half the width of the screen-->
       <section class="settings-section">
-        <article class="settings-section__setting">
+        <div class="settings-section__column">
           <change-password />
-        </article>
-        <section class="settings-section__setting">
-          <header class="content-header">
-            <h3 class="content-title">
-              {{ $t('settings.language') }}
-            </h3>
-          </header>
-          <form>
-            <wt-select
-              :label="$t('settings.language')"
-              :options="languageOptions"
-              :value="language"
-              class="language-list"
-              @input="changeLanguage"
-              :clearable="false"
-            />
-          </form>
-        </section>
-        <section class="settings-section__setting">
-          <header class="content-header">
-            <h3 class="content-title">
-              {{ $t('settings.webPhone') }}
-            </h3>
-          </header>
-          <form>
-            <div class="settings-section__wrapper settings-section__switcher">
-              <p>{{ $t('settings.useWebPhone') }}</p>
-              <wt-switcher
-                v-model="webrtc"
-                @change="changeWebrtc"
+          <section class="settings-section-item">
+            <header class="content-header">
+              <h3 class="content-title">
+                {{ $t('settings.language') }}
+              </h3>
+            </header>
+            <form>
+              <wt-select
+                :label="$t('settings.language')"
+                :options="languageOptions"
+                :value="language"
+                class="language-list"
+                @input="changeLanguage"
+                :clearable="false"
               />
-            </div>
-            <div
-              v-show="webrtc"
-              class="settings-section__wrapper"
-            >
-              <p>{{ $t('settings.useStun') }}</p>
-              <wt-switcher
-                v-model="stun"
-                @change="changeStun"
-              />
-            </div>
-          </form>
-        </section>
-        <section class="settings-section__setting">
-          <header class="content-header">
-            <h3 class="content-title">
-              {{ $t('settings.callEnd') }}
-            </h3>
-          </header>
-          <form>
-            <div class="settings-section__wrapper">
-              <p>{{ $t('objects.status') }}</p>
-              <wt-switcher
-                :value="callEndSound"
-                @change="changeCallEndSoundState"
-              />
-            </div>
-          </form>
-        </section>
-        <custom-ringtone />
+            </form>
+          </section>
+          <section class="settings-section-item">
+            <header class="content-header">
+              <h3 class="content-title">
+                {{ $t('settings.webPhone') }}
+              </h3>
+            </header>
+            <form>
+              <div class="settings-section__wrapper settings-section__switcher">
+                <p>{{ $t('settings.useWebPhone') }}</p>
+                <wt-switcher
+                  :value="webrtc"
+                  @change="changeWebrtc"
+                />
+              </div>
+              <div
+                v-show="webrtc"
+                class="settings-section__wrapper"
+              >
+                <p>{{ $t('settings.useStun') }}</p>
+                <wt-switcher
+                  :value="stun"
+                  @change="changeStun"
+                />
+              </div>
+            </form>
+          </section>
+        </div>
+        <div class="settings-section__column">
+          <section class="settings-section-item">
+            <header class="content-header">
+              <h3 class="content-title">
+                {{ $t('settings.callEnd') }}
+              </h3>
+            </header>
+            <form>
+              <div class="settings-section__wrapper">
+                <p>{{ $t('objects.status') }}</p>
+                <wt-switcher
+                  :value="callEndSound"
+                  @change="changeCallEndSoundState"
+                />
+              </div>
+            </form>
+          </section>
+          <custom-ringtone />
+        </div>
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
 <script>
-import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
 import { changeWebPhone, getWebPhone } from '../api/settings';
@@ -196,20 +195,23 @@ export default {
 
 <style lang="scss" scoped>
 .settings-section {
-  display: block;
-  columns: 2;
-  column-gap: var(--spacing-sm);
   width: 100%;
-  min-width: 200px;
+  display: flex;
+  gap: var(--spacing-sm);
 
-  &__setting {
+  &__column {
     display: flex;
     flex-direction: column;
-    margin-bottom: var(--spacing-sm);
+    flex: 1;
+    gap: var(--spacing-sm);
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: column;
     padding: 0 var(--spacing-sm) var(--spacing-sm);
     border-radius: var(--border-radius);
     box-shadow: var(--elevation-5);
-    break-inside: avoid-column;
   }
 
   .content-title {

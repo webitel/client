@@ -28,8 +28,9 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
         <component
           :is="currentTab.value"
@@ -51,6 +52,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import Agents from '../modules/agents/components/opened-queue-agents.vue';
@@ -89,6 +92,8 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/queues',
+    routeName: RouteNames.QUEUES,
+    permissionsTabPathName: QueuesRoutesName.PERMISSIONS,
   }),
   validations() {
     const defaults = {
@@ -302,55 +307,66 @@ export default {
       return this.itemInstance.type != null;
     },
     queueType() {
-      return this.itemInstance.type;
+      return this.itemInstance.type ?? this.$route.query.type;
     },
 
     tabs() {
       const general = {
         text: this.$t('objects.general'),
         value: 'general',
+        pathName: QueuesRoutesName.GENERAL,
       };
       const params = {
         text: this.$t('objects.ccenter.queues.params'),
         value: 'params',
+        pathName: QueuesRoutesName.PARAMETERS,
       };
       const processing = {
         text: this.$t('objects.ccenter.queues.processing.processing'),
         value: 'processing',
+        pathName: QueuesRoutesName.PROCESSING,
       };
       const agents = {
         text: this.$tc('objects.ccenter.agents.agents', 2),
         value: 'agents',
+        pathName: QueuesRoutesName.AGENTS,
       };
       const skills = {
         text: this.$tc('objects.lookups.skills.skills', 2),
         value: 'skills',
+        pathName: QueuesRoutesName.SKILLS,
       };
       const resources = {
         text: this.$tc('objects.ccenter.res.res', 2),
         value: 'resources',
+        pathName: QueuesRoutesName.RESOURCES,
       };
       const buckets = {
         text: this.$tc('objects.lookups.buckets.buckets', 2),
         value: 'buckets',
+        pathName: QueuesRoutesName.BUCKETS,
       };
       const hooks = {
         text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
         value: 'hooks',
+        pathName: QueuesRoutesName.HOOKS,
       };
       const amd = {
         text: this.$t('objects.ccenter.queues.amd'),
         value: 'amd',
+        pathName: QueuesRoutesName.AMD,
       };
       const variables = {
         text: this.$tc('objects.ccenter.queues.variables', 2),
         value: 'variables',
+        pathName: QueuesRoutesName.VARIABLES,
       };
       const logs = {
         text: this.$tc('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
+        pathName: QueuesRoutesName.LOGS,
       };
 
       const queueTabsMap = {
@@ -397,33 +413,10 @@ export default {
   },
   methods: {
     async loadPageData() {
-      const type = +Object.entries(QueueTypeProperties)
-        .find(([type, { subpath }]) => {
-          if (subpath === this.$route.params.type) {
-            this.itemInstance.type = +type;
-            return true;
-          }
-          return false;
-        })
-        .at(0);
       await this.setId(this.$route.params.id);
-      return this.loadItem(type);
+      return this.loadItem(this.queueType);
     },
-    //   setStartTab() {
-    //     const tab = this.tabs.find(({ value }) => value === this.$route.hash.slice(1));
-    //     if (tab) this.currentTab = tab;
-    //   },
-    //   handleTabChange(tab) {
-    //     this.currentTab = tab;
-    //     /**
-    //      * This method has an issue in it cause "filters reset" resets hash too
-    //      */
-    //     this.$router.push({ name: this.$route.name, hash: `#${this.currentTab.value}` });
-    //   },
   },
-  // created() {
-  //   this.setStartTab();
-  // },
 };
 </script>
 

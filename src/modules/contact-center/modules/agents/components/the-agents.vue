@@ -11,14 +11,13 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
       />
 
       <history-popup
-        v-if="historyId"
         @close="closeHistoryPopup"
       />
 
@@ -74,9 +73,12 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <adm-item-link
+                  :id="item.id"
+                  :route-name="routeName"
+              >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #state="{ item }">
               <wt-indicator
@@ -88,24 +90,27 @@
               {{ item.statusDuration }}
             </template>
             <template #team="{ item }">
-              <wt-item-link
-                v-if="item.team"
-                :link="itemTeamLink(item)"
-                target="_blank"
+              <adm-item-link
+                  v-if="item.team"
+                  :id="item.team.id"
+                  :route-name="RouteNames.TEAMS"
+                  target="_blank"
               >
                 {{ item.team.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
             <template #actions="{ item }">
               <wt-icon-action
                 action="history"
                 @click="openHistory(item.id)"
               />
-              <wt-icon-action
-                v-if="hasEditAccess"
-                action="edit"
-                @click="edit(item)"
-              />
+              <adm-item-link
+                  v-if="hasEditAccess"
+                  :id="item.id"
+                  :route-name="routeName"
+              >
+                <wt-icon-action action="edit"/>
+              </adm-item-link>
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
@@ -137,11 +142,10 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum.js';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
 import HistoryPopup from './agent-history-popup.vue';
 
@@ -183,11 +187,6 @@ export default {
   }),
 
   computed: {
-    ...mapState({
-      historyId(state) {
-        return getNamespacedState(state, `${this.namespace}/history`).parentId;
-      },
-    }),
     path() {
       return [
         {
@@ -202,21 +201,15 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      openHistory(dispatch, payload) {
-        return dispatch(`${this.namespace}/history/SET_PARENT_ITEM_ID`, payload);
-      },
-    }),
-    itemTeamLink({ team }) {
-      return {
-        name: `${RouteNames.TEAMS}-edit`,
-        params: {
-          id: team.id,
-        },
-      };
+    openHistory(id) {
+      return this.$router.push({
+        ...this.$route,
+        name: AgentsRouteNames.HISTORY,
+        params: { historyId: id }
+      })
     },
     closeHistoryPopup() {
-      this.openHistory(null);
+      return this.$router.push({name: this.routeName});
     },
     snakeToCamel,
   },

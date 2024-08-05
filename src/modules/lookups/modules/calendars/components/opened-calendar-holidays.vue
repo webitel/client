@@ -1,12 +1,10 @@
 <template>
   <section>
     <holiday-popup
-      v-if="isHolidayPopup"
-      :edited-index="editedIndex"
       @close="closePopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -134,8 +132,6 @@ export default {
   data: () => ({
     dataListValue: [],
     searchValue: '',
-    isHolidayPopup: false,
-    editedIndex: null,
   }),
 
   computed: {
@@ -233,18 +229,19 @@ export default {
       return new Date(+date).toLocaleDateString();
     },
     create() {
-      this.openHolidayPopup();
+      this.$router.push({
+        ...this.$route,
+        params: {holidayIndex: 'new'},
+      })
     },
     edit(index) {
-      this.editedIndex = index;
-      this.openHolidayPopup();
-    },
-    openHolidayPopup() {
-      this.isHolidayPopup = true;
+      this.$router.push({
+        ...this.$route,
+        params: {holidayIndex: index.toString()},
+      })
     },
     closePopup() {
-      this.isHolidayPopup = false;
-      this.editedIndex = null;
+      this.$router.go(-1);
     },
     setParentId() {},
   },

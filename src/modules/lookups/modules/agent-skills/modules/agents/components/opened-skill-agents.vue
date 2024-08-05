@@ -1,19 +1,18 @@
 <template>
   <section>
     <add-skill-to-agent-popup
-      v-if="isAddSkillToAgentPopup"
       :skill-id="parentId"
-      @close="isAddSkillToAgentPopup = false"
+      @close="closeAddSkillToAgentPopup"
       @saved="loadDataList"
     />
     <change-skill-popup
-      v-if="agentSkillPopup"
+      :shown="agentSkillPopup"
       :selected-agents="selectedRows"
       @change="change"
       @close="closeAgentSkillPopup"
     />
     <delete-confirmation-popup
-      v-show="isDeleteConfirmationPopup"
+      :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
@@ -60,7 +59,7 @@
             v-if="!disableUserInput"
             class="icon-action"
             icon="plus"
-            @click="isAddSkillToAgentPopup = true"
+            @click="openAddSkillToAgentPopup"
           />
         </wt-table-actions>
       </div>
@@ -78,12 +77,21 @@
         @sort="sort"
       >
         <template #name="{ item }">
-          {{ item.agent.name }}
+          <adm-item-link
+            :id="item.agent.id"
+            :route-name="RouteNames.AGENTS"
+          >
+            {{ item.agent.name }}
+          </adm-item-link>
         </template>
         <template #team="{ item }">
-          <div v-if="item.team">
+          <adm-item-link
+            v-if="item.team"
+            :id="item.team.id"
+            :route-name="RouteNames.TEAMS"
+          >
             {{ item.team.name }}
-          </div>
+          </adm-item-link>
         </template>
         <template #capacity="{ item, index }">
           <wt-input
@@ -130,6 +138,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import objectTableAccessControlMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
@@ -142,7 +151,7 @@ export default {
     ChangeSkillPopup,
     DeleteConfirmationPopup,
   },
-  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin],
+  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin, addSkillToAgentPopupMixin],
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -168,7 +177,6 @@ export default {
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     agentSkillPopup: false,
-    isAddSkillToAgentPopup: false,
   }),
   mounted() {
     this.handlePatchInput = debounce(this.handlePatchInput);

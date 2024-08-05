@@ -1,5 +1,6 @@
 <template>
   <selection-popup
+    v-bind="$attrs"
     v-model="selected"
     :options="options"
     :title="$t('objects.ccenter.queues.newQueue')"
@@ -11,6 +12,7 @@
 <script>
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 
 export default {
   name: 'CreateQueuePopup',
@@ -30,17 +32,19 @@ export default {
     },
   },
 
-  created() {
-    // eslint-disable-next-line prefer-destructuring
-    this.selected = this.options[0];
-  },
-
   methods: {
     createQueue() {
-      this.$router.push({
-        path: `/contact-center/queues/new/${this.selected.subpath}`,
-      });
+       this.$router.push({
+        ...this.$route,
+        name: `${RouteNames.QUEUES}-card`,
+        params: { id: 'new' },
+        query: { type: this.selected.value },
+      })
     },
+  },
+
+  created() {
+    this.selected = this.options[0];
   },
 };
 </script>

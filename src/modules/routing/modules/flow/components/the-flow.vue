@@ -17,18 +17,18 @@
 
     <template #main>
       <create-flow-popup
-        v-if="isCreateFlowPopup"
+        :shown="isCreateFlowPopup"
+        size="sm"
         @close="isCreateFlowPopup = false"
       />
       <upload-popup
-        v-if="isUploadPopup"
         :file="jsonFile"
         @close="closeUploadPopup"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :callback="deleteCallback"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
+        :callback="deleteCallback"
         @close="closeDelete"
       />
 
@@ -169,6 +169,7 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import FlowRouteNames from '../router/_internals/FlowRouteNames.enum.js';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import FlowsAPI from '../api/flow';
 import FlowEditor from '../enums/FlowEditor.enum';
@@ -254,11 +255,11 @@ export default {
       }
     },
     openUploadPopup() {
-      this.isUploadPopup = true;
+      this.$router.push({name: FlowRouteNames.UPLOAD_CSV})
     },
     closeUploadPopup() {
       this.loadList();
-      this.isUploadPopup = false;
+      this.$router.go(-1);
     },
     async download({ id, name }) {
       const flow = await FlowsAPI.get({
@@ -270,10 +271,8 @@ export default {
     editLink({ id, editor }) {
       const routeName = this.routeName || this.tableObjectRouteName;
       return {
-        name: `${routeName}-edit`,
-        params: {
-          id,
-        },
+        name: `${routeName}-card`,
+        params: { id },
         query: {
           editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
         },

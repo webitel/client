@@ -1,5 +1,6 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     :min-width="minWidth"
     size="sm"
     class="selection-popup"

@@ -14,6 +14,12 @@ export default {
   mixins: [resetOnDestroyMixin, openedObjectValidationMixin],
 
   computed: {
+    id() {
+      throw new Error('Override id param for a component');
+    },
+    new() {
+      return this.$route.params.id === 'new';
+    },
     saveText() {
       // if it's a new item
       // OR any fields have changed
@@ -44,7 +50,7 @@ export default {
 
     async save() {
       if (!this.disabledSave) {
-        if (this.id) {
+        if (!this.new) {
           await this.updateItem();
         } else {
           try {
@@ -59,14 +65,10 @@ export default {
       }
     },
 
-    async redirectToEdit() {
-      const routeName = this.$route.name.replace('-new', '-edit');
+    async redirectToEdit(id = this.id) {
       return this.$router.replace({
-        name: routeName,
-        params: {
-          id: this.id,
-        },
-        hash: this.$route.hash,
+        ...this.$route,
+        params: { id },
       });
     },
   },

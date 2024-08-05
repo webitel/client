@@ -36,6 +36,9 @@ export default {
       isNext(state) {
         return getNamespacedState(state, `${this.namespace}/${this.subNamespace}`).isNextPage;
       },
+      permissionId() {
+        return this.$route.params.permissionId;
+      },
     }),
     headers() {
       if (!this.headersValue) return [];
@@ -116,11 +119,28 @@ export default {
         return dispatch(`${this.namespace}/${this.subNamespace}/RESET_ITEM_STATE`, payload);
       },
     }),
+    addItem() {
+      return this.$router.push({
+        ...this.$route,
+        params: { permissionId: 'new' },
+      });
+    },
     openRoleSelectPopup() {
       this.isRoleSelectPopup = true;
     },
     closeRoleSelectPopup() {
+      this.$router.go(-1);
       this.isRoleSelectPopup = false;
     },
   },
+  watch: {
+    permissionId: {
+      handler(value) {
+        if (value === 'new') {
+          this.openRoleSelectPopup();
+        }
+      },
+      immediate: true,
+    },
+  }
 };

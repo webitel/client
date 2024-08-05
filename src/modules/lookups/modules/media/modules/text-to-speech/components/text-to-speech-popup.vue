@@ -12,9 +12,8 @@
     </wt-tooltip>
 
     <wt-popup
+      :shown="isOpened"
       size="sm"
-      v-show="isOpened"
-      :min-width="480"
       @close="closePopup"
     >
       <template #title>
@@ -162,8 +161,17 @@ export default {
     disabled() {
       return this.checkValidations('draft');
     },
+    mediaId() {
+      return this.$route.params.mediaId;
+    },
   },
   watch: {
+    mediaId: {
+      handler(value) {
+        if (value === 'new') this.openPopup();
+      },
+      immediate: true
+    },
     isOpened: {
       handler() {
         this.draft = getModel();
@@ -174,9 +182,14 @@ export default {
   methods: {
     openPopup() {
       this.$emit('opened');
+      this.$router.push({
+        ...this.$route,
+        params: { mediaId: 'new' }
+      })
       this.isOpened = true;
     },
     closePopup() {
+      this.$router.go(-1);
       this.isOpened = false;
       this.audio = null;
       this.audioUrl = '';

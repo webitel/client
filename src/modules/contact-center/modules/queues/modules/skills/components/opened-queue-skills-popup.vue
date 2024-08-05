@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!skillId"
     overflow
     @close="close"
   >
@@ -88,7 +89,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/queues/skills',
@@ -134,6 +137,9 @@ export default {
       return this.id
         ? this.$t('objects.ccenter.queues.skills.editSkill')
         : this.$t('objects.ccenter.queues.skills.addSkill');
+    },
+    skillId() {
+      return this.$route.params.skillId;
     }
   },
 
@@ -144,6 +150,13 @@ export default {
 
     loadBucketsOptions(params) {
       return BucketsAPI.getLookup(params);
+    },
+  },
+  watch: {
+    skillId: {
+     handler(id) {
+       this.handleIdChange(id);
+     }, immediate: true,
     },
   },
 };

@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!resourceId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -63,7 +64,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/resGroups/res',
@@ -77,7 +80,10 @@ export default {
     popupTitle() {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.res.res', 1).toLowerCase();
-    }
+    },
+    resourceId() {
+      return this.$route.params.resourceId;
+    },
   },
 
   methods: {
@@ -85,6 +91,17 @@ export default {
       return ResourcesAPI.getLookup(params);
     },
   },
+  watch: {
+    resourceId: {
+      handler(id) {
+        if (id === 'new') this.resetState()
+        else {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 

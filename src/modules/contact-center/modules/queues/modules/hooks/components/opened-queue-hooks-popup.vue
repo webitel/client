@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!hookId"
     overflow
     @close="close"
   >
@@ -60,7 +61,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/queues/hooks',
@@ -100,6 +103,9 @@ export default {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
       return action + ' ' + this.$tc('objects.ccenter.queues.hooks.hooks', 1).toLowerCase();
     },
+    hookId() {
+      return this.$route.params.hookId;
+    },
   },
 
   methods: {
@@ -108,6 +114,13 @@ export default {
         ...params,
         type: [EngineRoutingSchemaType.Service],
       });
+    },
+  },
+  watch: {
+    hookId: {
+      handler(id) {
+        this.handleIdChange(id);
+      }, immediate: true,
     },
   },
 };

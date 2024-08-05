@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
     size="sm"
-    min-width="480"
+    :shown="!!subordinateId"
     overflow
     @close="close"
   >
@@ -49,7 +50,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/agents/subordinates',
@@ -57,6 +60,12 @@ export default {
   validations: {
     itemInstance: {
       agent: { required },
+    },
+  },
+
+  computed: {
+    subordinateId() {
+      return this.$route.params.subordinateId;
     },
   },
 
@@ -72,6 +81,14 @@ export default {
         supervisor: item.supervisor || [],
       }));
       return response;
+    },
+  },
+  watch: {
+    subordinateId: {
+      handler(id) {
+        this.handleIdChange(id);
+      },
+      immediate: true,
     },
   },
 };

@@ -11,11 +11,11 @@
 
     <template #main>
       <create-cognitive-profile-popup
-        v-if="isCognitiveProfilePopup"
+        :shown="isCognitiveProfilePopup"
         @close="isCognitiveProfilePopup = false"
       />
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -144,6 +144,7 @@ import { useStore } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
 import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
@@ -189,8 +190,8 @@ export default {
   },
   data: () => ({
     namespace,
-    routeName: RouteNames.COGNITIVE_PROFILES,
     isCognitiveProfilePopup: false,
+    routeName: RouteNames.COGNITIVE_PROFILES,
   }),
 
   computed: {

@@ -38,21 +38,20 @@
       />
 
       <upload-popup
-        v-if="hasEditAccess && isUploadPopup"
         :file="csvFile"
         :parent-id="parentId"
         @close="closeCSVPopup"
       />
 
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :callback="deleteCallback"
         :delete-count="deleteCount"
         @close="closeDelete"
       />
 
       <reset-popup
-        v-if="hasEditAccess && isResetPopup"
+        :shown="hasEditAccess && isResetPopup"
         :callback="resetMembers"
         @close="closeResetPopup"
       />
@@ -205,6 +204,7 @@ import { computed } from 'vue';
 import { mapActions, mapState, useStore } from 'vuex';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum.js';
 import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
@@ -261,7 +261,6 @@ export default {
 
   data: () => ({
     namespace: 'ccenter/queues/members',
-    isUploadPopup: false,
     communicationsOnPopup: null,
     isDestinationsPopup: false,
     isResetPopup: false,
@@ -376,13 +375,16 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.isUploadPopup = true;
+        this.$router.push({
+          ...this.$route,
+          name: QueuesRoutesName.UPLOAD_CSV,
+        })
       }
     },
 
     closeCSVPopup() {
       this.loadList();
-      this.isUploadPopup = false;
+      this.$router.go(-1);
     },
 
     triggerFileInput() {
@@ -401,25 +403,20 @@ export default {
 
     create() {
       this.$router.push({
-        name: `${RouteNames.MEMBERS}-new`,
-        params: {
-          queueId: this.parentId,
-        },
+        name: `${RouteNames.MEMBERS}-card`,
+        params: { queueId: this.parentId, id: 'new'},
       });
     },
 
     editLink(item) {
       return {
-        name: `${RouteNames.MEMBERS}-edit`,
-        params: {
-          queueId: this.parentId,
-          id: item.id,
-        },
+        name: `${RouteNames.MEMBERS}-card`,
+        params: { queueId: this.parentId, id: item.id },
       };
     },
 
     close() {
-      this.$router.go(-1);
+      this.$router.push({name: RouteNames.QUEUES});
       this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
     },
 

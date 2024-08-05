@@ -18,7 +18,7 @@
         @submit.prevent="save"
       >
         <wt-tabs
-          v-model="currentTab"
+          :current="currentTab"
           :tabs="tabs"
         />
         <component
@@ -39,6 +39,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, required, requiredIf } from '@vuelidate/validators';
 import { EngineEmailAuthType } from 'webitel-sdk';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import EmailProfilesRouteNames from '../router/_internals/EmailProfilesRouteNames.enum.js';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-email-profile-general.vue';
 
@@ -52,6 +54,7 @@ export default {
   }),
   data: () => ({
     namespace: 'integrations/emailProfiles',
+    routeName: RouteNames.EMAIL_PROFILES,
   }),
   validations() {
     const itemInstance = {
@@ -99,6 +102,7 @@ export default {
         {
           text: this.$t('objects.general'),
           value: 'general',
+          pathName: EmailProfilesRouteNames.GENERAL,
         },
       ];
       // if (this.id) tabs.push(this.permissionsTab);

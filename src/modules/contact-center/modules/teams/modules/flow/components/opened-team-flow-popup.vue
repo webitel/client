@@ -1,7 +1,8 @@
 <template>
   <wt-popup
+    v-bind="$attrs"
+    :shown="!!flowId"
     size="sm"
-    min-width="480"
     overflow
     @close="close"
   >
@@ -57,7 +58,9 @@ export default {
   mixins: [nestedObjectMixin],
 
   setup: () => ({
-    v$: useVuelidate(),
+    // Reasons for use $stopPropagation
+    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+    v$: useVuelidate({$stopPropagation: true}),
   }),
   data: () => ({
     namespace: 'ccenter/teams/flow',
@@ -74,6 +77,9 @@ export default {
         ? this.$tc('objects.ccenter.teams.flows.editFlowSchema')
         : this.$tc('objects.ccenter.teams.flows.addFlowSchema');
     },
+    flowId() {
+      return this.$route.params.flowId;
+    },
   },
 
   methods: {
@@ -84,6 +90,17 @@ export default {
       });
     },
   },
+  watch: {
+    flowId: {
+      handler(id) {
+        if (id === 'new') this.resetState()
+        else {
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    }
+  }
 };
 </script>
 
