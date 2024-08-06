@@ -432,7 +432,7 @@ export default {
             webchatReCaptcha,
           ];
         default:
-          return [];
+          return [{pathName: ChatGatewayRoutesName.GENERAL}];
       }
     },
 
