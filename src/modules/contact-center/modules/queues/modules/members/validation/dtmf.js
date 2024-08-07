@@ -1,1 +1,3 @@
-export const digitsDtmfOnly = (v) => /^[\d|w|W]*$/g.test(v);
+import { helpers } from '@vuelidate/validators';
+
+export const digitsDtmfOnly = (v) => !helpers.req(v) ||  /^[\d|w|W]*$/g.test(v);
