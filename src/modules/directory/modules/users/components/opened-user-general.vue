@@ -43,6 +43,15 @@
         @update:model-value="setItemProp({ prop: 'password', value: $event })"
       />
 
+      <wt-select
+        :disabled="disableUserInput"
+        :label="$tc('vocabulary.contact', 1)"
+        :search-method="loadContactsOptions"
+        :value="itemInstance.contact"
+        :track-by="name"
+        @input="setItemProp({ prop: 'contact', value: $event })"
+      />
+
       <qrcode
         v-if="isDisplayQRCode"
         :namespace="namespace"
@@ -57,6 +66,7 @@ import { mapGetters } from 'vuex';
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
+import ContactsAPI from '../api/contacts.js';
 
 export default {
   name: 'OpenedUserGeneral',
@@ -66,6 +76,11 @@ export default {
     ...mapGetters('directory/users', {
       isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
     }),
+  },
+  methods: {
+    loadContactsOptions(params) {
+      return ContactsAPI.getLookup(params);
+    },
   },
 };
 </script>
