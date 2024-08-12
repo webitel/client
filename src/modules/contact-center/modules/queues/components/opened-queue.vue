@@ -101,9 +101,6 @@ export default {
         name: {
           required,
         },
-        calendar: {
-          required,
-        },
         priority: {
           minValue: minValue(0),
         },
@@ -119,6 +116,9 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: {
+              required,
+            },
+            calendar: {
               required,
             },
             payload: {
@@ -152,6 +152,9 @@ export default {
             strategy: {
               required,
             },
+            calendar: {
+              required,
+            },
             payload: {
               maxAttempts: {
                 required,
@@ -176,6 +179,9 @@ export default {
             strategy: {
               required,
             },
+            calendar: {
+              required,
+            },
             payload: {
               maxAttempts: {
                 required,
@@ -197,6 +203,9 @@ export default {
             strategy: {
               required,
             },
+            calendar: {
+              required,
+            },
             payload: {
               maxAttempts: {
                 required,
@@ -216,6 +225,9 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: {
+              required,
+            },
+            calendar: {
               required,
             },
             payload: {
@@ -262,6 +274,9 @@ export default {
             strategy: {
               required,
             },
+            calendar: {
+              required,
+            },
             payload: {
               maxAttempts: {
                 required,
@@ -277,6 +292,9 @@ export default {
         return deepmerge(defaults, {
           itemInstance: {
             strategy: {
+              required,
+            },
+            calendar: {
               required,
             },
             payload: {
