@@ -288,7 +288,7 @@ export default {
       return QueueTypeProperties[this.parentQueue?.type]?.subpath;
     },
     path() {
-      const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
+      const queueUrl = `/contact-center/queues/${this.parentQueue.id}/general`;
       const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
       return [
         {
