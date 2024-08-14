@@ -205,7 +205,6 @@ import { mapActions, mapState, useStore } from 'vuex';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum.js';
-import QueueTypeProperties from '../../../lookups/QueueTypeProperties.lookup.js';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -279,13 +278,9 @@ export default {
     parentId() {
       return this.$route.params.queueId;
     },
-
     // if is NOT -- member is immutable. NOT prevents actions load by default
     isNotInboundMember() {
       return !(this.parentQueue.type === 1);
-    },
-    queueType() {
-      return QueueTypeProperties[this.parentQueue?.type]?.subpath;
     },
     path() {
       const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
