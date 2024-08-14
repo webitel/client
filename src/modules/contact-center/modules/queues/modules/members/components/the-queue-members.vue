@@ -288,19 +288,18 @@ export default {
       return QueueTypeProperties[this.parentQueue?.type]?.subpath;
     },
     path() {
-      const queueUrl = `/contact-center/queues/${this.parentQueue.id}/${this.queueType}`;
-      const membersUrl = `/contact-center/queues/${this.parentQueue.id}/members`;
+      const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
       return [
         {
           name: this.$t('objects.ccenter.ccenter'),
         },
         {
           name: this.parentQueue.name,
-          route: queueUrl,
+          route: baseUrl,
         },
         {
           name: this.$tc('objects.ccenter.members.members', 2),
-          route: membersUrl,
+          route: `${baseUrl}/members`,
         },
       ];
     },

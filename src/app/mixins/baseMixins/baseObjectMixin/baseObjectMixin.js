@@ -50,7 +50,7 @@ export default {
 
     async save() {
       if (!this.disabledSave) {
-        if (!this.new) {
+        if (!this.new && this.id !== null) {
           await this.updateItem();
         } else {
           try {

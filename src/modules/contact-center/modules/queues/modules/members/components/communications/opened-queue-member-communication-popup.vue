@@ -167,7 +167,9 @@ export default {
   watch: {
     communicationIndex: {
        handler(index) {
-        this.initEditedValue();
+        if (index) {
+          this.initEditedValue();
+        }
       }, immediate: true,
     }
   },
