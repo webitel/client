@@ -96,6 +96,7 @@
               >
                 {{ item.flow.name }}
               </adm-item-link>
+              <p v-else />
             </template>
 
             <template #provider="{ item }">
