@@ -139,7 +139,6 @@ const getChatGatewayList = async (params) => {
     enabled: false,
     name: '',
     uri: '',
-    flow: {},
     provider: '',
     metadata: {},
     updates: {

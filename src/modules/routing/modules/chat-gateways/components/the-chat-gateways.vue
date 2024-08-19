@@ -90,13 +90,12 @@
 
             <template #flow="{ item }">
               <adm-item-link
-                v-if="item.flow.id"
+                v-if="item.flow"
                 :id="item.flow.id"
                 :route-name="RouteNames.FLOW"
               >
                 {{ item.flow.name }}
               </adm-item-link>
-              <p v-else />
             </template>
 
             <template #provider="{ item }">
