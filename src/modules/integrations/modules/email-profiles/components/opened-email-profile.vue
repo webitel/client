@@ -76,8 +76,8 @@ export default {
       login: { required },
       mailbox: { required },
       authType: { required },
-      password: !this.id && {
-        required,
+      password: {
+        required: requiredIf(!this.isOauth2AuthType && !this.id),
       },
       params: {
         oauth2: {
