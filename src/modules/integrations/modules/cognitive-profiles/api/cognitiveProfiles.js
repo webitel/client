@@ -1,4 +1,4 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,7 +7,7 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from '@webitel/ui-sdk/src/api/transformers';
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { CognitiveProfileServiceApiFactory } from 'webitel-sdk';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 import instance from '../../../../../app/api/instance';

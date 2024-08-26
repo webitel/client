@@ -183,6 +183,8 @@ export default {
         return deepmerge(defaults, defaultStringConfig);
       case EngineSystemSettingName.PasswordValidationText:
         return deepmerge(defaults, defaultStringConfig);
+      case EngineSystemSettingName.AutolinkCallToContact:
+        return deepmerge(defaults, defaultBooleanConfig);
       default:
         return defaults;
     }

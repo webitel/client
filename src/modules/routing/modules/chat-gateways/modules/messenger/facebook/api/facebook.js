@@ -2,7 +2,7 @@ import applyTransform, {
   mergeEach,
   notify,
   snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers';
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 import chatInstance, { chatBaseUrl } from '../../../../api/chatInstance';
 
 const defaultListObject = {
