@@ -1,10 +1,10 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults';
+import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   merge,
   notify,
   snakeToCamel,
   starToSearch,
-} from '@webitel/ui-sdk/src/api/transformers';
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 import axios from 'axios';
 import { MediaFileServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';

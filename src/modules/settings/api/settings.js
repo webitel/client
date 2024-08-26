@@ -3,7 +3,7 @@ import applyTransform, {
   camelToSnake,
   notify,
   snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers';
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 
 const baseUrl = 'users';
 

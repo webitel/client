@@ -2,7 +2,7 @@ import applyTransform, {
   camelToSnake,
   notify,
   snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers';
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 import instance from '../instance';
 
 export default class APIPermissionsPatcher {

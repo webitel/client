@@ -11,6 +11,7 @@ const ConfigurationValueTypes = Object.freeze({
     [EngineSystemSettingName.PasswordRegExp]: 'string',
     [EngineSystemSettingName.PasswordValidationText]: 'string',
     [EngineSystemSettingName.ChatAiConnection]: 'string',
+    [EngineSystemSettingName.AutolinkCallToContact]: 'boolean',
   },
 );
 

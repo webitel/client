@@ -116,8 +116,6 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import ConfigurationPopup from './configuration-popup.vue';
