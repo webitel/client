@@ -111,7 +111,7 @@ export default {
           value: false,
         });
       }
-      this.$router.push({
+      const route = this.$router.resolve({
         name: `${RouteNames.FLOW}-card`,
         params: { id: 'new' },
         query: {
