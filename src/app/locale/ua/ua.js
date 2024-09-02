@@ -882,6 +882,7 @@ export default {
         preSchema: 'Схема попереднього набору',
         afterSchema: 'Схема подальшого набору',
         maxCalls: 'Ліміт задач',
+        dialingRate: 'Швидкість набору',
         maxCallsHint: 'Якщо значення дорівнює 0, дайлер не буде дзвонити',
         recordings: 'Запис',
         recordAll: 'Почати запис після відповіді',

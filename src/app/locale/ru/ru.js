@@ -887,6 +887,7 @@ export default {
         afterSchema: 'Схема посленабора',
         formSchema: '',
         maxCalls: 'Лимит задач',
+        dialingRate: 'Скорость набора',
         maxCallsHint: 'Если значение равно 0, дайлер не будет звонить',
         recordings: 'Запись',
         recordAll: 'Начать запись после ответа',
