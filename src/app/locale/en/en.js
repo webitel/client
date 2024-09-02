@@ -878,6 +878,7 @@ export default {
         preSchema: 'Pre-executive schema',
         afterSchema: 'After-executive schema',
         maxCalls: 'Max tasks',
+        dialingRate: 'Dialing rate',
         maxCallsHint: "If value is 0, dialer won't call",
         recordings: 'Recording',
         recordAll: 'Start record after answer',
