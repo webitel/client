@@ -736,6 +736,7 @@ export default {
         preSchema: 'Алдын ала теру схемасы',
         afterSchema: 'Теруден  кейінгі схема',
         maxCalls: 'Тапсырмалар шегі',
+        dialingRate: 'Қоңырау жылдамдығы',
         maxCallsHint: 'Мәні 0 -ге тең болса, дайлер қоңырау шалмайды',
         recordings: 'Жазба',
         recordAll: 'Жазуды жауап бергеннен кейін бастау',

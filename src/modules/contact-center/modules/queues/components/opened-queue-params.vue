@@ -113,6 +113,14 @@
         @input="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
       />
       <wt-input
+        v-if="specificControls.dialingRate"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.dialingRate')"
+        :value="itemInstance.payload.dialingRate"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'dialingRate', value: +$event })"
+      />
+      <wt-input
         v-if="specificControls.maxAgentLose"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxAgentLose')"

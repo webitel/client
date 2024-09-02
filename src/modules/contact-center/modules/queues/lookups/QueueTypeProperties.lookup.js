@@ -174,6 +174,7 @@ const QueueTypeProperties = Object.freeze({
       'abandonRateAdjustment',
       'playbackSilence',
       'maxCalls',
+      'dialingRate',
       'waitBetweenRetriesDesc',
       'strictCircuit',
       'retryAbandoned',
