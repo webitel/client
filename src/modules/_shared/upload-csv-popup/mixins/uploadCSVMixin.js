@@ -74,7 +74,7 @@ export default {
       return this.mappingFields.every((field) => !field.required || !isEmpty(field.csv));
     },
     isUploadPopup() {
-      return this.$route.meta.uploadCSV;
+      return this.$route.meta.uploadCsv;
     }
   },
   methods: {
@@ -159,9 +159,9 @@ export default {
     async separator() {
       await this.handleParseOptionsChange();
     },
-    isUploadPopup() {
-      if(this.isUploadPopup) {
-        this.initUploadPopup();
+    async isUploadPopup() {
+      if (this.isUploadPopup) {
+        await this.initUploadPopup();
       }
     },
   },
