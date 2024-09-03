@@ -147,7 +147,6 @@ import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-i
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import UsersRouteNamesEnum from '../router/_internals/UsersRouteNames.enum.js';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
 
@@ -225,15 +224,12 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.$router.push({
-          name: UsersRouteNamesEnum.UPLOAD_CSV,
-        })
       }
     },
 
     closeCSVPopup() {
+      this.csvFile = null;
       this.loadList();
-      this.$router.go(-1);
     },
   },
 };

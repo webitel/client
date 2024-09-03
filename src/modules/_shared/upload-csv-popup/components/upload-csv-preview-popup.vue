@@ -1,6 +1,7 @@
 <template>
   <wt-popup
     class="upload-popup"
+    v-bind="$attrs"
     min-width="680"
     @close="close"
   >
