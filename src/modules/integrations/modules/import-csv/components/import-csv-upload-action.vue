@@ -5,7 +5,7 @@
       @change="processCSV"
     />
     <upload-csv-preview-popup
-      :shown="!!isUploadPopup"
+      v-if="file"
       :add-bulk-items="saveBulkData"
       :charset="item.parameters.charset.value"
       :file="file"
@@ -50,9 +50,6 @@ export default {
         csv: this.item.parameters.mappings[name],
       }));
     },
-    isUploadPopup() {
-      return this.$route.meta.uploadCsv;
-    }
   },
   methods: {
     processCSV(files) {
