@@ -1,7 +1,7 @@
 <template>
   <wt-popup
-    :shown="!!isUploadPopup"
     v-bind="$attrs"
+    :shown="file"
     class="upload-popup"
     @close="close"
   >

@@ -6,5 +6,4 @@ export default Object.freeze({
   PERMISSIONS: `${RouteNames.DEVICES}-permissions`,
   HOTDESKING: `${RouteNames.DEVICES}-hotdesking`,
   HISTORY: `${RouteNames.DEVICES}-history`,
-  UPLOAD_CSV: `${RouteNames.DEVICES}-uploadCSV`,
 });
