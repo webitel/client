@@ -124,6 +124,7 @@ export default {
     },
     close() {
       this.$emit('close');
+      this.initializeFields();
     },
     initializeFields() {
       [this.selected] = this.editorOptions;
