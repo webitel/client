@@ -63,12 +63,13 @@ export default {
     selected: {},
     type: {},
     typeOptions: Object.values(EngineRoutingSchemaType)
-      .filter((type) => type !== EngineRoutingSchemaType.Default)
-      .map((value) => ({
-        value,
-        locale: `objects.flow.type.${value}`,
-      })),
+    .filter((type) => type !== EngineRoutingSchemaType.Default)
+    .map((value) => ({
+      value,
+      locale: `objects.flow.type.${value}`,
+    })),
   }),
+
   computed: {
     ...mapState('appearance', {
       theme: (state) => state.theme,
@@ -122,16 +123,20 @@ export default {
       window.open(route.href, '_blank');
       this.close();
     },
+
     close() {
       this.$emit('close');
+      this.setBasicFields();
     },
-    initializeFields() {
+
+    setBasicFields() {
       [this.selected] = this.editorOptions;
       [this.type] = this.typeOptions;
     },
   },
+
   mounted() {
-    this.initializeFields();
+    this.setBasicFields();
   },
 };
 </script>
