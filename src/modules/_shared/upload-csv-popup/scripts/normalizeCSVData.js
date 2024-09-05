@@ -25,12 +25,13 @@ const normalizeCSVData = ({ data, mappings }) => {
         [name]: {
           required,
           value: Array.isArray(csv) ? csv.map((csv) => dataItem[csv]) : dataItem[csv],
+          mappingIndexes: Array.isArray(csv) ? csv.map((csv, index) => !isEmpty(dataItem[csv]) ? index : null) : null,
         },
       };
     }, {});
 
     const filteredEmptyValues = Object.entries(normalized).reduce(
-      (filtered, [name, { required, value }]) => {
+      (filtered, [name, { required, value, mappingIndexes }]) => {
         let filteredValue;
         if (Array.isArray(value)) {
           filteredValue = value.filter((item) => !isEmpty(item));
@@ -39,6 +40,8 @@ const normalizeCSVData = ({ data, mappings }) => {
         }
 
         const isValueEmpty = isEmpty(filteredValue);
+        console.log('isValueEmpty', isValueEmpty);
+
 
         if (required && isValueEmpty) {
           throw new Error(`Required field is empty: ${name} on row ${index + 1}`);
@@ -48,7 +51,10 @@ const normalizeCSVData = ({ data, mappings }) => {
           ? filtered
           : {
               ...filtered,
-              [name]: filteredValue,
+              [name]: {
+                value: filteredValue,
+                mappingIndexes
+               },
             };
       },
       {},

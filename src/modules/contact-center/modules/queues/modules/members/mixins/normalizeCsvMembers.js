@@ -26,7 +26,25 @@ export default {
     async normalizeData(data) {
       await this.getCommunicationTypes();
 
-      return data.map((item) => {
+      // TODO: винести в окремий метод або файл
+      const modifiedData = data.map(item => {
+        return Object.entries(item).reduce((acc, [key, { value, mappingIndexes }]) => {
+          let result;
+
+          if (key === 'variables') {
+            result = {
+              ...acc,
+              [key]: { value, mappingIndexes }
+            }
+          } else {
+            result = { ...acc, [key]: value }
+          }
+
+          return result;
+        }, {});
+      });
+
+      return modifiedData.map((item) => {
         const normalizedItem = {
           ...item,
         };
@@ -50,14 +68,17 @@ export default {
           normalizedItem.agentId = undefined;
         }
         if (normalizedItem.variables) {
-          const variablesMappings = this.mappingFields.find((field) => field.name === 'variables');
-          normalizedItem.variables = item.variables.reduce(
-            (variables, variable, index) => ({
+          // csv is arr of tags
+          const { csv } = this.mappingFields.find((field) => field.name === 'variables');
+          const { mappingIndexes, value } = item.variables;
+
+          let currentIndex = 0; // to track current index in value array
+          normalizedItem.variables = mappingIndexes.reduce((variables, mappingIndex, index) => {
+            return {
               ...variables,
-              [variablesMappings.csv[index]]: variable, // csv is arr of tags
-            }),
-            {},
-          );
+              [csv[index]]: mappingIndex !== null ? value[currentIndex++] : '',
+            };
+          }, {});
         }
         if (!normalizedItem.priority) {
           normalizedItem.priority = 0;

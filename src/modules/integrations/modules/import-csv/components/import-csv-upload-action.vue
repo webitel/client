@@ -24,7 +24,6 @@ import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/componen
 import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
 import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
-import ImportCsvRouteNames from '../router/_internals/ImportCsvRouteNames.enum.js';
 
 export default {
   name: 'ImportCsvUploadAction',
