@@ -1,8 +1,8 @@
 <template>
   <selection-popup
+    v-bind="$attrs"
     :selected="selected"
     :title="$t('objects.routing.flow.createFlowSelectionPopup')"
-    v-bind="$attrs"
     @close="close"
     @select="create"
   >
