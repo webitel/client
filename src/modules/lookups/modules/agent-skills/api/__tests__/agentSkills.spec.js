@@ -1,35 +1,14 @@
-import axios from 'axios';
-import AgentSkillsAPI from '../agentSkills';
-
-// axios mock should be copy-pasted :(
-// https://stackoverflow.com/questions/65554910/jest-referenceerror-cannot-access-before-initialization
-vi.mock('axios', () => {
-  return {
-    default: {
-      post: vi.fn(),
-      get: vi.fn(),
-      delete: vi.fn(),
-      put: vi.fn(),
-      patch: vi.fn(),
-      request: vi.fn(),
-      create: vi.fn().mockReturnThis(),
-      interceptors: {
-        request: {
-          use: vi.fn(),
-          eject: vi.fn(),
-        },
-        response: {
-          use: vi.fn(),
-          eject: vi.fn(),
-        },
-      },
-    },
-  };
-});
+import axiosMock from '@webitel/ui-sdk/src/tests/mocks/axiosMock.js';
 
 describe('AgentSkillsAPI', () => {
+  const request = vi.fn(() => Promise.resolve({ data: {} }));
+  const axios = axiosMock({ default: { request } });
+  vi.doMock('@webitel/ui-sdk/src/api/axios/generateInstance.js', () => ({
+    default: () => axios().default,
+  }));
+
   beforeEach(() => {
-    axios.request.mockClear();
+    request.mockClear();
   });
 
   it('correctly computes "getList" method api call', async () => {
@@ -37,11 +16,13 @@ describe('AgentSkillsAPI', () => {
       fields: ['id', 'name', 'vitest'],
     };
     const url = '/call_center/skills?page=1&size=10&fields=id&fields=name&fields=vitest';
-    const mock = axios.request.mockImplementationOnce(() =>
+    const mock = request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
       }),
     );
+
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     await AgentSkillsAPI.getList(inputParams);
     // https://stackoverflow.com/a/41939921
     expect(mock.mock.calls[0][0].url).toBe(url);
@@ -69,7 +50,8 @@ describe('AgentSkillsAPI', () => {
         next: true,
       },
     };
-    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    request.mockImplementationOnce(() => Promise.resolve(response));
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     expect(await AgentSkillsAPI.getList({})).toEqual(output);
   });
 
@@ -78,11 +60,12 @@ describe('AgentSkillsAPI', () => {
       itemId: 1,
     };
     const url = '/call_center/skills/1';
-    const mock = axios.request.mockImplementationOnce(() =>
+    const mock = request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
       }),
     );
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     await AgentSkillsAPI.get(inputParams);
     expect(mock.mock.calls[0][0].url).toBe(url);
   });
@@ -97,7 +80,8 @@ describe('AgentSkillsAPI', () => {
         id: 1,
       },
     };
-    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    request.mockImplementationOnce(() => Promise.resolve(response));
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     expect(
       await AgentSkillsAPI.get({
         itemId: 1,
@@ -116,11 +100,12 @@ describe('AgentSkillsAPI', () => {
       name: 'test',
     };
 
-    const mock = axios.request.mockImplementationOnce(() =>
+    const mock = request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
       }),
     );
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     await AgentSkillsAPI.add(input);
     expect(mock.mock.calls[0][0].data).toBe(JSON.stringify(body));
   });
@@ -137,7 +122,8 @@ describe('AgentSkillsAPI', () => {
         check_case: '',
       },
     };
-    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    request.mockImplementationOnce(() => Promise.resolve(response));
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     expect(
       await AgentSkillsAPI.add({
         itemInstance: {},
@@ -157,11 +143,12 @@ describe('AgentSkillsAPI', () => {
       name: 'test',
     };
 
-    const mock = axios.request.mockImplementationOnce(() =>
+    const mock = request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
       }),
     );
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     await AgentSkillsAPI.update(input);
     expect(mock.mock.calls[0][0].data).toBe(JSON.stringify(body));
   });
@@ -178,7 +165,8 @@ describe('AgentSkillsAPI', () => {
         check_case: '',
       },
     };
-    axios.request.mockImplementationOnce(() => Promise.resolve(response));
+    request.mockImplementationOnce(() => Promise.resolve(response));
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     expect(
       await AgentSkillsAPI.update({
         itemInstance: {},
@@ -193,11 +181,12 @@ describe('AgentSkillsAPI', () => {
     };
 
     const url = '/call_center/skills/1';
-    const mock = axios.request.mockImplementationOnce(() =>
+    const mock = request.mockImplementationOnce(() =>
       Promise.resolve({
         data: {},
       }),
     );
+    const AgentSkillsAPI = (await import('../agentSkills.js')).default;
     await AgentSkillsAPI.delete(input);
     expect(mock.mock.calls[0][0].url).toBe(url);
   });

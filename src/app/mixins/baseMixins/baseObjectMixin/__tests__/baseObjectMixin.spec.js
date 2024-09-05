@@ -20,10 +20,8 @@ describe('BaseObjectMixin', () => {
       global: {
         mocks: {
           v$: {
-            itemInstance: {
-              $error: true,
-              $touch: vi.fn(),
-            },
+            $error: true,
+            $touch: vi.fn(),
           },
         },
       },

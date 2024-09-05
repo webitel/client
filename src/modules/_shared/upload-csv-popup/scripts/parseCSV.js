@@ -6,6 +6,7 @@ const parseCSV = (csvStr, options = {}) =>
       if (output) resolve(output, err);
       reject(err);
     };
+
     parse(csvStr, options, callback);
   });
 

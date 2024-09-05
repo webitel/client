@@ -38,7 +38,10 @@ export default {
       };
     },
     currentTab() {
-      return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
+      return this.tabs.find(({ pathName }) => this.$route.name === pathName) || this.tabs[0];
+    },
+    tabs() {
+      return [];
     },
   },
 
@@ -56,19 +59,18 @@ export default {
 
     setInitialTab() {
       // eslint-disable-next-line prefer-destructuring
-      if (this.tabs) this.currentTab = this.tabs[0];
+      if (this.tabs.length) this.currentTab = this.tabs[0];
     },
 
     close() {
-
       // Need to close the tab if it was open in a new tab
       // https://webitel.atlassian.net/browse/WTEL-4575
       // TODO delete close method in all opened objects and add to them routeName property
-      if(window.history.length === 1) window.close();
-      this.$router.push({name: this.routeName});
+      if (window.history.length === 1) window.close();
+      this.$router.push({ name: this.routeName });
     },
     changeTab(tab) {
       this.$router.push({ ...this.$route, name: tab.pathName });
-    }
+    },
   },
 };

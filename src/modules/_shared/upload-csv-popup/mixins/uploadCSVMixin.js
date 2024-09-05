@@ -75,13 +75,14 @@ export default {
     },
     isUploadPopup() {
       return this.$route.meta.uploadCsv;
-    }
+    },
   },
   methods: {
     async initUploadPopup() {
       this.isReadingFile = true;
 
       this.parsedFile = await processFile(this.file, {});
+      console.info(this.parsedFile, this.file);
       await this.createCSVPreview(this.parsedFile);
 
       this.isReadingFile = false;

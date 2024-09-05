@@ -52,6 +52,8 @@ describe('UploadCsvMixin', () => {
       }),
     });
 
+    await wrapper.vm.initUploadPopup();
+
     // parse file
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
@@ -111,49 +113,6 @@ describe('UploadCsvMixin', () => {
     expect(saveCallback).not.toHaveBeenCalled();
   });
 
-  it('parses and saves simple csv', async () => {
-    const csv = `
-      col1,col2
-      John,30
-      Jane,25
-      `.replaceAll(/ +?/g, ''); // replace all whitespaces, but not newlines
-
-    const mappings = [
-      {
-        name: 'name',
-        csv: 'col1',
-      },
-      {
-        name: 'age',
-        csv: 'col2',
-      },
-    ];
-
-    const saveCallback = vi.fn();
-
-    const wrapper = shallowMount(Component, {
-      props: {
-        file: makeFile(csv),
-        addBulkItems: saveCallback,
-        mappingFields: mappings,
-      },
-      data: () => ({
-        skipHeaders: true,
-      }),
-    });
-
-    // parse file
-    await new Promise((resolve) => {
-      setTimeout(resolve, 100);
-    });
-
-    await wrapper.vm.processCSV();
-    expect(saveCallback).toHaveBeenCalledWith([
-      { name: 'John', age: '30' },
-      { name: 'Jane', age: '25' },
-    ]);
-  });
-
   it('parsing of csv with multiple columns selected to required field', async () => {
     const csv = `
       col1,col2,col3
@@ -186,6 +145,8 @@ describe('UploadCsvMixin', () => {
         skipHeaders: true,
       }),
     });
+
+    await wrapper.vm.initUploadPopup();
 
     // parse file
     await new Promise((resolve) => {

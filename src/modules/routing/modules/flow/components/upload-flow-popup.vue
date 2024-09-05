@@ -85,7 +85,7 @@ export default {
       return this.v$.$pending || this.v$.$error;
     },
     isUploadPopup() {
-      return this.$route.name.includes('uploadCSV');
+      return this.$route.name?.includes('uploadCSV');
     }
   },
   methods: {
@@ -112,7 +112,7 @@ export default {
       this.fileReader.addEventListener('load', this.handleFileLoad);
     },
     destroyFileReader() {
-      this.fileReader.removeEventListener('load', this.handleFileLoad);
+     this.fileReader && this.fileReader.removeEventListener('load', this.handleFileLoad);
     },
     processJSON() {
       this.fileReader.readAsText(this.file);
