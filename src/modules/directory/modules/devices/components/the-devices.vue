@@ -163,8 +163,6 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -246,10 +244,6 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.$router.push({
-          ...this.$route,
-          name: DevicesRouteNames.UPLOAD_CSV,
-        })
       }
     },
     openHistory(id) {
@@ -263,8 +257,8 @@ export default {
       return this.$router.push({name: this.routeName});
     },
     closeCSVPopup() {
+      this.csvFile = null;
       this.loadList();
-      this.$router.go(-1);
     },
 
     stateClass(state) {

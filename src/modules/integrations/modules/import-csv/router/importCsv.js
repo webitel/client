@@ -17,14 +17,6 @@ const ImportCsvRoutes = [
     name: RouteNames.IMPORT_CSV,
     component: ImportCsv,
     beforeEnter: checkRouteAccess,
-    children: [
-      {
-        path: 'uploadCSV',
-        meta: { uploadCsv: true},
-        name: ImportCsvRouteNames.UPLOAD_CSV,
-        component: ImportCsv,
-      },
-    ],
   },
   {
     path: '/integrations/import-csv/:id',
