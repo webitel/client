@@ -19,14 +19,6 @@ const UsersRoutes = [
     name: RouteNames.USERS,
     component: Users,
     beforeEnter: checkRouteAccess,
-    children: [
-      {
-        path: 'uploadCSV',
-        name: UsersRouteNames.UPLOAD_CSV,
-        meta: {uploadCSV: true},
-        component: Users,
-      },
-    ],
   },
   {
     path: '/directory/users/:id',

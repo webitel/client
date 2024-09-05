@@ -1,7 +1,7 @@
 <template>
   <wt-popup
     v-bind="$attrs"
-    :shown="isUploadPopup"
+    :shown="file"
     size="sm"
     overflow
     @close="close"
@@ -68,8 +68,8 @@ export default {
     },
   },
   watch: {
-    isUploadPopup() {
-      if (this.isUploadPopup) {
+    file() {
+      if (this.file) {
         this.initFileReader();
         this.processJSON();
       }

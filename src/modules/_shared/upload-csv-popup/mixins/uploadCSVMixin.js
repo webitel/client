@@ -73,16 +73,12 @@ export default {
     allowSaveAction() {
       return this.mappingFields.every((field) => !field.required || !isEmpty(field.csv));
     },
-    isUploadPopup() {
-      return this.$route.meta.uploadCsv;
-    },
   },
   methods: {
     async initUploadPopup() {
       this.isReadingFile = true;
 
       this.parsedFile = await processFile(this.file, {});
-      console.info(this.parsedFile, this.file);
       await this.createCSVPreview(this.parsedFile);
 
       this.isReadingFile = false;
@@ -160,10 +156,10 @@ export default {
     async separator() {
       await this.handleParseOptionsChange();
     },
-    async isUploadPopup() {
-      if (this.isUploadPopup) {
-        await this.initUploadPopup();
-      }
+   file: {
+      handler(file) {
+        if (file) this.initUploadPopup();
+      },
     },
   },
 };

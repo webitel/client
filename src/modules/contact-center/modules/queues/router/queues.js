@@ -94,14 +94,6 @@ const QueuesRoutes = [
     name: RouteNames.MEMBERS,
     component: Members,
     beforeEnter: checkRouteAccess,
-    children: [
-      {
-        path: 'uploadCSV',
-        name: QueuesRoutesName.UPLOAD_CSV,
-        meta: { uploadCSV: true },
-        component: Members,
-      }
-    ],
   },
   {
     path: '/contact-center/queues/:queueId/members/:id',

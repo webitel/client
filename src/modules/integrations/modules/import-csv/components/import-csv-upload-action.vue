@@ -5,7 +5,7 @@
       @change="processCSV"
     />
     <upload-csv-preview-popup
-      v-if="file"
+      :shown="file"
       :add-bulk-items="saveBulkData"
       :charset="item.parameters.charset.value"
       :file="file"
@@ -56,15 +56,10 @@ export default {
       const file = files[0];
       if (file) {
         this.file = file;
-        this.$router.push({
-          ...this.$route,
-          name: ImportCsvRouteNames.UPLOAD_CSV
-        })
       }
     },
     close() {
       this.file = null;
-      this.$router.go(-1);
     },
     handleSave() {
       if (this.item.parameters.clearMembers) {

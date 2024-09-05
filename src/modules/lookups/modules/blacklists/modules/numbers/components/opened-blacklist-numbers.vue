@@ -4,7 +4,6 @@
       @close="closePopup"
     />
     <upload-popup
-      v-if="isUploadPopup"
       :file="csvFile"
       :parent-id="parentId"
       @close="closeCSVPopup"
@@ -167,7 +166,6 @@ export default {
     return {
       namespace,
       subNamespace,
-      isUploadPopup: false,
       csvFile: null,
     };
   },
@@ -183,12 +181,11 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.isUploadPopup = true;
       }
     },
     closeCSVPopup() {
+      this.csvFile = null;
       this.loadDataList();
-      this.isUploadPopup = false;
     },
     closePopup() {
       this.resetItemState();
