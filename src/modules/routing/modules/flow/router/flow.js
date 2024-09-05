@@ -12,14 +12,6 @@ const FlowRoutes= [
     name: RouteNames.FLOW,
     component: Flow,
     beforeEnter: checkRouteAccess,
-    children: [
-      {
-        path: 'uploadCSV',
-        name: FlowRouteNames.UPLOAD_CSV,
-        meta: { uploadCSV: true },
-        component: Flow,
-      }
-    ],
   },
   {
     path: '/routing/flow/:id',

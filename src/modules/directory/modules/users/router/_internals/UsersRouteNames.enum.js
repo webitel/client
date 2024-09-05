@@ -8,5 +8,4 @@ export default Object.freeze({
   TOKENS: `${RouteNames.USERS}-tokens`,
   LOGS: `${RouteNames.USERS}-logs`,
   PERMISSIONS: `${RouteNames.USERS}-permissions`,
-  UPLOAD_CSV: `${RouteNames.USERS}-uploadCSV`,
 });

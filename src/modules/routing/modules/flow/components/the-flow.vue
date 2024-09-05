@@ -169,7 +169,6 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import FlowRouteNames from '../router/_internals/FlowRouteNames.enum.js';
 import { downloadAsJSON } from '../../../../../app/utils/download';
 import FlowsAPI from '../api/flow';
 import FlowEditor from '../enums/FlowEditor.enum';
@@ -195,7 +194,6 @@ export default {
   data: () => ({
     namespace,
     routeName: RouteNames.FLOW,
-    isUploadPopup: false,
     jsonFile: null,
     isCreateFlowPopup: false,
   }),
@@ -251,15 +249,11 @@ export default {
       const file = files[0];
       if (file) {
         this.jsonFile = file;
-        this.openUploadPopup();
       }
     },
-    openUploadPopup() {
-      this.$router.push({name: FlowRouteNames.UPLOAD_CSV})
-    },
     closeUploadPopup() {
+      this.jsonFile = null;
       this.loadList();
-      this.$router.go(-1);
     },
     async download({ id, name }) {
       const flow = await FlowsAPI.get({

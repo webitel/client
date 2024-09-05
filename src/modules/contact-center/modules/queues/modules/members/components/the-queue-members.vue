@@ -204,7 +204,6 @@ import { computed } from 'vue';
 import { mapActions, mapState, useStore } from 'vuex';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum.js';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -369,16 +368,12 @@ export default {
       const file = files[0];
       if (file) {
         this.csvFile = file;
-        this.$router.push({
-          ...this.$route,
-          name: QueuesRoutesName.UPLOAD_CSV,
-        })
       }
     },
 
     closeCSVPopup() {
+      this.csvFile = null;
       this.loadList();
-      this.$router.go(-1);
     },
 
     triggerFileInput() {

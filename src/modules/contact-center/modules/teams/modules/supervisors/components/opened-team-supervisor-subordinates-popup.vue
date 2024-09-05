@@ -40,8 +40,10 @@ export default {
     dataList: [],
   }),
   watch: {
-    itemId() {
-      this.loadDataList();
+    itemId: {
+      handler(id) {
+        if(id) this.loadDataList();
+      },
     },
   },
   computed: {

@@ -23,12 +23,6 @@ const DevicesRoutes = [
         name: DevicesRouteNames.HISTORY,
         component: Devices,
       },
-      {
-        path: 'uploadCSV',
-        name: DevicesRouteNames.UPLOAD_CSV,
-        meta: { uploadCSV: true },
-        component: Devices,
-      },
     ],
   },
   {
