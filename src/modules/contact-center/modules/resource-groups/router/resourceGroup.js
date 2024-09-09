@@ -20,6 +20,7 @@ const ResourceGroupRoutes = [
   {
     path: '/contact-center/resource-groups/:id',
     name: `${RouteNames.RESOURCE_GROUPS}-card`,
+    redirect: { name: ResourcesGroupsRouteNames.GENERAL },
     component: OpenedResourceGroup,
     beforeEnter: checkRouteAccess,
     children: [
