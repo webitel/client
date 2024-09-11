@@ -74,7 +74,7 @@ describe('normalizeCSVData', () => {
     expect(false).toBe(true); // reject test if no error
   });
 
-  it(`succeeds at normalizing data with multiple columns selected to required field,
+  it(`returns correct fields for mapping, including empty fields,
    if one of them is empty`, () => {
     const input = [
       {
@@ -97,7 +97,7 @@ describe('normalizeCSVData', () => {
     const output = [
       {
         name: 'name',
-        phone: ['123'],
+        phone: ['123', ''],
       },
       {
         name: 'name',
