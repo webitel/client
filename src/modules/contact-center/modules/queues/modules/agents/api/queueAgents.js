@@ -32,7 +32,6 @@ const getQueueAgentsList = async (params) => {
     sort,
   } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch('search'),
     sanitize(fieldsToSend),
   ]);
 

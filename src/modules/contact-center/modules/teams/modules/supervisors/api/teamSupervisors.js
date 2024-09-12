@@ -18,7 +18,6 @@ const getTeamSupervisorsList = async (params) => {
 
   const { page, size, search, parentId, sort } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch('search'),
   ]);
 
   try {

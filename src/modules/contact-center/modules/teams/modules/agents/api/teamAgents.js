@@ -29,7 +29,7 @@ const getTeamAgentsList = async (params) => {
     size = 10,
     search,
     sort,
-  } = applyTransform(params, [merge(getDefaultGetParams()), starToSearch('search')]);
+  } = applyTransform(params, [merge(getDefaultGetParams()),]);
 
   try {
     const response = await agentService.searchAgent(
