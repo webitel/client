@@ -71,6 +71,7 @@
             </form>
           </section>
           <custom-ringtone />
+          <ringtone-volume-control />
         </div>
       </section>
     </template>
@@ -83,12 +84,14 @@ import { mapState } from 'vuex';
 import { changeWebPhone, getWebPhone } from '../api/settings';
 import ChangePassword from './change-password.vue';
 import CustomRingtone from './custom-ringtone.vue';
+import RingtoneVolumeControl from './ringtone-volume-control.vue';
 
 export default {
   name: 'TheSettings',
   components: {
     CustomRingtone,
     ChangePassword,
+    RingtoneVolumeControl,
   },
   inject: ['$eventBus'],
   data: () => ({
