@@ -1,12 +1,12 @@
 <template>
-  <section class="ringtone-volume settings-section-item">
+  <section class="ringtone-volume-control settings-section-item">
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('settings.ringtoneVolume.title') }}
       </h3>
     </header>
     <form>
-      <div class="ringtone-volume__wrapper">
+      <div class="ringtone-volume-control__wrapper">
         <wt-slider
           :value="ringtoneVolume"
           :min="0"
@@ -16,7 +16,7 @@
           show-input
           tooltip="auto"
           debounce
-          @input="handleRingtoneVolumeChange"
+          @input="handleRingtoneVolume"
         />
         <wt-button
           :disabled="isRingtoneVolumeSaved"
@@ -41,12 +41,12 @@ export default {
     };
   },
   methods: {
-    handleRingtoneVolumeChange(newVolume) {
+    handleRingtoneVolume(newVolume) {
       this.ringtoneVolume = newVolume;
       this.debouncedPlayBeep(newVolume); // Debounced beep sound with selected ringtoneVolume
 
       const savedVolume = localStorage.getItem('settings/ringtone-volume');
-      if (savedVolume === null || parseFloat(savedVolume) !== newVolume) {
+      if (!savedVolume|| parseFloat(savedVolume) !== newVolume) {
         this.isRingtoneVolumeSaved = false;
       } else {
         this.isRingtoneVolumeSaved = true;
@@ -57,7 +57,7 @@ export default {
       localStorage.setItem('settings/ringtone-volume', this.ringtoneVolume);
       this.isRingtoneVolumeSaved = true;
     },
-    playBeep(ringtoneVolume) {
+    playSignal(ringtoneVolume) {
       // Initialize the AudioContext if it hasn't been created yet
       if (!this.audioCtx) {
         this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -79,13 +79,13 @@ export default {
     },
     // Use your custom debounce method
     debouncedPlayBeep: debounce(function (volume) {
-      this.playBeep(volume);
+      this.playSignal(volume);
     }, {}, 300), // Debounce options and 300ms wait time
   },
   mounted() {
     // Load the saved ringtoneVolume from localStorage if it exists
     const savedVolume = localStorage.getItem('settings/ringtone-volume');
-    if (savedVolume !== null) {
+    if (savedVolume) {
       this.ringtoneVolume = parseFloat(savedVolume);
       this.isRingtoneVolumeSaved = true;
     }
@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ringtone-volume {
+.ringtone-volume-control {
   &__wrapper {
     display: flex;
     flex-direction: column;
