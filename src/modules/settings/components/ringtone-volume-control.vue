@@ -8,7 +8,7 @@
     <form>
       <div class="ringtone-volume__wrapper">
         <wt-slider
-          :value="volume"
+          :value="ringtoneVolume"
           :min="0"
           :max="1"
           :step="0.01"
@@ -16,11 +16,11 @@
           show-input
           tooltip="auto"
           debounce
-          @input="handleVolumeChange"
+          @input="handleRingtoneVolumeChange"
         />
         <wt-button
-          :disabled="isVolumeSaved"
-          @click.prevent="saveVolume"
+          :disabled="isRingtoneVolumeSaved"
+          @click.prevent="saveRingtoneVolume"
         >
           {{ $t('objects.save') }}
         </wt-button>
@@ -35,65 +35,59 @@ import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 export default {
   data() {
     return {
-      volume: 0.5, // Default volume level
-      isVolumeSaved: false,
+      ringtoneVolume: 0.5, // Default ringtoneVolume level
+      isRingtoneVolumeSaved: false,
       audioCtx: null, // Audio context will be created upon user interaction
     };
   },
   methods: {
-    handleVolumeChange(newVolume) {
-      this.volume = newVolume;
-      this.debouncedPlayBeep(newVolume); // Debounced beep sound with selected volume
+    handleRingtoneVolumeChange(newVolume) {
+      this.ringtoneVolume = newVolume;
+      this.debouncedPlayBeep(newVolume); // Debounced beep sound with selected ringtoneVolume
 
       const savedVolume = localStorage.getItem('settings/ringtone-volume');
       if (savedVolume === null || parseFloat(savedVolume) !== newVolume) {
-        this.isVolumeSaved = false;
+        this.isRingtoneVolumeSaved = false;
       } else {
-        this.isVolumeSaved = true;
+        this.isRingtoneVolumeSaved = true;
       }
     },
-    saveVolume() {
-      // Save the volume to localStorage
-      localStorage.setItem('settings/ringtone-volume', this.volume);
-      this.isVolumeSaved = true;
+    saveRingtoneVolume() {
+      // Save the ringtoneVolume to localStorage
+      localStorage.setItem('settings/ringtone-volume', this.ringtoneVolume);
+      this.isRingtoneVolumeSaved = true;
     },
-    playBeep(volume) {
+    playBeep(ringtoneVolume) {
       // Initialize the AudioContext if it hasn't been created yet
       if (!this.audioCtx) {
         this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
 
-      // Create an oscillator node
       const oscillator = this.audioCtx.createOscillator();
 
-      // Set the oscillator frequency (Hz)
       oscillator.frequency.setValueAtTime(440, this.audioCtx.currentTime); // Standard A4 note
 
-      // Create a gain node to control the volume
       const gainNode = this.audioCtx.createGain();
-      gainNode.gain.value = volume; // Set the volume based on the selected value
+      gainNode.gain.value = ringtoneVolume; // Set the ringtoneVolume based on the selected value
 
-      // Connect the oscillator to the gain node, then to the audio context's destination (speakers)
       oscillator.connect(gainNode);
       gainNode.connect(this.audioCtx.destination);
 
-      // Start the oscillator
       oscillator.start();
 
-      // Stop the oscillator after a short duration (e.g., 200 ms for a beep sound)
       oscillator.stop(this.audioCtx.currentTime + 0.2);
     },
     // Use your custom debounce method
     debouncedPlayBeep: debounce(function (volume) {
       this.playBeep(volume);
-    }, { leading: false, trailing: true }, 300), // Debounce options and 300ms wait time
+    }, {}, 300), // Debounce options and 300ms wait time
   },
   mounted() {
-    // Load the saved volume from localStorage if it exists
+    // Load the saved ringtoneVolume from localStorage if it exists
     const savedVolume = localStorage.getItem('settings/ringtone-volume');
     if (savedVolume !== null) {
-      this.volume = parseFloat(savedVolume);
-      this.isVolumeSaved = true;
+      this.ringtoneVolume = parseFloat(savedVolume);
+      this.isRingtoneVolumeSaved = true;
     }
   },
 };
