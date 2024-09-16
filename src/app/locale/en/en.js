@@ -70,6 +70,9 @@ export default {
       ringtone: 'Ringtone',
       customRingtone: 'Use the custom ringtone',
     },
+    ringtoneVolume: {
+      title: 'Ringtone volume',
+    },
     callEnd: 'Call end sound',
   },
 

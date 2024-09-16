@@ -70,6 +70,9 @@ export default {
       ringtone: 'Рингтон',
       customRingtone: 'Использовать кастомный рингтон',
     },
+    ringtoneVolume: {
+      title: 'Громкость рингтона',
+    },
     callEnd: 'Звук завершения вызова',
   },
 
