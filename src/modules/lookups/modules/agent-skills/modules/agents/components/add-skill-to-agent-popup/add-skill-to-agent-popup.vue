@@ -9,7 +9,7 @@
     <config-agent-skill-popup
       v-if="isAgentConfigSkillPopup"
       @back="handleSkillConfigBack"
-      @close="cancel"
+      @cancel="cancel"
       @select="handleSkillConfigSelect"
     />
   </div>
