@@ -31,13 +31,13 @@
 
 <script>
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
+import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio/triggerSound';
 
 export default {
   data() {
     return {
-      ringtoneVolume: 0.5, // Default ringtoneVolume level
+      ringtoneVolume: 1, // Default ringtoneVolume level
       isRingtoneVolumeSaved: false,
-      audioCtx: null, // Audio context will be created upon user interaction
     };
   },
   methods: {
@@ -57,29 +57,9 @@ export default {
       localStorage.setItem('settings/ringtone-volume', this.ringtoneVolume);
       this.isRingtoneVolumeSaved = true;
     },
-    playSignal(ringtoneVolume) {
-      // Initialize the AudioContext if it hasn't been created yet
-      if (!this.audioCtx) {
-        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
 
-      const oscillator = this.audioCtx.createOscillator();
-
-      oscillator.frequency.setValueAtTime(440, this.audioCtx.currentTime); // Standard A4 note
-
-      const gainNode = this.audioCtx.createGain();
-      gainNode.gain.value = ringtoneVolume; // Set the ringtoneVolume based on the selected value
-
-      oscillator.connect(gainNode);
-      gainNode.connect(this.audioCtx.destination);
-
-      oscillator.start();
-
-      oscillator.stop(this.audioCtx.currentTime + 0.2);
-    },
-    // Use your custom debounce method
     debouncedPlayBeep: debounce(function (volume) {
-      this.playSignal(volume);
+      triggerSound(volume);
     }, {}, 300), // Debounce options and 300ms wait time
   },
   mounted() {
