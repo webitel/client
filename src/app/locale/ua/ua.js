@@ -429,6 +429,7 @@ export default {
         start: 'Початок',
         end: 'Кінець',
         workWeek: 'Робочий тиждень',
+        specialTime: 'Особливий час',
         holidays: 'Вихідний | Вихідні',
         date: 'Дата',
         repeat: 'Повторювати',
