@@ -16,6 +16,19 @@ const defaultAccepts = () => {
   return accepts;
 };
 
+const defaultSpecials = () => {
+  const specials = [];
+  for (let i = 0; i < 7; i++) {
+    specials.push({
+      day: i,
+      disabled: true,
+      start: 9 * 60,
+      end: 20 * 60,
+    });
+  }
+  return specials;
+};
+
 const resettableState = {
   itemInstance: {
     name: '',
@@ -25,21 +38,22 @@ const resettableState = {
     endAt: Date.now(),
     expires: false,
     accepts: defaultAccepts(),
+    specials: defaultSpecials(),
     excepts: [],
   },
 };
 
 const actions = {
-  SET_ACCEPT_ITEM_PROPERTY: async (context, payload) => {
-    context.commit('SET_ACCEPT_ITEM_PROPERTY', payload);
+  SET_CALENDAR_ITEM_PROPERTY: async (context, payload) => {
+    context.commit('SET_CALENDAR_ITEM_PROPERTY', payload);
     context.commit('SET_ITEM_PROPERTY', {
       prop: '_dirty',
       value: true,
     });
   },
 
-  ADD_ACCEPT_ITEM: (context, day) => {
-    const value = context.state.itemInstance.accepts;
+  ADD_RANGE: (context, { day, name }) => {
+    const value = context.state.itemInstance[name];
     // iterates through array and tries to find first day next to param day
     const dayIndex = value.findIndex((workday) => workday.day > day);
     const dayItem = {
@@ -50,7 +64,7 @@ const actions = {
     };
     value.splice(dayIndex, 0, dayItem);
     context.commit('SET_ITEM_PROPERTY', {
-      prop: 'accepts',
+      prop: name,
       value,
     });
     context.commit('SET_ITEM_PROPERTY', {
@@ -59,16 +73,22 @@ const actions = {
     });
   },
 
-  REMOVE_ACCEPT_ITEM: (context, index) => {
-    const value = context.state.itemInstance.accepts;
+  REMOVE_RANGE: (context, { index, name} ) => {
+    const value = context.state.itemInstance[name];
     value.splice(index, 1);
     context.commit('SET_ITEM_PROPERTY', {
-      prop: 'accepts',
+      prop: name,
       value,
     });
     context.commit('SET_ITEM_PROPERTY', {
       prop: '_dirty',
       value: true,
+    });
+  },
+  INITIALIZE_SPECIALS: (context) => {
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: 'specials',
+      value: defaultSpecials(),
     });
   },
 
@@ -127,7 +147,8 @@ const actions = {
     Promise.allSettled(deleted.map((item) => context.dispatch('DELETE_SINGLE_EXCEPT_ITEM', item))),
 
   SET_EXCEPT_ITEM_PROPERTY: (context, { index, prop, value }) => {
-    context.commit('SET_EXCEPT_ITEM_PROPERTY', {
+    context.commit('SET_CALENDAR_ITEM_PROPERTY', {
+      name: 'excepts',
       index,
       prop,
       value,
@@ -140,12 +161,8 @@ const actions = {
 };
 
 const mutations = {
-  SET_ACCEPT_ITEM_PROPERTY: (state, { prop, index, value }) => {
-    state.itemInstance.accepts[index][prop] = value;
-  },
-
-  SET_EXCEPT_ITEM_PROPERTY: (state, { index, prop, value }) => {
-    state.itemInstance.excepts[index][prop] = value;
+  SET_CALENDAR_ITEM_PROPERTY: (state, { name, prop, index, value }) => {
+    state.itemInstance[name][index][prop] = value;
   },
 };
 

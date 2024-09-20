@@ -46,10 +46,11 @@ import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum.js'
 import General from './opened-calendar-general.vue';
 import Holidays from './opened-calendar-holidays.vue';
 import WorkWeek from './opened-calendar-work-week.vue';
+import SpecialTime from './opened-calendar-special-time.vue';
 
 export default {
   name: 'OpenedCalendar',
-  components: { General, WorkWeek, Holidays },
+  components: { General, WorkWeek, Holidays, SpecialTime },
   mixins: [openedObjectMixin],
 
   setup: () => ({
@@ -70,6 +71,12 @@ export default {
           timerangeStartLessThanEnd,
         }),
       },
+      specials: {
+        timerangeNotIntersect,
+        $each: helpers.forEach({
+          timerangeStartLessThanEnd,
+        }),
+      },
     },
   },
 
@@ -79,6 +86,7 @@ export default {
         { value: 'general', text: this.$t('objects.general'), pathName: CalendarRouteNames.GENERAL },
         { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek'), pathName: CalendarRouteNames.WORKING_WEEK },
         { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2), pathName: CalendarRouteNames.HOLIDAYS },
+        { value: 'special-time', text: this.$t('objects.lookups.calendars.specialTime'), pathName: CalendarRouteNames.SPECIAL_TIME },
       ];
 
       if (this.id) tabs.push(this.permissionsTab);

@@ -434,6 +434,7 @@ export default {
         start: 'Начало',
         end: 'Конец',
         workWeek: 'Рабочая неделя',
+        specialTime: 'Особенное время',
         holidays: 'Выходной | Выходные',
         date: 'Дата',
         repeat: 'Повторить',

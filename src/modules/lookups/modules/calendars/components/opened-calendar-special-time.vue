@@ -1,8 +1,8 @@
 <template>
-  <section class="opened-calendar-work-week">
+  <section class="opened-calendar-special-time">
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('objects.lookups.calendars.workWeek') }}
+        {{ $t('objects.lookups.calendars.specialTime') }}
       </h3>
     </header>
 
@@ -25,7 +25,7 @@
               :value="minToSec(item.start)"
               format="hh:mm"
               noLabel
-              @input="setItemProp({ prop: 'start', index, value: secToMin($event)})"
+              @input="setItemProp({prop: 'start', index, value: secToMin($event)})"
             />
           </template>
           <template #end="{ item, index }">
@@ -63,25 +63,43 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { useWeekDaysData } from '../composables/useWeekDaysData.js';
 
 const namespace = 'lookups/calendars';
-const dataName = 'accepts';
 
 export default {
-  name: 'OpenedCalendarWorkWeek',
+  name: 'OpenedCalendarSpecialTime',
   mixins: [openedTabComponentMixin],
   setup() {
+    const dataName = 'specials';
     const { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin } = useWeekDaysData(namespace, dataName);
     return { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin };
   },
+
+  methods: {
+    ...mapActions(namespace, {
+      initializeSpecials: 'INITIALIZE_SPECIALS',
+    }),
+    initSpecials() {
+      if(!this.dataList.length) this.initializeSpecials();
+    }
+  },
+  mounted() {
+    this.initSpecials();
+  },
+  watch: {
+    dataList: {
+      handler() {
+        this.initSpecials();
+      },
+      deep: true
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.wt-timepicker :deep(.wt-label) {
-  display: none;
-}
 </style>
