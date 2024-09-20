@@ -24,6 +24,7 @@
               :disabled="disableUserInput"
               :value="minToSec(item.start)"
               format="hh:mm"
+              noLabel
               @input="setItemProp({prop: 'start', index, value: secToMin($event)})"
             />
           </template>
@@ -32,6 +33,7 @@
               :disabled="disableUserInput"
               :value="minToSec(item.end)"
               format="hh:mm"
+              noLabel
               @input="setItemProp({prop: 'end', index, value: secToMin($event)})"
             />
           </template>
@@ -100,7 +102,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wt-timepicker :deep(.wt-label) {
-  display: none;
-}
 </style>
