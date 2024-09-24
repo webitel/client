@@ -15,7 +15,7 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-select
-        :clearable="false"
+        :clearable="true"
         :disabled="disableUserInput"
         :label="$tc('objects.lookups.calendars.calendars', 1)"
         :search-method="loadDropdownOptionsCalendarList"

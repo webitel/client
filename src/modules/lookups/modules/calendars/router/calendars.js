@@ -8,6 +8,7 @@ const OpenedCalendar = () => import('../components/opened-calendar.vue');
 const OpenedCalendarGeneral = () => import('../components/opened-calendar-general.vue');
 const OpenedCalendarHolidays = () => import('../components/opened-calendar-holidays.vue');
 const OpenedCalendarWorkingWeek = () => import('../components/opened-calendar-work-week.vue');
+const OpenedCalendarSpecialTime = () => import('../components/opened-calendar-special-time.vue');
 const PermissionsTab = () => import("../../../../_shared/permissions-tab/components/permissions-tab.vue");
 
 const CalendarsRoutes = [
@@ -36,6 +37,10 @@ const CalendarsRoutes = [
         path: 'holidays/:holidayIndex?',
         name: CalendarRouteNames.HOLIDAYS,
         component: OpenedCalendarHolidays,
+      },{
+        path: 'special-time',
+        name: CalendarRouteNames.SPECIAL_TIME,
+        component: OpenedCalendarSpecialTime,
       },{
         path: 'permissions/:permissionId?',
         name: CalendarRouteNames.PERMISSIONS,

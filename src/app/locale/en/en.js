@@ -428,6 +428,7 @@ export default {
         start: 'Start',
         end: 'End',
         workWeek: 'Working week',
+        specialTime: 'Special time',
         holidays: 'Holiday | Holidays',
         date: 'Date',
         repeat: 'Repeat',
