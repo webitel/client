@@ -1,21 +1,20 @@
 <template>
   <!--  :class="$i18n.locale" root element class to control fonts on each locale  -->
-  <router-view :class="$i18n.locale" />
+  <router-view :class="locale" />
 </template>
 
-<script>
-export default {
-  name: 'App',
-  created() {
-    this.setLanguage();
-  },
-  methods: {
-    setLanguage() {
-      const lang = localStorage.getItem('lang');
-      if (lang) this.$i18n.locale = lang;
-    },
-  },
-};
+<script setup>
+import { computed, provide } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+
+provide('darkMode', darkMode);
+
+const { locale } = useI18n();
 </script>
 
 <style>

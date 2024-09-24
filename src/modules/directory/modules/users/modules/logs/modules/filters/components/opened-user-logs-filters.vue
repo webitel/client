@@ -1,27 +1,27 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
-    <component
-      :is="`abstract-${filter.type}-filter`"
-      v-for="(filter, key) of filters"
-      :key="key"
-      :filter-query="filter.filterQuery"
-      :namespace="namespace"
-      class="history-filters__filter"
-    />
-    <filter-datetime
-      :label="`${
-        $t('reusable.modifiedAt')}: ${$t('reusable.from').toLowerCase()
-      }`"
-      :namespace="namespace"
-      filter-query="from"
-    />
-    <filter-datetime
-      :label="`${
-        $t('reusable.modifiedAt')}: ${$t('reusable.to').toLowerCase()
-      }`"
-      :namespace="namespace"
-      filter-query="to"
-    />
+<!--    <component-->
+<!--      :is="`abstract-${filter.type}-filter`"-->
+<!--      v-for="(filter, key) of filters"-->
+<!--      :key="key"-->
+<!--      :filter-query="filter.filterQuery"-->
+<!--      :namespace="namespace"-->
+<!--      class="history-filters__filter"-->
+<!--    />-->
+<!--    <filter-datetime-->
+<!--      :label="`${-->
+<!--        $t('reusable.modifiedAt')}: ${$t('reusable.from').toLowerCase()-->
+<!--      }`"-->
+<!--      :namespace="namespace"-->
+<!--      filter-query="from"-->
+<!--    />-->
+<!--    <filter-datetime-->
+<!--      :label="`${-->
+<!--        $t('reusable.modifiedAt')}: ${$t('reusable.to').toLowerCase()-->
+<!--      }`"-->
+<!--      :namespace="namespace"-->
+<!--      filter-query="to"-->
+<!--    />-->
   </wt-filters-panel-wrapper>
 </template>
 

@@ -68,6 +68,7 @@ const createVueInstance = () => {
   let config = {};
   try {
     setTokenFromUrl();
+    store.commit('SET_ROUTER', router);
 
     config = await fetchConfig();
     await initSession();

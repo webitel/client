@@ -115,3 +115,29 @@ $srollbar-border-radius: 4px;
 .value-pair-wrap {
   position: relative;
 }
+
+.wt-page-wrapper__main {
+  min-height: 0;
+
+  .table-wrapper {
+    min-height: 0;
+    gap: var(--spacing-sm);
+
+    .wt-table__head {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .wt-pagination {
+      margin-top: auto;
+    }
+  }
+
+  .wt-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

@@ -11,7 +11,7 @@ export default [
     value: 'status',
     locale: 'objects.directory.users.status',
     width: 'minmax(320px, 1fr)',
-    field: 'presence.status',
+    field: 'presence',
     sort: SortSymbols.NONE,
   },
   {
@@ -30,7 +30,7 @@ export default [
     value: 'DnD',
     locale: 'objects.directory.users.DnD',
     width: '120px',
-    field: 'dnd',
+    field: 'presence',
     sort: SortSymbols.NONE,
   },
 ];

@@ -2,38 +2,38 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.directory.devices.devices', 2) }}
+        {{ t('objects.directory.devices.devices', 2) }}
       </h3>
     </header>
     <div class="object-input-grid">
       <wt-select
         :disabled="disableUserInput"
-        :label="$t('objects.directory.users.defaultDevice')"
+        :label="t('objects.directory.users.defaultDevice')"
         :options="itemInstance.devices"
         :value="itemInstance.device"
         required
         track-by="id"
-        @input="setItemProp({ prop: 'device', value: $event })"
-        @reset="setItemProp({ prop: 'device', value: {} })"
+        @input="setItemProp({ path: 'device', value: $event })"
+        @reset="setItemProp({ path: 'device', value: {} })"
       />
       <div>
         <wt-select
           :close-on-select="false"
           :disabled="disableUserInput"
-          :label="$tc('objects.directory.devices.devices', 2)"
+          :label="t('objects.directory.devices.devices', 2)"
           :search-method="loadDropdownOptionsList"
           :value="itemInstance.devices"
           multiple
-          @input="setItemProp({ prop: 'devices', value: $event })"
+          @input="setItemProp({ path: 'devices', value: $event })"
         />
         <div class="hint-link__wrap">
-          <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
+          <span>{{ t('objects.directory.users.deviceNotFound') }} </span>
           <adm-item-link
               class="hint-link__link"
               id="new"
               :route-name="RouteNames.DEVICES"
           >
-            {{ $t('objects.directory.users.createNewDevice') }}
+            {{ t('objects.directory.users.createNewDevice') }}
           </adm-item-link>
         </div>
       </div>
@@ -41,26 +41,40 @@
   </section>
 </template>
 
-<script>
-import ItemLinkMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/itemLinkMixin.js';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import DevicesAPI from '../../devices/api/devices';
+<script setup>
+import { useCardStore } from '@webitel/ui-sdk/src/store/new/index.js';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import { useAccessControl } from '../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import DevicesAPI from '../../devices/api/devices.js';
 
-export default {
-  name: 'OpenedUserDevices',
-  mixins: [openedTabComponentMixin, ItemLinkMixin],
-  methods: {
-    async loadDropdownOptionsList(params) {
-      const fields = ['id', 'name', 'hotdesk'];
-      const response = await DevicesAPI.getLookup({
-        ...params,
-        fields,
-      });
-      response.items = response.items.filter((item) => !item.hotdesk);
-      return response;
-    },
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
   },
+  v: {
+    type: Object,
+    required: true,
+  },
+});
+
+const store = useStore();
+const { t } = useI18n();
+
+const { disableUserInput } = useAccessControl();
+
+const { itemInstance, setItemProp } = useCardStore(props.namespace);
+
+const loadDropdownOptionsList = async (params) => {
+  const fields = ['id', 'name', 'hotdesk'];
+  const response = await DevicesAPI.getLookup({
+    ...params,
+    fields,
+  });
+  response.items = response.items.filter((item) => !item.hotdesk);
+  return response;
 };
 </script>
 

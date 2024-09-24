@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('objects.directory.users.variables') }}
+        {{ t('objects.directory.users.variables') }}
       </h3>
       <wt-icon-action
         v-if="!disableUserInput"
@@ -19,17 +19,17 @@
         >
           <wt-input
             :disabled="disableUserInput"
-            :placeholder="$t('objects.directory.users.varKey')"
+            :placeholder="t('objects.directory.users.varKey')"
             :v="v.itemInstance.variables.$each.$response.$data[key].key"
             :value="variable.key"
-            @input="setVariableProp({index: key, prop: 'key', value: $event})"
+            @input="setItemProp({path: `variables[${key}].key`, value: $event})"
           />
           <wt-input
             :disabled="disableUserInput"
-            :placeholder="$t('objects.directory.users.varVal')"
+            :placeholder="t('objects.directory.users.varVal')"
             :v="v.itemInstance.variables.$each.$response.$data[key].value"
             :value="variable.value"
-            @input="setVariableProp({index: key, prop: 'value', value: $event})"
+            @input="setItemProp({path: `variables[${key}].value`, value: $event})"
           />
           <wt-icon-action
             v-if="!disableUserInput"
@@ -43,12 +43,37 @@
   </section>
 </template>
 
-<script>
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+<script setup>
+import { useCardStore } from '@webitel/ui-sdk/src/store/new/index.js';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import { useAccessControl } from '../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
 
-export default {
-  name: 'OpenedUserVariables',
-  mixins: [openedTabComponentMixin],
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
+  },
+  v: {
+    type: Object,
+    required: true,
+  },
+});
+
+const store = useStore();
+const { t } = useI18n();
+
+const { disableUserInput } = useAccessControl();
+
+const { itemInstance, setItemProp } = useCardStore(props.namespace);
+
+const addVariable = () => {
+  const value = [...itemInstance.value.variables, { key: '', value: '' }];
+  return setItemProp({ path: 'variables', value });
+};
+const deleteVariable = (index) => {
+  const value = itemInstance.value.variables.filter((_, i) => i !== index);
+  return setItemProp({ path: 'variables', value });
 };
 </script>
 

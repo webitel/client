@@ -1,13 +1,7 @@
 <template>
   <section>
     <token-popup
-      :shown="isPopup"
-      @close="closePopup"
-      @token-created="openTokenCreatedPopup"
-    />
-    <token-created-popup
-      v-if="isTokenGenerated"
-      @close="closeTokenCreatedPopup"
+      :namespace="namespace"
     />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
@@ -18,20 +12,20 @@
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.directory.users.token', 2) }}
+        {{ t('objects.directory.users.token', 2) }}
       </h3>
 
       <wt-table-actions
         :icons="['refresh']"
-        @input="tableActionsHandler"
+        @input="(event) => event === 'refresh' && loadData()"
       >
         <delete-all-action
           v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
-          :selected-count="selectedRows.length"
+          :class="{'hidden': !selected.length}"
+          :selected-count="selected.length"
           @click="askDeleteConfirmation({
-            deleted: selectedRows,
-            callback: () => deleteData(selectedRows),
+            deleted: selected,
+            callback: () => deleteData(selected),
           })"
         />
         <wt-icon-action
@@ -42,17 +36,32 @@
       </wt-table-actions>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
+    <wt-loader v-show="isLoading" />
     <div
-      v-show="isLoaded"
+      v-show="!isLoading"
       class="table-wrapper"
     >
+      <div
+        style="display:contents;"
+        v-if="dataList.length && !isLoading"
+      >
+        <transition-slide
+          :offset="{
+              enter: ['-5%', 0],
+              leave: [0, 0]
+            }"
+          duration="200"
+          mode="out-in"
+          appear
+        >
       <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
         :headers="headers"
+        :selected="selected"
         sortable
         @sort="sort"
+        @update:selected="setSelected"
       >
         <template #usage="{ item }">
           {{ item.usage }}
@@ -75,109 +84,132 @@
           />
         </template>
       </wt-table>
-      <wt-pagination
+        </transition-slide>
+      </div>
+      <filter-pagination
+        :namespace="filtersNamespace"
         :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup>
+import { TransitionSlide } from '@morev/vue-transitions';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import TokenCreatedPopup from './opened-user-token-created-popup.vue';
+import FilterPagination from '@webitel/ui-sdk/src/modules/Filters/components/filter-pagination.vue';
+import { useTableFilters } from '@webitel/ui-sdk/src/modules/Filters/composables/useTableFilters.js';
+import { useCardStore, useTableStore } from '@webitel/ui-sdk/store';
+import { inject, onUnmounted, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { useAccessControl } from '../../../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
 import TokenPopup from './opened-user-token-popup.vue';
 
-export default {
-  name: 'OpenedUserTokens',
-  components: {
-    TokenPopup,
-    TokenCreatedPopup,
-    DeleteConfirmationPopup,
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
   },
-  mixins: [openedObjectTableTabMixin],
+});
 
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+const {
+  namespace: parentCardNamespace,
+  id: parentId,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+  addItem,
+} = useCardStore(props.namespace);
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+const namespace = `${parentCardNamespace}/tokens`;
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const { t } = useI18n();
 
-  data: () => ({
-    subNamespace: 'tokens',
-    isPopup: false,
-    isTokenGenerated: false,
-  }),
+const darkMode = inject('darkMode');
 
-  computed: {
-    tokenId() {
-      return this.$route.params.tokenId;
-    },
-  },
+const { disableUserInput } = useAccessControl();
 
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.$route,
-        params: { tokenId: 'new' },
-      });
-    },
-    openPopup() {
-      this.isPopup = true;
-    },
-    closePopup() {
-      this.$router.go(-1);
-      this.isPopup = false;
-      this.resetItemState();
-    },
+const {
+  namespace: tableNamespace,
 
-    openTokenCreatedPopup() {
-      this.isPopup = false;
-      this.isTokenGenerated = true;
-    },
+  dataList,
+  selected,
+  isLoading,
+  headers,
+  isNext,
+  error,
 
-    closeTokenCreatedPopup() {
-      this.isTokenGenerated = false;
-      this.resetItemState();
-    },
+  loadData,
+  deleteData,
+  sort,
+  setSelected,
+  onFilterEvent,
+} = useTableStore(namespace);
 
-    prettifyDate(value) {
-      return new Date(+value).toLocaleString();
-    },
-  },
-  watch: {
-    tokenId: {
-      async handler(value) {
-        if (value === 'new') {
-          this.openPopup();
-        }
+const {
+  namespace: filtersNamespace,
+  restoreFilters,
+
+  subscribe,
+  flushSubscribers,
+} = useTableFilters(tableNamespace);
+
+subscribe({
+  event: '*',
+  callback: onFilterEvent,
+});
+
+restoreFilters();
+
+onUnmounted(() => {
+  flushSubscribers();
+});
+
+const {
+  isVisible: isDeleteConfirmationPopup,
+  deleteCount,
+  deleteCallback,
+
+  askDeleteConfirmation,
+  closeDelete,
+} = useDeleteConfirmationPopup();
+
+const create = async () => {
+  if (!parentId.value) {
+    await addItem();
+    await router.replace({
+      ...route,
+      params: {
+        ...route.params,
+        id: parentId.value,
       },
-      immediate: true,
+    });
+  }
+
+  return router.push({
+    ...route,
+    params: {
+      ...route.params,
+      tokenId: 'new',
+    },
+  });
+};
+const prettifyDate = (value) => {
+  return new Date(+value).toLocaleString();
+};
+
+watch(
+  () => route.params.tokenId,
+  () => {
+    if (!route.params.tokenId) {
+      loadData();
     }
   },
-};
+);
 </script>
 
 <style lang="scss" scoped>

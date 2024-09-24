@@ -9,8 +9,16 @@ import routing from '../../modules/routing/store/routing';
 import system from '../../modules/system/store/system';
 import userinfo from '../../modules/userinfo/store/userinfo';
 
-export default createStore({
+const store = createStore({
   strict: false,
+  state: {
+    router: null,
+  },
+  mutations: {
+    SET_ROUTER: (state, router) => {
+      state.router = router;
+    },
+  },
   modules: {
     userinfo,
     directory,
@@ -23,3 +31,7 @@ export default createStore({
     appearance,
   },
 });
+
+window.store = store;
+
+export default store;
