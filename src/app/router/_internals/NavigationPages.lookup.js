@@ -101,6 +101,11 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.MEDIA}`,
         route: 'media',
       },
+      {
+        value: AdminSections.SHIFT_TEMPLATES,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SHIFT_TEMPLATES}`,
+        route: 'shift-templates',
+      },
     ],
   },
   {

@@ -318,7 +318,7 @@ export default {
         pathName: ChatGatewayRoutesName.GENERAL,
       };
       const botTemplates = {
-        text: this.$t('objects.routing.chatGateways.templates.templates'),
+        text: this.$tc('objects.routing.chatGateways.templates.templates', 2),
         value: 'OpenedChatGatewayTemplates',
         pathName: ChatGatewayRoutesName.TEMPLATES,
       };

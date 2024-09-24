@@ -1,0 +1,123 @@
+<template>
+  <section class="opened-calendar-work-week">
+    <header class="content-header">
+      <h3 class="content-title">
+        {{ $tc('objects.routing.chatGateways.templates.templates', 1) }}
+      </h3>
+
+      <div class="content-header__actions-wrap">
+        <wt-icon-btn
+          v-if="!disableUserInput"
+          class="icon-action"
+          icon="plus"
+          @click="addTemplate"
+        />
+      </div>
+    </header>
+
+    <div class="table-wrapper">
+      <div class="table-wrapper__visible-scroll-wrapper">
+        <wt-table
+          :data="itemInstance.times"
+          :grid-actions="!disableUserInput"
+          :headers="headers"
+          :selectable="false"
+        >
+          <template #start="{ item, index }">
+            <wt-timepicker
+              :disabled="disableUserInput"
+              :value="minToSec(item.start)"
+              :v="v.itemInstance.times.$each.$response.$data[index].start"
+              format="hh:mm"
+              @input="setStartTime({ index, value: secToMin($event) })"
+            />
+          </template>
+          <template #end="{ item, index }">
+            <wt-timepicker
+              :disabled="disableUserInput"
+              :value="minToSec(item.end)"
+              format="hh:mm"
+              :v="v.itemInstance.times.$each.$response.$data[index].end"
+              @input="setEndTime({ index, value: secToMin($event) })"
+            />
+          </template>
+          <template #duration="{ item, index }">
+            <wt-timepicker
+              :value="minToSec(item.duration)"
+              format="hh:mm"
+              type="number"
+              @input="setDuration({ index, value: secToMin($event) })"
+            />
+          </template>
+          <template #actions="{ item, index }">
+            <wt-icon-action
+              action="delete"
+              @click="deleteTemplate(index)"
+            />
+          </template>
+        </wt-table>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import { mapActions, mapState } from 'vuex';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+
+export default {
+  name: 'OpenedShiftTemplateTemplate',
+  mixins: [openedTabComponentMixin],
+  computed: {
+    headers() {
+      return [
+        {
+          value: 'start',
+          text: this.$t('objects.lookups.calendars.start'),
+        },
+        {
+          value: 'end',
+          text: this.$t('objects.lookups.calendars.end'),
+        },
+        {
+          value: 'duration',
+          text: this.$t('objects.ccenter.queues.logs.duration'),
+        },
+      ];
+    },
+  },
+
+  methods: {
+    ...mapActions('lookups/shiftTemplates', {
+      addTemplate: 'ADD_TEMPLATE',
+      setTemplate: 'SET_TEMPLATE',
+      deleteTemplate: 'DELETE_TEMPLATE',
+    }),
+    minToSec(min) {
+      return min * 60;
+    },
+    secToMin(sec) {
+      return sec / 60;
+    },
+    setStartTime({ index, value }) {
+      this.setTemplate({ prop: 'start', index, value });
+      this.setTemplate({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
+    },
+    setEndTime({ index, value }) {
+      this.setTemplate({ prop: 'end', index, value });
+      this.setTemplate({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
+    },
+    setDuration({ index, value }) {
+      this.setTemplate({ prop: 'duration', index, value });
+      this.setTemplate({ prop: 'end', index, value: this.itemInstance.times[index].start + this.itemInstance.times[index].duration });
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.wt-timepicker :deep(.wt-label) {
+  display: none;
+}
+</style>
+

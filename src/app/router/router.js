@@ -29,6 +29,8 @@ import AgentSkillsRoutes from "../../modules/lookups/modules/agent-skills/router
 import BucketsRoutes from "../../modules/lookups/modules/buckets/router/buckets.js";
 import BlacklistsRoutes from "../../modules/lookups/modules/blacklists/router/blacklists.js";
 import MediaRoutes from "../../modules/lookups/modules/media/router/media.js";
+import ShiftTemplates
+  from '../../modules/lookups/modules/shift-templates/router/shift-templates.js';
 import CalendarsRoutes from "../../modules/lookups/modules/calendars/router/calendars.js";
 import CommunicationsRoutes from "../../modules/lookups/modules/communications/router/communications.js";
 import RegionsRoutes from "../../modules/lookups/modules/regions/router/regions.js";
@@ -107,6 +109,7 @@ const router = createRouter({
         ...CommunicationsRoutes,
         ...RegionsRoutes,
         ...AgentPauseCauseRoutes,
+        ...ShiftTemplates,
         // ----------LOOKUPS END------------
 
         // --------------CONTACT CENTER-------------
