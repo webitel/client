@@ -42,7 +42,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import { requiredArrayValue } from '../../../../../app/utils/validators.js';
 import General from './opened-shift-template-general.vue';
 import Times from './opened-shift-template-times.vue';
-import ShiftTemplatesRouteNames from '../router/_internals/ShiftTemplatesRouteName.enum.js';
+import ShiftTemplatesRouteNames from '../router/_internals/ShiftTemplatesRouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {
