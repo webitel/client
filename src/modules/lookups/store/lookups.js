@@ -6,6 +6,8 @@ import calendars from '../modules/calendars/store/calendars';
 import communications from '../modules/communications/store/communications';
 import media from '../modules/media/store/media';
 import regions from '../modules/regions/store/regions';
+import shiftTemplates
+  from '../modules/shift-templates/store/shift-templates.js';
 
 const modules = {
   skills,
@@ -16,6 +18,7 @@ const modules = {
   communications,
   pauseCause,
   media,
+  shiftTemplates,
 };
 
 export default {

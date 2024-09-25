@@ -466,6 +466,9 @@ export default {
         allowSupervisor: 'Supervisor can change this status',
         allowAgent: 'Agent can change this status',
       },
+      shiftTemplates: {
+        shiftTemplates: 'Shift template | Shift templates',
+      },
     },
     routing: {
       routing: 'Routing',
@@ -535,7 +538,7 @@ export default {
       },
       chatGateways: {
         templates: {
-          templates: 'Templates',
+          templates: 'Template | Templates',
           title: "Workspace member's name",
           close: 'Chat complete message',
           join: 'Agent joining message',

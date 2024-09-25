@@ -467,6 +467,9 @@ export default {
         allowSupervisor: 'Супервізор може змінювати статус',
         allowAgent: 'Оператор може змінювати статус',
       },
+      shiftTemplates: {
+        shiftTemplates: 'Шаблон змін | Шаблони змін',
+      },
     },
     routing: {
       routing: 'Маршрутизація',

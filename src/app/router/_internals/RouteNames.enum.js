@@ -25,6 +25,7 @@ export default Object.freeze({
   COMMUNICATIONS: 'communications',
   PAUSE_CAUSE: 'agent-pause-cause',
   MEDIA: 'media',
+  SHIFT_TEMPLATES: 'shift-templates',
 
   // CONTACT-CENTER
   AGENTS: 'agents',

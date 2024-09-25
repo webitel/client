@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('objects.routing.chatGateways.templates.templates') }}
+        {{ $tc('objects.routing.chatGateways.templates.templates', 2) }}
       </h3>
     </header>
     <div class="object-input-grid">
