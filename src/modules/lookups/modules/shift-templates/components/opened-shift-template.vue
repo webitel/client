@@ -39,15 +39,15 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength, helpers, minValue, maxValue } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import { requiredArrayValue, timerangeStartLessThanEnd } from '../../../../../app/utils/validators.js';
+import { requiredArrayValue } from '../../../../../app/utils/validators.js';
 import General from './opened-shift-template-general.vue';
-import Template from './opened-shift-template-template.vue';
+import Times from './opened-shift-template-times.vue';
 import ShiftTemplatesRouteNames from '../router/_internals/ShiftTemplatesRouteName.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {
   name: 'OpenedShiftTemplate',
-  components: { General, Template },
+  components: { General, Times },
   mixins: [openedObjectMixin],
 
   setup: () => ({
@@ -63,7 +63,6 @@ export default {
       times: {
         requiredArrayValue,
         $each: helpers.forEach({
-          timerangeStartLessThanEnd,
           start: {
             required,
             minValue: minValue(0),
@@ -74,6 +73,9 @@ export default {
             minValue: minValue(0),
             maxValue: maxValue(1440),
           },
+          duration: {
+            minValue: minValue(1)
+          }
         }),
       }
     },
@@ -89,8 +91,8 @@ export default {
         },
         {
           text: this.$tc('objects.routing.chatGateways.templates.templates', 1),
-          value: 'template',
-          pathName: ShiftTemplatesRouteNames.TEMPLATE
+          value: 'times',
+          pathName: ShiftTemplatesRouteNames.TIMES
         },
       ];
       return tabs;

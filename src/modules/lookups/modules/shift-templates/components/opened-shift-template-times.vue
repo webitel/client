@@ -1,5 +1,5 @@
 <template>
-  <section class="opened-calendar-work-week">
+  <section>
     <header class="content-header">
       <h3 class="content-title">
         {{ $tc('objects.routing.chatGateways.templates.templates', 1) }}
@@ -10,7 +10,7 @@
           v-if="!disableUserInput"
           class="icon-action"
           icon="plus"
-          @click="addTemplate"
+          @click="addTime"
         />
       </div>
     </header>
@@ -29,6 +29,7 @@
               :value="minToSec(item.start)"
               :v="v.itemInstance.times.$each.$response.$data[index].start"
               format="hh:mm"
+              no-label
               @input="setStartTime({ index, value: secToMin($event) })"
             />
           </template>
@@ -37,6 +38,7 @@
               :disabled="disableUserInput"
               :value="minToSec(item.end)"
               format="hh:mm"
+              no-label
               :v="v.itemInstance.times.$each.$response.$data[index].end"
               @input="setEndTime({ index, value: secToMin($event) })"
             />
@@ -46,13 +48,14 @@
               :value="minToSec(item.duration)"
               format="hh:mm"
               type="number"
+              no-label
               @input="setDuration({ index, value: secToMin($event) })"
             />
           </template>
           <template #actions="{ item, index }">
             <wt-icon-action
               action="delete"
-              @click="deleteTemplate(index)"
+              @click="deleteTime(index)"
             />
           </template>
         </wt-table>
@@ -62,11 +65,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
+const DEFAULT_TIME = { start: 9 * 60, end: 20 * 60, duration: 11 * 60 };
+
 export default {
-  name: 'OpenedShiftTemplateTemplate',
+  name: 'OpenedShiftTemplateTimes',
   mixins: [openedTabComponentMixin],
   computed: {
     headers() {
@@ -88,36 +92,43 @@ export default {
   },
 
   methods: {
-    ...mapActions('lookups/shiftTemplates', {
-      addTemplate: 'ADD_TEMPLATE',
-      setTemplate: 'SET_TEMPLATE',
-      deleteTemplate: 'DELETE_TEMPLATE',
-    }),
     minToSec(min) {
       return min * 60;
     },
     secToMin(sec) {
       return sec / 60;
     },
+    addTime() {
+      const array = [...this.itemInstance.times];
+      array.push(DEFAULT_TIME);
+      this.setItemProp({ prop: 'times', value: array });
+    },
+    deleteTime(index) {
+      const array = [...this.itemInstance.times];
+      array.splice(index, 1);
+      this.setItemProp({ prop: 'times', value: array });
+    },
+    setTime({ prop, index, value }) {
+      const array = [...this.itemInstance.times];
+      array[index][prop] = value;
+      this.setItemProp({ prop: 'times', value: array });
+    },
     setStartTime({ index, value }) {
-      this.setTemplate({ prop: 'start', index, value });
-      this.setTemplate({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
+      this.setTime({ prop: 'start', index, value });
+      this.setTime({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
     },
     setEndTime({ index, value }) {
-      this.setTemplate({ prop: 'end', index, value });
-      this.setTemplate({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
+      this.setTime({ prop: 'end', index, value });
+      this.setTime({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
     },
     setDuration({ index, value }) {
-      this.setTemplate({ prop: 'duration', index, value });
-      this.setTemplate({ prop: 'end', index, value: this.itemInstance.times[index].start + this.itemInstance.times[index].duration });
+      this.setTime({ prop: 'duration', index, value});
+      this.setTime({ prop: 'end', index, value: this.itemInstance.times[index].start + this.itemInstance.times[index].duration });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.wt-timepicker :deep(.wt-label) {
-  display: none;
-}
 </style>
 

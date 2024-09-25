@@ -7,7 +7,7 @@ const ShiftTemplates = () => import('../components/the-shift-templates.vue');
 const OpenedShiftTemplate = () => import('../components/opened-shift-template.vue');
 
 const OpenedShiftTemplateGeneral = () => import('../components/opened-shift-template-general.vue');
-const OpenedShiftTemplateTemplate = () => import('../components/opened-shift-template-template.vue');
+const OpenedShiftTemplateTimes = () => import('../components/opened-shift-template-times.vue');
 
 
 const ShiftTemplatesRoutes = [
@@ -30,9 +30,9 @@ const ShiftTemplatesRoutes = [
         component: OpenedShiftTemplateGeneral,
       },
       {
-        path: 'template',
-        name: ShiftTemplatesRouteNameEnum.TEMPLATE,
-        component: OpenedShiftTemplateTemplate,
+        path: 'times',
+        name: ShiftTemplatesRouteNameEnum.TIMES,
+        component: OpenedShiftTemplateTimes,
       }
     ],
   },

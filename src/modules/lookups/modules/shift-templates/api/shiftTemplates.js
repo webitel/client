@@ -5,7 +5,6 @@ import applyTransform, {
   notify,
   sanitize,
   snakeToCamel,
-  starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { ShiftTemplateServiceApiFactory } from 'webitel-sdk';
 
@@ -17,7 +16,6 @@ const shiftTemplateService = new ShiftTemplateServiceApiFactory(configuration, '
 const getShiftTemplateList = async (params) => {
   const { search: q, page, size, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
-    starToSearch(),
   ]);
 
   try {
@@ -64,7 +62,7 @@ const addShiftTemplate = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await shiftTemplateService.createShiftTemplate({ item: { ...item } });
-    return applyTransform(response.data, [snakeToCamel()]);
+    return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
