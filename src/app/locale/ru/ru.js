@@ -474,6 +474,7 @@ export default {
       },
       shiftTemplates: {
         shiftTemplates: 'Шаблон смен | Шаблоны смен',
+        duration: 'Длительность (чч:мм)',
       },
     },
     routing: {

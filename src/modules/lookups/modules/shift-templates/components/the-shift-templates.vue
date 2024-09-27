@@ -20,7 +20,12 @@
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
-            {{ $tc('objects.lookups.shiftTemplates.shiftTemplates',2) }}
+            {{
+              $t(
+                'objects.all',
+                { entity: $tc('objects.routing.chatGateways.templates.templates', 2) },
+              )
+            }}
           </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
