@@ -115,6 +115,12 @@ const deletePauseCause = async ({ id }) => {
   }
 };
 
+const getPauseCauseLookup = (params) =>
+  getPauseCauseList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
+
 const AgentPauseCauseAPI = {
   getList: getPauseCauseList,
   get: getPauseCause,
@@ -122,6 +128,7 @@ const AgentPauseCauseAPI = {
   patch: patchPauseCause,
   update: updatePauseCause,
   delete: deletePauseCause,
+  getLookup: getPauseCauseLookup,
 };
 
 export default AgentPauseCauseAPI;

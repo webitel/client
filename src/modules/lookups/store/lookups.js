@@ -8,6 +8,7 @@ import media from '../modules/media/store/media';
 import regions from '../modules/regions/store/regions';
 import shiftTemplates
   from '../modules/shift-templates/store/shift-templates.js';
+import pauseTemplates from '../modules/pause-templates/store/pause-templates.js';
 
 const modules = {
   skills,
@@ -19,6 +20,7 @@ const modules = {
   pauseCause,
   media,
   shiftTemplates,
+  pauseTemplates,
 };
 
 export default {
