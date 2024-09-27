@@ -55,7 +55,7 @@
           <template #actions="{ item, index }">
             <wt-icon-action
               action="delete"
-              @click="deleteTime(index)"
+              @click="removeTime(index)"
             />
           </template>
         </wt-table>
@@ -65,9 +65,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-
-const DEFAULT_TIME = { start: 9 * 60, end: 20 * 60, duration: 11 * 60 };
 
 export default {
   name: 'OpenedShiftTemplateTimes',
@@ -85,33 +84,30 @@ export default {
         },
         {
           value: 'duration',
-          text: this.$t('objects.ccenter.queues.logs.duration'),
+          text: this.$t('objects.lookups.shiftTemplates.duration'),
         },
       ];
     },
   },
 
   methods: {
+    ...mapActions({
+      addTime(dispatch, payload) {
+        dispatch(`${this.namespace}/ADD_TIME`, payload);
+      },
+      setTime(dispatch, payload) {
+        dispatch(`${this.namespace}/SET_TIME`, payload);
+      },
+      removeTime(dispatch, payload) {
+        dispatch(`${this.namespace}/REMOVE_TIME`, payload);
+      },
+    }),
+
     minToSec(min) {
       return min * 60;
     },
     secToMin(sec) {
       return sec / 60;
-    },
-    addTime() {
-      const array = [...this.itemInstance.times];
-      array.push(DEFAULT_TIME);
-      this.setItemProp({ prop: 'times', value: array });
-    },
-    deleteTime(index) {
-      const array = [...this.itemInstance.times];
-      array.splice(index, 1);
-      this.setItemProp({ prop: 'times', value: array });
-    },
-    setTime({ prop, index, value }) {
-      const array = [...this.itemInstance.times];
-      array[index][prop] = value;
-      this.setItemProp({ prop: 'times', value: array });
     },
     setStartTime({ index, value }) {
       this.setTime({ prop: 'start', index, value });

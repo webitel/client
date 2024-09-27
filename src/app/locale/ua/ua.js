@@ -469,6 +469,7 @@ export default {
       },
       shiftTemplates: {
         shiftTemplates: 'Шаблон змін | Шаблони змін',
+        duration: 'Тривалість (гг:хх)',
       },
     },
     routing: {

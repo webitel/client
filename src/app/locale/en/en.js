@@ -468,6 +468,7 @@ export default {
       },
       shiftTemplates: {
         shiftTemplates: 'Shift template | Shift templates',
+        duration: 'Duration (hh:mm)',
       },
     },
     routing: {
