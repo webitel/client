@@ -58,9 +58,13 @@ export default {
       this.isRingtoneVolumeSaved = true;
     },
 
-    debouncedPlayBeep: debounce(function (volume) {
-      triggerSound(volume);
-    }, {}, 300), // Debounce options and 300ms wait time
+    debouncedPlayBeep: debounce(function(volume) {
+      const playSound = async () => {
+        const audio = await triggerSound(volume);
+        audio.play();
+      };
+      playSound();
+    }, null, 200),
   },
   mounted() {
     // Load the saved ringtoneVolume from localStorage if it exists
