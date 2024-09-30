@@ -50,7 +50,8 @@ const getWorkingCondition = async ({ itemId: id }) => {
   }
 };
 
-const fieldsToSend = ['name', 'description', 'workdayHours', 'workdayPerMonth', 'pauseDuration', 'vacation', 'pauseTemplate', 'sickLeaves', 'shiftTemplate', 'daysOff'];
+const fieldsToSend = ['name', 'description', 'workdayHours', 'workdayPerMonth', 'pauseDuration', 'vacation', 'pauseTemplate', 'sickLeaves', 'shiftTemplate', 'daysOff', 'createdAt', 'createdBy', 'domainId', 'id', '\n' +
+'updatedAt', 'updatedBy'];
 
 const addWorkingCondition = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
@@ -66,7 +67,7 @@ const updateWorkingCondition = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await workingConditionService.updateWorkingCondition(id, { item: { ...item }});
-    return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
+    return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
