@@ -477,9 +477,18 @@ export default {
         duration: 'Длительность (чч:мм)',
       },
       pauseTemplates: {
-        pauseTemplates: 'Шаблоны пауз',
+        pauseTemplates: 'Шаблон пауз | Шаблоны пауз',
         pauseReason: 'Причина паузы',
         duration: 'Длительность (мм)',
+      },
+      workingConditions: {
+        workingConditions: 'Условия работы',
+        workdayDuration: 'Длительность рабочего дня (час.)',
+        workdaysPerMonth: 'Количество рабочих дней в месяц',
+        vacationDaysPerYear: 'Количество дней отпуска в год',
+        sickLeavesPerYear: 'Количество дней больничного в год',
+        daysOffPerYear: 'Количество выходных дней в год',
+        pauseDuration: 'Длительность перерыва',
       },
     },
     routing: {

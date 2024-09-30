@@ -23,7 +23,7 @@
             {{
               $t(
                 'objects.all',
-                { entity: $tc('objects.routing.chatGateways.templates.templates', 2) },
+                { entity: $t('objects.lookups.workingConditions.workingConditions') },
               )
             }}
           </h3>
@@ -126,12 +126,13 @@ import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-const namespace = 'lookups/pauseTemplates';
+const namespace = 'lookups/workingConditions';
 
 export default {
-  name: 'ThePauseTemplates',
+  name: 'TheWorkingConditions',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
+
   setup() {
     const { dummy } = useDummy({
       namespace,
@@ -141,22 +142,26 @@ export default {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
       deleteCallback,
+
       askDeleteConfirmation,
       closeDelete,
     } = useDeleteConfirmationPopup();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
       deleteCount,
       deleteCallback,
+
       askDeleteConfirmation,
       closeDelete,
     };
   },
   data: () => ({
     namespace,
-    routeName: RouteNames.PAUSE_TEMPLATES,
+    routeName: RouteNames.WORKING_CONDITIONS,
   }),
+
   computed: {
     path() {
       return [
@@ -164,8 +169,8 @@ export default {
           name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc('objects.lookups.pauseTemplates.pauseTemplates', 2),
-          route: '/lookups/pause-templates',
+          name: this.$t('objects.lookups.workingConditions.workingConditions'),
+          route: '/lookups/working-conditions',
         },
       ];
     },
