@@ -470,6 +470,11 @@ export default {
         shiftTemplates: 'Shift template | Shift templates',
         duration: 'Duration (hh:mm)',
       },
+      pauseTemplates: {
+        pauseTemplates: 'Pause templates',
+        pauseReason: 'Pause reason',
+        duration: 'Duration (mm)',
+      },
     },
     routing: {
       routing: 'Routing',

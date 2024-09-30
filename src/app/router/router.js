@@ -29,11 +29,13 @@ import AgentSkillsRoutes from "../../modules/lookups/modules/agent-skills/router
 import BucketsRoutes from "../../modules/lookups/modules/buckets/router/buckets.js";
 import BlacklistsRoutes from "../../modules/lookups/modules/blacklists/router/blacklists.js";
 import MediaRoutes from "../../modules/lookups/modules/media/router/media.js";
-import ShiftTemplatesRoutes from "../../modules/lookups/modules/shift-templates/router/shiftTemplates.js";
+import ShiftTemplatesRoutes
+  from '../../modules/lookups/modules/shift-templates/router/shiftTemplates.js';
 import CalendarsRoutes from "../../modules/lookups/modules/calendars/router/calendars.js";
 import CommunicationsRoutes from "../../modules/lookups/modules/communications/router/communications.js";
 import RegionsRoutes from "../../modules/lookups/modules/regions/router/regions.js";
 import AgentPauseCauseRoutes from "../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause.js";
+import PauseTemplatesRoutes from "../../modules/lookups/modules/pause-templates/router/pauseTemplates.js";
 
 const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
 const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
@@ -109,6 +111,7 @@ const router = createRouter({
         ...RegionsRoutes,
         ...AgentPauseCauseRoutes,
         ...ShiftTemplatesRoutes,
+        ...PauseTemplatesRoutes,
         // ----------LOOKUPS END------------
 
         // --------------CONTACT CENTER-------------

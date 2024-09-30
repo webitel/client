@@ -471,6 +471,11 @@ export default {
         shiftTemplates: 'Шаблон змін | Шаблони змін',
         duration: 'Тривалість (гг:хх)',
       },
+      pauseTemplates: {
+        pauseTemplates: 'Шаблони пауз',
+        pauseReason: 'Причина паузи',
+        duration: 'Тривалість (хх)',
+      },
     },
     routing: {
       routing: 'Маршрутизація',

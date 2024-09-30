@@ -476,6 +476,11 @@ export default {
         shiftTemplates: 'Шаблон смен | Шаблоны смен',
         duration: 'Длительность (чч:мм)',
       },
+      pauseTemplates: {
+        pauseTemplates: 'Шаблоны пауз',
+        pauseReason: 'Причина паузы',
+        duration: 'Длительность (мм)',
+      },
     },
     routing: {
       routing: 'Маршрутизация',
