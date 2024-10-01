@@ -471,9 +471,18 @@ export default {
         duration: 'Duration (hh:mm)',
       },
       pauseTemplates: {
-        pauseTemplates: 'Pause templates',
+        pauseTemplates: 'Pause templates | Pause templates',
         pauseReason: 'Pause reason',
         duration: 'Duration (mm)',
+      },
+      workingConditions: {
+        workingConditions: 'Working Conditions',
+        workdayDuration: 'Workday duration (hrs)',
+        workdaysPerMonth: 'Workdays per month',
+        vacationDaysPerYear: 'Vacation days per year',
+        sickLeavesPerYear: 'Sick leaves per year',
+        daysOffPerYear: 'Days-off per year',
+        pauseDuration: 'Pause duration',
       },
     },
     routing: {

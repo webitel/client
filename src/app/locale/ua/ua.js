@@ -472,9 +472,18 @@ export default {
         duration: 'Тривалість (гг:хх)',
       },
       pauseTemplates: {
-        pauseTemplates: 'Шаблони пауз',
+        pauseTemplates: 'Шаблон пауз | Шаблони пауз',
         pauseReason: 'Причина паузи',
         duration: 'Тривалість (хх)',
+      },
+      workingConditions: {
+        workingConditions: 'Умови роботи',
+        workdayDuration: 'Тривалість робочого дня (год.)',
+        workdaysPerMonth: 'Кількість робочих днів на місяць',
+        vacationDaysPerYear: 'Кількість днів відпустки на рік',
+        sickLeavesPerYear: 'Кількість днів лікарняного на рік',
+        daysOffPerYear: 'Кількість вихідних днів на рік',
+        pauseDuration: 'Тривалість перерви',
       },
     },
     routing: {

@@ -9,6 +9,8 @@ import regions from '../modules/regions/store/regions';
 import shiftTemplates
   from '../modules/shift-templates/store/shift-templates.js';
 import pauseTemplates from '../modules/pause-templates/store/pause-templates.js';
+import workingConditions
+  from '../modules/working-conditions/store/working-conditions.js';
 
 const modules = {
   skills,
@@ -21,6 +23,7 @@ const modules = {
   media,
   shiftTemplates,
   pauseTemplates,
+  workingConditions,
 };
 
 export default {
