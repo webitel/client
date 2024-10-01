@@ -39,6 +39,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+import { mapState } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -81,14 +82,23 @@ export default {
   },
 
   computed: {
+    ...mapState('userinfo', {
+      license: (state) => state.license,
+    }),
+    hasLicenseOnWfm() {
+      return this.license?.some((item) => item.prod === 'WFM');
+    },
     tabs() {
       const tabs = [
         { value: 'general', text: this.$t('objects.general'), pathName: CalendarRouteNames.GENERAL },
         { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek'), pathName: CalendarRouteNames.WORKING_WEEK },
         { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2), pathName: CalendarRouteNames.HOLIDAYS },
-        { value: 'special-time', text: this.$t('objects.lookups.calendars.specialTime'), pathName: CalendarRouteNames.SPECIAL_TIME },
       ];
 
+      const specialTime = { value: 'special-time', text: this.$t('objects.lookups.calendars.specialTime'), pathName: CalendarRouteNames.SPECIAL_TIME };
+
+
+      if (this.hasLicenseOnWfm) tabs.push(specialTime);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
