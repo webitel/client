@@ -53,7 +53,7 @@
             <wt-icon-action
               v-else
               action="delete"
-              @click="addRange(index)"
+              @click="removeRange(index)"
             />
           </template>
         </wt-table>
