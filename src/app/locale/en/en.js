@@ -476,7 +476,7 @@ export default {
         duration: 'Duration (mm)',
       },
       workingConditions: {
-        workingConditions: 'Working Conditions',
+        workingConditions: 'Working conditions',
         workdayDuration: 'Workday duration (hrs)',
         workdaysPerMonth: 'Workdays per month',
         vacationDaysPerYear: 'Vacation days per year',

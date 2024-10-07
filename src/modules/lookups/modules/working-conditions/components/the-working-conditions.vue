@@ -23,7 +23,7 @@
             {{
               $t(
                 'objects.all',
-                { entity: $t('objects.lookups.workingConditions.workingConditions') },
+                { entity: $t('objects.lookups.workingConditions.workingConditions').toLowerCase() },
               )
             }}
           </h3>
