@@ -196,11 +196,11 @@ describe('UploadCsvMixin', () => {
     expect(saveCallback).toHaveBeenCalledWith([
       {
         name: 'John',
-        age: ['30'],
+        age: ['', '30'],
       },
       {
         name: 'Jane',
-        age: ['25'],
+        age: ['25', ''],
       },
     ]);
   });
