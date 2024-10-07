@@ -23,7 +23,7 @@
             {{
               $t(
                 'objects.all',
-                { entity: $tc('objects.routing.chatGateways.templates.templates', 2) },
+                { entity: $tc('objects.routing.chatGateways.templates.templates', 2).toLowerCase() },
               )
             }}
           </h3>
