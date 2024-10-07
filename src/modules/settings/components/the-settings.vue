@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template #header>
       <wt-page-header hide-primary>
-        {{ $tc('settings.settings', 2) }}
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
     <template #main>
@@ -138,6 +138,13 @@ export default {
         return getNamespacedState(state, 'userinfo').userId;
       },
     }),
+    path() {
+      return [
+        {
+          name: this.$tc('settings.settings', 2),
+        },
+      ];
+    },
   },
   async mounted() {
     try {
