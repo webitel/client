@@ -1,80 +1,53 @@
 <template>
   <wt-filters-panel-wrapper @reset="resetFilters">
-<!--    <component-->
-<!--      :is="`abstract-${filter.type}-filter`"-->
-<!--      v-for="(filter, key) of filters"-->
-<!--      :key="key"-->
-<!--      :filter-query="filter.filterQuery"-->
-<!--      :namespace="namespace"-->
-<!--      class="history-filters__filter"-->
-<!--    />-->
-<!--    <filter-datetime-->
-<!--      :label="`${-->
-<!--        $t('reusable.modifiedAt')}: ${$t('reusable.from').toLowerCase()-->
-<!--      }`"-->
-<!--      :namespace="namespace"-->
-<!--      filter-query="from"-->
-<!--    />-->
-<!--    <filter-datetime-->
-<!--      :label="`${-->
-<!--        $t('reusable.modifiedAt')}: ${$t('reusable.to').toLowerCase()-->
-<!--      }`"-->
-<!--      :namespace="namespace"-->
-<!--      filter-query="to"-->
-<!--    />-->
+    <filter-select
+      :namespace="namespace"
+      :label="t('objects.system.changelogs.logs.actions', 1)"
+      filter-query="action"
+    />
+    <filter-select
+      :namespace="namespace"
+      :label="t('objects.system.changelogs.objects', 1)"
+      filter-query="object"
+    />
+    <filter-datetime
+      :label="`${
+        t('reusable.modifiedAt')}: ${t('reusable.from').toLowerCase()
+      }`"
+      :namespace="namespace"
+      filter-query="from"
+    />
+    <filter-datetime
+      :label="`${
+        t('reusable.modifiedAt')}: ${t('reusable.to').toLowerCase()
+      }`"
+      :namespace="namespace"
+      filter-query="to"
+    />
   </wt-filters-panel-wrapper>
 </template>
 
-<script>
-import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
-import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
-import FilterDatetime from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-datetime.vue';
-import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-from-to.vue';
-import { mapActions } from 'vuex';
+<script setup>
+import FilterDatetime from '@webitel/ui-sdk/src/modules/Filters/components/filter-datetime.vue';
+import FilterSelect from '@webitel/ui-sdk/src/modules/Filters/components/filter-select.vue';
+import { useTableFilters } from '@webitel/ui-sdk/src/modules/Filters/composables/useTableFilters.js';
+import { onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-  name: 'OpenedUserLogsFilters',
-  components: {
-    FilterDatetime,
-    FilterFromTo,
-    AbstractApiFilter,
-    AbstractEnumFilter,
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
   },
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    filters: [
-      {
-        type: 'enum',
-        filterQuery: 'action',
-      },
-      {
-        type: 'api',
-        filterQuery: 'object',
-      },
-    ],
-  }),
-  methods: {
-    ...mapActions({
-      resetFilterValues(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
-      },
-    }),
-    resetFilters() {
-      this.$router.push({
-        query: null,
-      });
-      this.resetFilterValues();
-    },
-  },
-  unmounted() {
-    this.resetFilters();
-  },
-};
+});
+
+const { namespace, resetFilters } = useTableFilters(`${props.namespace}/card/logs/table`);
+
+const { t } = useI18n();
+
+onUnmounted(() => {
+  resetFilters();
+});
 </script>
 
 <style lang="scss" scoped>

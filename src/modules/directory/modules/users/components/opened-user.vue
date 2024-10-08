@@ -17,7 +17,7 @@
     <template #actions-panel>
       <component
         :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
+        :namespace="namespace"
       />
     </template>
 
@@ -156,7 +156,6 @@ const tabs = computed(() => {
     text: t('objects.system.changelogs.changelogs', 2),
     value: Logs,
     filters: LogsFilters,
-    filtersNamespace: `${cardNamespace}/logs/filters`,
     pathName: UsersRouteNames.LOGS,
   };
   const permissions = {

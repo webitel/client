@@ -4,12 +4,10 @@ const filtersList = [
   {
     name: 'page',
     value: 1,
-    defaultValue: 1,
   },
   {
     name: 'size',
     value: 10,
-    defaultValue: 10,
   },
   { name: 'sort' },
 ];
