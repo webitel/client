@@ -66,7 +66,7 @@
           {{ item.attempts || 0 }}
         </template>
         <template #result="{ item }">
-          {{ item.result }}
+          {{$t(`objects.ccenter.queues.logs.resultName.${item.result}`)}}
         </template>
       </wt-table>
       <wt-pagination
