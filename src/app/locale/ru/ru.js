@@ -66,9 +66,9 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     ringtones: {
-      title: 'Поменять рингтон',
+      title: 'Изменить рингтон',
       ringtone: 'Рингтон',
-      customRingtone: 'Использовать кастомный рингтон',
+      customRingtone: 'Выбрать другой рингтон',
     },
     ringtoneVolume: {
       title: 'Громкость рингтона',

@@ -66,12 +66,12 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     ringtones: {
-      title: 'Змінити рінгтон',
-      ringtone: 'Рінгтон',
-      customRingtone: 'Використовувати кастомний рінгтон',
+      title: 'Змінити рингтон',
+      ringtone: 'Рингтон',
+      customRingtone: 'Вибрати інший рингтон',
     },
     ringtoneVolume: {
-      title: 'Гучність рінгтону',
+      title: 'Гучність рингтону',
     },
     callEnd: 'Звук завершення дзвінка',
   },
