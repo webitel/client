@@ -910,7 +910,7 @@ export default {
         formSchema: '',
         maxCalls: 'Лимит задач',
         dialingRate: 'Скорость набора',
-        maxCallsHint: 'Если значение равно 0, дайлер не будет звонить',
+        maxCallsHint: 'Если значение равно 0, схема не будет выполняться',
         recordings: 'Запись',
         recordAll: 'Начать запись после ответа',
         perNumbers: 'Инициация для каждого номера',

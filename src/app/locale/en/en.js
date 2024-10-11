@@ -901,7 +901,7 @@ export default {
         afterSchema: 'After-executive schema',
         maxCalls: 'Max tasks',
         dialingRate: 'Dialing rate',
-        maxCallsHint: "If value is 0, dialer won't call",
+        maxCallsHint: "If the value is 0, no tasks are performed",
         recordings: 'Recording',
         recordAll: 'Start record after answer',
         perNumbers: 'Dialing Attempts per each phone number',
