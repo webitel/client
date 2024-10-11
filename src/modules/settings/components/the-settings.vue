@@ -62,7 +62,7 @@
             </header>
             <form>
               <div class="settings-section__wrapper">
-                <p>{{ $t('objects.status') }}</p>
+                <p>{{ $t('reusable.state') }}</p>
                 <wt-switcher
                   :value="callEndSound"
                   @change="changeCallEndSoundState"
