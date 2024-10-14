@@ -1,29 +1,37 @@
 import applyTransform, {
-  camelToSnake,
+  camelToSnake, generateUrl,
   merge,
   notify,
   sanitize,
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
-import { WorkingConditionServiceApi } from 'webitel-sdk';
 import {
   getDefaultGetParams,
   getDefaultGetListResponse
 } from '@webitel/ui-sdk/src/api/defaults/index.js';
 
-import instance from '../../../../../app/api/instance';
-import configuration from '../../../../../app/api/openAPIConfig';
-
-const workingConditionService = new WorkingConditionServiceApi(configuration, '', instance);
+const baseUrl = `${import.meta.env.VITE_API_URL}/wfm/lookups/working_conditions`;
 
 const getWorkingConditionList = async (params) => {
   const { search: q, page, size, sort, fields } = applyTransform(params, [
     merge(getDefaultGetParams()),
   ]);
 
+  const url = await applyTransform({ q, page, size, sort, fields}, [
+    camelToSnake(),
+    generateUrl(baseUrl),
+  ]);
+
   try {
-    const response = await workingConditionService.searchWorkingCondition(q, page, size, sort, fields);
-    const { items, next } = applyTransform(response.data, [
+    const response = await fetch(url, {
+      headers: {
+        'X-Webitel-Access': localStorage.getItem('access-token') || '',
+      }
+    });
+    if (!response.ok) throw new Error(response.status);
+    const json = await response.json();
+
+    const { items, next } = applyTransform(json, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
     ]);
@@ -40,11 +48,18 @@ const itemResponseHandler = (item) => {
   return { ...item.item }
 };
 
-const getWorkingCondition = async ({ itemId: id }) => {
+const getWorkingCondition = async ({ itemId }) => {
 
   try {
-    const response = await workingConditionService.readWorkingCondition(id);
-    return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
+    const response = await fetch(`${baseUrl}/${itemId}`, {
+      headers: {
+        'X-Webitel-Access': localStorage.getItem('access-token') || '',
+      }
+    });
+    if (!response.ok) throw new Error(response.status);
+    const json = await response.json();
+
+    return applyTransform(json, [snakeToCamel(), itemResponseHandler]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
@@ -55,18 +70,36 @@ const fieldsToSend = ['name', 'description', 'workdayHours', 'workdayPerMonth', 
 const addWorkingCondition = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
-    const response = await workingConditionService.createWorkingCondition({ item: { ...item } });
-    return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
+    const response = await fetch(baseUrl, {
+      method: 'POST',
+      body: JSON.stringify({ item: { ...item } }),
+      headers: {
+        'X-Webitel-Access': localStorage.getItem('access-token') || '',
+      },
+    });
+    if (!response.ok) throw new Error(response.status);
+    const json = await response.json();
+
+    return applyTransform(json, [snakeToCamel(), itemResponseHandler]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
 };
 
-const updateWorkingCondition = async ({ itemInstance, itemId: id }) => {
+const updateWorkingCondition = async ({ itemInstance, itemId }) => {
   const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
-    const response = await workingConditionService.updateWorkingCondition(id, { item: { ...item }});
-    return applyTransform(response.data, [snakeToCamel()]);
+    const response = await fetch(`${baseUrl}/${itemId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ item: { ...item } }),
+      headers: {
+        'X-Webitel-Access': localStorage.getItem('access-token') || '',
+      },
+    });
+    if (!response.ok) throw new Error(response.status);
+    const json = await response.json();
+
+    return applyTransform(json, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
@@ -74,8 +107,16 @@ const updateWorkingCondition = async ({ itemInstance, itemId: id }) => {
 
 const deleteWorkingCondition = async ({ id }) => {
   try {
-    const response = await workingConditionService.deleteWorkingCondition(id);
-    return applyTransform(response.data, []);
+    const response = await fetch(`${baseUrl}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Webitel-Access': localStorage.getItem('access-token') || '',
+      },
+    });
+    if (!response.ok) throw new Error(response.status);
+    const json = await response.json();
+
+    return applyTransform(json, []);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
