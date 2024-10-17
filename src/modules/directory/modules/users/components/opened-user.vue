@@ -31,11 +31,14 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            :namespace="cardNamespace"
+            :v="v$"
+            :access="{ read: true, edit: !disableUserInput, delete: !disableUserInput, add: !disableUserInput }"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
@@ -56,16 +59,8 @@ import { useStore } from 'vuex';
 import { useAccessControl } from '../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
 import { useCachedItemInstanceName } from '../../../../../app/mixins/baseMixins/headlineNavMixin/useCachedItemInstanceName.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import Permissions from '../../../../_shared/permissions-tab/components/permissions-tab.vue';
-import Logs from '../modules/logs/components/opened-user-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
-import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
-import Devices from './opened-user-devices.vue';
-import General from './opened-user-general.vue';
-import License from './opened-user-license.vue';
-import Roles from './opened-user-roles.vue';
-import Variables from './opened-user-variables.vue';
 
 const namespace = 'directory/users';
 
@@ -88,7 +83,7 @@ const {
   resetState,
 } = useCardStore(namespace);
 
-const { hasSaveActionAccess } = useAccessControl();
+const { hasSaveActionAccess, disableUserInput } = useAccessControl();
 
 const isLoading = ref(false);
 
@@ -124,43 +119,43 @@ const isNew = computed(() => route.params.id === 'new');
 const tabs = computed(() => {
   const general = {
     text: t('objects.general'),
-    value: General,
+    value: UsersRouteNames.GENERAL,
     pathName: UsersRouteNames.GENERAL,
   };
   const roles = {
     text: t('objects.directory.users.roles'),
-    value: Roles,
+    value: UsersRouteNames.ROLES,
     pathName: UsersRouteNames.ROLES,
   };
   const license = {
     text: t('objects.directory.users.license'),
-    value: License,
+    value: UsersRouteNames.LICENSE,
     pathName: UsersRouteNames.LICENSE,
   };
   const devices = {
     text: t('objects.directory.users.devices'),
-    value: Devices,
+    value: UsersRouteNames.DEVICES,
     pathName: UsersRouteNames.DEVICES,
   };
   const variables = {
     text: t('objects.directory.users.variables'),
-    value: Variables,
+    value: UsersRouteNames.VARIABLES,
     pathName: UsersRouteNames.VARIABLES,
   };
   const tokens = {
     text: t('objects.directory.users.tokens'),
-    value: Tokens,
+    value: UsersRouteNames.TOKENS,
     pathName: UsersRouteNames.TOKENS,
   };
   const logs = {
     text: t('objects.system.changelogs.changelogs', 2),
-    value: Logs,
     filters: LogsFilters,
+    value: UsersRouteNames.LOGS,
     pathName: UsersRouteNames.LOGS,
   };
   const permissions = {
     text: t('objects.permissions.permissions', 2),
-    value: Permissions,
+    value: UsersRouteNames.PERMISSIONS,
     pathName: UsersRouteNames.PERMISSIONS,
   };
 
@@ -175,7 +170,14 @@ const currentTab = computed(() => {
 });
 
 const changeTab = (tab) => {
-  return router.push({ ...route, name: tab.pathName });
+  const { params, query, hash } = route;
+
+  return router.push({
+    name: tab.pathName,
+    params,
+    query,
+    hash,
+  });
 };
 
 const { name: pathName } = useCachedItemInstanceName(itemInstance);

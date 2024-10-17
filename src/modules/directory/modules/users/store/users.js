@@ -1,10 +1,10 @@
+import { createObjectPermissionsStoreModule } from '@webitel/ui-sdk/src/modules/ObjectPermissions/store/index.js';
 import {
   createApiStoreModule,
   createBaseStoreModule,
   createCardStoreModule,
   createTableStoreModule,
 } from '@webitel/ui-sdk/store';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import UsersAPI from '../api/users';
 import Users2faAPI from '../api/users-2fa.js';
 import filters from '../modules/filters/store/filters.store.js';
@@ -62,14 +62,22 @@ const cardActions = {
   },
 };
 
-const PERMISSIONS_API_URL = '/users';
-const permissions = new PermissionsStoreModule()
-  .generateAPIActions(PERMISSIONS_API_URL)
-  .getModule();
-
 const api = createApiStoreModule({
   state: {
     api: UsersAPI,
+  },
+});
+
+const permissions = createObjectPermissionsStoreModule({
+  modules: {
+    table: {
+      getters: {
+        PARENT_ID: (s, g, rootState) => rootState.directory.users.card.itemId,
+      },
+      modules: {
+        api,
+      },
+    },
   },
 });
 
@@ -92,6 +100,7 @@ const card = createCardStoreModule({
     api,
     tokens,
     logs,
+    permissions,
   },
 });
 
