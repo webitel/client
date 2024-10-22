@@ -7,9 +7,8 @@
     @close="close"
   >
     <template #title>
-      {{ id
-      ? $t('objects.system.globalVariables.editTitle')
-      : $t('objects.system.globalVariables.newTitle') }}
+      {{ id ? $t('reusable.edit') : $t('new', { gender: 'female' }) }}
+      {{ $t('objects.system.globalVariables.globalVariables', 1).toLowerCase() }}
     </template>
     <template #main>
       <wt-input
