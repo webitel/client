@@ -45,7 +45,7 @@
 import { useCardStore } from '@webitel/ui-sdk/src/store/new/index.js';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { useAccessControl } from '../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import DevicesAPI from '../../devices/api/devices.js';
 
