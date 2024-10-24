@@ -67,7 +67,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
-import { useAccessControl } from '../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
 import ContactsAPI from '../api/contacts.js';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 

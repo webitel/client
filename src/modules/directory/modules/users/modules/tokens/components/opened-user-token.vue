@@ -105,7 +105,7 @@ import { inject, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { useAccessControl } from '../../../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
 import TokenPopup from './opened-user-token-popup.vue';
 
 const props = defineProps({

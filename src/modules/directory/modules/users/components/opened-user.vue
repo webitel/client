@@ -49,72 +49,59 @@
 </template>
 
 <script setup>
-import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, requiredIf } from '@vuelidate/validators';
-import { useCardStore } from '@webitel/ui-sdk/store';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { useAccessControl } from '../../../../../app/mixins/baseMixins/accessControlMixin/useAccessControl.js';
-import { useCachedItemInstanceName } from '../../../../../app/mixins/baseMixins/headlineNavMixin/useCachedItemInstanceName.js';
+import { useRoute } from 'vue-router';
+import { helpers, required, requiredIf } from '@vuelidate/validators';
+import { useCardStore } from '@webitel/ui-sdk/src/store/new/index.js';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
+import { useCardComponent } from '@webitel/ui-sdk/src/composables/useCard/useCardComponent.js';
+import { useCardTabs } from '@webitel/ui-sdk/src/composables/useCard/useCardTabs.js';
+import { useValidate } from '@webitel/ui-sdk/src/composables/useValidate/useValidate.js';
+import { useClose } from '@webitel/ui-sdk/src/composables/useClose/useClose.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
 
 const namespace = 'directory/users';
-
-// mixins: [openedObjectMixin],
-
-const store = useStore();
-const router = useRouter();
-const route = useRoute();
 const { t } = useI18n();
+const route = useRoute();
+
+/** useVuelidate collects nested validations,
+ *  so that it collects validation from nested user-password-input.vue */
+const validateSchema = computed(() => ({
+  itemInstance: {
+    username: { required },
+
+    /** see comment above */
+    // password: {
+    //   required: requiredUnless((value, item) => !!item.id),
+    // },
+    variables: {
+      $each: helpers.forEach({
+        key: {
+          required: requiredIf((value, item) => !!item.value),
+        },
+        value: {
+          required: requiredIf((value, item) => !!item.key),
+        },
+      }),
+    },
+  },
+}));
 
 const {
   namespace: cardNamespace,
   id,
   itemInstance,
-
-  loadItem,
-  addItem,
-  updateItem,
-  setId,
-  resetState,
+  ...restStore
 } = useCardStore(namespace);
 
+const { v$, invalid } = useValidate(validateSchema, { itemInstance });
+const { isNew, pathName, disabledSave, saveText, save, initialize } = useCardComponent({...restStore, itemInstance, invalid});
 const { hasSaveActionAccess, disableUserInput } = useAccessControl();
 
-const isLoading = ref(false);
-
-/** useVuelidate collects nested validations,
- *  so that it collects validation from nested user-password-input.vue */
-const v$ = useVuelidate(
-  computed(() => ({
-    itemInstance: {
-      username: { required },
-
-      /** see comment above */
-      // password: {
-      //   required: requiredUnless((value, item) => !!item.id),
-      // },
-      variables: {
-        $each: helpers.forEach({
-          key: {
-            required: requiredIf((value, item) => !!item.value),
-          },
-          value: {
-            required: requiredIf((value, item) => !!item.key),
-          },
-        }),
-      },
-    },
-  })),
-  { itemInstance },
-  { $autoDirty: true },
-);
-
-const isNew = computed(() => route.params.id === 'new');
+const { close } = useClose(RouteNames.USERS);
 
 const tabs = computed(() => {
   const general = {
@@ -165,32 +152,16 @@ const tabs = computed(() => {
   return tabs;
 });
 
-const currentTab = computed(() => {
-  return tabs.value.find(({ pathName }) => route.name === pathName) || tabs.value[0];
-});
-
-const changeTab = (tab) => {
-  const { params, query, hash } = route;
-
-  return router.push({
-    name: tab.pathName,
-    params,
-    query,
-    hash,
-  });
-};
-
-const { name: pathName } = useCachedItemInstanceName(itemInstance);
+const { currentTab, changeTab } = useCardTabs(tabs.value);
 
 const path = computed(() => {
-  const baseUrl = '/directory/users';
   return [
     {
       name: t('objects.directory.directory'),
     },
     {
       name: t('objects.directory.users.users', 2),
-      route: baseUrl,
+      route: namespace,
     },
     {
       name: isNew.value ? t('objects.new') : pathName.value,
@@ -202,55 +173,7 @@ const path = computed(() => {
   ];
 });
 
-const disabledSave = computed(() => {
-  return v$.value.$invalid || !itemInstance.value._dirty;
-});
-
-const saveText = computed(() => {
-  return isNew.value || itemInstance.value._dirty ? t('objects.save') : t('objects.saved');
-});
-
-const redirectToEdit = (_id = id.value) => {
-  return router.replace({
-    ...route,
-    params: { id: _id },
-  });
-};
-
-const save = async () => {
-  if (disabledSave.value) return;
-
-  if (isNew.value) {
-    await addItem();
-  } else {
-    await updateItem();
-  }
-
-  if (id.value) {
-    await redirectToEdit();
-  }
-};
-
-async function initializeCard() {
-  try {
-    isLoading.value = true;
-
-    const { id: itemId } = route.params;
-    await setId(itemId);
-    await loadItem();
-  } finally {
-    setTimeout(() => {
-      isLoading.value = false;
-    }, 500);
-  }
-}
-
-onMounted(() => initializeCard());
-onUnmounted(() => resetState());
-
-const close = () => {
-  return router.push({ name: RouteNames.USERS });
-};
+initialize();
 </script>
 
 <style lang="scss" scoped>
