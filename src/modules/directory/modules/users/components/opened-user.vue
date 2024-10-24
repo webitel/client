@@ -155,13 +155,15 @@ const tabs = computed(() => {
 const { currentTab, changeTab } = useCardTabs(tabs.value);
 
 const path = computed(() => {
+  const baseUrl = '/directory/users';
+
   return [
     {
       name: t('objects.directory.directory'),
     },
     {
       name: t('objects.directory.users.users', 2),
-      route: namespace,
+      route: baseUrl,
     },
     {
       name: isNew.value ? t('objects.new') : pathName.value,
