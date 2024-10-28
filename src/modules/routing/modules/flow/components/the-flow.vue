@@ -133,7 +133,9 @@
               <wt-icon-action
                 v-if="hasEditAccess"
                 action="edit"
-                @click="edit(item, item.editor)"
+                @click="edit(item, {
+                  blank: item.editor
+                })"
               />
               <wt-icon-action
                 v-if="hasDeleteAccess"
