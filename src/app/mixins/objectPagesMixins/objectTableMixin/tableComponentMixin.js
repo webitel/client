@@ -86,7 +86,14 @@ export default {
     create() {
       this.$router.push({ name: `${this.routeName}-card`, params: { id: 'new' } });
     },
-    edit(item) {
+    edit(item, config) {
+      if (config?.blank) {
+        const routeData = this.$router.resolve(this.editLink(item));
+        window.open(routeData.href, '_blank');
+
+        return
+      }
+
       this.$router.push(this.editLink(item));
     },
     sort(...params) {
