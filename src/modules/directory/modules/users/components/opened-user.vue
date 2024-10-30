@@ -1,5 +1,6 @@
 <template>
   <wt-page-wrapper
+    class="opened-card"
     :actions-panel="!!currentTab.filters"
   >
     <template #header>
@@ -23,7 +24,7 @@
 
     <template #main>
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -32,6 +33,7 @@
           @change="changeTab"
         />
         <component
+          class="opened-card-tabs__tab"
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"

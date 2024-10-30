@@ -3,19 +3,24 @@
     <section class="object">
       <wt-notifications-bar />
       <app-header />
-      <div class="object-content-wrap">
+      <route-transition class="object-content-wrap">
         <router-view />
-      </div>
+      </route-transition>
     </section>
   </main>
 </template>
 
 <script>
 import AppHeader from '../../_reusable/app-header/components/app-header.vue';
+import routeTransition
+  from '@webitel/ui-sdk/src/components/on-demand/wt-route-transition/wt-route-transition.vue';
 
 export default {
   name: 'ModuleWrap',
-  components: { AppHeader },
+  components: {
+    AppHeader,
+    routeTransition,
+  },
 };
 </script>
 

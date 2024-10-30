@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $tc('objects.directory.devices.devices', 2) }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.defaultDevice')"
