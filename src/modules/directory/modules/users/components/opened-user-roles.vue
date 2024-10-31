@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
+    <header class="content-header">
+      <h3 class="content-title">
         {{ t('objects.permissions.permissionsRole') }}
       </h3>
     </header>
-    <div class="opened-card-input-grid">
+    <div class="object-input-grid">
       <wt-select
         :close-on-select="false"
         :disabled="disableUserInput"

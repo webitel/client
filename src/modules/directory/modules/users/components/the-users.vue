@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
-    class="users table-page"
     :actions-panel="false"
+    class="users"
   >
     <template #header>
       <wt-page-header
@@ -23,12 +23,12 @@
         @close="closeDelete"
       />
 
-      <section class="table-section">
-        <header class="table-title">
-          <h3 class="table-title__title">
+      <section class="main-section__wrapper">
+        <header class="content-header">
+          <h3 class="content-title">
             {{ t('objects.directory.users.allUsers') }}
           </h3>
-          <div class="table-title__actions-wrap">
+          <div class="content-header__actions-wrap">
             <filter-search
               :namespace="filtersNamespace"
               name="search"
@@ -64,63 +64,76 @@
           :text="dummy.text && t(dummy.text)"
           class="dummy-wrapper"
         />
-        <div class="table-section__table-wrapper">
-          <wt-table-transition v-if="dataList.length && !isLoading">
-            <wt-table
-              :selected="selected"
-              :data="dataList"
-              :grid-actions="hasEditAccess || hasDeleteAccess"
-              :headers="headers"
-              sortable
-              @update:selected="setSelected"
-              @sort="sort"
-            >
-              <template #name="{ item }">
-                <adm-item-link
-                  :id="item.id"
-                  :route-name="RouteNames.USERS"
-                >
-                  {{ item.name }}
-                </adm-item-link>
-              </template>
-              <template #status="{ item }">
-                <user-status :presence="item.presence" />
-              </template>
-              <template #username="{ item }">
-                {{ item.username }}
-              </template>
-              <template #extensions="{ item }">
-                {{ item.extension }}
-              </template>
-              <template #DnD="{ item }">
-                <wt-switcher
-                  :disabled="!hasEditAccess"
-                  :value="getDND(item.presence)"
-                  @change="setDND({item, value: $event})"
-                />
-              </template>
-              <template #actions="{ item }">
-                <adm-item-link
-                  v-if="hasEditAccess"
-                  :id="item.id"
-                  :route-name="RouteNames.USERS">
+        <div class="table-wrapper">
+          <div
+            style="display:contents;"
+            v-if="dataList.length && !isLoading"
+          >
+          <transition-slide
+            :offset="{
+              enter: ['-5%', 0],
+              leave: [0, 0]
+            }"
+            duration="200"
+            mode="out-in"
+            appear
+          >
+          <wt-table
+            :selected="selected"
+            :data="dataList"
+            :grid-actions="hasEditAccess || hasDeleteAccess"
+            :headers="headers"
+            sortable
+            @update:selected="setSelected"
+            @sort="sort"
+          >
+            <template #name="{ item }">
+              <adm-item-link
+                :id="item.id"
+                :route-name="RouteNames.USERS"
+              >
+                {{ item.name }}
+              </adm-item-link>
+            </template>
+            <template #status="{ item }">
+              <user-status :presence="item.presence" />
+            </template>
+            <template #username="{ item }">
+              {{ item.username }}
+            </template>
+            <template #extensions="{ item }">
+              {{ item.extension }}
+            </template>
+            <template #DnD="{ item }">
+              <wt-switcher
+                :disabled="!hasEditAccess"
+                :value="getDND(item.presence)"
+                @change="setDND({item, value: $event})"
+              />
+            </template>
+            <template #actions="{ item }">
+              <adm-item-link
+                v-if="hasEditAccess"
+                :id="item.id"
+                :route-name="RouteNames.USERS">
 
-                  <wt-icon-action
-                    action="edit"
-                  />
-                </adm-item-link>
                 <wt-icon-action
-                  v-if="hasDeleteAccess"
-                  action="delete"
-                  class="table-action"
-                  @click="askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => deleteData(item),
-                  })"
+                  action="edit"
                 />
-              </template>
-            </wt-table>
-          </wt-table-transition>
+              </adm-item-link>
+              <wt-icon-action
+                v-if="hasDeleteAccess"
+                action="delete"
+                class="table-action"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
+            </template>
+          </wt-table>
+          </transition-slide>
+          </div>
           <filter-pagination
             :namespace="filtersNamespace"
             :next="isNext"
@@ -135,7 +148,6 @@
 import { TransitionSlide } from '@morev/vue-transitions';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import WtTableTransition from '@webitel/ui-sdk/src/components/on-demand/wt-table-transition/wt-table-transition.vue';
 import FilterPagination from '@webitel/ui-sdk/src/modules/Filters/components/filter-pagination.vue';
 import FilterSearch from '@webitel/ui-sdk/src/modules/Filters/components/filter-search.vue';
 import { useTableFilters } from '@webitel/ui-sdk/src/modules/Filters/composables/useTableFilters.js';

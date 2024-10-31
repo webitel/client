@@ -4,16 +4,26 @@
       <wt-notifications-bar />
       <app-header />
       <div class="object-content-wrap">
-        <wt-route-transition>
-          <router-view />
-        </wt-route-transition>
+        <router-view v-slot="{ Component }">
+          <transition-slide
+            :offset="{
+              enter: ['-50%', 0],
+              leave: [0, 0]
+            }"
+            duration="200"
+            mode="out-in"
+            appear
+          >
+            <component :is="Component" />
+          </transition-slide>
+        </router-view>
       </div>
     </section>
   </main>
 </template>
 
 <script setup>
-import WtRouteTransition from '@webitel/ui-sdk/src/components/on-demand/wt-route-transition/wt-route-transition.vue';
+import { TransitionSlide } from '@morev/vue-transitions';
 import AppHeader from '../../_reusable/app-header/components/app-header.vue';
 </script>
 
