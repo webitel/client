@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper
-    class="users table-page"
+    class="table-page users"
     :actions-panel="false"
   >
     <template #header>

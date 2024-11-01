@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper
-    class="table-page"
+    class="opened-card"
     :actions-panel="!!currentTab.filters"
   >
     <template #header>

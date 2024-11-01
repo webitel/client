@@ -4,9 +4,11 @@
       <wt-notifications-bar />
       <app-header />
       <div class="object-content-wrap">
-        <wt-route-transition>
-          <router-view />
-        </wt-route-transition>
+        <router-view v-slot="{ Component }">
+          <wt-route-transition>
+            <component :is="Component" />
+          </wt-route-transition>
+        </router-view>
       </div>
     </section>
   </main>
