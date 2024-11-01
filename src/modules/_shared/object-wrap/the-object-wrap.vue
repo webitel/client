@@ -5,17 +5,9 @@
       <app-header />
       <div class="object-content-wrap">
         <router-view v-slot="{ Component }">
-          <transition-slide
-            :offset="{
-              enter: ['-50%', 0],
-              leave: [0, 0]
-            }"
-            duration="200"
-            mode="out-in"
-            appear
-          >
+          <wt-route-transition>
             <component :is="Component" />
-          </transition-slide>
+          </wt-route-transition>
         </router-view>
       </div>
     </section>
@@ -23,7 +15,7 @@
 </template>
 
 <script setup>
-import { TransitionSlide } from '@morev/vue-transitions';
+import WtRouteTransition from '@webitel/ui-sdk/src/components/on-demand/wt-route-transition/wt-route-transition.vue';
 import AppHeader from '../../_reusable/app-header/components/app-header.vue';
 </script>
 
