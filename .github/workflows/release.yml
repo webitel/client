@@ -71,7 +71,7 @@ jobs:
         with:
           writeToFile: false
           reverseOrder: true
-          excludeTypes: []
+          excludeTypes:
           token: ${{ github.token }}
           fromTag: ${{ github.ref_name }}
           toTag: ${{ steps.prevTag.outputs.tag }}
