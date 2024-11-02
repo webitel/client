@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('**/package-lock.json') }}
@@ -82,7 +82,7 @@ jobs:
 
       - name: Create release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ steps.package-version.outputs.current-version}}"
           name: "@webitel/client v${{ steps.package-version.outputs.current-version}}"
@@ -117,6 +117,25 @@ jobs:
           file_pattern: 'CHANGELOG.md'
           push_options: --force
 
+      - name: upload changelog artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated_changelog
+          path: ./CHANGELOG.md
+
+  update_master_changelog:
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: download changelog artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: updated_changelog
+
       - name: commit changelog to master
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -126,12 +145,14 @@ jobs:
           push_options: --force
 
   build_docs:
-    needs: [release]
+    needs: [update_master_changelog]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: node_modules-${{ hashFiles('**/package-lock.json') }}
