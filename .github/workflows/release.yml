@@ -3,11 +3,11 @@
 # so it runs before release step, and second changelog generates for updating CHANGELOG.md file, so it runs after release step.
 # if i'd try to generate changelog once, changes will be marked as "master" branch changes, cause there's no new tag yet.
 
-name: webitel ui tests and docs
+name: webitel ui release
 
 on:
   push:
-    branches: [ master ]
+    branches: [ release ]
 
 jobs:
   install_deps:
@@ -49,8 +49,75 @@ jobs:
 
       - run: npm run test:unit
 
+  release:
+    needs: [install_deps, test]
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: get prevTag
+        id: prevTag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
+      # for release notes // why 2 changelogs? see NOTES
+      - name: generate Release Changelog
+        id: changelog
+        uses: requarks/changelog-action@v1
+        continue-on-error: true
+        with:
+          writeToFile: false
+          reverseOrder: true
+          excludeTypes: []
+          token: ${{ github.token }}
+          fromTag: ${{ github.ref_name }}
+          toTag: ${{ steps.prevTag.outputs.tag }}
+
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: Create release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ steps.package-version.outputs.current-version}}"
+          name: "@webitel/client v${{ steps.package-version.outputs.current-version}}"
+          body: ${{ steps.changelog.outputs.changes }}
+
+      # update tags list after prev step release, so that we fetch new tag, created by prev step
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: get newTag
+        id: newTag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
+      # update CHANGELOG.md file // why 2 changelogs? see NOTES
+      - name: update Release Changelog
+        id: update-changelog
+        uses: requarks/changelog-action@v1
+        continue-on-error: true
+        with:
+          reverseOrder: true
+          excludeTypes: build
+          token: ${{ github.token }}
+          fromTag: ${{ steps.newTag.outputs.tag }}
+          toTag: ${{ steps.prevTag.outputs.tag }}
+
+      - name: commit changelog
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: autoupdate changelog
+          file_pattern: 'CHANGELOG.md'
+          push_options: --force
+
   build_docs:
-    needs: [test]
+    needs: [release]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
