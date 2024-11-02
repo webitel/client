@@ -109,9 +109,18 @@ jobs:
           fromTag: ${{ steps.newTag.outputs.tag }}
           toTag: ${{ steps.prevTag.outputs.tag }}
 
-      - name: commit changelog
+      - name: commit changelog to release
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
+          branch: release
+          commit_message: autoupdate changelog
+          file_pattern: 'CHANGELOG.md'
+          push_options: --force
+
+      - name: commit changelog to master
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: master
           commit_message: autoupdate changelog
           file_pattern: 'CHANGELOG.md'
           push_options: --force
