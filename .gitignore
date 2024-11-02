@@ -4,6 +4,8 @@ unused
 /dist
 /coverage
 .eslintignore
+/docs/.vitepress/dist
+/docs/.vitepress/cache
 
 # local env files
 .env.local

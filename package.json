@@ -10,7 +10,10 @@
     "lint-all": "npx @biomejs/biome check --write ./src",
     "lint-all:unsafe": "npx @biomejs/biome check --write --unsafe ./src",
     "lint-changed:unsafe": "npx @biomejs/biome check --write --unsafe --changed",
-    "lint:pre-commit": "npx @biomejs/biome check --write --unsafe --changed --no-errors-on-unmatched"
+    "lint:pre-commit": "npx @biomejs/biome check --write --unsafe --changed --no-errors-on-unmatched",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "type": "module",
   "dependencies": {
@@ -49,10 +52,13 @@
     "@vue/test-utils": "^2.4.6",
     "csv-parse": "^5.0.4",
     "happy-dom": "^15.7.3",
+    "prismjs": "^1.29.0",
     "sass": "^1.78.0",
     "vite": "5.4.3",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-svg-sprite": "^0.5.2",
+    "vite-plugin-vue-docgen": "^0.3.4",
+    "vitepress": "^1.4.3",
     "vitest": "^2.0.5",
     "vue-color": "^2.8.1"
   }
