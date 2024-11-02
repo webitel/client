@@ -2,7 +2,7 @@
 import DefaultTheme from 'vitepress/theme';
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router';
 import i18n from '../../../src/app/locale/i18n';
-import WebitelUI from '../../../src/app/plugins/webitel-ui.js';
+// import WebitelUI from '../../../src/app/plugins/webitel-ui.js';
 // import sharedComponents from '../../shared';
 // import '../../../src/assets//icons/sprite';
 import 'prismjs/themes/prism.min.css';
