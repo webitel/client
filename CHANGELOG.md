@@ -1,5 +1,3 @@
-hello world!
-
 ## [v24.08.0] - 2024-11-02
 ### :sparkles: New Features
 - [`bd84946`](https://github.com/webitel/client/commit/bd84946ab3aec0e0c92f3c7be3a77718f5f1f119) - added client workflows for docs and release [WTEL-5425](https://webitel.atlassian.net/browse/WTEL-5425) *(commit by [@dlohvinov](https://github.com/dlohvinov))*

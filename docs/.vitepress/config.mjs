@@ -21,9 +21,26 @@ export default defineConfig({
     ],
   ],
   lastUpdated: true,
+  // // https://github.com/vuejs/vitepress/discussions/3590#discussioncomment-8541603
+  // transformPageData: (pageData) => {
+  //   console.log(pageData);
+  //   return pageData;
+  // },
   vite: {
     resolve: {
-      alias: [{ find: '__lib__', replacement: path.resolve(__dirname, '../../src') }],
+      alias: [
+        { find: '__lib__', replacement: path.resolve(__dirname, '../../src') },
+
+        // https://webitel.atlassian.net/browse/WTEL-5425?focusedCommentId=637600
+        {
+          find: '@webitel/ui-sdk/dist/ui-sdk.js',
+          replacement: path.resolve(__dirname, '../../node_modules/@webitel/ui-sdk/src/install.js'),
+        },
+        {
+          find: '@webitel/ui-sdk',
+          replacement: path.resolve(__dirname, '../../node_modules/@webitel/ui-sdk'),
+        },
+      ],
     },
     ssr: {
       noExternal: ['@vuelidate/core', 'vue-multiselect', 'webitel-sdk'],
