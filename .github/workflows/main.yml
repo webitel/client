@@ -3,7 +3,7 @@
 # so it runs before release step, and second changelog generates for updating CHANGELOG.md file, so it runs after release step.
 # if i'd try to generate changelog once, changes will be marked as "master" branch changes, cause there's no new tag yet.
 
-name: webitel ui tests and docs
+name: webitel client tests and docs
 
 on:
   push:

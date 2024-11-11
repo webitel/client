@@ -50,12 +50,12 @@ export default {
     close() {
       this.$emit('close');
     },
-    handleIdChange(id) {
+    async handleIdChange(id) {
+      await this.resetState();
       if (id) {
-        this.setId(id);
-        this.loadItem();
+        await this.setId(id);
+        await this.loadItem();
       }
-      this.resetState();
     }
   },
 };

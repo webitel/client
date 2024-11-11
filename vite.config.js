@@ -2,6 +2,7 @@ import vue from '@vitejs/plugin-vue';
 import { defineConfig, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -49,6 +50,9 @@ export default ({ mode }) => {
       }),
       createSvgSpritePlugin({
         include: '**/sprite/*.svg',
+      }),
+      vueDevTools({
+        launchEditor: 'webstorm',
       }),
     ],
     test: {
