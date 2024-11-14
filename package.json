@@ -65,6 +65,7 @@
     "vue-color": "^2.8.1"
   },
   "optionalDependencies": {
-    "@esbuild/linux-x64": "0.24.0"
+    "@esbuild/linux-x64": "0.24.0",
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   }
 }
