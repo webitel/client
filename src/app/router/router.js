@@ -111,9 +111,9 @@ const router = createRouter({
         ...CommunicationsRoutes,
         ...RegionsRoutes,
         ...AgentPauseCauseRoutes,
-        // ...ShiftTemplatesRoutes,
-        // ...PauseTemplatesRoutes,
-        // ...WorkingConditionsRoutes,
+        ...ShiftTemplatesRoutes,
+        ...PauseTemplatesRoutes,
+        ...WorkingConditionsRoutes,
         // ----------LOOKUPS END------------
 
         // --------------CONTACT CENTER-------------
