@@ -72,12 +72,12 @@ export default {
           timerangeStartLessThanEnd,
         }),
       },
-      specials: {
-        timerangeNotIntersect,
-        $each: helpers.forEach({
-          timerangeStartLessThanEnd,
-        }),
-      },
+      // specials: {
+      //   timerangeNotIntersect,
+      //   $each: helpers.forEach({
+      //     timerangeStartLessThanEnd,
+      //   }),
+      // },
     },
   },
 
