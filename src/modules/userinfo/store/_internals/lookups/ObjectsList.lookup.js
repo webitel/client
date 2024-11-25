@@ -133,4 +133,12 @@ export default Object.freeze([
   // PERMISSIONS
   { field: null, name: AdminSections.OBJECTS, route: RouteNames.OBJECTS }, // permissions: add
   { field: 'roles', name: AdminSections.ROLES, route: RouteNames.ROLES }, // scope: roles
+
+  // Not used in ui sections
+  // it used for check if some entities have access to this object
+  {
+    field: 'contacts',
+    name: 'contacts',
+    route: null, // there is no associated section and route in Admin
+  },
 ]);
