@@ -14,7 +14,7 @@ export default {
     },
   },
   data: () => ({
-    newGrantee: '',
+    newGrantee: null,
   }),
   computed: {
     ...mapState({
@@ -53,8 +53,19 @@ export default {
         fields,
       });
     },
+    resetNewGrantee() {
+      this.newGrantee = null;
+    },
+    resetNewGrantor() {
+      this.newGrantor = null;
+    },
+    resetPopupState() {
+      if (this.newGrantor) this.resetNewGrantor();
+      this.resetNewGrantee();
+    },
     close() {
       this.$emit('close');
+      this.resetPopupState();
     },
   },
 };
