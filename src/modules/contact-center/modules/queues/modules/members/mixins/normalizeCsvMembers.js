@@ -87,7 +87,7 @@ export default {
           }
 
           // if there's no (required) id or destination, skip to the next one
-          if (!id || !normalizedItem.destination[index]) break;
+          if (!id || !normalizedItem.destination[index]) continue;
 
           // if there's actually an Id, continue processing
           const communication = {
