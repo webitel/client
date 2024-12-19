@@ -44,7 +44,7 @@
       />
 
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="!hasReadAccessToContacts"
         :label="$tc('vocabulary.contact', 1)"
         :search-method="loadContactsOptions"
         :value="itemInstance.contact"
@@ -85,5 +85,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
