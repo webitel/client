@@ -52,7 +52,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
 
   data: () => ({
@@ -73,8 +73,13 @@ export default {
       return AgentsAPI.getLookup(params);
     },
   },
+
+  watch: {
+    agentId() {
+      this.resetState();
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

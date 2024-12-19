@@ -72,11 +72,20 @@ import { required } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import deepCopy from 'deep-copy';
 import { mapActions, mapState } from 'vuex';
-import nestedObjectMixin
-  from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';
 import { digitsDtmfOnly } from '../../validation/dtmf';
+
+const getDefaultItemInstance = () => ({
+  destination: '',
+  display: '',
+  priority: 0,
+  type: {},
+  resource: {},
+  description: '',
+  dtmf: '',
+});
 
 export default {
   name: 'OpenedAgentSkillsPopup',
@@ -89,15 +98,7 @@ export default {
   }),
   data: () => ({
     namespace: 'ccenter/queues/members',
-    itemInstanceValue: {
-      destination: '',
-      display: '',
-      priority: 0,
-      type: {},
-      resource: {},
-      description: '',
-      dtmf: '',
-    },
+    itemInstanceValue: getDefaultItemInstance(),
   }),
   validations: {
     itemInstance: {
@@ -110,7 +111,8 @@ export default {
   computed: {
     ...mapState({
       commList(state) {
-        return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
+        return getNamespacedState(state, `${this.namespace}`).itemInstance
+          .communications;
       },
     }),
     // override mixin map state
@@ -127,7 +129,7 @@ export default {
     },
     communicationIndex() {
       return this.$route.params.communicationIndex;
-    }
+    },
   },
 
   methods: {
@@ -136,7 +138,10 @@ export default {
         return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
       },
       updateItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`, payload);
+        return dispatch(
+          `${this.namespace}/UPDATE_MEMBER_COMMUNICATION`,
+          payload,
+        );
       },
     }),
     initEditedValue() {
@@ -162,20 +167,25 @@ export default {
       return ResourcesAPI.getLookup(params);
     },
     loadItem() {},
-    resetState() {},
+    resetItemInstance() {
+      this.itemInstance = getDefaultItemInstance();
+    },
+    resetState() {
+      this.resetItemInstance();
+    },
   },
   watch: {
     communicationIndex: {
-       handler(index) {
+      handler(index) {
         if (index) {
           this.initEditedValue();
         }
-      }, immediate: true,
-    }
+        this.resetState();
+      },
+      immediate: true,
+    },
   },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
