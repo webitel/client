@@ -46,7 +46,7 @@ export default {
   components: { PermissionsRoleSelect },
   mixins: [permissionsTabRolePopupMixins],
   data: () => ({
-    newGrantor: '',
+    newGrantor: null,
   }),
 
   methods: {
@@ -56,7 +56,7 @@ export default {
           grantee: this.newGrantee,
           grantor: this.newGrantor,
         });
-        this.$emit('close');
+        this.close();
       } catch (err) {
         throw err;
       }
