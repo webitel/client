@@ -94,7 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../css/chat-gateways';
+@use '../../css/chat-gateways';
 
 .object-input-grid .telegram-app-button {
   margin: auto;

@@ -1,3 +1,5 @@
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .upload-popup {
   .object-input-grid {
     grid-auto-rows: minmax(40px, auto); // override default
