@@ -60,12 +60,12 @@
         </template>
         <template #workStart="{ item }">
           <div v-if="item.workStart">
-            {{ ConverDurationWithMinutes(item.workStart) }}
+            {{ ConvertDurationWithMinutes(item.workStart) }}
           </div>
         </template>
         <template #workStop="{ item }">
           <div v-if="item.workStop">
-            {{ ConverDurationWithMinutes(item.workStop) }}
+            {{ ConvertDurationWithMinutes(item.workStop) }}
           </div>
         </template>
         <template #repeat="{ item, index }">
@@ -101,7 +101,7 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
 import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
 import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import ConverDurationWithMinutes from '../scripts/converDurationWithMinutes';
+import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {
@@ -204,7 +204,7 @@ export default {
   },
 
   methods: {
-    ConverDurationWithMinutes,
+    ConvertDurationWithMinutes,
     ...mapActions({
       dispatchDelete(dispatch, payload) {
         return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
