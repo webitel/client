@@ -1,6 +1,6 @@
 {
   "name": "web-client",
-  "version": "24.10.0",
+  "version": "24.10.1",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,8 @@
     "lint:pre-commit": "npx @biomejs/biome check --write --unsafe --changed --no-errors-on-unmatched",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "i": "npm i"
   },
   "type": "module",
   "dependencies": {
