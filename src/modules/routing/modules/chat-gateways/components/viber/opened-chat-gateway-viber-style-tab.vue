@@ -72,7 +72,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../css/chat-gateways';
+@use '../../css/chat-gateways';
 
 .opened-chat-gateway-viber-color-picker {
   .wt-button {

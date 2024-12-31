@@ -198,6 +198,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 $card-bg-hover: rgba(255, 255, 255, 0.1);
 $transition: 0.4s;
 

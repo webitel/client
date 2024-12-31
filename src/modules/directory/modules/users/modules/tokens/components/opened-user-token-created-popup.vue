@@ -67,6 +67,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .token-created-popup__token__wrapper {
   width: 75%;
   margin: 10px auto 30px;

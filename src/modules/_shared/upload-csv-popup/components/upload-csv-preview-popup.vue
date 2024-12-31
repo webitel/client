@@ -88,5 +88,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../css/upload-popup';
+@use '../css/upload-popup';
 </style>
