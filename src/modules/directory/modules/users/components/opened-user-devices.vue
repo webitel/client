@@ -65,6 +65,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .hint-link__wrap {
   @extend %typo-body-2;
   margin-top: 8px;

@@ -151,6 +151,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
 @use '../../../css/chat-gateways';
 
 .webchat-alternative-channels-sections-wrapper {

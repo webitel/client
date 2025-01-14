@@ -97,6 +97,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .popup-subheading {
   margin: 0 0 28px;
 }

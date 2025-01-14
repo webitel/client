@@ -204,6 +204,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .settings-section {
   width: 100%;
   display: flex;

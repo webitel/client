@@ -78,6 +78,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .ringtone-volume-control {
   &__wrapper {
     display: flex;
