@@ -10,7 +10,7 @@ const ImportCsvMemberMappings = {
     csv: '',
   },
   priority: {
-    locale: 'vocabulary.priority',
+    locale: ['vocabulary.priority', 1],
     required: false,
     csv: '',
   },
@@ -45,7 +45,7 @@ const ImportCsvMemberMappings = {
     csv: [],
   },
   commPriority: {
-    locale: [['objects.lookups.communications.communications', 1], 'vocabulary.priority'],
+    locale: [['objects.lookups.communications.communications', 1], ['vocabulary.priority', 1]],
     required: false,
     multiple: true,
     csv: [],
