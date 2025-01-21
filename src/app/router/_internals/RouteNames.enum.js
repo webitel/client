@@ -39,6 +39,7 @@ export default Object.freeze({
 
   // INTEGRATIONS
   STORAGE: 'storage',
+  STORAGE_POLICIES: 'storage-policies',
   COGNITIVE_PROFILES: 'cognitive-profiles',
   EMAIL_PROFILES: 'email-profiles',
   SINGLE_SIGN_ON: 'single-sign-on',
