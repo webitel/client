@@ -42,7 +42,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import General from './opened-storage-policy-general.vue';
 
 export default {
-  name: 'OpenedSingleSignOn',
+  name: 'OpenedStoragePolicy',
   components: { General },
   mixins: [openedObjectMixin],
 
@@ -50,7 +50,7 @@ export default {
     v$: useVuelidate(),
   }),
   data: () => ({
-    namespace: 'integrations/singleSignOn',
+    namespace: 'integrations/storagePolicies',
   }),
   validations: {
     itemInstance: {
@@ -74,13 +74,13 @@ export default {
     },
 
     path() {
-      const baseUrl = '/integrations/single-sign-on';
+      const baseUrl = '/integrations/storage-policies';
       return [
         {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
+          name: this.$t('objects.integrations.storage-policies.storage-policies'),
           route: baseUrl,
         },
         {

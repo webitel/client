@@ -86,6 +86,7 @@ const getStoragePolicy = async ({ itemId: id }) => {
 
   try {
     const response = await storagePolicies.readFilePolicy(id);
+    console.log('response item:', response.data)
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),

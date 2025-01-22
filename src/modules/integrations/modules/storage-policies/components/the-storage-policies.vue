@@ -20,7 +20,7 @@
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
-            {{ $t('objects.integrations.storagePolicies.storagePolicies') }}
+            {{ $tc('objects.integrations.storagePolicies.storagePolicies', 2) }}
           </h3>
           <div class="content-header__actions-wrap">
             <wt-search-bar
@@ -52,6 +52,7 @@
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
+          {{ dataList[1] }}
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -67,6 +68,7 @@
 
             <template #channels="{ item }">
               {{ item.channels[0]}}
+
               <wt-tooltip
                 v-if="item.channels.length > 1"
                 :triggers="['click']"
@@ -113,6 +115,7 @@
                 @change="patchItem({ item, index, prop: 'enabled', value: $event })"
               />
             </template>
+
             <template #actions="{ item }">
               <wt-tooltip class="table-action">
                 <template #activator>
@@ -197,7 +200,7 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t('objects.integrations.storagePolicies.storagePolicies'),
+          name: this.$tc('objects.integrations.storagePolicies.storagePolicies', 2),
           route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
         },
       ];

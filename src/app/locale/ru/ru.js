@@ -1055,6 +1055,16 @@ export default {
         s3Endpoint: 'Endpoint',
       },
 
+      storagePolicies: {
+        storagePolicies: ' | ',
+        mimeTypes: 'MIME типы',
+        retentionDays: 'Количество дней хранения',
+        maxDownloadSpeed: 'Максимальная скорость загрузки (kbps)',
+        maxUploadSpeed: 'Максимальная скорость выгрузки (kbps)',
+        maxUploadSize: 'Максимальный размер файла (bytes)',
+        applyToFiles: 'Применить к существующим файлам',
+      },
+
       cognitiveProfiles: {
         cognitiveProfiles: 'Голосовой профиль | Голосовые профили',
         properties: {
