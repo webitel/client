@@ -1,14 +1,10 @@
-@import '@webitel/ui-sdk/src/css/main';
-@import './objects/lib-custom-styling/dropzone';
-@import './objects/table-page';
-@import './objects/history-popup';
-@import './objects/objects';
-
+@forward 'reusable';
+@use 'reusable' as *;
 
 //disables scrollbar on 100vh auth on small laptops
 body {
   @extend %wt-scrollbar;
-  @extend %typo-body-1;
+
   display: flex;
   min-width: 100%;
   min-height: 100%;
@@ -114,30 +110,4 @@ $srollbar-border-radius: 4px;
 
 .value-pair-wrap {
   position: relative;
-}
-
-.wt-page-wrapper__main {
-  min-height: 0;
-
-  .table-wrapper {
-    min-height: 0;
-    gap: var(--spacing-sm);
-
-    .wt-table__head {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .wt-pagination {
-      margin-top: auto;
-    }
-  }
-
-  .wt-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 }

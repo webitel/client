@@ -198,6 +198,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 $card-bg-hover: rgba(255, 255, 255, 0.1);
 $transition: 0.4s;
 
@@ -234,7 +236,7 @@ $transition: 0.4s;
     min-width: 100%;
     height: 1080px;
     min-height: 100%;
-    background: url('../assets/img/background.png') no-repeat;
+    background: url('../assets/img/background.svg') no-repeat;
     background-size: cover;
   }
 }

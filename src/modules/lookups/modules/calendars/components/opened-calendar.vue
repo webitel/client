@@ -39,6 +39,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+import { mapState } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -46,10 +47,11 @@ import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum.js'
 import General from './opened-calendar-general.vue';
 import Holidays from './opened-calendar-holidays.vue';
 import WorkWeek from './opened-calendar-work-week.vue';
+import SpecialTime from './opened-calendar-special-time.vue';
 
 export default {
   name: 'OpenedCalendar',
-  components: { General, WorkWeek, Holidays },
+  components: { General, WorkWeek, Holidays, SpecialTime },
   mixins: [openedObjectMixin],
 
   setup: () => ({
@@ -70,10 +72,22 @@ export default {
           timerangeStartLessThanEnd,
         }),
       },
+      // specials: {
+      //   timerangeNotIntersect,
+      //   $each: helpers.forEach({
+      //     timerangeStartLessThanEnd,
+      //   }),
+      // },
     },
   },
 
   computed: {
+    ...mapState('userinfo', {
+      license: (state) => state.license,
+    }),
+    hasLicenseOnWfm() {
+      return this.license?.some((item) => item.prod === 'WFM');
+    },
     tabs() {
       const tabs = [
         { value: 'general', text: this.$t('objects.general'), pathName: CalendarRouteNames.GENERAL },
@@ -81,6 +95,10 @@ export default {
         { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2), pathName: CalendarRouteNames.HOLIDAYS },
       ];
 
+      const specialTime = { value: 'special-time', text: this.$t('objects.lookups.calendars.specialTime'), pathName: CalendarRouteNames.SPECIAL_TIME };
+
+
+      if (this.hasLicenseOnWfm) tabs.push(specialTime);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },

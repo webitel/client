@@ -90,5 +90,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../css/chat-gateways';
+@use '../../css/chat-gateways';
 </style>

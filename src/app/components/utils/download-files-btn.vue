@@ -47,6 +47,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .files-counter {
   @extend %typo-caption;
   position: absolute;

@@ -176,6 +176,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '../../css/reusable' as *;
 $line-numbers-current: #E5DBB9;
 $line-current: rgba(255, 193, 7, 0.2);
 

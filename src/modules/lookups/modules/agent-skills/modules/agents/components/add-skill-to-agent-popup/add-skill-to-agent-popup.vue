@@ -8,8 +8,8 @@
     />
     <config-agent-skill-popup
       v-if="isAgentConfigSkillPopup"
-      @back="handleSkillConfigBack"
-      @close="cancel"
+      @back="handlePopupClose"
+      @cancel="cancel"
       @select="handleSkillConfigSelect"
     />
   </div>
@@ -46,6 +46,7 @@ const itemInstance = reactive({
 const isAssign = computed(() => route.query.assign); //For popup tooling
 
 function cancel() {
+  handlePopupClose();
   emit('close');
 }
 
@@ -67,7 +68,7 @@ function handleSelectAgents(agentIds) {
   isAgentConfigSkillPopup.value = true;
 }
 
-function handleSkillConfigBack() {
+function handlePopupClose() {
   itemInstance.agent = [];
   isAgentConfigSkillPopup.value = false;
   isSelectAgentsPopup.value = true;
@@ -77,7 +78,7 @@ async function handleSkillConfigSelect({ capacity, enabled }) {
   itemInstance.capacity = capacity;
   itemInstance.enabled = enabled;
   await handleSave(itemInstance);
-  handleSkillConfigBack(); // It because we don`t use v-if on this popup in parent component
+  handlePopupClose(); // It because we don`t use v-if on this popup in parent component
   emit('saved');
   emit('close');
 }

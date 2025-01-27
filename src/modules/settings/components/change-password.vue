@@ -85,6 +85,8 @@ async function changePassword() {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .change-password {
   .content-title {
     @extend %typo-heading-4;

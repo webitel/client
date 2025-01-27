@@ -48,6 +48,7 @@ const getCalendar = async ({ itemId: id }) => {
       expires: !!(copy.startAt || copy.endAt),
       accepts: [],
       excepts: [],
+      specials: [],
     };
     // eslint-disable-next-line no-param-reassign
     copy.accepts = copy.accepts.map((accept) => ({
@@ -56,6 +57,14 @@ const getCalendar = async ({ itemId: id }) => {
       start: accept.startTimeOfDay || 0,
       end: accept.endTimeOfDay || 0,
     }));
+    if(copy.specials) {
+      copy.specials = copy.specials.map((special) => ({
+        day: special.day || 0,
+        disabled: special.disabled || false,
+        start: special.startTimeOfDay || 0,
+        end: special.endTimeOfDay || 0,
+      }));
+    }
     if (copy.excepts) {
       // eslint-disable-next-line no-param-reassign
       copy.excepts = copy.excepts.map((except) => ({
@@ -87,6 +96,7 @@ const fieldsToSend = [
   'day',
   'accepts',
   'excepts',
+  'specials',
   'startTimeOfDay',
   'endTimeOfDay',
   'disabled',
@@ -110,6 +120,13 @@ const preRequestHandler = (item) => {
     disabled: accept.disabled,
     startTimeOfDay: accept.start,
     endTimeOfDay: accept.end,
+  }));
+
+  copy.specials = copy.specials.map((special) => ({
+    day: special.day,
+    disabled: special.disabled,
+    startTimeOfDay: special.start,
+    endTimeOfDay: special.end,
   }));
   return copy;
 };

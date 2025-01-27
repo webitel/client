@@ -70,6 +70,9 @@ export default {
       ringtone: 'Ringtone',
       customRingtone: 'Use the custom ringtone',
     },
+    ringtoneVolume: {
+      title: 'Ringtone volume',
+    },
     callEnd: 'Call end sound',
   },
 
@@ -425,6 +428,7 @@ export default {
         start: 'Start',
         end: 'End',
         workWeek: 'Working week',
+        specialTime: 'Special time',
         holidays: 'Holiday | Holidays',
         date: 'Date',
         repeat: 'Repeat',
@@ -461,6 +465,24 @@ export default {
         allowAdmin: 'Admin can change this status',
         allowSupervisor: 'Supervisor can change this status',
         allowAgent: 'Agent can change this status',
+      },
+      shiftTemplates: {
+        shiftTemplates: 'Shift template | Shift templates',
+        duration: 'Duration (hh:mm)',
+      },
+      pauseTemplates: {
+        pauseTemplates: 'Pause templates | Pause templates',
+        pauseReason: 'Pause reason',
+        duration: 'Duration (mm)',
+      },
+      workingConditions: {
+        workingConditions: 'Working conditions',
+        workdayDuration: 'Workday duration (hrs)',
+        workdaysPerMonth: 'Workdays per month',
+        vacationDaysPerYear: 'Vacation days per year',
+        sickLeavesPerYear: 'Sick leaves per year',
+        daysOffPerYear: 'Days-off per year',
+        pauseDuration: 'Pause duration',
       },
     },
     routing: {
@@ -531,7 +553,7 @@ export default {
       },
       chatGateways: {
         templates: {
-          templates: 'Templates',
+          templates: 'Template | Templates',
           title: "Workspace member's name",
           close: 'Chat complete message',
           join: 'Agent joining message',
@@ -879,7 +901,7 @@ export default {
         afterSchema: 'After-executive schema',
         maxCalls: 'Max tasks',
         dialingRate: 'Dialing rate',
-        maxCallsHint: "If value is 0, dialer won't call",
+        maxCallsHint: "If the value is 0, no tasks are performed",
         recordings: 'Recording',
         recordAll: 'Start record after answer',
         perNumbers: 'Dialing Attempts per each phone number',

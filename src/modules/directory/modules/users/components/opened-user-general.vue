@@ -44,8 +44,8 @@
       />
 
       <wt-select
-        :disabled="disableUserInput"
-        :label="t('vocabulary.contact', 1)"
+        :disabled="!hasReadAccessToContacts"
+        :label="$tc('vocabulary.contact', 1)"
         :search-method="ContactsAPI.getLookup"
         :value="itemInstance.contact"
         :track-by="name"
@@ -92,5 +92,4 @@ const { itemInstance, setItemProp } = useCardStore(props.namespace);
 const isDisplayQRCode = computed(() => store.getters[`${props.namespace}/IS_DISPLAY_QR_CODE`]);
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

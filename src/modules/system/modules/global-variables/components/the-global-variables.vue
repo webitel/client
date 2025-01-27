@@ -64,7 +64,7 @@
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           class="dummy-wrapper"
-          @create="isGlobalVariablesPopup = true"
+          @create="addItem"
         />
 
         <div

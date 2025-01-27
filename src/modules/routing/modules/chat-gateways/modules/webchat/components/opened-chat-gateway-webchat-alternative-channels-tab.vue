@@ -151,7 +151,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../css/chat-gateways';
+@use '@webitel/ui-sdk/src/css/main' as *;
+@use '../../../css/chat-gateways';
 
 .webchat-alternative-channels-sections-wrapper {
   display: grid;

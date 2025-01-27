@@ -142,6 +142,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
 // setup pic width and height to prevent layout shift after pic load
 $pic-width: 150px;
 $pic-height: 80px;

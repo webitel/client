@@ -85,6 +85,7 @@
               <adm-item-link
                 :id="item.schema.id"
                 :route-name="RouteNames.FLOW"
+                target="_blank"
               >
                 {{ item.schema.name }}
               </adm-item-link>

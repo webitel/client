@@ -1,0 +1,717 @@
+## [v24.08.0] - 2024-11-02
+### :sparkles: New Features
+- [`bd84946`](https://github.com/webitel/client/commit/bd84946ab3aec0e0c92f3c7be3a77718f5f1f119) - added client workflows for docs and release [WTEL-5425](https://webitel.atlassian.net/browse/WTEL-5425) *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`696fcd6`](https://github.com/webitel/client/commit/696fcd642fbb778150e3f5f1c6587c3c12218158) - added client docs [WTEL-5425](https://webitel.atlassian.net/browse/WTEL-5425) *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3985816`](https://github.com/webitel/client/commit/3985816d1b431bda448de339da6a7c2e4af63c03) - add check license wfm in calendar page[WTEL-5157] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`05c822b`](https://github.com/webitel/client/commit/05c822b6cd8e06330e86fee1fee0fc0006f28a43) - add feildsToSend in WorkConditionsAPI[WTEL-5078] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`35e883a`](https://github.com/webitel/client/commit/35e883a591c6c0f1afeb793109a71a2ec087f0d2) - add working conditions page[WTEL-5078] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`804652e`](https://github.com/webitel/client/commit/804652e1e6d7810cdff51fdd4450c1a5e609a7e8) - add pause template page[WTEL-5080] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a0acfbe`](https://github.com/webitel/client/commit/a0acfbe25b95be4b32caa0d0fc8ceec4675e382c) - add shift template page[WTEL-5079] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`aee3a58`](https://github.com/webitel/client/commit/aee3a58988c8d1acca2a5c56bf4e0e54a3058a06) - add special time tab in calendars page[WTEL-4099] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ee2eaa9`](https://github.com/webitel/client/commit/ee2eaa9215ed3be318b9fe32b20639ddb055c429) - call hangup sound improved [WTEL-5123] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`97406ac`](https://github.com/webitel/client/commit/97406ac58338f7660690deb47b11b703de6e97ed) - change contactAPI from webitel/ui-sdk[WTEL-4776] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`caefdba`](https://github.com/webitel/client/commit/caefdbafc4b284691f4a6fe713b99d8773158fd6) - add new configuration variable, update @webitel/ui-adk and webitel-sdk and change imports in api[WTEL-4809] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ed83d91`](https://github.com/webitel/client/commit/ed83d916ef9d8dcb92d38ef56d5c3b01187d8cc4) - add contact field in users page[WTEL-4658] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`3ce6a18`](https://github.com/webitel/client/commit/3ce6a184b131c017ebc54ea850a94aa8e174ca9b) - add Permissions & System sections [WTEL-4559, WTEL-4730]
+- [`dc6551a`](https://github.com/webitel/client/commit/dc6551aa8743a01dc8acdb246e2df3cd01dfb3b5) - new PasswordRegExp config added, waiting for PasswordValidationText[WTEL-4702] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9b7bb7c`](https://github.com/webitel/client/commit/9b7bb7ce2bdc7fc6845ea11d15d6d13b0af03f07) - new PasswordRegExp config added, waiting for PasswordValidationText[WTEL-4702] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9711239`](https://github.com/webitel/client/commit/971123936718ae7da24c8ccbeab7e7d8037b721b) - chat ai config done [WTEL-4641] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d660339`](https://github.com/webitel/client/commit/d66033938b37bf7033c27011b23b47e68a099001) - new PasswordRegExp config adding WIP [WTEL-4702] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4e559b2`](https://github.com/webitel/client/commit/4e559b259cb206d8e0cdcb9818afa25aa8675030) - new notification statuses added [WTEL-4766] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`221daa4`](https://github.com/webitel/client/commit/221daa423a098377c95c23328ddc6475d97d6289) - new notification statuses added [WTEL-4766] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2e37a98`](https://github.com/webitel/client/commit/2e37a98b118bcadf4a2266c021a12949ed35a604) - fixes after review [WTEL-4348] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`dc61eca`](https://github.com/webitel/client/commit/dc61eca06d7d5bd23c869728f68609c42c7c8f23) - changed heading on settings page and name of item for call-end-soud in local storage [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`c406119`](https://github.com/webitel/client/commit/c4061192544345d2ec723d5bb01233199408d309) - remove gap frome styles in settings [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`667dafb`](https://github.com/webitel/client/commit/667dafbe2f4280b49cf69a76d0f725d44a287c30) - changes after review [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`7f73be1`](https://github.com/webitel/client/commit/7f73be1c3cabae58a004dc5e0b837568dd24b6f8) - change code location in ringtone component [WTEL-4348] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`ef8fc9b`](https://github.com/webitel/client/commit/ef8fc9b878c48f5209501101a23c27c792f0d568) - fixes after review [WTEL-4348] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`6e1082b`](https://github.com/webitel/client/commit/6e1082bfe1f5d4ab5f175e31e689886795b6c51e) - style changes [WTEL-4348] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b53a6f4`](https://github.com/webitel/client/commit/b53a6f427f3648a276d7df7634651cdf54f38d60) - change api ringtone url [WTEL-4348] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`e529f79`](https://github.com/webitel/client/commit/e529f79d5f0f11a5510c834fa39d1f2f0fc2ccef) - change player style [WTEL-4348] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b54fdc2`](https://github.com/webitel/client/commit/b54fdc2e5b8a99aa2a512cbf8a5fe916d8919e35) - in progress [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`31d1da0`](https://github.com/webitel/client/commit/31d1da00bfebbe2b5ba11ffeaaf003713c064822) - ringtines api in progress [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`e356fcb`](https://github.com/webitel/client/commit/e356fcb2b909934c6aa91f31705a16a9afc84d60) - after review [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`30079f3`](https://github.com/webitel/client/commit/30079f369c4ffc4d747d6c844bb45842a0e0802e) - in progress [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`5b6ceac`](https://github.com/webitel/client/commit/5b6ceacbe5a14878b15308942cfd8b7137ddedf9) - in progress [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`296051b`](https://github.com/webitel/client/commit/296051b352b86021b8e2ef7afd7b9cf18d17f317) - in progress [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`8161a2b`](https://github.com/webitel/client/commit/8161a2b54dc94d894f7105d6dab5916eb7745074) - added restore call end sound [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`3a60dda`](https://github.com/webitel/client/commit/3a60dda01e0f5713f3915ed25077fc8e300cdc8f) - changed styles for settings and added new call-end-sound block [WTEL-4668] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`04832a4`](https://github.com/webitel/client/commit/04832a4dc99a54a4b8ba17ea14a569f6cc90d774) - changes due to code review, validation error fixed [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`86ac456`](https://github.com/webitel/client/commit/86ac456456ab9e4d78b8ea91e617325a9a6a5d01) - adding new locales [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3ad663f`](https://github.com/webitel/client/commit/3ad663f6b23b859239a86ea3ae01136b01f57f98) - refactoring of configuration-popup.vue and adding ExportSettings config  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5e42419`](https://github.com/webitel/client/commit/5e424196405a0093c1c93c03a240c9db9017a526) - ignore calendar switcher aded [WTEL-4560]
+- [`754dcba`](https://github.com/webitel/client/commit/754dcbaedd60a7288c66f41d76c9e6b2a4961142) - sticky_ignore_status added for Inbound queue and Chat inbound queue [WTEL-4458] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3c298fc`](https://github.com/webitel/client/commit/3c298fc1b829bab83380c2e011d9bed05de37e9a) - rename component and add check permissions[WTEL-3405] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6ca62d8`](https://github.com/webitel/client/commit/6ca62d88ec2ba147f5ddbad8e6736a91e6647e75) - email profile password required validation [WTEL-4537] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7218c45`](https://github.com/webitel/client/commit/7218c457dde5724a874a34539388b9d8c8173f7a) - add 2fa[WTEL-3405] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c38d6e4`](https://github.com/webitel/client/commit/c38d6e4fb4a2cd776c929cef8bc1a910fdaef5b9) - updating favicon [WTEL-4532] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`28602a8`](https://github.com/webitel/client/commit/28602a8774e31cfcf79883d47fee8f26159becfb) - updating favicon [WTEL-4532] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`f184ea1`](https://github.com/webitel/client/commit/f184ea12202ea67c2c549ec41a5fb561fd052d15) - add enable-2fa param in configuration page[WTEL-4431] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f190d07`](https://github.com/webitel/client/commit/f190d07d32db97c69ccb434d9c66defadf08b795) - offline queue defaults added [WTEL-4342] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`e40f0f8`](https://github.com/webitel/client/commit/e40f0f892fdae2e5cf62e9b5378fe5c7c43f1d5d) - disabling translation [WTEL-4503] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3851a17`](https://github.com/webitel/client/commit/3851a17db18c78be1ca5e2ee69834ef9964a5992) - waitBetweenRetries and maxAttempts added to OFFLINE_QUEUE [WTEL-4342] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`91e448a`](https://github.com/webitel/client/commit/91e448aa22646dc1afeee32fb30ca2624adbf2c1) - color and sizing changed for hint [WTEL-4461] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`f8a5ad2`](https://github.com/webitel/client/commit/f8a5ad297753c371d3f2d7af8abee642c4a132f2) - small locale fix [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`63af419`](https://github.com/webitel/client/commit/63af419c86663cce32620cc188d86e00e3e6c4b5) - refactoring after review [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`db22a29`](https://github.com/webitel/client/commit/db22a29b46a9edbe210cb6f485b55affb6491d9f) - refactoring after review [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`12f25b1`](https://github.com/webitel/client/commit/12f25b1a9a783b3f00d348cd15f7d03af8705fab) - fixed after review [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`a6d09ca`](https://github.com/webitel/client/commit/a6d09cad3eef5f05660e89e8584ba45a6db02664) - delete tests for flow diagram [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b28e47e`](https://github.com/webitel/client/commit/b28e47e4f6af1b1b42a7d1280574ceeb3f291920) - changed locales and naming of module [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`29ae457`](https://github.com/webitel/client/commit/29ae457f7a9d6f81cf538112f63a570543e365ea) - agent task count validation >= 1 [WTEL-4204] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d99f42d`](https://github.com/webitel/client/commit/d99f42d40dd088c7be5e9d4350046f1c94b6bebf) - remove redundant code  [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`e597c1b`](https://github.com/webitel/client/commit/e597c1b4902a3317278569847eb9bd5aa5195409) - fixes in team scheme module [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`a88775d`](https://github.com/webitel/client/commit/a88775d2742ffe274f45687560f5b7f0946207c2) - custom chat gateway done *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d2b0dbd`](https://github.com/webitel/client/commit/d2b0dbd06d63da2c2071d9c795a43706f803a0b1) - added new module to teams [WTEL-4354] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f61b192`](https://github.com/webitel/client/commit/f61b192ebab5ac36e716b74164bb4456e50a141c) - add delete confirm in hooks tabs[WTEL-4401] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`72bc02e`](https://github.com/webitel/client/commit/72bc02ef2bd4bb8012b327e6b39c1b5c6fc1855c) - add dummy for hooks tabs[WTEL-4399] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ea6dd12`](https://github.com/webitel/client/commit/ea6dd12a65b96d955bf1ae80865f55d29b21d0f9) - fixes after review [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`59279be`](https://github.com/webitel/client/commit/59279be494235e6512506c410a48c734c52e34a3) - fixes after review [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b10d1e8`](https://github.com/webitel/client/commit/b10d1e8d8a2d18fd262f81307db66b2fa186debc) - fixes after review [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f9206e0`](https://github.com/webitel/client/commit/f9206e038e3735883f65f5c217fd3b50f34b6264) - fixes after review [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b51dead`](https://github.com/webitel/client/commit/b51dead577e8b3308af2365af679cec9168777a6) - fixes after review [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`34dbe3e`](https://github.com/webitel/client/commit/34dbe3e898e3b3113203c00b8ac3afabef839918) - added tab hook in teams [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`30a79fd`](https://github.com/webitel/client/commit/30a79fdde1edafddb4e2d84fca68e2ef1cc35fba) - new tab in teams in progress [WTEL-4246] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`7e94490`](https://github.com/webitel/client/commit/7e9449008f8dc07cbb61cb74f4443d3fc07ddba1) - webchat recaptcha config [WTEL-4251] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`e9413c3`](https://github.com/webitel/client/commit/e9413c34b1b4c1abcff9f5392bfa6c5c0e33d71b) - add ChatGatewayProvider enum from webitel/ui-sdk[WTEL-3529] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`3d95a6c`](https://github.com/webitel/client/commit/3d95a6cddf237874be39709047ba5e3023aa223d) - startPageHref on logo added [WTEL-4252] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`6d92d32`](https://github.com/webitel/client/commit/6d92d326342b8b67bbbbc96484c56b2c50cc378f) - @webitel/ui-sdk updated [WTEL-3720] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`93f8d68`](https://github.com/webitel/client/commit/93f8d681f8e010bc12811e43c8808e65cc51ec13) - elevenlabs integrated [WTEL-3720] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7fe2ab4`](https://github.com/webitel/client/commit/7fe2ab4f4b67c39e1b81496354e76f3673c63a3b) - Web-chat Appointments time selector localized  [WTEL-3159] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7c935d0`](https://github.com/webitel/client/commit/7c935d0b4475d350b0af7a4d954e305602bbd53c) - fix global variable locale [WTEL-4266] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`bf1c951`](https://github.com/webitel/client/commit/bf1c951cdd57144dbae4dd0921bab79724bc155a) - packege lock update [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f7321d4`](https://github.com/webitel/client/commit/f7321d46988df906e54810f99a58d65981c8a8fb) - packege lock update [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`546a013`](https://github.com/webitel/client/commit/546a0139f88c1ce0f11e4df1f13ed9358b12907a) - merge with master and resolve git conflicts in packages  [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`c2311bd`](https://github.com/webitel/client/commit/c2311bdbbe56e4705758461a69709f86cf20d744) - fixes after review and added coments [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`1847d74`](https://github.com/webitel/client/commit/1847d743b5c5de31123a0375342c039975b6a78c) - fixes after review and added coments for rewritten action in global variables store [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8b7f0f4`](https://github.com/webitel/client/commit/8b7f0f47eb66ee329e3d40aa479e0e7c61ba54af) - add logout[WTEL-3114] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`4e58836`](https://github.com/webitel/client/commit/4e58836e59d5d356685e76afcd9e071b05efe0b3) - fixes in validation [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8f1b768`](https://github.com/webitel/client/commit/8f1b7680554e22a1b213fce32bafa4e18514ea05) - remove console logs [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`dcdddfc`](https://github.com/webitel/client/commit/dcdddfcb73621b3d99553a845971d24473131d8a) - in progress [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`403d96d`](https://github.com/webitel/client/commit/403d96d79cb37d4a7fb04fb58308a176d398bdb2) - add outlook auth in email profile page[WTEL-3114] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e5b7e05`](https://github.com/webitel/client/commit/e5b7e05f4cd2f8bbb9f027107ab5cd1c0fb7ce2b) - in progress [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8b451d6`](https://github.com/webitel/client/commit/8b451d609f6968a8753e0fdb07c86bbd4e7f4ce6) - sedde new actions in global variables store [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8563b30`](https://github.com/webitel/client/commit/8563b302246eaf1af1392657ad4fbe0c0a4f5190) - in progress [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`2f304bb`](https://github.com/webitel/client/commit/2f304bbad6cea011bbf93b89abc5d2d62f87b58c) - in progress [WTEL-4195] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`d69288d`](https://github.com/webitel/client/commit/d69288d413a19e8f66ed8fab35822d9889ed464a) - new section in progress [WTEL-4195] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`1fd0578`](https://github.com/webitel/client/commit/1fd0578e844ded1a5cae10c28224879bb4995292) - new section in progress [WTEL-4195] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`055a897`](https://github.com/webitel/client/commit/055a897d6a0452564952af38d941047ff75918f1) - agent task count [WTEL-4201] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`01ec4bc`](https://github.com/webitel/client/commit/01ec4bc189332654e2b0fe1c9045a937bdd88a39) - add useCheckingUnsavedChanges[WTEL-3893] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`442c80a`](https://github.com/webitel/client/commit/442c80a7ddb10f54da3023248f35c0d524772664) - add working time in holidays[WTEL-2403] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6cae09d`](https://github.com/webitel/client/commit/6cae09d51360b2c397e2987ab4318cce0820530b) - amd non human config [WTEL-4010] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7b6a470`](https://github.com/webitel/client/commit/7b6a470862af361ea309957f4b48963a1f9a6a3a) - confirmation popup in flow code[WTEL-3893] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`d38143a`](https://github.com/webitel/client/commit/d38143a5792f8f20a187a6b04bfecd664d47b9ab) - update ui/sdk@24.2.2[WTEL-4111] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f2b43fe`](https://github.com/webitel/client/commit/f2b43fe26fafa72ad7cc2f48d9ec75e84339db76) - needed filters added to queues [WTEL-3222]
+- [`c3aac15`](https://github.com/webitel/client/commit/c3aac1530110b48e3ff6def62585461b24c1ed8c) - watcher to query added [WTEL-3222] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0102f2c`](https://github.com/webitel/client/commit/0102f2cfcfbc95c1dac521038f3d54e38257e9cb) - queues filters added but WIP [WTEL-3222] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`1aca99f`](https://github.com/webitel/client/commit/1aca99fb15c50f026f7bea65deee53fd9a8e3853) - add default communication type[WTEl-4074] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`63b4c88`](https://github.com/webitel/client/commit/63b4c88bd4eb28f7dd847bc2edd1ad4ff4c98fff) - logo [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1bffa79`](https://github.com/webitel/client/commit/1bffa79275f5763b388792e7b55a2bd5d0e10715) - task accept timeout added to teams [WTEL-3989] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`fc46001`](https://github.com/webitel/client/commit/fc4600187e35c14814a48db3bf2a007ae5d88a34) - cc-queues-parameters timeout switcher added [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`a021904`](https://github.com/webitel/client/commit/a0219042da256a375d65fb7db020d2f577171afd) - code  save failed popup added [WTEL-3894] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`43694d5`](https://github.com/webitel/client/commit/43694d5de44b9844e2e4b9ebec7712f3358624c5) - uncommented changelog fields [WTEL-3887] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`12499c4`](https://github.com/webitel/client/commit/12499c434704174b7926dc077bb290e947cfc2d7) - refactored chat gateways api [WTEL-3629] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`272d18c`](https://github.com/webitel/client/commit/272d18c1a447c6a43b3e39032d7261ebbd4b203a) - refactored chat gateways api [WTEL-3629] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`29507ac`](https://github.com/webitel/client/commit/29507ac60720c79f9195338f0e16f6fe6fabb946) - refactor in progress [WTEL-3630] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8331f3c`](https://github.com/webitel/client/commit/8331f3c07db826d6506a5e392d4a4913ad1e9414) - timing tab renamed to parameters tab [WTEL-3992] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`74921cd`](https://github.com/webitel/client/commit/74921cd23d30d730cdec337b8e1923c076eb551b) - completed webchat call config [WTEL-3986] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`19e4ba6`](https://github.com/webitel/client/commit/19e4ba620b42c035028079b88d21d7425e78afb2) - widget call config in progress [WTEL-3986] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`b7e8145`](https://github.com/webitel/client/commit/b7e8145aa41db6a1dbf6c0a403ce7fccc0bcb53e) - removed jesst file [WTEL-3604] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`621c813`](https://github.com/webitel/client/commit/621c813e62bb5647436688394d8ea61ef62e7816) - fixed bug with wrong local [WTEL-3604] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`bb27a65`](https://github.com/webitel/client/commit/bb27a65ad8ad5875b039edd50b3bdb2db8c5e79b) - widget call config in progress [WTEL-3986] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`5087fcf`](https://github.com/webitel/client/commit/5087fcf6d72e73d6c5dad5931525b333370bb45b) - update ui-sdk and changed delete-popup component on component from sdk [WTEL-3604] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`4ad0c51`](https://github.com/webitel/client/commit/4ad0c516b1c575a9e1b2c8e457c3869ae6796396) - single sing on section added, but still WIP [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3c73541`](https://github.com/webitel/client/commit/3c7354129800abc31d0c21349551f037662d88a6) - add new settings page[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`abaa401`](https://github.com/webitel/client/commit/abaa4018856bd820471328f4331c77339d2f4502) - manual distribution queue config param [WTEL-3800, WTEL-3801] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`4e8d658`](https://github.com/webitel/client/commit/4e8d658ba377667c3616e5fa68d0dd33c2dc0c42) - sustem section to start page [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`836f2d4`](https://github.com/webitel/client/commit/836f2d400284f0ce65f359138fa9652ec348dd22) - user changelogs [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`4ffad7f`](https://github.com/webitel/client/commit/4ffad7fadf9b1d650c82b852822f7c94ff881b36) - export logs in csv [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`55829b6`](https://github.com/webitel/client/commit/55829b68f261163d08536f90922fcf9ae16e64a2) - changelog logs column templates [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`2ff4efb`](https://github.com/webitel/client/commit/2ff4efb6ed25a0d1c88c9a8196623c067fb28494) - logger in progress [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`aacabaf`](https://github.com/webitel/client/commit/aacabaf534020fb11af401ea3354eaceef450f0c) - empty div removed, changes rolledback [WTEL-3694] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`6c2c208`](https://github.com/webitel/client/commit/6c2c208bed6b15742062486876707649b98fd5a8) - small update to changelogs [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d8cd9d7`](https://github.com/webitel/client/commit/d8cd9d70ac0754f96d965a411d68d39f80a06d9f) - changelogs section in progress [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7d3a1a2`](https://github.com/webitel/client/commit/7d3a1a2626a51b58c1668a54037fa39513293e45) - placing fixed after additional input added [WTEL-3694] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`6d435ef`](https://github.com/webitel/client/commit/6d435eff70e7b3ed9ec11c5f58e3470b24372f99) - add default value for autoAnswerTone field[WTEL-3268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`486e9da`](https://github.com/webitel/client/commit/486e9da2cc6ab248ee0636b4a2f9e3e872aeb3ac) - changing call place the import members from csv[WTEL-3550] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`650f813`](https://github.com/webitel/client/commit/650f81371cedaace46b400211e5fafb20d17bf31) - application hub crm [WTEL-3719] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`0de55b4`](https://github.com/webitel/client/commit/0de55b4b67a6e673f2ab5003ff9f95f814f0370b) - placing changed, input enabled [WTEL-3694] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`823310b`](https://github.com/webitel/client/commit/823310b643542bdaa6013a23c7e6764f499039ca) - validation on capacity added, code refactored  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`fdcf152`](https://github.com/webitel/client/commit/fdcf15287c98c706140842c17df63a24a1e8c3a1) - styling finished, notSkillId added to get agents list  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ec2dc79`](https://github.com/webitel/client/commit/ec2dc79928431e324ff22be8c80e682be2870c88) - update ui-sdk version[WTEL-3528] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`9308cfb`](https://github.com/webitel/client/commit/9308cfb1644e5ea78caa1b26abcc18c5629a1ffb) - add channel[WTEL-3528] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b275eb3`](https://github.com/webitel/client/commit/b275eb382886a059853959fcc6f6e35c2ed4c546) - filters for popup working properly  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`06fbd41`](https://github.com/webitel/client/commit/06fbd41716a15d255996fcd909771938bd3d64d0) - locales added for all popups, styles added [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`57d1cd2`](https://github.com/webitel/client/commit/57d1cd25b6a7c03cec5b775764557becfb55bbc5) - second popup added on all skills page [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4591078`](https://github.com/webitel/client/commit/459107821c3f874fea43320fe49c2b24ba3ca179) - basic second popup added  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`09da406`](https://github.com/webitel/client/commit/09da406c88e43653745fd4dc88d11acbbdaeb5ff) - add new switcher in popup[WTEL-2847] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a961fca`](https://github.com/webitel/client/commit/a961fcae64d70e350f232e212fd432f8eb52563a) - add new field in chapter[WTEL-2847] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`70643a2`](https://github.com/webitel/client/commit/70643a2ae4a3aa303443f2b81c8f246ff45dcd03) - change agents skill popup done, refactor needed in api *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c1ac1e1`](https://github.com/webitel/client/commit/c1ac1e1b938bddc56ce1096a963f565ca4e352aa) - locales for change skill popup added [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`fb68a5d`](https://github.com/webitel/client/commit/fb68a5df48374a75d451a482042532dba71cbc66) - basic skill change popup addded, refactore needed [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`8f4fbf5`](https://github.com/webitel/client/commit/8f4fbf5eb85c19ec62cb127c5404f06c89ef67a1) - basic skill change popup addded, refactore needed [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`b43abfc`](https://github.com/webitel/client/commit/b43abfca8b659620fa659c5a1fcb53aea93e2ddd) - changeStateForAll state gets from backend [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0998a33`](https://github.com/webitel/client/commit/0998a33c96a51de6321a70abf419e9f4cef67169) - table templates links deleted and locales for switcher added [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`e072237`](https://github.com/webitel/client/commit/e0722377be2bd3b7d03c662aa62acaa5cae332ae) - capacity patch added  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`8b5d0cd`](https://github.com/webitel/client/commit/8b5d0cdab25a05bf72e4c7e3610e61205cdf36d9) - agents page added, all skills agents column added  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9d5827f`](https://github.com/webitel/client/commit/9d5827fb6b60cf80e538a414077718f4f6cb5b39) - refactoring queue-skills api [WTEL-3650] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`2958fa6`](https://github.com/webitel/client/commit/2958fa68c3fed5661c0db248924cc94900a77e6a) - skills api refactoring [WTEL-3650] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`0993f19`](https://github.com/webitel/client/commit/0993f193049329ed0d42909a24bb6e1aecca8198) - triggers api refactoring [WTEL-3651] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`3744cba`](https://github.com/webitel/client/commit/3744cbaf6d200627b9cbbcbc7a3cf4569462fdea) - triggers api refactoring [WTEL-3651] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`e8d0fe5`](https://github.com/webitel/client/commit/e8d0fe5c060d4a95f3abd4b63a35e2dbc15409eb) - triggers api refactoring [WTEL-3651] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`1945ee1`](https://github.com/webitel/client/commit/1945ee1f3f8a69c085e4bbcbbe3b8a1c19a29f2a) - triggers api refactoring [WTEL-3651] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`6f8c931`](https://github.com/webitel/client/commit/6f8c93173e933afb6ef9f617aafd2cd72f48b318) - triggers api refactoring [WTEL-3651] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f99570e`](https://github.com/webitel/client/commit/f99570eff31a585d63bec010ada01a1f620dfa71) - roles api refactoring [WTEL-3630] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f25daa4`](https://github.com/webitel/client/commit/f25daa48236d8ff69f05b051561ed7ec21ab0fe4) - triggers api refactoring [WTEL-3651] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`1ef8cf8`](https://github.com/webitel/client/commit/1ef8cf8e4dac4a1b5e8a71a62d6b84d42908efac) - skills api refactoring in proggress [WTEL-3650] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8e73bbb`](https://github.com/webitel/client/commit/8e73bbb13b1dfc17d000382382329fa58b3fd551) - roles api refactoring [WTEL-3630] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`bf3305a`](https://github.com/webitel/client/commit/bf3305a2ecba56c28d681bb0a5770addaac1c99d) - roles api refactoring [WTEL-3630] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b004b3d`](https://github.com/webitel/client/commit/b004b3d73196042225256e2ac21a5548c72c4e87) - roles api refactoring [WTEL-3630] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ecddbe8`](https://github.com/webitel/client/commit/ecddbe8d1d61be691eaa11d20ccfc5f038b7232a) - refactoring reles api in progress [WTEL-3630] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`57bdcb1`](https://github.com/webitel/client/commit/57bdcb13c590c8266ffd835d9116d6261ca16e82) - while flow app autocomplete [WTEL-3513] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`e5fcb7b`](https://github.com/webitel/client/commit/e5fcb7b2341a9d61d21e690edc6dfa72be224a9b) - chat history flow app autocomplete [WTEL-3543] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`502d01c`](https://github.com/webitel/client/commit/502d01c7a23da28c0c51c351f96d18c9ac8accf1) - refactoring queues api after review [WTEL-3609] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`a55c8bc`](https://github.com/webitel/client/commit/a55c8bcd8cc3209d4e74225b9d76e5b6a8874aa2) - refactoring queues api after review [WTEL-3609] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`053cee0`](https://github.com/webitel/client/commit/053cee08fb858873fb9f516650e783915bce3d54) - refactoring queues api after review [WTEL-3609] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`a20e4f9`](https://github.com/webitel/client/commit/a20e4f9a58c7941407517f46d2fcae284be62648) - refactoring queues api [WTEL-3609] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`93cde74`](https://github.com/webitel/client/commit/93cde744944eadc8f209f4321b5bc70a3a62ae1a) - added deepCopy in some methods in chatGateways API [WTEL-3425] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`0fb048f`](https://github.com/webitel/client/commit/0fb048f71acc69aac14963b59c65df8a184b423f) - chat gateways api refactoring [WTEL-3425] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ac29740`](https://github.com/webitel/client/commit/ac29740ee3affbc88329477df44fb63ba784e669) - save google cogn profile key filename to backend [WTEL-3412] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`4828410`](https://github.com/webitel/client/commit/482841077463a295944a088db37e386fa636649e) - add wt-page-header[WTEL-3378] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`0b678c8`](https://github.com/webitel/client/commit/0b678c800efa754cf0b9d4058ef73d0ebc69e3a9) - add wt-icon-action component[WTEL-3421] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`831d182`](https://github.com/webitel/client/commit/831d1824f1479dcc05546723eee35845cac30920) - trying to fix save flow error  [wtel-3518] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`75b3154`](https://github.com/webitel/client/commit/75b315473a879c8e1eb3b3736a91d608db8f3b81) - reverting unnecessary commit  [wtel-3518] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`abc5402`](https://github.com/webitel/client/commit/abc5402beac99ce6d88dab4efbdac63e86dd8230) - log promise function data [wtel-3518] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`28e2325`](https://github.com/webitel/client/commit/28e232511dc54008e4691f2a54555f59a567d147) - add wt-item-link component[WTEL-3423] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c5ff7fd`](https://github.com/webitel/client/commit/c5ff7fdc391218ee4002a93bf1e0e623cd227085) - add wt-dummy in contact-center menu [WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6659c7f`](https://github.com/webitel/client/commit/6659c7fc9b1a4efa8c809e7b1f82473a4f80346a) - add wt-dummy in lookups menu[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b39f89d`](https://github.com/webitel/client/commit/b39f89d6a0f1fc300498f8748ee2b3915c0b0b3a) - add button in routing and directory meny[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`0d50627`](https://github.com/webitel/client/commit/0d506275739825a2247207a6e3388b9c4cedac62) - add wt-dummy in intergation menu[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`d9a41e2`](https://github.com/webitel/client/commit/d9a41e20167ac4b312fb18a716e3854755d21c07) - add wt-dummy in directory,routing,permissions menu[WTEL-3375/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ad21c63`](https://github.com/webitel/client/commit/ad21c63f85f95a9819f393b75fa9e3e9d4487d8c) - add dummy component in directory block[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`71760c9`](https://github.com/webitel/client/commit/71760c98008b31ef7583ed4e5b7058454cf82bbd) - trying to add agent skills management component (WIP) [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5deb8e6`](https://github.com/webitel/client/commit/5deb8e638dbd0e45e955a5349f5aac0fd39f7db5) - updated ui-sdk [WTEL-3289] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`e44e80a`](https://github.com/webitel/client/commit/e44e80a5d21472010429dc0ae63f39b82e1ee60f) - google tts cognitive profile [WTEL-3412] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`9b0bc89`](https://github.com/webitel/client/commit/9b0bc89d91fba64783d3b4115e250f60a55b8785) - google tts in progress [WTEL-3412] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`0b46366`](https://github.com/webitel/client/commit/0b46366e559a83662584f66b5816ffc95e99d026) - flow diagram agents api [WTEL-3401] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`80aa9b0`](https://github.com/webitel/client/commit/80aa9b03abcfcc92877c90335e5f674803b9b6be) - changed local and messenger icon on meta icon in chat-gateway [WTEL-3273] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`c678574`](https://github.com/webitel/client/commit/c678574b9b3ad77b6e5891a635596545fe45f6a5) - small chat-gateways locale refactoring [WTEL-3273] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`5bc809e`](https://github.com/webitel/client/commit/5bc809ec2e9e3a10b0b3e64ffa5f1f0d5063af00) - destruction on option props in create chat gateway popup [WTEL-2916] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`968a007`](https://github.com/webitel/client/commit/968a0078bc37ecb1612234c6f1dc5bd7f1aab6ac) - changed title message on meta [WTEL-3273] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`3f2e23d`](https://github.com/webitel/client/commit/3f2e23d69d46413a1e1987def893e5888b40d6ee) - section-popup small refactoring  [WTEL-2916] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`8f78b1d`](https://github.com/webitel/client/commit/8f78b1d86598bdc7f950b93b855c7cd446e314d9) - changed structure create-chat-gateway-popup component with option slot,  deleted section-popup scss file [WTEL-2916] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`ab0dec5`](https://github.com/webitel/client/commit/ab0dec54b6fcbf878c1c6e48d64e7c696e6b192e) - added new file for section-popup styles and changed structure create-chat-gateway-popup component [WTEL-2916] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`617c84e`](https://github.com/webitel/client/commit/617c84ee007b265562bf5ce06dcda931e0c098f1) - changed some provider icons [WTEL-2916] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`5ed906d`](https://github.com/webitel/client/commit/5ed906d44c07ba6a7dcabbd8a75dcf6e3a4b6bc2) - added agent filter to queue logs [WTEL-2861] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`979f471`](https://github.com/webitel/client/commit/979f47110b53df6b3567a44d43550a0845680356) - integrations permissions fix [WTEL-3183] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ebf7b0f`](https://github.com/webitel/client/commit/ebf7b0f1fe60ec2968fc28f4127708d6c7f966d2) - whatsapp chat gateway [WTEL-3203] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ae613dc`](https://github.com/webitel/client/commit/ae613dc6b24968104d821fc8a51a1cfd6f609a09) - locale[WTEL-3128] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b80fcda`](https://github.com/webitel/client/commit/b80fcda604cc6a0964d3d91dea108f5c855292cc) - update ui-sdk version *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a78e244`](https://github.com/webitel/client/commit/a78e24433deed3236906add68d491ce36f9ad55a) - media different formats [WTEL-3121] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+
+### :bug: Bug Fixes
+- [`9cf6187`](https://github.com/webitel/client/commit/9cf6187dcbfa189513a03508505060769c45a5ec) - upd webitel-ui version [WTEL-5387](https://webitel.atlassian.net/browse/WTEL-5387) *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`38eeab8`](https://github.com/webitel/client/commit/38eeab8435905246ef9f595b8fcbfd03487cee54) - upd webitel-ui version [WTEL-5387] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`5e6f4a2`](https://github.com/webitel/client/commit/5e6f4a2f377174e0dcc876c85b841deac7afebf0) - update params for edit function to use object with field blank [WTEL-5270]
+- [`42f05b6`](https://github.com/webitel/client/commit/42f05b67165c88ec79c8c4eaa7d011540312ba3f) - update table edit action to implement option open in new tab, implement open in new tab flow with editor [WTEL-5270] *(commit by [@stanislav-kozak](https://github.com/stanislav-kozak))*
+- [`75a2827`](https://github.com/webitel/client/commit/75a2827eb9d64ca1100677d5aa34f37d878733ef) - changed vite version *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`b08fef1`](https://github.com/webitel/client/commit/b08fef174926fedcff6a98a5a48e8b59ced288bb) - update ui-sdk *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`55cbf0c`](https://github.com/webitel/client/commit/55cbf0cc10cc94cc90cd4c5edd49bbcee29f3d84) - changed import for contacts API *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`030bcb7`](https://github.com/webitel/client/commit/030bcb7c9e52d319ae15c96118afe57a015fb9fe) - locales for log result added [WTEL-3129] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`89dbe06`](https://github.com/webitel/client/commit/89dbe067e7179110e918b02dc1c3b22150d27b40) - max calls hint in queues[WTEL-5253] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`150e77d`](https://github.com/webitel/client/commit/150e77d5d45f0df57d28e27e9dcb8b160cf26781) - locale in settings page[WTEL-5235] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`5193f76`](https://github.com/webitel/client/commit/5193f766564d2c5c3c8b8c4180b831246bc5e0a4) - locales for log result added [WTEL-3129]
+- [`974c842`](https://github.com/webitel/client/commit/974c842f13610961464f20239bab032d5fc93b5e) - templates title case fixed  [WTEL-5224] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`6ba88eb`](https://github.com/webitel/client/commit/6ba88ebf54b099608ffff1cb5f6927c5bd1d0d83) - settings title font weight fixed [WTEL-5223] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`a0dc2c7`](https://github.com/webitel/client/commit/a0dc2c79deae56a57ae2f321744150b1e48483a1) - delete special time[WTEL-5158] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f65cc39`](https://github.com/webitel/client/commit/f65cc39019a584b60fe8490fdd1c8043e1e0712b) - fieldsToSend in API[WTEL-5078] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`820d775`](https://github.com/webitel/client/commit/820d77526a2e34a66a5b112702cb2f8380992208) - sounds after triggerSound now playing correctly [WTEL-5149] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7c21173`](https://github.com/webitel/client/commit/7c21173959530189858e4222e2bf02f4240440ec) - small refactor shift page[WTEL-5079] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f63b9ca`](https://github.com/webitel/client/commit/f63b9cac2f6825340900e8b45377b1ae0213c33f) - CSV export Cyrillic characters fix [WTEL-5169] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7966788`](https://github.com/webitel/client/commit/7966788baf1a39f2573b01ec5a5e0915346e17b7) - rename enum[WTEL-4097] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`2da1402`](https://github.com/webitel/client/commit/2da1402b6d88db00a4229c959ec154144e6a6093) - rename component and change in store page[WTEL-5079] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6dfa5cd`](https://github.com/webitel/client/commit/6dfa5cdd086d971e09155ff6b22efc9cd4567456) - conflict[WTEL-5079] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6f9a573`](https://github.com/webitel/client/commit/6f9a57328babfa162b803ebc2c3321ed9f73d5c0) - calendar in queues now clearable [WTEL-5151] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9269c47`](https://github.com/webitel/client/commit/9269c47317ff4752b28b9e326e46fa70d8666e7e) - flow links fixing [WTEL-5155] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`652ae43`](https://github.com/webitel/client/commit/652ae435c6f5677ae667c10d8f0ce377e58a96c2) - fixing popup closing [WTEL-5105] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3b6bad6`](https://github.com/webitel/client/commit/3b6bad6b994f188c4be205022a48a40f735df3d8) - tableActionIcons props added to create possibility to pass only needed icons [WTEL-5098] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`43d7f29`](https://github.com/webitel/client/commit/43d7f29c86a7026f7d76a6ca7378919fc13541f2) - agent skill popup closing fixed [WTEL-5105] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`66f1304`](https://github.com/webitel/client/commit/66f13043601b71ac080094376dc86bc5e05a2c6c) - ringtone volume control added [WTEL-5024] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`f541e30`](https://github.com/webitel/client/commit/f541e30ab9fd2bec759e8d98d09249056dd362e4) - starToSearch deleted in no needed APIs [WTEL-5094] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9b3cf92`](https://github.com/webitel/client/commit/9b3cf92fa039c71ca66dbd06053c956def9047a3) - routing in resources group page[WTEL-5071] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`44c02ee`](https://github.com/webitel/client/commit/44c02ee01b940416614a78d718c31c3359c16b92) - tests [WTEL-5066] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`04f189c`](https://github.com/webitel/client/commit/04f189c276bfc866feba5a80d88882279080c5ec) - fields caching deleted form create-flow-popup.vue [WTEL-5054] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ae2d4f6`](https://github.com/webitel/client/commit/ae2d4f6f26df6b7a9ef865323de479fa1b19131c) - rollback import number csv popup fix [WTEL-5057]
+- [`bd77661`](https://github.com/webitel/client/commit/bd77661e04de1abad5810e0d2261ae56ba352954) - import csv numbers popup opening fixed [WTEL-5057] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4890480`](https://github.com/webitel/client/commit/489048055df311892253e8e2d40f492649d2ebe6) - import csv fixed [WTEL-5052] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7f7d37b`](https://github.com/webitel/client/commit/7f7d37bb0367799b3b35a305104206615e0c2160) - flow opening fix [WTEL-5027] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c9b752e`](https://github.com/webitel/client/commit/c9b752e8d9ddb83b26ff12f3195405c775b90929) - saving new email profile[WTEL-4937] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6f0b0c2`](https://github.com/webitel/client/commit/6f0b0c22b357164d4d8a6a207619a567c6b1f337) - changed solutio. return previous code and remove default flow value from defaultObject in Chat Gateways API [WTEL-4915] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`cce1c95`](https://github.com/webitel/client/commit/cce1c95ba7a5af538b57495887c6c3fad92b95be) - added emply string for flow column in chat-getways rable if item dosent have flow [WTEL-4915] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d846f88`](https://github.com/webitel/client/commit/d846f88bd14d56b037024ad3e178ba13410d443a) - save_as logic & 404 on path click  [WTEL-4906, WTEL-4898]
+- [`39d5ced`](https://github.com/webitel/client/commit/39d5ced98937e11a2137266fa394d78131562cb5) - remove redundant code [WTEL-4906] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`b491799`](https://github.com/webitel/client/commit/b491799abc6107ea9010b8f27bf31900ab3d674a) - changed url from queue members page to opened queue [WTEL-4906] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d6ef24c`](https://github.com/webitel/client/commit/d6ef24c04b459afcbab6e64fe8e40db937a8a7b5) - amall change in adm-item-link rendering [WTEL-4502] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`2f6feb2`](https://github.com/webitel/client/commit/2f6feb239f411c836d67da0cc6c72d88aba8bfd9) - popups validation orioagation [WTEL-4879]
+- [`2428956`](https://github.com/webitel/client/commit/24289564800a8a8a3ace69edb37245401e4d1beb) - add default value to chat_gateways [WTEL-4875]
+- [`e360b6d`](https://github.com/webitel/client/commit/e360b6d896ffe6e1ddbcb8616ed9d037a16305a8) - fixe dtmf field validation [WTEL-4853]
+- [`367d64d`](https://github.com/webitel/client/commit/367d64ddf1e1f00488f758100fc01a32203b540e) - remove test url form settings api [WTEL-4816] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d9b8220`](https://github.com/webitel/client/commit/d9b822027e33b01c4ebad0fdccf1cb5319c157ba) - changed isRingtoneSaved computed in custom ringtone component after review [WTEL-4816] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`2a25317`](https://github.com/webitel/client/commit/2a25317f3f70978483252a80bdfd0d4ad9632f82) - fix breadcrumbs route [WTEL-4559]
+- [`1da4dd9`](https://github.com/webitel/client/commit/1da4dd9206ddee108b9e8e9fff5942b0412f7753) - changes after review [WTEL-4816] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`4a0d8d6`](https://github.com/webitel/client/commit/4a0d8d613613d935b0e5d22762e55e885887aac4) - improvement of code style [WTEL-4816] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`28168ee`](https://github.com/webitel/client/commit/28168eec7b1216735763e087842123224120eaa1) - change styles after review [WTEL-4816] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d7c80e7`](https://github.com/webitel/client/commit/d7c80e7a1d78a6ceb3533e184d1f687df0e7c42c) - add validation to save btn in custom ringtones [WTEL-4816] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`38f1b0b`](https://github.com/webitel/client/commit/38f1b0b1e21e92c08d13af88fca05b4115db3fe1) - fix package-lock conflicts [WTEL-4559]
+- [`18e8042`](https://github.com/webitel/client/commit/18e80428959ed4b6a719e400d62a3f5468cd647f) - validations and opening nesting item popup [WTEL-4559]
+- [`92d5ed8`](https://github.com/webitel/client/commit/92d5ed8c765e3a7e0faf4e1affe832b5a818e52c) - remove v-model in settings after review [WTEL-4814] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d8219d5`](https://github.com/webitel/client/commit/d8219d5fc0b205c8edfb69d34bfc34e87b2026ee) - change locale for call end sound [WTEL-4815] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`ef38cef`](https://github.com/webitel/client/commit/ef38cef746c7bc2c6bfb696d316efb0bd9a23d93) - changed styles for settings and settings components [WTEL-4814] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`6b7ba1d`](https://github.com/webitel/client/commit/6b7ba1dd66ce7c4ab76a4adaaaba55b020f8f076) - remove console log from chat instace [WTEL-4820] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`749862e`](https://github.com/webitel/client/commit/749862e9c15e10432afee206e9a704f15834651e) - remove access_token from facebook api [WTEL-4820] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`8269c79`](https://github.com/webitel/client/commit/8269c798c6c1f71ded4988a194e42e9ee11ea1f8) - added access header to chat instance [WTEL-4820] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`4a48b02`](https://github.com/webitel/client/commit/4a48b026a6befe3361a988ae218764df6057dc63) - password validation on first character [WTEL-4821] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`fd90866`](https://github.com/webitel/client/commit/fd908669df4a9a5dc18c7194bd92581424038cad) - password validation on first character [WTEL-4821] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`b8a6151`](https://github.com/webitel/client/commit/b8a6151c619e27058a321c2caa6b0435fde1ef35) - fix Dialplan import path [WTEL-4559]
+- [`f343ad9`](https://github.com/webitel/client/commit/f343ad95a265ac51f55ad06c7799bada82eb2179) - handler method name [WTEL-4559]
+- [`34e4eae`](https://github.com/webitel/client/commit/34e4eae817cf990740914fcaad660ce3e2cd981b) - creating a new scheme opens in a new tab [WTEL-4773] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`17c88e9`](https://github.com/webitel/client/commit/17c88e991ee44d6952ddb1edc937f5adbdfa8600) - settings password fix [WTEL-4784, WTEL-4785, WTEL-4786] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`41ce42d`](https://github.com/webitel/client/commit/41ce42d1bc52e22f5fd3e272115d63fbb86d66b1) - password regex input default message [WTEL-4784, WTEL-4785, WTEL-4786] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`92f569f`](https://github.com/webitel/client/commit/92f569f6617ed7440bcb0aa8446d46977c44e58a) - password regex input default message [WTEL-4784, WTEL-4785, WTEL-4786] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`44fad4c`](https://github.com/webitel/client/commit/44fad4c217101e438cc8a722d75433669d06d77d) - password regex input [WTEL-4784, WTEL-4785, WTEL-4786] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`da53f1f`](https://github.com/webitel/client/commit/da53f1f4b050f19fa3badf66da2cfc206a4c9d90) - delete needless route nameWTEL-4559, WTEL-4730]
+- [`6b1d09d`](https://github.com/webitel/client/commit/6b1d09db9bc379e255c3ee95c6a9143eefe44c16) - fix popups and last review corrections [WTEL-4559, WTEL-4730]
+- [`334b414`](https://github.com/webitel/client/commit/334b414d9f44fc0d631c16d78e6cddb4e3fab585) - CSV config separator [WTEL-4765] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7f86cef`](https://github.com/webitel/client/commit/7f86ceff56400808717443b97876c97ae467eaa3) - changes in validation in opened-chat-gateway [WTEL-4327] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`acae85e`](https://github.com/webitel/client/commit/acae85ebf48991bc5e678cc206d37fcb6511941a) - fixing flow opening [WTEL-4747] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`989a457`](https://github.com/webitel/client/commit/989a4576b227358aa8d944f4cbdc89eb32ff5a9c) - fixing flow opening [WTEL-4747] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`958f97b`](https://github.com/webitel/client/commit/958f97befb45f534902617fa483048cf7f61311d) - new flow opening fix [WTEL-4747] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`23d22db`](https://github.com/webitel/client/commit/23d22dba2a568d6f11f8256525dbcd4999c6ccef) - fixes after review contact-center [WTEL-4559]
+- [`54d106e`](https://github.com/webitel/client/commit/54d106e3e2d533831f23beab4e2c7a4e0690189d) - flow opening fix  [WTEL-4598] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c173b11`](https://github.com/webitel/client/commit/c173b11becbf81a0c54e2f14137b4211a6ea075e) - error in permissions[WTEL-4738] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`2c92808`](https://github.com/webitel/client/commit/2c928086367037ebe1b886963665e7135d115d1a) - appearance of csvPopup on route meta [WTEL-4559]
+- [`a7ea170`](https://github.com/webitel/client/commit/a7ea170228987922f5f5f199f4bc68f8dd682bd7) - upd webitel-ui *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f327785`](https://github.com/webitel/client/commit/f327785e7054a94b47bebb74a80ba509f0de2347) - remove clerable from language select [WTEL-4674] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`dae7ffa`](https://github.com/webitel/client/commit/dae7ffacef7b9ee769afd39532d557808723d379) - remove "*" from search request [WTEL-4626] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`3fbfad4`](https://github.com/webitel/client/commit/3fbfad42718f60ee94fcd0eca31f4e2b34ef5106) - show "import destination". integration --> imports of CSV from file. [WTEL-4580] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`f3e2bf9`](https://github.com/webitel/client/commit/f3e2bf9642b3f843090f742991d7c4ef088601f7) - historyPopup query set logic [WTEL-4559]
+- [`90a419f`](https://github.com/webitel/client/commit/90a419f85926aba8b3d78575a6468585f892c27e) - remove delete button from language select --> settings --> language [WTEL-4674] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`43750ac`](https://github.com/webitel/client/commit/43750ac17fc65785233413a35109f8465bdff95e) - package-lock.json *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c5a713c`](https://github.com/webitel/client/commit/c5a713c31b43e5af56e27a3264aa660e13a46145) - files and imports naming [WTEL-4559] *(commit by [@RomanZaritskyi](https://github.com/RomanZaritskyi))*
+- [`46f7877`](https://github.com/webitel/client/commit/46f7877b56f070e03dbebf20e03a67816fb7ff9a) - search without a star. Admin --> contact center --> agents [WTEL-4626] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`afcc8d0`](https://github.com/webitel/client/commit/afcc8d0a8c556781c14c417362fcd28fbdc7573a) - search without a star. Admin --> contact center --> agents [WTEL-4626] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`2f87e48`](https://github.com/webitel/client/commit/2f87e4851771b1f72e74f2c9426e854d1fc47622) - code formatting[WTEL-4671] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`c1e3cc0`](https://github.com/webitel/client/commit/c1e3cc029559641ad941015c4212fb62b5cf7ff5) - remove required icons (*) from  Chat inbound queue [WTEL-4671] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`d15dc26`](https://github.com/webitel/client/commit/d15dc26d04c01882942d93e73dbff2f63495166b) - [Admin][Search] When the user uses the search and the system does NOT find relevant data - display images and text that the search did not yield results [WTEL-3357] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`dcea646`](https://github.com/webitel/client/commit/dcea64657bac8bb745d5cc2dbea587d10d2c4322) - Drag and drop highlight [WTEL-3908] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`dbe6084`](https://github.com/webitel/client/commit/dbe6084e7b012e2ad0868473e6e0f796dce57e77) - Icon size is reduced if the user has a long role value. *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`a0a5644`](https://github.com/webitel/client/commit/a0a56441f9713dfa077cdebc45acfd0cc5f46c5e) - remove required value from calendar in "inbound queue" and "Chat inbound queue" [WTEL-4671] *(commit by [@SviatoslavBar](https://github.com/SviatoslavBar))*
+- [`8eb85e7`](https://github.com/webitel/client/commit/8eb85e7f55177c073c707568cbea2f78827b9a53) - flow tags search fixed [WTEL-4589] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`e3820d3`](https://github.com/webitel/client/commit/e3820d37c14692c22b42deee6aa51c0616e8134b) - close new tab[WTEL-4575] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`df548c3`](https://github.com/webitel/client/commit/df548c3651ae15479d7e659ccf710ad41329d14f) - change agentAPI in teams page[WTEL-4445] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`abc7fb3`](https://github.com/webitel/client/commit/abc7fb352a943dcbaf8f2093a693c973b580adff) - small fix after test [WTEL-4327] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`bda7fc9`](https://github.com/webitel/client/commit/bda7fc98ebe6ad01967f9846144fc2bd56a1d906) - locales in popups[WTEL-4500] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c3f8c90`](https://github.com/webitel/client/commit/c3f8c9081f42704d898a71e8997c446fb8e77de5) - locale in team hooks[WTEl-4500] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`4e5eba4`](https://github.com/webitel/client/commit/4e5eba407cd0f2fa5e0c95a8c3ba3ae6e1fa317a) - small changes after rewiev [WTEL-4327] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`de7d538`](https://github.com/webitel/client/commit/de7d5383282299eeff92996f518ba32d5112b21f) - changed validation rules for flow select in chat gateways wabchat tab [WTEL-4327] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`a0c8795`](https://github.com/webitel/client/commit/a0c879554a744b646b99c78e8090c40e8b675c5e) - flow diagram redirects fix [WTEL-4570] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`53c455f`](https://github.com/webitel/client/commit/53c455f2b4375e9720e995036c96d3c36bd02c06) - dispaley order of fields in users page[WTEL-3405] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`36c0e7b`](https://github.com/webitel/client/commit/36c0e7bd2c41f9e07e9adec9fbdcbab148d6a4a0) - qr-code style[WTEL-3504] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f174e2e`](https://github.com/webitel/client/commit/f174e2e0ec4b58db61e136cf63dc9741d1c46402) - run npm i [WTEL-4110] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`0ce8183`](https://github.com/webitel/client/commit/0ce8183c331b4a0b09fa96c7d3058c9e783725dc) - updated ui-sdk [WTEL-4110] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`4360afe`](https://github.com/webitel/client/commit/4360afe8bfdddc9b19e284d1a58763ce719b674c) - email profile password optional validation for edit [WTEL-4315] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`e919702`](https://github.com/webitel/client/commit/e9197025e55ee3ee787441ed2d01677a39e764a5) - change condition for display qr code[WTEL-3405] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`4f9316c`](https://github.com/webitel/client/commit/4f9316c41aaf42805692815d32b9dfec1dc6109f) - queue members route to queue fix [WTEL-4543] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`42d5b2b`](https://github.com/webitel/client/commit/42d5b2bfe18b00115fa50bb90d94db1c59e4f5b0) - breadcrumbs fixed for integrations [WTEL-4391] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7a851ee`](https://github.com/webitel/client/commit/7a851ee8c5bda000ae6e7ad62dacf5cd3529d4ba) - queue members routes fixed [WTEL-4342] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d35dcf0`](https://github.com/webitel/client/commit/d35dcf058df1b24677fa9caa4342d35df718aaf3) - add changed locales[WTEL-4344] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`0078959`](https://github.com/webitel/client/commit/0078959b4b678d9cda44401f07ab938eeac351c5) - opened flow in new tab [WTEL-4509] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b93885a`](https://github.com/webitel/client/commit/b93885ac4ea92d5326c182a14a7daa17c7351a29) - add hint and fix validation for password input[WTEL-4344] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b90bb8d`](https://github.com/webitel/client/commit/b90bb8da3dbe8a60da446042a7b24f3256a64a36) - changed api service name in team flows api [WTEL-4474] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8b8d854`](https://github.com/webitel/client/commit/8b8d854f6ce26d27ffcb6eed1cb222df47bb604e) - proxy field now required [WTEL-4345]
+- [`db53237`](https://github.com/webitel/client/commit/db53237c5c0cf337362a86c6d6c4a87e4dd620cb) - titles for gateway changed [WTEL-4459]
+- [`c7092d5`](https://github.com/webitel/client/commit/c7092d51f6a162ff3e4cb06931551375f0d78c02) - fixing title for custom chat gateway [WTEL-4459] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`6081491`](https://github.com/webitel/client/commit/60814915e0dd3a6880ee1b20897404c269e2f06b) - tests [WTEL-4460] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f0bae42`](https://github.com/webitel/client/commit/f0bae428fa358475486b2e8644230d5b6baa7ec5) - locales for hint fixed [WTEL-4460]
+- [`94bcde7`](https://github.com/webitel/client/commit/94bcde778b3498c495ca285581223bb4ae45c4ba) - naming for custom gateway fixed [WTEL-4459]
+- [`2e59ac1`](https://github.com/webitel/client/commit/2e59ac167e12222df7523f7370532e98b2f589fc) - hide notification about 404 error in settings [WTEL-4346] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`364874c`](https://github.com/webitel/client/commit/364874cd06e5ba26798c8168cd95b522a70f8da4) - recaptcha locale [WTEL-4396] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`da2c403`](https://github.com/webitel/client/commit/da2c403f4ba1d0eefb774264989c53f53c907010) - queue paths fix for header [WTEL-4391] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3686a4b`](https://github.com/webitel/client/commit/3686a4b475631269cd00ff55e761077861bf963c) - queue paths refactor [WTEL-4377] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`a124a3b`](https://github.com/webitel/client/commit/a124a3b4af2da0bc38c4295cda214e73d670855e) - conflict in opened-flow-diagram.vue[WTEL-4379] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f7f700c`](https://github.com/webitel/client/commit/f7f700c48f5183687cea411b2972a21cb792f9a5) - solve conflict [WTEL-4379] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`08b55dc`](https://github.com/webitel/client/commit/08b55dc855a94c9242b2ad2ce4bf08a05add06d2) - trying to fix cors on flow *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`889cb7a`](https://github.com/webitel/client/commit/889cb7abe25942a70a96e669b9b3e0936b798dc8) - clean up vite[WTEL-4379] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`3b75b03`](https://github.com/webitel/client/commit/3b75b03f98d0637bd156e23429fd0561fdb3c606) - trying to fix cors on flow *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`25558bc`](https://github.com/webitel/client/commit/25558bc801d61603ca7fd0d9f3a8705caf399d9b) - trying to fix cors on flow *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`104bc7e`](https://github.com/webitel/client/commit/104bc7ebfe60eea1f4f72a9346f9374abd3f3e0a) - redirect from auth full path [WTEL-4374] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`42255ac`](https://github.com/webitel/client/commit/42255acf71ff2d4fd93530ae78acc38caff5aae0) - upd to prev [WTEL-4374] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f40c36a`](https://github.com/webitel/client/commit/f40c36a2eb7b17bbeebf065cbf71ee6528082323) - changes after review [WTEL-4281] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`93d58ff`](https://github.com/webitel/client/commit/93d58ffbed531c45b5f28dc373a61cdbd67db777) - changed flow lookup for schema select in hooks popup [WTEL-4281] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`517a331`](https://github.com/webitel/client/commit/517a3310d4d648f50a39bcdd12a31a0dede36b40) - delete label-prop in cognitive profiles[WTEL-4280] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c9b01bd`](https://github.com/webitel/client/commit/c9b01bd39580ab52163a2023c1d60f5527ed6266) - getting rid of error while resource group has no parentId [WTEL-4316] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ac8dba2`](https://github.com/webitel/client/commit/ac8dba29a7aebf29f2f8255eb99656b7bfc549fd) - deleteData fixed for regions [WTEL-4308] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3ffcba5`](https://github.com/webitel/client/commit/3ffcba534d0901df53f72bde559d5c073ad8b471) - captcha validations [WTEL-4251, WTEL-4317] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1c79f54`](https://github.com/webitel/client/commit/1c79f54f546cb9433957c9aba6c42084889562fb) - getting rid of error while resource group has no parentId [WTEL-4316] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`1456944`](https://github.com/webitel/client/commit/1456944e432279e87cac703fc4caa9bb5f16ed9d) - create action in dummy [WTEL-4304] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ac05883`](https://github.com/webitel/client/commit/ac05883193d3f32cfc4c27581cd449af08adf00f) - create action in dummy [WTEL-4304] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b910d24`](https://github.com/webitel/client/commit/b910d24c8b9c49796166b52cb684af484ed24477) - conflict[WTEL-4268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`0b5b96e`](https://github.com/webitel/client/commit/0b5b96e3ea9c50ab7a32e593967b018945bb862e) - library versions[WTEL-4268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`4384260`](https://github.com/webitel/client/commit/4384260a48b36457888119d0039a55a019c3f6db) - key in eleven-lab-cognitive-profile[WTEL-4280] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6168eae`](https://github.com/webitel/client/commit/6168eae420c8158f0d24c867d028f42914f29861) - comment *(commit by [@Lera24](https://github.com/Lera24))*
+- [`f134f68`](https://github.com/webitel/client/commit/f134f683b1947c177624f2945caa941c2f2c97c3) - add extra comment[WTEL-4268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c48ef82`](https://github.com/webitel/client/commit/c48ef8267a3e321db2dbbc619c55617f8238c8d5) - add comments[WTEL-4268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`3680f30`](https://github.com/webitel/client/commit/3680f30f25f7607e370d67230109354867bd3331) - display empty password[WTEL-4268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`202a27f`](https://github.com/webitel/client/commit/202a27f49af6904108c51a87893cfa72160948ed) - user profile convertations [WTEL-4275] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c5dadde`](https://github.com/webitel/client/commit/c5dadde70127eb3cb371b83fbdc6d651dfbd1f70) - add Password input component in email-profile page[WTEl-3815] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`3d10ea6`](https://github.com/webitel/client/commit/3d10ea698b43142af81c9e9ab6b4cc588e618414) - add auth method in store[WTEl-3114] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`d64ecb8`](https://github.com/webitel/client/commit/d64ecb8c5055dd74628c5a8f4dd1b66a417fe668) - call loadItem method[WTEL-3114] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`63263dd`](https://github.com/webitel/client/commit/63263dd19e04a948209b4f4fdd18f45bdf0bfa88) - validate for oauth object[WTEL-3114] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`bd7576b`](https://github.com/webitel/client/commit/bd7576b8e916fbf4e4b54771d455ee0392508084) - name class in opened-calendar-holiday-popup[WTEL-2403] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`4dd1da8`](https://github.com/webitel/client/commit/4dd1da83210ee52fc46a946431cea593b0c6079d) - tests [WTEL-4176] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`bafe9a8`](https://github.com/webitel/client/commit/bafe9a8a6482ac45fbeaeaef7713356f6a76d4e5) - input param in useCheckingUnsavedChanges[WTEL-3904] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`8190ba0`](https://github.com/webitel/client/commit/8190ba0af87cd3565902679beb0f6e085a0f9bda) - queue filters layout [WTEL-3222] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7f379aa`](https://github.com/webitel/client/commit/7f379aa724a6f0fc3dc08f44854901b415bdb8f8) - delete bulk members fix [DEV-3618] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`5167dda`](https://github.com/webitel/client/commit/5167dda42f660aff3e61b44f7514b7e0e760d723) - version *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f09b475`](https://github.com/webitel/client/commit/f09b475d295f789d8fc13c8edd7666d95fd4347a) - headers in import csv preview popup fixed [WTEL-2830] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`8663525`](https://github.com/webitel/client/commit/866352595bc6bcf8b7d4dd83edb2a0453f509d5f) - darkMode in media[WTEL-4085] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`fd37370`](https://github.com/webitel/client/commit/fd37370d4a2cb63c1f1ce52e6d93aa95a02415f5) - throw error on csv members upload empty required fields [WTEL-4132] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`14094fc`](https://github.com/webitel/client/commit/14094fc53eff3328b5523e10b64e187ba1bd3c72) - tags adding implemented, filters order fixed [WTEL-3222] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3ec8189`](https://github.com/webitel/client/commit/3ec818973d9b80a918959798bc0752f6eb6a06e9) - color default img in dummy in darkMode[WTEL-4111] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`bbf9b51`](https://github.com/webitel/client/commit/bbf9b51e4cdcebe49d1e51644794b38f42010394) - conflict[WTEL-4111] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`aacee31`](https://github.com/webitel/client/commit/aacee313c7a8cf91385ace50204d5de008704299) - changes in tts api [WTEL-4109] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`4103de4`](https://github.com/webitel/client/commit/4103de44a20d4dcd3c49a458c98eac17d395786b) - changes in tts api [WTEL-4109] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`d4a992e`](https://github.com/webitel/client/commit/d4a992eab302dcf14efc68d21039c68338b3552e) - remove changes from package-lock [WTEL-4109] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`4a5f06d`](https://github.com/webitel/client/commit/4a5f06d6131dc7a0f44eda97ed4a2a1e7e24d871) - return part of old code in text to speech api [WTEL-4109] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`81f8823`](https://github.com/webitel/client/commit/81f88236db26d65199dedd420b8c3e1abe9f3b04) - api permissions getter [WTEL-4061] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`bc2de45`](https://github.com/webitel/client/commit/bc2de45bc055304e62308041376192eb3bb9e6cc) - logs csv export [WTEL-3984] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c336993`](https://github.com/webitel/client/commit/c3369930beee661a9a68192300663d0515b31134) - auth url *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`2387738`](https://github.com/webitel/client/commit/238773887e8aa5b44dac630bb0b7f365a41c05bf) - agent skill delete [WTEL-4091] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`db326ed`](https://github.com/webitel/client/commit/db326ed1512cd152cf3d08d7b1c9182b1bb38074) - changelog exports [WTEL-3985, WTEL-3984] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`00e3655`](https://github.com/webitel/client/commit/00e3655f56f140800d4efa3560d50a8bf26321b7) - locales for flow types changed [WTEL-3987] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ed1987e`](https://github.com/webitel/client/commit/ed1987ee77f8f6884895bb886fb136565ed9a593) - member page wt-button-select color [WTEL-4042] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`edb72c8`](https://github.com/webitel/client/commit/edb72c8223a990cb41ace1059a031bb80c3be753) - queue members variables case conversion [WTEL-4042] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`fb647ff`](https://github.com/webitel/client/commit/fb647ff60f25c29e2636d7720c70a0bc6b156232) - pause causes access permissions [WTEL-4015] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`97739b9`](https://github.com/webitel/client/commit/97739b9f13d4e894141b1112a81e505f64471cf5) - code editor expand/collapse btn [WTEL-4067] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f69ef10`](https://github.com/webitel/client/commit/f69ef10154cbcd252b79d181d1bc73889246cbb8) - change search method in configuration popup[WTEL-3982] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a0459af`](https://github.com/webitel/client/commit/a0459af5263a1710162b0de6cd575cb133a8a622) - tests [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d2b23c6`](https://github.com/webitel/client/commit/d2b23c680aad27df7fb2b1ef5016d0a84c8743ae) - create text to speech [WTEL-4063] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`070ccdc`](https://github.com/webitel/client/commit/070ccdcae67302317d35ef0ab5da57817f23b099) - colors fixes [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`b440059`](https://github.com/webitel/client/commit/b4400592ebdc175ddebdcdf6ba7189b76f98493c) - opened changelog header locale [WTEL-3832] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`43f389a`](https://github.com/webitel/client/commit/43f389aadd4b849ffe23852203a031764b278ae1) - fix text to speech bug *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`3230395`](https://github.com/webitel/client/commit/3230395a7aa04533e2c75a8ffb374cd046bbab00) - text field text colors [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d38a814`](https://github.com/webitel/client/commit/d38a814d795332642ead8187cf9a79315e93e33a) - chip colors on user statuses [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`4104521`](https://github.com/webitel/client/commit/410452107196bc36b577940f87397129fb8a160a) - changes in kz locale[ENPF-58] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b69d42a`](https://github.com/webitel/client/commit/b69d42af3fc3529558376f5aeb8951f2e1fbf71f) - now popup doesn't shows when naming already existed [WTEL-3894] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`526ee4d`](https://github.com/webitel/client/commit/526ee4d4b4eb870025631d45a294a0626a65bea9) - selection in gateway popup added [WTEL-3995] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`eb926ca`](https://github.com/webitel/client/commit/eb926cacea41c71acdd4c54656dbfc8f29171907) - copy-input tooltip overflow [WTEL-3998] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`2364e0d`](https://github.com/webitel/client/commit/2364e0d999e37370bac3014eb2fd3f5171bcd6df) - webchat call saving *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`6960761`](https://github.com/webitel/client/commit/69607611a443713b18e3b9e4ed189be2be38da05) - webchat call configuration disable on disabled [WTEL-4004] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`203dea6`](https://github.com/webitel/client/commit/203dea6042b73a784e815b8648feeb8e088f9405) - copy call code uri [WTEL-4002] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ffe16bc`](https://github.com/webitel/client/commit/ffe16bca541f2771c6acd594b872eb5d88848378) - number value in configuration page[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e7da77d`](https://github.com/webitel/client/commit/e7da77de325316973c8719c60521c4b7accc3d9b) - locale in permissions[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6ecfc2b`](https://github.com/webitel/client/commit/6ecfc2b36f6836005f280a62f9b2c7adc989f2d8) - permissions locale for configuration page[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`689d7e8`](https://github.com/webitel/client/commit/689d7e8e59208cf60852108c31eda2ca86bba908) - rename configuration page[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6658b67`](https://github.com/webitel/client/commit/6658b67aca3921a173c799755dc9431ca7c0d955) - fixed build on firefox and safari *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`58a63f1`](https://github.com/webitel/client/commit/58a63f18f4208f30f82509c24d2a388b53a977d9) - layout in setting page[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6e5ca4b`](https://github.com/webitel/client/commit/6e5ca4b51a3752a0247d7b7214dba051064fa048) - rename method[WTEl-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`1043f08`](https://github.com/webitel/client/commit/1043f0854934f116fa734e5d2e80c751e679f35a) - SettingValueTypes object and setting-popup component[WTEl-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e29bb0e`](https://github.com/webitel/client/commit/e29bb0e9961805aa5e950a3bf77b6bec5d81ddf9) - setting page[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a3d4414`](https://github.com/webitel/client/commit/a3d441410147f7cf1f3185231a394fb1ee0d90f6) - settings api and loadPageData method[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c3d7dd4`](https://github.com/webitel/client/commit/c3d7dd4615e2d90db7da016ec81326c1ecacfa47) - replacing methods in the store with mixins[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b3566bb`](https://github.com/webitel/client/commit/b3566bb337a06af79ee8f1c18db8bf1d7aea0b2b) - change emit on method[WTEL-3818] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a4fa818`](https://github.com/webitel/client/commit/a4fa818f358110ff322aebb06e1b0c8471192394) - add colon in minOnlineAgents locale[WTEL-3907] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`5977a82`](https://github.com/webitel/client/commit/5977a822110c0b6d401c7774a06de936d505df3a) - fixed start page permisison denied [WTEL-3792] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`50ad665`](https://github.com/webitel/client/commit/50ad665fe7239e2a6d88fd9ae35230d724617017) - getflow, updateflow response  methods changed to not convert payload and scheme [wtel-3869] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`58b0d71`](https://github.com/webitel/client/commit/58b0d71d1f260c94bc151020a9d41c6a5ee04dc4) - getflow, update flow  methods changed to not convert payload and scheme [wtel-3869] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`b580bdb`](https://github.com/webitel/client/commit/b580bdb5a68ad2b74a5140cbab5e1c52e5813435) - addflow method changed to not convert payload and scheme [wtel-3869] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`052495b`](https://github.com/webitel/client/commit/052495bbbf08a91cd284d592df4a12fb477c82fa) - fixed access control [WTEL-3792] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d21bd37`](https://github.com/webitel/client/commit/d21bd375f5ba688c30aeeae652a95a51570b831e) - update ui-sdk [WTEL-3862] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`3761195`](https://github.com/webitel/client/commit/3761195bf80fd58b84f67513561d91a7c2273f14) - display dummy in last page[WTEL-3793] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`29fa4e4`](https://github.com/webitel/client/commit/29fa4e4a169dd3c96a8f861d3ffa1d46544c157a) - merge changes *(commit by [@Lera24](https://github.com/Lera24))*
+- [`5d8d825`](https://github.com/webitel/client/commit/5d8d82571364960e2f2ae690e15223b3600d2fb1) - display dummy in last page[WTEL-3793] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`aa2caea`](https://github.com/webitel/client/commit/aa2caeaa86ab8a910817eb6a97c87b6810489ba3) - refactoring after review [WTEL-3832] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`678a504`](https://github.com/webitel/client/commit/678a504dca200540877de990c3e5a580e8010169) - refactoring after review [WTEL-3832] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`856fbfb`](https://github.com/webitel/client/commit/856fbfbea2f50f7a23ce1139d487999110069ec9) - header locale in truggers and chengelogs table [WTEL-3832] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`72005c7`](https://github.com/webitel/client/commit/72005c7040b077376a41083753063b9c79c5973c) - refactored code after review [WTEL-3831] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`7765b79`](https://github.com/webitel/client/commit/7765b79d1fdb0ce0da6aa51b74823a7d859f200e) - current change log period in computed and fix bug in locale [WTEL-3831] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`269f49e`](https://github.com/webitel/client/commit/269f49ecc800b105cba80b62bc4614e996c4ccf1) - description for systemSetting role[WTEL-3863] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`6419f5d`](https://github.com/webitel/client/commit/6419f5d57dad21621d3bf86956b3cc91fa7367ca) - add locale for systemSetting role[WTEL-3863] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`dd6b388`](https://github.com/webitel/client/commit/dd6b388d34696d7b47a933c177720ccd2f9a7061) - marged with master *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ed2c587`](https://github.com/webitel/client/commit/ed2c5870a49fbb52c2592aa80c2f04c2971a4a75) - update ui-sdk *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`33b1b96`](https://github.com/webitel/client/commit/33b1b96cdfb58e97a1e0a90449062a014cb53a4e) - select instead input in changelog for set period [WTEL-3831] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`27c2187`](https://github.com/webitel/client/commit/27c21876c33b7c58bac9da31c86eb16f1a08d990) - logging locale [WTEL-3832] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`feecadd`](https://github.com/webitel/client/commit/feecadd98d5be6c1873e49db0336462ccbdd3f97) - logging locale [WTEL-3832] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`7a6327a`](https://github.com/webitel/client/commit/7a6327abadf3c18cf08b238d093b2985b10f5e3c) - license users sort [WTEL-3738] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d79e3f1`](https://github.com/webitel/client/commit/d79e3f17827796296299985bc2dc8c22b9ee30c8) - changed default logs sort [WTEL-3836] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1e90e6f`](https://github.com/webitel/client/commit/1e90e6f53a07ffbc370124961c21dd8d754b7a9b) - changelogs description [WTEL-3834] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`6bda7ab`](https://github.com/webitel/client/commit/6bda7ab16544a1154962f15ef200f54725fa7756) - order params in logger api fixed  [WTEL-3844] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`76a084a`](https://github.com/webitel/client/commit/76a084a997412063f1b4b6943e97ad1b9ee4c2d8) - ru locale[WTEL-3801]
+- [`5efdd62`](https://github.com/webitel/client/commit/5efdd62762b6e2bef994009bc145de8583a0aa96) - localized changelog logs actions [WTEL-3563] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`da6a56a`](https://github.com/webitel/client/commit/da6a56abeb864ffb87e81d693dbc59341d44b95f) - default tame range in resource group [WTEL-3806] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`3be88f0`](https://github.com/webitel/client/commit/3be88f088e2feb23fcff93c43d7aa2fb2782f5a7) - ru-local [WTEL-3797] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`dd0807f`](https://github.com/webitel/client/commit/dd0807fda02952dad9af1f0144e0645226d5956d) - locale in communication type select[WTEL-3528] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`0d31955`](https://github.com/webitel/client/commit/0d31955eeedda327e966f75bc645d54854d6abed) - agent skill popup additional scroll removed [WTEL-3767] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`e1fe35e`](https://github.com/webitel/client/commit/e1fe35e1554de1c58526d03ac3043a4821f920b4) - sort on license, users, gateways [WTEL-3738] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`8823704`](https://github.com/webitel/client/commit/88237046457b86dfe8a00cea3245e296826b26f9) - css rules order changed  [WTEL-3734] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2d5bbeb`](https://github.com/webitel/client/commit/2d5bbeb4e211b978616e50abc749be8ece8f8e8a) - spacing between table and filters added in add-skill-popup [WTEL-3734] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`798e171`](https://github.com/webitel/client/commit/798e1710f1c06c4096ee8f92b4274cbb75c2030b) - add comment and use QueueType enum[WTEL-3268] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ef2c93d`](https://github.com/webitel/client/commit/ef2c93d98239b769bb5ffbf7202dcb2862229bbd) - mime type removed from name [WTEL-3160] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5ea4d65`](https://github.com/webitel/client/commit/5ea4d6521a01217d9d058dc96b48e0fc6b0598e3) - delete role permissions [DEV-3134] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f46ce78`](https://github.com/webitel/client/commit/f46ce78e563ce7be93744415197da5bf5893087f) - added 'permanent=true' in url for delete user [WTEL-3709] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`f4fa5f1`](https://github.com/webitel/client/commit/f4fa5f1fc5d49016f748f3fee0b34aeafba80d47) - popup fixes [WTEL-3375] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`07ac9e0`](https://github.com/webitel/client/commit/07ac9e02b67cd25b16596d895046afbd70ef865a) - popups sort working but not propperly, trying to fix  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`7e07f61`](https://github.com/webitel/client/commit/7e07f61d45cb112bbaef3bb612d42f2e9f38c520) - trying to fix sort in popup  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`456b9ef`](https://github.com/webitel/client/commit/456b9ef4a4dfe3731c30e562de86ebf063f56afb) - disabled channel field and small refactor[WTEL-3528] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`4af58b8`](https://github.com/webitel/client/commit/4af58b8e7291f26610bcc69bed92880125cd915f) - added prop 'dirty' in queue-members store itemInstance [WTEL-3712] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`977bd25`](https://github.com/webitel/client/commit/977bd258f465a3fb8021c194ee132117e687bc9e) - fixed "unauthorized" errors [WTEL-3705] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3e1fef7`](https://github.com/webitel/client/commit/3e1fef799e87d0306591105d77b37979e1d52141) - new prop in useDummy *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a290531`](https://github.com/webitel/client/commit/a2905318007f1426ef1bd63eae0e3fc5b59249f8) - turn off dummy [WTEL-3697] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`1e4cfea`](https://github.com/webitel/client/commit/1e4cfeaf1cfb29dd3029cb84b5dd12c81e193ed2) - rename selectors[WTEL-2847] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e9f489f`](https://github.com/webitel/client/commit/e9f489fc9d66039f7e6f9a4476e172fdf2e8bffe) - change style wrapper in popup[WTEL-2847] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b8adf62`](https://github.com/webitel/client/commit/b8adf62f092072a1fb5b62cdc5f457322c3fd580) - change key locale[WTEL-2847] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`13fc817`](https://github.com/webitel/client/commit/13fc8175d891e820314064bc1ab7f2beaf5eff20) - all skills additional columns added  [WTEL-3693] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c7dbe4c`](https://github.com/webitel/client/commit/c7dbe4cf995455a23cbf973a04835d50eb3b1584) - small ui fixes [WTEL-3085] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`cccb44c`](https://github.com/webitel/client/commit/cccb44c8bd34b336a4b1416d276f0ba1e55df1c0) - dummy text [WTEL-3523] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d549130`](https://github.com/webitel/client/commit/d5491301049acf579c1b441d036ec015bcecf0d0) - import csv section import members [WTEL-3555] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`f041ac8`](https://github.com/webitel/client/commit/f041ac8e3d2035b76dc4154727021d6f1d3d86da) - fixed redirect from /admin to /start [WTEL-3597] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`5a850d0`](https://github.com/webitel/client/commit/5a850d0b64d0d93a82a17b188d9265024da04d49) - import csv api refactor and do-not-convert-keys [WTEL-3425, WTEL-3355] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`6f26639`](https://github.com/webitel/client/commit/6f26639e6a42ce2b7eb83c1876b5e574be5161fa) - fixed pagination fast-clicking [WTEL-3560] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3967ff4`](https://github.com/webitel/client/commit/3967ff4a25340f1e23e66b3248a8fc3010ccc6de) - fixed error at opening new flow card [WTEL-3598] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1ea479e`](https://github.com/webitel/client/commit/1ea479ef941e8e620e76c3892281b2dc5f400470) - queue processing schema filtering [WTEL-3574] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`73d7da9`](https://github.com/webitel/client/commit/73d7da9fd79b4e1b15fe73c99150bd500b637e56) - flow do not convert keys [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`01c9f7a`](https://github.com/webitel/client/commit/01c9f7af8c504df71ca6cb54a445f4a5a460af83) - add hidden text in useDummy[WTEL-3357] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`232ab1e`](https://github.com/webitel/client/commit/232ab1e7c7d8479290d1f0d8321a5b83579afaad) - pass showAction prop and unit test[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`3f9113f`](https://github.com/webitel/client/commit/3f9113fb1445dfdb4ec7d44314e005e14d047194) - unit test [WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ebee210`](https://github.com/webitel/client/commit/ebee21094ec8887df5c6107f668b5fc7041fa7da) - unit test[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`1c0e60a`](https://github.com/webitel/client/commit/1c0e60aacd86a60e7b5116c5ac36ac74ee0f9421) - unit test[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`8519474`](https://github.com/webitel/client/commit/8519474aa099d0242f206eb25601dd3feceacdf3) - small refactor[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`a06edc2`](https://github.com/webitel/client/commit/a06edc221371115153f67c2648145766f7cfc732) - small refactor[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`ae3fad4`](https://github.com/webitel/client/commit/ae3fad498d10029b9bf37f30aa3f28113772eb34) - change mixin on composible[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`5ae3571`](https://github.com/webitel/client/commit/5ae3571719b9fd0f951ea41a350b594b4ba55be5) - fixed geenrate-password-input tooltip [WTEL-3281] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`e5bb42c`](https://github.com/webitel/client/commit/e5bb42cbacfce1fb68e98ada7cbb021fa614f55d) - condition in dummyMixin[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`43ed772`](https://github.com/webitel/client/commit/43ed772be99774f057bf503649b4482481d66aa2) - add dummyMixin in tableComponentMixin[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`bfbb44a`](https://github.com/webitel/client/commit/bfbb44ac138ade20afb60369309188373d0b3fc4) - fixed cogn profile google inputs grid [WTEL-3412] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`e69b48a`](https://github.com/webitel/client/commit/e69b48afee80be8e96d93d2ced0d6ef985d9c35a) - delete store in dummyMixin[WTEL-3357/3512] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`b8a0dfc`](https://github.com/webitel/client/commit/b8a0dfcbff692c63cdec43165b8fba131f20d9e8) - package-lock removed from gitignore *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4124625`](https://github.com/webitel/client/commit/4124625aa6c99ed0f2fb8c9007150a70af12c35b) - validation for regExp added [WTEL-3400] (console.log deleted from regExpValidation function) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`57b285f`](https://github.com/webitel/client/commit/57b285f3bfd85163b1a2a8b35d07c36dccf65748) - validation for regExp added [WTEL-3400] (package-lock added to gitignore) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`21ddf27`](https://github.com/webitel/client/commit/21ddf2788f11720179f8b7cbe6a9b742101ff4e1) - validation for regExp added [WTEL-3400] (trying to add package-lock to git) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`a24ac72`](https://github.com/webitel/client/commit/a24ac7214b0071f1f0f75536a18399dd049ebe9d) - validation for regExp added [WTEL-3400] (pre push test hooks changed) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0eafcde`](https://github.com/webitel/client/commit/0eafcdee8920f410e0f8afbf1317298b0bdc0de5) - validation for regExp added [WTEL-3400] (ui library version updated) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3736345`](https://github.com/webitel/client/commit/3736345c6c8967e0988b37ee44fd526d7424fbb2) - locales for schema fixed WTEL-3506 (locales returned, locale in component changed) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`cb295ec`](https://github.com/webitel/client/commit/cb295ec8e3b3370649e2c287364bb27b6d50bf3c) - locales for schema fixed WTEL-3506 *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`e287edf`](https://github.com/webitel/client/commit/e287edfbbc68b6bf20290a2de47a6ded2832002b) - add correct path in permission object[WTEL-3487] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`c2d64a8`](https://github.com/webitel/client/commit/c2d64a8331bb36fd711c1f4ed8f2d52245abcef3) - validation for regExp added WTEL-3400 (console.error added if validation false) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`fe85a6a`](https://github.com/webitel/client/commit/fe85a6a40196a89868e4becd133247248c5c7dee) - validation for regExp added WTEL-3400 (trying to fix line separators in openedObjectMixin) *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`02d479e`](https://github.com/webitel/client/commit/02d479e8fb5fd2b16bccb3ded09f5f060604481b) - validation for regExp added WTEL-3400 *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`6dd24ba`](https://github.com/webitel/client/commit/6dd24bad3052a2c9a6ac63288d5b0c8fe42976dd) - validation for regExp added WTEL-3400 *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0aef3e2`](https://github.com/webitel/client/commit/0aef3e27e158069124c4c666b7c7f4c79ae07177) - validation for regExp added WTEL-3400 *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5151679`](https://github.com/webitel/client/commit/5151679a1320e63748c84fb2d8b73774083083bd) - calendar holidays fix [WTEL-3492] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`183c20b`](https://github.com/webitel/client/commit/183c20ba68004fc802c553f04d71d877d976a5c1) - fixed delete-confirmation-popup count message [WTEL-3323] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7a37bd0`](https://github.com/webitel/client/commit/7a37bd0f13f26422e3896fd630db6fb250a2cdd0) - api method for set grantee node in flow[WTEL-3143] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e8692e7`](https://github.com/webitel/client/commit/e8692e74659231ff53d2e261070e74692c6a0cbc) - display all roles in roles page[WTEL-3347] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`335d15a`](https://github.com/webitel/client/commit/335d15ac483883827ecfee7beb8b9dbb0e4f5575) - added roles api to flow get lookups [WTEL-3347] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`8fc8a9d`](https://github.com/webitel/client/commit/8fc8a9d9e47314b72edc8b9e7fe59304b24c7247) - locale for new permission[WTEL-3359] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`717594a`](https://github.com/webitel/client/commit/717594a4bb914dc3e797d6f8a82643f00b6c39aa) - changes and saving correct value switchers[WTEL-3443] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e5e02d3`](https://github.com/webitel/client/commit/e5e02d306a00a65bef2a49c52185fbcee3c095b4) - fixed roles access modification, added audit app to app hub [WTEL-3410] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c83b0b0`](https://github.com/webitel/client/commit/c83b0b097a575d86bc0873cd8f1a1af7ab66fde7) - updated datepicker [WTEL-3333] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`924d179`](https://github.com/webitel/client/commit/924d179ec312d9a5aed16d2eff5ff7273320a938) - delete all icon visibility [WTEL-3323] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`b1466e5`](https://github.com/webitel/client/commit/b1466e581c541ab5d87bb891e7ca6bfd04bccc78) - fixed license popup validation [WTEL-3319] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c3a6a4e`](https://github.com/webitel/client/commit/c3a6a4e8b416854b428865e25ddf096c028862c0) - removed page scroll when it's not needed [WTEL-3327] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`2ef3e4b`](https://github.com/webitel/client/commit/2ef3e4bffc31fce1a16a435a93beaa7527cc9376) - fixed settings [WTEL-3283] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`8e5e796`](https://github.com/webitel/client/commit/8e5e79638ba264cd73e951e412f0940928256853) - updated lib [WTEL-3283] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`eab9547`](https://github.com/webitel/client/commit/eab9547b2513cc3240bf446e77df8475946739c2) - restricted content wrapper max width [WTEL-3360] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`fe3ece4`](https://github.com/webitel/client/commit/fe3ece4213dbbb61e98c3a5fad454a5ffc405576) - start page selection [WTEL-3282] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ab2e807`](https://github.com/webitel/client/commit/ab2e807748ec0be95e68e45e226be3af712f6e34) - create queue popup selection [WTEL-3377] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7c5b934`](https://github.com/webitel/client/commit/7c5b9346758cbd87bce2343b6c36f0e7adf50dd8) - headline nav [WTEL-3321] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`a9a9fed`](https://github.com/webitel/client/commit/a9a9fedccaa14a631cbed3440a62c1264ecf3b25) - agent history popup [WTEL-3310] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`bfeff25`](https://github.com/webitel/client/commit/bfeff2563b290bf52523c00ee3922be324277f6d) - fixed users: fixed validations, removed editProxy [WTEL-3321] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ce98cae`](https://github.com/webitel/client/commit/ce98caea4b622e8fc299f26621e2c93779e8bb7f) - flow code editor fix [WTEL-3320] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`6020402`](https://github.com/webitel/client/commit/6020402879d4494ff536623f565a0dc2a4284ecf) - icon in permissions tab and select[WTEL-3143] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`8a20682`](https://github.com/webitel/client/commit/8a20682656a93439f749aeb22e5e37e3cb52b148) - fixed bug with with not working create chat gateway popup and fixed provider icon location in chat gateway table [WTEL-3273] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`0fe9984`](https://github.com/webitel/client/commit/0fe99840c6f1dcc260f5340c0696e078c9e6cf2e) - export in members *(commit by [@Lera24](https://github.com/Lera24))*
+- [`9b785d8`](https://github.com/webitel/client/commit/9b785d8fd14794c0c0df5809b3f1ab3178be1d55) - fixed flow representation [WTEL-1742] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`30baf9f`](https://github.com/webitel/client/commit/30baf9f2424a4700914e4310787adb73c6f5c82b) - fixed queues representation [WTEL-1742] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7b9c2d3`](https://github.com/webitel/client/commit/7b9c2d3263972e0e5efa734c7e73391ee0ad61ae) - fixed dependencies [WTEL-1742] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ebed1f0`](https://github.com/webitel/client/commit/ebed1f060d84459070804dbb24dab98a59fb6ea1) - fixed slot usages [WTEL-1742] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1ef0ee6`](https://github.com/webitel/client/commit/1ef0ee669421aa3a9340d01da1a173ce0bedb5b8) - popups fix [WTEL-1742] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`fb8eccf`](https://github.com/webitel/client/commit/fb8eccfcf8e9fa9ccbd6f1ea015099f3daf15375) - fixed tests [WTEL-1742] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1943aaf`](https://github.com/webitel/client/commit/1943aaf1987b7fa610c41989ee2537ee75e6ef0c) - update @webitel/ui-sdk [WTEL-3171] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d3bf0ab`](https://github.com/webitel/client/commit/d3bf0ab6a29879b49a7d786fe62efb0acf4aa632) - fixed whatsapp columns order [WTEL-3203] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`9cb84c0`](https://github.com/webitel/client/commit/9cb84c0e366973d43ec90ca20e37ef3339a65a6d) - fixed locale [WTEL-3203] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`314da9c`](https://github.com/webitel/client/commit/314da9c6eb10e8dcb1202ca76ea8a53038fd6222) - whatsapp fixes in progress [WTEL-3203] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`aeee50f`](https://github.com/webitel/client/commit/aeee50f8158a7ce5f2b19b76063ebe31459b915f) - update @webitel/ui-sdk [WTEL-3145] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f80a77b`](https://github.com/webitel/client/commit/f80a77b626dbeb67479a235f024e06dd4a20b883) - fixed small bug in appointment success title locale and changed default value for showDefaultHeading variable [WTEL-3145] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`7d31cef`](https://github.com/webitel/client/commit/7d31cefa7b9e1a1e9d682a2639c4937bf4968ce6) - changed success title inputs to textareas and fixed bug with many spaces at the end of the text [WTEL-3145] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`02dba2a`](https://github.com/webitel/client/commit/02dba2a685a73bec89da115a6488f5d7d2727962) - locale in chat-gateway and chatplan pages[WTEL-3128] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`cc01c9d`](https://github.com/webitel/client/commit/cc01c9d7dba74d2d385842367b5203a79d43ccb8) - locale[WTEL-3128] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`90fff8e`](https://github.com/webitel/client/commit/90fff8e89ffef5a06b55cc73af7fb1863f4102f2) - locale[WTEL-3128/3219] *(commit by [@Lera24](https://github.com/Lera24))*
+- [`e0a7742`](https://github.com/webitel/client/commit/e0a7742e78dd688be23f73d1e6b4213d69bdf685) - added support to not required secondary communication in member csv upload [WTEL-3198] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3e8a2a7`](https://github.com/webitel/client/commit/3e8a2a76c87b4ac249d40cb2149fc8e95ec74699) - changed class for success title block and refactoring process appointment config [WTEL-3145] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`adb0a5a`](https://github.com/webitel/client/commit/adb0a5ab5f3775e520b3e86c4f1fbc12924696fa) - returned grid layout in appointment tab [WTEL-3145] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`a2a1c8e`](https://github.com/webitel/client/commit/a2a1c8e2ade1e13f22ae18434c019f5f622ef969) - saved values of success heading if default heading switcher on [WTEL-3145] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`b3b34f9`](https://github.com/webitel/client/commit/b3b34f9317bcdf56ce6d18a29370705cef221525) - added switcher for show default success title [WTEL-3145] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`637df2f`](https://github.com/webitel/client/commit/637df2fa7433a2a70afe3b8253166c6a932f5410) - removed console.log from file [WTEL-3145] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`a24c56e`](https://github.com/webitel/client/commit/a24c56e2fc55bc4ba9aeefe0188e9a1590e3e21d) - added styles for appointment tub and remove default text from success titles in metadata [WTEL-3145] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`e5b811a`](https://github.com/webitel/client/commit/e5b811a3ccddd0f84a24597568e62d9da1b7bb40) - added default text for appointment success title and tried to style appointment tab[WTEL-3145] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`02ce9e6`](https://github.com/webitel/client/commit/02ce9e623746b83481fd2d615c8e5f12c214366a) - changed fields in appointment metadata and locale *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`32ea623`](https://github.com/webitel/client/commit/32ea6239e21de9a764fd8a91beb293e3910a88c0) - name in chat gateways page [WTEL-3133] *(commit by [@Lera24](https://github.com/Lera24))*
+
+### :recycle: Refactors
+- [`516d4c1`](https://github.com/webitel/client/commit/516d4c1805e7e9f4f62c65f0d1c5e07aaf6e876d) - refactor due to code review [WTEL-5024] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`26b3c7c`](https://github.com/webitel/client/commit/26b3c7c6311f764a4e8a23aafcc1ca94b20366c8) - ringtone volume control naming refactored [WTEL-5024] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c41f15f`](https://github.com/webitel/client/commit/c41f15f0021640422f27cbace41bf9730f2b2d44) - refactor due to code review [WTEL-5054] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9aad78c`](https://github.com/webitel/client/commit/9aad78c8a2db4dd937cde9a47524fc18a4a39c62) - refactor due to code review [WTEL-5054] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2b7ce09`](https://github.com/webitel/client/commit/2b7ce0901c974b68da21d9dd0a49b2f552fd8fa8) - fix adm-item-link [WTEL-4559]
+- [`c524964`](https://github.com/webitel/client/commit/c524964a01bd88074c67106bbf1eb8a4b59f9c26) - add adm-item-link type support [WTEL-4559]
+- [`31c746e`](https://github.com/webitel/client/commit/31c746ebe105f6b849f90bcc05a5ffaf26ae510b) - config refactor [WTEL-4744] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d9a31f0`](https://github.com/webitel/client/commit/d9a31f089ac09e6ff276e7d232134e6a74d26101) - blackList/agent-skills edit entity [WTEL-4559] *(commit by [@RomanZaritskyi](https://github.com/RomanZaritskyi))*
+- [`78e7eb1`](https://github.com/webitel/client/commit/78e7eb1987b8b943ea222cfd2f1023300e0eddb0) - agent/device history popups [WTEL-4559] *(commit by [@RomanZaritskyi](https://github.com/RomanZaritskyi))*
+- [`fffc43e`](https://github.com/webitel/client/commit/fffc43eb8c546d5f40f4d712d9f5a2646fbc39be) - contact-center/agents routes [WTEL-4559] *(commit by [@RomanZaritskyi](https://github.com/RomanZaritskyi))*
+- [`0b90ed2`](https://github.com/webitel/client/commit/0b90ed20199f4a36fc02727831988dd52bfd5e5e) - merge with master, resolve conflicts *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`41dc1aa`](https://github.com/webitel/client/commit/41dc1aa4836e09d8f7269b6afc5f2804d7c996ba) - biome scripts fix *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`9e4b13d`](https://github.com/webitel/client/commit/9e4b13d5106e667052e1ee2a368946f4763755b9) - biome quotes fix *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`5f0035b`](https://github.com/webitel/client/commit/5f0035bb9dd31e6482a85dac48eb1da599f184ff) - biome indents fix *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`9993ef5`](https://github.com/webitel/client/commit/9993ef53e007168a8b3de58fc98853c0a19f6350) - biome indents fix *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c0e9577`](https://github.com/webitel/client/commit/c0e9577d8c9c43f2c89374241a990bd69ddeba03) - eslint -> biome + unsafe lint *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ccd234b`](https://github.com/webitel/client/commit/ccd234b24faae260143a88f6d9297f44e8742396) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`baed608`](https://github.com/webitel/client/commit/baed60832c9df4db1af3aeaba0b8e5ffa9567a80) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3e91fe2`](https://github.com/webitel/client/commit/3e91fe2833a73641c64a5f1d7af0d729fd692d6a) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`42130a7`](https://github.com/webitel/client/commit/42130a7c21001620f18d35ada6acd1c3ada5c3a9) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5daa746`](https://github.com/webitel/client/commit/5daa7466d3e24678bc87f3c09d5de319f0c2623a) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0b53b88`](https://github.com/webitel/client/commit/0b53b88b3488b642ca99e8c19cd5bc380fd5eb30) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4cc9a23`](https://github.com/webitel/client/commit/4cc9a23903c2458694277a5cf2cca9aea2f7a045) - changes due to code review  [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`a7fcb0f`](https://github.com/webitel/client/commit/a7fcb0f43c53129f8c0cba4e77632b3e1a00e3f0) - configuration deleted from en locale [WTEL-4046] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3cdcc57`](https://github.com/webitel/client/commit/3cdcc57255a3a90b8de4d660d1062bf107b45545) - code clearing [WTEL-4589] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`213dbd6`](https://github.com/webitel/client/commit/213dbd6f01af59e7633adb2709ce24276569a8f3) - directory and mixins[WTEL-4559]
+- [`0880142`](https://github.com/webitel/client/commit/088014289fa4c6ba59bf7ce8cd50009aa9ab2768) - rollback webitel-ui-sdk changes [WTEL-4458] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0978765`](https://github.com/webitel/client/commit/0978765692f898d425a4a32fb4b99d69b4147fd4) - generate value length increase [WTEL-4482] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0dc8f74`](https://github.com/webitel/client/commit/0dc8f74a4466cd3fb4edea5aba22471f4433efe6) - kz locales deleted [WTEL-4460] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4ec648c`](https://github.com/webitel/client/commit/4ec648cfb10f58472354e0a43b014063ef5717af) - external flow app [WTEL-4382] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`ddc169e`](https://github.com/webitel/client/commit/ddc169e4354cd503442a4c2d8069e1c106c83d1a) - generate password component returned [WTEL-4373]
+- [`ef19dac`](https://github.com/webitel/client/commit/ef19dacd35aab3f0c9e7a158d74d371b3967f6f2) - generate password component returned refactored [WTEL-4373]
+- [`e365624`](https://github.com/webitel/client/commit/e365624d7991f5a04d4891c4c0d3cf4b40c7cebf) - isUriEditable refactored [WTEL-4373]
+- [`eb623d2`](https://github.com/webitel/client/commit/eb623d261c3cb2da3e060f04e44b66d8ceb7fda8) - type returned to loadPageData [WTEL-4391] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d091d6b`](https://github.com/webitel/client/commit/d091d6b4dca2b6ed37178d75dc109feaeb3ae9bc) - queueTypeName computed deleted [WTEL-4391] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0022b99`](https://github.com/webitel/client/commit/0022b99a16016091ad4d53e94d6f1e6ff0650ff8) - new auth refactor [WTEL-4374] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`494dbc6`](https://github.com/webitel/client/commit/494dbc62100abfba58fcd1895bee67e5fdba8bb5) - loadDataList refactored in openedObjectTableTabMixin [WTEL-4316] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ce9f6ef`](https://github.com/webitel/client/commit/ce9f6ef0bfa883a789509e00c5e1910dad7633f1) - package.json updated [WTEL-4279] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2a6d889`](https://github.com/webitel/client/commit/2a6d889221b2f0c95bedba54f77bd44dd4a066ce) - VITE_START_PAGE_URL added to .env.development [WTEL-4252] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`06c47c5`](https://github.com/webitel/client/commit/06c47c506663b7c98bf95f0fd0a8317893f39e70) - VITE_START_PAGE_URL added to .env [WTEL-4252] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0534c40`](https://github.com/webitel/client/commit/0534c408e06b1c43dd6387d06773edd615c1471b) - naming changed form Elevenlabs to ElevenLabs [WTEL-3720] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`e466942`](https://github.com/webitel/client/commit/e46694219524e3b29acf87d06d03c3534a1dd6be) - setItemPropertiesProp deleted, template grid changed [WTEL-3720] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`20fa79d`](https://github.com/webitel/client/commit/20fa79d3f23e631e5b3c64bac328b2c500cad1ac) - duration computed changed [WTEL-3159] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d327ad4`](https://github.com/webitel/client/commit/d327ad42a5e7665cdb80ff6a67bc88e6d2c92da8) - wt-select @input event changed [WTEL-3159] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c5810fd`](https://github.com/webitel/client/commit/c5810fd5b3f937e044d7f91b8f5f95a7c4eb901f) - locales for time moved to "reusable" [WTEL-3159] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`24d00a0`](https://github.com/webitel/client/commit/24d00a0c87094b467211f6284f6d76deffceca33) - getting rid of v-model for select [WTEL-3159] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`4f69df6`](https://github.com/webitel/client/commit/4f69df6139f30ec661b3b937bc0df186612643fa) - csv upload refactor and testing [WTEL-4176] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`5bf96e6`](https://github.com/webitel/client/commit/5bf96e6147cf24c25ae4a19ec830f651a5afba5f) - chat gateways messengers [WTEL-4061] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`cc63023`](https://github.com/webitel/client/commit/cc6302386c981fcbd778d335a7a61f05fb353f6b) - remove console.logs [WTEL-4061] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`d31f5c1`](https://github.com/webitel/client/commit/d31f5c10abf0e0587fc7249238019da745cbd4f1) - remove commented code [WTEL-4061] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`02dd32b`](https://github.com/webitel/client/commit/02dd32be21f83517c4cb9a01acf69ccf56e966ca) - permisions api in progress [WTEL-4061] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`dd49669`](https://github.com/webitel/client/commit/dd496691e631bb468c6904f31a92dd02682ca6a2) - in progress *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`f97af3b`](https://github.com/webitel/client/commit/f97af3bf525c83c12369c7ce1846f32e930154d9) - rollback routes [WTEL-3717]
+- [`63816fe`](https://github.com/webitel/client/commit/63816fe7c3bc0cf8725e8d0321e8e26a641e4244) - rollback lookupss [WTEL-3717]
+- [`0aa3f49`](https://github.com/webitel/client/commit/0aa3f49b7d6f677c828aa4fe09ab3d292802e297) - rollback locales [WTEL-3717]
+- [`048cce3`](https://github.com/webitel/client/commit/048cce3889e92fe0c05ce661d84deef395518247) - uncommenting all SSO functionality exept routing [WTEL-3717]
+- [`91dc4c1`](https://github.com/webitel/client/commit/91dc4c129c9effe1d6c8365e92ddebf6ae3725b2) - commenting all SSO functionality [WTEL-3717]
+- [`bb55115`](https://github.com/webitel/client/commit/bb55115315f13c32abf5755491c38bf667d6f481) - colors [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`a3aeba1`](https://github.com/webitel/client/commit/a3aeba172f48a98550befddcbe1fdd1bf7ba0427) - colors in progress [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d24841d`](https://github.com/webitel/client/commit/d24841df78e928deaa2da220ebda589ad4af40b6) - upd webitel-ui with components redesigns [WTEL-3902] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3e5c9f4`](https://github.com/webitel/client/commit/3e5c9f455b7264fc4c79cd889e4ce4430e9d9f74) - comment added [WTEL-3894] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5f9fe51`](https://github.com/webitel/client/commit/5f9fe513cc0831af977a75f0e71709605a0007cc) - saveCode method changes [WTEL-3894] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9cc1e5d`](https://github.com/webitel/client/commit/9cc1e5d955564fc4a5f75a47b2637cb6d266c725) - merging with master [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`0404b58`](https://github.com/webitel/client/commit/0404b585d45b54b44a5786ea545b821bb2cb06ca) - field naming changed [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`91fad34`](https://github.com/webitel/client/commit/91fad3478012d6fd1232b1d66d3933a5f9fef8b2) - saveAsJSON and saveCode methods refactored [WTEL-3894] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2c76ea8`](https://github.com/webitel/client/commit/2c76ea80187fabb71439fe88921f714a3202ba85) - deliting jest out of commit [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`15cc895`](https://github.com/webitel/client/commit/15cc895db856036d344a72fe91f01f4721a3c634) - prepering to push into master [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`bab46a8`](https://github.com/webitel/client/commit/bab46a83c738febbf0d247d8977f134d7d01dc74) - formatting returned [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`493a0d5`](https://github.com/webitel/client/commit/493a0d561bb9416c07b0ae067cebc876f96d8f18) - tests fixed [ENPF-136] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`c2831a3`](https://github.com/webitel/client/commit/c2831a38788825533067c25cb6478353c063753c) - no needed code deleted [WTEL-3894] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9589aea`](https://github.com/webitel/client/commit/9589aea885c1200f4a12408fb3b87410e5202fb1) - selection in gateway popup refactored for composition api [WTEL-3995] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3a910f6`](https://github.com/webitel/client/commit/3a910f6db293a4f3733a826cf36d399b38cc093f) - removed comented text *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ce76321`](https://github.com/webitel/client/commit/ce76321bb9ccc89a2f9c86fe3153b558ec422938) - settings api [WTEL-4024] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`96250fd`](https://github.com/webitel/client/commit/96250fd4cd175ea356906351a9ca96c99a48346a) - text to speech api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`7bec445`](https://github.com/webitel/client/commit/7bec445a4cb0fc10147cc9be1803f4c605d97e6d) - objects api and module [WTEL-4023] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`fcc4854`](https://github.com/webitel/client/commit/fcc48545908d6a6e7b8a3c6125f2dbce4db83900) - objects api in progress [WTEL-4023] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ad489ca`](https://github.com/webitel/client/commit/ad489ca7c8e049b1e9b431a0503a59ca65106acd) - refactor after review [WTEL-3619] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`d4bb5e3`](https://github.com/webitel/client/commit/d4bb5e365a28b47fcf4c70f55fe19a9274e4e0a1) - remove commented code [WTEL-3785, WTEL-3783] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`9fbd334`](https://github.com/webitel/client/commit/9fbd3343ca35e3355dfe9e5d0d0566926ece46e6) - api in progress [WTEL-3785, WTEL-3783] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`5cd97fe`](https://github.com/webitel/client/commit/5cd97fefe200bc7893e6cfb6ddc70e7587568039) - remove delete mixin from components and added  delte-popup composable [WTEL-3606] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`5159578`](https://github.com/webitel/client/commit/515957884dcdf5a87e40e78b775be1145e88e482) - remove comented code from mixin [WTEL-3606] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`55cf49c`](https://github.com/webitel/client/commit/55cf49c663a84b335acf3674304cc946b90eba5e) - fixed bug with store, deleted deleteConfirmation mixin, refactored few cpmponents [WTEL-3606] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`2e6a88a`](https://github.com/webitel/client/commit/2e6a88add08aeee1dedb2a424465000145877874) - used delete-popup composable and removed delete mixin in progress [WTEL-3606] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`7f48767`](https://github.com/webitel/client/commit/7f48767c66423a605e0fc77c720db77ab3b3f222) - console log deleted from api file [wtel-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`8cbf5db`](https://github.com/webitel/client/commit/8cbf5db364e16774c31a54ee21922db4e64fbcf4) - locales added to some fields [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ef9542f`](https://github.com/webitel/client/commit/ef9542f13f72d211324ea8f1de0277afc71f790a) - api file changed due to codereview [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2417e3b`](https://github.com/webitel/client/commit/2417e3b7c05d24e79539f20b8d780421ae207be7) - vite config changed for windows [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`350f2a7`](https://github.com/webitel/client/commit/350f2a74cdd27278143952cbf6d9d841e273c91e) - jest json deleted [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`3410e56`](https://github.com/webitel/client/commit/3410e5644453a37bcbc8e78fa80a986fb33300f2) - merging master into branch [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`f397357`](https://github.com/webitel/client/commit/f3973579fcff432c5dbbd58c47c9cbb6c3b5ec67) - code refactored due to codereview [wtel-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`b4ae9fe`](https://github.com/webitel/client/commit/b4ae9fe5ea80d70758ce34178d3cf00da345296d) - reformat code *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`cba5982`](https://github.com/webitel/client/commit/cba5982411e7a908b7d920f37d745514cebbd9c8) - refactored setting popup dynamic component [WTEL-3818] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3792071`](https://github.com/webitel/client/commit/3792071087fd950e8520d2b806991cf99aba75e5) - locales refactored  [WTEL-3717] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`5de4f18`](https://github.com/webitel/client/commit/5de4f18431be746a87b8cd02de0c72c789897e3f) - vite *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d0615be`](https://github.com/webitel/client/commit/d0615beb126432a959afea3b0d9159f68da1f5e3) - updated webitel-ui, updated changed components usages [WTEL-3092] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7a6bb1b`](https://github.com/webitel/client/commit/7a6bb1b4d3a41e8fe7080d71e57b5c7428be6a0a) - upd dummies [WTEL-3866] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`4d480df`](https://github.com/webitel/client/commit/4d480df1ae7eb90cdbe0359a5e738835e922650a) - integrations moduls api[WTEL-3795] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`535c77d`](https://github.com/webitel/client/commit/535c77d595ae5e8304b1716534dfbf15627a857e) - integrations moduls api[WTEL-3795] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`4c95f57`](https://github.com/webitel/client/commit/4c95f57ce6bc0482d97b72b3bedcfc6273d9f26e) - integrations api in progress *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`8f602db`](https://github.com/webitel/client/commit/8f602dbf0cb790713fbf2b8eb1fe5bbe51d46f76) - resources api [WTEL-3788] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`fdf2b09`](https://github.com/webitel/client/commit/fdf2b09a3b2d1ac64d849163145e0813e1fb04c4) - resources api [WTEL-3788] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`909ce1c`](https://github.com/webitel/client/commit/909ce1c10963e302ac84304332f4b4b636aa891e) - res-group api [WTEL-3787] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`8d6a84d`](https://github.com/webitel/client/commit/8d6a84d872185a536be65b1a057a66329940d31a) - res-groups api [WTEL-3788] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`43f36dc`](https://github.com/webitel/client/commit/43f36dc59baa2608d1643b96eb71b23753a81231) - resource api [WTEL-3788] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`aba2b89`](https://github.com/webitel/client/commit/aba2b892a8481839c9b23e8d9c206b525f50eecc) - resource api [WTEL-3788] *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`33a5236`](https://github.com/webitel/client/commit/33a52368412ce367b8a257c5ce4b778b47244710) - resources api [WTEL-3788] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`ab6c472`](https://github.com/webitel/client/commit/ab6c4729400d7702d8726975448159157ed43818) - teams api[WTEL-3786] *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`cc28038`](https://github.com/webitel/client/commit/cc2803859fab36f04878e070d98651533779e4bc) - queue res-groups api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`4908976`](https://github.com/webitel/client/commit/49089767b70a2f3345bba878b2393360556eeb51) - queue res-groups api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`adbc271`](https://github.com/webitel/client/commit/adbc271fe0f122e37ba4ee33fde92aa9966817b3) - queue res-groups api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`9a5530f`](https://github.com/webitel/client/commit/9a5530fa7bcb4ba892f00bd181d4f32007dea570) - deleting styles and unused data due to codereview [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`62b1cce`](https://github.com/webitel/client/commit/62b1cce64d2d22ee08c1a2e4ca3214faf4c9b532) - code refactored due to code review  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`d049fa6`](https://github.com/webitel/client/commit/d049fa63e0200ebf12beef1594a60a9e9c1c7fd8) - add skill to agent popup composition api [WTEL-3375] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`055fa04`](https://github.com/webitel/client/commit/055fa047239e7266ec0c65809248d359c2dab767) - removed handleUnauthorized *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`04d2f49`](https://github.com/webitel/client/commit/04d2f49b63d06de23bfbc8f305efcfe8b772ed7f) - removed handleUnauthorized *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`7ee9116`](https://github.com/webitel/client/commit/7ee911635b9e5bd6b689baec8da52482933f7015) - removed handleUnauthorized *(commit by [@liza-pohranichna](https://github.com/liza-pohranichna))*
+- [`a797023`](https://github.com/webitel/client/commit/a7970231f9aa1087e205b6e97a27450f7a56b206) - removed handleUnauthorized transformer [WTEL-3705] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`de252c4`](https://github.com/webitel/client/commit/de252c487ebc6d14e882f0ce8b200bb6e1441f9c) - second try to refactor code due to codereview [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`8da544e`](https://github.com/webitel/client/commit/8da544ee3bda8cc0d1edcabd49bb9f6e7a2735a2) - refactoring code due to codereview [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`ab66efe`](https://github.com/webitel/client/commit/ab66efe35f6192541e145e3534fd345a7c647992) - call lists renamed to lists [WTEL-3687] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`c44996f`](https://github.com/webitel/client/commit/c44996f56a24b0cafc97f7a9f6743bbe1ddc1a14) - popup commit reverted for pull request [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`bce5681`](https://github.com/webitel/client/commit/bce5681b87d2355d7a7091c1ac82a75ca115bc08) - custom debounce deleted, debounce imported from lib [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`9d0c279`](https://github.com/webitel/client/commit/9d0c27936dadae31767cd25408c2ee5772e0b8db) - changeStateForAll reactivity added [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`02381c1`](https://github.com/webitel/client/commit/02381c19d0a2b8db5e7dff6351ae7a94214f49ef) - bulk patch for switcher added, debounce on input added  [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`2111036`](https://github.com/webitel/client/commit/21110366a74da2271b8013ac2af91c7f1188dc3e) - refactoring table page without stateForAll switcher [WTEL-3375] *(commit by [@VladimirBeria](https://github.com/VladimirBeria))*
+- [`01bda8b`](https://github.com/webitel/client/commit/01bda8b01ab3aab6f0382782d5b974aef435eba2) - queue logs api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`399b785`](https://github.com/webitel/client/commit/399b785525523f9869ea9fb39d1dc6f696fba94b) - queue hooks api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`968e47f`](https://github.com/webitel/client/commit/968e47f3467247407a54b92784adc89ab628e27b) - queue mambers api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`da85cfc`](https://github.com/webitel/client/commit/da85cfc498fe7f82a87ee98cd63341465e0efc05) - queue mambers api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`099b5ad`](https://github.com/webitel/client/commit/099b5adba4bcf6aec44c1b27eee702a5a8587f07) - queue logs api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`182b46e`](https://github.com/webitel/client/commit/182b46e1da2d1029dd7f12d3e7ffaab9245eaed4) - queue hooks api *(commit by [@lizacoma](https://github.com/lizacoma))*
+- [`e13f22c`](https://github.com/webitel/client/commit/e13f22c34833bf7641d227831f837d67ba09d03e) - dummy refactor [WTEL-3523] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`2072bb5`](https://github.com/webitel/client/commit/2072bb5e8041c4719e7ed7325bc41e7ed86424f8) - job locale renamed to task [WTEL-3552] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`d7df69e`](https://github.com/webitel/client/commit/d7df69e8cc5217a545d159ed1bc0d6b967d88727) - agents api [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`53399a0`](https://github.com/webitel/client/commit/53399a0aba5edf8e40127f58f503c1db081397d7) - refactored media, regions api [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`0afd344`](https://github.com/webitel/client/commit/0afd3448c9e341b469319fbce544a302e609262f) - refactored skills , blacklist numbers,buckets, calendars, communications api [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`752d653`](https://github.com/webitel/client/commit/752d653cae8c8eca48f427181dfe873cb2aea4e1) - refactored blacklists api (without numbers) [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`38ee1ac`](https://github.com/webitel/client/commit/38ee1acb481d640ebb7c6857716f421be65d0073) - agent skills api refactored [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`3c94f0e`](https://github.com/webitel/client/commit/3c94f0e8bc74ec1ca65d6e9ae4d51079dfa730b9) - pause cause api refactored [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`b1a19e1`](https://github.com/webitel/client/commit/b1a19e1ccda7a0fa345043f45106bee495a63f94) - refactored routing api (without chat gateways) [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`39be1a2`](https://github.com/webitel/client/commit/39be1a2b7e5f73851c7695608c18848467160987) - refactored devices and license api [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`7763175`](https://github.com/webitel/client/commit/7763175b63058f1fb5f47a469cdeea67605a0f8c) - refactored users api [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`968a354`](https://github.com/webitel/client/commit/968a3547527bfa09b1d919e8f533055720617efb) - refactored flow api [WTEL-3425] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`4369490`](https://github.com/webitel/client/commit/43694901ba2f7d082a1107a355668cd3d30b1edb) - queue pre- and post-schema service type [WTEL-3346] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`1757c7a`](https://github.com/webitel/client/commit/1757c7add7a2f68f5d192f5082bc406a8d31059d) - almost all permissions logic moved to userinfo module [WTEL-3410] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`b92e103`](https://github.com/webitel/client/commit/b92e1038c60c915105d9c27a1371f29ba4d92a07) - refactored sm class usage in application-hub [WTEL-3172] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`b486f8b`](https://github.com/webitel/client/commit/b486f8b28fc63cbd5235fb4475dcd099799d9d51) - upd breakpoints [WTEL-3258] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+
+### :white_check_mark: Tests
+- [`43372c5`](https://github.com/webitel/client/commit/43372c58296caa3fc20c3df4bf070d31e9e48080) - added tests to webchat url script [WTEL-4215] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`21ca27a`](https://github.com/webitel/client/commit/21ca27a6848048214608f4c3ba7c5fcd2f6170a9) - added api tests for users and agent skills [WTEL-1093] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+- [`46f4445`](https://github.com/webitel/client/commit/46f44457f66a4724a7bafabf5425f9dbc20865bf) - user api tests in progress [WTEL-1093] *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+
+### :memo: Documentation Changes
+- [`c7941c4`](https://github.com/webitel/client/commit/c7941c4952b90c3ba49f3f2fe709024b0fb53223) - fixed docs build [WTEL-5425](https://webitel.atlassian.net/browse/WTEL-5425) *(commit by [@dlohvinov](https://github.com/dlohvinov))*
+
+[v24.08.0]: https://github.com/webitel/client/compare/v22.12...v24.08.0

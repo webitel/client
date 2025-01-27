@@ -258,6 +258,7 @@ export default {
       fetchMethod: this.getMediaList, // API call method
       filename: 'media', // name of downloaded file. default is 'files'
       filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
+      skipFilesWithError: true,
     });
   },
 

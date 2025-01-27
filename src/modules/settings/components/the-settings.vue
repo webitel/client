@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template #header>
       <wt-page-header hide-primary>
-        {{ $tc('settings.settings', 2) }}
+        <wt-headline-nav :path="path" />
       </wt-page-header>
     </template>
     <template #main>
@@ -62,7 +62,7 @@
             </header>
             <form>
               <div class="settings-section__wrapper">
-                <p>{{ $t('objects.status') }}</p>
+                <p>{{ $t('reusable.state') }}</p>
                 <wt-switcher
                   :value="callEndSound"
                   @change="changeCallEndSoundState"
@@ -71,6 +71,7 @@
             </form>
           </section>
           <custom-ringtone />
+          <ringtone-volume-control />
         </div>
       </section>
     </template>
@@ -83,12 +84,14 @@ import { mapState } from 'vuex';
 import { changeWebPhone, getWebPhone } from '../api/settings';
 import ChangePassword from './change-password.vue';
 import CustomRingtone from './custom-ringtone.vue';
+import RingtoneVolumeControl from './ringtone-volume-control.vue';
 
 export default {
   name: 'TheSettings',
   components: {
     CustomRingtone,
     ChangePassword,
+    RingtoneVolumeControl,
   },
   inject: ['$eventBus'],
   data: () => ({
@@ -135,6 +138,13 @@ export default {
         return getNamespacedState(state, 'userinfo').userId;
       },
     }),
+    path() {
+      return [
+        {
+          name: this.$tc('settings.settings', 2),
+        },
+      ];
+    },
   },
   async mounted() {
     try {
@@ -194,6 +204,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .settings-section {
   width: 100%;
   display: flex;

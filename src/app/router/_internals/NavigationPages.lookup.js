@@ -101,6 +101,21 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.MEDIA}`,
         route: 'media',
       },
+      {
+        value: AdminSections.SHIFT_TEMPLATES,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.SHIFT_TEMPLATES}`,
+        route: 'shift-templates',
+      },
+      {
+        value: AdminSections.PAUSE_TEMPLATES,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.PAUSE_TEMPLATES}`,
+        route: 'pause-templates',
+      },
+      {
+        value: AdminSections.WORKING_CONDITIONS,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.WORKING_CONDITIONS}`,
+        route: 'working-conditions',
+      },
     ],
   },
   {
