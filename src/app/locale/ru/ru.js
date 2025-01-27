@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 
-import { EngineCommunicationChannels, LoggerAction } from 'webitel-sdk';
+import { EngineCommunicationChannels, LoggerAction, StorageUploadFileChannel } from 'webitel-sdk';
 
 export default {
   auth: {
@@ -1056,13 +1056,21 @@ export default {
       },
 
       storagePolicies: {
-        storagePolicies: ' | ',
+        storagePolicies: 'Политика хранения файлов | Политики хранения файлов',
         mimeTypes: 'MIME типы',
         retentionDays: 'Количество дней хранения',
         maxDownloadSpeed: 'Максимальная скорость загрузки (kbps)',
         maxUploadSpeed: 'Максимальная скорость выгрузки (kbps)',
         maxUploadSize: 'Максимальный размер файла (bytes)',
         applyToFiles: 'Применить к существующим файлам',
+        applyPopupMessage: 'Новое время хранения будет применено к существующим файлам согласно политике. Хотите продолжить?',
+        channels: {
+          [StorageUploadFileChannel.CallChannel]: 'звонок',
+          [StorageUploadFileChannel.ChatChannel]: 'чат',
+          [StorageUploadFileChannel.MediaChannel]: 'медиа',
+          [StorageUploadFileChannel.MailChannel]: 'письмо',
+          [StorageUploadFileChannel.LogChannel]: 'лог',
+        }
       },
 
       cognitiveProfiles: {

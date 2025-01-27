@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper class="the-storage-policies" :actions-panel="false">
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -52,7 +52,7 @@
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
-          {{ dataList[1] }}
+
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -67,7 +67,7 @@
             </template>
 
             <template #channels="{ item }">
-              {{ item.channels[0]}}
+              {{ $t(`objects.integrations.storagePolicies.channels.${item.channels[0]}`)}}
 
               <wt-tooltip
                 v-if="item.channels.length > 1"
@@ -82,7 +82,7 @@
                 <p
                   v-for="(channel) of item.channels.slice(1)"
                   :key="channel"
-                > {{ channel }} </p>
+                > {{ $t(`objects.integrations.storagePolicies.channels.${channel}`) }} </p>
               </wt-tooltip>
             </template>
 
@@ -161,15 +161,29 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import Sortable, { Swap } from 'sortablejs';
+import { computed } from 'vue';
 import { mapActions } from 'vuex';
+import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import dummyPicDark from '../../storage/assets/adm-dummy-storage-dark.svg';
+import dummyPicLight from '../../storage/assets/adm-dummy-storage-light.svg';
+
+const namespace = 'integrations/storagePolicies';
 
 export default {
   name: 'TheStoragePolicies',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
+    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
+    const { dummy, darkMode } = useDummy({
+      namespace,
+      dummyPic,
+      showAction: true,
+    });
+
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -179,18 +193,35 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    // const {
+    //   callSortable,
+    //   mountSortable,
+    //   unmountSortable
+    // } = useMoveItem(dataList, this.changeItemPosition)
+
     return {
+      dummy,
       isDeleteConfirmationPopup,
       deleteCount,
       deleteCallback,
 
       askDeleteConfirmation,
       closeDelete,
+      // callSortable,
+      // mountSortable,
+      // unmountSortable,
     };
   },
   data: () => ({
-    namespace: 'integrations/storagePolicies',
+    namespace,
     routeName: RouteNames.STORAGE_POLICIES,
+    sortableConfig: {
+      swap: true, // Enable swap mode
+      swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
+      animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+      easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
+    },
+    sortableInstance: null,
   }),
 
   computed: {
@@ -212,11 +243,88 @@ export default {
         return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
       },
     }),
+    create() {
+      this.$router.push({ name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id: 'new' } });
+    },
+    editLink({ id }) {
+      return { name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id } };
+    },
+    setPosition(newIndex, list) {
+      if (newIndex === 0) return {
+        condDown: this.dataList.value[0].id,
+        condUp: 0,
+      };
+
+      if (newIndex === list.length - 1) return {
+        condDown: 0,
+        condUp: this.dataList.value[this.dataList.value.length - 1].id,
+      };
+
+      return {
+        condDown: list[newIndex - 1].id,
+        condUp: list[newIndex + 1].id,
+      };
+    },
+    initSortable(wrapper) {
+      if (this.sortableInstance) {
+        this.sortableInstance.destroy();
+        this.sortableInstance = null;
+      }
+
+      this.sortableInstance = new Sortable(wrapper, {
+
+        ...this.sortableConfig,
+
+        async onEnd({ oldIndex, newIndex }) {
+          const updatedDataList = [...this.dataList.value];
+
+          const [movedItem] = updatedDataList.splice(oldIndex, 1);
+          updatedDataList.splice(newIndex, 0, movedItem);
+
+          // await ConditionsAPI.patch({
+          //   parentId: dataList.value[oldIndex].id,
+          //   changes: {
+          //     position: setPosition(newIndex, updatedDataList),
+          //   },
+          // });
+          // await loadData();
+        },
+      });
+    },
+    callSortable() {
+      setTimeout(() => {
+        const wrapper = document.querySelector('.wt-table__body');
+        if (wrapper) {
+          this.initSortable(wrapper);
+        }
+      }, 500);
+    },
+  },
+  mounted() {
+    if (!Sortable.__pluginsMounted) {
+      Sortable.mount(new Swap());
+      Sortable.__pluginsMounted = true;
+    }
+
+    this.callSortable();
+  },
+  watch: {
+    dataList() {
+      this.callSortable();
+    },
+  },
+  unmounted() {
+    if (this.sortableInstance) {
+      this.sortableInstance.destroy();
+      this.sortableInstance = null;
+    }
   }
 };
 
 </script>
 
 <style scoped>
-
+:deep(.wt-table .sortable-swap-highlight) {
+  background: var(--primary-color);
+}
 </style>

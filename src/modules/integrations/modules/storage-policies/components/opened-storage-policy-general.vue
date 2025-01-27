@@ -1,5 +1,10 @@
 <template>
   <section>
+    <apply-to-files-popup
+      :shown="isPopupOpened"
+      :id="itemInstance.id"
+      @close="closePopup"
+    />
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('objects.generalInfo') }}
@@ -18,12 +23,12 @@
         :disabled="disableUserInput"
         :label="$tc('vocabulary.channel', 2)"
         :v="v.itemInstance.channels"
-        :value="itemInstance.channels"
+        :value="channels"
         :options="channelsOptions"
         track-by="value"
         multiple
         required
-        @input="setItemProp({ prop: 'channels', value: $event})"
+        @input="this.setItemProp({ prop: 'channels', value: $event });"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -31,13 +36,12 @@
         :value="itemInstance.description"
         @input="setItemProp({ prop: 'description', value: $event })"
       />
-      {{ itemInstance.mimeTypes }}
-      <wt-input
+      <wt-tags-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storagePolicies.mimeTypes')"
-        :min-value="0"
-        :v="v.itemInstance.mimeTypes"
         :value="itemInstance.mimeTypes"
+        :v="v.itemInstance.mimeTypes"
+        taggable
         required
         @input="setItemProp({ prop: 'mimeTypes', value: $event })"
       />
@@ -55,6 +59,16 @@
         type="number"
         @input="setItemProp({ prop: 'retentionDays', value: $event })"
       />
+      <div class="button-area">
+        <div class="button-area__content">
+          <span>
+            {{ $t('objects.integrations.storagePolicies.applyToFiles') }}
+          </span>
+          <wt-button @click="openPopup">
+            аплай
+          </wt-button>
+        </div>
+      </div>
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
@@ -84,30 +98,77 @@
 </template>
 
 <script>
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
+import deepCopy from 'deep-copy';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { StorageUploadFileChannel } from 'webitel-sdk';
+import ApplyToFilesPopup from './apply-to-files-popup.vue';
 
 export default {
-  name: 'OpenedSingleSignOnGeneral',
+  name: 'OpenedStoragePolicyGeneral',
+  components: { ApplyToFilesPopup },
   mixins: [openedTabComponentMixin],
   computed: {
+    channels() {
+      const copy = deepCopy(this.itemInstance.channels);
+
+      return copy.length ?
+        copy.map((item) => {
+          const channel = this.snakeToCamel(item.value || item);
+          return {
+            name: this.$t(`objects.integrations.storagePolicies.channels.${channel}`),
+            value: channel,
+          }
+        })
+        : [];
+      },
     channelsOptions() {
       return Object.values(StorageUploadFileChannel)
-      .filter((channel) => channel !== StorageUploadFileChannel.UnknownChannel)
+      .filter((channel) =>
+        channel !== StorageUploadFileChannel.UnknownChannel
+      && channel !== StorageUploadFileChannel.KnowledgebaseChannel
+      && channel !== StorageUploadFileChannel.CasesChannel
+      )
       .map((channel) => ({
-        name: this.$t(`objects.lookups.communications.channels.${channel}`),
-        value: channel,
+        name: this.$t(`objects.integrations.storagePolicies.channels.${this.snakeToCamel(channel)}`),
+        value: this.snakeToCamel(channel),
       }));
     }
   },
+  data: () => ({
+    isPopupOpened: false,
+  }),
   methods: {
-    // loadFlows(params) {
-    //   return StoragePoliciesAPI.getLookup(params);
-    // },
+    snakeToCamel,
+    openPopup() {
+      this.isPopupOpened = true;
+    },
+    closePopup() {
+      this.isPopupOpened = false;
+    },
+    apply() {
+      this.closePopup();
+    },
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.button-area {
+  grid-row-start: span 3;
+  height: -webkit-fill-available;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--btn-secondary-color);
+  border-radius: var(--border-radius);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+}
 
 </style>

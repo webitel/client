@@ -8,6 +8,7 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
+import deepCopy from 'deep-copy';
 import { FilePoliciesServiceApi } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
@@ -26,20 +27,44 @@ const fieldsToSend = [
   'enabled',
 ];
 
+const fields = [
+  'id',
+  'name',
+  'description',
+  'channels',
+  'mime_types',
+  'retention_days',
+  'speed_download',
+  'speed_upload',
+  'max_upload_size',
+  'position',
+  'enabled',
+];
+
+const preRequestHandler = (item) => {
+  const copy = deepCopy(item);
+  return {
+      ...copy,
+      channels: item.channels.map(channel => channel.value || channel),
+    };
+}
+
 const getStoragePoliciesList = async (params) => {
+
   const defaultObject = {
     name: '',
     description: '',
+    channels: [],
     mimeTypes: [],
     retentionDays: 0,
-    speedDownload: '',
-    speedUpload: '',
-    maxUploadSize: '',
+    speedDownload: 0,
+    speedUpload: 0,
+    maxUploadSize: 0,
     position: 0,
     enabled: false,
   };
 
-  const { page, size, search, sort, fields, id } = applyTransform(params, [
+  const { page, size, search, sort, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
   ]);
@@ -53,7 +78,7 @@ const getStoragePoliciesList = async (params) => {
       fields,
       id,
     );
-    console.log('response:', response.data)
+
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -76,9 +101,9 @@ const getStoragePolicy = async ({ itemId: id }) => {
     channels: [],
     mimeTypes: [],
     retentionDays: 0,
-    speedDownload: '',
-    speedUpload: '',
-    maxUploadSize: '',
+    speedDownload: 0,
+    speedUpload: 0,
+    maxUploadSize: 0,
     position: 0,
     enabled: false,
   };
@@ -86,7 +111,6 @@ const getStoragePolicy = async ({ itemId: id }) => {
 
   try {
     const response = await storagePolicies.readFilePolicy(id);
-    console.log('response item:', response.data)
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),
@@ -99,7 +123,8 @@ const getStoragePolicy = async ({ itemId: id }) => {
 const addStoragePolicy = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake('channels'),
+    preRequestHandler,
   ]);
   try {
     const response = await storagePolicies.createFilePolicy(item);
@@ -112,7 +137,8 @@ const addStoragePolicy = async ({ itemInstance }) => {
 const updateStoragePolicy = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
     sanitize(fieldsToSend),
-    camelToSnake(),
+    camelToSnake('channels'),
+    preRequestHandler,
   ]);
   try {
     const response = await storagePolicies.updateFilePolicy(id, item);
@@ -147,6 +173,15 @@ const getLookup = (params) =>
     fields: params.fields || ['id', 'name'],
   });
 
+const applyPolicies = async (id) => {
+  try {
+    const response = await storagePolicies.filePolicyApply(id, {});
+    return response.data;
+  } catch (err) {
+    throw applyTransform(err, [notify]);
+  }
+}
+
 const StoragePoliciesAPI = {
   getList: getStoragePoliciesList,
   get: getStoragePolicy,
@@ -154,6 +189,7 @@ const StoragePoliciesAPI = {
   patch: patchStoragePolicy,
   update: updateStoragePolicy,
   delete: deleteStoragePolicy,
+  applyPolicies,
   getLookup,
 };
 

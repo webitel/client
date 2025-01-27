@@ -39,6 +39,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import General from './opened-storage-policy-general.vue';
 
 export default {
@@ -51,26 +52,24 @@ export default {
   }),
   data: () => ({
     namespace: 'integrations/storagePolicies',
+    routeName: RouteNames.STORAGE_POLICIES,
   }),
   validations: {
     itemInstance: {
       name: { required },
-      type: { required },
-      clientId: { required },
-      clientSecret: { required },
-      discoveryUrl: { required },
+      channels: { required },
+      mimeTypes: { required },
     },
   },
 
   computed: {
     tabs() {
-      const tabs = [
+      return [
         {
           text: this.$t('objects.general'),
           value: 'general',
         },
       ];
-      return tabs;
     },
 
     path() {
@@ -80,7 +79,7 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$t('objects.integrations.storage-policies.storage-policies'),
+          name: this.$tc('objects.integrations.storagePolicies.storagePolicies', 2),
           route: baseUrl,
         },
         {
