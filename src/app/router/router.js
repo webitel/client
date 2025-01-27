@@ -10,9 +10,9 @@ import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/cha
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
 import RouteNames from './_internals/RouteNames.enum';
-import UsersRoutes from '../../modules/directory/modules/users/router/users.js';
+import UsersRoutes from '../../modules/directory/modules/users/routes/routes.ts';
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
-import AgentRoutes from "../../modules/contact-center/modules/agents/router/agents.js";
+import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
 import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
@@ -40,12 +40,20 @@ import PauseTemplatesRoutes from "../../modules/lookups/modules/pause-templates/
 import WorkingConditionsRoutes
   from '../../modules/lookups/modules/working-conditions/router/workingConditions.js';
 
-const ApplicationHub = () => import('../../modules/application-hub/components/application-hub.vue');
-const ModuleWrap = () => import('../../modules/_shared/object-wrap/the-object-wrap.vue');
-const StartPage = () => import('../../modules/start-page/components/the-start-page.vue');
-const Settings = () => import('../../modules/settings/components/the-settings.vue');
-const AccessDenied = () => import('../../modules/error-pages/components/the-access-denied-component.vue');
-const NotFound = () => import('../../modules/error-pages/components/the-not-found-component.vue');
+const ApplicationHub = () =>
+  import('../../modules/application-hub/components/application-hub.vue');
+const ModuleWrap = () =>
+  import('../../modules/_shared/object-wrap/the-object-wrap.vue');
+const StartPage = () =>
+  import('../../modules/start-page/components/the-start-page.vue');
+const Settings = () =>
+  import('../../modules/settings/components/the-settings.vue');
+const AccessDenied = () =>
+  import(
+    '../../modules/error-pages/components/the-access-denied-component.vue'
+  );
+const NotFound = () =>
+  import('../../modules/error-pages/components/the-not-found-component.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -184,5 +192,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+window.router = router;
 
 export default router;
