@@ -38,13 +38,19 @@
             :is="Component"
             :namespace="cardNamespace"
             :v="v$"
-            :access="{ read: true, edit: !disableUserInput, delete: !disableUserInput, add: !disableUserInput }"
+            :access="{
+              read: true,
+              edit: !disableUserInput,
+              delete: !disableUserInput,
+              add: !disableUserInput,
+            }"
           />
         </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        />
+        <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -100,7 +106,8 @@ const {
 } = useCardStore(namespace);
 
 const { v$, invalid } = useValidate(validateSchema, { itemInstance });
-const { isNew, pathName, disabledSave, saveText, save, initialize } = useCardComponent({...restStore, itemInstance, invalid});
+const { isNew, pathName, disabledSave, saveText, save, initialize } =
+  useCardComponent({ ...restStore, itemInstance, invalid });
 const { hasSaveActionAccess, disableUserInput } = useAccessControl();
 
 const { close } = useClose(RouteNames.USERS);
@@ -154,7 +161,7 @@ const tabs = computed(() => {
   return tabs;
 });
 
-const { currentTab, changeTab } = useCardTabs(tabs.value);
+const { currentTab, changeTab } = useCardTabs(tabs);
 
 const path = computed(() => {
   const baseUrl = '/directory/users';
@@ -180,5 +187,4 @@ const path = computed(() => {
 initialize();
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
