@@ -16,7 +16,6 @@
       </div>
     </header>
 
-
     <wt-loader v-show="isLoading" />
 
     <wt-dummy
@@ -33,47 +32,35 @@
     >
       <div
         v-if="dataList.length && !isLoading"
-        style="display:contents;"
+        style="display: contents"
       >
-      <transition-slide
-      :offset="{
-              enter: ['-5%', 0],
-              leave: [0, 0]
-            }"
-      appear
-      duration="200"
-      mode="out-in"
-    >
-      <wt-table
-        :data="dataList"
-        :grid-actions="false"
-        :headers="headers"
-        :selectable="false"
-        sortable
-        @sort="sort"
-      >
-        <template #action="{ item }">
-          {{ t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
-        </template>
-        <template #date="{ item }">
-          {{ new Date(+item.date).toLocaleString() }}
-        </template>
-        <template #object="{ item }">
-          <adm-item-link
-            v-if="item.object"
-            :id="item.configId"
-            :route-name="RouteNames.CHANGELOGS"
-          >
-            {{ item.object.name }}
-          </adm-item-link>
-        </template>
-        <template #record="{ item }">
-          <record-link
-            :item="item"
-          />
-        </template>
-      </wt-table>
-      </transition-slide>
+        <wt-table
+          :data="dataList"
+          :grid-actions="false"
+          :headers="headers"
+          :selectable="false"
+          sortable
+          @sort="sort"
+        >
+          <template #action="{ item }">
+            {{ t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
+          </template>
+          <template #date="{ item }">
+            {{ new Date(+item.date).toLocaleString() }}
+          </template>
+          <template #object="{ item }">
+            <adm-item-link
+              v-if="item.object"
+              :id="item.configId"
+              :route-name="RouteNames.CHANGELOGS"
+            >
+              {{ item.object.name }}
+            </adm-item-link>
+          </template>
+          <template #record="{ item }">
+            <record-link :item="item" />
+          </template>
+        </wt-table>
       </div>
       <filter-pagination
         :namespace="filtersNamespace"
@@ -84,10 +71,12 @@
 </template>
 
 <script setup>
-import { TransitionSlide } from '@morev/vue-transitions';
 import FilterPagination from '@webitel/ui-sdk/src/modules/Filters/components/filter-pagination.vue';
 import { useTableFilters } from '@webitel/ui-sdk/src/modules/Filters/composables/useTableFilters.js';
-import { useCardStore, useTableStore } from '@webitel/ui-sdk/src/store/new/index.js';
+import {
+  useCardStore,
+  useTableStore,
+} from '@webitel/ui-sdk/src/store/new/index.js';
 import { inject, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
@@ -185,5 +174,4 @@ const { dummy } = useDummy({ namespace: tableNamespace, hiddenText: true });
 // };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

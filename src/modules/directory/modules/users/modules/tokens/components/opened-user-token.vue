@@ -1,8 +1,6 @@
 <template>
   <section>
-    <token-popup
-      :namespace="namespace"
-    />
+    <token-popup :namespace="namespace" />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
@@ -21,12 +19,14 @@
       >
         <delete-all-action
           v-if="!disableUserInput"
-          :class="{'hidden': !selected.length}"
+          :class="{ hidden: !selected.length }"
           :selected-count="selected.length"
-          @click="askDeleteConfirmation({
-            deleted: selected,
-            callback: () => deleteData(selected),
-          })"
+          @click="
+            askDeleteConfirmation({
+              deleted: selected,
+              callback: () => deleteData(selected),
+            })
+          "
         />
         <wt-icon-action
           v-if="!disableUserInput"
@@ -42,49 +42,41 @@
       class="table-wrapper"
     >
       <div
-        style="display:contents;"
+        style="display: contents"
         v-if="dataList.length && !isLoading"
       >
-        <transition-slide
-          :offset="{
-              enter: ['-5%', 0],
-              leave: [0, 0]
-            }"
-          duration="200"
-          mode="out-in"
-          appear
+        <wt-table
+          :data="dataList"
+          :grid-actions="!disableUserInput"
+          :headers="headers"
+          :selected="selected"
+          sortable
+          @sort="sort"
+          @update:selected="setSelected"
         >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        :selected="selected"
-        sortable
-        @sort="sort"
-        @update:selected="setSelected"
-      >
-        <template #usage="{ item }">
-          {{ item.usage }}
-        </template>
-        <template #createdBy="{ item }">
-          <div v-if="item.createdBy">
-            {{ item.createdBy.name }}
-          </div>
-        </template>
-        <template #createdAt="{ item }">
-          {{ prettifyDate(item.createdAt) }}
-        </template>
-        <template #actions="{ item }">
-          <wt-icon-btn
-            icon="bucket"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
-        </template>
-      </wt-table>
-        </transition-slide>
+          <template #usage="{ item }">
+            {{ item.usage }}
+          </template>
+          <template #createdBy="{ item }">
+            <div v-if="item.createdBy">
+              {{ item.createdBy.name }}
+            </div>
+          </template>
+          <template #createdAt="{ item }">
+            {{ prettifyDate(item.createdAt) }}
+          </template>
+          <template #actions="{ item }">
+            <wt-icon-btn
+              icon="bucket"
+              @click="
+                askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })
+              "
+            />
+          </template>
+        </wt-table>
       </div>
       <filter-pagination
         :namespace="filtersNamespace"
@@ -95,7 +87,6 @@
 </template>
 
 <script setup>
-import { TransitionSlide } from '@morev/vue-transitions';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterPagination from '@webitel/ui-sdk/src/modules/Filters/components/filter-pagination.vue';
@@ -212,5 +203,4 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -11,7 +11,9 @@ export default ({ mode }) => {
 
   return defineConfig({
     define: {
-      'process.env': JSON.parse(JSON.stringify(env).replaceAll('VITE_', 'VUE_APP_')),
+      'process.env': JSON.parse(
+        JSON.stringify(env).replaceAll('VITE_', 'VUE_APP_'),
+      ),
     },
     server: {
       host: true,
@@ -28,6 +30,7 @@ export default ({ mode }) => {
       },
     },
     resolve: {
+      dedupe: ['vue', '@vue/compat'],
       alias: {
         vue: '@vue/compat',
         '@': resolve(__dirname, 'src'),
@@ -69,4 +72,4 @@ export default ({ mode }) => {
       setupFiles: ['./tests/config/config.js'],
     },
   });
-}
+};

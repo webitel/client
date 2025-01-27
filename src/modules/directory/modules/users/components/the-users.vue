@@ -6,7 +6,13 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
-        :primary-action="() => router.push({ name: `${RouteNames.USERS}-card`, params: { id: 'new' } })"
+        :primary-action="
+          () =>
+            router.push({
+              name: `${RouteNames.USERS}-card`,
+              params: { id: 'new' },
+            })
+        "
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
@@ -39,12 +45,14 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': !selected.length}"
+                :class="{ hidden: !selected.length }"
                 :selected-count="selected.length"
-                @click="askDeleteConfirmation({
-                  deleted: selected,
-                  callback: () => deleteData(selected),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selected,
+                    callback: () => deleteData(selected),
+                  })
+                "
               />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
@@ -67,14 +75,14 @@
         <div class="table-wrapper">
           <wt-table-transition v-if="dataList.length && !isLoading">
             <wt-table
-            :selected="selected"
-            :data="dataList"
-            :grid-actions="hasEditAccess || hasDeleteAccess"
-            :headers="headers"
-            sortable
-            @update:selected="setSelected"
-            @sort="sort"
-          >
+              :selected="selected"
+              :data="dataList"
+              :grid-actions="hasEditAccess || hasDeleteAccess"
+              :headers="headers"
+              sortable
+              @update:selected="setSelected"
+              @sort="sort"
+            >
               <template #name="{ item }">
                 <adm-item-link
                   :id="item.id"
@@ -96,27 +104,27 @@
                 <wt-switcher
                   :disabled="!hasEditAccess"
                   :value="getDND(item.presence)"
-                  @change="setDND({item, value: $event})"
+                  @change="setDND({ item, value: $event })"
                 />
               </template>
               <template #actions="{ item }">
                 <adm-item-link
                   v-if="hasEditAccess"
                   :id="item.id"
-                  :route-name="RouteNames.USERS">
-
-                  <wt-icon-action
-                    action="edit"
-                  />
+                  :route-name="RouteNames.USERS"
+                >
+                  <wt-icon-action action="edit" />
                 </adm-item-link>
                 <wt-icon-action
                   v-if="hasDeleteAccess"
                   action="delete"
                   class="table-action"
-                  @click="askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => deleteData(item),
-                  })"
+                  @click="
+                    askDeleteConfirmation({
+                      deleted: [item],
+                      callback: () => deleteData(item),
+                    })
+                  "
                 />
               </template>
             </wt-table>
@@ -132,7 +140,6 @@
 </template>
 
 <script setup>
-import { TransitionSlide } from '@morev/vue-transitions';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import WtTableTransition from '@webitel/ui-sdk/src/components/on-demand/wt-table-transition/wt-table-transition.vue';
@@ -248,6 +255,4 @@ const closeCSVPopup = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
