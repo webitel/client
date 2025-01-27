@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "esnext",
     "lib": ["esnext"],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
@@ -12,7 +13,7 @@
     "moduleResolution": "Bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": false,
+    "noEmit": true,
     "noEmitOnError": false,
 
     "strict": false,

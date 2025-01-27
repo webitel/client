@@ -63,8 +63,7 @@ export default ({ mode }) => {
       }),
       checker({
         typescript: false,
-        vueTsc: true,
-        // biome: true,
+        vueTsc: false,
       }),
     ],
     test: {
