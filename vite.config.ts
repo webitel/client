@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import checker from 'vite-plugin-checker';
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -11,8 +12,9 @@ export default ({ mode }) => {
 
   return defineConfig({
     define: {
-      'process.env': JSON.parse(JSON.stringify(env)
-      .replaceAll('VITE_', 'VUE_APP_')),
+      'process.env': JSON.parse(
+        JSON.stringify(env).replaceAll('VITE_', 'VUE_APP_'),
+      ),
     },
     server: {
       host: true,
@@ -59,6 +61,10 @@ export default ({ mode }) => {
       vueDevTools({
         launchEditor: 'webstorm',
       }),
+      checker({
+        typescript: false,
+        vueTsc: false,
+      }),
     ],
     test: {
       globals: true,
@@ -70,4 +76,4 @@ export default ({ mode }) => {
       setupFiles: ['./tests/config/config.js'],
     },
   });
-}
+};
