@@ -1,5 +1,8 @@
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 const PermissionsTab = () =>
-  import('@webitel/ui-sdk/src/modules/ObjectPermissions/components/permissions-tab.vue');
+  import(
+    '@webitel/ui-sdk/src/modules/ObjectPermissions/components/permissions-tab.vue'
+  );
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
@@ -11,23 +14,32 @@ const OpenedUserGeneral = () => import('../components/opened-user-general.vue');
 const OpenedUserRoles = () => import('../components/opened-user-roles.vue');
 const OpenedUserLicense = () => import('../components/opened-user-license.vue');
 const OpenedUserDevices = () => import('../components/opened-user-devices.vue');
-const OpenedUserVariables = () => import('../components/opened-user-variables.vue');
-const OpenedUserToken = () => import('../modules/tokens/components/opened-user-token.vue');
-const OpenedUserLogs = () => import('../modules/logs/components/opened-user-logs.vue');
+const OpenedUserVariables = () =>
+  import('../components/opened-user-variables.vue');
+const OpenedUserToken = () =>
+  import('../modules/tokens/components/opened-user-token.vue');
+const OpenedUserLogs = () =>
+  import('../modules/logs/components/opened-user-logs.vue');
 
 const UsersRoutes = [
   {
     path: '/directory/users',
     name: RouteNames.USERS,
     component: Users,
-    beforeEnter: checkRouteAccess,
+    // beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: AdminSections.Users,
+    },
   },
   {
     path: '/directory/users/:id',
     name: `${RouteNames.USERS}-card`,
     component: OpenedUser,
     redirect: { name: UsersRouteNames.GENERAL },
-    beforeEnter: checkRouteAccess,
+    // beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: AdminSections.Users,
+    },
     children: [
       {
         path: 'general',

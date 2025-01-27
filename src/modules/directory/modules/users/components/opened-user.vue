@@ -69,7 +69,7 @@ import { useValidate } from '@webitel/ui-sdk/src/composables/useValidate/useVali
 import { useClose } from '@webitel/ui-sdk/src/composables/useClose/useClose.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
-import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
+import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
 
 const namespace = 'directory/users';
 const { t } = useI18n();

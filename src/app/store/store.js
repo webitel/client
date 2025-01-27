@@ -1,3 +1,4 @@
+import { createPinia } from 'pinia';
 import { createStore } from 'vuex';
 import appearance from '../../modules/appearance/store/appearance';
 import ccenter from '../../modules/contact-center/store/ccenter';
@@ -7,7 +8,7 @@ import lookups from '../../modules/lookups/store/lookups';
 import permissions from '../../modules/permissions/store/permissions';
 import routing from '../../modules/routing/store/routing';
 import system from '../../modules/system/store/system';
-import userinfo from '../../modules/userinfo/store/userinfo';
+import userinfo from '../../modules/userinfo/deprecated/store/userinfo';
 
 const store = createStore({
   strict: false,
@@ -32,6 +33,11 @@ const store = createStore({
   },
 });
 
+const pinia = createPinia();
+
 window.store = store;
+window.pinia = pinia;
+
+export { pinia };
 
 export default store;

@@ -1,11 +1,13 @@
-import ObjectsList from '../lookups/ObjectsList.lookup';
+import ObjectsList from '../lookups/ObjectsList.lookup.js';
 
 const convertScope = (initialScope) => {
   let scope = {};
   if (initialScope) {
     // iterate over ObjectsList and collect included classes
     scope = ObjectsList.reduce((objects, object) => {
-      const initialScopeObject = initialScope.find((obj) => obj.class === object.field);
+      const initialScopeObject = initialScope.find(
+        (obj) => obj.class === object.field,
+      );
       if (initialScopeObject) {
         const newObject = {
           ...object,
