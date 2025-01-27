@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import checker from 'vite-plugin-checker';
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -60,6 +61,10 @@ export default ({ mode }) => {
       }),
       vueDevTools({
         launchEditor: 'webstorm',
+      }),
+      checker({
+        typescript: false,
+        vueTsc: false,
       }),
     ],
     test: {
