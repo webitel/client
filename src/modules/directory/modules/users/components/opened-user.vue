@@ -1,5 +1,6 @@
 <template>
   <wt-page-wrapper
+    class="opened-card"
     :actions-panel="!!currentTab.filters"
   >
     <template #header>
@@ -17,13 +18,13 @@
     <template #actions-panel>
       <component
         :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
+        :namespace="namespace"
       />
     </template>
 
     <template #main>
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -31,167 +32,159 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            class="opened-card-tabs__tab"
+            :is="Component"
+            :namespace="cardNamespace"
+            :v="v$"
+            :access="{
+              read: true,
+              edit: !disableUserInput,
+              delete: !disableUserInput,
+              add: !disableUserInput,
+            }"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        />
+        <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { helpers, required, requiredIf } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+<script setup>
 import { computed } from 'vue';
-import { useStore } from 'vuex';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Logs from '../modules/logs/components/opened-user-logs.vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { helpers, required, requiredIf } from '@vuelidate/validators';
+import { useCardStore } from '@webitel/ui-sdk/src/store/new/index.js';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
+import { useCardComponent } from '@webitel/ui-sdk/src/composables/useCard/useCardComponent.js';
+import { useCardTabs } from '@webitel/ui-sdk/src/composables/useCard/useCardTabs.js';
+import { useValidate } from '@webitel/ui-sdk/src/composables/useValidate/useValidate.js';
+import { useClose } from '@webitel/ui-sdk/src/composables/useClose/useClose.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
-import Tokens from '../modules/tokens/components/opened-user-token.vue';
-import Devices from './opened-user-devices.vue';
-import General from './opened-user-general.vue';
-import License from './opened-user-license.vue';
-import Roles from './opened-user-roles.vue';
-import Variables from './opened-user-variables.vue';
 import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
 
 const namespace = 'directory/users';
+const { t } = useI18n();
+const route = useRoute();
 
-export default {
-  name: 'OpenedUser',
-  components: {
-    General,
-    Roles,
-    License,
-    Devices,
-    Variables,
-    Tokens,
-    Logs,
-    LogsFilters,
-  },
-  mixins: [openedObjectMixin],
+/** useVuelidate collects nested validations,
+ *  so that it collects validation from nested user-password-input.vue */
+const validateSchema = computed(() => ({
+  itemInstance: {
+    username: { required },
 
-  setup: () => {
-    const store = useStore();
-
-    const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
-
-    /** useVuelidate collects nested validations,
-     *  so that it collects validation from nested user-password-input.vue */
-    const v$ = useVuelidate(
-      computed(() => ({
-        itemInstance: {
-          username: { required },
-
-          /** see comment above */
-          // password: {
-          //   required: requiredUnless((value, item) => !!item.id),
-          // },
-          variables: {
-            $each: helpers.forEach({
-              key: {
-                required: requiredIf((value, item) => !!item.value),
-              },
-              value: {
-                required: requiredIf((value, item) => !!item.key),
-              },
-            }),
-          },
+    /** see comment above */
+    // password: {
+    //   required: requiredUnless((value, item) => !!item.id),
+    // },
+    variables: {
+      $each: helpers.forEach({
+        key: {
+          required: requiredIf((value, item) => !!item.value),
         },
-      })),
-      { itemInstance },
-      { $autoDirty: true },
-    );
-
-    return { v$ };
-  },
-  data: () => ({
-    namespace,
-    permissionsTabPathName: `${UsersRouteNames.PERMISSIONS}-card`,
-    passwordRegExp: '',
-    validationText: '',
-  }),
-
-  computed: {
-    path() {
-      const baseUrl = '/directory/users';
-      return [
-        {
-          name: this.$t('objects.directory.directory'),
+        value: {
+          required: requiredIf((value, item) => !!item.key),
         },
-        {
-          name: this.$tc('objects.directory.users.users', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.new ? this.$t('objects.new') : this.pathName,
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-
-    tabs() {
-      const general = {
-        text: this.$t('objects.general'),
-        value: 'general',
-        pathName: UsersRouteNames.GENERAL,
-      };
-      const roles = {
-        text: this.$t('objects.directory.users.roles'),
-        value: 'roles',
-        pathName: UsersRouteNames.ROLES,
-      };
-      const license = {
-        text: this.$t('objects.directory.users.license'),
-        value: 'license',
-        pathName: UsersRouteNames.LICENSE
-      };
-      const devices = {
-        text: this.$t('objects.directory.users.devices'),
-        value: 'devices',
-        pathName: UsersRouteNames.DEVICES,
-      };
-      const variables = {
-        text: this.$t('objects.directory.users.variables'),
-        value: 'variables',
-        pathName: UsersRouteNames.VARIABLES,
-      };
-      const tokens = {
-        text: this.$t('objects.directory.users.tokens'),
-        value: 'tokens',
-        pathName: UsersRouteNames.TOKENS,
-      };
-      const logs = {
-        text: this.$t('objects.system.changelogs.changelogs', 2),
-        value: 'logs',
-        filters: 'logs-filters',
-        filtersNamespace: `${this.namespace}/logs/filters`,
-        pathName: UsersRouteNames.LOGS,
-      };
-
-      const tabs = [general, roles, license, devices, variables, tokens];
-
-      if (this.id) tabs.push(logs, this.permissionsTab);
-      return tabs;
+      }),
     },
   },
-  methods: {
-    close() {
-      this.$router.push(`/${this.namespace}`);
+}));
+
+const {
+  namespace: cardNamespace,
+  id,
+  itemInstance,
+  ...restStore
+} = useCardStore(namespace);
+
+const { v$, invalid } = useValidate(validateSchema, { itemInstance });
+const { isNew, pathName, disabledSave, saveText, save, initialize } =
+  useCardComponent({ ...restStore, itemInstance, invalid });
+const { hasSaveActionAccess, disableUserInput } = useAccessControl();
+
+const { close } = useClose(RouteNames.USERS);
+
+const tabs = computed(() => {
+  const general = {
+    text: t('objects.general'),
+    value: UsersRouteNames.GENERAL,
+    pathName: UsersRouteNames.GENERAL,
+  };
+  const roles = {
+    text: t('objects.directory.users.roles'),
+    value: UsersRouteNames.ROLES,
+    pathName: UsersRouteNames.ROLES,
+  };
+  const license = {
+    text: t('objects.directory.users.license'),
+    value: UsersRouteNames.LICENSE,
+    pathName: UsersRouteNames.LICENSE,
+  };
+  const devices = {
+    text: t('objects.directory.users.devices'),
+    value: UsersRouteNames.DEVICES,
+    pathName: UsersRouteNames.DEVICES,
+  };
+  const variables = {
+    text: t('objects.directory.users.variables'),
+    value: UsersRouteNames.VARIABLES,
+    pathName: UsersRouteNames.VARIABLES,
+  };
+  const tokens = {
+    text: t('objects.directory.users.tokens'),
+    value: UsersRouteNames.TOKENS,
+    pathName: UsersRouteNames.TOKENS,
+  };
+  const logs = {
+    text: t('objects.system.changelogs.changelogs', 2),
+    filters: LogsFilters,
+    value: UsersRouteNames.LOGS,
+    pathName: UsersRouteNames.LOGS,
+  };
+  const permissions = {
+    text: t('objects.permissions.permissions', 2),
+    value: UsersRouteNames.PERMISSIONS,
+    pathName: UsersRouteNames.PERMISSIONS,
+  };
+
+  const tabs = [general, roles, license, devices, variables, tokens];
+
+  if (id.value) tabs.push(logs, permissions);
+  return tabs;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const path = computed(() => {
+  const baseUrl = '/directory/users';
+
+  return [
+    {
+      name: t('objects.directory.directory'),
     },
-  }
-};
+    {
+      name: t('objects.directory.users.users', 2),
+      route: baseUrl,
+    },
+    {
+      name: isNew.value ? t('objects.new') : pathName.value,
+      route: {
+        name: currentTab.value.pathName,
+        query: route.query,
+      },
+    },
+  ];
+});
+
+initialize();
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

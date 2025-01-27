@@ -1,12 +1,18 @@
 <template>
   <wt-page-wrapper
+    class="table-page users"
     :actions-panel="false"
-    class="users"
   >
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="
+          () =>
+            router.push({
+              name: `${RouteNames.USERS}-card`,
+              params: { id: 'new' },
+            })
+        "
       >
         <wt-headline-nav :path="path" />
       </wt-page-header>
@@ -17,37 +23,36 @@
         @close="closeCSVPopup"
       />
       <delete-confirmation-popup
-        :shown="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         @close="closeDelete"
       />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
-            {{ $t('objects.directory.users.allUsers') }}
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
+            {{ t('objects.directory.users.allUsers') }}
           </h3>
-          <div class="content-header__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
+          <div class="table-title__actions-wrap">
+            <filter-search
+              :namespace="filtersNamespace"
+              name="search"
             />
             <wt-table-actions
               :icons="['refresh']"
-              @input="tableActionsHandler"
+              @input="(event) => event === 'refresh' && loadData()"
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+                :class="{ hidden: !selected.length }"
+                :selected-count="selected.length"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selected,
+                    callback: () => deleteData(selected),
+                  })
+                "
               />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
@@ -59,79 +64,74 @@
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
+        <wt-loader v-show="isLoading" />
         <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
+          v-if="dummy && !isLoading"
           :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
+          :src="dummy.src"
+          :text="dummy.text && t(dummy.text)"
           class="dummy-wrapper"
         />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-wrapper"
-        >
-          <wt-table
-            :data="dataList"
-            :grid-actions="hasTableActions"
-            :headers="headers"
-            sortable
-            @sort="sort"
-          >
-            <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.USERS"
-              >
-                {{ item.name }}
-              </adm-item-link>
-            </template>
-            <template #status="{ item }">
-              <user-status :presence="item.presence" />
-            </template>
-            <template #username="{ item }">
-              {{ item.username }}
-            </template>
-            <template #extensions="{ item }">
-              {{ item.extension }}
-            </template>
-            <template #DnD="{ item }">
-              <wt-switcher
-                :disabled="!hasEditAccess"
-                :value="getDND(item.presence)"
-                @change="setDND({item, value: $event})"
-              />
-            </template>
-            <template #actions="{ item }">
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="RouteNames.USERS">
-
-                <wt-icon-action
-                  action="edit"
+        <div class="table-wrapper">
+          <wt-table-transition v-if="dataList.length && !isLoading">
+            <wt-table
+              :selected="selected"
+              :data="dataList"
+              :grid-actions="hasEditAccess || hasDeleteAccess"
+              :headers="headers"
+              sortable
+              @update:selected="setSelected"
+              @sort="sort"
+            >
+              <template #name="{ item }">
+                <adm-item-link
+                  :id="item.id"
+                  :route-name="RouteNames.USERS"
+                >
+                  {{ item.name }}
+                </adm-item-link>
+              </template>
+              <template #status="{ item }">
+                <user-status :presence="item.presence" />
+              </template>
+              <template #username="{ item }">
+                {{ item.username }}
+              </template>
+              <template #extensions="{ item }">
+                {{ item.extension }}
+              </template>
+              <template #DnD="{ item }">
+                <wt-switcher
+                  :disabled="!hasEditAccess"
+                  :value="getDND(item.presence)"
+                  @change="setDND({ item, value: $event })"
                 />
-              </adm-item-link>
-              <wt-icon-action
-                v-if="hasDeleteAccess"
-                action="delete"
-                class="table-action"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
-              />
-            </template>
-          </wt-table>
-          <wt-pagination
+              </template>
+              <template #actions="{ item }">
+                <adm-item-link
+                  v-if="hasEditAccess"
+                  :id="item.id"
+                  :route-name="RouteNames.USERS"
+                >
+                  <wt-icon-action action="edit" />
+                </adm-item-link>
+                <wt-icon-action
+                  v-if="hasDeleteAccess"
+                  action="delete"
+                  class="table-action"
+                  @click="
+                    askDeleteConfirmation({
+                      deleted: [item],
+                      callback: () => deleteData(item),
+                    })
+                  "
+                />
+              </template>
+            </wt-table>
+          </wt-table-transition>
+          <filter-pagination
+            :namespace="filtersNamespace"
             :next="isNext"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
           />
         </div>
       </section>
@@ -139,101 +139,120 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { mapActions } from 'vuex';
+import WtTableTransition from '@webitel/ui-sdk/src/components/on-demand/wt-table-transition/wt-table-transition.vue';
+import FilterPagination from '@webitel/ui-sdk/src/modules/Filters/components/filter-pagination.vue';
+import FilterSearch from '@webitel/ui-sdk/src/modules/Filters/components/filter-search.vue';
+import { useTableFilters } from '@webitel/ui-sdk/src/modules/Filters/composables/useTableFilters.js';
+import { useTableStore } from '@webitel/ui-sdk/store';
+import { computed, inject, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
 
 const namespace = 'directory/users';
 
-export default {
-  name: 'TheUsers',
-  components: {
-    UploadPopup,
-    UserStatus,
-    UploadFileIconBtn,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+const store = useStore();
+const router = useRouter();
+const { t } = useI18n();
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+const darkMode = inject('darkMode');
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+const {
+  namespace: tableNamespace,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    csvFile: null,
-    namespace,
-    routeName: RouteNames.USERS,
-  }),
+  dataList,
+  selected,
+  isLoading,
+  headers,
+  isNext,
+  error,
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.directory.directory'),
-        },
-        {
-          name: this.$tc('objects.directory.users.users', 2),
-          route: '/directory/users',
-        },
-      ];
+  loadData,
+  deleteData,
+  sort,
+  setSelected,
+  onFilterEvent,
+} = useTableStore(namespace);
+
+const {
+  namespace: filtersNamespace,
+  restoreFilters,
+
+  subscribe,
+  flushSubscribers,
+} = useTableFilters(tableNamespace);
+
+subscribe({
+  event: '*',
+  callback: onFilterEvent,
+});
+
+restoreFilters();
+
+onUnmounted(() => {
+  flushSubscribers();
+});
+
+const { dummy } = useDummy({
+  namespace,
+  hiddenText: true,
+});
+const {
+  isVisible: isDeleteConfirmationPopup,
+  deleteCount,
+  deleteCallback,
+
+  askDeleteConfirmation,
+  closeDelete,
+} = useDeleteConfirmationPopup();
+
+const csvFile = ref(null);
+
+const path = computed(() => {
+  return [
+    {
+      name: t('objects.directory.directory'),
     },
-  },
-
-  methods: {
-    ...mapActions({
-      setDND(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_USER_DND`, payload);
-      },
-    }),
-
-    getDND(value) {
-      if (value?.status) {
-        return value.status.includes('dnd');
-      }
-      return false;
+    {
+      name: t('objects.directory.users.users', 2),
+      route: '/directory/users',
     },
+  ];
+});
 
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-      }
-    },
+const setDND = (payload) => {
+  return store.dispatch(`${tableNamespace}/SET_USER_DND`, payload);
+};
 
-    closeCSVPopup() {
-      this.csvFile = null;
-      this.loadList();
-    },
-  },
+const getDND = (value) => {
+  if (value?.status) {
+    return value.status.includes('dnd');
+  }
+  return false;
+};
+
+const processCSV = (files) => {
+  const file = files[0];
+  if (file) {
+    csvFile.value = file;
+  }
+};
+
+const closeCSVPopup = () => {
+  csvFile.value = null;
+  return loadData();
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -4,19 +4,19 @@
       <wt-notifications-bar />
       <app-header />
       <div class="object-content-wrap">
-        <router-view />
+        <router-view v-slot="{ Component }">
+          <wt-route-transition>
+            <component :is="Component" />
+          </wt-route-transition>
+        </router-view>
       </div>
     </section>
   </main>
 </template>
 
-<script>
+<script setup>
+import WtRouteTransition from '@webitel/ui-sdk/src/components/on-demand/wt-route-transition/wt-route-transition.vue';
 import AppHeader from '../../_reusable/app-header/components/app-header.vue';
-
-export default {
-  name: 'ModuleWrap',
-  components: { AppHeader },
-};
 </script>
 
 <style lang="scss" scoped>
@@ -24,7 +24,7 @@ export default {
 .object-wrap {
   display: flex;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 }
 
 // main content itself, without nav but with main header
@@ -32,13 +32,12 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  max-width: 100%;
-  min-height: 100%;
   background: var(--wt-page-wrapper-background-color);
 }
 
 .object-content-wrap {
   display: flex;
   flex-grow: 1;
+  min-height: 0;
 }
 </style>

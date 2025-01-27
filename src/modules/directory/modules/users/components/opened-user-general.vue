@@ -1,55 +1,55 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $t('objects.generalInfo') }}
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
+        :label="t('objects.name')"
         :value="itemInstance.name"
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @input="setItemProp({ path: 'name', value: $event })"
       />
 
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.directory.users.extensions')"
+        :label="t('objects.directory.users.extensions')"
         :value="itemInstance.extension"
-        @input="setItemProp({ prop: 'extension', value: $event })"
+        @input="setItemProp({ path: 'extension', value: $event })"
       />
 
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.directory.users.login')"
+        :label="t('objects.directory.users.login')"
         :v="v.itemInstance.username"
         :value="itemInstance.username"
         required
-        @input="setItemProp({ prop: 'username', value: $event })"
+        @input="setItemProp({ path: 'username', value: $event })"
       />
 
       <wt-input
         :disabled="disableUserInput"
-        :label="$t('objects.email')"
+        :label="t('objects.email')"
         :value="itemInstance.email"
-        @input="setItemProp({ prop: 'email', value: $event })"
+        @input="setItemProp({ path: 'email', value: $event })"
       />
 
       <user-password-input
         :disabled="disableUserInput"
         :model-value="itemInstance.password"
         required
-        @update:model-value="setItemProp({ prop: 'password', value: $event })"
+        @update:model-value="setItemProp({ path: 'password', value: $event })"
       />
 
       <wt-select
         :disabled="!hasReadAccessToContacts"
         :label="$tc('vocabulary.contact', 1)"
-        :search-method="loadContactsOptions"
+        :search-method="ContactsAPI.getLookup"
         :value="itemInstance.contact"
         :track-by="name"
-        @input="setItemProp({ prop: 'contact', value: $event })"
+        @input="setItemProp({ path: 'contact', value: $event })"
       />
 
       <qrcode
@@ -61,28 +61,35 @@
   </section>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { useCardStore } from '@webitel/ui-sdk/store';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import Qrcode from './_internals/qrcode-two-factor-auth.vue';
+import { useAccessControl } from '@webitel/ui-sdk/src/composables/useAccessControl/useAccessControl.js';
 import ContactsAPI from '../api/contacts.js';
+import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
-export default {
-  name: 'OpenedUserGeneral',
-  components: { UserPasswordInput, Qrcode },
-  mixins: [openedTabComponentMixin],
-  computed: {
-    ...mapGetters('directory/users', {
-      isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
-    }),
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
   },
-  methods: {
-    loadContactsOptions(params) {
-      return ContactsAPI.getLookup(params);
-    },
+  v: {
+    type: Object,
+    required: true,
   },
-};
+});
+
+const store = useStore();
+const { t } = useI18n();
+
+const { disableUserInput } = useAccessControl();
+
+const { itemInstance, setItemProp } = useCardStore(props.namespace);
+
+const isDisplayQRCode = computed(() => store.getters[`${props.namespace}/IS_DISPLAY_QR_CODE`]);
 </script>
 
 <style lang="scss" scoped></style>

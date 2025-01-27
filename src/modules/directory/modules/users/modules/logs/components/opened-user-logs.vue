@@ -2,7 +2,7 @@
   <section class="content-wrapper">
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('objects.system.changelogs.logs.logs', 2) }}
+        {{ t('objects.system.changelogs.logs.logs', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
         <wt-icon-action
@@ -11,131 +11,167 @@
         />
         <wt-table-actions
           :icons="['refresh']"
-          @input="tableActionsHandler"
+          @input="(event) => event === 'refresh' && loadData()"
         />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
+    <wt-loader v-show="isLoading" />
+
     <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-    ></wt-dummy>
+      v-if="dummy && !isLoading"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && t(dummy.text)"
+      class="dummy-wrapper"
+    />
+
     <div
-      v-show="dataList.length && isLoaded"
+      v-show="!isLoading"
       class="table-wrapper"
     >
-      <wt-table
-        :data="dataList"
-        :grid-actions="false"
-        :headers="headers"
-        :selectable="false"
-        sortable
-        @sort="sort"
+      <div
+        v-if="dataList.length && !isLoading"
+        style="display: contents"
       >
-        <template #action="{ item }">
-          {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
-        </template>
-        <template #date="{ item }">
-          {{ new Date(+item.date).toLocaleString() }}
-        </template>
-        <template #object="{ item }">
-          <adm-item-link
-            v-if="item.object"
-            :id="item.configId"
-            :route-name="changelogsRouteName"
-          >
-            {{ item.object.name }}
-          </adm-item-link>
-        </template>
-        <template #record="{ item }">
-          <record-link
-            :item="item"
-          />
-        </template>
-      </wt-table>
-      <wt-pagination
+        <wt-table
+          :data="dataList"
+          :grid-actions="false"
+          :headers="headers"
+          :selectable="false"
+          sortable
+          @sort="sort"
+        >
+          <template #action="{ item }">
+            {{ t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
+          </template>
+          <template #date="{ item }">
+            {{ new Date(+item.date).toLocaleString() }}
+          </template>
+          <template #object="{ item }">
+            <adm-item-link
+              v-if="item.object"
+              :id="item.configId"
+              :route-name="RouteNames.CHANGELOGS"
+            >
+              {{ item.object.name }}
+            </adm-item-link>
+          </template>
+          <template #record="{ item }">
+            <record-link :item="item" />
+          </template>
+        </wt-table>
+      </div>
+      <filter-pagination
+        :namespace="filtersNamespace"
         :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
       />
     </div>
   </section>
 </template>
 
-<script>
-import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+<script setup>
+import FilterPagination from '@webitel/ui-sdk/src/modules/Filters/components/filter-pagination.vue';
+import { useTableFilters } from '@webitel/ui-sdk/src/modules/Filters/composables/useTableFilters.js';
+import {
+  useCardStore,
+  useTableStore,
+} from '@webitel/ui-sdk/src/store/new/index.js';
+import { inject, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
-import LogsAPI from '../api/logs';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
-const namespace = 'directory/users';
-const subNamespace = 'logs';
-
-export default {
-  name: 'OpenedUsersLogs',
-  components: { RecordLink },
-  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
-  data: () => ({
-    namespace,
-    subNamespace,
-    changelogsRouteName: RouteNames.CHANGELOGS,
-  }),
-
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
+const props = defineProps({
+  namespace: {
+    type: String,
+    required: true,
   },
+});
 
-  computed: {
-    getFilters() {
-      return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
-  created() {
-    this.initCSVExport(this.getDataForCSVExport, {
-      filename: `${this.itemInstance.name}-logs-at-${new Date().toLocaleString()}`,
-    });
-  },
-  methods: {
-    async getDataForCSVExport(params) {
-      const filters = this.getFilters;
-      const { items, next } = await LogsAPI.getList({
-        ...filters,
-        ...params,
-        parentId: this.parentId,
-      });
+const {
+  namespace: parentCardNamespace,
+  id: parentId,
 
-      const transformedItems = items.map((item) => ({
-        ...item,
-        date: new Date(+item.date).toLocaleString(),
-      }));
+  addItem,
+} = useCardStore(props.namespace);
 
-      return {
-        items: transformedItems,
-        next,
-      };
-    },
-  },
-};
+const namespace = `${parentCardNamespace}/logs`;
+
+const store = useStore();
+const router = useRouter();
+const route = useRoute();
+const { t } = useI18n();
+
+const darkMode = inject('darkMode');
+
+const {
+  namespace: tableNamespace,
+
+  dataList,
+  selected,
+  isLoading,
+  headers,
+  isNext,
+  error,
+
+  loadData,
+  deleteData,
+  sort,
+  setSelected,
+  onFilterEvent,
+} = useTableStore(namespace);
+
+const {
+  namespace: filtersNamespace,
+  restoreFilters,
+
+  subscribe,
+  flushSubscribers,
+} = useTableFilters(tableNamespace);
+
+subscribe({
+  event: '*',
+  callback: onFilterEvent,
+});
+
+restoreFilters();
+
+onUnmounted(() => {
+  flushSubscribers();
+});
+
+const { dummy } = useDummy({ namespace: tableNamespace, hiddenText: true });
+
+// const getFilters = computed(() => {
+//   return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
+// });
+//
+// this.initCSVExport(this.getDataForCSVExport, {
+//   filename: `${this.itemInstance.name}-logs-at-${new Date().toLocaleString()}`,
+// });
+//
+// const getDataForCSVExport = async (params) => {
+//   const filters = this.getFilters;
+//   const { items, next } = await LogsAPI.getList({
+//     ...filters,
+//     ...params,
+//     parentId: this.parentId,
+//   });
+//
+//   const transformedItems = items.map((item) => ({
+//     ...item,
+//     date: new Date(+item.date).toLocaleString(),
+//   }));
+//
+//   return {
+//     items: transformedItems,
+//     next,
+//   };
+// };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
