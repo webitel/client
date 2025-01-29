@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 // dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import './app/assets/icons/sprite';
@@ -45,13 +46,17 @@ const setTokenFromUrl = () => {
   }
 };
 
-const initSession = async () => store.dispatch('userinfo/OPEN_SESSION', { instance });
+const initSession = async () =>
+  store.dispatch('userinfo/OPEN_SESSION', { instance });
 
 const createVueInstance = () => {
+  const pinia = createPinia();
+
   const app = createApp(App)
     .use(router)
     .use(store)
     .use(i18n)
+    .use(pinia)
     .use(...WebitelUi)
     .use(BreakpointPlugin);
 
