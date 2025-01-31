@@ -65,7 +65,7 @@
             {{ $t('objects.integrations.storagePolicies.applyToFiles') }}
           </span>
           <wt-button @click="openPopup">
-            аплай
+            {{ $t('vocabulary.apply') }}
           </wt-button>
         </div>
       </div>

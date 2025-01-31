@@ -122,9 +122,9 @@ const getStoragePolicy = async ({ itemId: id }) => {
 
 const addStoragePolicy = async ({ itemInstance }) => {
   const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake('channels'),
     preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake('channels'), // value in array of 'channels' field should stay in camelCase like in StorageUploadFileChannel enum
   ]);
   try {
     const response = await storagePolicies.createFilePolicy(item);
@@ -136,9 +136,9 @@ const addStoragePolicy = async ({ itemInstance }) => {
 
 const updateStoragePolicy = async ({ itemInstance, itemId: id }) => {
   const item = applyTransform(itemInstance, [
-    sanitize(fieldsToSend),
-    camelToSnake('channels'),
     preRequestHandler,
+    sanitize(fieldsToSend),
+    camelToSnake('channels'), // value in array of 'channels' field should stay in camelCase like in StorageUploadFileChannel enum
   ]);
   try {
     const response = await storagePolicies.updateFilePolicy(id, item);

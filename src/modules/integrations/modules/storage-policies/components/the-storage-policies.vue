@@ -193,12 +193,6 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    // const {
-    //   callSortable,
-    //   mountSortable,
-    //   unmountSortable
-    // } = useMoveItem(dataList, this.changeItemPosition)
-
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -207,9 +201,6 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
-      // callSortable,
-      // mountSortable,
-      // unmountSortable,
     };
   },
   data: () => ({
@@ -280,14 +271,6 @@ export default {
 
           const [movedItem] = updatedDataList.splice(oldIndex, 1);
           updatedDataList.splice(newIndex, 0, movedItem);
-
-          // await ConditionsAPI.patch({
-          //   parentId: dataList.value[oldIndex].id,
-          //   changes: {
-          //     position: setPosition(newIndex, updatedDataList),
-          //   },
-          // });
-          // await loadData();
         },
       });
     },
