@@ -17,9 +17,29 @@ const resettableState = {
   },
 };
 
+const actions = {
+  SWAP_ROWS: async (context, { fromId, toId }) => {
+    /*
+    UI swap commented
+    because sortable reinitialization triggers on each dataList change
+    but UI changes anyway
+    await context.commit('SWAP_ROWS', {fromId, toId});
+    */
+    try {
+      await StoragePoliciesAPI.movePosition({
+        fromId,
+        toId,
+      });
+    } catch {
+    } finally {
+      // context.dispatch('LOAD_DATA_LIST');
+    }
+  },
+};
+
 const storagePolicies = new ObjectStoreModule({ resettableState, headers })
 .attachAPIModule(StoragePoliciesAPI)
 .generateAPIActions()
-.getModule({});
+.getModule({ actions });
 
 export default storagePolicies;

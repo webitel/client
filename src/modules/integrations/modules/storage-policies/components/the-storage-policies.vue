@@ -172,6 +172,29 @@ import dummyPicLight from '../../storage/assets/adm-dummy-storage-light.svg';
 
 const namespace = 'integrations/storagePolicies';
 
+const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
+const sortableConfig = {
+  swap: true, // Enable swap mode
+  swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
+  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
+  easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
+  ghostClass: 'sortable-ghost', // Class name for the drop placeholder
+  chosenClass: 'sortable-chosen', // Class name for the chosen item
+  dragClass: 'sortable-drag', // Class name for the dragging item
+  handle: '.dialplan__draggable-icon', // handle's class
+
+  direction: 'vertical', // Direction of Sortable (will be detected automatically if not given)
+
+  forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
+  fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
+
+  // eslint-disable-next-line no-unused-vars
+  setData: (dataTransfer, draggedElement) => {
+    dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
+  },
+};
+
 export default {
   name: 'TheStoragePolicies',
   components: { DeleteConfirmationPopup },
@@ -230,8 +253,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      patchProperty(dispatch, payload) {
-        return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
+      swapRows(dispatch, payload) {
+        return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
       },
     }),
     create() {
@@ -240,47 +263,37 @@ export default {
     editLink({ id }) {
       return { name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id } };
     },
-    setPosition(newIndex, list) {
-      if (newIndex === 0) return {
-        condDown: this.dataList.value[0].id,
-        condUp: 0,
-      };
-
-      if (newIndex === list.length - 1) return {
-        condDown: 0,
-        condUp: this.dataList.value[this.dataList.value.length - 1].id,
-      };
-
-      return {
-        condDown: list[newIndex - 1].id,
-        condUp: list[newIndex + 1].id,
-      };
-    },
-    initSortable(wrapper) {
-      if (this.sortableInstance) {
-        this.sortableInstance.destroy();
-        this.sortableInstance = null;
-      }
-
-      this.sortableInstance = new Sortable(wrapper, {
-
+    async initSortable() {
+      if (!this.hasEditAccess) return;
+      if (this.sortableInstance) this.destroySortable();
+      // https://github.com/SortableJS/Sortable#options
+      const tableBody = document.querySelector('.wt-table__body');
+      this.sortableInstance = Sortable.create(tableBody, {
         ...this.sortableConfig,
 
-        async onEnd({ oldIndex, newIndex }) {
-          const updatedDataList = [...this.dataList.value];
-
-          const [movedItem] = updatedDataList.splice(oldIndex, 1);
-          updatedDataList.splice(newIndex, 0, movedItem);
+        // Element dragging ended
+        onEnd: async (event) => {
+          if (event.oldIndex === event.newIndex) return;
+          const fromId = this.dataList[event.oldIndex].id;
+          const toId = this.dataList[event.newIndex].id;
+          await this.swapRowsAndReloadList({
+            fromId,
+            toId,
+          });
         },
       });
     },
-    callSortable() {
-      setTimeout(() => {
-        const wrapper = document.querySelector('.wt-table__body');
-        if (wrapper) {
-          this.initSortable(wrapper);
-        }
-      }, 500);
+    async swapRowsAndReloadList(swapPayload) {
+      this.isLoading = true;
+      this.destroySortable();
+      await this.swapRows(swapPayload);
+      await this.loadList();
+      await this.initSortable();
+      this.isLoading = false;
+    },
+    destroySortable() {
+      this.sortableInstance.destroy();
+      this.sortableInstance = null;
     },
   },
   mounted() {
@@ -289,18 +302,10 @@ export default {
       Sortable.__pluginsMounted = true;
     }
 
-    this.callSortable();
-  },
-  watch: {
-    dataList() {
-      this.callSortable();
-    },
+    this.initSortable();
   },
   unmounted() {
-    if (this.sortableInstance) {
-      this.sortableInstance.destroy();
-      this.sortableInstance = null;
-    }
+    this.destroySortable();
   }
 };
 

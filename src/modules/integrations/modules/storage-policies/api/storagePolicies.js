@@ -41,6 +41,19 @@ const fields = [
   'enabled',
 ];
 
+const defaultObject = {
+  name: '',
+  description: '',
+  channels: [],
+  mimeTypes: [],
+  retentionDays: 0,
+  speedDownload: 0,
+  speedUpload: 0,
+  maxUploadSize: 0,
+  position: 0,
+  enabled: false,
+};
+
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
   return {
@@ -50,20 +63,6 @@ const preRequestHandler = (item) => {
 }
 
 const getStoragePoliciesList = async (params) => {
-
-  const defaultObject = {
-    name: '',
-    description: '',
-    channels: [],
-    mimeTypes: [],
-    retentionDays: 0,
-    speedDownload: 0,
-    speedUpload: 0,
-    maxUploadSize: 0,
-    position: 0,
-    enabled: false,
-  };
-
   const { page, size, search, sort, id } = applyTransform(params, [
     merge(getDefaultGetParams()),
     starToSearch('search'),
@@ -95,20 +94,6 @@ const getStoragePoliciesList = async (params) => {
 };
 
 const getStoragePolicy = async ({ itemId: id }) => {
-  const defaultObject = {
-    name: '',
-    description: '',
-    channels: [],
-    mimeTypes: [],
-    retentionDays: 0,
-    speedDownload: 0,
-    speedUpload: 0,
-    maxUploadSize: 0,
-    position: 0,
-    enabled: false,
-  };
-
-
   try {
     const response = await storagePolicies.readFilePolicy(id);
     return applyTransform(response.data, [
@@ -167,11 +152,21 @@ const deleteStoragePolicy = async ({ id }) => {
   }
 };
 
-const getLookup = (params) =>
-  getStoragePoliciesList({
-    ...params,
-    fields: params.fields || ['id', 'name'],
-  });
+const movePositionStoragePolicy = async ({ fromId, toId }) => {
+  try {
+    const response = await storagePolicies.movePositionFilePolicy(fromId, toId, {});
+    return applyTransform(response.data, [
+      notify(({ callback }) =>
+        callback({
+          type: 'success',
+          text: 'Successfully saved',
+        }),
+      ),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [notify]);
+  }
+};
 
 const applyPolicies = async (id) => {
   try {
@@ -182,6 +177,12 @@ const applyPolicies = async (id) => {
   }
 }
 
+const getLookup = (params) =>
+  getStoragePoliciesList({
+    ...params,
+    fields: params.fields || ['id', 'name'],
+  });
+
 const StoragePoliciesAPI = {
   getList: getStoragePoliciesList,
   get: getStoragePolicy,
@@ -189,6 +190,7 @@ const StoragePoliciesAPI = {
   patch: patchStoragePolicy,
   update: updateStoragePolicy,
   delete: deleteStoragePolicy,
+  movePosition: movePositionStoragePolicy,
   applyPolicies,
   getLookup,
 };

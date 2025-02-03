@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="opened-storage-policy-general">
     <apply-to-files-popup
       :shown="isPopupOpened"
       :id="itemInstance.id"
@@ -28,7 +28,7 @@
         track-by="value"
         multiple
         required
-        @input="this.setItemProp({ prop: 'channels', value: $event });"
+        @input="setItemProp({ prop: 'channels', value: $event });"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -59,8 +59,8 @@
         type="number"
         @input="setItemProp({ prop: 'retentionDays', value: $event })"
       />
-      <div class="button-area">
-        <div class="button-area__content">
+      <div class="opened-storage-policy-general-button-area">
+        <div class="opened-storage-policy-general-button-area__content">
           <span>
             {{ $t('objects.integrations.storagePolicies.applyToFiles') }}
           </span>
@@ -108,6 +108,9 @@ export default {
   name: 'OpenedStoragePolicyGeneral',
   components: { ApplyToFilesPopup },
   mixins: [openedTabComponentMixin],
+  data: () => ({
+    isPopupOpened: false,
+  }),
   computed: {
     channels() {
       const copy = deepCopy(this.itemInstance.channels);
@@ -135,9 +138,6 @@ export default {
       }));
     }
   },
-  data: () => ({
-    isPopupOpened: false,
-  }),
   methods: {
     snakeToCamel,
     openPopup() {
@@ -154,20 +154,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.opened-storage-policy-general {
+  &-button-area {
+    grid-row-start: span 3;
+    height: -webkit-fill-available;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
 
-.button-area {
-  grid-row-start: span 3;
-  height: -webkit-fill-available;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--btn-secondary-color);
-  border-radius: var(--border-radius);
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
   }
 }
 
