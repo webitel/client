@@ -18,6 +18,8 @@ import ResourcesRoutes from '../../modules/contact-center/modules/resources/rout
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
+import StoragePoliciesRoutes
+  from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
 import ObjectsRoutes from "../../modules/permissions/modules/objects/router/objects.js";
 import LicenseRoutes from "../../modules/directory/modules/license/router/license.js";
 import FlowRoutes from "../../modules/routing/modules/flow/router/flow.js";
@@ -130,6 +132,7 @@ const router = createRouter({
         ...EmailProfilesRoutes,
         ...ImportCsvRoutes,
         ...TriggersRoutes,
+        ...StoragePoliciesRoutes,
         // Unused routes for unused integrations/single-sign-on module
         // {
         //   path: '/integrations/single-sign-on',

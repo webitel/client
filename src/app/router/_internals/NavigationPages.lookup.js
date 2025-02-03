@@ -186,6 +186,11 @@ const nav = Object.freeze([
         locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.TRIGGERS}`,
         route: 'triggers',
       },
+      {
+        value: AdminSections.STORAGE_POLICIES,
+        locale: `WebitelApplications.${WebitelApplications.ADMIN}.sections.${AdminSections.STORAGE_POLICIES}`,
+        route: 'storage-policies',
+      },
     ],
   },
   {

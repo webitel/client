@@ -42,13 +42,13 @@
     "pinia": "^2.3.1",
     "qrcode.vue": "^3.4.1",
     "query-string": "^7.1.1",
-    "sortablejs": "^1.10.2",
+    "sortablejs": "^1.15.6",
     "vue": "^3.5.1",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.4.3",
     "vue2-dropzone": "^3.6.0",
     "vuex": "^4.1.0",
-    "webitel-sdk": "^24.8.3"
+    "webitel-sdk": "^24.10.24"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
