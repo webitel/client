@@ -60,7 +60,8 @@ import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
-import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
+import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'directory/users';
 
@@ -110,7 +111,17 @@ export default {
       { $autoDirty: true },
     );
 
-    return { v$ };
+    const pageUserAccessControl = useUserAccessControl();
+
+    return {
+      v$,
+
+      hasCreateAccess: pageUserAccessControl.hasCreateAccess,
+      hasUpdateAccess: pageUserAccessControl.hasUpdateAccess,
+
+      hasSaveActionAccess: pageUserAccessControl.hasSaveActionAccess,
+      disableUserInput: pageUserAccessControl.disableUserInput,
+    };
   },
   data: () => ({
     namespace,

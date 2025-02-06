@@ -1,4 +1,4 @@
-import { AdminSections } from '@webitel/ui-sdk/enums';
+import {AdminSections, WtObject} from '@webitel/ui-sdk/enums';
 const PermissionsTab = () =>
   import(
     '@webitel/ui-sdk/src/modules/ObjectPermissions/components/permissions-tab.vue'
@@ -26,8 +26,9 @@ const UsersRoutes = [
     path: '/directory/users',
     name: RouteNames.USERS,
     component: Users,
-    // beforeEnter: checkRouteAccess,
+    beforeEnter: checkRouteAccess,
     meta: {
+      WtObject:  WtObject.User,
       UiSection: AdminSections.Users,
     },
   },
@@ -36,8 +37,9 @@ const UsersRoutes = [
     name: `${RouteNames.USERS}-card`,
     component: OpenedUser,
     redirect: { name: UsersRouteNames.GENERAL },
-    // beforeEnter: checkRouteAccess,
+    beforeEnter: checkRouteAccess,
     meta: {
+      WtObject:  WtObject.User,
       UiSection: AdminSections.Users,
     },
     children: [
