@@ -33,7 +33,6 @@ const actions = {
       ...context.getters['filters/GET_FILTERS'],
       ..._query,
     };
-    try {
       let { items = [], next = false, aggs = {} } = await context.dispatch('GET_LIST', query);
 
       /* [https://my.webitel.com/browse/WTEL-3793]
@@ -59,10 +58,6 @@ const actions = {
       context.commit('SET_IS_NEXT', afterHook.next);
       context.commit('AGGS', afterHook.aggs);
       context.dispatch('AFTER_SET_DATA_LIST_HOOK', afterHook);
-
-    } catch (err) {
-      console.error(err);
-    }
   },
   SET_SIZE: async (context, size) => {
     context.commit('SET_SIZE', size);

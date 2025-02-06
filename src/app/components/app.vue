@@ -5,7 +5,7 @@
   />
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { storeToRefs } from 'pinia';
 import { computed, provide } from 'vue';
 import { useI18n } from 'vue-i18n';

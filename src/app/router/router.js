@@ -10,7 +10,7 @@ import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/cha
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
 import RouteNames from './_internals/RouteNames.enum';
-import UsersRoutes from '../../modules/directory/modules/users/routes/routes.ts';
+import UsersRoutes from '../../modules/directory/modules/users/routes/routes';
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
@@ -178,7 +178,7 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   if (!localStorage.getItem('access-token') && !to.query.accessToken) {
     const desiredUrl = encodeURIComponent(window.location.href);
     const authUrl = import.meta.env.VITE_AUTH_URL;
@@ -187,10 +187,9 @@ router.beforeEach((to, from, next) => {
     // assume that access token was set from query before app initialization in main.js
     const newQuery = { ...to.query };
     newQuery.accessToken = undefined;
-    next({ ...to, query: newQuery });
-  } else {
-    next();
+    return { ...to, query: newQuery };
   }
+  return true;
 });
 
 window.router = router;
