@@ -1,4 +1,7 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -9,11 +12,15 @@ import applyTransform, {
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import deepCopy from 'deep-copy';
-import { FilePoliciesServiceApi } from 'webitel-sdk';
+import { FilePoliciesServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 
-const storagePolicies = new FilePoliciesServiceApi(configuration, '', instance);
+const storagePolicies = new FilePoliciesServiceApiFactory(
+  configuration,
+  '',
+  instance,
+);
 
 const fieldsToSend = [
   'name',
@@ -57,10 +64,10 @@ const defaultObject = {
 const preRequestHandler = (item) => {
   const copy = deepCopy(item);
   return {
-      ...copy,
-      channels: item.channels.map(channel => channel.value || channel),
-    };
-}
+    ...copy,
+    channels: item.channels.map((channel) => channel.value || channel),
+  };
+};
 
 const getStoragePoliciesList = async (params) => {
   const { page, size, search, sort, id } = applyTransform(params, [
@@ -83,9 +90,7 @@ const getStoragePoliciesList = async (params) => {
       merge(getDefaultGetListResponse()),
     ]);
     return {
-      items: applyTransform(items, [
-        mergeEach(defaultObject)
-      ]),
+      items: applyTransform(items, [mergeEach(defaultObject)]),
       next,
     };
   } catch (err) {
@@ -134,7 +139,10 @@ const updateStoragePolicy = async ({ itemInstance, itemId: id }) => {
 };
 
 const patchStoragePolicy = async ({ changes, id }) => {
-  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake()]);
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
   try {
     const response = await storagePolicies.patchFilePolicy(id, body);
     return applyTransform(response.data, [snakeToCamel()]);
@@ -154,7 +162,11 @@ const deleteStoragePolicy = async ({ id }) => {
 
 const movePositionStoragePolicy = async ({ fromId, toId }) => {
   try {
-    const response = await storagePolicies.movePositionFilePolicy(fromId, toId, {});
+    const response = await storagePolicies.movePositionFilePolicy(
+      fromId,
+      toId,
+      {},
+    );
     return applyTransform(response.data, [
       notify(({ callback }) =>
         callback({
@@ -175,7 +187,7 @@ const applyPolicies = async (id) => {
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
-}
+};
 
 const getLookup = (params) =>
   getStoragePoliciesList({
