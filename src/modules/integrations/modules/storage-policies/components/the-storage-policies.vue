@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper class="the-storage-policies" :actions-panel="false">
+  <wt-page-wrapper
+    class="the-storage-policies"
+    :actions-panel="false"
+  >
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -36,23 +39,35 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ hidden: anySelected }"
                 :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selectedRows,
+                    callback: () => deleteData(selectedRows),
+                  })
+                "
               />
             </wt-table-actions>
           </div>
         </header>
 
         <wt-loader v-show="!isLoaded" />
+
+        <wt-dummy
+          v-if="!dataList.length && isLoaded"
+          class="dummy-wrapper"
+          :src="dummy.src"
+          :text="dummy.text && $t(dummy.text)"
+          :dark-mode="darkMode"
+          :show-action="true"
+          @create="create"
+        />
+
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
-
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -67,44 +82,50 @@
             </template>
 
             <template #channels="{ item }">
-              {{ $t(`objects.integrations.storagePolicies.channels.${item.channels[0]}`)}}
+              {{
+                $t(
+                  `objects.integrations.storagePolicies.channels.${item.channels[0]}`,
+                )
+              }}
 
               <wt-tooltip
                 v-if="item.channels.length > 1"
                 :triggers="['click']"
               >
                 <template #activator>
-                  <wt-chip>
-                    +{{ item.channels.length - 1 }}
-                  </wt-chip>
+                  <wt-chip> +{{ item.channels.length - 1 }} </wt-chip>
                 </template>
 
                 <p
-                  v-for="(channel) of item.channels.slice(1)"
+                  v-for="channel of item.channels.slice(1)"
                   :key="channel"
-                > {{ $t(`objects.integrations.storagePolicies.channels.${channel}`) }} </p>
+                >
+                  {{
+                    $t(
+                      `objects.integrations.storagePolicies.channels.${channel}`,
+                    )
+                  }}
+                </p>
               </wt-tooltip>
             </template>
 
             <template #mimeTypes="{ item }">
-              <wt-chip color="secondary">
-                +{{ item.mimeTypes[0] }}
-              </wt-chip>
+              <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
 
               <wt-tooltip
                 v-if="item.mimeTypes.length > 1"
                 :triggers="['click']"
               >
                 <template #activator>
-                  <wt-chip>
-                    +{{ item.mimeTypes.length - 1 }}
-                  </wt-chip>
+                  <wt-chip> +{{ item.mimeTypes.length - 1 }} </wt-chip>
                 </template>
 
                 <p
-                  v-for="(channel) of item.mimeTypes.slice(1)"
+                  v-for="channel of item.mimeTypes.slice(1)"
                   :key="channel"
-                > {{ channel }} </p>
+                >
+                  {{ channel }}
+                </p>
               </wt-tooltip>
             </template>
 
@@ -112,7 +133,9 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.enabled"
-                @change="patchItem({ item, index, prop: 'enabled', value: $event })"
+                @change="
+                  patchItem({ item, index, prop: 'enabled', value: $event })
+                "
               />
             </template>
 
@@ -135,10 +158,12 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -159,51 +184,23 @@
 </template>
 
 <script>
+import Sortable, { Swap } from 'sortablejs';
+import { mapActions } from 'vuex';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import Sortable, { Swap } from 'sortablejs';
-import { computed } from 'vue';
-import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicDark from '../../storage/assets/adm-dummy-storage-dark.svg';
-import dummyPicLight from '../../storage/assets/adm-dummy-storage-light.svg';
 
 const namespace = 'integrations/storagePolicies';
-
-const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-
-const sortableConfig = {
-  swap: true, // Enable swap mode
-  swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
-  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-  easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
-  ghostClass: 'sortable-ghost', // Class name for the drop placeholder
-  chosenClass: 'sortable-chosen', // Class name for the chosen item
-  dragClass: 'sortable-drag', // Class name for the dragging item
-  handle: '.dialplan__draggable-icon', // handle's class
-
-  direction: 'vertical', // Direction of Sortable (will be detected automatically if not given)
-
-  forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
-  fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
-
-  // eslint-disable-next-line no-unused-vars
-  setData: (dataTransfer, draggedElement) => {
-    dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
-  },
-};
 
 export default {
   name: 'TheStoragePolicies',
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
-    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
-    const { dummy, darkMode } = useDummy({
+    const { dummy } = useDummy({
       namespace,
-      dummyPic,
       showAction: true,
     });
 
@@ -245,7 +242,10 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc('objects.integrations.storagePolicies.storagePolicies', 2),
+          name: this.$tc(
+            'objects.integrations.storagePolicies.storagePolicies',
+            2,
+          ),
           route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
         },
       ];
@@ -258,7 +258,10 @@ export default {
       },
     }),
     create() {
-      this.$router.push({ name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id: 'new' } });
+      this.$router.push({
+        name: `${RouteNames.STORAGE_POLICIES}-card`,
+        params: { id: 'new' },
+      });
     },
     editLink({ id }) {
       return { name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id } };
@@ -284,12 +287,10 @@ export default {
       });
     },
     async swapRowsAndReloadList(swapPayload) {
-      this.isLoading = true;
       this.destroySortable();
       await this.swapRows(swapPayload);
       await this.loadList();
       await this.initSortable();
-      this.isLoading = false;
     },
     destroySortable() {
       this.sortableInstance.destroy();
@@ -306,9 +307,8 @@ export default {
   },
   unmounted() {
     this.destroySortable();
-  }
+  },
 };
-
 </script>
 
 <style scoped>
