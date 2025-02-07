@@ -1,6 +1,10 @@
 /* eslint-disable quote-props */
 
-import { EngineCommunicationChannels, LoggerAction, StorageUploadFileChannel } from 'webitel-sdk';
+import {
+  EngineCommunicationChannels,
+  LoggerAction,
+  StorageUploadFileChannel,
+} from 'webitel-sdk';
 
 export default {
   auth: {
@@ -288,7 +292,8 @@ export default {
           dialog: 'Dialog',
           onhold: 'On hold',
         },
-        passwordSetFromAccount: "If you won't set password, it would be the same as account",
+        passwordSetFromAccount:
+          "If you won't set password, it would be the same as account",
       },
     },
     permissions: {
@@ -315,13 +320,19 @@ export default {
           deleteDescription: 'Grants permission to remove any objects',
           readDescription: 'Grants permission to select any objects',
           writeDescription: 'Grants permission to modify any objects',
-          eavesdropCallDescription: 'Grants permission to eavesdrop on an active conversation',
-          playbackRecordFileDescription: 'Grants permission to playback call-record files',
-          exportDataGridDescription: 'Grants permission to export data grid to a file',
+          eavesdropCallDescription:
+            'Grants permission to eavesdrop on an active conversation',
+          playbackRecordFileDescription:
+            'Grants permission to playback call-record files',
+          exportDataGridDescription:
+            'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
-          manageUserRolesDescription: 'Grants permission to manage a set of user roles',
-          manageUserLicenseDescription: 'Grants permission to manage a set of user license',
-          changeUserPasswordDescription: 'Grants permission to change the users password',
+          manageUserRolesDescription:
+            'Grants permission to manage a set of user roles',
+          manageUserLicenseDescription:
+            'Grants permission to manage a set of user license',
+          changeUserPasswordDescription:
+            'Grants permission to change the users password',
           systemSettingDescription:
             'Grants permission to access and manage the Configuration section',
           schemeVariables: 'Manage global variables',
@@ -361,9 +372,11 @@ export default {
         skills: 'Skill | Skills',
         capacity: 'Capacity',
         minCapacity: 'Min capacity',
-        minCapacityLessOrEqualToMaxCapacityValidator: 'Should be less or equal to Max capacity',
+        minCapacityLessOrEqualToMaxCapacityValidator:
+          'Should be less or equal to Max capacity',
         maxCapacity: 'Max capacity',
-        maxCapacityMoreOrEqualToMinCapacityValidator: 'Should be more or equal to Min capacity',
+        maxCapacityMoreOrEqualToMinCapacityValidator:
+          'Should be more or equal to Min capacity',
         lvl: 'Level',
         agentSkills: 'Agent skill | Agent skills',
         allSkills: 'All skills',
@@ -652,7 +665,8 @@ export default {
             resultPageText: 'Result page text',
             headingText: 'Heading text',
             subheadingText: 'Subheading text',
-            showDefaultHeading: 'Show default heading and subheading on result page',
+            showDefaultHeading:
+              'Show default heading and subheading on result page',
           },
           alternativeChannels: {
             alternativeChannels: 'Alternative Channels',
@@ -789,7 +803,8 @@ export default {
         emptyWorkspace: 'No members were found',
         resetMembers: {
           resetMembers: 'Reset members',
-          description: 'Are you sure you want to reset attempts of unsuccessful members?',
+          description:
+            'Are you sure you want to reset attempts of unsuccessful members?',
           reset: 'Reset',
           successResetCount: 'Successfully reset {count} members',
         },
@@ -831,7 +846,8 @@ export default {
         offlineQueueDescription:
           "An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it's their turn.",
         previewDialer: 'Preview dialer',
-        previewDialerDescription: 'Preview the contact before auto dialing them.',
+        previewDialerDescription:
+          'Preview the contact before auto dialing them.',
         progressiveDialer: 'Progressive dialer',
         progressiveDialerDescription:
           'Progressive dialing minimizes wasted time between calls by automatically dialing a number from a call list as soon as an agent becomes available.',
@@ -839,7 +855,8 @@ export default {
         predictiveDialerDescription:
           'A predictive dialer calls multiple numbers at one time. As soon as a customer answers, an agent is connected to them.',
         chatInboundQueue: 'Chat inbound queue',
-        chatInboundQueueDescription: 'The same as inbound queue, but with chats',
+        chatInboundQueueDescription:
+          'The same as inbound queue, but with chats',
         inboundJobQueue: 'Inbound task queue',
         inboundJobQueueDescription: 'Inbound task queue',
         outboundJobQueue: 'Outbound task queue',
@@ -886,7 +903,8 @@ export default {
         maxNumberOfRetry: 'Max number of retry',
         minDuration: 'Minimum succeed call duration',
         maxAttempts: 'Max attempts',
-        minOnlineAgents: 'Access to pause when there are more online agents than:',
+        minOnlineAgents:
+          'Access to pause when there are more online agents than:',
         waitForResultStatus: 'Wait for result status',
         bucketPriority: 'Priority',
         amd: 'AMD',
@@ -901,7 +919,7 @@ export default {
         afterSchema: 'After-executive schema',
         maxCalls: 'Max tasks',
         dialingRate: 'Dialing rate',
-        maxCallsHint: "If the value is 0, no tasks are performed",
+        maxCallsHint: 'If the value is 0, no tasks are performed',
         recordings: 'Recording',
         recordAll: 'Start record after answer',
         perNumbers: 'Dialing Attempts per each phone number',
@@ -1051,18 +1069,19 @@ export default {
         storagePolicies: 'Storage policy | Storage policies',
         mimeTypes: 'MIME types',
         retentionDays: 'Retention Days',
-        maxDownloadSpeed: 'Maximum download speed (kbps)',
-        maxUploadSpeed: 'Maximum upload speed (kbps)',
-        maxUploadSize: 'Maximum upload size (bytes)',
+        maxDownloadSpeed: 'Max download speed (kbps)',
+        maxUploadSpeed: 'Max upload speed (kbps)',
+        maxUploadSize: 'Max upload size (bytes)',
         applyToFiles: 'Apply to existing files',
-        applyPopupMessage: 'New retention time will be applied to existing files according to the policy. Do you want to continue?',
+        applyPopupMessage:
+          'New retention time will be applied to existing files according to the policy. Do you want to continue?',
         channels: {
           [StorageUploadFileChannel.CallChannel]: 'call',
           [StorageUploadFileChannel.ChatChannel]: 'chat',
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
-        }
+        },
       },
 
       cognitiveProfiles: {
