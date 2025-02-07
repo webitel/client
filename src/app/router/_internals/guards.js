@@ -10,7 +10,7 @@ export const checkAppAccess = (to) => {
   if (hasReadAccess) {
     return true;
   } else {
-    // next('/access-denied');
+    return { path: '/access-denied' };
   }
 };
 
@@ -18,10 +18,9 @@ export const checkRouteAccess = (to) => {
   const hasReadAccess = store.getters['userinfo/HAS_READ_ACCESS']({
     route: to,
   });
-  // if (hasReadAccess) {
-  return true;
-  // } else {
-  //   console.log('error?');
-  // next('/access-denied');
-  // }
+  if (hasReadAccess) {
+    return true;
+  } else {
+    return { path: '/access-denied' };
+  }
 };

@@ -44,11 +44,11 @@
       />
 
       <wt-select
-        :disabled="!hasReadAccessToContacts"
+        :disabled="disableUserInput || !hasContactsReadAccess"
         :label="$tc('vocabulary.contact', 1)"
         :search-method="loadContactsOptions"
-        :value="itemInstance.contact"
         :track-by="name"
+        :value="itemInstance.contact"
         @input="setItemProp({ prop: 'contact', value: $event })"
       />
 
@@ -62,16 +62,30 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapGetters } from 'vuex';
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 import ContactsAPI from '../api/contacts.js';
+import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {
   name: 'OpenedUserGeneral',
   components: { UserPasswordInput, Qrcode },
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+
+    const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
+      WtObject.Contact,
+    );
+
+    return {
+      disableUserInput,
+      hasContactsReadAccess,
+    };
+  },
   computed: {
     ...mapGetters('directory/users', {
       isDisplayQRCode: 'IS_DISPLAY_QR_CODE',

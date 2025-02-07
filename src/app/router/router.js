@@ -1,44 +1,42 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { checkAppAccess, checkRouteAccess } from './_internals/guards.js';
+import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
+import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
+import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
+import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
+import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
+import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
+import LicenseRoutes from '../../modules/directory/modules/license/router/license.js';
+import UsersRoutes from '../../modules/directory/modules/users/routes/routes';
 
 import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
+import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
+import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
+import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause.js';
+import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
+import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
+import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.js';
+import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars.js';
+import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
+import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
+import PauseTemplatesRoutes from '../../modules/lookups/modules/pause-templates/router/pauseTemplates.js';
+import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
+import ShiftTemplatesRoutes from '../../modules/lookups/modules/shift-templates/router/shiftTemplates.js';
+import WorkingConditionsRoutes from '../../modules/lookups/modules/working-conditions/router/workingConditions.js';
+import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
+import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
+import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan.js';
+import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan.js';
+import FlowRoutes from '../../modules/routing/modules/flow/router/flow.js';
+import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways.js';
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
+import { checkAppAccess } from './_internals/guards.js';
 import RouteNames from './_internals/RouteNames.enum';
-import UsersRoutes from '../../modules/directory/modules/users/routes/routes';
-import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
-import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
-import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
-import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
-import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
-import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
-import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
-import StoragePoliciesRoutes
-  from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
-import ObjectsRoutes from "../../modules/permissions/modules/objects/router/objects.js";
-import LicenseRoutes from "../../modules/directory/modules/license/router/license.js";
-import FlowRoutes from "../../modules/routing/modules/flow/router/flow.js";
-import ChatGetewaysRoutes from "../../modules/routing/modules/chat-gateways/router/chatGeteways.js";
-import ChatplanRoutes from "../../modules/routing/modules/chatplan/router/chatplan.js";
-import DialplanRoutes from "../../modules/routing/modules/dialplan/router/dialplan.js";
-import GatewaysRoutes from "../../modules/routing/modules/gateways/router/gateways.js";
-import AgentSkillsRoutes from "../../modules/lookups/modules/agent-skills/router/agentSkills.js";
-import BucketsRoutes from "../../modules/lookups/modules/buckets/router/buckets.js";
-import BlacklistsRoutes from "../../modules/lookups/modules/blacklists/router/blacklists.js";
-import MediaRoutes from "../../modules/lookups/modules/media/router/media.js";
-import ShiftTemplatesRoutes from "../../modules/lookups/modules/shift-templates/router/shiftTemplates.js";
-import CalendarsRoutes from "../../modules/lookups/modules/calendars/router/calendars.js";
-import CommunicationsRoutes from "../../modules/lookups/modules/communications/router/communications.js";
-import RegionsRoutes from "../../modules/lookups/modules/regions/router/regions.js";
-import AgentPauseCauseRoutes from "../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause.js";
-import PauseTemplatesRoutes from "../../modules/lookups/modules/pause-templates/router/pauseTemplates.js";
-import WorkingConditionsRoutes
-  from '../../modules/lookups/modules/working-conditions/router/workingConditions.js';
 
 const ApplicationHub = () =>
   import('../../modules/application-hub/components/application-hub.vue');
@@ -172,7 +170,6 @@ const router = createRouter({
         ...ConfigurationRoutes,
         ...GlobalVariablesRoutes,
         // ----------SYSTEM END-----------------
-
       ],
     },
   ],

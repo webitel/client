@@ -1,12 +1,11 @@
-import {AdminSections, WtObject} from '@webitel/ui-sdk/enums';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import UsersRouteNames from './_internals/UsersRouteNames.enum.js';
+
 const PermissionsTab = () =>
   import(
     '@webitel/ui-sdk/src/modules/ObjectPermissions/components/permissions-tab.vue'
   );
-
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
-import UsersRouteNames from './_internals/UsersRouteNames.enum.js';
 
 const Users = () => import('../components/the-users.vue');
 const OpenedUser = () => import('../components/opened-user.vue');
@@ -26,9 +25,8 @@ const UsersRoutes = [
     path: '/directory/users',
     name: RouteNames.USERS,
     component: Users,
-    beforeEnter: checkRouteAccess,
     meta: {
-      WtObject:  WtObject.User,
+      WtObject: WtObject.User,
       UiSection: AdminSections.Users,
     },
   },
@@ -37,9 +35,8 @@ const UsersRoutes = [
     name: `${RouteNames.USERS}-card`,
     component: OpenedUser,
     redirect: { name: UsersRouteNames.GENERAL },
-    beforeEnter: checkRouteAccess,
     meta: {
-      WtObject:  WtObject.User,
+      WtObject: WtObject.User,
       UiSection: AdminSections.Users,
     },
     children: [

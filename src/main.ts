@@ -20,6 +20,8 @@ import './app/plugins/webitel-flow-ui';
 import WebitelUi from './app/plugins/webitel-ui';
 import router from './app/router/router';
 import store, { pinia } from './app/store/store';
+import { useUserinfoStore } from './modules/userinfo/userinfoStore';
+import { createUserAccessControl } from './app/composables/useUserAccessControl';
 
 const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
@@ -48,14 +50,20 @@ const setTokenFromUrl = () => {
 const initSession = async () =>
   store.dispatch('userinfo/OPEN_SESSION', { instance });
 
-const createVueInstance = () => {
+const createVueInstance = async () => {
   const app = createApp(App)
-    .use(router)
     .use(store)
     .use(i18n)
     .use(pinia)
     .use(...WebitelUi)
     .use(BreakpointPlugin);
+
+  const { initialize, routeAccessGuard } = useUserinfoStore();
+  await initialize();
+  createUserAccessControl(useUserinfoStore);
+  router.beforeEach(routeAccessGuard);
+
+  app.use(router);
 
   ActionComponents.forEach((component) => {
     app.component(component.name, component);
@@ -77,7 +85,7 @@ const createVueInstance = () => {
   } catch (err) {
     console.error('Error initializing app', err);
   } finally {
-    const app = createVueInstance();
+    const app = await createVueInstance();
     app.provide('$config', config);
     app.mount('#app');
   }
