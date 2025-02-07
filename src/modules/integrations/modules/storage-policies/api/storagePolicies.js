@@ -58,7 +58,7 @@ const defaultObject = {
   speedUpload: 0,
   maxUploadSize: 0,
   position: 0,
-  enabled: false,
+  enabled: true,
 };
 
 const preRequestHandler = (item) => {
