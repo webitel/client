@@ -82,9 +82,7 @@
                 :triggers="['click']"
               >
                 <template #activator>
-                  <wt-chip>
-                    {{ item.channels.length - 1 }}
-                  </wt-chip>
+                  <wt-chip> +{{ item.channels.length - 1 }} </wt-chip>
                 </template>
 
                 <p
@@ -101,7 +99,7 @@
             </template>
 
             <template #mimeTypes="{ item }">
-              <wt-chip color="secondary"> +{{ item.mimeTypes[0] }} </wt-chip>
+              <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
 
               <wt-tooltip
                 v-if="item.mimeTypes.length > 1"
