@@ -13,7 +13,7 @@ const resettableState = {
     speedUpload: 0,
     maxUploadSize: 0,
     position: 0,
-    enabled: false,
+    enabled: true,
   },
 };
 
@@ -38,8 +38,8 @@ const actions = {
 };
 
 const storagePolicies = new ObjectStoreModule({ resettableState, headers })
-.attachAPIModule(StoragePoliciesAPI)
-.generateAPIActions()
-.getModule({ actions });
+  .attachAPIModule(StoragePoliciesAPI)
+  .generateAPIActions()
+  .getModule({ actions });
 
 export default storagePolicies;
