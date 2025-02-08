@@ -59,9 +59,13 @@ const createVueInstance = async () => {
     .use(BreakpointPlugin);
 
   const { initialize, routeAccessGuard } = useUserinfoStore();
-  await initialize();
-  createUserAccessControl(useUserinfoStore);
-  router.beforeEach(routeAccessGuard);
+  try {
+    await initialize();
+    createUserAccessControl(useUserinfoStore);
+    router.beforeEach(routeAccessGuard);
+  } catch (err) {
+    console.error('Error initializing app', err);
+  }
 
   app.use(router);
 
