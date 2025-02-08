@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper class="the-storage-policies" :actions-panel="false">
+  <wt-page-wrapper
+    class="the-storage-policies"
+    :actions-panel="false"
+  >
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -36,12 +39,14 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ hidden: anySelected }"
                 :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selectedRows,
+                    callback: () => deleteData(selectedRows),
+                  })
+                "
               />
             </wt-table-actions>
           </div>
@@ -52,7 +57,6 @@
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
         >
-
           <wt-table
             :data="dataList"
             :grid-actions="hasTableActions"
@@ -67,44 +71,50 @@
             </template>
 
             <template #channels="{ item }">
-              {{ $t(`objects.integrations.storagePolicies.channels.${item.channels[0]}`)}}
+              {{
+                $t(
+                  `objects.integrations.storagePolicies.channels.${item.channels[0]}`,
+                )
+              }}
 
               <wt-tooltip
                 v-if="item.channels.length > 1"
                 :triggers="['click']"
               >
                 <template #activator>
-                  <wt-chip>
-                    +{{ item.channels.length - 1 }}
-                  </wt-chip>
+                  <wt-chip> +{{ item.channels.length - 1 }} </wt-chip>
                 </template>
 
                 <p
-                  v-for="(channel) of item.channels.slice(1)"
+                  v-for="channel of item.channels.slice(1)"
                   :key="channel"
-                > {{ $t(`objects.integrations.storagePolicies.channels.${channel}`) }} </p>
+                >
+                  {{
+                    $t(
+                      `objects.integrations.storagePolicies.channels.${channel}`,
+                    )
+                  }}
+                </p>
               </wt-tooltip>
             </template>
 
             <template #mimeTypes="{ item }">
-              <wt-chip color="secondary">
-                +{{ item.mimeTypes[0] }}
-              </wt-chip>
+              <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
 
               <wt-tooltip
                 v-if="item.mimeTypes.length > 1"
                 :triggers="['click']"
               >
                 <template #activator>
-                  <wt-chip>
-                    +{{ item.mimeTypes.length - 1 }}
-                  </wt-chip>
+                  <wt-chip> +{{ item.mimeTypes.length - 1 }} </wt-chip>
                 </template>
 
                 <p
-                  v-for="(channel) of item.mimeTypes.slice(1)"
+                  v-for="channel of item.mimeTypes.slice(1)"
                   :key="channel"
-                > {{ channel }} </p>
+                >
+                  {{ channel }}
+                </p>
               </wt-tooltip>
             </template>
 
@@ -112,7 +122,9 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.enabled"
-                @change="patchItem({ item, index, prop: 'enabled', value: $event })"
+                @change="
+                  patchItem({ item, index, prop: 'enabled', value: $event })
+                "
               />
             </template>
 
@@ -135,10 +147,12 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -200,7 +214,9 @@ export default {
   components: { DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
   setup() {
-    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
+    const dummyPic = computed(() =>
+      darkMode.value ? dummyPicDark : dummyPicLight,
+    );
     const { dummy, darkMode } = useDummy({
       namespace,
       dummyPic,
@@ -245,7 +261,10 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc('objects.integrations.storagePolicies.storagePolicies', 2),
+          name: this.$tc(
+            'objects.integrations.storagePolicies.storagePolicies',
+            2,
+          ),
           route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
         },
       ];
@@ -258,7 +277,10 @@ export default {
       },
     }),
     create() {
-      this.$router.push({ name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id: 'new' } });
+      this.$router.push({
+        name: `${RouteNames.STORAGE_POLICIES}-card`,
+        params: { id: 'new' },
+      });
     },
     editLink({ id }) {
       return { name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id } };
@@ -306,9 +328,8 @@ export default {
   },
   unmounted() {
     this.destroySortable();
-  }
+  },
 };
-
 </script>
 
 <style scoped>
