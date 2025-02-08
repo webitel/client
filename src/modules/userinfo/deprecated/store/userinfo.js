@@ -1,7 +1,7 @@
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
-import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule';
-import NavigationPages from '../../../app/router/_internals/NavigationPages.lookup';
-import convertScope from './_internals/scripts/convertScope';
+import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum.js';
+import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule.js';
+import NavigationPages from '../../../../app/router/_internals/NavigationPages.lookup.js';
+import convertScope from './_internals/scripts/convertScope.js';
 
 const state = {
   thisApp: WebitelApplications.ADMIN,
@@ -25,7 +25,8 @@ const getters = {
       return accumulator;
     }, []),
 
-  IS_CHANGE_USER_PASSWORD_ALLOW: (state) => !!state.permissions.change_user_password,
+  IS_CHANGE_USER_PASSWORD_ALLOW: (state) =>
+    !!state.permissions.change_user_password,
 
   // FIXME: remove this getter after refactoring of userinfo module in SDK
   HAS_ACCESS_TO_OBJECT: (state, getters) => (objectName) => {

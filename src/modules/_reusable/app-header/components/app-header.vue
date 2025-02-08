@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { WtLogo, WtNavigationBar, WtAppHeader, WtAppNavigator, WtHeaderActions } from '@webitel/ui-sdk/components';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
@@ -35,6 +36,11 @@ export default {
   name: 'AppHeader',
   components: {
     WtDarkModeSwitcher,
+    WtNavigationBar,
+    WtLogo,
+    WtAppHeader,
+    WtAppNavigator,
+    WtHeaderActions,
   },
   mixins: [navMixin],
   inject: ['$config'],

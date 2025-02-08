@@ -1,7 +1,5 @@
 <template>
-  <wt-page-wrapper
-    :actions-panel="!!currentTab.filters"
-  >
+  <wt-page-wrapper :actions-panel="!!currentTab.filters">
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
@@ -39,7 +37,8 @@
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        />
+        <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -51,16 +50,17 @@ import { helpers, required, requiredIf } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
+import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
 import Devices from './opened-user-devices.vue';
 import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
-import UsersRouteNames from '../router/_internals/UsersRouteNames.enum.js';
 
 const namespace = 'directory/users';
 
@@ -81,7 +81,9 @@ export default {
   setup: () => {
     const store = useStore();
 
-    const itemInstance = computed(() => getNamespacedState(store.state, namespace).itemInstance);
+    const itemInstance = computed(
+      () => getNamespacedState(store.state, namespace).itemInstance,
+    );
 
     /** useVuelidate collects nested validations,
      *  so that it collects validation from nested user-password-input.vue */
@@ -110,7 +112,17 @@ export default {
       { $autoDirty: true },
     );
 
-    return { v$ };
+    const pageUserAccessControl = useUserAccessControl();
+
+    return {
+      v$,
+
+      hasCreateAccess: pageUserAccessControl.hasCreateAccess,
+      hasUpdateAccess: pageUserAccessControl.hasUpdateAccess,
+
+      hasSaveActionAccess: pageUserAccessControl.hasSaveActionAccess,
+      disableUserInput: pageUserAccessControl.disableUserInput,
+    };
   },
   data: () => ({
     namespace,
@@ -154,7 +166,7 @@ export default {
       const license = {
         text: this.$t('objects.directory.users.license'),
         value: 'license',
-        pathName: UsersRouteNames.LICENSE
+        pathName: UsersRouteNames.LICENSE,
       };
       const devices = {
         text: this.$t('objects.directory.users.devices'),
@@ -189,9 +201,8 @@ export default {
     close() {
       this.$router.push(`/${this.namespace}`);
     },
-  }
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

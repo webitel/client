@@ -20,8 +20,5 @@ export default {
         route: this.$route,
       });
     },
-    hasReadAccessToContacts() {
-      return this.$store.getters['userinfo/HAS_ACCESS_TO_OBJECT']('contacts');
-    },
   },
 };
