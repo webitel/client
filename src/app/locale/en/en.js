@@ -23,7 +23,7 @@ export default {
 
       title2: 'Multichannel VS Omni-Channel',
       text2:
-        "Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it's easier than ever!",
+        'Be always and everywhere in touch with your customers! IVR-menu of any complexity, outbound, inbound interaction campaigns or message on social networks - now it\'s easier than ever!',
 
       title3: 'Fault-tolerant infrastructure',
       text3:
@@ -212,7 +212,7 @@ export default {
         license: 'License',
         devices: 'Devices',
         defaultDevice: 'Default device (from list of selected devices)',
-        deviceNotFound: "Didn't find the device?",
+        deviceNotFound: 'Didn\'t find the device?',
         createNewDevice: 'Add new',
         variables: 'Variables',
         varKey: 'Key',
@@ -288,7 +288,7 @@ export default {
           dialog: 'Dialog',
           onhold: 'On hold',
         },
-        passwordSetFromAccount: "If you won't set password, it would be the same as account",
+        passwordSetFromAccount: 'If you won\'t set password, it would be the same as account',
       },
     },
     permissions: {
@@ -305,6 +305,7 @@ export default {
           write: 'Update',
           eavesdropCall: 'Eavesdrop call',
           playbackRecordFile: 'Playback record file',
+          timeLimitedRecordFile: 'Time-limited playback record file',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',
@@ -554,7 +555,7 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Template | Templates',
-          title: "Workspace member's name",
+          title: 'Workspace member\'s name',
           close: 'Chat complete message',
           join: 'Agent joining message',
           left: 'Agent disconnection message',
@@ -566,7 +567,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram App',
-          signedAs: "You're signed as",
+          signedAs: 'You\'re signed as',
           joinTelegram: 'Sign in to Telegram',
           metadata: {
             apiId: 'API id',
@@ -624,7 +625,7 @@ export default {
             position: 'Position',
             btnColor: 'Button Color',
             logoUrl: 'Logo URL',
-            logoHint: "Supported logo format is 'JPEG' or 'PNG', 24x24px",
+            logoHint: 'Supported logo format is \'JPEG\' or \'PNG\', 24x24px',
             rounded: 'Rounded',
             square: 'Square',
             right: 'Right',
@@ -826,10 +827,10 @@ export default {
           'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
         inboundQueue: 'Inbound queue',
         inboundQueueDescription:
-          "An Inbound queue is that it's where callers are placed on hold, in a queue, while they wait to speak with a live agent.",
+          'An Inbound queue is that it\'s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
         offlineQueue: 'Offline queue',
         offlineQueueDescription:
-          "An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it's their turn.",
+          'An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it\'s their turn.',
         previewDialer: 'Preview dialer',
         previewDialerDescription: 'Preview the contact before auto dialing them.',
         progressiveDialer: 'Progressive dialer',
@@ -901,7 +902,7 @@ export default {
         afterSchema: 'After-executive schema',
         maxCalls: 'Max tasks',
         dialingRate: 'Dialing rate',
-        maxCallsHint: "If the value is 0, no tasks are performed",
+        maxCallsHint: 'If the value is 0, no tasks are performed',
         recordings: 'Recording',
         recordAll: 'Start record after answer',
         perNumbers: 'Dialing Attempts per each phone number',
@@ -1190,8 +1191,8 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: "Looks like you're lost",
-      text: "Sorry, we can't find the page you want.",
+      title: 'Looks like you\'re lost',
+      text: 'Sorry, we can\'t find the page you want.',
     },
   },
 
