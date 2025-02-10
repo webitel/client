@@ -1,12 +1,10 @@
 <template>
   <section>
-    <permissions-popup
-      @close="closePopup"
-    />
+    <permissions-popup @close="closePopup" />
     <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
       @close="closeDelete"
     />
 
@@ -17,12 +15,14 @@
       <div class="content-header__actions-wrap">
         <delete-all-action
           v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
+          :class="{ hidden: anySelected }"
           :selected-count="selectedRows.length"
-          @click="askDeleteConfirmation({
-            deleted: selectedRows,
-            callback: () => deleteData(selectedRows),
-          })"
+          @click="
+            askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })
+          "
         />
         <wt-icon-btn
           v-if="!disableUserInput"
@@ -53,10 +53,12 @@
           <wt-icon-action
             action="delete"
             class="table-action"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })
+            "
           />
         </template>
       </wt-table>
@@ -133,28 +135,56 @@ export default {
         delete: this.$t('objects.permissions.roles.permissions.delete'),
         read: this.$t('objects.permissions.roles.permissions.read'),
         write: this.$t('objects.permissions.roles.permissions.write'),
-        eavesdrop_call: this.$t('objects.permissions.roles.permissions.eavesdropCall'),
-        playback_record_file: this.$t('objects.permissions.roles.permissions.playbackRecordFile'),
-        export_data_grid: this.$t('objects.permissions.roles.permissions.exportDataGrid'),
+        eavesdrop_call: this.$t(
+          'objects.permissions.roles.permissions.eavesdropCall',
+        ),
+        playback_record_file: this.$t(
+          'objects.permissions.roles.permissions.playbackRecordFile',
+        ),
+        time_limited_record_file: this.$t(
+          'objects.permissions.roles.permissions.timeLimitedRecordFile',
+        ),
+        export_data_grid: this.$t(
+          'objects.permissions.roles.permissions.exportDataGrid',
+        ),
         view_cdr_phone_numbers: this.$t(
           'objects.permissions.roles.permissions.viewCdrPhoneNumbers',
         ),
-        manage_user_roles: this.$t('objects.permissions.roles.permissions.manageUserRoles'),
-        manage_user_license: this.$t('objects.permissions.roles.permissions.manageUserLicense'),
-        change_user_password: this.$t('objects.permissions.roles.permissions.changeUserPassword'),
-        system_setting: this.$t('objects.permissions.roles.permissions.systemSetting'),
-        scheme_variables: this.$t('objects.permissions.roles.permissions.schemeVariables'),
+        manage_user_roles: this.$t(
+          'objects.permissions.roles.permissions.manageUserRoles',
+        ),
+        manage_user_license: this.$t(
+          'objects.permissions.roles.permissions.manageUserLicense',
+        ),
+        change_user_password: this.$t(
+          'objects.permissions.roles.permissions.changeUserPassword',
+        ),
+        system_setting: this.$t(
+          'objects.permissions.roles.permissions.systemSetting',
+        ),
+        scheme_variables: this.$t(
+          'objects.permissions.roles.permissions.schemeVariables',
+        ),
       };
     },
     permissionUsageLocale() {
       return {
         add: this.$t('objects.permissions.roles.permissions.addDescription'),
-        delete: this.$t('objects.permissions.roles.permissions.deleteDescription'),
+        delete: this.$t(
+          'objects.permissions.roles.permissions.deleteDescription',
+        ),
         read: this.$t('objects.permissions.roles.permissions.readDescription'),
-        write: this.$t('objects.permissions.roles.permissions.writeDescription'),
-        eavesdrop_call: this.$t('objects.permissions.roles.permissions.eavesdropCallDescription'),
+        write: this.$t(
+          'objects.permissions.roles.permissions.writeDescription',
+        ),
+        eavesdrop_call: this.$t(
+          'objects.permissions.roles.permissions.eavesdropCallDescription',
+        ),
         playback_record_file: this.$t(
           'objects.permissions.roles.permissions.playbackRecordFileDescription',
+        ),
+        time_limited_record_file: this.$t(
+          'objects.permissions.roles.permissions.timeLimitedRecordFileDescription',
         ),
         export_data_grid: this.$t(
           'objects.permissions.roles.permissions.exportDataGridDescription',
@@ -171,7 +201,9 @@ export default {
         change_user_password: this.$t(
           'objects.permissions.roles.permissions.changeUserPasswordDescription',
         ),
-        system_setting: this.$t('objects.permissions.roles.permissions.systemSettingDescription'),
+        system_setting: this.$t(
+          'objects.permissions.roles.permissions.systemSettingDescription',
+        ),
         scheme_variables: this.$t(
           'objects.permissions.roles.permissions.schemeVariablesDescription',
         ),
@@ -197,13 +229,13 @@ export default {
       this.$router.push({
         ...this.$route,
         params: { permissionIndex: index.toString() },
-      })
+      });
     },
     addItem() {
       this.$router.push({
         ...this.$route,
         params: { permissionIndex: 'new' },
-      })
+      });
     },
     closePopup() {
       this.$router.go(-1);
@@ -213,6 +245,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

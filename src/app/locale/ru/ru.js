@@ -326,6 +326,8 @@ export default {
             'Предоставляет разрешение на прослушивание активного разговора',
           playbackRecordFileDescription:
             'Предоставляет разрешение на воспроизведение файлов с записями разговоров',
+          timeLimitedRecordFileDescription:
+            'Предоставляет разрешение на воспроизведение файлов с записями разговоров за определенный период',
           exportDataGridDescription:
             'Предоставляет разрешение на экспорт данных',
           viewCdrPhoneNumbersDescription:
