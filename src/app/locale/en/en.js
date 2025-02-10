@@ -318,6 +318,7 @@ export default {
           writeDescription: 'Grants permission to modify any objects',
           eavesdropCallDescription: 'Grants permission to eavesdrop on an active conversation',
           playbackRecordFileDescription: 'Grants permission to playback call-record files',
+          timeLimitedRecordFileDescription: 'Grants permission to playback time-limited call-record files',
           exportDataGridDescription: 'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
           manageUserRolesDescription: 'Grants permission to manage a set of user roles',

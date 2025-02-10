@@ -318,6 +318,7 @@ export default {
           writeDescription: 'Надає дозвіл змінювати об’єкти',
           eavesdropCallDescription: 'Надає дозвіл прослуховувати активну розмову',
           playbackRecordFileDescription: 'Надає дозвіл на відтворення файлів записів дзвінків',
+          timeLimitedRecordFileDescription: 'Надає дозвіл на відтворення файлів записів дзвінків за певний період',
           exportDataGridDescription: 'Надає дозвіл на експорт даних',
           viewCdrPhoneNumbersDescription:
             'Надає дозвіл на відображення  незашифрованих телефонних номерів',
