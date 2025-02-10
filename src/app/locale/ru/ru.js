@@ -1,6 +1,10 @@
 /* eslint-disable quote-props */
 
-import { EngineCommunicationChannels, LoggerAction, StorageUploadFileChannel } from 'webitel-sdk';
+import {
+  EngineCommunicationChannels,
+  LoggerAction,
+  StorageUploadFileChannel,
+} from 'webitel-sdk';
 
 export default {
   auth: {
@@ -261,7 +265,8 @@ export default {
         newDevice: 'Новое устройство',
         newDeviceDescription: 'Описание нового устройства',
         hotdeskDeviceSettings: 'Настройка посменного использования устройства',
-        searchPlaceholder: 'Название, пользователь, идентификатор & идентификатор компьютера',
+        searchPlaceholder:
+          'Название, пользователь, идентификатор & идентификатор компьютера',
         authId: 'Идентификатор',
         presence: 'Актуальный статус',
         hotdesk: 'Hot desking',
@@ -288,7 +293,8 @@ export default {
           dialog: 'В разговоре',
           onhold: 'На удержании',
         },
-        passwordSetFromAccount: 'Если вы не установите пароль, он будет таким же, как аккаунт',
+        passwordSetFromAccount:
+          'Если вы не установите пароль, он будет таким же, как аккаунт',
       },
     },
     permissions: {
@@ -305,6 +311,7 @@ export default {
           write: 'Редактировать',
           eavesdropCall: 'Прослушивать активный звонок',
           playbackRecordFile: 'Воспроизводить записи разговоров',
+          timeLimitedRecordFile: 'Воспроизводить записи разговоров за период',
           exportDataGrid: 'Экспортировать данные',
           viewCdrPhoneNumbers: 'Просмотр незашифрованных номеров телефонов',
           manageUserRoles: 'Управление ролями пользователей',
@@ -315,10 +322,12 @@ export default {
           deleteDescription: 'Предоставляет разрешение на удаление объектов',
           readDescription: 'Предоставляет разрешение на выбор объектов',
           writeDescription: 'Предоставляет разрешение на изменение  объектов',
-          eavesdropCallDescription: 'Предоставляет разрешение на прослушивание активного разговора',
+          eavesdropCallDescription:
+            'Предоставляет разрешение на прослушивание активного разговора',
           playbackRecordFileDescription:
             'Предоставляет разрешение на воспроизведение файлов с записями разговоров',
-          exportDataGridDescription: 'Предоставляет разрешение на экспорт данных',
+          exportDataGridDescription:
+            'Предоставляет разрешение на экспорт данных',
           viewCdrPhoneNumbersDescription:
             'Предоставляет разрешение на отображение незашифрованных телефонных номеров',
           manageUserRolesDescription:
@@ -327,7 +336,8 @@ export default {
             'Предоставляет разрешение на управление набором пользовательских лицензий',
           changeUserPasswordDescription:
             'Предоставляет разрешение на изменение пароля пользователя',
-          systemSettingDescription: 'Предоставляет разрешение на управление разделом Конфигурация',
+          systemSettingDescription:
+            'Предоставляет разрешение на управление разделом Конфигурация',
           schemeVariables: 'Управление глобальными переменными',
           schemeVariablesDescription:
             'Предоставляет разрешение на управление разделом Глобальные переменные',
@@ -512,7 +522,8 @@ export default {
         },
         code: {
           code: 'Код',
-          description: 'Создать новую схему используя JSON-схему в редакторе кода',
+          description:
+            'Создать новую схему используя JSON-схему в редакторе кода',
         },
         askingAlert: 'Вы хотите сохранить изменения, внесенные в "{name}" ?',
       },
@@ -632,7 +643,8 @@ export default {
             position: 'Размещение',
             btnColor: 'Цвет кнопки',
             logoUrl: 'URL логотипа',
-            logoHint: "Поддерживаемый формат логотипа - 'JPEG' or 'PNG', 24x24px",
+            logoHint:
+              "Поддерживаемый формат логотипа - 'JPEG' or 'PNG', 24x24px",
             rounded: 'Круглая',
             square: 'Квадратная',
             right: 'Справа',
@@ -842,12 +854,14 @@ export default {
         previewDialerDescription:
           'Инициатором звонка выступает оператор. Предварительный просмотр контакта перед автоматическим набором номера.',
         progressiveDialer: 'Прогрессивный обзвон',
-        progressiveDialerDescription: 'Исходящая кампания с резервированием оператора.',
+        progressiveDialerDescription:
+          'Исходящая кампания с резервированием оператора.',
         predictiveDialer: 'Предиктивный обзвон',
         predictiveDialerDescription:
           'Исходящая кампания без предварительного резервирования оператора для максимального сокращения времени ожидания звонка.',
         chatInboundQueue: 'Входящая очередь чатов',
-        chatInboundQueueDescription: 'То же самое, что и Входящая очередь, но с чатами',
+        chatInboundQueueDescription:
+          'То же самое, что и Входящая очередь, но с чатами',
         inboundJobQueue: 'Входящая очередь заданий',
         inboundJobQueueDescription: 'Входящая очередь заданий',
         outboundJobQueue: 'Исходящая очередь заданий',
@@ -876,7 +890,8 @@ export default {
         expire: 'Истекает',
         originateTimeout: 'Длительность ожидания',
         maxAgentLine: 'Количество одновременных звонков на оператора',
-        maxAgentLose: 'Максимальное количество непринятых звонков для прекращения донабора линий',
+        maxAgentLose:
+          'Максимальное количество непринятых звонков для прекращения донабора линий',
         minAttempts: 'Количество попыток для перехода в предиктивный режим',
         maxAbandonedRate: 'Разрешенный % потерянных звонков',
         loadFactor: 'Коэффициент нагрузки',
@@ -894,7 +909,8 @@ export default {
         maxNumberOfRetry: 'Максимальное количество попыток звонков',
         minDuration: 'Минимально успешная длительность звонка',
         maxAttempts: 'Максимальное количество попыток',
-        minOnlineAgents: 'Доступ к паузе, если количество операторов онлайн больше чем:',
+        minOnlineAgents:
+          'Доступ к паузе, если количество операторов онлайн больше чем:',
         waitForResultStatus: 'Ожидание результата звонка',
         bucketPriority: 'Приоритет',
         amd: 'AMD',
@@ -917,12 +933,15 @@ export default {
         maxWordLength: 'Максимальная продолжительность предложения (мс)',
         maxNumberOfWords: 'Максимальное кол-во слов в приветствии',
         betweenWordsSilence: 'Продолжительность тишины между словами (мс)',
-        minWordLength: 'Минимальная продолжительность непрерывного звука голоса (мс)',
+        minWordLength:
+          'Минимальная продолжительность непрерывного звука голоса (мс)',
         totalAnalysisTime: 'Максимальное время для распознавания (мс)',
-        silenceThreshold: 'Максимальная продолжительность тишины между словами (мс)',
+        silenceThreshold:
+          'Максимальная продолжительность тишины между словами (мс)',
         afterGreetingSilence: 'Продолжительность тишины после приветствия (мс)',
         greeting: 'Максимальная длина приветствия (мс)',
-        initialSilence: 'Максимальная продолжительность тишины перед приветствием (мс)',
+        initialSilence:
+          'Максимальная продолжительность тишины перед приветствием (мс)',
         statisticTime: 'Интервал пересчета',
         communications: 'Тип связи',
         manualDistribution: 'Ручное распределение',
@@ -1063,14 +1082,15 @@ export default {
         maxUploadSpeed: 'Максимальная скорость выгрузки (kbps)',
         maxUploadSize: 'Максимальный размер файла (bytes)',
         applyToFiles: 'Применить к существующим файлам',
-        applyPopupMessage: 'Новое время хранения будет применено к существующим файлам согласно политике. Хотите продолжить?',
+        applyPopupMessage:
+          'Новое время хранения будет применено к существующим файлам согласно политике. Хотите продолжить?',
         channels: {
           [StorageUploadFileChannel.CallChannel]: 'звонок',
           [StorageUploadFileChannel.ChatChannel]: 'чат',
           [StorageUploadFileChannel.MediaChannel]: 'медиа',
           [StorageUploadFileChannel.MailChannel]: 'письмо',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-        }
+        },
       },
 
       cognitiveProfiles: {

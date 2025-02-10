@@ -310,6 +310,7 @@ export default {
           write: 'Update',
           eavesdropCall: 'Eavesdrop call',
           playbackRecordFile: 'Playback record file',
+          timeLimitedRecordFile: 'Time-limited playback record file',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',

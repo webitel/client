@@ -1,6 +1,10 @@
 /* eslint-disable quote-props */
 
-import { EngineCommunicationChannels, LoggerAction, StorageUploadFileChannel } from 'webitel-sdk';
+import {
+  EngineCommunicationChannels,
+  LoggerAction,
+  StorageUploadFileChannel,
+} from 'webitel-sdk';
 
 export default {
   auth: {
@@ -211,7 +215,8 @@ export default {
         roleAdmin: 'Адміністратор',
         license: 'Ліцензія',
         devices: 'Пристрій',
-        defaultDevice: 'Пристрій за замовчуванням (зі списку вибраних пристроїв)',
+        defaultDevice:
+          'Пристрій за замовчуванням (зі списку вибраних пристроїв)',
         deviceNotFound: 'Не знайшли свій пристрій?',
         createNewDevice: 'Додати новий',
         variables: 'Змінні',
@@ -261,7 +266,8 @@ export default {
         newDevice: 'Новий пристрій',
         newDeviceDescription: 'Опис нового пристрою',
         hotdeskDeviceSettings: 'Налаштування позмінного використання пристрою',
-        searchPlaceholder: "Назва, користувач, ідентифікатор, ідентифікатор комп'ютера",
+        searchPlaceholder:
+          "Назва, користувач, ідентифікатор, ідентифікатор комп'ютера",
         authId: 'Ідентифікатор',
         presence: 'Актуальний статус',
         hotdesk: 'Hot desking',
@@ -288,7 +294,8 @@ export default {
           dialog: 'В розмові',
           onhold: 'На утриманні',
         },
-        passwordSetFromAccount: 'Якщо Ви не встановите пароль, він буде таким же, як і акаунт',
+        passwordSetFromAccount:
+          'Якщо Ви не встановите пароль, він буде таким же, як і акаунт',
       },
     },
     permissions: {
@@ -305,6 +312,7 @@ export default {
           write: 'Редагувати',
           eavesdropCall: 'Прослуховувати активний дзвінок',
           playbackRecordFile: 'Відтворювати записи розмов',
+          timeLimitedRecordFile: 'Відтворювати записи розмов за певний період',
           exportDataGrid: 'Експортувати дані',
           viewCdrPhoneNumbers: 'Перегляд незашифрованих номерів телефонів',
           manageUserRoles: 'Управління ролями користувачів',
@@ -315,17 +323,24 @@ export default {
           deleteDescription: 'Надає дозвіл на видалення об’єктів',
           readDescription: 'Надає дозвіл на вибір об’єктів',
           writeDescription: 'Надає дозвіл змінювати об’єкти',
-          eavesdropCallDescription: 'Надає дозвіл прослуховувати активну розмову',
-          playbackRecordFileDescription: 'Надає дозвіл на відтворення файлів записів дзвінків',
+          eavesdropCallDescription:
+            'Надає дозвіл прослуховувати активну розмову',
+          playbackRecordFileDescription:
+            'Надає дозвіл на відтворення файлів записів дзвінків',
           exportDataGridDescription: 'Надає дозвіл на експорт даних',
           viewCdrPhoneNumbersDescription:
             'Надає дозвіл на відображення  незашифрованих телефонних номерів',
-          manageUserRolesDescription: 'Надає дозвіл на керування набором ролей користувачів',
-          manageUserLicenseDescription: 'Надає дозвіл на керування набором ліцензій користувача',
-          changeUserPasswordDescription: 'Надає дозвіл на зміну пароля користувача',
-          systemSettingDescription: 'Надає дозвіл на керування розділом Конфігурація',
+          manageUserRolesDescription:
+            'Надає дозвіл на керування набором ролей користувачів',
+          manageUserLicenseDescription:
+            'Надає дозвіл на керування набором ліцензій користувача',
+          changeUserPasswordDescription:
+            'Надає дозвіл на зміну пароля користувача',
+          systemSettingDescription:
+            'Надає дозвіл на керування розділом Конфігурація',
           schemeVariables: 'Управління глобальними змінними',
-          schemeVariablesDescription: 'Надає дозвіл на керування розділом Глобальні змінні',
+          schemeVariablesDescription:
+            'Надає дозвіл на керування розділом Глобальні змінні',
         },
         addPermission: 'Надати дозвіл',
         usage: 'Використання',
@@ -503,11 +518,13 @@ export default {
         editor: 'Редактор',
         diagram: {
           diagram: 'Діаграма',
-          description: 'Створити нову схему використовуючи Webitel Flow Diagram',
+          description:
+            'Створити нову схему використовуючи Webitel Flow Diagram',
         },
         code: {
           code: 'Код',
-          description: 'Створити нову схему використовуючи JSON-схему у редакторі коду',
+          description:
+            'Створити нову схему використовуючи JSON-схему у редакторі коду',
         },
         askingAlert: 'Бажаєте зберегти внесені вами зміни в "{name}" ?',
       },
@@ -628,7 +645,8 @@ export default {
             position: 'Розміщення',
             btnColor: 'Колір кнопки',
             logoUrl: 'URL логотипу',
-            logoHint: "Підтримуваний формат логотипу - 'JPEG' or 'PNG', 24x24px",
+            logoHint:
+              "Підтримуваний формат логотипу - 'JPEG' or 'PNG', 24x24px",
             rounded: 'Кругла',
             square: 'Квадратна',
             right: 'Справа',
@@ -793,7 +811,8 @@ export default {
         emptyWorkspace: 'Абонентів не знайдено',
         resetMembers: {
           resetMembers: 'Перезапустити абонентів',
-          description: 'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
+          description:
+            'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
           reset: 'Перезапустити',
           successResetCount: 'Успішно перезапущено {count} абонентів',
         },
@@ -838,7 +857,8 @@ export default {
         previewDialerDescription:
           'Ініціатором дзвінка виступає оператор. Він попередньо переглядає контакт перед автоматичним набором номеру.',
         progressiveDialer: 'Прогресивний обдзвін',
-        progressiveDialerDescription: 'Вихідна кампанія з резервуванням оператора.',
+        progressiveDialerDescription:
+          'Вихідна кампанія з резервуванням оператора.',
         predictiveDialer: 'Предиктивний обдзвін',
         predictiveDialerDescription:
           'Вихідна кампанія без попереднього резервування оператора для максимального скорочення часу очікування дзвінка.',
@@ -872,7 +892,8 @@ export default {
         expire: 'Закінчується',
         originateTimeout: 'Час очікування',
         maxAgentLine: 'Кількість одночасних дзвінків на оператора',
-        maxAgentLose: 'Максимальна кількість неприйнятих дзвінків для припинення донабору ліній',
+        maxAgentLose:
+          'Максимальна кількість неприйнятих дзвінків для припинення донабору ліній',
         minAttempts: 'Кількість спроб для переходу в предиктивний режим',
         maxAbandonedRate: 'Дозволений % втрачених дзвінків',
         loadFactor: 'Коефіцієнт навантаження',
@@ -888,7 +909,8 @@ export default {
         maxNumberOfRetry: 'Максимальна кількість повторів додзвону',
         minDuration: 'Мінімальна тривалість успішного дзвінка',
         maxAttempts: 'Максимальна кількість спроб',
-        minOnlineAgents: 'Доступ до паузи, якщо кількість операторів онлайн більше ніж:',
+        minOnlineAgents:
+          'Доступ до паузи, якщо кількість операторів онлайн більше ніж:',
         waitForResultStatus: 'Очікування результату дзвінка',
         retryAbandoned: 'Відновлювати втрачених абонентів',
         playbackFile: 'Програти файл',
@@ -1051,21 +1073,23 @@ export default {
       },
 
       storagePolicies: {
-        storagePolicies: 'Політика збереження файлів | Політики збереження файлів',
+        storagePolicies:
+          'Політика збереження файлів | Політики збереження файлів',
         mimeTypes: 'MIME типи',
         retentionDays: 'Кількість днів зберігання',
         maxDownloadSpeed: 'Максимальна швидкість завантаження (kbps)',
         maxUploadSpeed: 'Максимальна швидкість вивантаження (kbps)',
         maxUploadSize: 'Максимальний розмір файлу (bytes)',
         applyToFiles: 'Застосувати до наявних файлів',
-        applyPopupMessage: 'Новий час зберігання буде застосований до існуючих файлів згідно з політикою. Бажаєте продовжити?',
+        applyPopupMessage:
+          'Новий час зберігання буде застосований до існуючих файлів згідно з політикою. Бажаєте продовжити?',
         channels: {
           [StorageUploadFileChannel.CallChannel]: 'дзвінок',
           [StorageUploadFileChannel.ChatChannel]: 'чат',
           [StorageUploadFileChannel.MediaChannel]: 'медіа',
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-        }
+        },
       },
 
       cognitiveProfiles: {
