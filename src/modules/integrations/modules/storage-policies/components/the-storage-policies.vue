@@ -55,12 +55,12 @@
         <wt-loader v-show="!isLoaded" />
 
         <wt-dummy
-          v-if="!dataList.length && isLoaded"
+          v-if="dummy && isLoaded"
           class="dummy-wrapper"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           :dark-mode="darkMode"
-          :show-action="true"
+          :show-action="dummy.showAction"
           @create="create"
         />
 
@@ -184,10 +184,10 @@
 </template>
 
 <script>
-import Sortable, { Swap } from 'sortablejs';
-import { mapActions } from 'vuex';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import Sortable, { Swap } from 'sortablejs';
+import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
