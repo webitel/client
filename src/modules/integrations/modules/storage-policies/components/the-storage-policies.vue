@@ -72,6 +72,7 @@
             :data="dataList"
             :grid-actions="hasTableActions"
             :headers="headers"
+            fixedActions
             sortable
             @sort="sort"
           >
