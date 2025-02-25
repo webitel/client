@@ -2,7 +2,7 @@
   <div class="application-hub-wrap">
     <cc-header />
     <nav
-      :class="{ 'application-hub--sm': $breakpoint.smAndDown}"
+      :class="{ 'application-hub--sm': $breakpoint.smAndDown }"
       class="application-hub"
     >
       <div class="application-hub__background" />
@@ -22,7 +22,7 @@
                 :alt="`${app.name}-pic`"
                 :src="app.pic.img"
                 class="application-link__pic__img"
-              >
+              />
             </div>
             <div class="application-link__text-wrap">
               <div class="application-link__title-pic">
@@ -31,13 +31,13 @@
                   :alt="`${app.name}`"
                   :src="app.pic.title.md"
                   class="application-link__title-pic__img application-link__title-pic__img--md"
-                >
+                />
                 <img
                   v-else
                   :alt="`${app.name}-title`"
                   :src="app.pic.title.sm"
                   class="application-link__title-pic__img application-link__title-pic__img--sm"
-                >
+                />
               </div>
               <h1 class="application-link__title">
                 {{ app.title }}
@@ -150,13 +150,17 @@ export default {
       };
       const supervisorApp = {
         name: WebitelApplications.SUPERVISOR,
-        title: this.$t(`WebitelApplications.${WebitelApplications.SUPERVISOR}.name`),
+        title: this.$t(
+          `WebitelApplications.${WebitelApplications.SUPERVISOR}.name`,
+        ),
         href: import.meta.env.VITE_SUPERVISOR_URL,
         pic: picSupervisor,
       };
       const historyApp = {
         name: WebitelApplications.HISTORY,
-        title: this.$t(`WebitelApplications.${WebitelApplications.HISTORY}.name`),
+        title: this.$t(
+          `WebitelApplications.${WebitelApplications.HISTORY}.name`,
+        ),
         href: import.meta.env.VITE_HISTORY_URL,
         pic: picHistory,
       };
@@ -177,7 +181,9 @@ export default {
 
       const grafanaApp = {
         name: WebitelApplications.ANALYTICS,
-        title: this.$t(`WebitelApplications.${WebitelApplications.ANALYTICS}.name`),
+        title: this.$t(
+          `WebitelApplications.${WebitelApplications.ANALYTICS}.name`,
+        ),
         href: import.meta.env.VITE_GRAFANA_URL,
         pic: picGrafana,
       };
@@ -189,7 +195,14 @@ export default {
         pic: picCrm,
       };
 
-      const apps = [agentApp, supervisorApp, historyApp, adminApp, auditApp, crmApp];
+      const apps = [
+        agentApp,
+        supervisorApp,
+        historyApp,
+        adminApp,
+        auditApp,
+        crmApp,
+      ];
       if (this.$config.ON_SITE) apps.push(grafanaApp);
       return apps.filter(({ name }) => this.checkAccess(name));
     },
@@ -268,6 +281,7 @@ $transition: 0.4s;
 // laptop pic wrap
 .application-link__pic {
   z-index: 1;
+  filter: opacity(50%);
 }
 
 // text pic + heading
