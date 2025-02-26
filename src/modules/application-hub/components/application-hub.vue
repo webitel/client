@@ -293,7 +293,7 @@ $transition: 0.4s;
 // title text
 .application-link__title {
   @extend %typo-body-1;
-  color: var(--white);
+  color: var(--text-on-brand-color);
 }
 
 // specific @hover toggled styles (hovered)
