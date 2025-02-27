@@ -24,6 +24,7 @@ const resettableState = {
     variables: [],
     totpUrl: '',
     contact: {},
+    chatName: '',
   },
 };
 
