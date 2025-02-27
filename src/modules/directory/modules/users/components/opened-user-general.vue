@@ -52,6 +52,13 @@
         @input="setItemProp({ prop: 'contact', value: $event })"
       />
 
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.directory.users.chatName')"
+        :value="itemInstance.chatName"
+        @input="setItemProp({ prop: 'chatName', value: $event })"
+      />
+
       <qrcode
         v-if="isDisplayQRCode"
         :namespace="namespace"
