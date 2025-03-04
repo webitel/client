@@ -124,7 +124,7 @@ export default {
     },
     saveOptions() {
       const saveAsNew = {
-        text: this.$t('objects.saveAs'),
+        text: this.$t('reusable.saveAs'),
         callback: this.saveAs,
       };
       return [saveAsNew];
