@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
@@ -6,13 +7,12 @@ import ResourcesRoutes from '../../modules/contact-center/modules/resources/rout
 import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
 import LicenseRoutes from '../../modules/directory/modules/license/router/license.js';
-import UsersRoutes from '../../modules/directory/modules/users/routes/routes';
-
+import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js';
 import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
-import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
+import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause.js';
 import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
@@ -36,7 +36,8 @@ import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/cha
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
 import { checkAppAccess } from './_internals/guards.js';
-import RouteNames from './_internals/RouteNames.enum';
+import RouteNames from './_internals/RouteNames.enum.js';
+import RoutePaths from './_internals/RoutePaths'
 
 const ApplicationHub = () =>
   import('../../modules/application-hub/components/application-hub.vue');
@@ -55,8 +56,8 @@ const NotFound = () =>
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  // eslint-disable-next-line no-unused-vars
-  scrollBehavior(to, from, savedPosition) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  scrollBehavior(_to, _from, _savedPosition) {
     return { left: 0, top: 0 };
   },
   routes: [
@@ -73,11 +74,11 @@ const router = createRouter({
     {
       path: '/admin',
       component: ModuleWrap,
-      redirect: '/start',
+      redirect: RoutePaths.StartPage,
       beforeEnter: checkAppAccess,
       children: [
         {
-          path: '/start',
+          path: RoutePaths.StartPage,
           name: RouteNames.START,
           component: StartPage,
         },
