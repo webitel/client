@@ -37,7 +37,8 @@
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        />
+        <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -77,6 +78,8 @@ export default {
       name: { required },
       schema: { required },
       timezone: { required },
+      object: { required },
+      event: { required },
       timeout: {
         numeric,
         minValue: minValue(0),
@@ -108,7 +111,7 @@ export default {
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
-        pathName: TriggersRouteNames.RUNNING_HISTORY
+        pathName: TriggersRouteNames.RUNNING_HISTORY,
       };
 
       const tabs = [general, variables];
@@ -139,6 +142,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

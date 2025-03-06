@@ -22,6 +22,7 @@
         :v="v.itemInstance.type"
         :value="itemInstance.type"
         track-by="value"
+        required
         @input="setItemProp({ prop: 'type', value: $event })"
       />
       <wt-select
@@ -34,16 +35,29 @@
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
       />
+
+      <!--      <wt-select-->
+      <!--        :clearable="false"-->
+      <!--        :disabled="disableUserInput"-->
+      <!--        :label="$tc('date.timezone', 1)"-->
+      <!--        :search-method="loadTimezones"-->
+      <!--        :v="v.itemInstance.timezone"-->
+      <!--        :value="itemInstance.timezone"-->
+      <!--        required-->
+      <!--        @input="setItemProp({ prop: 'timezone', value: $event })"-->
+      <!--      />-->
+
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
-        :label="$tc('date.timezone', 1)"
-        :search-method="loadTimezones"
-        :v="v.itemInstance.timezone"
-        :value="itemInstance.timezone"
+        :label="$t('reusable.object')"
+        :search-method="() => ({ items: [] })"
+        :v="v.itemInstance.object"
+        :value="itemInstance.object"
         required
-        @input="setItemProp({ prop: 'timezone', value: $event })"
+        @input="setItemProp({ prop: 'object', value: $event })"
       />
+
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.timeout')"
@@ -53,23 +67,37 @@
         type="number"
         @input="setItemProp({ prop: 'timeout', value: $event })"
       />
-      <div class="crontab">
-        <wt-input
-          :custom-validators="cronValidator"
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.triggers.expression')"
-          :v="v.itemInstance.expression"
-          :value="itemInstance.expression"
-          required
-          @input="setItemProp({ prop: 'expression', value: $event })"
-        />
-        <p
-          v-show="!v.itemInstance.expression.$error"
-          class="crontab__parsed"
-        >
-          {{ parsedCron }}
-        </p>
-      </div>
+
+      <wt-select
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.triggers.event')"
+        :search-method="() => ({ items: [] })"
+        :v="v.itemInstance.event"
+        :value="itemInstance.event"
+        required
+        @input="setItemProp({ prop: 'event', value: $event })"
+      />
+
+      // TODO REMOVE
+      <!--      <div class="crontab">-->
+      <!--        <wt-input-->
+      <!--          :custom-validators="cronValidator"-->
+      <!--          :disabled="disableUserInput"-->
+      <!--          :label="$t('objects.integrations.triggers.expression')"-->
+      <!--          :v="v.itemInstance.expression"-->
+      <!--          :value="itemInstance.expression"-->
+      <!--          required-->
+      <!--          @input="setItemProp({ prop: 'expression', value: $event })"-->
+      <!--        />-->
+      <!--        <p-->
+      <!--          v-show="!v.itemInstance.expression.$error"-->
+      <!--          class="crontab__parsed"-->
+      <!--        >-->
+      <!--          {{ parsedCron }}-->
+      <!--        </p>-->
+      <!--      </div>-->
+
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -90,8 +118,7 @@ import { EngineRoutingSchemaType } from 'webitel-sdk';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import TriggerTypes from '../lookups/TriggerTypes.lookup';
-
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup.ts';
 export default {
   name: 'OpenedTriggerGeneral',
   mixins: [openedTabComponentMixin],

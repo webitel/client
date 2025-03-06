@@ -1,4 +1,7 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -12,9 +15,13 @@ import deepCopy from 'deep-copy';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup.ts';
 
-const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
+const triggersService = new TriggerServiceApiFactory(
+  configuration,
+  '',
+  instance,
+);
 
 const doNotConvertKeys = ['variables'];
 const fieldsToSend = [
@@ -46,16 +53,27 @@ const preRequestHandler = (item) => {
 };
 
 const getList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'schemaId'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'id',
+    'schemaId',
+  ];
   const defaultObject = {
     enabled: false,
   };
 
-  const { page, size, search, sort, fields, id, schemaId } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-    sanitize(fieldsToSend),
-  ]);
+  const { page, size, search, sort, fields, id, schemaId } = applyTransform(
+    params,
+    [
+      merge(getDefaultGetParams()),
+      starToSearch('search'),
+      sanitize(fieldsToSend),
+    ],
+  );
 
   try {
     const response = await triggersService.searchTrigger(
@@ -127,7 +145,10 @@ const add = async ({ itemInstance }) => {
 };
 
 const patch = async ({ changes, id }) => {
-  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake(doNotConvertKeys)]);
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
   try {
     const response = await triggersService.patchTrigger(id, body);
     return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);
