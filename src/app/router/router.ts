@@ -56,8 +56,7 @@ const NotFound = () =>
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  scrollBehavior(_to, _from, _savedPosition) {
+  scrollBehavior(/*to, from, savedPosition*/) {
     return { left: 0, top: 0 };
   },
   routes: [
