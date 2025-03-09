@@ -63,9 +63,6 @@ export default {
     ...mapGetters('appearance', {
       darkMode: 'DARK_MODE',
     }),
-    startPageHref() {
-      return import.meta.env.VITE_START_PAGE_URL;
-    },
     apps() {
       const agent = {
         name: WebitelApplications.AGENT,
