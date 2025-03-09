@@ -18,7 +18,7 @@ import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
 import i18n from './app/locale/i18n';
 import BreakpointPlugin from './app/plugins/breakpoint';
-import WebitelUi from './app/plugins/webitel-ui';
+import { webitelUiOptions, webitelUiPlugin } from './app/plugins/webitel-ui';
 import router from './app/router/router';
 import store, { pinia } from './app/store/store';
 import { useUserinfoStore } from './modules/userinfo/userinfoStore';
@@ -29,22 +29,15 @@ const fetchConfig = async () => {
   return response.json();
 };
 
-const setTokenFromUrl = () => {
+const setTokenFromUrl = (): void => {
   try {
-    const queryMap = window.location.search
-      .slice(1)
-      .split('&')
-      .reduce((obj, query) => {
-        const [key, value] = query.split('=');
-        obj[key] = value;
-        return obj;
-      }, {});
-
-    if (queryMap.accessToken) {
-      localStorage.setItem('access-token', queryMap.accessToken);
+    const params = new URLSearchParams(window.location.search);
+    const accessToken = params.get('accessToken');
+    if (accessToken) {
+      localStorage.setItem('access-token', accessToken);
     }
   } catch (err) {
-    console.error('Error restoring token from url', err);
+    console.error('Error restoring token from URL', err);
   }
 };
 
@@ -56,7 +49,7 @@ const createVueInstance = async () => {
     .use(store)
     .use(i18n)
     .use(pinia)
-    .use(...WebitelUi)
+    .use(webitelUiPlugin, webitelUiOptions)
     .use(BreakpointPlugin);
 
   const { initialize, routeAccessGuard } = useUserinfoStore();
