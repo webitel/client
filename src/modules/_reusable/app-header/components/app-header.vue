@@ -6,11 +6,10 @@
       :logo-route="RoutePaths.StartPage"
       :nav="nav"
     />
-    <a :href="startPageHref">
-      <wt-logo
-        :dark-mode="darkMode"
-      />
-    </a>
+    <wt-logo
+      :dark-mode="darkMode"
+      :logo-href="startPageHref"
+    />
     <wt-dark-mode-switcher />
     <wt-app-navigator
       :apps="apps"
