@@ -22,7 +22,7 @@ const getWorkingConditionList = async (params) => {
   ]);
 
   try {
-    const response = await workingConditionService.searchWorkingCondition(q, page, size, sort, fields);
+    const response = await workingConditionService.searchWorkingCondition(page, size, q, sort, fields);
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
