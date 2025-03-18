@@ -53,6 +53,9 @@ const userinfo = new UserinfoStoreModule().getModule({
 * need to check for a strict equality for this specific route
 * https://webitel.atlassian.net/browse/WTEL-6526
 * */
+
+const CHECK_OBJECT_ACCESS_BY_ROUTE = userinfo.getters.CHECK_OBJECT_ACCESS_BY_ROUTE;
+
 userinfo.getters.CHECK_OBJECT_ACCESS_BY_ROUTE = (state, getters) => (route) => {
   if (route.name === RouteNames.STORAGE_POLICIES) {
     const accessKey = Object.keys(state.access[getters.THIS_APP]).find(
@@ -60,7 +63,7 @@ userinfo.getters.CHECK_OBJECT_ACCESS_BY_ROUTE = (state, getters) => (route) => {
     );
     return state.access[getters.THIS_APP][accessKey]?._enabled;
   }
-  return userinfo.getters.CHECK_OBJECT_ACCESS_BY_ROUTE(state, getters)(route);
+  return CHECK_OBJECT_ACCESS_BY_ROUTE(state, getters)(route);
 };
 
 
