@@ -132,15 +132,15 @@ export default {
       itemInstance: {
         value: {
           required,
-          minValue: minValue(0),
+          minValue: minValue(
+            this.itemInstance.name ===
+              EngineSystemSettingName.PeriodToPlaybackRecords
+              ? 1
+              : 0,
+          ),
         },
       },
     };
-    if (
-      this.itemInstance.name === EngineSystemSettingName.PeriodToPlaybackRecords
-    ) {
-      defaultNumberConfig.itemInstance.value.minValue = minValue(1);
-    }
 
     let defaultSelectConfig;
     defaultSelectConfig = {
