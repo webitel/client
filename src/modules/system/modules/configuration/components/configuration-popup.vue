@@ -23,9 +23,7 @@
           required
           @input="setParameterName"
         />
-        <div
-          v-if="itemInstance.name"
-        >
+        <div v-if="itemInstance.name">
           <wt-switcher
             v-if="displayedConfigurationType.boolean"
             :label="$t('reusable.state')"
@@ -134,7 +132,12 @@ export default {
       itemInstance: {
         value: {
           required,
-          minValue: minValue(0),
+          minValue: minValue(
+            this.itemInstance.name ===
+              EngineSystemSettingName.PeriodToPlaybackRecords
+              ? 1
+              : 0,
+          ),
         },
       },
     };
@@ -185,6 +188,8 @@ export default {
         return deepmerge(defaults, defaultStringConfig);
       case EngineSystemSettingName.AutolinkCallToContact:
         return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.PeriodToPlaybackRecords:
+        return deepmerge(defaults, defaultNumberConfig);
       default:
         return defaults;
     }
@@ -247,7 +252,10 @@ export default {
     handleDefaultSelectConfigInput() {
       this.setItemProp({
         prop: 'value',
-        value: { format: this.itemInstance.format.name, separator: this.itemInstance.separator },
+        value: {
+          format: this.itemInstance.format.name,
+          separator: this.itemInstance.separator,
+        },
       });
     },
     selectHandler(selectedValue) {
@@ -266,22 +274,24 @@ export default {
     },
     setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event.name });
-      if (this.valueType === 'boolean') this.setItemProp({ prop: 'value', value: false });
-      if (this.valueType === 'number') this.setItemProp({ prop: 'value', value: 0 });
+      if (this.valueType === 'boolean')
+        this.setItemProp({ prop: 'value', value: false });
+      if (this.valueType === 'number')
+        this.setItemProp({ prop: 'value', value: 0 });
     },
-    loadPageData(){},
+    loadPageData() {},
   },
   watch: {
     configurationId: {
       async handler(id) {
         if (id) {
           await this.loadPopupData(id);
-        }
-        else {
+        } else {
           this.resetState();
         }
-      }, immediate: true,
+      },
+      immediate: true,
     },
-  }
+  },
 };
 </script>
