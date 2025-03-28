@@ -12,6 +12,7 @@ import applyTransform, {
 import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import deepCopy from 'deep-copy';
 import deepmerge from 'deepmerge';
+
 import instance from '../../../../../app/api/instance';
 import webChatGateway from '../store/_internals/providers/webChatGateway';
 

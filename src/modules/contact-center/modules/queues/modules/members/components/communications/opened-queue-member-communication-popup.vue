@@ -72,6 +72,7 @@ import { required } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import deepCopy from 'deep-copy';
 import { mapActions, mapState } from 'vuex';
+
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';

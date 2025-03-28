@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import AgentPauseCauseRouteNames from "./_internals/AgentPauseCauseRouteNames.enum.js";
 
 const AgentPauseCause = () => import('../components/the-agent-pause-cause.vue');

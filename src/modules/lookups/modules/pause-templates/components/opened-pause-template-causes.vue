@@ -54,6 +54,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
 export default {

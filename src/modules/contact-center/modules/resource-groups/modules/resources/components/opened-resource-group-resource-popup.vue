@@ -56,6 +56,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import ResourcesAPI from '../../../../resources/api/resources';
 
@@ -85,12 +86,6 @@ export default {
       return this.$route.params.resourceId;
     },
   },
-
-  methods: {
-    loadDropdownOptionsList(params) {
-      return ResourcesAPI.getLookup(params);
-    },
-  },
   watch: {
     resourceId: {
       handler(id) {
@@ -101,6 +96,12 @@ export default {
         }
       }, immediate: true,
     }
+  },
+
+  methods: {
+    loadDropdownOptionsList(params) {
+      return ResourcesAPI.getLookup(params);
+    },
   }
 };
 </script>

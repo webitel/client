@@ -40,14 +40,15 @@
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import { mapState } from 'vuex';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import { timerangeNotIntersect, timerangeStartLessThanEnd } from '../../../../../app/utils/validators';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum.js';
 import General from './opened-calendar-general.vue';
 import Holidays from './opened-calendar-holidays.vue';
-import WorkWeek from './opened-calendar-work-week.vue';
 import SpecialTime from './opened-calendar-special-time.vue';
+import WorkWeek from './opened-calendar-work-week.vue';
 
 export default {
   name: 'OpenedCalendar',

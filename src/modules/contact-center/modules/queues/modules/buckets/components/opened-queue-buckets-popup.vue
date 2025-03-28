@@ -51,6 +51,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
@@ -88,18 +89,18 @@ export default {
     },
   },
 
-  methods: {
-    loadBucketsOptions(params) {
-      return BucketsAPI.getLookup(params);
-    },
-  },
-
   watch: {
     bucketId: {
       immediate: true,
       handler(id) {
         if (id) this.handleIdChange(id);
       },
+    },
+  },
+
+  methods: {
+    loadBucketsOptions(params) {
+      return BucketsAPI.getLookup(params);
     },
   },
 };

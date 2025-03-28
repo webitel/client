@@ -38,13 +38,14 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import Queues from '../modules/queues/components/opened-agent-queues.vue';
 import Skills from '../modules/skills/components/opened-agent-skills.vue';
 import Subordinates from '../modules/subordinates/components/opened-agent-subordinates.vue';
-import General from './opened-agent-general.vue';
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import AgentsRouteNames from "../router/_internals/AgentsRouteNames.enum.js";
+import General from './opened-agent-general.vue';
 
 export default {
   name: 'OpenedAgent',

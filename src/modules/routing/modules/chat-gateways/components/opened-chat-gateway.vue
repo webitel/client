@@ -50,13 +50,13 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { url, maxValue, minLength, minValue, requiredIf, numeric, required } from '@vuelidate/validators';
+import { maxValue, minLength, minValue, numeric, required,requiredIf, url } from '@vuelidate/validators';
 import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ChatGatewayRoutesName from '../router/_internals/ChatGatewayRouteNames.enum.js';
 import OpenedChatFacebook from '../modules/messenger/facebook/components/facebook-tab.vue';
 import OpenedChatInstagram from '../modules/messenger/instagram/components/instagram-tab.vue';
 import OpenedChatWhatsapp from '../modules/messenger/whatsapp/components/whatsapp-tab.vue';
@@ -64,22 +64,18 @@ import WebchatCopyCodeButton from '../modules/webchat/components/copy-code-butto
 import OpenedWebchatAlternativeChannels from '../modules/webchat/components/opened-chat-gateway-webchat-alternative-channels-tab.vue';
 import OpenedWebchatAppointment from '../modules/webchat/components/opened-chat-gateway-webchat-appointment-tab.vue';
 import OpenedWebchatChat from '../modules/webchat/components/opened-chat-gateway-webchat-chat-tab.vue';
-
 import OpenedWebchat from '../modules/webchat/components/opened-chat-gateway-webchat-general-tab.vue';
 import OpenedChatGatewayWebchatRecaptchaTab from '../modules/webchat/components/opened-chat-gateway-webchat-recaptcha-tab.vue';
 import OpenedWebchatView from '../modules/webchat/components/opened-chat-gateway-webchat-view-tab.vue';
+import ChatGatewayRoutesName from '../router/_internals/ChatGatewayRouteNames.enum.js';
 import OpenedChatGatewayTemplates from './_shared/opened-chat-gateway-templates-tab.vue';
-
+import OpenedChatCustom from './custom/opened-chat-gateway-custom-general-tab.vue';
 import OpenedChatInfobip from './infobip/opened-chat-gateway-infobip-general-tab.vue';
-
 import OpenedChatMessenger from './messenger/opened-chat-gateway-messenger-general-tab.vue';
 import OpenedChatTelegramApp from './telegram-app/opened-chat-gateway-telegram-app-general-tab.vue';
 import OpenedChatTelegramBot from './telegram-bot/opened-chat-gateway-telegram-bot-general-tab.vue';
-
 import OpenedViberChat from './viber/opened-chat-gateway-viber-general-tab.vue';
 import OpenedViberChatStyle from './viber/opened-chat-gateway-viber-style-tab.vue';
-
-import OpenedChatCustom from './custom/opened-chat-gateway-custom-general-tab.vue';
 
 export default {
   name: 'OpenedChatGateway',

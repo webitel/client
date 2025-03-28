@@ -5,10 +5,10 @@
     :width="500"
     @close="closePopup"
   >
-    <template v-slot:title>
+    <template #title>
       {{ $t('reusable.warning') }}
     </template>
-    <template v-slot:main>
+    <template #main>
       <div class="confirmation-unsaved-changes-popup__wrapper">
         <wt-icon
           icon="attention"
@@ -17,7 +17,7 @@
         <p>{{ $t('objects.routing.flow.askingAlert', {name}) }}</p>
       </div>
     </template>
-    <template v-slot:actions>
+    <template #actions>
       <wt-button
         @click="save"
       >{{ $t('reusable.save') }}
@@ -37,7 +37,7 @@
 </template>
 <script>
 export default {
-  name: 'confirmation-unsaved-changes-popup',
+  name: 'ConfirmationUnsavedChangesPopup',
   props: {
     name: {
       type: String,

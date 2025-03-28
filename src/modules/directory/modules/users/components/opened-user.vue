@@ -50,6 +50,7 @@ import { helpers, required, requiredIf } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-user-logs.vue';

@@ -1,9 +1,8 @@
 import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import TeamsRouteNames from './_internals/TeamsRouteNames.enum.js';
-
-import Teams from '../components/the-teams.vue';
 import OpenedTeam from '../components/opened-team.vue';
+import Teams from '../components/the-teams.vue';
+import TeamsRouteNames from './_internals/TeamsRouteNames.enum.js';
 const OpenedTeamGeneral = () => import('../components/opened-team-general.vue');
 const OpenedTeamParameters = () => import('../components/opened-team-parameters.vue');
 const OpenedTeamSupervisors = () => import('../modules/supervisors/components/opened-team-supervisors.vue');

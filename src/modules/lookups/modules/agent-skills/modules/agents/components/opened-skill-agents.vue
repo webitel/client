@@ -136,10 +136,11 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
+
 import objectTableAccessControlMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';

@@ -34,6 +34,7 @@
 
 <script>
 import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 

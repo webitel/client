@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import CommunicationsRouteNamesEnum from "./_internals/CommunicationsRouteNames.enum.js";
 
 const CommunicationTypes = () => import('../components/the-communication-types.vue');

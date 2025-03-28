@@ -202,15 +202,16 @@ import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
 import { mapActions, mapState, useStore } from 'vuex';
+
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
 import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import uploadPopup from './upload-members-popup.vue';
-import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
-import dummyPicLight from '../assets/adm-dummy-members-light.svg';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'ccenter/queues/members';
 

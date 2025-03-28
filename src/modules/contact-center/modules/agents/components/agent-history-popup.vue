@@ -90,6 +90,7 @@
 <script>
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { mapGetters } from 'vuex';
+
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
 import dummyPicDark from '../assets/adm-agent-history-dark.svg';
 import dummyPicLight from '../assets/adm-agent-history-light.svg';

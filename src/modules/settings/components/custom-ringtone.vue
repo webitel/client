@@ -64,6 +64,14 @@ export default {
         || this.savedRingtone === this.ringtone.name;
     }
   },
+  async mounted() {
+    try {
+      await this.loadRingtonesOptions();
+      this.restoreRingtone();
+    } catch (error) {
+      throw error;
+    }
+  },
   methods: {
     selectRingtoneType() {
       this.isCustomRingtone = !this.isCustomRingtone;
@@ -86,14 +94,6 @@ export default {
         this.isCustomRingtone = true;
       }
     },
-  },
-  async mounted() {
-    try {
-      await this.loadRingtonesOptions();
-      this.restoreRingtone();
-    } catch (error) {
-      throw error;
-    }
   },
 
 };

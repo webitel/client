@@ -45,6 +45,7 @@
 
 <script>
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentsAPI from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';

@@ -123,9 +123,9 @@
 <script>
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import LicencesRouteNames from '../../router/_internals/LicencesRouteNames.enum.js';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
+import LicencesRouteNames from '../../router/_internals/LicencesRouteNames.enum.js';
 import LicensePopup from './license-popup.vue';
 
 const namespace = 'directory/license';
@@ -148,6 +148,18 @@ export default {
   computed: {
     licenseId() {
       return this.$route.params.id;
+    },
+  },
+  watch: {
+    licenseId: {
+     async handler(value) {
+        if(value === 'new') {
+          this.openLicensePopup();
+        } else if (value) {
+          this.openLicenseUsersPopup();
+        }
+      },
+      immediate: true,
     },
   },
   methods: {
@@ -184,18 +196,6 @@ export default {
       if (daysLeft < 30) return 'warning';
       if (daysLeft < 90) return 'success';
       return 'success';
-    },
-  },
-  watch: {
-    licenseId: {
-     async handler(value) {
-        if(value === 'new') {
-          this.openLicensePopup();
-        } else if (value) {
-          this.openLicenseUsersPopup();
-        }
-      },
-      immediate: true,
     },
   },
 };

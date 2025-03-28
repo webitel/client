@@ -1,5 +1,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import AccessMode from '../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
 import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
 import openedTabComponentMixin from '../openedObjectTabMixin/openedTabComponentMixin';

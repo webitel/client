@@ -141,12 +141,13 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
 import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
+import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
 
 const namespace = 'integrations/cognitiveProfiles';

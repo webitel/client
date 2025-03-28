@@ -102,10 +102,11 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import SkillPopup from './opened-agent-skills-popup.vue';
 import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
+import SkillPopup from './opened-agent-skills-popup.vue';
 
 const namespace = 'ccenter/agents';
 const subNamespace = 'skills';

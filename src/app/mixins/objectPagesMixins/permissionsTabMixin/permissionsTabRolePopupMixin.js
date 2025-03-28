@@ -1,5 +1,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import RolesAPI from '../../../../modules/permissions/modules/roles/api/roles';
 
 export default {

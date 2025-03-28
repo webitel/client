@@ -1,5 +1,5 @@
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {checkRouteAccess} from '../../../../../app/router/_internals/guards.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import FlowRouteNames from './_internals/FlowRouteNames.enum.js';
 
 const Flow = () => import('../components/the-flow.vue');

@@ -44,6 +44,7 @@
 <script>
 import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import viberChatGateway from '../../store/_internals/providers/viberChatGateway';
 

@@ -58,6 +58,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -70,13 +71,13 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    startEncryptValue: false,
-  }),
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
     v$: useVuelidate({$stopPropagation: true}),
+  }),
+  data: () => ({
+    startEncryptValue: false,
   }),
   validations: {
     itemInstance: {
@@ -92,6 +93,19 @@ export default {
     variableId() {
       return this.$route.params.id;
     },
+  },
+  watch: {
+    variableId: {
+      async handler(id) {
+        if (id) {
+          await this.loadPopupData(id)
+        }
+
+        else {
+          this.resetState()
+        }
+      },
+    }, immediate: true,
   },
   methods: {
     async save() {
@@ -120,19 +134,6 @@ export default {
       this.$emit('close');
     },
     loadPageData(){},
-  },
-  watch: {
-    variableId: {
-      async handler(id) {
-        if (id) {
-          await this.loadPopupData(id)
-        }
-
-        else {
-          this.resetState()
-        }
-      },
-    }, immediate: true,
   },
 };
 </script>

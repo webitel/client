@@ -98,7 +98,7 @@ const actions = {
   },
   UPDATE_HEADER_SORT: (context, { header, nextSortOrder }) => {
     const headers = context.state.headers.map((oldHeader) => {
-      // eslint-disable-next-line no-prototype-builtins
+       
       if (oldHeader.sort !== undefined) {
         return {
           ...oldHeader,

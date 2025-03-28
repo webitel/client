@@ -81,10 +81,11 @@
 </template>
 
 <script>
-import cronstrue from 'cronstrue';
 import 'cronstrue/locales/en.min';
 import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
+
+import cronstrue from 'cronstrue';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';

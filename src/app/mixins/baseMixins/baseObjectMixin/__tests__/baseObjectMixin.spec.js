@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import BaseObjectMixin from '../baseObjectMixin';
 
 const Component = {

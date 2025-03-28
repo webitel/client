@@ -39,11 +39,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
-import General from './opened-blacklist-general.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
 import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.js';
+import General from './opened-blacklist-general.vue';
 
 export default {
   name: 'OpenedBlacklist',

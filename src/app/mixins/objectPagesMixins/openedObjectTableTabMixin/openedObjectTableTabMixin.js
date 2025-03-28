@@ -1,5 +1,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapGetters, mapState } from 'vuex';
+
 import ObjectListPopup from '../../../components/utils/object-list-popup/object-list-popup.vue';
 import OnePlusMany from '../../../components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';

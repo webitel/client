@@ -22,8 +22,8 @@
       <confirmation-unsaved-changes-popup
         v-if="isConfirmationUnsavedChangesPopup"
         :name="itemInstance.name"
-        @closePage="closePage"
-        @closePopup="toggleIsConfirmationUnsavedChangesPopup"
+        @close-page="closePage"
+        @close-popup="toggleIsConfirmationUnsavedChangesPopup"
         @save="saveCode"
       ></confirmation-unsaved-changes-popup>
     </template>
@@ -65,13 +65,14 @@ import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
 import { mapActions, useStore } from 'vuex';
+
 import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
 import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
-import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
 import FlowRoutesName from '../router/_internals/FlowRouteNames.enum.js';
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
+import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
 
 const namespace = 'routing/flow';
 export default {

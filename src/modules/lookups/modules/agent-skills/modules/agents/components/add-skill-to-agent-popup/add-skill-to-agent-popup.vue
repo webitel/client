@@ -16,8 +16,9 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch, computed } from 'vue';
+import { computed,reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+
 import AgentSkillsAPI from '../../api/skillAgents';
 import ConfigAgentSkillPopup from './config-agent-skill-popup.vue';
 import SelectAgentsPopup from './select-agents-popup.vue';

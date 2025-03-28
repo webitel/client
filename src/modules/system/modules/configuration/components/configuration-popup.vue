@@ -94,6 +94,7 @@ import { minValue, required } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { mapActions, mapState } from 'vuex';
 import { EngineSystemSettingName } from 'webitel-sdk';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';

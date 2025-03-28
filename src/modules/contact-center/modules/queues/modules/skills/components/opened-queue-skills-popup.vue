@@ -79,6 +79,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
@@ -142,6 +143,13 @@ export default {
       return this.$route.params.skillId;
     }
   },
+  watch: {
+    skillId: {
+     handler(id) {
+       this.handleIdChange(id);
+     }, immediate: true,
+    },
+  },
 
   methods: {
     loadSkillsOptions(params) {
@@ -150,13 +158,6 @@ export default {
 
     loadBucketsOptions(params) {
       return BucketsAPI.getLookup(params);
-    },
-  },
-  watch: {
-    skillId: {
-     handler(id) {
-       this.handleIdChange(id);
-     }, immediate: true,
     },
   },
 };

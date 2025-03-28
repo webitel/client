@@ -178,13 +178,14 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
-import QueuePopup from './create-queue-popup.vue';
 import QueuesRoutesName from "../router/_internals/QueuesRoutesName.enum.js";
+import QueuePopup from './create-queue-popup.vue';
 
 const namespace = 'ccenter/queues';
 

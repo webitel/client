@@ -138,10 +138,11 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import addSkillToAgentMixin from '../mixins/addSkillToAgentPopupMixin.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import addSkillToAgentMixin from '../mixins/addSkillToAgentPopupMixin.js';
 import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 
 const namespace = 'lookups/skills';

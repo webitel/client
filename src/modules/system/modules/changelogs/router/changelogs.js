@@ -1,12 +1,10 @@
 import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ChangelogsRouteNames from './_internals/ChangelogsRouteNames.enum.js';
-
-import Changelogs from '../components/the-changelogs.vue';
 import OpenedChangelog from '../components/opened-changelog.vue';
-
 import OpenedChangelogGeneral from '../components/opened-changelog-general.vue';
+import Changelogs from '../components/the-changelogs.vue';
 import OpenedChangelogLogs from '../modules/logs/components/opened-changelog-logs.vue';
+import ChangelogsRouteNames from './_internals/ChangelogsRouteNames.enum.js';
 
 const ChangeLogsRoutes = [
   {

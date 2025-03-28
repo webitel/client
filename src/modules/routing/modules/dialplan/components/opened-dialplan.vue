@@ -38,10 +38,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import DialplanRouteNames from "../router/_internals/DialplanRouteNames.enum.js";
 import { regExpValidator } from '../../../../../app/utils/validators';
+import DialplanRouteNames from "../router/_internals/DialplanRouteNames.enum.js";
 import General from './opened-dialplan-general.vue';
 
 export default {

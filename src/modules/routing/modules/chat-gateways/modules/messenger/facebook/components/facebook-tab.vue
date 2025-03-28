@@ -65,6 +65,7 @@
 <script>
 import path from 'path';
 import { mapActions } from 'vuex';
+
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';

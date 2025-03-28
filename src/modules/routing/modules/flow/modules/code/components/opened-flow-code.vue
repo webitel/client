@@ -31,13 +31,14 @@
       :label="$tc('objects.routing.flow.flow', 1)"
       :value="itemInstance.schema"
       @change="setItemProp({ prop: 'schema', value: $event })"
-      @errorListener="isSyntaxError = $event"
+      @error-listener="isSyntaxError = $event"
     />
   </section>
 </template>
 
 <script>
 import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup';
+
 import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../api/flow';

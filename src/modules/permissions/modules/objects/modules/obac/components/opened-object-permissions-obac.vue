@@ -125,6 +125,7 @@
 
 <script>
 import { mapState } from 'vuex';
+
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';

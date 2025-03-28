@@ -147,6 +147,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
+
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -168,7 +169,7 @@ const sortableConfig = {
   forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
   fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
 
-  // eslint-disable-next-line no-unused-vars
+   
   setData: (dataTransfer, draggedElement) => {
     dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
   },

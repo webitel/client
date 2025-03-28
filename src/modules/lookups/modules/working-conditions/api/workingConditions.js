@@ -1,3 +1,6 @@
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams} from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -6,10 +9,6 @@ import applyTransform, {
   snakeToCamel,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { WorkingConditionServiceApiFactory } from 'webitel-sdk';
-import {
-  getDefaultGetParams,
-  getDefaultGetListResponse
-} from '@webitel/ui-sdk/src/api/defaults/index.js';
 
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';

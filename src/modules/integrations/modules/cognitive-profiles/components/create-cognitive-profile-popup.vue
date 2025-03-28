@@ -14,8 +14,9 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import { StorageProviderType } from 'webitel-sdk';
+
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 

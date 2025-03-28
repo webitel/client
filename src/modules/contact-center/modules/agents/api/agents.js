@@ -12,6 +12,7 @@ import applyTransform, {
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { AgentServiceApiFactory } from 'webitel-sdk';
+
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 

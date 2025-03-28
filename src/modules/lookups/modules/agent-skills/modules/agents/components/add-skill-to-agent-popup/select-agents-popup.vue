@@ -89,10 +89,11 @@
 import { useInfiniteScroll } from '@vueuse/core';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, reactive, ref } from 'vue';
+
+import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../../api/agentSkills';
-import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 
 const props = defineProps({
   skillId: {
@@ -188,7 +189,7 @@ function sort(header, nextSortOrder) {
 
   headers.forEach((oldHeader) => {
     if (oldHeader.sort !== undefined) {
-      // eslint-disable-next-line no-param-reassign
+       
       oldHeader.sort = oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE;
     }
   });

@@ -35,6 +35,7 @@ import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, inject, ref } from 'vue';
 import { useStore } from 'vuex';
+
 import UserPasswordInput from '../../../app/components/utils/user-password-input.vue';
 import { changePassword as requestChangePassword } from '../api/settings';
 

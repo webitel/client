@@ -36,6 +36,7 @@
 
 <script>
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 

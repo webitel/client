@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import OpenedQueueParams from '../opened-queue-params.vue';
 
 describe('OpenedQueueParams', () => {

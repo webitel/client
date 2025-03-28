@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import DialplanRouteNames from "./_internals/DialplanRouteNames.enum.js";
 
 const Dialplan = () => import('../components/the-dialplan.vue');

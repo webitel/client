@@ -38,13 +38,14 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum.js';
 import Agents from '../modules/agents/components/opened-team-agents.vue';
 import Flows from '../modules/flow/components/opened-team-flows.vue';
 import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
+import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum.js';
 import General from './opened-team-general.vue';
 import Parameters from './opened-team-parameters.vue';
 

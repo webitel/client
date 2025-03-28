@@ -1,5 +1,6 @@
 import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
 import deepCopy from 'deep-copy';
+
 import BaseOpenedInstanceModule from '../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 import BaseTableModule from '../StoreModuleMixins/BaseTableStoreModuleMixin';
 

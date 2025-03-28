@@ -35,9 +35,9 @@
 <script>
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
-import ObjectsRouteNames from "../router/_internals/ObjectsRouteNames.enum.js";
 import Obac from '../modules/obac/components/opened-object-permissions-obac.vue';
 import Rbac from '../modules/rbac/components/opened-object-permissions-rbac.vue';
+import ObjectsRouteNames from "../router/_internals/ObjectsRouteNames.enum.js";
 
 export default {
   name: 'OpenedObjectPermissions',

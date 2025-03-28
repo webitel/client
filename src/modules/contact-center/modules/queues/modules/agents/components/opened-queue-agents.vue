@@ -107,6 +107,7 @@
 
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -134,6 +135,17 @@ export default {
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     isDeleteConfirmation: false,
   }),
+  watch: {
+    dataList(data) {
+      if (data && this.skillsId) {
+        this.setOpenedItemId(this.skillsId);
+      }
+
+      if (data && this.supervisorsId) {
+        this.setOpenedItemId(this.supervisorsId);
+      }
+    },
+  },
   methods: {
     snakeToCamel,
     addItem() {
@@ -150,17 +162,6 @@ export default {
     },
     closePopup() {
       return this.$router.go(-1);
-    },
-  },
-  watch: {
-    dataList(data) {
-      if (data && this.skillsId) {
-        this.setOpenedItemId(this.skillsId);
-      }
-
-      if (data && this.supervisorsId) {
-        this.setOpenedItemId(this.supervisorsId);
-      }
     },
   },
 };

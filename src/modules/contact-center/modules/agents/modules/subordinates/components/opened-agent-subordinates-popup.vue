@@ -42,6 +42,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import AgentsAPI from '../../../api/agents';
 
@@ -68,6 +69,14 @@ export default {
       return this.$route.params.subordinateId;
     },
   },
+  watch: {
+    subordinateId: {
+      handler(id) {
+        this.handleIdChange(id);
+      },
+      immediate: true,
+    },
+  },
 
   methods: {
     async loadDropdownOptionsList(params) {
@@ -81,14 +90,6 @@ export default {
         supervisor: item.supervisor || [],
       }));
       return response;
-    },
-  },
-  watch: {
-    subordinateId: {
-      handler(id) {
-        this.handleIdChange(id);
-      },
-      immediate: true,
     },
   },
 };

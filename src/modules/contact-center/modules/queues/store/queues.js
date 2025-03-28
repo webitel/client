@@ -1,5 +1,6 @@
 import deepMerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import QueuesAPI from '../api/queues';

@@ -64,6 +64,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { useWeekDaysData } from '../composables/useWeekDaysData.js';
@@ -87,9 +88,6 @@ export default {
       if(!this.dataList.length) this.initializeSpecials();
     }
   },
-  mounted() {
-    this.initSpecials();
-  },
   watch: {
     dataList: {
       handler() {
@@ -97,6 +95,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    this.initSpecials();
   }
 };
 </script>

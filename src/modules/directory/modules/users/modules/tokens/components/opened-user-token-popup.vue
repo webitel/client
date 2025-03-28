@@ -32,6 +32,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {

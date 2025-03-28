@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapState } from 'vuex';
 
 export default {
   name: 'OpenedQueueSkillsBucketsPopup',

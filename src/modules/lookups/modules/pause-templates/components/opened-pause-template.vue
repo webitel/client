@@ -37,13 +37,14 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, maxLength, helpers, minValue } from '@vuelidate/validators';
+import { helpers, maxLength, minValue,required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import { requiredArrayValue } from '../../../../../app/utils/validators.js';
-import General from './opened-pause-template-general.vue';
-import Causes from './opened-pause-template-causes.vue';
-import PauseTemplatesRouteNames from '../router/_internals/PauseTemplatesRouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import { requiredArrayValue } from '../../../../../app/utils/validators.js';
+import PauseTemplatesRouteNames from '../router/_internals/PauseTemplatesRouteNames.enum.js';
+import Causes from './opened-pause-template-causes.vue';
+import General from './opened-pause-template-general.vue';
 
 export default {
   name: 'OpenedPauseTemplate',

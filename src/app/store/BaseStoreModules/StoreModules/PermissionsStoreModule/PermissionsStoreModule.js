@@ -1,4 +1,5 @@
 import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+
 import PermissionsAPI from '../../../../../modules/_shared/permissions-tab/api/PermissionsAPI';
 import AccessMode from '../../../../../modules/permissions/modules/objects/store/_internals/enums/AccessMode.enum';
 import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';

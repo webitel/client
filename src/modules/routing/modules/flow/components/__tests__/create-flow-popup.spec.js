@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import appearance from '../../../../../appearance/store/appearance';
 import CreateFlowPopup from '../create-flow-popup.vue';
 

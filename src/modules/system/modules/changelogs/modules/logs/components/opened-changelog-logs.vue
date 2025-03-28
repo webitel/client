@@ -85,11 +85,12 @@
 
 <script>
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import LogsAPI from '../api/logs';
 import RecordLink from './changelog-logs-record-link.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 const namespace = 'system/changelogs';
 const subNamespace = 'logs';
@@ -98,16 +99,16 @@ export default {
   name: 'OpenedChangelogLogs',
   components: { RecordLink },
   mixins: [openedObjectTableTabMixin, ExportCSVMixin],
-  data: () => ({
-    namespace,
-    subNamespace,
-    usersRouteName: RouteNames.USERS,
-  }),
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    subNamespace,
+    usersRouteName: RouteNames.USERS,
+  }),
   computed: {
     getFilters() {
       return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];

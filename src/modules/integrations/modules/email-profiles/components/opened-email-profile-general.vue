@@ -165,6 +165,7 @@
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import { mapActions } from 'vuex';
 import { EngineEmailAuthType } from 'webitel-sdk';
+
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';

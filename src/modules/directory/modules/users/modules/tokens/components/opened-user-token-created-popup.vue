@@ -35,6 +35,7 @@
 <script>
 import clipboardCopy from 'clipboard-copy';
 import { mapState } from 'vuex';
+
 import { downloadAsTXT } from '../../../../../../../app/utils/download';
 
 export default {

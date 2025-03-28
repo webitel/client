@@ -1,8 +1,8 @@
 import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import deepMerge from 'deepmerge';
+
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import ChatGatewaysAPI from '../api/chatGateways';
-
 import facebook from '../modules/messenger/facebook/store/facebook';
 import instagram from '../modules/messenger/instagram/store/instagram';
 import whatsapp from '../modules/messenger/whatsapp/store/whatsapp';

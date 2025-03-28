@@ -86,8 +86,9 @@
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'log';
@@ -96,15 +97,15 @@ export default {
   name: 'OpenedQueueLogs',
   components: { FilterSearch },
   mixins: [openedObjectTableTabMixin],
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
     return { dummy };
   },
+  data: () => ({
+    namespace,
+    subNamespace,
+  }),
   computed: {
     filtersNamespace() {
       return `${this.namespace}/${this.subNamespace}/filters`;

@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import MediaFilePreviewTableAction from '../media-file-preview-table-action.vue';
 
 describe('MediaFilePreviewTableAction', () => {

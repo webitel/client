@@ -141,6 +141,7 @@
 
 <script>
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';

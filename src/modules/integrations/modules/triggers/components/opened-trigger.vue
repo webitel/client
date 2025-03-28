@@ -47,11 +47,12 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Logs from '../modules/logs/components/opened-trigger-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
+import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
 

@@ -37,11 +37,12 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, maxLength, minValue, maxValue } from '@vuelidate/validators';
+import { maxLength, maxValue,minValue, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import General from './opened-working-condition-general.vue';
-import WorkingConditionsRouteNames from '../router/_internals/WorkingConditionsRouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import WorkingConditionsRouteNames from '../router/_internals/WorkingConditionsRouteNames.enum.js';
+import General from './opened-working-condition-general.vue';
 
 export default {
   name: 'OpenedWorkingCondition',

@@ -152,7 +152,7 @@ const FlowAppAutocomplete = Object.freeze({
     documentation: FlowApp.HTTP_REQUEST,
     insertText: {
       [FlowApp.HTTP_REQUEST]: {
-        // eslint-disable-next-line no-template-curly-in-string
+         
         url: '',
         method: 'POST',
         timeout: 1000,
@@ -161,7 +161,7 @@ const FlowAppAutocomplete = Object.freeze({
         responseCode: 'http_response_code',
         headers: {
           'Content-Type': 'application/json',
-          // eslint-disable-next-line no-template-curly-in-string
+           
           Cookie: '${my_cookie}',
         },
         path: {
@@ -646,7 +646,7 @@ const FlowAppAutocomplete = Object.freeze({
     insertText: {
       [FlowApp.MENU]: {
         text: '',
-        // eslint-disable-next-line no-template-curly-in-string
+         
         set: '${onClick.Menu}',
         buttons: [],
         type: '',

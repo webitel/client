@@ -6,15 +6,15 @@
       @close="closeConfirmationPopup"
     >
 
-      <template v-slot:title>
+      <template #title>
         {{ $t('reusable.warning') }}
       </template>
 
-      <template v-slot:main>
+      <template #main>
         {{ $t('objects.directory.users.askingAlert') }}
       </template>
 
-      <template v-slot:actions>
+      <template #actions>
         <wt-button
           color="secondary"
           @click="closeConfirmationPopup"

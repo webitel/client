@@ -39,9 +39,10 @@
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, required, requiredIf } from '@vuelidate/validators';
 import { EngineEmailAuthType } from 'webitel-sdk';
+
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import EmailProfilesRouteNames from '../router/_internals/EmailProfilesRouteNames.enum.js';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-email-profile-general.vue';
 
 export default {

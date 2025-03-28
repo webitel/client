@@ -129,8 +129,10 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import { useDummy } from '/src/app/composables/useDummy';
 import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
+
 import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import GlobalVariablesPopup from './global-variables-popup.vue';

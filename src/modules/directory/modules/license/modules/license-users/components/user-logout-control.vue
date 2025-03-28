@@ -8,6 +8,7 @@
 
 <script>
 import { mapState } from 'vuex';
+
 import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 

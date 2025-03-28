@@ -97,11 +97,12 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import { mapActions, mapGetters, mapState } from 'vuex';
+
 import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
 import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
 import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {

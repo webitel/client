@@ -173,6 +173,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
+
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -287,7 +288,7 @@ export default {
 
     // dropzone event firing on ech file loaded successfully
     // used for updating loaded files number on UI
-    // eslint-disable-next-line no-unused-vars
+     
     onFileSuccess(file, res) {
       this.loadedCount += 1;
     },

@@ -38,12 +38,13 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
+import ResourcesRouteNames from '../router/_internals/ResourcesRouteNames.enum.js';
 import Failure from './opened-resource-failure.vue';
 import General from './opened-resource-general.vue';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ResourcesRouteNames from '../router/_internals/ResourcesRouteNames.enum.js';
 
 export default {
   name: 'OpenedResource',
