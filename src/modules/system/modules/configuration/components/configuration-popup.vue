@@ -191,6 +191,8 @@ export default {
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.PeriodToPlaybackRecords:
         return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.WbtHideContact:
+        return deepmerge(defaults, defaultBooleanConfig);
       default:
         return defaults;
     }

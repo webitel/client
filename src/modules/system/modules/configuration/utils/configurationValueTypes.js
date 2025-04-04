@@ -14,6 +14,7 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.AutolinkCallToContact]: 'boolean',
   [EngineSystemSettingName.IsFulltextSearchEnabled]: 'boolean',
   [EngineSystemSettingName.PeriodToPlaybackRecords]: 'number',
+  [EngineSystemSettingName.WbtHideContact]: 'boolean',
 });
 
 export default ConfigurationValueTypes;
