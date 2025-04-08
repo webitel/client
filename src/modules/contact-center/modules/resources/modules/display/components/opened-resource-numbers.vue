@@ -3,6 +3,13 @@
     <number-popup
       @close="closePopup"
     />
+    <!-- ///////// -->
+    <upload-popup
+      :file="csvFile"
+      :parent-id="parentId"
+      @close="closeCSVPopup"
+    />
+    <!-- ////// -->
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
@@ -34,6 +41,12 @@
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
             })"
+          />
+          <upload-file-icon-btn
+            v-if="!disableUserInput"
+            accept=".csv"
+            class="icon-action"
+            @change="processCSV"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -100,16 +113,24 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
+import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import NumberPopup from './opened-resource-numbers-popup.vue';
+import UploadPopup from './upload-resource-numbers-popup.vue';
+
 
 const namespace = 'ccenter/res';
 const subNamespace = 'numbers';
 
 export default {
   name: 'OpenedResourceNumber',
-  components: { NumberPopup, DeleteConfirmationPopup },
+  components: {
+    NumberPopup,
+    UploadPopup,
+    UploadFileIconBtn,
+    DeleteConfirmationPopup
+  },
   mixins: [openedObjectTableTabMixin],
 
   setup() {
@@ -140,6 +161,7 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
+    csvFile: null,
   }),
 
   methods: {
@@ -148,6 +170,16 @@ export default {
         ...this.$route,
         params: {numberId: 'new'},
       })
+    },
+    processCSV(files) {
+      const file = files[0];
+      if (file) {
+        this.csvFile = file;
+      }
+    },
+    closeCSVPopup() {
+      this.csvFile = null;
+      this.loadDataList();
     },
     editItem(item){
       this.$router.push({

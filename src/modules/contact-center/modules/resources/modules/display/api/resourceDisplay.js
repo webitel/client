@@ -73,6 +73,22 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
   }
 };
 
+const addResDisplayList = async ({ parentId, itemInstance }) => {
+  console.log('addResDisplayList', itemInstance);
+  console.log('parentId', parentId);
+  const item = applyTransform(itemInstance, [
+    preRequestHandler(parentId),
+    sanitize(fieldsToSend),
+    camelToSnake(),
+  ]);
+  try {
+    const response = await resService.createOutboundResourceDisplayBulk(parentId, item);
+    return applyTransform(response.data, [snakeToCamel()]);
+  } catch (err) {
+    throw applyTransform(err, [notify]);
+  }
+}
+
 const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
@@ -100,6 +116,7 @@ export default {
   getList: getResDisplayList,
   get: getResDisplay,
   add: addResDisplay,
+  addList: addResDisplayList,
   update: updateResDisplay,
   delete: deleteResDisplay,
 };
