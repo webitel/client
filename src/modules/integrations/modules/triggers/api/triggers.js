@@ -15,7 +15,9 @@ import deepCopy from 'deep-copy';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import { TriggerTypes } from '../lookups/TriggerTypes.lookup.ts';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
+import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
+import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
 
 const triggersService = new TriggerServiceApiFactory(
   configuration,
@@ -35,6 +37,8 @@ const fieldsToSend = [
   'type',
   'variables',
   'expression',
+  'event',
+  'object',
 ];
 
 const preRequestHandler = (item) => {
@@ -49,6 +53,8 @@ const preRequestHandler = (item) => {
   return {
     ...copy,
     type: copy.type.value,
+    event: copy.event.value,
+    object: copy.object.value,
   };
 };
 
@@ -115,6 +121,8 @@ const get = async ({ itemId: id }) => {
     return {
       ...copy,
       type: TriggerTypes.find(({ value }) => value === copy.type),
+      event: TriggerEvents.find(({ value }) => value === copy.event),
+      object: TriggerObjects.find(({ value }) => value === copy.object),
     };
   };
 

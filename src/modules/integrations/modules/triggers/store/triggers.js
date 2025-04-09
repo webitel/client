@@ -1,6 +1,8 @@
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import TriggersAPI from '../api/triggers';
-import { TriggerTypes } from '../lookups/TriggerTypes.lookup.ts';
+import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
+import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 import log from '../modules/logs/store/trigger-logs';
 import headers from './_internals/headers';
 
@@ -16,6 +18,8 @@ const resettableState = {
     type: TriggerTypes[0],
     variables: [],
     expression: '0 */1 12 * * *',
+    event: TriggerEvents[0],
+    object: TriggerObjects[0],
   },
 };
 

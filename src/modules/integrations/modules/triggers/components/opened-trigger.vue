@@ -46,7 +46,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { minValue, numeric, required } from '@vuelidate/validators';
+import { minValue, numeric, required, requiredIf } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
@@ -55,6 +55,12 @@ import Logs from '../modules/logs/components/opened-trigger-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
+import { EngineTriggerType } from 'webitel-sdk';
+
+const requiredIfType = (type) =>
+  requiredIf(function () {
+    return this.itemInstance?.type?.value === type;
+  });
 
 export default {
   name: 'OpenedTrigger',
@@ -75,21 +81,33 @@ export default {
   }),
   validations: {
     itemInstance: {
-      name: { required },
-      schema: { required },
-      timezone: { required },
-      object: { required },
-      event: { required },
+      name: {
+        required,
+      },
+      schema: {
+        required,
+      },
+      timezone: {
+        required: requiredIfType(EngineTriggerType.Cron),
+      },
+      object: {
+        required: requiredIfType(EngineTriggerType.Event),
+      },
+      event: {
+        required: requiredIfType(EngineTriggerType.Event),
+      },
       timeout: {
         numeric,
         minValue: minValue(0),
       },
       expression: {
-        required,
-        cron: (value) =>
-          isValidCron(value, {
-            seconds: true,
-          }),
+        required: requiredIfType(EngineTriggerType.Cron),
+        cron(value) {
+          if (requiredIfType(EngineTriggerType.Cron)) {
+            return true;
+          }
+          return isValidCron(value, { seconds: true });
+        },
       },
     },
   },

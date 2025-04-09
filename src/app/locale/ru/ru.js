@@ -1161,6 +1161,10 @@ export default {
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        create: 'Создание',
+        update: 'Редактирование',
+        delete: 'Удаление',
+        cases: 'Cases',
         expression: 'Выражение',
         timeout: 'Задержка',
         logs: {
