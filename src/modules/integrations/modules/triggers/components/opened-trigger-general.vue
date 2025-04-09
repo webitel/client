@@ -22,6 +22,7 @@
         :v="v.itemInstance.type"
         :value="itemInstance.type"
         track-by="value"
+        required
         @input="setItemProp({ prop: 'type', value: $event })"
       />
       <wt-select
@@ -35,6 +36,7 @@
         @input="setItemProp({ prop: 'schema', value: $event })"
       />
       <wt-select
+        v-if="isCron"
         :clearable="false"
         :disabled="disableUserInput"
         :label="$tc('date.timezone', 1)"
@@ -43,6 +45,18 @@
         :value="itemInstance.timezone"
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
+      />
+      <wt-select
+        v-if="isEvent"
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.triggers.event')"
+        :options="TriggerEvents"
+        :v="v.itemInstance.event"
+        :value="itemInstance.event"
+        track-by="value"
+        required
+        @input="setItemProp({ prop: 'event', value: $event })"
       />
       <wt-input
         :disabled="disableUserInput"
@@ -53,7 +67,24 @@
         type="number"
         @input="setItemProp({ prop: 'timeout', value: $event })"
       />
-      <div class="crontab">
+
+      <wt-select
+        v-if="isEvent"
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('reusable.object')"
+        :options="TriggerObjects"
+        :v="v.itemInstance.object"
+        :value="itemInstance.object"
+        track-by="value"
+        required
+        @input="setItemProp({ prop: 'object', value: $event })"
+      />
+
+      <div
+        v-if="isCron"
+        class="crontab"
+      >
         <wt-input
           :custom-validators="cronValidator"
           :disabled="disableUserInput"
@@ -70,6 +101,7 @@
           {{ parsedCron }}
         </p>
       </div>
+
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -86,18 +118,23 @@ import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
 
 import cronstrue from 'cronstrue';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
 
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
+import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 
 export default {
   name: 'OpenedTriggerGeneral',
   mixins: [openedTabComponentMixin],
   data: () => ({
     TriggerTypes,
+    TriggerEvents,
+    TriggerObjects,
+    EngineTriggerType,
   }),
   computed: {
     parsedCron() {
@@ -114,6 +151,12 @@ export default {
           text: this.$t('validation.cron'),
         },
       ];
+    },
+    isCron() {
+      return this.itemInstance?.type?.value === EngineTriggerType.Cron;
+    },
+    isEvent() {
+      return this.itemInstance?.type?.value === EngineTriggerType.Event;
     },
   },
   methods: {

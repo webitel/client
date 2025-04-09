@@ -37,7 +37,8 @@
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        />
+        <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -45,7 +46,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { minValue, numeric, required } from '@vuelidate/validators';
+import { minValue, numeric, required, requiredIf } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -55,6 +56,12 @@ import LogsFilters from '../modules/logs/modules/filters/components/the-triggers
 import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
+import { EngineTriggerType } from 'webitel-sdk';
+
+const requiredIfType = (type) =>
+  requiredIf(function () {
+    return this.itemInstance?.type?.value === type;
+  });
 
 export default {
   name: 'OpenedTrigger',
@@ -75,19 +82,33 @@ export default {
   }),
   validations: {
     itemInstance: {
-      name: { required },
-      schema: { required },
-      timezone: { required },
+      name: {
+        required,
+      },
+      schema: {
+        required,
+      },
+      timezone: {
+        required: requiredIfType(EngineTriggerType.Cron),
+      },
+      object: {
+        required: requiredIfType(EngineTriggerType.Event),
+      },
+      event: {
+        required: requiredIfType(EngineTriggerType.Event),
+      },
       timeout: {
         numeric,
         minValue: minValue(0),
       },
       expression: {
-        required,
-        cron: (value) =>
-          isValidCron(value, {
-            seconds: true,
-          }),
+        required: requiredIfType(EngineTriggerType.Cron),
+        cron(value) {
+          if (requiredIfType(EngineTriggerType.Cron)) {
+            return true;
+          }
+          return isValidCron(value, { seconds: true });
+        },
       },
     },
   },
@@ -109,7 +130,7 @@ export default {
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
-        pathName: TriggersRouteNames.RUNNING_HISTORY
+        pathName: TriggersRouteNames.RUNNING_HISTORY,
       };
 
       const tabs = [general, variables];
@@ -140,6 +161,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

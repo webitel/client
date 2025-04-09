@@ -21,10 +21,9 @@
         <header class="content-header">
           <h3 class="content-title">
             {{
-              $t(
-                'objects.all',
-                { entity: $tc('objects.integrations.triggers.triggers', 2) },
-              )
+              $t('objects.all', {
+                entity: $tc('objects.integrations.triggers.triggers', 2),
+              })
             }}
           </h3>
           <div class="content-header__actions-wrap">
@@ -41,12 +40,14 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ hidden: anySelected }"
                 :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selectedRows,
+                    callback: () => deleteData(selectedRows),
+                  })
+                "
               />
             </wt-table-actions>
           </div>
@@ -116,10 +117,12 @@
                 v-if="hasDeleteAccess"
                 action="delete"
                 class="table-action"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -147,7 +150,7 @@ import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 
 const namespace = 'integrations/triggers';
 
@@ -215,6 +218,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

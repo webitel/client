@@ -1,4 +1,4 @@
- 
+
 
 import {
   EngineCommunicationChannels,
@@ -1157,6 +1157,7 @@ export default {
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
         event: 'Event',
+        cases: 'Cases',
         expression: 'Вираз',
         timeout: 'Затримка',
         logs: {
