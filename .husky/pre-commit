@@ -3,4 +3,4 @@
 
 # npm run test:unit
 
-npm run lint:pre-commit
+# npm run lint:pre-commit

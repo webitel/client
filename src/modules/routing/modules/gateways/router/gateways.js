@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import GatewaysRouteNames from "./_internals/GatewaysRouteNames.enum.js";
 
 const SipGateways = () => import('../components/the-sip-gateways.vue');

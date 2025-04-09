@@ -52,6 +52,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 
@@ -85,12 +86,6 @@ export default {
     }
   },
 
-  methods: {
-    loadDropdownOptionsList(params) {
-      return SkillsAPI.getLookup(params);
-    },
-  },
-
   watch: {
     skillId: {
       handler(id) {
@@ -100,6 +95,12 @@ export default {
         }
       }, immediate: true,
     }
+  },
+
+  methods: {
+    loadDropdownOptionsList(params) {
+      return SkillsAPI.getLookup(params);
+    },
   }
 };
 </script>

@@ -1,4 +1,5 @@
 import { mapActions } from 'vuex';
+
 import openedObjectValidationMixin from '../openedObjectValidationMixin/openedObjectValidationMixin';
 import resetOnDestroyMixin from '../resetOnDestroyMixin/resetOnDestroyMixin';
 

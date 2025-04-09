@@ -66,8 +66,8 @@
       >
         <template #schema="{ item }">
           <adm-item-link
-            target="_blank"
             :id="item.schema.id"
+            target="_blank"
             :route-name="RouteNames.FLOW"
           >
             {{ item.name }}
@@ -111,6 +111,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import FlowPopup from './opened-team-flow-popup.vue';

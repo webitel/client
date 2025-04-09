@@ -53,20 +53,14 @@
 <script>
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import { mapGetters } from 'vuex';
+
 import CcHeader from '../../_reusable/app-header/components/app-header.vue';
-
 import admPic from '../assets/img/pictures/admin.svg';
-
 import grafanaPic from '../assets/img/pictures/analytics.svg';
-
 import auditPic from '../assets/img/pictures/audit.svg';
-
 import crmPic from '../assets/img/pictures/crm.svg';
-
 import historyPic from '../assets/img/pictures/history.svg';
-
 import supervisorPic from '../assets/img/pictures/supervisor.svg';
-
 import agentPic from '../assets/img/pictures/workspace.svg';
 import admTitleMd from '../assets/img/titles/admin-md.svg';
 import admTitleSm from '../assets/img/titles/admin-sm.svg';

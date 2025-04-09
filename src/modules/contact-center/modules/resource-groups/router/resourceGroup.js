@@ -1,9 +1,8 @@
 import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js'
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ResourcesGroupsRouteNames from './_internals/ResourcesGroupsRouteNames.enum.js';
-
-import ResourceGroups from '../components/the-resource-groups.vue';
 import OpenedResourceGroup from '../components/opened-resource-group.vue';
+import ResourceGroups from '../components/the-resource-groups.vue';
+import ResourcesGroupsRouteNames from './_internals/ResourcesGroupsRouteNames.enum.js';
 
 const General = () => import('../components/opened-resource-group-general.vue');
 const Timerange = () => import('../components/opened-resource-group-timerange.vue');

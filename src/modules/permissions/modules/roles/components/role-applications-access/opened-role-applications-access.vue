@@ -43,6 +43,7 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
 

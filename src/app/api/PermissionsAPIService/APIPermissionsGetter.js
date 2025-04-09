@@ -9,6 +9,7 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
+
 import instance from '../instance';
 
 export default class APIPermissionsGetter {

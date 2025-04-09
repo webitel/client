@@ -43,6 +43,7 @@
 
 <script>
 import { EngineCommunicationChannels } from 'webitel-sdk';
+
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {

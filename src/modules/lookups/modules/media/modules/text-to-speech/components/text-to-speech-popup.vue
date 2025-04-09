@@ -116,6 +116,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { StorageServiceType } from 'webitel-sdk';
 import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
+
 import validationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
 import MediaAPI from '../../../api/media';

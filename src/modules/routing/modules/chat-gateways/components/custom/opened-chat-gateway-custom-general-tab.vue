@@ -56,6 +56,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import GenerateValueInput from '../../../../../../app/components/utils/generate-value-input.vue';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../flow/api/flow';

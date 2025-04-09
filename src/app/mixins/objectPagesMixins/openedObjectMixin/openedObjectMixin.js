@@ -1,5 +1,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import headlineNavMixin from '../../baseMixins/headlineNavMixin/headlineNavMixin';
@@ -58,7 +59,7 @@ export default {
     },
 
     setInitialTab() {
-      // eslint-disable-next-line prefer-destructuring
+       
       if (this.tabs.length) this.currentTab = this.tabs[0];
     },
 

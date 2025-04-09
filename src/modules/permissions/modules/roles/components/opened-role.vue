@@ -38,6 +38,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import RolesRouteNames from "../router/_internals/RolesRouteNames.enum.js";

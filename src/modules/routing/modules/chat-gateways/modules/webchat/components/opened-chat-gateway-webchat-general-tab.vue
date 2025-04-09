@@ -41,6 +41,7 @@
 <script>
 import path from 'path';
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 

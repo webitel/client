@@ -1,5 +1,6 @@
 import { createPinia } from 'pinia';
 import { createStore } from 'vuex';
+
 import appearance from '../../modules/appearance/store/appearance';
 import ccenter from '../../modules/contact-center/store/ccenter';
 import directory from '../../modules/directory/store/directory';

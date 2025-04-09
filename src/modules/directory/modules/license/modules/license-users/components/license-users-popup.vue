@@ -78,6 +78,7 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import resetOnDestroyMixin from '../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import UserLogoutControl from './user-logout-control.vue';

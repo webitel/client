@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
+
 import OpenedTabComponentMixinMock from '../../../../../../../tests/unit/mocks/mixinMocks/openedTabComponentMixin.mock';
 import OpenedTriggerGeneral from '../opened-trigger-general.vue';
 

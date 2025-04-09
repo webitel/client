@@ -11,8 +11,8 @@
 
 <script>
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
+import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
   name: 'CreateQueuePopup',
@@ -32,6 +32,10 @@ export default {
     },
   },
 
+  created() {
+    this.selected = this.options[0];
+  },
+
   methods: {
     createQueue() {
        this.$router.push({
@@ -41,10 +45,6 @@ export default {
         query: { type: this.selected.value },
       })
     },
-  },
-
-  created() {
-    this.selected = this.options[0];
   },
 };
 </script>

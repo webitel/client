@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import UploadFlowPopup from '../upload-flow-popup.vue';
 
 describe('UploadFlowPopup', () => {

@@ -38,18 +38,19 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
   requiredArrayValue,
   timerangeNotIntersect,
   timerangeStartLessThanEnd,
 } from '../../../../../app/utils/validators';
 import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
+import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
 import General from './opened-resource-group-general.vue';
 import Timerange from './opened-resource-group-timerange.vue';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
 
 export default {
   name: 'OpenedResourceGroup',

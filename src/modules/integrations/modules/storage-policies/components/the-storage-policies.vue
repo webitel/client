@@ -72,7 +72,7 @@
             :data="dataList"
             :grid-actions="hasTableActions"
             :headers="headers"
-            fixedActions
+            fixed-actions
             sortable
             @sort="sort"
           >
@@ -189,6 +189,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
+
 import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';

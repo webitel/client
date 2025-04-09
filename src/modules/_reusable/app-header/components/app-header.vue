@@ -3,13 +3,13 @@
     <wt-navigation-bar
       :current-app="currentApp"
       :dark-mode="darkMode"
+      :logo-route="RoutePaths.StartPage"
       :nav="nav"
     />
-    <a :href="startPageHref">
-      <wt-logo
-        :dark-mode="darkMode"
-      />
-    </a>
+    <wt-logo
+      :dark-mode="darkMode"
+      :logo-href="startPageHref"
+    />
     <wt-dark-mode-switcher />
     <wt-app-navigator
       :apps="apps"
@@ -26,11 +26,13 @@
 </template>
 
 <script>
-import { WtLogo, WtNavigationBar, WtAppHeader, WtAppNavigator, WtHeaderActions } from '@webitel/ui-sdk/components';
+import { WtAppHeader, WtAppNavigator, WtHeaderActions,WtLogo, WtNavigationBar } from '@webitel/ui-sdk/components';
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
+
 import navMixin from '../../../../app/mixins/navMixin';
+import RoutePaths from '../../../../app/router/_internals/RoutePaths';
 
 export default {
   name: 'AppHeader',
@@ -45,6 +47,7 @@ export default {
   mixins: [navMixin],
   inject: ['$config'],
   data: () => ({
+    RoutePaths,
     buildInfo: {
       release: process.env.npm_package_version,
       build: import.meta.env.VITE_BUILD_NUMBER,

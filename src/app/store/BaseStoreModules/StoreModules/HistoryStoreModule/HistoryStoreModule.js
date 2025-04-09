@@ -1,4 +1,5 @@
 import BaseStoreModule from '@webitel/ui-sdk/src/store/BaseStoreModules/BaseStoreModule';
+
 import BaseOpenedInstanceModule from '../../StoreModuleMixins/BaseOpenedInstanceStoreModuleMixin';
 import BaseTableModule from '../../StoreModuleMixins/BaseTableStoreModuleMixin';
 

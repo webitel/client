@@ -116,6 +116,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';

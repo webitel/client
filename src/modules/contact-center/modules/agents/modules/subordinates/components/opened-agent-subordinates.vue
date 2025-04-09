@@ -144,6 +144,17 @@ export default {
 
     isDeleteConfirmation: false,
   }),
+  watch: {
+    dataList(data) {
+      if (data && this.skillsId) {
+        this.setOpenedItemId(this.skillsId);
+      }
+
+      if (data && this.supervisorsId) {
+        this.setOpenedItemId(this.supervisorsId);
+      }
+    },
+  },
 
   methods: {
     addItem() {
@@ -160,17 +171,6 @@ export default {
     },
     closeSubordinatePopup() {
      return this.$router.go(-1);
-    },
-  },
-  watch: {
-    dataList(data) {
-      if (data && this.skillsId) {
-        this.setOpenedItemId(this.skillsId);
-      }
-
-      if (data && this.supervisorsId) {
-        this.setOpenedItemId(this.supervisorsId);
-      }
     },
   },
 };

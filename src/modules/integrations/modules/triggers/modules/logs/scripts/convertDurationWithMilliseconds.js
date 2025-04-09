@@ -2,9 +2,9 @@ const convertDurationWithMilliseconds = (duration) => {
   if (!duration) return '00:00:00.000';
 
   let hour = `${Math.floor(duration / 1000 / 3600)}`;
-  // eslint-disable-next-line no-mixed-operators
+   
   let min = `${Math.floor(((duration / 1000) % 3600) / 60)}`;
-  // eslint-disable-next-line no-mixed-operators
+   
   let sec = `${Math.floor(((duration / 1000) % 3600) % 60)}`;
   const millisec = `${duration}`.slice(-3);
 

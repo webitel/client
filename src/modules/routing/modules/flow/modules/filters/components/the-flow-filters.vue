@@ -11,6 +11,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import FlowTagsFilter from './flow-tags-filter.vue';
 import FlowTypeFilter from './flow-type-filter.vue';
 

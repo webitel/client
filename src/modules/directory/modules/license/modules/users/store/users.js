@@ -1,4 +1,5 @@
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+
 import ObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import UsersAPI from '../../../../users/api/users';
 import staticHeaders from './_internals/headers';
@@ -55,10 +56,10 @@ const actions = {
         changes,
       });
       /* i decided to mutate user directly to avoid all dataList redraw */
-      // eslint-disable-next-line no-param-reassign
+       
       user._license = changes.license;
       /* i decided to mutate user directly to avoid all dataList redraw */
-      // eslint-disable-next-line no-param-reassign
+       
       user.license[licenseId] = !user.license[licenseId];
     } catch (err) {
       throw err;

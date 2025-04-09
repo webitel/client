@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio/triggerSound';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
 export default {
   data() {

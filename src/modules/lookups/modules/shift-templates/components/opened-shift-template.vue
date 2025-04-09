@@ -37,13 +37,14 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, maxLength, helpers, minValue, maxValue } from '@vuelidate/validators';
+import { helpers, maxLength, maxValue,minValue, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { requiredArrayValue } from '../../../../../app/utils/validators.js';
+import ShiftTemplatesRouteNames from '../router/_internals/ShiftTemplatesRouteNames.enum.js';
 import General from './opened-shift-template-general.vue';
 import Times from './opened-shift-template-times.vue';
-import ShiftTemplatesRouteNames from '../router/_internals/ShiftTemplatesRouteNames.enum.js';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default {
   name: 'OpenedShiftTemplate',

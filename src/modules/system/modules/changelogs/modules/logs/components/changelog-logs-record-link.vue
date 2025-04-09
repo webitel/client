@@ -14,6 +14,7 @@
 <script setup>
 import { computed } from 'vue';
 import { LoggerAvailableSystemObjects } from 'webitel-sdk';
+
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 const props = defineProps({

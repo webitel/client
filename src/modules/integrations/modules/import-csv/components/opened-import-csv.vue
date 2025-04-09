@@ -39,10 +39,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ImportCsvRouteName from '../router/_internals/ImportCsvRouteNames.enum.js';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
+import ImportCsvRouteName from '../router/_internals/ImportCsvRouteNames.enum.js';
 import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
 

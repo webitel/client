@@ -9,8 +9,9 @@ import applyTransform, {
   snakeToCamel,
   starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
-import APIPermissionsGetter from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
+
 import instance from '../../../../../../../app/api/instance';
+import APIPermissionsGetter from '../../../../../../../app/api/PermissionsAPIService/APIPermissionsGetter';
 
 const baseUrl = '/acl/objclass';
 const nestedURL = 'grantor';

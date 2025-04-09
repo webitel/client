@@ -71,6 +71,7 @@
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapGetters } from 'vuex';
+
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';

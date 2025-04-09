@@ -38,11 +38,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import General from './opened-agent-pause-cause-general.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentPauseCauseRouteNames
   from '../router/_internals/AgentPauseCauseRouteNames.enum.js';
+import General from './opened-agent-pause-cause-general.vue';
 
 export default {
   name: 'OpenedAgentPauseCause',

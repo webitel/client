@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import ChatplanRouteNames from "./_internals/ChatplanRouteNames.enum.js";
 
 const Chatplan = () => import('../components/the-chatplan.vue');

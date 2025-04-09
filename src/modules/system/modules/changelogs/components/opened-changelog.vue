@@ -48,11 +48,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-changelog-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-changelog-logs-filters.vue';
-import General from './opened-changelog-general.vue';
 import ChangelogsRouteNames from '../router/_internals/ChangelogsRouteNames.enum.js';
+import General from './opened-changelog-general.vue';
 
 export default {
   name: 'OpenedChangelog',

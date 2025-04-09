@@ -35,7 +35,6 @@
         required
         @input="setItemProp({ prop: 'schema', value: $event })"
       />
-
       <wt-select
         v-if="itemInstance?.type?.value === EngineTriggerType.Cron"
         :clearable="false"

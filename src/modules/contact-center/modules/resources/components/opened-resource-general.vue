@@ -77,6 +77,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import GatewaysAPI from '../../../../routing/modules/gateways/api/gateways';
 import CidTypeList from '../lookups/CidType.lookup';

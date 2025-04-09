@@ -21,8 +21,8 @@
                 :options="languageOptions"
                 :value="language"
                 class="language-list"
-                @input="changeLanguage"
                 :clearable="false"
+                @input="changeLanguage"
               />
             </form>
           </section>
@@ -81,6 +81,7 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
+
 import { changeWebPhone, getWebPhone } from '../api/settings';
 import ChangePassword from './change-password.vue';
 import CustomRingtone from './custom-ringtone.vue';

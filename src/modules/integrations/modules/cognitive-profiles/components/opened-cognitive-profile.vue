@@ -43,10 +43,11 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredUnless } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
+import { StorageProviderType } from 'webitel-sdk';
+
+import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
-import { StorageProviderType } from 'webitel-sdk';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
 import Google from './google/opened-cognitive-profile-google.vue';
 import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';

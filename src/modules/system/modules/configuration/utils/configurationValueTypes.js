@@ -13,6 +13,9 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.ChatAiConnection]: 'string',
   [EngineSystemSettingName.AutolinkCallToContact]: 'boolean',
   [EngineSystemSettingName.IsFulltextSearchEnabled]: 'boolean',
+  [EngineSystemSettingName.PeriodToPlaybackRecords]: 'number',
+  [EngineSystemSettingName.WbtHideContact]: 'boolean',
+  [EngineSystemSettingName.ShowFullContact]: 'boolean',
 });
 
 export default ConfigurationValueTypes;

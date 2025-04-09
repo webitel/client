@@ -54,6 +54,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
@@ -95,16 +96,6 @@ export default {
       return this.$route.params.hookId;
     }
   },
-
-  methods: {
-    loadFlowOptions(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-    snakeToCamel,
-  },
   watch: {
     hookId: {
       handler(id) {
@@ -115,6 +106,16 @@ export default {
         }
       }, immediate: true
     },
+  },
+
+  methods: {
+    loadFlowOptions(params) {
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
+    },
+    snakeToCamel,
   }
 };
 </script>

@@ -39,10 +39,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required, requiredUnless } from '@vuelidate/validators';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import StorageRouteNames from '../router/_internals/StorageRouteNames.enum.js';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import storageMixin from '../mixins/storageMixin';
+import StorageRouteNames from '../router/_internals/StorageRouteNames.enum.js';
 import Storage from '../store/_internals/enums/Storage.enum';
 import Backblaze from './_unused/opened-storage-backblaze.vue';
 import Drive from './_unused/opened-storage-drive.vue';

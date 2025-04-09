@@ -1,5 +1,6 @@
 import { StorageProviderType } from 'webitel-sdk';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
+
 import defaultCognitiveProfile from './defaultCognitiveProfile';
 
 const googleCognitiveProfile = () => ({

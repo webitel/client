@@ -1,6 +1,6 @@
+import {checkRouteAccess} from '../../../../../app/router/_internals/guards.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import LicencesRouteNames from './_internals/LicencesRouteNames.enum.js';
-import {checkRouteAccess} from '../../../../../app/router/_internals/guards.js';
 
 const License = () => import('../components/the-license.vue');
 const AllLicenses = () => import('../components/all-licenses/all-licenses.vue');

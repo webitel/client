@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import ChangelogLogsRecordLink from '../changelog-logs-record-link.vue';
 
 const item = {

@@ -1,6 +1,8 @@
 import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum.js';
 import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule.js';
+
 import NavigationPages from '../../../../app/router/_internals/NavigationPages.lookup.js';
+import RouteNames from '../../../../app/router/_internals/RouteNames.enum';
 import convertScope from './_internals/scripts/convertScope.js';
 
 const state = {
@@ -46,5 +48,23 @@ const userinfo = new UserinfoStoreModule().getModule({
   getters,
   actions,
 });
+
+/* 𝓦𝓣𝓕?
+* need to check for a strict equality for this specific route
+* https://webitel.atlassian.net/browse/WTEL-6526
+* */
+
+const CHECK_OBJECT_ACCESS_BY_ROUTE = userinfo.getters.CHECK_OBJECT_ACCESS_BY_ROUTE;
+
+userinfo.getters.CHECK_OBJECT_ACCESS_BY_ROUTE = (state, getters) => (route) => {
+  if (route.name === RouteNames.STORAGE_POLICIES) {
+    const accessKey = Object.keys(state.access[getters.THIS_APP]).find(
+      (object) => route.name === object,
+    );
+    return state.access[getters.THIS_APP][accessKey]?._enabled;
+  }
+  return CHECK_OBJECT_ACCESS_BY_ROUTE(state, getters)(route);
+};
+
 
 export default userinfo;

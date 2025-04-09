@@ -23,8 +23,8 @@
 
 <script>
 import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
-import AllLicenses from './all-licenses/all-licenses.vue';
 import LicencesRouteNames from '../router/_internals/LicencesRouteNames.enum.js';
+import AllLicenses from './all-licenses/all-licenses.vue';
 
 export default {
   name: 'TheLicense',

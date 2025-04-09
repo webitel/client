@@ -145,14 +145,15 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { mapActions } from 'vuex';
+
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/userinfoStore';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'directory/users';
 

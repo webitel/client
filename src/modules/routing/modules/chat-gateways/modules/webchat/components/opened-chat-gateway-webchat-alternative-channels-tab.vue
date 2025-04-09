@@ -80,6 +80,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../flow/api/flow';
 import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';

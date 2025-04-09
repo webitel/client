@@ -3,6 +3,7 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+
 import defaultDummyPicAfterSearchDark from '../assets/dummy/adm-dummy-after-search-dark.svg';
 import defaultDummyPicAfterSearchLight from '../assets/dummy/adm-dummy-after-search-light.svg';
 

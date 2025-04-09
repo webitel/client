@@ -47,6 +47,7 @@ import {
   requiredUnless,
 } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
@@ -54,10 +55,10 @@ import {
   ipValidator,
   sipAccountValidator,
 } from '../../../../../app/utils/validators';
+import GatewaysRoutesName from '../router/_internals/GatewaysRouteNames.enum.js';
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
 import TrunkingConfiguration from './opened-trunking-sip-gateway-configuration.vue';
 import TrunkingGeneral from './opened-trunking-sip-gateway-general.vue';
-import GatewaysRoutesName from '../router/_internals/GatewaysRouteNames.enum.js';
 
 export default {
   name: 'OpenedSipGateway',

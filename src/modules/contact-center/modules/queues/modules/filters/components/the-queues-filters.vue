@@ -18,6 +18,7 @@
 import AbstractApiFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-api-filter.vue';
 import AbstractEnumFilter from '@webitel/ui-sdk/src/modules/QueryFilters/components/abstract-enum-filter.vue';
 import { mapActions } from 'vuex';
+
 import QueuesTagsFilter from './queues-tags-filter.vue';
 
 export default {

@@ -3,6 +3,7 @@ import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/B
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { MemberStopCause } from 'webitel-sdk/esm2015/enums';
+
 import BucketsAPI from '../../../../../../../../lookups/modules/buckets/api/buckets';
 import AgentsAPI from '../../../../../../agents/api/agents';
 

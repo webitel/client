@@ -1,8 +1,8 @@
 <template>
   <section class="opened-storage-policy-general">
     <apply-to-files-popup
-      :shown="isPopupOpened"
       :id="itemInstance.id"
+      :shown="isPopupOpened"
       @close="closePopup"
     />
     <header class="content-header">
@@ -100,8 +100,9 @@
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { StorageUploadFileChannel } from 'webitel-sdk';
+
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
 
 export default {

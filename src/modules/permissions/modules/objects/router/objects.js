@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import ObjectsRouteNames from "./_internals/ObjectsRouteNames.enum.js";
 
 const TheObjectsPermissions = () => import("../components/the-objects-permissions.vue");

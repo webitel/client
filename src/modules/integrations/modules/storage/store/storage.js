@@ -1,4 +1,5 @@
 import deepMerge from 'deepmerge';
+
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import StorageAPI from '../api/storage';
 import Storage from './_internals/enums/Storage.enum';

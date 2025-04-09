@@ -50,7 +50,7 @@ const getCalendar = async ({ itemId: id }) => {
       excepts: [],
       specials: [],
     };
-    // eslint-disable-next-line no-param-reassign
+     
     copy.accepts = copy.accepts.map((accept) => ({
       day: accept.day || 0,
       disabled: accept.disabled || false,
@@ -66,7 +66,7 @@ const getCalendar = async ({ itemId: id }) => {
       }));
     }
     if (copy.excepts) {
-      // eslint-disable-next-line no-param-reassign
+       
       copy.excepts = copy.excepts.map((except) => ({
         name: except.name || '',
         date: except.date || 0,

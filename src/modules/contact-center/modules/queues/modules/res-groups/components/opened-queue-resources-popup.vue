@@ -43,6 +43,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 
@@ -69,18 +70,18 @@ export default {
     },
   },
 
-  methods: {
-    loadResGroupsOptions(params) {
-      return ResourceGroupsAPI.getLookup(params);
-    },
-  },
-
   watch: {
     resourceId: {
       immediate: true,
       handler(id) {
        if (id) this.handleIdChange(id);
       },
+    },
+  },
+
+  methods: {
+    loadResGroupsOptions(params) {
+      return ResourceGroupsAPI.getLookup(params);
     },
   },
 };

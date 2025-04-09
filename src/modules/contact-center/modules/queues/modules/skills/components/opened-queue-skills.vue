@@ -1,8 +1,8 @@
 <template>
   <section class="content-wrapper">
     <skill-buckets-popup
-      @close="closeBucketsPopup"
       :shown="!!agentBucketsId"
+      @close="closeBucketsPopup"
     />
 
     <skill-popup
@@ -119,8 +119,8 @@
 
 <script>
 import { useDummy } from '../../../../../../../app/composables/useDummy';
-import bucketsPopupMixin from "../mixins/bucketsPopupMixin.js";
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import bucketsPopupMixin from "../mixins/bucketsPopupMixin.js";
 import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
 

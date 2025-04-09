@@ -1,5 +1,6 @@
-/* eslint-disable max-len, no-multi-spaces */
+
 import AdminSections from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum.js';
+
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default Object.freeze([
@@ -128,6 +129,11 @@ export default Object.freeze([
     field: 'schema',
     name: AdminSections.FLOW,
     route: RouteNames.FLOW,
+  },
+  {
+    field: 'files_policy',
+    name: AdminSections.STORAGE_POLICIES,
+    route: RouteNames.STORAGE_POLICIES,
   },
 
   // PERMISSIONS

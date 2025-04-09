@@ -82,6 +82,18 @@ export default {
       return this.$route.params.supervisorId;
     }
   },
+  watch: {
+    supervisorId: {
+      handler(id) {
+        if (id === 'new') {
+          this.resetState();
+        } else if (id){
+          this.setId(id);
+          this.loadItem();
+        }
+      }, immediate: true,
+    },
+  },
 
   methods: {
     async loadAgentsOptions(params) {
@@ -96,18 +108,6 @@ export default {
         id,
       }));
       return response;
-    },
-  },
-  watch: {
-    supervisorId: {
-      handler(id) {
-        if (id === 'new') {
-          this.resetState();
-        } else if (id){
-          this.setId(id);
-          this.loadItem();
-        }
-      }, immediate: true,
     },
   },
 };

@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import CreateQueuePopup from '../create-queue-popup.vue';
 
 describe('CreateQueuePopup', () => {

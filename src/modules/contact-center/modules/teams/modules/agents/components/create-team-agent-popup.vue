@@ -42,6 +42,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import AgentsAPI from '../../../../agents/api/agents';
 
@@ -68,15 +69,15 @@ export default {
       return this.$route.params.agentId;
     },
   },
-  methods: {
-    loadAgentsOptions(params) {
-      return AgentsAPI.getLookup(params);
-    },
-  },
 
   watch: {
     agentId() {
       this.resetState();
+    },
+  },
+  methods: {
+    loadAgentsOptions(params) {
+      return AgentsAPI.getLookup(params);
     },
   },
 };

@@ -11,6 +11,7 @@ import applyTransform, {
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import deepCopy from 'deep-copy';
 import { QueueServiceApiFactory } from 'webitel-sdk';
+
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
 import processing from '../store/_internals/queueSchema/defaults/processing';

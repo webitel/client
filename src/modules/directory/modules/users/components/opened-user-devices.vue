@@ -29,8 +29,8 @@
         <div class="hint-link__wrap">
           <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
           <adm-item-link
-              class="hint-link__link"
               id="new"
+              class="hint-link__link"
               :route-name="RouteNames.DEVICES"
           >
             {{ $t('objects.directory.users.createNewDevice') }}

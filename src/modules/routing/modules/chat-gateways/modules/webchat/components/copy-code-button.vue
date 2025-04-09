@@ -14,9 +14,10 @@
 </template>
 
 <script>
-import path from 'path';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import clipboardCopy from 'clipboard-copy';
+import path from 'path';
+
 import getChatOriginUrl from '../../../scripts/getChatOriginUrl';
 
 const SCRIPT_URL = getChatOriginUrl();
@@ -151,9 +152,9 @@ export default {
     ) {
       if (!enabled) return undefined;
       if (!showDefaultHeading) {
-        // eslint-disable-next-line no-param-reassign
+         
         rest.successTitle = successTitle;
-        // eslint-disable-next-line no-param-reassign
+         
         rest.successSubtitle = successSubtitle;
       }
       const result = {

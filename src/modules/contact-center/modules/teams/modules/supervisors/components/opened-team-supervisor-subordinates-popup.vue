@@ -26,8 +26,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import TeamsAPI from '../api/teamSupervisors';
+
 import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum.js';
+import TeamsAPI from '../api/teamSupervisors';
 
 export default {
   name: 'OpenedTeamSupervisorSubordinatesPopup',

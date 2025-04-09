@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import UploadCsvMixin from '../uploadCSVMixin.js';
 
 const Component = {

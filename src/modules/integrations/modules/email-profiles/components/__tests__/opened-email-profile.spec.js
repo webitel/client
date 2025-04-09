@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import deepmerge from 'deepmerge';
+
 import openedObjectMixinMock from '../../../../../../../tests/unit/mocks/mixinMocks/openedObjectMixin.mock';
 import OpenedEmailProfile from '../opened-email-profile.vue';
 

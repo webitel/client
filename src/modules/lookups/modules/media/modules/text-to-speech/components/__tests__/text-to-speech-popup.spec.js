@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+
 import TextToSpeechPopup from '../text-to-speech-popup.vue';
 
 describe('TextToSpeechPopup', () => {

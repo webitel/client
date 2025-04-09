@@ -52,6 +52,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';

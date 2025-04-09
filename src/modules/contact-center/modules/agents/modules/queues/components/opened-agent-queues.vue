@@ -66,8 +66,8 @@
 
 <script>
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
+import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 
 export default {
   name: 'OpenedAgentQueues',

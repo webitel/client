@@ -40,6 +40,7 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {

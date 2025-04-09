@@ -82,6 +82,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 

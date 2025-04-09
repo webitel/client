@@ -45,9 +45,9 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-
 import CodeSectionDark from '../assets/code-section-dark.svg';
 import CodeSectionLight from '../assets/code-section-light.svg';
 import DiagramSectionDark from '../assets/diagram-section-dark.svg';

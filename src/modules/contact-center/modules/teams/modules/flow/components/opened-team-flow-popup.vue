@@ -50,6 +50,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
@@ -81,15 +82,6 @@ export default {
       return this.$route.params.flowId;
     },
   },
-
-  methods: {
-    loadFlowOptions(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-  },
   watch: {
     flowId: {
       handler(id) {
@@ -100,6 +92,15 @@ export default {
         }
       }, immediate: true,
     }
+  },
+
+  methods: {
+    loadFlowOptions(params) {
+      return FlowsAPI.getLookup({
+        ...params,
+        type: [EngineRoutingSchemaType.Service],
+      });
+    },
   }
 };
 </script>

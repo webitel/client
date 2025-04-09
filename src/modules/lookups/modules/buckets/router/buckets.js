@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import BucketsRouteNamesEnum from "./_internals/BucketsRouteNames.enum.js";
 
 const Buckets = () => import('../components/the-buckets.vue');

@@ -106,6 +106,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
 import StatisticTimeList from '../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup';

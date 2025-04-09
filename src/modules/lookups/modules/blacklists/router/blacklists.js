@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import BlacklistRouteNamesEnum from "./_internals/BlacklistRouteNames.enum.js";
 
 const Blacklists = () => import('../components/the-blacklists.vue');

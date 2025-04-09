@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import AgentSkillsRouteNames from "./_internals/AgentSkillsRouteNames.enum.js";
 
 const AgentSkills = () => import('../components/the-agent-skills.vue');

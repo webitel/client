@@ -1,5 +1,5 @@
-import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import CalendarRouteNames from "./_internals/CalendarRouteNames.enum.js";
 
 const Calendars = () => import('../components/the-calendars.vue');
