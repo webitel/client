@@ -1,7 +1,7 @@
 import {
   getDefaultGetListResponse,
   getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults/index.js';
+} from '@webitel/ui-sdk/src/api/defaults/index';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -10,7 +10,7 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
+} from '@webitel/ui-sdk/src/api/transformers/index';
 import deepCopy from 'deep-copy';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 

@@ -7,15 +7,15 @@ export interface TriggerEvent {
 
 export const TriggerEvents: TriggerEvent[] = [
   {
-    locale: 'objects.integrations.triggers.create',
+    locale: 'reusable.create',
     value: EngineTriggerEventType.Create,
   },
   {
-    locale: 'objects.integrations.triggers.update',
+    locale: 'reusable.update',
     value: EngineTriggerEventType.Update,
   },
   {
-    locale: 'objects.integrations.triggers.delete',
+    locale: 'reusable.delete',
     value: EngineTriggerEventType.Delete,
   },
 ] as const;

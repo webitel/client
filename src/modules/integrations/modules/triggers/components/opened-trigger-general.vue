@@ -36,7 +36,7 @@
         @input="setItemProp({ prop: 'schema', value: $event })"
       />
       <wt-select
-        v-if="itemInstance?.type?.value === EngineTriggerType.Cron"
+        v-if="isCron"
         :clearable="false"
         :disabled="disableUserInput"
         :label="$tc('date.timezone', 1)"
@@ -47,7 +47,7 @@
         @input="setItemProp({ prop: 'timezone', value: $event })"
       />
       <wt-select
-        v-if="itemInstance?.type?.value === EngineTriggerType.Event"
+        v-if="isEvent"
         :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.event')"
@@ -69,7 +69,7 @@
       />
 
       <wt-select
-        v-if="itemInstance?.type?.value === EngineTriggerType.Event"
+        v-if="isEvent"
         :clearable="false"
         :disabled="disableUserInput"
         :label="$t('reusable.object')"
@@ -82,7 +82,7 @@
       />
 
       <div
-        v-if="itemInstance?.type?.value === EngineTriggerType.Cron"
+        v-if="isCron"
         class="crontab"
       >
         <wt-input
@@ -151,6 +151,12 @@ export default {
           text: this.$t('validation.cron'),
         },
       ];
+    },
+    isCron() {
+      return this.itemInstance?.type?.value === EngineTriggerType.Cron;
+    },
+    isEvent() {
+      return this.itemInstance?.type?.value === EngineTriggerType.Event;
     },
   },
   methods: {
