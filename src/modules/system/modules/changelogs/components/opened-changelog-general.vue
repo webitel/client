@@ -17,13 +17,11 @@
         @input="setItemProp({ prop: 'object', value: $event })"
       />
       <wt-select
-        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.system.changelogs.storage')"
         :search-method="getStorageList"
         :v="v.itemInstance.storage"
         :value="itemInstance.storage"
-        required
         @input="setItemProp({ prop: 'storage', value: $event })"
       />
       <wt-input
