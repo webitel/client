@@ -15,7 +15,6 @@
         @input="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-select
-        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.type')"
         :options="TriggerTypes"
@@ -26,7 +25,6 @@
         @input="setItemProp({ prop: 'type', value: $event })"
       />
       <wt-select
-        :clearable="false"
         :disabled="disableUserInput"
         :label="$tc('objects.integrations.triggers.schema')"
         :search-method="loadDropdownOptionsList"
@@ -37,7 +35,6 @@
       />
       <wt-select
         v-if="isCron"
-        :clearable="false"
         :disabled="disableUserInput"
         :label="$tc('date.timezone', 1)"
         :search-method="loadTimezones"
@@ -48,7 +45,6 @@
       />
       <wt-select
         v-if="isEvent"
-        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.event')"
         :options="TriggerEvents"
@@ -70,7 +66,6 @@
 
       <wt-select
         v-if="isEvent"
-        :clearable="false"
         :disabled="disableUserInput"
         :label="$t('reusable.object')"
         :options="TriggerObjects"
