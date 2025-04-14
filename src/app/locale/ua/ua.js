@@ -1156,7 +1156,7 @@ export default {
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
-        event: 'Event',
+        event: ({ linked }) => linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
         expression: 'Вираз',
         timeout: 'Час очікування',
