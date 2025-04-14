@@ -1163,7 +1163,7 @@ export default {
         event: 'Event',
         cases: 'Cases',
         expression: 'Выражение',
-        timeout: 'Задержка',
+        timeout: 'Время ожидания',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
         logs: {
           logs: 'История запуска',
