@@ -85,6 +85,9 @@ export default {
       name: {
         required,
       },
+      type: {
+        required,
+      },
       schema: {
         required,
       },
