@@ -46,7 +46,7 @@
       <wt-select
         v-if="isEvent"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.triggers.event')"
+        :label="$t('objects.integrations.triggers.eventSelect')"
         :options="TriggerEvents"
         :v="v.itemInstance.event"
         :value="itemInstance.event"
