@@ -11,7 +11,7 @@ export const TriggerTypes: TriggerType[] = [
     value: EngineTriggerType.Cron,
   },
   {
-    locale: 'objects.integrations.triggers.onEvent',
+    locale: 'objects.integrations.triggers.event',
     value: EngineTriggerType.Event,
   },
 ] as const;
