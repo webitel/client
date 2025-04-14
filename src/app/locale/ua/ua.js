@@ -1160,6 +1160,7 @@ export default {
         cases: 'Cases',
         expression: 'Вираз',
         timeout: 'Затримка',
+        resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
         logs: {
           logs: 'Історія запуску',
           startedAt: 'Початок',

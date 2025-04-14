@@ -1164,6 +1164,7 @@ export default {
         cases: 'Cases',
         expression: 'Выражение',
         timeout: 'Задержка',
+        resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
         logs: {
           logs: 'История запуска',
           startedAt: 'Начало',
