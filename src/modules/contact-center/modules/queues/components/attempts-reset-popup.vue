@@ -18,7 +18,7 @@
           :label="t('objects.ccenter.queues.attemptsReset.attemptType')"
           :placeholder="t('objects.ccenter.queues.attemptsReset.attemptType')"
           track-by="value"
-          @input="onAttemptTypeInput"
+          @input="attemptTypeInputHandler"
         />
         <wt-input
           :value="resetAttemptsForm.idleForMinutes"
@@ -87,7 +87,7 @@ const selectedAttemptTypeOption = computed(() =>
   ),
 );
 
-function onAttemptTypeInput(option: { value: string, locale: string }) {
+function attemptTypeInputHandler(option: { value: string, locale: string }) {
   resetAttemptsForm.attemptType = [option.value];
 }
 
