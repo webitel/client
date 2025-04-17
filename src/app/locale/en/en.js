@@ -942,6 +942,13 @@ export default {
         lastMessageTimeout: 'Timeout from the last message',
         stickyIgnoreStatus: 'Ignore agent status',
         ignoreCalendar: 'Ignore calendar',
+        attemptsReset: {
+          title: 'Attempts reset',
+          attemptType: 'Attempt type',
+          idleTime: 'Idle time (min)',
+          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          calls: 'Calls',
+        },
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',

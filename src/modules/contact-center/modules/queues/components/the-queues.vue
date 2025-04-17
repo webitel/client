@@ -17,6 +17,11 @@
     </template>
 
     <template #main>
+      <attempts-reset-popup
+        :shown="isAttemptsResetPopup"
+        @close="isAttemptsResetPopup = false"
+        @reset="resetAttempts"
+      />
       <queue-popup
         :shown="isQueueSelectPopup"
         @close="isQueueSelectPopup = false"
@@ -53,6 +58,11 @@
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
                 })"
+              />
+              <wt-icon-btn
+                icon="update-calls"
+                :disabled="!hasEditAccess"
+                @click="isAttemptsResetPopup = true"
               />
             </wt-table-actions>
           </div>
@@ -145,7 +155,7 @@
                 :id="item.id"
                 :route-name="routeName"
               >
-                <wt-icon-action action="edit"/>
+                <wt-icon-action action="edit" />
               </adm-item-link>
 
               <wt-icon-action
@@ -176,22 +186,26 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
-import QueuesRoutesName from "../router/_internals/QueuesRoutesName.enum.js";
+import QueueMembersAPI from '../modules/members/api/queueMembers';
+import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
 
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
+  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -222,6 +236,7 @@ export default {
   data: () => ({
     namespace,
     isQueueSelectPopup: false,
+    isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
   }),
@@ -252,13 +267,17 @@ export default {
 
   methods: {
     openMembers(item) {
-     return this.$router.push({
-       ...this.$route,
+      return this.$router.push({
+        ...this.$route,
         name: `${RouteNames.MEMBERS}`,
         params: {
           queueId: item.id,
         },
       });
+    },
+    async resetAttempts(resetAttemptsForm) {
+      await QueueMembersAPI.resetActiveAttempts(resetAttemptsForm);
+      this.isAttemptsResetPopup = false;
     },
     create() {
       this.isQueueSelectPopup = true;

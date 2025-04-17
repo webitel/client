@@ -951,6 +951,13 @@ export default {
         lastMessageTimeout: 'Время ожидания от последнего сообщения',
         stickyIgnoreStatus: 'Игнорировать статус оператора',
         ignoreCalendar: 'Игнорировать календарь',
+        attemptsReset: {
+          title: 'Сброс попыток',
+          attemptType: 'Тип попыток',
+          idleTime: 'Время зависания (мин)',
+          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          calls: 'Звонки',
+        },
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',
