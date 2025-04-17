@@ -9,6 +9,7 @@
       <user-password-input
         :model-value="newPassword"
         :label="$t('auth.password')"
+        autocomplete="new-password"
         @update:model-value="newPassword = $event"
       />
       <wt-input
@@ -16,6 +17,7 @@
         :label="$t('auth.confirmPassword')"
         :v="v$.confirmNewPassword"
         type="password"
+        autocomplete="new-password"
       />
       <wt-button
         :disabled="v$.$invalid"
