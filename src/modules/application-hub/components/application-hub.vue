@@ -174,7 +174,7 @@ export default {
       };
 
       const grafanaApp = {
-        name: WebitelApplications.ANALYTICS,
+        name: WebitelApplications.Analytics,
         title: this.$t(
           `WebitelApplications.${WebitelApplications.ANALYTICS}.name`,
         ),
