@@ -1,4 +1,7 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults/index';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -7,15 +10,21 @@ import applyTransform, {
   sanitize,
   snakeToCamel,
   starToSearch,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
+} from '@webitel/ui-sdk/src/api/transformers/index';
 import deepCopy from 'deep-copy';
 import { TriggerServiceApiFactory } from 'webitel-sdk';
 
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import TriggerTypes from '../lookups/TriggerTypes.lookup';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
+import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
+import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
 
-const triggersService = new TriggerServiceApiFactory(configuration, '', instance);
+const triggersService = new TriggerServiceApiFactory(
+  configuration,
+  '',
+  instance,
+);
 
 const doNotConvertKeys = ['variables'];
 const fieldsToSend = [
@@ -29,6 +38,8 @@ const fieldsToSend = [
   'type',
   'variables',
   'expression',
+  'event',
+  'object',
 ];
 
 const preRequestHandler = (item) => {
@@ -43,20 +54,33 @@ const preRequestHandler = (item) => {
   return {
     ...copy,
     type: copy.type.value,
+    event: copy.event.value,
+    object: copy.object.value,
   };
 };
 
 const getList = async (params) => {
-  const fieldsToSend = ['page', 'size', 'search', 'sort', 'fields', 'id', 'schemaId'];
+  const fieldsToSend = [
+    'page',
+    'size',
+    'search',
+    'sort',
+    'fields',
+    'id',
+    'schemaId',
+  ];
   const defaultObject = {
     enabled: false,
   };
 
-  const { page, size, search, sort, fields, id, schemaId } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-    sanitize(fieldsToSend),
-  ]);
+  const { page, size, search, sort, fields, id, schemaId } = applyTransform(
+    params,
+    [
+      merge(getDefaultGetParams()),
+      starToSearch('search'),
+      sanitize(fieldsToSend),
+    ],
+  );
 
   try {
     const response = await triggersService.searchTrigger(
@@ -98,6 +122,8 @@ const get = async ({ itemId: id }) => {
     return {
       ...copy,
       type: TriggerTypes.find(({ value }) => value === copy.type),
+      event: TriggerEvents.find(({ value }) => value === copy.event),
+      object: TriggerObjects.find(({ value }) => value === copy.object),
     };
   };
 
@@ -128,7 +154,10 @@ const add = async ({ itemInstance }) => {
 };
 
 const patch = async ({ changes, id }) => {
-  const body = applyTransform(changes, [sanitize(fieldsToSend), camelToSnake(doNotConvertKeys)]);
+  const body = applyTransform(changes, [
+    sanitize(fieldsToSend),
+    camelToSnake(doNotConvertKeys),
+  ]);
   try {
     const response = await triggersService.patchTrigger(id, body);
     return applyTransform(response.data, [snakeToCamel(doNotConvertKeys)]);

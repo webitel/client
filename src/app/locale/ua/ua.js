@@ -1,4 +1,4 @@
- 
+
 
 import {
   EngineCommunicationChannels,
@@ -1152,13 +1152,15 @@ export default {
         schema: 'Схема',
         newTrigger: 'Новий тригер',
         newTriggerDescription: 'Оберіть шаблон або почніть з нуля',
-        onEvent: 'On event',
+        event: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
-        event: 'Event',
+        eventSelect: ({ linked }) => linked('objects.ccenter.queues.hooks.event'),
+        cases: 'Cases',
         expression: 'Вираз',
-        timeout: 'Затримка',
+        timeout: 'Час очікування',
+        resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
         logs: {
           logs: 'Історія запуску',
           startedAt: 'Початок',

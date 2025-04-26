@@ -1,4 +1,4 @@
- 
+
 
 import {
   EngineCommunicationChannels,
@@ -1156,13 +1156,15 @@ export default {
         newTrigger: 'Новый триггер',
         newTriggerDescription:
           'Choose a template to get going or start from scratch with a blank canvas',
-        onEvent: 'On event',
+        event: 'On event',
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
-        event: 'Event',
+        eventSelect: ({ linked }) => linked('objects.ccenter.queues.hooks.event'),
+        cases: 'Cases',
         expression: 'Выражение',
-        timeout: 'Задержка',
+        timeout: 'Время ожидания',
+        resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
         logs: {
           logs: 'История запуска',
           startedAt: 'Начало',
