@@ -25,8 +25,10 @@ export default {
   props: {
     accept: {
       type: String,
+      default: '.csv',
     },
   },
+  emits: ['change'],
   methods: {
     triggerFileInput() {
       this.$refs['file-input'].click();

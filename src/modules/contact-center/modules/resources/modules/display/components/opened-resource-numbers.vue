@@ -42,12 +42,14 @@
               callback: () => deleteData(selectedRows),
             })"
           />
+          <!-- //////////// -->
           <upload-file-icon-btn
             v-if="!disableUserInput"
             accept=".csv"
             class="icon-action"
             @change="processCSV"
           />
+          <!-- /////////////// -->
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
@@ -129,7 +131,7 @@ export default {
     NumberPopup,
     UploadPopup,
     UploadFileIconBtn,
-    DeleteConfirmationPopup
+    DeleteConfirmationPopup,
   },
   mixins: [openedObjectTableTabMixin],
 
