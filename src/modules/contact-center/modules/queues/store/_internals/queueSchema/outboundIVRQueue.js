@@ -1,6 +1,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 
 import { Strategy } from '../enums/Strategy.enum';
+import { TypesResourceStrategy } from '../../../enums/TypesResourceStrategy.enum'
 import amd from './defaults/amd';
 import queue from './defaults/defaultQueue';
 
@@ -24,6 +25,7 @@ const outboundIVRQueue = () => ({
     amd: amd(),
     strictCircuit: false,
     perNumbers: false,
+    resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
   },
 });
 

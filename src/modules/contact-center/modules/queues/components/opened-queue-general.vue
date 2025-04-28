@@ -99,6 +99,17 @@
 
       <!--      v-if-->
       <wt-select
+        v-if="specificControls.resourceStrategy"
+        v-model="resourceStrategy"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
+        :options="dropdownTypesResourceStrategy"
+        :value="itemInstance.payload.resourceStrategy"
+        track-by="value"
+      />
+
+      <!--      v-if-->
+      <wt-select
         v-if="specificControls.afterSchema"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.afterSchema')"
@@ -140,6 +151,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -152,6 +164,7 @@ import TeamsAPI from '../../teams/api/teams';
 import QueuesAPI from '../api/queues';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { StrategyList } from '../store/_internals/enums/Strategy.enum';
+import { TypesResourceStrategy } from '../enums/TypesResourceStrategy.enum';
 
 export default {
   name: 'OpenedQueueGeneral',
@@ -171,12 +184,41 @@ export default {
         });
       },
     },
+    resourceStrategy: {
+      get() {
+        return this.dropdownTypesResourceStrategy.find(
+          (resourceStrategy) => resourceStrategy.value === this.itemInstance.payload.resourceStrategy,
+        );
+      },
+      set({ value }) {
+        this.setItemPayloadProp({
+          prop: 'resourceStrategy',
+          value,
+        });
+      },
+    },
 
     dropdownOptionsStrategyList() {
       return StrategyList.map((strategy) => ({
         value: strategy.value,
         name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
       }));
+    },
+    dropdownTypesResourceStrategy() {
+      return Object.entries(TypesResourceStrategy).map(([key, value]) => {
+        const camelCaseKey = key
+        .toLowerCase()
+        .split('_')
+        .map((part, index) =>
+          index === 0 ? part : part[0].toUpperCase() + part.slice(1)
+        )
+        .join('');
+
+        return {
+          value,
+          name: this.$t(`objects.ccenter.queues.resourceStrategy.${camelCaseKey}`)
+        };
+      });
     },
     specificControls() {
       return QueueTypeProperties[this.itemInstance.type].controls.reduce(
@@ -190,6 +232,11 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      setItemPayloadProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+      },
+    }),
     loadDropdownOptionsCalendarList(params) {
       return CalendarsAPI.getLookup(params);
     },
