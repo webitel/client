@@ -1,4 +1,7 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+import {
+  TypesResourceStrategy
+} from '../../../enums/TypesResourceStrategy.enum';
 
 import { Strategy } from '../enums/Strategy.enum';
 import queue from './defaults/defaultQueue';
@@ -27,6 +30,7 @@ const previewDialer = () => ({
     endless: false,
     perNumbers: false,
     minOnlineAgents: 0,
+    resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
   },
 });
 

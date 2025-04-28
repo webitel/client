@@ -951,6 +951,11 @@ export default {
         lastMessageTimeout: 'Время ожидания от последнего сообщения',
         stickyIgnoreStatus: 'Игнорировать статус оператора',
         ignoreCalendar: 'Игнорировать календарь',
+        resourceStrategy: {
+          resourceStrategy: 'Стратегия выбора ресурсов',
+          priorityBased: 'По очереди по приоритетах',
+          evenDistribution: 'Равномерное использование',
+        },
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',
