@@ -153,6 +153,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
@@ -205,18 +206,10 @@ export default {
       }));
     },
     dropdownTypesResourceStrategy() {
-      return Object.entries(TypesResourceStrategy).map(([key, value]) => {
-        const camelCaseKey = key
-        .toLowerCase()
-        .split('_')
-        .map((part, index) =>
-          index === 0 ? part : part[0].toUpperCase() + part.slice(1)
-        )
-        .join('');
-
+      return Object.values(TypesResourceStrategy).map((value) => {
         return {
           value,
-          name: this.$t(`objects.ccenter.queues.resourceStrategy.${camelCaseKey}`)
+          name: this.$t(`objects.ccenter.queues.resourceStrategy.${kebabToCamel(value)}`)
         };
       });
     },
