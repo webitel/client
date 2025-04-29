@@ -312,6 +312,7 @@ export default {
           eavesdropCall: 'Eavesdrop call',
           playbackRecordFile: 'Playback record file',
           timeLimitedRecordFile: 'Time-limited playback record file',
+          resetActiveAttempts: 'Reset active attempts',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',
@@ -328,6 +329,8 @@ export default {
             'Grants permission to playback call-record files',
           timeLimitedRecordFileDescription:
             'Grants permission to playback time-limited call-record files',
+          resetActiveAttemptsDescription:
+            'Grants permission to reset active attempts',
           exportDataGridDescription:
             'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
@@ -946,6 +949,13 @@ export default {
           resourceStrategy: 'Resource strategy',
           priorityBased: 'Priority based',
           evenDistribution: 'Even distribution',
+        },
+        attemptsReset: {
+          title: 'Attempts reset',
+          attemptType: 'Attempt type',
+          idleTime: 'Idle time (min)',
+          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          calls: 'Calls',
         },
         processing: {
           processing: 'Processing',
