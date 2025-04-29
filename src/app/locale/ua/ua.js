@@ -314,6 +314,7 @@ export default {
           eavesdropCall: 'Прослуховувати активний дзвінок',
           playbackRecordFile: 'Відтворювати записи розмов',
           timeLimitedRecordFile: 'Відтворювати записи розмов за певний період',
+          resetActiveAttempts: 'Скидати активні спроби',
           exportDataGrid: 'Експортувати дані',
           viewCdrPhoneNumbers: 'Перегляд незашифрованих номерів телефонів',
           manageUserRoles: 'Управління ролями користувачів',
@@ -330,6 +331,8 @@ export default {
             'Надає дозвіл на відтворення файлів записів дзвінків',
           timeLimitedRecordFileDescription:
             'Надає дозвіл на відтворення файлів записів дзвінків за певний період',
+          resetActiveAttemptsDescription:
+            'Надає дозвіл на скидання активних спроб входу в систему',
           exportDataGridDescription: 'Надає дозвіл на експорт даних',
           viewCdrPhoneNumbersDescription:
             'Надає дозвіл на відображення  незашифрованих телефонних номерів',

@@ -60,8 +60,8 @@
                 })"
               />
               <wt-icon-btn
+                v-if="isResetActiveAttemptsAllow"
                 icon="update-calls"
-                :disabled="!hasEditAccess"
                 @click="isAttemptsResetPopup = true"
               />
             </wt-table-actions>
@@ -255,6 +255,9 @@ export default {
     },
     filtersNamespace() {
       return `${this.namespace}/filters`;
+    },
+    isResetActiveAttemptsAllow() {
+      return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
     },
   },
   watch: {
