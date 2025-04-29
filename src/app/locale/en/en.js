@@ -942,6 +942,11 @@ export default {
         lastMessageTimeout: 'Timeout from the last message',
         stickyIgnoreStatus: 'Ignore agent status',
         ignoreCalendar: 'Ignore calendar',
+        resourceStrategy: {
+          resourceStrategy: 'Resource strategy',
+          priorityBased: 'Priority based',
+          evenDistribution: 'Even distribution',
+        },
         attemptsReset: {
           title: 'Attempts reset',
           attemptType: 'Attempt type',

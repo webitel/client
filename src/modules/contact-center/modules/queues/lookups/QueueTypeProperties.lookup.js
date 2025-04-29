@@ -79,6 +79,7 @@ const QueueTypeProperties = Object.freeze({
       'strictCircuit',
       'recordings',
       'perNumbers',
+      'resourceStrategy',
     ],
   },
   [QueueType.PREVIEW_DIALER]: {
@@ -105,6 +106,7 @@ const QueueTypeProperties = Object.freeze({
       'endless',
       'stickyAgent',
       'minOnlineAgents',
+      'resourceStrategy',
 
       // processing specific
       'taskProcessing.enabled',
@@ -139,6 +141,7 @@ const QueueTypeProperties = Object.freeze({
       'stickyAgent',
       'autoAnswerTone',
       'minOnlineAgents',
+      'resourceStrategy',
 
       // processing specific
       'taskProcessing.enabled',
@@ -186,6 +189,7 @@ const QueueTypeProperties = Object.freeze({
       'stickyAgentSec',
       'autoAnswerTone',
       'minOnlineAgents',
+      'resourceStrategy',
 
       // processing specific
       'taskProcessing.enabled',

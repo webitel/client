@@ -949,6 +949,11 @@ export default {
         lastMessageTimeout: 'Час очікування від останнього повідомлення',
         stickyIgnoreStatus: 'Ігнорувати статус оператора',
         ignoreCalendar: 'Ігнорувати календар',
+        resourceStrategy: {
+          resourceStrategy: 'Стратегія вибору ресурсів',
+          priorityBased: 'Рівномірне використання',
+          evenDistribution: 'По черзі по пріоритетах',
+        },
         attemptsReset: {
           title: 'Скидання спроб',
           attemptType: 'Тип спроб',

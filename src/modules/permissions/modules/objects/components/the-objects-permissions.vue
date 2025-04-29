@@ -58,9 +58,9 @@
 
             <template #obac="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasEditAccess || item.rbac"
                 :value="item.obac"
-                @change="toggleObjectObac({ item, index, value: $event })"
+                @change="onObacToggled({ item, index, value: $event })"
               />
             </template>
 
@@ -68,7 +68,7 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :value="item.rbac"
-                @change="toggleObjectRbac({ item, index, value: $event })"
+                @change="onRbacToggled({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">
@@ -149,6 +149,34 @@ export default {
         return dispatch(`${this.namespace}/TOGGLE_OBJECT_RBAC`, payload);
       },
     }),
+
+    async onRbacToggled({ item, index, value }) {
+      const wasEnabled = item.rbac;
+
+      await this.toggleObjectRbac({
+        item,
+        index,
+        value,
+      });
+
+      if (!wasEnabled && value && !item.obac) {
+        this.toggleObjectObac({
+          item,
+          index,
+          value: true,
+        });
+      }
+    },
+
+    async onObacToggled({ item, index, value }) {
+      if (item.rbac && value === false) return;
+
+      await this.toggleObjectObac({
+        item,
+        index,
+        value,
+      });
+    },
   },
 };
 </script>
