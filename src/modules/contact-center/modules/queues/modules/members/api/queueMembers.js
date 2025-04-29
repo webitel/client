@@ -227,12 +227,7 @@ const resetMembers = async ({ parentId }) => {
 
 
 
-const resetActiveAttempts = async ({ attemptType, idleForMinutes, result }) => {
-  const body = {
-    attemptType,
-    idleForMinutes,
-    result,
-  };
+const resetActiveAttempts = async (body) => {
   try {
     const response = await memberService.resetActiveAttempts(body);
     return applyTransform(response.data, []);

@@ -83,7 +83,7 @@ const resetAttemptsForm = reactive<ResetAttemptsFormType>({
 
 const selectedAttemptTypeOption = computed(() =>
   attemptsResetTypesOptions.value.find(
-    o => o.value === resetAttemptsForm.attemptType[0],
+    option => option.value === resetAttemptsForm.attemptType[0],
   ),
 );
 
