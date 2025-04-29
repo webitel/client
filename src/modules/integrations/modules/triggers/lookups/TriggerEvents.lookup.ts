@@ -16,7 +16,7 @@ export const TriggerEvents: TriggerEvent[] = [
   },
   {
     locale: 'reusable.delete',
-    value: EngineTriggerEventType.Delete,
+    value: EngineTriggerEventType.Remove,
   },
   {
     locale: 'objects.integrations.triggers.resolutionTime',
