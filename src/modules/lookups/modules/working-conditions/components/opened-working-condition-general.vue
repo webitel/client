@@ -21,7 +21,7 @@
         :label="$t('objects.lookups.workingConditions.workdayDuration')"
         type="number"
         required
-        @input="setItemProp({ prop: 'workdayHours', value: $event })"
+        @input="setItemProp({ prop: 'workdayHours', value: +$event })"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -36,7 +36,7 @@
           :v="v.itemInstance.workdayPerMonth"
           :label="$t('objects.lookups.workingConditions.workdaysPerMonth')"
           type="number"
-          @input="setItemProp({ prop: 'workdayPerMonth', value: $event })"
+          @input="setItemProp({ prop: 'workdayPerMonth', value: +$event })"
         />
 
         <wt-input
@@ -45,7 +45,7 @@
           :v="v.itemInstance.pauseDuration"
           :label="$t('objects.lookups.workingConditions.pauseDuration')"
           type="number"
-          @input="setItemProp({ prop: 'pauseDuration', value: $event })"
+          @input="setItemProp({ prop: 'pauseDuration', value: +$event })"
         />
       </div>
       <wt-input
@@ -54,7 +54,7 @@
         :v="v.itemInstance.vacation"
         :label="$t('objects.lookups.workingConditions.vacationDaysPerYear')"
         type="number"
-        @input="setItemProp({ prop: 'vacation', value: $event })"
+        @input="setItemProp({ prop: 'vacation', value: +$event })"
       />
       <wt-select
         :value="itemInstance.pauseTemplate"
@@ -70,7 +70,7 @@
         :v="v.itemInstance.sickLeaves"
         :label="$t('objects.lookups.workingConditions.sickLeavesPerYear')"
         type="number"
-        @input="setItemProp({ prop: 'sickLeaves', value: $event })"
+        @input="setItemProp({ prop: 'sickLeaves', value: +$event })"
       />
       <wt-select
         :search-method="loadShiftTemplate"
@@ -84,7 +84,7 @@
         :v="v.itemInstance.daysOff"
         :label="$t('objects.lookups.workingConditions.daysOffPerYear')"
         type="number"
-        @input="setItemProp({ prop: 'daysOff', value: $event })"
+        @input="setItemProp({ prop: 'daysOff', value: +$event })"
       />
     </div>
   </section>

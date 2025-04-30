@@ -37,11 +37,11 @@ const getPauseTemplateList = async (params) => {
 const itemResponseHandler = (item) => {
   const obj = {...item.item};
 
-  obj.causes = obj.causes.map((cause) => {
+  obj.causes = obj.causes?.map((cause) => {
     return {
       id: cause.cause?.id,
       name: cause.cause?.name,
-      duration: cause.duration,
+      duration: cause?.duration,
     };
   }, []);
   return obj;
