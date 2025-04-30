@@ -25,7 +25,7 @@ const outboundIVRQueue = () => ({
     amd: amd(),
     strictCircuit: false,
     perNumbers: false,
-    resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
+    resourceStrategy: TypesResourceStrategy.PRIORITY_BASED,
   },
 });
 

@@ -105,6 +105,7 @@
         :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
         :options="dropdownTypesResourceStrategy"
         :value="itemInstance.payload.resourceStrategy"
+        :v="v.itemInstance.payload.resourceStrategy"
         track-by="value"
       />
 
