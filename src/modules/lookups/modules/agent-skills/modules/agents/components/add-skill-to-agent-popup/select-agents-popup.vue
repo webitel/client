@@ -88,7 +88,7 @@
 <script setup>
 import { useInfiniteScroll } from '@vueuse/core';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, onMounted } from 'vue';
 
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
@@ -131,6 +131,7 @@ const headers = reactive([
 const dataList = ref([]);
 const page = ref(0);
 const isNext = ref(false);
+const isLoading = ref(false);
 
 const infiniteScrollWrap = ref(null);
 
@@ -189,7 +190,7 @@ function sort(header, nextSortOrder) {
 
   headers.forEach((oldHeader) => {
     if (oldHeader.sort !== undefined) {
-       
+
       oldHeader.sort = oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE;
     }
   });
@@ -199,9 +200,28 @@ function cancel() {
   emit('cancel');
 }
 
-useInfiniteScroll(infiniteScrollWrap, () => {
-  page.value += 1;
-  loadDataList();
+async function callLoadDataList() {
+  isLoading.value = true;
+  await loadDataList();
+  isLoading.value = false;
+}
+
+useInfiniteScroll(
+  infiniteScrollWrap,
+  async () => {
+    if (isLoading.value || !isNext.value) return;
+
+    page.value += 1;
+    await callLoadDataList();
+  },
+  {
+    distance: 100,
+  }
+);
+
+onMounted(async () => {
+  page.value = 1;
+  await callLoadDataList();
 });
 </script>
 
