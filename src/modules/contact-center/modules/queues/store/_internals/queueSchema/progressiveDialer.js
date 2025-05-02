@@ -34,7 +34,7 @@ const progressiveDialer = () => ({
     perNumbers: false,
     autoAnswerTone: null,
     minOnlineAgents: 0,
-    resourceStrategy: TypesResourceStrategy.PRIORITY_BASED,
+    resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
   },
 });
 
