@@ -30,7 +30,7 @@ const previewDialer = () => ({
     endless: false,
     perNumbers: false,
     minOnlineAgents: 0,
-    resourceStrategy: TypesResourceStrategy.PRIORITY_BASED,
+    resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
   },
 });
 
