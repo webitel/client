@@ -106,6 +106,7 @@
         :options="dropdownTypesResourceStrategy"
         :value="itemInstance.payload.resourceStrategy"
         track-by="value"
+        required
       />
 
       <!--      v-if-->
