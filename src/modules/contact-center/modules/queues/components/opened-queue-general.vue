@@ -107,6 +107,7 @@
         :value="itemInstance.payload.resourceStrategy"
         :v="v.itemInstance.payload.resourceStrategy"
         track-by="value"
+        required
       />
 
       <!--      v-if-->
