@@ -225,6 +225,17 @@ const resetMembers = async ({ parentId }) => {
   }
 };
 
+
+
+const resetActiveAttempts = async (body) => {
+  try {
+    const response = await memberService.resetActiveAttempts(body);
+    return applyTransform(response.data, []);
+  } catch (err) {
+    throw applyTransform(err, [notify]);
+  }
+};
+
 const addMembersBulk = async (parentId, fileName, items) => {
   const body = { parentId, fileName, items };
   try {
@@ -276,6 +287,7 @@ const QueueMembersAPI = {
   delete: deleteMember,
   deleteBulk: deleteMembersBulk,
   resetMembers,
+  resetActiveAttempts,
 };
 
 export default QueueMembersAPI;

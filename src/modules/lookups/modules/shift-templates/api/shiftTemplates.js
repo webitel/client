@@ -38,7 +38,7 @@ const itemResponseHandler = (item) => {
     ...item.item,
   };
 
-  copy.times = copy.times.map((time) => ({
+  copy.times = copy.times?.map((time) => ({
     ...time,
     duration: time.end - time.start,
   }), []);

@@ -99,6 +99,19 @@
 
       <!--      v-if-->
       <wt-select
+        v-if="specificControls.resourceStrategy"
+        v-model="resourceStrategy"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
+        :options="dropdownTypesResourceStrategy"
+        :value="itemInstance.payload.resourceStrategy"
+        :v="v.itemInstance.payload.resourceStrategy"
+        track-by="value"
+        required
+      />
+
+      <!--      v-if-->
+      <wt-select
         v-if="specificControls.afterSchema"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.afterSchema')"
@@ -140,7 +153,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
@@ -152,6 +167,7 @@ import TeamsAPI from '../../teams/api/teams';
 import QueuesAPI from '../api/queues';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { StrategyList } from '../store/_internals/enums/Strategy.enum';
+import { TypesResourceStrategy } from '../enums/TypesResourceStrategy.enum';
 
 export default {
   name: 'OpenedQueueGeneral',
@@ -171,12 +187,33 @@ export default {
         });
       },
     },
+    resourceStrategy: {
+      get() {
+        return this.dropdownTypesResourceStrategy.find(
+          (resourceStrategy) => resourceStrategy.value === this.itemInstance.payload.resourceStrategy,
+        );
+      },
+      set({ value }) {
+        this.setItemPayloadProp({
+          prop: 'resourceStrategy',
+          value,
+        });
+      },
+    },
 
     dropdownOptionsStrategyList() {
       return StrategyList.map((strategy) => ({
         value: strategy.value,
         name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
       }));
+    },
+    dropdownTypesResourceStrategy() {
+      return Object.values(TypesResourceStrategy).map((value) => {
+        return {
+          value,
+          name: this.$t(`objects.ccenter.queues.resourceStrategy.${kebabToCamel(value)}`)
+        };
+      });
     },
     specificControls() {
       return QueueTypeProperties[this.itemInstance.type].controls.reduce(
@@ -190,6 +227,11 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      setItemPayloadProp(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+      },
+    }),
     loadDropdownOptionsCalendarList(params) {
       return CalendarsAPI.getLookup(params);
     },

@@ -313,6 +313,7 @@ export default {
           eavesdropCall: 'Прослушивать активный звонок',
           playbackRecordFile: 'Воспроизводить записи разговоров',
           timeLimitedRecordFile: 'Воспроизводить записи разговоров за период',
+          resetActiveAttempts: 'Сбрасывать активные попытки',
           exportDataGrid: 'Экспортировать данные',
           viewCdrPhoneNumbers: 'Просмотр незашифрованных номеров телефонов',
           manageUserRoles: 'Управление ролями пользователей',
@@ -329,6 +330,8 @@ export default {
             'Предоставляет разрешение на воспроизведение файлов с записями разговоров',
           timeLimitedRecordFileDescription:
             'Предоставляет разрешение на воспроизведение файлов с записями разговоров за определенный период',
+          resetActiveAttemptsDescription:
+            'Предоставляет разрешение на сброс активных попыток',
           exportDataGridDescription:
             'Предоставляет разрешение на экспорт данных',
           viewCdrPhoneNumbersDescription:
@@ -951,6 +954,18 @@ export default {
         lastMessageTimeout: 'Время ожидания от последнего сообщения',
         stickyIgnoreStatus: 'Игнорировать статус оператора',
         ignoreCalendar: 'Игнорировать календарь',
+        resourceStrategy: {
+          resourceStrategy: 'Стратегия выбора ресурсов',
+          priorityBased: 'По очереди по приоритетах',
+          evenDistribution: 'Равномерное использование',
+        },
+        attemptsReset: {
+          title: 'Сброс попыток',
+          attemptType: 'Тип попыток',
+          idleTime: 'Время зависания (мин)',
+          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          calls: 'Звонки',
+        },
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',
