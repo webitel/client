@@ -171,6 +171,9 @@ export default {
               minDuration: {
                 minValue: minValue(0),
               },
+              resourceStrategy: {
+                required,
+              }
             },
           },
         });
@@ -195,6 +198,9 @@ export default {
                 required,
                 minValue: minValue(0),
               },
+              resourceStrategy: {
+                required,
+              }
             },
           },
         });
@@ -219,6 +225,9 @@ export default {
                 required,
                 minValue: minValue(0),
               },
+              resourceStrategy: {
+                required,
+              }
             },
           },
         });
@@ -246,6 +255,9 @@ export default {
               maxWaitTime: {
                 minValue: minValue(0),
               },
+              resourceStrategy: {
+                required,
+              }
             },
           },
         });
