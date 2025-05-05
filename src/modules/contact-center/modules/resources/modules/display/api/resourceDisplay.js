@@ -74,8 +74,6 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
 };
 
 const addResDisplayList = async ({ parentId, itemInstance }) => {
-  console.log('addResDisplayList', itemInstance);
-  console.log('parentId', parentId);
   const item = applyTransform(itemInstance, [
     preRequestHandler(parentId),
     sanitize(fieldsToSend),

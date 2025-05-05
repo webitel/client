@@ -1,5 +1,3 @@
-
-
 import {
   EngineCommunicationChannels,
   LoggerAction,
@@ -234,7 +232,7 @@ export default {
         regenerate: 'Перегенерувати',
         askingAlert:
           'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
-        chatName: "Імʼя для відображення в чаті",
+        chatName: 'Імʼя для відображення в чаті',
       },
       license: {
         customers: 'Користувачі',
@@ -961,7 +959,8 @@ export default {
           title: 'Скидання спроб',
           attemptType: 'Тип спроб',
           idleTime: 'Час зависання (хв)',
-          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          result: ({ linked }) =>
+            linked('objects.integrations.triggers.logs.result'),
           calls: 'Дзвінки',
         },
         processing: {
@@ -1039,6 +1038,21 @@ export default {
         priority: 'Пріоритет',
         reserveResource: 'Резервний ресурс',
         failureDialDelay: 'Затримка при помилці набору',
+        importCsv: {
+          title: 'Імпорт номерів',
+          separator: 'Роздільник',
+          upload: 'Завантажити',
+          close: 'Закрити',
+          exampleSeparator: 'Наприклад ; або ,',
+          numberColumn: 'Назва колонки з номером',
+          invalidFileOrSeparator:
+            'Невірний роздільник або файл має замало колонок.',
+          readError: 'Не вдалося прочитати CSV файл.',
+          noNumbersError: (invalidCount) =>
+            `Помилка: знайдено ${invalidCount} рядків без номера. Заповніть всі рядки перед завантаженням.`,
+          uploadError: 'Помилка при відправці файлу:',
+          genericError: 'Сталася помилка при відправці!',
+        },
       },
 
       resGroups: {
@@ -1171,7 +1185,8 @@ export default {
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
-        eventSelect: ({ linked }) => linked('objects.ccenter.queues.hooks.event'),
+        eventSelect: ({ linked }) =>
+          linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
         expression: 'Вираз',
         timeout: 'Час очікування',

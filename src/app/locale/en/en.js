@@ -1,5 +1,3 @@
-
-
 import {
   EngineCommunicationChannels,
   LoggerAction,
@@ -586,7 +584,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram App',
-          signedAs: 'You\'re signed as',
+          signedAs: "You're signed as",
           joinTelegram: 'Sign in to Telegram',
           metadata: {
             apiId: 'API id',
@@ -644,7 +642,7 @@ export default {
             position: 'Position',
             btnColor: 'Button Color',
             logoUrl: 'Logo URL',
-            logoHint: 'Supported logo format is \'JPEG\' or \'PNG\', 24x24px',
+            logoHint: "Supported logo format is 'JPEG' or 'PNG', 24x24px",
             rounded: 'Rounded',
             square: 'Square',
             right: 'Right',
@@ -848,10 +846,10 @@ export default {
           'An Outbound IVR allows an organization to automatically engage customers through multiple channels such as automated voice calls, SMS messages, email or social media posts using personalized notifications.',
         inboundQueue: 'Inbound queue',
         inboundQueueDescription:
-          'An Inbound queue is that it\'s where callers are placed on hold, in a queue, while they wait to speak with a live agent.',
+          "An Inbound queue is that it's where callers are placed on hold, in a queue, while they wait to speak with a live agent.",
         offlineQueue: 'Offline queue',
         offlineQueueDescription:
-          'An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it\'s their turn.',
+          "An Offline queue gives callers the option to stop waiting on hold, input their phone number and receive a callback as soon as it's their turn.",
         previewDialer: 'Preview dialer',
         previewDialerDescription:
           'Preview the contact before auto dialing them.',
@@ -954,7 +952,8 @@ export default {
           title: 'Attempts reset',
           attemptType: 'Attempt type',
           idleTime: 'Idle time (min)',
-          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          result: ({ linked }) =>
+            linked('objects.integrations.triggers.logs.result'),
           calls: 'Calls',
         },
         processing: {
@@ -1032,6 +1031,21 @@ export default {
         priority: 'Priority',
         reserveResource: 'Reserve resource',
         failureDialDelay: 'Failure dial delay',
+        importCsv: {
+          title: 'Import Numbers',
+          separator: 'Separator',
+          upload: 'Upload',
+          close: 'Close',
+          exampleSeparator: 'For example ; or ,',
+          numberColumn: 'Number column',
+          invalidFileOrSeparator:
+            'Invalid separator or file has too few columns.',
+          readError: 'Failed to read the CSV file.',
+          noNumbersError: (invalidCount) =>
+            `Error: found ${invalidCount} rows without a number. Please fill in all rows before uploading.`,
+          uploadError: 'Error while uploading the file:',
+          genericError: 'An error occurred during the upload!',
+        },
       },
 
       resGroups: {
@@ -1165,7 +1179,8 @@ export default {
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
-        eventSelect: ({ linked }) => linked('objects.ccenter.queues.hooks.event'),
+        eventSelect: ({ linked }) =>
+          linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
         expression: 'Expression',
         timeout: 'Timeout',
@@ -1248,8 +1263,8 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: 'Looks like you\'re lost',
-      text: 'Sorry, we can\'t find the page you want.',
+      title: "Looks like you're lost",
+      text: "Sorry, we can't find the page you want.",
     },
   },
 
