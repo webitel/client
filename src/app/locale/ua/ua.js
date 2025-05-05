@@ -951,8 +951,8 @@ export default {
         ignoreCalendar: 'Ігнорувати календар',
         resourceStrategy: {
           resourceStrategy: 'Стратегія вибору ресурсів',
-          priorityBased: 'Рівномірне використання',
-          evenDistribution: 'По черзі по пріоритетах',
+          priorityBased: 'По черзі по пріоритетах',
+          evenDistribution: 'Рівномірне використання',
         },
         processing: {
           processing: 'Обробка',
