@@ -53,9 +53,9 @@ const preRequestHandler = (item) => {
   }, {});
   return {
     ...copy,
-    type: copy.type.value,
-    event: copy.event.value,
-    object: copy.object.value,
+    type: copy?.type?.value,
+    event: copy?.event?.value,
+    object: copy?.object?.value,
   };
 };
 
