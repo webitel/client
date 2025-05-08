@@ -107,7 +107,11 @@ export default {
   },
   computed: {
     ...mapState('permissions/roles', {
-      permissionsList: (state) => state.itemInstance.permissions,
+      // author @Lera24
+      // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
+      // permissionsList: (state) => state.itemInstance.permissions
+      permissionsList: (state) => state.itemInstance.permissions.filter(
+        (permission) => permission.id !== 'reset_active_attempts')
     }),
     // override mixin map state
     dataList: {
