@@ -118,6 +118,9 @@ export default {
         .filter((permission) =>
           this.permissions.every((addedPermission) => addedPermission.id !== permission.id),
         )
+      // author @Lera24
+      // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
+        .filter((permission => permission.id !== 'reset_active_attempts'))
         .map((permission) => ({
           ...permission,
           name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
