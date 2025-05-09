@@ -39,9 +39,8 @@ const notificationTypes = computed(() => [
 
 <style lang="scss" scoped>
 .notifications-sounds {
-
   .content-title {
-    @extend %typo-heading-4 !optional;
+    @extend %typo-heading-4;
   }
 
   &__list {
