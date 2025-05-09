@@ -2,7 +2,7 @@
   <section class="notifications-sounds settings-section-item">
     <header class="content-header">
       <h3 class="content-title">
-        {{ $t('settings.notifications.title', 2) }}
+        {{ $tc('settings.notifications.title', 2) }}
       </h3>
     </header>
     <form>
@@ -32,7 +32,7 @@ interface NotificationType {
 const notificationTypes = computed<Array<NotificationType>>(() => [
   {
     type: 'callEndSound',
-    locale: t('settings.notifications.callEnd', 2),
+    locale: t('settings.notifications.callEnd'),
   },
   {
     type: 'socketCloseSound',
@@ -44,6 +44,7 @@ const notificationTypes = computed<Array<NotificationType>>(() => [
 
 <style lang="scss" scoped>
 .notifications-sounds {
+
   .content-title {
     @extend %typo-heading-4;
   }
