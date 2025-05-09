@@ -1,0 +1,53 @@
+<template>
+  <section class="notifications-sounds settings-section-item">
+    <header class="content-header">
+      <h3 class="content-title">
+        {{ $tc('settings.notifications.title', 2) }}
+      </h3>
+    </header>
+    <form>
+      <div class="notifications-sounds__list">
+        <notifications-sound-state
+          v-for="(item) of notificationTypes"
+          :notification-type="item.type"
+          :title="item.locale"
+        />
+      </div>
+    </form>
+  </section>
+</template>
+<script setup lang="ts">
+
+import {computed} from "vue";
+import NotificationsSoundState from "./notifications-sound-state.vue";
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n();
+
+const notificationTypes = computed(() => [
+  {
+    type: 'callEndSound',
+    locale: t('settings.notifications.callEnd', 2),
+  },
+  {
+    type: 'socketCloseSound',
+    locale: t('settings.notifications.lossConnection', 2),
+  }
+]);
+
+</script>
+
+<style lang="scss" scoped>
+.notifications-sounds {
+
+  .content-title {
+    @extend %typo-heading-4 !optional;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+}
+</style>

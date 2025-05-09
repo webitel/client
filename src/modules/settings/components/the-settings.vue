@@ -26,6 +26,9 @@
               />
             </form>
           </section>
+          <notifications-sounds-state />
+        </div>
+        <div class="settings-section__column">
           <section class="settings-section-item">
             <header class="content-header">
               <h3 class="content-title">
@@ -52,24 +55,6 @@
               </div>
             </form>
           </section>
-        </div>
-        <div class="settings-section__column">
-          <section class="settings-section-item">
-            <header class="content-header">
-              <h3 class="content-title">
-                {{ $t('settings.callEnd') }}
-              </h3>
-            </header>
-            <form>
-              <div class="settings-section__wrapper">
-                <p>{{ $t('reusable.state') }}</p>
-                <wt-switcher
-                  :value="callEndSound"
-                  @change="changeCallEndSoundState"
-                />
-              </div>
-            </form>
-          </section>
           <custom-ringtone />
           <ringtone-volume-control />
         </div>
@@ -85,11 +70,13 @@ import { mapState } from 'vuex';
 import { changeWebPhone, getWebPhone } from '../api/settings';
 import ChangePassword from './change-password.vue';
 import CustomRingtone from './custom-ringtone.vue';
+import NotificationsSoundsState from './notifications-sounds.vue';
 import RingtoneVolumeControl from './ringtone-volume-control.vue';
 
 export default {
   name: 'TheSettings',
   components: {
+    NotificationsSoundsState,
     CustomRingtone,
     ChangePassword,
     RingtoneVolumeControl,
@@ -101,7 +88,6 @@ export default {
     isPasswordPatching: false,
     webrtc: true,
     stun: false,
-    callEndSound: !!localStorage.getItem('settings/callEndSound'),
     language: {
       name: 'English',
       id: 'en',
@@ -181,13 +167,6 @@ export default {
       } catch (err) {
         throw err;
       }
-    },
-
-    changeCallEndSoundState(value) {
-      value
-        ? localStorage.setItem('settings/callEndSound', 'true')
-        : localStorage.removeItem('settings/callEndSound');
-      this.callEndSound = value;
     },
 
     changeLanguage(value) {
