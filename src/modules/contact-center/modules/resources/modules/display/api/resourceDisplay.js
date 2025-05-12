@@ -73,19 +73,17 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
   }
 };
 
-const addResDisplayList = async ({ parentId, itemInstance }) => {
-  const item = applyTransform(itemInstance, [
-    preRequestHandler(parentId),
-    sanitize(fieldsToSend),
-    camelToSnake(),
-  ]);
+const uploadNumbersFile= async ({ parentId, formData }) => {
   try {
-    const response = await resService.createOutboundResourceDisplayBulk(parentId, item);
+    const response = await instance.post(`/displays/${parentId}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
-}
+ 
+};
 
 const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
   const item = applyTransform(itemInstance, [
@@ -114,7 +112,7 @@ export default {
   getList: getResDisplayList,
   get: getResDisplay,
   add: addResDisplay,
-  addList: addResDisplayList,
   update: updateResDisplay,
   delete: deleteResDisplay,
+  uploadNumbers: uploadNumbersFile,
 };

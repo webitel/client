@@ -1041,9 +1041,8 @@ export default {
           invalidFileOrSeparator:
             'Invalid separator or file has too few columns.',
           readError: 'Failed to read the CSV file.',
-          noNumbersError: (invalidCount) =>
-            `Error: found ${invalidCount} rows without a number. Please fill in all rows before uploading.`,
-          uploadError: 'Error while uploading the file:',
+          noNumbersError: `Error: {invalidCount} empty rows found at positions {invalidRows}. Please fill in all rows before uploading.`,
+          uploadError: 'Error while uploading the file',
           genericError: 'An error occurred during the upload!',
         },
       },

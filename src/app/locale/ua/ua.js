@@ -1048,9 +1048,9 @@ export default {
           invalidFileOrSeparator:
             'Невірний роздільник або файл має замало колонок.',
           readError: 'Не вдалося прочитати CSV файл.',
-          noNumbersError: (invalidCount) =>
-            `Помилка: знайдено ${invalidCount} рядків без номера. Заповніть всі рядки перед завантаженням.`,
-          uploadError: 'Помилка при відправці файлу:',
+          noNumbersError: `Помилка: знайдено {invalidCount} незаповнених рядків на позиціях {invalidRows}. Заповніть всі рядки перед завантаженням.`,
+
+          uploadError: 'Помилка при відправці файлу',
           genericError: 'Сталася помилка при відправці!',
         },
       },
