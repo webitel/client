@@ -314,6 +314,7 @@ export default {
           playbackRecordFile: 'Воспроизводить записи разговоров',
           timeLimitedRecordFile: 'Воспроизводить записи разговоров за период',
           resetActiveAttempts: 'Сбрасывать активные попытки',
+          limitWorkspaceContacts: 'Показывать контакты в Workspace',
           exportDataGrid: 'Экспортировать данные',
           viewCdrPhoneNumbers: 'Просмотр незашифрованных номеров телефонов',
           manageUserRoles: 'Управление ролями пользователей',
@@ -332,6 +333,8 @@ export default {
             'Предоставляет разрешение на воспроизведение файлов с записями разговоров за определенный период',
           resetActiveAttemptsDescription:
             'Предоставляет разрешение на сброс активных попыток',
+          limitWorkspaceContactsDescription:
+            'Предоставляет разрешение на просмотр списка контактов в Workspace',
           exportDataGridDescription:
             'Предоставляет разрешение на экспорт данных',
           viewCdrPhoneNumbersDescription:

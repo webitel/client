@@ -313,6 +313,7 @@ export default {
           playbackRecordFile: 'Playback record file',
           timeLimitedRecordFile: 'Time-limited playback record file',
           resetActiveAttempts: 'Reset active attempts',
+          limitWorkspaceContacts: 'Show contacts in Workspace',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',
@@ -331,6 +332,8 @@ export default {
             'Grants permission to playback time-limited call-record files',
           resetActiveAttemptsDescription:
             'Grants permission to reset active attempts',
+          limitWorkspaceContactsDescription:
+            'Grants permission to view the list of contacts in Workspace',
           exportDataGridDescription:
             'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',

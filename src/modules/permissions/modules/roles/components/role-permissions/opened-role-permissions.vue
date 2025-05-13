@@ -152,6 +152,9 @@ export default {
         reset_active_attempts: this.$t(
           'objects.permissions.roles.permissions.resetActiveAttempts',
         ),
+        limit_workspace_contacts: this.$t(
+          'objects.permissions.roles.permissions.limitWorkspaceContacts',
+        ),
         export_data_grid: this.$t(
           'objects.permissions.roles.permissions.exportDataGrid',
         ),
@@ -196,6 +199,9 @@ export default {
         ),
         reset_active_attempts: this.$t(
           'objects.permissions.roles.permissions.resetActiveAttemptsDescription',
+        ),
+        limit_workspace_contacts: this.$t(
+          'objects.permissions.roles.permissions.limitWorkspaceContactsDescription',
         ),
         export_data_grid: this.$t(
           'objects.permissions.roles.permissions.exportDataGridDescription',
