@@ -24,12 +24,12 @@ import {useI18n} from "vue-i18n";
 
 const { t } = useI18n();
 
-interface notificationType {
+interface NotificationType {
   type: string;
   locale: string;
 }
 
-const notificationTypes = computed<Array<notificationType>>(() => [
+const notificationTypes = computed<Array<NotificationType>>(() => [
   {
     type: 'callEndSound',
     locale: t('settings.notifications.callEnd', 2),
