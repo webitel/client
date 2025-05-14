@@ -11,20 +11,15 @@
 
 import {ref} from 'vue';
 
-const props = defineProps({
-  notificationType: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  }
-})
+const props = defineProps<{
+  notificationType: string,
+  title: string,
+}>()
 
-const notificationState = ref(!!localStorage.getItem(`settings/${props.notificationType}`));
 
-function changeState(value) {
+const notificationState = ref<boolean>(!!localStorage.getItem(`settings/${props.notificationType}`));
+
+function changeState(value: boolean) {
   value
     ? localStorage.setItem(`settings/${props.notificationType}`, 'true')
     : localStorage.removeItem(`settings/${props.notificationType}`);

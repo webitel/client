@@ -2,7 +2,7 @@
   <section class="notifications-sounds settings-section-item">
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('settings.notifications.title', 2) }}
+        {{ $t('settings.notifications.title', 2) }}
       </h3>
     </header>
     <form>
@@ -24,7 +24,12 @@ import {useI18n} from "vue-i18n";
 
 const { t } = useI18n();
 
-const notificationTypes = computed(() => [
+interface notificationType {
+  type: string;
+  locale: string;
+}
+
+const notificationTypes = computed<Array<notificationType>>(() => [
   {
     type: 'callEndSound',
     locale: t('settings.notifications.callEnd', 2),
