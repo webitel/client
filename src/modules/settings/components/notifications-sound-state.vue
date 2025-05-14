@@ -2,8 +2,8 @@
   <div class="notifications-sound-state">
     <p>{{ props.title }}</p>
     <wt-switcher
-      :value="notificationState"
-      @change="changeState"
+      :value="isNotificationOn"
+      @change="changeNotificationState"
     />
   </div>
 </template>
@@ -17,13 +17,13 @@ const props = defineProps<{
 }>()
 
 
-const notificationState = ref<boolean>(!!localStorage.getItem(`settings/${props.notificationType}`));
+const isNotificationOn = ref<boolean>(!!localStorage.getItem(`settings/${props.notificationType}`));
 
-function changeState(value: boolean) {
+function changeNotificationState(value: boolean) {
   value
     ? localStorage.setItem(`settings/${props.notificationType}`, 'true')
     : localStorage.removeItem(`settings/${props.notificationType}`);
-  notificationState.value = value;
+  isNotificationOn.value = value;
 };
 
 </script>
