@@ -43,6 +43,8 @@ const notificationTypes = computed<Array<NotificationType>>(() => [
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .notifications-sounds {
   .content-title {
     @extend %typo-heading-4;
