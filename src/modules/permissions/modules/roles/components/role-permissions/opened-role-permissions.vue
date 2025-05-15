@@ -149,6 +149,9 @@ export default {
         time_limited_record_file: this.$t(
           'objects.permissions.roles.permissions.timeLimitedRecordFile',
         ),
+        reset_active_attempts: this.$t(
+          'objects.permissions.roles.permissions.resetActiveAttempts',
+        ),
         export_data_grid: this.$t(
           'objects.permissions.roles.permissions.exportDataGrid',
         ),
@@ -190,6 +193,9 @@ export default {
         ),
         time_limited_record_file: this.$t(
           'objects.permissions.roles.permissions.timeLimitedRecordFileDescription',
+        ),
+        reset_active_attempts: this.$t(
+          'objects.permissions.roles.permissions.resetActiveAttemptsDescription',
         ),
         export_data_grid: this.$t(
           'objects.permissions.roles.permissions.exportDataGridDescription',

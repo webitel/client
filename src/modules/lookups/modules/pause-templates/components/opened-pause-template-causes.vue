@@ -37,7 +37,7 @@
               :value="item.duration"
               type="number"
               required
-              @input="setCause({ prop: 'duration', index, value: $event })"
+              @input="setCause({ prop: 'duration', index, value: +$event })"
             />
           </template>
           <template #actions="{ item, index }">

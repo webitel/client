@@ -30,6 +30,9 @@ const getters = {
   IS_CHANGE_USER_PASSWORD_ALLOW: (state) =>
     !!state.permissions.change_user_password,
 
+  IS_RESET_ACTIVE_ATTEMPTS_ALLOW: (state) =>
+    !!state.permissions.reset_active_attempts,
+
   // FIXME: remove this getter after refactoring of userinfo module in SDK
   HAS_ACCESS_TO_OBJECT: (state, getters) => (objectName) => {
     const objectScope = getters.GET_OBJECT_SCOPE({ name: objectName });
