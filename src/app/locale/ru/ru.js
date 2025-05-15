@@ -68,7 +68,6 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      title: 'Уведомление | Уведомления',
       callEnd: 'Звуковое уведомление о завершении звонка',
       lossConnection: 'Звуковое уведомление про розрыв соединения',
     },
@@ -965,7 +964,8 @@ export default {
           title: 'Сброс попыток',
           attemptType: 'Тип попыток',
           idleTime: 'Время зависания (мин)',
-          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          result: ({ linked }) =>
+            linked('objects.integrations.triggers.logs.result'),
           calls: 'Звонки',
         },
         processing: {

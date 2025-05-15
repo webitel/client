@@ -68,7 +68,6 @@ export default {
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
     notifications: {
-      title: 'Notification | Notifications',
       callEnd: 'Call end sound',
       lossConnection: 'Connection loss sound',
     },
@@ -956,7 +955,8 @@ export default {
           title: 'Attempts reset',
           attemptType: 'Attempt type',
           idleTime: 'Idle time (min)',
-          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          result: ({ linked }) =>
+            linked('objects.integrations.triggers.logs.result'),
           calls: 'Calls',
         },
         processing: {

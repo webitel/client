@@ -68,7 +68,6 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      title: 'Сповіщення',
       callEnd: 'Звукове сповіщення про завершення дзвінка',
       lossConnection: 'Звукове сповіщення про розрив зʼєднання',
     },
@@ -963,7 +962,8 @@ export default {
           title: 'Скидання спроб',
           attemptType: 'Тип спроб',
           idleTime: 'Час зависання (хв)',
-          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          result: ({ linked }) =>
+            linked('objects.integrations.triggers.logs.result'),
           calls: 'Дзвінки',
         },
         processing: {
