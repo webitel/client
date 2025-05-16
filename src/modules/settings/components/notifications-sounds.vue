@@ -2,7 +2,7 @@
   <section class="notifications-sounds settings-section-item">
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('vocabulary.notification', 2) }}
+        {{ t('vocabulary.notification') }}
       </h3>
     </header>
     <form>
