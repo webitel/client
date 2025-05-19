@@ -46,6 +46,7 @@ import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import RolesAPI from '../../api/roles';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
 
 export default {
   name: 'OpenedRolePermissionsPopup',
@@ -120,7 +121,7 @@ export default {
         )
       // author @Lera24
       // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
-        .filter((permission => permission.id !== 'reset_active_attempts'))
+        .filter((permission => permission.id !== SpecialGlobalAction.ResetAttempts))
         .map((permission) => ({
           ...permission,
           name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
