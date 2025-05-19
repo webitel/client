@@ -1,5 +1,3 @@
-
-
 import {
   EngineCommunicationChannels,
   LoggerAction,
@@ -69,6 +67,10 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
+    notifications: {
+      callEnd: 'Звукове сповіщення про завершення дзвінка',
+      lossConnection: 'Звукове сповіщення про розрив зʼєднання',
+    },
     ringtones: {
       title: 'Змінити рингтон',
       ringtone: 'Рингтон',
@@ -77,7 +79,6 @@ export default {
     ringtoneVolume: {
       title: 'Гучність рингтону',
     },
-    callEnd: 'Звук завершення дзвінка',
   },
 
   validation: {
@@ -234,7 +235,7 @@ export default {
         regenerate: 'Перегенерувати',
         askingAlert:
           'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
-        chatName: "Імʼя для відображення в чаті",
+        chatName: 'Імʼя для відображення в чаті',
       },
       license: {
         customers: 'Користувачі',
@@ -964,7 +965,8 @@ export default {
           title: 'Скидання спроб',
           attemptType: 'Тип спроб',
           idleTime: 'Час зависання (хв)',
-          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          result: ({ linked }) =>
+            linked('objects.integrations.triggers.logs.result'),
           calls: 'Дзвінки',
         },
         processing: {
@@ -1174,7 +1176,8 @@ export default {
         onEventDescription: 'An event-based JSON Schema scheduler',
         cron: 'At time',
         atTimeDescription: 'A time-based JSON Schema scheduler',
-        eventSelect: ({ linked }) => linked('objects.ccenter.queues.hooks.event'),
+        eventSelect: ({ linked }) =>
+          linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
         expression: 'Вираз',
         timeout: 'Час очікування',
