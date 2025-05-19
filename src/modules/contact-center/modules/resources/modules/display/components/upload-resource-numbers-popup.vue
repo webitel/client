@@ -35,8 +35,12 @@
         />
       </section>
 
-      <article v-if="error" class="upload-popup-form__error-stack-trace">
-        {{ error }}
+      <article v-if="parsedError" class="upload-popup-form__error-stack-trace">
+        {{ parsedError }}
+      </article>
+
+      <article v-if="preUploadIssue" class="upload-popup-form__error-stack-trace">
+        {{ preUploadIssue }}
       </article>
 
     </template>
@@ -60,21 +64,24 @@ import { useI18n } from 'vue-i18n'
 import resourceDisplayApi from '../api/resourceDisplay.js'
 import { useUploadCsvNumbers } from '../composables/useUploadCsvNumbers.js'
 
-const { t } = useI18n()
-
 const props = defineProps({
   file: { type: File, required: true },
   parentId: { type: [String, Number], required: true },
 })
+
+const { t } = useI18n()
+
 const emit = defineEmits(['close'])
 
 const close = () => emit('close')
+
 
 const {
   separator,
   selectedColumn,
   columns,
-  error,
+  parsedError,
+  preUploadIssue,
   loading,
   previewRows,
   csvTableHeaders,
@@ -82,10 +89,10 @@ const {
 } = useUploadCsvNumbers(toRef(props, 'file'), {
   parentId: toRef(props, 'parentId'),
   close,
-  upload: (fd) =>
+  upload: (formData) =>
     resourceDisplayApi.uploadNumbers({
       parentId: props.parentId,
-      formData: fd,
+      formData: formData,
     }),
 })
 

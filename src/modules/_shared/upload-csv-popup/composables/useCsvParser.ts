@@ -1,5 +1,5 @@
 import type { Ref } from 'vue';
-import { isRef, ref, unref, watch } from 'vue';
+import { isRef, ref, toValue, watch } from 'vue';
 
 import parseCSV from '../scripts/parseCSV';
 import type { ParsedCsv } from '../types/parsedCsv';
@@ -27,9 +27,9 @@ export function useCsvParser(
       const text = await file.value.text();
       const [firstLine, ...rest] = text.split(/\r?\n/);
       const headers: string[] =
-        (await parseCSV(firstLine, { delimiter: unref(separator) }))[0] || [];
+        (await parseCSV(firstLine, { delimiter: toValue(separator) }))[0] || [];
       const rows: Record<string, string>[] = await parseCSV(rest.join('\n'), {
-        delimiter: unref(separator),
+        delimiter: toValue(separator),
         columns: headers,
       });
 
@@ -45,5 +45,5 @@ export function useCsvParser(
 
   watch([file, separator], process, { immediate: true });
 
-  return { parsed, loading, error };
+  return { parsed, loading, parsedError: error };
 }

@@ -1045,13 +1045,10 @@ export default {
           close: 'Закрити',
           exampleSeparator: 'Наприклад ; або ,',
           numberColumn: 'Назва колонки з номером',
-          invalidFileOrSeparator:
-            'Невірний роздільник або файл має замало колонок.',
-          readError: 'Не вдалося прочитати CSV файл.',
-          noNumbersError: `Помилка: знайдено {invalidCount} незаповнених рядків на позиціях {invalidRows}. Заповніть всі рядки перед завантаженням.`,
-
           uploadError: 'Помилка при відправці файлу',
           genericError: 'Сталася помилка при відправці!',
+          emptyRequiredFieldsMessage:
+            'У рядках {rows} порожні обов’язкові поля',
         },
       },
 

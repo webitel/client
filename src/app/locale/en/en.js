@@ -1038,12 +1038,10 @@ export default {
           close: 'Close',
           exampleSeparator: 'For example ; or ,',
           numberColumn: 'Number column',
-          invalidFileOrSeparator:
-            'Invalid separator or file has too few columns.',
-          readError: 'Failed to read the CSV file.',
-          noNumbersError: `Error: {invalidCount} empty rows found at positions {invalidRows}. Please fill in all rows before uploading.`,
           uploadError: 'Error while uploading the file',
           genericError: 'An error occurred during the upload!',
+          emptyRequiredFieldsMessage:
+            'Required fields are empty in rows {rows}.',
         },
       },
 

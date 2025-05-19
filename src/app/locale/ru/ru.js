@@ -1047,12 +1047,10 @@ export default {
           close: 'Закрыть',
           exampleSeparator: 'Например ; или ,',
           numberColumn: 'Колонка с номерами',
-          invalidFileOrSeparator:
-            'Неверный разделитель или файл содержит слишком мало колонок.',
-          readError: 'Не удалось прочитать CSV файл.',
-          noNumbersError: `Ошибка: обнаружено {invalidCount} незаполненных строк на позициях {invalidRows}. Пожалуйста, заполните все строки перед загрузкой.`,
           uploadError: 'Ошибка при отправке файла',
           genericError: 'Произошла ошибка во время загрузки!',
+          emptyRequiredFieldsMessage:
+            'В строках {rows} пустые обязательные поля.',
         },
       },
 

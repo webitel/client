@@ -3,13 +3,11 @@
     <number-popup
       @close="closePopup"
     />
-    <!-- ///////// -->
     <upload-popup
       :file="csvFile"
       :parent-id="parentId"
       @close="closeCSVPopup"
     />
-    <!-- ////// -->
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
@@ -42,14 +40,12 @@
               callback: () => deleteData(selectedRows),
             })"
           />
-          <!-- //////////// -->
           <upload-file-icon-btn
             v-if="!disableUserInput"
             accept=".csv"
             class="icon-action"
             @change="processCSV"
           />
-          <!-- /////////////// -->
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
