@@ -5,6 +5,7 @@ import {
 } from 'webitel-sdk';
 
 export default {
+  new: 'New',
   auth: {
     register: 'Register',
     login: 'Login',
