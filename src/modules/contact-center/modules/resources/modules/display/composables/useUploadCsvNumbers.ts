@@ -1,8 +1,7 @@
-import { computed, Ref, ref, toValue, watch } from 'vue';
+import { computed, Ref, ref, toValue } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useCsvParser } from '../../../../../../_shared/upload-csv-popup/composables/useCsvParser';
-import { ParsedCsv } from '../../../../../../_shared/upload-csv-popup/types/parsedCsv';
 
 type Row = Record<string, string>;
 
@@ -12,15 +11,9 @@ type RowValidatorResult = {
   messages: string[];
 };
 
-interface UseUploadCsvNumbersOpts {
-  parentId: Ref<string | number>;
-  close: () => void;
-  upload: (formData: FormData) => Promise<void>;
-}
-
 export function useUploadCsvNumbers(
   file: Ref<File | null>,
-  options: UseUploadCsvNumbersOpts,
+  parentId: Ref<string | number>,
 ) {
   const { t } = useI18n();
 
@@ -45,27 +38,23 @@ export function useUploadCsvNumbers(
     if (!parsed.value) return [];
     return parsed.value.rows.slice(0, 3);
   });
-  const csvTableHeaders = computed(
-    () =>
-      parsed.value.headers.map((header) => ({
-        text: header,
-        value: header,
-      })) || [],
+  const csvTableHeaders = computed(() =>
+    parsed.value.headers.map((header) => ({
+      text: header,
+      value: header,
+    })),
   );
 
   const checkEmptyRows = (column: string): RowValidator => {
-    return (row) => (!row[column].trim() ? 'emptyRowError' : null);
+    return (row) => (!row[column]?.trim() ? 'emptyRowError' : null);
   };
 
-  const runCsvRowValidation = (
-    parsed: ParsedCsv,
-    validators: RowValidator[],
-  ): RowValidatorResult[] => {
-    return parsed.rows.flatMap((row, idx) => {
-      const messages = validators
-        .map((rule) => rule(row, idx))
-        .filter((msg): msg is string => !!msg);
-
+  const runCsvRowValidation = (): RowValidatorResult[] => {
+    if (!parsed.value || !selectedColumn.value) return [];
+    return parsed.value.rows.flatMap((row, idx) => {
+      const messages = [
+        checkEmptyRows(selectedColumn.value.id)(row, idx),
+      ].filter(Boolean);
       return messages.length ? [{ row: idx, messages }] : [];
     });
   };
@@ -77,39 +66,29 @@ export function useUploadCsvNumbers(
     });
   };
 
-  const upload = async () => {
-    if (!file.value || !selectedColumn.value || !parsed.value) return;
-
-    const issues = runCsvRowValidation(parsed.value, [
-      checkEmptyRows(selectedColumn.value.id),
-    ]);
+  const isValid = () => {
+    const issues = runCsvRowValidation();
     if (issues.length > 0) {
       preUploadIssue.value = formatIssues(issues);
-      return;
+      return false;
     }
-
-    const formData = new FormData();
-    formData.append('file', file.value);
-    formData.append('delimiter', toValue(separator));
-    formData.append('map', selectedColumn.value.name);
-
-    try {
-      await options.upload(formData);
-      options.close();
-    } catch (error) {
-      if (error instanceof Error) {
-        preUploadIssue.value = error.message;
-      } else {
-        preUploadIssue.value = t('objects.ccenter.res.importCsv.uploadError');
-      }
-    }
+    preUploadIssue.value = null;
+    return true;
   };
 
-  watch([selectedColumn, separator], () => {
-    preUploadIssue.value = null;
-  });
+  const getPayload = () => {
+    if (!file.value || !selectedColumn.value) return null;
+    return {
+      parentId: toValue(parentId),
+      file: file.value,
+      delimiter: toValue(separator),
+      map: selectedColumn.value.name,
+    };
+  };
 
   return {
+    isValid,
+    getPayload,
     parsedError,
     preUploadIssue,
     separator,
@@ -118,6 +97,5 @@ export function useUploadCsvNumbers(
     previewRows,
     csvTableHeaders,
     loading,
-    upload,
   };
 }
