@@ -59,11 +59,18 @@
                   callback: () => deleteData(selectedRows),
                 })"
               />
-              <wt-icon-btn
-                v-if="isResetActiveAttemptsAllow"
-                icon="update-calls"
-                @click="isAttemptsResetPopup = true"
-              />
+
+              <wt-tooltip>
+                <template #activator>
+                  <wt-icon-btn
+                    v-if="isResetActiveAttemptsAllow"
+                    icon="update-calls"
+                    @click="isAttemptsResetPopup = true"
+                  />
+                </template>
+                {{ $t('objects.ccenter.queues.attemptsReset.resetActiveAttempts') }}
+              </wt-tooltip>
+
             </wt-table-actions>
           </div>
         </header>

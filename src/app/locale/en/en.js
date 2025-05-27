@@ -955,6 +955,8 @@ export default {
           evenDistribution: 'Even distribution',
         },
         attemptsReset: {
+          resetActiveAttempts: ({ linked }) =>
+            linked('objects.permissions.roles.permissions.resetActiveAttempts'),
           title: 'Attempts reset',
           attemptType: 'Attempt type',
           idleTime: 'Idle time (min)',

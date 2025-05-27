@@ -964,6 +964,8 @@ export default {
           evenDistribution: 'Равномерное использование',
         },
         attemptsReset: {
+          resetActiveAttempts: ({ linked }) =>
+            linked('objects.permissions.roles.permissions.resetActiveAttempts'),
           title: 'Сброс попыток',
           attemptType: 'Тип попыток',
           idleTime: 'Время зависания (мин)',

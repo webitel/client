@@ -962,6 +962,8 @@ export default {
           evenDistribution: 'Рівномірне використання',
         },
         attemptsReset: {
+          resetActiveAttempts: ({ linked }) =>
+            linked('objects.permissions.roles.permissions.resetActiveAttempts'),
           title: 'Скидання спроб',
           attemptType: 'Тип спроб',
           idleTime: 'Час зависання (хв)',
