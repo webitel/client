@@ -202,6 +202,7 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
+        //TODO: remove after migration to new EngineSystemSettingName enum
       case 'labels_to_limit_contacts':
         return deepmerge(defaults, defaultMultiselectConfig);
       case EngineSystemSettingName.ChatAiConnection:

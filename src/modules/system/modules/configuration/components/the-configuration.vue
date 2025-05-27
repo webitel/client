@@ -78,6 +78,7 @@
               {{ item.name }}
             </template>
             <template #value="{ item }">
+              <!--TODO: remove after migration to new EngineSystemSettingName enum-->
               <div v-if="item.name === 'labels_to_limit_contacts'" class="the-configuration__table-value">
                 <wt-chip
                   v-for="{ label, id } of item.value"
