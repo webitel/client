@@ -202,7 +202,7 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
-        //TODO: remove after migration to new EngineSystemSettingName enum
+        //TODO: remove after migration to new EngineSystemSettingName enum https://webitel.atlassian.net/browse/WTEL-6827
       case 'labels_to_limit_contacts':
         return deepmerge(defaults, defaultMultiselectConfig);
       case EngineSystemSettingName.ChatAiConnection:
