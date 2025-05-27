@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper class="the-configuration" :actions-panel="false">
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -78,7 +78,19 @@
               {{ item.name }}
             </template>
             <template #value="{ item }">
-              {{ item.value }}
+              <div v-if="item.name === 'labels_to_limit_contacts'" class="the-configuration__table-value">
+                <wt-chip
+                  v-for="{ label, id } of item.value"
+                  :key="id"
+                >
+                  {{ label }}
+                </wt-chip>
+              </div>
+              <div v-else>
+                {{ item.value }}
+              </div>
+
+
             </template>
             <template #actions="{ item }">
               <wt-icon-action
@@ -114,8 +126,11 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup
+  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import {
+  useDeleteConfirmationPopup,
+} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -168,8 +183,8 @@ export default {
     addItem() {
       this.$router.push({
         ...this.$route,
-        params: {id: 'new'}
-      })
+        params: { id: 'new' },
+      });
     },
     closeConfigurationPopup() {
       this.$router.go(-1);
@@ -178,9 +193,18 @@ export default {
     editParameter(item) {
       this.$router.push({
         ...this.$route,
-        params: {id: item.id}
-      })
+        params: { id: item.id },
+      });
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+.the-configuration {
+  &__table-value {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2xs);
+  }
+}
+</style>

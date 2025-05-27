@@ -316,7 +316,7 @@ export default {
           playbackRecordFile: 'Відтворювати записи розмов',
           timeLimitedRecordFile: 'Відтворювати записи розмов за певний період',
           resetActiveAttempts: 'Скидати активні спроби',
-          limitWorkspaceContacts: 'Показувати контакти у Workspace',
+          limitWorkspaceContacts: 'Обмежити контакти у Workspace',
           exportDataGrid: 'Експортувати дані',
           viewCdrPhoneNumbers: 'Перегляд незашифрованих номерів телефонів',
           manageUserRoles: 'Управління ролями користувачів',
@@ -336,7 +336,7 @@ export default {
           resetActiveAttemptsDescription:
             'Надає дозвіл на скидання активних спроб входу в систему',
           limitWorkspaceContactsDescription:
-            'Надає дозвіл на перегляд списку контактів у Workspace',
+            'Обмежує дозвіл на перегляд списку контактів у Workspace',
           exportDataGridDescription: 'Надає дозвіл на експорт даних',
           viewCdrPhoneNumbersDescription:
             'Надає дозвіл на відображення  незашифрованих телефонних номерів',

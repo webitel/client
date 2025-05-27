@@ -1,4 +1,5 @@
-import { EngineSystemSettingName } from 'webitel-sdk';
+import { EngineSystemSettingName } from '@webitel/api-services';
+
 
 const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.EnableOmnichannel]: 'boolean',
@@ -8,6 +9,7 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.SchemeVersionLimit]: 'number',
   [EngineSystemSettingName.SearchNumberLength]: 'number',
   [EngineSystemSettingName.ExportSettings]: 'select',
+  ['labels_to_limit_contacts']: 'multiselect',
   [EngineSystemSettingName.PasswordRegExp]: 'string',
   [EngineSystemSettingName.PasswordValidationText]: 'string',
   [EngineSystemSettingName.ChatAiConnection]: 'string',
