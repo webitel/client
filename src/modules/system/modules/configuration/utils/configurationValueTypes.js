@@ -9,7 +9,7 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.SchemeVersionLimit]: 'number',
   [EngineSystemSettingName.SearchNumberLength]: 'number',
   [EngineSystemSettingName.ExportSettings]: 'select',
-  //TODO: remove after migration to new EngineSystemSettingName enum
+  //TODO: remove after migration to new EngineSystemSettingName enum https://webitel.atlassian.net/browse/WTEL-6827
   ['labels_to_limit_contacts']: 'multiselect',
   [EngineSystemSettingName.PasswordRegExp]: 'string',
   [EngineSystemSettingName.PasswordValidationText]: 'string',
