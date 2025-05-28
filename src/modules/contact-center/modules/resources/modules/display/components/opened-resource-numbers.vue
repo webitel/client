@@ -108,7 +108,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import CsvUploadTrigger from './csv-upload-trigger.vue';
+import CsvUploadTrigger from './csv-upload-action.vue';
 import NumberPopup from './opened-resource-numbers-popup.vue';
 
 
