@@ -69,6 +69,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { CrudGlobalAction, SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
 import { mapActions, mapState } from 'vuex';
 
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -107,7 +108,11 @@ export default {
   },
   computed: {
     ...mapState('permissions/roles', {
-      permissionsList: (state) => state.itemInstance.permissions,
+      // author @Lera24
+      // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
+      // permissionsList: (state) => state.itemInstance.permissions
+      permissionsList: (state) => state.itemInstance.permissions.filter(
+        (permission) => permission.id !== SpecialGlobalAction.ResetAttempts),
     }),
     // override mixin map state
     dataList: {
@@ -132,88 +137,42 @@ export default {
     },
     permissionNameLocale() {
       return {
-        add: this.$t('objects.permissions.roles.permissions.add'),
-        delete: this.$t('objects.permissions.roles.permissions.delete'),
-        read: this.$t('objects.permissions.roles.permissions.read'),
-        write: this.$t('objects.permissions.roles.permissions.write'),
-        eavesdrop_call: this.$t(
-          'objects.permissions.roles.permissions.eavesdropCall',
-        ),
-        playback_record_file: this.$t(
-          'objects.permissions.roles.permissions.playbackRecordFile',
-        ),
-        time_limited_record_file: this.$t(
-          'objects.permissions.roles.permissions.timeLimitedRecordFile',
-        ),
-        reset_active_attempts: this.$t(
-          'objects.permissions.roles.permissions.resetActiveAttempts',
-        ),
-        export_data_grid: this.$t(
-          'objects.permissions.roles.permissions.exportDataGrid',
-        ),
-        view_cdr_phone_numbers: this.$t(
-          'objects.permissions.roles.permissions.viewCdrPhoneNumbers',
-        ),
-        manage_user_roles: this.$t(
-          'objects.permissions.roles.permissions.manageUserRoles',
-        ),
-        manage_user_license: this.$t(
-          'objects.permissions.roles.permissions.manageUserLicense',
-        ),
-        change_user_password: this.$t(
-          'objects.permissions.roles.permissions.changeUserPassword',
-        ),
-        system_setting: this.$t(
-          'objects.permissions.roles.permissions.systemSetting',
-        ),
-        scheme_variables: this.$t(
-          'objects.permissions.roles.permissions.schemeVariables',
-        ),
+        [CrudGlobalAction.Add]: this.$t('objects.permissions.roles.permissions.add'),
+        [CrudGlobalAction.Delete]: this.$t('objects.permissions.roles.permissions.delete'),
+        [CrudGlobalAction.Read]: this.$t('objects.permissions.roles.permissions.read'),
+        [CrudGlobalAction.Write]: this.$t('objects.permissions.roles.permissions.write'),
+        [SpecialGlobalAction.EavesdropCall]: this.$t('objects.permissions.roles.permissions.eavesdropCall'),
+        [SpecialGlobalAction.PlaybackRecordFile]: this.$t('objects.permissions.roles.permissions.playbackRecordFile'),
+        [SpecialGlobalAction.TimeLimitedRecordFile]: this.$t('objects.permissions.roles.permissions.timeLimitedRecordFile'),
+        [SpecialGlobalAction.ResetActiveAttempts]: this.$t('objects.permissions.roles.permissions.resetActiveAttempts'),
+        [SpecialGlobalAction.LimitWorkspaceContacts]: this.$t('objects.permissions.roles.permissions.limitWorkspaceContacts'),
+        [SpecialGlobalAction.ExportDataGrid]: this.$t('objects.permissions.roles.permissions.exportDataGrid'),
+        [SpecialGlobalAction.ViewCdrPhoneNumbers]: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbers'),
+        [SpecialGlobalAction.ManageUserRoles]: this.$t('objects.permissions.roles.permissions.manageUserRoles'),
+        [SpecialGlobalAction.ManageUserLicense]: this.$t('objects.permissions.roles.permissions.manageUserLicense'),
+        [SpecialGlobalAction.ChangeUserPassword]: this.$t('objects.permissions.roles.permissions.changeUserPassword'),
+        [SpecialGlobalAction.SystemSetting]: this.$t('objects.permissions.roles.permissions.systemSetting'),
+        [SpecialGlobalAction.SchemeVariables]: this.$t('objects.permissions.roles.permissions.schemeVariables'),
       };
     },
     permissionUsageLocale() {
       return {
-        add: this.$t('objects.permissions.roles.permissions.addDescription'),
-        delete: this.$t(
-          'objects.permissions.roles.permissions.deleteDescription',
-        ),
-        read: this.$t('objects.permissions.roles.permissions.readDescription'),
-        write: this.$t(
-          'objects.permissions.roles.permissions.writeDescription',
-        ),
-        eavesdrop_call: this.$t(
-          'objects.permissions.roles.permissions.eavesdropCallDescription',
-        ),
-        playback_record_file: this.$t(
-          'objects.permissions.roles.permissions.playbackRecordFileDescription',
-        ),
-        time_limited_record_file: this.$t(
-          'objects.permissions.roles.permissions.timeLimitedRecordFileDescription',
-        ),
-        reset_active_attempts: this.$t(
-          'objects.permissions.roles.permissions.resetActiveAttemptsDescription',
-        ),
-        export_data_grid: this.$t(
-          'objects.permissions.roles.permissions.exportDataGridDescription',
-        ),
-        view_cdr_phone_numbers: this.$t(
-          'objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription',
-        ),
-        manage_user_roles: this.$t(
-          'objects.permissions.roles.permissions.manageUserRolesDescription',
-        ),
-        manage_user_license: this.$t(
-          'objects.permissions.roles.permissions.manageUserLicenseDescription',
-        ),
-        change_user_password: this.$t(
-          'objects.permissions.roles.permissions.changeUserPasswordDescription',
-        ),
-        system_setting: this.$t(
-          'objects.permissions.roles.permissions.systemSettingDescription',
-        ),
-        scheme_variables: this.$t(
-          'objects.permissions.roles.permissions.schemeVariablesDescription',
-        ),
+        [CrudGlobalAction.Add]: this.$t('objects.permissions.roles.permissions.addDescription'),
+        [CrudGlobalAction.Delete]: this.$t('objects.permissions.roles.permissions.deleteDescription'),
+        [CrudGlobalAction.Read]: this.$t('objects.permissions.roles.permissions.readDescription'),
+        [CrudGlobalAction.Write]: this.$t('objects.permissions.roles.permissions.writeDescription'),
+        [SpecialGlobalAction.EavesdropCall]: this.$t('objects.permissions.roles.permissions.eavesdropCallDescription'),
+        [SpecialGlobalAction.PlaybackRecordFile]: this.$t('objects.permissions.roles.permissions.playbackRecordFileDescription'),
+        [SpecialGlobalAction.TimeLimitedRecordFile]: this.$t('objects.permissions.roles.permissions.timeLimitedRecordFileDescription'),
+        [SpecialGlobalAction.ResetActiveAttempts]: this.$t('objects.permissions.roles.permissions.resetActiveAttemptsDescription'),
+        [SpecialGlobalAction.LimitWorkspaceContacts]: this.$t('objects.permissions.roles.permissions.limitWorkspaceContactsDescription'),
+        [SpecialGlobalAction.ExportDataGrid]: this.$t('objects.permissions.roles.permissions.exportDataGridDescription'),
+        [SpecialGlobalAction.ViewCdrPhoneNumbers]: this.$t('objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription'),
+        [SpecialGlobalAction.ManageUserRoles]: this.$t('objects.permissions.roles.permissions.manageUserRolesDescription'),
+        [SpecialGlobalAction.ManageUserLicense]: this.$t('objects.permissions.roles.permissions.manageUserLicenseDescription'),
+        [SpecialGlobalAction.ChangeUserPassword]: this.$t('objects.permissions.roles.permissions.changeUserPasswordDescription'),
+        [SpecialGlobalAction.SystemSetting]: this.$t('objects.permissions.roles.permissions.systemSettingDescription'),
+        [SpecialGlobalAction.SchemeVariables]: this.$t('objects.permissions.roles.permissions.schemeVariablesDescription'),
       };
     },
   },

@@ -67,6 +67,10 @@ export default {
     webPhone: 'WebPhone',
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
+    notifications: {
+      callEnd: 'Call end sound',
+      lossConnection: 'Connection loss sound',
+    },
     ringtones: {
       title: 'Change ringtone',
       ringtone: 'Ringtone',
@@ -75,7 +79,6 @@ export default {
     ringtoneVolume: {
       title: 'Ringtone volume',
     },
-    callEnd: 'Call end sound',
   },
 
   validation: {
@@ -311,6 +314,7 @@ export default {
           playbackRecordFile: 'Playback record file',
           timeLimitedRecordFile: 'Time-limited playback record file',
           resetActiveAttempts: 'Reset active attempts',
+          limitWorkspaceContacts: 'Limit contacts in Workspace',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',
@@ -329,6 +333,8 @@ export default {
             'Grants permission to playback time-limited call-record files',
           resetActiveAttemptsDescription:
             'Grants permission to reset active attempts',
+          limitWorkspaceContactsDescription:
+            'Limits permission to view the list of contacts in Workspace',
           exportDataGridDescription:
             'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
@@ -949,6 +955,8 @@ export default {
           evenDistribution: 'Even distribution',
         },
         attemptsReset: {
+          resetActiveAttempts: ({ linked }) =>
+            linked('objects.permissions.roles.permissions.resetActiveAttempts'),
           title: 'Attempts reset',
           attemptType: 'Attempt type',
           idleTime: 'Idle time (min)',

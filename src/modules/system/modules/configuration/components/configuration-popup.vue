@@ -41,6 +41,18 @@
             type="number"
             @input="setItemProp({ prop: 'value', value: +$event })"
           />
+          <wt-select
+            v-if="displayedConfigurationType.multiselect"
+            :label="$tc('vocabulary.values', 2)"
+            :v="v$.itemInstance.value"
+            :value="itemInstance.value"
+            :search-method="LabelsAPI.getLookup"
+            option-label="label"
+            track-by="label"
+            multiple
+            required
+            @input="setItemProp({ prop: 'value', value: $event })"
+          />
           <div v-if="displayedConfigurationType.select">
             <wt-select
               :clearable="false"
@@ -100,6 +112,7 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import ConfigurationAPI from '../api/configuration';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
+import LabelsAPI from '@webitel/ui-sdk/api/clients/labels/labels.js';
 
 export default {
   name: 'ConfigurationPopup',
@@ -143,6 +156,14 @@ export default {
       },
     };
 
+    const defaultMultiselectConfig = {
+      itemInstance: {
+        value: {
+          required,
+        },
+      },
+    };
+
     let defaultSelectConfig;
     defaultSelectConfig = {
       itemInstance: {
@@ -181,6 +202,9 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
+        //TODO: remove after migration to new EngineSystemSettingName enum https://webitel.atlassian.net/browse/WTEL-6827
+      case 'labels_to_limit_contacts':
+        return deepmerge(defaults, defaultMultiselectConfig);
       case EngineSystemSettingName.ChatAiConnection:
         return deepmerge(defaults, defaultStringConfig);
       case EngineSystemSettingName.PasswordRegExp:
@@ -204,6 +228,9 @@ export default {
     };
   },
   computed: {
+    LabelsAPI() {
+      return LabelsAPI
+    },
     exportSettingOptions() {
       return Object.keys(TypesExportedSettings).map((key) => ({
         name: TypesExportedSettings[key],

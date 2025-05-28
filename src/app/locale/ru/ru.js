@@ -67,6 +67,10 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
+    notifications: {
+      callEnd: 'Звуковое уведомление о завершении звонка',
+      lossConnection: 'Звуковое уведомление про розрыв соединения',
+    },
     ringtones: {
       title: 'Изменить рингтон',
       ringtone: 'Рингтон',
@@ -75,7 +79,6 @@ export default {
     ringtoneVolume: {
       title: 'Громкость рингтона',
     },
-    callEnd: 'Звук завершения вызова',
   },
 
   validation: {
@@ -312,6 +315,7 @@ export default {
           playbackRecordFile: 'Воспроизводить записи разговоров',
           timeLimitedRecordFile: 'Воспроизводить записи разговоров за период',
           resetActiveAttempts: 'Сбрасывать активные попытки',
+          limitWorkspaceContacts: 'Ограничить контакты в Workspace',
           exportDataGrid: 'Экспортировать данные',
           viewCdrPhoneNumbers: 'Просмотр незашифрованных номеров телефонов',
           manageUserRoles: 'Управление ролями пользователей',
@@ -330,6 +334,8 @@ export default {
             'Предоставляет разрешение на воспроизведение файлов с записями разговоров за определенный период',
           resetActiveAttemptsDescription:
             'Предоставляет разрешение на сброс активных попыток',
+          limitWorkspaceContactsDescription:
+            'Ограничивает разрешение на просмотр списка контактов в Workspace',
           exportDataGridDescription:
             'Предоставляет разрешение на экспорт данных',
           viewCdrPhoneNumbersDescription:
@@ -958,6 +964,8 @@ export default {
           evenDistribution: 'Равномерное использование',
         },
         attemptsReset: {
+          resetActiveAttempts: ({ linked }) =>
+            linked('objects.permissions.roles.permissions.resetActiveAttempts'),
           title: 'Сброс попыток',
           attemptType: 'Тип попыток',
           idleTime: 'Время зависания (мин)',

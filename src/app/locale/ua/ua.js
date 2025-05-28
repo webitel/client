@@ -67,6 +67,10 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
+    notifications: {
+      callEnd: 'Звукове сповіщення про завершення дзвінка',
+      lossConnection: 'Звукове сповіщення про розрив зʼєднання',
+    },
     ringtones: {
       title: 'Змінити рингтон',
       ringtone: 'Рингтон',
@@ -75,7 +79,6 @@ export default {
     ringtoneVolume: {
       title: 'Гучність рингтону',
     },
-    callEnd: 'Звук завершення дзвінка',
   },
 
   validation: {
@@ -313,6 +316,7 @@ export default {
           playbackRecordFile: 'Відтворювати записи розмов',
           timeLimitedRecordFile: 'Відтворювати записи розмов за певний період',
           resetActiveAttempts: 'Скидати активні спроби',
+          limitWorkspaceContacts: 'Обмежити контакти у Workspace',
           exportDataGrid: 'Експортувати дані',
           viewCdrPhoneNumbers: 'Перегляд незашифрованих номерів телефонів',
           manageUserRoles: 'Управління ролями користувачів',
@@ -331,6 +335,8 @@ export default {
             'Надає дозвіл на відтворення файлів записів дзвінків за певний період',
           resetActiveAttemptsDescription:
             'Надає дозвіл на скидання активних спроб входу в систему',
+          limitWorkspaceContactsDescription:
+            'Обмежує дозвіл на перегляд списку контактів у Workspace',
           exportDataGridDescription: 'Надає дозвіл на експорт даних',
           viewCdrPhoneNumbersDescription:
             'Надає дозвіл на відображення  незашифрованих телефонних номерів',
@@ -952,10 +958,12 @@ export default {
         ignoreCalendar: 'Ігнорувати календар',
         resourceStrategy: {
           resourceStrategy: 'Стратегія вибору ресурсів',
-          priorityBased: 'Рівномірне використання',
-          evenDistribution: 'По черзі по пріоритетах',
+          priorityBased: 'По черзі по пріоритетах',
+          evenDistribution: 'Рівномірне використання',
         },
         attemptsReset: {
+          resetActiveAttempts: ({ linked }) =>
+            linked('objects.permissions.roles.permissions.resetActiveAttempts'),
           title: 'Скидання спроб',
           attemptType: 'Тип спроб',
           idleTime: 'Час зависання (хв)',
