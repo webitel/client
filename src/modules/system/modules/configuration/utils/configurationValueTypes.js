@@ -1,5 +1,4 @@
-import { EngineSystemSettingName } from '@webitel/api-services';
-
+import { EngineSystemSettingName } from 'webitel-sdk';
 
 const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.EnableOmnichannel]: 'boolean',
