@@ -1,4 +1,4 @@
-import { EngineTriggerObjectType } from 'webitel-sdk';
+import { EngineTriggerObjectType } from '@webitel/api-services/gen';
 
 export interface TriggerObject {
   locale: string;
@@ -8,6 +8,6 @@ export interface TriggerObject {
 export const TriggerObjects: TriggerObject[] = [
   {
     locale: 'objects.integrations.triggers.cases',
-    value: EngineTriggerObjectType.Case,
+    value: EngineTriggerObjectType.Cases,
   },
 ] as const;
