@@ -510,6 +510,9 @@ export default {
         daysOffPerYear: 'Кількість вихідних днів на рік',
         pauseDuration: 'Тривалість перерви',
       },
+      quickReplies: {
+        quickReplies: 'Швидка відповідь | Швидкі відповіді',
+      }
     },
     routing: {
       routing: 'Маршрутизація',

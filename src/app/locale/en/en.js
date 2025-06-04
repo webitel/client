@@ -508,6 +508,9 @@ export default {
         daysOffPerYear: 'Days-off per year',
         pauseDuration: 'Pause duration',
       },
+      quickReplies: {
+        quickReplies: 'Quick reply | Quick replies',
+      }
     },
     routing: {
       routing: 'Routing',
