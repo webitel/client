@@ -80,6 +80,7 @@ export default {
     ringtoneVolume: {
       title: 'Ringtone volume',
     },
+    callEnd: 'Call end sound',
   },
 
   validation: {
@@ -314,6 +315,8 @@ export default {
           eavesdropCall: 'Eavesdrop call',
           playbackRecordFile: 'Playback record file',
           timeLimitedRecordFile: 'Time-limited playback record file',
+          resetActiveAttempts: 'Reset active attempts',
+          limitWorkspaceContacts: 'Limit contacts in Workspace',
           exportDataGrid: 'Export data grid',
           viewCdrPhoneNumbers: 'View CDR phone numbers',
           manageUserRoles: 'Manage user roles',
@@ -330,6 +333,10 @@ export default {
             'Grants permission to playback call-record files',
           timeLimitedRecordFileDescription:
             'Grants permission to playback time-limited call-record files',
+          resetActiveAttemptsDescription:
+            'Grants permission to reset active attempts',
+          limitWorkspaceContactsDescription:
+            'Limits permission to view the list of contacts in Workspace',
           exportDataGridDescription:
             'Grants permission to export data grid to a file',
           viewCdrPhoneNumbersDescription: 'View CDR phone numbers',
@@ -585,7 +592,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram App',
-          signedAs: "You're signed as",
+          signedAs: 'You\'re signed as',
           joinTelegram: 'Sign in to Telegram',
           metadata: {
             apiId: 'API id',
@@ -643,7 +650,7 @@ export default {
             position: 'Position',
             btnColor: 'Button Color',
             logoUrl: 'Logo URL',
-            logoHint: "Supported logo format is 'JPEG' or 'PNG', 24x24px",
+            logoHint: 'Supported logo format is \'JPEG\' or \'PNG\', 24x24px',
             rounded: 'Rounded',
             square: 'Square',
             right: 'Right',
@@ -949,6 +956,13 @@ export default {
           priorityBased: 'Priority based',
           evenDistribution: 'Even distribution',
         },
+        attemptsReset: {
+          title: 'Attempts reset',
+          attemptType: 'Attempt type',
+          idleTime: 'Idle time (min)',
+          result: ({ linked }) => linked('objects.integrations.triggers.logs.result'),
+          calls: 'Calls',
+        },
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',
@@ -1241,8 +1255,8 @@ export default {
       text: 'Sorry, you have not enough privileges to see this page.',
     },
     page404: {
-      title: "Looks like you're lost",
-      text: "Sorry, we can't find the page you want.",
+      title: 'Looks like you\'re lost',
+      text: 'Sorry, we can\'t find the page you want.',
     },
   },
 
