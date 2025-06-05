@@ -114,7 +114,8 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link 
+                :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
@@ -157,8 +158,8 @@
             <template #agent="{ item }">
               <wt-item-link
                 v-if="item.agent"
-                :id="item.agent.id"
-                :route-name="RouteNames.AGENTS"
+                :link="editAgentsLink(item.agent)"
+                target="_blank"
               >
                 {{ item.agent.name }}
               </wt-item-link>
@@ -342,6 +343,14 @@ export default {
     },
   },
 
+  watch: {
+    '$route.query': {
+      async handler() {
+        await this.loadList();
+      },
+    },
+  },
+
   methods: {
     prettifyDateTime(timestamp) {
       return new Date(+timestamp).toLocaleString();
@@ -405,6 +414,13 @@ export default {
       };
     },
 
+     editAgentsLink(item) {
+      return {
+        name: `${RouteNames.AGENTS}-card`,
+        params: { id: item.id },
+      };
+    },
+
     close() {
       this.$router.push({name: RouteNames.QUEUES});
       this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
@@ -440,13 +456,6 @@ export default {
         return dispatch(`${this.namespace}/DELETE_ALL`, payload);
       },
     }),
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
   },
 };
 </script>
