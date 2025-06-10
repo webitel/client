@@ -369,7 +369,7 @@ export default {
         newPermissionRole: 'Новый владелец прав',
         rbacDefault: 'Права доступа по записям по умолчанию',
         grantor: 'Праводатель',
-        grantee: 'Получатель',
+        grantee: 'Владелец прав',
         create: 'Создавать',
         delete: 'Удалять',
         accessMode: {
