@@ -10,4 +10,16 @@ export const TriggerObjects: TriggerObject[] = [
     locale: 'objects.integrations.triggers.cases',
     value: EngineTriggerObjectType.Cases,
   },
+  {
+    locale: 'objects.integrations.triggers.caseFiles',
+    value: EngineTriggerObjectType.CaseFiles,
+  },
+  {
+    locale: 'objects.integrations.triggers.caseComments',
+    value: EngineTriggerObjectType.CaseComments,
+  },
+  {
+    locale: 'objects.integrations.triggers.caseLinks',
+    value: EngineTriggerObjectType.CaseLinks,
+  },
 ] as const;

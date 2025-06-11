@@ -1175,6 +1175,9 @@ export default {
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
+        caseFiles: 'Case files',
+        caseComments: 'Case comments',
+        caseLinks: 'Case links',
         expression: 'Expression',
         timeout: 'Timeout',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

@@ -1184,7 +1184,10 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
-        cases: 'Cases',
+        cases: 'Обращения',
+        caseFiles: 'Файлы обращений',
+        caseComments: 'Комментарии обращений',
+        caseLinks: 'Связанные обращения',
         expression: 'Выражение',
         timeout: 'Время ожидания',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
