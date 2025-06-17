@@ -508,7 +508,7 @@ export default {
         vacationDaysPerYear: 'Количество дней отпуска в год',
         sickLeavesPerYear: 'Количество дней больничного в год',
         daysOffPerYear: 'Количество выходных дней в год',
-        pauseDuration: 'Длительность перерыва',
+        pauseDuration: 'Длительность перерыва (мин)',
       },
     },
     routing: {
