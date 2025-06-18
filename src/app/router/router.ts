@@ -35,6 +35,7 @@ import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gatewa
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
+import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import { checkAppAccess } from './_internals/guards.js';
 import RouteNames from './_internals/RouteNames.enum.js';
 import RoutePaths from './_internals/RoutePaths'
@@ -122,6 +123,7 @@ const router = createRouter({
         ...ShiftTemplatesRoutes,
         ...PauseTemplatesRoutes,
         ...WorkingConditionsRoutes,
+        ...QuickRepliesRoutes,
         // ----------LOOKUPS END------------
 
         // --------------CONTACT CENTER-------------

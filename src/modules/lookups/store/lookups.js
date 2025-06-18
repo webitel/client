@@ -11,6 +11,7 @@ import shiftTemplates
   from '../modules/shift-templates/store/shift-templates.js';
 import workingConditions
   from '../modules/working-conditions/store/working-conditions.js';
+import quickReplies from '../modules/quick-replies/store/quick-replies.js';
 
 const modules = {
   skills,
@@ -24,6 +25,7 @@ const modules = {
   shiftTemplates,
   pauseTemplates,
   workingConditions,
+  quickReplies,
 };
 
 export default {

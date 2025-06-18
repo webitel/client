@@ -510,6 +510,9 @@ export default {
         daysOffPerYear: 'Количество выходных дней в год',
         pauseDuration: 'Длительность перерыва (мин)',
       },
+      quickReplies: {
+        quickReplies: 'Быстрый ответ | Быстрые ответы',
+      }
     },
     routing: {
       routing: 'Маршрутизация',
