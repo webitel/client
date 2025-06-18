@@ -79,7 +79,7 @@
         </template>
 
         <template #actions="{ item }">
-          <wt-tooltip class="table-action">
+          <wt-tooltip>
             <template #activator>
               <wt-icon-btn
                 icon="queue-member"
@@ -94,7 +94,6 @@
           />
           <wt-icon-action
             action="delete"
-            class="table-action"
             @click="askDeleteConfirmation({
               deleted: [item],
               callback: () => deleteData(item),

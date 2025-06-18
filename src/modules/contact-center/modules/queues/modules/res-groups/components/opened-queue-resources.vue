@@ -72,7 +72,6 @@
           />
           <wt-icon-action
             action="delete"
-            class="table-action"
             @click="deleteData(item)"
           />
         </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="table-action">
+  <div>
     <audio-preview
       v-if="isAudio"
       :playing="playing"
@@ -43,7 +43,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-action {
-  line-height: 0;
-}
 </style>
