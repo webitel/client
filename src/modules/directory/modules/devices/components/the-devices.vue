@@ -124,7 +124,6 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="history"
-                class="table-action"
                 @click="openHistory(item.id)"
               />
               <adm-item-link
@@ -136,7 +135,6 @@
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
-                class="table-action"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),

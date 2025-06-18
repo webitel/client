@@ -97,7 +97,6 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
-              class="table-action"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
             />
           </template>

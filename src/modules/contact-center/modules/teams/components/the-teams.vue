@@ -87,7 +87,6 @@
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
-                class="table-action"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
