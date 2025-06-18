@@ -369,7 +369,7 @@ export default {
         newPermissionRole: 'Новий власник прав',
         rbacDefault: 'Права доступу на записи за замовчуванням',
         grantor: 'Праводатель',
-        grantee: 'Отримувач',
+        grantee: 'Власник прав',
         create: 'Створювати',
         delete: 'Видаляти',
         accessMode: {
@@ -508,7 +508,7 @@ export default {
         vacationDaysPerYear: 'Кількість днів відпустки на рік',
         sickLeavesPerYear: 'Кількість днів лікарняного на рік',
         daysOffPerYear: 'Кількість вихідних днів на рік',
-        pauseDuration: 'Тривалість перерви',
+        pauseDuration: 'Тривалість перерви (хв)',
       },
       quickReplies: {
         quickReplies: 'Швидка відповідь | Швидкі відповіді',
@@ -1183,7 +1183,10 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
-        cases: 'Cases',
+        cases: 'Звернення',
+        caseFiles: 'Файли звернення',
+        caseComments: 'Коментарі звернення',
+        caseLinks: 'Посилання звернення',
         expression: 'Вираз',
         timeout: 'Час очікування',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

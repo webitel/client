@@ -495,7 +495,7 @@ export default {
         duration: 'Duration (hh:mm)',
       },
       pauseTemplates: {
-        pauseTemplates: 'Pause templates | Pause templates',
+        pauseTemplates: 'Pause template | Pause templates',
         pauseReason: 'Pause reason',
         duration: 'Duration (mm)',
       },
@@ -506,7 +506,7 @@ export default {
         vacationDaysPerYear: 'Vacation days per year',
         sickLeavesPerYear: 'Sick leaves per year',
         daysOffPerYear: 'Days-off per year',
-        pauseDuration: 'Pause duration',
+        pauseDuration: 'Pause duration (min)',
       },
       quickReplies: {
         quickReplies: 'Quick reply | Quick replies',
@@ -1178,6 +1178,9 @@ export default {
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
+        caseFiles: 'Case files',
+        caseComments: 'Case comments',
+        caseLinks: 'Case links',
         expression: 'Expression',
         timeout: 'Timeout',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

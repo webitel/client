@@ -369,7 +369,7 @@ export default {
         newPermissionRole: 'Новый владелец прав',
         rbacDefault: 'Права доступа по записям по умолчанию',
         grantor: 'Праводатель',
-        grantee: 'Получатель',
+        grantee: 'Владелец прав',
         create: 'Создавать',
         delete: 'Удалять',
         accessMode: {
@@ -508,7 +508,7 @@ export default {
         vacationDaysPerYear: 'Количество дней отпуска в год',
         sickLeavesPerYear: 'Количество дней больничного в год',
         daysOffPerYear: 'Количество выходных дней в год',
-        pauseDuration: 'Длительность перерыва',
+        pauseDuration: 'Длительность перерыва (мин)',
       },
       quickReplies: {
         quickReplies: 'Быстрый ответ | Быстрые ответы',
@@ -1187,7 +1187,10 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
-        cases: 'Cases',
+        cases: 'Обращения',
+        caseFiles: 'Файлы обращений',
+        caseComments: 'Комментарии обращений',
+        caseLinks: 'Связанные обращения',
         expression: 'Выражение',
         timeout: 'Время ожидания',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
