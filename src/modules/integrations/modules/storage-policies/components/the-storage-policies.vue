@@ -141,7 +141,7 @@
             </template>
 
             <template #actions="{ item }">
-              <wt-tooltip class="table-action">
+              <wt-tooltip>
                 <template #activator>
                   <wt-icon-btn
                     v-if="hasEditAccess"
@@ -158,7 +158,6 @@
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
-                class="table-action"
                 @click="
                   askDeleteConfirmation({
                     deleted: [item],

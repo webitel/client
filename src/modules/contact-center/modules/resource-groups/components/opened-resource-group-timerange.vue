@@ -38,7 +38,6 @@
             v-if="key !== 0"
             :disabled="disableUserInput"
             action="delete"
-            class="table-action"
             @click="deleteVariable(key)"
           />
         </div>
