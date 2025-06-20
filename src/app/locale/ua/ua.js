@@ -1187,6 +1187,7 @@ export default {
         caseFiles: 'Файли звернення',
         caseComments: 'Коментарі звернення',
         caseLinks: 'Посилання звернення',
+        relatedCases: 'Пов’язані звернення',
         expression: 'Вираз',
         timeout: 'Час очікування',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

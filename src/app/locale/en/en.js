@@ -1181,6 +1181,7 @@ export default {
         caseFiles: 'Case files',
         caseComments: 'Case comments',
         caseLinks: 'Case links',
+        relatedCases: 'Related cases',
         expression: 'Expression',
         timeout: 'Timeout',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

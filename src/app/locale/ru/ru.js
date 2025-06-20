@@ -1191,6 +1191,7 @@ export default {
         caseFiles: 'Файлы обращений',
         caseComments: 'Комментарии обращений',
         caseLinks: 'Связанные обращения',
+        relatedCases: 'Связанные обращения',
         expression: 'Выражение',
         timeout: 'Время ожидания',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
