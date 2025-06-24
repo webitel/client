@@ -70,7 +70,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             fixed-actions
             sortable
@@ -144,20 +143,20 @@
               <wt-tooltip>
                 <template #activator>
                   <wt-icon-btn
-                    v-if="hasEditAccess"
                     icon="move"
+                    :disabled="!hasEditAccess"
                   />
                 </template>
                 {{ $t('iconHints.draggable') }}
               </wt-tooltip>
               <wt-icon-action
-                v-if="hasEditAccess"
                 action="edit"
+                :disabled="!hasEditAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
-                v-if="hasDeleteAccess"
                 action="delete"
+                :disabled="!hasDeleteAccess"
                 @click="
                   askDeleteConfirmation({
                     deleted: [item],
@@ -252,6 +251,17 @@ export default {
       ];
     },
   },
+  mounted() {
+    if (!Sortable.__pluginsMounted) {
+      Sortable.mount(new Swap());
+      Sortable.__pluginsMounted = true;
+    }
+
+    this.initSortable();
+  },
+  unmounted() {
+    this.destroySortable();
+  },
   methods: {
     ...mapActions({
       swapRows(dispatch, payload) {
@@ -297,17 +307,6 @@ export default {
       this.sortableInstance.destroy();
       this.sortableInstance = null;
     },
-  },
-  mounted() {
-    if (!Sortable.__pluginsMounted) {
-      Sortable.mount(new Swap());
-      Sortable.__pluginsMounted = true;
-    }
-
-    this.initSortable();
-  },
-  unmounted() {
-    this.destroySortable();
   },
 };
 </script>

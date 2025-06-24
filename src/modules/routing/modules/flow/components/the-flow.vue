@@ -81,7 +81,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -131,15 +130,15 @@
                 @click="download(item)"
               />
               <wt-icon-action
-                v-if="hasEditAccess"
                 action="edit"
+                :disabled="!hasEditAccess"
                 @click="edit(item, {
                   blank: item.editor
                 })"
               />
               <wt-icon-action
-                v-if="hasDeleteAccess"
                 action="delete"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),

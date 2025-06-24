@@ -67,7 +67,6 @@
           <wt-table
             ref="dialplan-table"
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -103,21 +102,20 @@
               <wt-tooltip class="dialplan__draggable-icon">
                 <template #activator>
                   <wt-icon-btn
-                    v-if="hasEditAccess"
                     icon="move"
+                    :disabled="!hasEditAccess"
                   />
                 </template>
                 {{ $t('iconHints.draggable') }}
               </wt-tooltip>
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="routeName">
-                <wt-icon-action action="edit" />
-              </adm-item-link>
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),

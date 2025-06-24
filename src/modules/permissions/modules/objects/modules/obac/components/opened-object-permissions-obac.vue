@@ -51,7 +51,6 @@
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
-          :grid-actions="hasTableActions"
           :headers="headers"
           :selectable="false"
           sortable
