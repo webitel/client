@@ -1,8 +1,9 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
+import accessControlMixin from '../../baseMixins/accessControlMixin/accessControlMixin';
 import baseTableMixin from '../../baseMixins/baseTableMixin/baseTableMixin';
-import objectTableAccessControlMixin from './_internals/objectTableAccessControlMixin';
+
 
 /**
  * @fileOverview contains main tables (like the-agents.vue) common logic
@@ -11,10 +12,10 @@ import objectTableAccessControlMixin from './_internals/objectTableAccessControl
  * @param {string} this.routeName - should be declared in data()
  *      and contain a string name for edit and new entity route names
  *      like 'cc-agent' for create() and edit() method standardization
- * @extends baseTableMixin, objectTableAccessControlMixin
+ * @extends baseTableMixin, accessControlMixin
  */
 export default {
-  mixins: [baseTableMixin, objectTableAccessControlMixin],
+  mixins: [baseTableMixin, accessControlMixin],
   computed: {
     ...mapState({
       headersValue(state) {

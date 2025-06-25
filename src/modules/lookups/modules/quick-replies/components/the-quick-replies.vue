@@ -61,7 +61,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -126,16 +125,14 @@
               {{ item.updatedBy.name }}
             </template>
             <template #actions="{ item }">
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="routeName"
-              >
-                <wt-icon-action action="edit" />
-              </adm-item-link>
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -160,12 +157,13 @@
 </template>
 
 <script>
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+
+import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
-import { useDummy } from '../../../../../app/composables/useDummy.js';
 
 const namespace = 'lookups/quickReplies';
 

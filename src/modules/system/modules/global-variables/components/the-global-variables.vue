@@ -73,7 +73,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -93,13 +92,13 @@
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                v-if="hasEditAccess"
                 action="edit"
+                :disabled="!hasEditAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
-                v-if="hasDeleteAccess"
                 action="delete"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -126,8 +125,6 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 
 import { useDummy } from '/src/app/composables/useDummy';
 import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
