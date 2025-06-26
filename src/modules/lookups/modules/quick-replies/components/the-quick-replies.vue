@@ -26,7 +26,7 @@
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.DELETE]"
               :disabled:delete="!hasDeleteAccess || !selectedRows.length"
-              @click:refresh="loadDataList"
+              @click:refresh="loadList"
               @click:delete="askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
