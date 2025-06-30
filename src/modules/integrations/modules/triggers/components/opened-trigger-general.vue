@@ -43,17 +43,19 @@
         required
         @input="setItemProp({ prop: 'timezone', value: $event })"
       />
+
       <wt-select
         v-if="isEvent"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.triggers.eventSelect')"
-        :options="TriggerEvents"
-        :v="v.itemInstance.event"
-        :value="itemInstance.event"
+        :label="$t('reusable.object')"
+        :options="TriggerObjects"
+        :v="v.itemInstance.object"
+        :value="itemInstance.object"
         track-by="value"
         required
-        @input="setItemProp({ prop: 'event', value: $event })"
+        @input="updateTriggerObject"
       />
+
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.timeout')"
@@ -66,14 +68,14 @@
 
       <wt-select
         v-if="isEvent"
-        :disabled="disableUserInput"
-        :label="$t('reusable.object')"
-        :options="TriggerObjects"
-        :v="v.itemInstance.object"
-        :value="itemInstance.object"
+        :disabled="disableUserInput || isEmptyObject"
+        :label="$t('objects.integrations.triggers.eventSelect')"
+        :options="triggerEventOptions"
+        :v="v.itemInstance.event"
+        :value="itemInstance.event"
         track-by="value"
         required
-        @input="setItemProp({ prop: 'object', value: $event })"
+        @input="setItemProp({ prop: 'event', value: $event })"
       />
 
       <div
@@ -111,6 +113,7 @@
 import 'cronstrue/locales/en.min';
 import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
+import { isEmpty } from '@webitel/ui-sdk/scripts';
 
 import cronstrue from 'cronstrue';
 import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
@@ -119,6 +122,7 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
+import { TriggerEventsByObjectConfig } from '../lookups/TriggerEventsConfig.lookup';
 import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
 import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 
@@ -153,6 +157,12 @@ export default {
     isEvent() {
       return this.itemInstance?.type?.value === EngineTriggerType.Event;
     },
+    isEmptyObject() {
+      return isEmpty(this.itemInstance.object)
+    },
+    triggerEventOptions() {
+      return this.isEmptyObject ? [] : TriggerEventsByObjectConfig[this.itemInstance.object.value]
+    }
   },
   methods: {
     loadDropdownOptionsList(params) {
@@ -164,6 +174,10 @@ export default {
     loadTimezones(params) {
       return CalendarsAPI.getTimezonesLookup(params);
     },
+    updateTriggerObject(value) {
+      this.setItemProp({ prop: 'event', value: null })
+      this.setItemProp({ prop: 'object', value })
+    }
   },
 };
 </script>
