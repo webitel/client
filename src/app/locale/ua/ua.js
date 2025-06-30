@@ -512,7 +512,7 @@ export default {
       },
       quickReplies: {
         quickReplies: 'Швидка відповідь | Швидкі відповіді',
-      }
+      },
     },
     routing: {
       routing: 'Маршрутизація',
@@ -1187,7 +1187,7 @@ export default {
         caseFiles: 'Файли звернення',
         caseComments: 'Коментарі звернення',
         caseLinks: 'Посилання звернення',
-        relatedCases: 'Пов’язані звернення',
+        relatedCases: "Зв'язані звернення",
         expression: 'Вираз',
         timeout: 'Час очікування',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
