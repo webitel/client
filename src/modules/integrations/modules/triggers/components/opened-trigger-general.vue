@@ -68,9 +68,9 @@
 
       <wt-select
         v-if="isEvent"
-        :disabled="disableUserInput || triggerObjectIsEmpty"
+        :disabled="disableUserInput || isEmptyObject"
         :label="$t('objects.integrations.triggers.eventSelect')"
-        :options="filteredTriggerEvents"
+        :options="triggerEventOptions"
         :v="v.itemInstance.event"
         :value="itemInstance.event"
         track-by="value"
@@ -157,15 +157,11 @@ export default {
     isEvent() {
       return this.itemInstance?.type?.value === EngineTriggerType.Event;
     },
-    triggerObjectIsEmpty() {
+    isEmptyObject() {
       return isEmpty(this.itemInstance.object)
     },
-    filteredTriggerEvents() {
-      if (this.triggerObjectIsEmpty) {
-        return [];
-      }
-
-      return TriggerEventsByObjectConfig[this.itemInstance.object.value]
+    triggerEventOptions() {
+      return this.isEmptyObject ? [] : TriggerEventsByObjectConfig[this.itemInstance.object.value]
     }
   },
   methods: {
@@ -178,9 +174,9 @@ export default {
     loadTimezones(params) {
       return CalendarsAPI.getTimezonesLookup(params);
     },
-    updateTriggerObject($event) {
+    updateTriggerObject(value) {
       this.setItemProp({ prop: 'event', value: null })
-      this.setItemProp({ prop: 'object', value: $event })
+      this.setItemProp({ prop: 'object', value })
     }
   },
 };
