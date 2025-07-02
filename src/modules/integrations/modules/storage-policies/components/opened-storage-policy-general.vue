@@ -10,89 +10,93 @@
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$tc('vocabulary.channel', 2)"
-        :v="v.itemInstance.channels"
-        :value="channels"
-        :options="channelsOptions"
-        track-by="value"
-        multiple
-        required
-        @input="setItemProp({ prop: 'channels', value: $event });"
-      />
-      <wt-textarea
-        :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :value="itemInstance.description"
-        @input="setItemProp({ prop: 'description', value: $event })"
-      />
-      <wt-tags-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.storagePolicies.mimeTypes')"
-        :value="itemInstance.mimeTypes"
-        :v="v.itemInstance.mimeTypes"
-        taggable
-        required
-        @input="setItemProp({ prop: 'mimeTypes', value: $event })"
-      />
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('reusable.state')"
-        :value="itemInstance.enabled"
-        @change="setItemProp({ prop: 'enabled', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.storagePolicies.retentionDays')"
-        :min-value="0"
-        :value="itemInstance.retentionDays"
-        type="number"
-        @input="setItemProp({ prop: 'retentionDays', value: $event })"
-      />
-      <div class="opened-storage-policy-general-button-area">
-        <div class="opened-storage-policy-general-button-area__content">
-          <span>
-            {{ $t('objects.integrations.storagePolicies.applyToFiles') }}
-          </span>
-          <wt-button @click="openPopup">
-            {{ $t('vocabulary.apply') }}
-          </wt-button>
+    <div class="object-input-grid opened-storage-policy-general__grid-2col">
+      <div class="grid-column">
+        <wt-input
+          :disabled="disableUserInput"
+          :label="$t('objects.name')"
+          :v="v.itemInstance.name"
+          :value="itemInstance.name"
+          required
+          @input="setItemProp({ prop: 'name', value: $event })"
+        />
+        <wt-textarea
+          :disabled="disableUserInput"
+          :label="$t('objects.description')"
+          :value="itemInstance.description"
+          @input="setItemProp({ prop: 'description', value: $event })"
+        />
+        <wt-switcher
+          :disabled="disableUserInput"
+          :label="$t('reusable.state')"
+          :value="itemInstance.enabled"
+          @change="setItemProp({ prop: 'enabled', value: $event })"
+        />
+        <div class="opened-storage-policy-general-button-area">
+          <div class="opened-storage-policy-general-button-area__content">
+            <span>
+              {{ $t('objects.integrations.storagePolicies.applyToFiles') }}
+            </span>
+            <wt-button @click="openPopup">
+              {{ $t('vocabulary.apply') }}
+            </wt-button>
+          </div>
         </div>
       </div>
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
-        :min-value="0"
-        :value="itemInstance.speedDownload"
-        type="number"
-        @input="setItemProp({ prop: 'speedDownload', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
-        :min-value="0"
-        :value="itemInstance.speedUpload"
-        type="number"
-        @input="setItemProp({ prop: 'speedUpload', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
-        :min-value="0"
-        :value="itemInstance.maxUploadSize"
-        type="number"
-        @input="setItemProp({ prop: 'maxUploadSize', value: $event })"
-      />
+      <div class="grid-column">
+        <wt-select
+          :disabled="disableUserInput"
+          :label="$tc('vocabulary.channel', 2)"
+          :v="v.itemInstance.channels"
+          :value="channels"
+          :options="channelsOptions"
+          track-by="value"
+          multiple
+          required
+          @input="setItemProp({ prop: 'channels', value: $event });"
+        />
+        <wt-tags-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.mimeTypes')"
+          :value="itemInstance.mimeTypes"
+          :v="v.itemInstance.mimeTypes"
+          taggable
+          required
+          @input="setItemProp({ prop: 'mimeTypes', value: $event })"
+        />
+        <wt-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.retentionDays')"
+          :min-value="0"
+          :value="itemInstance.retentionDays"
+          type="number"
+          @input="setItemProp({ prop: 'retentionDays', value: $event })"
+        />
+        <wt-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
+          :min-value="0"
+          :value="itemInstance.speedDownload"
+          type="number"
+          @input="setItemProp({ prop: 'speedDownload', value: $event })"
+        />
+        <wt-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
+          :min-value="0"
+          :value="itemInstance.speedUpload"
+          type="number"
+          @input="setItemProp({ prop: 'speedUpload', value: $event })"
+        />
+        <wt-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
+          :min-value="0"
+          :value="itemInstance.maxUploadSize"
+          type="number"
+          @input="setItemProp({ prop: 'maxUploadSize', value: $event })"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -156,6 +160,20 @@ export default {
 
 <style scoped lang="scss">
 .opened-storage-policy-general {
+  &__grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    align-items: stretch;
+
+    .grid-column {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+  }
+  
   &-button-area {
     grid-row-start: span 3;
     height: -webkit-fill-available;
