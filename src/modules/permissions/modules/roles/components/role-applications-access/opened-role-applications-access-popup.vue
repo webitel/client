@@ -187,14 +187,14 @@ export default {
   },
   methods: {
     ...mapActions({
-      dispatchUpdateAccess(dispatch, payload) {
+      updateAccess(dispatch, payload) {
         return dispatch(`${this.namespace}/UPDATE_APPLICATION_SECTION_ACCESS`, payload);
       },
     }),
 
 
     handleAccessChange(sectionNode, isEnabled) {
-      this.dispatchUpdateAccess({
+      this.updateAccess({
         app: this.editedApp,
         section: sectionNode.name,
         value: isEnabled,
@@ -216,7 +216,7 @@ export default {
           ? (this.storedChildStates[childNode.name] ?? true)
           : false;
 
-        this.dispatchUpdateAccess({
+        this.updateAccess({
           app: this.editedApp,
           section: childNode.name,
           value: childValue,
