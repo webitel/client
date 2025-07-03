@@ -47,9 +47,10 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import CustomLookupsApi from '../../api/custom-lookups.js';
+import CustomLookupsApi from '../../api/custom-lookups';
+import { findNodeInTree } from '../../utils/findNodeInTree';
 
-// Ієрархія статичних секцій
+// Hierarchy of sections in CRM application
 const PERMISSION_HIERARCHY = {
   [CrmSections.CrmConfiguration]: [
     CrmSections.Slas,
@@ -200,7 +201,7 @@ export default {
         value: isEnabled,
       });
 
-      const fullNode = this.findNodeInTree(this.sectionsTree, sectionNode.name);
+      const fullNode = findNodeInTree(this.sectionsTree, sectionNode.name);
       if (fullNode && fullNode.children.length) {
         this.updateChildrenAccess(fullNode.children, isEnabled);
       }
@@ -222,17 +223,6 @@ export default {
           value: childValue,
         });
       });
-    },
-
-    findNodeInTree(tree, nodeName) {
-      for (const node of tree) {
-        if (node.name === nodeName) return node;
-        if (node.children.length) {
-          const found = this.findNodeInTree(node.children, nodeName);
-          if (found) return found;
-        }
-      }
-      return null;
     },
 
     loadItem() {},
