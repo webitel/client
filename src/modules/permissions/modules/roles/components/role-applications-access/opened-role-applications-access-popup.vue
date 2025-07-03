@@ -42,13 +42,14 @@
 </template>
 
 <script>
-import { CrmSections } from '@webitel/ui-sdk/src/enums/index';
+import { CrmSections } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CustomLookupsApi from '../../api/custom-lookups';
 import { findNodeInTree } from '../../utils/findNodeInTree';
+import { flattenTree } from '../../utils/flattenTree';
 
 // Hierarchy of sections in CRM application
 const PERMISSION_HIERARCHY = {
@@ -118,11 +119,7 @@ export default {
       return map;
     },
 
-    sectionsTree() {
-      const tree = [];
-      const appAccess = this.access[this.editedApp];
-      if (!appAccess || !this.sectionInfoMap.size) return tree;
-
+    sectionsHierarchy() {
       const customLookupIds = this.customLookupRecords.map(record => record.id);
       const fullHierarchy = {
         [CrmSections.CrmConfiguration]: [
@@ -130,56 +127,55 @@ export default {
           ...customLookupIds,
         ],
       };
-
       const displayOrder = [
         CrmSections.Contacts,
         CrmSections.Cases,
         CrmSections.CrmConfiguration,
       ];
 
-      const parentConfigNode = this.sectionInfoMap.get(CrmSections.CrmConfiguration);
-      const isParentEnabled = parentConfigNode ? parentConfigNode.enabled : false;
-
-      displayOrder.forEach(sectionName => {
-        const info = this.sectionInfoMap.get(sectionName);
-        if (info) {
-          const node = {
-            ...info,
-            disabled: false,
-            children: [],
-          };
-
-          const childrenNames = fullHierarchy[sectionName];
-          if (childrenNames) {
-            node.children = childrenNames.map(childName => {
-              const childInfo = this.sectionInfoMap.get(childName);
-              if (!childInfo) return null;
-              return {
-                ...childInfo,
-                disabled: !isParentEnabled,
-                children: [],
-              };
-            }).filter(Boolean);
-          }
-          tree.push(node);
-        }
+      return displayOrder.map(sectionName => {
+        const childrenNames = fullHierarchy[sectionName] || [];
+        return {
+          name: sectionName,
+          children: childrenNames.map(childName => ({ name: childName, children: [] })),
+        };
       });
-      return tree;
+    },
+
+    sectionsTree() {
+      if (!this.sectionInfoMap.size) return [];
+
+      const isParentEnabled = this.sectionInfoMap.get(CrmSections.CrmConfiguration)?.enabled ?? false;
+
+      const mapNodeWithState = (nodeStub) => {
+        const info = this.sectionInfoMap.get(nodeStub.name);
+        if (!info) return null;
+
+        const node = {
+          ...info,
+          disabled: false,
+          children: [],
+        };
+
+        if (nodeStub.children.length) {
+          node.children = nodeStub.children.map(childStub => {
+            const childInfo = this.sectionInfoMap.get(childStub.name);
+            if (!childInfo) return null;
+            return {
+              ...childInfo,
+              disabled: !isParentEnabled,
+              children: [],
+            };
+          }).filter(Boolean);
+        }
+        return node;
+      };
+
+      return this.sectionsHierarchy.map(mapNodeWithState).filter(Boolean);
     },
 
     appSectionsAccess() {
-      const flatten = (nodes) => {
-        let flatList = [];
-        for (const node of nodes) {
-          const { children, ...nodeWithoutChildren } = node;
-          flatList.push(nodeWithoutChildren);
-          if (children && children.length) {
-            flatList = flatList.concat(flatten(children));
-          }
-        }
-        return flatList;
-      };
-      return flatten(this.sectionsTree);
+      return flattenTree(this.sectionsTree);
     },
   },
   async mounted() {
@@ -192,7 +188,6 @@ export default {
         return dispatch(`${this.namespace}/UPDATE_APPLICATION_SECTION_ACCESS`, payload);
       },
     }),
-
 
     handleAccessChange(sectionNode, isEnabled) {
       this.updateAccess({
@@ -230,7 +225,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 
 </style>
