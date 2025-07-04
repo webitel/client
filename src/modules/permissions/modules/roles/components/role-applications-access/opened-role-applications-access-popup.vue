@@ -26,9 +26,7 @@
       </form>
     </template>
     <template #actions>
-      <wt-button
-        @click="close"
-      >
+      <wt-button @click="close">
         {{ $t('objects.ok') }}
       </wt-button>
       <wt-button
@@ -42,7 +40,7 @@
 </template>
 
 <script>
-import { CrmSections } from '@webitel/ui-sdk/enums';
+import { CrmSections, WtApplication } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
@@ -52,7 +50,7 @@ import { findNodeInTree } from '../../utils/findNodeInTree';
 import { flattenTree } from '../../utils/flattenTree';
 
 // Hierarchy of sections in CRM application
-const PERMISSION_HIERARCHY = {
+const SECTIONS_HIERARCHY = {
   [CrmSections.CrmConfiguration]: [
     CrmSections.Slas,
     CrmSections.Sources,
@@ -66,35 +64,46 @@ const PERMISSION_HIERARCHY = {
   ],
 };
 
+const DISPLAY_ORDER = [
+  CrmSections.Contacts,
+  CrmSections.Cases,
+  CrmSections.CrmConfiguration,
+];
+
 export default {
   name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
+
   props: {
     namespace: {
       type: String,
       required: true,
     },
   },
-  data() {
-    return {
-      customLookupRecords: [],
-      storedChildStates: {},
-    };
-  },
+
+  data: () => ({
+    customLookupRecords: [],
+    storedChildStates: {},
+  }),
+
   computed: {
     ...mapState({
       access(state) {
         return getNamespacedState(state, this.namespace).itemInstance.metadata.access;
       },
     }),
+
     editedApp() {
       return this.$route.params.applicationName;
     },
 
+    isCrmApp() {
+      return this.editedApp === WtApplication.Crm;
+    },
+
     sectionInfoMap() {
+      const appAccess = this.access[this.editedApp] || {};
       const map = new Map();
-      const appAccess = this.access[this.editedApp];
-      if (!appAccess) return map;
 
       Object.entries(appAccess).forEach(([sectionName, info]) => {
         if (info?._locale) {
@@ -106,100 +115,68 @@ export default {
         }
       });
 
-      this.customLookupRecords.forEach(record => {
-        const sectionName = record.id;
-        const info = appAccess[sectionName] || {};
-        map.set(sectionName, {
-          name: sectionName,
-          displayName: record.name,
-          enabled: !!info._enabled,
+      if (this.isCrmApp) {
+        this.customLookupRecords.forEach(record => {
+          const sectionName = record.id;
+          const info = appAccess[sectionName] || {};
+          map.set(sectionName, {
+            name: sectionName,
+            displayName: record.name,
+            enabled: !!info._enabled,
+          });
         });
-      });
+      }
 
       return map;
     },
 
     sectionsHierarchy() {
-      const customLookupIds = this.customLookupRecords.map(record => record.id);
-      const fullHierarchy = {
-        [CrmSections.CrmConfiguration]: [
-          ...(PERMISSION_HIERARCHY[CrmSections.CrmConfiguration] || []),
-          ...customLookupIds,
-        ],
-      };
-      const displayOrder = [
-        CrmSections.Contacts,
-        CrmSections.Cases,
-        CrmSections.CrmConfiguration,
-      ];
-
-      return displayOrder.map(sectionName => {
-        const childrenNames = fullHierarchy[sectionName] || [];
-        return {
-          name: sectionName,
-          children: childrenNames.map(childName => ({ name: childName, children: [] })),
-        };
-      });
+      return this.isCrmApp
+        ? this.buildCrmHierarchy()
+        : this.buildDefaultHierarchy();
     },
 
     sectionsTree() {
       if (!this.sectionInfoMap.size) return [];
-
-      const isParentEnabled = this.sectionInfoMap.get(CrmSections.CrmConfiguration)?.enabled ?? false;
-
-      const mapNodeWithState = (nodeStub) => {
-        const info = this.sectionInfoMap.get(nodeStub.name);
-        if (!info) return null;
-
-        const node = {
-          ...info,
-          disabled: false,
-          children: [],
-        };
-
-        if (nodeStub.children.length) {
-          node.children = nodeStub.children.map(childStub => {
-            const childInfo = this.sectionInfoMap.get(childStub.name);
-            if (!childInfo) return null;
-            return {
-              ...childInfo,
-              disabled: !isParentEnabled,
-              children: [],
-            };
-          }).filter(Boolean);
-        }
-        return node;
-      };
-
-      return this.sectionsHierarchy.map(mapNodeWithState).filter(Boolean);
+      return this.sectionsHierarchy.map(this.mapNodeWithState).filter(Boolean);
     },
 
     appSectionsAccess() {
       return flattenTree(this.sectionsTree);
     },
+
+    isCrmConfigurationEnabled() {
+      if (!this.isCrmApp) return true;
+      return this.sectionInfoMap.get(CrmSections.CrmConfiguration)?.enabled ?? false;
+    },
   },
-  async mounted() {
-    const response = await CustomLookupsApi.getList({ size: -1 });
-    this.customLookupRecords = response.items || [];
+
+  mounted() {
+    this.loadCustomLookups();
   },
+
   methods: {
     ...mapActions({
-      updateAccess(dispatch, payload) {
+      updateAccessAction(dispatch, payload) {
         return dispatch(`${this.namespace}/UPDATE_APPLICATION_SECTION_ACCESS`, payload);
       },
     }),
 
     handleAccessChange(sectionNode, isEnabled) {
-      this.updateAccess({
-        app: this.editedApp,
-        section: sectionNode.name,
-        value: isEnabled,
-      });
+      this.updateAccess(sectionNode.name, isEnabled);
 
       const fullNode = findNodeInTree(this.sectionsTree, sectionNode.name);
-      if (fullNode && fullNode.children.length) {
+      if (fullNode?.children.length) {
         this.updateChildrenAccess(fullNode.children, isEnabled);
       }
+    },
+
+    updateAccess(section, value) {
+      this.updateAccessAction({
+        app: this.editedApp,
+        section,
+        value,
+      });
     },
 
     updateChildrenAccess(children, isParentEnabled) {
@@ -212,19 +189,62 @@ export default {
           ? (this.storedChildStates[childNode.name] ?? true)
           : false;
 
-        this.updateAccess({
-          app: this.editedApp,
-          section: childNode.name,
-          value: childValue,
-        });
+        this.updateAccess(childNode.name, childValue);
       });
     },
 
-    loadItem() {},
+    buildCrmHierarchy() {
+      const customLookupIds = this.customLookupRecords.map(record => record.id);
+      const fullHierarchy = {
+        ...SECTIONS_HIERARCHY,
+        [CrmSections.CrmConfiguration]: [
+          ...(SECTIONS_HIERARCHY[CrmSections.CrmConfiguration] || []),
+          ...customLookupIds,
+        ],
+      };
+
+      return DISPLAY_ORDER.map(sectionName => ({
+        name: sectionName,
+        children: (fullHierarchy[sectionName] || []).map(childName => ({ name: childName, children: [] })),
+      }));
+    },
+
+    buildDefaultHierarchy() {
+      return Array.from(this.sectionInfoMap.keys()).map(sectionName => ({
+        name: sectionName,
+        children: [],
+      }));
+    },
+
+    mapNodeWithState(nodeStub) {
+      const info = this.sectionInfoMap.get(nodeStub.name);
+      if (!info) return null;
+
+      const node = { ...info, disabled: false, children: [] };
+
+      if (nodeStub.children.length) {
+        node.children = nodeStub.children
+          .map(childStub => {
+            const childInfo = this.sectionInfoMap.get(childStub.name);
+            if (!childInfo) return null;
+            return {
+              ...childInfo,
+              disabled: this.isCrmApp ? !this.isCrmConfigurationEnabled : false,
+              children: [],
+            };
+          })
+          .filter(Boolean);
+      }
+      return node;
+    },
+
+    async loadCustomLookups() {
+      const response = await CustomLookupsApi.getList({ size: -1 });
+      this.customLookupRecords = response.items || [];
+    },
     resetState() {},
   },
 };
 </script>
 <style scoped>
-
 </style>
