@@ -1,5 +1,6 @@
 import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import deepCopy from 'deep-copy';
+import set from 'lodash/set';
 
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import RolesAPI from '../api/roles';
@@ -98,7 +99,9 @@ const actions = {
   },
   UPDATE_APPLICATION_SECTION_ACCESS: (context, { app, section, value }) => {
     const metadata = deepCopy(context.state.itemInstance.metadata);
-    metadata.access[app][section]._enabled = value;
+
+    set(metadata, `access.${app}.${section}._enabled`, value);
+
     return context.dispatch('SET_ITEM_PROPERTY', {
       prop: 'metadata',
       value: metadata,
