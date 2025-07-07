@@ -180,6 +180,7 @@ export default {
       handler(index) {
         if (index) {
           this.initEditedValue();
+          return
         }
         this.resetState();
       },
