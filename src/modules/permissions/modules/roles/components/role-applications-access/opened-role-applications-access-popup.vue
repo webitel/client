@@ -51,7 +51,7 @@ import { flattenTree } from '../../utils/flattenTree';
 
 // Hierarchy of sections in CRM application
 const SECTIONS_HIERARCHY = {
-  [CrmSections.CrmConfiguration]: [
+  [CrmSections.Configuration]: [
     CrmSections.Slas,
     CrmSections.Sources,
     CrmSections.ServiceCatalogs,
@@ -67,7 +67,7 @@ const SECTIONS_HIERARCHY = {
 const DISPLAY_ORDER = [
   CrmSections.Contacts,
   CrmSections.Cases,
-  CrmSections.CrmConfiguration,
+  CrmSections.Configuration,
 ];
 
 export default {
@@ -156,11 +156,11 @@ export default {
       return flattenTree(this.sectionsTree);
     },
 
-    // Checks if the main 'CRM Configuration' section is enabled.
+    // Checks if the main 'CRM/Configuration' section is enabled.
     // This is used to control the state of its child sections.
-    isCrmConfigurationEnabled() {
+    isConfigurationEnabled() {
       if (!this.isCrmApp) return true;
-      return this.sectionInfoMap.get(CrmSections.CrmConfiguration)?.enabled ?? false;
+      return this.sectionInfoMap.get(CrmSections.Configuration)?.enabled ?? false;
     },
   },
 
@@ -216,8 +216,8 @@ export default {
       const customLookupIds = this.customLookupRecords.map(record => record.id);
       const fullHierarchy = {
         ...SECTIONS_HIERARCHY,
-        [CrmSections.CrmConfiguration]: [
-          ...(SECTIONS_HIERARCHY[CrmSections.CrmConfiguration] || []),
+        [CrmSections.Configuration]: [
+          ...(SECTIONS_HIERARCHY[CrmSections.Configuration] || []),
           ...customLookupIds,
         ],
       };
@@ -252,7 +252,7 @@ export default {
             if (!childInfo) return null;
             return {
               ...childInfo,
-              disabled: this.isCrmApp ? !this.isCrmConfigurationEnabled : false,
+              disabled: this.isCrmApp ? !this.isConfigurationEnabled : false,
               children: [],
             };
           })
