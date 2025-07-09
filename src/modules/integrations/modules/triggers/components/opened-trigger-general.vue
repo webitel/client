@@ -137,7 +137,7 @@ export default {
   }),
   computed: {
     parsedCron() {
-      const locale = this.$i18n.locale === 'ua' ? 'uk' : this.$i18n.locale; // change ua locale code
+      const locale = this.$i18n.locale;
       return cronstrue.toString(this.itemInstance.expression, {
         locale,
         throwExceptionOnParseError: false,
