@@ -103,7 +103,7 @@ export default {
       },
       {
         name: 'Українська',
-        id: 'ua',
+        id: 'uk',
       },
       {
         name: 'Español',
