@@ -59,7 +59,7 @@ const SECTIONS_HIERARCHY = {
     CrmSections.ContactGroups,
     CrmSections.Priorities,
     CrmSections.Statuses,
-    CrmSections.SectionCustomization,
+    CrmSections.WtTypeExtensions,
     CrmSections.CustomLookups,
   ],
 };
