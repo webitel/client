@@ -46,6 +46,12 @@ export default {
   },
   appNavigator: {
     title: 'Webitel қосымшалары',
+    admin: 'Әкімші',
+    agent: 'Оператор жұмыс орны',
+    supervisor: 'Супервизор жұмыс орны',
+    audit: 'Аудит',
+    history: 'Қоңыраулар тарихы',
+    grafana: 'Grafana',
   },
   settings: {
     settings: 'Баптау',
@@ -54,6 +60,18 @@ export default {
     webPhone: 'Web-телефон',
     useWebPhone: 'Web-телефонды пайдаланушы',
     useStun: 'STUN пайдаланушы',
+    notifications: {
+      callEnd: 'Қоңырау аяқталу дыбысы',
+      lossConnection: 'Байланыс үзілу дыбысы',
+    },
+    ringtones: {
+      title: 'Қоңырау дыбысын өзгерту',
+      ringtone: 'Қоңырау дыбысы',
+      customRingtone: 'Арнайы қоңырау дыбысын пайдалану',
+    },
+    ringtoneVolume: {
+      title: 'Қоңырау дыбысының деңгейі',
+    },
   },
   validation: {
     email: 'Электрондық пошта мекенжайын енгізіңіз',
