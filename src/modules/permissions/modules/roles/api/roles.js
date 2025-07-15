@@ -1,4 +1,7 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
   generateUrl,
@@ -10,10 +13,13 @@ import applyTransform, {
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
 import deepCopy from 'deep-copy';
+import { RolesApiFactory } from 'webitel-sdk';
 
 import instance from '../../../../../app/api/instance';
+import configuration from '../../../../../app/api/openAPIConfig';
 
-const baseUrl = '/roles';
+const rolesApiFactory = new RolesApiFactory(configuration, '', instance);
+
 const fieldsToSend = ['name', 'description', 'permissions', 'metadata'];
 
 const preRequestHandler = (item) => {
@@ -25,16 +31,27 @@ const preRequestHandler = (item) => {
 const getRoleList = async (params) => {
   const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
 
-  const url = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-    (params) => ({ ...params, q: params.search }),
-    sanitize(fieldsToSend),
-    camelToSnake(),
-    generateUrl(baseUrl),
-  ]);
+  const { page, size, q, sort, name, fields, id, userId, userName } =
+    applyTransform(params, [
+      merge(getDefaultGetParams()),
+      starToSearch('search'),
+      (params) => ({ ...params, q: params.search }),
+      sanitize(fieldsToSend),
+      camelToSnake(),
+    ]);
+
   try {
-    const response = await instance.get(url);
+    const response = await rolesApiFactory.searchRoles(
+      [id],
+      name,
+      userId,
+      userName,
+      q,
+      fields,
+      sort,
+      page,
+      size,
+    );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),
@@ -64,41 +81,13 @@ const getRole = async ({ itemId: id }) => {
     return copy;
   };
 
-  const url = `${baseUrl}/${id}?fields=metadata&fields=permissions&fields=name&fields=description`;
-
   try {
-    const response = await instance.get(url);
+    const response = await rolesApiFactory.readRole(id, fieldsToSend);
     return applyTransform(response.data, [
       snakeToCamel(),
       merge(defaultObject),
       itemResponseHandler,
     ]);
-  } catch (err) {
-    throw applyTransform(err, [notify]);
-  }
-};
-
-const getExtendedRoles = async (params) => {
-  const fieldsToSend = ['page', 'size', 'q', 'sort', 'fields', 'id'];
-
-  const url = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-    (params) => ({ ...params, q: params.search }),
-    sanitize(fieldsToSend),
-    camelToSnake(),
-    generateUrl(baseUrl),
-  ]);
-  try {
-    const response = await instance.get(url);
-    const { items, next } = applyTransform(response.data, [
-      snakeToCamel(),
-      merge(getDefaultGetListResponse()),
-    ]);
-    return {
-      items,
-      next,
-    };
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
@@ -111,7 +100,7 @@ const addRole = async ({ itemInstance }) => {
     camelToSnake(),
   ]);
   try {
-    const response = await instance.post(baseUrl, item);
+    const response = await rolesApiFactory.createRole(item);
     return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
@@ -125,9 +114,8 @@ const updateRole = async ({ itemInstance, itemId: id }) => {
     camelToSnake(),
   ]);
 
-  const url = `${baseUrl}/${id}`;
   try {
-    const response = await instance.put(url, item);
+    const response = await rolesApiFactory.updateRole(id, item);
     return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
@@ -135,9 +123,8 @@ const updateRole = async ({ itemInstance, itemId: id }) => {
 };
 
 const deleteRole = async ({ id }) => {
-  const url = `${baseUrl}/${id}`;
   try {
-    const response = await instance.delete(url);
+    const response = await rolesApiFactory.deleteRole(id);
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [notify]);
@@ -186,7 +173,6 @@ const RolesAPI = {
   delete: deleteRole,
   getLookup: getRolesLookup,
 
-  getExtendedRoles,
   getPermissionsOptions,
 };
 
