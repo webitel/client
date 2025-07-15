@@ -29,15 +29,15 @@ export default {
 
       title3: 'Fault-tolerant infrastructure',
       text3:
-        'Yaxshi tayyorlanmagan to\'xtashlarni yo'qotish. Tezroq kattalashtirish va xatolikka qarshi tayyorlash imkoniyati sizga bir vaqtda 1000 dan ortiq foydalanuvchi zvonkalarni qo\'llab-quvvatlashingiz mumkin.',
+        'Yaxshi tayyorlanmagan to\'xtashlarni yo\'qotish. Tezroq kattalashtirish va xatolikka qarshi tayyorlash imkoniyati sizga bir vaqtda 1000 dan ortiq foydalanuvchi zvonkalarni qo\'llab-quvvatlashingiz mumkin.',
 
       title4: 'Design',
       text4:
-        'Yangi minimalist interfeys va eng foydalanuvchi admin paneli bilan siz barcha kerakli funksiyalarga tez kirish imkonini beradi. Kam bosish - ko'proq xususiyatlar.',
+        'Yangi minimalist interfeys va eng foydalanuvchi admin paneli bilan siz barcha kerakli funksiyalarga tez kirish imkonini beradi. Kam bosish - ko\'proq xususiyatlar.',
 
       title5: 'Yangi agent guruhi ish moduli',
       text5:
-        'Eng samarali zvonkani taqsimlash. Agent bir vaqtning o'zida bir nechta xususiyatga ega bo\'lishi mumkin. Foydalanuvchi faqat mutaxassislar bilan xizmat ko\'rsatadi.',
+        'Eng samarali zvonkani taqsimlash. Agent bir vaqtning o\'zida bir nechta xususiyatga ega bo\'lishi mumkin. Foydalanuvchi faqat mutaxassislar bilan xizmat ko\'rsatadi.',
 
       title6: 'Ruxsatlarini boshqarish',
       text6:
@@ -101,7 +101,7 @@ export default {
       directory: 'Katalog',
     },
     routing: {
-      routing: 'Yo'naltirish',
+      routing: 'Yo\'naltirish',
     },
     lookups: {
       lookups: 'Kutubxonalar',
@@ -177,13 +177,13 @@ export default {
     ID: 'ID',
     email: 'Elektron pochta manzili',
     updatedAt: 'O\'zgartirilgan',
-    emptyWorkspace: 'Hozircha ma'lumotlar yo'q',
-    emptyResultSearch: 'Qidiruvingiz natijalari yo'q',
+    emptyWorkspace: 'Hozircha ma\'lumotlar yo\'q',
+    emptyResultSearch: 'Qidiruvingiz natijalari yo\'q',
 
     deleteConfirmation: {
       title: 'O\'chirishni tasdiqlash',
       askingAlert:
-        'Siz {count} ma'lumotni o'chirmoqchimisiz? | Siz {count} ma'lumotni o'chirmoqchimisiz?',
+        'Siz {count} ma\'lumotni o\'chirmoqchimisiz? | Siz {count} ma\'lumotni o\'chirmoqchimisiz?',
       undoneActionAlert: 'Bu amal qayta tiklanmaydi.',
       deleteAll: 'HAMMASI',
     },
@@ -193,9 +193,9 @@ export default {
       separator: 'Aloqa',
       CSVColumn: 'CSV ustuni',
       fieldName: 'Maydon nomi',
-      clearMember: 'A'zolchadan tozalash',
+      clearMember: 'A\'zolchadan tozalash',
     },
-    generalInfo: 'Umumiy ma'lumot',
+    generalInfo: 'Umumiy ma\'lumot',
     objectHeader: {},
     directory: {
       directory: 'Katalog',
@@ -277,7 +277,7 @@ export default {
           'Bu quvurni aniqroq kiritish uchun uni yaxshi hot-desking aliaslariga qo\'ying. Valid nom faqat quyidagi belgilardan tashkil topishi kerak: A-Z, a-z, 0-9, -, _',
         deviceSettings: 'Quvur sozlamalari',
         hostName: 'Host nomi',
-        phoneInfo: 'Telefon ma'lumoti',
+        phoneInfo: 'Telefon ma\'lumoti',
         phone: 'Telefon',
         vendor: 'Tavsif',
         model: 'Model',
@@ -315,7 +315,7 @@ export default {
           timeLimitedRecordFile: 'Vaqtli zvonk yozuv faylini o\'qish',
           resetActiveAttempts: 'Aktiv urinishlarni qayta tiklash',
           limitWorkspaceContacts: 'Ish joyidagi mijozlar sonini cheklov',
-          exportDataGrid: 'Ma'lumotlar jadvalini faylga eksport qilish',
+          exportDataGrid: 'Ma\'lumotlar jadvalini faylga eksport qilish',
           viewCdrPhoneNumbers: 'CDR telefon raqamlarini ko\'rish',
           manageUserRoles: 'Foydalanuvchi ruxsatlarini boshqarish',
           manageUserLicense: 'Foydalanuvchi litsenziyalarini boshqarish',
@@ -336,7 +336,7 @@ export default {
           limitWorkspaceContactsDescription:
             'Ruxsat beradi ish joyidagi mijozlar ro\'yxatini ko\'rish',
           exportDataGridDescription:
-            'Ruxsat beradi ma'lumotlar jadvalini faylga eksport qilish',
+            'Ruxsat beradi ma\'lumotlar jadvalini faylga eksport qilish',
           viewCdrPhoneNumbersDescription: 'CDR telefon raqamlarini ko\'rish',
           manageUserRolesDescription:
             'Ruxsat beradi foydalanuvchi ruxsatlarini boshqarish',
@@ -541,7 +541,7 @@ export default {
       dialplan: {
         dialplan: 'Dialplanlar',
         dialplanRules: 'Dialplan qoidalari',
-        pattern: 'Ma'lumotnoma raqami',
+        pattern: 'Ma\'lumotnoma raqami',
         dialplanRule: 'Dialplan qoidasi',
         position: 'O\'rnatish',
       },
@@ -806,21 +806,21 @@ export default {
       },
 
       members: {
-        members: 'A'zolchalar | A'zolchalar',
-        allMembers: 'Barcha a'zolchalar',
-        addMember: 'A'zolchaga qo'shish',
-        destination: 'Ma'lumotnoma',
+        members: 'A\'zolchalar | A\'zolchalar',
+        allMembers: 'Barcha a\'zolchalar',
+        addMember: 'A\'zolchaga qo\'shish',
+        destination: 'Ma\'lumotnoma',
         display: 'Ko\'rsatish raqami',
         dtmf: 'DTMF',
         priority: 'Prioritet',
         attempts: 'Urinishlar',
-        emptyWorkspace: 'A'zolchalar topilmadi',
+        emptyWorkspace: 'A\'zolchalar topilmadi',
         resetMembers: {
           resetMembers: 'Urinishlarini tiklash',
           description:
-            'Siz a'zolchalar urinishlarini muvaffaqiyatsiz a'zolchalar uchun tiklashni xohlaysizmi?',
+            'Siz a\'zolchalar urinishlarini muvaffaqiyatsiz a\'zolchalar uchun tiklashni xohlaysizmi?',
           reset: 'Tiklash',
-          successResetCount: 'Muvaffaqiyatli {count} a'zolchalar tiklandi',
+          successResetCount: 'Muvaffaqiyatli {count} a\'zolchalar tiklandi',
         },
         endCause: {
           abandoned: 'Abandoned',
@@ -864,10 +864,10 @@ export default {
           'Avvalo kontaktni zavodga avtomatik tarzda zavodlashdan oldin uni ko\'ring.',
         progressiveDialer: 'Progressiv dialer',
         progressiveDialerDescription:
-          'Progressiv zavodlash zvonkalar orasidagi vaqtni tejashadi. Agentlar mavjud bo'lganda avtomatik ravishda raqamni zavodlashadi.',
+          'Progressiv zavodlash zvonkalar orasidagi vaqtni tejashadi. Agentlar mavjud bo\'lganda avtomatik ravishda raqamni zavodlashadi.',
         predictiveDialer: 'Prediktiv dialer',
         predictiveDialerDescription:
-          'Prediktiv dialer bir vaqtning o'zida bir nechta raqamni zovdaladi. Foydalanuvchi javob berganidan keyin agentlar ularga bog'lanadi.',
+          'Prediktiv dialer bir vaqtning o\'zida bir nechta raqamni zovdaladi. Foydalanuvchi javob berganidan keyin agentlar ularga bog\'lanadi.',
         chatInboundQueue: 'Chat kirish qo\'yuv',
         chatInboundQueueDescription:
           'Kirish qo\'yuv bilan bir xil, lekin chatlar bilan',
@@ -879,13 +879,13 @@ export default {
         timezone: 'Vaqt zonasi',
         callLimit: 'Zvonk limiti',
         variables: 'O\'zgaruvchilar',
-        members: 'A'zolchalar | A'zolchalar',
+        members: 'A\'zolchalar | A\'zolchalar',
         params: 'Parametrlar',
         discardAbandonedAfter: 'Bekor qilishdan keyin tashlash',
         maxIdleAgent: 'Agent javob vaqti',
         maxIdleClient: 'Foydalanuvchi javob vaqti',
         maxIdleDialog: 'Maksimal javob vaqti',
-        timeoutWithNoAgents: 'Agentlar yo'qligida vaqt',
+        timeoutWithNoAgents: 'Agentlar yo\'qligida vaqt',
         timeBaseScore: 'Vaqt asosida ball',
         endless: 'Cheksiz',
         stickyAgent: 'Sticky agent',
@@ -895,11 +895,11 @@ export default {
         varVal: 'Qiymat',
         endCause: 'Tugatish sababi',
         offeringAt: 'Ko\'rsatish',
-        destination: 'Ma'lumotnoma | Ma'lumotnomalar',
+        destination: 'Ma\'lumotnoma | Ma\'lumotnomalar',
         expire: 'Yaroqli',
         originateTimeout: 'Originativ vaqt',
         maxAgentLine: 'Max agent chiziqlari',
-        maxAgentLose: 'Max agent yo'qolgan zvonkalar',
+        maxAgentLose: 'Max agent yo\'qolgan zvonkalar',
         minAttempts: 'Min predikt urinishlar',
         maxAbandonedRate: 'Max bekor qilinish %',
         loadFactor: 'Yuk koeffitsienti',
@@ -933,7 +933,7 @@ export default {
         afterSchema: 'Keyingi-ishchi sxema',
         maxCalls: 'Max vazifalar',
         dialingRate: 'Dialing tezligi',
-        maxCallsHint: 'Agar qiymat 0 bo'lsa, vazifalar bajarilmaydi',
+        maxCallsHint: 'Agar qiymat 0 bo\'lsa, vazifalar bajarilmaydi',
         recordings: 'Yozuv',
         recordAll: 'Javobdan keyin yozish boshlash',
         perNumbers: 'Har bir telefon raqami uchun dialing urinishlar',
@@ -948,7 +948,7 @@ export default {
         initialSilence: 'Boshlang\'ich siyraha (ms)',
         statisticTime: 'Qayta hisoblash intervali',
         communications: 'Kommunikatsiya turi',
-        manualDistribution: 'Iste'g'lovchi taqsimlash',
+        manualDistribution: 'Iste\'g\'lovchi taqsimlash',
         lastMessageTimeout: 'Oxirgi xabardan keyin vaqt',
         stickyIgnoreStatus: 'Agent holati kuzatishni boshqarish',
         ignoreCalendar: 'Kalendar kuzatishni boshqarish',
@@ -981,7 +981,7 @@ export default {
         },
         logs: {
           logs: 'Log | Loglar',
-          destination: 'Ma'lumotnoma',
+          destination: 'Ma\'lumotnoma',
           offeringAt: 'Ko\'rsatish',
           joinedAt: 'Boshlanish',
           leavingAt: 'Tugash',
@@ -1038,7 +1038,7 @@ export default {
         failure: 'Yaroqsiz',
         maxErrors: 'Maksimal yaroqsiz javoblar soni',
         errorCodes: 'Yaroqsiz javoblar kodi',
-        patterns: 'Ma'lumotnoma raqami shablonlari',
+        patterns: 'Ma\'lumotnoma raqami shablonlari',
         priority: 'Prioritet',
         reserveResource: 'Resursni rezervatsiya qilish',
         failureDialDelay: 'Yaroqsiz dial vaqti',
@@ -1076,7 +1076,7 @@ export default {
         dropbox: 'Dropbox',
         drive: 'Google Drive',
         configuration: 'Konfiguratsiya',
-        pathPattern: 'Yo'l shablonlari',
+        pathPattern: 'Yo\'l shablonlari',
         localFolder: 'Lokal papka',
         s3Key: 'Kalit ID',
         s3Access: 'Kalit',
@@ -1143,7 +1143,7 @@ export default {
 
       importCsv: {
         importCsv: 'CSV fayldan import qilish | CSV fayldan importlar',
-        allImportsCsv: 'Barcha CSV fayldan import ma'lumotlari',
+        allImportsCsv: 'Barcha CSV fayldan import ma\'lumotlari',
         source: 'Import manzili',
         settings: 'Sozlamalar',
         mappings: 'Maydon nomlarini kiritish',
@@ -1151,7 +1151,7 @@ export default {
           'Bu bo\'limda siz quyidagi CSV fayl ustunlarini kiritishda quyidagi nomlariga mos kelishi kerak',
         columnHeader: '{name} ustuni',
         members: {
-          clearMembers: 'Mavjud a'zolchalar tozalash',
+          clearMembers: 'Mavjud a\'zolchalar tozalash',
         },
       },
 
@@ -1171,7 +1171,7 @@ export default {
         schema: 'Sxema',
         newTrigger: 'Yangi trigger',
         newTriggerDescription:
-          'Boshlash yoki bo'sh qalam bilan boshlash uchun shablonni tanlang yoki boshlang',
+          'Boshlash yoki bo\'sh qalam bilan boshlash uchun shablonni tanlang yoki boshlang',
         event: 'Hodisa',
         onEventDescription: 'Hodisa asosida JSON sxemasi rejimi',
         cron: 'Vaqt',
@@ -1182,7 +1182,7 @@ export default {
         caseFiles: 'Hollar fayllari',
         caseComments: 'Hollar izohlari',
         caseLinks: 'Hollar boglanishlar',
-        relatedCases: 'Bog'lanishli hollar',
+        relatedCases: 'Bog\'lanishli hollar',
         expression: 'Ifoda',
         timeout: 'Vaqt',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),
@@ -1258,7 +1258,7 @@ export default {
   },
 
   errorPages: {
-    goToHome: 'Bosh sahifaga o'tish',
+    goToHome: 'Bosh sahifaga o\'tish',
     page403: {
       title: 'Ruxsat etilmadi',
       text: 'Kechirasiz, siz bu sahifani ko\'rishga ruxsat yetmadingiz.',
@@ -1282,25 +1282,25 @@ export default {
     reload: 'Jadvalni yangilash',
     edit: 'Tahrirlash',
     delete: 'O\'chirish',
-    deleteAll: 'Barcha ma'lumotlarni o'chirish',
-    deleteSelected: 'Tanlangan {count} ma'lumotni o'chirish',
-    deleteFiltered: 'Barcha filtrlangan ma'lumotlarni o'chirish',
+    deleteAll: 'Barcha ma\'lumotlarni o\'chirish',
+    deleteSelected: 'Tanlangan {count} ma\'lumotni o\'chirish',
+    deleteFiltered: 'Barcha filtrlangan ma\'lumotlarni o\'chirish',
     generate: 'Yaratish',
     add: 'Qo\'shish',
     history: 'Tarix',
     download: 'Yuklash',
     downloadAll: 'Barcha yuklash',
     draggable: 'Tortish mumkin',
-    play: 'O'ynash',
-    pause: 'To'xtatish',
-    resume: 'Davom ettirish',
+    play: 'O\'ynash',
+    pause: 'To\'xtatish',
+    stop: 'To\'xtatish',
     close: 'Yopish',
     change: 'O\'zgartirish',
     volume: 'Haqiqat',
-    stop: 'To'xtatish',
-    members: 'A'zolchalar',
-    moveUp: 'Yuqoriga ko'chirish',
-    moveDown: 'Pastga ko'chirish',
+    stop: 'To\'xtatish',
+    members: 'A\'zolchalar',
+    moveUp: 'Yuqoriga ko\'chirish',
+    moveDown: 'Pastga ko\'chirish',
     nextPage: 'Keyingi sahifa',
     prevPage: 'Oldingi sahifa',
     expand: 'Kengaytirish',
