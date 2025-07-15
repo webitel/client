@@ -510,7 +510,7 @@ export default {
       },
       quickReplies: {
         quickReplies: 'Quick reply | Quick replies',
-      }
+      },
     },
     routing: {
       routing: 'Routing',
@@ -1111,6 +1111,7 @@ export default {
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
         },
+        encryptFile: 'Encrypt files',
       },
 
       cognitiveProfiles: {

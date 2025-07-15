@@ -33,6 +33,7 @@ const fieldsToSend = [
   'speedUpload',
   'maxUploadSize',
   'enabled',
+  'encrypt',
 ];
 
 const fields = [
@@ -47,6 +48,7 @@ const fields = [
   'max_upload_size',
   'position',
   'enabled',
+  'encrypt',
 ];
 
 const defaultObject = {

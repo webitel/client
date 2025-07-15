@@ -32,6 +32,12 @@
           :value="itemInstance.enabled"
           @change="setItemProp({ prop: 'enabled', value: $event })"
         />
+        <wt-switcher
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.encryptFile')"
+          :value="itemInstance.encrypt"
+          @change="setItemProp({ prop: 'encrypt', value: $event })"
+        />
         <div class="opened-storage-policy-general-button-area">
           <div class="opened-storage-policy-general-button-area__content">
             <span>
@@ -106,7 +112,8 @@ import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
 import { StorageUploadFileChannel } from 'webitel-sdk';
 
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
 
 export default {
@@ -126,22 +133,22 @@ export default {
           return {
             name: this.$t(`objects.integrations.storagePolicies.channels.${channel}`),
             value: channel,
-          }
+          };
         })
         : [];
-      },
+    },
     channelsOptions() {
       return Object.values(StorageUploadFileChannel)
-      .filter((channel) =>
-        channel !== StorageUploadFileChannel.UnknownChannel
-      && channel !== StorageUploadFileChannel.KnowledgebaseChannel
-      && channel !== StorageUploadFileChannel.CasesChannel
-      )
-      .map((channel) => ({
-        name: this.$t(`objects.integrations.storagePolicies.channels.${this.snakeToCamel(channel)}`),
-        value: this.snakeToCamel(channel),
-      }));
-    }
+        .filter((channel) =>
+          channel !== StorageUploadFileChannel.UnknownChannel
+          && channel !== StorageUploadFileChannel.KnowledgebaseChannel
+          && channel !== StorageUploadFileChannel.CasesChannel,
+        )
+        .map((channel) => ({
+          name: this.$t(`objects.integrations.storagePolicies.channels.${this.snakeToCamel(channel)}`),
+          value: this.snakeToCamel(channel),
+        }));
+    },
   },
   methods: {
     snakeToCamel,
@@ -173,7 +180,7 @@ export default {
     }
 
   }
-  
+
   &-button-area {
     grid-row-start: span 3;
     height: -webkit-fill-available;
