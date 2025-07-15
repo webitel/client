@@ -512,7 +512,7 @@ export default {
       },
       quickReplies: {
         quickReplies: 'Быстрый ответ | Быстрые ответы',
-      }
+      },
     },
     routing: {
       routing: 'Маршрутизация',
@@ -1119,6 +1119,7 @@ export default {
           [StorageUploadFileChannel.MailChannel]: 'письмо',
           [StorageUploadFileChannel.LogChannel]: 'лог',
         },
+        encryptFile: 'Шифровать файлы',
       },
 
       cognitiveProfiles: {
