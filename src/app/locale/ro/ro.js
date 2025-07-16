@@ -64,6 +64,7 @@ export default {
     settings: 'Setare | Setări',
     changePassword: 'Schimbă parola',
     language: 'Limbă',
+    fallbackLanguage: 'Limba implicită',
     webPhone: 'WebPhone',
     useWebPhone: 'Folosește WebPhone',
     useStun: 'Folosește STUN',

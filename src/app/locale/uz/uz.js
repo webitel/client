@@ -64,6 +64,7 @@ export default {
     settings: 'Sozlamalar | Sozlamalar',
     changePassword: 'Parolni o\'zgartirish',
     language: 'Til',
+    fallbackLanguage: 'Standart til',
     webPhone: 'WebPhone',
     useWebPhone: 'WebPhone ishlatish',
     useStun: 'STUN ishlatish',

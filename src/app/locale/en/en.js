@@ -64,6 +64,7 @@ export default {
     settings: 'Setting | Settings',
     changePassword: 'Change password',
     language: 'Language',
+    fallbackLanguage: 'Default language',
     webPhone: 'WebPhone',
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',

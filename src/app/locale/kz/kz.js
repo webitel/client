@@ -64,6 +64,7 @@ export default {
     settings: 'Орнатпа | Орнатпалар',
     changePassword: 'Құпия сөзді өзгерту',
     language: 'Тіл',
+    fallbackLanguage: 'Әдепкі тіл',
     webPhone: 'WebPhone',
     useWebPhone: 'WebPhone пайдалану',
     useStun: 'STUN пайдалану',
