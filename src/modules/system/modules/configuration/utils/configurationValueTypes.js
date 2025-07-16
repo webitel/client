@@ -18,6 +18,18 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.PeriodToPlaybackRecords]: 'number',
   [EngineSystemSettingName.WbtHideContact]: 'boolean',
   [EngineSystemSettingName.ShowFullContact]: 'boolean',
+
+  // Notification
+  [EngineSystemSettingName.CallEndSoundNotification]: 'boolean',
+  [EngineSystemSettingName.CallEndPushNotification]: 'boolean',
+  [EngineSystemSettingName.ChatEndSoundNotification]: 'boolean',
+  [EngineSystemSettingName.ChatEndPushNotification]: 'boolean',
+  [EngineSystemSettingName.TaskEndSoundNotification]: 'boolean',
+  [EngineSystemSettingName.TaskEndPushNotification]: 'boolean',
+  [EngineSystemSettingName.PushNotificationTimeout]: 'number',
+  // TODO remove after added to EngineSystemSettingName enum
+  ['new_message_sound_notification']: 'boolean',
+  ['new_chat_sound_notification']: 'boolean',
 });
 
 export default ConfigurationValueTypes;

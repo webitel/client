@@ -103,16 +103,17 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+import LabelsAPI from '@webitel/ui-sdk/api/clients/labels/labels.js';
 import deepmerge from 'deepmerge';
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import { EngineSystemSettingName } from 'webitel-sdk';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin
+  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
-import LabelsAPI from '@webitel/ui-sdk/api/clients/labels/labels.js';
 
 export default {
   name: 'ConfigurationPopup',
@@ -148,7 +149,7 @@ export default {
           required,
           minValue: minValue(
             this.itemInstance.name ===
-              EngineSystemSettingName.PeriodToPlaybackRecords
+            EngineSystemSettingName.PeriodToPlaybackRecords
               ? 1
               : 0,
           ),
@@ -202,7 +203,7 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
-        //TODO: remove after migration to new EngineSystemSettingName enum https://webitel.atlassian.net/browse/WTEL-6827
+      //TODO: remove after migration to new EngineSystemSettingName enum https://webitel.atlassian.net/browse/WTEL-6827
       case 'labels_to_limit_contacts':
         return deepmerge(defaults, defaultMultiselectConfig);
       case EngineSystemSettingName.ChatAiConnection:
@@ -225,11 +226,14 @@ export default {
     return {
       TypesExportedSettings,
       EngineSystemSettingName,
+      SettingDefaultValue: {
+        [EngineSystemSettingName.PushNotificationTimeout]: 30,
+      },
     };
   },
   computed: {
     LabelsAPI() {
-      return LabelsAPI
+      return LabelsAPI;
     },
     exportSettingOptions() {
       return Object.keys(TypesExportedSettings).map((key) => ({
@@ -304,12 +308,18 @@ export default {
     },
     setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event.name });
-      if (this.valueType === 'boolean')
+
+      const defaultValue = this.SettingDefaultValue[event.name];
+
+      if (defaultValue)
+        this.setItemProp({ prop: 'value', value: defaultValue });
+      else if (this.valueType === 'boolean')
         this.setItemProp({ prop: 'value', value: false });
-      if (this.valueType === 'number')
+      else if (this.valueType === 'number')
         this.setItemProp({ prop: 'value', value: 0 });
     },
-    loadPageData() {},
+    loadPageData() {
+    },
   },
   watch: {
     configurationId: {
