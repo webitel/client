@@ -103,10 +103,10 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import LabelsAPI from '@webitel/ui-sdk/api/clients/labels/labels.js';
 import deepmerge from 'deepmerge';
 import { mapActions } from 'vuex';
-import { EngineSystemSettingName } from 'webitel-sdk';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin
@@ -193,7 +193,7 @@ export default {
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.AmdCancelNotHuman:
         return deepmerge(defaults, defaultBooleanConfig);
-      case EngineSystemSettingName.Enable2fa:
+      case EngineSystemSettingName.Enable_2fa:
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.MemberChunkSize:
         return deepmerge(defaults, defaultNumberConfig);
@@ -203,8 +203,7 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.ExportSettings:
         return deepmerge(defaults, defaultSelectConfig);
-      //TODO: remove after migration to new EngineSystemSettingName enum https://webitel.atlassian.net/browse/WTEL-6827
-      case 'labels_to_limit_contacts':
+      case EngineSystemSettingName.LabelsToLimitContacts:
         return deepmerge(defaults, defaultMultiselectConfig);
       case EngineSystemSettingName.ChatAiConnection:
         return deepmerge(defaults, defaultStringConfig);
