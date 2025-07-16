@@ -1,20 +1,18 @@
 <template>
-  <article class="change-password settings-section-item">
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $t('settings.changePassword') }}
-      </h3>
-    </header>
-    <form @submit="changePassword">
+  <settings-section-wrapper>
+    <template #title>
+      {{ t('settings.changePassword') }}
+    </template>
+    <template>
       <user-password-input
         :model-value="newPassword"
-        :label="$t('auth.password')"
+        :label="t('auth.password')"
         autocomplete="new-password"
         @update:model-value="newPassword = $event"
       />
       <wt-input
         v-model="confirmNewPassword"
-        :label="$t('auth.confirmPassword')"
+        :label="t('auth.confirmPassword')"
         :v="v$.confirmNewPassword"
         type="password"
         autocomplete="new-password"
@@ -22,27 +20,27 @@
       <wt-button
         :disabled="v$.$invalid"
         :loading="isPasswordPatching"
-        type="submit"
         @click.prevent="changePassword"
       >
-        {{ $t('objects.save') }}
+        {{ t('objects.save') }}
       </wt-button>
-    </form>
-  </article>
+    </template>
+  </settings-section-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, inject, ref } from 'vue';
 import { useStore } from 'vuex';
-
-import UserPasswordInput from '../../../app/components/utils/user-password-input.vue';
-import { changePassword as requestChangePassword } from '../api/settings';
+import { useI18n } from 'vue-i18n';
+import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
+import { changePassword as requestChangePassword } from '../../api/settings';
+import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const $eventBus = inject('$eventBus');
-
+const { t } = useI18n();
 const store = useStore();
 
 const userId = computed(() => getNamespacedState(store.state, 'userinfo').userId);
@@ -87,18 +85,8 @@ async function changePassword() {
 }
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
-.change-password {
-  .content-title {
-    @extend %typo-heading-4;
-  }
-}
-
+<style scoped>
 .wt-button {
-  display: block;
-  margin: 0 0 0 auto;
+  margin-left: auto;
 }
-
 </style>

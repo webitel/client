@@ -2,7 +2,8 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -69,8 +70,8 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      callEnd: 'Звукове сповіщення про завершення дзвінка',
-      lossConnection: 'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.CallEndSound]: 'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.SocketCloseSound]: 'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
       title: 'Змінити рингтон',
