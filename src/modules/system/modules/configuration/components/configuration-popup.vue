@@ -103,8 +103,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+import { LabelsAPI } from '@webitel/api-services/api';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import LabelsAPI from '@webitel/ui-sdk/api/clients/labels/labels.js';
 import deepmerge from 'deepmerge';
 import { mapActions } from 'vuex';
 
@@ -308,8 +308,11 @@ export default {
     setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event.name });
 
+
       const defaultValue = this.SettingDefaultValue[event.name];
 
+      // @author @stanislav-kozak
+      // We check if the parameter have specified default value, if their not we use default set value by type
       if (defaultValue)
         this.setItemProp({ prop: 'value', value: defaultValue });
       else if (this.valueType === 'boolean')
