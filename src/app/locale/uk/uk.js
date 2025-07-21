@@ -1118,6 +1118,7 @@ export default {
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
         },
+        encryptFile: 'Шифрувати файли',
       },
 
       cognitiveProfiles: {

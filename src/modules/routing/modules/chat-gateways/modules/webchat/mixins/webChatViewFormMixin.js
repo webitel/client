@@ -22,8 +22,8 @@ export default {
           value: 'ru',
         },
         {
-          name: this.$t('reusable.lang.ua'),
-          value: 'ua',
+          name: this.$t('reusable.lang.uk'),
+          value: 'uk',
         },
         {
           name: this.$t('reusable.lang.kz'),

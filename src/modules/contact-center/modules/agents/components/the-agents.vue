@@ -103,14 +103,14 @@
                 action="history"
                 @click="openHistory(item.id)"
               />
-              <wt-icon-action 
+              <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
                 action="delete"
-                :disabled="hasDeleteAccess"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
