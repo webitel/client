@@ -2,7 +2,8 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -33,7 +34,7 @@ export default {
 
       title4: 'Дизайн',
       text4:
-        'Новий мінімалістичний інтерфейс з максимально зручною для користувача адмін-панеллю, що дозволяє мати оператичний доступ до всіх необхідних функцій. Менше кліків - більше можливостей.',
+        'Новий мінімалістичний інтерфейс з максимально зручною для користувача адмін-панеллю, що дозволяє мати оперативний доступ до всіх необхідних функцій. Менше кліків - більше можливостей.',
 
       title5: 'Новий модуль роботи з операторськими групами',
       text5:
@@ -64,12 +65,13 @@ export default {
     settings: 'Налаштування | Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
+    fallbackLanguage: 'Мова за замовчуванням',
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      callEnd: 'Звукове сповіщення про завершення дзвінка',
-      lossConnection: 'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.CallEndSound]: 'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.SocketCloseSound]: 'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
       title: 'Змінити рингтон',
@@ -323,10 +325,10 @@ export default {
           manageUserLicense: 'Управління ліцензіями користувачів',
           changeUserPassword: 'Змінювати паролі користувачів',
           systemSetting: 'Управління системними конфігураціями',
-          addDescription: 'Надає дозвіл на створення об’єктів',
-          deleteDescription: 'Надає дозвіл на видалення об’єктів',
-          readDescription: 'Надає дозвіл на вибір об’єктів',
-          writeDescription: 'Надає дозвіл змінювати об’єкти',
+          addDescription: 'Надає дозвіл на створення об\'єктів',
+          deleteDescription: 'Надає дозвіл на видалення об\'єктів',
+          readDescription: 'Надає дозвіл на вибір об\'єктів',
+          writeDescription: 'Надає дозвіл змінювати об\єкти',
           eavesdropCallDescription:
             'Надає дозвіл прослуховувати активну розмову',
           playbackRecordFileDescription:
@@ -1014,7 +1016,7 @@ export default {
             joined: 'Абонент увійшов в чергу',
             answered: 'Прийнятий оператором',
             offering: 'Розподілення на оператора',
-            bridged: 'З’єднання абонента з оператором',
+            bridged: 'З\'єднання абонента з оператором',
             missed: 'Пропущений оператором',
             leaving: 'Абонент вийшов із черги',
             processing: 'Постобробка',

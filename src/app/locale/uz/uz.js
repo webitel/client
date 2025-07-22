@@ -2,7 +2,8 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -64,12 +65,13 @@ export default {
     settings: 'Sozlamalar | Sozlamalar',
     changePassword: 'Parolni o\'zgartirish',
     language: 'Til',
+    fallbackLanguage: 'Standart til',
     webPhone: 'WebPhone',
     useWebPhone: 'WebPhone ishlatish',
     useStun: 'STUN ishlatish',
     notifications: {
-      callEnd: 'Zvonk tugash xonasi',
-      lossConnection: 'Bog\'lanish yo\'qolishi xonasi',
+      [NotificationType.CallEndSound]: 'Zvonk tugash xonasi',
+      [NotificationType.SocketCloseSound]: 'Bog\'lanish yo\'qolishi xonasi',
     },
     ringtones: {
       title: 'Zvonk tonini o\'zgartirish',

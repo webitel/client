@@ -6,222 +6,54 @@
       </wt-page-header>
     </template>
     <template #main>
-      <section class="settings-section">
-        <div class="settings-section__column">
-          <change-password />
-          <section class="settings-section-item">
-            <header class="content-header">
-              <h3 class="content-title">
-                {{ $t('settings.language') }}
-              </h3>
-            </header>
-            <form>
-              <wt-select
-                :label="$t('settings.language')"
-                :options="languageOptions"
-                :value="language"
-                class="language-list"
-                :clearable="false"
-                @input="changeLanguage"
-              />
-            </form>
-          </section>
-          <notifications-sounds-state />
+      <section class="settings-wrapper">
+        <div class="settings-wrapper-column">
+          <change-password-section />
+          <language-settings-section />
+          <notifications-sounds-section />
         </div>
-        <div class="settings-section__column">
-          <section class="settings-section-item">
-            <header class="content-header">
-              <h3 class="content-title">
-                {{ $t('settings.webPhone') }}
-              </h3>
-            </header>
-            <form>
-              <div class="settings-section__wrapper settings-section__switcher">
-                <p>{{ $t('settings.useWebPhone') }}</p>
-                <wt-switcher
-                  :value="webrtc"
-                  @change="changeWebrtc"
-                />
-              </div>
-              <div
-                v-show="webrtc"
-                class="settings-section__wrapper"
-              >
-                <p>{{ $t('settings.useStun') }}</p>
-                <wt-switcher
-                  :value="stun"
-                  @change="changeStun"
-                />
-              </div>
-            </form>
-          </section>
-          <custom-ringtone />
-          <ringtone-volume-control />
+        <div class="settings-wrapper-column">
+          <webphone-section />
+          <ringtones-section />
+          <ringtone-volume-control-section />
         </div>
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapState } from 'vuex';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import ChangePasswordSection from './settings-sections/change-password-section.vue';
+import RingtonesSection from './settings-sections/ringtones-section.vue';
+import NotificationsSoundsSection from './settings-sections/notifications-section/notifications-sounds-section.vue';
+import RingtoneVolumeControlSection from './settings-sections/ringtone-volume-control-section.vue';
+import LanguageSettingsSection from './settings-sections/language-settings-section.vue';
+import WebphoneSection from './settings-sections/webphone-section.vue';
 
-import { changeWebPhone, getWebPhone } from '../api/settings';
-import ChangePassword from './change-password.vue';
-import CustomRingtone from './custom-ringtone.vue';
-import NotificationsSoundsState from './notifications-sounds.vue';
-import RingtoneVolumeControl from './ringtone-volume-control.vue';
+const { t } = useI18n();
 
-export default {
-  name: 'TheSettings',
-  components: {
-    NotificationsSoundsState,
-    CustomRingtone,
-    ChangePassword,
-    RingtoneVolumeControl,
-  },
-  inject: ['$eventBus'],
-  data: () => ({
-    newPassword: '',
-    confirmNewPassword: '',
-    isPasswordPatching: false,
-    webrtc: true,
-    stun: false,
-    language: {
-      name: 'English',
-      id: 'en',
-    },
-    languageOptions: [
-      {
-        name: 'English',
-        id: 'en',
-      },
-      {
-        name: 'Русский',
-        id: 'ru',
-      },
-      {
-        name: 'Українська',
-        id: 'uk',
-      },
-      {
-        name: 'Español',
-        id: 'es',
-      },
-      {
-        name: 'Қазақ',
-        id: 'kz',
-      },
-    ],
-  }),
-  created() {
-    this.restoreLanguage();
-  },
+const path = computed(() => [
+  { name: t('settings.settings', 2) },
+]);
 
-  computed: {
-    ...mapState({
-      userId(state) {
-        return getNamespacedState(state, 'userinfo').userId;
-      },
-    }),
-    path() {
-      return [
-        {
-          name: this.$tc('settings.settings', 2),
-        },
-      ];
-    },
-  },
-  async mounted() {
-    try {
-      const response = await getWebPhone();
-      this.webrtc = response.webrtc;
-      this.stun = response.stun;
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  methods: {
-    async changeWebrtc(value) {
-      try {
-        this.webrtc = value;
-        if (!value) this.stun = false;
-        await changeWebPhone({
-          webrtc: this.webrtc,
-          stun: this.stun,
-        });
-      } catch (err) {
-        throw err;
-      }
-    },
-
-    async changeStun(value) {
-      try {
-        this.stun = !this.webrtc ? false : value;
-        await changeWebPhone({
-          webrtc: this.webrtc,
-          stun: this.stun,
-        });
-      } catch (err) {
-        throw err;
-      }
-    },
-
-    changeLanguage(value) {
-      localStorage.setItem('lang', value.id);
-      this.language = value;
-      this.$i18n.locale = value.id;
-    },
-    restoreLanguage() {
-      const lang = localStorage.getItem('lang'); // get default lang
-      // if there's a previously set lang, set it
-      if (lang) this.language = this.languageOptions.find((item) => item.id === lang);
-    },
-  },
-};
 </script>
 
 <style lang="scss" scoped>
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-.settings-section {
-  width: 100%;
-  display: flex;
+.settings-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-sm);
+  width: 100%;
+}
 
-  &__column {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: var(--spacing-sm);
-  }
-
-  &-item {
-    display: flex;
-    flex-direction: column;
-    padding: 0 var(--spacing-sm) var(--spacing-sm);
-    border-radius: var(--border-radius);
-    box-shadow: var(--elevation-5);
-  }
-
-  .content-title {
-    @extend %typo-heading-4;
-  }
-
-  .wt-button {
-    display: block;
-    margin: 0 0 0 auto;
-  }
-
-  &__wrapper {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__switcher {
-    margin-bottom: var(--spacing-sm);
-  }
+.settings-wrapper-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-sm);
 }
 </style>

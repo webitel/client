@@ -2,7 +2,8 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -64,12 +65,13 @@ export default {
     settings: 'Configuración | Configuraciones',
     changePassword: 'Cambiar contraseña',
     language: 'Idioma',
+    fallbackLanguage: 'Idioma predeterminado',
     webPhone: 'WebPhone',
     useWebPhone: 'Usar WebPhone',
     useStun: 'Usar STUN',
     notifications: {
-      callEnd: 'Sonido de fin de llamada',
-      lossConnection: 'Sonido de pérdida de conexión',
+      [NotificationType.CallEndSound]: 'Sonido de fin de llamada',
+      [NotificationType.SocketCloseSound]: 'Sonido de pérdida de conexión',
     },
     ringtones: {
       title: 'Cambiar tono de llamada',
