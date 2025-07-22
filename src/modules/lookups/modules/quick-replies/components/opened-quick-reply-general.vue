@@ -45,8 +45,8 @@
 
 <script>
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import TeamsAPI from '../../../../contact-center/modules/teams/api/teams.js';
 import QueuesAPI from '../../../../contact-center/modules/queues/api/queues.js';
+import TeamsAPI from '../../../../contact-center/modules/teams/api/teams.js';
 
 export default {
   name: 'OpenedBucketGeneral',

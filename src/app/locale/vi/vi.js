@@ -2,7 +2,9 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -64,12 +66,13 @@ export default {
     settings: 'Cài đặt',
     changePassword: 'Đổi mật khẩu',
     language: 'Ngôn ngữ',
+    fallbackLanguage: 'Ngôn ngữ mặc định',
     webPhone: 'Điện thoại Web',
     useWebPhone: 'Sử dụng điện thoại Web',
     useStun: 'Sử dụng STUN',
     notifications: {
-      callEnd: 'Âm thanh kết thúc cuộc gọi',
-      lossConnection: 'Âm thanh mất kết nối',
+      [NotificationType.CallEndSound]: 'Âm thanh kết thúc cuộc gọi',
+      [NotificationType.SocketCloseSound]: 'Âm thanh mất kết nối',
     },
     ringtones: {
       title: 'Thay đổi nhạc chuông',
