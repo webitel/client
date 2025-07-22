@@ -22,6 +22,7 @@ import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/cale
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
 import PauseTemplatesRoutes from '../../modules/lookups/modules/pause-templates/router/pauseTemplates.js';
+import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
 import ShiftTemplatesRoutes from '../../modules/lookups/modules/shift-templates/router/shiftTemplates.js';
 import WorkingConditionsRoutes from '../../modules/lookups/modules/working-conditions/router/workingConditions.js';
@@ -35,7 +36,6 @@ import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gatewa
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
-import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import { checkAppAccess } from './_internals/guards.js';
 import RouteNames from './_internals/RouteNames.enum.js';
 import RoutePaths from './_internals/RoutePaths'

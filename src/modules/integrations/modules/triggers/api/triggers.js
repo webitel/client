@@ -16,9 +16,9 @@ import { TriggerServiceApiFactory } from 'webitel-sdk';
 
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';
-import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
 import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
+import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 
 const triggersService = new TriggerServiceApiFactory(
   configuration,
