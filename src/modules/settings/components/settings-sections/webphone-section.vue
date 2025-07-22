@@ -4,12 +4,12 @@
       {{ t('settings.webPhone') }}
     </template>
     <template>
-        <settings-switcher-row :model-value="webrtc" @update:modelValue="changeWebrtc">
+        <settings-switcher-row :model-value="webrtc" @update:model-value="changeWebrtc">
           <template #label>
             <p>{{ t('settings.useWebPhone') }}</p>
           </template>
         </settings-switcher-row>
-        <settings-switcher-row v-show="webrtc" :model-value="stun" @update:modelValue="changeStun">
+        <settings-switcher-row v-show="webrtc" :model-value="stun" @update:model-value="changeStun">
           <template #label>
             <p>{{ t('settings.useStun') }}</p>
           </template>
@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import { changeWebPhone, getWebPhone } from '../../api/settings';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 import SettingsSwitcherRow from './utils/settings-switcher-row.vue';

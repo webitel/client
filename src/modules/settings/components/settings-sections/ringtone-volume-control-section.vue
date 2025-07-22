@@ -26,12 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio/triggerSound';
 import {debounce} from '@webitel/ui-sdk/scripts';
-import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
-
-import { ref, onMounted } from 'vue';
+import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio/triggerSound';
+import { onMounted,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const { t } = useI18n();
 const ringtoneVolume = ref(1); // Default ringtoneVolume level

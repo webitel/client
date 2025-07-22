@@ -1,7 +1,7 @@
 <template>
     <settings-switcher-row
      :model-value="isNotificationOn"
-      @update:modelValue="changeNotificationState"
+      @update:model-value="changeNotificationState"
       >
       <template #label>
         {{ t(`settings.notifications.${notificationType}`) }}
@@ -10,10 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from 'vue';
+import { defineProps,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import SettingsSwitcherRow from '../utils/settings-switcher-row.vue';
+
 import { NotificationType } from '../../../enums/NotificationType';
+import SettingsSwitcherRow from '../utils/settings-switcher-row.vue';
 
 const props = defineProps<{ notificationType: NotificationType }>();
 const { t } = useI18n();

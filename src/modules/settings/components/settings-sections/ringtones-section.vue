@@ -38,8 +38,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { computed, onMounted,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import { getRingtonesList } from '../../api/settings';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 

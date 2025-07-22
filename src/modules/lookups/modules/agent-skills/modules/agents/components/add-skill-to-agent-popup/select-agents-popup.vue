@@ -88,7 +88,7 @@
 <script setup>
 import { useInfiniteScroll } from '@vueuse/core';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
-import { computed, reactive, ref, onMounted } from 'vue';
+import { computed, onMounted,reactive, ref } from 'vue';
 
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';

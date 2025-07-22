@@ -25,11 +25,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import ChangePasswordSection from './settings-sections/change-password-section.vue';
-import RingtonesSection from './settings-sections/ringtones-section.vue';
+import LanguageSettingsSection from './settings-sections/language-settings-section.vue';
 import NotificationsSoundsSection from './settings-sections/notifications-section/notifications-sounds-section.vue';
 import RingtoneVolumeControlSection from './settings-sections/ringtone-volume-control-section.vue';
-import LanguageSettingsSection from './settings-sections/language-settings-section.vue';
+import RingtonesSection from './settings-sections/ringtones-section.vue';
 import WebphoneSection from './settings-sections/webphone-section.vue';
 
 const { t } = useI18n();

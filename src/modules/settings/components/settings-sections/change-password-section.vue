@@ -33,8 +33,9 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, inject, ref } from 'vue';
-import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+
 import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
 import { changePassword as requestChangePassword } from '../../api/settings';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
