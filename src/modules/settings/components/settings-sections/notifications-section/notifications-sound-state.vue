@@ -1,5 +1,8 @@
 <template>
-    <settings-switcher-row v-model="isNotificationOn" @update:modelValue="changeNotificationState">
+    <settings-switcher-row
+     :model-value="isNotificationOn"
+      @update:modelValue="changeNotificationState"
+      >
       <template #label>
         {{ t(`settings.notifications.${notificationType}`) }}
       </template>

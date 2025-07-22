@@ -4,12 +4,12 @@
       {{ t('settings.webPhone') }}
     </template>
     <template>
-        <settings-switcher-row v-model="webrtc" @update:modelValue="changeWebrtc">
+        <settings-switcher-row :model-value="webrtc" @update:modelValue="changeWebrtc">
           <template #label>
             <p>{{ t('settings.useWebPhone') }}</p>
           </template>
         </settings-switcher-row>
-        <settings-switcher-row v-show="webrtc" v-model="stun" @update:modelValue="changeStun">
+        <settings-switcher-row v-show="webrtc" :model-value="stun" @update:modelValue="changeStun">
           <template #label>
             <p>{{ t('settings.useStun') }}</p>
           </template>
@@ -30,20 +30,22 @@ const webrtc = ref(true);
 const stun = ref(false);
 
 async function changeWebrtc(value: boolean) {
+  webrtc.value = value;
+  if (!value) stun.value = false;
+
   await changeWebPhone({
     webrtc: webrtc.value,
     stun: stun.value,
   });
-  webrtc.value = value;
-  if (!value) stun.value = false;
 }
 
 async function changeStun(value: boolean) {
+  stun.value = !webrtc.value ? false : value;
+  
   await changeWebPhone({
     webrtc: webrtc.value,
     stun: stun.value,
   });
-  stun.value = !webrtc.value ? false : value;
 }
 
 async function fetchWebPhoneSettings() {
