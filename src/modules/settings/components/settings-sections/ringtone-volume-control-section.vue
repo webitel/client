@@ -1,7 +1,7 @@
 <template>
   <settings-section-wrapper>
     <template #title>
-      {{ t('settings.ringtoneVolume') }}
+      {{ t('settings.ringtoneVolume.title') }}
     </template>
     <template>
         <wt-slider

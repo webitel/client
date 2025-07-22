@@ -13,8 +13,8 @@
           <notifications-sounds-section />
         </div>
         <div class="settings-wrapper-column">
-          <webphone-section/>
-          <custom-ringtone-section />
+          <webphone-section />
+          <ringtones-section />
           <ringtone-volume-control-section />
         </div>
       </section>
@@ -26,7 +26,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ChangePasswordSection from './settings-sections/change-password-section.vue';
-import CustomRingtoneSection from './settings-sections/custom-ringtone-section.vue';
+import RingtonesSection from './settings-sections/ringtones-section.vue';
 import NotificationsSoundsSection from './settings-sections/notifications-section/notifications-sounds-section.vue';
 import RingtoneVolumeControlSection from './settings-sections/ringtone-volume-control-section.vue';
 import LanguageSettingsSection from './settings-sections/language-settings-section.vue';
@@ -51,9 +51,9 @@ const path = computed(() => [
 }
 
 .settings-wrapper-column {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: var(--spacing-sm);
-  }
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-sm);
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <settings-section-wrapper>
     <template #title>
-      {{ t('settings.customRingtone') }}
+      {{ t('settings.ringtones.title') }}
     </template>
     <template>
   

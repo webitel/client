@@ -1,7 +1,7 @@
 <template>
   <settings-section-wrapper>
     <template #title>
-      {{ t('settings.notificationsSounds') }}
+      {{ t('vocabulary.notification') }}
     </template>
     <template>
         <notifications-sound-state
