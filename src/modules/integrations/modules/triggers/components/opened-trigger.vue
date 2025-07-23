@@ -48,6 +48,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required, requiredIf } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
+import { EngineTriggerType } from 'webitel-sdk';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -56,7 +57,6 @@ import LogsFilters from '../modules/logs/modules/filters/components/the-triggers
 import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
 import General from './opened-trigger-general.vue';
 import Variables from './opened-trigger-variables.vue';
-import { EngineTriggerType } from 'webitel-sdk';
 
 const requiredIfType = (type) =>
   requiredIf(function () {

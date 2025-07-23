@@ -113,8 +113,8 @@
 import 'cronstrue/locales/en.min';
 import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
-import { isEmpty } from '@webitel/ui-sdk/scripts';
 
+import { isEmpty } from '@webitel/ui-sdk/scripts';
 import cronstrue from 'cronstrue';
 import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
 

@@ -41,12 +41,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import RolesAPI from '../../api/roles';
-import { SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
 
 export default {
   name: 'OpenedRolePermissionsPopup',
