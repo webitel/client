@@ -350,6 +350,7 @@ export default {
           systemSettingDescription:
             'Permite accesarea și gestionarea secțiunii de configurații',
           schemeVariables: 'Gestionați variabilele globale',
+          controlAgentScreen: 'Controlul ecranului agentului',
           schemeVariablesDescription:
             'Permite accesarea și gestionarea secțiunii de variabile globale',
         },

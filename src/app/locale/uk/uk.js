@@ -352,6 +352,9 @@ export default {
           systemSettingDescription:
             'Надає дозвіл на керування розділом Конфігурація',
           schemeVariables: 'Управління глобальними змінними',
+          controlAgentScreen: 'Контролювати екран оператора',
+          controlAgentScreenDescription:
+            'Надає дозвіл на підключення до екрану, здійснення, перегляд та звантаження його записів та знімків',
           schemeVariablesDescription:
             'Надає дозвіл на керування розділом Глобальні змінні',
         },

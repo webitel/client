@@ -350,6 +350,7 @@ export default {
           systemSettingDescription:
             'Uprawnienie do uzyskiwania dostępu i zarządzania sekcją Konfiguracja',
           schemeVariables: 'Zarządzaj zmiennymi globalnymi',
+          controlAgentScreen: 'Sterowanie ekranem agenta',
           schemeVariablesDescription:
             'Uprawnienie do uzyskiwania dostępu i zarządzania sekcją Zmienne globalne',
         },

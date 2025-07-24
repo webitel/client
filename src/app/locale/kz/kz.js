@@ -319,7 +319,7 @@ export default {
           resetActiveAttempts: 'Активті сынамалар туралы',
           limitWorkspaceContacts: 'Жұмыс орнындағы контакттар тізімін көру',
           exportDataGrid: 'Массивті файлға экспорттау',
-          viewCdrPhoneNumbers: 'CDR телефон нөмірлерін көру',
+          viewCdrPhoneNumbers: 'CDR телефон нөірлерін көру',
           manageUserRoles: 'Пайдаланушы рұқсаттарын басқару',
           manageUserLicense: 'Пайдаланушы лицензияларын басқару',
           changeUserPassword: 'Пайдаланушы құпия сөзін өзгерту',
@@ -350,6 +350,7 @@ export default {
           systemSettingDescription:
             'Жүйе орнатпаларын басқаруға рұқсат',
           schemeVariables: 'Жалпы айнымалыларды басқару',
+          controlAgentScreen: 'Агент экранын басқару',
           schemeVariablesDescription:
             'Жалпы айнымалылар бөлімін басқаруға рұқсат',
         },
