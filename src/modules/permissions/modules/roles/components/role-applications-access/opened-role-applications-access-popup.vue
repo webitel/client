@@ -49,18 +49,26 @@ import CustomLookupsApi from '../../api/custom-lookups';
 import { findNodeInTree } from '../../utils/findNodeInTree';
 import { flattenTree } from '../../utils/flattenTree';
 
-// Hierarchy of sections in CRM application
+// Hierarchy of sections in Configuration in CRM
+const STATIC_CONFIG_SECTIONS = [
+  CrmSections.Slas,
+  CrmSections.Sources,
+  CrmSections.ServiceCatalogs,
+  CrmSections.CloseReasonGroups,
+  CrmSections.ContactGroups,
+  CrmSections.Priorities,
+  CrmSections.Statuses,
+];
+
+const CUSTOMIZATION_SECTIONS = [
+  CrmSections.TypesExtensionsCustomization,
+  CrmSections.CustomLookups,
+];
+
 const SECTIONS_HIERARCHY = {
   [CrmSections.Configuration]: [
-    CrmSections.Slas,
-    CrmSections.Sources,
-    CrmSections.ServiceCatalogs,
-    CrmSections.CloseReasonGroups,
-    CrmSections.ContactGroups,
-    CrmSections.Priorities,
-    CrmSections.Statuses,
-    CrmSections.WtTypeExtensions,
-    CrmSections.CustomLookups,
+    ...STATIC_CONFIG_SECTIONS,
+    ...CUSTOMIZATION_SECTIONS,
   ],
 };
 
@@ -214,12 +222,17 @@ export default {
     // including dynamic custom lookups.
     buildCrmHierarchy() {
       const customLookupIds = this.customLookupRecords.map(record => record.id);
+
+      // Assemble the final ordered list from the three parts
+      const orderedConfigChildren = [
+        ...STATIC_CONFIG_SECTIONS,
+        ...customLookupIds,
+        ...CUSTOMIZATION_SECTIONS,
+      ];
+
       const fullHierarchy = {
         ...SECTIONS_HIERARCHY,
-        [CrmSections.Configuration]: [
-          ...(SECTIONS_HIERARCHY[CrmSections.Configuration] || []),
-          ...customLookupIds,
-        ],
+        [CrmSections.Configuration]: orderedConfigChildren,
       };
 
       return DISPLAY_ORDER.map(sectionName => ({

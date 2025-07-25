@@ -69,7 +69,6 @@ const getRole = async ({ itemId: id }) => {
   try {
     const response = await instance.get(url);
     return applyTransform(response.data, [
-      snakeToCamel(),
       merge(defaultObject),
       itemResponseHandler,
     ]);
@@ -112,7 +111,7 @@ const addRole = async ({ itemInstance }) => {
   ]);
   try {
     const response = await instance.post(baseUrl, item);
-    return applyTransform(response.data, [snakeToCamel()]);
+    return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [notify]);
   }
