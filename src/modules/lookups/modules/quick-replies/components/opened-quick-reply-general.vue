@@ -28,6 +28,7 @@
         :label="$t('vocabulary.text')"
         :value="itemInstance.text"
         :v="v.itemInstance.text"
+        required
         @input="setItemProp({ prop: 'text', value: $event })"
       />
       <wt-select
