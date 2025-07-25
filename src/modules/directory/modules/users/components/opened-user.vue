@@ -92,6 +92,7 @@ export default {
       computed(() => ({
         itemInstance: {
           username: { required },
+          name: { required },
 
           /** see comment above */
           // password: {
