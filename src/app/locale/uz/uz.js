@@ -350,6 +350,7 @@ export default {
           systemSettingDescription:
             'Ruxsat beradi Konfiguratsiya bo\'limiga kirish va boshqarish',
           schemeVariables: 'Global o\'zgaruvchilarni boshqarish',
+          controlAgentScreen: "Agent ekranini boshqarish",
           schemeVariablesDescription:
             'Ruxsat beradi Global o\'zgaruvchilar bo\'limiga kirish va boshqarish',
         },

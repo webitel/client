@@ -352,6 +352,9 @@ export default {
           schemeVariables: 'Manage global variables',
           schemeVariablesDescription:
             'Grants permission to access and manage the Global variables section',
+          controlAgentScreen: 'Control agent screen',
+          controlAgentScreenDescription:
+            'Grants permission to connect to the screen, record it, view recordings and screenshots, and download them',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',

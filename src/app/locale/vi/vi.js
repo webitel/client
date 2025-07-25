@@ -350,6 +350,7 @@ export default {
           systemSettingDescription:
             'Cấp quyền để truy cập và quản lý phần Cấu hình',
           schemeVariables: 'Quản lý biến toàn cầu',
+          controlAgentScreen: 'Điều khiển màn hình đại lý',
           schemeVariablesDescription:
             'Cấp quyền để truy cập và quản lý phần Biến toàn cầu',
         },

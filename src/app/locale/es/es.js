@@ -350,6 +350,7 @@ export default {
           systemSettingDescription:
             'Otorga permiso para acceder y gestionar la sección de Configuración',
           schemeVariables: 'Administrar variables globales',
+          controlAgentScreen: 'Controlar la pantalla del agente',
           schemeVariablesDescription:
             'Otorga permiso para acceder y gestionar la sección de Variables globales',
         },
