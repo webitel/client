@@ -46,37 +46,7 @@ import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CustomLookupsApi from '../../api/custom-lookups';
-import { findNodeInTree } from '../../utils/findNodeInTree';
-import { flattenTree } from '../../utils/flattenTree';
 
-// Hierarchy of sections in Configuration in CRM
-const STATIC_CONFIG_SECTIONS = [
-  CrmSections.Slas,
-  CrmSections.Sources,
-  CrmSections.ServiceCatalogs,
-  CrmSections.CloseReasonGroups,
-  CrmSections.ContactGroups,
-  CrmSections.Priorities,
-  CrmSections.Statuses,
-];
-
-const CUSTOMIZATION_SECTIONS = [
-  CrmSections.TypesExtensionsCustomization,
-  CrmSections.CustomLookups,
-];
-
-const SECTIONS_HIERARCHY = {
-  [CrmSections.Configuration]: [
-    ...STATIC_CONFIG_SECTIONS,
-    ...CUSTOMIZATION_SECTIONS,
-  ],
-};
-
-const DISPLAY_ORDER = [
-  CrmSections.Contacts,
-  CrmSections.Cases,
-  CrmSections.Configuration,
-];
 
 export default {
   name: 'OpenedRolePermissionsPopup',
@@ -101,74 +71,60 @@ export default {
       },
     }),
 
-    // Gets the name of the application being edited from the route parameters.
-    // So it can be used to determine which application's section we are editing.
     editedApp() {
       return this.$route.params.applicationName;
     },
 
-    // Checks if the currently edited application is CRM.
-    isCrmApp() {
-      return this.editedApp === WtApplication.Crm;
-    },
-
-    // Creates a map of section information (name, displayName, enabled status)
-    // from the Store state and custom lookups for easier access.
-    sectionInfoMap() {
-      const appAccess = this.access[this.editedApp] || {};
-      const map = new Map();
-
-      Object.entries(appAccess).forEach(([sectionName, info]) => {
-        if (info?._locale) {
-          map.set(sectionName, {
-            name: sectionName,
-            displayName: this.$t(info._locale),
-            enabled: !!info._enabled,
-          });
-        }
-      });
-
-      if (this.isCrmApp) {
+    appAccessTree() {
+      const tree = this.access[this.editedApp] || {};
+      if (
+        this.editedApp === WtApplication.Crm &&
+        tree.children &&
+        tree.children[CrmSections.Configuration]
+      ) {
+        const configNode = tree.children[CrmSections.Configuration];
+        if (!configNode.children) configNode.children = {};
+        // Add custom lookups as children if not already present
         this.customLookupRecords.forEach(record => {
-          const sectionName = record.id;
-          const info = appAccess[sectionName] || {};
-          map.set(sectionName, {
-            name: sectionName,
-            displayName: record.name,
-            enabled: !!info._enabled,
-          });
+          if (!configNode.children[record.id]) {
+            configNode.children[record.id] = {
+              _enabled: false,
+              _locale: undefined,
+              displayName: record.name,
+            };
+          }
         });
       }
-
-      return map;
+      return tree;
     },
 
-    // Builds the hierarchical structure of application sections.
-    // Uses a specific structure for CRM and a default one for other apps.
-    sectionsHierarchy() {
-      return this.isCrmApp
-        ? this.buildCrmHierarchy()
-        : this.buildDefaultHierarchy();
-    },
-
-    // Combines the hierarchy structure with the state from sectionInfoMap
-    // to create a full tree of section nodes.
-    sectionsTree() {
-      if (!this.sectionInfoMap.size) return [];
-      return this.sectionsHierarchy.map(this.mapNodeWithState).filter(Boolean);
-    },
-
-    // Flattens the sections tree into a single-level array for rendering in component.
-    // This function is used for displaying the sections in the popup.
+    // Flattens the access tree into an array for rendering, preserving parent/child relationships
     appSectionsAccess() {
-      return flattenTree(this.sectionsTree);
-    },
+      const flatten = (node, parentEnabled = true, path = []) => {
+        if (!node) return [];
+        const { _enabled, _locale, children, displayName } = node;
+        const name = path.length === 0 ? this.editedApp : path[path.length - 1];
+        const sectionDisplayName = _locale ? this.$t(_locale) : (displayName || name);
+        const sectionNode = {
+          name,
+          displayName: sectionDisplayName,
+          enabled: !!_enabled,
+          disabled: !parentEnabled,
+          path: [...path],
+        };
+        let result = [];
+        if (path.length > 0) {
+          result.push(sectionNode);
+        }
+        if (children) {
+          for (const childName in children) {
+            result = result.concat(flatten(children[childName], sectionNode.enabled && parentEnabled, [...path, 'children', childName]));
+          }
+        }
+        return result;
+      };
 
-    // Checks if the main 'CRM/Configuration' section is enabled.
-    // This is used to control the state of its child sections.
-    isConfigurationEnabled() {
-      if (!this.isCrmApp) return true;
-      return this.sectionInfoMap.get(CrmSections.Configuration)?.enabled ?? false;
+      return flatten(this.appAccessTree, true, [this.editedApp]);
     },
   },
 
@@ -183,99 +139,64 @@ export default {
       },
     }),
 
+    // Recursively disable all children in the local access tree
+    disableAllChildren(node, path = []) {
+      if (!node || !node.children) return;
+      console.log(node);
+      for (const childName in node.children) {
+        node.children[childName]._enabled = false;
+        // Update the store for each child
+        this.updateAccess([...path, 'children', childName], false);
+        this.disableAllChildren(node.children[childName], [...path, 'children', childName]);
+      }
+    },
+
     // Handles the checkbox change event. Updates the section's access
     // and cascades the change to its children if it's a parent node.
     handleAccessChange(sectionNode, isEnabled) {
-      this.updateAccess(sectionNode.name, isEnabled);
-
-      const fullNode = findNodeInTree(this.sectionsTree, sectionNode.name);
-      if (fullNode?.children.length) {
-        this.updateChildrenAccess(fullNode.children, isEnabled);
-      }
+      this.updateAccess(sectionNode.path, isEnabled);
+      this.updateChildrenAccess(sectionNode, isEnabled);
     },
 
-    updateAccess(section, value) {
+    updateAccess(path, value) {
       this.updateAccessAction({
         app: this.editedApp,
-        section,
+        section: path[path.length - 1],
         value,
+        path,
       });
-    },
 
-    // Updates the access state of child nodes based on the parent's state.
-    // It stores and restores the children's previous state when the parent is toggled.
-    updateChildrenAccess(children, isParentEnabled) {
-      children.forEach(childNode => {
-        if (!isParentEnabled) {
-          this.storedChildStates[childNode.name] = childNode.enabled;
-        }
-
-        const childValue = isParentEnabled
-          ? (this.storedChildStates[childNode.name] ?? true)
-          : false;
-
-        this.updateAccess(childNode.name, childValue);
-      });
-    },
-
-    // Constructs the specific section hierarchy for the CRM application,
-    // including dynamic custom lookups.
-    buildCrmHierarchy() {
-      const customLookupIds = this.customLookupRecords.map(record => record.id);
-
-      // Assemble the final ordered list from the three parts
-      const orderedConfigChildren = [
-        ...STATIC_CONFIG_SECTIONS,
-        ...customLookupIds,
-        ...CUSTOMIZATION_SECTIONS,
-      ];
-
-      const fullHierarchy = {
-        ...SECTIONS_HIERARCHY,
-        [CrmSections.Configuration]: orderedConfigChildren,
-      };
-
-      return DISPLAY_ORDER.map(sectionName => ({
-        name: sectionName,
-        children: (fullHierarchy[sectionName] || []).map(childName => ({ name: childName, children: [] })),
-      }));
-    },
-
-    // Creates a simple, flat hierarchy for any non-CRM application
-    // based on the sections available in the sectionInfoMap.
-    buildDefaultHierarchy() {
-      return Array.from(this.sectionInfoMap.keys()).map(sectionName => ({
-        name: sectionName,
-        children: [],
-      }));
-    },
-
-    // Maps a node from the hierarchy structure to a stateful node,
-    // enriching it with data from sectionInfoMap (like displayName, enabled, disabled state).
-    mapNodeWithState(nodeStub) {
-      const info = this.sectionInfoMap.get(nodeStub.name);
-      if (!info) return null;
-
-      const node = { ...info, disabled: false, children: [] };
-
-      if (nodeStub.children.length) {
-        node.children = nodeStub.children
-          .map(childStub => {
-            const childInfo = this.sectionInfoMap.get(childStub.name);
-            if (!childInfo) return null;
-            return {
-              ...childInfo,
-              disabled: this.isCrmApp ? !this.isConfigurationEnabled : false,
-              children: [],
-            };
-          })
-          .filter(Boolean);
+      if (!value) {
+        const findNodeByPath = (node, path, idx = 0) => {
+          if (!node || idx >= path.length) return node;
+          return findNodeByPath(node[path[idx]], path, idx + 1);
+        };
+        const appTree = this.appAccessTree;
+        const node = findNodeByPath(appTree, path.slice(1));
+        this.disableAllChildren(node, path);
       }
-      return node;
     },
 
-    // Asynchronously loads custom lookup records from the API.
-    // This is needed to dynamically build the CRM section hierarchy.
+    updateChildrenAccess(sectionNode, isParentEnabled) {
+      // Find the node in the access tree by path
+      const findNodeByPath = (node, path, idx = 0) => {
+        if (!node || idx >= path.length) return node;
+        return findNodeByPath(node[path[idx]], path, idx + 1);
+      };
+      const appTree = this.appAccessTree;
+      const node = findNodeByPath(appTree, sectionNode.path);
+      if (node && node.children) {
+        for (const childName in node.children) {
+          const childPath = [...sectionNode.path, 'children', childName];
+          this.updateAccess(childPath, isParentEnabled);
+          // Recursively update grandchildren
+          this.updateChildrenAccess({
+            name: childName,
+            path: childPath,
+          }, isParentEnabled);
+        }
+      }
+    },
     async loadCustomLookups() {
       const response = await CustomLookupsApi.getList({ size: -1 });
       this.customLookupRecords = response.items || [];

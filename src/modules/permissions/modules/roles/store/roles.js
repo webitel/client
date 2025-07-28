@@ -97,11 +97,9 @@ const actions = {
       ),
     );
   },
-  UPDATE_APPLICATION_SECTION_ACCESS: (context, { app, section, value }) => {
+  UPDATE_APPLICATION_SECTION_ACCESS: (context, { app, path, value }) => {
     const metadata = deepCopy(context.state.itemInstance.metadata);
-
-    set(metadata, `access.${app}.${section}._enabled`, value);
-
+    set(metadata, ['access', ...path, '_enabled'], value);
     return context.dispatch('SET_ITEM_PROPERTY', {
       prop: 'metadata',
       value: metadata,
