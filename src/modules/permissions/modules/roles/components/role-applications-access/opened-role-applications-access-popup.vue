@@ -17,7 +17,7 @@
           :label="sec.displayName"
           :selected="sec.enabled"
           :value="true"
-          @change="updateAccess({ app: editedApp, section: sec.name, value: $event })"
+          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event })"
         />
       </form>
     </template>

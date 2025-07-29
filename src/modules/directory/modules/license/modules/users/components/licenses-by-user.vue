@@ -60,9 +60,9 @@
         >
           <wt-checkbox
             :key="key"
-            :disabled="!hasEditAccess"
             :selected="item.license[license.value]"
-            @change="toggleUserLicense({ user: item, license })"
+            :disabled="!hasEditAccess"
+            @update:selected="toggleUserLicense({ user: item, license })"
           />
         </template>
       </wt-table>

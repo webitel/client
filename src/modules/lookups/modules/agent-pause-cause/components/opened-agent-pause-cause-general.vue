@@ -32,19 +32,19 @@
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowAdmin')"
           :selected="itemInstance.allowAdmin"
-          @change="setItemProp({prop: 'allowAdmin', value: $event })"
+          @update:selected="setItemProp({prop: 'allowAdmin', value: $event })"
         />
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowSupervisor')"
           :selected="itemInstance.allowSupervisor"
-          @change="setItemProp({prop: 'allowSupervisor', value: $event })"
+          @update:selected="setItemProp({prop: 'allowSupervisor', value: $event })"
         />
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowAgent')"
           :selected="itemInstance.allowAgent"
-          @change="setItemProp({prop: 'allowAgent', value: $event })"
+          @update:selected="setItemProp({prop: 'allowAgent', value: $event })"
         />
       </div>
     </div>

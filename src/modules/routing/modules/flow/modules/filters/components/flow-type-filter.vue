@@ -4,25 +4,25 @@
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Chat}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Chat"
-      @change="handleChange"
+      @update:selected="handleChange"
     />
     <wt-checkbox
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Voice}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Voice"
-      @change="handleChange"
+      @update:selected="handleChange"
     />
     <wt-checkbox
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Processing}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Processing"
-      @change="handleChange"
+      @update:selected="handleChange"
     />
     <wt-checkbox
       :label="$t(`objects.flow.type.${EngineRoutingSchemaType.Service}`)"
       :selected="filterSchema.value"
       :value="EngineRoutingSchemaType.Service"
-      @change="handleChange"
+      @update:selected="handleChange"
     />
   </div>
 </template>
