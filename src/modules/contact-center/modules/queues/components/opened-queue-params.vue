@@ -186,6 +186,14 @@
         type="number"
         @input="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
       />
+      <wt-input
+        v-if="specificControls.maxMemberLimit"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.maxMemberLimit')"
+        :value="itemInstance.payload.maxMemberLimit"
+        type="number"
+        @input="setItemPayloadProp({ prop: 'maxMemberLimit', value: +$event })"
+      />
       <wt-switcher
         v-if="specificControls.waitBetweenRetriesDesc"
         :disabled="disableUserInput"

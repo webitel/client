@@ -21,6 +21,7 @@ const offlineQueue = () => ({
     recordAll: false,
     perNumbers: false,
     minOnlineAgents: 0,
+    maxMemberLimit: 0,
   },
 });
 

@@ -18,6 +18,7 @@ const outboundJobQueue = () => ({
     maxCalls: 10,
     strictCircuit: false,
     perNumbers: false,
+    maxMemberLimit: 0,
   },
 });
 
