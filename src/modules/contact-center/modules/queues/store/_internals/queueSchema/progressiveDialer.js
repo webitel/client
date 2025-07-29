@@ -35,6 +35,7 @@ const progressiveDialer = () => ({
     autoAnswerTone: null,
     minOnlineAgents: 0,
     resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
+    maxMemberLimit: 0,
   },
 });
 

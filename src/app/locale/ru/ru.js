@@ -900,6 +900,7 @@ export default {
         endless: 'Не прекращать дозвон',
         stickyAgent: 'Липкость',
         stickyAgentSec: 'Время ожидания липкости (сек)',
+        maxMemberLimit: 'Видимость оставшихся участников',
         autoAnswerTone: 'Сигнал предупреждения автоответа',
         varKey: 'Ключ',
         varVal: 'Значение',

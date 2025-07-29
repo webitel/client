@@ -896,6 +896,7 @@ export default {
         endless: 'Endless',
         stickyAgent: 'Sticky',
         stickyAgentSec: 'Sticky agent (sec)',
+        maxMemberLimit: 'Remaining members visibility',
         autoAnswerTone: 'Auto answer warning tone',
         varKey: 'Key',
         varVal: 'Value',

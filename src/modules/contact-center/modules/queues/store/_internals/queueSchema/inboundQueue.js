@@ -24,6 +24,7 @@ const inboundQueue = () => ({
     autoAnswerTone: null,
     minOnlineAgents: 0,
     manualDistribution: false,
+    maxMemberLimit: 0,
   },
 });
 
