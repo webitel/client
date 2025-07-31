@@ -69,24 +69,23 @@
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
-              <wt-tooltip v-if="hasEditAccess">
-                <template #activator>
-                  <wt-icon-btn
-                    icon="member-reset"
-                    icon-prefix="adm"
-                    @click="openResetPopup"
-                  />
-                </template>
-                {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
-              </wt-tooltip>
+              <wt-icon-btn
+                v-if="hasEditAccess"
+                v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+                icon="member-reset"
+                icon-prefix="adm"
+                @click="openResetPopup"
+              />
+
               <wt-context-menu
                 v-if="hasEditAccess && isNotInboundMember"
                 :options="deleteOptions"
                 @click="$event.option.method.call()"
               >
-                <template #activator>
+                <template #activator="{ toggle }">
                   <wt-icon-action
                     action="delete"
+                    @click="toggle"
                   />
                 </template>
               </wt-context-menu>
@@ -114,7 +113,7 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link 
+              <wt-item-link
                 :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>

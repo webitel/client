@@ -1,15 +1,11 @@
 <template>
   <div class="tts">
-    <wt-tooltip>
-      <template #activator>
-        <wt-icon-btn
-          v-show="!isOpened"
-          icon="tts-download"
-          @click="openPopup"
-        />
-      </template>
-      {{ $t('objects.lookups.media.tts.hint') }}
-    </wt-tooltip>
+    <wt-icon-btn
+      v-show="!isOpened"
+      v-tooltip="$t('objects.lookups.media.tts.hint')"
+      icon="tts-download"
+      @click="openPopup"
+    />
 
     <wt-popup
       :shown="isOpened"

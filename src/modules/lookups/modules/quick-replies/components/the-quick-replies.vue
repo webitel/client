@@ -77,40 +77,10 @@
               {{ item.text }}
             </template>
             <template #teams="{ item }">
-              <div>
-                {{ item?.teams?.[0].name }}
-                <wt-tooltip
-                  v-if="item.teams?.length > 1"
-                  :triggers="['click']">
-                  <template #activator>
-                    <wt-chip> +{{ item.teams?.length - 1 }} </wt-chip>
-                  </template>
-                  <p
-                    v-for="team of item.teams?.slice(1)"
-                    :key="team"
-                  >
-                    {{ team.name }}
-                  </p>
-                </wt-tooltip>
-              </div>
+              <wt-display-chip-items v-if="item?.teams" :items="item?.teams" />
             </template>
             <template #queues="{ item }">
-              <div>
-                {{ item?.queues?.[0].name }}
-                <wt-tooltip
-                  v-if="item.queues?.length > 1"
-                  :triggers="['click']">
-                  <template #activator>
-                    <wt-chip> +{{ item.queues?.length - 1 }} </wt-chip>
-                  </template>
-                  <p
-                    v-for="queue of item.queues.slice(1)"
-                    :key="queue"
-                  >
-                    {{ queue.name }}
-                  </p>
-                </wt-tooltip>
-              </div>
+              <wt-display-chip-items v-if="item?.queues" :items="item?.queues" />
             </template>
             <template #createdAt="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
@@ -157,6 +127,7 @@
 </template>
 
 <script>
+import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';

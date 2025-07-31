@@ -31,18 +31,13 @@
             <h4 class="popup-options__item-header">
               {{ option.title }}
             </h4>
-            <wt-tooltip
-              popper-class="selection-popup__tooltip-popper"
-            >
-              <template #activator>
-                <wt-icon-btn
-                  v-if="option.description"
-                  color="info"
-                  icon="rounded-info"
-                />
-              </template>
-              {{ option.description }}
-            </wt-tooltip>
+
+            <wt-icon-btn
+              v-if="option.description"
+              v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }"
+              color="info"
+              icon="rounded-info"
+            />
           </slot>
         </li>
       </ul>

@@ -99,15 +99,14 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-tooltip class="dialplan__draggable-icon">
-                <template #activator>
-                  <wt-icon-btn
-                    icon="move"
-                    :disabled="!hasEditAccess"
-                  />
-                </template>
-                {{ $t('iconHints.draggable') }}
-              </wt-tooltip>
+              <div class="dialplan__draggable-icon">
+                <wt-icon-btn
+                  v-tooltip="$t('iconHints.draggable')"
+                  icon="move"
+                  :disabled="!hasEditAccess"
+                />
+              </div>
+
               <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"
@@ -166,7 +165,7 @@ const sortableConfig = {
   forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
   fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
 
-   
+
   setData: (dataTransfer, draggedElement) => {
     dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
   },
