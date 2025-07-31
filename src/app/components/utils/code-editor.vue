@@ -9,16 +9,15 @@
         ref="editor"
         class="code-editor__editor"
       />
-      <wt-tooltip class="code-editor__fullscreen-btn">
-        <template #activator>
-          <wt-icon-btn
-            :icon="fullscreenIcon"
-            :size="fullscreenIconSize"
-            @click="toggleFullscreen"
-          />
-        </template>
-        {{ fullscreenIconTooltip }}
-      </wt-tooltip>
+
+      <div class="code-editor__fullscreen-btn">
+        <wt-icon-btn
+          v-tooltip="fullscreenIconTooltip"
+          :icon="fullscreenIcon"
+          :size="fullscreenIconSize"
+          @click="toggleFullscreen"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -129,7 +128,7 @@ export default {
         }
       });
 
-       
+
       this.editor.onDidChangeModelDecorations((event) => {
         this.checkSyntaxError();
       });
