@@ -19,15 +19,13 @@
           v-show="passwordRepresentation"
           :value="value"
         />
-        <div
+
+        <wt-icon-btn
+          v-tooltip="$t('iconHints.generate')"
+          icon="generate"
           class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
-        >
-          <wt-icon-btn
-            v-tooltip="$t('iconHints.generate')"
-            icon="generate"
-            @click="generatePassword"
-          />
-        </div>
+          @click="generatePassword"
+        />
       </template>
     </wt-input>
   </div>

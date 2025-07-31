@@ -19,15 +19,12 @@
           :value="value"
         />
 
-        <div
+        <wt-icon-btn
+          v-tooltip="$t('iconHints.generate')"
+          icon="generate"
           class="generate-value-input__icon-btn generate-value-input__icon-btn--generate"
-        >
-          <wt-icon-btn
-            v-tooltip="$t('iconHints.generate')"
-            icon="generate"
-            @click="generateValue"
-          />
-        </div>
+          @click="generateValue"
+        />
       </template>
     </wt-input>
   </div>
