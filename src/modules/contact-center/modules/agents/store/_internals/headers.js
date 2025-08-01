@@ -21,7 +21,7 @@ export default [
   },
   {
     value: 'team',
-    locale: ['objects.ccenter.teams.teams', 1],
+    locale: 'objects.team',
     field: 'team',
     sort: SortSymbols.NONE,
   },

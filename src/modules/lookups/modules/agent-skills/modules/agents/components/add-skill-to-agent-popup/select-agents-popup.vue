@@ -19,7 +19,7 @@
           @search="handleFilterChange"
         />
         <wt-select
-          :placeholder="$t('objects.ccenter.teams.teams', 1)"
+          :placeholder="$t('objects.team')"
           :search-method="TeamsAPI.getLookup"
           :value="filters.teams"
           multiple
@@ -124,7 +124,7 @@ const headers = reactive([
   {
     value: 'team',
     field: 'team',
-    locale: ['objects.ccenter.teams.teams', 1],
+    locale: 'objects.team',
     sort: SortSymbols.NONE,
   },
 ]);

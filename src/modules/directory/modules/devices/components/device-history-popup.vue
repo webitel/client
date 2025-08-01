@@ -1,36 +1,16 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!isHistoryOpened"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!isHistoryOpened" overflow @close="close">
     <template #title>
       {{ $t('objects.directory.devices.deviceHistory') }}
     </template>
     <template #main>
       <section class="history-popup">
         <div class="history-popup__filters">
-          <wt-datepicker
-            :label="$t('objects.from')"
-            :value="from"
-            mode="datetime"
-            @input="selectForm"
-          />
-          <wt-datepicker
-            :label="$t('objects.to')"
-            :value="to"
-            mode="datetime"
-            @input="selectTo"
-          />
+          <wt-datepicker :label="$t('objects.from')" :value="from" mode="datetime" @input="selectForm" />
+          <wt-datepicker :label="$t('objects.to')" :value="to" mode="datetime" @input="selectTo" />
         </div>
         <div class="table-wrapper">
-          <wt-table
-            :data="dataList"
-            :grid-actions="false"
-            :headers="headers"
-            :selectable="false"
-          >
+          <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false">
             <template #loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}
             </template>
@@ -43,16 +23,8 @@
               </div>
             </template>
           </wt-table>
-          <wt-pagination
-            :next="isNext"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
-          />
+          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+            @next="nextPage" @prev="prevPage" />
         </div>
       </section>
     </template>
@@ -60,10 +32,7 @@
       <wt-button @click="close">
         {{ $t('objects.ok') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -85,7 +54,7 @@ export default {
       return [
         {
           value: 'user',
-          text: this.$tc('objects.directory.users.users', 1),
+          text: this.$t('objects.user'),
         },
         {
           value: 'loggedIn',
@@ -101,5 +70,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
