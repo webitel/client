@@ -9,7 +9,7 @@
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
-        :label="$tc('objects.directory.users.users', 1)"
+        :label="$t('objects.user')"
         :search-method="loadUsersOptions"
         :v="v.itemInstance.user"
         :value="itemInstance.user"
@@ -24,7 +24,7 @@
       />
       <wt-select
         :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.teams.teams', 1)"
+        :label="$t('objects.team')"
         :search-method="loadTeamsOptions"
         :v="v.itemInstance.team"
         :value="itemInstance.team"
@@ -35,7 +35,7 @@
         v-show="!itemInstance.isSupervisor"
         :close-on-select="false"
         :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.agents.supervisors', 1)"
+        :label="$t('objects.supervisor')"
         :search-method="loadSupervisorsOptions"
         :value="itemInstance.supervisor"
         multiple
@@ -44,7 +44,7 @@
       <wt-select
         :close-on-select="false"
         :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.auditors.auditors', 1)"
+        :label="$t('objects.auditor')"
         :search-method="loadAuditorsOptions"
         :value="itemInstance.auditor"
         multiple
@@ -52,7 +52,7 @@
       />
       <wt-select
         :disabled="disableUserInput"
-        :label="$tc('objects.lookups.regions.regions', 1)"
+        :label="$t('objects.region')"
         :search-method="loadRegionsOptions"
         :value="itemInstance.region"
         @input="setItemProp({ prop: 'region', value: $event })"

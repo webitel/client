@@ -2,7 +2,7 @@
   <div class="content-wrapper">
     <header class="content-header">
       <h3 class="content-title">
-        <!--        {{ $tc('objects.directory.users.users', 2) }}-->
+        <!--        {{ $t('objects.user', 2) }}-->
       </h3>
       <div class="content-header__actions-wrap">
         <wt-search-bar
@@ -11,7 +11,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        />
+        />2
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"

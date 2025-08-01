@@ -420,7 +420,7 @@ export default {
         temporary: 'Уақытша',
       },
       media: {
-        mediaFiles: 'Медиа файлы | Медиа файлдары',
+        mediaFiles: 'Медиа файл | Медиа файлдар',
         allMediaFiles: 'Барлық медиа файлдары',
         createdAt: 'Құрылды',
         format: 'Формат',

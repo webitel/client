@@ -141,7 +141,7 @@ export default {
           name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc('objects.ccenter.teams.teams', 2),
+          name: this.$t('objects.team', 2),
           route: baseUrl,
         },
         {

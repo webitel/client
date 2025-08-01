@@ -17,7 +17,7 @@
       <wt-select
         :clearable="true"
         :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.teams.teams', 1)"
+        :label="$t('objects.team')"
         :search-method="loadDropdownOptionsTeamList"
         :value="itemInstance.teams"
         multiple

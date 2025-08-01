@@ -6,35 +6,14 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <copy-input
-        :label="$t('objects.directory.devices.authId')"
-        :v="v.itemInstance.account"
-        :value="itemInstance.account"
-        disabled
-        required
-      />
-      <password-input
-        :disabled="disableUserInput"
-        :v="v.itemInstance.password"
-        :value="itemInstance.password"
-        required
-        @input="setItemProp({ prop: 'password', value: $event })"
-      />
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$tc('objects.directory.users.users', 1)"
-        :search-method="loadDropdownOptionsList"
-        :value="itemInstance.user"
-        @input="setItemProp({ prop: 'user', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <copy-input :label="$t('objects.directory.devices.authId')" :v="v.itemInstance.account"
+        :value="itemInstance.account" disabled required />
+      <password-input :disabled="disableUserInput" :v="v.itemInstance.password" :value="itemInstance.password" required
+        @input="setItemProp({ prop: 'password', value: $event })" />
+      <wt-select :disabled="disableUserInput" :label="$t('objects.user')" :search-method="loadDropdownOptionsList"
+        :value="itemInstance.user" @input="setItemProp({ prop: 'user', value: $event })" />
     </div>
   </section>
 </template>
@@ -57,6 +36,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
