@@ -15,7 +15,7 @@ const state = {
   }),
   team: new ApiFilterSchema({
     API: TeamLookupApi,
-    locale: { label: 'filters.team' },
+    locale: { label: 'webitelUI.filters.team' },
   }),
   tags: new ApiFilterSchema({
     value: [],
