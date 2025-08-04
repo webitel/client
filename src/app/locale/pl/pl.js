@@ -149,8 +149,7 @@ export default {
     name: 'Nazwa',
     title: 'Tytuł',
     description: 'Opis',
-    user: 'Użytkownik',
-    users: 'Użytkownicy',
+    user: 'Użytkownik | Użytkownicy',
     action: 'Akcja',
     allow: 'Zezwól',
     password: 'Hasło',
@@ -220,7 +219,7 @@ export default {
         license: 'Licencja',
         devices: 'Urządzenia',
         defaultDevice: 'Domyślne urządzenie (z listy wybranych urządzeń)',
-        deviceNotFound: "Nie znaleziono urządzenia?",
+        deviceNotFound: 'Nie znaleziono urządzenia?',
         createNewDevice: 'Dodaj nowe',
         variables: 'Zmienne',
         varKey: 'Klucz',
@@ -298,7 +297,7 @@ export default {
           onhold: 'Na hol',
         },
         passwordSetFromAccount:
-          "Jeśli nie ustawisz hasła, będzie ono takie samo jak konto",
+          'Jeśli nie ustawisz hasła, będzie ono takie samo jak konto',
       },
     },
     permissions: {
@@ -533,7 +532,8 @@ export default {
         editor: 'Edytor',
         diagram: {
           diagram: 'Diagram',
-          description: 'Utwórz nowy przepływ za pomocą narzędzia Webitel Flow Diagram',
+          description:
+            'Utwórz nowy przepływ za pomocą narzędzia Webitel Flow Diagram',
         },
         code: {
           code: 'Kod',
@@ -585,7 +585,7 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Szablon | Szablony',
-          title: "Nazwa członka w przestrzeni roboczej",
+          title: 'Nazwa członka w przestrzeni roboczej',
           close: 'Komunikat zakończenia czatu',
           join: 'Komunikat dołączenia agenta',
           left: 'Komunikat odłączenia agenta',
@@ -597,7 +597,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Aplikacja Telegram',
-          signedAs: "Jesteś podpisany jako",
+          signedAs: 'Jesteś podpisany jako',
           joinTelegram: 'Zaloguj się do Telegram',
           metadata: {
             apiId: 'ID API',

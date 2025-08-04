@@ -201,7 +201,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$t('objects.user', 2),
+          name: this.$tc('objects.user', 2),
           route: '/directory/users',
         },
       ];

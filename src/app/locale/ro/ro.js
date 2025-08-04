@@ -219,7 +219,8 @@ export default {
         roleAdmin: 'Admin',
         license: 'Licență',
         devices: 'Dispozitive',
-        defaultDevice: 'Dispozitiv implicit (din lista de dispozitive selectate)',
+        defaultDevice:
+          'Dispozitiv implicit (din lista de dispozitive selectate)',
         deviceNotFound: 'Nu ați găsit dispozitivul?',
         createNewDevice: 'Adaugă nou',
         variables: 'Variabile',
@@ -533,11 +534,13 @@ export default {
         editor: 'Editor',
         diagram: {
           diagram: 'Diagramă',
-          description: 'Creează un nou flux folosind instrumentul Webitel Flow Diagram',
+          description:
+            'Creează un nou flux folosind instrumentul Webitel Flow Diagram',
         },
         code: {
           code: 'Cod',
-          description: 'Creează un nou flux folosind un editor de cod JSON-schema',
+          description:
+            'Creează un nou flux folosind un editor de cod JSON-schema',
         },
         askingAlert: 'Vrei să salvezi modificările făcute la "{name}" ?',
       },

@@ -71,8 +71,10 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      [NotificationType.CallEndSound]: 'Звукове сповіщення про завершення дзвінка',
-      [NotificationType.SocketCloseSound]: 'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.CallEndSound]:
+        'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.SocketCloseSound]:
+        'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
       title: 'Змінити рингтон',
@@ -92,11 +94,11 @@ export default {
     ipValidator: 'Має виглядати як IPv4',
     macValidator: 'Має виглядати як MAC',
     minValue: 'Значення має бути не менше',
-    maxValue: 'Значення має бути не надто велкиим',
+    maxValue: 'Значення має бути не надто великим',
     numeric: 'Мають бути цифри',
     requiredArrayValue: 'Поле не може бути пустим',
     isPositiveValue: 'Значення має бути додатнім числом',
-    cron: 'Некорректний cron-вираз',
+    cron: 'Некоректний cron-вираз',
   },
 
   nav: {
@@ -141,7 +143,7 @@ export default {
     delete: 'Видалити',
     save: 'Зберегти',
     saved: 'Збережено',
-    saveAs: 'Зберігти як нового',
+    saveAs: 'Зберегти як нового',
     close: 'Закрити',
     next: 'Далі',
     back: 'Назад',
@@ -149,8 +151,7 @@ export default {
     name: "Ім'я",
     title: 'Назва',
     description: 'Опис',
-    user: 'Користувач',
-    users: 'Користувачі',
+    user: 'Користувач | Користувачі',
     action: 'Дія',
     allow: 'Дозволити',
     password: 'Пароль',
@@ -326,9 +327,9 @@ export default {
           manageUserLicense: 'Управління ліцензіями користувачів',
           changeUserPassword: 'Змінювати паролі користувачів',
           systemSetting: 'Управління системними конфігураціями',
-          addDescription: 'Надає дозвіл на створення об\'єктів',
-          deleteDescription: 'Надає дозвіл на видалення об\'єктів',
-          readDescription: 'Надає дозвіл на вибір об\'єктів',
+          addDescription: "Надає дозвіл на створення об'єктів",
+          deleteDescription: "Надає дозвіл на видалення об'єктів",
+          readDescription: "Надає дозвіл на вибір об'єктів",
           writeDescription: 'Надає дозвіл змінювати об\єкти',
           eavesdropCallDescription:
             'Надає дозвіл прослуховувати активну розмову',
@@ -1021,7 +1022,7 @@ export default {
             joined: 'Абонент увійшов в чергу',
             answered: 'Прийнятий оператором',
             offering: 'Розподілення на оператора',
-            bridged: 'З\'єднання абонента з оператором',
+            bridged: "З'єднання абонента з оператором",
             missed: 'Пропущений оператором',
             leaving: 'Абонент вийшов із черги',
             processing: 'Постобробка',

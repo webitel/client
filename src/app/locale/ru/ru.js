@@ -71,8 +71,10 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      [NotificationType.CallEndSound]: 'Звуковое уведомление о завершении звонка',
-      [NotificationType.SocketCloseSound]: 'Звуковое уведомление про розрыв соединения',
+      [NotificationType.CallEndSound]:
+        'Звуковое уведомление о завершении звонка',
+      [NotificationType.SocketCloseSound]:
+        'Звуковое уведомление про розрыв соединения',
     },
     ringtones: {
       title: 'Изменить рингтон',
@@ -149,8 +151,7 @@ export default {
     name: 'Имя',
     title: 'Название',
     description: 'Описание',
-    user: 'Пользователь',
-    users: 'Пользователи',
+    user: 'Пользователь | Пользователи',
     action: 'Action',
     allow: 'Allow',
     password: 'Пароль',
