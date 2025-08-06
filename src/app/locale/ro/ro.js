@@ -150,7 +150,6 @@ export default {
     title: 'Titlu',
     description: 'Descriere',
     user: 'Utilizator',
-    users: 'Utilizatori',
     action: 'Acțiune',
     allow: 'Permite',
     password: 'Parolă',

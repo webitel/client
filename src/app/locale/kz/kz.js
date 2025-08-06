@@ -149,7 +149,6 @@ export default {
     name: 'Ат',
     title: 'Тақырып',
     description: 'Сипаттама',
-    user: 'Пайдаланушы | Пайдаланушылар',
     action: 'Әрекет',
     allow: 'Рұқсат',
     password: 'Құпия сөз',

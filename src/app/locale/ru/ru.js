@@ -151,7 +151,6 @@ export default {
     name: 'Имя',
     title: 'Название',
     description: 'Описание',
-    user: 'Пользователь | Пользователи',
     action: 'Action',
     allow: 'Allow',
     password: 'Пароль',

@@ -149,7 +149,6 @@ export default {
     name: 'Nazwa',
     title: 'Tytuł',
     description: 'Opis',
-    user: 'Użytkownik | Użytkownicy',
     action: 'Akcja',
     allow: 'Zezwól',
     password: 'Hasło',
