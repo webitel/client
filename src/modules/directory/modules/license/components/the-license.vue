@@ -52,7 +52,7 @@ export default {
       };
       const licensesByUser = {
         value: 'licenses-by-user',
-        text: this.$t('objects.user', 2),
+        text: this.$tc('objects.user', 2),
         pathName: LicencesRouteNames.BY_USER,
       };
       return [allLicenses, licensesByUser];
