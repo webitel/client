@@ -13,9 +13,9 @@
     <div class="object-input-grid">
       <wt-switcher
         :label="$t('objects.enabled')"
-        :value="itemInstance.metadata.appointment.enabled"
+        :model-value="itemInstance.metadata.appointment.enabled"
         :disabled="disableUserInput"
-        @change="setAppointmentMetadata({ prop: 'enabled', value: $event })"
+        @update:model-value="setAppointmentMetadata({ prop: 'enabled', value: $event })"
       />
       <div />
       <wt-select
@@ -67,9 +67,9 @@
       />
       <wt-switcher
         :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
-        :value="itemInstance.metadata.appointment.showMessageField"
+        :model-value="itemInstance.metadata.appointment.showMessageField"
         :disabled="disableUserInput"
-        @change="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
+        @update:model-value="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
       />
       <div class="success-settings">
         <span class="success-settings__title">
@@ -77,9 +77,9 @@
         </span>
         <wt-switcher
           :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
-          :value="itemInstance.metadata.appointment.showDefaultHeading"
+          :model-value="itemInstance.metadata.appointment.showDefaultHeading"
           :disabled="disableUserInput"
-          @change="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
+          @update:model-value="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
         />
         <wt-textarea
           :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
@@ -96,9 +96,9 @@
       </div>
       <wt-switcher
         :label="$t('objects.routing.chatGateways.webchat.appointment.showEmailField')"
-        :value="itemInstance.metadata.appointment.showEmailField"
+        :model-value="itemInstance.metadata.appointment.showEmailField"
         :disabled="disableUserInput"
-        @change="setAppointmentMetadata({ prop: 'showEmailField', value: $event })"
+        @update:model-value="setAppointmentMetadata({ prop: 'showEmailField', value: $event })"
       />
     </div>
   </section>

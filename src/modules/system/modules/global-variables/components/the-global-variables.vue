@@ -85,9 +85,9 @@
             </template>
             <template #encrypt="{ item, index }">
               <wt-switcher
-                :value="item.encrypt"
+                :model-value="item.encrypt"
                 :disabled="item.encrypt"
-                @change="patchItem({ item, index, prop: 'encrypt', value: $event })"
+                @update:model-value="patchItem({ item, index, prop: 'encrypt', value: $event })"
               />
             </template>
             <template #actions="{ item }">

@@ -1,8 +1,8 @@
 <template>
   <wt-switcher
     :disabled="disableControl"
-    :value="!!item.sessions"
-    @change="logoutUser"
+    :model-value="!!item.sessions"
+    @update:model-value="logoutUser"
   />
 </template>
 
