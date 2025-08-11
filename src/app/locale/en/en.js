@@ -149,8 +149,6 @@ export default {
     name: 'Name',
     title: 'Title',
     description: 'Description',
-    user: 'User',
-    users: 'Users',
     action: 'Action',
     allow: 'Allow',
     password: 'Password',
