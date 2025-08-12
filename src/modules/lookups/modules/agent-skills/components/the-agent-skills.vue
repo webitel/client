@@ -14,7 +14,7 @@
             {{ $t('objects.lookups.skills.assignAgent') }}
           </wt-button>
         </template>
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 

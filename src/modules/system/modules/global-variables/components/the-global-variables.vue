@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="addItem"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>

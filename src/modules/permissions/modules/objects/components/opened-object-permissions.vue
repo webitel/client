@@ -5,7 +5,7 @@
         :secondary-action="close"
         hide-primary
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -85,7 +85,7 @@ export default {
     },
   },
   mounted() {
-    // override headlineNavMixin
+    // override breadcrumbMixin
     const unwatch = this.$watch('itemInstance.class', () => {
       this.setPathName();
       unwatch();
@@ -93,7 +93,7 @@ export default {
   },
 
   methods: {
-    // override headlineNavMixin
+    // override breadcrumbMixin
     setPathName() {
       this.pathName = this.itemInstance.class;
     },
