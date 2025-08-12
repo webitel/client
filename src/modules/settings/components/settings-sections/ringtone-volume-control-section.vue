@@ -5,7 +5,7 @@
     </template>
     <template>
         <wt-slider
-          :value="ringtoneVolume"
+          :model-value="ringtoneVolume"
           :min="0"
           :max="1"
           :step="0.01"
@@ -13,7 +13,7 @@
           show-input
           tooltip="auto"
           debounce
-          @input="handleRingtoneVolume"
+          @update:model-value="handleRingtoneVolume"
         />
         <wt-button
           :disabled="isRingtoneVolumeSaved"
