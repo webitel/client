@@ -1,19 +1,19 @@
 <template>
   <generate-password-input
-      :v="v$.model"
-      :value="model"
-      class="user-password-input"
-      v-bind="attrs"
-      @input="model = $event"
-    />
+    :v="v$.model"
+    :value="model"
+    class="user-password-input"
+    v-bind="attrs"
+    @input="model = $event"
+  />
 </template>
 
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { computed, ref, useAttrs, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { EngineSystemSettingName } from 'webitel-sdk';
 
 import ConfigurationAPI from '../../../modules/system/modules/configuration/api/configuration.js';
 import GeneratePasswordInput from './generate-password-input.vue';

@@ -1,14 +1,11 @@
 <template>
   <div class="upload-file-icon-btn">
-    <wt-tooltip>
-      <template #activator>
-        <wt-icon-btn
-          icon="upload"
-          @click="triggerFileInput"
-        />
-      </template>
-      {{ $t('iconHints.upload') }}
-    </wt-tooltip>
+    <wt-icon-btn
+      v-tooltip="$t('iconHints.upload')"
+      icon="upload"
+      @click="triggerFileInput"
+    />
+
     <input
       ref="file-input"
       :accept="accept"

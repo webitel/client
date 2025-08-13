@@ -12,7 +12,7 @@
     <template #main>
       <form>
         <wt-checkbox
-          v-model="create"
+          v-model:selected="create"
           :label="$t('objects.routing.flow.createNew')"
         />
         <wt-input

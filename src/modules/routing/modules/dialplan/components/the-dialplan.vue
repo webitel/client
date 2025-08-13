@@ -67,7 +67,6 @@
           <wt-table
             ref="dialplan-table"
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -100,25 +99,22 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-tooltip class="table-action dialplan__draggable-icon">
-                <template #activator>
-                  <wt-icon-btn
-                    v-if="hasEditAccess"
-                    icon="move"
-                  />
-                </template>
-                {{ $t('iconHints.draggable') }}
-              </wt-tooltip>
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="routeName">
-                <wt-icon-action action="edit" />
-              </adm-item-link>
+              <div class="dialplan__draggable-icon">
+                <wt-icon-btn
+                  v-tooltip="$t('iconHints.draggable')"
+                  icon="move"
+                  :disabled="!hasEditAccess"
+                />
+              </div>
+
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -169,7 +165,7 @@ const sortableConfig = {
   forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
   fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
 
-   
+
   setData: (dataTransfer, draggedElement) => {
     dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
   },

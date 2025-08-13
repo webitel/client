@@ -19,15 +19,13 @@
           @input="setSearch"
           @search="loadList"
         />
-        <wt-tooltip>
-          <template #activator>
-            <wt-icon-btn
-              icon="refresh"
-              @click="loadList"
-            />
-          </template>
-          {{ $t('iconHints.reload') }}
-        </wt-tooltip>
+
+        <wt-icon-btn
+          v-tooltip="$t('iconHints.reload')"
+          icon="refresh"
+          @click="loadList"
+        />
+
         <wt-icon-action
           v-if="hasEditAccess"
           action="add"
@@ -51,7 +49,6 @@
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
-          :grid-actions="hasTableActions"
           :headers="headers"
           :selectable="false"
           sortable
@@ -103,7 +100,6 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
-              class="table-action"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
             />
           </template>

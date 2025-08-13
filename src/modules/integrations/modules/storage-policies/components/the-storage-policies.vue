@@ -70,7 +70,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             fixed-actions
             sortable
@@ -83,51 +82,47 @@
             </template>
 
             <template #channels="{ item }">
-              {{
-                $t(
-                  `objects.integrations.storagePolicies.channels.${item.channels[0]}`,
-                )
-              }}
-
-              <wt-tooltip
-                v-if="item.channels.length > 1"
-                :triggers="['click']"
-              >
-                <template #activator>
-                  <wt-chip> +{{ item.channels.length - 1 }} </wt-chip>
+              <wt-display-chip-items v-if="item?.channels.length" :items="item?.channels">
+                <template #first-item>
+                  <p>
+                    {{
+                      $t(
+                        `objects.integrations.storagePolicies.channels.${item.channels[0]}`
+                      )
+                    }}
+                  </p>
                 </template>
 
-                <p
-                  v-for="channel of item.channels.slice(1)"
-                  :key="channel"
-                >
-                  {{
-                    $t(
-                      `objects.integrations.storagePolicies.channels.${channel}`,
-                    )
-                  }}
-                </p>
-              </wt-tooltip>
+                <template #items>
+                    <p
+                      v-for="channel of item.channels.slice(1)"
+                      :key="channel"
+                    >
+                      {{
+                        $t(
+                          `objects.integrations.storagePolicies.channels.${channel}`,
+                        )
+                      }}
+                    </p>
+                </template>
+              </wt-display-chip-items>
             </template>
 
             <template #mimeTypes="{ item }">
-              <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
-
-              <wt-tooltip
-                v-if="item.mimeTypes.length > 1"
-                :triggers="['click']"
-              >
-                <template #activator>
-                  <wt-chip> +{{ item.mimeTypes.length - 1 }} </wt-chip>
+              <wt-display-chip-items v-if="item?.mimeTypes.length" :items="item?.mimeTypes">
+                <template #first-item>
+                  <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
                 </template>
 
-                <p
-                  v-for="channel of item.mimeTypes.slice(1)"
-                  :key="channel"
-                >
-                  {{ channel }}
-                </p>
-              </wt-tooltip>
+                <template #items>
+                  <p
+                    v-for="channel of item.mimeTypes.slice(1)"
+                    :key="channel"
+                  >
+                    {{ channel }}
+                  </p>
+                </template>
+              </wt-display-chip-items>
             </template>
 
             <template #state="{ item, index }">
@@ -141,24 +136,20 @@
             </template>
 
             <template #actions="{ item }">
-              <wt-tooltip class="table-action">
-                <template #activator>
-                  <wt-icon-btn
-                    v-if="hasEditAccess"
-                    icon="move"
-                  />
-                </template>
-                {{ $t('iconHints.draggable') }}
-              </wt-tooltip>
+              <wt-icon-btn
+                v-tooltip="$t('iconHints.draggable')"
+                icon="move"
+                :disabled="!hasEditAccess"
+              />
+
               <wt-icon-action
-                v-if="hasEditAccess"
                 action="edit"
+                :disabled="!hasEditAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
-                v-if="hasDeleteAccess"
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="
                   askDeleteConfirmation({
                     deleted: [item],
@@ -185,6 +176,7 @@
 </template>
 
 <script>
+import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import Sortable, { Swap } from 'sortablejs';
@@ -253,6 +245,17 @@ export default {
       ];
     },
   },
+  mounted() {
+    if (!Sortable.__pluginsMounted) {
+      Sortable.mount(new Swap());
+      Sortable.__pluginsMounted = true;
+    }
+
+    this.initSortable();
+  },
+  unmounted() {
+    this.destroySortable();
+  },
   methods: {
     ...mapActions({
       swapRows(dispatch, payload) {
@@ -298,17 +301,6 @@ export default {
       this.sortableInstance.destroy();
       this.sortableInstance = null;
     },
-  },
-  mounted() {
-    if (!Sortable.__pluginsMounted) {
-      Sortable.mount(new Swap());
-      Sortable.__pluginsMounted = true;
-    }
-
-    this.initSortable();
-  },
-  unmounted() {
-    this.destroySortable();
   },
 };
 </script>

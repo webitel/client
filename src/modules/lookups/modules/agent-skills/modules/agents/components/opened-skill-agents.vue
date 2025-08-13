@@ -71,7 +71,6 @@
     >
       <wt-table
         :data="dataList"
-        :grid-actions="hasTableActions"
         :headers="headers"
         sortable
         @sort="sort"
@@ -108,9 +107,8 @@
         </template>
         <template #actions="{ item }">
           <wt-icon-action
-            v-if="hasDeleteAccess"
             action="delete"
-            class="table-action"
+            :disabled="!hasDeleteAccess"
             @click="askDeleteConfirmation({
               deleted: [item],
               callback: () => deleteData(item),
@@ -137,7 +135,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
-import objectTableAccessControlMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/_internals/objectTableAccessControlMixin';
+import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin.js';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
@@ -152,7 +150,7 @@ export default {
     ChangeSkillPopup,
     DeleteConfirmationPopup,
   },
-  mixins: [openedObjectTableTabMixin, objectTableAccessControlMixin, addSkillToAgentPopupMixin],
+  mixins: [openedObjectTableTabMixin, accessControlMixin, addSkillToAgentPopupMixin],
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,

@@ -19,7 +19,7 @@
           @search="handleFilterChange"
         />
         <wt-select
-          :placeholder="$t('objects.ccenter.teams.teams', 1)"
+          :placeholder="$t('objects.team')"
           :search-method="TeamsAPI.getLookup"
           :value="filters.teams"
           multiple
@@ -88,7 +88,7 @@
 <script setup>
 import { useInfiniteScroll } from '@vueuse/core';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
-import { computed, reactive, ref, onMounted } from 'vue';
+import { computed, onMounted,reactive, ref } from 'vue';
 
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
@@ -124,7 +124,7 @@ const headers = reactive([
   {
     value: 'team',
     field: 'team',
-    locale: ['objects.ccenter.teams.teams', 1],
+    locale: 'objects.team',
     sort: SortSymbols.NONE,
   },
 ]);

@@ -2,7 +2,9 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -64,12 +66,15 @@ export default {
     settings: 'Настройка | Настройки',
     changePassword: 'Изменить пароль',
     language: 'Язык',
+    fallbackLanguage: 'Язык по умолчанию',
     webPhone: 'Web-телефон',
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      callEnd: 'Звуковое уведомление о завершении звонка',
-      lossConnection: 'Звуковое уведомление про розрыв соединения',
+      [NotificationType.CallEndSound]:
+        'Звуковое уведомление о завершении звонка',
+      [NotificationType.SocketCloseSound]:
+        'Звуковое уведомление про розрыв соединения',
     },
     ringtones: {
       title: 'Изменить рингтон',
@@ -146,8 +151,6 @@ export default {
     name: 'Имя',
     title: 'Название',
     description: 'Описание',
-    user: 'Пользователь',
-    users: 'Пользователи',
     action: 'Action',
     allow: 'Allow',
     password: 'Пароль',
@@ -349,6 +352,9 @@ export default {
           systemSettingDescription:
             'Предоставляет разрешение на управление разделом Конфигурация',
           schemeVariables: 'Управление глобальными переменными',
+          controlAgentScreen: 'Контролировать экран оператора',
+          controlAgentScreenDescription:
+            'Предоставляет разрешение на подключение к экрану, осуществление, просмотр и загрузку его записей и снимков',
           schemeVariablesDescription:
             'Предоставляет разрешение на управление разделом Глобальные переменные',
         },
@@ -369,7 +375,7 @@ export default {
         newPermissionRole: 'Новый владелец прав',
         rbacDefault: 'Права доступа по записям по умолчанию',
         grantor: 'Праводатель',
-        grantee: 'Получатель',
+        grantee: 'Владелец прав',
         create: 'Создавать',
         delete: 'Удалять',
         accessMode: {
@@ -508,7 +514,10 @@ export default {
         vacationDaysPerYear: 'Количество дней отпуска в год',
         sickLeavesPerYear: 'Количество дней больничного в год',
         daysOffPerYear: 'Количество выходных дней в год',
-        pauseDuration: 'Длительность перерыва',
+        pauseDuration: 'Длительность перерыва (мин)',
+      },
+      quickReplies: {
+        quickReplies: 'Быстрый ответ | Быстрые ответы',
       },
     },
     routing: {
@@ -891,6 +900,7 @@ export default {
         endless: 'Не прекращать дозвон',
         stickyAgent: 'Липкость',
         stickyAgentSec: 'Время ожидания липкости (сек)',
+        maxMemberLimit: 'Видимость оставшихся участников',
         autoAnswerTone: 'Сигнал предупреждения автоответа',
         varKey: 'Ключ',
         varVal: 'Значение',
@@ -1128,6 +1138,7 @@ export default {
           [StorageUploadFileChannel.MailChannel]: 'письмо',
           [StorageUploadFileChannel.LogChannel]: 'лог',
         },
+        encryptFile: 'Шифровать файлы',
       },
 
       cognitiveProfiles: {
@@ -1196,7 +1207,11 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
-        cases: 'Cases',
+        cases: 'Обращения',
+        caseFiles: 'Файлы обращений',
+        caseComments: 'Комментарии обращений',
+        caseLinks: 'Связанные обращения',
+        relatedCases: 'Связанные обращения',
         expression: 'Выражение',
         timeout: 'Время ожидания',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

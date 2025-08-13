@@ -17,7 +17,7 @@
           :label="sec.displayName"
           :selected="sec.enabled"
           :value="true"
-          @change="updateAccess({ app: editedApp, section: sec.name, value: $event })"
+          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event })"
         />
       </form>
     </template>
@@ -64,7 +64,7 @@ export default {
           .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
           .map((section) => ({
             name: section,
-            displayName: this.$t(this.access[this.editedApp][section]._locale),
+            displayName: this.$t(`${this.access[this.editedApp][section]._locale}`),
             enabled: this.access[this.editedApp][section]._enabled,
           }));
       }

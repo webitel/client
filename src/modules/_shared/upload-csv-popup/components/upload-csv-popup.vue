@@ -18,7 +18,7 @@
         class="upload-popup-form"
       >
         <wt-checkbox
-          v-model="skipHeaders"
+          v-model:selected="skipHeaders"
           :label="$t('objects.CSV.skipHeaders')"
           disabled
         />

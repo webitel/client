@@ -2,7 +2,9 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -33,7 +35,7 @@ export default {
 
       title4: 'Дизайн',
       text4:
-        'Новий мінімалістичний інтерфейс з максимально зручною для користувача адмін-панеллю, що дозволяє мати оператичний доступ до всіх необхідних функцій. Менше кліків - більше можливостей.',
+        'Новий мінімалістичний інтерфейс з максимально зручною для користувача адмін-панеллю, що дозволяє мати оперативний доступ до всіх необхідних функцій. Менше кліків - більше можливостей.',
 
       title5: 'Новий модуль роботи з операторськими групами',
       text5:
@@ -64,12 +66,15 @@ export default {
     settings: 'Налаштування | Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
+    fallbackLanguage: 'Мова за замовчуванням',
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      callEnd: 'Звукове сповіщення про завершення дзвінка',
-      lossConnection: 'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.CallEndSound]:
+        'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.SocketCloseSound]:
+        'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
       title: 'Змінити рингтон',
@@ -89,11 +94,11 @@ export default {
     ipValidator: 'Має виглядати як IPv4',
     macValidator: 'Має виглядати як MAC',
     minValue: 'Значення має бути не менше',
-    maxValue: 'Значення має бути не надто велкиим',
+    maxValue: 'Значення має бути не надто великим',
     numeric: 'Мають бути цифри',
     requiredArrayValue: 'Поле не може бути пустим',
     isPositiveValue: 'Значення має бути додатнім числом',
-    cron: 'Некорректний cron-вираз',
+    cron: 'Некоректний cron-вираз',
   },
 
   nav: {
@@ -138,7 +143,7 @@ export default {
     delete: 'Видалити',
     save: 'Зберегти',
     saved: 'Збережено',
-    saveAs: 'Зберігти як нового',
+    saveAs: 'Зберегти як нового',
     close: 'Закрити',
     next: 'Далі',
     back: 'Назад',
@@ -146,8 +151,6 @@ export default {
     name: "Ім'я",
     title: 'Назва',
     description: 'Опис',
-    user: 'Користувач',
-    users: 'Користувачі',
     action: 'Дія',
     allow: 'Дозволити',
     password: 'Пароль',
@@ -323,10 +326,10 @@ export default {
           manageUserLicense: 'Управління ліцензіями користувачів',
           changeUserPassword: 'Змінювати паролі користувачів',
           systemSetting: 'Управління системними конфігураціями',
-          addDescription: 'Надає дозвіл на створення об’єктів',
-          deleteDescription: 'Надає дозвіл на видалення об’єктів',
-          readDescription: 'Надає дозвіл на вибір об’єктів',
-          writeDescription: 'Надає дозвіл змінювати об’єкти',
+          addDescription: "Надає дозвіл на створення об'єктів",
+          deleteDescription: "Надає дозвіл на видалення об'єктів",
+          readDescription: "Надає дозвіл на вибір об'єктів",
+          writeDescription: 'Надає дозвіл змінювати об\єкти',
           eavesdropCallDescription:
             'Надає дозвіл прослуховувати активну розмову',
           playbackRecordFileDescription:
@@ -349,6 +352,9 @@ export default {
           systemSettingDescription:
             'Надає дозвіл на керування розділом Конфігурація',
           schemeVariables: 'Управління глобальними змінними',
+          controlAgentScreen: 'Контролювати екран оператора',
+          controlAgentScreenDescription:
+            'Надає дозвіл на підключення до екрану, здійснення, перегляд та завантаження його записів та знімків',
           schemeVariablesDescription:
             'Надає дозвіл на керування розділом Глобальні змінні',
         },
@@ -369,7 +375,7 @@ export default {
         newPermissionRole: 'Новий власник прав',
         rbacDefault: 'Права доступу на записи за замовчуванням',
         grantor: 'Праводатель',
-        grantee: 'Отримувач',
+        grantee: 'Власник прав',
         create: 'Створювати',
         delete: 'Видаляти',
         accessMode: {
@@ -508,7 +514,10 @@ export default {
         vacationDaysPerYear: 'Кількість днів відпустки на рік',
         sickLeavesPerYear: 'Кількість днів лікарняного на рік',
         daysOffPerYear: 'Кількість вихідних днів на рік',
-        pauseDuration: 'Тривалість перерви',
+        pauseDuration: 'Тривалість перерви (хв)',
+      },
+      quickReplies: {
+        quickReplies: 'Швидка відповідь | Швидкі відповіді',
       },
     },
     routing: {
@@ -893,6 +902,7 @@ export default {
         endless: 'Не припиняти набір',
         stickyAgent: 'Липкість',
         stickyAgentSec: 'Час очікування липкості (сек)',
+        maxMemberLimit: 'Видимість абонентів, що залишились',
         autoAnswerTone: 'Попереджувальний сигнал автоматичної відповіді',
         varKey: 'Ключ',
         varVal: 'Значення',
@@ -1011,7 +1021,7 @@ export default {
             joined: 'Абонент увійшов в чергу',
             answered: 'Прийнятий оператором',
             offering: 'Розподілення на оператора',
-            bridged: 'З’єднання абонента з оператором',
+            bridged: "З'єднання абонента з оператором",
             missed: 'Пропущений оператором',
             leaving: 'Абонент вийшов із черги',
             processing: 'Постобробка',
@@ -1127,6 +1137,7 @@ export default {
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
         },
+        encryptFile: 'Шифрувати файли',
       },
 
       cognitiveProfiles: {
@@ -1192,7 +1203,11 @@ export default {
         atTimeDescription: 'A time-based JSON Schema scheduler',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
-        cases: 'Cases',
+        cases: 'Звернення',
+        caseFiles: 'Файли звернення',
+        caseComments: 'Коментарі звернення',
+        caseLinks: 'Посилання звернення',
+        relatedCases: "Зв'язані звернення",
         expression: 'Вираз',
         timeout: 'Час очікування',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

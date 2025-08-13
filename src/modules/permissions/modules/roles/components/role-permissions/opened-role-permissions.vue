@@ -52,7 +52,6 @@
           />
           <wt-icon-action
             action="delete"
-            class="table-action"
             @click="
               askDeleteConfirmation({
                 deleted: [item],
@@ -153,6 +152,7 @@ export default {
         [SpecialGlobalAction.ChangeUserPassword]: this.$t('objects.permissions.roles.permissions.changeUserPassword'),
         [SpecialGlobalAction.SystemSetting]: this.$t('objects.permissions.roles.permissions.systemSetting'),
         [SpecialGlobalAction.SchemeVariables]: this.$t('objects.permissions.roles.permissions.schemeVariables'),
+        [SpecialGlobalAction.ControlAgentScreen]: this.$t('objects.permissions.roles.permissions.controlAgentScreen'),
       };
     },
     permissionUsageLocale() {
@@ -173,6 +173,7 @@ export default {
         [SpecialGlobalAction.ChangeUserPassword]: this.$t('objects.permissions.roles.permissions.changeUserPasswordDescription'),
         [SpecialGlobalAction.SystemSetting]: this.$t('objects.permissions.roles.permissions.systemSettingDescription'),
         [SpecialGlobalAction.SchemeVariables]: this.$t('objects.permissions.roles.permissions.schemeVariablesDescription'),
+        [SpecialGlobalAction.ControlAgentScreen]: this.$t('objects.permissions.roles.permissions.controlAgentScreenDescription'),
       };
     },
   },

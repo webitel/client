@@ -67,7 +67,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -104,17 +103,14 @@
                 action="history"
                 @click="openHistory(item.id)"
               />
-              <adm-item-link
-                  v-if="hasEditAccess"
-                  :id="item.id"
-                  :route-name="routeName"
-              >
-                <wt-icon-action action="edit"/>
-              </adm-item-link>
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),

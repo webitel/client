@@ -10,6 +10,8 @@
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :value="itemInstance.name"
+        :v="v.itemInstance.name"
+        required
         @input="setItemProp({ prop: 'name', value: $event })"
       />
 

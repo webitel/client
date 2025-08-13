@@ -41,7 +41,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             :selectable="false"
             sortable
@@ -72,13 +71,11 @@
               />
             </template>
             <template #actions="{ item }">
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="routeName"
-              >
-                <wt-icon-action action="edit"/>
-              </adm-item-link>
+              <wt-icon-action
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
             </template>
           </wt-table>
           <wt-pagination
@@ -123,9 +120,6 @@ export default {
   }),
 
   computed: {
-    hasTableActions() {
-      return this.hasEditAccess;
-    },
     path() {
       const baseUrl = '/permissions/objects';
       return [

@@ -69,7 +69,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -78,8 +77,10 @@
               {{ item.name }}
             </template>
             <template #value="{ item }">
-              <!--TODO: remove after migration to new EngineSystemSettingName enum-->
-              <div v-if="item.name === 'labels_to_limit_contacts'" class="the-configuration__table-value">
+              <div
+                v-if="item.name === EngineSystemSettingName.LabelsToLimitContacts"
+                class="the-configuration__table-value"
+              >
                 <wt-chip
                   v-for="{ label, id } of item.value"
                   :key="id"
@@ -95,14 +96,13 @@
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                v-if="hasEditAccess"
                 action="edit"
+                :disabled="!hasEditAccess"
                 @click="editParameter(item)"
               />
               <wt-icon-action
-                v-if="hasDeleteAccess"
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import {
@@ -166,6 +167,7 @@ export default {
   },
   data: () => ({
     namespace,
+    EngineSystemSettingName,
   }),
   computed: {
     path() {

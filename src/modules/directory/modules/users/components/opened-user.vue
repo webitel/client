@@ -92,6 +92,7 @@ export default {
       computed(() => ({
         itemInstance: {
           username: { required },
+          name: { required },
 
           /** see comment above */
           // password: {
@@ -140,7 +141,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc('objects.directory.users.users', 2),
+          name: this.$tc('objects.user', 2),
           route: baseUrl,
         },
         {

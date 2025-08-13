@@ -60,16 +60,12 @@
                 })"
               />
 
-              <wt-tooltip>
-                <template #activator>
-                  <wt-icon-btn
-                    v-if="isResetActiveAttemptsAllow"
-                    icon="update-calls"
-                    @click="isAttemptsResetPopup = true"
-                  />
-                </template>
-                {{ $t('objects.ccenter.queues.attemptsReset.resetActiveAttempts') }}
-              </wt-tooltip>
+              <wt-icon-btn
+                v-if="isResetActiveAttemptsAllow"
+                v-tooltip="$t('objects.ccenter.queues.attemptsReset.resetActiveAttempts')"
+                icon="update-calls"
+                @click="isAttemptsResetPopup = true"
+              />
 
             </wt-table-actions>
           </div>
@@ -91,7 +87,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -148,27 +143,20 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-tooltip class="table-action">
-                <template #activator>
-                  <wt-icon-btn
-                    icon="queue-member"
-                    @click="openMembers(item)"
-                  />
-                </template>
-                {{ $t('iconHints.members') }}
-              </wt-tooltip>
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="routeName"
-              >
-                <wt-icon-action action="edit" />
-              </adm-item-link>
+              <wt-icon-btn
+                v-tooltip="$t('iconHints.members')"
+                icon="queue-member"
+                @click="openMembers(item)"
+              />
 
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),

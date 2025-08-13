@@ -1,14 +1,12 @@
 <template>
   <div class="iframe-wrap">
-    <wt-tooltip v-show="!playing">
-      <template #activator>
-        <wt-icon-btn
-          icon="play"
-          @click="$emit('play')"
-        />
-      </template>
-      {{ $t('iconHints.play') }}
-    </wt-tooltip>
+    <wt-icon-btn
+      v-show="!playing"
+      v-tooltip="$t('iconHints.play')"
+      icon="play"
+      @click="$emit('play')"
+    />
+
     <iframe
       v-show="playing"
       :src="`${baseUrl}animations/equalizer/eq.html`"

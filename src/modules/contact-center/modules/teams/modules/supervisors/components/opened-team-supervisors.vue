@@ -79,22 +79,18 @@
         </template>
 
         <template #actions="{ item }">
-          <wt-tooltip class="table-action">
-            <template #activator>
-              <wt-icon-btn
-                icon="queue-member"
-                @click="openSubordinates(item)"
-              />
-            </template>
-            {{ $tc('objects.ccenter.agents.subordinates', 2) }}
-          </wt-tooltip>
+          <wt-icon-btn
+            v-tooltip="$tc('objects.ccenter.agents.subordinates', 2)"
+            icon="queue-member"
+            @click="openSubordinates(item)"
+          />
+
           <wt-icon-action
             action="edit"
             @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
-            class="table-action"
             @click="askDeleteConfirmation({
               deleted: [item],
               callback: () => deleteData(item),

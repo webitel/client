@@ -28,6 +28,7 @@ export default Object.freeze({
   SHIFT_TEMPLATES: 'shift-templates',
   PAUSE_TEMPLATES: 'pause-templates',
   WORKING_CONDITIONS: 'working-conditions',
+  QUICK_REPLIES: 'quick-replies',
 
   // CONTACT-CENTER
   AGENTS: 'agents',

@@ -63,7 +63,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -83,35 +82,32 @@
               <wt-checkbox
                 :disabled="!hasEditAccess"
                 :selected="item.allowAdmin"
-                @change="changeAdminPermissions({ item, index, value: $event })"
+                @update:selected="changeAdminPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowSupervisor="{ item, index }">
               <wt-checkbox
                 :disabled="!hasEditAccess"
                 :selected="item.allowSupervisor"
-                @change="changeSupervisorPermissions({ item, index, value: $event })"
+                @update:selected="changeSupervisorPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowAgent="{ item, index }">
               <wt-checkbox
                 :disabled="!hasEditAccess"
                 :selected="item.allowAgent"
-                @change="changeAgentPermissions({ item, index, value: $event })"
+                @update:selected="changeAgentPermissions({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="routeName"
-              >
-                <wt-icon-action action="edit" />
-              </adm-item-link>
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),

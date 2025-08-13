@@ -6,6 +6,7 @@ import calendars from '../modules/calendars/store/calendars';
 import communications from '../modules/communications/store/communications';
 import media from '../modules/media/store/media';
 import pauseTemplates from '../modules/pause-templates/store/pause-templates.js';
+import quickReplies from '../modules/quick-replies/store/quick-replies.js';
 import regions from '../modules/regions/store/regions';
 import shiftTemplates
   from '../modules/shift-templates/store/shift-templates.js';
@@ -24,6 +25,7 @@ const modules = {
   shiftTemplates,
   pauseTemplates,
   workingConditions,
+  quickReplies,
 };
 
 export default {

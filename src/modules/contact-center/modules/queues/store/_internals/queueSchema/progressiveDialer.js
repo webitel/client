@@ -1,8 +1,8 @@
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+
 import {
   TypesResourceStrategy
 } from '../../../enums/TypesResourceStrategy.enum';
-
 import { Strategy } from '../enums/Strategy.enum';
 import amd from './defaults/amd';
 import queue from './defaults/defaultQueue';
@@ -35,6 +35,7 @@ const progressiveDialer = () => ({
     autoAnswerTone: null,
     minOnlineAgents: 0,
     resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
+    maxMemberLimit: 0,
   },
 });
 

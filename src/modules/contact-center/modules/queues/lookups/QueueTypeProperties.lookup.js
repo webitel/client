@@ -21,6 +21,7 @@ const QueueTypeProperties = Object.freeze({
       'perNumbers',
       'minOnlineAgents',
       'stickyAgent',
+      'maxMemberLimit',
 
       // processing specific
       'taskProcessing.enabled',
@@ -50,6 +51,7 @@ const QueueTypeProperties = Object.freeze({
       'autoAnswerTone',
       'minOnlineAgents',
       'manualDistribution',
+      'maxMemberLimit',
 
       // processing specific
       'taskProcessing.enabled',
@@ -80,6 +82,7 @@ const QueueTypeProperties = Object.freeze({
       'recordings',
       'perNumbers',
       'resourceStrategy',
+      'maxMemberLimit',
     ],
   },
   [QueueType.PREVIEW_DIALER]: {
@@ -98,6 +101,7 @@ const QueueTypeProperties = Object.freeze({
       'maxAttempts',
       'waitBetweenRetries',
       'maxCalls',
+      'maxMemberLimit',
       'waitBetweenRetriesDesc',
       'strictCircuit',
       'recordings',
@@ -142,6 +146,7 @@ const QueueTypeProperties = Object.freeze({
       'autoAnswerTone',
       'minOnlineAgents',
       'resourceStrategy',
+      'maxMemberLimit',
 
       // processing specific
       'taskProcessing.enabled',
@@ -190,6 +195,7 @@ const QueueTypeProperties = Object.freeze({
       'autoAnswerTone',
       'minOnlineAgents',
       'resourceStrategy',
+      'maxMemberLimit',
 
       // processing specific
       'taskProcessing.enabled',
@@ -219,6 +225,7 @@ const QueueTypeProperties = Object.freeze({
       'minOnlineAgents',
       'manualDistribution',
       'lastMessageTimeout',
+      'maxMemberLimit',
 
       // processing specific
       'taskProcessing.enabled',
@@ -243,6 +250,7 @@ const QueueTypeProperties = Object.freeze({
       'waitBetweenRetriesDesc',
       'stickyAgent',
       'minOnlineAgents',
+      'maxMemberLimit',
 
       // processing specific
       'taskProcessing.enabled',
@@ -268,6 +276,7 @@ const QueueTypeProperties = Object.freeze({
       'waitBetweenRetriesDesc',
       'strictCircuit',
       'perNumbers',
+      'maxMemberLimit',
     ],
   },
 });

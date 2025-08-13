@@ -32,7 +32,6 @@
           <wt-icon-action
             v-if="!disableUserInput"
             action="delete"
-            class="table-action"
             @click="deleteVariable(key)"
           />
         </div>

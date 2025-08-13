@@ -1,16 +1,12 @@
 <template>
   <div class="delete-all-action">
-    <wt-tooltip>
-      <template #activator>
-        <wt-icon-btn
-          class="icon-action"
-          icon="bucket"
-          v-bind="$attrs"
-          @click="$emit('click')"
-        />
-      </template>
-      {{ actionPanelDeleteTooltip }}
-    </wt-tooltip>
+    <wt-icon-btn
+      v-tooltip="actionPanelDeleteTooltip"
+      class="icon-action"
+      icon="bucket"
+      v-bind="$attrs"
+      @click="$emit('click')"
+    />
   </div>
 </template>
 

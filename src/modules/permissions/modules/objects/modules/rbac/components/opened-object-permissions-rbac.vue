@@ -19,15 +19,13 @@
           @input="setSearch"
           @search="loadList"
         />
-        <wt-tooltip>
-          <template #activator>
-            <wt-icon-btn
-              icon="refresh"
-              @click="loadList"
-            />
-          </template>
-          {{ $t('iconHints.reload') }}
-        </wt-tooltip>
+
+        <wt-icon-btn
+          v-tooltip="$t('iconHints.reload')"
+          icon="refresh"
+          @click="loadList"
+        />
+
         <wt-icon-action
           v-if="hasEditAccess"
           action="add"
@@ -97,7 +95,6 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
-              class="table-action"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
             />
           </template>

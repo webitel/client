@@ -73,7 +73,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasTableActions"
             :headers="headers"
             sortable
             @sort="sort"
@@ -103,22 +102,17 @@
               />
             </template>
             <template #actions="{ item }">
-              <adm-item-link
-                v-if="hasEditAccess"
-                :id="item.id"
-                :route-name="RouteNames.USERS">
-
-                <wt-icon-action
-                  action="edit"
-                />
-              </adm-item-link>
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
                 action="delete"
-                class="table-action"
+                :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
+                    deleted: [item],
+                    callback: () => deleteData(item),
                 })"
               />
             </template>
@@ -142,8 +136,6 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
 import { mapActions } from 'vuex';
 
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
@@ -151,7 +143,6 @@ import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useUserinfoStore } from '../../../../userinfo/userinfoStore';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
 
@@ -210,7 +201,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc('objects.directory.users.users', 2),
+          name: this.$tc('objects.user', 2),
           route: '/directory/users',
         },
       ];

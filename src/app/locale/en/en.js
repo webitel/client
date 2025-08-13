@@ -2,7 +2,9 @@ import {
   EngineCommunicationChannels,
   LoggerAction,
   StorageUploadFileChannel,
-} from 'webitel-sdk';
+} from '@webitel/api-services/gen/models';
+
+import { NotificationType } from '../../../modules/settings/enums/NotificationType';
 
 export default {
   auth: {
@@ -64,12 +66,13 @@ export default {
     settings: 'Setting | Settings',
     changePassword: 'Change password',
     language: 'Language',
+    fallbackLanguage: 'Default language',
     webPhone: 'WebPhone',
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
     notifications: {
-      callEnd: 'Call end sound',
-      lossConnection: 'Connection loss sound',
+      [NotificationType.CallEndSound]: 'Call end sound',
+      [NotificationType.SocketCloseSound]: 'Connection loss sound',
     },
     ringtones: {
       title: 'Change ringtone',
@@ -146,8 +149,6 @@ export default {
     name: 'Name',
     title: 'Title',
     description: 'Description',
-    user: 'User',
-    users: 'Users',
     action: 'Action',
     allow: 'Allow',
     password: 'Password',
@@ -349,6 +350,9 @@ export default {
           schemeVariables: 'Manage global variables',
           schemeVariablesDescription:
             'Grants permission to access and manage the Global variables section',
+          controlAgentScreen: 'Control agent screen',
+          controlAgentScreenDescription:
+            'Grants permission to connect to the screen, record it, view recordings and screenshots, and download them',
         },
         addPermission: 'Add role permission',
         usage: 'Usage',
@@ -495,7 +499,7 @@ export default {
         duration: 'Duration (hh:mm)',
       },
       pauseTemplates: {
-        pauseTemplates: 'Pause templates | Pause templates',
+        pauseTemplates: 'Pause template | Pause templates',
         pauseReason: 'Pause reason',
         duration: 'Duration (mm)',
       },
@@ -506,7 +510,10 @@ export default {
         vacationDaysPerYear: 'Vacation days per year',
         sickLeavesPerYear: 'Sick leaves per year',
         daysOffPerYear: 'Days-off per year',
-        pauseDuration: 'Pause duration',
+        pauseDuration: 'Pause duration (min)',
+      },
+      quickReplies: {
+        quickReplies: 'Quick reply | Quick replies',
       },
     },
     routing: {
@@ -887,6 +894,7 @@ export default {
         endless: 'Endless',
         stickyAgent: 'Sticky',
         stickyAgentSec: 'Sticky agent (sec)',
+        maxMemberLimit: 'Remaining members visibility',
         autoAnswerTone: 'Auto answer warning tone',
         varKey: 'Key',
         varVal: 'Value',
@@ -1120,6 +1128,7 @@ export default {
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
         },
+        encryptFile: 'Encrypt files',
       },
 
       cognitiveProfiles: {
@@ -1187,6 +1196,10 @@ export default {
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
         cases: 'Cases',
+        caseFiles: 'Case files',
+        caseComments: 'Case comments',
+        caseLinks: 'Case links',
+        relatedCases: 'Related cases',
         expression: 'Expression',
         timeout: 'Timeout',
         resolutionTime: ({ linked }) => linked('cases.resolutionTime'),

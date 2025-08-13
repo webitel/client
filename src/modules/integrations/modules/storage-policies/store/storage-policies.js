@@ -14,6 +14,7 @@ const resettableState = {
     maxUploadSize: 0,
     position: 0,
     enabled: true,
+    encrypt: false,
   },
 };
 

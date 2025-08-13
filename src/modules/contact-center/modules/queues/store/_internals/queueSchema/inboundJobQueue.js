@@ -19,6 +19,7 @@ const inboundJobQueue = () => ({
     maxCalls: 10,
     waitBetweenRetriesDesc: false,
     minOnlineAgents: 0,
+    maxMemberLimit: 0,
   },
 });
 
