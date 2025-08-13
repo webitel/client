@@ -8,7 +8,7 @@
         <wt-checkbox
           :selected="isCustomRingtone"
           :label="t('settings.ringtones.customRingtone')"
-          @change="selectRingtoneType"
+          @update:selected="selectRingtoneType"
         />
         <wt-select
           :value="ringtone"

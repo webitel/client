@@ -82,21 +82,21 @@
               <wt-checkbox
                 :disabled="!hasEditAccess"
                 :selected="item.allowAdmin"
-                @change="changeAdminPermissions({ item, index, value: $event })"
+                @update:selected="changeAdminPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowSupervisor="{ item, index }">
               <wt-checkbox
                 :disabled="!hasEditAccess"
                 :selected="item.allowSupervisor"
-                @change="changeSupervisorPermissions({ item, index, value: $event })"
+                @update:selected="changeSupervisorPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowAgent="{ item, index }">
               <wt-checkbox
                 :disabled="!hasEditAccess"
                 :selected="item.allowAgent"
-                @change="changeAgentPermissions({ item, index, value: $event })"
+                @update:selected="changeAgentPermissions({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">

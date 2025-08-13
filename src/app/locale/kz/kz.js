@@ -149,8 +149,6 @@ export default {
     name: 'Ат',
     title: 'Тақырып',
     description: 'Сипаттама',
-    user: 'Пайдаланушы',
-    users: 'Пайдаланушылар',
     action: 'Әрекет',
     allow: 'Рұқсат',
     password: 'Құпия сөз',
@@ -267,35 +265,36 @@ export default {
       devices: {
         devices: 'Құрылғы | Құрылғылар',
         newDevice: 'Жаңа құрылғы',
-        newDeviceDescription: 'Жаңа құрылғы сипаттамасы',
+        newDeviceDescription: 'Жаңа құрылғыны сипаттау',
         allDevices: 'Барлық құрылғылар',
-        searchPlaceholder: 'Аты, пайдаланушы, аутентификациялық ID & стол қызметі ID',
-        authId: 'Аутентификациялық ID',
-        presence: 'Бар',
-        hotdesk: 'Қызметкерлік құрылғы',
-        hotdeskDevice: 'Қызметкерлік құрылғы',
-        hotdeskDeviceSettings: 'Қызметкерлік құрылғы орнатпалары',
-        hotdeskIncorrectInput: 'Қате Host Name',
+        searchPlaceholder:
+          'Аты, пайдаланушы, аутентификация ID және жұмыс үстелі ID',
+        authId: 'Аутентификация ID',
+        presence: 'Қатысу',
+        hotdesk: 'Hotdesk құрылғысы',
+        hotdeskDevice: 'Hotdesk құрылғысы',
+        hotdeskDeviceSettings: 'Hotdesk құрылғысының баптаулары',
+        hotdeskIncorrectInput: 'Host Name қате енгізілді',
         hotdeskInputHint:
-          'Бұл құрылғының ерекшеленуі үшін сіз оны қарапайым қызметкерлік алиастармен жабыстыруыңыз керек. Қарапайым аты әріптерден, 0-9, -, _ тізімінен тұруы керек',
-        deviceSettings: 'Құрылғы орнатпалары',
-        hostName: 'Host Name',
-        phoneInfo: 'Телефон ақпараты',
+          'Бұл құрылғыны ерекшелеу үшін оған бірегей hotdesk бүркеншік атын беруіңіз керек. Бүркеншік ат тек әріптерден, 0-9, -, _ таңбаларынан тұруы керек',
+        deviceSettings: 'Құрылғы баптаулары',
+        hostName: 'Хост атауы',
+        phoneInfo: 'Телефон туралы ақпарат',
         phone: 'Телефон',
-        vendor: 'Бренд',
+        vendor: 'Өндіруші',
         model: 'Модель',
         ipv4: 'IPv4',
         mac: 'MAC',
-        deviceHistory: 'Құрылғы тізімі',
-        loggedIn: 'Кіру',
-        loggedOut: 'Шығу',
+        deviceHistory: 'Құрылғы тарихы',
+        loggedIn: 'Кірді',
+        loggedOut: 'Шықты',
         state: {
-          nonreg: 'Тіркеуден тыс',
+          nonreg: 'Тіркелмеген',
           reged: 'Тіркелген',
-          ringing: 'Тұрақты',
-          dialing: 'Дайындау',
+          ringing: 'Шалынуда',
+          dialing: 'Терілуде',
           dialog: 'Диалог',
-          onhold: 'Қолданушыға берілген',
+          onhold: 'Күту режимінде',
         },
         passwordSetFromAccount:
           'Егер сіз құпия сөзді орнатпасаңыз, ол аккаунттың құпия сөзімен бірдей болады',
@@ -328,18 +327,15 @@ export default {
           deleteDescription: 'Барлық объекттерді өшіруге рұқсат',
           readDescription: 'Барлық объекттерді таңдауға рұқсат',
           writeDescription: 'Барлық объекттерді өзгертуге рұқсат',
-          eavesdropCallDescription:
-            'Активті диалогты қарауға рұқсат',
+          eavesdropCallDescription: 'Активті диалогты қарауға рұқсат',
           playbackRecordFileDescription:
             'Аудио қоңырау-көрсеткіш файлдарын ойнауға рұқсат',
           timeLimitedRecordFileDescription:
             'Уақыттық қоңырау-көрсеткіш файлдарын ойнауға рұқсат',
-          resetActiveAttemptsDescription:
-            'Активті сынамалар туралы рұқсат',
+          resetActiveAttemptsDescription: 'Активті сынамалар туралы рұқсат',
           limitWorkspaceContactsDescription:
             'Жұмыс орнындағы контакттар тізімін көруге рұқсат',
-          exportDataGridDescription:
-            'Массивті файлға экспорттауға рұқсат',
+          exportDataGridDescription: 'Массивті файлға экспорттауға рұқсат',
           viewCdrPhoneNumbersDescription: 'CDR телефон нөмірлерін көру',
           manageUserRolesDescription:
             'Пайдаланушы рұқсаттарын басқаруға рұқсат',
@@ -347,8 +343,7 @@ export default {
             'Пайдаланушы лицензияларын басқаруға рұқсат',
           changeUserPasswordDescription:
             'Пайдаланушы құпия сөзін өзгертуге рұқсат',
-          systemSettingDescription:
-            'Жүйе орнатпаларын басқаруға рұқсат',
+          systemSettingDescription: 'Жүйе орнатпаларын басқаруға рұқсат',
           schemeVariables: 'Жалпы айнымалыларды басқару',
           controlAgentScreen: 'Агент экранын басқару',
           schemeVariablesDescription:
@@ -420,7 +415,7 @@ export default {
         temporary: 'Уақытша',
       },
       media: {
-        mediaFiles: 'Медиа файлы | Медиа файлдары',
+        mediaFiles: 'Медиа файл | Медиа файлдар',
         allMediaFiles: 'Барлық медиа файлдары',
         createdAt: 'Құрылды',
         format: 'Формат',
@@ -533,11 +528,13 @@ export default {
         editor: 'Редактор',
         diagram: {
           diagram: 'Диаграмма',
-          description: 'Webitel Flow Diagram инструментін пайдаланып жаңа өткізуді құру',
+          description:
+            'Webitel Flow Diagram инструментін пайдаланып жаңа өткізуді құру',
         },
         code: {
           code: 'Код',
-          description: 'Код редакторында JSON-схемасын пайдаланып жаңа өткізуді құру',
+          description:
+            'Код редакторында JSON-схемасын пайдаланып жаңа өткізуді құру',
         },
         askingAlert: 'Сіз өзгерткен өзгерістерді "{name}" құруға қалаймыз ба?',
       },
@@ -585,7 +582,7 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Шаблон | Шаблондар',
-          title: "Жұмыс орны мүшесінің аты",
+          title: 'Жұмыс орны мүшесінің аты',
           close: 'Чат толық хабарламасы',
           join: 'Агент қосылу хабарламасы',
           left: 'Агент айырылу хабарламасы',
@@ -597,7 +594,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Telegram Қолданбасы',
-          signedAs: "Сіз тіркелгенсіз",
+          signedAs: 'Сіз тіркелгенсіз',
           joinTelegram: 'Telegramға кіру',
           metadata: {
             apiId: 'API id',
@@ -821,8 +818,7 @@ export default {
         emptyWorkspace: 'Меншіктер табылмады',
         resetMembers: {
           resetMembers: 'Меншіктерді қалпына келтіру',
-          description:
-            'Сіз қателенген меншіктердің сынамаларын қалаймыз ба?',
+          description: 'Сіз қателенген меншіктердің сынамаларын қалаймыз ба?',
           reset: 'Қалпына келтіру',
           successResetCount: 'Сәтті {count} меншіктерді қалпына келтірді',
         },
@@ -873,8 +869,7 @@ export default {
         predictiveDialerDescription:
           'Прогнозды дайындық бір уақытта көп сандарды қоңырауға мүмкіндік береді. Қолданушы жауап бергенде, агент оларға қосылады.',
         chatInboundQueue: 'Чат кіру қоймасы',
-        chatInboundQueueDescription:
-          'Кіру қоймасымен бірдей, бірақ чаттармен',
+        chatInboundQueueDescription: 'Кіру қоймасымен бірдей, бірақ чаттармен',
         inboundJobQueue: 'Кіру тапсырмасы қоймасы',
         inboundJobQueueDescription: 'Кіру тапсырмасы қоймасы',
         outboundJobQueue: 'Шығыс тапсырмасы қоймасы',
@@ -921,8 +916,7 @@ export default {
         maxNumberOfRetry: 'Максимальды қайтару саны',
         minDuration: 'Ең аз қоңырау уақыты',
         maxAttempts: 'Ең көп сынамалар',
-        minOnlineAgents:
-          'Тұрақты онлайн агенттер санынан көп болуы керек:',
+        minOnlineAgents: 'Тұрақты онлайн агенттер санынан көп болуы керек:',
         waitForResultStatus: 'Нәтиже күйін күту',
         bucketPriority: 'Приоритет',
         amd: 'AMD',

@@ -26,6 +26,7 @@ const outboundIVRQueue = () => ({
     strictCircuit: false,
     perNumbers: false,
     resourceStrategy: TypesResourceStrategy.EVEN_DISTRIBUTION,
+    maxMemberLimit: 0,
   },
 });
 

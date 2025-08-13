@@ -79,15 +79,12 @@
         </template>
 
         <template #actions="{ item }">
-          <wt-tooltip>
-            <template #activator>
-              <wt-icon-btn
-                icon="queue-member"
-                @click="openSubordinates(item)"
-              />
-            </template>
-            {{ $tc('objects.ccenter.agents.subordinates', 2) }}
-          </wt-tooltip>
+          <wt-icon-btn
+            v-tooltip="$tc('objects.ccenter.agents.subordinates', 2)"
+            icon="queue-member"
+            @click="openSubordinates(item)"
+          />
+
           <wt-icon-action
             action="edit"
             @click="editItem(item)"

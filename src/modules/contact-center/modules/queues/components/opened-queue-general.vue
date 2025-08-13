@@ -57,7 +57,7 @@
         v-if="specificControls.team"
         :clearable="true"
         :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.teams.teams', 1)"
+        :label="$t('objects.team')"
         :search-method="loadDropdownOptionsTeamList"
         :v="v.itemInstance.team"
         :value="itemInstance.team"

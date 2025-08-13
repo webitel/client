@@ -60,16 +60,12 @@
                 })"
               />
 
-              <wt-tooltip>
-                <template #activator>
-                  <wt-icon-btn
-                    v-if="isResetActiveAttemptsAllow"
-                    icon="update-calls"
-                    @click="isAttemptsResetPopup = true"
-                  />
-                </template>
-                {{ $t('objects.ccenter.queues.attemptsReset.resetActiveAttempts') }}
-              </wt-tooltip>
+              <wt-icon-btn
+                v-if="isResetActiveAttemptsAllow"
+                v-tooltip="$t('objects.ccenter.queues.attemptsReset.resetActiveAttempts')"
+                icon="update-calls"
+                @click="isAttemptsResetPopup = true"
+              />
 
             </wt-table-actions>
           </div>
@@ -147,15 +143,12 @@
               />
             </template>
             <template #actions="{ item }">
-              <wt-tooltip>
-                <template #activator>
-                  <wt-icon-btn
-                    icon="queue-member"
-                    @click="openMembers(item)"
-                  />
-                </template>
-                {{ $t('iconHints.members') }}
-              </wt-tooltip>
+              <wt-icon-btn
+                v-tooltip="$t('iconHints.members')"
+                icon="queue-member"
+                @click="openMembers(item)"
+              />
+
               <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"

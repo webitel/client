@@ -149,8 +149,6 @@ export default {
     name: 'Nombre',
     title: 'Título',
     description: 'Descripción',
-    user: 'Usuario',
-    users: 'Usuarios',
     action: 'Acción',
     allow: 'Permitir',
     password: 'Contraseña',
@@ -219,8 +217,9 @@ export default {
         roleAdmin: 'Admin',
         license: 'Licencia',
         devices: 'Dispositivos',
-        defaultDevice: 'Dispositivo por defecto (de la lista de dispositivos seleccionados)',
-        deviceNotFound: "¿No se encontró el dispositivo?",
+        defaultDevice:
+          'Dispositivo por defecto (de la lista de dispositivos seleccionados)',
+        deviceNotFound: '¿No se encontró el dispositivo?',
         createNewDevice: 'Añadir nuevo',
         variables: 'Variables',
         varKey: 'Clave',
@@ -269,12 +268,14 @@ export default {
         newDevice: 'Nuevo dispositivo',
         newDeviceDescription: 'Descripción del nuevo dispositivo',
         allDevices: 'Todos los dispositivos',
-        searchPlaceholder: 'Nombre, usuario, ID de autenticación & ID de escritorio',
+        searchPlaceholder:
+          'Nombre, usuario, ID de autenticación & ID de escritorio',
         authId: 'ID de autenticación',
         presence: 'Presencia',
         hotdesk: 'Escritorio caliente',
         hotdeskDevice: 'Dispositivo de escritorio caliente',
-        hotdeskDeviceSettings: 'Configuración del dispositivo de escritorio caliente',
+        hotdeskDeviceSettings:
+          'Configuración del dispositivo de escritorio caliente',
         hotdeskIncorrectInput: 'Nombre de host incorrecto',
         hotdeskInputHint:
           'Para facilitar la identificación de este dispositivo, debería cubrirlo con alias de escritorio amigables. El nombre válido debe contener los siguientes caracteres: A-Z, a-z, 0-9, -, _',
@@ -298,7 +299,7 @@ export default {
           onhold: 'En espera',
         },
         passwordSetFromAccount:
-          "Si no establece contraseña, será la misma que la cuenta",
+          'Si no establece contraseña, será la misma que la cuenta',
       },
     },
     permissions: {
@@ -315,7 +316,8 @@ export default {
           write: 'Actualizar',
           eavesdropCall: 'Escuchar llamada',
           playbackRecordFile: 'Reproducir archivo de registro de llamada',
-          timeLimitedRecordFile: 'Reproducir archivo de registro de llamada con límite de tiempo',
+          timeLimitedRecordFile:
+            'Reproducir archivo de registro de llamada con límite de tiempo',
           resetActiveAttempts: 'Restablecer intentos activos',
           limitWorkspaceContacts: 'Limitar contactos en el Espacio de trabajo',
           exportDataGrid: 'Exportar datos de la cuadrícula',
@@ -533,11 +535,13 @@ export default {
         editor: 'Editor',
         diagram: {
           diagram: 'Diagrama',
-          description: 'Crear nuevo flujo usando la herramienta Webitel Flow Diagram',
+          description:
+            'Crear nuevo flujo usando la herramienta Webitel Flow Diagram',
         },
         code: {
           code: 'Código',
-          description: 'Crear nuevo flujo usando un esquema JSON en el editor de código',
+          description:
+            'Crear nuevo flujo usando un esquema JSON en el editor de código',
         },
         askingAlert: '¿Desea guardar los cambios realizados en "{name}" ?',
       },
@@ -570,7 +574,8 @@ export default {
         trunkingACLTitle: 'Control de acceso',
         trunkingACL: 'Lista de control de acceso de troncalización',
         hostnameTrunking: 'Nombre de host/Puerta de enlace del servidor o IP',
-        hostnameRegister: 'Nombre de host/Servidor/Puerta de enlace del registrador o IP',
+        hostnameRegister:
+          'Nombre de host/Servidor/Puerta de enlace del registrador o IP',
         expire: 'Expirar',
         authID: 'Nombre de usuario',
         account: 'Cuenta',
@@ -585,7 +590,7 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Plantilla | Plantillas',
-          title: "Nombre del miembro del espacio de trabajo",
+          title: 'Nombre del miembro del espacio de trabajo',
           close: 'Mensaje de finalización de chat',
           join: 'Mensaje de unión del agente',
           left: 'Mensaje de desconexión del agente',
@@ -597,7 +602,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Aplicación de Telegram',
-          signedAs: "Estás firmado como",
+          signedAs: 'Estás firmado como',
           joinTelegram: 'Inicia sesión en Telegram',
           metadata: {
             apiId: 'ID de API',
@@ -864,8 +869,7 @@ export default {
         offlineQueueDescription:
           'Una cola fuera de línea da a los llamantes la opción de dejar de esperar en espera, introduzcan su número de teléfono y reciban una llamada de vuelta tan pronto como sea su turno.',
         previewDialer: 'Dialer de vista previa',
-        previewDialerDescription:
-          'Vise la contacto antes de auto-dialearlos.',
+        previewDialerDescription: 'Vise la contacto antes de auto-dialearlos.',
         progressiveDialer: 'Dialer progresivo',
         progressiveDialerDescription:
           'El dialer progresivo minimiza el tiempo perdido entre llamadas auto-dialeando un número de la lista de llamadas tan pronto como un agente esté disponible.',
@@ -1099,7 +1103,8 @@ export default {
       },
 
       storagePolicies: {
-        storagePolicies: 'Política de almacenamiento | Políticas de almacenamiento',
+        storagePolicies:
+          'Política de almacenamiento | Políticas de almacenamiento',
         mimeTypes: 'Tipos MIME',
         retentionDays: 'Días de retención',
         maxDownloadSpeed: 'Velocidad de descarga máxima (kbps)',
@@ -1126,7 +1131,8 @@ export default {
         },
       },
       emailProfiles: {
-        emailProfiles: 'Perfil de correo electrónico | Perfiles de correo electrónico',
+        emailProfiles:
+          'Perfil de correo electrónico | Perfiles de correo electrónico',
         mailbox: 'Buzón',
         smtpPort: 'Puerto SMTP',
         imapPort: 'Puerto IMAP',
@@ -1146,7 +1152,8 @@ export default {
       },
 
       importCsv: {
-        importCsv: 'Importar CSV desde archivo | Importaciones de CSV desde archivo',
+        importCsv:
+          'Importar CSV desde archivo | Importaciones de CSV desde archivo',
         allImportsCsv: 'Todos los datos de importación de archivos CSV',
         source: 'Destino de importación',
         settings: 'Configuración',

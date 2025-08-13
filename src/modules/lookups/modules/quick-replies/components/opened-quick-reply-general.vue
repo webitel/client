@@ -17,7 +17,7 @@
       <wt-select
         :clearable="true"
         :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.teams.teams', 1)"
+        :label="$t('objects.team')"
         :search-method="loadDropdownOptionsTeamList"
         :value="itemInstance.teams"
         multiple
@@ -28,6 +28,7 @@
         :label="$t('vocabulary.text')"
         :value="itemInstance.text"
         :v="v.itemInstance.text"
+        required
         @input="setItemProp({ prop: 'text', value: $event })"
       />
       <wt-select
