@@ -273,7 +273,7 @@ export default {
 <style lang="scss" scoped>
 .dialplan {
   :deep(.sortable-chosen) {
-    .dialplan__draggable-icon .wt-icon__icon {
+    .dialplan__draggable-icon .wt-icon {
       fill: var(--icon--active-color);
     }
   }
