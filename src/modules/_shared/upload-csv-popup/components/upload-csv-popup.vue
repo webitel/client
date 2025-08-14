@@ -72,7 +72,7 @@
             class="upload-popup-mapping-item"
           >
             <p class="upload-popup-mapping-item__field">
-              {{ field.text || field.name }}<span v-if="field.required">*</span>
+              {{ getLocalizedField(field.locale) || field.name }}<span v-if="field.required">*</span>
             </p>
             <wt-select
               v-if="!field.multiple"
@@ -139,6 +139,26 @@ export default {
     charsetOptions: [],
     charset: { name: 'UTF-8', value: 'utf-8' },
   }),
+  methods: {
+    getLocalizedField(fieldLocale) {
+      if (typeof fieldLocale === 'string') {
+        // Case 1: Simple string
+        return this.$t(fieldLocale);
+      } else if (Array.isArray(fieldLocale) && fieldLocale.length === 2 && typeof fieldLocale[1] === 'number') {
+        // Case 2: Single array with string and index
+        return this.$tc(...fieldLocale);
+      } else if (Array.isArray(fieldLocale)) {
+        // Case 3: Array of arrays/strings
+        return fieldLocale.map(item => {
+          if (typeof item === 'string') {
+            return this.$t(item).toLowerCase();
+          } else if (Array.isArray(item) && item.length === 2 && typeof item[1] === 'number') {
+            return this.$tc(...item);
+          }
+        }).join(' ');
+      }
+    }
+  },
 };
 </script>
 
