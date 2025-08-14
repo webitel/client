@@ -12,12 +12,20 @@
     <template #main>
       <form>
         <wt-checkbox
-          v-for="(sec, key) of appSectionsAccess"
-          :key="key"
+          v-for="sec of coreTypeSectionsAccess"
+          :key="sec.name"
           :label="sec.displayName"
           :selected="sec.enabled"
           :value="true"
           @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event })"
+        />
+        <wt-checkbox
+          v-for="sec of customTypeSectionsAccess"
+          :key="sec.name"
+          :label="sec.displayName"
+          :selected="sec.enabled"
+          :value="true"
+          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event, custom: true })"
         />
       </form>
     </template>
@@ -37,37 +45,59 @@
   </wt-popup>
 </template>
 
-<script>
+<script lang="ts">
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-
+import { AdjunctTypesAPI as CustomTypesAPI } from '@webitel/api-services/api';
+import {
+  WebitelProtoDataStruct,
+} from '@webitel/api-services/gen/models';
+import { WtCheckbox } from '@webitel/ui-sdk/components';
+import { WtApplication } from '@webitel/ui-sdk/enums';
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'OpenedRolePermissionsPopup',
   mixins: [nestedObjectMixin],
+  components: {
+    WtCheckbox,
+  },
   props: {
     namespace: {
       type: String,
       required: true,
     },
   },
+  data: () => ({
+    customTypes: [] as WebitelProtoDataStruct[], // aka "adjunct types", in crm app
+  }),
   computed: {
     ...mapState({
       access(state) {
         return getNamespacedState(state, this.namespace).itemInstance.metadata.access;
       },
     }),
-    appSectionsAccess() {
-      if (this.editedApp) {
-        return Object.keys(this.access[this.editedApp])
-          .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
-          .map((section) => ({
-            name: section,
-            displayName: this.$t(`${this.access[this.editedApp][section]._locale}`),
-            enabled: this.access[this.editedApp][section]._enabled,
-          }));
-      }
+    coreTypeSectionsAccess() {
+      if (!this.editedApp) return [];
+
+      return Object.keys(this.access[this.editedApp])
+        .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
+        .filter((section) => !this.access[this.editedApp][section]._custom) // custom types are handled in a separate computed
+        .map((section) => ({
+          name: section,
+          displayName: this.$t(`${this.access[this.editedApp][section]._locale}`),
+          enabled: this.access[this.editedApp][section]._enabled,
+        }));
+    },
+    customTypeSectionsAccess() {
+      if (this.editedApp !== WtApplication.Crm) return [];
+
+      return this.customTypes
+        .map((customType) => ({
+          name: customType.repo,
+          displayName: customType.name,
+          enabled: !!this.access[this.editedApp]?.[customType.repo]?._enabled,
+        }));
     },
     editedApp() {
       return this.$route.params.applicationName;
@@ -81,6 +111,23 @@ export default {
     }),
     loadItem() {},
     resetState() {},
+    async loadCustomTypes() {
+      const { items } = await CustomTypesAPI.getList({
+        size: -1,
+      });
+      this.customTypes = items;
+    },
+  },
+  watch: {
+    // coz adjuct types are only available in crm app
+    editedApp: {
+      handler(newVal) {
+        if (newVal === WtApplication.Crm && !this.customTypes.length) {
+          this.loadCustomTypes();
+        }
+      },
+      immediate: true,
+    },
   },
 };
 </script>
