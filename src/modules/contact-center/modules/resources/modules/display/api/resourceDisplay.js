@@ -1,4 +1,7 @@
-import { getDefaultGetListResponse, getDefaultGetParams } from '@webitel/ui-sdk/src/api/defaults/index.js';
+import {
+  getDefaultGetListResponse,
+  getDefaultGetParams,
+} from '@webitel/ui-sdk/src/api/defaults/index.js';
 import applyTransform, {
   camelToSnake,
   merge,
@@ -12,7 +15,11 @@ import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
 
-const resService = new OutboundResourceServiceApiFactory(configuration, '', instance);
+const resService = new OutboundResourceServiceApiFactory(
+  configuration,
+  '',
+  instance,
+);
 
 const fieldsToSend = ['display', 'resourceId'];
 
@@ -22,10 +29,10 @@ const preRequestHandler = (parentId) => (item) => ({
 });
 
 const getResDisplayList = async (params) => {
-  const { page, size, search, sort, fields, id, parentId } = applyTransform(params, [
-    merge(getDefaultGetParams()),
-    starToSearch('search'),
-  ]);
+  const { page, size, search, sort, fields, id, parentId } = applyTransform(
+    params,
+    [merge(getDefaultGetParams()), starToSearch('search')],
+  );
 
   try {
     const response = await resService.searchOutboundResourceDisplay(
@@ -66,7 +73,26 @@ const addResDisplay = async ({ parentId, itemInstance }) => {
     camelToSnake(),
   ]);
   try {
-    const response = await resService.createOutboundResourceDisplay(parentId, item);
+    const response = await resService.createOutboundResourceDisplay(
+      parentId,
+      item,
+    );
+    return applyTransform(response.data, [snakeToCamel()]);
+  } catch (err) {
+    throw applyTransform(err, [notify]);
+  }
+};
+
+const uploadNumbersFile = async ({ parentId, file, delimiter, map }) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('delimiter', delimiter);
+  formData.append('map', map);
+
+  try {
+    const response = await instance.post(`/displays/${parentId}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
     return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
@@ -80,7 +106,11 @@ const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
     camelToSnake(),
   ]);
   try {
-    const response = await resService.updateOutboundResourceDisplay(parentId, id, item);
+    const response = await resService.updateOutboundResourceDisplay(
+      parentId,
+      id,
+      item,
+    );
     return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
@@ -89,7 +119,10 @@ const updateResDisplay = async ({ itemInstance, itemId: id, parentId }) => {
 
 const deleteResDisplay = async ({ parentId, id }) => {
   try {
-    const response = await resService.deleteOutboundResourceDisplay(parentId, id);
+    const response = await resService.deleteOutboundResourceDisplay(
+      parentId,
+      id,
+    );
     return applyTransform(response.data, []);
   } catch (err) {
     throw applyTransform(err, [notify]);
@@ -102,4 +135,5 @@ export default {
   add: addResDisplay,
   update: updateResDisplay,
   delete: deleteResDisplay,
+  uploadNumbers: uploadNumbersFile,
 };
