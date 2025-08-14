@@ -16,6 +16,7 @@
             :href="app.href"
             :title="app.title"
             class="application-link"
+            :target="app.target ? app.target : '_self'"
           >
             <div class="application-link__pic">
               <img
@@ -141,6 +142,7 @@ export default {
         title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
         href: import.meta.env.VITE_AGENT_URL,
         pic: picAgent,
+        target: '_blank',
       };
       const supervisorApp = {
         name: WebitelApplications.SUPERVISOR,
