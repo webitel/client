@@ -4,7 +4,6 @@
     :min-width="minWidth"
     size="sm"
     class="selection-popup"
-    overflow
     @close="close"
   >
     <template #title>
