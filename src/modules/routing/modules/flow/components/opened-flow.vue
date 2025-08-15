@@ -17,7 +17,7 @@
         :primary-text="saveText"
         :secondary-action="handleConfirmationUnsavedChangesPopup"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
       <confirmation-unsaved-changes-popup
         v-if="isConfirmationUnsavedChangesPopup"

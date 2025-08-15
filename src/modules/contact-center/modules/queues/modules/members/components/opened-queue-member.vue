@@ -18,7 +18,7 @@
             {{ $t('objects.save') }}
           </wt-button-select>
         </template>
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>

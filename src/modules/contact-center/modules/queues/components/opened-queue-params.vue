@@ -208,8 +208,8 @@
             :max="100"
             :min="1"
             :step="1"
-            :value="itemInstance.payload.loadFactor"
-            @input="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
+            :model-value="itemInstance.payload.loadFactor"
+            @update:model-value="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
           />
           <wt-input
             :max="100"

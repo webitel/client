@@ -10,7 +10,7 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -123,7 +123,7 @@ export default {
     },
   },
   mounted() {
-    // override headlineNavMixin
+    // override breadcrumbMixin
     const unwatch = this.$watch('itemInstance.object', () => {
       this.setPathName();
       unwatch();
