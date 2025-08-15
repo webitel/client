@@ -35,6 +35,12 @@
               callback: () => deleteData(selectedRows),
             })"
           />
+          <csv-upload-trigger
+            v-if="!disableUserInput"
+            class="icon-action"
+            :parent-id="parentId"
+            @success="loadDataList"
+          />
           <wt-icon-btn
             v-if="!disableUserInput"
             class="icon-action"
@@ -101,14 +107,20 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import CsvUploadTrigger from './csv-upload-action.vue';
 import NumberPopup from './opened-resource-numbers-popup.vue';
+
 
 const namespace = 'ccenter/res';
 const subNamespace = 'numbers';
 
 export default {
   name: 'OpenedResourceNumber',
-  components: { NumberPopup, DeleteConfirmationPopup },
+  components: {
+    NumberPopup,
+    CsvUploadTrigger,
+    DeleteConfirmationPopup,
+  },
   mixins: [openedObjectTableTabMixin],
 
   setup() {

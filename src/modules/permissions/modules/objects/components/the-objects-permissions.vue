@@ -2,7 +2,7 @@
   <wt-page-wrapper :actions-panel="false">
     <template #header>
       <wt-page-header hide-primary>
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
