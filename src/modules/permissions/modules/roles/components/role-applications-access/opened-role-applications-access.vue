@@ -105,6 +105,7 @@ export default {
     }),
     loadList() {
       this.dataList = Object.keys(this.access)
+        .filter((app) => app.includes(this.search))
         .map((app) => ({
           name: app,
           displayName: this.$t(this.access[app]._locale),
@@ -113,7 +114,6 @@ export default {
           isEditAction: Object.keys(this.access[app]).filter((key) => key.slice(0, 1) !== '_')
             .length,
         }))
-        .filter((app) => app.name.includes(this.search) || app.displayName.includes(this.search));
     },
     edit({ name }) {
       this.editedApp = name;
