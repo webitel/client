@@ -8,7 +8,7 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
@@ -134,7 +134,7 @@ export default {
     },
   },
   methods: {
-    // overrides headlineNavMixin method
+    // overrides breadcrumbMixin method
     setPathName() {
       this.pathName = this.itemInstance.user.name;
     },

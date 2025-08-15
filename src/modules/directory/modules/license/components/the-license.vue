@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header :hide-primary="true">
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
