@@ -92,7 +92,7 @@
                 :disabled="!item.enabled"
                 :selected="item.default"
                 :value="true"
-                @input="changeDefaultProfile({ item, index, value: $event })"
+                @update:selected="changeDefaultProfile({ item, index, value: $event })"
               />
             </template>
             <template #state="{ item, index }">

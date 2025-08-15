@@ -89,7 +89,7 @@
               <wt-radio
                 :selected="item.default"
                 :value="true"
-                @input="changeDefaultType({ item, index, value: $event })"
+                @update:selected="changeDefaultType({ item, index, value: $event })"
               />
             </template>
             <template #description="{ item }">
