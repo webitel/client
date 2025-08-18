@@ -60,6 +60,6 @@ export default {
 }
 
 .user-status-chips__chips {
-  text-align: center;
+  justify-content: center;
 }
 </style>
