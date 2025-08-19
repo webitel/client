@@ -30,6 +30,12 @@
         :value="itemInstance.updates.left"
         @input="setTemplateValue({ prop: 'left', value: $event })"
       />
+      <wt-input
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.templates.filePolicyFail')"
+        :value="itemInstance.updates.filePolicyFail"
+        @input="setTemplateValue({ prop: 'filePolicyFail', value: $event })"
+      />
     </div>
   </section>
 </template>
