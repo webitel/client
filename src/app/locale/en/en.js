@@ -589,6 +589,7 @@ export default {
           close: 'Chat complete message',
           join: 'Agent joining message',
           left: 'Agent disconnection message',
+          filePolicyFail: 'Forbidden file format message',
         },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',

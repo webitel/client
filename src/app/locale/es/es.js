@@ -594,6 +594,7 @@ export default {
           close: 'Mensaje de finalización de chat',
           join: 'Mensaje de unión del agente',
           left: 'Mensaje de desconexión del agente',
+          filePolicyFail: 'Formato de archivo prohibido',
         },
         chatGateways: 'Puerta de enlace de chat | Puertas de enlace de chat',
         allChatGateways: 'Todas las puertas de enlace de chat',

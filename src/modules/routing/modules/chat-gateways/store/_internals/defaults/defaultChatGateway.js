@@ -12,6 +12,7 @@ const defaultChatGateway = () => ({
     close: '',
     join: '',
     left: '',
+    filePolicyFail: '',
   },
 });
 
