@@ -84,14 +84,14 @@
         <wt-textarea
           :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
           :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
-          :value="itemInstance.metadata.appointment.successTitle"
-          @input="handleInput({ prop: 'successTitle', value: $event })"
+          :model-value="itemInstance.metadata.appointment.successTitle"
+          @update:model-value="handleInput({ prop: 'successTitle', value: $event })"
         />
         <wt-textarea
           :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
           :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
-          :value="itemInstance.metadata.appointment.successSubtitle"
-          @input="handleInput({ prop: 'successSubtitle', value: $event })"
+          :model-value="itemInstance.metadata.appointment.successSubtitle"
+          @update:model-value="handleInput({ prop: 'successSubtitle', value: $event })"
         />
       </div>
       <wt-switcher

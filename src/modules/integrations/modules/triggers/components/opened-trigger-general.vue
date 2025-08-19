@@ -102,8 +102,8 @@
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
-        :value="itemInstance.description"
-        @input="setItemProp({ prop: 'description', value: $event })"
+        :model-value="itemInstance.description"
+        @update:model-value="setItemProp({ prop: 'description', value: $event })"
       />
     </div>
   </section>

@@ -81,9 +81,9 @@
         <wt-textarea
           :disabled="disableUserInput"
           :label="$t('objects.description')"
-          :value="itemInstance.description"
+          :model-value="itemInstance.description"
           class="opened-email-profile-general__description"
-          @input="setItemProp({ prop: 'description', value: $event })"
+          @update:model-value="setItemProp({ prop: 'description', value: $event })"
         />
         <wt-switcher
           :label="$t('objects.integrations.emailProfiles.listen')"
