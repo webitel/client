@@ -588,6 +588,7 @@ export default {
           close: 'Komunikat zakończenia czatu',
           join: 'Komunikat dołączenia agenta',
           left: 'Komunikat odłączenia agenta',
+          filePolicyFail: 'Niedozwolony format pliku',
         },
         chatGateways: 'Brama czatu | Bramy czatu',
         allChatGateways: 'Wszystkie bramy czatu',

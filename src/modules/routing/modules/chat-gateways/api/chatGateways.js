@@ -147,6 +147,7 @@ const getChatGatewayList = async (params) => {
       close: '',
       join: '',
       left: '',
+      filePolicyFail: '',
     },
   };
 

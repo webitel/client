@@ -591,6 +591,7 @@ export default {
           close: 'Mesaj completare chat',
           join: 'Mesaj intrare agent',
           left: 'Mesaj deconectare agent',
+          filePolicyFail: 'Format de fișier interzis',
         },
         chatGateways: 'Gateway chat | Gateway-uri chat',
         allChatGateways: 'Toate gateway-urile chat',
