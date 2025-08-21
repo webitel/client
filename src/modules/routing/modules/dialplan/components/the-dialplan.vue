@@ -71,7 +71,7 @@
             sortable
             :movable="hasEditAccess"
             @sort="sort"
-            @reorder="handleReorder"
+            @reorder:row="handleReorder"
           >
             <template #name="{ item }">
               <adm-item-link

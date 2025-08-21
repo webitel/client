@@ -75,7 +75,7 @@
             sortable
             :movable="hasEditAccess"
             @sort="sort"
-            @reorder="handleReorder"
+            @reorder:row="handleReorder"
           >
             <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
