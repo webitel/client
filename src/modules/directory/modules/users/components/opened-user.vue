@@ -180,11 +180,6 @@ export default {
         value: 'variables',
         pathName: UsersRouteNames.VARIABLES,
       };
-      const tokens = {
-        text: this.$t('objects.directory.users.tokens'),
-        value: 'tokens',
-        pathName: UsersRouteNames.TOKENS,
-      };
       const logs = {
         text: this.$t('objects.system.changelogs.changelogs', 2),
         value: 'logs',
@@ -192,10 +187,15 @@ export default {
         filtersNamespace: `${this.namespace}/logs/filters`,
         pathName: UsersRouteNames.LOGS,
       };
+      const tokens = {
+        text: this.$t('objects.directory.users.tokens'),
+        value: 'tokens',
+        pathName: UsersRouteNames.TOKENS,
+      };
 
-      const tabs = [general, roles, license, devices, variables, tokens];
+      const tabs = [general, roles, license, devices, variables];
 
-      if (this.id) tabs.push(logs, this.permissionsTab);
+      if (this.id) tabs.push(tokens, logs, this.permissionsTab);
       return tabs;
     },
   },
