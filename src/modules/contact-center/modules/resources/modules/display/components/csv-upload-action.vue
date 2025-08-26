@@ -6,12 +6,12 @@
       @change="handleChange"
     />
 
-    <wt-popup 
-      :shown="isPopupShown" 
-      class="upload-popup" 
+    <wt-popup
+      :shown="isPopupShown"
+      class="upload-popup"
       v-bind="$attrs" @close="close">
       <template #title>
-        {{ t('objects.ccenter.res.importCsv.title') }}
+        {{ $t('objects.importCSV') }}
       </template>
 
       <template #main>
