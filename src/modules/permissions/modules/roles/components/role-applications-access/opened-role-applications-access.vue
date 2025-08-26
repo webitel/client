@@ -1,6 +1,7 @@
 <template>
   <section>
     <application-access-popup
+      v-if="!isAccessInitializing"
       :namespace="namespace"
       @close="closePopup"
     />
@@ -43,9 +44,11 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import { isEmpty } from '@webitel/ui-sdk/scripts';
 
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
+import { fillAccessLocale } from '../../scripts/fillAccessLocale';
 
 export default {
   name: 'OpenedRoleApplicationsAccess',
@@ -54,18 +57,32 @@ export default {
   data: () => ({
     dataListValue: [],
     searchValue: '',
+    isAccessInitializing: false,
   }),
   watch: {
-    access() {
-      this.loadList();
+    rawAccess: {
+      handler(access) {
+        if (isEmpty(access)) {
+          this.initializeAccess();
+        } else {
+          this.loadList();
+        }
+      },
+      immediate: true,
     },
   },
   computed: {
     ...mapState({
-      access(state) {
+      rawAccess(state) {
         return getNamespacedState(state, this.namespace).itemInstance.metadata.access;
       },
+      accessFactory(state) {
+        return getNamespacedState(state, this.namespace).accessFactory;
+      },
     }),
+    access() {
+      return fillAccessLocale(this.rawAccess);
+    },
     // override mixin map state
     dataList: {
       get() {
@@ -103,6 +120,12 @@ export default {
         return dispatch(`${this.namespace}/UPDATE_APPLICATION_ACCESS`, payload);
       },
     }),
+    async initializeAccess() {
+      this.isAccessInitializing = true;
+      const initializedAccess = await this.accessFactory();
+      this.setItemProp({ path: 'metadata.access', value: initializedAccess });
+      this.isAccessInitializing = false;
+    },
     loadList() {
       this.dataList = Object.keys(this.access)
         .filter((app) => app.includes(this.search))

@@ -15,7 +15,7 @@
           v-for="sec of coreTypeSectionsAccess"
           :key="sec.name"
           :label="sec.displayName"
-          :selected="sec.enabled"
+          :selected="sec.enabled || false"
           :value="true"
           @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event })"
         />
@@ -23,7 +23,7 @@
           v-for="sec of customTypeSectionsAccess"
           :key="sec.name"
           :label="sec.displayName"
-          :selected="sec.enabled"
+          :selected="sec.enabled || false"
           :value="true"
           @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event, custom: true })"
         />
@@ -55,6 +55,7 @@ import {
 import { WtCheckbox } from '@webitel/ui-sdk/components';
 import { WtApplication } from '@webitel/ui-sdk/enums';
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { fillAccessLocale } from '../../scripts/fillAccessLocale';
 
 export default {
   name: 'OpenedRolePermissionsPopup',
@@ -73,10 +74,13 @@ export default {
   }),
   computed: {
     ...mapState({
-      access(state) {
+      rawAccess(state) {
         return getNamespacedState(state, this.namespace).itemInstance.metadata.access;
       },
     }),
+    access() {
+      return fillAccessLocale(this.rawAccess);
+    },
     coreTypeSectionsAccess() {
       if (!this.editedApp) return [];
 

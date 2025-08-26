@@ -12,9 +12,10 @@ const resettableState = {
     description: '',
     permissions: [],
     metadata: {
-      access: new ApplicationsAccess().getAccess(),
+      access: {},
     },
   },
+  accessFactory: async () => await new ApplicationsAccess().getAccess(),
 };
 
 const actions = {
@@ -79,7 +80,8 @@ const actions = {
   },
   UPDATE_APPLICATION_ACCESS: async (context, { app, value }) => {
     const metadata = deepCopy(context.state.itemInstance.metadata);
-    metadata.access[app]._enabled = value;
+    set(metadata.access, [app, '_enabled'], value);
+
     await context.dispatch('SET_ITEM_PROPERTY', {
       prop: 'metadata',
       value: metadata,
