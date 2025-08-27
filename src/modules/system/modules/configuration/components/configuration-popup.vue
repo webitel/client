@@ -28,9 +28,9 @@
             v-if="displayedConfigurationType.boolean"
             :label="$t('reusable.state')"
             :v="v$.itemInstance.value"
-            :value="itemInstance.value"
+            :model-value="itemInstance.value"
             required
-            @change="setItemProp({ prop: 'value', value: $event })"
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
           />
           <wt-input
             v-if="displayedConfigurationType.number"

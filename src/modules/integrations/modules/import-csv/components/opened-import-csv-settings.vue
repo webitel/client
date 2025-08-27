@@ -24,14 +24,14 @@
       />
       <wt-switcher
         :label="$t('objects.CSV.skipHeaders')"
-        :value="itemInstance.parameters.skipHeaders"
+        :model-value="itemInstance.parameters.skipHeaders"
         disabled
-        @change="setItemParamsProp({ prop: 'skipHeaders', value: $event })"
+        @update:model-value="setItemParamsProp({ prop: 'skipHeaders', value: $event })"
       />
       <wt-switcher
         :label="$t('objects.integrations.importCsv.members.clearMembers')"
-        :value="itemInstance.parameters.clearMembers"
-        @change="setItemParamsProp({ prop: 'clearMembers', value: $event })"
+        :model-value="itemInstance.parameters.clearMembers"
+        @update:model-value="setItemParamsProp({ prop: 'clearMembers', value: $event })"
       />
       <header class="content-header">
         <h3 class="content-title">

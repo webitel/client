@@ -198,8 +198,8 @@
         v-if="specificControls.waitBetweenRetriesDesc"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
-        :value="itemInstance.payload.waitBetweenRetriesDesc"
-        @change="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
+        :model-value="itemInstance.payload.waitBetweenRetriesDesc"
+        @update:model-value="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
       />
       <div v-if="specificControls.loadFactor">
         <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
@@ -224,58 +224,58 @@
         v-if="specificControls.strictCircuit"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.strictCircuit')"
-        :value="itemInstance.payload.strictCircuit"
-        @change="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
+        :model-value="itemInstance.payload.strictCircuit"
+        @update:model-value="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.perNumbers"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.perNumbers')"
-        :value="itemInstance.payload.perNumbers"
-        @change="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
+        :model-value="itemInstance.payload.perNumbers"
+        @update:model-value="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.retryAbandoned"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.retryAbandoned')"
-        :value="itemInstance.payload.retryAbandoned"
-        @change="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
+        :model-value="itemInstance.payload.retryAbandoned"
+        @update:model-value="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.recordings && itemInstance.payload.recordings"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.recordAll')"
-        :value="itemInstance.payload.recordAll"
-        @change="setItemPayloadProp({ prop: 'recordAll', value: $event })"
+        :model-value="itemInstance.payload.recordAll"
+        @update:model-value="setItemPayloadProp({ prop: 'recordAll', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.recordings"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.recordings')"
-        :value="itemInstance.payload.recordings"
-        @change="setItemPayloadProp({ prop: 'recordings', value: $event })"
+        :model-value="itemInstance.payload.recordings"
+        @update:model-value="setItemPayloadProp({ prop: 'recordings', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.allowGreetingAgent"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.allowGreetingAgent')"
-        :value="itemInstance.payload.allowGreetingAgent"
-        @change="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
+        :model-value="itemInstance.payload.allowGreetingAgent"
+        @update:model-value="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.endless"
         v-show="!itemInstance.processing"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.endless')"
-        :value="itemInstance.payload.endless"
-        @change="setItemPayloadProp({ prop: 'endless', value: $event })"
+        :model-value="itemInstance.payload.endless"
+        @update:model-value="setItemPayloadProp({ prop: 'endless', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.stickyAgent"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.stickyAgent')"
-        :value="itemInstance.stickyAgent"
-        @change="setItemProp({ prop: 'stickyAgent', value: $event })"
+        :model-value="itemInstance.stickyAgent"
+        @update:model-value="setItemProp({ prop: 'stickyAgent', value: $event })"
       />
       <wt-input
         v-if="specificControls.stickyAgentSec"
@@ -291,29 +291,29 @@
         v-show="itemInstance.stickyAgent"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.stickyIgnoreStatus')"
-        :value="itemInstance.payload.stickyIgnoreStatus"
-        @change="setItemPayloadProp({ prop: 'stickyIgnoreStatus', value: $event })"
+        :model-value="itemInstance.payload.stickyIgnoreStatus"
+        @update:model-value="setItemPayloadProp({ prop: 'stickyIgnoreStatus', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.ignoreCalendar"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.ignoreCalendar')"
-        :value="itemInstance.payload.ignoreCalendar"
-        @change="setItemPayloadProp({ prop: 'ignoreCalendar', value: $event })"
+        :model-value="itemInstance.payload.ignoreCalendar"
+        @update:model-value="setItemPayloadProp({ prop: 'ignoreCalendar', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.manualDistribution"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.manualDistribution')"
-        :value="itemInstance.payload.manualDistribution"
-        @change="setItemPayloadProp({ prop: 'manualDistribution', value: $event })"
+        :model-value="itemInstance.payload.manualDistribution"
+        @update:model-value="setItemPayloadProp({ prop: 'manualDistribution', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.lastMessageTimeout"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.lastMessageTimeout')"
-        :value="itemInstance.payload.lastMessageTimeout"
-        @change="setItemPayloadProp({ prop: 'lastMessageTimeout', value: $event })"
+        :modelvalue="itemInstance.payload.lastMessageTimeout"
+        @update:modelvalue="setItemPayloadProp({ prop: 'lastMessageTimeout', value: $event })"
       />
     </div>
   </section>

@@ -66,7 +66,7 @@
             <template #state="{ item }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
+                :model-value="item.enabled"
               />
             </template>
             <template #actions="{ item }">

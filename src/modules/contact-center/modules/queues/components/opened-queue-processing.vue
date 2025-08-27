@@ -10,8 +10,8 @@
         v-if="specificControls['taskProcessing.enabled']"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.enabled')"
-        :value="itemInstance.taskProcessing.enabled"
-        @change="setItemProcessingProp({ prop: 'enabled', value: $event })"
+        :model-value="itemInstance.taskProcessing.enabled"
+        @update:model-value="setItemProcessingProp({ prop: 'enabled', value: $event })"
       />
 
       <!--      v-if-->

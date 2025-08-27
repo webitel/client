@@ -21,9 +21,9 @@
           :label="$t('objects.lookups.calendars.date')"
         />
         <wt-switcher
-          :value="itemInstance.working"
+          :model-value="itemInstance.working"
           :label="$t('objects.lookups.calendars.workingTime')"
-          @change="changeWorkingSwitcher"
+          @update:model-value="changeWorkingSwitcher"
         />
         <div
           v-if="itemInstance.working"

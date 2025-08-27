@@ -32,10 +32,10 @@
         @input="setItemProp({ prop: 'value', value: $event })"
       />
       <wt-switcher
-        :value="itemInstance.encrypt"
+        :model-value="itemInstance.encrypt"
         :disabled="startEncryptValue"
         :label="$t('objects.system.globalVariables.encrypted')"
-        @change="setItemProp({ prop: 'encrypt', value: $event })"
+        @update:model-value="setItemProp({ prop: 'encrypt', value: $event })"
       />
     </template>
     <template #actions>
