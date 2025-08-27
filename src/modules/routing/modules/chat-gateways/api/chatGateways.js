@@ -147,7 +147,11 @@ const getChatGatewayList = async (params) => {
       close: '',
       join: '',
       left: '',
-      filePolicyFail: '',
+      // author @Lera24
+      // https://webitel.atlassian.net/browse/WTEL-7461
+      // temporarily to remove field filePolicyFail
+      //
+      // filePolicyFail: '',
     },
   };
 
