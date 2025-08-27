@@ -84,7 +84,7 @@ export default {
     },
     numberId() {
       return this.$route.params.numberId;
-    }
+    },
   },
   watch: {
     showExpireDate() {
@@ -96,7 +96,7 @@ export default {
     },
     'itemInstance.id': {
       handler() {
-        if (this.itemInstance.expireAt) this.showExpireDate = true;
+        this.showExpireDate = !!(this.itemInstance.expireAt && this.itemInstance.id);
       },
     },
     numberId: {
