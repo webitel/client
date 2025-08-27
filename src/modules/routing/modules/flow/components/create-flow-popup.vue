@@ -3,6 +3,7 @@
     v-bind="$attrs"
     :selected="selected"
     :title="$t('objects.routing.flow.createFlowSelectionPopup')"
+    overflow
     @close="close"
     @select="create"
   >
