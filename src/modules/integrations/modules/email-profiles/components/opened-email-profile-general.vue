@@ -87,8 +87,8 @@
         />
         <wt-switcher
           :label="$t('objects.integrations.emailProfiles.listen')"
-          :value="itemInstance.listen"
-          @change="setItemProp({ prop: 'listen', value: $event })"
+          :model-value="itemInstance.listen"
+          @update:model-value="setItemProp({ prop: 'listen', value: $event })"
         />
       </div>
       <div>

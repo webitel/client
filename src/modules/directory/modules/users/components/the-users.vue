@@ -97,8 +97,8 @@
             <template #DnD="{ item }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="getDND(item.presence)"
-                @change="setDND({item, value: $event})"
+                :model-value="getDND(item.presence)"
+                @update:model-value="setDND({item, value: $event})"
               />
             </template>
             <template #actions="{ item }">

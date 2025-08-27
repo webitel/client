@@ -29,14 +29,14 @@
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('reusable.state')"
-          :value="itemInstance.enabled"
-          @change="setItemProp({ prop: 'enabled', value: $event })"
+          :model-value="itemInstance.enabled"
+          @update:model-value="setItemProp({ prop: 'enabled', value: $event })"
         />
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('objects.integrations.storagePolicies.encryptFile')"
-          :value="itemInstance.encrypt"
-          @change="setItemProp({ prop: 'encrypt', value: $event })"
+          :model-value="itemInstance.encrypt"
+          @update:model-value="setItemProp({ prop: 'encrypt', value: $event })"
         />
         <div class="opened-storage-policy-general-button-area">
           <div class="opened-storage-policy-general-button-area__content">
