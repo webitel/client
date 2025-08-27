@@ -30,12 +30,16 @@
         :value="itemInstance.updates.left"
         @input="setTemplateValue({ prop: 'left', value: $event })"
       />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.templates.filePolicyFail')"
-        :value="itemInstance.updates.filePolicyFail"
-        @input="setTemplateValue({ prop: 'filePolicyFail', value: $event })"
-      />
+<!--      author @Lera24-->
+<!--      https://webitel.atlassian.net/browse/WTEL-7461-->
+<!--      temporarily to remove field filePolicyFail-->
+
+<!--      <wt-input-->
+<!--        :disabled="disableUserInput"-->
+<!--        :label="$t('objects.routing.chatGateways.templates.filePolicyFail')"-->
+<!--        :value="itemInstance.updates.filePolicyFail"-->
+<!--        @input="setTemplateValue({ prop: 'filePolicyFail', value: $event })"-->
+<!--      />-->
     </div>
   </section>
 </template>
