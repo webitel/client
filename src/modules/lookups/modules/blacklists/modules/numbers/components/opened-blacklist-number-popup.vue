@@ -19,8 +19,9 @@
           @input="setItemProp({ prop: 'number', value: $event })"
         />
         <wt-switcher
-          v-model="showExpireDate"
+          :value="showExpireDate"
           :label="$t('objects.lookups.blacklist.temporary')"
+          @change="showExpireDate = $event"
         />
         <wt-datepicker
           v-if="showExpireDate"
@@ -96,12 +97,13 @@ export default {
     },
     'itemInstance.id': {
       handler() {
-        this.showExpireDate = !!(this.itemInstance.expireAt && this.itemInstance.id);
+        if (this.itemInstance.expireAt) this.showExpireDate = true;
       },
     },
     numberId: {
      async handler(id) {
        this.handleIdChange(id);
+       if(!id) this.showExpireDate = false;
      }, immediate: true,
     },
   },
