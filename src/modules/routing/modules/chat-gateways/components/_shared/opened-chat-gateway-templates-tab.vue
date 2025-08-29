@@ -30,21 +30,19 @@
         :value="itemInstance.updates.left"
         @input="setTemplateValue({ prop: 'left', value: $event })"
       />
-<!--      author @Lera24-->
-<!--      https://webitel.atlassian.net/browse/WTEL-7461-->
-<!--      temporarily to remove field filePolicyFail-->
-
-<!--      <wt-input-->
-<!--        :disabled="disableUserInput"-->
-<!--        :label="$t('objects.routing.chatGateways.templates.filePolicyFail')"-->
-<!--        :value="itemInstance.updates.filePolicyFail"-->
-<!--        @input="setTemplateValue({ prop: 'filePolicyFail', value: $event })"-->
-<!--      />-->
+      <wt-input
+        v-if="itemInstance.provider !== ChatGatewayProvider.WEBCHAT"
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.templates.filePolicyFail')"
+        :value="itemInstance.updates.filePolicyFail"
+        @input="setTemplateValue({ prop: 'filePolicyFail', value: $event })"
+      />
     </div>
   </section>
 </template>
 
 <script>
+import { ChatGatewayProvider } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -52,7 +50,9 @@ import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMix
 export default {
   name: 'OpenedChatGatewayTemplatesTab',
   mixins: [openedTabComponentMixin],
-  data: () => ({}),
+  data: () => ({
+    ChatGatewayProvider,
+  }),
   methods: {
     ...mapActions({
       setTemplateValue(dispatch, payload) {
