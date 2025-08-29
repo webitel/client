@@ -22,23 +22,24 @@
             name="option"
             :option="option"
           >
-            <div class="popup-options__item-content">
-              <wt-icon
-                v-if="option.icon"
-                :icon="option.icon"
-                size="sm"
-              />
-              <h4 class="popup-options__item-header">
-                {{ option.title }}
-              </h4>
-            </div>
-
-            <wt-icon-btn
-              v-if="option.description"
-              v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }"
-              color="info"
-              icon="rounded-info"
+            <wt-icon
+              v-if="option.icon"
+              :icon="option.icon"
+              size="sm"
             />
+
+            <h4 class="popup-options__item-header">
+              {{ option.title }}
+            </h4>
+
+            <div class="popup-options__tooltip-wrapper">
+              <wt-icon-btn
+                v-if="option.description"
+                v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }"
+                color="info"
+                icon="rounded-info"
+              />
+            </div>
           </slot>
         </li>
       </ul>
@@ -115,7 +116,6 @@ export default {
     .popup-options__item-wrap {
       position: relative;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
       padding: 7px 10px;
@@ -141,9 +141,8 @@ export default {
       }
     }
 
-    .popup-options__item-content {
-      display: flex;
-      align-items: center;
+    .popup-options__tooltip-wrapper {
+      margin-left: auto;
     }
 
     .popup-options__item-header {
