@@ -210,7 +210,6 @@ async function callLoadDataList() {
 }
 
 const handleIntersect = () => {
-  console.log(666);
   page.value += 1;
   callLoadDataList();
 }
