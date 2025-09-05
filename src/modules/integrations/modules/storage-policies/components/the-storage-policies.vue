@@ -73,7 +73,7 @@
             :headers="headers"
             fixed-actions
             sortable
-            :movable="hasEditAccess"
+            :row-reorder="hasEditAccess"
             @sort="sort"
             @reorder:row="handleReorder"
           >

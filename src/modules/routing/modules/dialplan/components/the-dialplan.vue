@@ -69,7 +69,7 @@
             :data="dataList"
             :headers="headers"
             sortable
-            :movable="hasEditAccess"
+            :row-reorder="hasEditAccess"
             @sort="sort"
             @reorder:row="handleReorder"
           >
