@@ -10,7 +10,7 @@ export default [
   {
     value: 'status',
     locale: 'objects.directory.users.status',
-    width: 'minmax(320px, 1fr)',
+    width: '320px',
     field: 'presence.status',
     sort: SortSymbols.NONE,
   },
