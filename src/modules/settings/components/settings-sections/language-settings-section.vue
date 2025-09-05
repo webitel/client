@@ -12,14 +12,16 @@
         use-value-from-options-by-prop="id"
         @input="changeLanguage"
       />
-      <wt-select
+      
+      <!--  https://webitel.atlassian.net/browse/WTEL-7541  -->
+      <!-- <wt-select
         :label="t('settings.fallbackLanguage')"
         :options="languageOptions"
         :value="fallbackLocale"
         :clearable="false"
         use-value-from-options-by-prop="id"
         @input="changeFallbackLanguage"
-      />
+      /> -->
     </template>
   </settings-section-wrapper>
 </template>
