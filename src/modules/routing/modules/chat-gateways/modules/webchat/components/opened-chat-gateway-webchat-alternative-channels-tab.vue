@@ -35,8 +35,8 @@
             />
             <wt-switcher
               :disabled="disableUserInput"
-              :value="itemInstance.metadata.alternativeChannels[channel].enabled"
-              @change="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
+              :model-value="itemInstance.metadata.alternativeChannels[channel].enabled"
+              @update:model-value="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
             />
           </div>
         </div>
@@ -51,8 +51,8 @@
           />
           <wt-switcher
             :disabled="disableUserInput"
-            :value="itemInstance.metadata.call.enabled"
-            @change="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })"
+            :model-value="itemInstance.metadata.call.enabled"
+            @update:model-value="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })"
           />
         </div>
         <div class=" object-input-grid object-input-grid__1-col">

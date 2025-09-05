@@ -8,7 +8,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
@@ -97,8 +97,8 @@
             <template #DnD="{ item }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="getDND(item.presence)"
-                @change="setDND({item, value: $event})"
+                :model-value="getDND(item.presence)"
+                @update:model-value="setDND({item, value: $event})"
               />
             </template>
             <template #actions="{ item }">
@@ -201,7 +201,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$t('objects.user', 2),
+          name: this.$tc('objects.user', 2),
           route: '/directory/users',
         },
       ];

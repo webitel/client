@@ -19,8 +19,8 @@
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.isSupervisor')"
-        :value="itemInstance.isSupervisor"
-        @change="setItemProp({ prop: 'isSupervisor', value: $event })"
+        :model-value="itemInstance.isSupervisor"
+        @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
       />
       <wt-select
         :disabled="disableUserInput"

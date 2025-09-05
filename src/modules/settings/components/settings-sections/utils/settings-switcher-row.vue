@@ -2,8 +2,8 @@
   <div class="settings-switcher-row">
     <slot name="label"></slot>
     <wt-switcher
-      :value="model"
-      @change="model = $event"
+      :model-value="model"
+      @update:model-value="model = $event"
     />
   </div>
 </template>

@@ -8,7 +8,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -96,8 +96,8 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="!item.disabled"
-                @change="patchProperty({index, prop: 'disabled', value: !$event})"
+                :model-value="!item.disabled"
+                @update:model-value="patchProperty({index, prop: 'disabled', value: !$event})"
               />
             </template>
             <template #actions="{ item }">
@@ -219,7 +219,7 @@ export default {
 <style lang="scss" scoped>
 .dialplan {
   :deep(.sortable-chosen) {
-    .dialplan__draggable-icon .wt-icon__icon {
+    .dialplan__draggable-icon .wt-icon {
       fill: var(--icon--active-color);
     }
   }

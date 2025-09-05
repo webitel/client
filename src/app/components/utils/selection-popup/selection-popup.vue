@@ -4,7 +4,6 @@
     :min-width="minWidth"
     size="sm"
     class="selection-popup"
-    overflow
     @close="close"
   >
     <template #title>
@@ -28,16 +27,19 @@
               :icon="option.icon"
               size="sm"
             />
+
             <h4 class="popup-options__item-header">
               {{ option.title }}
             </h4>
 
-            <wt-icon-btn
-              v-if="option.description"
-              v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }"
-              color="info"
-              icon="rounded-info"
-            />
+            <div class="popup-options__tooltip-wrapper">
+              <wt-icon-btn
+                v-if="option.description"
+                v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }"
+                color="info"
+                icon="rounded-info"
+              />
+            </div>
           </slot>
         </li>
       </ul>
@@ -137,6 +139,10 @@ export default {
       .wt-tooltip {
         margin-left: auto;
       }
+    }
+
+    .popup-options__tooltip-wrapper {
+      margin-left: auto;
     }
 
     .popup-options__item-header {

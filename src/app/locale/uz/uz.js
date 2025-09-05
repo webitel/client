@@ -589,6 +589,7 @@ export default {
           close: 'Chat tugash xabari',
           join: 'Agent kirish xabari',
           left: 'Agent ulanish xabari',
+          filePolicyFail: 'Taqiqlangan fayl formati',
         },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'Barcha chat gateways',

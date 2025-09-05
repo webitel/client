@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -66,7 +66,7 @@
             <template #state="{ item }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
+                :model-value="item.enabled"
               />
             </template>
             <template #actions="{ item }">

@@ -71,8 +71,10 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      [NotificationType.CallEndSound]: 'Звуковое уведомление о завершении звонка',
-      [NotificationType.SocketCloseSound]: 'Звуковое уведомление про розрыв соединения',
+      [NotificationType.CallEndSound]:
+        'Звуковое уведомление о завершении звонка',
+      [NotificationType.SocketCloseSound]:
+        'Звуковое уведомление про розрыв соединения',
     },
     ringtones: {
       title: 'Изменить рингтон',
@@ -149,8 +151,6 @@ export default {
     name: 'Имя',
     title: 'Название',
     description: 'Описание',
-    user: 'Пользователь',
-    users: 'Пользователи',
     action: 'Action',
     allow: 'Allow',
     password: 'Пароль',
@@ -596,6 +596,7 @@ export default {
           close: 'Сообщение завершения чата',
           join: 'Сообщение присоединения оператора',
           left: 'Сообщение отключения оператора',
+          filePolicyFail: 'Сообщение о запрещенном формате файла',
         },
         chatGateways: 'Текстовый шлюз | Текстовые шлюзы',
         allChatGateways: 'Все текстовые шлюзы',
@@ -1058,6 +1059,18 @@ export default {
         priority: 'Приоритет',
         reserveResource: 'Резервный ресурс',
         failureDialDelay: 'Задержка при ошибке набора',
+        importCsv: {
+          title: 'Импорт номеров',
+          separator: 'Разделитель',
+          upload: 'Загрузить',
+          close: 'Закрыть',
+          exampleSeparator: 'Например ; или ,',
+          numberColumn: 'Колонка с номерами',
+          uploadError: 'Ошибка при отправке файла',
+          genericError: 'Произошла ошибка во время загрузки!',
+          emptyRequiredFieldsMessage:
+            'В строках {rows} пустые обязательные поля.',
+        },
       },
 
       resGroups: {

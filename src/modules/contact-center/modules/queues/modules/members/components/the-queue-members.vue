@@ -22,7 +22,7 @@
             @change="inputFileHandler"
           >
         </template>
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #actions-panel>
@@ -476,5 +476,6 @@ export default {
 .upload-file-input {
   position: absolute;
   visibility: hidden;
+  width: 100%;
 }
 </style>

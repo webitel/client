@@ -36,8 +36,8 @@
           <wt-switcher
             :label="$t('objects.lookups.skills.stateForAll')"
             :label-left="true"
-            :value="aggs.enabled"
-            @change="changeStateForAll"
+            :model-value="aggs.enabled"
+            @update:model-value="changeStateForAll"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -101,8 +101,8 @@
         </template>
         <template #state="{ item, index }">
           <wt-switcher
-            :value="item.enabled"
-            @change="handlePatchEnabled({ item, index, prop: 'enabled', value: $event })"
+            :model-value="item.enabled"
+            @update:model-value="handlePatchEnabled({ item, index, prop: 'enabled', value: $event })"
           />
         </template>
         <template #actions="{ item }">

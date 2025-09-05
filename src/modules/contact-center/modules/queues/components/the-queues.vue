@@ -7,7 +7,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #actions-panel>
@@ -138,8 +138,8 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="patchItem({ item, index, prop: 'enabled', value: $event})"
+                :model-value="item.enabled"
+                @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event})"
               />
             </template>
             <template #actions="{ item }">

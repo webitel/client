@@ -589,6 +589,7 @@ export default {
           close: 'Thông báo hoàn thành trò chuyện',
           join: 'Thông báo đại lý tham gia',
           left: 'Thông báo ngắt kết nối của đại lý',
+          filePolicyFail: 'Định dạng tệp bị cấm',
         },
         chatGateways: 'Cổng trò chuyện',
         allChatGateways: 'Tất cả cổng trò chuyện',

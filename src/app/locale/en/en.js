@@ -149,8 +149,6 @@ export default {
     name: 'Name',
     title: 'Title',
     description: 'Description',
-    user: 'User',
-    users: 'Users',
     action: 'Action',
     allow: 'Allow',
     password: 'Password',
@@ -591,6 +589,7 @@ export default {
           close: 'Chat complete message',
           join: 'Agent joining message',
           left: 'Agent disconnection message',
+          filePolicyFail: 'Forbidden file format message',
         },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
@@ -1049,6 +1048,18 @@ export default {
         priority: 'Priority',
         reserveResource: 'Reserve resource',
         failureDialDelay: 'Failure dial delay',
+        importCsv: {
+          title: 'Import Numbers',
+          separator: 'Separator',
+          upload: 'Upload',
+          close: 'Close',
+          exampleSeparator: 'For example ; or ,',
+          numberColumn: 'Number column',
+          uploadError: 'Error while uploading the file',
+          genericError: 'An error occurred during the upload!',
+          emptyRequiredFieldsMessage:
+            'Required fields are empty in rows {rows}.',
+        },
       },
 
       resGroups: {

@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -92,14 +92,14 @@
                 :disabled="!item.enabled"
                 :selected="item.default"
                 :value="true"
-                @input="changeDefaultProfile({ item, index, value: $event })"
+                @update:selected="changeDefaultProfile({ item, index, value: $event })"
               />
             </template>
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="changeState({ item, index, value: $event })"
+                :model-value="item.enabled"
+                @update:model-value="changeState({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">

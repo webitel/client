@@ -8,7 +8,7 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -141,7 +141,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$t('objects.user', 2),
+          name: this.$tc('objects.user', 2),
           route: baseUrl,
         },
         {
@@ -180,11 +180,6 @@ export default {
         value: 'variables',
         pathName: UsersRouteNames.VARIABLES,
       };
-      const tokens = {
-        text: this.$t('objects.directory.users.tokens'),
-        value: 'tokens',
-        pathName: UsersRouteNames.TOKENS,
-      };
       const logs = {
         text: this.$t('objects.system.changelogs.changelogs', 2),
         value: 'logs',
@@ -192,10 +187,15 @@ export default {
         filtersNamespace: `${this.namespace}/logs/filters`,
         pathName: UsersRouteNames.LOGS,
       };
+      const tokens = {
+        text: this.$t('objects.directory.users.tokens'),
+        value: 'tokens',
+        pathName: UsersRouteNames.TOKENS,
+      };
 
-      const tabs = [general, roles, license, devices, variables, tokens];
+      const tabs = [general, roles, license, devices, variables];
 
-      if (this.id) tabs.push(logs, this.permissionsTab);
+      if (this.id) tabs.push(tokens, logs, this.permissionsTab);
       return tabs;
     },
   },

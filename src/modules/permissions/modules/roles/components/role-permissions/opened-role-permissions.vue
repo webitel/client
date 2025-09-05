@@ -111,7 +111,7 @@ export default {
       // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
       // permissionsList: (state) => state.itemInstance.permissions
       permissionsList: (state) => state.itemInstance.permissions.filter(
-        (permission) => permission.id !== SpecialGlobalAction.ResetAttempts),
+        (permission) => permission.id !== SpecialGlobalAction.ResetActiveAttempts),
     }),
     // override mixin map state
     dataList: {

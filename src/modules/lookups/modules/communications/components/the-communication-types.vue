@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -89,7 +89,7 @@
               <wt-radio
                 :selected="item.default"
                 :value="true"
-                @input="changeDefaultType({ item, index, value: $event })"
+                @update:selected="changeDefaultType({ item, index, value: $event })"
               />
             </template>
             <template #description="{ item }">

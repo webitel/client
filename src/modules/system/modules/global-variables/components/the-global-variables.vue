@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="addItem"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
@@ -85,9 +85,9 @@
             </template>
             <template #encrypt="{ item, index }">
               <wt-switcher
-                :value="item.encrypt"
+                :model-value="item.encrypt"
                 :disabled="item.encrypt"
-                @change="patchItem({ item, index, prop: 'encrypt', value: $event })"
+                @update:model-value="patchItem({ item, index, prop: 'encrypt', value: $event })"
               />
             </template>
             <template #actions="{ item }">

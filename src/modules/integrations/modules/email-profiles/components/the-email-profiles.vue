@@ -5,7 +5,7 @@
         :hide-primary="!hasCreateAccess"
         :primary-action="create"
       >
-        <wt-headline-nav :path="path" />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -92,15 +92,15 @@
             <template #listen="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.listen"
-                @change="patchItem({ item, index, prop: 'listen', value: $event })"
+                :model-value="item.listen"
+                @update:model-value="patchItem({ item, index, prop: 'listen', value: $event })"
               />
             </template>
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="patchItem({ item, index, prop: 'enabled', value: $event })"
+                :model-value="item.enabled"
+                @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
               />
             </template>
             <template #actions="{ item }">
