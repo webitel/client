@@ -35,15 +35,14 @@ const { t, locale, fallbackLocale } = useI18n();
 
 const languageOptions = [
   { name: 'English', id: 'en' },
-  { name: 'Russian', id: 'ru' },
-  { name: 'Ukrainian', id: 'uk' },
-  { name: 'Spanish', id: 'es' },
-  { name: 'Kazakh', id: 'kz' },
-  { name: 'Vietnamese', id: 'vi' },
-  { name: 'Polish', id: 'pl' },
-  { name: 'Romanian', id: 'ro' },
-  { name: 'Uzbek', id: 'uz' },
-  { name: 'Poland', id: 'pl' },
+  { name: 'Español', id: 'es' },
+  { name: 'Русский', id: 'ru' },
+  { name: 'Українська', id: 'uk' },
+  { name: 'Қазақ', id: 'kz' },
+  { name: 'Tiếng Việt', id: 'vi' },
+  { name: 'Polski', id: 'pl' },
+  { name: 'Română', id: 'ro' },
+  { name: "O'zbek", id: 'uz' },
 ];
 
 function changeLanguage(lang: string) {
