@@ -11,7 +11,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        />2
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
