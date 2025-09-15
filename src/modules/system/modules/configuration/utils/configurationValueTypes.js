@@ -17,6 +17,7 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.PeriodToPlaybackRecords]: 'number',
   [EngineSystemSettingName.WbtHideContact]: 'boolean',
   [EngineSystemSettingName.ShowFullContact]: 'boolean',
+  [EngineSystemSettingName.ScreenshotInterval]: 'number',
 
   // Notification
   [EngineSystemSettingName.CallEndSoundNotification]: 'boolean',
