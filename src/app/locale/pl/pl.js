@@ -763,6 +763,9 @@ export default {
           pause: 'Zawieszenie',
           breakOut: 'Przerwa',
         },
+        agentScreenControl: 'Sterowanie ekranem agenta',
+        agentScreenControlHint:
+          'Nie można wyłączyć, gdy ustawienie dla zespołu jest włączone',
       },
 
       auditors: {

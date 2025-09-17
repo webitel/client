@@ -220,7 +220,7 @@ export default {
         license: 'Giấy phép',
         devices: 'Thiết bị',
         defaultDevice: 'Thiết bị mặc định (từ danh sách thiết bị đã chọn)',
-        deviceNotFound: "Không tìm thấy thiết bị?",
+        deviceNotFound: 'Không tìm thấy thiết bị?',
         createNewDevice: 'Thêm mới',
         variables: 'Biến',
         varKey: 'Khóa',
@@ -298,7 +298,7 @@ export default {
           onhold: 'Đang giữ',
         },
         passwordSetFromAccount:
-          "Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản",
+          'Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản',
       },
     },
     permissions: {
@@ -338,15 +338,13 @@ export default {
             'Cấp quyền để đặt lại các nỗ lực hoạt động',
           limitWorkspaceContactsDescription:
             'Giới hạn quyền để xem danh sách liên hệ trong Workspace',
-          exportDataGridDescription:
-            'Cấp quyền để xuất dữ liệu bảng vào tệp',
+          exportDataGridDescription: 'Cấp quyền để xuất dữ liệu bảng vào tệp',
           viewCdrPhoneNumbersDescription: 'Xem số điện thoại CDR',
           manageUserRolesDescription:
             'Cấp quyền để quản lý một tập hợp vai trò người dùng',
           manageUserLicenseDescription:
             'Cấp quyền để quản lý một tập hợp giấy phép người dùng',
-          changeUserPasswordDescription:
-            'Cấp quyền để đổi mật khẩu người dùng',
+          changeUserPasswordDescription: 'Cấp quyền để đổi mật khẩu người dùng',
           systemSettingDescription:
             'Cấp quyền để truy cập và quản lý phần Cấu hình',
           schemeVariables: 'Quản lý biến toàn cầu',
@@ -539,7 +537,8 @@ export default {
           code: 'Mã',
           description: 'Tạo luồng mới bằng trình soạn thảo mã JSON-schema',
         },
-        askingAlert: 'Bạn có muốn lưu các thay đổi bạn đã thực hiện vào "{name}" ?',
+        askingAlert:
+          'Bạn có muốn lưu các thay đổi bạn đã thực hiện vào "{name}" ?',
       },
 
       dialplan: {
@@ -585,7 +584,7 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Mẫu',
-          title: "Tên của thành viên Workspace",
+          title: 'Tên của thành viên Workspace',
           close: 'Thông báo hoàn thành trò chuyện',
           join: 'Thông báo đại lý tham gia',
           left: 'Thông báo ngắt kết nối của đại lý',
@@ -598,7 +597,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Ứng dụng Telegram',
-          signedAs: "Bạn đã đăng nhập như",
+          signedAs: 'Bạn đã đăng nhập như',
           joinTelegram: 'Đăng nhập vào Telegram',
           metadata: {
             apiId: 'ID API',
@@ -656,7 +655,8 @@ export default {
             position: 'Vị trí',
             btnColor: 'Màu nút',
             logoUrl: 'URL logo',
-            logoHint: "Định dạng logo được hỗ trợ là 'JPEG' hoặc 'PNG', 24x24px",
+            logoHint:
+              "Định dạng logo được hỗ trợ là 'JPEG' hoặc 'PNG', 24x24px",
             rounded: 'Tròn',
             square: 'Hình vuông',
             right: 'Phải',
@@ -764,6 +764,9 @@ export default {
           pause: 'Tạm dừng',
           breakOut: 'Thời gian ngoại tuyến',
         },
+        agentScreenControl: 'Kiểm soát màn hình đại lý',
+        agentScreenControlHint:
+          'Không thể tắt tính năng này khi cài đặt cho đội đang được bật',
       },
 
       auditors: {
@@ -865,8 +868,7 @@ export default {
         offlineQueueDescription:
           'Một hàng đợi ngoại tuyến cho phép cuộc gọi đến có thể dừng chờ trên giữ, nhập số điện thoại của họ và nhận cuộc gọi lại ngay khi đến lượt họ.',
         previewDialer: 'Dialer xem trước',
-        previewDialerDescription:
-          'Xem liên hệ trước khi tự động gọi tới họ.',
+        previewDialerDescription: 'Xem liên hệ trước khi tự động gọi tới họ.',
         progressiveDialer: 'Dialer tiến triển',
         progressiveDialerDescription:
           'Dialing tiến triển giảm thời gian lãng phí giữa các cuộc gọi bằng cách tự động gọi một số từ danh sách cuộc gọi ngay khi một đại lý trở nên có sẵn.',
@@ -922,8 +924,7 @@ export default {
         maxNumberOfRetry: 'Số lần thử tối đa',
         minDuration: 'Thời gian cuộc gọi thành công tối thiểu',
         maxAttempts: 'Số lần thử tối đa',
-        minOnlineAgents:
-          'Truy cập khi có nhiều đại lý trực tuyến hơn:',
+        minOnlineAgents: 'Truy cập khi có nhiều đại lý trực tuyến hơn:',
         waitForResultStatus: 'Đợi trạng thái kết quả',
         bucketPriority: 'Ưu tiên',
         amd: 'AMD',
@@ -1180,7 +1181,8 @@ export default {
         event: 'Trên sự kiện',
         onEventDescription: 'Một lịch trình sơ đồ JSON Schema dựa trên sự kiện',
         cron: 'Tại thời gian',
-        atTimeDescription: 'Một lịch trình sơ đồ JSON Schema dựa trên thời gian',
+        atTimeDescription:
+          'Một lịch trình sơ đồ JSON Schema dựa trên thời gian',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
         cases: 'Trường hợp',

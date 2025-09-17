@@ -5,23 +5,12 @@
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
-      <wt-select
-        :clearable="false"
-        :disabled="disableUserInput"
-        :label="$t('objects.user')"
-        :search-method="loadUsersOptions"
-        :v="v.itemInstance.user"
-        :value="itemInstance.user"
-        required
-        @input="setItemProp({ prop: 'user', value: $event })"
-      />
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.agents.isSupervisor')"
-        :model-value="itemInstance.isSupervisor"
-        @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
-      />
+
+<!--    <div>-->
+<!--      <div class="opened-card-input-grid"></div>-->
+<!--      <div class="opened-card-input-grid"></div>-->
+<!--    </div>-->
+    <div class="opened-card-input-grid">
       <wt-select
         :disabled="disableUserInput"
         :label="$t('objects.team')"
@@ -30,6 +19,21 @@
         :value="itemInstance.team"
         required
         @input="setItemProp({ prop: 'team', value: $event })"
+      />
+      <wt-switcher
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.isSupervisor')"
+        :model-value="itemInstance.isSupervisor"
+        @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
+      />
+      <wt-select
+        :close-on-select="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.auditor')"
+        :search-method="loadAuditorsOptions"
+        :value="itemInstance.auditor"
+        multiple
+        @input="setItemProp({ prop: 'auditor', value: $event })"
       />
       <wt-select
         v-show="!itemInstance.isSupervisor"
@@ -42,13 +46,11 @@
         @input="setItemProp({ prop: 'supervisor', value: $event })"
       />
       <wt-select
-        :close-on-select="false"
         :disabled="disableUserInput"
-        :label="$t('objects.auditor')"
-        :search-method="loadAuditorsOptions"
-        :value="itemInstance.auditor"
-        multiple
-        @input="setItemProp({ prop: 'auditor', value: $event })"
+        :label="$tc('objects.lookups.media.mediaFiles', 1)"
+        :search-method="loadMediaOptions"
+        :value="itemInstance.greetingMedia"
+        @input="setItemProp({ prop: 'greetingMedia', value: $event })"
       />
       <wt-select
         :disabled="disableUserInput"
@@ -56,13 +58,6 @@
         :search-method="loadRegionsOptions"
         :value="itemInstance.region"
         @input="setItemProp({ prop: 'region', value: $event })"
-      />
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$tc('objects.lookups.media.mediaFiles', 1)"
-        :search-method="loadMediaOptions"
-        :value="itemInstance.greetingMedia"
-        @input="setItemProp({ prop: 'greetingMedia', value: $event })"
       />
       <wt-input
         :disabled="disableUserInput"
@@ -94,6 +89,16 @@
         type="number"
         @input="setItemProp({ prop: 'taskCount', value: +$event })"
       />
+      <div>
+        <wt-switcher
+          :disabled="disableUserInput || disabledAgentScreenControl"
+          :label="$t('objects.ccenter.agents.agentScreenControl')"
+          :model-value="itemInstance.screenControl"
+          @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
+        />
+
+        <p v-if="disabledAgentScreenControl">{{ $t('objects.ccenter.agents.agentScreenControlHint') }}</p>
+      </div>
     </div>
   </section>
 </template>
@@ -109,6 +114,11 @@ import AgentsAPI from '../api/agents';
 export default {
   name: 'OpenedAgentGeneral',
   mixins: [openedTabComponentMixin],
+  computed: {
+    disabledAgentScreenControl() {
+      return !this.itemInstance.allowSetScreenControl
+    }
+  },
   methods: {
     loadUsersOptions(params) {
       return AgentsAPI.getAgentUsersOptions(params);
