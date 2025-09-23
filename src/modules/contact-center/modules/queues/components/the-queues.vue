@@ -46,6 +46,7 @@
               @input="setSearch"
               @search="loadList"
             />
+            <QueueSateSwitcher ref="stateSwitcher" v-model="state" @onLoadItem="loadList"/>
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -139,7 +140,7 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :model-value="item.enabled"
-                @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event})"
+                @update:model-value="changeStateItem($event, index, item)"
               />
             </template>
             <template #actions="{ item }">
@@ -195,12 +196,13 @@ import TheQueuesFilters from '../modules/filters/components/the-queues-filters.v
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
+import QueueSateSwitcher from '../modules/state/components/state-switcher.vue';
 
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
+  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup,QueueSateSwitcher },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -234,6 +236,7 @@ export default {
     isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
+    state: false
   }),
 
   computed: {
@@ -279,6 +282,16 @@ export default {
     },
     create() {
       this.isQueueSelectPopup = true;
+    },
+    async changeStateItem(value, index, item) {
+      await this.patchItem({
+        item,
+        index,
+        prop: 'enabled',
+        value,
+      });
+      // Update global state after individual queue state change
+      await this.$refs.stateSwitcher?.fetchAllState();
     },
   },
 };
