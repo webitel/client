@@ -103,6 +103,14 @@
   }
 }
 
+.object-input-area-grid {
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(auto, auto);
+  gap: var(--content-wrapper-gap);
+}
+
 .grid-w100 {
   .object-input-grid {
     grid-template-columns: 1fr;
