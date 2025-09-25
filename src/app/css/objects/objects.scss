@@ -108,7 +108,7 @@
   align-items: flex-start;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: minmax(auto, auto);
-  gap: var(--spacing-sm);
+  gap: var(--content-wrapper-gap);
 }
 
 .grid-w100 {
