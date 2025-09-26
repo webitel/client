@@ -50,25 +50,9 @@ const getWorkingCondition = async ({ itemId: id }) => {
 };
 
 const fieldsToSend = ['name', 'description', 'workdayHours', 'workdayPerMonth', 'pauseDuration', 'vacation', 'pauseTemplate', 'sickLeaves', 'shiftTemplate', 'daysOff', 'createdAt', 'createdBy', 'domainId', 'id', 'updatedAt', 'updatedBy'];
-const defaultSkippableFields = ['pauseDuration', 'vacation', 'sickLeaves', 'daysOff', 'shiftTemplate', 'workdayHours']
-
-const isDefaultValue = (value) => {
-  if (!value) return true;
-  if (Array.isArray(value)) return !value.length;
-  if (value && typeof value === 'object') return !Object.keys(value).length;
-  return false;
-};
-
-const getDynamicFieldsToSend = (item) => {
-  return fieldsToSend.filter((field) => {
-    if (!defaultSkippableFields.includes(field)) return true;
-    return !isDefaultValue(item?.[field]);
-  });
-};
 
 const addWorkingCondition = async ({ itemInstance }) => {
-  const dynamicFields = getDynamicFieldsToSend(itemInstance);
-  const item = applyTransform(itemInstance, [sanitize(dynamicFields), camelToSnake()]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await workingConditionService.createWorkingCondition({ item: { ...item } });
     return applyTransform(response.data, [snakeToCamel(), itemResponseHandler]);
@@ -78,8 +62,7 @@ const addWorkingCondition = async ({ itemInstance }) => {
 };
 
 const updateWorkingCondition = async ({ itemInstance, itemId: id }) => {
-  const dynamicFields = getDynamicFieldsToSend(itemInstance);
-  const item = applyTransform(itemInstance, [sanitize(dynamicFields), camelToSnake()]);
+  const item = applyTransform(itemInstance, [sanitize(fieldsToSend), camelToSnake()]);
   try {
     const response = await workingConditionService.updateWorkingCondition(id, { item: { ...item }});
     return applyTransform(response.data, [snakeToCamel()]);
