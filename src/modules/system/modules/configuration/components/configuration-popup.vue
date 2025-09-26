@@ -227,6 +227,7 @@ export default {
       EngineSystemSettingName,
       SettingDefaultValue: {
         [EngineSystemSettingName.PushNotificationTimeout]: 30,
+        [EngineSystemSettingName.ScreenshotInterval]: 30,
       },
     };
   },
