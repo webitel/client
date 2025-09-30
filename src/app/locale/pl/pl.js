@@ -852,6 +852,10 @@ export default {
         tags: 'Tagi',
         newQueue: 'Nowa kolejka',
         blacklist: 'Lista zatrzymana',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Opis nowej kolejki',
         outboundIVRQueue: 'Kolejka IVR wychodząca',
         outboundIVR: 'IVR wychodzący',

@@ -853,6 +853,10 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'New queue description',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',

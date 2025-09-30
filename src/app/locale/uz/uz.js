@@ -853,6 +853,10 @@ export default {
         tags: 'Teglar',
         newQueue: 'Yangi qo\'yuv',
         blacklist: 'To\'xtash ro\'yxati',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Yangi qo\'yuv tavsifi',
         outboundIVRQueue: 'Chiqish IVR qo\'yuv',
         outboundIVR: 'Chiqish IVR',
