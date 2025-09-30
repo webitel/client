@@ -855,6 +855,10 @@ export default {
         tags: 'Etichete',
         newQueue: 'Coadă nouă',
         blacklist: 'Listă de oprire',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descriere coadă nouă',
         outboundIVRQueue: 'Coadă IVR outbound',
         outboundIVR: 'IVR outbound',
