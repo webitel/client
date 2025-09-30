@@ -43,6 +43,7 @@ export default {
         map: selectedColumn,
       };
 
+
       await resourceDisplayApi.uploadNumbers(payload);
     },
   },
