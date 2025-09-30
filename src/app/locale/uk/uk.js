@@ -861,6 +861,10 @@ export default {
         teams: 'Команда| Команди',
         tags: 'Теги',
         blacklist: 'Стоп лист',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueue: 'Нова черга',
         newQueueDescription: 'Типи черг',
         outboundIVRQueue: 'Вихідна IVR-черга',
