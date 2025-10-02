@@ -271,7 +271,7 @@ export default {
 
   async mounted() {
     // Load global state on component mount
-    await this.$store.dispatch('ccenter/queues/state/FETCH_GLOBAL_STATE');
+    await this.$store.dispatch('ccenter/queues/globalState/FETCH_GLOBAL_STATE');
   },
 
   methods: {
