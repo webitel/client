@@ -3,13 +3,13 @@
     :file="file"
     :mapping-fields="mappingFields"
     :handling-mode="handlingMode"
-    :file-upload-handler="uploadFileAsItems"
+    :file-upload-handler="uploadFile"
     @close="close"
   />
 </template>
 
 <script>
-import HandlingMode from '../../../../../../_shared/upload-csv-popup/enums/HandlingMode.enum.js';
+import HandlingCSVMode from '../../../../../../_shared/upload-csv-popup/enums/HandlingCSVMode.enum.js';
 import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import resourceDisplayApi from '../api/resourceDisplay';
 
@@ -25,7 +25,7 @@ export default {
   },
 
   data: () => ({
-    handlingMode: HandlingMode.UPLOAD,
+    handlingMode: HandlingCSVMode.UPLOAD,
     mappingFields: [
       {
         name: 'number',
@@ -36,7 +36,7 @@ export default {
   }),
 
   methods: {
-    async uploadFileAsItems() {
+    async uploadFile() {
       const selectedColumn = this.mappingFields[0].csv;
 
       const payload = {

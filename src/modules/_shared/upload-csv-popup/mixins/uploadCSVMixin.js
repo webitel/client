@@ -1,7 +1,7 @@
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 
-import HandlingMode from '../enums/HandlingMode.enum.js'
+import HandlingCSVMode from '../enums/HandlingCSVMode.enum.js'
 import normalizeCSVData from '../scripts/normalizeCSVData';
 import parseCSV from '../scripts/parseCSV';
 import processFile from '../scripts/processFile';
@@ -21,7 +21,7 @@ export default {
     },
     handlingMode: {
       type: String,
-      default: HandlingMode.PROCESS,
+      default: HandlingCSVMode.PROCESS,
       description:
         "'process' - parse and process CSV, 'upload' - upload whole file",
     },
@@ -124,22 +124,16 @@ export default {
       });
     },
 
-    async handleCSVUpload() {
-      await this.fileUploadHandler();
-    },
-
     async processCSV() {
       this.isParsingCSV = true;
 
       try {
         this.parseErrorStackTrace = '';
 
-        const handlers = {
-          process: this.handleCSVProcessing,
-          upload: this.handleCSVUpload,
-        };
+        const handler = this.handlingMode === HandlingCSVMode.PROCESS
+          ? this.handleCSVProcessing
+          : this.fileUploadHandler;
 
-        const handler = handlers[this.handlingMode];
         await handler();
 
         this.close();
