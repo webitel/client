@@ -46,7 +46,10 @@
               @input="setSearch"
               @search="loadList"
             />
-            <QueueSateSwitcher ref="stateSwitcher" v-model="state" @onLoadItem="loadList"/>
+            <queue-global-sate-switcher
+              v-model="globalState"
+              @onLoadItem="loadList"
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -196,13 +199,13 @@ import TheQueuesFilters from '../modules/filters/components/the-queues-filters.v
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
-import QueueSateSwitcher from '../modules/state/components/state-switcher.vue';
+import QueueGlobalSateSwitcher from '../modules/state/components/global-state-switcher.vue';
 
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup,QueueSateSwitcher },
+  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, QueueGlobalSateSwitcher },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -236,7 +239,7 @@ export default {
     isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
-    state: false
+    globalState: false
   }),
 
   computed: {
@@ -266,6 +269,11 @@ export default {
     },
   },
 
+  async mounted() {
+    // Load global state on component mount
+    await this.$store.dispatch('ccenter/queues/state/FETCH_GLOBAL_STATE');
+  },
+
   methods: {
     openMembers(item) {
       return this.$router.push({
@@ -291,7 +299,7 @@ export default {
         value,
       });
       // Update global state after individual queue state change
-      await this.$refs.stateSwitcher?.fetchAllState();
+      await this.$store.dispatch('ccenter/queues/state/FETCH_GLOBAL_STATE');
     },
   },
 };
