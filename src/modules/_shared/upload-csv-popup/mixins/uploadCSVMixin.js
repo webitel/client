@@ -1,6 +1,7 @@
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 
+import HandlingMode from '../enums/HandlingMode.enum.js'
 import normalizeCSVData from '../scripts/normalizeCSVData';
 import parseCSV from '../scripts/parseCSV';
 import processFile from '../scripts/processFile';
@@ -20,7 +21,7 @@ export default {
     },
     handlingMode: {
       type: String,
-      default: 'process', // 'process' | 'upload'
+      default: HandlingMode.PROCESS,
       description:
         "'process' - parse and process CSV, 'upload' - upload whole file",
     },
@@ -110,20 +111,12 @@ export default {
       }
     },
     async handleCSVProcessing() {
-      if (!this.addBulkItems) {
-        throw new Error('addBulkItems handler is required for process mode');
-      }
-
       const sourceData = await parseCSV(this.parsedFile, this.parseCSVOptions);
-
-      console.info('sourceData', sourceData);
 
       const normalizedData = normalizeCSVData({
         data: sourceData,
         mappings: this.mappingFields,
       });
-
-      console.info('normalizedData', normalizedData);
 
       await splitAndSaveData({
         data: normalizedData,
@@ -132,21 +125,10 @@ export default {
     },
 
     async handleCSVUpload() {
-      if (!this.fileUploadHandler) {
-        throw new Error('fileUploadHandler is required for upload mode');
-      }
-
       await this.fileUploadHandler();
     },
 
     async processCSV() {
-      const validModes = ['process', 'upload'];
-      if (!validModes.includes(this.handlingMode)) {
-        throw new Error(
-          `Invalid handling mode: ${this.handlingMode}. Valid modes: ${validModes.join(', ')}`,
-        );
-      }
-
       this.isParsingCSV = true;
 
       try {

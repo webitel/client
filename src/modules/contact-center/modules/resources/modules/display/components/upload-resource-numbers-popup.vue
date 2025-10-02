@@ -2,15 +2,17 @@
   <upload-csv-popup
     :file="file"
     :mapping-fields="mappingFields"
-    :handling-mode="'upload'"
+    :handling-mode="handlingMode"
     :file-upload-handler="uploadFileAsItems"
     @close="close"
   />
 </template>
 
 <script>
+import HandlingMode from '../../../../../../_shared/upload-csv-popup/enums/HandlingMode.enum.js';
 import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import resourceDisplayApi from '../api/resourceDisplay';
+
 
 export default {
   name: 'UploadResourceNumbersPopup',
@@ -23,6 +25,7 @@ export default {
   },
 
   data: () => ({
+    handlingMode: HandlingMode.UPLOAD,
     mappingFields: [
       {
         name: 'number',
