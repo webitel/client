@@ -18,6 +18,8 @@ const resettableState = {
     chatCount: 1,
     taskCount: 1,
     isSupervisor: false,
+    allowSetScreenControl: false,
+    screenControl: false,
     greetingMedia: {},
   },
 };
@@ -27,7 +29,11 @@ const actions = {
     context.commit('RESET_ITEM_STATE');
     context.dispatch('ccenter/agents/queues/RESET_STATE', {}, { root: true });
     context.dispatch('ccenter/agents/skills/RESET_STATE', {}, { root: true });
-    context.dispatch('ccenter/agents/subordinates/RESET_STATE', {}, { root: true });
+    context.dispatch(
+      'ccenter/agents/subordinates/RESET_STATE',
+      {},
+      { root: true },
+    );
   },
 };
 

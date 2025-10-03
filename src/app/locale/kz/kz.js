@@ -761,6 +761,9 @@ export default {
           pause: 'Демалыс',
           breakOut: 'Шығу',
         },
+        agentScreenControl: 'Агент экранын басқару',
+        agentScreenControlHint:
+          'Топ параметрі қосылған кезде өшіру мүмкін емес',
       },
 
       auditors: {
