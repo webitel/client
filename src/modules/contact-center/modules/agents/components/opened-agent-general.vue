@@ -171,12 +171,12 @@ export default {
 .object-input-area-grid {
   display: grid;
   grid-template-areas:
-    'user media'
-    'team chatCount'
-    'region auditor'
-    'supervisor progressiveCount'
-    'taskCount isSupervisor'
-    'screenControl .'
+    'user team'
+    'progressiveCount media'
+    'chatCount region'
+    'taskCount auditor'
+    'screenControl supervisor'
+    '. isSupervisor'
   ;
   grid-template-columns: 1fr 1fr;
 
