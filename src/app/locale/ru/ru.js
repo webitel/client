@@ -994,6 +994,10 @@ export default {
           formSchema: 'Схема динамической обработки',
           sec: 'Время обработки (сек)',
           renewalSec: 'Предложить продление после (сек)',
+          allowProlongation: 'Разрешить продление постобработки',
+          repeatsNumber: 'Количество повторов',
+          prolongationTimeSec: 'Время для продления (сек)',
+          isTimeoutRetry: 'Повтор до таймаута',
         },
         queueStrategy: {
           fifo: 'FIFO (Первый зашёл Первый вышел)',

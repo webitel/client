@@ -72,6 +72,13 @@ const actions = {
       value: true,
     });
   },
+  SET_ITEM_PROLONGATION_OPTION: (context, payload) => {
+    context.commit('SET_ITEM_PROLONGATION_OPTION', payload);
+    context.commit('SET_ITEM_PROPERTY', {
+      prop: '_dirty',
+      value: true,
+    });
+  },
   SET_AMD_ITEM_PROPERTY: (context, payload) => {
     context.commit('SET_AMD_ITEM_PROPERTY', payload);
     context.commit('SET_ITEM_PROPERTY', {
@@ -122,6 +129,9 @@ const mutations = {
   },
   SET_ITEM_PROCESSING_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.taskProcessing[prop] = value;
+  },
+  SET_ITEM_PROLONGATION_OPTION: (state, { prop, value }) => {
+    state.itemInstance.taskProcessing.prolongationOptions[prop] = value;
   },
   SET_AMD_ITEM_PROPERTY: (state, { prop, value }) => {
     state.itemInstance.payload.amd[prop] = value;

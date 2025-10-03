@@ -7,6 +7,12 @@ const processing = (processing = {}) =>
       formSchema: {},
       sec: 30,
       renewalSec: 15,
+      prolongationOptions: {
+        enabled: false,
+        isTimeoutRetry: true,
+        prolongationTimeSec: 30,
+        repeatsNumber: 1,
+      },
     },
     processing,
   );

@@ -983,6 +983,10 @@ export default {
           formSchema: 'Dynamic processing schema',
           sec: 'Postprocessing time (sec)',
           renewalSec: 'Notify to continue after (sec)',
+          allowProlongation: 'Allow postprocessing prolongation',
+          repeatsNumber: 'Number of repeats',
+          prolongationTimeSec: 'Time for prolongation (sec)',
+          isTimeoutRetry: 'Retry to timeout',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',

@@ -982,6 +982,10 @@ export default {
           formSchema: 'Sơ đồ xử lý động',
           sec: 'Thời gian xử lý sau (giây)',
           renewalSec: 'Thông báo để tiếp tục sau (giây)',
+          allowProlongation: 'Cho phép kéo dài xử lý sau',
+          repeatsNumber: 'Số lần lặp lại',
+          prolongationTimeSec: 'Thời gian kéo dài (giây)',
+          isTimeoutRetry: 'Thử lại cho đến hết thời gian chờ',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',

@@ -982,6 +982,10 @@ export default {
           formSchema: 'Dinamik tahrirlash sxemasi',
           sec: 'Posttizim vaqti (sek)',
           renewalSec: 'Davom etishni boshlashdan keyin bildirish (sek)',
+          allowProlongation: 'Posttizimni uzaytirishga ruxsat berish',
+          repeatsNumber: 'Takrorlashlar soni',
+          prolongationTimeSec: 'Uzaytirish vaqti (sek)',
+          isTimeoutRetry: 'Vaqt tugagunga qadar qayta urinish',
         },
         queueStrategy: {
           fifo: 'FIFO (Birinchi kirish, birinchi chiqish)',
