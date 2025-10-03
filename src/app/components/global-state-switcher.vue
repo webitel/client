@@ -7,42 +7,37 @@
   />
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 const allState = defineModel({ default: false })
 
 interface stateSwitcherProps {
   disabled: boolean
+  isLoading: boolean
 }
 interface stateSwitcherEmits {
-  (e: 'update:modelValue', value: boolean): void
+  (e: 'update:model-value', value: boolean): void
   (e: 'onLoadItem'): void
+  (e: 'onLoadGlobalState'): void
 }
 
 withDefaults(defineProps<stateSwitcherProps>(), {
   disabled: false,
+  isLoading: false,
 })
 const emit = defineEmits<stateSwitcherEmits>()
 
 const store = useStore()
 
-const isAllEnabled = computed(() => store.getters['ccenter/queues/globalState/IS_ALL_ENABLED'])
-const isLoading = computed(() => store.getters['ccenter/queues/globalState/IS_LOADING'])
-
 const fetchGlobalState = async () => {
-  try {
-    await store.dispatch('ccenter/queues/globalState/FETCH_GLOBAL_STATE')
-    allState.value = isAllEnabled.value
-  } catch (e) {
-    console.error(e)
-  }
+  emit('onLoadGlobalState')
 }
 
 const changeState = async (value: boolean) => {
   try {
-    await store.dispatch('ccenter/queues/globalState/SET_GLOBAL_STATE', { enabled: value })
     allState.value = value
+    emit('update:model-value', value)
     emit('onLoadItem')
   } catch (e) {
     console.error(e)

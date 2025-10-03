@@ -46,9 +46,11 @@
               @input="setSearch"
               @search="loadList"
             />
-            <queue-global-sate-switcher
-              v-model="globalState"
-              @onLoadItem="loadList"
+            <global-state-switcher
+              :model-value="isAllEnabled"
+              :is-loading="isLoading"
+              @update:model-value="changeGlobalState"
+              @onLoadGlobalState="fetchGlobalState"
             />
             <wt-table-actions
               :icons="['refresh']"
@@ -199,13 +201,13 @@ import TheQueuesFilters from '../modules/filters/components/the-queues-filters.v
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
-import QueueGlobalSateSwitcher from '../modules/state/components/global-state-switcher.vue';
 
+import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, QueueGlobalSateSwitcher },
+  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -239,7 +241,6 @@ export default {
     isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
-    globalState: false
   }),
 
   computed: {
@@ -260,6 +261,13 @@ export default {
     isResetActiveAttemptsAllow() {
       return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
     },
+
+    isLoading () {
+      return this.$store.getters['ccenter/queues/globalState/IS_LOADING']
+    },
+    isAllEnabled() {
+      return this.$store.getters['ccenter/queues/globalState/IS_ALL_ENABLED']
+    }
   },
   watch: {
     '$route.query': {
@@ -271,10 +279,25 @@ export default {
 
   async mounted() {
     // Load global state for all items in table
-    await this.$store.dispatch('ccenter/queues/globalState/FETCH_GLOBAL_STATE');
+    await this.fetchGlobalState();
   },
 
   methods: {
+    async fetchGlobalState () {
+      try {
+        await this.$store.dispatch('ccenter/queues/globalState/FETCH_GLOBAL_STATE')
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async changeGlobalState (value) {
+      try {
+        await this.$store.dispatch('ccenter/queues/globalState/SET_GLOBAL_STATE', { enabled: value })
+        await this.loadDataList()
+      } catch (e) {
+        console.error(e)
+      }
+    },
     openMembers(item) {
       return this.$router.push({
         ...this.$route,
@@ -299,7 +322,7 @@ export default {
         value,
       });
       // Update global state after individual queue state change
-      await this.$store.dispatch('ccenter/queues/state/FETCH_GLOBAL_STATE');
+      await this.fetchGlobalState();
     },
   },
 };
