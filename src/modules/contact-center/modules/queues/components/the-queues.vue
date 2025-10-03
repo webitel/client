@@ -55,7 +55,7 @@
             />
             <global-state-switcher
               :model-value="isAllEnabled"
-              :is-loading="isLoading"
+              :is-loading="isLoadingGlobalState"
               @update:model-value="changeGlobalState"
               @onLoadGlobalState="fetchGlobalState"
             />
