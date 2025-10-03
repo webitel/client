@@ -54,7 +54,7 @@
               @search="loadList"
             />
             <global-state-switcher
-              :model-value="isAllEnabled"
+              :model-value="globalState"
               :is-loading="isLoadingGlobalState"
               @update:model-value="changeGlobalState"
               @onLoadGlobalState="fetchGlobalState"
@@ -289,13 +289,6 @@ export default {
     },
     isResetActiveAttemptsAllow() {
       return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
-    },
-
-    isLoading() {
-      return this.isLoadingGlobalState
-    },
-    isAllEnabled() {
-      return this.globalState
     }
   },
   watch: {
