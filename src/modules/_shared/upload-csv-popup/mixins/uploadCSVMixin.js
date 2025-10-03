@@ -1,6 +1,7 @@
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 
+import HandlingCSVMode from '../enums/HandlingCSVMode.enum.js'
 import normalizeCSVData from '../scripts/normalizeCSVData';
 import parseCSV from '../scripts/parseCSV';
 import processFile from '../scripts/processFile';
@@ -18,6 +19,13 @@ export default {
     addBulkItems: {
       type: Function,
     },
+    handlingMode: {
+      type: String,
+      default: HandlingCSVMode.PROCESS,
+      description:
+        "'process' - parse and process CSV, 'upload' - upload whole file",
+    },
+    fileUploadHandler: { type: Function },
   },
   model: {
     prop: 'mappingFields',
@@ -102,26 +110,31 @@ export default {
         this.csvPreview = [[]];
       }
     },
+    async handleCSVProcessing() {
+      const sourceData = await parseCSV(this.parsedFile, this.parseCSVOptions);
+
+      const normalizedData = normalizeCSVData({
+        data: sourceData,
+        mappings: this.mappingFields,
+      });
+
+      await splitAndSaveData({
+        data: normalizedData,
+        saveCallback: this.addBulkItems,
+      });
+    },
+
     async processCSV() {
       this.isParsingCSV = true;
+
       try {
         this.parseErrorStackTrace = '';
 
-        const sourceData = await parseCSV(this.parsedFile, this.parseCSVOptions);
+        const handler = this.handlingMode === HandlingCSVMode.PROCESS
+          ? this.handleCSVProcessing
+          : this.fileUploadHandler;
 
-        console.info('sourceData', sourceData);
-
-        const normalizedData = normalizeCSVData({
-          data: sourceData,
-          mappings: this.mappingFields,
-        });
-
-        console.info('normalizedData', normalizedData);
-
-        await splitAndSaveData({
-          data: normalizedData,
-          saveCallback: this.addBulkItems,
-        });
+        await handler();
 
         this.close();
       } catch (err) {
@@ -157,7 +170,7 @@ export default {
     async separator() {
       await this.handleParseOptionsChange();
     },
-   file: {
+    file: {
       handler(file) {
         if (file) this.initUploadPopup();
       },

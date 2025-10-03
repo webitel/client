@@ -33,6 +33,13 @@
         @close="closeDelete"
       />
 
+      <object-list-popup
+        v-show="objectListPopupData"
+        :data-list="objectListPopupData"
+        :title="objectListPopupTitle"
+        @close="closeObjectListPopup"
+      />
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
@@ -148,6 +155,20 @@
                 @update:model-value="changeStateItem($event, index, item)"
               />
             </template>
+            <template #resourceGroups="{ item }">
+              <one-plus-many
+                v-if="item.resourceGroups"
+                :collection="item.resourceGroups"
+                @input="openResourceGroupsPopup(item)"
+              />
+            </template>
+            <template #resources="{ item }">
+              <one-plus-many
+                v-if="item.resources"
+                :collection="item.resources"
+                @input="openResourcesPopup(item)"
+              />
+            </template>
             <template #actions="{ item }">
               <wt-icon-btn
                 v-tooltip="$t('iconHints.members')"
@@ -201,6 +222,9 @@ import TheQueuesFilters from '../modules/filters/components/the-queues-filters.v
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
+import OnePlusMany
+  from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
+import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import QueueStateAPI from '../modules/state/api/queueState';
 
 import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
@@ -208,7 +232,7 @@ const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher },
+  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -237,6 +261,8 @@ export default {
   },
 
   data: () => ({
+    objectListPopupData: null,
+    objectListPopupTitle: '',
     namespace,
     isQueueSelectPopup: false,
     isAttemptsResetPopup: false,
@@ -286,6 +312,18 @@ export default {
   },
 
   methods: {
+    closeObjectListPopup() {
+      this.objectListPopupData = null;
+      this.objectListPopupTitle = '';
+    },
+    openResourcesPopup(item) {
+      this.objectListPopupData = item.resources;
+      this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resources', 2);
+    },
+    openResourceGroupsPopup(item) {
+      this.objectListPopupData = item.resourceGroups;
+      this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resourceGroups', 2);
+    },
     async fetchGlobalState() {
       try {
         this.isLoadingGlobalState = true;
