@@ -984,6 +984,10 @@ export default {
           formSchema: 'Schema de procesare dinamică',
           sec: 'Timp postprocesare (sec)',
           renewalSec: 'Notifică pentru continuare după (sec)',
+          allowProlongation: 'Permite prelungirea postprocesării',
+          repeatsNumber: 'Număr de repetări',
+          prolongationTimeSec: 'Timp pentru prelungire (sec)',
+          isTimeoutRetry: 'Reîncearcă până la timeout',
         },
         queueStrategy: {
           fifo: 'FIFO (Primul intrat, Primul ieșit)',

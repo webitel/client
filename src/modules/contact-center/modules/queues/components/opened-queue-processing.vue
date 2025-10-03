@@ -41,6 +41,45 @@
         type="number"
         @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
       />
+      <wt-switcher
+        v-if="specificControls['taskProcessing.prolongationOptions.enabled']"
+        v-show="itemInstance.taskProcessing.enabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.allowProlongation')"
+        :model-value="itemInstance.taskProcessing.prolongationOptions.enabled"
+        @update:model-value="setItemProlongationOption({ prop: 'enabled', value: $event })"
+      />
+      <div v-show="itemInstance.taskProcessing.enabled" />
+      <wt-input
+        v-if="specificControls['taskProcessing.prolongationOptions.repeatsNumber']"
+        v-show="itemInstance.taskProcessing.enabled && itemInstance.taskProcessing.prolongationOptions.enabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.repeatsNumber')"
+        :value="itemInstance.taskProcessing.prolongationOptions.repeatsNumber"
+        min="1"
+        type="number"
+        @input="setItemProlongationOption({ prop: 'repeatsNumber', value: +$event })"
+      />
+      <div v-show="itemInstance.taskProcessing.enabled && itemInstance.taskProcessing.prolongationOptions.enabled" />
+      <wt-input
+        v-if="specificControls['taskProcessing.prolongationOptions.prolongationTimeSec']"
+        v-show="itemInstance.taskProcessing.enabled && itemInstance.taskProcessing.prolongationOptions.enabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.prolongationTimeSec')"
+        :value="itemInstance.taskProcessing.prolongationOptions.prolongationTimeSec"
+        min="1"
+        type="number"
+        @input="setItemProlongationOption({ prop: 'prolongationTimeSec', value: +$event })"
+      />
+      <div v-show="itemInstance.taskProcessing.enabled && itemInstance.taskProcessing.prolongationOptions.enabled" />
+      <wt-switcher
+        v-if="specificControls['taskProcessing.prolongationOptions.isTimeoutRetry']"
+        v-show="itemInstance.taskProcessing.enabled && itemInstance.taskProcessing.prolongationOptions.enabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.isTimeoutRetry')"
+        :model-value="itemInstance.taskProcessing.prolongationOptions.isTimeoutRetry"
+        @update:model-value="setItemProlongationOption({ prop: 'isTimeoutRetry', value: $event })"
+      />
     </div>
   </section>
 </template>
@@ -71,6 +110,9 @@ export default {
     ...mapActions({
       setItemProcessingProp(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`, payload);
+      },
+      setItemProlongationOption(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROLONGATION_OPTION`, payload);
       },
     }),
     loadDropdownOptionsSchemaList(params) {

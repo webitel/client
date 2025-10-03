@@ -981,6 +981,10 @@ export default {
           formSchema: 'Schemat dynamicznego przetwarzania',
           sec: 'Czas przetwarzania pośredniego (sek)',
           renewalSec: 'Powiadom o kontynuacji po (sek)',
+          allowProlongation: 'Zezwalaj na przedłużenie przetwarzania końcowego',
+          repeatsNumber: 'Liczba powtórzeń',
+          prolongationTimeSec: 'Czas przedłużenia (sek)',
+          isTimeoutRetry: 'Ponawiaj do przekroczenia czasu',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',

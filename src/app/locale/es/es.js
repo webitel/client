@@ -986,6 +986,10 @@ export default {
           formSchema: 'Esquema de procesamiento dinámico',
           sec: 'Tiempo de postprocesamiento (seg)',
           renewalSec: 'Notificar para continuar después de (seg)',
+          allowProlongation: 'Permitir prolongación del postprocesamiento',
+          repeatsNumber: 'Número de repeticiones',
+          prolongationTimeSec: 'Tiempo para prolongación (seg)',
+          isTimeoutRetry: 'Reintentar hasta tiempo de espera',
         },
         queueStrategy: {
           fifo: 'FIFO (Primero en entrar, primero en salir)',
