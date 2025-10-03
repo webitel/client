@@ -1,6 +1,6 @@
 <template>
   <wt-switcher
-    :model-value="isAllEnabled"
+    :model-value="allState"
     :disabled="disabled || isLoading"
     :label="$t('objects.lookups.skills.stateForAll')"
     @update:model-value="changeState"
