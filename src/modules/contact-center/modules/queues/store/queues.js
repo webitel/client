@@ -12,7 +12,6 @@ import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
 import resGroups from '../modules/res-groups/store/queue-res-groups';
 import skills from '../modules/skills/store/queue-skills';
-import globalState from '../modules/state/store/queue-global-state';
 import headers from './_internals/headers';
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
@@ -156,7 +155,6 @@ const queues = new ObjectStoreModule({ resettableState, headers })
     members,
     permissions,
     filters,
-    globalState,
   })
   .getModule({ actions, mutations });
 

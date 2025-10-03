@@ -201,6 +201,7 @@ import TheQueuesFilters from '../modules/filters/components/the-queues-filters.v
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
+import QueueStateAPI from '../modules/state/api/queueState';
 
 import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
 const namespace = 'ccenter/queues';
@@ -241,6 +242,8 @@ export default {
     isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
+    globalState: false,
+    isLoadingGlobalState: false,
   }),
 
   computed: {
@@ -262,11 +265,11 @@ export default {
       return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
     },
 
-    isLoading () {
-      return this.$store.getters['ccenter/queues/globalState/IS_LOADING']
+    isLoading() {
+      return this.isLoadingGlobalState
     },
     isAllEnabled() {
-      return this.$store.getters['ccenter/queues/globalState/IS_ALL_ENABLED']
+      return this.globalState
     }
   },
   watch: {
@@ -283,19 +286,27 @@ export default {
   },
 
   methods: {
-    async fetchGlobalState () {
+    async fetchGlobalState() {
       try {
-        await this.$store.dispatch('ccenter/queues/globalState/FETCH_GLOBAL_STATE')
+        this.isLoadingGlobalState = true;
+        const state = await QueueStateAPI.getQueuesGlobalState();
+        this.globalState = !!state?.isAllEnabled;
       } catch (e) {
-        console.error(e)
+        console.error('Failed to fetch global state:', e);
+      } finally {
+        this.isLoadingGlobalState = false;
       }
     },
-    async changeGlobalState (value) {
+    async changeGlobalState(value) {
       try {
-        await this.$store.dispatch('ccenter/queues/globalState/SET_GLOBAL_STATE', { enabled: value })
-        await this.loadDataList()
+        this.isLoadingGlobalState = true;
+        await QueueStateAPI.setQueuesGlobalState({ enabled: value });
+        this.globalState = value;
+        await this.loadDataList();
       } catch (e) {
-        console.error(e)
+        console.error('Failed to change global state:', e);
+      } finally {
+        this.isLoadingGlobalState = false;
       }
     },
     openMembers(item) {
