@@ -852,6 +852,10 @@ export default {
         tags: 'Тақтар',
         newQueue: 'Жаңа қойма',
         blacklist: 'Стоп тізімі',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Жаңа қойма сипаттамасы',
         outboundIVRQueue: 'Шығыс IVR қоймасы',
         outboundIVR: 'Шығыс IVR',

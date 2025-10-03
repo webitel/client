@@ -856,6 +856,10 @@ export default {
         tags: 'Thẻ',
         newQueue: 'Hàng đợi mới',
         blacklist: 'Danh sách dừng',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Mô tả hàng đợi mới',
         outboundIVRQueue: 'Hàng đợi IVR xuất',
         outboundIVR: 'IVR xuất',

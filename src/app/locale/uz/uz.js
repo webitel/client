@@ -858,10 +858,14 @@ export default {
         priority: 'Prioritet',
         teams: 'Jamoa | Jamoalar',
         tags: 'Teglar',
-        newQueue: "Yangi qo'yuv",
-        blacklist: "To'xtash ro'yxati",
-        newQueueDescription: "Yangi qo'yuv tavsifi",
-        outboundIVRQueue: "Chiqish IVR qo'yuv",
+        newQueue: 'Yangi qo\'yuv',
+        blacklist: 'To\'xtash ro\'yxati',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
+        newQueueDescription: 'Yangi qo\'yuv tavsifi',
+        outboundIVRQueue: 'Chiqish IVR qo\'yuv',
         outboundIVR: 'Chiqish IVR',
         outboundIVRQueueDescription:
           'Chiqish IVR tizimiga organizatsiya avtomatik tarzda foydalanuvchilarni kutib olish imkonini beradi. Boshqa kanallar orqali avtomatik zvonklar, SMS xabarlar, elektron pochta yoki shaxsiy tarmoqlar orqali personalizatsiyalangan xabarlarni ishlatadi.',

@@ -861,6 +861,10 @@ export default {
         tags: 'Etiquetas',
         newQueue: 'Nueva cola',
         blacklist: 'Lista de parada',
+        resources: ({ linked }) =>
+          linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descripción de la nueva cola',
         outboundIVRQueue: 'Cola IVR de salida',
         outboundIVR: 'IVR de salida',
