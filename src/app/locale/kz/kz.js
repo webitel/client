@@ -976,6 +976,10 @@ export default {
           formSchema: 'Динамикалық құрылғы схемасы',
           sec: 'Пост-өңдеу уақыты (сек)',
           renewalSec: 'Кейін қайтару (сек)',
+          allowProlongation: 'Пост-өңдеуді ұзартуға рұқсат ету',
+          repeatsNumber: 'Қайталаулар саны',
+          prolongationTimeSec: 'Ұзарту уақыты (сек)',
+          isTimeoutRetry: 'Уақыт бітуге дейін қайталау',
         },
         queueStrategy: {
           fifo: 'FIFO (Бірінші кіріп, бірінші шығу)',
