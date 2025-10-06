@@ -33,9 +33,7 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <wt-switcher
-            :label="$t('objects.lookups.skills.stateForAll')"
-            :label-left="true"
+          <global-state-switcher
             :model-value="aggs.enabled"
             @update:model-value="changeStateForAll"
           />
@@ -142,10 +140,12 @@ import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
+import GlobalStateSwitcher from '../../../../../../../app/components/global-state-switcher.vue';
 
 export default {
   name: 'OpenedSkillAgents',
   components: {
+    GlobalStateSwitcher,
     AddSkillToAgentPopup,
     ChangeSkillPopup,
     DeleteConfirmationPopup,

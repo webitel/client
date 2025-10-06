@@ -53,6 +53,12 @@
               @input="setSearch"
               @search="loadList"
             />
+            <global-state-switcher
+              :model-value="globalState"
+              :is-loading="isLoadingGlobalState"
+              @update:model-value="changeGlobalState"
+              @onLoadGlobalState="fetchGlobalState"
+            />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
@@ -146,7 +152,7 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :model-value="item.enabled"
-                @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event})"
+                @update:model-value="changeStateItem($event, index, item)"
               />
             </template>
             <template #resourceGroups="{ item }">
@@ -219,12 +225,14 @@ import QueuePopup from './create-queue-popup.vue';
 import OnePlusMany
   from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import QueueStateAPI from '../modules/state/api/queueState';
 
+import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
+  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -260,6 +268,8 @@ export default {
     isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
+    globalState: false,
+    isLoadingGlobalState: false,
   }),
 
   computed: {
@@ -279,7 +289,7 @@ export default {
     },
     isResetActiveAttemptsAllow() {
       return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
-    },
+    }
   },
   watch: {
     '$route.query': {
@@ -287,6 +297,11 @@ export default {
         await this.loadList();
       },
     },
+  },
+
+  async mounted() {
+    // Load global state for all items in table
+    await this.fetchGlobalState();
   },
 
   methods: {
@@ -301,6 +316,29 @@ export default {
     openResourceGroupsPopup(item) {
       this.objectListPopupData = item.resourceGroups;
       this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resourceGroups', 2);
+    },
+    async fetchGlobalState() {
+      try {
+        this.isLoadingGlobalState = true;
+        const state = await QueueStateAPI.getQueuesGlobalState();
+        this.globalState = !!state?.isAllEnabled;
+      } catch (e) {
+        console.error('Failed to fetch global state:', e);
+      } finally {
+        this.isLoadingGlobalState = false;
+      }
+    },
+    async changeGlobalState(value) {
+      try {
+        this.isLoadingGlobalState = true;
+        await QueueStateAPI.setQueuesGlobalState({ enabled: value });
+        this.globalState = value;
+        await this.loadDataList();
+      } catch (e) {
+        console.error('Failed to change global state:', e);
+      } finally {
+        this.isLoadingGlobalState = false;
+      }
     },
     openMembers(item) {
       return this.$router.push({
@@ -317,6 +355,16 @@ export default {
     },
     create() {
       this.isQueueSelectPopup = true;
+    },
+    async changeStateItem(value, index, item) {
+      await this.patchItem({
+        item,
+        index,
+        prop: 'enabled',
+        value,
+      });
+      // Update global state after individual queue state change
+      await this.fetchGlobalState();
     },
   },
 };
