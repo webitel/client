@@ -773,6 +773,9 @@ export default {
           pause: 'Пауза',
           breakOut: 'Примусова пауза',
         },
+        agentScreenControl: 'Слідкувати за екраном оператора',
+        agentScreenControlHint:
+          'Неможливо вимкнути, поки налаштування для команди увімкнене',
       },
 
       auditors: {
