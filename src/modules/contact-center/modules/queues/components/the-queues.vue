@@ -55,7 +55,6 @@
             />
             <global-state-switcher
               :model-value="globalState"
-              :is-loading="isLoadingGlobalState"
               @update:model-value="changeGlobalState"
               @onLoadGlobalState="fetchGlobalState"
             />
@@ -269,7 +268,6 @@ export default {
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
     globalState: false,
-    isLoadingGlobalState: false,
   }),
 
   computed: {
@@ -319,25 +317,19 @@ export default {
     },
     async fetchGlobalState() {
       try {
-        this.isLoadingGlobalState = true;
         const state = await QueueStateAPI.getQueuesGlobalState();
         this.globalState = !!state?.isAllEnabled;
       } catch (e) {
         console.error('Failed to fetch global state:', e);
-      } finally {
-        this.isLoadingGlobalState = false;
       }
     },
     async changeGlobalState(value) {
       try {
-        this.isLoadingGlobalState = true;
         await QueueStateAPI.setQueuesGlobalState({ enabled: value });
         this.globalState = value;
         await this.loadDataList();
       } catch (e) {
         console.error('Failed to change global state:', e);
-      } finally {
-        this.isLoadingGlobalState = false;
       }
     },
     openMembers(item) {
