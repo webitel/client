@@ -1,7 +1,7 @@
 <template>
   <wt-switcher
     :model-value="globalState"
-    :disabled="disabled || isLoading"
+    :disabled="disabled"
     :label="$t('objects.lookups.skills.stateForAll')"
     @update:model-value="changeState"
   />
@@ -13,7 +13,6 @@ const globalState = defineModel({ default: false })
 
 interface stateSwitcherProps {
   disabled: boolean
-  isLoading: boolean
 }
 interface stateSwitcherEmits {
   (e: 'update:model-value', value: boolean): void
@@ -23,7 +22,6 @@ interface stateSwitcherEmits {
 
 withDefaults(defineProps<stateSwitcherProps>(), {
   disabled: false,
-  isLoading: false,
 })
 const emit = defineEmits<stateSwitcherEmits>()
 
