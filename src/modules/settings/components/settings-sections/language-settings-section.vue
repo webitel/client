@@ -45,10 +45,10 @@ function changeLanguage(lang: string) {
   localStorage.setItem('lang', lang);
 }
 
-function changeFallbackLanguage(lang: string) {
-  fallbackLocale.value = lang;
-  localStorage.setItem('fallbackLang', lang);
-}
+// function changeFallbackLanguage(lang: string) {
+//   fallbackLocale.value = lang;
+//   localStorage.setItem('fallbackLang', lang);
+// }
 
 </script>
 
