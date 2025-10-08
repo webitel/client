@@ -108,7 +108,7 @@ export default {
     }),
     settings() {
       const settingsUrl = import.meta.env.VITE_SETTINGS_URL;
-      window.open(settingsUrl);
+      window.open(settingsUrl, '_blank', 'noopener,noreferrer');
     },
 
     logoutUser() {
