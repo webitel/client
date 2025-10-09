@@ -44,6 +44,8 @@
           :data="dataList"
           :grid-actions="false"
           :headers="headers"
+          :lazy="true"
+          :on-loading="handleIntersect"
           sortable
           @sort="sort"
         >
@@ -65,11 +67,6 @@
             </adm-item-link>
           </template>
         </wt-table>
-        <wt-intersection-observer
-          :canLoadMore="!isLoading || isNext"
-          :loading="isLoading"
-          @next="handleIntersect"
-        />
       </div>
     </template>
     <template #actions>
@@ -210,6 +207,7 @@ async function callLoadDataList() {
 }
 
 const handleIntersect = () => {
+  if (!isNext.value) return;
   page.value += 1;
   callLoadDataList();
 }
