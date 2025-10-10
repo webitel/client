@@ -1149,6 +1149,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медиа',
           [StorageUploadFileChannel.MailChannel]: 'письмо',
           [StorageUploadFileChannel.LogChannel]: 'лог',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'демонстрация экрана',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоты',
         },
         encryptFile: 'Шифровать файлы',
       },

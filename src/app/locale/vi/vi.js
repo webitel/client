@@ -1124,6 +1124,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'phương tiện',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
         },
         encryptFile: 'Mã hóa tệp',
       },

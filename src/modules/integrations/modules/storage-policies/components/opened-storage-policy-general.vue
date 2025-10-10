@@ -110,7 +110,7 @@
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
-import { StorageUploadFileChannel } from 'webitel-sdk';
+import { StorageUploadFileChannel } from '@webitel/api-services/gen/models';
 
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
