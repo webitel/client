@@ -1129,6 +1129,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'elektron pochta',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
         },
         encryptFile: 'Fayllarni shifrlash',
       },

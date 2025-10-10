@@ -1125,6 +1125,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'udostępnianie ekranu',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
         encryptFile: 'Szyfruj pliki',
       },
