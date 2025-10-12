@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
         chatName: "Chat ko'rsatish nomi",
+        csvMappingFields: {
+          username: 'Foydalanuvchi nomi',
+          name: 'Ism',
+          extension: 'Kengaytma',
+          email: 'Elektron pochta',
+        },
       },
       license: {
         customers: 'Mijozlar',

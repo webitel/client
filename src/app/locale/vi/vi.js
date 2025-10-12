@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
+        csvMappingFields: {
+          username: 'Tên người dùng',
+          name: 'Tên',
+          extension: 'Phần mở rộng',
+          email: 'Email',
+        },
       },
       license: {
         customers: 'Khách hàng',

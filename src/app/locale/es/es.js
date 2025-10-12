@@ -237,6 +237,12 @@ export default {
         askingAlert:
           '¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
         chatName: 'Nombre de visualización de chat',
+        csvMappingFields: {
+          username: 'Nombre de usuario',
+          name: 'Nombre',
+          extension: 'Extensión',
+          email: 'Correo electrónico',
+        },
       },
       license: {
         customers: 'Clientes',

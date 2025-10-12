@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
+        csvMappingFields: {
+          username: 'Nume de utilizator',
+          name: 'Nume',
+          extension: 'Extensie',
+          email: 'E-mail',
+        },
       },
       license: {
         customers: 'Clienți',

@@ -236,6 +236,12 @@ export default {
         askingAlert:
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
+        csvMappingFields: {
+          username: 'Nazwa użytkownika',
+          name: 'Imię',
+          extension: 'Rozszerzenie',
+          email: 'Adres e-mail',
+        },
       },
       license: {
         customers: 'Klienci',

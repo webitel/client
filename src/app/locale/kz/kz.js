@@ -236,6 +236,12 @@ export default {
         askingAlert:
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
+        csvMappingFields: {
+          username: 'Пайдаланушы аты',
+          name: 'Аты',
+          extension: 'Кеңейту',
+          email: 'Электрондық пошта',
+        },
       },
       license: {
         customers: 'Клиенттер',
