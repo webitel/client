@@ -72,14 +72,14 @@
             class="upload-popup-mapping-item"
           >
             <p class="upload-popup-mapping-item__field">
-              {{ field.text || field.name }}<span v-if="field.required">*</span>
+              {{ $t(field.locale) }}<span v-if="field.required">*</span>
             </p>
             <wt-select
               v-if="!field.multiple"
               v-model="field.csv"
               :clearable="!field.required"
               :options="csvColumns"
-              :placeholder="field.text || field.name"
+              :placeholder="$t(field.locale)"
               :track-by="null"
               class="upload-popup-mapping-item__select"
             />
@@ -87,7 +87,7 @@
               v-else
               v-model="field.csv"
               :options="csvColumns"
-              :placeholder="field.text || field.name"
+              :placeholder="$t(field.locale)"
               class="upload-popup-mapping-item__select"
             />
             <div

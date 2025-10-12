@@ -1,72 +1,68 @@
+const baseLocale = 'objects.ccenter.members.csvMappingFields';
+
 const ImportCsvMemberMappings = {
   name: {
-    locale: 'reusable.name',
+    locale: `${baseLocale}.name`,
     required: true,
     csv: '',
   },
   timezoneId: {
-    locale: 'objects.lookups.calendars.timezone',
+    locale: `${baseLocale}.timezoneId`,
     required: false,
     csv: '',
   },
   priority: {
-    locale: ['vocabulary.priority', 1],
+    locale: `${baseLocale}.priority`,
     required: false,
     csv: '',
   },
   expireAt: {
-    locale: 'objects.ccenter.queues.expire',
+    locale: `${baseLocale}.expireAt`,
     required: false,
     csv: '',
   },
   bucketId: {
-    locale: ['objects.lookups.buckets.buckets', 1],
+    locale: `${baseLocale}.bucketId`,
     required: false,
     csv: '',
   },
   agentId: {
-    locale: ['objects.ccenter.agents.agents', 1],
+    locale: `${baseLocale}.agentId`,
     required: false,
     csv: '',
   },
   variables: {
-    locale: ['vocabulary.variables', 2],
+    locale: `${baseLocale}.variables`,
     required: false,
     multiple: true,
     csv: [],
   },
   destination: {
-    locale: [
-      ['objects.lookups.communications.communications', 1],
-      'objects.ccenter.members.destination',
-    ],
+    locale: `${baseLocale}.destination`,
     required: true,
     multiple: true,
     csv: [],
   },
   commPriority: {
-    locale: [['objects.lookups.communications.communications', 1], ['vocabulary.priority', 1]],
+    locale: `${baseLocale}.commPriority`,
     required: false,
     multiple: true,
     csv: [],
   },
   code: {
-    locale: [
-      ['objects.lookups.communications.communications', 1],
-      'objects.lookups.communications.code',
-    ],
+    locale: `${baseLocale}.code`,
     required: true,
     multiple: true,
     csv: [],
   },
   description: {
-    locale: [['objects.lookups.communications.communications', 1], 'objects.description'],
+    locale: `${baseLocale}.description`,
     required: false,
     multiple: true,
     csv: [],
   },
   dtmf: {
-    locale: ['objects.ccenter.members.dtmf', 1],
+    locale: `${baseLocale}.dtmf`,
     required: false,
     multiple: true,
     csv: [],
