@@ -838,6 +838,20 @@ export default {
           missed: 'Przegapione',
           expired: 'Wygasło',
         },
+        csvMappingFields: {
+          name: 'Nazwa',
+          timezoneId: 'Strefa czasowa',
+          priority: 'Priorytet',
+          expireAt: 'Data wygaśnięcia',
+          bucketId: 'Zasobnik',
+          agentId: 'Agent',
+          variables: 'Zmienne',
+          destination: 'Cel',
+          commPriority: 'Priorytet typów komunikacji',
+          code: 'Kod',
+          description: 'Opis',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -855,8 +869,7 @@ export default {
         tags: 'Tagi',
         newQueue: 'Nowa kolejka',
         blacklist: 'Lista zatrzymana',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Opis nowej kolejki',
@@ -1125,7 +1138,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'udostępnianie ekranu',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'udostępnianie ekranu',
           [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
         encryptFile: 'Szyfruj pliki',

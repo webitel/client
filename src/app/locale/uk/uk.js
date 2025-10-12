@@ -848,6 +848,20 @@ export default {
           missed: 'Пропущений',
           expired: 'Час вийшов',
         },
+        csvMappingFields: {
+          name: 'Назва',
+          timezoneId: 'Часовий пояс',
+          priority: 'Пріоритет',
+          expireAt: 'Дата завершення',
+          bucketId: 'Кошик',
+          agentId: 'Агент',
+          variables: 'Змінні',
+          destination: 'Призначення',
+          commPriority: 'Пріоритет типів комунікацій',
+          code: 'Код',
+          description: 'Опис',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -864,8 +878,7 @@ export default {
         teams: 'Команда| Команди',
         tags: 'Теги',
         blacklist: 'Стоп лист',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueue: 'Нова черга',
@@ -1148,7 +1161,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медіа',
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'демонстрація екрану',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'демонстрація екрану',
           [StorageUploadFileChannel.ScreenshotChannel]: 'скріншоти',
         },
         encryptFile: 'Шифрувати файли',

@@ -844,6 +844,20 @@ export default {
           missed: 'Perdido',
           expired: 'Expirado',
         },
+        csvMappingFields: {
+          name: 'Nombre',
+          timezoneId: 'Zona horaria',
+          priority: 'Prioridad',
+          expireAt: 'Fecha de expiración',
+          bucketId: 'Cubo',
+          agentId: 'Agente',
+          variables: 'Variables',
+          destination: 'Destino',
+          commPriority: 'Prioridad de tipos de comunicación',
+          code: 'Código',
+          description: 'Descripción',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -861,8 +875,7 @@ export default {
         tags: 'Etiquetas',
         newQueue: 'Nueva cola',
         blacklist: 'Lista de parada',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descripción de la nueva cola',

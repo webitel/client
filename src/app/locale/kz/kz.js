@@ -835,6 +835,20 @@ export default {
           missed: 'Жоқ',
           expired: 'Төмендеді',
         },
+        csvMappingFields: {
+          name: 'Атауы',
+          timezoneId: 'Уақыт белдеуі',
+          priority: 'Басымдық',
+          expireAt: 'Мерзімі аяқталу күні',
+          bucketId: 'Бакет',
+          agentId: 'Агент',
+          variables: 'Айнымалылар',
+          destination: 'Мақсат',
+          commPriority: 'Байланыс түрлерінің басымдығы',
+          code: 'Код',
+          description: 'Сипаттама',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -852,8 +866,7 @@ export default {
         tags: 'Тақтар',
         newQueue: 'Жаңа қойма',
         blacklist: 'Стоп тізімі',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Жаңа қойма сипаттамасы',

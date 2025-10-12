@@ -839,6 +839,20 @@ export default {
           missed: 'Missed',
           expired: 'Expired',
         },
+        csvMappingFields: {
+          name: 'Name',
+          timezoneId: 'Timezone',
+          priority: 'Priority',
+          expireAt: 'Expiration date',
+          bucketId: 'Bucket',
+          agentId: 'Agent',
+          variables: 'Variables',
+          destination: 'Destination',
+          commPriority: 'Communication types priority',
+          code: 'Code',
+          description: 'Description',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -856,8 +870,7 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'New queue description',
@@ -1141,7 +1154,6 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'screensharing',
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshots',
-
         },
         encryptFile: 'Encrypt files',
       },

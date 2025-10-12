@@ -839,6 +839,20 @@ export default {
           missed: 'Bỏ qua',
           expired: 'Hết hạn',
         },
+        csvMappingFields: {
+          name: 'Tên',
+          timezoneId: 'Múi giờ',
+          priority: 'Độ ưu tiên',
+          expireAt: 'Ngày hết hạn',
+          bucketId: 'Bucket',
+          agentId: 'Tác nhân',
+          variables: 'Biến',
+          destination: 'Đích đến',
+          commPriority: 'Độ ưu tiên loại giao tiếp',
+          code: 'Mã',
+          description: 'Mô tả',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -856,8 +870,7 @@ export default {
         tags: 'Thẻ',
         newQueue: 'Hàng đợi mới',
         blacklist: 'Danh sách dừng',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Mô tả hàng đợi mới',

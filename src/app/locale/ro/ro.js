@@ -841,6 +841,20 @@ export default {
           missed: 'Pierdut',
           expired: 'Expirat',
         },
+        csvMappingFields: {
+          name: 'Nume',
+          timezoneId: 'Fus orar',
+          priority: 'Prioritate',
+          expireAt: 'Data expirării',
+          bucketId: 'Bucket',
+          agentId: 'Agent',
+          variables: 'Variabile',
+          destination: 'Destinație',
+          commPriority: 'Prioritatea tipurilor de comunicare',
+          code: 'Cod',
+          description: 'Descriere',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -858,8 +872,7 @@ export default {
         tags: 'Etichete',
         newQueue: 'Coadă nouă',
         blacklist: 'Listă de oprire',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descriere coadă nouă',

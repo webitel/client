@@ -845,6 +845,20 @@ export default {
           missed: 'Пропущенный',
           expired: 'Истекший',
         },
+        csvMappingFields: {
+          name: 'Название',
+          timezoneId: 'Часовой пояс',
+          priority: 'Приоритет',
+          expireAt: 'Дата окончания',
+          bucketId: 'Корзина',
+          agentId: 'Агент',
+          variables: 'Переменные',
+          destination: 'Назначение',
+          commPriority: 'Приоритет типов коммуникаций',
+          code: 'Код',
+          description: 'Описание',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -861,8 +875,7 @@ export default {
         teams: 'Команда| Команды',
         tags: 'Теги',
         blacklist: 'Стоп лист',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueue: 'Новая очередь',
@@ -1149,7 +1162,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медиа',
           [StorageUploadFileChannel.MailChannel]: 'письмо',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'демонстрация экрана',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'демонстрация экрана',
           [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоты',
         },
         encryptFile: 'Шифровать файлы',
