@@ -306,6 +306,15 @@ export default {
         },
         passwordSetFromAccount:
           'Если вы не установите пароль, он будет таким же, как аккаунт',
+        csvMappingFields: {
+          account: 'Учётная запись',
+          name: 'Имя',
+          vendor: 'Производитель',
+          model: 'Модель',
+          mac: 'MAC-адрес',
+          ip: 'IP-адрес',
+          password: 'Пароль',
+        },
       },
     },
     permissions: {

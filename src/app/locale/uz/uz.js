@@ -305,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           "Agar parolni o'rnatmoqchi bo'lmasangiz, u hisobingiz bilan bir xil bo'ladi",
+        csvMappingFields: {
+          account: 'Hisob',
+          name: 'Ism',
+          vendor: 'Ishlab chiqaruvchi',
+          model: 'Model',
+          mac: 'MAC manzili',
+          ip: 'IP manzili',
+          password: 'Parol',
+        },
       },
     },
     permissions: {

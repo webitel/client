@@ -306,6 +306,15 @@ export default {
         },
         passwordSetFromAccount:
           'Si no establece contraseña, será la misma que la cuenta',
+        csvMappingFields: {
+          account: 'Cuenta',
+          name: 'Nombre',
+          vendor: 'Fabricante',
+          model: 'Modelo',
+          mac: 'Dirección MAC',
+          ip: 'Dirección IP',
+          password: 'Contraseña',
+        },
       },
     },
     permissions: {

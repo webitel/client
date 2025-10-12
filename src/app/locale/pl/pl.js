@@ -303,6 +303,15 @@ export default {
         },
         passwordSetFromAccount:
           'Jeśli nie ustawisz hasła, będzie ono takie samo jak konto',
+        csvMappingFields: {
+          account: 'Konto',
+          name: 'Imię',
+          vendor: 'Producent',
+          model: 'Model',
+          mac: 'Adres MAC',
+          ip: 'Adres IP',
+          password: 'Hasło',
+        },
       },
     },
     permissions: {

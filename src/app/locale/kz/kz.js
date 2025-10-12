@@ -304,6 +304,15 @@ export default {
         },
         passwordSetFromAccount:
           'Егер сіз құпия сөзді орнатпасаңыз, ол аккаунттың құпия сөзімен бірдей болады',
+        csvMappingFields: {
+          account: 'Тіркелгі',
+          name: 'Аты',
+          vendor: 'Өндіруші',
+          model: 'Модель',
+          mac: 'MAC мекенжайы',
+          ip: 'IP мекенжайы',
+          password: 'Құпия сөз',
+        },
       },
     },
     permissions: {

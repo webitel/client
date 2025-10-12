@@ -305,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản',
+        csvMappingFields: {
+          account: 'Tài khoản',
+          name: 'Tên',
+          vendor: 'Nhà sản xuất',
+          model: 'Mẫu',
+          mac: 'Địa chỉ MAC',
+          ip: 'Địa chỉ IP',
+          password: 'Mật khẩu',
+        },
       },
     },
     permissions: {

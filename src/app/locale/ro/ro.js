@@ -305,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Dacă nu setați parola, va fi aceeași ca și contul',
+        csvMappingFields: {
+          account: 'Cont',
+          name: 'Nume',
+          vendor: 'Producător',
+          model: 'Model',
+          mac: 'Adresă MAC',
+          ip: 'Adresă IP',
+          password: 'Parolă',
+        },
       },
     },
     permissions: {
