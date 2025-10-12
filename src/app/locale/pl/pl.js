@@ -431,6 +431,11 @@ export default {
         numbersCount: 'Liczba numerów',
         expireAt: 'Wygasa',
         temporary: 'Tymczasowy',
+        csvMappingFields: {
+          number: 'Numer',
+          description: 'Opis',
+          expireAt: 'Data wygaśnięcia',
+        },
       },
       media: {
         mediaFiles: 'Plik multimedialny | Pliki multimedialne',

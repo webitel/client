@@ -428,6 +428,11 @@ export default {
         numbersCount: 'Нөмірлер',
         expireAt: 'Төмендеді',
         temporary: 'Уақытша',
+        csvMappingFields: {
+          number: 'Нөмір',
+          description: 'Сипаттама',
+          expireAt: 'Мерзімі аяқталу күні',
+        },
       },
       media: {
         mediaFiles: 'Медиа файл | Медиа файлдар',

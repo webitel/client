@@ -433,6 +433,11 @@ export default {
         numbersCount: 'Numere',
         expireAt: 'Expiră',
         temporary: 'Temporar',
+        csvMappingFields: {
+          number: 'Număr',
+          description: 'Descriere',
+          expireAt: 'Data expirării',
+        },
       },
       media: {
         mediaFiles: 'Fișier mediu | Fișiere media',

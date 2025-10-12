@@ -431,6 +431,11 @@ export default {
         numbersCount: 'Số lượng',
         expireAt: 'Hạn',
         temporary: 'Tạm thời',
+        csvMappingFields: {
+          number: 'Số',
+          description: 'Mô tả',
+          expireAt: 'Ngày hết hạn',
+        },
       },
       media: {
         mediaFiles: 'Tệp phương tiện',

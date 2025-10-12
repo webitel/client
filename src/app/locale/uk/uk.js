@@ -437,6 +437,11 @@ export default {
         numbersCount: 'Номери',
         expireAt: 'Термін дії',
         temporary: 'Тимчасовий',
+        csvMappingFields: {
+          number: 'Номер',
+          description: 'Опис',
+          expireAt: 'Дата завершення',
+        },
       },
       media: {
         mediaFiles: 'Медіафайл| Медіафайли',

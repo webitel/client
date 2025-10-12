@@ -433,6 +433,11 @@ export default {
         numbersCount: 'Numbers',
         expireAt: 'Expire',
         temporary: 'Temporary',
+        csvMappingFields: {
+          number: 'Number',
+          description: 'Description',
+          expireAt: 'Expire At',
+        },
       },
       media: {
         mediaFiles: 'Media file | Media files',

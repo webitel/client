@@ -433,6 +433,11 @@ export default {
         numbersCount: 'Raqamlar',
         expireAt: 'Yaroqli',
         temporary: 'Vaqtinchalik',
+        csvMappingFields: {
+          number: 'Raqam',
+          description: 'Tavsif',
+          expireAt: 'Amal qilish muddati',
+        },
       },
       media: {
         mediaFiles: 'Media fayl | Media fayllar',

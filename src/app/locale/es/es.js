@@ -435,6 +435,11 @@ export default {
         numbersCount: 'Números',
         expireAt: 'Expirar',
         temporary: 'Temporal',
+        csvMappingFields: {
+          number: 'Número',
+          description: 'Descripción',
+          expireAt: 'Fecha de expiración',
+        },
       },
       media: {
         mediaFiles: 'Archivo de medios | Archivos de medios',
