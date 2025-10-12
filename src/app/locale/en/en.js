@@ -1092,17 +1092,8 @@ export default {
         priority: 'Priority',
         reserveResource: 'Reserve resource',
         failureDialDelay: 'Failure dial delay',
-        importCsv: {
-          title: 'Import Numbers',
-          separator: 'Separator',
-          upload: 'Upload',
-          close: 'Close',
-          exampleSeparator: 'For example ; or ,',
-          numberColumn: 'Number column',
-          uploadError: 'Error while uploading the file',
-          genericError: 'An error occurred during the upload!',
-          emptyRequiredFieldsMessage:
-            'Required fields are empty in rows {rows}.',
+        csvMappingFields: {
+          number: 'Number',
         },
       },
 

@@ -1101,17 +1101,8 @@ export default {
         priority: 'Пріоритет',
         reserveResource: 'Резервний ресурс',
         failureDialDelay: 'Затримка при помилці набору',
-        importCsv: {
-          title: 'Імпорт номерів',
-          separator: 'Роздільник',
-          upload: 'Завантажити',
-          close: 'Закрити',
-          exampleSeparator: 'Наприклад ; або ,',
-          numberColumn: 'Назва колонки з номером',
-          uploadError: 'Помилка при відправці файлу',
-          genericError: 'Сталася помилка при відправці!',
-          emptyRequiredFieldsMessage:
-            'У рядках {rows} порожні обов’язкові поля',
+        csvMappingFields: {
+          number: 'Номер',
         },
       },
 

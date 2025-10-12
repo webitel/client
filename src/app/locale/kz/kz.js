@@ -1085,6 +1085,9 @@ export default {
         priority: 'Приоритет',
         reserveResource: 'Қорды бөлісу',
         failureDialDelay: 'Ақау дайындық кешігу',
+        csvMappingFields: {
+          number: 'Нөмір',
+        },
       },
 
       resGroups: {

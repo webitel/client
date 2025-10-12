@@ -1095,6 +1095,9 @@ export default {
         priority: 'Prioridad',
         reserveResource: 'Reservar recurso',
         failureDialDelay: 'Retraso de dialado de fallo',
+        csvMappingFields: {
+          number: 'Número',
+        },
       },
 
       resGroups: {

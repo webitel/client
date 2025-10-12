@@ -1089,6 +1089,9 @@ export default {
         priority: 'Ưu tiên',
         reserveResource: 'Đặt trước tài nguyên',
         failureDialDelay: 'Thời gian chậm gọi thất bại',
+        csvMappingFields: {
+          number: 'Số',
+        },
       },
 
       resGroups: {

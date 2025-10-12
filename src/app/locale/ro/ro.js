@@ -1093,6 +1093,9 @@ export default {
         priority: 'Prioritate',
         reserveResource: 'Rezervă resursă',
         failureDialDelay: 'Întârziere dialare eșec',
+        csvMappingFields: {
+          number: 'Număr',
+        },
       },
 
       resGroups: {

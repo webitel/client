@@ -1094,6 +1094,9 @@ export default {
         priority: 'Prioritet',
         reserveResource: 'Resursni rezervatsiya qilish',
         failureDialDelay: 'Yaroqsiz dial vaqti',
+        csvMappingFields: {
+          number: 'Raqam',
+        },
       },
 
       resGroups: {

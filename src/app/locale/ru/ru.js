@@ -1103,17 +1103,8 @@ export default {
         priority: 'Приоритет',
         reserveResource: 'Резервный ресурс',
         failureDialDelay: 'Задержка при ошибке набора',
-        importCsv: {
-          title: 'Импорт номеров',
-          separator: 'Разделитель',
-          upload: 'Загрузить',
-          close: 'Закрыть',
-          exampleSeparator: 'Например ; или ,',
-          numberColumn: 'Колонка с номерами',
-          uploadError: 'Ошибка при отправке файла',
-          genericError: 'Произошла ошибка во время загрузки!',
-          emptyRequiredFieldsMessage:
-            'В строках {rows} пустые обязательные поля.',
+        csvMappingFields: {
+          number: 'Номер',
         },
       },
 
