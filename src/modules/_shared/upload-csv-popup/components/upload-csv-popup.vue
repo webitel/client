@@ -72,14 +72,14 @@
             class="upload-popup-mapping-item"
           >
             <p class="upload-popup-mapping-item__field">
-              {{ $t(field.locale) }}<span v-if="field.required">*</span>
+              {{ translateMappingFieldLocale(field.locale) }}<span v-if="field.required">*</span>
             </p>
             <wt-select
               v-if="!field.multiple"
               v-model="field.csv"
               :clearable="!field.required"
               :options="csvColumns"
-              :placeholder="$t(field.locale)"
+              :placeholder="translateMappingFieldLocale(field.locale)"
               :track-by="null"
               class="upload-popup-mapping-item__select"
             />
@@ -87,7 +87,7 @@
               v-else
               v-model="field.csv"
               :options="csvColumns"
-              :placeholder="$t(field.locale)"
+              :placeholder="translateMappingFieldLocale(field.locale)"
               class="upload-popup-mapping-item__select"
             />
             <div
@@ -128,17 +128,32 @@
 </template>
 
 <script>
+import { useI18n } from 'vue-i18n';
+
 import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
   name: 'UploadCsvPopup',
   mixins: [uploadCSVMixin],
+  setup() {
+    const { t } = useI18n();
+
+    return { t };
+  },
   data: () => ({
     skipHeaders: true,
     separator: ',',
     charsetOptions: [],
     charset: { name: 'UTF-8', value: 'utf-8' },
   }),
+  methods: {
+    translateMappingFieldLocale(locale) {
+      if (typeof locale === 'object' && 'key' in locale && 'choice' in locale) {
+        return this.t(locale.key, locale.choice);
+      }
+      return this.t(locale);
+    },
+  },
 };
 </script>
 

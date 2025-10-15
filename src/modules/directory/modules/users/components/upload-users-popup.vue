@@ -40,7 +40,10 @@ export default {
       {
         name: 'email',
         required: false,
-        locale: `${baseLocale}.email`,
+        locale: {
+          key: `${baseLocale}.email`,
+          choice: 1,
+        },
         csv: '',
       },
     ],
