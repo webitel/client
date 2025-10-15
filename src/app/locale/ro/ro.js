@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
+        csvMappingFields: {
+          username: 'Nume de utilizator',
+          name: 'Nume',
+          extension: 'Extensie',
+          email: 'E-mail',
+        },
       },
       license: {
         customers: 'Clienți',
@@ -299,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Dacă nu setați parola, va fi aceeași ca și contul',
+        csvMappingFields: {
+          account: 'Cont',
+          name: 'Nume',
+          vendor: 'Producător',
+          model: 'Model',
+          mac: 'Adresă MAC',
+          ip: 'Adresă IP',
+          password: 'Parolă',
+        },
       },
     },
     permissions: {
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Numere',
         expireAt: 'Expiră',
         temporary: 'Temporar',
+        csvMappingFields: {
+          number: 'Număr',
+          description: 'Descriere',
+          expireAt: 'Data expirării',
+        },
       },
       media: {
         mediaFiles: 'Fișier mediu | Fișiere media',
@@ -841,6 +861,20 @@ export default {
           missed: 'Pierdut',
           expired: 'Expirat',
         },
+        csvMappingFields: {
+          name: 'Nume',
+          timezoneId: 'Fus orar',
+          priority: 'Prioritate',
+          expireAt: 'Data expirării',
+          bucketId: 'Bucket',
+          agentId: 'Agent',
+          variables: 'Variabile',
+          destination: 'Destinație',
+          commPriority: 'Prioritatea tipurilor de comunicare',
+          code: 'Cod',
+          description: 'Descriere',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -858,8 +892,7 @@ export default {
         tags: 'Etichete',
         newQueue: 'Coadă nouă',
         blacklist: 'Listă de oprire',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descriere coadă nouă',
@@ -1060,6 +1093,9 @@ export default {
         priority: 'Prioritate',
         reserveResource: 'Rezervă resursă',
         failureDialDelay: 'Întârziere dialare eșec',
+        csvMappingFields: {
+          number: 'Număr',
+        },
       },
 
       resGroups: {

@@ -237,6 +237,12 @@ export default {
         askingAlert:
           '¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
         chatName: 'Nombre de visualización de chat',
+        csvMappingFields: {
+          username: 'Nombre de usuario',
+          name: 'Nombre',
+          extension: 'Extensión',
+          email: 'Correo electrónico',
+        },
       },
       license: {
         customers: 'Clientes',
@@ -300,6 +306,15 @@ export default {
         },
         passwordSetFromAccount:
           'Si no establece contraseña, será la misma que la cuenta',
+        csvMappingFields: {
+          account: 'Cuenta',
+          name: 'Nombre',
+          vendor: 'Fabricante',
+          model: 'Modelo',
+          mac: 'Dirección MAC',
+          ip: 'Dirección IP',
+          password: 'Contraseña',
+        },
       },
     },
     permissions: {
@@ -420,6 +435,11 @@ export default {
         numbersCount: 'Números',
         expireAt: 'Expirar',
         temporary: 'Temporal',
+        csvMappingFields: {
+          number: 'Número',
+          description: 'Descripción',
+          expireAt: 'Fecha de expiración',
+        },
       },
       media: {
         mediaFiles: 'Archivo de medios | Archivos de medios',
@@ -844,6 +864,20 @@ export default {
           missed: 'Perdido',
           expired: 'Expirado',
         },
+        csvMappingFields: {
+          name: 'Nombre',
+          timezoneId: 'Zona horaria',
+          priority: 'Prioridad',
+          expireAt: 'Fecha de expiración',
+          bucketId: 'Cubo',
+          agentId: 'Agente',
+          variables: 'Variables',
+          destination: 'Destino',
+          commPriority: 'Prioridad de tipos de comunicación',
+          code: 'Código',
+          description: 'Descripción',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -861,8 +895,7 @@ export default {
         tags: 'Etiquetas',
         newQueue: 'Nueva cola',
         blacklist: 'Lista de parada',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descripción de la nueva cola',
@@ -1062,6 +1095,9 @@ export default {
         priority: 'Prioridad',
         reserveResource: 'Reservar recurso',
         failureDialDelay: 'Retraso de dialado de fallo',
+        csvMappingFields: {
+          number: 'Número',
+        },
       },
 
       resGroups: {

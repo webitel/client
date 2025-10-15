@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Вы уверены, что хотите перегенерировать QR-код? Пользователь потеряет возможность войти в систему',
         chatName: 'Имя для отображения в чате',
+        csvMappingFields: {
+          username: 'Имя пользователя',
+          name: 'Имя',
+          extension: 'Расширение',
+          email: 'Электронная почта',
+        },
       },
       license: {
         customers: 'Пользователи',
@@ -300,6 +306,15 @@ export default {
         },
         passwordSetFromAccount:
           'Если вы не установите пароль, он будет таким же, как аккаунт',
+        csvMappingFields: {
+          account: 'Учётная запись',
+          name: 'Имя',
+          vendor: 'Производитель',
+          model: 'Модель',
+          mac: 'MAC-адрес',
+          ip: 'IP-адрес',
+          password: 'Пароль',
+        },
       },
     },
     permissions: {
@@ -422,6 +437,11 @@ export default {
         numbersCount: 'Номера',
         expireAt: 'Срок действия',
         temporary: 'Временный',
+        csvMappingFields: {
+          number: 'Номер',
+          description: 'Описание',
+          expireAt: 'Дата окончания',
+        },
       },
       media: {
         mediaFiles: 'Медиафайл| Медиафайлы',
@@ -845,6 +865,20 @@ export default {
           missed: 'Пропущенный',
           expired: 'Истекший',
         },
+        csvMappingFields: {
+          name: 'Название',
+          timezoneId: 'Часовой пояс',
+          priority: 'Приоритет',
+          expireAt: 'Дата окончания',
+          bucketId: 'Корзина',
+          agentId: 'Агент',
+          variables: 'Переменные',
+          destination: 'Назначение',
+          commPriority: 'Приоритет типов коммуникаций',
+          code: 'Код',
+          description: 'Описание',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -861,8 +895,7 @@ export default {
         teams: 'Команда| Команды',
         tags: 'Теги',
         blacklist: 'Стоп лист',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueue: 'Новая очередь',
@@ -1070,17 +1103,8 @@ export default {
         priority: 'Приоритет',
         reserveResource: 'Резервный ресурс',
         failureDialDelay: 'Задержка при ошибке набора',
-        importCsv: {
-          title: 'Импорт номеров',
-          separator: 'Разделитель',
-          upload: 'Загрузить',
-          close: 'Закрыть',
-          exampleSeparator: 'Например ; или ,',
-          numberColumn: 'Колонка с номерами',
-          uploadError: 'Ошибка при отправке файла',
-          genericError: 'Произошла ошибка во время загрузки!',
-          emptyRequiredFieldsMessage:
-            'В строках {rows} пустые обязательные поля.',
+        csvMappingFields: {
+          number: 'Номер',
         },
       },
 
@@ -1149,7 +1173,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медиа',
           [StorageUploadFileChannel.MailChannel]: 'письмо',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'демонстрация экрана',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'демонстрация экрана',
           [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоты',
         },
         encryptFile: 'Шифровать файлы',

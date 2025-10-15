@@ -236,6 +236,12 @@ export default {
         askingAlert:
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
+        csvMappingFields: {
+          username: 'Пайдаланушы аты',
+          name: 'Аты',
+          extension: 'Кеңейту',
+          email: 'Электрондық пошта',
+        },
       },
       license: {
         customers: 'Клиенттер',
@@ -298,6 +304,15 @@ export default {
         },
         passwordSetFromAccount:
           'Егер сіз құпия сөзді орнатпасаңыз, ол аккаунттың құпия сөзімен бірдей болады',
+        csvMappingFields: {
+          account: 'Тіркелгі',
+          name: 'Аты',
+          vendor: 'Өндіруші',
+          model: 'Модель',
+          mac: 'MAC мекенжайы',
+          ip: 'IP мекенжайы',
+          password: 'Құпия сөз',
+        },
       },
     },
     permissions: {
@@ -413,6 +428,11 @@ export default {
         numbersCount: 'Нөмірлер',
         expireAt: 'Төмендеді',
         temporary: 'Уақытша',
+        csvMappingFields: {
+          number: 'Нөмір',
+          description: 'Сипаттама',
+          expireAt: 'Мерзімі аяқталу күні',
+        },
       },
       media: {
         mediaFiles: 'Медиа файл | Медиа файлдар',
@@ -835,6 +855,20 @@ export default {
           missed: 'Жоқ',
           expired: 'Төмендеді',
         },
+        csvMappingFields: {
+          name: 'Атауы',
+          timezoneId: 'Уақыт белдеуі',
+          priority: 'Басымдық',
+          expireAt: 'Мерзімі аяқталу күні',
+          bucketId: 'Бакет',
+          agentId: 'Агент',
+          variables: 'Айнымалылар',
+          destination: 'Мақсат',
+          commPriority: 'Байланыс түрлерінің басымдығы',
+          code: 'Код',
+          description: 'Сипаттама',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -852,8 +886,7 @@ export default {
         tags: 'Тақтар',
         newQueue: 'Жаңа қойма',
         blacklist: 'Стоп тізімі',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Жаңа қойма сипаттамасы',
@@ -1052,6 +1085,9 @@ export default {
         priority: 'Приоритет',
         reserveResource: 'Қорды бөлісу',
         failureDialDelay: 'Ақау дайындық кешігу',
+        csvMappingFields: {
+          number: 'Нөмір',
+        },
       },
 
       resGroups: {

@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
         chatName: "Chat ko'rsatish nomi",
+        csvMappingFields: {
+          username: 'Foydalanuvchi nomi',
+          name: 'Ism',
+          extension: 'Kengaytma',
+          email: 'Elektron pochta',
+        },
       },
       license: {
         customers: 'Mijozlar',
@@ -299,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           "Agar parolni o'rnatmoqchi bo'lmasangiz, u hisobingiz bilan bir xil bo'ladi",
+        csvMappingFields: {
+          account: 'Hisob',
+          name: 'Ism',
+          vendor: 'Ishlab chiqaruvchi',
+          model: 'Model',
+          mac: 'MAC manzili',
+          ip: 'IP manzili',
+          password: 'Parol',
+        },
       },
     },
     permissions: {
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Raqamlar',
         expireAt: 'Yaroqli',
         temporary: 'Vaqtinchalik',
+        csvMappingFields: {
+          number: 'Raqam',
+          description: 'Tavsif',
+          expireAt: 'Amal qilish muddati',
+        },
       },
       media: {
         mediaFiles: 'Media fayl | Media fayllar',
@@ -843,6 +863,20 @@ export default {
           missed: 'Bekor qilindi',
           expired: 'Yaroqli',
         },
+        csvMappingFields: {
+          name: 'Nomi',
+          timezoneId: 'Vaqt mintaqasi',
+          priority: 'Ustuvorlik',
+          expireAt: 'Amal qilish muddati',
+          bucketId: 'Bucket',
+          agentId: 'Agent',
+          variables: 'O‘zgaruvchilar',
+          destination: 'Manzil',
+          commPriority: 'Aloqa turlari ustuvorligi',
+          code: 'Kod',
+          description: 'Tavsif',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -858,14 +892,13 @@ export default {
         priority: 'Prioritet',
         teams: 'Jamoa | Jamoalar',
         tags: 'Teglar',
-        newQueue: 'Yangi qo\'yuv',
-        blacklist: 'To\'xtash ro\'yxati',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        newQueue: "Yangi qo'yuv",
+        blacklist: "To'xtash ro'yxati",
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
-        newQueueDescription: 'Yangi qo\'yuv tavsifi',
-        outboundIVRQueue: 'Chiqish IVR qo\'yuv',
+        newQueueDescription: "Yangi qo'yuv tavsifi",
+        outboundIVRQueue: "Chiqish IVR qo'yuv",
         outboundIVR: 'Chiqish IVR',
         outboundIVRQueueDescription:
           'Chiqish IVR tizimiga organizatsiya avtomatik tarzda foydalanuvchilarni kutib olish imkonini beradi. Boshqa kanallar orqali avtomatik zvonklar, SMS xabarlar, elektron pochta yoki shaxsiy tarmoqlar orqali personalizatsiyalangan xabarlarni ishlatadi.',
@@ -1061,6 +1094,9 @@ export default {
         priority: 'Prioritet',
         reserveResource: 'Resursni rezervatsiya qilish',
         failureDialDelay: 'Yaroqsiz dial vaqti',
+        csvMappingFields: {
+          number: 'Raqam',
+        },
       },
 
       resGroups: {

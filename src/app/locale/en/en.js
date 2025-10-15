@@ -236,6 +236,12 @@ export default {
         askingAlert:
           'Are you sure you want to regenerate the code? The user won’t be able to log in',
         chatName: 'Chat display name',
+        csvMappingFields: {
+          username: ({ linked }) => linked('vocabulary.username'),
+          name: ({ linked }) => linked('vocabulary.name'),
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Customers',
@@ -297,6 +303,15 @@ export default {
         },
         passwordSetFromAccount:
           "If you won't set password, it would be the same as account",
+        csvMappingFields: {
+          account: ({ linked }) => linked('vocabulary.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          vendor: ({ linked }) => linked('vocabulary.vendor'),
+          model: ({ linked }) => linked('vocabulary.model'),
+          mac: ({ linked }) => linked('vocabulary.mac'),
+          ip: ({ linked }) => linked('vocabulary.ip'),
+          password: ({ linked }) => linked('vocabulary.password'),
+        },
       },
     },
     permissions: {
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Numbers',
         expireAt: 'Expire',
         temporary: 'Temporary',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Media file | Media files',
@@ -839,6 +859,20 @@ export default {
           missed: 'Missed',
           expired: 'Expired',
         },
+        csvMappingFields: {
+          name: ({ linked }) => linked('vocabulary.name'),
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: ({ linked }) => linked('vocabulary.buckets'),
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: ({ linked }) => linked('vocabulary.commPriority'),
+          code: ({ linked }) => linked('vocabulary.code'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: ({ linked }) => linked('vocabulary.dtmf'),
+        },
       },
 
       queues: {
@@ -856,8 +890,7 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'New queue description',
@@ -1059,17 +1092,8 @@ export default {
         priority: 'Priority',
         reserveResource: 'Reserve resource',
         failureDialDelay: 'Failure dial delay',
-        importCsv: {
-          title: 'Import Numbers',
-          separator: 'Separator',
-          upload: 'Upload',
-          close: 'Close',
-          exampleSeparator: 'For example ; or ,',
-          numberColumn: 'Number column',
-          uploadError: 'Error while uploading the file',
-          genericError: 'An error occurred during the upload!',
-          emptyRequiredFieldsMessage:
-            'Required fields are empty in rows {rows}.',
+        csvMappingFields: {
+          number: 'Number',
         },
       },
 
@@ -1141,7 +1165,6 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'screensharing',
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshots',
-
         },
         encryptFile: 'Encrypt files',
       },

@@ -236,6 +236,12 @@ export default {
         askingAlert:
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
+        csvMappingFields: {
+          username: 'Nazwa użytkownika',
+          name: 'Imię',
+          extension: 'Rozszerzenie',
+          email: 'Adres e-mail',
+        },
       },
       license: {
         customers: 'Klienci',
@@ -297,6 +303,15 @@ export default {
         },
         passwordSetFromAccount:
           'Jeśli nie ustawisz hasła, będzie ono takie samo jak konto',
+        csvMappingFields: {
+          account: 'Konto',
+          name: 'Imię',
+          vendor: 'Producent',
+          model: 'Model',
+          mac: 'Adres MAC',
+          ip: 'Adres IP',
+          password: 'Hasło',
+        },
       },
     },
     permissions: {
@@ -416,6 +431,11 @@ export default {
         numbersCount: 'Liczba numerów',
         expireAt: 'Wygasa',
         temporary: 'Tymczasowy',
+        csvMappingFields: {
+          number: 'Numer',
+          description: 'Opis',
+          expireAt: 'Data wygaśnięcia',
+        },
       },
       media: {
         mediaFiles: 'Plik multimedialny | Pliki multimedialne',
@@ -838,6 +858,20 @@ export default {
           missed: 'Przegapione',
           expired: 'Wygasło',
         },
+        csvMappingFields: {
+          name: 'Nazwa',
+          timezoneId: 'Strefa czasowa',
+          priority: 'Priorytet',
+          expireAt: 'Data wygaśnięcia',
+          bucketId: 'Zasobnik',
+          agentId: 'Agent',
+          variables: 'Zmienne',
+          destination: 'Cel',
+          commPriority: 'Priorytet typów komunikacji',
+          code: 'Kod',
+          description: 'Opis',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -855,8 +889,7 @@ export default {
         tags: 'Tagi',
         newQueue: 'Nowa kolejka',
         blacklist: 'Lista zatrzymana',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Opis nowej kolejki',
@@ -1057,6 +1090,9 @@ export default {
         priority: 'Priorytet',
         reserveResource: 'Rezerwuj zasób',
         failureDialDelay: 'Opóźnienie dialingu przy niepowodzeniu',
+        csvMappingFields: {
+          number: 'Numer',
+        },
       },
 
       resGroups: {
@@ -1125,7 +1161,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'udostępnianie ekranu',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'udostępnianie ekranu',
           [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
         encryptFile: 'Szyfruj pliki',

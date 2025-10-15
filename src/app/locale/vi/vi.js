@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
+        csvMappingFields: {
+          username: 'Tên người dùng',
+          name: 'Tên',
+          extension: 'Phần mở rộng',
+          email: 'Email',
+        },
       },
       license: {
         customers: 'Khách hàng',
@@ -299,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản',
+        csvMappingFields: {
+          account: 'Tài khoản',
+          name: 'Tên',
+          vendor: 'Nhà sản xuất',
+          model: 'Mẫu',
+          mac: 'Địa chỉ MAC',
+          ip: 'Địa chỉ IP',
+          password: 'Mật khẩu',
+        },
       },
     },
     permissions: {
@@ -416,6 +431,11 @@ export default {
         numbersCount: 'Số lượng',
         expireAt: 'Hạn',
         temporary: 'Tạm thời',
+        csvMappingFields: {
+          number: 'Số',
+          description: 'Mô tả',
+          expireAt: 'Ngày hết hạn',
+        },
       },
       media: {
         mediaFiles: 'Tệp phương tiện',
@@ -839,6 +859,20 @@ export default {
           missed: 'Bỏ qua',
           expired: 'Hết hạn',
         },
+        csvMappingFields: {
+          name: 'Tên',
+          timezoneId: 'Múi giờ',
+          priority: 'Độ ưu tiên',
+          expireAt: 'Ngày hết hạn',
+          bucketId: 'Bucket',
+          agentId: 'Tác nhân',
+          variables: 'Biến',
+          destination: 'Đích đến',
+          commPriority: 'Độ ưu tiên loại giao tiếp',
+          code: 'Mã',
+          description: 'Mô tả',
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -856,8 +890,7 @@ export default {
         tags: 'Thẻ',
         newQueue: 'Hàng đợi mới',
         blacklist: 'Danh sách dừng',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Mô tả hàng đợi mới',
@@ -1056,6 +1089,9 @@ export default {
         priority: 'Ưu tiên',
         reserveResource: 'Đặt trước tài nguyên',
         failureDialDelay: 'Thời gian chậm gọi thất bại',
+        csvMappingFields: {
+          number: 'Số',
+        },
       },
 
       resGroups: {
