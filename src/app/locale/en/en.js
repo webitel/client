@@ -65,6 +65,7 @@ export default {
   settings: {
     settings: 'Setting | Settings',
     changePassword: 'Change password',
+    timezone: 'Timezone',
     language: 'Language',
     fallbackLanguage: 'Default language',
     webPhone: 'WebPhone',

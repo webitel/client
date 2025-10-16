@@ -66,6 +66,7 @@ export default {
     settings: 'Cài đặt',
     changePassword: 'Đổi mật khẩu',
     language: 'Ngôn ngữ',
+    timezone: 'Múi giờ',
     fallbackLanguage: 'Ngôn ngữ mặc định',
     webPhone: 'Điện thoại Web',
     useWebPhone: 'Sử dụng điện thoại Web',

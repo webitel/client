@@ -66,6 +66,7 @@ export default {
     settings: 'Налаштування | Налаштування',
     changePassword: 'Змінити пароль',
     language: 'Мова',
+    timezone: 'Часовий пояс',
     fallbackLanguage: 'Мова за замовчуванням',
     webPhone: 'Web-телефон',
     useWebPhone: 'Використовувати Web-телефон',

@@ -66,6 +66,7 @@ export default {
     settings: 'Setare | Setări',
     changePassword: 'Schimbă parola',
     language: 'Limbă',
+    timezone: 'Fus orar',
     fallbackLanguage: 'Limba implicită',
     webPhone: 'WebPhone',
     useWebPhone: 'Folosește WebPhone',

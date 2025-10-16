@@ -66,6 +66,7 @@ export default {
     settings: 'Sozlamalar | Sozlamalar',
     changePassword: "Parolni o'zgartirish",
     language: 'Til',
+    timezone: 'Vaqt zonasi',
     fallbackLanguage: 'Standart til',
     webPhone: 'WebPhone',
     useWebPhone: 'WebPhone ishlatish',
