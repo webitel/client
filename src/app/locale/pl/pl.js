@@ -66,6 +66,7 @@ export default {
     settings: 'Ustawienia | Ustawienia',
     changePassword: 'Zmień hasło',
     language: 'Język',
+    timezone: 'Strefa czasowa',
     fallbackLanguage: 'Język domyślny',
     webPhone: 'WebPhone',
     useWebPhone: 'Użyj WebPhone',
