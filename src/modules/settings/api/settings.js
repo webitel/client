@@ -62,6 +62,20 @@ export const getRingtonesList = async () => {
   }
 };
 
+export const saveTimezone = async (timezoneId) => {
+  const url = 'user/settings/timezoneId';
+  try {
+    const response = await instance.put(url, { timezoneId });
+    return applyTransform(response.data, [
+      snakeToCamel(),
+    ]);
+  } catch (err) {
+    throw applyTransform(err, [
+      notify,
+    ]);
+  }
+};
+
 const patchItem = async ({ changes, id }) => {
   const body = applyTransform(changes, [
     camelToSnake(),
