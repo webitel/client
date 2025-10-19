@@ -239,8 +239,8 @@ export default {
         csvMappingFields: {
           username: 'Пайдаланушы аты',
           name: 'Аты',
-          extension: 'Кеңейту',
-          email: 'Электрондық пошта',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
       license: {
@@ -305,13 +305,13 @@ export default {
         passwordSetFromAccount:
           'Егер сіз құпия сөзді орнатпасаңыз, ол аккаунттың құпия сөзімен бірдей болады',
         csvMappingFields: {
-          account: 'Тіркелгі',
-          name: 'Аты',
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
           vendor: 'Өндіруші',
           model: 'Модель',
           mac: 'MAC мекенжайы',
           ip: 'IP мекенжайы',
-          password: 'Құпия сөз',
         },
       },
     },
@@ -429,9 +429,9 @@ export default {
         expireAt: 'Төмендеді',
         temporary: 'Уақытша',
         csvMappingFields: {
-          number: 'Нөмір',
-          description: 'Сипаттама',
-          expireAt: 'Мерзімі аяқталу күні',
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         },
       },
       media: {
@@ -857,16 +857,16 @@ export default {
         },
         csvMappingFields: {
           name: 'Атауы',
-          timezoneId: 'Уақыт белдеуі',
-          priority: 'Басымдық',
-          expireAt: 'Мерзімі аяқталу күні',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
           bucketId: 'Бакет',
-          agentId: 'Агент',
-          variables: 'Айнымалылар',
-          destination: 'Мақсат',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
           commPriority: 'Байланыс түрлерінің басымдығы',
           code: 'Код',
-          description: 'Сипаттама',
+          description: ({ linked }) => linked('vocabulary.description'),
           dtmf: 'DTMF',
         },
       },
@@ -1086,7 +1086,7 @@ export default {
         reserveResource: 'Қорды бөлісу',
         failureDialDelay: 'Ақау дайындық кешігу',
         csvMappingFields: {
-          number: 'Нөмір',
+         number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 

@@ -241,8 +241,8 @@ export default {
         csvMappingFields: {
           username: 'Nume de utilizator',
           name: 'Nume',
-          extension: 'Extensie',
-          email: 'E-mail',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
       license: {
@@ -306,13 +306,13 @@ export default {
         passwordSetFromAccount:
           'Dacă nu setați parola, va fi aceeași ca și contul',
         csvMappingFields: {
-          account: 'Cont',
-          name: 'Nume',
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
           vendor: 'Producător',
           model: 'Model',
           mac: 'Adresă MAC',
           ip: 'Adresă IP',
-          password: 'Parolă',
         },
       },
     },
@@ -434,9 +434,9 @@ export default {
         expireAt: 'Expiră',
         temporary: 'Temporar',
         csvMappingFields: {
-          number: 'Număr',
-          description: 'Descriere',
-          expireAt: 'Data expirării',
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         },
       },
       media: {
@@ -863,16 +863,16 @@ export default {
         },
         csvMappingFields: {
           name: 'Nume',
-          timezoneId: 'Fus orar',
-          priority: 'Prioritate',
-          expireAt: 'Data expirării',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
           bucketId: 'Bucket',
-          agentId: 'Agent',
-          variables: 'Variabile',
-          destination: 'Destinație',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
           commPriority: 'Prioritatea tipurilor de comunicare',
           code: 'Cod',
-          description: 'Descriere',
+          description: ({ linked }) => linked('vocabulary.description'),
           dtmf: 'DTMF',
         },
       },
@@ -1094,7 +1094,7 @@ export default {
         reserveResource: 'Rezervă resursă',
         failureDialDelay: 'Întârziere dialare eșec',
         csvMappingFields: {
-          number: 'Număr',
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 

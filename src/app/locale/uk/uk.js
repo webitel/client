@@ -242,8 +242,8 @@ export default {
         csvMappingFields: {
           username: 'Ім’я користувача',
           name: 'Ім’я',
-          extension: 'Розширення',
-          email: 'Електронна пошта',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
       license: {
@@ -308,13 +308,13 @@ export default {
         passwordSetFromAccount:
           'Якщо Ви не встановите пароль, він буде таким же, як і акаунт',
         csvMappingFields: {
-          account: 'Обліковий запис',
-          name: 'Ім’я',
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
           vendor: 'Виробник',
           model: 'Модель',
           mac: 'MAC-адреса',
           ip: 'IP-адреса',
-          password: 'Пароль',
         },
       },
     },
@@ -344,7 +344,7 @@ export default {
           addDescription: "Надає дозвіл на створення об'єктів",
           deleteDescription: "Надає дозвіл на видалення об'єктів",
           readDescription: "Надає дозвіл на вибір об'єктів",
-          writeDescription: 'Надає дозвіл змінювати об\єкти',
+          writeDescription: "Надає дозвіл змінювати об'єкти",
           eavesdropCallDescription:
             'Надає дозвіл прослуховувати активну розмову',
           playbackRecordFileDescription:
@@ -438,9 +438,9 @@ export default {
         expireAt: 'Термін дії',
         temporary: 'Тимчасовий',
         csvMappingFields: {
-          number: 'Номер',
-          description: 'Опис',
-          expireAt: 'Дата завершення',
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         },
       },
       media: {
@@ -869,17 +869,17 @@ export default {
           expired: 'Час вийшов',
         },
         csvMappingFields: {
-          name: 'Назва',
-          timezoneId: 'Часовий пояс',
-          priority: 'Пріоритет',
-          expireAt: 'Дата завершення',
+          name: 'Імʼя',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
           bucketId: 'Кошик',
-          agentId: 'Агент',
-          variables: 'Змінні',
-          destination: 'Призначення',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
           commPriority: 'Пріоритет типів комунікацій',
           code: 'Код',
-          description: 'Опис',
+          description: ({ linked }) => linked('vocabulary.description'),
           dtmf: 'DTMF',
         },
       },
@@ -1102,7 +1102,7 @@ export default {
         reserveResource: 'Резервний ресурс',
         failureDialDelay: 'Затримка при помилці набору',
         csvMappingFields: {
-          number: 'Номер',
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 

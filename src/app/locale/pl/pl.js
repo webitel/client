@@ -239,8 +239,8 @@ export default {
         csvMappingFields: {
           username: 'Nazwa użytkownika',
           name: 'Imię',
-          extension: 'Rozszerzenie',
-          email: 'Adres e-mail',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
       license: {
@@ -304,13 +304,13 @@ export default {
         passwordSetFromAccount:
           'Jeśli nie ustawisz hasła, będzie ono takie samo jak konto',
         csvMappingFields: {
-          account: 'Konto',
-          name: 'Imię',
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
           vendor: 'Producent',
           model: 'Model',
           mac: 'Adres MAC',
           ip: 'Adres IP',
-          password: 'Hasło',
         },
       },
     },
@@ -432,9 +432,9 @@ export default {
         expireAt: 'Wygasa',
         temporary: 'Tymczasowy',
         csvMappingFields: {
-          number: 'Numer',
-          description: 'Opis',
-          expireAt: 'Data wygaśnięcia',
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         },
       },
       media: {
@@ -860,16 +860,16 @@ export default {
         },
         csvMappingFields: {
           name: 'Nazwa',
-          timezoneId: 'Strefa czasowa',
-          priority: 'Priorytet',
-          expireAt: 'Data wygaśnięcia',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
           bucketId: 'Zasobnik',
-          agentId: 'Agent',
-          variables: 'Zmienne',
-          destination: 'Cel',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
           commPriority: 'Priorytet typów komunikacji',
           code: 'Kod',
-          description: 'Opis',
+          description: ({ linked }) => linked('vocabulary.description'),
           dtmf: 'DTMF',
         },
       },
@@ -1091,7 +1091,7 @@ export default {
         reserveResource: 'Rezerwuj zasób',
         failureDialDelay: 'Opóźnienie dialingu przy niepowodzeniu',
         csvMappingFields: {
-          number: 'Numer',
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 
