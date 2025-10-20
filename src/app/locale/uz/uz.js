@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
         chatName: "Chat ko'rsatish nomi",
+        csvMappingFields: {
+          username: 'Foydalanuvchi nomi',
+          name: 'Ism',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Mijozlar',
@@ -299,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           "Agar parolni o'rnatmoqchi bo'lmasangiz, u hisobingiz bilan bir xil bo'ladi",
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Ishlab chiqaruvchi',
+          model: 'Model',
+          mac: 'MAC manzili',
+          ip: 'IP manzili',
+        },
       },
     },
     permissions: {
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Raqamlar',
         expireAt: 'Yaroqli',
         temporary: 'Vaqtinchalik',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Media fayl | Media fayllar',
@@ -843,6 +863,19 @@ export default {
           missed: 'Bekor qilindi',
           expired: 'Yaroqli',
         },
+        csvMappingFields: {
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Aloqa turlari ustuvorligi',
+          code: 'Kod',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -858,14 +891,13 @@ export default {
         priority: 'Prioritet',
         teams: 'Jamoa | Jamoalar',
         tags: 'Teglar',
-        newQueue: 'Yangi qo\'yuv',
-        blacklist: 'To\'xtash ro\'yxati',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        newQueue: "Yangi qo'yuv",
+        blacklist: "To'xtash ro'yxati",
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
-        newQueueDescription: 'Yangi qo\'yuv tavsifi',
-        outboundIVRQueue: 'Chiqish IVR qo\'yuv',
+        newQueueDescription: "Yangi qo'yuv tavsifi",
+        outboundIVRQueue: "Chiqish IVR qo'yuv",
         outboundIVR: 'Chiqish IVR',
         outboundIVRQueueDescription:
           'Chiqish IVR tizimiga organizatsiya avtomatik tarzda foydalanuvchilarni kutib olish imkonini beradi. Boshqa kanallar orqali avtomatik zvonklar, SMS xabarlar, elektron pochta yoki shaxsiy tarmoqlar orqali personalizatsiyalangan xabarlarni ishlatadi.',
@@ -1061,6 +1093,9 @@ export default {
         priority: 'Prioritet',
         reserveResource: 'Resursni rezervatsiya qilish',
         failureDialDelay: 'Yaroqsiz dial vaqti',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {

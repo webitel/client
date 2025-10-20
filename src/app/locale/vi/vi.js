@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
+        csvMappingFields: {
+          username: 'Tên người dùng',
+          name: 'Tên',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Khách hàng',
@@ -299,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Nhà sản xuất',
+          model: 'Mẫu',
+          mac: 'Địa chỉ MAC',
+          ip: 'Địa chỉ IP',
+        },
       },
     },
     permissions: {
@@ -416,6 +431,11 @@ export default {
         numbersCount: 'Số lượng',
         expireAt: 'Hạn',
         temporary: 'Tạm thời',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Tệp phương tiện',
@@ -839,6 +859,19 @@ export default {
           missed: 'Bỏ qua',
           expired: 'Hết hạn',
         },
+        csvMappingFields: {
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Độ ưu tiên loại giao tiếp',
+          code: 'Mã',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -856,8 +889,7 @@ export default {
         tags: 'Thẻ',
         newQueue: 'Hàng đợi mới',
         blacklist: 'Danh sách dừng',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Mô tả hàng đợi mới',
@@ -1056,6 +1088,9 @@ export default {
         priority: 'Ưu tiên',
         reserveResource: 'Đặt trước tài nguyên',
         failureDialDelay: 'Thời gian chậm gọi thất bại',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {

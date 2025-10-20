@@ -239,6 +239,12 @@ export default {
         askingAlert:
           'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
         chatName: 'Імʼя для відображення в чаті',
+        csvMappingFields: {
+          username: 'Ім’я користувача',
+          name: 'Ім’я',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Користувачі',
@@ -301,6 +307,15 @@ export default {
         },
         passwordSetFromAccount:
           'Якщо Ви не встановите пароль, він буде таким же, як і акаунт',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Виробник',
+          model: 'Модель',
+          mac: 'MAC-адреса',
+          ip: 'IP-адреса',
+        },
       },
     },
     permissions: {
@@ -329,7 +344,7 @@ export default {
           addDescription: "Надає дозвіл на створення об'єктів",
           deleteDescription: "Надає дозвіл на видалення об'єктів",
           readDescription: "Надає дозвіл на вибір об'єктів",
-          writeDescription: 'Надає дозвіл змінювати об\єкти',
+          writeDescription: "Надає дозвіл змінювати об'єкти",
           eavesdropCallDescription:
             'Надає дозвіл прослуховувати активну розмову',
           playbackRecordFileDescription:
@@ -422,6 +437,11 @@ export default {
         numbersCount: 'Номери',
         expireAt: 'Термін дії',
         temporary: 'Тимчасовий',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Медіафайл| Медіафайли',
@@ -848,6 +868,20 @@ export default {
           missed: 'Пропущений',
           expired: 'Час вийшов',
         },
+        csvMappingFields: {
+          name: 'Імʼя',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Кошик',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Пріоритет типів комунікацій',
+          code: 'Код',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -864,8 +898,7 @@ export default {
         teams: 'Команда| Команди',
         tags: 'Теги',
         blacklist: 'Стоп лист',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueue: 'Нова черга',
@@ -1068,17 +1101,8 @@ export default {
         priority: 'Пріоритет',
         reserveResource: 'Резервний ресурс',
         failureDialDelay: 'Затримка при помилці набору',
-        importCsv: {
-          title: 'Імпорт номерів',
-          separator: 'Роздільник',
-          upload: 'Завантажити',
-          close: 'Закрити',
-          exampleSeparator: 'Наприклад ; або ,',
-          numberColumn: 'Назва колонки з номером',
-          uploadError: 'Помилка при відправці файлу',
-          genericError: 'Сталася помилка при відправці!',
-          emptyRequiredFieldsMessage:
-            'У рядках {rows} порожні обов’язкові поля',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 
@@ -1148,7 +1172,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медіа',
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'демонстрація екрану',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'демонстрація екрану',
           [StorageUploadFileChannel.ScreenshotChannel]: 'скріншоти',
         },
         encryptFile: 'Шифрувати файли',

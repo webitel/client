@@ -236,6 +236,12 @@ export default {
         askingAlert:
           'Are you sure you want to regenerate the code? The user won’t be able to log in',
         chatName: 'Chat display name',
+        csvMappingFields: {
+          username: "Username",
+          name: 'Name',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Customers',
@@ -297,6 +303,15 @@ export default {
         },
         passwordSetFromAccount:
           "If you won't set password, it would be the same as account",
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Vendor',
+          model: 'Model',
+          mac: 'MAC',
+          ip: 'IP',
+        },
       },
     },
     permissions: {
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Numbers',
         expireAt: 'Expire',
         temporary: 'Temporary',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Media file | Media files',
@@ -839,6 +859,20 @@ export default {
           missed: 'Missed',
           expired: 'Expired',
         },
+        csvMappingFields: {
+          name: 'Name',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Communication priority',
+          code: 'Code',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -856,8 +890,7 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'New queue description',
@@ -1059,17 +1092,8 @@ export default {
         priority: 'Priority',
         reserveResource: 'Reserve resource',
         failureDialDelay: 'Failure dial delay',
-        importCsv: {
-          title: 'Import Numbers',
-          separator: 'Separator',
-          upload: 'Upload',
-          close: 'Close',
-          exampleSeparator: 'For example ; or ,',
-          numberColumn: 'Number column',
-          uploadError: 'Error while uploading the file',
-          genericError: 'An error occurred during the upload!',
-          emptyRequiredFieldsMessage:
-            'Required fields are empty in rows {rows}.',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 
@@ -1141,7 +1165,6 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'screensharing',
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshots',
-
         },
         encryptFile: 'Encrypt files',
       },
