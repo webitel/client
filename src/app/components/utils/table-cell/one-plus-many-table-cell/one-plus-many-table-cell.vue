@@ -39,6 +39,10 @@ const inputHandler = () => {
   display: flex;
   align-items: center;
 
+  a {
+    color: inherit;
+  }
+
   &__chip {
     margin-left: 8px;
     cursor: pointer;
