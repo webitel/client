@@ -522,6 +522,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Plantilla de pausa | Plantillas de pausa',
+        notSelected: 'No seleccionado',
         pauseReason: 'Motivo de pausa',
         duration: 'Duración (mm)',
       },

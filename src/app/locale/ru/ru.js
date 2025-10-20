@@ -524,6 +524,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Шаблон пауз | Шаблоны пауз',
+        notSelected: 'Не выбрано',
         pauseReason: 'Причина паузы',
         duration: 'Длительность (мм)',
       },

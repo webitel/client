@@ -520,6 +520,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: "To'xtash shablonlari | To'xtash shablonlari",
+        notSelected: 'Tanlanmagan',
         pauseReason: "To'xtash sababi",
         duration: 'Davomiyligi (daqiqa)',
       },
