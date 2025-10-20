@@ -237,6 +237,12 @@ export default {
         askingAlert:
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
+        csvMappingFields: {
+          username: 'Nazwa użytkownika',
+          name: 'Imię',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Klienci',
@@ -298,6 +304,15 @@ export default {
         },
         passwordSetFromAccount:
           'Jeśli nie ustawisz hasła, będzie ono takie samo jak konto',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Producent',
+          model: 'Model',
+          mac: 'Adres MAC',
+          ip: 'Adres IP',
+        },
       },
     },
     permissions: {
@@ -417,6 +432,11 @@ export default {
         numbersCount: 'Liczba numerów',
         expireAt: 'Wygasa',
         temporary: 'Tymczasowy',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Plik multimedialny | Pliki multimedialne',
@@ -839,6 +859,20 @@ export default {
           missed: 'Przegapione',
           expired: 'Wygasło',
         },
+        csvMappingFields: {
+          name: 'Nazwa',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Zasobnik',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Priorytet typów komunikacji',
+          code: 'Kod',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -856,8 +890,7 @@ export default {
         tags: 'Tagi',
         newQueue: 'Nowa kolejka',
         blacklist: 'Lista zatrzymana',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Opis nowej kolejki',
@@ -1058,6 +1091,9 @@ export default {
         priority: 'Priorytet',
         reserveResource: 'Rezerwuj zasób',
         failureDialDelay: 'Opóźnienie dialingu przy niepowodzeniu',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {
@@ -1126,7 +1162,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'udostępnianie ekranu',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'udostępnianie ekranu',
           [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
         encryptFile: 'Szyfruj pliki',
