@@ -1116,7 +1116,7 @@ export default {
         maxDownloadSpeed: 'Maksymalna prędkość pobierania (kbps)',
         maxUploadSpeed: 'Maksymalna prędkość wgrywania (kbps)',
         maxUploadSize: 'Maksymalny rozmiar wgrywania (bajty)',
-        applyToFiles: 'Zastosuj do istniejących plików',
+        applyToFiles: 'Zastosuj dni przechowywania do istniejących plików',
         applyPopupMessage:
           'Nowy czas przechowywania zostanie zastosowany do istniejących plików zgodnie z polityką. Czy chcesz kontynuować?',
         channels: {
@@ -1128,7 +1128,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'udostępnianie ekranu',
           [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
-        encryptFile: 'Szyfruj pliki',
+        encryptFile: 'Szyfruj nowe pliki',
+        encryptFileHint: 'Nie będzie można odszyfrować plików, jeśli klucz szyfrowania zostanie utracony! Zapisy są dostępne tylko przez API lub interfejs.',
+        encryptionAlertTitle: 'Alert szyfrowania',
+        encryptionEnableMessage: 'Tylko nowe pliki będą szyfrowane.',
+        encryptionDisableMessage: 'Stare pliki pozostaną zaszyfrowane.\nNowe pliki nie będą szyfrowane.',
       },
 
       cognitiveProfiles: {

@@ -1122,7 +1122,7 @@ export default {
         maxDownloadSpeed: 'Velocidad de descarga máxima (kbps)',
         maxUploadSpeed: 'Velocidad de carga máxima (kbps)',
         maxUploadSize: 'Tamaño de carga máximo (bytes)',
-        applyToFiles: 'Aplicar a archivos existentes',
+        applyToFiles: 'Aplicar días de retención a archivos existentes',
         applyPopupMessage:
           'El nuevo tiempo de retención se aplicará a los archivos existentes según la política. ¿Desea continuar?',
         channels: {
@@ -1134,7 +1134,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
         },
-        encryptFile: 'Encriptar archivos',
+        encryptFile: 'Encriptar archivos nuevos',
+        encryptFileHint: '¡No podrá descifrar archivos si se pierde la clave de cifrado! Los registros solo se pueden acceder a través de API o interfaz.',
+        encryptionAlertTitle: 'Alerta de cifrado',
+        encryptionEnableMessage: 'Solo se cifrarán los archivos nuevos.',
+        encryptionDisableMessage: 'Los archivos antiguos permanecerán cifrados.\nLos archivos nuevos no se cifrarán.',
       },
 
       cognitiveProfiles: {

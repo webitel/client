@@ -1140,7 +1140,7 @@ export default {
         maxDownloadSpeed: 'Максимальная скорость загрузки (kbps)',
         maxUploadSpeed: 'Максимальная скорость выгрузки (kbps)',
         maxUploadSize: 'Максимальный размер файла (bytes)',
-        applyToFiles: 'Применить к существующим файлам',
+        applyToFiles: 'Применить срок хранения к существующим файлам',
         applyPopupMessage:
           'Новое время хранения будет применено к существующим файлам согласно политике. Хотите продолжить?',
         channels: {
@@ -1152,7 +1152,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'демонстрация экрана',
           [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоты',
         },
-        encryptFile: 'Шифровать файлы',
+        encryptFile: 'Шифровать новые файлы',
+        encryptFileHint: 'Вы не сможете расшифровать файлы, если ключ шифрования будет утерян! Записи будут доступны только через интерфейс или по API.',
+        encryptionAlertTitle: 'Предупреждение о шифровании',
+        encryptionEnableMessage: 'Только новые файлы будут зашифрованы.',
+        encryptionDisableMessage: 'Старые файлы останутся зашифрованными.\nНовые файлы шифроваться не будут.',
       },
 
       cognitiveProfiles: {
