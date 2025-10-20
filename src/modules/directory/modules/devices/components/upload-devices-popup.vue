@@ -11,6 +11,8 @@
 import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import DevicesAPI from '../api/devices';
 
+const baseLocale = 'objects.directory.devices.csvMappingFields';
+
 export default {
   name: 'UploadDevicesPopup',
   mixins: [uploadCSVWrapperComponentMixin],
@@ -20,36 +22,43 @@ export default {
         {
           name: 'account',
           required: true,
+          locale: `${baseLocale}.account`,
           csv: '',
         },
         {
           name: 'name',
           required: false,
+          locale: `${baseLocale}.name`,
           csv: '',
         },
         {
           name: 'vendor',
           required: false,
+          locale: `${baseLocale}.vendor`,
           csv: '',
         },
         {
           name: 'model',
           required: false,
+          locale: `${baseLocale}.model`,
           csv: '',
         },
         {
           name: 'mac',
           required: false,
+          locale: `${baseLocale}.mac`,
           csv: '',
         },
         {
           name: 'ip',
           required: false,
+          locale: `${baseLocale}.ip`,
           csv: '',
         },
         {
           name: 'password',
           required: false,
+          locale: `${baseLocale}.password`,
           csv: '',
           tooltip: this.$t('objects.directory.devices.passwordSetFromAccount'),
         },

@@ -238,6 +238,12 @@ export default {
         askingAlert:
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
+        csvMappingFields: {
+          username: 'Nume de utilizator',
+          name: 'Nume',
+          extension: ({ linked }) => linked('vocabulary.extension'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Clienți',
@@ -299,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Dacă nu setați parola, va fi aceeași ca și contul',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Producător',
+          model: 'Model',
+          mac: 'Adresă MAC',
+          ip: 'Adresă IP',
+        },
       },
     },
     permissions: {
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Numere',
         expireAt: 'Expiră',
         temporary: 'Temporar',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Fișier mediu | Fișiere media',
@@ -500,6 +520,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Șablon de pauză | Șabloane de pauză',
+        notSelected: 'Neales',
         pauseReason: 'Motiv de pauză',
         duration: 'Durata (mm)',
       },
@@ -841,6 +862,20 @@ export default {
           missed: 'Pierdut',
           expired: 'Expirat',
         },
+        csvMappingFields: {
+          name: 'Nume',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Prioritatea tipurilor de comunicare',
+          code: 'Cod',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -858,8 +893,7 @@ export default {
         tags: 'Etichete',
         newQueue: 'Coadă nouă',
         blacklist: 'Listă de oprire',
-        resources: ({ linked }) =>
-          linked('objects.ccenter.res.res'),
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
         resourceGroups: ({ linked }) =>
           linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descriere coadă nouă',
@@ -1060,6 +1094,9 @@ export default {
         priority: 'Prioritate',
         reserveResource: 'Rezervă resursă',
         failureDialDelay: 'Întârziere dialare eșec',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {

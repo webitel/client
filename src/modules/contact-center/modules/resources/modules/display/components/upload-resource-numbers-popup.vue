@@ -13,7 +13,6 @@ import HandlingCSVMode from '../../../../../../_shared/upload-csv-popup/enums/Ha
 import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import resourceDisplayApi from '../api/resourceDisplay';
 
-
 export default {
   name: 'UploadResourceNumbersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
@@ -29,6 +28,7 @@ export default {
     mappingFields: [
       {
         name: 'number',
+        locale: 'objects.ccenter.res.csvMappingFields.number',
         required: true,
         csv: '',
       },
@@ -45,7 +45,6 @@ export default {
         delimiter: this.separator || ',',
         map: selectedColumn,
       };
-
 
       await resourceDisplayApi.uploadNumbers(payload);
     },
