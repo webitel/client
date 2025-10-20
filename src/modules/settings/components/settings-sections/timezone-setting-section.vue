@@ -1,77 +1,90 @@
 <template>
   <settings-section-wrapper>
-    <template #title>
-      {{ t('settings.timezone') }}
-    </template>
+    <template #title>{{ t('settings.timezone') }}</template>
     <template #default>
       <wt-select
         :label="t('settings.timezone')"
-        :options="timezoneOptions"
+        :search-method="loadTimezoneOptions"
         :value="selectedTimezone"
         :clearable="false"
-        use-value-from-options-by-prop="id"
-        @input="onChange"
+        @input="handleTimezoneChange"
       />
     </template>
   </settings-section-wrapper>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import CalendarsAPI from '../../../lookups/modules/calendars/api/calendars.js';
 import { saveTimezone } from '../../api/settings.js';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
+interface Timezone {
+  name: string;
+  id: string;
+  offset: string;
+}
+
+interface TimezoneSearchParams {
+  search?: string;
+  page?: number;
+  size?: number;
+}
+
 const TIMEZONE_STORAGE_KEY = 'timezoneId';
-
 const { t } = useI18n();
+const selectedTimezone = ref<Timezone | null>(null);
 
-const timezones = typeof Intl.supportedValuesOf === 'function'
-  ? Intl.supportedValuesOf('timeZone') : [getBrowserTimezone()];
- 
-function getBrowserTimezone(): string {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone;
-}
+const getBrowserTimezone = () =>
+  Intl.DateTimeFormat().resolvedOptions().timeZone;
+const getSavedTimezone = () => localStorage.getItem(TIMEZONE_STORAGE_KEY);
+const saveToStorage = (tz: Timezone) =>
+  localStorage.setItem(TIMEZONE_STORAGE_KEY, tz.name);
 
-function getInitialTimezone(): string {
-  const savedTimezone = localStorage.getItem(TIMEZONE_STORAGE_KEY);
-  if (savedTimezone && timezones.includes(savedTimezone)) {
-    return savedTimezone;
+const loadTimezoneOptions = (params: TimezoneSearchParams) =>
+  CalendarsAPI.getTimezonesLookup(params);
+
+const saveOnServer = async (tz: Timezone) => {
+  try {
+    await saveTimezone(tz);
+    return true;
+  } catch {
+    return false;
   }
-  return getBrowserTimezone();
-}
+};
 
-const initialTimezone = ref(getInitialTimezone());
-const selectedTimezone = ref(initialTimezone.value); 
+const handleTimezoneChange = async (tz: Timezone) => {
+  const prev = selectedTimezone.value;
+  selectedTimezone.value = tz;
 
-const timezoneOptions = computed(() =>
-  timezones.map((timezone) => ({
-    name: timezone,
-    id: timezone,
-  })),
-);
+  if (await saveOnServer(tz)) {
+    saveToStorage(tz);
+  } else {
+    selectedTimezone.value = prev;
+  }
+};
 
-function saveTimezoneToStorage() {
-  localStorage.setItem(TIMEZONE_STORAGE_KEY, selectedTimezone.value);
-}
+const createTimezone = (name: string): Timezone => ({
+  name,
+  id: name,
+  offset: '',
+});
 
-function updateInitialTimezone() {
-  initialTimezone.value = selectedTimezone.value;
-}
+const initializeTimezone = async () => {
+  const name = getSavedTimezone() || getBrowserTimezone();
 
-function setSelectedTimezone(timezone: string) {
-  selectedTimezone.value = timezone;
-}
+  try {
+    const { items } = await loadTimezoneOptions({ search: name });
+    selectedTimezone.value =
+      items.find((tz: Timezone) => tz.name === name) || createTimezone(name);
+  } catch {
+    selectedTimezone.value = createTimezone(name);
+  }
+};
 
-async function onChange(timezone: string) {
-  setSelectedTimezone(timezone);
-
-  await saveTimezone(selectedTimezone.value).then(() => {
-    saveTimezoneToStorage();
-    updateInitialTimezone();
-  });
-}
+onMounted(initializeTimezone);
 </script>
 
 <style scoped></style>
