@@ -19,21 +19,21 @@
       >
         <wt-checkbox
           v-model:selected="skipHeaders"
-          :label="$t('objects.CSV.skipHeaders')"
+          :label="t('objects.CSV.skipHeaders')"
           disabled
         />
         <form class="upload-popup-form__form">
           <wt-select
             v-model="charset"
             :clearable="false"
-            :label="$t('objects.CSV.charSet')"
+            :label="t('objects.CSV.charSet')"
             :options="charsetOptions"
             disabled
           />
 
           <wt-input
             v-model="separator"
-            :label="$t('objects.CSV.separator')"
+            :label="t('objects.CSV.separator')"
           />
         </form>
 
