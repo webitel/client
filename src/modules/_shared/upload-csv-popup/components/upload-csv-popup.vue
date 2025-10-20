@@ -6,7 +6,7 @@
     @close="close"
   >
     <template #title>
-      {{ $t('objects.importCSV') }}
+      {{ t('objects.importCSV') }}
     </template>
     <template #main>
       <wt-loader
@@ -59,11 +59,15 @@
         <!--        FIELDS MAPPING-->
         <ul class="upload-popup-mapping">
           <li class="upload-popup-mapping-item">
-            <p class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title">
-              {{ $t('objects.CSV.fieldName') }}
+            <p
+              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title"
+            >
+              {{ t('objects.CSV.fieldName') }}
             </p>
-            <p class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title">
-              {{ $t('objects.CSV.CSVColumn') }}
+            <p
+              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title"
+            >
+              {{ t('objects.CSV.CSVColumn') }}
             </p>
           </li>
           <li
@@ -72,14 +76,14 @@
             class="upload-popup-mapping-item"
           >
             <p class="upload-popup-mapping-item__field">
-              {{ translateMappingFieldLocale(field.locale) }}<span v-if="field.required">*</span>
+              {{ t(field.locale) }}<span v-if="field.required">*</span>
             </p>
             <wt-select
               v-if="!field.multiple"
               v-model="field.csv"
               :clearable="!field.required"
               :options="csvColumns"
-              :placeholder="translateMappingFieldLocale(field.locale)"
+              :placeholder="t(field.locale)"
               :track-by="null"
               class="upload-popup-mapping-item__select"
             />
@@ -87,7 +91,7 @@
               v-else
               v-model="field.csv"
               :options="csvColumns"
-              :placeholder="translateMappingFieldLocale(field.locale)"
+              :placeholder="t(field.locale)"
               class="upload-popup-mapping-item__select"
             />
             <div
@@ -115,13 +119,13 @@
         :loading="isParsingCSV"
         @click="processCSV"
       >
-        {{ $t('reusable.save') }}
+        {{ t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ $t('reusable.close') }}
+        {{ t('reusable.close') }}
       </wt-button>
     </template>
   </wt-popup>
@@ -146,14 +150,6 @@ export default {
     charsetOptions: [],
     charset: { name: 'UTF-8', value: 'utf-8' },
   }),
-  methods: {
-    translateMappingFieldLocale(locale) {
-      if (typeof locale === 'object' && 'key' in locale && 'choice' in locale) {
-        return this.t(locale.key, locale.choice);
-      }
-      return this.t(locale);
-    },
-  },
 };
 </script>
 
