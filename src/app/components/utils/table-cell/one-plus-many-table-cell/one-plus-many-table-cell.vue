@@ -1,11 +1,11 @@
 <template>
   <div class="one-plus-many-table-cell">
-    <a
+    <span
       v-if="props.collection.length"
       tabindex="0"
     >
       {{ props.collection[0].name }}
-    </a>
+    </span>
 
     <div
       class="one-plus-many-table-cell__chip"
@@ -44,11 +44,11 @@ const inputHandler = () => {
   }
 
   &__chip {
-    margin-left: 8px;
-    cursor: pointer;
-    user-select: none;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    margin-left: 8px;
+    user-select: none;
   }
 }
 </style>
