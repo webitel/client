@@ -1148,7 +1148,7 @@ export default {
         maxDownloadSpeed: 'Ең жоғары жүктеу жылдамдығы (кб/с)',
         maxUploadSpeed: 'Ең жоғары жазу жылдамдығы (кб/с)',
         maxUploadSize: 'Ең жоғары жазу өлшемі (байт)',
-        applyToFiles: 'Өткен файлдарға саясатты қолдану',
+        applyToFiles: 'Өткен файлдарға сақтау мерзімін қолдану',
         applyPopupMessage:
           'Саясаттың жаңа уақыты өткен файлдарға саясаттың орындалуына әкеледі. Сіз қалаймыз ба?',
         channels: {
@@ -1160,7 +1160,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
           [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
         },
-        encryptFile: 'Файлдарды шифрлеу',
+        encryptFile: 'Жаңа файлдарды шифрлеу',
+        encryptFileHint: 'Шифрлеу кілті жоғалса, файлдарды шифрдан шығара алмайсыз! Жазбалар тек интерфейс немесе API арқылы қолжетімді.',
+        encryptionAlertTitle: 'Шифрлеу туралы ескерту',
+        encryptionEnableMessage: 'Тек жаңа файлдар шифрланады.',
+        encryptionDisableMessage: 'Ескі файлдар шифрланған күйінде қалады.\nЖаңа файлдар шифрланбайды.',
       },
 
       cognitiveProfiles: {

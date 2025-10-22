@@ -1151,7 +1151,7 @@ export default {
         maxDownloadSpeed: 'Tốc độ tải xuống tối đa (kbps)',
         maxUploadSpeed: 'Tốc độ tải lên tối đa (kbps)',
         maxUploadSize: 'Kích thước tải lên tối đa (bytes)',
-        applyToFiles: 'Áp dụng cho các tệp hiện có',
+        applyToFiles: 'Áp dụng ngày lưu giữ cho các tệp hiện có',
         applyPopupMessage:
           'Thời hạn lưu trữ mới sẽ được áp dụng cho các tệp hiện có theo chính sách. Bạn có muốn tiếp tục?',
         channels: {
@@ -1163,7 +1163,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
           [StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
         },
-        encryptFile: 'Mã hóa tệp',
+        encryptFile: 'Mã hóa tệp mới',
+        encryptFileHint: 'Bạn sẽ không thể giải mã tệp nếu khóa mã hóa bị mất! Bản ghi chỉ có thể truy cập qua API hoặc giao diện.',
+        encryptionAlertTitle: 'Cảnh báo mã hóa',
+        encryptionEnableMessage: 'Chỉ các tệp mới sẽ được mã hóa.',
+        encryptionDisableMessage: 'Các tệp cũ sẽ vẫn được mã hóa.\nCác tệp mới sẽ không được mã hóa.',
       },
 
       cognitiveProfiles: {
