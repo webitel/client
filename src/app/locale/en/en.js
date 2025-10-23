@@ -236,6 +236,7 @@ export default {
         askingAlert:
           'Are you sure you want to regenerate the code? The user won’t be able to log in',
         chatName: 'Chat display name',
+        temporaryPassword: 'Temporary password',
         csvMappingFields: {
           username: "Username",
           name: 'Name',
