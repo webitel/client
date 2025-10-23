@@ -18,7 +18,6 @@ const resettableState = {
     chatCount: 1,
     taskCount: 1,
     isSupervisor: false,
-    allowSetScreenControl: false,
     screenControl: false,
     greetingMedia: {},
   },
