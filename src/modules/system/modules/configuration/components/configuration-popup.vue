@@ -233,6 +233,8 @@ export default {
         return deepmerge(defaults, defaultMultiselectConfig);
       case EngineSystemSettingName.PasswordContainsUsername:
         return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.PasswordWarningDays:
+        return deepmerge(defaults, defaultNumberConfig);
       default:
         return defaults;
     }
