@@ -521,6 +521,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Pause template | Pause templates',
+        notSelected: 'Not selected',
         pauseReason: 'Pause reason',
         duration: 'Duration (mm)',
       },
@@ -1155,7 +1156,7 @@ export default {
         maxDownloadSpeed: 'Max download speed (kbps)',
         maxUploadSpeed: 'Max upload speed (kbps)',
         maxUploadSize: 'Max upload size (bytes)',
-        applyToFiles: 'Apply to existing files',
+        applyToFiles: 'Apply retention days to existing files',
         applyPopupMessage:
           'New retention time will be applied to existing files according to the policy. Do you want to continue?',
         channels: {
@@ -1167,7 +1168,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'screensharing',
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshots',
         },
-        encryptFile: 'Encrypt files',
+        encryptFile: 'Encrypt new files',
+        encryptFileHint: "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
+        encryptionAlertTitle: 'Encryption alert',
+        encryptionEnableMessage: 'Only new files will be encrypted.',
+        encryptionDisableMessage: "Old files will remain encrypted.\nNew files won't be encrypted.",
       },
 
       cognitiveProfiles: {

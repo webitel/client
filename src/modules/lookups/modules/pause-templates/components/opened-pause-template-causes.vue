@@ -26,6 +26,7 @@
           <wt-select
             :search-method="loadAgentPauseCause"
             :value="item.name"
+            :placeholder="$t('objects.lookups.pauseTemplates.notSelected')"
             @input="setCause({ index, value: $event })"
           />
         </template>

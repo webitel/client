@@ -141,7 +141,7 @@ export default {
   mixins: [openedTabComponentMixin],
   computed: {
     disabledAgentScreenControl() {
-      return !this.itemInstance.allowSetScreenControl
+      return this.itemInstance.allowSetScreenControl === false
     }
   },
   methods: {

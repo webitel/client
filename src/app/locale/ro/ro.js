@@ -521,6 +521,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Șablon de pauză | Șabloane de pauză',
+        notSelected: 'Neales',
         pauseReason: 'Motiv de pauză',
         duration: 'Durata (mm)',
       },
@@ -1156,7 +1157,7 @@ export default {
         maxDownloadSpeed: 'Viteză descărcare maximă (kbps)',
         maxUploadSpeed: 'Viteză încărcare maximă (kbps)',
         maxUploadSize: 'Mărime încărcare maximă (bytes)',
-        applyToFiles: 'Aplică la fișiere existente',
+        applyToFiles: 'Aplică zile de retenție la fișiere existente',
         applyPopupMessage:
           'Timpul de reținere nou va fi aplicat fișierelor existente în conformitate cu politica. Vrei să continui?',
         channels: {
@@ -1168,7 +1169,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
         },
-        encryptFile: 'Criptați fișiere',
+        encryptFile: 'Criptați fișiere noi',
+        encryptFileHint: 'Nu veți putea decripta fișierele dacă cheia de criptare este pierdută! Înregistrările pot fi accesate doar prin API sau interfață.',
+        encryptionAlertTitle: 'Alertă de criptare',
+        encryptionEnableMessage: 'Doar fișierele noi vor fi criptate.',
+        encryptionDisableMessage: 'Fișierele vechi vor rămâne criptate.\nFișierele noi nu vor fi criptate.',
       },
 
       cognitiveProfiles: {

@@ -521,6 +521,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: "To'xtash shablonlari | To'xtash shablonlari",
+        notSelected: 'Tanlanmagan',
         pauseReason: "To'xtash sababi",
         duration: 'Davomiyligi (daqiqa)',
       },
@@ -1156,7 +1157,7 @@ export default {
         maxDownloadSpeed: 'Maksimal yuklash tezligi (kbps)',
         maxUploadSpeed: 'Maksimal yuklash tezligi (kbps)',
         maxUploadSize: "Maksimal yuklash o'lchami (baytlar)",
-        applyToFiles: "Mavjud fayllarga siyosatni qo'llash",
+        applyToFiles: "Mavjud fayllarga saqlash muddatini qo'llash",
         applyPopupMessage:
           "Yangi saqlash davri mavjud fayllarga siyosat asosida qo'llaniladi. Siz davom etishni xohlaysizmi?",
         channels: {
@@ -1168,7 +1169,11 @@ export default {
           [StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
           [StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
         },
-        encryptFile: 'Fayllarni shifrlash',
+        encryptFile: 'Yangi fayllarni shifrlash',
+        encryptFileHint: 'Shifrlash kaliti yoʻqolsa, fayllarni shifrdan chiqa olmaysiz! Yozuvlarga faqat API yoki interfeys orqali kirish mumkin.',
+        encryptionAlertTitle: 'Shifrlash haqida ogohlantirish',
+        encryptionEnableMessage: 'Faqat yangi fayllar shifrlangan boʻladi.',
+        encryptionDisableMessage: 'Eski fayllar shifrlangan holatda qoladi.\nYangi fayllar shifrlanmaydi.',
       },
 
       cognitiveProfiles: {
@@ -1355,7 +1360,6 @@ export default {
     close: 'Yopish',
     change: "O'zgartirish",
     volume: 'Haqiqat',
-    stop: "To'xtatish",
     members: "A'zolchalar",
     moveUp: "Yuqoriga ko'chirish",
     moveDown: "Pastga ko'chirish",
