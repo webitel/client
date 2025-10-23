@@ -105,7 +105,9 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import { LabelsAPI } from '@webitel/api-services/api';
-import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
+// TODO: remove hardcoded value as soon as api generation is fixed
+// use import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
+import EngineSystemSettingName from '../utils/engineSystemSettingNameWrapper';
 import deepmerge from 'deepmerge';
 import { mapActions } from 'vuex';
 
