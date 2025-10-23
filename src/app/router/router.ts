@@ -96,6 +96,11 @@ const router = createRouter({
           name: RouteNames.PAGE_404,
           component: NotFound,
         },
+        {
+          path: '/404',
+          name: RouteNames.PAGE_404,
+          component: NotFound,
+        },
 
         // ----------DIRECTORY------------
         ...DevicesRoutes,

@@ -18,8 +18,12 @@ export default {
     Permissions,
   },
 
-  created() {
-    this.loadPageData();
+  async created() {
+    try {
+      await this.loadPageData();
+    } catch (e) {
+      this.$router.push('/404');
+    }
   },
 
   computed: {
@@ -59,7 +63,7 @@ export default {
     },
 
     setInitialTab() {
-       
+
       if (this.tabs.length) this.currentTab = this.tabs[0];
     },
 
