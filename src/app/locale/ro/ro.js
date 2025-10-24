@@ -238,6 +238,7 @@ export default {
         askingAlert:
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
+        temporaryPassword: 'Parolă temporară',
         csvMappingFields: {
           username: 'Nume de utilizator',
           name: 'Nume',

@@ -236,6 +236,7 @@ export default {
         askingAlert:
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
+        temporaryPassword: 'Уақытша құпия сөз',
         csvMappingFields: {
           username: 'Пайдаланушы аты',
           name: 'Аты',

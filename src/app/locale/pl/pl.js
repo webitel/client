@@ -236,6 +236,7 @@ export default {
         askingAlert:
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
+        temporaryPassword: 'Hasło tymczasowe',
         csvMappingFields: {
           username: 'Nazwa użytkownika',
           name: 'Imię',

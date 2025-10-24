@@ -237,6 +237,7 @@ export default {
         askingAlert:
           '¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
         chatName: 'Nombre de visualización de chat',
+        temporaryPassword: 'Contraseña temporal',
         csvMappingFields: {
           username: 'Nombre de usuario',
           name: 'Nombre',
