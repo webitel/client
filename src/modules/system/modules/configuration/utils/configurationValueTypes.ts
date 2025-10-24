@@ -1,6 +1,6 @@
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 
-const ConfigurationValueTypes = Object.freeze({
+const ConfigurationValueTypes = {
   [EngineSystemSettingName.EnableOmnichannel]: 'boolean',
   [EngineSystemSettingName.AmdCancelNotHuman]: 'boolean',
   [EngineSystemSettingName.Enable_2fa]: 'boolean',
@@ -29,6 +29,14 @@ const ConfigurationValueTypes = Object.freeze({
   [EngineSystemSettingName.PushNotificationTimeout]: 'number',
   [EngineSystemSettingName.NewMessageSoundNotification]: 'boolean',
   [EngineSystemSettingName.NewChatSoundNotification]: 'boolean',
-});
+
+  // Password settings
+  [EngineSystemSettingName.PasswordExpiryDays]: 'number',
+  [EngineSystemSettingName.PasswordMinLength]: 'number',
+  [EngineSystemSettingName.PasswordCategories]: 'multiselect',
+  [EngineSystemSettingName.PasswordContainsUsername]: 'boolean',
+  [EngineSystemSettingName.PasswordWarningDays]: 'number',
+} as const;
 
 export default ConfigurationValueTypes;
+
