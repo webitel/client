@@ -23,8 +23,7 @@ export default {
     try {
       await this.loadPageData();
     } catch (err) {
-      if (ErrorRedirectMap[err.response?.status])
-        this.$router.push(ErrorRedirectMap[err.response?.status]);
+      this.handleError(err)
     }
   },
 
@@ -79,5 +78,11 @@ export default {
     changeTab(tab) {
       this.$router.push({ ...this.$route, name: tab.pathName });
     },
+
+    handleError (err) {
+      const status = err?.status ?? err?.response?.status;
+      const to = ErrorRedirectMap[status];
+      if (to) return this.$router.push(to);
+    }
   },
 };
