@@ -1,9 +1,7 @@
 import { LabelsAPI } from '@webitel/api-services/api';
-// TODO: remove hardcoded value as soon as api generation is fixed
-// use import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import EngineSystemSettingName from './engineSystemSettingNameWrapper';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 
-import PasswordCategories from '../enum/PasswordCategories.enum';
+import { PasswordCategories } from '../enum/PasswordCategories.enum';
 
 interface MultiselectConfig {
   searchMethod: ((params: any) => Promise<any>) | null;

@@ -105,9 +105,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import { LabelsAPI } from '@webitel/api-services/api';
-// TODO: remove hardcoded value as soon as api generation is fixed
-// use import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import EngineSystemSettingName from '../utils/engineSystemSettingNameWrapper';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import deepmerge from 'deepmerge';
 import { mapActions } from 'vuex';
 
@@ -115,7 +113,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
-import PasswordCategories from '../enum/PasswordCategories.enum';
+import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 import {

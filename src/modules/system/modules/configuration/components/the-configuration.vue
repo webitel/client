@@ -125,9 +125,7 @@
 </template>
 
 <script>
-// TODO: remove hardcoded value as soon as api generation is fixed
-// use import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import EngineSystemSettingName from '../utils/engineSystemSettingNameWrapper';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import DeleteConfirmationPopup
   from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import {

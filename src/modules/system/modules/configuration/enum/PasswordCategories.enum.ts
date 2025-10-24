@@ -1,9 +1,7 @@
-const PasswordCategories = {
-  UPPERCASE: '[A-Z]',
-  LOWERCASE: '[a-z]',
-  DIGITS: '[0-9]',
-  SPECIAL: 'special',
+export const PasswordCategories = {
+  Uppercase: '[A-Z]',
+  Lowercase: '[a-z]',
+  Digits: '[0-9]',
+  Special: 'special',
 } as const;
-
-export default PasswordCategories;
 

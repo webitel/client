@@ -1,6 +1,4 @@
-// TODO: remove hardcoded value as soon as api generation is fixed
-// use import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import EngineSystemSettingName from './engineSystemSettingNameWrapper';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 
 const ConfigurationValueTypes = {
   [EngineSystemSettingName.EnableOmnichannel]: 'boolean',
