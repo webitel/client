@@ -240,6 +240,7 @@ export default {
         askingAlert:
           'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
         chatName: 'Імʼя для відображення в чаті',
+        temporaryPassword: 'Тимчасовий пароль',
         csvMappingFields: {
           username: 'Ім’я користувача',
           name: 'Ім’я',

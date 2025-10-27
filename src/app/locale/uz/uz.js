@@ -239,6 +239,7 @@ export default {
         askingAlert:
           'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
         chatName: "Chat ko'rsatish nomi",
+        temporaryPassword: 'Vaqtinchalik parol',
         csvMappingFields: {
           username: 'Foydalanuvchi nomi',
           name: 'Ism',

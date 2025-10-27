@@ -239,6 +239,7 @@ export default {
         askingAlert:
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
+        temporaryPassword: 'Mật khẩu tạm thời',
         csvMappingFields: {
           username: 'Tên người dùng',
           name: 'Tên',

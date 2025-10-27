@@ -78,21 +78,19 @@
             </template>
             <template #value="{ item }">
               <div
-                v-if="item.name === EngineSystemSettingName.LabelsToLimitContacts"
+                v-if="isMultiselectValue(item.value)"
                 class="the-configuration__table-value"
               >
                 <wt-chip
-                  v-for="{ label, id } of item.value"
-                  :key="id"
+                  v-for="(chip, index) of item.value"
+                  :key="getChipKey(item.name, chip, index)"
                 >
-                  {{ label }}
+                  {{ getChipLabel(item.name, chip) }}
                 </wt-chip>
               </div>
               <div v-else>
                 {{ item.value }}
               </div>
-
-
             </template>
             <template #actions="{ item }">
               <wt-icon-action
@@ -136,6 +134,10 @@ import {
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+import {
+  getMultiselectDisplayConfig,
+  getPropertyValue,
+} from '../utils/multiselectConfigurations';
 import ConfigurationPopup from './configuration-popup.vue';
 
 const namespace = 'system/configuration';
@@ -198,6 +200,19 @@ export default {
         ...this.$route,
         params: { id: item.id },
       });
+    },
+    isMultiselectValue(value) {
+      return Array.isArray(value) && value.length;
+    },
+    getChipKey(settingName, chip, index) {
+      const config = getMultiselectDisplayConfig(settingName);
+      const keyProperty = config.display?.keyProperty || 'id';
+      return getPropertyValue(chip, keyProperty, index);
+    },
+    getChipLabel(settingName, chip) {
+      const config = getMultiselectDisplayConfig(settingName);
+      const labelProperty = config.display?.labelProperty || 'label';
+      return getPropertyValue(chip, labelProperty, chip);
     },
   },
 };
