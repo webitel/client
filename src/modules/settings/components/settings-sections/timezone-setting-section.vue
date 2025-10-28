@@ -33,18 +33,32 @@ interface TimezoneSearchParams {
   size?: number;
 }
 
-const TIMEZONE_STORAGE_KEY = 'timezoneId';
+interface TimezoneResponse {
+  items: Timezone[];
+}
+
+const createTimezone = (name: string): Timezone => ({
+  name,
+  id: name,
+  offset: '',
+});
+
+const TIMEZONE_STORAGE_KEY = 'timezone';
 const { t } = useI18n();
 const selectedTimezone = ref<Timezone | null>(null);
 
-const getBrowserTimezone = () =>
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-const getSavedTimezone = () => localStorage.getItem(TIMEZONE_STORAGE_KEY);
-const saveToStorage = (tz: Timezone) =>
-  localStorage.setItem(TIMEZONE_STORAGE_KEY, tz.name);
+const getBrowserTimezone = (): Timezone =>
+  createTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-const loadTimezoneOptions = (params: TimezoneSearchParams) =>
-  CalendarsAPI.getTimezonesLookup(params);
+const getSavedTimezone = (): Timezone | null =>
+  JSON.parse(localStorage.getItem(TIMEZONE_STORAGE_KEY));
+
+const saveToStorage = (tz: Timezone) =>
+  localStorage.setItem(TIMEZONE_STORAGE_KEY, JSON.stringify(tz));
+
+const loadTimezoneOptions = (
+  params: TimezoneSearchParams,
+): Promise<TimezoneResponse> => CalendarsAPI.getTimezonesLookup(params);
 
 const saveOnServer = async (tz: Timezone) => {
   try {
@@ -66,22 +80,21 @@ const handleTimezoneChange = async (tz: Timezone) => {
   }
 };
 
-const createTimezone = (name: string): Timezone => ({
-  name,
-  id: name,
-  offset: '',
-});
+const setTimezone = (tz: Timezone) => {
+  saveToStorage(tz);
+  selectedTimezone.value = tz;
+};
+
+const findTimezoneByName = async (name: string): Promise<Timezone> => {
+  const { items } = await loadTimezoneOptions({ search: name });
+  return items.find((tz) => tz.name === name) || createTimezone(name);
+};
 
 const initializeTimezone = async () => {
-  const name = getSavedTimezone() || getBrowserTimezone();
-
-  try {
-    const { items } = await loadTimezoneOptions({ search: name });
-    selectedTimezone.value =
-      items.find((tz: Timezone) => tz.name === name) || createTimezone(name);
-  } catch {
-    selectedTimezone.value = createTimezone(name);
-  }
+  const savedTimezone = getSavedTimezone();
+  const targetTimezone = savedTimezone || getBrowserTimezone();
+  const timezone = await findTimezoneByName(targetTimezone.name);
+  setTimezone(timezone);
 };
 
 onMounted(initializeTimezone);
