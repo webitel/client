@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import i18n from '../../app/locale/i18n';
 import { eventBus } from '@webitel/ui-sdk/scripts';
+import { nextTick } from 'vue';
 
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
@@ -201,14 +202,18 @@ router.beforeEach((to) => {
 router.afterEach(async () => {
   const passwordExpirationDays = localStorage.getItem('passwordExpirationDays');
 
+  await nextTick();
+
   if (passwordExpirationDays) {
     const { t } = i18n.global;
     eventBus.$emit('notification', {
       type: 'info',
-      text: t('systemNotifications.info.passwordExpirationDays', { days: passwordExpirationDays }),
+      text: t('systemNotifications.info.passwordExpirationMessage', { days: passwordExpirationDays }),
     });
 
-    localStorage.removeItem('passwordExpirationDays')
+    setTimeout(() => {
+      localStorage.removeItem('passwordExpirationDays')
+    }, 5000);
   }
 });
 
