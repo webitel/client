@@ -14,87 +14,71 @@
 </template>
 
 <script setup lang="ts">
+import { SearchParams } from '@webitel/ui-sdk/packages/api-services/gen/_models';
+import UserSettingsAPI from '@webitel/ui-sdk/src/modules/UserSettings/api/UserSettingsAPI';
+import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/UserSettings/constants/UserSettingsConstants';
+import type { Timezone } from '@webitel/ui-sdk/src/modules/UserSettings/types/UserSettings';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CalendarsAPI from '../../../lookups/modules/calendars/api/calendars.js';
-import { saveTimezone } from '../../api/settings.js';
+import CalendarsAPI from '../../../lookups/modules/calendars/api/calendars';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
-interface Timezone {
-  name: string;
-  id: string;
-  offset: string;
-}
-
-interface TimezoneSearchParams {
-  search?: string;
-  page?: number;
-  size?: number;
-}
-
-interface TimezoneResponse {
-  items: Timezone[];
-}
-
-const createTimezone = (name: string): Timezone => ({
-  name,
-  id: name,
-  offset: '',
-});
-
-const TIMEZONE_STORAGE_KEY = 'timezone';
 const { t } = useI18n();
-const selectedTimezone = ref<Timezone | null>(null);
 
-const getBrowserTimezone = (): Timezone =>
-  createTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+const selectedTimezone = ref<string | null>(null);
 
-const getSavedTimezone = (): Timezone | null =>
-  JSON.parse(localStorage.getItem(TIMEZONE_STORAGE_KEY));
+const getBrowserTimezone = (): string =>
+  Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-const saveToStorage = (tz: Timezone) =>
-  localStorage.setItem(TIMEZONE_STORAGE_KEY, JSON.stringify(tz));
+const extractTimezoneId = (timezoneString: string): string => {
+  if (!timezoneString || typeof timezoneString !== 'string') {
+    return '';
+  }
+  /* Original timezoneString looks like "America/New_York -04:00" 
+     For toLocaleDateString method i need only "America/New_York"
+     so this regex will extract the part before the space
+  */
+  const match = timezoneString.match(/^([^\s]+)/);
+  return match?.[1] || timezoneString;
+};
+
+const getSavedTimezone = (): string | null =>
+  localStorage.getItem(TIMEZONE_STORAGE_KEY);
+
+const saveToStorage = (timezoneId: string) =>
+  localStorage.setItem(TIMEZONE_STORAGE_KEY, extractTimezoneId(timezoneId));
 
 const loadTimezoneOptions = (
-  params: TimezoneSearchParams,
-): Promise<TimezoneResponse> => CalendarsAPI.getTimezonesLookup(params);
+  params: SearchParams,
+): Promise<{ items: Timezone[] }> => CalendarsAPI.getTimezonesLookup(params);
 
-const saveOnServer = async (tz: Timezone) => {
-  try {
-    await saveTimezone(tz);
-    return true;
-  } catch {
-    return false;
-  }
+const setTimezone = (timezoneId: string) => {
+  saveToStorage(timezoneId);
+  selectedTimezone.value = timezoneId;
 };
 
-const handleTimezoneChange = async (tz: Timezone) => {
-  const prev = selectedTimezone.value;
-  selectedTimezone.value = tz;
+const handleTimezoneChange = async (timezone: Timezone) => {
+  const previousTimezone = selectedTimezone.value;
 
-  if (await saveOnServer(tz)) {
-    saveToStorage(tz);
-  } else {
-    selectedTimezone.value = prev;
-  }
+  setTimezone(timezone.name);
+
+  const { timezone: updatedTimezone } = await UserSettingsAPI.setUserTimezone(
+    extractTimezoneId(timezone.name)
+  );
+  if (!updatedTimezone) selectedTimezone.value = previousTimezone;
 };
 
-const setTimezone = (tz: Timezone) => {
-  saveToStorage(tz);
-  selectedTimezone.value = tz;
-};
-
-const findTimezoneByName = async (name: string): Promise<Timezone> => {
-  const { items } = await loadTimezoneOptions({ search: name });
-  return items.find((tz) => tz.name === name) || createTimezone(name);
+const findTimezoneByName = async (timezoneId: string): Promise<Timezone> => {
+  const { items } = await loadTimezoneOptions({ search: timezoneId });
+  return items.find((timezone) => timezone.name.includes(timezoneId));
 };
 
 const initializeTimezone = async () => {
-  const savedTimezone = getSavedTimezone();
-  const targetTimezone = savedTimezone || getBrowserTimezone();
-  const timezone = await findTimezoneByName(targetTimezone.name);
-  setTimezone(timezone);
+  const targetTimezone = getSavedTimezone() || getBrowserTimezone();
+  const timezone = await findTimezoneByName(targetTimezone);
+  const timezoneId = timezone.name || targetTimezone;
+  setTimezone(timezoneId);
 };
 
 onMounted(initializeTimezone);

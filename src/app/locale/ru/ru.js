@@ -66,7 +66,7 @@ export default {
     settings: 'Настройка | Настройки',
     changePassword: 'Изменить пароль',
     language: 'Язык',
-    timezone: 'Часовой пояс',
+    timezone: ({ linked }) => linked('date.timezone'),
     fallbackLanguage: 'Язык по умолчанию',
     webPhone: 'Web-телефон',
     useWebPhone: 'Использовать Web-телефон',

@@ -65,7 +65,7 @@ export default {
   settings: {
     settings: 'Setting | Settings',
     changePassword: 'Change password',
-    timezone: 'Timezone',
+    timezone: ({ linked }) => linked('date.timezone'),
     language: 'Language',
     fallbackLanguage: 'Default language',
     webPhone: 'WebPhone',
@@ -239,7 +239,7 @@ export default {
         chatName: 'Chat display name',
         temporaryPassword: 'Temporary password',
         csvMappingFields: {
-          username: "Username",
+          username: 'Username',
           name: 'Name',
           extension: ({ linked }) => linked('vocabulary.extension'),
           email: ({ linked }) => linked('vocabulary.emails'),
@@ -1170,10 +1170,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshots',
         },
         encryptFile: 'Encrypt new files',
-        encryptFileHint: "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
+        encryptFileHint:
+          "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
         encryptionAlertTitle: 'Encryption alert',
         encryptionEnableMessage: 'Only new files will be encrypted.',
-        encryptionDisableMessage: "Old files will remain encrypted.\nNew files won't be encrypted.",
+        encryptionDisableMessage:
+          "Old files will remain encrypted.\nNew files won't be encrypted.",
       },
 
       cognitiveProfiles: {
