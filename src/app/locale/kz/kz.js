@@ -66,7 +66,6 @@ export default {
     settings: 'Орнатпа | Орнатпалар',
     changePassword: 'Құпия сөзді өзгерту',
     language: 'Тіл',
-    timezone: ({ linked }) => linked('date.timezone'),
     fallbackLanguage: 'Әдепкі тіл',
     webPhone: 'WebPhone',
     useWebPhone: 'WebPhone пайдалану',

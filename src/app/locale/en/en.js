@@ -65,7 +65,6 @@ export default {
   settings: {
     settings: 'Setting | Settings',
     changePassword: 'Change password',
-    timezone: ({ linked }) => linked('date.timezone'),
     language: 'Language',
     fallbackLanguage: 'Default language',
     webPhone: 'WebPhone',

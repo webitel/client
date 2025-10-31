@@ -1,9 +1,9 @@
 <template>
   <settings-section-wrapper>
-    <template #title>{{ t('settings.timezone') }}</template>
+    <template #title>{{ t('date.timezone') }}</template>
     <template #default>
       <wt-select
-        :label="t('settings.timezone')"
+        :label="t('date.timezone')"
         :search-method="CalendarsAPI.getTimezonesLookup"
         :value="selectedTimezone"
         :clearable="false"
@@ -34,9 +34,14 @@ const extractTimezoneId = (timezoneString: string): string => {
   if (!timezoneString || typeof timezoneString !== 'string') {
     return '';
   }
-  /* Original timezoneString looks like "America/New_York -04:00" 
-     For toLocaleDateString method i need only "America/New_York"
-     so this regex will extract the part before the space
+  /**
+   * @author @rzaritskyi 
+   * 
+   * [WTEL-7508](https://webitel.atlassian.net/browse/WTEL-7508)
+   * 
+   * Original timezoneString looks like "America/New_York -04:00" 
+   * For toLocaleDateString method i need only "America/New_York"
+   * so this regex will extract the part before the space
   */
   const match = timezoneString.match(/^([^\s]+)/);
   return match?.[1] || timezoneString;

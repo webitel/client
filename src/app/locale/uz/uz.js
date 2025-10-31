@@ -66,7 +66,6 @@ export default {
     settings: 'Sozlamalar | Sozlamalar',
     changePassword: "Parolni o'zgartirish",
     language: 'Til',
-    timezone: ({ linked }) => linked('date.timezone'),
     fallbackLanguage: 'Standart til',
     webPhone: 'WebPhone',
     useWebPhone: 'WebPhone ishlatish',

@@ -66,7 +66,6 @@ export default {
     settings: 'Cài đặt',
     changePassword: 'Đổi mật khẩu',
     language: 'Ngôn ngữ',
-    timezone: ({ linked }) => linked('date.timezone'),
     fallbackLanguage: 'Ngôn ngữ mặc định',
     webPhone: 'Điện thoại Web',
     useWebPhone: 'Sử dụng điện thoại Web',
