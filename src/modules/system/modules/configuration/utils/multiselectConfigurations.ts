@@ -20,9 +20,7 @@ type MultiselectConfigurations = {
 
 const getPasswordCategoriesOptions = () => {
   return Object.keys(PasswordCategories).map((key) => ({
-    name: PasswordCategories[key as keyof typeof PasswordCategories],
-    value: PasswordCategories[key as keyof typeof PasswordCategories],
-    id: PasswordCategories[key as keyof typeof PasswordCategories],
+    category: PasswordCategories[key as keyof typeof PasswordCategories],
   }));
 };
 
@@ -30,11 +28,11 @@ export const multiselectConfigurations: MultiselectConfigurations = {
   [EngineSystemSettingName.PasswordCategories]: {
     searchMethod: null,
     options: getPasswordCategoriesOptions(),
-    optionLabel: 'name',
-    trackBy: 'value',
+    optionLabel: 'category',
+    trackBy: 'category',
     display: {
-      keyProperty: 'value',
-      labelProperty: 'value',
+      keyProperty: 'category',
+      labelProperty: 'category',
     },
   },
   [EngineSystemSettingName.LabelsToLimitContacts]: {
