@@ -4,7 +4,7 @@
     <template #default>
       <wt-select
         :label="t('settings.timezone')"
-        :search-method="loadTimezoneOptions"
+        :search-method="CalendarsAPI.getTimezonesLookup"
         :value="selectedTimezone"
         :clearable="false"
         @input="handleTimezoneChange"
@@ -14,14 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import { SearchParams } from '@webitel/ui-sdk/packages/api-services/gen/_models';
+import { CalendarsAPI } from '@webitel/api-services/api';
 import UserSettingsAPI from '@webitel/ui-sdk/src/modules/UserSettings/api/UserSettingsAPI';
 import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/UserSettings/constants/UserSettingsConstants';
 import type { Timezone } from '@webitel/ui-sdk/src/modules/UserSettings/types/UserSettings';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CalendarsAPI from '../../../lookups/modules/calendars/api/calendars';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const { t } = useI18n();
@@ -49,10 +48,6 @@ const getSavedTimezone = (): string | null =>
 const saveToStorage = (timezoneId: string) =>
   localStorage.setItem(TIMEZONE_STORAGE_KEY, extractTimezoneId(timezoneId));
 
-const loadTimezoneOptions = (
-  params: SearchParams,
-): Promise<{ items: Timezone[] }> => CalendarsAPI.getTimezonesLookup(params);
-
 const setTimezone = (timezoneId: string) => {
   saveToStorage(timezoneId);
   selectedTimezone.value = timezoneId;
@@ -70,7 +65,7 @@ const handleTimezoneChange = async (timezone: Timezone) => {
 };
 
 const findTimezoneByName = async (timezoneId: string): Promise<Timezone> => {
-  const { items } = await loadTimezoneOptions({ search: timezoneId });
+  const { items } = await CalendarsAPI.getTimezonesLookup({ search: timezoneId });
   return items.find((timezone) => timezone.name.includes(timezoneId));
 };
 
