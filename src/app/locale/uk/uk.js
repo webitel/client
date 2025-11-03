@@ -1180,7 +1180,7 @@ export default {
         },
         encryptFile: 'Шифрувати нові файли',
         encryptFileHint: 'Ви не зможете розшифрувати файли, якщо ключ шифрування буде втрачено! Записи будуть доступні лише через інтерфейс або по API.',
-        encryptionAlertTitle: 'Попередження про шифрування',
+        encryptionAlertTitle: 'Шифрування',
         encryptionEnableMessage: 'Лише нові файли будуть зашифровані.',
         encryptionDisableMessage: 'Старі файли залишаться зашифрованими.\nНові файли шифруватися не будуть.',
       },
