@@ -15,9 +15,9 @@
 
 <script setup lang="ts">
 import { CalendarsAPI } from '@webitel/api-services/api';
-import UserSettingsAPI from '@webitel/ui-sdk/src/modules/UserSettings/api/UserSettingsAPI';
-import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/UserSettings/constants/UserSettingsConstants';
-import type { Timezone } from '@webitel/ui-sdk/src/modules/UserSettings/types/UserSettings';
+import UserSettingsAPI from '@webitel/ui-sdk/src/modules/Userinfo/v2/api/UserSettingsAPI';
+import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/Userinfo/v2/constants/UserSettingsConstants';
+import type { Timezone } from '@webitel/ui-sdk/src/modules/Userinfo/v2/types/UserSettings';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -35,14 +35,14 @@ const extractTimezoneId = (timezoneString: string): string => {
     return '';
   }
   /**
-   * @author @rzaritskyi 
-   * 
+   * @author @rzaritskyi
+   *
    * [WTEL-7508](https://webitel.atlassian.net/browse/WTEL-7508)
-   * 
-   * Original timezoneString looks like "America/New_York -04:00" 
+   *
+   * Original timezoneString looks like "America/New_York -04:00"
    * For toLocaleDateString method i need only "America/New_York"
    * so this regex will extract the part before the space
-  */
+   */
   const match = timezoneString.match(/^([^\s]+)/);
   return match?.[1] || timezoneString;
 };
@@ -64,13 +64,15 @@ const handleTimezoneChange = async (timezone: Timezone) => {
   setTimezone(timezone.name);
 
   const { timezone: updatedTimezone } = await UserSettingsAPI.setUserTimezone(
-    extractTimezoneId(timezone.name)
+    extractTimezoneId(timezone.name),
   );
   if (!updatedTimezone) selectedTimezone.value = previousTimezone;
 };
 
 const findTimezoneByName = async (timezoneId: string): Promise<Timezone> => {
-  const { items } = await CalendarsAPI.getTimezonesLookup({ search: timezoneId });
+  const { items } = await CalendarsAPI.getTimezonesLookup({
+    search: timezoneId,
+  });
   return items.find((timezone) => timezone.name.includes(timezoneId));
 };
 
