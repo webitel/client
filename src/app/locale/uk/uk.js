@@ -390,7 +390,7 @@ export default {
         searchPlaceholder: 'розділ ..',
         newPermissionRole: 'Новий власник прав',
         rbacDefault: 'Права доступу на записи за замовчуванням',
-        grantor: 'Праводатель',
+        grantor: 'Надавач прав',
         grantee: 'Власник прав',
         create: 'Створювати',
         delete: 'Видаляти',
