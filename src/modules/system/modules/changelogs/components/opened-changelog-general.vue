@@ -54,7 +54,7 @@
 <script>
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storage from '../../../../integrations/modules/storage/api/storage';
-import changelogs from '../api/changelogs';
+import { ChangelogsAPI } from '@webitel/api-services/api';
 
 export default {
   name: 'OpenedChangelogGeneral',
@@ -85,7 +85,7 @@ export default {
     },
   },
   methods: {
-    getObjectsList: changelogs.getObjectsList,
+    getObjectsList: ChangelogsAPI.getObjectsList,
     getStorageList: storage.getLookup,
   },
 };
