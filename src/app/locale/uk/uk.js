@@ -1174,9 +1174,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медіа',
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
-          [StorageUploadFileChannel.ScreenSharingChannel]:
-            'демонстрація екрану',
-          [StorageUploadFileChannel.ScreenshotChannel]: 'скріншоти',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
         },
         encryptFile: 'Шифрувати нові файли',
         encryptFileHint: 'Ви не зможете розшифрувати файли, якщо ключ шифрування буде втрачено! Записи будуть доступні лише через інтерфейс або по API.',
