@@ -1165,8 +1165,8 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
-          [StorageUploadFileChannel.ScreenSharingChannel]: 'screensharing',
-          [StorageUploadFileChannel.ScreenshotChannel]: 'screenshots',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
         },
         encryptFile: 'Encrypt new files',
         encryptFileHint:
