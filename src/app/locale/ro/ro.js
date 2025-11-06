@@ -177,7 +177,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Cheie',
     ID: 'ID',
-    email: 'Adresă de email',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modificat',
     emptyWorkspace: 'Nu există încă înregistrări',
     emptyResultSearch: 'Căutarea ta nu a dat rezultate',
@@ -242,7 +242,8 @@ export default {
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nume',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1170,10 +1171,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
         },
         encryptFile: 'Criptați fișiere noi',
-        encryptFileHint: 'Nu veți putea decripta fișierele dacă cheia de criptare este pierdută! Înregistrările pot fi accesate doar prin API sau interfață.',
+        encryptFileHint:
+          'Nu veți putea decripta fișierele dacă cheia de criptare este pierdută! Înregistrările pot fi accesate doar prin API sau interfață.',
         encryptionAlertTitle: 'Alertă de criptare',
         encryptionEnableMessage: 'Doar fișierele noi vor fi criptate.',
-        encryptionDisableMessage: 'Fișierele vechi vor rămâne criptate.\nFișierele noi nu vor fi criptate.',
+        encryptionDisableMessage:
+          'Fișierele vechi vor rămâne criptate.\nFișierele noi nu vor fi criptate.',
       },
 
       cognitiveProfiles: {
