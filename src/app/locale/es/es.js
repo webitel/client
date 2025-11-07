@@ -176,7 +176,7 @@ export default {
     stt: 'Voz a Texto',
     key: 'Clave',
     ID: 'ID',
-    email: 'Dirección de correo electrónico',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modificado',
     emptyWorkspace: 'Aún no hay registros',
     emptyResultSearch: 'Su búsqueda no produjo resultados',
@@ -241,7 +241,8 @@ export default {
         csvMappingFields: {
           username: 'Nombre de usuario',
           name: 'Nombre',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1173,10 +1174,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
         },
         encryptFile: 'Encriptar archivos nuevos',
-        encryptFileHint: '¡No podrá descifrar archivos si se pierde la clave de cifrado! Los registros solo se pueden acceder a través de API o interfaz.',
+        encryptFileHint:
+          '¡No podrá descifrar archivos si se pierde la clave de cifrado! Los registros solo se pueden acceder a través de API o interfaz.',
         encryptionAlertTitle: 'Alerta de cifrado',
         encryptionEnableMessage: 'Solo se cifrarán los archivos nuevos.',
-        encryptionDisableMessage: 'Los archivos antiguos permanecerán cifrados.\nLos archivos nuevos no se cifrarán.',
+        encryptionDisableMessage:
+          'Los archivos antiguos permanecerán cifrados.\nLos archivos nuevos no se cifrarán.',
       },
 
       cognitiveProfiles: {

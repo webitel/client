@@ -176,7 +176,7 @@ export default {
     stt: 'Mowa na tekst',
     key: 'Klucz',
     ID: 'ID',
-    email: 'Adres email',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Zmodyfikowano',
     emptyWorkspace: 'Jeszcze nie ma rekordów',
     emptyResultSearch: 'Twoje wyszukiwanie nie dało wyników',
@@ -240,7 +240,8 @@ export default {
         csvMappingFields: {
           username: 'Nazwa użytkownika',
           name: 'Imię',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1168,10 +1169,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
         encryptFile: 'Szyfruj nowe pliki',
-        encryptFileHint: 'Nie będzie można odszyfrować plików, jeśli klucz szyfrowania zostanie utracony! Zapisy są dostępne tylko przez API lub interfejs.',
+        encryptFileHint:
+          'Nie będzie można odszyfrować plików, jeśli klucz szyfrowania zostanie utracony! Zapisy są dostępne tylko przez API lub interfejs.',
         encryptionAlertTitle: 'Alert szyfrowania',
         encryptionEnableMessage: 'Tylko nowe pliki będą szyfrowane.',
-        encryptionDisableMessage: 'Stare pliki pozostaną zaszyfrowane.\nNowe pliki nie będą szyfrowane.',
+        encryptionDisableMessage:
+          'Stare pliki pozostaną zaszyfrowane.\nNowe pliki nie będą szyfrowane.',
       },
 
       cognitiveProfiles: {

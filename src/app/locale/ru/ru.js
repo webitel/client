@@ -178,7 +178,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Ключ',
     ID: 'ID',
-    email: 'Адрес электронной почты',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Изменено',
     emptyWorkspace: 'Записи в разделе еще не созданы',
     emptyResultSearch: 'Поиск не дал результатов',
@@ -242,7 +242,8 @@ export default {
         csvMappingFields: {
           username: 'Имя пользователя',
           name: 'Имя',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -436,7 +437,7 @@ export default {
         number: 'Номер | Номера',
         newNumber: 'Новый номер',
         numbersCount: 'Номера',
-        expireAt: 'Срок действия',
+        expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         temporary: 'Временный',
         csvMappingFields: {
           number: ({ linked }) => linked('vocabulary.number'),
@@ -1179,10 +1180,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'снимок экрана',
         },
         encryptFile: 'Шифровать новые файлы',
-        encryptFileHint: 'Вы не сможете расшифровать файлы, если ключ шифрования будет утерян! Записи будут доступны только через интерфейс или по API.',
+        encryptFileHint:
+          'Вы не сможете расшифровать файлы, если ключ шифрования будет утерян! Записи будут доступны только через интерфейс или по API.',
         encryptionAlertTitle: 'Шифрование',
         encryptionEnableMessage: 'Только новые файлы будут зашифрованы.',
-        encryptionDisableMessage: 'Старые файлы останутся зашифрованными.\nНовые файлы шифроваться не будут.',
+        encryptionDisableMessage:
+          'Старые файлы останутся зашифрованными.\nНовые файлы шифроваться не будут.',
       },
 
       cognitiveProfiles: {

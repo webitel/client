@@ -176,7 +176,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Key',
     ID: 'ID',
-    email: 'Email address',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modified',
     emptyWorkspace: 'There are no records yet',
     emptyResultSearch: 'Your search yielded no results',
@@ -238,9 +238,10 @@ export default {
         chatName: 'Chat display name',
         temporaryPassword: 'Temporary password',
         csvMappingFields: {
-          username: "Username",
+          username: 'Username',
           name: 'Name',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1169,10 +1170,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
         },
         encryptFile: 'Encrypt new files',
-        encryptFileHint: "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
+        encryptFileHint:
+          "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
         encryptionAlertTitle: 'Encryption alert',
         encryptionEnableMessage: 'Only new files will be encrypted.',
-        encryptionDisableMessage: "Old files will remain encrypted.\nNew files won't be encrypted.",
+        encryptionDisableMessage:
+          "Old files will remain encrypted.\nNew files won't be encrypted.",
       },
 
       cognitiveProfiles: {
