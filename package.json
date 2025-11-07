@@ -21,7 +21,7 @@
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^11.0.3",
-    "@webitel/api-services": "^0.0.72",
+    "@webitel/api-services": "^0.0.74",
     "@webitel/flow-ui-sdk": "^0.1.36",
     "@webitel/ui-sdk": "~25.10",
     "axios": "^1.7.7",
@@ -47,7 +47,7 @@
     "vue-router": "^4.4.3",
     "vue2-dropzone": "^3.6.0",
     "vuex": "^4.1.0",
-    "webitel-sdk": "^25.8.4"
+    "webitel-sdk": "^25.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
