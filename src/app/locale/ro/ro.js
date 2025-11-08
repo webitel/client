@@ -240,7 +240,7 @@ export default {
         chatName: 'Nume de afișare în chat',
         temporaryPassword: 'Parolă temporară',
         csvMappingFields: {
-          username: 'Nume de utilizator',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nume',
           extension: ({ linked }) => linked('vocabulary.extension'),
           email: ({ linked }) => linked('vocabulary.emails'),

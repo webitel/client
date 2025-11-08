@@ -238,7 +238,7 @@ export default {
         chatName: 'Nazwa wyświetlana w czacie',
         temporaryPassword: 'Hasło tymczasowe',
         csvMappingFields: {
-          username: 'Nazwa użytkownika',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Imię',
           extension: ({ linked }) => linked('vocabulary.extension'),
           email: ({ linked }) => linked('vocabulary.emails'),

@@ -238,7 +238,7 @@ export default {
         chatName: 'Чат көрсету аты',
         temporaryPassword: 'Уақытша құпия сөз',
         csvMappingFields: {
-          username: 'Пайдаланушы аты',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Аты',
           extension: ({ linked }) => linked('vocabulary.extension'),
           email: ({ linked }) => linked('vocabulary.emails'),
