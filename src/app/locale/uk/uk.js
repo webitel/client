@@ -241,7 +241,7 @@ export default {
         chatName: 'Імʼя для відображення в чаті',
         temporaryPassword: 'Тимчасовий пароль',
         csvMappingFields: {
-          username: 'Ім’я користувача',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Ім’я',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
