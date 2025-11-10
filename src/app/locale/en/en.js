@@ -176,7 +176,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Key',
     ID: 'ID',
-    email: 'Email address',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modified',
     emptyWorkspace: 'There are no records yet',
     emptyResultSearch: 'Your search yielded no results',
@@ -240,7 +240,8 @@ export default {
         csvMappingFields: {
           username: 'Username',
           name: 'Name',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },

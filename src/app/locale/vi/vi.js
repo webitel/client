@@ -178,7 +178,7 @@ export default {
     stt: 'Dịch vụ chuyển đổi giọng nói thành văn bản',
     key: 'Khóa',
     ID: 'ID',
-    email: 'Địa chỉ email',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Đã sửa',
     emptyWorkspace: 'Chưa có bản ghi nào',
     emptyResultSearch: 'Tìm kiếm của bạn không cho kết quả',
@@ -242,7 +242,8 @@ export default {
         csvMappingFields: {
           username: 'Tên người dùng',
           name: 'Tên',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1165,10 +1166,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
         },
         encryptFile: 'Mã hóa tệp mới',
-        encryptFileHint: 'Bạn sẽ không thể giải mã tệp nếu khóa mã hóa bị mất! Bản ghi chỉ có thể truy cập qua API hoặc giao diện.',
+        encryptFileHint:
+          'Bạn sẽ không thể giải mã tệp nếu khóa mã hóa bị mất! Bản ghi chỉ có thể truy cập qua API hoặc giao diện.',
         encryptionAlertTitle: 'Cảnh báo mã hóa',
         encryptionEnableMessage: 'Chỉ các tệp mới sẽ được mã hóa.',
-        encryptionDisableMessage: 'Các tệp cũ sẽ vẫn được mã hóa.\nCác tệp mới sẽ không được mã hóa.',
+        encryptionDisableMessage:
+          'Các tệp cũ sẽ vẫn được mã hóa.\nCác tệp mới sẽ không được mã hóa.',
       },
 
       cognitiveProfiles: {

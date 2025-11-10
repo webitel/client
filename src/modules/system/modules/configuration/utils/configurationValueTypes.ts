@@ -36,6 +36,7 @@ const ConfigurationValueTypes = {
   [EngineSystemSettingName.PasswordCategories]: 'multiselect',
   [EngineSystemSettingName.PasswordContainsUsername]: 'boolean',
   [EngineSystemSettingName.PasswordWarningDays]: 'number',
+  [EngineSystemSettingName.DefaultPassword]: 'string',
 } as const;
 
 export default ConfigurationValueTypes;

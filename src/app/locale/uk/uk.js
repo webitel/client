@@ -178,7 +178,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Ключ',
     ID: 'ID',
-    email: 'Адреса електронної пошти',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Змінено',
     emptyWorkspace: 'Записи у розділі ще не створені',
     emptyResultSearch: 'Пошук не дав результатів',
@@ -243,7 +243,8 @@ export default {
         csvMappingFields: {
           username: 'Ім’я користувача',
           name: 'Ім’я',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -390,7 +391,7 @@ export default {
         searchPlaceholder: 'розділ ..',
         newPermissionRole: 'Новий власник прав',
         rbacDefault: 'Права доступу на записи за замовчуванням',
-        grantor: 'Праводатель',
+        grantor: 'Надавач прав',
         grantee: 'Власник прав',
         create: 'Створювати',
         delete: 'Видаляти',
@@ -436,7 +437,7 @@ export default {
         number: 'Номер | Номери',
         newNumber: 'Новий номер',
         numbersCount: 'Номери',
-        expireAt: 'Термін дії',
+        expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         temporary: 'Тимчасовий',
         csvMappingFields: {
           number: ({ linked }) => linked('vocabulary.number'),
@@ -1178,10 +1179,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
         },
         encryptFile: 'Шифрувати нові файли',
-        encryptFileHint: 'Ви не зможете розшифрувати файли, якщо ключ шифрування буде втрачено! Записи будуть доступні лише через інтерфейс або по API.',
+        encryptFileHint:
+          'Ви не зможете розшифрувати файли, якщо ключ шифрування буде втрачено! Записи будуть доступні лише через інтерфейс або по API.',
         encryptionAlertTitle: 'Шифрування',
         encryptionEnableMessage: 'Лише нові файли будуть зашифровані.',
-        encryptionDisableMessage: 'Старі файли залишаться зашифрованими.\nНові файли шифруватися не будуть.',
+        encryptionDisableMessage:
+          'Старі файли залишаться зашифрованими.\nНові файли шифруватися не будуть.',
       },
 
       cognitiveProfiles: {
