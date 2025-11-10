@@ -1,6 +1,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
+import formatDate from '../../../utils/formatDate.ts';
 import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
 
 export default {
@@ -49,17 +50,17 @@ export default {
       return this.$router.push({
         ...this.$route,
         query: { ...this.$route.query, from, to: this.toQuery || Date.now() },
-      })
+      });
     },
-    selectTo(to){
+    selectTo(to) {
       return this.$router.push({
         ...this.$route,
         query: { ...this.$route.query, to, from: this.fromQuery || Date.now() },
-      })
+      });
     },
     prettifyTime(time) {
       if (!time) return 'none';
-      return new Date(+time).toLocaleString();
+      return formatDate.toLocaleString(new Date(+time));
     },
     close() {
       this.$emit('close');
@@ -77,19 +78,19 @@ export default {
           await this.loadList();
 
           if (this.fromQuery && this.toQuery) {
-            this.setPeriod({from: this.fromQuery, to: this.toQuery})
+            this.setPeriod({ from: this.fromQuery, to: this.toQuery });
           }
-
         } else {
           this.resetState();
         }
-      }, immediate: true,
+      },
+      immediate: true,
     },
     fromQuery(from) {
-      if (from) this.setFrom(from)
+      if (from) this.setFrom(from);
     },
     toQuery(to) {
-      if (to) this.setTo(to)
+      if (to) this.setTo(to);
     },
   },
 };
