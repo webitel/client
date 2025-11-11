@@ -72,7 +72,7 @@ export default {
     }),
     loadDataList(payload) {
       if (!this.parentId) return;
-      this.loadDataListAction(payload);
+      return this.loadDataListAction(payload);
     },
     ...mapActions({
       setParentId(dispatch, payload) {
