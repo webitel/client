@@ -240,7 +240,7 @@ export default {
         chatName: 'Tên hiển thị trò chuyện',
         temporaryPassword: 'Mật khẩu tạm thời',
         csvMappingFields: {
-          username: 'Tên người dùng',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Tên',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),

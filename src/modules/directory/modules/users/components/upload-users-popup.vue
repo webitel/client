@@ -22,7 +22,7 @@ export default {
       {
         name: 'username',
         required: true,
-        locale: `${baseLocale}.username`,
+        locale: `${baseLocale}.login`,
         csv: '',
       },
       {
