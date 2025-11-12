@@ -238,7 +238,7 @@ export default {
         chatName: 'Chat display name',
         temporaryPassword: 'Temporary password',
         csvMappingFields: {
-          username: 'Username',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Name',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
