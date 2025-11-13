@@ -239,7 +239,7 @@ export default {
         chatName: 'Nombre de visualización de chat',
         temporaryPassword: 'Contraseña temporal',
         csvMappingFields: {
-          username: 'Nombre de usuario',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nombre',
           extension: ({ linked }) => linked('vocabulary.extension'),
           email: ({ linked }) => linked('vocabulary.emails'),

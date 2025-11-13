@@ -238,7 +238,7 @@ export default {
         chatName: 'Chat display name',
         temporaryPassword: 'Temporary password',
         csvMappingFields: {
-          username: "Username",
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Name',
           extension: ({ linked }) => linked('vocabulary.extension'),
           email: ({ linked }) => linked('vocabulary.emails'),
@@ -1169,10 +1169,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
         },
         encryptFile: 'Encrypt new files',
-        encryptFileHint: "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
+        encryptFileHint:
+          "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
         encryptionAlertTitle: 'Encryption alert',
         encryptionEnableMessage: 'Only new files will be encrypted.',
-        encryptionDisableMessage: "Old files will remain encrypted.\nNew files won't be encrypted.",
+        encryptionDisableMessage:
+          "Old files will remain encrypted.\nNew files won't be encrypted.",
       },
 
       cognitiveProfiles: {
