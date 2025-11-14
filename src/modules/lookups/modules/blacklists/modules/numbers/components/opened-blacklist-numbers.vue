@@ -118,6 +118,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
@@ -198,7 +199,7 @@ export default {
       })
     },
     prettifyDate(date) {
-      if (date) return new Date(+date).toLocaleDateString();
+      return formatDate(+date, 'date');
     },
   },
 };

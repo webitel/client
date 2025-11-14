@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { mapGetters } from 'vuex';
 
@@ -146,7 +147,7 @@ export default {
   methods: {
     convertDuration,
     calcStatusTo(item) {
-      return toLocaleString(new Date(+item.joinedAt + item.duration * 1000));
+      return formatDate(+item.joinedAt + item.duration * 1000, 'datetime');
     },
   },
 };

@@ -1,3 +1,4 @@
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
@@ -60,7 +61,7 @@ export default {
     },
     prettifyTime(time) {
       if (!time) return 'none';
-      return formatDate.toLocaleString(new Date(+time));
+      return formatDate(+time, 'datetime');
     },
     close() {
       this.$emit('close');

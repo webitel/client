@@ -46,13 +46,13 @@
           </div>
         </template>
         <template #joinedAt="{ item }">
-          {{ formatDate(item.joinedAt) }}
+          {{ prettifyDate(item.joinedAt) }}
         </template>
         <template #leavingAt="{ item }">
-          {{ formatDate(item.leavingAt) }}
+          {{ prettifyDate(item.leavingAt) }}
         </template>
         <template #offeringAt="{ item }">
-          {{ formatDate(item.offeringAt) }}
+          {{ prettifyDate(item.offeringAt) }}
         </template>
         <template #duration="{ item }">
           {{ calcDuration(item) }}
@@ -85,6 +85,7 @@
 
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
@@ -119,9 +120,9 @@ export default {
     },
   },
   methods: {
-    formatDate(value) {
+    prettifyDate(value) {
       if (!value) return '';
-      return new Date(+value).toLocaleString();
+      return formatDate(+value, 'datetime');
     },
 
     calcDuration(item) {
