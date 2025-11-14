@@ -198,6 +198,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
 import { mapActions, mapState, useStore } from 'vuex';
@@ -351,7 +352,7 @@ export default {
 
   methods: {
     prettifyDateTime(timestamp) {
-      return new Date(+timestamp).toLocaleString();
+      return formatDate(+timestamp, 'datetime');
     },
 
     openResetPopup() {

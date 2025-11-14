@@ -169,6 +169,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import vueDropzone from 'vue2-dropzone';
 
@@ -320,7 +321,7 @@ export default {
     },
     getMediaList: MediaAPI.getList,
     prettifyDate(date) {
-      return new Date(+date).toLocaleDateString();
+      return formatDate(+date, 'date');
     },
     prettifyFormat(format) {
       return format.split('/').pop();

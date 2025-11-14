@@ -20,7 +20,7 @@
         @sort="sort"
       >
         <template #startedAt="{ item }">
-          {{ formatDate(item.startedAt) }}
+          {{ prettifyDate(item.startedAt) }}
         </template>
         <template #duration="{ item }">
           {{ calcDuration(item) }}
@@ -44,8 +44,11 @@
 </template>
 
 <script>
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
+
 
 export default {
   name: 'OpenedTriggerLogs',
@@ -66,9 +69,9 @@ export default {
     },
   },
   methods: {
-    formatDate(value) {
+    prettifyDate(value) {
       if (!value) return '';
-      return new Date(+value).toLocaleString();
+      return formatDate(+value, 'datetime');
     },
 
     calcDuration(item) {

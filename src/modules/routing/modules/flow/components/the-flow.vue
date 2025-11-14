@@ -117,11 +117,11 @@
 
 
             <template #createdAt="{ item }">
-              {{ new Date(+item.createdAt).toLocaleDateString() }}
+              {{ formatDate(+item.createdAt, 'dateTime') }}
             </template>
 
             <template #updatedAt="{ item }">
-              {{ new Date(+item.updatedAt).toLocaleDateString() }}
+              {{ formatDate(+item.updatedAt, 'dateTime') }}
             </template>
 
             <template #actions="{ item }">
@@ -166,6 +166,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';

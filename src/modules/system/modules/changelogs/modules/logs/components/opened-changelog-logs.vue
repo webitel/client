@@ -40,7 +40,7 @@
           {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
         <template #date="{ item }">
-          {{ new Date(+item.date).toLocaleString() }}
+          {{ formatDate(+item.date, 'datetime') }}
         </template>
         <template #user="{ item }">
           <adm-item-link
@@ -85,6 +85,7 @@
 
 <script>
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -123,7 +124,7 @@ export default {
   },
   created() {
     this.initCSVExport(this.getDataForCSVExport, {
-      filename: `${this.itemInstance.object.name}-logs-at-${new Date().toLocaleString()}`,
+      filename: `${this.itemInstance.object.name}-logs-at-${formatDate(Date.now(), 'datetime')}`,
     });
   },
   methods: {
@@ -137,7 +138,7 @@ export default {
 
       const transformedItems = items.map((item) => ({
         ...item,
-        date: new Date(+item.date).toLocaleString(),
+        date: formatDate(+item.date, 'datetime'),
       }));
 
       return {

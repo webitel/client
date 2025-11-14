@@ -88,10 +88,12 @@
 </template>
 
 <script>
+import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { mapGetters } from 'vuex';
 
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
+import { toLocaleString } from '../../../../../app/utils/formatDate';
 import dummyPicDark from '../assets/adm-agent-history-dark.svg';
 import dummyPicLight from '../assets/adm-agent-history-light.svg';
 import agentState from '../dictionaries/agentState.dictionary';
@@ -145,12 +147,10 @@ export default {
   methods: {
     convertDuration,
     calcStatusTo(item) {
-      return new Date(+item.joinedAt + item.duration * 1000).toLocaleString();
+      return formatDate(+item.joinedAt + item.duration * 1000, 'datetime');
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
