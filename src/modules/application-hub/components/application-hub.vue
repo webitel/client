@@ -1,9 +1,5 @@
 <template>
   <div class="application-hub-wrap">
-    <wt-notification
-      v-if="passwordExpirationDays"
-      class="application-hub__notification"
-      type="info" >{{ passwordExpirationMessage }}</wt-notification>
     <cc-header />
     <nav
       :class="{ 'application-hub--sm': $breakpoint.smAndDown }"
@@ -135,9 +131,6 @@ export default {
   name: 'TheApplicationHub',
   components: { CcHeader },
   inject: ['$config'],
-  data: () => ({
-    passwordExpirationDays: 0,
-  }),
   computed: {
     ...mapGetters('userinfo', {
       checkAccess: 'CHECK_APP_ACCESS',
@@ -207,21 +200,7 @@ export default {
       if (this.$config.ON_SITE) apps.push(grafanaApp);
       return apps.filter(({ name }) => this.checkAccess(name));
     },
-    passwordExpirationMessage() {
-      return this.$t('systemNotifications.info.passwordExpirationMessage',
-        { days: this.passwordExpirationDays })
-    }
   },
-  mounted() {
-    this.passwordExpirationDays = localStorage.getItem('passwordExpirationDays');
-
-    if(this.passwordExpirationDays) {
-      setTimeout(() => {
-        this.passwordExpirationDays = '';
-        localStorage.removeItem('passwordExpirationDays');
-      }, 5000)
-    }
-  }
 };
 </script>
 
@@ -347,12 +326,5 @@ $transition: 0.4s;
     grid-template-columns: 1fr;
     grid-gap: 0;
   }
-}
-
-.application-hub__notification {
-  position: fixed;
-  right: var(--spacing-sm);
-  top: var(--spacing-sm);
-  z-index: 100;
 }
 </style>
