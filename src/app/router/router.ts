@@ -199,24 +199,6 @@ router.beforeEach((to) => {
   return true;
 });
 
-router.afterEach(async () => {
-  const passwordExpirationDays = localStorage.getItem('passwordExpirationDays');
-
-  await nextTick();
-
-  if (passwordExpirationDays) {
-    const { t } = i18n.global;
-    eventBus.$emit('notification', {
-      type: 'info',
-      text: t('systemNotifications.info.passwordExpirationMessage', { days: passwordExpirationDays }),
-    });
-
-    setTimeout(() => {
-      localStorage.removeItem('passwordExpirationDays')
-    }, 5000);
-  }
-});
-
 window.router = router;
 
 export default router;
