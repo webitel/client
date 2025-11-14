@@ -44,7 +44,7 @@
           type="number"
         />
         <wt-textarea
-          v-model="itemInstance.description"
+          v-model:model-value="itemInstance.description"
           :label="$t('objects.description')"
         />
       </form>
@@ -122,6 +122,7 @@ export default {
         return this.itemInstanceValue;
       },
       set(value) {
+        console.log(value);
         this.itemInstanceValue = value;
       },
     },
