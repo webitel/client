@@ -21,9 +21,9 @@
           :label="$t('objects.lookups.calendars.date')"
         />
         <wt-switcher
-          :value="itemInstance.working"
+          :model-value="itemInstance.working"
           :label="$t('objects.lookups.calendars.workingTime')"
-          @change="changeWorkingSwitcher"
+          @update:model-value="changeWorkingSwitcher"
         />
         <div
           v-if="itemInstance.working"
@@ -43,8 +43,9 @@
             @input="updateWorkingTime($event, 'workStop')"
           ></wt-timepicker>
         </div>
+        <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
         <wt-switcher
-          v-model="itemInstance.repeat"
+          v-model:model-value="itemInstance.repeat"
           :label="$t('objects.lookups.calendars.repeat')"
         />
       </div>

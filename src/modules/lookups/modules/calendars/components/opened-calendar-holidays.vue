@@ -71,8 +71,8 @@
         <template #repeat="{ item, index }">
           <wt-switcher
             :disabled="disableUserInput"
-            :value="item.repeat"
-            @change="setRepeatValue({ prop: 'repeat', index, value: $event })"
+            :model-value="item.repeat"
+            @update:model-value="setRepeatValue({ prop: 'repeat', index, value: $event })"
           />
         </template>
         <template #actions="{ item, index }">

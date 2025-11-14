@@ -176,7 +176,7 @@ export default {
     stt: 'Voz a Texto',
     key: 'Clave',
     ID: 'ID',
-    email: 'Dirección de correo electrónico',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modificado',
     emptyWorkspace: 'Aún no hay registros',
     emptyResultSearch: 'Su búsqueda no produjo resultados',
@@ -237,6 +237,14 @@ export default {
         askingAlert:
           '¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
         chatName: 'Nombre de visualización de chat',
+        temporaryPassword: 'Contraseña temporal',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Nombre',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Clientes',
@@ -300,6 +308,15 @@ export default {
         },
         passwordSetFromAccount:
           'Si no establece contraseña, será la misma que la cuenta',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Fabricante',
+          model: 'Modelo',
+          mac: 'Dirección MAC',
+          ip: 'Dirección IP',
+        },
       },
     },
     permissions: {
@@ -420,6 +437,11 @@ export default {
         numbersCount: 'Números',
         expireAt: 'Expirar',
         temporary: 'Temporal',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Archivo de medios | Archivos de medios',
@@ -502,6 +524,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Plantilla de pausa | Plantillas de pausa',
+        notSelected: 'No seleccionado',
         pauseReason: 'Motivo de pausa',
         duration: 'Duración (mm)',
       },
@@ -594,6 +617,7 @@ export default {
           close: 'Mensaje de finalización de chat',
           join: 'Mensaje de unión del agente',
           left: 'Mensaje de desconexión del agente',
+          filePolicyFail: 'Formato de archivo prohibido',
         },
         chatGateways: 'Puerta de enlace de chat | Puertas de enlace de chat',
         allChatGateways: 'Todas las puertas de enlace de chat',
@@ -768,6 +792,9 @@ export default {
           pause: 'Pausa',
           breakOut: 'Salida de pausa',
         },
+        agentScreenControl: 'Control de pantalla del agente',
+        agentScreenControlHint:
+          'No se puede desactivar mientras la configuración del equipo esté activada.',
       },
 
       auditors: {
@@ -840,6 +867,20 @@ export default {
           missed: 'Perdido',
           expired: 'Expirado',
         },
+        csvMappingFields: {
+          name: 'Nombre',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Cubo',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Prioridad de tipos de comunicación',
+          code: 'Cubo',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -857,6 +898,9 @@ export default {
         tags: 'Etiquetas',
         newQueue: 'Nueva cola',
         blacklist: 'Lista de parada',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descripción de la nueva cola',
         outboundIVRQueue: 'Cola IVR de salida',
         outboundIVR: 'IVR de salida',
@@ -981,6 +1025,10 @@ export default {
           formSchema: 'Esquema de procesamiento dinámico',
           sec: 'Tiempo de postprocesamiento (seg)',
           renewalSec: 'Notificar para continuar después de (seg)',
+          allowProlongation: 'Permitir prolongación del postprocesamiento',
+          repeatsNumber: 'Número de repeticiones',
+          prolongationTimeSec: 'Tiempo para prolongación (seg)',
+          isTimeoutRetry: 'Reintentar hasta tiempo de espera',
         },
         queueStrategy: {
           fifo: 'FIFO (Primero en entrar, primero en salir)',
@@ -1050,6 +1098,9 @@ export default {
         priority: 'Prioridad',
         reserveResource: 'Reservar recurso',
         failureDialDelay: 'Retraso de dialado de fallo',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {
@@ -1110,7 +1161,7 @@ export default {
         maxDownloadSpeed: 'Velocidad de descarga máxima (kbps)',
         maxUploadSpeed: 'Velocidad de carga máxima (kbps)',
         maxUploadSize: 'Tamaño de carga máximo (bytes)',
-        applyToFiles: 'Aplicar a archivos existentes',
+        applyToFiles: 'Aplicar días de retención a archivos existentes',
         applyPopupMessage:
           'El nuevo tiempo de retención se aplicará a los archivos existentes según la política. ¿Desea continuar?',
         channels: {
@@ -1119,8 +1170,16 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'medio',
           [StorageUploadFileChannel.MailChannel]: 'correo',
           [StorageUploadFileChannel.LogChannel]: 'registro',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
         },
-        encryptFile: 'Encriptar archivos',
+        encryptFile: 'Encriptar archivos nuevos',
+        encryptFileHint:
+          '¡No podrá descifrar archivos si se pierde la clave de cifrado! Los registros solo se pueden acceder a través de API o interfaz.',
+        encryptionAlertTitle: 'Alerta de cifrado',
+        encryptionEnableMessage: 'Solo se cifrarán los archivos nuevos.',
+        encryptionDisableMessage:
+          'Los archivos antiguos permanecerán cifrados.\nLos archivos nuevos no se cifrarán.',
       },
 
       cognitiveProfiles: {

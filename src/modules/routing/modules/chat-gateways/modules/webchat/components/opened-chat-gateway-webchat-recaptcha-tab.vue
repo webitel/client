@@ -14,8 +14,8 @@
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.enabled')"
-        :value="itemInstance.metadata.captcha.enabled"
-        @change="setWebchatMetadata({ path: 'metadata.captcha.enabled', value: $event })"
+        :model-value="itemInstance.metadata.captcha.enabled"
+        @update:model-value="setWebchatMetadata({ path: 'metadata.captcha.enabled', value: $event })"
       />
       <wt-input
         :disabled="disableCaptchaFields"
@@ -44,8 +44,8 @@
       <wt-switcher
         :disabled="disableCaptchaFields"
         :label="$t('objects.routing.chatGateways.webchat.recaptcha.showFlag')"
-        :value="itemInstance.metadata.captcha.showFlag"
-        @change="setWebchatMetadata({ path: 'metadata.captcha.showFlag', value: +$event })"
+        :model-value="itemInstance.metadata.captcha.showFlag"
+        @update:model-value="setWebchatMetadata({ path: 'metadata.captcha.showFlag', value: +$event })"
       />
     </div>
   </section>

@@ -45,9 +45,7 @@ const getAgentsList = async (params) => {
     notTeamId,
     supervisorId,
     notSkillId,
-  } = applyTransform(params, [
-    merge(getDefaultGetParams())
-  ]);
+  } = applyTransform(params, [merge(getDefaultGetParams())]);
 
   try {
     const response = await agentService.searchAgent(
@@ -121,6 +119,7 @@ const fieldsToSend = [
   'chatCount',
   'taskCount',
   'isSupervisor',
+  'screenControl',
 ];
 
 const addAgent = async ({ itemInstance }) => {
@@ -219,7 +218,11 @@ const getAgentUsersOptions = async (params) => {
   ]);
 
   try {
-    const response = await agentService.searchLookupUsersAgentNotExists(page, size, search);
+    const response = await agentService.searchLookupUsersAgentNotExists(
+      page,
+      size,
+      search,
+    );
     const { items, next } = applyTransform(response.data, [
       snakeToCamel(),
       merge(getDefaultGetListResponse()),

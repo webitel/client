@@ -33,8 +33,8 @@
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.fulltime')"
-        :value="itemInstance.expires"
-        @change="setItemProp({ prop: 'expires', value: $event })"
+        :model-value="itemInstance.expires"
+        @update:model-value="setItemProp({ prop: 'expires', value: $event })"
       />
       <wt-datepicker
         v-show="itemInstance.expires"

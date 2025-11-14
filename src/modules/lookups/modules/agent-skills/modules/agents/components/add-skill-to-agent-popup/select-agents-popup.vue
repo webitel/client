@@ -38,13 +38,14 @@
         />
       </div>
       <div
-        ref="infiniteScrollWrap"
         class="scroll-wrap"
       >
         <wt-table
           :data="dataList"
           :grid-actions="false"
           :headers="headers"
+          :lazy="true"
+          :on-loading="handleIntersect"
           sortable
           @sort="sort"
         >
@@ -86,7 +87,6 @@
 </template>
 
 <script setup>
-import { useInfiniteScroll } from '@vueuse/core';
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, onMounted,reactive, ref } from 'vue';
 
@@ -94,6 +94,7 @@ import RouteNames from '../../../../../../../../app/router/_internals/RouteNames
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../../api/agentSkills';
+import WtIntersectionObserver from '@webitel/ui-sdk/components/wt-intersection-observer/wt-intersection-observer.vue';
 
 const props = defineProps({
   skillId: {
@@ -133,7 +134,6 @@ const page = ref(0);
 const isNext = ref(false);
 const isLoading = ref(false);
 
-const infiniteScrollWrap = ref(null);
 
 const selectedRows = computed(() => dataList.value.filter((item) => item._isSelected));
 
@@ -206,18 +206,11 @@ async function callLoadDataList() {
   isLoading.value = false;
 }
 
-useInfiniteScroll(
-  infiniteScrollWrap,
-  async () => {
-    if (isLoading.value || !isNext.value) return;
-
-    page.value += 1;
-    await callLoadDataList();
-  },
-  {
-    distance: 100,
-  }
-);
+const handleIntersect = () => {
+  if (!isNext.value) return;
+  page.value += 1;
+  callLoadDataList();
+}
 
 onMounted(async () => {
   page.value = 1;

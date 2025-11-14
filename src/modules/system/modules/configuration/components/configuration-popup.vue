@@ -28,9 +28,9 @@
             v-if="displayedConfigurationType.boolean"
             :label="$t('reusable.state')"
             :v="v$.itemInstance.value"
-            :value="itemInstance.value"
+            :model-value="itemInstance.value"
             required
-            @change="setItemProp({ prop: 'value', value: $event })"
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
           />
           <wt-input
             v-if="displayedConfigurationType.number"
@@ -46,9 +46,10 @@
             :label="$tc('vocabulary.values', 2)"
             :v="v$.itemInstance.value"
             :value="itemInstance.value"
-            :search-method="LabelsAPI.getLookup"
-            option-label="label"
-            track-by="label"
+            :search-method="multiselectConfig.searchMethod"
+            :options="multiselectConfig.options"
+            :option-label="multiselectConfig.optionLabel"
+            :track-by="multiselectConfig.trackBy"
             multiple
             required
             @input="setItemProp({ prop: 'value', value: $event })"
@@ -112,8 +113,13 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
+import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
+import {
+  defaultMultiselectConfig,
+  multiselectConfigurations,
+} from '../utils/multiselectConfigurations';
 
 export default {
   name: 'ConfigurationPopup',
@@ -217,6 +223,18 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.WbtHideContact:
         return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.PasswordExpiryDays:
+        return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.PasswordMinLength:
+        return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.PasswordCategories:
+        return deepmerge(defaults, defaultMultiselectConfig);
+      case EngineSystemSettingName.PasswordContainsUsername:
+        return deepmerge(defaults, defaultBooleanConfig);
+      case EngineSystemSettingName.PasswordWarningDays:
+        return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.DefaultPassword:
+        return deepmerge(defaults, defaultStringConfig);
       default:
         return defaults;
     }
@@ -225,8 +243,12 @@ export default {
     return {
       TypesExportedSettings,
       EngineSystemSettingName,
+      PasswordCategories,
       SettingDefaultValue: {
         [EngineSystemSettingName.PushNotificationTimeout]: 30,
+        [EngineSystemSettingName.ScreenshotInterval]: 30,
+        [EngineSystemSettingName.PasswordMinLength]: 8,
+        [EngineSystemSettingName.PasswordContainsUsername]: false,
       },
     };
   },
@@ -240,6 +262,9 @@ export default {
         value: TypesExportedSettings[key],
         id: TypesExportedSettings[key],
       }));
+    },
+    multiselectConfig() {
+      return multiselectConfigurations[this.itemInstance.name] || defaultMultiselectConfig;
     },
     valueType() {
       return ConfigurationValueTypes[this.itemInstance.name];
@@ -319,6 +344,8 @@ export default {
         this.setItemProp({ prop: 'value', value: false });
       else if (this.valueType === 'number')
         this.setItemProp({ prop: 'value', value: 0 });
+      else if (this.valueType === 'multiselect')
+        this.setItemProp({ prop: 'value', value: [] });
     },
     loadPageData() {
     },

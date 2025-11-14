@@ -19,8 +19,9 @@
           required
         />
       </div>
+      <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
       <wt-switcher
-        v-model="skillState"
+        v-model:model-value="skillState"
         :label="$t('objects.lookups.skills.state')"
         label-left
       />

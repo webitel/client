@@ -6,7 +6,7 @@
     @close="close"
   >
     <template #title>
-      {{ $t('objects.importCSV') }}
+      {{ t('objects.importCSV') }}
     </template>
     <template #main>
       <wt-loader
@@ -19,21 +19,21 @@
       >
         <wt-checkbox
           v-model:selected="skipHeaders"
-          :label="$t('objects.CSV.skipHeaders')"
+          :label="t('objects.CSV.skipHeaders')"
           disabled
         />
         <form class="upload-popup-form__form">
           <wt-select
             v-model="charset"
             :clearable="false"
-            :label="$t('objects.CSV.charSet')"
+            :label="t('objects.CSV.charSet')"
             :options="charsetOptions"
             disabled
           />
 
           <wt-input
             v-model="separator"
-            :label="$t('objects.CSV.separator')"
+            :label="t('objects.CSV.separator')"
           />
         </form>
 
@@ -59,11 +59,15 @@
         <!--        FIELDS MAPPING-->
         <ul class="upload-popup-mapping">
           <li class="upload-popup-mapping-item">
-            <p class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title">
-              {{ $t('objects.CSV.fieldName') }}
+            <p
+              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title"
+            >
+              {{ t('objects.CSV.fieldName') }}
             </p>
-            <p class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title">
-              {{ $t('objects.CSV.CSVColumn') }}
+            <p
+              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title"
+            >
+              {{ t('objects.CSV.CSVColumn') }}
             </p>
           </li>
           <li
@@ -72,14 +76,14 @@
             class="upload-popup-mapping-item"
           >
             <p class="upload-popup-mapping-item__field">
-              {{ field.text || field.name }}<span v-if="field.required">*</span>
+              {{ t(field.locale) }}<span v-if="field.required">*</span>
             </p>
             <wt-select
               v-if="!field.multiple"
               v-model="field.csv"
               :clearable="!field.required"
               :options="csvColumns"
-              :placeholder="field.text || field.name"
+              :placeholder="t(field.locale)"
               :track-by="null"
               class="upload-popup-mapping-item__select"
             />
@@ -87,7 +91,7 @@
               v-else
               v-model="field.csv"
               :options="csvColumns"
-              :placeholder="field.text || field.name"
+              :placeholder="t(field.locale)"
               class="upload-popup-mapping-item__select"
             />
             <div
@@ -115,24 +119,31 @@
         :loading="isParsingCSV"
         @click="processCSV"
       >
-        {{ $t('reusable.save') }}
+        {{ t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ $t('reusable.close') }}
+        {{ t('reusable.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
 <script>
+import { useI18n } from 'vue-i18n';
+
 import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
   name: 'UploadCsvPopup',
   mixins: [uploadCSVMixin],
+  setup() {
+    const { t } = useI18n();
+
+    return { t };
+  },
   data: () => ({
     skipHeaders: true,
     separator: ',',

@@ -40,8 +40,8 @@
           <template #state="{ item, index }">
             <wt-switcher
               :disabled="disableUserInput"
-              :value="!item.disabled"
-              @change="setItemProp({prop: 'disabled', index, value: !$event})"
+              :model-value="!item.disabled"
+              @update:model-value="setItemProp({prop: 'disabled', index, value: !$event})"
             />
           </template>
           <template #actions="{ item, index }">

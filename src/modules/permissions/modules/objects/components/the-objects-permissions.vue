@@ -58,16 +58,16 @@
             <template #obac="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess || item.rbac"
-                :value="item.obac"
-                @change="onObacToggled({ item, index, value: $event })"
+                :model-value="item.obac"
+                @update:model-value="onObacToggled({ item, index, value: $event })"
               />
             </template>
 
             <template #rbac="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.rbac"
-                @change="onRbacToggled({ item, index, value: $event })"
+                :model-value="item.rbac"
+                @update:model-value="onRbacToggled({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">

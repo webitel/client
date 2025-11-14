@@ -23,8 +23,8 @@
         </template>
         <template #access="{ item }">
           <wt-switcher
-            :value="item.enabled"
-            @change="updateAccess({ app: item.name, value: $event })"
+            :model-value="item.enabled"
+            @update:model-value="updateAccess({ app: item.name, value: $event })"
           />
         </template>
         <template #actions="{ item }">

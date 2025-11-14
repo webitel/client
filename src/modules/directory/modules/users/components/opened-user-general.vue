@@ -54,6 +54,12 @@
         @input="setItemProp({ prop: 'contact', value: $event })"
       />
 
+      <wt-switcher
+        :disabled="disableUserInput"
+        :label="$t('objects.directory.users.temporaryPassword')"
+        :model-value="itemInstance.forcePasswordChange"
+        @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
+      />
       <wt-input
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.chatName')"

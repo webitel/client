@@ -5,41 +5,90 @@
         {{ $t('objects.ccenter.queues.processing.processing') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="object-input-area-grid">
       <wt-switcher
         v-if="specificControls['taskProcessing.enabled']"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.enabled')"
-        :value="itemInstance.taskProcessing.enabled"
-        @change="setItemProcessingProp({ prop: 'enabled', value: $event })"
+        :model-value="itemInstance.taskProcessing.enabled"
+        class="object-input-area-grid__processing-enabled"
+        @update:model-value="setItemProcessingProp({ prop: 'enabled', value: $event })"
       />
 
-      <!--      v-if-->
       <wt-select
         v-if="specificControls['taskProcessing.formSchema']"
-        :disabled="disableUserInput || !itemInstance.taskProcessing.enabled"
+        :disabled="disableUserInput || !isProcessingEnabled"
         :label="$t('objects.ccenter.queues.processing.formSchema')"
         :search-method="loadDropdownOptionsSchemaList"
         :value="itemInstance.taskProcessing.formSchema"
+        class="object-input-area-grid__form-schema"
         @input="setItemProcessingProp({ prop: 'formSchema', value: $event })"
       />
+
       <wt-input
         v-if="specificControls['taskProcessing.sec']"
-        v-show="itemInstance.taskProcessing.enabled"
+        v-show="isProcessingEnabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.sec')"
         :value="itemInstance.taskProcessing.sec"
         type="number"
+        class="object-input-area-grid__processing-sec"
         @input="setItemProcessingProp({ prop: 'sec', value: +$event })"
       />
+
       <wt-input
         v-if="specificControls['taskProcessing.renewalSec']"
-        v-show="itemInstance.taskProcessing.enabled"
+        v-show="isProcessingEnabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.renewalSec')"
         :value="itemInstance.taskProcessing.renewalSec"
         type="number"
+        class="object-input-area-grid__processing-renewal-sec"
         @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
+      />
+
+      <wt-switcher
+        v-if="specificControls['taskProcessing.prolongationOptions.enabled']"
+        v-show="isProcessingEnabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.allowProlongation')"
+        :model-value="itemInstance.taskProcessing.prolongationOptions.enabled"
+        class="object-input-area-grid__processing-allow-prolongation"
+        @update:model-value="setItemProlongationOption({ prop: 'enabled', value: $event })"
+      />
+
+      <wt-input
+        v-if="specificControls['taskProcessing.prolongationOptions.repeatsNumber']"
+        v-show="isProlongationEnabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.repeatsNumber')"
+        :value="itemInstance.taskProcessing.prolongationOptions.repeatsNumber"
+        min="1"
+        type="number"
+        class="object-input-area-grid__processing-repeat-numbers"
+        @input="setItemProlongationOption({ prop: 'repeatsNumber', value: +$event })"
+      />
+
+      <wt-input
+        v-if="specificControls['taskProcessing.prolongationOptions.prolongationTimeSec']"
+        v-show="isProlongationEnabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.prolongationTimeSec')"
+        :value="itemInstance.taskProcessing.prolongationOptions.prolongationTimeSec"
+        min="1"
+        type="number"
+        class="object-input-area-grid__processing-prolongation-time"
+        @input="setItemProlongationOption({ prop: 'prolongationTimeSec', value: +$event })"
+      />
+
+      <wt-switcher
+        v-if="specificControls['taskProcessing.prolongationOptions.isTimeoutRetry']"
+        v-show="isProlongationEnabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.isTimeoutRetry')"
+        :model-value="itemInstance.taskProcessing.prolongationOptions.isTimeoutRetry"
+        class="object-input-area-grid__processing-timeout-retry"
+        @update:model-value="setItemProlongationOption({ prop: 'isTimeoutRetry', value: $event })"
       />
     </div>
   </section>
@@ -66,11 +115,20 @@ export default {
         {},
       );
     },
+    isProcessingEnabled() {
+      return this.itemInstance.taskProcessing.enabled;
+    },
+    isProlongationEnabled() {
+      return this.itemInstance.taskProcessing.enabled && this.itemInstance.taskProcessing.prolongationOptions.enabled;
+    },
   },
   methods: {
     ...mapActions({
       setItemProcessingProp(dispatch, payload) {
         return dispatch(`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`, payload);
+      },
+      setItemProlongationOption(dispatch, payload) {
+        return dispatch(`${this.namespace}/SET_ITEM_PROLONGATION_OPTION`, payload);
       },
     }),
     loadDropdownOptionsSchemaList(params) {
@@ -84,4 +142,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.object-input-area-grid {
+  display: grid;
+  grid-template-areas:
+    'processingEnabled formSchema'
+    'sec renewalSec'
+    'allowProlongation .'
+    'repeatNumbers prolongationTime'
+    'timeoutRetry .'
+  ;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+
+  &__processing-enabled {
+    grid-area: processingEnabled;
+  }
+  &__form-schema {
+    grid-area: formSchema;
+  }
+  &__processing-sec {
+    grid-area: sec;
+  }
+  &__processing-renewal-sec {
+    grid-area: renewalSec;
+  }
+  &__processing-allow-prolongation {
+    grid-area: allowProlongation;
+  }
+  &__processing-repeat-numbers {
+    grid-area: repeatNumbers;
+  }
+  &__processing-prolongation-time {
+    grid-area: prolongationTime;
+  }
+  &__processing-timeout-retry {
+    grid-area: timeoutRetry;
+  }
+}
 </style>

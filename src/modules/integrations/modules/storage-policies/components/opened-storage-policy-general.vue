@@ -5,6 +5,12 @@
       :shown="isPopupOpened"
       @close="closePopup"
     />
+    <encryption-alert-popup
+      :shown="isEncryptionAlertOpened"
+      :message="encryptionAlertMessage"
+      @close="closeEncryptionAlert"
+      @confirm="confirmEncryptionChange"
+    />
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('objects.generalInfo') }}
@@ -29,15 +35,20 @@
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('reusable.state')"
-          :value="itemInstance.enabled"
-          @change="setItemProp({ prop: 'enabled', value: $event })"
+          :model-value="itemInstance.enabled"
+          @update:model-value="setItemProp({ prop: 'enabled', value: $event })"
         />
-        <wt-switcher
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.storagePolicies.encryptFile')"
-          :value="itemInstance.encrypt"
-          @change="setItemProp({ prop: 'encrypt', value: $event })"
-        />
+        <div class="opened-storage-policy-general-encrypt">
+          <wt-switcher
+            :disabled="disableUserInput"
+            :label="$t('objects.integrations.storagePolicies.encryptFile')"
+            :model-value="itemInstance.encrypt"
+            @update:model-value="handleEncryptChange"
+          />
+          <span class="opened-storage-policy-general-encrypt__hint">
+            {{ $t('objects.integrations.storagePolicies.encryptFileHint') }}
+          </span>
+        </div>
         <div class="opened-storage-policy-general-button-area">
           <div class="opened-storage-policy-general-button-area__content">
             <span>
@@ -110,20 +121,29 @@
 <script>
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
-import { StorageUploadFileChannel } from 'webitel-sdk';
+import { StorageUploadFileChannel } from '@webitel/api-services/gen/models';
 
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
+import EncryptionAlertPopup from './encryption-alert-popup.vue';
 
 export default {
   name: 'OpenedStoragePolicyGeneral',
-  components: { ApplyToFilesPopup },
+  components: { ApplyToFilesPopup, EncryptionAlertPopup },
   mixins: [openedTabComponentMixin],
   data: () => ({
     isPopupOpened: false,
+    isEncryptionAlertOpened: false,
+    pendingEncryptValue: false,
   }),
   computed: {
+    encryptionAlertMessage() {
+      if (this.pendingEncryptValue) {
+        return this.$t('objects.integrations.storagePolicies.encryptionEnableMessage');
+      }
+      return this.$t('objects.integrations.storagePolicies.encryptionDisableMessage');
+    },
     channels() {
       const copy = deepCopy(this.itemInstance.channels);
 
@@ -161,11 +181,25 @@ export default {
     apply() {
       this.closePopup();
     },
+    handleEncryptChange(value) {
+      this.pendingEncryptValue = value;
+      this.isEncryptionAlertOpened = true;
+    },
+    confirmEncryptionChange() {
+      this.setItemProp({ prop: 'encrypt', value: this.pendingEncryptValue });
+      this.closeEncryptionAlert();
+    },
+    closeEncryptionAlert() {
+      this.isEncryptionAlertOpened = false;
+      this.pendingEncryptValue = false;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .opened-storage-policy-general {
   &__grid-2col {
     display: grid;
@@ -179,6 +213,16 @@ export default {
       gap: var(--spacing-md);
     }
 
+  }
+
+  &-encrypt {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+
+    &__hint {
+      @extend %typo-body-2;
+    }
   }
 
   &-button-area {

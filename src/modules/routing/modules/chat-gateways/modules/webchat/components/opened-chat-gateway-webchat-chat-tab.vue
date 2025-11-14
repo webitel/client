@@ -13,8 +13,8 @@
     <div class="object-input-grid">
       <wt-switcher
         :label="$t('objects.enabled')"
-        :value="itemInstance.metadata.chat.enabled"
-        @change="setChatMetadata({ prop: 'enabled', value: $event })"
+        :model-value="itemInstance.metadata.chat.enabled"
+        @update:model-value="setChatMetadata({ prop: 'enabled', value: $event })"
       />
       <div />
       <wt-input
@@ -51,8 +51,8 @@
       />
       <wt-switcher
         :label="$t('objects.routing.chatGateways.webchat.chat.openTimeout')"
-        :value="itemInstance.metadata.chat.timeoutIsActive"
-        @change="setChatMetadata({ prop: 'timeoutIsActive', value: $event })"
+        :model-value="itemInstance.metadata.chat.timeoutIsActive"
+        @update:model-value="setChatMetadata({ prop: 'timeoutIsActive', value: $event })"
       />
       <wt-input
         :disabled="disableOpenTimeout"

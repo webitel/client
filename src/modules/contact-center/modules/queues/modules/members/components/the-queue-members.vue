@@ -476,5 +476,6 @@ export default {
 .upload-file-input {
   position: absolute;
   visibility: hidden;
+  width: 100%;
 }
 </style>

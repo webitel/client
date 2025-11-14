@@ -5,7 +5,8 @@
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+
+    <div class="object-input-area-grid">
       <wt-select
         :clearable="false"
         :disabled="disableUserInput"
@@ -14,13 +15,8 @@
         :v="v.itemInstance.user"
         :value="itemInstance.user"
         required
+        class="object-input-area-grid__user"
         @input="setItemProp({ prop: 'user', value: $event })"
-      />
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.agents.isSupervisor')"
-        :value="itemInstance.isSupervisor"
-        @change="setItemProp({ prop: 'isSupervisor', value: $event })"
       />
       <wt-select
         :disabled="disableUserInput"
@@ -29,17 +25,8 @@
         :v="v.itemInstance.team"
         :value="itemInstance.team"
         required
+        class="object-input-area-grid__team"
         @input="setItemProp({ prop: 'team', value: $event })"
-      />
-      <wt-select
-        v-show="!itemInstance.isSupervisor"
-        :close-on-select="false"
-        :disabled="disableUserInput"
-        :label="$t('objects.supervisor')"
-        :search-method="loadSupervisorsOptions"
-        :value="itemInstance.supervisor"
-        multiple
-        @input="setItemProp({ prop: 'supervisor', value: $event })"
       />
       <wt-select
         :close-on-select="false"
@@ -48,21 +35,42 @@
         :search-method="loadAuditorsOptions"
         :value="itemInstance.auditor"
         multiple
+        class="object-input-area-grid__auditor"
         @input="setItemProp({ prop: 'auditor', value: $event })"
       />
-      <wt-select
+<!--      v-show="!itemInstance.isSupervisor"-->
+      <wt-switcher
         :disabled="disableUserInput"
-        :label="$t('objects.region')"
-        :search-method="loadRegionsOptions"
-        :value="itemInstance.region"
-        @input="setItemProp({ prop: 'region', value: $event })"
+        :label="$t('objects.ccenter.agents.isSupervisor')"
+        :model-value="itemInstance.isSupervisor"
+        class="object-input-area-grid__is-supervisor"
+        @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
+      />
+      <wt-select
+        :close-on-select="false"
+        :disabled="disableUserInput || itemInstance.isSupervisor"
+        :label="$t('objects.supervisor')"
+        :search-method="loadSupervisorsOptions"
+        :value="itemInstance.supervisor"
+        multiple
+        class="object-input-area-grid__supervisor"
+        @input="setItemProp({ prop: 'supervisor', value: $event })"
       />
       <wt-select
         :disabled="disableUserInput"
         :label="$tc('objects.lookups.media.mediaFiles', 1)"
         :search-method="loadMediaOptions"
         :value="itemInstance.greetingMedia"
+        class="object-input-area-grid__media"
         @input="setItemProp({ prop: 'greetingMedia', value: $event })"
+      />
+      <wt-select
+        :disabled="disableUserInput"
+        :label="$t('objects.region')"
+        :search-method="loadRegionsOptions"
+        :value="itemInstance.region"
+        class="object-input-area-grid__region"
+        @input="setItemProp({ prop: 'region', value: $event })"
       />
       <wt-input
         :disabled="disableUserInput"
@@ -72,6 +80,7 @@
         :value="itemInstance.progressiveCount"
         required
         type="number"
+        class="object-input-area-grid__progressive-count"
         @input="setItemProp({ prop: 'progressiveCount', value: +$event })"
       />
       <wt-input
@@ -82,6 +91,7 @@
         :value="itemInstance.chatCount"
         required
         type="number"
+        class="object-input-area-grid__chat-count"
         @input="setItemProp({ prop: 'chatCount', value: +$event })"
       />
       <wt-input
@@ -92,8 +102,28 @@
         :value="itemInstance.taskCount"
         required
         type="number"
+        class="object-input-area-grid__task-count"
         @input="setItemProp({ prop: 'taskCount', value: +$event })"
       />
+      <wt-switcher
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.isSupervisor')"
+        :model-value="itemInstance.isSupervisor"
+        class="object-input-area-grid__is-supervisor"
+        @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
+      />
+      <div
+        class="object-input-area-grid__screen-control"
+      >
+        <wt-switcher
+          :disabled="disableUserInput || disabledAgentScreenControl && !isNew"
+          :label="$t('objects.ccenter.agents.agentScreenControl')"
+          :model-value="itemInstance.screenControl"
+          @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
+        />
+
+        <p v-if="disabledAgentScreenControl && !isNew">{{ $t('objects.ccenter.agents.agentScreenControlHint') }}</p>
+      </div>
     </div>
   </section>
 </template>
@@ -109,6 +139,14 @@ import AgentsAPI from '../api/agents';
 export default {
   name: 'OpenedAgentGeneral',
   mixins: [openedTabComponentMixin],
+  computed: {
+    disabledAgentScreenControl() {
+      return !this.itemInstance.allowSetScreenControl
+    },
+    isNew() {
+      return this.$route.fullPath.includes('new');
+    },
+  },
   methods: {
     loadUsersOptions(params) {
       return AgentsAPI.getAgentUsersOptions(params);
@@ -133,4 +171,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.object-input-area-grid {
+  display: grid;
+  grid-template-areas:
+    'user team'
+    'progressiveCount media'
+    'chatCount region'
+    'taskCount auditor'
+    'screenControl supervisor'
+    '. isSupervisor'
+  ;
+  grid-template-columns: 1fr 1fr;
+
+  &__user {
+    grid-area: user;
+  }
+  &__team {
+    grid-area: team;
+  }
+  &__is-supervisor {
+    grid-area: isSupervisor;
+    align-self: center;
+  }
+  &__auditor {
+    grid-area: auditor;
+  }
+  &__supervisor {
+    grid-area: supervisor;
+  }
+  &__media {
+    grid-area: media;
+  }
+  &__region {
+    grid-area: region;
+  }
+  &__progressive-count {
+    grid-area: progressiveCount;
+  }
+  &__chat-count {
+    grid-area: chatCount;
+  }
+  &__task-count {
+    grid-area: taskCount;
+  }
+  &__screen-control {
+    grid-area: screenControl;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    grid-gap: var(--content-wrapper-gap);
+  }
+}
 </style>

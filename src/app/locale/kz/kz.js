@@ -176,7 +176,7 @@ export default {
     stt: 'Аудиодан мәтінге аудару',
     key: 'Кілт',
     ID: 'ID',
-    email: 'Электрондық пошта',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Өзгертілді',
     emptyWorkspace: 'Енді құжаттар жоқ',
     emptyResultSearch: 'Іздеу сіздің қажетіңізге сәйкес келмеді',
@@ -236,6 +236,14 @@ export default {
         askingAlert:
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
+        temporaryPassword: 'Уақытша құпия сөз',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Аты',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Клиенттер',
@@ -298,6 +306,15 @@ export default {
         },
         passwordSetFromAccount:
           'Егер сіз құпия сөзді орнатпасаңыз, ол аккаунттың құпия сөзімен бірдей болады',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Өндіруші',
+          model: 'Модель',
+          mac: 'MAC мекенжайы',
+          ip: 'IP мекенжайы',
+        },
       },
     },
     permissions: {
@@ -413,6 +430,11 @@ export default {
         numbersCount: 'Нөмірлер',
         expireAt: 'Төмендеді',
         temporary: 'Уақытша',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Медиа файл | Медиа файлдар',
@@ -495,6 +517,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Демалыс шаблоны | Демалыс шаблондары',
+        notSelected: 'Таңдалмаған',
         pauseReason: 'Демалыс себебі',
         duration: 'Ұзақтығы (мин)',
       },
@@ -586,6 +609,7 @@ export default {
           close: 'Чат толық хабарламасы',
           join: 'Агент қосылу хабарламасы',
           left: 'Агент айырылу хабарламасы',
+          filePolicyFail: 'Тыйым салынған файл форматы',
         },
         chatGateways: 'Чат қабылдаушы | Чат қабылдаушылар',
         allChatGateways: 'Барлық чат қабылдаушылар',
@@ -760,6 +784,9 @@ export default {
           pause: 'Демалыс',
           breakOut: 'Шығу',
         },
+        agentScreenControl: 'Агент экранын басқару',
+        agentScreenControlHint:
+          'Топ параметрі қосылған кезде өшіру мүмкін емес',
       },
 
       auditors: {
@@ -831,6 +858,20 @@ export default {
           missed: 'Жоқ',
           expired: 'Төмендеді',
         },
+        csvMappingFields: {
+          name: 'Атауы',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Бакет',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Байланыс түрлерінің басымдығы',
+          code: 'Код',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -848,6 +889,9 @@ export default {
         tags: 'Тақтар',
         newQueue: 'Жаңа қойма',
         blacklist: 'Стоп тізімі',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Жаңа қойма сипаттамасы',
         outboundIVRQueue: 'Шығыс IVR қоймасы',
         outboundIVR: 'Шығыс IVR',
@@ -971,6 +1015,10 @@ export default {
           formSchema: 'Динамикалық құрылғы схемасы',
           sec: 'Пост-өңдеу уақыты (сек)',
           renewalSec: 'Кейін қайтару (сек)',
+          allowProlongation: 'Пост-өңдеуді ұзартуға рұқсат ету',
+          repeatsNumber: 'Қайталаулар саны',
+          prolongationTimeSec: 'Ұзарту уақыты (сек)',
+          isTimeoutRetry: 'Уақыт бітуге дейін қайталау',
         },
         queueStrategy: {
           fifo: 'FIFO (Бірінші кіріп, бірінші шығу)',
@@ -1040,6 +1088,9 @@ export default {
         priority: 'Приоритет',
         reserveResource: 'Қорды бөлісу',
         failureDialDelay: 'Ақау дайындық кешігу',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {
@@ -1099,7 +1150,7 @@ export default {
         maxDownloadSpeed: 'Ең жоғары жүктеу жылдамдығы (кб/с)',
         maxUploadSpeed: 'Ең жоғары жазу жылдамдығы (кб/с)',
         maxUploadSize: 'Ең жоғары жазу өлшемі (байт)',
-        applyToFiles: 'Өткен файлдарға саясатты қолдану',
+        applyToFiles: 'Өткен файлдарға сақтау мерзімін қолдану',
         applyPopupMessage:
           'Саясаттың жаңа уақыты өткен файлдарға саясаттың орындалуына әкеледі. Сіз қалаймыз ба?',
         channels: {
@@ -1108,8 +1159,16 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медиа',
           [StorageUploadFileChannel.MailChannel]: 'пошта',
           [StorageUploadFileChannel.LogChannel]: 'лог',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
         },
-        encryptFile: 'Файлдарды шифрлеу',
+        encryptFile: 'Жаңа файлдарды шифрлеу',
+        encryptFileHint:
+          'Шифрлеу кілті жоғалса, файлдарды шифрдан шығара алмайсыз! Жазбалар тек интерфейс немесе API арқылы қолжетімді.',
+        encryptionAlertTitle: 'Шифрлеу туралы ескерту',
+        encryptionEnableMessage: 'Тек жаңа файлдар шифрланады.',
+        encryptionDisableMessage:
+          'Ескі файлдар шифрланған күйінде қалады.\nЖаңа файлдар шифрланбайды.',
       },
 
       cognitiveProfiles: {

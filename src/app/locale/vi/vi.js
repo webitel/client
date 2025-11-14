@@ -178,7 +178,7 @@ export default {
     stt: 'Dịch vụ chuyển đổi giọng nói thành văn bản',
     key: 'Khóa',
     ID: 'ID',
-    email: 'Địa chỉ email',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Đã sửa',
     emptyWorkspace: 'Chưa có bản ghi nào',
     emptyResultSearch: 'Tìm kiếm của bạn không cho kết quả',
@@ -220,7 +220,7 @@ export default {
         license: 'Giấy phép',
         devices: 'Thiết bị',
         defaultDevice: 'Thiết bị mặc định (từ danh sách thiết bị đã chọn)',
-        deviceNotFound: "Không tìm thấy thiết bị?",
+        deviceNotFound: 'Không tìm thấy thiết bị?',
         createNewDevice: 'Thêm mới',
         variables: 'Biến',
         varKey: 'Khóa',
@@ -238,6 +238,14 @@ export default {
         askingAlert:
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
+        temporaryPassword: 'Mật khẩu tạm thời',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Tên',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Khách hàng',
@@ -298,7 +306,16 @@ export default {
           onhold: 'Đang giữ',
         },
         passwordSetFromAccount:
-          "Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản",
+          'Nếu bạn không đặt mật khẩu, nó sẽ giống như tài khoản',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Nhà sản xuất',
+          model: 'Mẫu',
+          mac: 'Địa chỉ MAC',
+          ip: 'Địa chỉ IP',
+        },
       },
     },
     permissions: {
@@ -338,15 +355,13 @@ export default {
             'Cấp quyền để đặt lại các nỗ lực hoạt động',
           limitWorkspaceContactsDescription:
             'Giới hạn quyền để xem danh sách liên hệ trong Workspace',
-          exportDataGridDescription:
-            'Cấp quyền để xuất dữ liệu bảng vào tệp',
+          exportDataGridDescription: 'Cấp quyền để xuất dữ liệu bảng vào tệp',
           viewCdrPhoneNumbersDescription: 'Xem số điện thoại CDR',
           manageUserRolesDescription:
             'Cấp quyền để quản lý một tập hợp vai trò người dùng',
           manageUserLicenseDescription:
             'Cấp quyền để quản lý một tập hợp giấy phép người dùng',
-          changeUserPasswordDescription:
-            'Cấp quyền để đổi mật khẩu người dùng',
+          changeUserPasswordDescription: 'Cấp quyền để đổi mật khẩu người dùng',
           systemSettingDescription:
             'Cấp quyền để truy cập và quản lý phần Cấu hình',
           schemeVariables: 'Quản lý biến toàn cầu',
@@ -418,6 +433,11 @@ export default {
         numbersCount: 'Số lượng',
         expireAt: 'Hạn',
         temporary: 'Tạm thời',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Tệp phương tiện',
@@ -500,6 +520,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Mẫu tạm dừng',
+        notSelected: 'Chưa chọn',
         pauseReason: 'Lý do tạm dừng',
         duration: 'Thời gian (phút)',
       },
@@ -539,7 +560,8 @@ export default {
           code: 'Mã',
           description: 'Tạo luồng mới bằng trình soạn thảo mã JSON-schema',
         },
-        askingAlert: 'Bạn có muốn lưu các thay đổi bạn đã thực hiện vào "{name}" ?',
+        askingAlert:
+          'Bạn có muốn lưu các thay đổi bạn đã thực hiện vào "{name}" ?',
       },
 
       dialplan: {
@@ -585,10 +607,11 @@ export default {
       chatGateways: {
         templates: {
           templates: 'Mẫu',
-          title: "Tên của thành viên Workspace",
+          title: 'Tên của thành viên Workspace',
           close: 'Thông báo hoàn thành trò chuyện',
           join: 'Thông báo đại lý tham gia',
           left: 'Thông báo ngắt kết nối của đại lý',
+          filePolicyFail: 'Định dạng tệp bị cấm',
         },
         chatGateways: 'Cổng trò chuyện',
         allChatGateways: 'Tất cả cổng trò chuyện',
@@ -597,7 +620,7 @@ export default {
         },
         telegramApp: {
           telegramApp: 'Ứng dụng Telegram',
-          signedAs: "Bạn đã đăng nhập như",
+          signedAs: 'Bạn đã đăng nhập như',
           joinTelegram: 'Đăng nhập vào Telegram',
           metadata: {
             apiId: 'ID API',
@@ -655,7 +678,8 @@ export default {
             position: 'Vị trí',
             btnColor: 'Màu nút',
             logoUrl: 'URL logo',
-            logoHint: "Định dạng logo được hỗ trợ là 'JPEG' hoặc 'PNG', 24x24px",
+            logoHint:
+              "Định dạng logo được hỗ trợ là 'JPEG' hoặc 'PNG', 24x24px",
             rounded: 'Tròn',
             square: 'Hình vuông',
             right: 'Phải',
@@ -763,6 +787,9 @@ export default {
           pause: 'Tạm dừng',
           breakOut: 'Thời gian ngoại tuyến',
         },
+        agentScreenControl: 'Kiểm soát màn hình đại lý',
+        agentScreenControlHint:
+          'Không thể tắt tính năng này khi cài đặt cho đội đang được bật',
       },
 
       auditors: {
@@ -835,6 +862,19 @@ export default {
           missed: 'Bỏ qua',
           expired: 'Hết hạn',
         },
+        csvMappingFields: {
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Độ ưu tiên loại giao tiếp',
+          code: 'Mã',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -852,6 +892,9 @@ export default {
         tags: 'Thẻ',
         newQueue: 'Hàng đợi mới',
         blacklist: 'Danh sách dừng',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Mô tả hàng đợi mới',
         outboundIVRQueue: 'Hàng đợi IVR xuất',
         outboundIVR: 'IVR xuất',
@@ -864,8 +907,7 @@ export default {
         offlineQueueDescription:
           'Một hàng đợi ngoại tuyến cho phép cuộc gọi đến có thể dừng chờ trên giữ, nhập số điện thoại của họ và nhận cuộc gọi lại ngay khi đến lượt họ.',
         previewDialer: 'Dialer xem trước',
-        previewDialerDescription:
-          'Xem liên hệ trước khi tự động gọi tới họ.',
+        previewDialerDescription: 'Xem liên hệ trước khi tự động gọi tới họ.',
         progressiveDialer: 'Dialer tiến triển',
         progressiveDialerDescription:
           'Dialing tiến triển giảm thời gian lãng phí giữa các cuộc gọi bằng cách tự động gọi một số từ danh sách cuộc gọi ngay khi một đại lý trở nên có sẵn.',
@@ -921,8 +963,7 @@ export default {
         maxNumberOfRetry: 'Số lần thử tối đa',
         minDuration: 'Thời gian cuộc gọi thành công tối thiểu',
         maxAttempts: 'Số lần thử tối đa',
-        minOnlineAgents:
-          'Truy cập khi có nhiều đại lý trực tuyến hơn:',
+        minOnlineAgents: 'Truy cập khi có nhiều đại lý trực tuyến hơn:',
         waitForResultStatus: 'Đợi trạng thái kết quả',
         bucketPriority: 'Ưu tiên',
         amd: 'AMD',
@@ -977,6 +1018,10 @@ export default {
           formSchema: 'Sơ đồ xử lý động',
           sec: 'Thời gian xử lý sau (giây)',
           renewalSec: 'Thông báo để tiếp tục sau (giây)',
+          allowProlongation: 'Cho phép kéo dài xử lý sau',
+          repeatsNumber: 'Số lần lặp lại',
+          prolongationTimeSec: 'Thời gian kéo dài (giây)',
+          isTimeoutRetry: 'Thử lại cho đến hết thời gian chờ',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
@@ -1046,6 +1091,9 @@ export default {
         priority: 'Ưu tiên',
         reserveResource: 'Đặt trước tài nguyên',
         failureDialDelay: 'Thời gian chậm gọi thất bại',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {
@@ -1105,7 +1153,7 @@ export default {
         maxDownloadSpeed: 'Tốc độ tải xuống tối đa (kbps)',
         maxUploadSpeed: 'Tốc độ tải lên tối đa (kbps)',
         maxUploadSize: 'Kích thước tải lên tối đa (bytes)',
-        applyToFiles: 'Áp dụng cho các tệp hiện có',
+        applyToFiles: 'Áp dụng ngày lưu giữ cho các tệp hiện có',
         applyPopupMessage:
           'Thời hạn lưu trữ mới sẽ được áp dụng cho các tệp hiện có theo chính sách. Bạn có muốn tiếp tục?',
         channels: {
@@ -1114,8 +1162,16 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'phương tiện',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
         },
-        encryptFile: 'Mã hóa tệp',
+        encryptFile: 'Mã hóa tệp mới',
+        encryptFileHint:
+          'Bạn sẽ không thể giải mã tệp nếu khóa mã hóa bị mất! Bản ghi chỉ có thể truy cập qua API hoặc giao diện.',
+        encryptionAlertTitle: 'Cảnh báo mã hóa',
+        encryptionEnableMessage: 'Chỉ các tệp mới sẽ được mã hóa.',
+        encryptionDisableMessage:
+          'Các tệp cũ sẽ vẫn được mã hóa.\nCác tệp mới sẽ không được mã hóa.',
       },
 
       cognitiveProfiles: {
@@ -1179,7 +1235,8 @@ export default {
         event: 'Trên sự kiện',
         onEventDescription: 'Một lịch trình sơ đồ JSON Schema dựa trên sự kiện',
         cron: 'Tại thời gian',
-        atTimeDescription: 'Một lịch trình sơ đồ JSON Schema dựa trên thời gian',
+        atTimeDescription:
+          'Một lịch trình sơ đồ JSON Schema dựa trên thời gian',
         eventSelect: ({ linked }) =>
           linked('objects.ccenter.queues.hooks.event'),
         cases: 'Trường hợp',

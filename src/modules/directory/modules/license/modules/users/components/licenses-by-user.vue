@@ -11,7 +11,7 @@
           @enter="loadList"
           @input="setSearch"
           @search="loadList"
-        />2
+        />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -129,7 +129,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:deep(.wt-table__th) {
+:deep(.wt-table th) {
   word-break: normal;
 }
 </style>

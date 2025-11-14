@@ -171,6 +171,7 @@ export default {
 
     closeTokenCreatedPopup() {
       this.isTokenGenerated = false;
+      this.$router.go(-1);
       this.resetItemState();
     },
 

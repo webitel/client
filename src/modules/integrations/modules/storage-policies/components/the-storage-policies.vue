@@ -73,7 +73,9 @@
             :headers="headers"
             fixed-actions
             sortable
+            :row-reorder="hasEditAccess"
             @sort="sort"
+            @reorder:row="handleReorder"
           >
             <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
@@ -128,20 +130,14 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="
+                :model-value="item.enabled"
+                @update:model-value="
                   patchItem({ item, index, prop: 'enabled', value: $event })
                 "
               />
             </template>
 
             <template #actions="{ item }">
-              <wt-icon-btn
-                v-tooltip="$t('iconHints.draggable')"
-                icon="move"
-                :disabled="!hasEditAccess"
-              />
-
               <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"
@@ -179,7 +175,6 @@
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy.js';
@@ -220,13 +215,6 @@ export default {
   data: () => ({
     namespace,
     routeName: RouteNames.STORAGE_POLICIES,
-    sortableConfig: {
-      swap: true, // Enable swap mode
-      swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
-      animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-      easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
-    },
-    sortableInstance: null,
   }),
 
   computed: {
@@ -245,17 +233,6 @@ export default {
       ];
     },
   },
-  mounted() {
-    if (!Sortable.__pluginsMounted) {
-      Sortable.mount(new Swap());
-      Sortable.__pluginsMounted = true;
-    }
-
-    this.initSortable();
-  },
-  unmounted() {
-    this.destroySortable();
-  },
   methods: {
     ...mapActions({
       swapRows(dispatch, payload) {
@@ -271,42 +248,19 @@ export default {
     editLink({ id }) {
       return { name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id } };
     },
-    async initSortable() {
-      if (!this.hasEditAccess) return;
-      if (this.sortableInstance) this.destroySortable();
-      // https://github.com/SortableJS/Sortable#options
-      const tableBody = document.querySelector('.wt-table__body');
-      this.sortableInstance = Sortable.create(tableBody, {
-        ...this.sortableConfig,
-
-        // Element dragging ended
-        onEnd: async (event) => {
-          if (event.oldIndex === event.newIndex) return;
-          const fromId = this.dataList[event.oldIndex].id;
-          const toId = this.dataList[event.newIndex].id;
-          await this.swapRowsAndReloadList({
-            fromId,
-            toId,
-          });
-        },
+    async handleReorder({ oldIndex, newIndex }) {
+      if (oldIndex === newIndex) return;
+      const fromId = this.dataList[oldIndex].id;
+      const toId = this.dataList[newIndex].id;
+      await this.swapRowsAndReloadList({
+        fromId,
+        toId,
       });
     },
     async swapRowsAndReloadList(swapPayload) {
-      this.destroySortable();
       await this.swapRows(swapPayload);
       await this.loadList();
-      await this.initSortable();
-    },
-    destroySortable() {
-      this.sortableInstance.destroy();
-      this.sortableInstance = null;
     },
   },
 };
 </script>
-
-<style scoped>
-:deep(.wt-table .sortable-swap-highlight) {
-  background: var(--primary-color);
-}
-</style>

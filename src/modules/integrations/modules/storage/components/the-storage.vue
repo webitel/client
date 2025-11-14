@@ -88,8 +88,8 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="!item.disabled"
-                @change="patchProperty({ index, prop: 'disabled', value: !$event })"
+                :model-value="!item.disabled"
+                @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
               />
             </template>
             <template #actions="{ item }">

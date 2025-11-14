@@ -107,7 +107,8 @@ export default {
       logout: 'LOGOUT',
     }),
     settings() {
-      this.$router.push('/settings');
+      const settingsUrl = import.meta.env.VITE_SETTINGS_URL;
+      window.open(settingsUrl, '_blank', 'noopener,noreferrer');
     },
 
     logoutUser() {

@@ -178,7 +178,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Ключ',
     ID: 'ID',
-    email: 'Адреса електронної пошти',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Змінено',
     emptyWorkspace: 'Записи у розділі ще не створені',
     emptyResultSearch: 'Пошук не дав результатів',
@@ -239,6 +239,14 @@ export default {
         askingAlert:
           'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
         chatName: 'Імʼя для відображення в чаті',
+        temporaryPassword: 'Тимчасовий пароль',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Ім’я',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Користувачі',
@@ -301,6 +309,15 @@ export default {
         },
         passwordSetFromAccount:
           'Якщо Ви не встановите пароль, він буде таким же, як і акаунт',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Виробник',
+          model: 'Модель',
+          mac: 'MAC-адреса',
+          ip: 'IP-адреса',
+        },
       },
     },
     permissions: {
@@ -329,7 +346,7 @@ export default {
           addDescription: "Надає дозвіл на створення об'єктів",
           deleteDescription: "Надає дозвіл на видалення об'єктів",
           readDescription: "Надає дозвіл на вибір об'єктів",
-          writeDescription: 'Надає дозвіл змінювати об\єкти',
+          writeDescription: "Надає дозвіл змінювати об'єкти",
           eavesdropCallDescription:
             'Надає дозвіл прослуховувати активну розмову',
           playbackRecordFileDescription:
@@ -374,7 +391,7 @@ export default {
         searchPlaceholder: 'розділ ..',
         newPermissionRole: 'Новий власник прав',
         rbacDefault: 'Права доступу на записи за замовчуванням',
-        grantor: 'Праводатель',
+        grantor: 'Надавач прав',
         grantee: 'Власник прав',
         create: 'Створювати',
         delete: 'Видаляти',
@@ -420,8 +437,13 @@ export default {
         number: 'Номер | Номери',
         newNumber: 'Новий номер',
         numbersCount: 'Номери',
-        expireAt: 'Термін дії',
+        expireAt: ({ linked }) => linked('vocabulary.expireAt'),
         temporary: 'Тимчасовий',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Медіафайл| Медіафайли',
@@ -504,6 +526,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Шаблон пауз | Шаблони пауз',
+        notSelected: 'Не вибрано',
         pauseReason: 'Причина паузи',
         duration: 'Тривалість (хх)',
       },
@@ -597,6 +620,7 @@ export default {
           close: 'Повідомлення завершення чату',
           join: 'Повідомлення приєднання оператора',
           left: "Повідомлення від'єднання оператора",
+          filePolicyFail: 'Повідомлення про заборонений формат файлу',
         },
         chatGateways: 'Текстовий шлюз | Текстові шлюзи',
         allChatGateways: 'Всі текстові шлюзи',
@@ -772,6 +796,9 @@ export default {
           pause: 'Пауза',
           breakOut: 'Примусова пауза',
         },
+        agentScreenControl: 'Слідкувати за екраном оператора',
+        agentScreenControlHint:
+          'Неможливо вимкнути, поки налаштування для команди увімкнене',
       },
 
       auditors: {
@@ -844,6 +871,20 @@ export default {
           missed: 'Пропущений',
           expired: 'Час вийшов',
         },
+        csvMappingFields: {
+          name: 'Імʼя',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Кошик',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Пріоритет типів комунікацій',
+          code: 'Код',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -860,6 +901,9 @@ export default {
         teams: 'Команда| Команди',
         tags: 'Теги',
         blacklist: 'Стоп лист',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueue: 'Нова черга',
         newQueueDescription: 'Типи черг',
         outboundIVRQueue: 'Вихідна IVR-черга',
@@ -987,6 +1031,10 @@ export default {
           formSchema: 'Схема динамічної обробки',
           sec: 'Час обробки (сек)',
           renewalSec: 'Запропонувати продовження після (сек)',
+          allowProlongation: 'Дозволити продовження постобробки',
+          repeatsNumber: 'Кількість повторів',
+          prolongationTimeSec: 'Час для продовження (сек)',
+          isTimeoutRetry: 'Повтор до таймауту',
         },
         queueStrategy: {
           fifo: 'FIFO (Першим зайшов, першим вийшов)',
@@ -1056,17 +1104,8 @@ export default {
         priority: 'Пріоритет',
         reserveResource: 'Резервний ресурс',
         failureDialDelay: 'Затримка при помилці набору',
-        importCsv: {
-          title: 'Імпорт номерів',
-          separator: 'Роздільник',
-          upload: 'Завантажити',
-          close: 'Закрити',
-          exampleSeparator: 'Наприклад ; або ,',
-          numberColumn: 'Назва колонки з номером',
-          uploadError: 'Помилка при відправці файлу',
-          genericError: 'Сталася помилка при відправці!',
-          emptyRequiredFieldsMessage:
-            'У рядках {rows} порожні обов’язкові поля',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 
@@ -1127,7 +1166,7 @@ export default {
         maxDownloadSpeed: 'Максимальна швидкість завантаження (kbps)',
         maxUploadSpeed: 'Максимальна швидкість вивантаження (kbps)',
         maxUploadSize: 'Максимальний розмір файлу (bytes)',
-        applyToFiles: 'Застосувати до наявних файлів',
+        applyToFiles: 'Застосувати термін зберігання до наявних файлів',
         applyPopupMessage:
           'Новий час зберігання буде застосований до існуючих файлів згідно з політикою. Бажаєте продовжити?',
         channels: {
@@ -1136,8 +1175,16 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'медіа',
           [StorageUploadFileChannel.MailChannel]: 'лист',
           [StorageUploadFileChannel.LogChannel]: 'лог',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
         },
-        encryptFile: 'Шифрувати файли',
+        encryptFile: 'Шифрувати нові файли',
+        encryptFileHint:
+          'Ви не зможете розшифрувати файли, якщо ключ шифрування буде втрачено! Записи будуть доступні лише через інтерфейс або по API.',
+        encryptionAlertTitle: 'Шифрування',
+        encryptionEnableMessage: 'Лише нові файли будуть зашифровані.',
+        encryptionDisableMessage:
+          'Старі файли залишаться зашифрованими.\nНові файли шифруватися не будуть.',
       },
 
       cognitiveProfiles: {

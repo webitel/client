@@ -53,8 +53,8 @@
         <template #subscription="{ item }">
           <wt-switcher
             :disabled="!hasEditAccess"
-            :value="!!item.subscribedFields"
-            @change="updateSubscriptionState({ item, value: $event })"
+            :model-value="!!item.subscribedFields"
+            @update:model-value="updateSubscriptionState({ item, value: $event })"
           />
         </template>
       </wt-table>

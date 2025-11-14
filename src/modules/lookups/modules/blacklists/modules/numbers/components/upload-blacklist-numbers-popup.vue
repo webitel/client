@@ -11,6 +11,8 @@
 import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
+const baseLocale = 'objects.lookups.blacklist.csvMappingFields';
+
 export default {
   name: 'UploadUsersPopup',
   mixins: [uploadCSVWrapperComponentMixin],
@@ -25,16 +27,19 @@ export default {
       {
         name: 'number',
         required: true,
+        locale: `${baseLocale}.number`,
         csv: '',
       },
       {
         name: 'description',
         required: false,
+        locale: `${baseLocale}.description`,
         csv: '',
       },
       {
         name: 'expireAt',
         required: false,
+        locale: `${baseLocale}.expireAt`,
         csv: '',
       },
     ],

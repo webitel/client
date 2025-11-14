@@ -6,7 +6,12 @@ const resettableState = {
   itemInstance: {
     name: '',
     description: '',
-    causes: [],
+    causes: [
+      {
+        cause: null,
+        duration: 30
+      }
+    ],
   },
 };
 

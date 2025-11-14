@@ -194,9 +194,16 @@ export default {
           prop: 'default',
           value,
         });
-        if (value) this.loadList();
+        if (value) this.loadDataWithoutLoader();
       } catch {
         this.loadList();
+      }
+    },
+
+    async loadDataWithoutLoader () {
+      try {
+        await this.loadDataList(this.$route.query);
+      } catch (e) {
       }
     },
   },

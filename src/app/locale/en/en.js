@@ -176,7 +176,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Key',
     ID: 'ID',
-    email: 'Email address',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modified',
     emptyWorkspace: 'There are no records yet',
     emptyResultSearch: 'Your search yielded no results',
@@ -236,6 +236,14 @@ export default {
         askingAlert:
           'Are you sure you want to regenerate the code? The user won’t be able to log in',
         chatName: 'Chat display name',
+        temporaryPassword: 'Temporary password',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Name',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Customers',
@@ -297,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           "If you won't set password, it would be the same as account",
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Vendor',
+          model: 'Model',
+          mac: 'MAC',
+          ip: 'IP',
+        },
       },
     },
     permissions: {
@@ -418,6 +435,11 @@ export default {
         numbersCount: 'Numbers',
         expireAt: 'Expire',
         temporary: 'Temporary',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Media file | Media files',
@@ -500,6 +522,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Pause template | Pause templates',
+        notSelected: 'Not selected',
         pauseReason: 'Pause reason',
         duration: 'Duration (mm)',
       },
@@ -589,6 +612,7 @@ export default {
           close: 'Chat complete message',
           join: 'Agent joining message',
           left: 'Agent disconnection message',
+          filePolicyFail: 'Forbidden file format message',
         },
         chatGateways: 'Chat gateway | Chat gateways',
         allChatGateways: 'All chat gateways',
@@ -763,6 +787,9 @@ export default {
           pause: 'Pause',
           breakOut: 'Break Out',
         },
+        agentScreenControl: 'Agent screen control',
+        agentScreenControlHint:
+          'Cannot be disabled while the setting for the team is enabled',
       },
 
       auditors: {
@@ -835,6 +862,20 @@ export default {
           missed: 'Missed',
           expired: 'Expired',
         },
+        csvMappingFields: {
+          name: 'Name',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Communication priority',
+          code: 'Code',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -852,6 +893,9 @@ export default {
         tags: 'Tags',
         newQueue: 'New queue',
         blacklist: 'Stop list',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'New queue description',
         outboundIVRQueue: 'Outbound IVR queue',
         outboundIVR: 'Outbound IVR',
@@ -978,6 +1022,10 @@ export default {
           formSchema: 'Dynamic processing schema',
           sec: 'Postprocessing time (sec)',
           renewalSec: 'Notify to continue after (sec)',
+          allowProlongation: 'Allow postprocessing prolongation',
+          repeatsNumber: 'Number of repeats',
+          prolongationTimeSec: 'Time for prolongation (sec)',
+          isTimeoutRetry: 'Retry to timeout',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
@@ -1047,17 +1095,8 @@ export default {
         priority: 'Priority',
         reserveResource: 'Reserve resource',
         failureDialDelay: 'Failure dial delay',
-        importCsv: {
-          title: 'Import Numbers',
-          separator: 'Separator',
-          upload: 'Upload',
-          close: 'Close',
-          exampleSeparator: 'For example ; or ,',
-          numberColumn: 'Number column',
-          uploadError: 'Error while uploading the file',
-          genericError: 'An error occurred during the upload!',
-          emptyRequiredFieldsMessage:
-            'Required fields are empty in rows {rows}.',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 
@@ -1118,7 +1157,7 @@ export default {
         maxDownloadSpeed: 'Max download speed (kbps)',
         maxUploadSpeed: 'Max upload speed (kbps)',
         maxUploadSize: 'Max upload size (bytes)',
-        applyToFiles: 'Apply to existing files',
+        applyToFiles: 'Apply retention days to existing files',
         applyPopupMessage:
           'New retention time will be applied to existing files according to the policy. Do you want to continue?',
         channels: {
@@ -1127,8 +1166,16 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
         },
-        encryptFile: 'Encrypt files',
+        encryptFile: 'Encrypt new files',
+        encryptFileHint:
+          "You won't be able to decrypt files if the encryption key is lost! Records can be accessed only via API or interface.",
+        encryptionAlertTitle: 'Encryption alert',
+        encryptionEnableMessage: 'Only new files will be encrypted.',
+        encryptionDisableMessage:
+          "Old files will remain encrypted.\nNew files won't be encrypted.",
       },
 
       cognitiveProfiles: {

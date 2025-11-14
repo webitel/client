@@ -176,7 +176,7 @@ export default {
     stt: 'Mowa na tekst',
     key: 'Klucz',
     ID: 'ID',
-    email: 'Adres email',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Zmodyfikowano',
     emptyWorkspace: 'Jeszcze nie ma rekordów',
     emptyResultSearch: 'Twoje wyszukiwanie nie dało wyników',
@@ -236,6 +236,14 @@ export default {
         askingAlert:
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
+        temporaryPassword: 'Hasło tymczasowe',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Imię',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Klienci',
@@ -297,6 +305,15 @@ export default {
         },
         passwordSetFromAccount:
           'Jeśli nie ustawisz hasła, będzie ono takie samo jak konto',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Producent',
+          model: 'Model',
+          mac: 'Adres MAC',
+          ip: 'Adres IP',
+        },
       },
     },
     permissions: {
@@ -416,6 +433,11 @@ export default {
         numbersCount: 'Liczba numerów',
         expireAt: 'Wygasa',
         temporary: 'Tymczasowy',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Plik multimedialny | Pliki multimedialne',
@@ -498,6 +520,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Szablon zawieszenia | Szablony zawieszenia',
+        notSelected: 'Nie wybrano',
         pauseReason: 'Przyczyna zawieszenia',
         duration: 'Długość (mm)',
       },
@@ -588,6 +611,7 @@ export default {
           close: 'Komunikat zakończenia czatu',
           join: 'Komunikat dołączenia agenta',
           left: 'Komunikat odłączenia agenta',
+          filePolicyFail: 'Niedozwolony format pliku',
         },
         chatGateways: 'Brama czatu | Bramy czatu',
         allChatGateways: 'Wszystkie bramy czatu',
@@ -762,6 +786,9 @@ export default {
           pause: 'Zawieszenie',
           breakOut: 'Przerwa',
         },
+        agentScreenControl: 'Sterowanie ekranem agenta',
+        agentScreenControlHint:
+          'Nie można wyłączyć, gdy ustawienie dla zespołu jest włączone',
       },
 
       auditors: {
@@ -834,6 +861,20 @@ export default {
           missed: 'Przegapione',
           expired: 'Wygasło',
         },
+        csvMappingFields: {
+          name: 'Nazwa',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Zasobnik',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Priorytet typów komunikacji',
+          code: 'Kod',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -851,6 +892,9 @@ export default {
         tags: 'Tagi',
         newQueue: 'Nowa kolejka',
         blacklist: 'Lista zatrzymana',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Opis nowej kolejki',
         outboundIVRQueue: 'Kolejka IVR wychodząca',
         outboundIVR: 'IVR wychodzący',
@@ -976,6 +1020,10 @@ export default {
           formSchema: 'Schemat dynamicznego przetwarzania',
           sec: 'Czas przetwarzania pośredniego (sek)',
           renewalSec: 'Powiadom o kontynuacji po (sek)',
+          allowProlongation: 'Zezwalaj na przedłużenie przetwarzania końcowego',
+          repeatsNumber: 'Liczba powtórzeń',
+          prolongationTimeSec: 'Czas przedłużenia (sek)',
+          isTimeoutRetry: 'Ponawiaj do przekroczenia czasu',
         },
         queueStrategy: {
           fifo: 'FIFO (First In First Out)',
@@ -1045,6 +1093,9 @@ export default {
         priority: 'Priorytet',
         reserveResource: 'Rezerwuj zasób',
         failureDialDelay: 'Opóźnienie dialingu przy niepowodzeniu',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {
@@ -1104,7 +1155,7 @@ export default {
         maxDownloadSpeed: 'Maksymalna prędkość pobierania (kbps)',
         maxUploadSpeed: 'Maksymalna prędkość wgrywania (kbps)',
         maxUploadSize: 'Maksymalny rozmiar wgrywania (bajty)',
-        applyToFiles: 'Zastosuj do istniejących plików',
+        applyToFiles: 'Zastosuj dni przechowywania do istniejących plików',
         applyPopupMessage:
           'Nowy czas przechowywania zostanie zastosowany do istniejących plików zgodnie z polityką. Czy chcesz kontynuować?',
         channels: {
@@ -1113,8 +1164,17 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]:
+            'udostępnianie ekranu',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
         },
-        encryptFile: 'Szyfruj pliki',
+        encryptFile: 'Szyfruj nowe pliki',
+        encryptFileHint:
+          'Nie będzie można odszyfrować plików, jeśli klucz szyfrowania zostanie utracony! Zapisy są dostępne tylko przez API lub interfejs.',
+        encryptionAlertTitle: 'Alert szyfrowania',
+        encryptionEnableMessage: 'Tylko nowe pliki będą szyfrowane.',
+        encryptionDisableMessage:
+          'Stare pliki pozostaną zaszyfrowane.\nNowe pliki nie będą szyfrowane.',
       },
 
       cognitiveProfiles: {

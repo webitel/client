@@ -1,7 +1,10 @@
 <template>
   <section>
-    <number-popup
-      @close="closePopup"
+    <number-popup @close="closePopup" />
+    <upload-popup
+      :file="csvFile"
+      :parent-id="parentId"
+      @close="closeCSVPopup"
     />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
@@ -31,15 +34,15 @@
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
+                deleted: selectedRows,
+                callback: () => deleteData(selectedRows),
             })"
           />
-          <csv-upload-trigger
+          <upload-file-icon-btn
             v-if="!disableUserInput"
+            accept=".csv"
             class="icon-action"
-            :parent-id="parentId"
-            @success="loadDataList"
+            @change="processCSV"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -81,8 +84,8 @@
           <wt-icon-action
             action="delete"
             @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
+                deleted: [item],
+                callback: () => deleteData(item),
             })"
           />
         </template>
@@ -105,11 +108,11 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
+import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import CsvUploadTrigger from './csv-upload-action.vue';
 import NumberPopup from './opened-resource-numbers-popup.vue';
-
+import UploadPopup from './upload-resource-numbers-popup.vue';
 
 const namespace = 'ccenter/res';
 const subNamespace = 'numbers';
@@ -118,7 +121,8 @@ export default {
   name: 'OpenedResourceNumber',
   components: {
     NumberPopup,
-    CsvUploadTrigger,
+    UploadFileIconBtn,
+    UploadPopup,
     DeleteConfirmationPopup,
   },
   mixins: [openedObjectTableTabMixin],
@@ -151,6 +155,7 @@ export default {
   data: () => ({
     namespace,
     subNamespace,
+    csvFile: null,
   }),
 
   methods: {
@@ -168,7 +173,17 @@ export default {
     },
     closePopup() {
       this.$router.go(-1);
-    }
+    },
+    processCSV(files) {
+      const file = files[0];
+      if (file) {
+        this.csvFile = file;
+      }
+    },
+    closeCSVPopup() {
+      this.csvFile = null;
+      this.loadDataList();
+    },
   },
 };
 </script>

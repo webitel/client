@@ -16,7 +16,6 @@
     </header>
 
     <div class="table-wrapper">
-      <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="itemInstance.times"
           :grid-actions="!disableUserInput"
@@ -60,7 +59,6 @@
           </template>
         </wt-table>
       </div>
-    </div>
   </section>
 </template>
 

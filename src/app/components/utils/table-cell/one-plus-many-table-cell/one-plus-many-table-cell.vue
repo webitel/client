@@ -1,41 +1,50 @@
 <template>
-  <div>
-    <a
-      v-if="collection.length"
-      class="nameLink"
-      tabIndex="0"
+  <div class="one-plus-many-table-cell">
+    <span
+      v-if="props.collection.length"
+      tabindex="0"
+    >
+      {{ props.collection[0].name }}
+    </span>
+
+    <div
+      class="one-plus-many-table-cell__chip"
       @click.prevent="inputHandler"
       @keydown.enter.prevent="inputHandler"
-    >{{ collection[0].name }}</a>
-    <wt-chip v-if="collection.length > 1">
-      +{{ collection.length - 1 }}
-    </wt-chip>
+    >
+      <wt-chip v-if="props.collection.length > 1">
+        +{{ props.collection.length - 1 }}
+      </wt-chip>
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'OnePlusManyTableCell',
-  props: {
-    collection: {
-      required: true,
-    },
+<script setup>
+const props = defineProps({
+  collection: {
+    type: Array,
+    required: true,
   },
-  methods: {
-    inputHandler() {
-      this.$emit('input');
-    },
-  },
+});
+
+const emit = defineEmits(['input']);
+
+const inputHandler = () => {
+  emit('input');
 };
 </script>
 
 <style lang="scss" scoped>
-.nameLink {
-  color: var(--text-main-color);
-  cursor: pointer;
-}
+.one-plus-many-table-cell {
+  display: flex;
+  align-items: center;
 
-.wt-chip {
-  margin-left: var(--spacing-sm);
+  &__chip {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 8px;
+    user-select: none;
+  }
 }
 </style>

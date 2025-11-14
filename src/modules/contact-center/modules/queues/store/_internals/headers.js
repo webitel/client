@@ -49,4 +49,16 @@ export default [
     field: 'enabled',
     sort: SortSymbols.NONE,
   },
+  {
+    value: 'resourceGroups',
+    locale: ['objects.ccenter.queues.resourceGroups', 2],
+    field: 'resource_groups',
+    sort: SortSymbols.NONE,
+  },
+  {
+    value: 'resources',
+    locale: ['objects.ccenter.queues.resources', 2],
+    field: 'resources',
+    sort: SortSymbols.NONE,
+  }
 ];

@@ -1,18 +1,5 @@
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-.actions-panel-wrapper {
-  display: flex;
-
-  .filter-wrap {
-    flex: 1;
-  }
-
-  .wt-table-actions {
-    height: fit-content;
-    margin-top: 24px;
-  }
-}
-
 .table-wrapper {
   display: flex;
   flex: 1 1 100%;
@@ -20,10 +7,6 @@
   justify-content: space-between;
   box-sizing: border-box;
   width: 100%;
-
-  .wt-table {
-    flex-grow: 1;
-  }
 
   .wt-pagination {
     margin-top: 20px;

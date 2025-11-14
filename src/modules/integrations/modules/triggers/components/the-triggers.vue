@@ -97,8 +97,8 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="changeState({ item, index, value: $event })"
+                :model-value="item.enabled"
+                @update:model-value="changeState({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">

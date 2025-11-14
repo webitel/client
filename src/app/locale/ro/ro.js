@@ -177,7 +177,7 @@ export default {
     stt: 'Speech-to-Text',
     key: 'Cheie',
     ID: 'ID',
-    email: 'Adresă de email',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Modificat',
     emptyWorkspace: 'Nu există încă înregistrări',
     emptyResultSearch: 'Căutarea ta nu a dat rezultate',
@@ -238,6 +238,14 @@ export default {
         askingAlert:
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
+        temporaryPassword: 'Parolă temporară',
+        csvMappingFields: {
+          login: ({ linked }) => linked('vocabulary.login'),
+          name: 'Nume',
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
+          email: ({ linked }) => linked('vocabulary.emails'),
+        },
       },
       license: {
         customers: 'Clienți',
@@ -299,6 +307,15 @@ export default {
         },
         passwordSetFromAccount:
           'Dacă nu setați parola, va fi aceeași ca și contul',
+        csvMappingFields: {
+          account: ({ linked }) => linked('webitelUI.headerActions.account'),
+          name: ({ linked }) => linked('reusable.name'),
+          password: ({ linked }) => linked('vocabulary.password'),
+          vendor: 'Producător',
+          model: 'Model',
+          mac: 'Adresă MAC',
+          ip: 'Adresă IP',
+        },
       },
     },
     permissions: {
@@ -418,6 +435,11 @@ export default {
         numbersCount: 'Numere',
         expireAt: 'Expiră',
         temporary: 'Temporar',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+          description: ({ linked }) => linked('vocabulary.description'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+        },
       },
       media: {
         mediaFiles: 'Fișier mediu | Fișiere media',
@@ -500,6 +522,7 @@ export default {
       },
       pauseTemplates: {
         pauseTemplates: 'Șablon de pauză | Șabloane de pauză',
+        notSelected: 'Neales',
         pauseReason: 'Motiv de pauză',
         duration: 'Durata (mm)',
       },
@@ -591,6 +614,7 @@ export default {
           close: 'Mesaj completare chat',
           join: 'Mesaj intrare agent',
           left: 'Mesaj deconectare agent',
+          filePolicyFail: 'Format de fișier interzis',
         },
         chatGateways: 'Gateway chat | Gateway-uri chat',
         allChatGateways: 'Toate gateway-urile chat',
@@ -765,6 +789,9 @@ export default {
           pause: 'Pauză',
           breakOut: 'Ieșire din pauză',
         },
+        agentScreenControl: 'Control ecran agent',
+        agentScreenControlHint:
+          'Nu poate fi dezactivat cât timp setarea pentru echipă este activată.',
       },
 
       auditors: {
@@ -837,6 +864,20 @@ export default {
           missed: 'Pierdut',
           expired: 'Expirat',
         },
+        csvMappingFields: {
+          name: 'Nume',
+          timezoneId: ({ linked }) => linked('date.timezone'),
+          priority: ({ linked }) => linked('vocabulary.priority'),
+          expireAt: ({ linked }) => linked('vocabulary.expireAt'),
+          bucketId: 'Bucket',
+          agentId: ({ linked }) => linked('objects.agent.agent'),
+          variables: ({ linked }) => linked('vocabulary.variables'),
+          destination: ({ linked }) => linked('vocabulary.destination'),
+          commPriority: 'Prioritatea tipurilor de comunicare',
+          code: 'Cod',
+          description: ({ linked }) => linked('vocabulary.description'),
+          dtmf: 'DTMF',
+        },
       },
 
       queues: {
@@ -854,6 +895,9 @@ export default {
         tags: 'Etichete',
         newQueue: 'Coadă nouă',
         blacklist: 'Listă de oprire',
+        resources: ({ linked }) => linked('objects.ccenter.res.res'),
+        resourceGroups: ({ linked }) =>
+          linked('objects.ccenter.resGroups.resGroups'),
         newQueueDescription: 'Descriere coadă nouă',
         outboundIVRQueue: 'Coadă IVR outbound',
         outboundIVR: 'IVR outbound',
@@ -979,6 +1023,10 @@ export default {
           formSchema: 'Schema de procesare dinamică',
           sec: 'Timp postprocesare (sec)',
           renewalSec: 'Notifică pentru continuare după (sec)',
+          allowProlongation: 'Permite prelungirea postprocesării',
+          repeatsNumber: 'Număr de repetări',
+          prolongationTimeSec: 'Timp pentru prelungire (sec)',
+          isTimeoutRetry: 'Reîncearcă până la timeout',
         },
         queueStrategy: {
           fifo: 'FIFO (Primul intrat, Primul ieșit)',
@@ -1048,6 +1096,9 @@ export default {
         priority: 'Prioritate',
         reserveResource: 'Rezervă resursă',
         failureDialDelay: 'Întârziere dialare eșec',
+        csvMappingFields: {
+          number: ({ linked }) => linked('vocabulary.number'),
+        },
       },
 
       resGroups: {
@@ -1107,7 +1158,7 @@ export default {
         maxDownloadSpeed: 'Viteză descărcare maximă (kbps)',
         maxUploadSpeed: 'Viteză încărcare maximă (kbps)',
         maxUploadSize: 'Mărime încărcare maximă (bytes)',
-        applyToFiles: 'Aplică la fișiere existente',
+        applyToFiles: 'Aplică zile de retenție la fișiere existente',
         applyPopupMessage:
           'Timpul de reținere nou va fi aplicat fișierelor existente în conformitate cu politica. Vrei să continui?',
         channels: {
@@ -1116,8 +1167,16 @@ export default {
           [StorageUploadFileChannel.MediaChannel]: 'media',
           [StorageUploadFileChannel.MailChannel]: 'email',
           [StorageUploadFileChannel.LogChannel]: 'log',
+          [StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
+          [StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
         },
-        encryptFile: 'Criptați fișiere',
+        encryptFile: 'Criptați fișiere noi',
+        encryptFileHint:
+          'Nu veți putea decripta fișierele dacă cheia de criptare este pierdută! Înregistrările pot fi accesate doar prin API sau interfață.',
+        encryptionAlertTitle: 'Alertă de criptare',
+        encryptionEnableMessage: 'Doar fișierele noi vor fi criptate.',
+        encryptionDisableMessage:
+          'Fișierele vechi vor rămâne criptate.\nFișierele noi nu vor fi criptate.',
       },
 
       cognitiveProfiles: {

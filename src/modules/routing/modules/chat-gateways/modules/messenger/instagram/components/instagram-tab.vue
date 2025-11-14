@@ -14,14 +14,14 @@
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('objects.routing.chatGateways.messenger.instagram.comments')"
-          :value="itemInstance.metadata.instagramComments"
-          @change="setItemMetadata({ prop: 'instagramComments', value: $event })"
+          :model-value="itemInstance.metadata.instagramComments"
+          @update:model-value="setItemMetadata({ prop: 'instagramComments', value: $event })"
         />
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('objects.routing.chatGateways.messenger.instagram.mentions')"
-          :value="itemInstance.metadata.instagramMentions"
-          @change="setItemMetadata({ prop: 'instagramMentions', value: $event })"
+          :model-value="itemInstance.metadata.instagramMentions"
+          @update:model-value="setItemMetadata({ prop: 'instagramMentions', value: $event })"
         />
       </div>
       <div class="content-header__actions-wrap">

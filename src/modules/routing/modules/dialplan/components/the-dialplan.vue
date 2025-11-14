@@ -69,7 +69,9 @@
             :data="dataList"
             :headers="headers"
             sortable
+            :row-reorder="hasEditAccess"
             @sort="sort"
+            @reorder:row="handleReorder"
           >
             <template #name="{ item }">
               <adm-item-link
@@ -94,19 +96,11 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="!item.disabled"
-                @change="patchProperty({index, prop: 'disabled', value: !$event})"
+                :model-value="!item.disabled"
+                @update:model-value="patchProperty({index, prop: 'disabled', value: !$event})"
               />
             </template>
             <template #actions="{ item }">
-              <div class="dialplan__draggable-icon">
-                <wt-icon-btn
-                  v-tooltip="$t('iconHints.draggable')"
-                  icon="move"
-                  :disabled="!hasEditAccess"
-                />
-              </div>
-
               <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"
@@ -141,35 +135,11 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import Sortable, { Swap } from 'sortablejs';
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-
-Sortable.mount(new Swap());
-const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-const sortableConfig = {
-  swap: true, // Enable swap mode
-  swapClass: 'sortable-swap-highlight', // Class name for swap item (if swap mode is enabled)
-  animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
-  easing: 'cubic-bezier(1, 0, 0, 1)', // Easing for animation. Defaults to null. See https://easings.net/ for examples.
-  ghostClass: 'sortable-ghost', // Class name for the drop placeholder
-  chosenClass: 'sortable-chosen', // Class name for the chosen item
-  dragClass: 'sortable-drag', // Class name for the dragging item
-  handle: '.dialplan__draggable-icon', // handle's class
-
-  direction: 'vertical', // Direction of Sortable (will be detected automatically if not given)
-
-  forceFallback: isFirefox, // ignore the HTML5 DnD behaviour and force the fallback to kick in
-  fallbackClass: 'sortable-fallback', // Class name for the cloned DOM Element when using forceFallback
-
-
-  setData: (dataTransfer, draggedElement) => {
-    dataTransfer.setData('foo', 'bar'); // required by Firefox in order to DnD work: https://stackoverflow.com/a/19055350/1411105
-  },
-};
 
 const namespace = 'routing/dialplan';
 
@@ -204,7 +174,6 @@ export default {
   data: () => ({
     namespace,
     routeName: RouteNames.DIALPLAN,
-    sortableInstance: null,
   }),
   computed: {
     path() {
@@ -220,36 +189,19 @@ export default {
     },
   },
   methods: {
-    async initSortable() {
-      if (!this.hasEditAccess) return;
-      if (this.sortableInstance) this.destroySortable();
-      // https://github.com/SortableJS/Sortable#options
-      const tableBody = document.querySelector('.wt-table__body');
-      this.sortableInstance = Sortable.create(tableBody, {
-        ...sortableConfig,
-
-        // Element dragging ended
-        onEnd: async (event) => {
-          if (event.oldIndex === event.newIndex) return;
-          const fromId = this.dataList[event.oldIndex].id;
-          const toId = this.dataList[event.newIndex].id;
-          await this.swapRowsAndReloadList({
-            fromId,
-            toId,
-          });
-        },
+    async handleReorder({ oldIndex, newIndex }) {
+      if (oldIndex === newIndex) return;
+      const fromId = this.dataList[oldIndex].id;
+      const toId = this.dataList[newIndex].id;
+      await this.swapRowsAndReloadList({
+        fromId,
+        toId,
       });
-    },
-    destroySortable() {
-      this.sortableInstance.destroy();
-      this.sortableInstance = null;
     },
     async swapRowsAndReloadList(swapPayload) {
       this.isLoading = true;
-      this.destroySortable();
       await this.swapRows(swapPayload);
       await this.loadList();
-      await this.initSortable();
       this.isLoading = false;
     },
     ...mapActions({
@@ -260,12 +212,6 @@ export default {
         return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
       },
     }),
-  },
-  mounted() {
-    this.initSortable();
-  },
-  unmounted() {
-    this.destroySortable();
   },
 };
 </script>
@@ -293,9 +239,6 @@ export default {
     align-items: center;
     grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
     grid-column-gap: 10px;
-  }
-  :deep(.wt-table .sortable-swap-highlight){
-    background: var(--primary-color);
   }
 }
 </style>

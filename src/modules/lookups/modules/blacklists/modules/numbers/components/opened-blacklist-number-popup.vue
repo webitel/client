@@ -18,8 +18,9 @@
           required
           @input="setItemProp({ prop: 'number', value: $event })"
         />
+        <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
         <wt-switcher
-          v-model="showExpireDate"
+          v-model:model-value="showExpireDate"
           :label="$t('objects.lookups.blacklist.temporary')"
         />
         <wt-datepicker
@@ -84,7 +85,7 @@ export default {
     },
     numberId() {
       return this.$route.params.numberId;
-    }
+    },
   },
   watch: {
     showExpireDate() {
@@ -102,6 +103,7 @@ export default {
     numberId: {
      async handler(id) {
        this.handleIdChange(id);
+       if(!id) this.showExpireDate = false;
      }, immediate: true,
     },
   },

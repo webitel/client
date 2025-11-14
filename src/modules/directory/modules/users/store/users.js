@@ -25,6 +25,7 @@ const resettableState = {
     totpUrl: '',
     contact: {},
     chatName: '',
+    forcePasswordChange: false,
   },
 };
 

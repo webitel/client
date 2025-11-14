@@ -33,6 +33,13 @@
         @close="closeDelete"
       />
 
+      <object-list-popup
+        v-show="objectListPopupData"
+        :data-list="objectListPopupData"
+        :title="objectListPopupTitle"
+        @close="closeObjectListPopup"
+      />
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
@@ -45,6 +52,11 @@
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
+            />
+            <global-state-switcher
+              :model-value="globalState"
+              @update:model-value="changeGlobalState"
+              @onLoadGlobalState="fetchGlobalState"
             />
             <wt-table-actions
               :icons="['refresh']"
@@ -138,8 +150,22 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasEditAccess"
-                :value="item.enabled"
-                @change="patchItem({ item, index, prop: 'enabled', value: $event})"
+                :model-value="item.enabled"
+                @update:model-value="changeStateItem($event, index, item)"
+              />
+            </template>
+            <template #resourceGroups="{ item }">
+              <one-plus-many
+                v-if="item.resourceGroups"
+                :collection="item.resourceGroups"
+                @input="openResourceGroupsPopup(item)"
+              />
+            </template>
+            <template #resources="{ item }">
+              <one-plus-many
+                v-if="item.resources"
+                :collection="item.resources"
+                @input="openResourcesPopup(item)"
               />
             </template>
             <template #actions="{ item }">
@@ -195,12 +221,17 @@ import TheQueuesFilters from '../modules/filters/components/the-queues-filters.v
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
+import OnePlusMany
+  from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
+import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import QueueStateAPI from '../modules/state/api/queueState';
 
+import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup },
+  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -229,11 +260,14 @@ export default {
   },
 
   data: () => ({
+    objectListPopupData: null,
+    objectListPopupTitle: '',
     namespace,
     isQueueSelectPopup: false,
     isAttemptsResetPopup: false,
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
+    globalState: false,
   }),
 
   computed: {
@@ -253,7 +287,7 @@ export default {
     },
     isResetActiveAttemptsAllow() {
       return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
-    },
+    }
   },
   watch: {
     '$route.query': {
@@ -263,7 +297,41 @@ export default {
     },
   },
 
+  async mounted() {
+    // Load global state for all items in table
+    await this.fetchGlobalState();
+  },
+
   methods: {
+    closeObjectListPopup() {
+      this.objectListPopupData = null;
+      this.objectListPopupTitle = '';
+    },
+    openResourcesPopup(item) {
+      this.objectListPopupData = item.resources;
+      this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resources', 2);
+    },
+    openResourceGroupsPopup(item) {
+      this.objectListPopupData = item.resourceGroups;
+      this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resourceGroups', 2);
+    },
+    async fetchGlobalState() {
+      try {
+        const state = await QueueStateAPI.getQueuesGlobalState();
+        this.globalState = !!state?.isAllEnabled;
+      } catch (e) {
+        console.error('Failed to fetch global state:', e);
+      }
+    },
+    async changeGlobalState(value) {
+      try {
+        await QueueStateAPI.setQueuesGlobalState({ enabled: value });
+        this.globalState = value;
+        await this.loadDataList();
+      } catch (e) {
+        console.error('Failed to change global state:', e);
+      }
+    },
     openMembers(item) {
       return this.$router.push({
         ...this.$route,
@@ -279,6 +347,16 @@ export default {
     },
     create() {
       this.isQueueSelectPopup = true;
+    },
+    async changeStateItem(value, index, item) {
+      await this.patchItem({
+        item,
+        index,
+        prop: 'enabled',
+        value,
+      });
+      // Update global state after individual queue state change
+      await this.fetchGlobalState();
     },
   },
 };

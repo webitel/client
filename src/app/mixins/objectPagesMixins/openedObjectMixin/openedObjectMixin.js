@@ -1,5 +1,6 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import { ErrorRedirectMap } from '../../../../modules/error-pages/enems/ErrorRedirectMap.enum';
 
 import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
@@ -18,8 +19,12 @@ export default {
     Permissions,
   },
 
-  created() {
-    this.loadPageData();
+  async created() {
+    try {
+      await this.loadPageData();
+    } catch (err) {
+      this.handleError(err)
+    }
   },
 
   computed: {
@@ -59,7 +64,7 @@ export default {
     },
 
     setInitialTab() {
-       
+
       if (this.tabs.length) this.currentTab = this.tabs[0];
     },
 
@@ -73,5 +78,11 @@ export default {
     changeTab(tab) {
       this.$router.push({ ...this.$route, name: tab.pathName });
     },
+
+    handleError (err) {
+      const status = err?.status ?? err?.response?.status;
+      const to = ErrorRedirectMap[status];
+      if (to) return this.$router.push(to);
+    }
   },
 };

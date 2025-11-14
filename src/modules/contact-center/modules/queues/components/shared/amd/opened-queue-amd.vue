@@ -9,15 +9,15 @@
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.enabled')"
-        :value="itemInstance.payload.amd.enabled"
-        @change="setAmdItemProp({ prop: 'enabled', value: $event })"
+        :model-value="itemInstance.payload.amd.enabled"
+        @update:model-value="setAmdItemProp({ prop: 'enabled', value: $event })"
       />
       <wt-switcher
         v-if="itemInstance.payload.amd.enabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.ai')"
-        :value="itemInstance.payload.amd.ai"
-        @change="setAmdItemProp({ prop: 'ai', value: $event })"
+        :model-value="itemInstance.payload.amd.ai"
+        @update:model-value="setAmdItemProp({ prop: 'ai', value: $event })"
       />
       <div
         v-if="!itemInstance.payload.amd.ai && itemInstance.payload.amd.enabled"
@@ -90,15 +90,15 @@
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('objects.ccenter.queues.allowNotSure')"
-          :value="itemInstance.payload.amd.allowNotSure"
-          @change="setAmdItemProp({ prop: 'allowNotSure', value: $event })"
+          :model-value="itemInstance.payload.amd.allowNotSure"
+          @update:model-value="setAmdItemProp({ prop: 'allowNotSure', value: $event })"
         />
         <wt-switcher
           v-if="itemInstance.payload.amd.allowNotSure"
           :disabled="disableUserInput"
           :label="$t('objects.ccenter.queues.silenceNotSure')"
-          :value="itemInstance.payload.amd.silenceNotSure"
-          @change="setAmdItemProp({ prop: 'silenceNotSure', value: $event })"
+          :model-value="itemInstance.payload.amd.silenceNotSure"
+          @update:model-value="setAmdItemProp({ prop: 'silenceNotSure', value: $event })"
         />
       </div>
       <div

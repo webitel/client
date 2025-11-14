@@ -115,7 +115,7 @@
               {{ prettifyDate(item.createdAt) }}
             </template>
             <template #format="{ item }">
-              {{ prettifyFormat(item.mimeType) }}
+              {{ displayFormatFile(item) }}
             </template>
             <template #size="{ item }">
               {{ prettifyFileSize(item.size) }}
@@ -286,7 +286,7 @@ export default {
 
     // dropzone event firing on ech file loaded successfully
     // used for updating loaded files number on UI
-     
+
     onFileSuccess(file, res) {
       this.loadedCount += 1;
     },
@@ -326,6 +326,11 @@ export default {
       return format.split('/').pop();
     },
     prettifyFileSize,
+    displayFormatFile(item) {
+      const array = item.name.split('.');
+      const format = array.length > 1 ? array.at(-1) : null;
+      return format || this.prettifyFormat(item.mimeType) || 'N/A';
+    },
   },
 };
 </script>
