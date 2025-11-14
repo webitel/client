@@ -39,9 +39,9 @@
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
-        :value="itemInstance.description"
+        :model-value="itemInstance.description"
         class="object-input-area-grid__description"
-        @input="setItemProp({ prop: 'description', value: $event })"
+        @update:model-value="setItemProp({ prop: 'description', value: $event })"
       />
       <wt-switcher
         :disabled="disableUserInput"
