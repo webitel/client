@@ -116,13 +116,13 @@
         class="object-input-area-grid__screen-control"
       >
         <wt-switcher
-          :disabled="disableUserInput || disabledAgentScreenControl"
+          :disabled="disableUserInput || disabledAgentScreenControl && !isNew"
           :label="$t('objects.ccenter.agents.agentScreenControl')"
           :model-value="itemInstance.screenControl"
           @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
         />
 
-        <p v-if="disabledAgentScreenControl">{{ $t('objects.ccenter.agents.agentScreenControlHint') }}</p>
+        <p v-if="disabledAgentScreenControl && !isNew">{{ $t('objects.ccenter.agents.agentScreenControlHint') }}</p>
       </div>
     </div>
   </section>
@@ -142,7 +142,10 @@ export default {
   computed: {
     disabledAgentScreenControl() {
       return !this.itemInstance.allowSetScreenControl
-    }
+    },
+    isNew() {
+      return this.$route.fullPath.includes('new');
+    },
   },
   methods: {
     loadUsersOptions(params) {
