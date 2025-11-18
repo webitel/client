@@ -240,7 +240,7 @@ export default {
         chatName: "Chat ko'rsatish nomi",
         temporaryPassword: 'Vaqtinchalik parol',
         csvMappingFields: {
-          username: 'Foydalanuvchi nomi',
+          login: ({ linked }) => linked('vocabulary.login'),
           name: 'Ism',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),

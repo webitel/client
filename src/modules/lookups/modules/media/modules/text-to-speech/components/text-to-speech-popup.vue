@@ -58,7 +58,7 @@
             disabled
           />
           <wt-textarea
-            v-model="draft.text"
+            v-model:model-value="draft.text"
             :label="$t('vocabulary.text')"
             :v="v$.draft.text"
           />
