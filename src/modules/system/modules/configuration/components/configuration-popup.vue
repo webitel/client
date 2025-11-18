@@ -110,8 +110,7 @@ import deepmerge from 'deepmerge';
 import { mapActions } from 'vuex';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
 import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
@@ -155,7 +154,7 @@ export default {
           required,
           minValue: minValue(
             this.itemInstance.name ===
-            EngineSystemSettingName.PeriodToPlaybackRecords
+              EngineSystemSettingName.PeriodToPlaybackRecords
               ? 1
               : 0,
           ),
@@ -233,6 +232,8 @@ export default {
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.PasswordWarningDays:
         return deepmerge(defaults, defaultNumberConfig);
+      case EngineSystemSettingName.DefaultPassword:
+        return deepmerge(defaults, defaultStringConfig);
       default:
         return defaults;
     }
@@ -262,7 +263,10 @@ export default {
       }));
     },
     multiselectConfig() {
-      return multiselectConfigurations[this.itemInstance.name] || defaultMultiselectConfig;
+      return (
+        multiselectConfigurations[this.itemInstance.name] ||
+        defaultMultiselectConfig
+      );
     },
     valueType() {
       return ConfigurationValueTypes[this.itemInstance.name];
@@ -331,7 +335,6 @@ export default {
     setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event.name });
 
-
       const defaultValue = this.SettingDefaultValue[event.name];
 
       // @author @stanislav-kozak
@@ -345,8 +348,7 @@ export default {
       else if (this.valueType === 'multiselect')
         this.setItemProp({ prop: 'value', value: [] });
     },
-    loadPageData() {
-    },
+    loadPageData() {},
   },
   watch: {
     configurationId: {
