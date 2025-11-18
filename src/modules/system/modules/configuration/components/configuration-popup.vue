@@ -16,8 +16,8 @@
           :clearable="false"
           :disabled="id"
           :label="$t('objects.system.configuration.parameter')"
-          :search-method="loadParameterList"
-          :track-by="null"
+          :options="parameterList"
+          :track-by="name"
           :v="v$.itemInstance.name"
           :value="itemInstance.name"
           required
@@ -241,6 +241,7 @@ export default {
   },
   data() {
     return {
+      parameterList: [],
       TypesExportedSettings,
       EngineSystemSettingName,
       PasswordCategories,
@@ -278,6 +279,9 @@ export default {
     configurationId() {
       return this.$route.params.id;
     },
+  },
+  async mounted() {
+    await this.loadParameterList();
   },
   methods: {
     ...mapActions({
@@ -328,7 +332,14 @@ export default {
       this.handleDefaultSelectConfigInput();
     },
     async loadParameterList(params) {
-      return await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });
+      const { items } = await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });
+      this.parameterList = items
+      ////https://webitel.atlassian.net/browse/WTEL-8146
+        .filter((item) => item.name !== EngineSystemSettingName.PasswordWarningDays)
+        .map((item) => ({
+        name: item.name,
+        value: item.name,
+      }));
     },
     setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event.name });

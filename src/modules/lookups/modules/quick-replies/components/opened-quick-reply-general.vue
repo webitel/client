@@ -26,10 +26,10 @@
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('vocabulary.text')"
-        :value="itemInstance.text"
+        :model-value="itemInstance.text"
         :v="v.itemInstance.text"
         required
-        @input="setItemProp({ prop: 'text', value: $event })"
+        @update:model-value="setItemProp({ prop: 'text', value: $event })"
       />
       <wt-select
         :clearable="true"
