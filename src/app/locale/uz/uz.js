@@ -178,7 +178,7 @@ export default {
     stt: 'Ses-to-Matn',
     key: 'Kalit',
     ID: 'ID',
-    email: 'Elektron pochta manzili',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: "O'zgartirilgan",
     emptyWorkspace: "Hozircha ma'lumotlar yo'q",
     emptyResultSearch: "Qidiruvingiz natijalari yo'q",
@@ -242,7 +242,8 @@ export default {
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Ism',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1170,10 +1171,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
         },
         encryptFile: 'Yangi fayllarni shifrlash',
-        encryptFileHint: 'Shifrlash kaliti yoʻqolsa, fayllarni shifrdan chiqa olmaysiz! Yozuvlarga faqat API yoki interfeys orqali kirish mumkin.',
+        encryptFileHint:
+          'Shifrlash kaliti yoʻqolsa, fayllarni shifrdan chiqa olmaysiz! Yozuvlarga faqat API yoki interfeys orqali kirish mumkin.',
         encryptionAlertTitle: 'Shifrlash haqida ogohlantirish',
         encryptionEnableMessage: 'Faqat yangi fayllar shifrlangan boʻladi.',
-        encryptionDisableMessage: 'Eski fayllar shifrlangan holatda qoladi.\nYangi fayllar shifrlanmaydi.',
+        encryptionDisableMessage:
+          'Eski fayllar shifrlangan holatda qoladi.\nYangi fayllar shifrlanmaydi.',
       },
 
       cognitiveProfiles: {

@@ -176,7 +176,7 @@ export default {
     stt: 'Аудиодан мәтінге аудару',
     key: 'Кілт',
     ID: 'ID',
-    email: 'Электрондық пошта',
+    email: ({ linked }) => linked('vocabulary.emails'),
     updatedAt: 'Өзгертілді',
     emptyWorkspace: 'Енді құжаттар жоқ',
     emptyResultSearch: 'Іздеу сіздің қажетіңізге сәйкес келмеді',
@@ -240,7 +240,8 @@ export default {
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Аты',
-          extension: ({ linked }) => linked('vocabulary.extension'),
+          extension: ({ linked }) =>
+            linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
       },
@@ -1088,7 +1089,7 @@ export default {
         reserveResource: 'Қорды бөлісу',
         failureDialDelay: 'Ақау дайындық кешігу',
         csvMappingFields: {
-         number: ({ linked }) => linked('vocabulary.number'),
+          number: ({ linked }) => linked('vocabulary.number'),
         },
       },
 
@@ -1162,10 +1163,12 @@ export default {
           [StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
         },
         encryptFile: 'Жаңа файлдарды шифрлеу',
-        encryptFileHint: 'Шифрлеу кілті жоғалса, файлдарды шифрдан шығара алмайсыз! Жазбалар тек интерфейс немесе API арқылы қолжетімді.',
+        encryptFileHint:
+          'Шифрлеу кілті жоғалса, файлдарды шифрдан шығара алмайсыз! Жазбалар тек интерфейс немесе API арқылы қолжетімді.',
         encryptionAlertTitle: 'Шифрлеу туралы ескерту',
         encryptionEnableMessage: 'Тек жаңа файлдар шифрланады.',
-        encryptionDisableMessage: 'Ескі файлдар шифрланған күйінде қалады.\nЖаңа файлдар шифрланбайды.',
+        encryptionDisableMessage:
+          'Ескі файлдар шифрланған күйінде қалады.\nЖаңа файлдар шифрланбайды.',
       },
 
       cognitiveProfiles: {
