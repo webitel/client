@@ -1,8 +1,7 @@
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapActions, mapState } from 'vuex';
 
-import formatDate from '../../../utils/formatDate.ts';
 import tableComponentMixin from '../objectTableMixin/tableComponentMixin';
 
 export default {

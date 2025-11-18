@@ -1,8 +1,6 @@
 <template>
   <section>
-    <holiday-popup
-      @close="closePopup"
-    />
+    <holiday-popup @close="closePopup" />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
@@ -23,12 +21,14 @@
         />
         <delete-all-action
           v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
+          :class="{ hidden: anySelected }"
           :selected-count="selectedRows.length"
-          @click="askDeleteConfirmation({
-            deleted: selectedRows,
-            callback: () => deleteData(selectedRows),
-          })"
+          @click="
+            askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })
+          "
         />
         <wt-icon-btn
           v-if="!disableUserInput"
@@ -72,7 +72,9 @@
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="item.repeat"
-            @update:model-value="setRepeatValue({ prop: 'repeat', index, value: $event })"
+            @update:model-value="
+              setRepeatValue({ prop: 'repeat', index, value: $event })
+            "
           />
         </template>
         <template #actions="{ item, index }">
@@ -82,10 +84,12 @@
           />
           <wt-icon-action
             action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })
+            "
           />
         </template>
       </wt-table>
@@ -96,8 +100,8 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
@@ -216,7 +220,9 @@ export default {
     }),
     loadList() {
       this.dataList = this.holidayList
-        .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
+        .filter((holiday) =>
+          holiday.name.toLowerCase().includes(this.search.toLowerCase()),
+        )
         .map((holiday) => ({
           ...holiday,
           _isSelected: false,
@@ -232,14 +238,14 @@ export default {
     create() {
       this.$router.push({
         ...this.$route,
-        params: {holidayIndex: 'new'},
-      })
+        params: { holidayIndex: 'new' },
+      });
     },
     edit(index) {
       this.$router.push({
         ...this.$route,
-        params: {holidayIndex: index.toString()},
-      })
+        params: { holidayIndex: index.toString() },
+      });
     },
     closePopup() {
       this.$router.go(-1);
@@ -255,6 +261,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

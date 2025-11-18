@@ -27,12 +27,13 @@
               :include="[IconAction.REFRESH, IconAction.DELETE]"
               :disabled:delete="!hasDeleteAccess || !selectedRows.length"
               @click:refresh="loadList"
-              @click:delete="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
+              @click:delete="
+                askDeleteConfirmation({
+                  deleted: selectedRows,
+                  callback: () => deleteData(selectedRows),
+                })
+              "
             >
-
               <template #search-bar>
                 <wt-search-bar
                   :value="search"
@@ -78,10 +79,16 @@
               {{ item.text }}
             </template>
             <template #teams="{ item }">
-              <wt-display-chip-items v-if="item?.teams" :items="item?.teams" />
+              <wt-display-chip-items
+                v-if="item?.teams"
+                :items="item?.teams"
+              />
             </template>
             <template #queues="{ item }">
-              <wt-display-chip-items v-if="item?.queues" :items="item?.queues" />
+              <wt-display-chip-items
+                v-if="item?.queues"
+                :items="item?.queues"
+              />
             </template>
             <template #createdAt="{ item }">
               {{ prettifyDateTime(item.createdAt) }}
@@ -104,10 +111,12 @@
               <wt-icon-action
                 action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -132,7 +141,7 @@ import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -197,10 +206,8 @@ export default {
     prettifyDateTime(timestamp) {
       return formatDate(+timestamp, 'dateTime');
     },
-  }
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

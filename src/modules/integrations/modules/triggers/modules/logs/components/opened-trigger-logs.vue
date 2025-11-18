@@ -26,7 +26,9 @@
           {{ calcDuration(item) }}
         </template>
         <template #state="{ item }">
-          {{ $t(`objects.integrations.triggers.logs.resultName.${item.state}`) }}
+          {{
+            $t(`objects.integrations.triggers.logs.resultName.${item.state}`)
+          }}
         </template>
       </wt-table>
       <wt-pagination
@@ -44,11 +46,10 @@
 </template>
 
 <script>
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
-
 
 export default {
   name: 'OpenedTriggerLogs',
@@ -81,5 +82,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

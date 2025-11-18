@@ -5,9 +5,7 @@
         {{ $tc('objects.ccenter.queues.logs.logs', 1) }}
       </h3>
       <div class="content-header__actions-wrap">
-        <filter-search
-          :namespace="filtersNamespace"
-        />
+        <filter-search :namespace="filtersNamespace" />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -66,7 +64,7 @@
           {{ item.attempts || 0 }}
         </template>
         <template #result="{ item }">
-          {{$t(`objects.ccenter.queues.logs.resultName.${item.result}`)}}
+          {{ $t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
         </template>
       </wt-table>
       <wt-pagination
@@ -85,8 +83,8 @@
 
 <script>
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -100,7 +98,10 @@ export default {
   mixins: [openedObjectTableTabMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
     return { dummy };
   },
   data: () => ({
@@ -132,5 +133,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

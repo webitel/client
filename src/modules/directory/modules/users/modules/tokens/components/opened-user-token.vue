@@ -27,12 +27,14 @@
       >
         <delete-all-action
           v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
+          :class="{ hidden: anySelected }"
           :selected-count="selectedRows.length"
-          @click="askDeleteConfirmation({
-            deleted: selectedRows,
-            callback: () => deleteData(selectedRows),
-          })"
+          @click="
+            askDeleteConfirmation({
+              deleted: selectedRows,
+              callback: () => deleteData(selectedRows),
+            })
+          "
         />
         <wt-icon-action
           v-if="!disableUserInput"
@@ -68,10 +70,12 @@
         <template #actions="{ item }">
           <wt-icon-btn
             icon="bucket"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })
+            "
           />
         </template>
       </wt-table>
@@ -92,7 +96,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
@@ -146,7 +150,7 @@ export default {
         }
       },
       immediate: true,
-    }
+    },
   },
 
   methods: {
@@ -183,5 +187,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -28,10 +28,9 @@
           <adm-item-link
             v-if="hasCreateAccess"
             id="new"
-            :route-name="LicencesRouteNames.ALL">
-            <wt-icon-action
-              action="add"
-            />
+            :route-name="LicencesRouteNames.ALL"
+          >
+            <wt-icon-action action="add" />
           </adm-item-link>
         </wt-table-actions>
       </div>
@@ -58,9 +57,7 @@
         @sort="sort"
       >
         <template #id="{ item }">
-          <wt-copy-action
-            :value="item.id"
-          />
+          <wt-copy-action :value="item.id" />
         </template>
         <template #product="{ item }">
           <div class="all-licenses__product-cell">
@@ -121,7 +118,7 @@
 </template>
 
 <script>
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -154,8 +151,8 @@ export default {
   },
   watch: {
     licenseId: {
-     async handler(value) {
-        if(value === 'new') {
+      async handler(value) {
+        if (value === 'new') {
           this.openLicensePopup();
         } else if (value) {
           this.openLicenseUsersPopup();
@@ -186,9 +183,12 @@ export default {
 
     statusText(endDate) {
       const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) return this.$t('objects.directory.license.daysToExpire.0');
-      if (daysLeft < 30) return this.$t('objects.directory.license.daysToExpire.30');
-      if (daysLeft < 90) return this.$t('objects.directory.license.daysToExpire.90');
+      if (daysLeft <= 0)
+        return this.$t('objects.directory.license.daysToExpire.0');
+      if (daysLeft < 30)
+        return this.$t('objects.directory.license.daysToExpire.30');
+      if (daysLeft < 90)
+        return this.$t('objects.directory.license.daysToExpire.90');
       return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
     },
 

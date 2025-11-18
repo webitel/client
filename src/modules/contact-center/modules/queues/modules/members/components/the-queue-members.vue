@@ -20,15 +20,13 @@
             class="upload-file-input"
             type="file"
             @change="inputFileHandler"
-          >
+          />
         </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #actions-panel>
-      <the-queue-members-filters
-        :namespace="filtersNamespace"
-      />
+      <the-queue-members-filters :namespace="filtersNamespace" />
     </template>
     <template #main>
       <destinations-popup
@@ -62,16 +60,16 @@
             {{ $t('objects.ccenter.members.allMembers') }}
           </h3>
           <div class="content-header__actions-wrap">
-            <filter-search
-              :namespace="filtersNamespace"
-            />
+            <filter-search :namespace="filtersNamespace" />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
               <wt-icon-btn
                 v-if="hasEditAccess"
-                v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+                v-tooltip="
+                  $t('objects.ccenter.members.resetMembers.resetMembers')
+                "
                 icon="member-reset"
                 icon-prefix="adm"
                 @click="openResetPopup"
@@ -94,13 +92,13 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-                <wt-dummy
-                  v-if="dummy && isLoaded"
-                  :src="dummy.src"
-                  :dark-mode="darkMode"
-                  :text="dummy.text && $t(dummy.text)"
-                  class="dummy-wrapper"
-                ></wt-dummy>
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
           class="table-wrapper"
@@ -113,8 +111,7 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link
-                :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
@@ -132,8 +129,12 @@
             <template #endCause="{ item }">
               <div v-if="item.stopCause">
                 {{
-                  $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
+                  $te(
+                    `objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`,
+                  )
+                    ? $t(
+                        `objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`,
+                      )
                     : item.stopCause
                 }}
               </div>
@@ -148,7 +149,8 @@
                   v-if="item.communications.length > 1"
                   class="members__destinations-num"
                   @click="readDestinations(item)"
-                >+{{ item.communications.length - 1 }}</span>
+                  >+{{ item.communications.length - 1 }}</span
+                >
               </div>
             </template>
             <template #type="{ item }">
@@ -171,10 +173,12 @@
               />
               <wt-icon-action
                 action="delete"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -198,8 +202,8 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { computed } from 'vue';
 import { mapActions, mapState, useStore } from 'vuex';
 
@@ -230,7 +234,9 @@ export default {
   setup() {
     const store = useStore();
     const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
+    const dummyPic = computed(() =>
+      darkMode.value ? dummyPicDark : dummyPicLight,
+    );
 
     const { dummy } = useDummy({
       namespace,
@@ -325,7 +331,9 @@ export default {
         text: this.$t('iconHints.deleteSelected', {
           count: selectedCount,
         }),
-        method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
+        method: loadListAfterDecorator(
+          this.deleteSelected.bind(this, this.selectedRows),
+        ),
       };
 
       const options = [all, filtered];
@@ -402,7 +410,7 @@ export default {
     create() {
       this.$router.push({
         name: `${RouteNames.MEMBERS}-card`,
-        params: { queueId: this.parentId, id: 'new'},
+        params: { queueId: this.parentId, id: 'new' },
       });
     },
 
@@ -413,7 +421,7 @@ export default {
       };
     },
 
-     editAgentsLink(item) {
+    editAgentsLink(item) {
       return {
         name: `${RouteNames.AGENTS}-card`,
         params: { id: item.id },
@@ -421,7 +429,7 @@ export default {
     },
 
     close() {
-      this.$router.push({name: RouteNames.QUEUES});
+      this.$router.push({ name: RouteNames.QUEUES });
       this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
     },
 
@@ -468,9 +476,9 @@ export default {
 
 .members__destinations-num {
   @extend %typo-body-2;
+  cursor: pointer;
 
   margin-left: 20px;
-  cursor: pointer;
   text-decoration: underline;
 }
 

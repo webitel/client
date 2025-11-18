@@ -1,8 +1,6 @@
 <template>
   <section>
-    <number-popup
-      @close="closePopup"
-    />
+    <number-popup @close="closePopup" />
     <upload-popup
       :file="csvFile"
       :parent-id="parentId"
@@ -33,12 +31,14 @@
         >
           <delete-all-action
             v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
+            :class="{ hidden: anySelected }"
             :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
+            @click="
+              askDeleteConfirmation({
+                deleted: selectedRows,
+                callback: () => deleteData(selectedRows),
+              })
+            "
           />
           <upload-file-icon-btn
             v-if="!disableUserInput"
@@ -94,10 +94,12 @@
           />
           <wt-icon-action
             action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })
+            "
           />
         </template>
       </wt-table>
@@ -118,7 +120,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
@@ -175,8 +177,8 @@ export default {
     addItem() {
       this.$router.push({
         ...this.$route,
-        params: {numberId: 'new'},
-      })
+        params: { numberId: 'new' },
+      });
     },
     processCSV(files) {
       const file = files[0];
@@ -195,8 +197,8 @@ export default {
     editItem(item) {
       this.$router.push({
         ...this.$route,
-        params: {numberId: item.id},
-      })
+        params: { numberId: item.id },
+      });
     },
     prettifyDate(date) {
       return formatDate(+date, 'date');
@@ -205,6 +207,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -10,9 +10,7 @@
     </template>
 
     <template #actions-panel>
-      <the-flow-filters
-        :namespace="filtersNamespace"
-      />
+      <the-flow-filters :namespace="filtersNamespace" />
     </template>
 
     <template #main>
@@ -38,21 +36,21 @@
             {{ $t('objects.routing.flow.allFlowSchemas') }}
           </h3>
           <div class="content-header__actions-wrap">
-            <filter-search
-              :namespace="filtersNamespace"
-            />
+            <filter-search :namespace="filtersNamespace" />
             <wt-table-actions
               :icons="['refresh']"
               @input="tableActionsHandler"
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ hidden: anySelected }"
                 :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selectedRows,
+                    callback: () => deleteData(selectedRows),
+                  })
+                "
               />
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
@@ -86,7 +84,10 @@
             @sort="sort"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)" target="_blank">
+              <wt-item-link
+                :link="editLink(item)"
+                target="_blank"
+              >
                 {{ item.name }}
               </wt-item-link>
             </template>
@@ -115,7 +116,6 @@
               </div>
             </template>
 
-
             <template #createdAt="{ item }">
               {{ formatDate(+item.createdAt, 'dateTime') }}
             </template>
@@ -132,17 +132,21 @@
               <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"
-                @click="edit(item, {
-                  blank: item.editor
-                })"
+                @click="
+                  edit(item, {
+                    blank: item.editor,
+                  })
+                "
               />
               <wt-icon-action
                 action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -166,7 +170,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
@@ -279,9 +283,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .the-flow__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-  }
+.the-flow__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
 </style>

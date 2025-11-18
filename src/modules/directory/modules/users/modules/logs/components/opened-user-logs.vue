@@ -18,11 +18,11 @@
 
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
@@ -52,9 +52,7 @@
           </adm-item-link>
         </template>
         <template #record="{ item }">
-          <record-link
-            :item="item"
-          />
+          <record-link :item="item" />
         </template>
       </wt-table>
       <wt-pagination
@@ -73,7 +71,7 @@
 
 <script>
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -90,7 +88,10 @@ export default {
   mixins: [openedObjectTableTabMixin, ExportCSVMixin],
 
   setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
     return { dummy };
   },
   data: () => ({
@@ -101,7 +102,9 @@ export default {
 
   computed: {
     getFilters() {
-      return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
+      return this.$store.getters[
+        `${namespace}/${subNamespace}/filters/GET_FILTERS`
+      ];
     },
   },
   watch: {
@@ -139,5 +142,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

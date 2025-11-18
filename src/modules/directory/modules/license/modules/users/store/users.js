@@ -1,5 +1,5 @@
-import { formatDate } from "@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate";
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import ObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import UsersAPI from '../../../../users/api/users';
@@ -41,7 +41,9 @@ const actions = {
   TOGGLE_USER_LICENSE: async (context, { user, license }) => {
     try {
       const licenseId = license.value; // "value" from license col header is its id
-      const licenseIndex = user._license.findIndex(({ id }) => id === licenseId);
+      const licenseIndex = user._license.findIndex(
+        ({ id }) => id === licenseId,
+      );
       const changes = {
         license: [...user._license],
       };

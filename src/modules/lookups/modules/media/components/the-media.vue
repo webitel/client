@@ -41,16 +41,16 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ hidden: anySelected }"
                 :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: selectedRows,
+                    callback: () => deleteData(selectedRows),
+                  })
+                "
               />
-              <text-to-speech-popup
-                @opened="closePlayer"
-              />
+              <text-to-speech-popup @opened="closePlayer" />
             </wt-table-actions>
           </div>
         </header>
@@ -134,10 +134,12 @@
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteData(item),
+                  })
+                "
               />
             </template>
           </wt-table>
@@ -169,8 +171,8 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
-import { formatDate } from '@webitel/ui-sdk/src/modules/Userinfo/v2/scripts/formatDate';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import vueDropzone from 'vue2-dropzone';
 
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
@@ -257,7 +259,8 @@ export default {
     this.initFilesExport({
       fetchMethod: this.getMediaList, // API call method
       filename: 'media', // name of downloaded file. default is 'files'
-      filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
+      filesURL: (id) =>
+        `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
       skipFilesWithError: true,
     });
   },
@@ -339,8 +342,8 @@ export default {
 <style lang="scss" scoped>
 .progress-count {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   .wt-loader {
     display: inline-block;
