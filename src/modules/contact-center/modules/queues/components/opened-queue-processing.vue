@@ -36,17 +36,6 @@
         @input="setItemProcessingProp({ prop: 'sec', value: +$event })"
       />
 
-      <wt-input
-        v-if="specificControls['taskProcessing.renewalSec']"
-        v-show="isProcessingEnabled"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.processing.renewalSec')"
-        :value="itemInstance.taskProcessing.renewalSec"
-        type="number"
-        class="object-input-area-grid__processing-renewal-sec"
-        @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
-      />
-
       <wt-switcher
         v-if="specificControls['taskProcessing.prolongationOptions.enabled']"
         v-show="isProcessingEnabled"
@@ -55,6 +44,17 @@
         :model-value="itemInstance.taskProcessing.prolongationOptions.enabled"
         class="object-input-area-grid__processing-allow-prolongation"
         @update:model-value="setItemProlongationOption({ prop: 'enabled', value: $event })"
+      />
+
+      <wt-input
+        v-if="specificControls['taskProcessing.prolongationOptions.renewalSec']"
+        v-show="isProlongationEnabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.renewalSec')"
+        :value="itemInstance.taskProcessing.renewalSec"
+        type="number"
+        class="object-input-area-grid__processing-renewal-sec"
+        @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
       />
 
       <wt-input
@@ -146,9 +146,11 @@ export default {
   display: grid;
   grid-template-areas:
     'processingEnabled formSchema'
-    'sec renewalSec'
+    'sec .'
     'allowProlongation .'
-    'repeatNumbers prolongationTime'
+    'renewalSec .'
+    'repeatNumbers .'
+    'prolongationTime .'
     'timeoutRetry .'
   ;
   grid-template-columns: 1fr 1fr;
