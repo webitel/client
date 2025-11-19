@@ -1,4 +1,5 @@
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import ObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import UsersAPI from '../../../../users/api/users';
@@ -14,7 +15,7 @@ const actions = {
     const licenseHeaders = licenses.map(({ id, product, notAfter }, index) => ({
       value: id,
       name: product,
-      text: product.concat(` (${new Date(+notAfter).toLocaleDateString()})`),
+      text: product.concat(` (${formatDate(+notAfter, 'date')})`),
       field: `license.${id}`,
       show: index < 5, // show only first 4 licenses
       sort: SortSymbols.NONE,
@@ -56,10 +57,10 @@ const actions = {
         changes,
       });
       /* i decided to mutate user directly to avoid all dataList redraw */
-       
+
       user._license = changes.license;
       /* i decided to mutate user directly to avoid all dataList redraw */
-       
+
       user.license[licenseId] = !user.license[licenseId];
     } catch (err) {
       throw err;
