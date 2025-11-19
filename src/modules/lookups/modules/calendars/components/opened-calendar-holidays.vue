@@ -97,6 +97,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
@@ -226,7 +227,7 @@ export default {
       this.loadList();
     },
     prettifyDate(date) {
-      return new Date(+date).toLocaleDateString();
+      return formatDate(+date, 'date');
     },
     create() {
       this.$router.push({
