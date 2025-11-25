@@ -9,7 +9,7 @@ const processing = (processing = {}) =>
       renewalSec: 15,
       prolongationOptions: {
         enabled: false,
-        isTimeoutRetry: true,
+        isTimeoutRetry: false,
         prolongationTimeSec: 30,
         repeatsNumber: 1,
       },
