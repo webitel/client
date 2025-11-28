@@ -1025,6 +1025,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Дзвінки',
         },
+        globalStateConfirmation: {
+          title: 'Застосувати зміни',
+          message: 'Зміни будуть застосовані до {count} записів. Ви впевнені?',
+        },
         processing: {
           processing: 'Обробка',
           enabled: 'Очікування результату задачі',
