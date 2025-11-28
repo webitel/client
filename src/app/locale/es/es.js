@@ -1019,6 +1019,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Llamadas',
         },
+        globalStateConfirmation: {
+          title: 'Aplicar cambios',
+          message: 'Los cambios se aplicarán a {count} registros. ¿Está seguro?',
+        },
         processing: {
           processing: 'Procesamiento',
           enabled: 'Esperando resultado de llamada',

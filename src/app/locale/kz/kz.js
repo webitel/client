@@ -1009,6 +1009,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Қоңыраулар',
         },
+        globalStateConfirmation: {
+          title: 'Өзгерістерді қолдану',
+          message: 'Өзгерістер {count} жазбаға қолданылады. Сіз сенімдісіз бе?',
+        },
         processing: {
           processing: 'Өңдеу',
           enabled: 'Қоңырау нәтижесін күту',

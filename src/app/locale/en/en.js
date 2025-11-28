@@ -1016,6 +1016,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Calls',
         },
+        globalStateConfirmation: {
+          title: 'Apply changes',
+          message: 'Changes will be applied to {count} records. Are you sure?',
+        },
         processing: {
           processing: 'Processing',
           enabled: 'Waiting for call result',

@@ -1017,6 +1017,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Zvonkalar',
         },
+        globalStateConfirmation: {
+          title: "O'zgarishlarni qo'llash",
+          message: "O'zgarishlar {count} yozuvga qo'llaniladi. Ishonchingiz komilmi?",
+        },
         processing: {
           processing: 'Bajarilmoqda',
           enabled: 'Zvonk natijasi kutish',

@@ -40,6 +40,13 @@
         @close="closeObjectListPopup"
       />
 
+      <global-state-confirmation-popup
+        :shown="isGlobalStateConfirmationPopup"
+        :affected-queues-count="affectedQueuesCount"
+        @confirm="confirmGlobalStateChange"
+        @close="closeGlobalStateConfirmation"
+      />
+
       <section class="main-section__wrapper">
         <header class="content-header">
           <h3 class="content-title">
@@ -53,7 +60,9 @@
               @input="setSearch"
               @search="loadList"
             />
+            <!-- NOTE: :key forces component re-render when reverting state after user cancels confirmation -->
             <global-state-switcher
+              :key="globalStateSwitcherKey"
               :model-value="globalState"
               @update:model-value="changeGlobalState"
               @onLoadGlobalState="fetchGlobalState"
@@ -227,11 +236,13 @@ import ObjectListPopup from '../../../../../app/components/utils/object-list-pop
 import QueueStateAPI from '../modules/state/api/queueState';
 
 import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
+import GlobalStateConfirmationPopup from './global-state-confirmation-popup.vue';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 const namespace = 'ccenter/queues';
 
 export default {
   name: 'TheQueues',
-  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher },
+  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher, GlobalStateConfirmationPopup },
   mixins: [tableComponentMixin],
 
   setup() {
@@ -268,6 +279,10 @@ export default {
     QueueTypeProperties,
     routeName: RouteNames.QUEUES,
     globalState: false,
+    isGlobalStateConfirmationPopup: false,
+    pendingGlobalStateValue: null,
+    affectedQueuesCount: 0,
+    globalStateSwitcherKey: 0,
   }),
 
   computed: {
@@ -287,12 +302,26 @@ export default {
     },
     isResetActiveAttemptsAllow() {
       return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
-    }
+    },
+    getFilters() {
+      return this.$store.getters[`${this.filtersNamespace}/GET_FILTERS`];
+    },
   },
   watch: {
     '$route.query': {
       async handler() {
         await this.loadList();
+      },
+    },
+    getFilters: {
+      deep: true,
+      async handler() {
+        await this.fetchGlobalState();
+      },
+    },
+    search: {
+      handler() {
+        this.debouncedFetchGlobalState();
       },
     },
   },
@@ -316,21 +345,45 @@ export default {
       this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resourceGroups', 2);
     },
     async fetchGlobalState() {
-      try {
-        const state = await QueueStateAPI.getQueuesGlobalState();
-        this.globalState = !!state?.isAllEnabled;
-      } catch (e) {
-        console.error('Failed to fetch global state:', e);
-      }
+      const state = await QueueStateAPI.getQueuesGlobalState({
+        ...this.getFilters,
+        search: this.search,
+      });
+      this.globalState = !!state?.isAllEnabled;
+      this.affectedQueuesCount = state?.potentialRows || 0;
     },
-    async changeGlobalState(value) {
-      try {
-        await QueueStateAPI.setQueuesGlobalState({ enabled: value });
-        this.globalState = value;
-        await this.loadDataList();
-      } catch (e) {
-        console.error('Failed to change global state:', e);
-      }
+    debouncedFetchGlobalState () {
+      this.debouncedFetchGlobalState = debounce(async () => {
+        await this.fetchGlobalState();
+      });
+    },
+    changeGlobalState(value) {
+      this.pendingGlobalStateValue = value;
+      this.isGlobalStateConfirmationPopup = true;
+      this.revertSwitcherState();
+    },
+    // NOTE: Reverts switcher visual state since v-model updates immediately before user confirms
+    revertSwitcherState() {
+      this.globalState = !this.pendingGlobalStateValue;
+      this.globalStateSwitcherKey++;
+    },
+    resetConfirmationState() {
+      this.isGlobalStateConfirmationPopup = false;
+      this.pendingGlobalStateValue = null;
+    },
+    async confirmGlobalStateChange() {
+      await QueueStateAPI.setQueuesGlobalState({
+        enabled: this.pendingGlobalStateValue,
+        ...this.getFilters,
+        search: this.search,
+      });
+      this.globalState = this.pendingGlobalStateValue;
+      this.resetConfirmationState();
+      await this.loadDataList();
+    },
+    closeGlobalStateConfirmation() {
+      this.revertSwitcherState();
+      this.resetConfirmationState();
     },
     openMembers(item) {
       return this.$router.push({
