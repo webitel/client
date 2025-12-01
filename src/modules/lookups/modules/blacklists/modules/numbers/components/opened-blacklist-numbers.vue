@@ -116,6 +116,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';
@@ -199,7 +200,7 @@ export default {
       })
     },
     prettifyDate(date) {
-      if (date) return formatDate(+date, 'date');
+      if (date) return formatDate(+date, FormatDateMode.DATE);
     },
   },
 };

@@ -117,11 +117,11 @@
 
 
             <template #createdAt="{ item }">
-              {{ formatDate(+item.createdAt, 'date') }}
+              {{ formatDate(+item.createdAt, FormatDateMode.DATE) }}
             </template>
 
             <template #updatedAt="{ item }">
-              {{ formatDate(+item.updatedAt, 'date') }}
+              {{ formatDate(+item.updatedAt, FormatDateMode.DATE) }}
             </template>
 
             <template #actions="{ item }">
@@ -163,6 +163,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';

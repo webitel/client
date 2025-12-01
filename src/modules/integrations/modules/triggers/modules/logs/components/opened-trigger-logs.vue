@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -70,7 +71,7 @@ export default {
   methods: {
     formatDate(value) {
       if (!value) return '';
-      return formatDate(+value, 'datetime');
+      return formatDate(+value, FormatDateMode.DATETIME);
     },
 
     calcDuration(item) {

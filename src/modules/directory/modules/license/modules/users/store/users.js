@@ -1,3 +1,4 @@
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
@@ -15,7 +16,7 @@ const actions = {
     const licenseHeaders = licenses.map(({ id, product, notAfter }, index) => ({
       value: id,
       name: product,
-      text: product.concat(` (${formatDate(+notAfter, 'date')})`),
+      text: product.concat(` (${formatDate(+notAfter, FormatDateMode.DATE)})`),
       field: `license.${id}`,
       show: index < 5, // show only first 4 licenses
       sort: SortSymbols.NONE,

@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils'
 
 import { useDummy } from '../../../../../../app/composables/useDummy';
@@ -181,7 +182,7 @@ export default {
     },
 
     prettifyDate(date) {
-      return formatDate(+date, 'date');
+      return formatDate(+date, FormatDateMode.DATE);
     },
 
     statusText(endDate) {

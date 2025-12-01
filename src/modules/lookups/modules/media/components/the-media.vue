@@ -166,6 +166,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
@@ -321,7 +322,7 @@ export default {
     },
     getMediaList: MediaAPI.getList,
     prettifyDate(date) {
-      return formatDate(+date, 'date');
+      return formatDate(+date, FormatDateMode.DATE);
     },
     prettifyFormat(format) {
       return format.split('/').pop();

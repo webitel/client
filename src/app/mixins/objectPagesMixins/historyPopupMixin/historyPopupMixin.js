@@ -1,3 +1,4 @@
+import { FormatDateMode } from '@webitel/ui-sdk/enums'
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { formatDate } from '@webitel/ui-sdk/utils'
 import { mapActions, mapState } from 'vuex';
@@ -60,7 +61,7 @@ export default {
     },
     prettifyTime(time) {
       if (!time) return 'none';
-      return formatDate(+time, 'datetime');
+      return formatDate(+time, FormatDateMode.DATETIME);
     },
     close() {
       this.$emit('close');

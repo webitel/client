@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums'
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapGetters } from 'vuex';
@@ -146,7 +147,7 @@ export default {
   methods: {
     convertDuration,
     calcStatusTo(item) {
-      return formatDate(+item.joinedAt + item.duration * 1000, 'datetime');
+      return formatDate(+item.joinedAt + item.duration * 1000, FormatDateMode.DATETIME);
     },
   },
 };

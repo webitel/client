@@ -40,7 +40,7 @@
           {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
         <template #date="{ item }">
-          {{ formatDate(+item.date, 'datetime') }}
+          {{ formatDate(+item.date, FormatDateMode.DATETIME) }}
         </template>
         <template #object="{ item }">
           <adm-item-link
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
@@ -113,7 +114,7 @@ export default {
   },
   created() {
     this.initCSVExport(this.getDataForCSVExport, {
-      filename: `${this.itemInstance.name}-logs-at-${formatDate(new Date(), 'datetime')}`,
+      filename: `${this.itemInstance.name}-logs-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
     });
   },
   methods: {
@@ -127,7 +128,7 @@ export default {
 
       const transformedItems = items.map((item) => ({
         ...item,
-        date: formatDate(+item.date, 'datetime'),
+        date: formatDate(+item.date, FormatDateMode.DATETIME),
       }));
 
       return {
