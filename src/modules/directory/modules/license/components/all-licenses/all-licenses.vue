@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils'
 
 import { useDummy } from '../../../../../../app/composables/useDummy';

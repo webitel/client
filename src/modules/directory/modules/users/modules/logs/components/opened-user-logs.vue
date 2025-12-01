@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { formatDate } from '@webitel/ui-sdk/utils';
 

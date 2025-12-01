@@ -1,4 +1,4 @@
-import { FormatDateMode } from '@webitel/flow-ui-sdk/enums';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
