@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { formatDate } from '@webitel/ui-sdk/utils';
+
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
@@ -68,7 +71,7 @@ export default {
   methods: {
     formatDate(value) {
       if (!value) return '';
-      return new Date(+value).toLocaleString();
+      return formatDate(+value, FormatDateMode.DATETIME);
     },
 
     calcDuration(item) {

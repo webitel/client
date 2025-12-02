@@ -88,7 +88,9 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums'
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapGetters } from 'vuex';
 
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
@@ -145,7 +147,7 @@ export default {
   methods: {
     convertDuration,
     calcStatusTo(item) {
-      return new Date(+item.joinedAt + item.duration * 1000).toLocaleString();
+      return formatDate(+item.joinedAt + item.duration * 1000, FormatDateMode.DATETIME);
     },
   },
 };

@@ -116,8 +116,10 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
@@ -198,7 +200,7 @@ export default {
       })
     },
     prettifyDate(date) {
-      if (date) return new Date(+date).toLocaleDateString();
+      if (date) return formatDate(+date, FormatDateMode.DATE);
     },
   },
 };

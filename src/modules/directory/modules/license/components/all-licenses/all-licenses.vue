@@ -121,6 +121,9 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { formatDate } from '@webitel/ui-sdk/utils'
+
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
@@ -179,7 +182,7 @@ export default {
     },
 
     prettifyDate(date) {
-      return new Date(+date).toLocaleDateString();
+      return formatDate(+date, FormatDateMode.DATE);
     },
 
     statusText(endDate) {

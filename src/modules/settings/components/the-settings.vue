@@ -9,6 +9,7 @@
       <section class="settings-wrapper">
         <div class="settings-wrapper-column">
           <change-password-section />
+          <timezone-section />
           <language-settings-section />
           <notifications-sounds-section />
         </div>
@@ -31,6 +32,7 @@ import LanguageSettingsSection from './settings-sections/language-settings-secti
 import NotificationsSoundsSection from './settings-sections/notifications-section/notifications-sounds-section.vue';
 import RingtoneVolumeControlSection from './settings-sections/ringtone-volume-control-section.vue';
 import RingtonesSection from './settings-sections/ringtones-section.vue';
+import TimezoneSection from './settings-sections/timezone-setting-section.vue';
 import WebphoneSection from './settings-sections/webphone-section.vue';
 
 const { t } = useI18n();

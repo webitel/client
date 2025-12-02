@@ -129,9 +129,11 @@
 
 <script>
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../app/composables/useDummy.js';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -194,7 +196,7 @@ export default {
   },
   methods: {
     prettifyDateTime(timestamp) {
-      return new Date(+timestamp).toLocaleString();
+      return formatDate(+timestamp, FormatDateMode.DATETIME);
     },
   }
 };

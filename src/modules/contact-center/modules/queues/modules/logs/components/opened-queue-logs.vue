@@ -84,8 +84,10 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums'
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -121,7 +123,7 @@ export default {
   methods: {
     formatDate(value) {
       if (!value) return '';
-      return new Date(+value).toLocaleString();
+      return formatDate(+value, FormatDateMode.DATETIME);
     },
 
     calcDuration(item) {

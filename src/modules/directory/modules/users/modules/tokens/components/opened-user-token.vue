@@ -90,8 +90,10 @@
 </template>
 
 <script>
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
@@ -176,7 +178,7 @@ export default {
     },
 
     prettifyDate(value) {
-      return new Date(+value).toLocaleString();
+      return formatDate(+value, FormatDateMode.DATETIME);
     },
   },
 };
