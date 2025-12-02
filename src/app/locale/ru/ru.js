@@ -1027,6 +1027,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Звонки',
         },
+        globalStateConfirmation: {
+          title: 'Применить изменения',
+          message: 'Изменения будут применены для {count} записей. Вы уверены?',
+        },
         processing: {
           processing: 'Обработка',
           enabled: 'Ожидание результата задачи',

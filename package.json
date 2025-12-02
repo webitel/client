@@ -21,7 +21,7 @@
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^11.0.3",
-    "@webitel/api-services": "^0.0.74",
+    "@webitel/api-services": "^0.0.81",
     "@webitel/flow-ui-sdk": "^0.1.36",
     "@webitel/ui-sdk": "~25.12",
     "axios": "^1.7.7",

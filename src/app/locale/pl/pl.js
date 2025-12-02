@@ -1014,6 +1014,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Połączenia',
         },
+        globalStateConfirmation: {
+          title: 'Zastosuj zmiany',
+          message: 'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
+        },
         processing: {
           processing: 'Przetwarzanie',
           enabled: 'Czekaj na wynik połączenia',

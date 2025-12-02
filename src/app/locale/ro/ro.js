@@ -1017,6 +1017,10 @@ export default {
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Apeluri',
         },
+        globalStateConfirmation: {
+          title: 'Aplică modificările',
+          message: 'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
+        },
         processing: {
           processing: 'Procesare',
           enabled: 'Așteaptă rezultat apel',
