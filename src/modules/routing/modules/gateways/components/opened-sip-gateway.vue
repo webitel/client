@@ -187,8 +187,8 @@ export default {
     }),
 
     loadItem() {
-      if (this.isRegister) this.loadRegisterItem();
-      else this.loadTrunkingItem();
+      if (this.isRegister) return this.loadRegisterItem();
+      else return this.loadTrunkingItem();
     },
 
     changeTab(tab) {
