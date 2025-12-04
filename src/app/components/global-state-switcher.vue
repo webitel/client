@@ -3,6 +3,7 @@
     :model-value="globalState"
     :disabled="disabled"
     :label="$t('objects.lookups.skills.stateForAll')"
+    controlled
     @update:model-value="changeState"
   />
 </template>

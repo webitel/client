@@ -360,12 +360,6 @@ export default {
     changeGlobalState(value) {
       this.pendingGlobalStateValue = value;
       this.isGlobalStateConfirmationPopup = true;
-      this.revertSwitcherState();
-    },
-    // NOTE: Reverts switcher visual state since v-model updates immediately before user confirms
-    revertSwitcherState() {
-      this.globalState = !this.pendingGlobalStateValue;
-      this.globalStateSwitcherKey++;
     },
     resetConfirmationState() {
       this.isGlobalStateConfirmationPopup = false;
@@ -382,7 +376,6 @@ export default {
       await this.loadDataList();
     },
     closeGlobalStateConfirmation() {
-      this.revertSwitcherState();
       this.resetConfirmationState();
     },
     openMembers(item) {
