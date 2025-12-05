@@ -37,7 +37,17 @@
       </div>
     </header>
 
-    <div class="table-wrapper">
+    <wt-dummy
+      v-if="!dataList.length"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    />
+
+    <div 
+      v-show="dataList.length"
+      class="table-wrapper">
       <wt-table
         :data="dataList"
         :grid-actions="!disableUserInput"
@@ -82,6 +92,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
+import { useDummy } from '../../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
@@ -90,6 +101,11 @@ export default {
   components: { CommunicationPopup, DeleteConfirmationPopup },
   mixins: [openedObjectTableTabMixin],
   setup() {
+    const { dummy } = useDummy({
+      namespace: 'ccenter/queues/members',
+      hiddenText: true,
+    });
+
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
@@ -106,6 +122,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      dummy,
     };
   },
   data: () => ({
@@ -113,11 +130,6 @@ export default {
     searchValue: '',
     isCommPopup: false,
   }),
-  watch: {
-    commList() {
-      this.loadList();
-    },
-  },
   computed: {
     ...mapState({
       commList(state) {
@@ -160,6 +172,11 @@ export default {
           text: this.$t('objects.ccenter.queues.priority'),
         },
       ];
+    },
+  },
+  watch: {
+    commList() {
+      this.loadList();
     },
   },
   methods: {
