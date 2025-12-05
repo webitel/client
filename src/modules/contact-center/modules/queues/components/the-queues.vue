@@ -368,8 +368,10 @@ export default {
     async confirmGlobalStateChange() {
       await QueueStateAPI.setQueuesGlobalState({
         enabled: this.pendingGlobalStateValue,
-        ...this.getFilters,
-        search: this.search,
+        params: {
+          ...this.getFilters,
+          search: this.search,
+        }
       });
       this.globalState = this.pendingGlobalStateValue;
       this.resetConfirmationState();
