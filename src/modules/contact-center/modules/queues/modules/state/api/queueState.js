@@ -1,7 +1,22 @@
-import applyTransform, { snakeToCamel, notify, starToSearch } from '@webitel/ui-sdk/src/api/transformers/index.js';
-import { getQueueService } from '@webitel/api-services/gen';
+import {
+  getQueuesGlobalStateQueryParams,
+  getQueueService,
+  setQueuesGlobalStateBody,
+} from '@webitel/api-services/gen';
+import { getShallowFieldsToSendFromZodSchema } from '@webitel/api-services/gen/utils';
+import applyTransform, {
+  camelToSnake,
+  notify,
+  sanitize,
+  snakeToCamel,
+  starToSearch,
+} from '@webitel/ui-sdk/src/api/transformers/index.js';
 
 const getQueuesGlobalState = async (params = {}) => {
+  const fieldsToSend = getShallowFieldsToSendFromZodSchema(
+    getQueuesGlobalStateQueryParams,
+  );
+
   const transformedParams = applyTransform(params, [
     starToSearch('search'),
     (params) => ({
@@ -10,6 +25,8 @@ const getQueuesGlobalState = async (params = {}) => {
       teamId: params.team,
       tags: params.tags,
     }),
+    sanitize(fieldsToSend),
+    camelToSnake(),
   ]);
 
   try {
@@ -21,6 +38,10 @@ const getQueuesGlobalState = async (params = {}) => {
 };
 
 const setQueuesGlobalState = async ({ enabled, params }) => {
+  const fieldsToSend = getShallowFieldsToSendFromZodSchema(
+    setQueuesGlobalStateBody,
+  );
+
   const transformedParams = applyTransform(params, [
     starToSearch('search'),
     (params) => ({
@@ -31,11 +52,16 @@ const setQueuesGlobalState = async ({ enabled, params }) => {
     }),
   ]);
 
-  try {
-    const response = await getQueueService().setQueuesGlobalState({
+  const body = applyTransform(
+    {
       enabled: !!enabled,
       ...transformedParams,
-    });
+    },
+    [sanitize(fieldsToSend), camelToSnake()],
+  );
+
+  try {
+    const response = await getQueueService().setQueuesGlobalState(body);
     return applyTransform(response.data, [snakeToCamel()]);
   } catch (err) {
     throw applyTransform(err, [notify]);
