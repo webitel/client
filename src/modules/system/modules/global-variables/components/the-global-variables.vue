@@ -176,7 +176,7 @@ export default {
           name: this.$t('objects.system.system'),
         },
         {
-          name: this.$tc('objects.system.globalVariables.globalVariables', 1),
+          name: this.$tc('objects.system.globalVariables.globalVariables', 2),
           route: '/system/global-variables',
         },
       ];
