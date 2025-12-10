@@ -222,6 +222,9 @@ export default {
   }),
 
   computed: {
+    FormatDateMode() {
+      return FormatDateMode;
+    },
     path() {
       return [
         {
@@ -245,6 +248,7 @@ export default {
     },
   },
   methods: {
+    formatDate,
     create() {
       this.isCreateFlowPopup = true;
     },
