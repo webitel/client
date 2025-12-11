@@ -85,6 +85,7 @@
               :options="csvColumns"
               :placeholder="t(field.locale)"
               :track-by="null"
+              open-direction="above"
               class="upload-popup-mapping-item__select"
             />
             <wt-tags-input
