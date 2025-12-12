@@ -376,6 +376,7 @@ export default {
       this.globalState = this.pendingGlobalStateValue;
       this.resetConfirmationState();
       await this.loadDataList();
+      await this.fetchGlobalState();
     },
     closeGlobalStateConfirmation() {
       this.resetConfirmationState();
