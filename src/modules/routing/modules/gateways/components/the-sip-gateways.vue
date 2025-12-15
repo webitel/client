@@ -184,7 +184,7 @@ export default {
         },
         {
           name: this.$tc('objects.routing.gateways.gateways', 2),
-          route: '/routing/sip-gateways',
+          route: '/routing/gateways',
         },
       ];
     },
