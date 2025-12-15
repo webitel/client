@@ -1,5 +1,5 @@
 <template>
-  <wt-filters-panel-wrapper @reset="resetFilters">
+  <wt-filters-panel-wrapper :table-action-icons="['filter-reset']" @reset="resetFilters">
     <filter-datetime
       :label="$t('reusable.from')"
       :namespace="namespace"

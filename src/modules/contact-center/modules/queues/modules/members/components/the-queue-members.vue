@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper class="members">
+  <wt-page-wrapper :actions-panel="showActionsPanel" class="members">
     <template #header>
       <wt-page-header
         :hide-primary="!hasEditAccess || !isNotInboundMember"
@@ -66,8 +66,8 @@
               :namespace="filtersNamespace"
             />
             <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
+              :icons="['settings', 'refresh']"
+              @input="inputTableAction"
             >
               <wt-icon-btn
                 v-if="hasEditAccess"
@@ -265,6 +265,7 @@ export default {
     isDestinationsPopup: false,
     isResetPopup: false,
     csvFile: null,
+    showActionsPanel: false,
   }),
 
   computed: {
@@ -424,6 +425,14 @@ export default {
     close() {
       this.$router.push({name: RouteNames.QUEUES});
       this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
+    },
+
+    inputTableAction(event) {
+      if(event === 'settings') {
+        this.showActionsPanel = !this.showActionsPanel;
+        return;
+      }
+      this.tableActionsHandler(event)
     },
 
     ...mapActions({
