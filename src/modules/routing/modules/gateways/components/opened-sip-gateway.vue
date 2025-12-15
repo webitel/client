@@ -156,7 +156,7 @@ export default {
     },
 
     path() {
-      const baseUrl = '/routing/sip-gateways';
+      const baseUrl = '/routing/gateways';
       return [
         {
           name: this.$t('objects.routing.routing'),

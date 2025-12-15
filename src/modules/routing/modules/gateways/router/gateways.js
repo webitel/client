@@ -12,13 +12,13 @@ const OpenedTrunkingSipGatewayConfiguration =  () => import('../components/opene
 
 const GatewaysRoutes = [
   {
-    path: '/routing/sip-gateways',
+    path: '/routing/gateways',
     name: RouteNames.GATEWAYS,
     component: SipGateways,
     beforeEnter: checkRouteAccess,
   },
   {
-    path: '/routing/sip-gateways/:id',
+    path: '/routing/gateways/:id',
     name: `${RouteNames.GATEWAYS}-card`,
     redirect: { name: GatewaysRouteNames.GENERAL },
     component: OpenedGateway,
