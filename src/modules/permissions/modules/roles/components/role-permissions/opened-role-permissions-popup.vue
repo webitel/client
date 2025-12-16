@@ -97,7 +97,11 @@ export default {
       },
     }),
     initEditedValue() {
-      this.itemInstance.permission = this.permissions[+this.permissionIndex];
+      const permission = this.permissions[+this.permissionIndex];
+      this.itemInstance.permission = {
+        ...permission,
+        name: this.$t(`objects.permissions.roles.permissions.${snakeToCamel(permission.id)}`),
+      };
     },
     save() {
       if (this.permissionIndex !== 'new') {
