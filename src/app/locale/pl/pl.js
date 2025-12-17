@@ -877,6 +877,11 @@ export default {
         },
       },
 
+      globalStateConfirmation: {
+        title: 'Zastosuj zmiany',
+        message: 'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
+      },
+
       queues: {
         queues: 'Kolejka | Kolejki',
         allQueues: 'Wszystkie kolejki',
@@ -1013,10 +1018,6 @@ export default {
           result: ({ linked }) =>
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Połączenia',
-        },
-        globalStateConfirmation: {
-          title: 'Zastosuj zmiany',
-          message: 'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
         },
         processing: {
           processing: 'Przetwarzanie',

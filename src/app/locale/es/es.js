@@ -883,6 +883,11 @@ export default {
         },
       },
 
+      globalStateConfirmation: {
+        title: 'Aplicar cambios',
+        message: 'Los cambios se aplicarán a {count} registros. ¿Está seguro?',
+      },
+
       queues: {
         queues: 'Cola | Colas',
         allQueues: 'Todas las colas',
@@ -1018,10 +1023,6 @@ export default {
           result: ({ linked }) =>
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Llamadas',
-        },
-        globalStateConfirmation: {
-          title: 'Aplicar cambios',
-          message: 'Los cambios se aplicarán a {count} registros. ¿Está seguro?',
         },
         processing: {
           processing: 'Procesamiento',

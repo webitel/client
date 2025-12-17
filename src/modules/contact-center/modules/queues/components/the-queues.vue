@@ -42,7 +42,7 @@
 
       <global-state-confirmation-popup
         :shown="isGlobalStateConfirmationPopup"
-        :affected-queues-count="affectedQueuesCount"
+        :affected-count="affectedQueuesCount"
         @confirm="confirmGlobalStateChange"
         @close="closeGlobalStateConfirmation"
       />
@@ -65,7 +65,7 @@
               :key="globalStateSwitcherKey"
               :model-value="globalState"
               @update:model-value="changeGlobalState"
-              @onLoadGlobalState="fetchGlobalState"
+              @on-load-global-state="fetchGlobalState"
             />
             <wt-table-actions
               :icons="['refresh']"
@@ -221,23 +221,23 @@ import DeleteConfirmationPopup
 import {
   useDeleteConfirmationPopup,
 } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
+import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
+import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import OnePlusMany
+  from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import GlobalStateConfirmationPopup
+  from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueueMembersAPI from '../modules/members/api/queueMembers';
+import QueueStateAPI from '../modules/state/api/queueState';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
-import OnePlusMany
-  from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
-import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import QueueStateAPI from '../modules/state/api/queueState';
-
-import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
-import GlobalStateConfirmationPopup from './global-state-confirmation-popup.vue';
-import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 const namespace = 'ccenter/queues';
 
 export default {

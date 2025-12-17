@@ -878,6 +878,11 @@ export default {
         },
       },
 
+      globalStateConfirmation: {
+        title: 'Apply changes',
+        message: 'Changes will be applied to {count} records. Are you sure?',
+      },
+
       queues: {
         queues: 'Queue | Queues',
         allQueues: 'All queues',
@@ -1015,10 +1020,6 @@ export default {
           result: ({ linked }) =>
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Calls',
-        },
-        globalStateConfirmation: {
-          title: 'Apply changes',
-          message: 'Changes will be applied to {count} records. Are you sure?',
         },
         processing: {
           processing: 'Processing',

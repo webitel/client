@@ -874,6 +874,11 @@ export default {
         },
       },
 
+      globalStateConfirmation: {
+        title: 'Өзгерістерді қолдану',
+        message: 'Өзгерістер {count} жазбаға қолданылады. Сіз сенімдісіз бе?',
+      },
+
       queues: {
         queues: 'Қойма | Қоймалар',
         allQueues: 'Барлық қоймалар',
@@ -1008,10 +1013,6 @@ export default {
           result: ({ linked }) =>
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Қоңыраулар',
-        },
-        globalStateConfirmation: {
-          title: 'Өзгерістерді қолдану',
-          message: 'Өзгерістер {count} жазбаға қолданылады. Сіз сенімдісіз бе?',
         },
         processing: {
           processing: 'Өңдеу',
