@@ -216,7 +216,7 @@ export default {
         console.error(e);
       } finally {
         await this.loadDataList();
-        this.showGlobalStateConfirmationPopup = false
+        this.closeGlobalStateConfirmation();
       }
     },
     showGlobalStateConfirmation() {
