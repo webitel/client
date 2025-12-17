@@ -877,6 +877,11 @@ export default {
         },
       },
 
+      globalStateConfirmation: {
+        title: 'Áp dụng thay đổi',
+        message: 'Các thay đổi sẽ được áp dụng cho {count} bản ghi. Bạn có chắc chắn?',
+      },
+
       queues: {
         queues: 'Hàng đợi',
         allQueues: 'Tất cả hàng đợi',
@@ -1011,10 +1016,6 @@ export default {
           result: ({ linked }) =>
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Cuộc gọi',
-        },
-        globalStateConfirmation: {
-          title: 'Áp dụng thay đổi',
-          message: 'Các thay đổi sẽ được áp dụng cho {count} bản ghi. Bạn có chắc chắn?',
         },
         processing: {
           processing: 'Đang xử lý',

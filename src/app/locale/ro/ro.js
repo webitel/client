@@ -880,6 +880,11 @@ export default {
         },
       },
 
+      globalStateConfirmation: {
+        title: 'Aplică modificările',
+        message: 'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
+      },
+
       queues: {
         queues: 'Coadă | Cozi',
         allQueues: 'Toate cozile',
@@ -1016,10 +1021,6 @@ export default {
           result: ({ linked }) =>
             linked('objects.integrations.triggers.logs.result'),
           calls: 'Apeluri',
-        },
-        globalStateConfirmation: {
-          title: 'Aplică modificările',
-          message: 'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
         },
         processing: {
           processing: 'Procesare',

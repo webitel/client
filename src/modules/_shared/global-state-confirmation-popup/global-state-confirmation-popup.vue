@@ -6,7 +6,7 @@
     @close="handleClose"
   >
     <template #title>
-      {{ t('objects.ccenter.queues.globalStateConfirmation.title') }}
+      {{ title ?? t('objects.ccenter.globalStateConfirmation.title') }}
     </template>
     <template #main>
       <div class="global-state-confirmation-popup__main">
@@ -14,7 +14,7 @@
           icon="attention"
           color="error"
         />
-        <p>{{ t('objects.ccenter.queues.globalStateConfirmation.message', { count: affectedQueuesCount }) }}</p>
+        <p>{{ description ?? t('objects.ccenter.globalStateConfirmation.message', { count: affectedCount }) }}</p>
       </div>
     </template>
     <template #actions>
@@ -37,13 +37,17 @@
 import { useI18n } from 'vue-i18n';
 
 interface Props {
+  title?: string | null;
+  description?: string | null;
   shown?: boolean;
-  affectedQueuesCount?: number;
+  affectedCount?: number;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   shown: false,
-  affectedQueuesCount: 0,
+  affectedCount: 0,
+  title: null,
+  description: null,
 });
 
 const emit = defineEmits<{

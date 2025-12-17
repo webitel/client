@@ -5,18 +5,28 @@
       @close="closeAddSkillToAgentPopup"
       @saved="loadDataList"
     />
+
     <change-skill-popup
       :shown="agentSkillPopup"
       :selected-agents="selectedRows"
       @change="change"
       @close="closeAgentSkillPopup"
     />
+
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
       :callback="deleteCallback"
       @close="closeDelete"
     />
+
+    <global-state-confirmation-popup
+      :shown="showGlobalStateConfirmationPopup"
+      :affected-count="aggs?.potentialRows"
+      @confirm="changeStateForAll(!aggs.enabled)"
+      @close="closeGlobalStateConfirmation"
+    />
+
     <header class="content-header">
       <h3 class="content-title">
         {{ $t('objects.ccenter.agents.allAgents') }}
@@ -35,7 +45,7 @@
         >
           <global-state-switcher
             :model-value="aggs.enabled"
-            @update:model-value="changeStateForAll"
+            @update:model-value="showGlobalStateConfirmation"
           />
           <wt-icon-btn
             v-if="!disableUserInput"
@@ -133,18 +143,21 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
+import GlobalStateSwitcher from '../../../../../../../app/components/global-state-switcher.vue';
 import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin.js';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import GlobalStateConfirmationPopup
+  from '../../../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
-import GlobalStateSwitcher from '../../../../../../../app/components/global-state-switcher.vue';
 
 export default {
   name: 'OpenedSkillAgents',
   components: {
+    GlobalStateConfirmationPopup,
     GlobalStateSwitcher,
     AddSkillToAgentPopup,
     ChangeSkillPopup,
@@ -176,6 +189,8 @@ export default {
     subNamespace: 'agents',
     tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
     agentSkillPopup: false,
+    showGlobalStateConfirmationPopup: false,
+    affectedAgentSkillCount: 0,
   }),
   mounted() {
     this.handlePatchInput = debounce(this.handlePatchInput);
@@ -201,7 +216,14 @@ export default {
         console.error(e);
       } finally {
         await this.loadDataList();
+        this.closeGlobalStateConfirmation();
       }
+    },
+    showGlobalStateConfirmation() {
+      this.showGlobalStateConfirmationPopup = true
+    },
+    closeGlobalStateConfirmation () {
+      this.showGlobalStateConfirmationPopup = false
     },
     async change({ changes, id }) {
       const { parentId } = this;
@@ -243,6 +265,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
