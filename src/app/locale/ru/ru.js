@@ -793,7 +793,7 @@ export default {
           pause: 'Пауза',
           breakOut: 'Принудительный перерыв',
         },
-        agentScreenControl: 'Управление экраном агента',
+        agentScreenControl: 'Следить за экраном оператора',
         agentScreenControlHint:
           'Невозможно выключить, пока настройка для команды включена',
       },
