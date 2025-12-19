@@ -56,9 +56,14 @@
         @sort="sort"
       >
         <template #name="{ item }">
-          <div v-if="item.resourceGroup">
+          <adm-item-link
+            v-if="item.resourceGroup"
+            :id="item.resourceGroup.id"
+            :route-name="RouteNames.RESOURCE_GROUPS"
+            target="_blank"
+          >
             {{ item.resourceGroup.name }}
-          </div>
+          </adm-item-link>
         </template>
         <template #communication="{ item }">
           <div v-if="item.communication">
@@ -94,6 +99,7 @@
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import resourcePopup from './opened-queue-resources-popup.vue';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'resGroups';

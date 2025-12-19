@@ -37,6 +37,7 @@
         v-show="objectListPopupData"
         :data-list="objectListPopupData"
         :title="objectListPopupTitle"
+        :route-name="objectListPopupItemRouteName"
         @close="closeObjectListPopup"
       />
 
@@ -167,6 +168,7 @@
               <one-plus-many
                 v-if="item.resourceGroups"
                 :collection="item.resourceGroups"
+                :route-name="RouteNames.RESOURCE_GROUPS"
                 @input="openResourceGroupsPopup(item)"
               />
             </template>
@@ -174,6 +176,7 @@
               <one-plus-many
                 v-if="item.resources"
                 :collection="item.resources"
+                :route-name="RouteNames.RESOURCES"
                 @input="openResourcesPopup(item)"
               />
             </template>
@@ -273,6 +276,7 @@ export default {
   data: () => ({
     objectListPopupData: null,
     objectListPopupTitle: '',
+    objectListPopupItemRouteName: null,
     namespace,
     isQueueSelectPopup: false,
     isAttemptsResetPopup: false,
@@ -339,10 +343,12 @@ export default {
     openResourcesPopup(item) {
       this.objectListPopupData = item.resources;
       this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resources', 2);
+      this.objectListPopupItemRouteName = RouteNames.RESOURCES;
     },
     openResourceGroupsPopup(item) {
       this.objectListPopupData = item.resourceGroups;
       this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resourceGroups', 2);
+      this.objectListPopupItemRouteName = RouteNames.RESOURCES_GROUPS;
     },
     async fetchGlobalState() {
       const state = await QueueStateAPI.getQueuesGlobalState({

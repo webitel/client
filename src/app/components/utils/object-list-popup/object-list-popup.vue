@@ -15,45 +15,62 @@
           :grid-actions="false"
           :headers="tableHeaders"
           :selectable="false"
-        />
+        >
+          <template #name="{ item }">
+            <adm-item-link
+              v-if="item.id && routeName"
+              :id="item.id"
+              :route-name="routeName"
+              target="_blank"
+            >
+              {{ item.name }}
+            </adm-item-link>
+            <span v-else>
+              {{ item.name }}
+            </span>
+          </template>
+        </wt-table>
       </section>
     </template>
   </wt-popup>
 </template>
 
-<script>
-export default {
-  name: 'ObjectListPopup',
-  props: {
-    title: {
-      type: String,
-      default: '',
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+interface Props {
+  title?: string;
+  dataList?: Array<any>;
+  headers?: Array<{ value: string; text: string }>;
+  routeName?: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: '',
+  dataList: () => [],
+  headers: null,
+  routeName: null,
+});
+
+const emit = defineEmits<{
+  close: [];
+}>();
+
+const { t } = useI18n();
+
+const tableHeaders = computed(() => {
+  const defaultHeaders = [
+    {
+      value: 'name',
+      text: t('reusable.name'),
     },
-    dataList: {
-      type: Array,
-      default: () => [],
-    },
-    headers: {
-      type: Array,
-      description: 'Or default "name" header',
-    },
-  },
-  computed: {
-    tableHeaders() {
-      const defaultHeaders = [
-        {
-          value: 'name',
-          text: this.$t('reusable.name'),
-        },
-      ];
-      return this.headers || defaultHeaders;
-    },
-  },
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-  },
+  ];
+  return props.headers || defaultHeaders;
+});
+
+const close = () => {
+  emit('close');
 };
 </script>
 
