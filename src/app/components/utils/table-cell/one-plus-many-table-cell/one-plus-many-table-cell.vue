@@ -4,7 +4,17 @@
       v-if="props.collection.length"
       tabindex="0"
     >
-      {{ props.collection[0].name }}
+      <adm-item-link
+        v-if="collection[0].id && routeName"
+        :id="collection[0].id"
+        :route-name="routeName"
+        target="_blank"
+      >
+        {{ props.collection[0].name }}
+      </adm-item-link>
+      <span v-else>
+        {{ props.collection[0].name }}
+      </span>
     </span>
 
     <div
@@ -24,6 +34,11 @@ const props = defineProps({
   collection: {
     type: Array,
     required: true,
+  },
+  routeName: {
+    type: String,
+    required: false,
+    default: null,
   },
 });
 
