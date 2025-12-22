@@ -121,12 +121,12 @@
 
 <script>
 import { StorageUploadFileChannel } from '@webitel/api-services/gen/models';
+import { MimeTypes } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
 
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import MimeTypes from '../types/mimeTypes.enum.js'
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
 import EncryptionAlertPopup from './encryption-alert-popup.vue';
 
@@ -135,7 +135,7 @@ export default {
   components: { ApplyToFilesPopup, EncryptionAlertPopup },
   mixins: [openedTabComponentMixin],
   data: () => ({
-    MimeTypes,
+    MimeTypes: Object.values(MimeTypes),
     isPopupOpened: false,
     isEncryptionAlertOpened: false,
     pendingEncryptValue: false,
