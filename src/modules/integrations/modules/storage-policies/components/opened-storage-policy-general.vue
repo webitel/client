@@ -79,6 +79,7 @@
           :v="v.itemInstance.mimeTypes"
           taggable
           required
+          :options="MimeTypes"
           @input="setItemProp({ prop: 'mimeTypes', value: $event })"
         />
         <wt-input
@@ -119,9 +120,10 @@
 </template>
 
 <script>
+import { StorageUploadFileChannel } from '@webitel/api-services/gen/models';
+import { MimeTypes } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
-import { StorageUploadFileChannel } from '@webitel/api-services/gen/models';
 
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -133,6 +135,7 @@ export default {
   components: { ApplyToFilesPopup, EncryptionAlertPopup },
   mixins: [openedTabComponentMixin],
   data: () => ({
+    MimeTypes: Object.values(MimeTypes),
     isPopupOpened: false,
     isEncryptionAlertOpened: false,
     pendingEncryptValue: false,
