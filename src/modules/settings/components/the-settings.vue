@@ -6,7 +6,7 @@
       </wt-page-header>
     </template>
     <template #main>
-      <section class="settings-wrapper test">
+      <section class="settings-wrapper">
         <div class="settings-wrapper-column">
           <change-password-section />
           <timezone-section />
