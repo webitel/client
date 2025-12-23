@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import i18n from '../../app/locale/i18n';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import { nextTick } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
+import i18n from '../../app/locale/i18n';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
@@ -197,6 +197,19 @@ router.beforeEach((to) => {
     return { ...to, query: newQuery };
   }
   return true;
+});
+
+// @author @stanislav-kozak
+// https://webitel.atlassian.net/browse/WTEL-8339
+// That fix should on failed to fetch dynamically imported do reload page
+router.onError((err) => {
+  const msg = String(err?.message || err);
+  if (
+    msg.includes('Failed to fetch dynamically imported module') ||
+    msg.includes('ChunkLoadError')
+  ) {
+    window.location.reload();
+  }
 });
 
 window.router = router;
