@@ -635,6 +635,7 @@ export default {
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
+            apiVersion: 'API нұсқасы',
           },
           facebook: {
             pages: 'Facebook беректері',

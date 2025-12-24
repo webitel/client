@@ -637,6 +637,7 @@ export default {
           metadata: {
             clientId: 'ID ứng dụng',
             clientSecret: 'Mật khẩu ứng dụng',
+            apiVersion: 'Phiên bản API',
           },
           facebook: {
             pages: 'Trang Facebook',

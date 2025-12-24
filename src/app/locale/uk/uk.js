@@ -646,6 +646,7 @@ export default {
           metadata: {
             clientId: 'App ID',
             clientSecret: 'App Secret',
+            apiVersion: 'Версія API',
           },
           facebook: {
             pages: 'Facebook сторінки',
