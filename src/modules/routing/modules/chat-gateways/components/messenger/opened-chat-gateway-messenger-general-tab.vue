@@ -50,11 +50,11 @@
       />
       <wt-select
         :disabled="disableUserInput"
-        :options="versionOptions"
+        :options="apiVersions"
         :value="version"
         :label="$t('objects.routing.chatGateways.messenger.metadata.apiVersion')"
         track-by="value"
-        @input="setVersion"
+        @input="setApiVersion"
       />
     </div>
   </section>
@@ -72,7 +72,7 @@ export default {
   name: 'OpenedChatGatewayMessengerGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
-    versionOptions() {
+    apiVersions() {
       return ApiVersionOptions;
     },
     version() {
@@ -107,7 +107,7 @@ export default {
       return FlowsAPI.getLookup(params);
     },
 
-    setVersion(option) {
+    setApiVersion(option) {
       this.setItemMetadata({
         prop: 'version',
         value: option?.value || '',
