@@ -348,7 +348,7 @@ export default {
     openResourceGroupsPopup(item) {
       this.objectListPopupData = item.resourceGroups;
       this.objectListPopupTitle = this.$tc('objects.ccenter.queues.resourceGroups', 2);
-      this.objectListPopupItemRouteName = RouteNames.RESOURCES_GROUPS;
+      this.objectListPopupItemRouteName = RouteNames.RESOURCE_GROUPS;
     },
     async fetchGlobalState() {
       const state = await QueueStateAPI.getQueuesGlobalState({
