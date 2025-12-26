@@ -67,7 +67,6 @@ const QueueTypeProperties = Object.freeze({
       'taskProcessing.prolongationOptions.renewalSec',
       'taskProcessing.prolongationOptions.repeatsNumber',
       'taskProcessing.prolongationOptions.prolongationTimeSec',
-      'taskProcessing.prolongationOptions.isTimeoutRetry',
     ],
   },
   [QueueType.OUTBOUND_IVR_QUEUE]: {
@@ -261,7 +260,6 @@ const QueueTypeProperties = Object.freeze({
       'taskProcessing.prolongationOptions.renewalSec',
       'taskProcessing.prolongationOptions.repeatsNumber',
       'taskProcessing.prolongationOptions.prolongationTimeSec',
-      'taskProcessing.prolongationOptions.isTimeoutRetry',
     ],
   },
   [QueueType.INBOUND_JOB_QUEUE]: {
