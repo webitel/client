@@ -48,13 +48,13 @@
         :value="itemInstance.flow"
         @input="setFlow"
       />
-      <wt-select
+      <wt-input
         :disabled="disableUserInput"
-        :options="apiVersions"
-        :value="version"
         :label="$t('objects.routing.chatGateways.messenger.metadata.apiVersion')"
-        track-by="value"
-        @input="setApiVersion"
+        :label-props="{ hint: $t('objects.routing.chatGateways.messenger.metadata.apiVersionHint') }"
+        :v="v.itemInstance.metadata.version"
+        :value="itemInstance.metadata?.version || ''"
+        @input="setItemMetadata({ prop: 'version', value: $event })"
       />
     </div>
   </section>
@@ -66,19 +66,11 @@ import { mapActions } from 'vuex';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
-import ApiVersionOptions from './lookups/ApiVersions.lookup';
 
 export default {
   name: 'OpenedChatGatewayMessengerGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
   computed: {
-    apiVersions() {
-      return ApiVersionOptions;
-    },
-    version() {
-      const value = this.itemInstance.metadata?.version;
-      return value ? { name: value, value } : null;
-    },
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
     },
@@ -105,13 +97,6 @@ export default {
 
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
-    },
-
-    setApiVersion(option) {
-      this.setItemMetadata({
-        prop: 'version',
-        value: option?.value || '',
-      });
     },
   },
 };

@@ -638,6 +638,7 @@ export default {
             clientId: 'ID ứng dụng',
             clientSecret: 'Mật khẩu ứng dụng',
             apiVersion: 'Phiên bản API',
+            apiVersionHint: 'Định dạng: vXX.XX (ví dụ: v24.00)',
           },
           facebook: {
             pages: 'Trang Facebook',

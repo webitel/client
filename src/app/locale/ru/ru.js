@@ -646,6 +646,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'Версия API',
+            apiVersionHint: 'Формат: vXX.XX (например, v24.00)',
           },
           facebook: {
             pages: 'Facebook страницы',
