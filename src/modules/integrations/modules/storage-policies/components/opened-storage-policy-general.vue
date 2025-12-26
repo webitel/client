@@ -85,7 +85,7 @@
         <wt-input
           :disabled="disableUserInput"
           :label="$t('objects.integrations.storagePolicies.retentionDays')"
-          :min-value="0"
+          :number-min="0"
           :value="itemInstance.retentionDays"
           type="number"
           @input="setItemProp({ prop: 'retentionDays', value: $event })"
@@ -93,7 +93,7 @@
         <wt-input
           :disabled="disableUserInput"
           :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
-          :min-value="0"
+          :number-min="0"
           :value="itemInstance.speedDownload"
           type="number"
           @input="setItemProp({ prop: 'speedDownload', value: $event })"
@@ -101,7 +101,7 @@
         <wt-input
           :disabled="disableUserInput"
           :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
-          :min-value="0"
+          :number-min="0"
           :value="itemInstance.speedUpload"
           type="number"
           @input="setItemProp({ prop: 'speedUpload', value: $event })"
@@ -109,7 +109,7 @@
         <wt-input
           :disabled="disableUserInput"
           :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
-          :min-value="0"
+          :number-min="0"
           :value="itemInstance.maxUploadSize"
           type="number"
           @input="setItemProp({ prop: 'maxUploadSize', value: $event })"
