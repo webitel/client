@@ -88,7 +88,7 @@
           :number-min="0"
           :value="itemInstance.retentionDays"
           type="number"
-          @input="setItemProp({ prop: 'retentionDays', value: $event })"
+          @input="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })"
         />
         <wt-input
           :disabled="disableUserInput"
@@ -96,7 +96,7 @@
           :number-min="0"
           :value="itemInstance.speedDownload"
           type="number"
-          @input="setItemProp({ prop: 'speedDownload', value: $event })"
+          @input="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })"
         />
         <wt-input
           :disabled="disableUserInput"
@@ -104,7 +104,7 @@
           :number-min="0"
           :value="itemInstance.speedUpload"
           type="number"
-          @input="setItemProp({ prop: 'speedUpload', value: $event })"
+          @input="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })"
         />
         <wt-input
           :disabled="disableUserInput"
@@ -112,7 +112,7 @@
           :number-min="0"
           :value="itemInstance.maxUploadSize"
           type="number"
-          @input="setItemProp({ prop: 'maxUploadSize', value: $event })"
+          @input="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })"
         />
       </div>
     </div>
