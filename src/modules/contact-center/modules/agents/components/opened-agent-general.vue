@@ -122,7 +122,12 @@
           @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
         />
 
-        <p v-if="disabledAgentScreenControl && !isNew">{{ $t('objects.ccenter.agents.agentScreenControlHint') }}</p>
+        <span
+          v-if="disabledAgentScreenControl && !isNew"
+          class="object-input-area-grid__screen-control-hint"
+        >
+          {{ $t('objects.ccenter.agents.agentScreenControlHint') }}
+        </span>
       </div>
     </div>
   </section>
@@ -171,6 +176,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main' as *;
+
 .object-input-area-grid {
   display: grid;
   grid-template-areas:
@@ -220,7 +227,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    grid-gap: var(--content-wrapper-gap);
+    gap: var(--spacing-2xs);
+
+    &-hint {
+      @extend %typo-body-2;
+    }
   }
 }
 </style>
