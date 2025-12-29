@@ -53,6 +53,9 @@ export default {
       },
     }),
     resetFilters() {
+      this.$router.push({
+        query: null,
+      });
       this.resetFilterValues();
     },
   },
