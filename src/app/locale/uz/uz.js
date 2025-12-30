@@ -642,6 +642,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'API versiyasi',
+            apiVersionHint: 'Format: vXX.XX (masalan, v24.00)',
           },
           facebook: {
             pages: 'Facebook sahifalari',

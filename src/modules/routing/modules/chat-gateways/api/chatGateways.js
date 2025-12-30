@@ -58,6 +58,9 @@ const messengerRequestConverter = (data) => {
   const copy = deepCopy(data);
   copy.metadata.instagramComments = data.metadata.instagramComments.toString();
   copy.metadata.instagramMentions = data.metadata.instagramMentions.toString();
+  if (!copy.metadata.version) {
+    delete copy.metadata.version;
+  }
   return copy;
 };
 

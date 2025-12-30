@@ -644,6 +644,7 @@ export default {
             clientId: 'ID de aplicación',
             clientSecret: 'Secreto de aplicación',
             apiVersion: 'Versión de API',
+            apiVersionHint: 'Formato: vXX.XX (por ejemplo, v24.00)',
           },
           facebook: {
             pages: 'Páginas de Facebook',

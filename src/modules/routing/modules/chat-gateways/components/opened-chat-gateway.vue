@@ -50,7 +50,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minLength, minValue, numeric, required,requiredIf, url } from '@vuelidate/validators';
+import { maxValue, minLength, minValue, numeric, required, requiredIf, url } from '@vuelidate/validators';
 import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
 import websocketValidator from '@webitel/ui-sdk/src/validators/websocketValidator/websocketValidator';
 import { mapActions } from 'vuex';
@@ -158,6 +158,16 @@ export default {
               },
               clientSecret: {
                 required,
+              },
+              version: {
+                /**
+                * @author @rzaritskyi
+                *
+                * [WTEL-7923](https://webitel.atlassian.net/browse/WTEL-7923)
+                *
+                * Validates Meta Graph API version format: "v{major}.{minor}" (e.g., v19.0, v21.0)''
+                */
+                valid: (value) => !value || /^v([1-9]\d*)(\.(0|[1-9]\d*))$/.test(value),
               },
             },
           },
