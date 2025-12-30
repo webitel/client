@@ -38,14 +38,6 @@
         class="object-input-area-grid__auditor"
         @input="setItemProp({ prop: 'auditor', value: $event })"
       />
-<!--      v-show="!itemInstance.isSupervisor"-->
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.agents.isSupervisor')"
-        :model-value="itemInstance.isSupervisor"
-        class="object-input-area-grid__is-supervisor"
-        @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
-      />
       <wt-select
         :close-on-select="false"
         :disabled="disableUserInput || itemInstance.isSupervisor"
