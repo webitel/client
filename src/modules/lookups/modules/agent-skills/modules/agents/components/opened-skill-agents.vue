@@ -208,6 +208,10 @@ export default {
         enabled,
       };
       try {
+        if (this.search) {
+          changes.q = this.search;
+        }
+
         await AgentSkillsAPI.patch({
           parentId,
           changes,
