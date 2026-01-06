@@ -73,6 +73,18 @@ const actions = {
     });
   },
   SET_ITEM_PROLONGATION_OPTION: (context, payload) => {
+    // When prolongation options are enabled for the first time, automatically set isTimeoutRetry to true.
+    // This ensures the switcher is enabled by default on initial load.
+    // https://webitel.atlassian.net/browse/WTEL-8174?focusedCommentId=709374
+    const enablingProlongation = payload.prop === 'enabled' && payload.value;
+    const wasDisabled = !context.state.itemInstance?.taskProcessing?.prolongationOptions?.enabled;
+
+    if (enablingProlongation && wasDisabled) {
+      context.commit('SET_ITEM_PROLONGATION_OPTION', {
+        prop: 'isTimeoutRetry',
+        value: true,
+      });
+    }
     context.commit('SET_ITEM_PROLONGATION_OPTION', payload);
     context.commit('SET_ITEM_PROPERTY', {
       prop: '_dirty',
