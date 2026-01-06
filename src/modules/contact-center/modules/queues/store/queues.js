@@ -77,7 +77,7 @@ const actions = {
     // This ensures the switcher is enabled by default on initial load.
     // https://webitel.atlassian.net/browse/WTEL-8174?focusedCommentId=709374
     const enablingProlongation = payload.prop === 'enabled' && payload.value;
-    const wasDisabled = !context.state.itemInstance.taskProcessing.prolongationOptions.enabled;
+    const wasDisabled = !context.state.itemInstance?.taskProcessing?.prolongationOptions?.enabled;
 
     if (enablingProlongation && wasDisabled) {
       context.commit('SET_ITEM_PROLONGATION_OPTION', {
