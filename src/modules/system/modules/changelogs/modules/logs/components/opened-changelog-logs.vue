@@ -104,7 +104,13 @@ export default {
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
+    return { 
+      dummy,
+
+      // re-export from imports to template
+      FormatDateMode,
+      formatDate,
+     };
   },
   data: () => ({
     namespace,

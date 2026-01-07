@@ -10,7 +10,7 @@ const state = {
   search: new BaseFilterSchema(),
   action: new EnumFilterSchema({
     locale: {
-      label: ['objects.system.changelogs.logs.actions', 1],
+      label: 'objects.system.changelogs.logs.actions',
     },
     options: Object.values(LoggerAction)
       .filter((action) => action !== LoggerAction.DefaultNoAction && action !== LoggerAction.Read)
