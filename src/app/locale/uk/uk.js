@@ -1184,6 +1184,7 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'лог',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
           [StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
+          [StorageUploadFileChannel.ScreenRecordingChannel]: 'запис екрана',
         },
         encryptFile: 'Шифрувати нові файли',
         encryptFileHint:

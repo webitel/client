@@ -1176,6 +1176,7 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
           [StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
+          [StorageUploadFileChannel.ScreenRecordingChannel]: 'ekran yozuvlari',
         },
         encryptFile: 'Yangi fayllarni shifrlash',
         encryptFileHint:
