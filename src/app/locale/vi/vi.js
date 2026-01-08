@@ -1171,6 +1171,7 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
           [StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
+          [StorageUploadFileChannel.ScreenRecordingChannel]: 'ghi màn hình',
         },
         encryptFile: 'Mã hóa tệp mới',
         encryptFileHint:

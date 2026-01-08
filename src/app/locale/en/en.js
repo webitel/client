@@ -1175,6 +1175,7 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
+          [StorageUploadFileChannel.ScreenRecordingChannel]: 'screen recordings',
         },
         encryptFile: 'Encrypt new files',
         encryptFileHint:
