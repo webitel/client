@@ -62,12 +62,12 @@ jobs:
 
       - name: Create and push tag (after merge)
         run: |
-          git tag ${{ steps.version.outputs.version_tag }}
+          git tag "${{ steps.version.outputs.version_tag }}-tagged"
           git push --tags
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.version.outputs.version_tag }}
+          tag_name: "${{ steps.version.outputs.version_tag }}-tagged"
           name: Release ${{ steps.version.outputs.version_tag }}
           generate_release_notes: true
