@@ -1,6 +1,5 @@
 // dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
-import './app/assets/icons/sprite';
 import './app/css/main.scss';
 /*
 Don't know why, but without this empty file import styles just breaking :/

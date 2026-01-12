@@ -3,7 +3,6 @@ import { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
 // https://vitejs.dev/config/
@@ -56,9 +55,6 @@ export default ({ mode }) => {
           Buffer: true, // can also be 'build', 'dev', or false
           process: true, // csv stringify
         },
-      }),
-      createSvgSpritePlugin({
-        include: '**/sprite/*.svg',
       }),
       vueDevTools({
         launchEditor: 'webstorm',
