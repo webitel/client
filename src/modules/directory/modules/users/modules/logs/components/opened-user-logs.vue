@@ -18,11 +18,11 @@
 
     <wt-loader v-show="!isLoaded" />
     <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
@@ -92,7 +92,13 @@ export default {
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
+    return {
+      dummy,
+
+      // re-export from imports to template
+      FormatDateMode,
+      formatDate,
+    };
   },
   data: () => ({
     namespace,
