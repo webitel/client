@@ -647,7 +647,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'Версія API',
-            apiVersionHint: 'Формат: vXX.XX (наприклад, v24.00)',
+            apiVersionHint: 'Формат: vXX.X (наприклад, v24.0)',
           },
           facebook: {
             pages: 'Facebook сторінки',
