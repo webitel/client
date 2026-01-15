@@ -24,23 +24,25 @@ const props = defineProps<{
 
 const { t } = useI18n();
 
-const emit = defineEmits(['change']);
+const emit = defineEmits(['updateNotification']);
 
 const isNotificationTypeInEngineSystemSettingName = computed(() => {
   return Object.values(EngineSystemSettingName).includes(props.notificationType)
 })
 
+const localStorageName = computed(() => `settings/${props.notificationType}`)
+
 const isNotificationOn = computed(() => {
   return isNotificationTypeInEngineSystemSettingName.value
     ? props.value
-    : localStorage.getItem(`settings/${props.notificationType}`) === 'true'
+    : localStorage.getItem(localStorageName.value) === 'true'
 });
 
 function changeNotificationState(value: boolean) {
   if (isNotificationTypeInEngineSystemSettingName.value) {
-    emit('change', value);
+    emit('updateNotification', value);
   } else {
-    localStorage.setItem(`settings/${props.notificationType}`, value);
+    localStorage.setItem(localStorageName.value, value);
   }
 }
 </script>

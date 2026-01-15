@@ -9,7 +9,7 @@
           :key="type"
           :notification-type="type"
           :value="settingsList[type]"
-          @change="(value) => updateNotifications(type, value)"
+          @update-notification="(value) => updateNotifications(type, value)"
         />
     </template>
   </settings-section-wrapper>

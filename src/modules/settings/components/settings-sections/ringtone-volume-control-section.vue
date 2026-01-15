@@ -4,12 +4,12 @@
       {{ t('settings.ringtoneVolume.title') }}
     </template>
     <template>
-        <div 
+        <div
           v-for="entity in ringtoneEntities"
           :key="entity.type"
-          class="settings-section-ringtone-volume"
+          class="ringtone-volume-control-section__item"
         >
-          <p class="settings-section-ringtone-volume-title">
+          <p class="ringtone-volume-control-section__title">
             {{ t(`settings.ringtoneVolume.${entity.type}`) }}
           </p>
           <wt-slider
@@ -134,7 +134,7 @@ onMounted(() => {
   align-self: flex-end;
 }
 
-.settings-section-ringtone-volume-title {
+.ringtone-volume-control-section__title {
   @extend %typo-subtitle-2;
   padding: var(--spacing-2xs) var(--spacing-xs);
   margin-bottom: var(--spacing-xs);
