@@ -39,15 +39,14 @@ import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { RingtoneType } from '../../enums/RingtoneType';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
-type RingtoneType = 'call' | 'chat' | 'task';
-
-interface RingtoneVolumes {
-  call: number;
-  chat: number;
-  task: number;
-}
+type RingtoneVolumes = {
+  [RingtoneType.Call]: number;
+  [RingtoneType.Chat]: number;
+  [RingtoneType.Task]: number;
+};
 
 interface RingtoneEntity {
   type: RingtoneType;
@@ -56,16 +55,16 @@ interface RingtoneEntity {
 
 const { t } = useI18n();
 const ringtoneVolume = reactive<RingtoneVolumes>({
-  call: 1,
-  chat: 1,
-  task: 1,
+  [RingtoneType.Call]: 1,
+  [RingtoneType.Chat]: 1,
+  [RingtoneType.Task]: 1,
 }); // Default ringtoneVolume levels
 const isRingtoneVolumeSaved = ref(false);
 
 const ringtoneEntities = computed<RingtoneEntity[]>(() => [
-  { type: 'call', volume: ringtoneVolume.call },
-  { type: 'chat', volume: ringtoneVolume.chat },
-  { type: 'task', volume: ringtoneVolume.task },
+  { type: RingtoneType.Call, volume: ringtoneVolume[RingtoneType.Call] },
+  { type: RingtoneType.Chat, volume: ringtoneVolume[RingtoneType.Chat] },
+  { type: RingtoneType.Task, volume: ringtoneVolume[RingtoneType.Task] },
 ]);
 
 function handleRingtoneVolume(type: RingtoneType, newVolume: number) {
@@ -80,9 +79,9 @@ function handleRingtoneVolume(type: RingtoneType, newVolume: number) {
 
   try {
     const savedVolumes = JSON.parse(savedVolumeStr) as RingtoneVolumes;
-    const isMatch = savedVolumes.call === ringtoneVolume.call &&
-                    savedVolumes.chat === ringtoneVolume.chat &&
-                    savedVolumes.task === ringtoneVolume.task;
+    const isMatch = savedVolumes[RingtoneType.Call] === ringtoneVolume[RingtoneType.Call] &&
+                    savedVolumes[RingtoneType.Chat] === ringtoneVolume[RingtoneType.Chat] &&
+                    savedVolumes[RingtoneType.Task] === ringtoneVolume[RingtoneType.Task];
     isRingtoneVolumeSaved.value = isMatch;
   } catch {
     isRingtoneVolumeSaved.value = false;
@@ -109,17 +108,17 @@ onMounted(() => {
   if (savedVolumeStr) {
     try {
       const savedVolumes = JSON.parse(savedVolumeStr) as RingtoneVolumes;
-      ringtoneVolume.call = savedVolumes.call ?? 1;
-      ringtoneVolume.chat = savedVolumes.chat ?? 1;
-      ringtoneVolume.task = savedVolumes.task ?? 1;
+      ringtoneVolume[RingtoneType.Call] = savedVolumes[RingtoneType.Call] ?? 1;
+      ringtoneVolume[RingtoneType.Chat] = savedVolumes[RingtoneType.Chat] ?? 1;
+      ringtoneVolume[RingtoneType.Task] = savedVolumes[RingtoneType.Task] ?? 1;
       isRingtoneVolumeSaved.value = true;
     } catch {
       // If parsing fails, migrate old single value to new structure
       const oldVolume = parseFloat(savedVolumeStr);
       if (!isNaN(oldVolume)) {
-        ringtoneVolume.call = oldVolume;
-        ringtoneVolume.chat = oldVolume;
-        ringtoneVolume.task = oldVolume;
+        ringtoneVolume[RingtoneType.Call] = oldVolume;
+        ringtoneVolume[RingtoneType.Chat] = oldVolume;
+        ringtoneVolume[RingtoneType.Task] = oldVolume;
       }
       isRingtoneVolumeSaved.value = false;
     }

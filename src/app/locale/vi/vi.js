@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '../../../modules/settings/enums/RingtoneType';
 
 export default {
   auth: {
@@ -88,9 +89,9 @@ export default {
     },
     ringtoneVolume: {
       title: 'Cài đặt âm lượng',
-      call: 'Cuộc gọi',
-      chat: 'Trò chuyện',
-      task: 'Nhiệm vụ',
+      [RingtoneType.Call]: 'Cuộc gọi',
+      [RingtoneType.Chat]: 'Trò chuyện',
+      [RingtoneType.Task]: 'Nhiệm vụ',
     },
   },
 

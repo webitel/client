@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '../../../modules/settings/enums/RingtoneType';
 
 export default {
   auth: {
@@ -88,9 +89,9 @@ export default {
     },
     ringtoneVolume: {
       title: 'Дыбыс деңгейін баптау',
-      call: 'Қоңырау',
-      chat: 'Чат',
-      task: 'Тапсырма',
+      [RingtoneType.Call]: 'Қоңырау',
+      [RingtoneType.Chat]: 'Чат',
+      [RingtoneType.Task]: 'Тапсырма',
     },
   },
 
