@@ -636,7 +636,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'API нұсқасы',
-            apiVersionHint: 'Формат: vXX.XX (мысалы, v24.00)',
+            apiVersionHint: 'Формат: vXX.X (мысалы, v24.0)',
           },
           facebook: {
             pages: 'Facebook беректері',

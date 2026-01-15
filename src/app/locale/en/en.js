@@ -639,7 +639,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'API Version',
-            apiVersionHint: 'Use format: vXX.XX (e.g., v24.0)',
+            apiVersionHint: 'Use format: vXX.X (e.g., v24.0)',
           },
           facebook: {
             pages: 'Facebook pages',
