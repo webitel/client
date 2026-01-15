@@ -71,16 +71,26 @@ export default {
     useWebPhone: 'Użyj WebPhone',
     useStun: 'Użyj STUN',
     notifications: {
+      [NotificationType.NewMessageSound]: 'Dźwięk nowej wiadomości',
+      [NotificationType.NewChatSound]: 'Dźwięk nowego czatu',
+      [NotificationType.ChatEndSound]: 'Dźwięk końca czatu',
       [NotificationType.CallEndSound]: 'Dźwięk końca połączenia',
+      [NotificationType.TaskEndSound]: 'Dźwięk końca zadania',
+      [NotificationType.ChatEndPush]: 'Powiadomienie push o zakończeniu czatu',
+      [NotificationType.CallEndPush]: 'Powiadomienie push o zakończeniu połączenia',
+      [NotificationType.TaskEndPush]: 'Powiadomienie push o zakończeniu zadania',
       [NotificationType.SocketCloseSound]: 'Dźwięk utraty połączenia',
     },
     ringtones: {
-      title: 'Zmień dzwonienie',
+      title: 'Zmień dzwonek połączenia',
       ringtone: 'Dzwonek',
       customRingtone: 'Użyj niestandardowego dźwięku',
     },
     ringtoneVolume: {
-      title: 'Głośność dźwięku',
+      title: 'Ustawienia głośności',
+      call: 'Połączenie',
+      chat: 'Czat',
+      task: 'Zadanie',
     },
   },
 

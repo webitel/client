@@ -71,18 +71,26 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      [NotificationType.CallEndSound]:
-        'Звукове сповіщення про завершення дзвінка',
-      [NotificationType.SocketCloseSound]:
-        'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.NewMessageSound]: 'Звукове сповіщення про нове сповіщення',
+      [NotificationType.NewChatSound]: 'Звукове сповіщення про новий чат',
+      [NotificationType.ChatEndSound]: 'Звукове сповіщення про завершення чату',
+      [NotificationType.CallEndSound]: 'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.TaskEndSound]: 'Звукове сповіщення про завершення задачі',
+      [NotificationType.ChatEndPush]: 'Пуш-сповіщення про завершення чату',
+      [NotificationType.CallEndPush]: 'Пуш-сповіщення про завершення дзвінка',
+      [NotificationType.TaskEndPush]: 'Пуш-сповіщення про завершення задачі',
+      [NotificationType.SocketCloseSound]: 'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
-      title: 'Змінити рингтон',
+      title: 'Змінити рингтон дзвінка',
       ringtone: 'Рингтон',
       customRingtone: 'Вибрати інший рингтон',
     },
     ringtoneVolume: {
-      title: 'Гучність рингтону',
+      title: 'Налаштування гучності',
+      call: 'Дзвінок',
+      chat: 'Чат',
+      task: 'Задача',
     },
   },
 
