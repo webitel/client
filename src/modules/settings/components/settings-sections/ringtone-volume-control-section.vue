@@ -20,7 +20,7 @@
             show-input
             tooltip="auto"
             debounce
-            @update:model-value="(value) => handleRingtoneVolume(entity.type, value)"
+            @update:model-value="handleRingtoneVolume(entity.type, $event)"
           />
         </div>
         <wt-button
