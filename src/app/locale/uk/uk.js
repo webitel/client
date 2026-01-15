@@ -1204,7 +1204,7 @@ export default {
       },
       emailProfiles: {
         emailProfiles: 'Email профіль | Email профілі',
-        mailbox: 'Почтова скринька',
+        mailbox: 'Поштова скринька',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
         smtpHost: 'SMTP Хост',
