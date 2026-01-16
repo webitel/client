@@ -5,7 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
-import { RingtoneType } from '../../../modules/settings/enums/RingtoneType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {

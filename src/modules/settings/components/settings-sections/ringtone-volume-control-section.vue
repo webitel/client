@@ -39,7 +39,7 @@ import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { RingtoneType } from '../../enums/RingtoneType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 type RingtoneVolumes = {
