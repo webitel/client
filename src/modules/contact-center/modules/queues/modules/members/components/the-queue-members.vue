@@ -1,92 +1,49 @@
 <template>
-  <wt-page-wrapper :actions-panel="showActionsPanel" class="members">
+  <wt-page-wrapper
+    :actions-panel="showActionsPanel"
+    class="table-page"
+  >
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasEditAccess || !isNotInboundMember"
-        :primary-action="create"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasEditAccess || !isNotInboundMember" :primary-action="create"
+        :secondary-action="close">
         <template #primary-action>
-          <wt-button-select
-            :options="saveOptions"
-            @click="create"
-            @click:option="({ callback }) => callback()"
-          >
+          <wt-button-select :options="saveOptions" @click="create" @click:option="({ callback }) => callback()">
             {{ $t('objects.add') }}
           </wt-button-select>
-          <input
-            ref="file-input"
-            :accept="'.csv'"
-            class="upload-file-input"
-            type="file"
-            @change="inputFileHandler"
-          >
+          <input ref="file-input" :accept="'.csv'" class="upload-file-input" type="file" @change="inputFileHandler">
         </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #actions-panel>
-      <the-queue-members-filters
-        :namespace="filtersNamespace"
-      />
+      <the-queue-members-filters :namespace="filtersNamespace" />
     </template>
     <template #main>
-      <destinations-popup
-        v-if="isDestinationsPopup"
-        :communications="communicationsOnPopup"
-        @close="closeDestinationsPopup"
-      />
+      <destinations-popup v-if="isDestinationsPopup" :communications="communicationsOnPopup"
+        @close="closeDestinationsPopup" />
 
-      <upload-popup
-        :file="csvFile"
-        :parent-id="parentId"
-        @close="closeCSVPopup"
-      />
+      <upload-popup :file="csvFile" :parent-id="parentId" @close="closeCSVPopup" />
 
-      <delete-confirmation-popup
-        :shown="isDeleteConfirmationPopup"
-        :callback="deleteCallback"
-        :delete-count="deleteCount"
-        @close="closeDelete"
-      />
+      <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :callback="deleteCallback"
+        :delete-count="deleteCount" @close="closeDelete" />
 
-      <reset-popup
-        :shown="hasEditAccess && isResetPopup"
-        :callback="resetMembers"
-        @close="closeResetPopup"
-      />
+      <reset-popup :shown="hasEditAccess && isResetPopup" :callback="resetMembers" @close="closeResetPopup" />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title typo-heading-3">
             {{ $t('objects.ccenter.members.allMembers') }}
           </h3>
-          <div class="content-header__actions-wrap">
-            <filter-search
-              :namespace="filtersNamespace"
-            />
-            <wt-table-actions
-              :icons="['settings', 'refresh']"
-              @input="inputTableAction"
-            >
-              <wt-icon-btn
-                v-if="hasEditAccess"
-                v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
-                icon="member-reset"
-                icon-prefix="adm"
-                @click="openResetPopup"
-              />
+          <div class="table-title__actions-wrap">
+            <filter-search :namespace="filtersNamespace" />
+            <wt-table-actions :icons="['settings', 'refresh']" @input="inputTableAction">
+              <wt-icon-btn v-if="hasEditAccess" v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+                icon="member-reset" icon-prefix="adm" @click="openResetPopup" />
 
-              <wt-context-menu
-                v-if="hasEditAccess && isNotInboundMember"
-                :options="deleteOptions"
-                @click="$event.option.method.call()"
-              >
+              <wt-context-menu v-if="hasEditAccess && isNotInboundMember" :options="deleteOptions"
+                @click="$event.option.method.call()">
                 <template #activator="{ toggle }">
-                  <wt-icon-action
-                    action="delete"
-                    @click="toggle"
-                  />
+                  <wt-icon-action action="delete" @click="toggle" />
                 </template>
               </wt-context-menu>
             </wt-table-actions>
@@ -94,27 +51,16 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-                <wt-dummy
-                  v-if="dummy && isLoaded"
-                  :src="dummy.src"
-                  :dark-mode="darkMode"
-                  :text="dummy.text && $t(dummy.text)"
-                  class="dummy-wrapper"
-                ></wt-dummy>
+        <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
-          <wt-table
-            :data="dataList"
-            :grid-actions="hasEditAccess && isNotInboundMember"
-            :headers="headers"
-            sortable
-            @sort="sort"
-          >
+          <wt-table :data="dataList" :grid-actions="hasEditAccess && isNotInboundMember" :headers="headers" sortable
+            @sort="sort">
             <template #name="{ item }">
-              <wt-item-link
-                :link="editLink(item)">
+              <wt-item-link :link="editLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
@@ -139,55 +85,31 @@
               </div>
             </template>
             <template #destination="{ item }">
-              <div
-                v-if="item.communications.length"
-                class="members__destinations-wrapper"
-              >
+              <div v-if="item.communications.length" class="members__destinations-wrapper">
                 {{ item.communications[0].destination }}
-                <span
-                  v-if="item.communications.length > 1"
-                  class="members__destinations-num"
-                  @click="readDestinations(item)"
-                >+{{ item.communications.length - 1 }}</span>
+                <span v-if="item.communications.length > 1" class="members__destinations-num typo-body-2"
+                  @click="readDestinations(item)">+{{ item.communications.length - 1 }}</span>
               </div>
             </template>
             <template #type="{ item }">
               {{ item.type }}
             </template>
             <template #agent="{ item }">
-              <wt-item-link
-                v-if="item.agent"
-                :link="editAgentsLink(item.agent)"
-                target="_blank"
-              >
+              <wt-item-link v-if="item.agent" :link="editAgentsLink(item.agent)" target="_blank">
                 {{ item.agent.name }}
               </wt-item-link>
             </template>
 
             <template #actions="{ item }">
-              <wt-icon-action
-                action="edit"
-                @click="edit(item)"
-              />
-              <wt-icon-action
-                action="delete"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
-              />
+              <wt-icon-action action="edit" @click="edit(item)" />
+              <wt-icon-action action="delete" @click="askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })" />
             </template>
           </wt-table>
-          <wt-pagination
-            :next="isNext"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
-          />
+          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+            @next="nextPage" @prev="prevPage" />
         </div>
       </section>
     </template>
@@ -295,7 +217,7 @@ export default {
           route: baseUrl,
         },
         {
-          name: this.$tc('objects.ccenter.members.members', 2),
+          name: this.$t('objects.ccenter.members.members', 2),
           route: `${baseUrl}/members`,
         },
       ];
@@ -306,13 +228,13 @@ export default {
     deleteOptions() {
       const loadListAfterDecorator =
         (method) =>
-        async (...args) => {
-          try {
-            await method(...args);
-          } finally {
-            await this.loadList();
-          }
-        };
+          async (...args) => {
+            try {
+              await method(...args);
+            } finally {
+              await this.loadList();
+            }
+          };
       const all = {
         text: this.$t('iconHints.deleteAll'),
         method: loadListAfterDecorator(this.deleteAll),
@@ -337,7 +259,7 @@ export default {
 
     saveOptions() {
       const importCsv = {
-        text: this.$tc('objects.integrations.importCsv.importCsv', 2),
+        text: this.$t('objects.integrations.importCsv.importCsv', 2),
         callback: this.triggerFileInput,
       };
       return [importCsv];
@@ -404,7 +326,7 @@ export default {
     create() {
       this.$router.push({
         name: `${RouteNames.MEMBERS}-card`,
-        params: { queueId: this.parentId, id: 'new'},
+        params: { queueId: this.parentId, id: 'new' },
       });
     },
 
@@ -415,7 +337,7 @@ export default {
       };
     },
 
-     editAgentsLink(item) {
+    editAgentsLink(item) {
       return {
         name: `${RouteNames.AGENTS}-card`,
         params: { id: item.id },
@@ -423,12 +345,12 @@ export default {
     },
 
     close() {
-      this.$router.push({name: RouteNames.QUEUES});
+      this.$router.push({ name: RouteNames.QUEUES });
       this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
     },
 
     inputTableAction(event) {
-      if(event === 'settings') {
+      if (event === 'settings') {
         this.showActionsPanel = !this.showActionsPanel;
         return;
       }
@@ -477,8 +399,6 @@ export default {
 }
 
 .members__destinations-num {
-  @extend %typo-body-2;
-
   margin-left: 20px;
   cursor: pointer;
   text-decoration: underline;

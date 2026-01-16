@@ -10,11 +10,7 @@
     </template>
     <template #main>
       <section class="main-section__wrapper">
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
         <component :is="currentTab.value" />
       </section>
     </template>
@@ -39,7 +35,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc('objects.directory.license.license', 2),
+          name: this.$t('objects.directory.license.license', 2),
           route: '/directory/license',
         },
       ];
@@ -52,14 +48,14 @@ export default {
       };
       const licensesByUser = {
         value: 'licenses-by-user',
-        text: this.$tc('objects.user', 2),
+        text: this.$t('objects.user', 2),
         pathName: LicencesRouteNames.BY_USER,
       };
       return [allLicenses, licensesByUser];
     },
     currentTab() {
-      return this.tabs.find(({pathName}) => this.$route.name === pathName) || this.tabs[0];
-    //   undefined currentTab
+      return this.tabs.find(({ pathName }) => this.$route.name === pathName) || this.tabs[0];
+      //   undefined currentTab
     }
   },
   methods: {
@@ -70,6 +66,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

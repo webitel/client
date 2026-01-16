@@ -1,36 +1,17 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -137,7 +118,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc('objects.directory.devices.devices', 2),
+          name: this.$t('objects.directory.devices.devices', 2),
           route: baseUrl,
         },
         {
@@ -171,5 +152,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

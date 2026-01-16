@@ -1,105 +1,52 @@
 <template>
   <section class="content-wrapper">
-    <hook-popup
-      @close="closePopup"
-    />
-    <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
-      @close="closeDelete"
-    />
+    <hook-popup @close="closePopup" />
+    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
+      @close="closeDelete" />
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.ccenter.queues.hooks.hooks', 2) }}
+        {{ $t('objects.ccenter.queues.hooks.hooks', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <delete-all-action
-            v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
+        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+            :selected-count="selectedRows.length" @click="askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
-            })"
-          />
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
+            })" />
+          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-wrapper"
-    >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
-      >
+    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
+    <div v-show="dataList.length && isLoaded" class="table-wrapper">
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #event="{ item }">
           {{ item.event }}
         </template>
         <template #schema="{ item }">
-          <adm-item-link
-            :id="item.schema.id"
-            :route-name="RouteNames.FLOW"
-            target="_blank"
-          >
+          <adm-item-link :id="item.schema.id" :route-name="RouteNames.FLOW" target="_blank">
             {{ item.schema.name }}
           </adm-item-link>
         </template>
         <template #state="{ item, index }">
-          <wt-switcher
-            :disabled="!hasEditAccess"
-            :model-value="item.enabled"
-            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
-          />
+          <wt-switcher :disabled="!hasEditAccess" :model-value="item.enabled"
+            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })" />
         </template>
         <template #actions="{ item }">
-          <wt-icon-action
-            action="edit"
-            @click="editItem(item)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
+          <wt-icon-action action="edit" @click="editItem(item)" />
+          <wt-icon-action action="delete" @click="askDeleteConfirmation({
+            deleted: [item],
+            callback: () => deleteData(item),
+          })" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -153,13 +100,13 @@ export default {
     addItem() {
       return this.$router.push({
         ...this.$route,
-        params: {hookId: 'new'}
+        params: { hookId: 'new' }
       })
     },
     editItem(item) {
       return this.$router.push({
         ...this.$route,
-        params: {hookId: item.id}
+        params: { hookId: item.id }
       })
     },
     closePopup() {
@@ -169,5 +116,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,17 +1,12 @@
 <template>
   <wt-popup @close="close">
     <template #title>
-      {{ $tc('objects.ccenter.queues.destination', 2) }}
+      {{ $t('objects.ccenter.queues.destination', 2) }}
     </template>
     <template #main>
       <section class="destinations-popup">
-        <wt-table
-          :data="communications"
-          :grid-actions="false"
-          :headers="headers"
-          :selectable="false"
-          class="popup-table"
-        >
+        <wt-table :data="communications" :grid-actions="false" :headers="headers" :selectable="false"
+          class="popup-table">
           <template #destination="{ item }">
             {{ item.destination }}
           </template>
@@ -30,10 +25,7 @@
       <wt-button @click="close">
         {{ $t('objects.ok') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -58,7 +50,7 @@ export default {
       headers: [
         {
           value: 'destination',
-          text: this.$tc('objects.ccenter.queues.destination', 1),
+          text: this.$t('objects.ccenter.queues.destination', 1),
         },
         {
           value: 'type',
@@ -81,6 +73,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.destinations-popup {
-}
+.destinations-popup {}
 </style>

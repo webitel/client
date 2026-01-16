@@ -1,44 +1,27 @@
 <template>
   <section>
     <permissions-popup @close="closePopup" />
-    <delete-confirmation-popup
-      :callback="deleteCallback"
-      :delete-count="deleteCount"
-      :shown="isDeleteConfirmationPopup"
-      @close="closeDelete"
-    />
+    <delete-confirmation-popup :callback="deleteCallback" :delete-count="deleteCount" :shown="isDeleteConfirmationPopup"
+      @close="closeDelete" />
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.permissions.roles.permissions.permissions', 2) }}
+        {{ $t('objects.permissions.roles.permissions.permissions', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
-        <delete-all-action
-          v-if="!disableUserInput"
-          :class="{ hidden: anySelected }"
-          :selected-count="selectedRows.length"
-          @click="
+        <delete-all-action v-if="!disableUserInput" :class="{ hidden: anySelected }"
+          :selected-count="selectedRows.length" @click="
             askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
             })
-          "
-        />
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="create"
-        />
+            " />
+        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
       </div>
     </header>
 
     <div class="table-wrapper">
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
         <template #name="{ item }">
           {{ permissionNameLocale[item.id] }}
         </template>
@@ -46,19 +29,13 @@
           {{ permissionUsageLocale[item.id] }}
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action
-            action="edit"
-            @click="edit(index)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="
-              askDeleteConfirmation({
-                deleted: [item],
-                callback: () => deleteData(item),
-              })
-            "
-          />
+          <wt-icon-action action="edit" @click="edit(index)" />
+          <wt-icon-action action="delete" @click="
+            askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })
+            " />
         </template>
       </wt-table>
     </div>
@@ -207,7 +184,7 @@ export default {
     closePopup() {
       this.$router.go(-1);
     },
-    setParentId() {},
+    setParentId() { },
   },
 };
 </script>

@@ -6,155 +6,66 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.mailbox')"
-        :v="v.itemInstance.mailbox"
-        :value="itemInstance.mailbox"
-        required
-        @input="setItemProp({ prop: 'mailbox', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.imapHost')"
-        :v="v.itemInstance.imapHost"
-        :value="itemInstance.imapHost"
-        required
-        @input="setItemProp({ prop: 'imapHost', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.imapPort')"
-        :number-max="65535"
-        :number-min="0"
-        :v="v.itemInstance.imapPort"
-        :value="itemInstance.imapPort"
-        required
-        type="number"
-        @input="setItemProp({ prop: 'imapPort', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.smtpHost')"
-        :v="v.itemInstance.smtpHost"
-        :value="itemInstance.smtpHost"
-        required
-        @input="setItemProp({ prop: 'smtpHost', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.smtpPort')"
-        :number-max="65535"
-        :number-min="0"
-        :v="v.itemInstance.smtpPort"
-        :value="itemInstance.smtpPort"
-        required
-        type="number"
-        @input="setItemProp({ prop: 'smtpPort', value: $event })"
-      />
-      <wt-select
-        :clearable="false"
-        :disabled="disableUserInput"
-        :label="$tc('objects.routing.flow.flow', 1)"
-        :search-method="loadFlows"
-        :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
-        required
-        @input="setItemProp({ prop: 'schema', value: $event })"
-      />
-      <wt-timepicker
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.fetchInterval')"
-        :v="v.itemInstance.fetchInterval"
-        :value="itemInstance.fetchInterval"
-        @input="setItemProp({ prop: 'fetchInterval', value: +$event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.mailbox')"
+        :v="v.itemInstance.mailbox" :value="itemInstance.mailbox" required
+        @input="setItemProp({ prop: 'mailbox', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.imapHost')"
+        :v="v.itemInstance.imapHost" :value="itemInstance.imapHost" required
+        @input="setItemProp({ prop: 'imapHost', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.imapPort')"
+        :number-max="65535" :number-min="0" :v="v.itemInstance.imapPort" :value="itemInstance.imapPort" required
+        type="number" @input="setItemProp({ prop: 'imapPort', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.smtpHost')"
+        :v="v.itemInstance.smtpHost" :value="itemInstance.smtpHost" required
+        @input="setItemProp({ prop: 'smtpHost', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.smtpPort')"
+        :number-max="65535" :number-min="0" :v="v.itemInstance.smtpPort" :value="itemInstance.smtpPort" required
+        type="number" @input="setItemProp({ prop: 'smtpPort', value: $event })" />
+      <wt-select :clearable="false" :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
+        :search-method="loadFlows" :v="v.itemInstance.schema" :value="itemInstance.schema" required
+        @input="setItemProp({ prop: 'schema', value: $event })" />
+      <wt-timepicker :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.fetchInterval')"
+        :v="v.itemInstance.fetchInterval" :value="itemInstance.fetchInterval"
+        @input="setItemProp({ prop: 'fetchInterval', value: +$event })" />
       <div>
-        <wt-textarea
-          :disabled="disableUserInput"
-          :label="$t('objects.description')"
-          :model-value="itemInstance.description"
-          class="opened-email-profile-general__description"
-          @update:model-value="setItemProp({ prop: 'description', value: $event })"
-        />
-        <wt-switcher
-          :label="$t('objects.integrations.emailProfiles.listen')"
-          :model-value="itemInstance.listen"
-          @update:model-value="setItemProp({ prop: 'listen', value: $event })"
-        />
+        <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
+          :model-value="itemInstance.description" class="opened-email-profile-general__description"
+          @update:model-value="setItemProp({ prop: 'description', value: $event })" />
+        <wt-switcher :label="$t('objects.integrations.emailProfiles.listen')" :model-value="itemInstance.listen"
+          @update:model-value="setItemProp({ prop: 'listen', value: $event })" />
       </div>
       <div>
-        <wt-select
-          :disabled="disableUserInput || isDisabledAuthParams"
-          :label="$t('objects.integrations.emailProfiles.authType')"
-          :options="authTypesList"
-          :track-by="null"
-          :v="v.itemInstance.authType"
-          :value="itemInstance.authType"
-          required
-          @input="changeAuthType"
-        />
+        <wt-select :disabled="disableUserInput || isDisabledAuthParams"
+          :label="$t('objects.integrations.emailProfiles.authType')" :options="authTypesList" :track-by="null"
+          :v="v.itemInstance.authType" :value="itemInstance.authType" required @input="changeAuthType" />
         <div v-if="!isPlainAuthType">
-          <wt-input
-            :disabled="disableUserInput || isDisabledAuthParams"
-            :label="$t('objects.integrations.singleSignOn.clientId')"
-            :v="v.itemInstance.params?.oauth2?.clientId"
-            :value="itemInstance.params?.oauth2?.clientId"
-            required
-            @input="setItemProp({ path: 'params.oauth2.clientId', value: $event })"
-          >
+          <wt-input :disabled="disableUserInput || isDisabledAuthParams"
+            :label="$t('objects.integrations.singleSignOn.clientId')" :v="v.itemInstance.params?.oauth2?.clientId"
+            :value="itemInstance.params?.oauth2?.clientId" required
+            @input="setItemProp({ path: 'params.oauth2.clientId', value: $event })">
           </wt-input>
-          <wt-input
-            :disabled="disableUserInput || isDisabledAuthParams"
+          <wt-input :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.clientSecret')"
-            :v="v.itemInstance.params?.oauth2?.clientSecret"
-            :value="itemInstance.params?.oauth2?.clientSecret"
-            required
-            @input="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })"
-          >
+            :v="v.itemInstance.params?.oauth2?.clientSecret" :value="itemInstance.params?.oauth2?.clientSecret" required
+            @input="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })">
           </wt-input>
-          <wt-input
-            :disabled="disableUserInput || isDisabledAuthParams"
+          <wt-input :disabled="disableUserInput || isDisabledAuthParams"
             :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
-            :v="v.itemInstance.params?.oauth2?.redirectUrl"
-            :value="itemInstance.params?.oauth2?.redirectUrl"
-            required
-            @input="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })"
-          >
+            :v="v.itemInstance.params?.oauth2?.redirectUrl" :value="itemInstance.params?.oauth2?.redirectUrl" required
+            @input="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })">
           </wt-input>
         </div>
         <div class="opened-email-profile-general__login-wrapper">
-          <wt-input
-            :disabled="disableUserInput || itemInstance.logged"
-            :label="authLabelText"
-            :v="v.itemInstance.login"
-            :value="itemInstance.login"
-            required
-            @input="setItemProp({ prop: 'login', value: $event })"
-          />
-          <wt-button
-            v-if="isDisplayAuthBtn"
-            :disabled="isUnavailableAuth"
-            color="secondary"
-            @click="auth"
-          >{{ authBtnText }}
+          <wt-input :disabled="disableUserInput || itemInstance.logged" :label="authLabelText" :v="v.itemInstance.login"
+            :value="itemInstance.login" required @input="setItemProp({ prop: 'login', value: $event })" />
+          <wt-button v-if="isDisplayAuthBtn" :disabled="isUnavailableAuth" color="secondary" @click="auth">{{
+            authBtnText }}
           </wt-button>
         </div>
-        <password-input
-          v-if="isPlainAuthType"
-          :disabled="disableUserInput"
-          :v="v.itemInstance.password"
-          :value="itemInstance.password"
-          @input="setItemProp({ prop: 'password', value: $event })"
-        />
+        <password-input v-if="isPlainAuthType" :disabled="disableUserInput" :v="v.itemInstance.password"
+          :value="itemInstance.password" @input="setItemProp({ prop: 'password', value: $event })" />
       </div>
 
     </div>

@@ -15,7 +15,7 @@
     flex-direction: column;
     width: 100%;
 
-    & > section {
+    &>section {
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -70,9 +70,9 @@
   margin: var(--spacing-sm) 0;
 
   .content-title {
-    @extend %typo-heading-3;
-
-    + .hint {
+    // NOTE: typo-heading-3 class should be added to all template elements with content-title class
+    // There are 141+ files using this class, so they all need to be updated
+    +.hint {
       top: -2px;
     }
   }

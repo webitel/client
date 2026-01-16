@@ -1,60 +1,26 @@
 <template>
   <section class="content-wrapper">
-    <bucket-popup
-      @close="closePopup"
-    />
+    <bucket-popup @close="closePopup" />
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.lookups.buckets.buckets', 2) }}
+        {{ $t('objects.lookups.buckets.buckets', 2) }}
       </h3>
       <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <delete-all-action
-            v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
-            :selected-count="selectedRows.length"
-            @click="deleteData(selectedRows)"
-          />
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
+        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
+        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+            :selected-count="selectedRows.length" @click="deleteData(selectedRows)" />
+          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-wrapper"
-    >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
-      >
+    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
+    <div v-show="dataList.length && isLoaded" class="table-wrapper">
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
           {{ item.bucket.name }}
         </template>
@@ -62,33 +28,16 @@
           {{ item.priority }}
         </template>
         <template #state="{ item, index }">
-          <wt-switcher
-            :disabled="!hasEditAccess"
-            :model-value="!item.disabled"
-            @update:model-value="patchItem({ item, index, prop: 'disabled', value: !$event })"
-          />
+          <wt-switcher :disabled="!hasEditAccess" :model-value="!item.disabled"
+            @update:model-value="patchItem({ item, index, prop: 'disabled', value: !$event })" />
         </template>
         <template #actions="{ item }">
-          <wt-icon-action
-            action="edit"
-            @click="editItem(item)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="deleteData(item)"
-          />
+          <wt-icon-action action="edit" @click="editItem(item)" />
+          <wt-icon-action action="delete" @click="deleteData(item)" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -141,5 +90,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

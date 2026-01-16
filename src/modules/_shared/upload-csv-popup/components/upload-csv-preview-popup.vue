@@ -38,7 +38,7 @@
       </section>
       <article
         v-show="!isParsingPreview && parseErrorStackTrace"
-        class="upload-popup-form__error-stack-trace"
+        class="upload-popup-form__error-stack-trace typo-caption"
       >
         {{ parseErrorStackTrace }}
       </article>

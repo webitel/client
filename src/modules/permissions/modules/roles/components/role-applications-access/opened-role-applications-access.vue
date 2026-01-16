@@ -1,39 +1,24 @@
 <template>
   <section>
-    <application-access-popup
-      :namespace="namespace"
-      @close="closePopup"
-    />
+    <application-access-popup :namespace="namespace" @close="closePopup" />
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 2) }}
+        {{ $t('objects.permissions.roles.applicationsAccess.applicationsAccess', 2) }}
       </h3>
     </header>
 
     <div class="table-wrapper">
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        :selectable="false"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
         <template #name="{ item }">
           {{ item.displayName }}
         </template>
         <template #access="{ item }">
-          <wt-switcher
-            :model-value="item.enabled"
-            @update:model-value="updateAccess({ app: item.name, value: $event })"
-          />
+          <wt-switcher :model-value="item.enabled"
+            @update:model-value="updateAccess({ app: item.name, value: $event })" />
         </template>
         <template #actions="{ item }">
-          <wt-icon-action
-            v-if="item.isEditAction"
-            :disabled="!item.enabled"
-            action="edit"
-            @click="edit(item)"
-          />
+          <wt-icon-action v-if="item.isEditAction" :disabled="!item.enabled" action="edit" @click="edit(item)" />
         </template>
       </wt-table>
     </div>
@@ -119,17 +104,15 @@ export default {
       this.editedApp = name;
       this.$router.push({
         ...this.$route,
-        params: {applicationName: name}
+        params: { applicationName: name }
       });
     },
     closePopup() {
       this.$router.go(-1);
     },
-    setParentId() {},
+    setParentId() { },
   },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

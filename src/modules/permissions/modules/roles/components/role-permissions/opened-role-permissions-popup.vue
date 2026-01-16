@@ -1,37 +1,20 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!permissionIndex"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!permissionIndex" size="sm" overflow @close="close">
     <template #title>
       {{ $t('objects.permissions.roles.addPermission') }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          v-model="itemInstance.permission"
-          :clearable="false"
-          :label="$tc('objects.permissions.roles.permissions.permissions', 1)"
-          :search-method="loadPermissionsList"
-          :v="v$.itemInstance.permission"
-          required
-        />
+        <wt-select v-model="itemInstance.permission" :clearable="false"
+          :label="$t('objects.permissions.roles.permissions.permissions', 1)" :search-method="loadPermissionsList"
+          :v="v$.itemInstance.permission" required />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="computeDisabled"
-        @click="save"
-      >
+      <wt-button :disabled="computeDisabled" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -54,7 +37,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
   data: () => ({
     namespace: 'permissions/roles',
@@ -123,8 +106,8 @@ export default {
         .filter((permission) =>
           this.permissions.every((addedPermission) => addedPermission.id !== permission.id),
         )
-      // author @Lera24
-      // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
+        // author @Lera24
+        // [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
         .filter((permission => permission.id !== SpecialGlobalAction.ResetActiveAttempts))
         .map((permission) => ({
           ...permission,
@@ -132,7 +115,7 @@ export default {
         }));
       return response;
     },
-    loadItem() {},
+    loadItem() { },
     resetState() {
       this.itemInstance = {
         permission: {},
@@ -141,8 +124,8 @@ export default {
   },
   watch: {
     permissionIndex(index) {
-       if (index !== 'new') this.initEditedValue()
-       else this.resetState();
+      if (index !== 'new') this.initEditedValue()
+      else this.resetState();
     },
     permissions(item) {
       if (item && this.permissionIndex) this.initEditedValue();
@@ -151,6 +134,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

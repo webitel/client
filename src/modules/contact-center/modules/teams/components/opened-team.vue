@@ -1,35 +1,16 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -112,19 +93,19 @@ export default {
           value: 'parameters',
           pathName: TeamsRouteNames.PARAMETERS,
         }, {
-          text: this.$tc('objects.ccenter.agents.supervisors', 2),
+          text: this.$t('objects.ccenter.agents.supervisors', 2),
           value: 'supervisors',
           pathName: TeamsRouteNames.SUPERVISORS,
         }, {
-          text: this.$tc('objects.ccenter.agents.agents', 2),
+          text: this.$t('objects.ccenter.agents.agents', 2),
           value: 'agents',
           pathName: TeamsRouteNames.AGENTS,
         }, {
-          text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
+          text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
           value: 'hooks',
           pathName: TeamsRouteNames.HOOKS,
         }, {
-          text: this.$tc('objects.routing.flow.flow', 2),
+          text: this.$t('objects.routing.flow.flow', 2),
           value: 'flows',
           pathName: TeamsRouteNames.FLOWS,
         }
@@ -157,5 +138,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

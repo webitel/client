@@ -1,48 +1,21 @@
 <template>
-  <wt-page-wrapper
-    v-if="showPage"
-    :actions-panel="false"
-  >
+  <wt-page-wrapper v-if="showPage" :actions-panel="false">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
         <template #actions>
-          <webchat-copy-code-button
-            v-if="isWebchat"
-            :item-instance="itemInstance"
-            :namespace="namespace"
-            @copied="handleWebchatCodeCopied"
-          />
+          <webchat-copy-code-button v-if="isWebchat" :item-instance="itemInstance" :namespace="namespace"
+            @copied="handleWebchatCodeCopied" />
         </template>
       </wt-page-header>
     </template>
 
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          v-if="currentTab"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" v-if="currentTab" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -219,19 +192,19 @@ export default {
               },
               captcha: this.itemInstance.metadata.captcha.enabled
                 ? {
-                    sitekey: {
-                      required,
-                    },
-                    secret: {
-                      required,
-                    },
-                    threshold: {
-                      required,
-                      numeric,
-                      minValue: minValue(0),
-                      maxValue: maxValue(1),
-                    },
-                  }
+                  sitekey: {
+                    required,
+                  },
+                  secret: {
+                    required,
+                  },
+                  threshold: {
+                    required,
+                    numeric,
+                    minValue: minValue(0),
+                    maxValue: maxValue(1),
+                  },
+                }
                 : {},
               chat: {
                 openTimeout: {
@@ -241,36 +214,36 @@ export default {
               },
               appointment: this.itemInstance.metadata.appointment.enabled
                 ? {
-                    queue: {
-                      required,
-                    },
-                    communicationType: {
-                      required,
-                    },
-                    duration: {
-                      required,
-                    },
-                    days: {
-                      required,
-                      minValue: minValue(1),
-                      maxValue: maxValue(7),
-                    },
-                    availableAgents: {
-                      required,
-                      minValue: minValue(1),
-                    },
-                  }
+                  queue: {
+                    required,
+                  },
+                  communicationType: {
+                    required,
+                  },
+                  duration: {
+                    required,
+                  },
+                  days: {
+                    required,
+                    minValue: minValue(1),
+                    maxValue: maxValue(7),
+                  },
+                  availableAgents: {
+                    required,
+                    minValue: minValue(1),
+                  },
+                }
                 : {},
               call: this.itemInstance.metadata.call.enabled
                 ? {
-                    url: {
-                      required,
-                      websocketValidator,
-                    },
-                    flow: {
-                      required,
-                    },
-                  }
+                  url: {
+                    required,
+                    websocketValidator,
+                  },
+                  flow: {
+                    required,
+                  },
+                }
                 : {},
             },
           },
@@ -324,7 +297,7 @@ export default {
         pathName: ChatGatewayRoutesName.GENERAL,
       };
       const botTemplates = {
-        text: this.$tc('objects.routing.chatGateways.templates.templates', 2),
+        text: this.$t('objects.routing.chatGateways.templates.templates', 2),
         value: 'OpenedChatGatewayTemplates',
         pathName: ChatGatewayRoutesName.TEMPLATES,
       };
@@ -438,7 +411,7 @@ export default {
             webchatReCaptcha,
           ];
         default:
-          return [{pathName: ChatGatewayRoutesName.GENERAL}];
+          return [{ pathName: ChatGatewayRoutesName.GENERAL }];
       }
     },
 
@@ -462,7 +435,7 @@ export default {
           chatTypeLocale = `${this.chatType}.${this.chatType}`;
           break;
         default:
-          return this.$tc('objects.routing.gateways.gateways', 1);
+          return this.$t('objects.routing.gateways.gateways', 1);
       }
       return this.$t(`objects.routing.chatGateways.${chatTypeLocale}`);
     },
@@ -474,7 +447,7 @@ export default {
           name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc('objects.routing.chatGateways.chatGateways', 2),
+          name: this.$t('objects.routing.chatGateways.chatGateways', 2),
           route: baseUrl,
         },
         {
@@ -502,7 +475,7 @@ export default {
       await this.loadItem(this.$route.query.type);
     },
     changeTab(tab) {
-      this.$router.push({ name: tab.pathName ,query: this.$route.query });
+      this.$router.push({ name: tab.pathName, query: this.$route.query });
     },
   },
 };

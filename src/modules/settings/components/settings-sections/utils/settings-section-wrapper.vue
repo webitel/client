@@ -1,6 +1,6 @@
 <template>
   <section class="settings-section-wrapper">
-    <p class="settings-section-title">
+    <p class="settings-section-title typo-heading-4">
       <slot name="title" />
     </p>
     <div class="settings-section-content">
@@ -23,13 +23,12 @@
   border-radius: var(--border-radius);
   box-shadow: var(--elevation-5);
 }
-.settings-section-title {
-  @extend %typo-heading-4;
-}
+
+
 .settings-section-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
-</style> 
+</style>

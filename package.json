@@ -13,8 +13,8 @@
     "tsc": "vue-tsc -p tsconfig.json",
     "utils:i": "npm i --install-links",
     "utils:up-libs": "npm update @webitel/ui-sdk && npm ls @webitel/ui-sdk",
-    "utils:link-libs": "npm link @webitel/api-services @webitel/ui-sdk && npm run utils:ls-libs",
-    "utils:ls-libs": "npm ls @webitel/api-services @webitel/ui-sdk"
+    "utils:link-libs": "npm link @webitel/api-services @webitel/ui-sdk @webitel/styleguide && npm run utils:ls-libs",
+    "utils:ls-libs": "npm ls @webitel/api-services @webitel/ui-sdk @webitel/styleguide"
   },
   "type": "module",
   "dependencies": {
@@ -24,6 +24,7 @@
     "@vueuse/core": "^11.0.3",
     "@webitel/api-services": "^0.1.0",
     "@webitel/flow-ui-sdk": "^0.1.36",
+    "@webitel/styleguide": "^26.2.2",
     "@webitel/ui-sdk": "^26.2.0-2",
     "axios": "^1.7.7",
     "clipboard-copy": "^4.0.1",

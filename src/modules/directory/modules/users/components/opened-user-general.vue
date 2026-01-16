@@ -6,72 +6,32 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :value="itemInstance.name"
-        :v="v.itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :value="itemInstance.name"
+        :v="v.itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
 
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.directory.users.extensions')"
-        :value="itemInstance.extension"
-        @input="setItemProp({ prop: 'extension', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.directory.users.extensions')"
+        :value="itemInstance.extension" @input="setItemProp({ prop: 'extension', value: $event })" />
 
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.directory.users.login')"
-        :v="v.itemInstance.username"
-        :value="itemInstance.username"
-        required
-        @input="setItemProp({ prop: 'username', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.directory.users.login')" :v="v.itemInstance.username"
+        :value="itemInstance.username" required @input="setItemProp({ prop: 'username', value: $event })" />
 
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.email')"
-        :value="itemInstance.email"
-        @input="setItemProp({ prop: 'email', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.email')" :value="itemInstance.email"
+        @input="setItemProp({ prop: 'email', value: $event })" />
 
-      <user-password-input
-        :disabled="disableUserInput"
-        :model-value="itemInstance.password"
-        required
-        @update:model-value="setItemProp({ prop: 'password', value: $event })"
-      />
+      <user-password-input :disabled="disableUserInput" :model-value="itemInstance.password" required
+        @update:model-value="setItemProp({ prop: 'password', value: $event })" />
 
-      <wt-select
-        :disabled="disableUserInput || !hasContactsReadAccess"
-        :label="$tc('vocabulary.contact', 1)"
-        :search-method="loadContactsOptions"
-        :track-by="name"
-        :value="itemInstance.contact"
-        @input="setItemProp({ prop: 'contact', value: $event })"
-      />
+      <wt-select :disabled="disableUserInput || !hasContactsReadAccess" :label="$t('vocabulary.contact', 1)"
+        :search-method="loadContactsOptions" :track-by="name" :value="itemInstance.contact"
+        @input="setItemProp({ prop: 'contact', value: $event })" />
 
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('objects.directory.users.temporaryPassword')"
+      <wt-switcher :disabled="disableUserInput" :label="$t('objects.directory.users.temporaryPassword')"
         :model-value="itemInstance.forcePasswordChange"
-        @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.directory.users.chatName')"
-        :value="itemInstance.chatName"
-        @input="setItemProp({ prop: 'chatName', value: $event })"
-      />
+        @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.directory.users.chatName')"
+        :value="itemInstance.chatName" @input="setItemProp({ prop: 'chatName', value: $event })" />
 
-      <qrcode
-        v-if="isDisplayQRCode"
-        :namespace="namespace"
-        :url="itemInstance.totpUrl"
-      />
+      <qrcode v-if="isDisplayQRCode" :namespace="namespace" :url="itemInstance.totpUrl" />
     </div>
   </section>
 </template>

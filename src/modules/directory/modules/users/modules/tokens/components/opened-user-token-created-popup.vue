@@ -1,19 +1,15 @@
 <template>
-  <wt-popup
-    class="token-created-popup"
-    v-bind="$attrs"
-    @close="close"
-  >
+  <wt-popup class="token-created-popup" v-bind="$attrs" @close="close">
     <template #title>
       {{ $t('objects.directory.users.tokenPopupHeader') }}
     </template>
     <template #main>
       <div class="token-created-popup__token__wrapper">
-        <div class="token-created-popup__token__token">
+        <div class="token-created-popup__token__token typo-subtitle-2">
           {{ token }}
         </div>
       </div>
-      <h4 class="token-created-popup__text">
+      <h4 class="token-created-popup__text typo-body-1">
         {{ $t('objects.directory.users.tokenPopupText') }}
       </h4>
     </template>
@@ -21,11 +17,7 @@
       <wt-button @click="copy">
         {{ $t('objects.directory.users.tokenPopupCopy') }}
       </wt-button>
-      <wt-button
-        class="button-save"
-        color="secondary"
-        @click="saveTxt"
-      >
+      <wt-button class="button-save" color="secondary" @click="saveTxt">
         {{ $t('objects.directory.users.tokenPopupSave') }}
       </wt-button>
     </template>
@@ -79,11 +71,6 @@ export default {
 }
 
 .token-created-popup__token__token {
-  @extend %typo-subtitle-2;
   text-align: center;
-}
-
-.token-created-popup__text {
-  @extend %typo-body-1;
 }
 </style>

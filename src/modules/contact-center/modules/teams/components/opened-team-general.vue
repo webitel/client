@@ -6,50 +6,21 @@
       </h3>
     </header>
     <div class="object-input-area-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        class="object-input-area-grid__name"
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-select
-        v-model="strategy"
-        :clearable="false"
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.strategy')"
-        :options="strategyOptions"
-        :v="v.itemInstance.strategy"
-        required
-        class="object-input-area-grid__strategy"
-        track-by="value"
-      />
-      <wt-select
-        :close-on-select="false"
-        :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.agents.admins', 1)"
-        :search-method="fetchAdmins"
-        :value="itemInstance.admin"
-        multiple
-        class="object-input-area-grid__admins"
-        @input="setItemProp({ prop: 'admin', value: $event })"
-      />
-      <wt-textarea
-        :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        class="object-input-area-grid__description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
-      />
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.agents.agentScreenControl')"
-        :model-value="itemInstance.screenControl"
-        class="object-input-area-grid__screen-control"
-        @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required class="object-input-area-grid__name"
+        @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-select v-model="strategy" :clearable="false" :disabled="disableUserInput"
+        :label="$t('objects.ccenter.teams.strategy')" :options="strategyOptions" :v="v.itemInstance.strategy" required
+        class="object-input-area-grid__strategy" track-by="value" />
+      <wt-select :close-on-select="false" :disabled="disableUserInput" :label="$t('objects.ccenter.agents.admins', 1)"
+        :search-method="fetchAdmins" :value="itemInstance.admin" multiple class="object-input-area-grid__admins"
+        @input="setItemProp({ prop: 'admin', value: $event })" />
+      <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
+        :model-value="itemInstance.description" class="object-input-area-grid__description"
+        @update:model-value="setItemProp({ prop: 'description', value: $event })" />
+      <wt-switcher :disabled="disableUserInput" :label="$t('objects.ccenter.agents.agentScreenControl')"
+        :model-value="itemInstance.screenControl" class="object-input-area-grid__screen-control"
+        @update:model-value="setItemProp({ prop: 'screenControl', value: $event })" />
     </div>
   </section>
 </template>
@@ -101,18 +72,23 @@ export default {
     'admins description'
     '. screenControl';
   ;
+
   &__name {
     grid-area: name;
   }
+
   &__strategy {
     grid-area: strategy;
   }
+
   &__admins {
     grid-area: admins;
   }
+
   &__description {
     grid-area: description;
   }
+
   &__screen-control {
     grid-area: screenControl;
     align-self: center;

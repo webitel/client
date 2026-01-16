@@ -1,43 +1,25 @@
 <template>
-  <selection-popup
-    v-bind="$attrs"
-    :selected="selected"
-    :title="$t('objects.routing.flow.createFlowSelectionPopup')"
-    overflow
-    @close="close"
-    @select="create"
-  >
+  <selection-popup v-bind="$attrs" :selected="selected" :title="$t('objects.routing.flow.createFlowSelectionPopup')"
+    overflow @close="close" @select="create">
     <!--Main flow popup content deed to make in "after-section"
      because in another case a tooltip will display incorrectly,
      and in general this is a specific case-->
     <template #after-section>
       <div class="create-flow-popup__main-wrapper">
         <section class="popup-flows">
-          <button
-            v-for="(editor) of editorOptions"
-            :class="{ 'active': editor.value === selected.value }"
-            class="popup-flow-editor"
-            @click="selected = editor"
-          >
+          <button v-for="(editor) of editorOptions" :class="{ 'active': editor.value === selected.value }"
+            class="popup-flow-editor" @click="selected = editor">
             <div class="popup-flow-editor__img-wrapper">
-              <img
-                :alt="editor.alt"
-                :src="editor.image"
-              >
+              <img :alt="editor.alt" :src="editor.image">
             </div>
-            <p class="popup-flow-editor__title">
+            <p class="popup-flow-editor__title typo-subtitle-2">
               {{ editor.title }}
               <wt-hint>{{ editor.description }}</wt-hint>
             </p>
           </button>
         </section>
-        <wt-select
-          v-model="type"
-          :clearable="false"
-          :label="$t('vocabulary.type')"
-          :options="typeOptions"
-          track-by="value"
-        />
+        <wt-select v-model="type" :clearable="false" :label="$t('vocabulary.type')" :options="typeOptions"
+          track-by="value" />
       </div>
     </template>
   </selection-popup>
@@ -64,11 +46,11 @@ export default {
     selected: {},
     type: {},
     typeOptions: Object.values(EngineRoutingSchemaType)
-    .filter((type) => type !== EngineRoutingSchemaType.Default)
-    .map((value) => ({
-      value,
-      locale: `objects.flow.type.${value}`,
-    })),
+      .filter((type) => type !== EngineRoutingSchemaType.Default)
+      .map((value) => ({
+        value,
+        locale: `objects.flow.type.${value}`,
+      })),
   }),
 
   computed: {
@@ -180,7 +162,8 @@ $pic-height: 80px;
   border: 1px solid var(--secondary-color-50);
   border-radius: var(--border-radius);
 
-  &:hover, &.active {
+  &:hover,
+  &.active {
     border-color: var(--primary-color);
   }
 
@@ -202,7 +185,6 @@ $pic-height: 80px;
   }
 
   &__title {
-    @extend %typo-subtitle-2;
     overflow: hidden;
     text-align: center;
     text-overflow: ellipsis;

@@ -2,63 +2,35 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.routing.chatGateways.templates.templates', 1) }}
+        {{ $t('objects.routing.chatGateways.templates.templates', 1) }}
       </h3>
 
       <div class="content-header__actions-wrap">
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="addTime"
-        />
+        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="addTime" />
       </div>
     </header>
 
     <div class="table-wrapper">
-        <wt-table
-          :data="itemInstance.times"
-          :grid-actions="!disableUserInput"
-          :headers="headers"
-          :selectable="false"
-        >
-          <template #start="{ item, index }">
-            <wt-timepicker
-              :disabled="disableUserInput"
-              :value="minToSec(item.start)"
-              :v="v.itemInstance.times.$each.$response.$data[index].start"
-              format="hh:mm"
-              no-label
-              @input="setStartTime({ index, value: secToMin($event) })"
-            />
-          </template>
-          <template #end="{ item, index }">
-            <wt-timepicker
-              :disabled="disableUserInput"
-              :value="minToSec(item.end)"
-              format="hh:mm"
-              no-label
-              :v="v.itemInstance.times.$each.$response.$data[index].end"
-              @input="setEndTime({ index, value: secToMin($event) })"
-            />
-          </template>
-          <template #duration="{ item, index }">
-            <wt-timepicker
-              :value="minToSec(item.duration)"
-              format="hh:mm"
-              type="number"
-              no-label
-              @input="setDuration({ index, value: secToMin($event) })"
-            />
-          </template>
-          <template #actions="{ item, index }">
-            <wt-icon-action
-              action="delete"
-              @click="removeTime(index)"
-            />
-          </template>
-        </wt-table>
-      </div>
+      <wt-table :data="itemInstance.times" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
+        <template #start="{ item, index }">
+          <wt-timepicker :disabled="disableUserInput" :value="minToSec(item.start)"
+            :v="v.itemInstance.times.$each.$response.$data[index].start" format="hh:mm" no-label
+            @input="setStartTime({ index, value: secToMin($event) })" />
+        </template>
+        <template #end="{ item, index }">
+          <wt-timepicker :disabled="disableUserInput" :value="minToSec(item.end)" format="hh:mm" no-label
+            :v="v.itemInstance.times.$each.$response.$data[index].end"
+            @input="setEndTime({ index, value: secToMin($event) })" />
+        </template>
+        <template #duration="{ item, index }">
+          <wt-timepicker :value="minToSec(item.duration)" format="hh:mm" type="number" no-label
+            @input="setDuration({ index, value: secToMin($event) })" />
+        </template>
+        <template #actions="{ item, index }">
+          <wt-icon-action action="delete" @click="removeTime(index)" />
+        </template>
+      </wt-table>
+    </div>
   </section>
 </template>
 
@@ -117,13 +89,11 @@ export default {
       this.setTime({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
     },
     setDuration({ index, value }) {
-      this.setTime({ prop: 'duration', index, value});
+      this.setTime({ prop: 'duration', index, value });
       this.setTime({ prop: 'end', index, value: this.itemInstance.times[index].start + this.itemInstance.times[index].duration });
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
-
+<style lang="scss" scoped></style>

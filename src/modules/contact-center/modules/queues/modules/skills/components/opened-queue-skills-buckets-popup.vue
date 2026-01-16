@@ -1,20 +1,11 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    size="sm"
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" size="sm" @close="close">
     <template #title>
-      {{ $tc('objects.lookups.buckets.buckets', 2) }}
+      {{ $t('objects.lookups.buckets.buckets', 2) }}
     </template>
     <template #main>
       <section class="agent-buckets-popup">
-        <wt-table
-          :data="itemBuckets"
-          :grid-actions="false"
-          :headers="headers"
-          :selectable="false"
-        >
+        <wt-table :data="itemBuckets" :grid-actions="false" :headers="headers" :selectable="false">
           <template #bucket="{ item }">
             {{ item.name }}
           </template>
@@ -33,7 +24,7 @@ export default {
   computed: {
     ...mapState({
       itemBuckets(state) {
-        return getNamespacedState(state,'ccenter/queues/skills').buckets;
+        return getNamespacedState(state, 'ccenter/queues/skills').buckets;
       },
     }),
     headers() {
@@ -54,5 +45,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

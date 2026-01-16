@@ -1,20 +1,11 @@
 <template>
-  <wt-popup
-    size="sm"
-    min-width="480"
-    @close="close"
-  >
+  <wt-popup size="sm" min-width="480" @close="close">
     <template #title>
-      {{ $tc('objects.lookups.skills.skills', 2) }}
+      {{ $t('objects.lookups.skills.skills', 2) }}
     </template>
     <template #main>
       <section>
-        <wt-table
-          :data="dataList"
-          :grid-actions="false"
-          :headers="headers"
-          :selectable="false"
-        >
+        <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false">
           <template #skill="{ item }">
             {{ item.name }}
           </template>
@@ -46,7 +37,7 @@ export default {
       return [
         {
           value: 'skill',
-          text: this.$tc('objects.lookups.skills.skills', 1),
+          text: this.$t('objects.lookups.skills.skills', 1),
         },
       ];
     },
@@ -59,5 +50,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

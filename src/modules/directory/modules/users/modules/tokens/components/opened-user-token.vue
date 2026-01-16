@@ -1,59 +1,28 @@
 <template>
   <section>
-    <token-popup
-      :shown="isPopup"
-      @close="closePopup"
-      @token-created="openTokenCreatedPopup"
-    />
-    <token-created-popup
-      v-if="isTokenGenerated"
-      @close="closeTokenCreatedPopup"
-    />
-    <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
-      @close="closeDelete"
-    />
+    <token-popup :shown="isPopup" @close="closePopup" @token-created="openTokenCreatedPopup" />
+    <token-created-popup v-if="isTokenGenerated" @close="closeTokenCreatedPopup" />
+    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
+      @close="closeDelete" />
 
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.directory.users.token', 2) }}
+        {{ $t('objects.directory.users.token', 2) }}
       </h3>
 
-      <wt-table-actions
-        :icons="['refresh']"
-        @input="tableActionsHandler"
-      >
-        <delete-all-action
-          v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
-          :selected-count="selectedRows.length"
-          @click="askDeleteConfirmation({
+      <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+        <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+          :selected-count="selectedRows.length" @click="askDeleteConfirmation({
             deleted: selectedRows,
             callback: () => deleteData(selectedRows),
-          })"
-        />
-        <wt-icon-action
-          v-if="!disableUserInput"
-          action="add"
-          @click="create"
-        />
+          })" />
+        <wt-icon-action v-if="!disableUserInput" action="add" @click="create" />
       </wt-table-actions>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <div
-      v-show="isLoaded"
-      class="table-wrapper"
-    >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
-      >
+    <div v-show="isLoaded" class="table-wrapper">
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #usage="{ item }">
           {{ item.usage }}
         </template>
@@ -66,25 +35,14 @@
           {{ prettifyDate(item.createdAt) }}
         </template>
         <template #actions="{ item }">
-          <wt-icon-btn
-            icon="bucket"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
+          <wt-icon-btn icon="bucket" @click="askDeleteConfirmation({
+            deleted: [item],
+            callback: () => deleteData(item),
+          })" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -184,5 +142,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

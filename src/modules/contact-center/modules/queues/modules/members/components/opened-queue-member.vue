@@ -1,20 +1,11 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <template #primary-action>
-          <wt-button-select
-            :color="disabledSave ? 'secondary' : 'primary'"
-            :options="saveOptions"
-            @click="save"
-            @click:option="({ callback }) => callback()"
-          >
+          <wt-button-select :color="disabledSave ? 'secondary' : 'primary'" :options="saveOptions" @click="save"
+            @click:option="({ callback }) => callback()">
             {{ $t('objects.save') }}
           </wt-button-select>
         </template>
@@ -23,16 +14,8 @@
     </template>
     <template #main>
       <div class="main-container">
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
       </div>
     </template>
   </wt-page-wrapper>
@@ -90,11 +73,11 @@ export default {
           value: 'general',
           pathName: QueuesRoutesName.MEMBERS_GENERAL,
         }, {
-          text: this.$tc('objects.lookups.communications.communications', 1),
+          text: this.$t('objects.lookups.communications.communications', 1),
           value: 'communication',
           pathName: QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE,
         }, {
-          text: this.$tc('objects.ccenter.queues.variables', 2),
+          text: this.$t('objects.ccenter.queues.variables', 2),
           value: 'variables',
           pathName: QueuesRoutesName.MEMBERS_VARIABLES,
         },
@@ -108,7 +91,7 @@ export default {
           name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc('objects.ccenter.members.members', 2),
+          name: this.$t('objects.ccenter.members.members', 2),
           route: baseUrl,
         },
         {
@@ -172,6 +155,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

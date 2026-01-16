@@ -1,36 +1,19 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!numberId"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!numberId" size="sm" overflow @close="close">
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
       <form>
-        <wt-input
-          :label="$tc('objects.ccenter.res.numbers', 1)"
-          :v="v$.itemInstance.display"
-          :value="itemInstance.display"
-          required
-          @input="setItemProp({ prop: 'display', value: $event })"
-        />
+        <wt-input :label="$t('objects.ccenter.res.numbers', 1)" :v="v$.itemInstance.display"
+          :value="itemInstance.display" required @input="setItemProp({ prop: 'display', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -50,7 +33,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
   data: () => ({
     namespace: 'ccenter/res/numbers',
@@ -63,7 +46,7 @@ export default {
   computed: {
     popupTitle() {
       const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
-      return action + ' ' + this.$tc('objects.ccenter.res.numbers', 1).toLowerCase();
+      return action + ' ' + this.$t('objects.ccenter.res.numbers', 1).toLowerCase();
     },
     numberId() {
       return this.$route.params.numberId;
@@ -80,6 +63,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

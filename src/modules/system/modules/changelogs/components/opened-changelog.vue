@@ -1,45 +1,21 @@
 <template>
-  <wt-page-wrapper
-    :actions-panel="!!currentTab.filters"
-  >
+  <wt-page-wrapper :actions-panel="!!currentTab.filters">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <component
-        :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
-      />
+      <component :is="currentTab.filters" :namespace="currentTab.filtersNamespace" />
     </template>
 
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -92,7 +68,7 @@ export default {
         },
       ];
       const logs = {
-        text: this.$tc('objects.system.changelogs.logs.logs', 2),
+        text: this.$t('objects.system.changelogs.logs.logs', 2),
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/logs/filters`,
@@ -109,7 +85,7 @@ export default {
           name: this.$t('objects.system.system'),
         },
         {
-          name: this.$tc('objects.system.changelogs.changelogs', 1),
+          name: this.$t('objects.system.changelogs.changelogs', 1),
           route: baseUrl,
         },
         {
@@ -140,6 +116,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

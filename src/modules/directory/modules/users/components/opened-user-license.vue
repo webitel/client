@@ -2,19 +2,13 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.directory.license.license', 1) }}
+        {{ $t('objects.directory.license.license', 1) }}
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-select
-        :close-on-select="false"
-        :disabled="disableUserInput"
-        :label="$tc('objects.directory.license.license', 1)"
-        :search-method="loadDropdownOptionsList"
-        :value="itemInstance.license"
-        multiple
-        @input="setItemProp({ prop: 'license', value: $event })"
-      />
+      <wt-select :close-on-select="false" :disabled="disableUserInput"
+        :label="$t('objects.directory.license.license', 1)" :search-method="loadDropdownOptionsList"
+        :value="itemInstance.license" multiple @input="setItemProp({ prop: 'license', value: $event })" />
     </div>
   </section>
 </template>
@@ -43,6 +37,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

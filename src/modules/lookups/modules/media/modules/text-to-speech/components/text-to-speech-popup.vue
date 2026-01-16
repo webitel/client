@@ -1,103 +1,42 @@
 <template>
   <div class="tts">
-    <wt-icon-btn
-      v-show="!isOpened"
-      v-tooltip="$t('objects.lookups.media.tts.hint')"
-      icon="tts-download"
-      @click="openPopup"
-    />
+    <wt-icon-btn v-show="!isOpened" v-tooltip="$t('objects.lookups.media.tts.hint')" icon="tts-download"
+      @click="openPopup" />
 
-    <wt-popup
-      :shown="isOpened"
-      size="sm"
-      @close="closePopup"
-    >
+    <wt-popup :shown="isOpened" size="sm" @close="closePopup">
       <template #title>
         {{ $t('reusable.tts') }}
       </template>
       <template #main>
         <form class="object-input-grid object-input-grid__1-col">
-          <wt-input
-            v-model="draft.name"
-            :label="$t('reusable.name')"
-            :v="v$.draft.name"
-          />
-          <wt-select
-            v-model="draft.profile"
-            :clearable="false"
-            :label="$tc('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)"
-            :search-method="searchProfiles"
-            :v="v$.draft.profile"
-          />
-          <wt-select
-            v-model="draft.textType"
-            :clearable="false"
-            :label="$t('objects.lookups.media.tts.textType.textType')"
-            :options="textTypeOptions"
-            track-by="value"
-          />
-          <wt-select
-            v-model="draft.language"
-            :clearable="false"
-            :label="$t('vocabulary.language')"
-            :options="TtsMicrosoftLanguage"
-            :track-by="null"
-          />
-          <wt-select
-            v-model="draft.voice"
-            :clearable="false"
-            :label="$t('vocabulary.voice')"
-            :options="TtsMicrosoftVoice"
-            :track-by="null"
-          />
-          <wt-select
-            v-model="draft.format"
-            :clearable="false"
-            :label="$t('vocabulary.format')"
-            :track-by="null"
-            disabled
-          />
-          <wt-textarea
-            v-model:model-value="draft.text"
-            :label="$t('vocabulary.text')"
-            :v="v$.draft.text"
-          />
+          <wt-input v-model="draft.name" :label="$t('reusable.name')" :v="v$.draft.name" />
+          <wt-select v-model="draft.profile" :clearable="false"
+            :label="$t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)" :search-method="searchProfiles"
+            :v="v$.draft.profile" />
+          <wt-select v-model="draft.textType" :clearable="false"
+            :label="$t('objects.lookups.media.tts.textType.textType')" :options="textTypeOptions" track-by="value" />
+          <wt-select v-model="draft.language" :clearable="false" :label="$t('vocabulary.language')"
+            :options="TtsMicrosoftLanguage" :track-by="null" />
+          <wt-select v-model="draft.voice" :clearable="false" :label="$t('vocabulary.voice')"
+            :options="TtsMicrosoftVoice" :track-by="null" />
+          <wt-select v-model="draft.format" :clearable="false" :label="$t('vocabulary.format')" :track-by="null"
+            disabled />
+          <wt-textarea v-model:model-value="draft.text" :label="$t('vocabulary.text')" :v="v$.draft.text" />
         </form>
       </template>
       <template #actions>
         <div class="tts__footer-wrapper">
-          <wt-player
-            v-if="audioUrl"
-            :autoplay="false"
-            :closable="false"
-            :download="false"
-            :src="audioUrl"
-            position="static"
-          />
+          <wt-player v-if="audioUrl" :autoplay="false" :closable="false" :download="false" :src="audioUrl"
+            position="static" />
           <div class="tts__footer-actions-wrapper">
-            <wt-button
-              v-if="audio"
-              :disabled="disabled"
-              :loading="isSaving"
-              wide
-              @click="save"
-            >
+            <wt-button v-if="audio" :disabled="disabled" :loading="isSaving" wide @click="save">
               {{ $t('reusable.save') }}
             </wt-button>
-            <wt-button
-              :color="audio ? 'secondary' : 'primary'"
-              :disabled="disabled"
-              :loading="isGenerating"
-              wide
-              @click="generate"
-            >
+            <wt-button :color="audio ? 'secondary' : 'primary'" :disabled="disabled" :loading="isGenerating" wide
+              @click="generate">
               {{ $t('reusable.generate') }}
             </wt-button>
-            <wt-button
-              color="secondary"
-              wide
-              @click="closePopup"
-            >
+            <wt-button color="secondary" wide @click="closePopup">
               {{ $t('reusable.close') }}
             </wt-button>
           </div>

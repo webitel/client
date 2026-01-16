@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="users"
+    class="table-page"
   >
     <template #header>
       <wt-page-header
@@ -23,12 +23,12 @@
         @close="closeDelete"
       />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
             {{ $t('objects.directory.users.allUsers') }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
@@ -42,7 +42,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -69,7 +69,7 @@
         />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
@@ -98,7 +98,7 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :model-value="getDND(item.presence)"
-                @update:model-value="setDND({item, value: $event})"
+                @update:model-value="setDND({ item, value: $event })"
               />
             </template>
             <template #actions="{ item }">
@@ -111,8 +111,8 @@
                 action="delete"
                 :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => deleteData(item),
+                  deleted: [item],
+                  callback: () => deleteData(item),
                 })"
               />
             </template>
@@ -201,7 +201,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc('objects.user', 2),
+          name: this.$t('objects.user', 2),
           route: '/directory/users',
         },
       ];
@@ -237,5 +237,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

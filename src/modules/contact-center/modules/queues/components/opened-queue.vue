@@ -1,46 +1,21 @@
 <template>
-  <wt-page-wrapper
-    v-if="showQueuePage"
-    :actions-panel="!!currentTab.filters"
-  >
+  <wt-page-wrapper v-if="showQueuePage" :actions-panel="!!currentTab.filters">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <component
-        :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
-      />
+      <component :is="currentTab.filters" :namespace="currentTab.filtersNamespace" />
     </template>
 
     <template #main>
-      <form
-        class="tabs-page-wrapper"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="tabs-page-wrapper" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -358,27 +333,27 @@ export default {
         pathName: QueuesRoutesName.PROCESSING,
       };
       const agents = {
-        text: this.$tc('objects.ccenter.agents.agents', 2),
+        text: this.$t('objects.ccenter.agents.agents', 2),
         value: 'agents',
         pathName: QueuesRoutesName.AGENTS,
       };
       const skills = {
-        text: this.$tc('objects.lookups.skills.skills', 2),
+        text: this.$t('objects.lookups.skills.skills', 2),
         value: 'skills',
         pathName: QueuesRoutesName.SKILLS,
       };
       const resources = {
-        text: this.$tc('objects.ccenter.res.res', 2),
+        text: this.$t('objects.ccenter.res.res', 2),
         value: 'resources',
         pathName: QueuesRoutesName.RESOURCES,
       };
       const buckets = {
-        text: this.$tc('objects.lookups.buckets.buckets', 2),
+        text: this.$t('objects.lookups.buckets.buckets', 2),
         value: 'buckets',
         pathName: QueuesRoutesName.BUCKETS,
       };
       const hooks = {
-        text: this.$tc('objects.ccenter.queues.hooks.hooks', 2),
+        text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
         value: 'hooks',
         pathName: QueuesRoutesName.HOOKS,
       };
@@ -388,12 +363,12 @@ export default {
         pathName: QueuesRoutesName.AMD,
       };
       const variables = {
-        text: this.$tc('objects.ccenter.queues.variables', 2),
+        text: this.$t('objects.ccenter.queues.variables', 2),
         value: 'variables',
         pathName: QueuesRoutesName.VARIABLES,
       };
       const logs = {
-        text: this.$tc('objects.ccenter.queues.logs.logs', 2),
+        text: this.$t('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
         filters: 'logs-filters',
         filtersNamespace: `${this.namespace}/log/filters`,
@@ -432,7 +407,7 @@ export default {
           name: this.$t('objects.ccenter.ccenter'),
         },
         {
-          name: this.$tc('objects.ccenter.queues.queues', 2),
+          name: this.$t('objects.ccenter.queues.queues', 2),
           route: baseUrl,
         },
         {
@@ -454,5 +429,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

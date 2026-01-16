@@ -38,7 +38,7 @@ export default {
     }),
     permissionsTab() {
       return {
-        text: this.$tc('objects.permissions.permissions', 2),
+        text: this.$t('objects.permissions.permissions', 2),
         value: 'permissions',
         pathName: this.permissionsTabPathName,
       };
@@ -79,7 +79,7 @@ export default {
       this.$router.push({ ...this.$route, name: tab.pathName });
     },
 
-    handleError (err) {
+    handleError(err) {
       const status = err?.status ?? err?.response?.status;
       const to = ErrorRedirectMap[status];
       if (to) return this.$router.push(to);

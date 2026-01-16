@@ -1,39 +1,20 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!resourceId"
-    size="sm"
-    min-width="480"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!resourceId" size="sm" min-width="480" overflow @close="close">
     <template #title>
-      {{ $tc('objects.ccenter.resGroups.resGroups', 1) }}
+      {{ $t('objects.ccenter.resGroups.resGroups', 1) }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.ccenter.resGroups.resGroups', 1)"
-          :search-method="loadResGroupsOptions"
-          :v="v$.itemInstance.resourceGroup"
-          :value="itemInstance.resourceGroup"
-          required
-          @input="setItemProp({ prop: 'resourceGroup', value: $event })"
-        />
+        <wt-select :clearable="false" :label="$t('objects.ccenter.resGroups.resGroups', 1)"
+          :search-method="loadResGroupsOptions" :v="v$.itemInstance.resourceGroup" :value="itemInstance.resourceGroup"
+          required @input="setItemProp({ prop: 'resourceGroup', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.save') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -54,7 +35,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
   data: () => ({
     namespace: 'ccenter/queues/resGroups',
@@ -74,7 +55,7 @@ export default {
     resourceId: {
       immediate: true,
       handler(id) {
-       if (id) this.handleIdChange(id);
+        if (id) this.handleIdChange(id);
       },
     },
   },
@@ -87,6 +68,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

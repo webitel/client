@@ -49,7 +49,7 @@ export default {
           localizedText =
             !header.locale || typeof header.locale === 'string'
               ? this.$t(header.locale)
-              : this.$tc(...header.locale);
+              : this.$t(...header.locale);
         }
         return {
           ...header,

@@ -1,5 +1,5 @@
 <template>
-  <main class="object-wrap">
+  <main class="object-wrap wt-scrollbar">
     <section class="object">
       <wt-notifications-bar />
       <app-header />
@@ -19,15 +19,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// outer wrap of module- page
+<style scoped>
 .object-wrap {
   display: flex;
   width: 100%;
   min-height: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
-// main content itself, without nav but with main header
 .object {
   display: flex;
   flex-direction: column;
@@ -39,6 +39,7 @@ export default {
 
 .object-content-wrap {
   display: flex;
-  flex-grow: 1;
+  flex: 1;
+  min-height: 0;
 }
 </style>

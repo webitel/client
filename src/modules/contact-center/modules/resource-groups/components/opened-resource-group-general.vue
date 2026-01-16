@@ -6,30 +6,15 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-select
-        :clearable="false"
-        :disabled="disableUserInput"
-        :label="$tc('objects.lookups.communications.communications', 1)"
-        :search-method="loadDropdownOptionsList"
-        :v="v.itemInstance.communication"
-        :value="itemInstance.communication"
-        required
-        @input="setItemProp({ prop: 'communication', value: $event })"
-      />
-      <wt-textarea
-        :disabled="disableUserInput"
-        :label="$t('objects.description')"
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-select :clearable="false" :disabled="disableUserInput"
+        :label="$t('objects.lookups.communications.communications', 1)" :search-method="loadDropdownOptionsList"
+        :v="v.itemInstance.communication" :value="itemInstance.communication" required
+        @input="setItemProp({ prop: 'communication', value: $event })" />
+      <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
         :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
-      />
+        @update:model-value="setItemProp({ prop: 'description', value: $event })" />
     </div>
   </section>
 </template>

@@ -27,7 +27,7 @@
   }
 
   .table-wrapper__scroll-wrapper {
-    @extend %wt-scrollbar;
+    @extend .wt-scrollbar;
 
     overflow: auto;
     height: 100%;

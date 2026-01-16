@@ -1,47 +1,23 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!bucketId"
-    size="sm"
-    min-width="480"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!bucketId" size="sm" min-width="480" overflow @close="close">
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.lookups.buckets.buckets', 1)"
-          :search-method="loadBucketsOptions"
-          :v="v$.itemInstance.bucket"
-          :value="itemInstance.bucket"
-          required
-          @input="setItemProp({ prop: 'bucket', value: $event })"
-        />
-        <wt-input
-          :label="$t('objects.ccenter.queues.bucketPriority')"
-          :v="v$.itemInstance.priority"
-          :value="itemInstance.priority"
-          required
-          type="number"
-          @input="setItemProp({ prop: 'priority', value: $event })"
-        />
+        <wt-select :clearable="false" :label="$t('objects.lookups.buckets.buckets', 1)"
+          :search-method="loadBucketsOptions" :v="v$.itemInstance.bucket" :value="itemInstance.bucket" required
+          @input="setItemProp({ prop: 'bucket', value: $event })" />
+        <wt-input :label="$t('objects.ccenter.queues.bucketPriority')" :v="v$.itemInstance.priority"
+          :value="itemInstance.priority" required type="number"
+          @input="setItemProp({ prop: 'priority', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.save') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -62,7 +38,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
 
   data: () => ({
@@ -106,6 +82,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
