@@ -830,7 +830,7 @@ export default {
         },
         hooks: {
           eventTypes: {
-            agentStatus: 'Зміна статуту оператора',
+            agentStatus: 'Зміна статусу оператора',
           },
         },
         flows: {
