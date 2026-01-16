@@ -34,7 +34,7 @@ const ConfigurationValueTypes = {
   [EngineSystemSettingName.PasswordExpiryDays]: 'number',
   [EngineSystemSettingName.PasswordMinLength]: 'number',
   [EngineSystemSettingName.PasswordCategories]: 'multiselect',
-  [EngineSystemSettingName.PasswordContainsUsername]: 'boolean',
+  [EngineSystemSettingName.PasswordContainsLogin]: 'boolean',
   [EngineSystemSettingName.PasswordWarningDays]: 'number',
   [EngineSystemSettingName.DefaultPassword]: 'string',
 } as const;
