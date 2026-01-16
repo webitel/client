@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,16 +72,26 @@ export default {
     useWebPhone: 'Sử dụng điện thoại Web',
     useStun: 'Sử dụng STUN',
     notifications: {
+      [NotificationType.NewMessageSound]: 'Âm thanh tin nhắn mới',
+      [NotificationType.NewChatSound]: 'Âm thanh chat mới',
+      [NotificationType.ChatEndSound]: 'Âm thanh kết thúc chat',
       [NotificationType.CallEndSound]: 'Âm thanh kết thúc cuộc gọi',
+      [NotificationType.TaskEndSound]: 'Âm thanh kết thúc nhiệm vụ',
+      [NotificationType.ChatEndPush]: 'Thông báo đẩy kết thúc chat',
+      [NotificationType.CallEndPush]: 'Thông báo đẩy kết thúc cuộc gọi',
+      [NotificationType.TaskEndPush]: 'Thông báo đẩy kết thúc nhiệm vụ',
       [NotificationType.SocketCloseSound]: 'Âm thanh mất kết nối',
     },
     ringtones: {
-      title: 'Thay đổi nhạc chuông',
+      title: 'Thay đổi nhạc chuông cuộc gọi',
       ringtone: 'Nhạc chuông',
       customRingtone: 'Sử dụng nhạc chuông tùy chỉnh',
     },
     ringtoneVolume: {
-      title: 'Âm lượng nhạc chuông',
+      title: 'Cài đặt âm lượng',
+      [RingtoneType.Call]: 'Cuộc gọi',
+      [RingtoneType.Chat]: 'Trò chuyện',
+      [RingtoneType.Task]: 'Nhiệm vụ',
     },
   },
 
