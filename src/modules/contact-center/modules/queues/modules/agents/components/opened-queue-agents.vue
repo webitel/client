@@ -1,15 +1,15 @@
 <template>
-  <section class="content-wrapper">
+  <section class="table-section">
     <object-list-popup :shown="!!supervisorsId" :data-list="openedItemSupervisors"
       :headers="openedItemSupervisorHeaders" :title="$t('objects.ccenter.agents.supervisors', 2)" @close="closePopup" />
     <object-list-popup :shown="!!skillsId" :data-list="openedItemSkills" :headers="openedItemSkillsHeaders"
       :title="$t('objects.lookups.skills.skills', 2)" @close="closePopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.ccenter.agents.agents', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
         <wt-table-actions :icons="['refresh']" @input="tableActionsHandler" />
       </div>
@@ -18,7 +18,10 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper" />
-    <div v-show="dataList.length && isLoaded" class="table-wrapper">
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-section__table-wrapper"
+    >
       <wt-table :data="dataList" :grid-actions="false" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
           <wt-item-link :link="editLink(item)" target="_blank">

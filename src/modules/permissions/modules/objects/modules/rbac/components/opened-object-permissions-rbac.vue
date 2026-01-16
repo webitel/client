@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="table-section">
     <role-popup
       :shown="isRoleSelectPopup"
       :namespace="namespace"
@@ -7,11 +7,11 @@
       @close="closeRoleSelectPopup"
     />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.permissions.object.rbacDefault') }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
@@ -44,7 +44,7 @@
     />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table

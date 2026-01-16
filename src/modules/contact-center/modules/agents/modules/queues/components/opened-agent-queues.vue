@@ -1,19 +1,35 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.ccenter.queues.queues', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler" />
+      <div class="table-title__actions-wrap">
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        />
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <div v-show="isLoaded" class="table-wrapper">
-      <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false" sortable @sort="sort">
+    <div
+      v-show="isLoaded"
+      class="table-section__table-wrapper"
+    >
+      <wt-table
+        :data="dataList"
+        :grid-actions="false"
+        :headers="headers"
+        :selectable="false"
+        sortable
+        @sort="sort"
+      >
         <template #name="{ item }">
-          <wt-item-link v-if="item.queue" :link="editLink(item)">
+          <wt-item-link
+            v-if="item.queue"
+            :link="editLink(item)"
+          >
             {{ item.queue.name }}
           </wt-item-link>
         </template>
@@ -34,8 +50,16 @@
           {{ item.strategy }}
         </template>
       </wt-table>
-      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-        @next="nextPage" @prev="prevPage" />
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
+        @next="nextPage"
+        @prev="prevPage"
+      />
     </div>
   </section>
 </template>
@@ -65,5 +89,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

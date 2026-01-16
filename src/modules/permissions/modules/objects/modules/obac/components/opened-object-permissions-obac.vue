@@ -1,13 +1,13 @@
 <template>
-  <section>
+  <section class="table-section">
     <role-popup :shown="isRoleSelectPopup" :namespace="namespace" :sub-namespace="subNamespace"
       @close="closeRoleSelectPopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.permissions.object.operations', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
 
         <wt-icon-btn v-tooltip="$t('iconHints.reload')" icon="refresh" @click="loadList" />
@@ -19,7 +19,10 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper" />
-    <div v-show="dataList.length && isLoaded" class="table-wrapper">
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-section__table-wrapper"
+    >
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table :data="dataList" :headers="headers" :selectable="false" sortable @sort="sort">
           <template #grantee="{ item }">

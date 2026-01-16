@@ -4,7 +4,10 @@
     class="table-page"
   >
     <template #header>
-      <wt-page-header :hide-primary="!hasCreateAccess" :primary-action="create">
+      <wt-page-header
+        :hide-primary="!hasCreateAccess"
+        :primary-action="create"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
@@ -12,12 +15,19 @@
     <template #main>
       <history-popup @close="closeHistoryPopup" />
 
-      <upload-popup :file="csvFile" @close="closeCSVPopup" />
+      <upload-popup
+        :file="csvFile"
+        @close="closeCSVPopup"
+      />
 
       <device-popup @close="closeDeviceSelectPopup" />
 
-      <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount"
-        :callback="deleteCallback" @close="closeDelete" />
+      <delete-confirmation-popup
+        :shown="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
+        @close="closeDelete"
+      />
 
       <section class="table-section">
         <header class="table-title">
@@ -25,25 +35,61 @@
             {{ $t('objects.directory.devices.allDevices') }}
           </h3>
           <div class="table-title__actions-wrap">
-            <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
-            <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
-              <delete-all-action v-if="hasDeleteAccess" :class="{ 'hidden': anySelected }"
-                :selected-count="selectedRows.length" @click="askDeleteConfirmation({
+            <wt-search-bar
+              :value="search"
+              debounce
+              @enter="loadList"
+              @input="setSearch"
+              @search="loadList"
+            />
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            >
+              <delete-all-action
+                v-if="hasDeleteAccess"
+                :class="{ 'hidden': anySelected }"
+                :selected-count="selectedRows.length"
+                @click="askDeleteConfirmation({
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
-                })" />
-              <upload-file-icon-btn v-if="hasCreateAccess" accept=".csv" class="icon-action" @change="processCSV" />
+                })"
+              />
+              <upload-file-icon-btn
+                v-if="hasCreateAccess"
+                accept=".csv"
+                class="icon-action"
+                @change="processCSV"
+              />
             </wt-table-actions>
           </div>
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <wt-dummy v-if="dummy && isLoaded" :show-action="dummy.showAction" :src="dummy.src" :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)" class="dummy-wrapper" @create="create" />
-        <div v-show="dataList.length && isLoaded" class="table-section__table-wrapper">
-          <wt-table :data="dataList" :headers="headers" sortable @sort="sort">
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+          @create="create"
+        />
+        <div
+          v-show="dataList.length && isLoaded"
+          class="table-section__table-wrapper"
+        >
+          <wt-table
+            :data="dataList"
+            :headers="headers"
+            sortable
+            @sort="sort"
+          >
             <template #name="{ item }">
-              <adm-item-link :id="item.id" :route-name="RouteNames.DEVICES">
+              <adm-item-link
+                :id="item.id"
+                :route-name="RouteNames.DEVICES"
+              >
                 {{ item.name }}
               </adm-item-link>
             </template>
@@ -53,27 +99,53 @@
             </template>
 
             <template #user="{ item }">
-              <adm-item-link v-if="item.user" :id="item.user.id" :route-name="RouteNames.USERS">
+              <adm-item-link
+                v-if="item.user"
+                :id="item.user.id"
+                :route-name="RouteNames.USERS"
+              >
                 {{ item.user.name }}
               </adm-item-link>
             </template>
 
             <!--state classes are specified in table-status component-->
             <template #state="{ item }">
-              <wt-indicator :color="stateClass(item.reged ? 1 : 0)" :text="stateText(item.reged ? 1 : 0)" />
+              <wt-indicator
+                :color="stateClass(item.reged ? 1 : 0)"
+                :text="stateText(item.reged ? 1 : 0)"
+              />
             </template>
 
             <template #actions="{ item }">
-              <wt-icon-action action="history" @click="openHistory(item.id)" />
-              <wt-icon-action action="edit" :disabled="!hasEditAccess" @click="edit(item)" />
-              <wt-icon-action action="delete" :disabled="!hasDeleteAccess" @click="askDeleteConfirmation({
-                deleted: [item],
-                callback: () => deleteData(item),
-              })" />
+              <wt-icon-action
+                action="history"
+                @click="openHistory(item.id)"
+              />
+              <wt-icon-action
+                action="edit"
+                :disabled="!hasEditAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
+                action="delete"
+                :disabled="!hasDeleteAccess"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
-          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-            @next="nextPage" @prev="prevPage" />
+          <wt-pagination
+            :next="isNext"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="loadList"
+            @input="setSize"
+            @next="nextPage"
+            @prev="prevPage"
+          />
         </div>
       </section>
     </template>
@@ -214,5 +286,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

@@ -1,16 +1,16 @@
 <template>
-  <section>
+  <section class="table-section">
     <supervisor-popup @close="closePopup" />
     <supervisor-subordinates-popup :shown="isSupervisorSubordinatesPopup" :item-id="supervisorId"
       @close="closeSubordinates" />
     <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
       @close="closeDelete" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.ccenter.agents.supervisors', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
         <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
           <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
@@ -26,7 +26,10 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper" />
-    <div v-show="dataList.length && isLoaded" class="table-wrapper">
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-section__table-wrapper"
+    >
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
           <wt-item-link :link="editLink(item)" target="_blank">

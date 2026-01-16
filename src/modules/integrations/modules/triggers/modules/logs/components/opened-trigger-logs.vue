@@ -1,7 +1,7 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.integrations.triggers.logs.logs') }}
       </h3>
     </header>
@@ -9,7 +9,7 @@
     <wt-loader v-show="!isLoaded" />
     <div
       v-show="isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"

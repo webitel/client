@@ -1,15 +1,15 @@
 <template>
-  <section>
+  <section class="table-section">
     <communication-popup @close="closePopup" />
 
     <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
       @close="closeDelete" />
 
-    <header class="content-header">
-      <h3 :class="{ 'invalid': v.itemInstance.communications.$error }" class="content-title">
+    <header class="table-title">
+      <h3 :class="{ 'invalid': v.itemInstance.communications.$error }" class="table-title__title">
         {{ $t('objects.lookups.communications.communications', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
           :selected-count="selectedRows.length" @click="askDeleteConfirmation({
             deleted: selectedRows,
@@ -22,7 +22,10 @@
     <wt-dummy v-if="!dataList.length" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper" />
 
-    <div v-show="dataList.length" class="table-wrapper">
+    <div
+      v-show="dataList.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
         <template #destination="{ item }">
           {{ item.destination }}

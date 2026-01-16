@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="license"
+    class="license table-page"
   >
     <template #header>
       <wt-page-header :hide-primary="true">
@@ -9,10 +9,10 @@
       </wt-page-header>
     </template>
     <template #main>
-      <section class="main-section__wrapper">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" />
-      </section>
+      <div class="table-page-tabs-group-wrapper">
+          <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+          <component :is="currentTab.value" />
+        </div>
     </template>
   </wt-page-wrapper>
 </template>

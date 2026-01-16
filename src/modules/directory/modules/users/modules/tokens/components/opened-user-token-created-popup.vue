@@ -1,5 +1,9 @@
 <template>
-  <wt-popup class="token-created-popup" v-bind="$attrs" @close="close">
+  <wt-popup
+    class="token-created-popup"
+    v-bind="$attrs"
+    @close="close"
+  >
     <template #title>
       {{ $t('objects.directory.users.tokenPopupHeader') }}
     </template>
@@ -17,7 +21,11 @@
       <wt-button @click="copy">
         {{ $t('objects.directory.users.tokenPopupCopy') }}
       </wt-button>
-      <wt-button class="button-save" color="secondary" @click="saveTxt">
+      <wt-button
+        class="button-save"
+        color="secondary"
+        @click="saveTxt"
+      >
         {{ $t('objects.directory.users.tokenPopupSave') }}
       </wt-button>
     </template>
@@ -59,9 +67,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style
+  lang="scss"
+  scoped
+>
 .token-created-popup__token__wrapper {
   width: 75%;
   margin: 10px auto 30px;

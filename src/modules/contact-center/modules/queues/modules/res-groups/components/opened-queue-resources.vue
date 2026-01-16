@@ -1,12 +1,12 @@
 <template>
-  <section class="content-wrapper">
+  <section class="table-section">
     <resource-popup @close="closePopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.ccenter.resGroups.resGroups', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
         <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
           <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
@@ -19,7 +19,10 @@
     <wt-loader v-show="!isLoaded" />
     <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper" />
-    <div v-show="dataList.length && isLoaded" class="table-wrapper">
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-section__table-wrapper"
+    >
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
           <adm-item-link v-if="item.resourceGroup" :id="item.resourceGroup.id" :route-name="RouteNames.RESOURCE_GROUPS"

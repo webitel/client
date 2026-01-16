@@ -1,14 +1,14 @@
 <template>
-  <section>
+  <section class="table-section">
     <application-access-popup :namespace="namespace" @close="closePopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.permissions.roles.applicationsAccess.applicationsAccess', 2) }}
       </h3>
     </header>
 
-    <div class="table-wrapper">
+    <div class="table-section__table-wrapper">
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
         <template #name="{ item }">
           {{ item.displayName }}

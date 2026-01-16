@@ -1,16 +1,16 @@
 <template>
-  <section class="opened-pause-template-causes">
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="opened-pause-template-causes table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.routing.chatGateways.templates.templates', 1) }}
       </h3>
 
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="addCause" />
       </div>
     </header>
 
-    <div class="table-wrapper">
+    <div class="table-section__table-wrapper">
       <wt-table :data="itemInstance.causes" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
         <template #name="{ item, index }">
           <wt-select :search-method="loadAgentPauseCause" :value="item.name"

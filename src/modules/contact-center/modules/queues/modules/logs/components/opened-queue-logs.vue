@@ -1,20 +1,38 @@
 <template>
-  <section class="content-wrapper">
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.ccenter.queues.logs.logs', 1) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <filter-search :namespace="filtersNamespace" />
-        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler" />
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        />
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"></wt-dummy>
-    <div v-show="dataList.length && isLoaded" class="table-wrapper">
-      <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false" sortable @sort="sort">
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
+    <div
+      v-show="dataList.length && isLoaded"
+      class="table-section__table-wrapper"
+    >
+      <wt-table
+        :data="dataList"
+        :grid-actions="false"
+        :headers="headers"
+        :selectable="false"
+        sortable
+        @sort="sort"
+      >
         <template #destination="{ item }">
           <div v-if="item.destination">
             {{ item.destination.destination }}
@@ -49,8 +67,16 @@
           {{ $t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
         </template>
       </wt-table>
-      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-        @next="nextPage" @prev="prevPage" />
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
+        @next="nextPage"
+        @prev="prevPage"
+      />
     </div>
   </section>
 </template>
@@ -105,4 +131,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

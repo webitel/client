@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="table-section">
     <add-skill-to-agent-popup
       :skill-id="parentId"
       @close="closeAddSkillToAgentPopup"
@@ -27,11 +27,11 @@
       @close="closeGlobalStateConfirmation"
     />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.ccenter.agents.allAgents') }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
@@ -75,7 +75,7 @@
     <wt-loader v-show="!isLoaded" />
     <div
       v-show="isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="table-section">
     <role-popup
       :shown="isRoleSelectPopup"
       :namespace="namespace"
@@ -7,11 +7,11 @@
       @close="closeRoleSelectPopup"
     />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.permissions.object.operations') }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -29,7 +29,7 @@
     <wt-loader v-show="!isLoaded" />
     <div
       v-show="isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
@@ -76,7 +76,7 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
-              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN } })"
             />
           </template>
         </wt-table>
@@ -111,5 +111,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

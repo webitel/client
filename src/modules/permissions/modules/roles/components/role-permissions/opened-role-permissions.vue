@@ -1,14 +1,14 @@
 <template>
-  <section>
+  <section class="table-section">
     <permissions-popup @close="closePopup" />
     <delete-confirmation-popup :callback="deleteCallback" :delete-count="deleteCount" :shown="isDeleteConfirmationPopup"
       @close="closeDelete" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.permissions.roles.permissions.permissions', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <delete-all-action v-if="!disableUserInput" :class="{ hidden: anySelected }"
           :selected-count="selectedRows.length" @click="
             askDeleteConfirmation({
@@ -20,7 +20,7 @@
       </div>
     </header>
 
-    <div class="table-wrapper">
+    <div class="table-section__table-wrapper">
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
         <template #name="{ item }">
           {{ permissionNameLocale[item.id] }}

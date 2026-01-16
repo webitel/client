@@ -1,19 +1,29 @@
 <template>
-  <wt-popup size="sm" v-bind="$attrs" @close="close">
+  <wt-popup
+    size="sm"
+    v-bind="$attrs"
+    @close="close"
+  >
     <template #title>
       {{ $t('objects.directory.users.token', 2) }}
     </template>
     <template #main>
       <form @submit.prevent="save">
-        <wt-input :label="$t('objects.name')" :value="itemInstance.usage"
-          @input="setItemProp({ prop: 'usage', value: $event })" />
+        <wt-input
+          :label="$t('objects.name')"
+          :value="itemInstance.usage"
+          @input="setItemProp({ prop: 'usage', value: $event })"
+        />
       </form>
     </template>
     <template #actions>
       <wt-button @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>

@@ -1,14 +1,14 @@
 <template>
-  <section>
+  <section class="table-section">
     <holiday-popup @close="closePopup" />
     <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
       @close="closeDelete" />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.lookups.calendars.holidays', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar v-model="search" debounce @enter="loadList" @search="loadList" />
         <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
           :selected-count="selectedRows.length" @click="askDeleteConfirmation({
@@ -21,7 +21,10 @@
 
     <wt-dummy v-if="dummy" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
       class="dummy-wrapper" />
-    <div v-show="dataListValue.length" class="table-wrapper">
+    <div
+      v-show="dataListValue.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
         <template #date="{ item }">
           {{ prettifyDate(item.date) }}

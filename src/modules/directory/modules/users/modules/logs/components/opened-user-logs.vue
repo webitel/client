@@ -1,10 +1,10 @@
 <template>
-  <section class="content-wrapper">
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.system.changelogs.logs.logs', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-icon-action
           action="download"
           @click="exportCSV({ parentId })"
@@ -26,7 +26,7 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"

@@ -1,10 +1,10 @@
 <template>
-  <div class="content-wrapper">
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         <!--        {{ $t('objects.user', 2) }}-->
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
@@ -35,7 +35,7 @@
     />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"
@@ -77,7 +77,7 @@
         @prev="prevPage"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -128,7 +128,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 :deep(.wt-table th) {
   word-break: normal;
 }

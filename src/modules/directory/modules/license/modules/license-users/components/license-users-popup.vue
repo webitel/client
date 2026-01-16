@@ -27,7 +27,7 @@
       <wt-loader v-show="!isLoaded" />
       <div
         v-show="isLoaded"
-        class="table-wrapper"
+        class="table-section__table-wrapper"
       >
         <div class="table-wrapper__scroll-wrapper">
           <wt-table
@@ -125,7 +125,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .license-users-popup__title {
   display: flex;
   align-items: center;
@@ -140,7 +143,7 @@ export default {
   margin: var(--spacing-sm) 0;
 }
 
-.table-wrapper {
+.table-section__table-wrapper {
   max-height: 60vh;
 }
 </style>
