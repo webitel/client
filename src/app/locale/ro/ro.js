@@ -652,7 +652,7 @@ export default {
             clientId: 'ID aplicație',
             clientSecret: 'Secret aplicație',
             apiVersion: 'Versiune API',
-            apiVersionHint: 'Format: vXX.XX (de exemplu, v24.00)',
+            apiVersionHint: 'Format: vXX.X (de exemplu, v24.0)',
           },
           facebook: {
             pages: 'Pagini Facebook',
