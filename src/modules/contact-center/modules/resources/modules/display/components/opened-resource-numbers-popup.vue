@@ -10,7 +10,7 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
+      <form @submit.prevent>
         <wt-input
           :label="$tc('objects.ccenter.res.numbers', 1)"
           :v="v$.itemInstance.display"
