@@ -312,8 +312,8 @@
         v-if="specificControls.lastMessageTimeout"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.lastMessageTimeout')"
-        :modelvalue="itemInstance.payload.lastMessageTimeout"
-        @update:modelvalue="setItemPayloadProp({ prop: 'lastMessageTimeout', value: $event })"
+        :model-value="itemInstance.payload.lastMessageTimeout"
+        @update:model-value="setItemPayloadProp({ prop: 'lastMessageTimeout', value: $event })"
       />
     </div>
   </section>
