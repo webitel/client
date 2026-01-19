@@ -67,6 +67,7 @@
             />
             <wt-table-actions
               :icons="['settings', 'refresh']"
+              is-settings-badge
               @input="inputTableAction"
             >
               <wt-icon-btn
