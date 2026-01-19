@@ -25,9 +25,11 @@ export default Object.freeze({
   COMMUNICATIONS: 'communications',
   PAUSE_CAUSE: 'agent-pause-cause',
   MEDIA: 'media',
-  SHIFT_TEMPLATES: 'shift-templates',
-  PAUSE_TEMPLATES: 'pause-templates',
-  WORKING_CONDITIONS: 'working-conditions',
+  // TODO Hidden this route before be ready WFM
+  // https://webitel.atlassian.net/browse/WTEL-8690
+  // SHIFT_TEMPLATES: 'shift-templates',
+  // PAUSE_TEMPLATES: 'pause-templates',
+  // WORKING_CONDITIONS: 'working-conditions',
   QUICK_REPLIES: 'quick-replies',
 
   // CONTACT-CENTER
