@@ -1,6 +1,6 @@
 <template>
-  <main class="object-wrap wt-scrollbar">
-    <section class="object">
+  <main class="object-wrap">
+    <section class="object wt-scrollbar">
       <wt-notifications-bar />
       <app-header />
       <div class="object-content-wrap">
@@ -25,7 +25,6 @@ export default {
   width: 100%;
   min-height: 100%;
   height: 100%;
-  overflow: auto;
 }
 
 .object {
@@ -33,13 +32,17 @@ export default {
   flex-direction: column;
   flex-grow: 1;
   max-width: 100%;
-  min-height: 100%;
+  min-height: 0;
   background: var(--wt-page-wrapper-background-color);
+  overflow: auto;
 }
 
 .object-content-wrap {
   display: flex;
   flex: 1;
+}
+
+.object-content-wrap:has(.table-section) {
   min-height: 0;
 }
 </style>
