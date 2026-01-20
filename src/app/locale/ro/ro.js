@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,16 +72,26 @@ export default {
     useWebPhone: 'Folosește WebPhone',
     useStun: 'Folosește STUN',
     notifications: {
+      [NotificationType.NewMessageSound]: 'Sunet pentru mesaj nou',
+      [NotificationType.NewChatSound]: 'Sunet pentru chat nou',
+      [NotificationType.ChatEndSound]: 'Sunet la sfârșitul chat-ului',
       [NotificationType.CallEndSound]: 'Sunet la sfârșitul apelului',
+      [NotificationType.TaskEndSound]: 'Sunet la sfârșitul sarcinii',
+      [NotificationType.ChatEndPush]: 'Notificare push la sfârșitul chat-ului',
+      [NotificationType.CallEndPush]: 'Notificare push la sfârșitul apelului',
+      [NotificationType.TaskEndPush]: 'Notificare push la sfârșitul sarcinii',
       [NotificationType.SocketCloseSound]: 'Sunet la pierderea conexiunii',
     },
     ringtones: {
-      title: 'Schimbă tonul',
+      title: 'Schimbă tonul apelului',
       ringtone: 'Ton',
       customRingtone: 'Folosește tonul personalizat',
     },
     ringtoneVolume: {
-      title: 'Volum ton',
+      title: 'Setări volum',
+      [RingtoneType.Call]: 'Apel',
+      [RingtoneType.Chat]: 'Chat',
+      [RingtoneType.Task]: 'Sarcină',
     },
   },
 
@@ -641,7 +652,7 @@ export default {
             clientId: 'ID aplicație',
             clientSecret: 'Secret aplicație',
             apiVersion: 'Versiune API',
-            apiVersionHint: 'Format: vXX.XX (de exemplu, v24.00)',
+            apiVersionHint: 'Format: vXX.X (de exemplu, v24.0)',
           },
           facebook: {
             pages: 'Pagini Facebook',

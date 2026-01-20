@@ -46,22 +46,23 @@
 </template>
 
 <script lang="ts">
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
 import { AdjunctTypesAPI as CustomTypesAPI } from '@webitel/api-services/api';
 import {
   WebitelProtoDataStruct,
 } from '@webitel/api-services/gen/models';
 import { WtCheckbox } from '@webitel/ui-sdk/components';
 import { WtApplication } from '@webitel/ui-sdk/enums';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { mapActions, mapState } from 'vuex';
+
 import nestedObjectMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
   name: 'OpenedRolePermissionsPopup',
-  mixins: [nestedObjectMixin],
   components: {
     WtCheckbox,
   },
+  mixins: [nestedObjectMixin],
   props: {
     namespace: {
       type: String,
@@ -80,9 +81,14 @@ export default {
     coreTypeSectionsAccess() {
       if (!this.editedApp) return [];
 
+      // TODO Hidden before WFM will be ready
+      // https://webitel.atlassian.net/browse/WTEL-8690
+      const WFMSections = ['pause-templates', 'shift-templates', 'working-conditions'];
+
       return Object.keys(this.access[this.editedApp])
         .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
         .filter((section) => !this.access[this.editedApp][section]._custom) // custom types are handled in a separate computed
+        .filter((section) => !WFMSections.includes(section))
         .map((section) => ({
           name: section,
           displayName: this.$t(`${this.access[this.editedApp][section]._locale}`),

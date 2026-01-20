@@ -32,7 +32,7 @@ export default {
           csv: '',
         },
         {
-          name: 'vendor',
+          name: 'brand',
           required: false,
           locale: `${baseLocale}.vendor`,
           csv: '',
@@ -70,19 +70,19 @@ export default {
     async saveBulkData(data) {
       let processedChunkIndex = 1;
       try {
-         
+
         for (const item of data) {
-           
+
           await this.addItem(item);
           processedChunkIndex += 1;
         }
       } catch (err) {
-         
+
         throw `An error occurred during saving ${processedChunkIndex} record: ${JSON.stringify(err)}`;
       }
     },
     addItem(item) {
-       
+
       if (!item.password) item.password = item.account;
       return DevicesAPI.add({
         itemInstance: item,

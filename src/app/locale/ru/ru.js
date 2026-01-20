@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,18 +72,26 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      [NotificationType.CallEndSound]:
-        'Звуковое уведомление о завершении звонка',
-      [NotificationType.SocketCloseSound]:
-        'Звуковое уведомление про розрыв соединения',
+      [NotificationType.NewMessageSound]: 'Звуковое уведомление о новом уведомлении',
+      [NotificationType.NewChatSound]: 'Звуковое уведомление о новом чате',
+      [NotificationType.ChatEndSound]: 'Звуковое уведомление о завершении чата',
+      [NotificationType.CallEndSound]: 'Звуковое уведомление о завершении звонка',
+      [NotificationType.TaskEndSound]: 'Звуковое уведомление о завершении задачи',
+      [NotificationType.ChatEndPush]: 'Пуш-уведомление о завершении чата',
+      [NotificationType.CallEndPush]: 'Пуш-уведомление о завершении звонка',
+      [NotificationType.TaskEndPush]: 'Пуш-уведомление о завершении задачи',
+      [NotificationType.SocketCloseSound]: 'Звуковое уведомление о разрыве соединения',
     },
     ringtones: {
-      title: 'Изменить рингтон',
+      title: 'Изменить рингтон звонка',
       ringtone: 'Рингтон',
       customRingtone: 'Выбрать другой рингтон',
     },
     ringtoneVolume: {
-      title: 'Громкость рингтона',
+      title: 'Настройка громкости',
+      [RingtoneType.Call]: 'Звонок',
+      [RingtoneType.Chat]: 'Чат',
+      [RingtoneType.Task]: 'Задача',
     },
   },
 
@@ -646,7 +655,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'Версия API',
-            apiVersionHint: 'Формат: vXX.XX (например, v24.00)',
+            apiVersionHint: 'Формат: vXX.X (например, v24.0)',
           },
           facebook: {
             pages: 'Facebook страницы',
