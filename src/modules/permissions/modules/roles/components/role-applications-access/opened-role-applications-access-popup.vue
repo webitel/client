@@ -83,7 +83,7 @@ export default {
 
       // TODO Hidden before WFM will be ready
       // https://webitel.atlassian.net/browse/WTEL-8690
-      const WFMSections = ['pause-cause', 'pause-templates', 'working-conditions'];
+      const WFMSections = ['pause-templates', 'shift-templates', 'working-conditions'];
 
       return Object.keys(this.access[this.editedApp])
         .filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
