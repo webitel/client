@@ -27,7 +27,7 @@
           :value="itemInstance.priority"
           required
           type="number"
-          @input="setItemProp({ prop: 'priority', value: $event })"
+          @input="setItemProp({ prop: 'priority', value: +$event })"
         />
       </form>
     </template>
