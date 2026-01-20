@@ -46,6 +46,7 @@
           :headers="headers"
           :lazy="true"
           :on-loading="handleIntersect"
+          data-key="id"
           sortable
           @sort="sort"
         >
