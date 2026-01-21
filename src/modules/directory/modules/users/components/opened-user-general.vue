@@ -19,6 +19,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
         :value="itemInstance.extension"
+        type="number"
         @input="setItemProp({ prop: 'extension', value: $event })"
       />
 
