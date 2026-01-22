@@ -1,20 +1,11 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    size="sm"
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" size="sm" @close="close">
     <template #title>
-      {{ $tc('objects.ccenter.agents.subordinates', 2) }}
+      {{ $t('objects.ccenter.agents.subordinates', 2) }}
     </template>
     <template #main>
       <section>
-        <wt-table
-          :data="dataList"
-          :grid-actions="false"
-          :headers="headers"
-          :selectable="false"
-        >
+        <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false">
           <template #subordinate="{ item }">
             {{ item.user.name }}
           </template>
@@ -43,7 +34,7 @@ export default {
   watch: {
     itemId: {
       handler(id) {
-        if(id) this.loadDataList();
+        if (id) this.loadDataList();
       },
     },
   },
@@ -55,7 +46,7 @@ export default {
       return [
         {
           value: 'subordinate',
-          text: this.$tc('objects.ccenter.agents.subordinates', 1),
+          text: this.$t('objects.ccenter.agents.subordinates', 1),
         },
       ];
     },
@@ -78,5 +69,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

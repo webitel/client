@@ -1,6 +1,6 @@
 <template>
   <main class="object-wrap">
-    <section class="object">
+    <section class="object wt-scrollbar">
       <wt-notifications-bar />
       <app-header />
       <div class="object-content-wrap">
@@ -19,26 +19,30 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-// outer wrap of module- page
+<style scoped>
 .object-wrap {
   display: flex;
   width: 100%;
   min-height: 100%;
+  height: 100%;
 }
 
-// main content itself, without nav but with main header
 .object {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   max-width: 100%;
-  min-height: 100%;
+  min-height: 0;
   background: var(--wt-page-wrapper-background-color);
+  overflow: auto;
 }
 
 .object-content-wrap {
   display: flex;
-  flex-grow: 1;
+  flex: 1;
+}
+
+.object-content-wrap:has(.table-section) {
+  min-height: 0;
 }
 </style>

@@ -1,83 +1,51 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="table-page"
+  >
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasCreateAccess"
-        :primary-action="create"
-      >
+      <wt-page-header :hide-primary="!hasCreateAccess" :primary-action="create">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #main>
-      <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
-        :callback="deleteCallback"
-        @close="closeDelete"
-      />
+      <delete-confirmation-popup v-show="isDeleteConfirmationPopup" :delete-count="deleteCount"
+        :callback="deleteCallback" @close="closeDelete" />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
             {{
               $t('objects.all', {
-                entity: $tc('objects.integrations.triggers.triggers', 2),
+                entity: $t('objects.integrations.triggers.triggers', 2),
               })
             }}
           </h3>
-          <div class="content-header__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                :class="{ hidden: anySelected }"
-                :selected-count="selectedRows.length"
-                @click="
+          <div class="table-title__actions-wrap">
+            <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
+            <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+              <delete-all-action v-if="hasDeleteAccess" :class="{ hidden: anySelected }"
+                :selected-count="selectedRows.length" @click="
                   askDeleteConfirmation({
                     deleted: selectedRows,
                     callback: () => deleteData(selectedRows),
                   })
-                "
-              />
+                  " />
             </wt-table-actions>
           </div>
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-          @create="create"
-        />
+        <wt-dummy v-if="dummy && isLoaded" :show-action="dummy.showAction" :src="dummy.src" :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)" class="dummy-wrapper" @create="create" />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
-          <wt-table
-            :data="dataList"
-            :headers="headers"
-            sortable
-            @sort="sort"
-          >
+          <wt-table :data="dataList" :headers="headers" sortable @sort="sort">
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="routeName"
-              >
+              <adm-item-link :id="item.id" :route-name="routeName">
                 {{ item.name }}
               </adm-item-link>
             </template>
@@ -85,55 +53,27 @@
               {{ $t(`objects.integrations.triggers.${item.type}`) }}
             </template>
             <template #schema="{ item }">
-              <adm-item-link
-                v-if="item.schema"
-                :id="item.schema.id"
-                :route-name="RouteNames.FLOW"
-                target="_blank"
-              >
+              <adm-item-link v-if="item.schema" :id="item.schema.id" :route-name="RouteNames.FLOW" target="_blank">
                 {{ item.schema.name }}
               </adm-item-link>
             </template>
             <template #state="{ item, index }">
-              <wt-switcher
-                :disabled="!hasEditAccess"
-                :model-value="item.enabled"
-                @update:model-value="changeState({ item, index, value: $event })"
-              />
+              <wt-switcher :disabled="!hasEditAccess" :model-value="item.enabled"
+                @update:model-value="changeState({ item, index, value: $event })" />
             </template>
             <template #actions="{ item }">
-              <wt-icon-btn
-                icon="trigger-start"
-                icon-prefix="adm"
-                @click="startTrigger(item)"
-              />
-              <wt-icon-action
-                action="edit"
-                :disabled="!hasEditAccess"
-                @click="edit(item)"
-              />
-              <wt-icon-action
-                action="delete"
-                :disabled="!hasDeleteAccess"
-                @click="
-                  askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => deleteData(item),
-                  })
-                "
-              />
+              <wt-icon-btn icon="trigger-start" icon-prefix="adm" @click="startTrigger(item)" />
+              <wt-icon-action action="edit" :disabled="!hasEditAccess" @click="edit(item)" />
+              <wt-icon-action action="delete" :disabled="!hasDeleteAccess" @click="
+                askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })
+                " />
             </template>
           </wt-table>
-          <wt-pagination
-            :next="isNext"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
-          />
+          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+            @next="nextPage" @prev="prevPage" />
         </div>
       </section>
     </template>
@@ -192,7 +132,7 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc('objects.integrations.triggers.triggers', 2),
+          name: this.$t('objects.integrations.triggers.triggers', 2),
           route: '/integrations/triggers',
         },
       ];

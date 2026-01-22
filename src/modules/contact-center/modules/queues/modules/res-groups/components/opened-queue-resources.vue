@@ -1,67 +1,32 @@
 <template>
-  <section class="content-wrapper">
-    <resource-popup
-      @close="closePopup"
-    />
+  <section class="table-section">
+    <resource-popup @close="closePopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.ccenter.resGroups.resGroups', 2) }}
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.ccenter.resGroups.resGroups', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <delete-all-action
-            v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
-            :selected-count="selectedRows.length"
-            @click="deleteData(selectedRows)"
-          />
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
+      <div class="table-title__actions-wrap">
+        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
+        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+            :selected-count="selectedRows.length" @click="deleteData(selectedRows)" />
+          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
+    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
-          <adm-item-link
-            v-if="item.resourceGroup"
-            :id="item.resourceGroup.id"
-            :route-name="RouteNames.RESOURCE_GROUPS"
-            target="_blank"
-          >
+          <adm-item-link v-if="item.resourceGroup" :id="item.resourceGroup.id" :route-name="RouteNames.RESOURCE_GROUPS"
+            target="_blank">
             {{ item.resourceGroup.name }}
           </adm-item-link>
         </template>
@@ -71,26 +36,12 @@
           </div>
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action
-            action="edit"
-            @click="editItem(item)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="deleteData(item)"
-          />
+          <wt-icon-action action="edit" @click="editItem(item)" />
+          <wt-icon-action action="delete" @click="deleteData(item)" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -144,5 +95,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

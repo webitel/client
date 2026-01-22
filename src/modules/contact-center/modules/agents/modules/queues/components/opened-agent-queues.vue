@@ -1,10 +1,10 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.ccenter.queues.queues', 2) }}
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.ccenter.queues.queues', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -15,7 +15,7 @@
     <wt-loader v-show="!isLoaded" />
     <div
       v-show="isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"
@@ -89,6 +89,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

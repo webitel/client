@@ -1,65 +1,28 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    size="sm"
-    :shown="!!communicationIndex"
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" size="sm" :shown="!!communicationIndex" @close="close">
     <template #title>
-      {{ $tc('objects.lookups.communications.communications', 1) }}
+      {{ $t('objects.lookups.communications.communications', 1) }}
     </template>
     <template #main>
       <form class="object-input-grid object-input-grid__1-col">
-        <wt-input
-          v-model="itemInstance.destination"
-          :label="$t('objects.ccenter.members.destination')"
-          :v="v$.itemInstance.destination"
-          required
-        />
-        <wt-select
-          v-model="itemInstance.type"
-          :clearable="false"
-          :label="$tc('objects.lookups.communications.communications', 1)"
-          :search-method="loadCommTypes"
-          :v="v$.itemInstance.type"
-          required
-        />
-        <wt-select
-          v-model="itemInstance.resource"
-          :label="$tc('objects.ccenter.res.res', 1)"
-          :search-method="loadResources"
-        />
-        <wt-input
-          v-model="itemInstance.display"
-          :label="$t('objects.ccenter.members.display')"
-        />
-        <wt-input
-          v-model="itemInstance.dtmf"
-          :label="$t('objects.ccenter.members.dtmf')"
-          :v="v$.itemInstance.dtmf"
-        />
-        <wt-input
-          v-model="itemInstance.priority"
-          :label="$t('objects.ccenter.members.priority')"
-          type="number"
-        />
-        <wt-textarea
-          v-model:model-value="itemInstance.description"
-          :label="$t('objects.description')"
-        />
+        <wt-input v-model="itemInstance.destination" :label="$t('objects.ccenter.members.destination')"
+          :v="v$.itemInstance.destination" required />
+        <wt-select v-model="itemInstance.type" :clearable="false"
+          :label="$t('objects.lookups.communications.communications', 1)" :search-method="loadCommTypes"
+          :v="v$.itemInstance.type" required />
+        <wt-select v-model="itemInstance.resource" :label="$t('objects.ccenter.res.res', 1)"
+          :search-method="loadResources" />
+        <wt-input v-model="itemInstance.display" :label="$t('objects.ccenter.members.display')" />
+        <wt-input v-model="itemInstance.dtmf" :label="$t('objects.ccenter.members.dtmf')" :v="v$.itemInstance.dtmf" />
+        <wt-input v-model="itemInstance.priority" :label="$t('objects.ccenter.members.priority')" type="number" />
+        <wt-textarea v-model:model-value="itemInstance.description" :label="$t('objects.description')" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="computeDisabled"
-        @click="save"
-      >
+      <wt-button :disabled="computeDisabled" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -168,7 +131,7 @@ export default {
     loadResources(params) {
       return ResourcesAPI.getLookup(params);
     },
-    loadItem() {},
+    loadItem() { },
     resetItemInstance() {
       this.itemInstance = getDefaultItemInstance();
     },

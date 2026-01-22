@@ -6,40 +6,16 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-select
-        :clearable="true"
-        :disabled="disableUserInput"
-        :label="$t('objects.team')"
-        :search-method="loadDropdownOptionsTeamList"
-        :value="itemInstance.teams"
-        multiple
-        @input="setItemProp({ prop: 'teams', value: $event })"
-      />
-      <wt-textarea
-        :disabled="disableUserInput"
-        :label="$t('vocabulary.text')"
-        :model-value="itemInstance.text"
-        :v="v.itemInstance.text"
-        required
-        @update:model-value="setItemProp({ prop: 'text', value: $event })"
-      />
-      <wt-select
-        :clearable="true"
-        :disabled="disableUserInput"
-        :label="$tc('objects.ccenter.queues.queues', 1)"
-        :search-method="loadDropdownOptionsQueueList"
-        :value="itemInstance.queues"
-        multiple
-        @input="setItemProp({ prop: 'queues', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-select :clearable="true" :disabled="disableUserInput" :label="$t('objects.team')"
+        :search-method="loadDropdownOptionsTeamList" :value="itemInstance.teams" multiple
+        @input="setItemProp({ prop: 'teams', value: $event })" />
+      <wt-textarea :disabled="disableUserInput" :label="$t('vocabulary.text')" :model-value="itemInstance.text"
+        :v="v.itemInstance.text" required @update:model-value="setItemProp({ prop: 'text', value: $event })" />
+      <wt-select :clearable="true" :disabled="disableUserInput" :label="$t('objects.ccenter.queues.queues', 1)"
+        :search-method="loadDropdownOptionsQueueList" :value="itemInstance.queues" multiple
+        @input="setItemProp({ prop: 'queues', value: $event })" />
     </div>
   </section>
 </template>
@@ -63,6 +39,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

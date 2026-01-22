@@ -5,7 +5,7 @@
     @close="close"
   >
     <template #title>
-      {{ $tc('objects.directory.users.token', 2) }}
+      {{ $t('objects.directory.users.token', 2) }}
     </template>
     <template #main>
       <form @submit.prevent="save">
@@ -52,13 +52,11 @@ export default {
       try {
         await this.addToken();
         this.$emit('token-created');
-      } catch {}
+      } catch { }
     },
-    resetState() {},
+    resetState() { },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

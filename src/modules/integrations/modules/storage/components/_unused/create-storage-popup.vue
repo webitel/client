@@ -1,11 +1,6 @@
 <template>
-  <popup
-    :disable-action="!!selectedOption"
-    :primary-action="createItemInstance"
-    :primary-text="$t('objects.create')"
-    :title="$t('objects.integrations.storage.newStorage')"
-    @close="$emit('close')"
-  >
+  <popup :disable-action="!!selectedOption" :primary-action="createItemInstance" :primary-text="$t('objects.create')"
+    :title="$t('objects.integrations.storage.newStorage')" @close="$emit('close')">
     <section>
       <p class="popup-subheading">
         {{ $t('objects.integrations.storage.newStorageDescription') }}
@@ -20,12 +15,9 @@
         <!--                        {{$t('objects.integrations.storage.local')}}-->
         <!--                    </h4>-->
         <!--                </li>-->
-        <li
-          :class="{'active': computeSelectedOption('s3')}"
-          class="popup-options__item-wrap"
-          @click="selectPopupOption('s3')"
-        >
-          <h4 class="popup-options__item-header">
+        <li :class="{ 'active': computeSelectedOption('s3') }" class="popup-options__item-wrap"
+          @click="selectPopupOption('s3')">
+          <h4 class="popup-options__item-header typo-body-2">
             {{ $t('objects.integrations.storage.s3') }}
           </h4>
         </li>
@@ -113,8 +105,8 @@ export default {
     cursor: pointer;
     border-radius: var(--border-radius);
 
-    &:hover, &.active {
-    }
+    &:hover,
+    &.active {}
   }
 
   .popup-options__item-header {
@@ -123,7 +115,6 @@ export default {
   }
 
   .popup-options__item-text {
-    @extend %typo-body-2;
     margin: 0;
     /*font-size: 0.9em;*/
   }

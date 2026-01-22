@@ -2,19 +2,13 @@
   <section>
     <header class="content-header">
       <h3 class="content-title">
-        {{ $tc('objects.permissions.permissionsRole') }}
+        {{ $t('objects.permissions.permissionsRole') }}
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-select
-        :close-on-select="false"
-        :disabled="disableUserInput"
-        :label="$tc('objects.permissions.permissionsRole')"
-        :search-method="loadDropdownOptionsList"
-        :value="itemInstance.roles"
-        multiple
-        @input="setItemProp({ prop: 'roles', value: $event })"
-      />
+      <wt-select :close-on-select="false" :disabled="disableUserInput"
+        :label="$t('objects.permissions.permissionsRole')" :search-method="loadDropdownOptionsList"
+        :value="itemInstance.roles" multiple @input="setItemProp({ prop: 'roles', value: $event })" />
     </div>
   </section>
 </template>

@@ -1,65 +1,31 @@
 <template>
-  <section class="content-wrapper">
-    <skill-buckets-popup
-      :shown="!!agentBucketsId"
-      @close="closeBucketsPopup"
-    />
+  <section class="table-section">
+    <skill-buckets-popup :shown="!!agentBucketsId" @close="closeBucketsPopup" />
 
-    <skill-popup
-      @close="closePopup"
-    />
+    <skill-popup @close="closePopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.lookups.skills.skills', 2) }}
+    <header class="table-title">
+      <h3 class="table-title__title typo-heading-3">
+        {{ $t('objects.lookups.skills.skills', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <delete-all-action
-            v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
-            :selected-count="selectedRows.length"
-            @click="deleteData(selectedRows)"
-          />
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
+      <div class="table-title__actions-wrap">
+        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
+        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+            :selected-count="selectedRows.length" @click="deleteData(selectedRows)" />
+          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
+    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
           <div v-if="item.skill">
             {{ item.skill.name }}
@@ -77,41 +43,21 @@
         <template #buckets="{ item }">
           <div>
             {{ getFirstBucket(item.buckets) }}
-            <span
-              v-if="item.buckets.length > 1"
-              class="hidden-num"
-              @click="setBucketQuery(item)"
-            >+{{ item.buckets.length - 1 }}</span>
+            <span v-if="item.buckets.length > 1" class="hidden-num typo-body-2" @click="setBucketQuery(item)">+{{
+              item.buckets.length - 1 }}</span>
           </div>
         </template>
         <template #state="{ item, index }">
-          <wt-switcher
-            :disabled="!hasEditAccess"
-            :model-value="item.enabled"
-            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
-          />
+          <wt-switcher :disabled="!hasEditAccess" :model-value="item.enabled"
+            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })" />
         </template>
         <template #actions="{ item }">
-          <wt-icon-action
-            action="edit"
-            @click="editItem(item)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="deleteData(item)"
-          />
+          <wt-icon-action action="edit" @click="editItem(item)" />
+          <wt-icon-action action="delete" @click="deleteData(item)" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -153,7 +99,7 @@ export default {
     editItem(item) {
       this.$router.push({
         ...this.$route,
-        params: { skillId: item.id}
+        params: { skillId: item.id }
       })
     },
     closePopup() {
@@ -167,8 +113,6 @@ export default {
 @use '@webitel/ui-sdk/src/css/main' as *;
 
 .hidden-num {
-  @extend %typo-body-2;
-
   margin-left: 33px;
   cursor: pointer;
   text-decoration: underline;

@@ -1,113 +1,55 @@
 <template>
-  <section>
-    <supervisor-popup
-      @close="closePopup"
-    />
-    <supervisor-subordinates-popup
-      :shown="isSupervisorSubordinatesPopup"
-      :item-id="supervisorId"
-      @close="closeSubordinates"
-    />
-    <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
-      @close="closeDelete"
-    />
+  <section class="table-section">
+    <supervisor-popup @close="closePopup" />
+    <supervisor-subordinates-popup :shown="isSupervisorSubordinatesPopup" :item-id="supervisorId"
+      @close="closeSubordinates" />
+    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
+      @close="closeDelete" />
 
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.ccenter.agents.supervisors', 2) }}
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.ccenter.agents.supervisors', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <delete-all-action
-            v-if="!disableUserInput"
-            :class="{'hidden': anySelected}"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
+      <div class="table-title__actions-wrap">
+        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
+        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+            :selected-count="selectedRows.length" @click="askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
-            })"
-          />
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
+            })" />
+          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
+    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #name="{ item }">
-          <wt-item-link
-            :link="editLink(item)"
-            target="_blank"
-          >
+          <wt-item-link :link="editLink(item)" target="_blank">
             {{ item.name }}
           </wt-item-link>
         </template>
 
         <template #actions="{ item }">
-          <wt-icon-btn
-            v-tooltip="$tc('objects.ccenter.agents.subordinates', 2)"
-            icon="queue-member"
-            @click="openSubordinates(item)"
-          />
+          <wt-icon-btn v-tooltip="$t('objects.ccenter.agents.subordinates', 2)" icon="queue-member"
+            @click="openSubordinates(item)" />
 
-          <wt-icon-action
-            action="edit"
-            @click="editItem(item)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
+          <wt-icon-action action="edit" @click="editItem(item)" />
+          <wt-icon-action action="delete" @click="askDeleteConfirmation({
+            deleted: [item],
+            callback: () => deleteData(item),
+          })" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -179,13 +121,13 @@ export default {
     addItem() {
       return this.$router.push({
         ...this.route,
-        params: {supervisorId: 'new'}
+        params: { supervisorId: 'new' }
       })
     },
-    editItem(item){
+    editItem(item) {
       return this.$router.push({
         ...this.route,
-        params: {supervisorId: item.id}
+        params: { supervisorId: item.id }
       })
     },
     closePopup() {
@@ -201,5 +143,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="all-licenses content-wrapper">
+  <section class="all-licenses table-section">
     <license-popup
       :shown="isLicensePopup"
       @close="closeLicensePopup"
@@ -9,11 +9,11 @@
       :namespace="namespace"
       @close="closeLicenseUsersPopup"
     />
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         <!--        {{ $t('objects.directory.license.allLicenses') }}-->
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-search-bar
           :value="search"
           debounce
@@ -28,10 +28,9 @@
           <adm-item-link
             v-if="hasCreateAccess"
             id="new"
-            :route-name="LicencesRouteNames.ALL">
-            <wt-icon-action
-              action="add"
-            />
+            :route-name="LicencesRouteNames.ALL"
+          >
+            <wt-icon-action action="add" />
           </adm-item-link>
         </wt-table-actions>
       </div>
@@ -47,7 +46,7 @@
     />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"
@@ -58,9 +57,7 @@
         @sort="sort"
       >
         <template #id="{ item }">
-          <wt-copy-action
-            :value="item.id"
-          />
+          <wt-copy-action :value="item.id" />
         </template>
         <template #product="{ item }">
           <div class="all-licenses__product-cell">
@@ -117,7 +114,7 @@
         @prev="prevPage"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -155,8 +152,8 @@ export default {
   },
   watch: {
     licenseId: {
-     async handler(value) {
-        if(value === 'new') {
+      async handler(value) {
+        if (value === 'new') {
           this.openLicensePopup();
         } else if (value) {
           this.openLicenseUsersPopup();
@@ -204,7 +201,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .all-licenses__product-cell {
   display: flex;
   align-items: center;

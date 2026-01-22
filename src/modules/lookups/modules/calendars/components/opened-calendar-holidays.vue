@@ -1,60 +1,31 @@
 <template>
-  <section>
-    <holiday-popup
-      @close="closePopup"
-    />
-    <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
-      @close="closeDelete"
-    />
+  <section class="table-section">
+    <holiday-popup @close="closePopup" />
+    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
+      @close="closeDelete" />
 
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.lookups.calendars.holidays', 2) }}
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.lookups.calendars.holidays', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-search-bar
-          v-model="search"
-          debounce
-          @enter="loadList"
-          @search="loadList"
-        />
-        <delete-all-action
-          v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
-          :selected-count="selectedRows.length"
-          @click="askDeleteConfirmation({
+      <div class="table-title__actions-wrap">
+        <wt-search-bar v-model="search" debounce @enter="loadList" @search="loadList" />
+        <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+          :selected-count="selectedRows.length" @click="askDeleteConfirmation({
             deleted: selectedRows,
             callback: () => deleteData(selectedRows),
-          })"
-        />
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="create"
-        />
+          })" />
+        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
       </div>
     </header>
 
-    <wt-dummy
-      v-if="dummy"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
+    <wt-dummy v-if="dummy" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
     <div
       v-show="dataListValue.length"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
         <template #date="{ item }">
           {{ prettifyDate(item.date) }}
         </template>
@@ -69,24 +40,15 @@
           </div>
         </template>
         <template #repeat="{ item, index }">
-          <wt-switcher
-            :disabled="disableUserInput"
-            :model-value="item.repeat"
-            @update:model-value="setRepeatValue({ prop: 'repeat', index, value: $event })"
-          />
+          <wt-switcher :disabled="disableUserInput" :model-value="item.repeat"
+            @update:model-value="setRepeatValue({ prop: 'repeat', index, value: $event })" />
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action
-            action="edit"
-            @click="edit(index)"
-          />
-          <wt-icon-action
-            action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
+          <wt-icon-action action="edit" @click="edit(index)" />
+          <wt-icon-action action="delete" @click="askDeleteConfirmation({
+            deleted: [item],
+            callback: () => deleteData(item),
+          })" />
         </template>
       </wt-table>
     </div>
@@ -233,19 +195,19 @@ export default {
     create() {
       this.$router.push({
         ...this.$route,
-        params: {holidayIndex: 'new'},
+        params: { holidayIndex: 'new' },
       })
     },
     edit(index) {
       this.$router.push({
         ...this.$route,
-        params: {holidayIndex: index.toString()},
+        params: { holidayIndex: index.toString() },
       })
     },
     closePopup() {
       this.$router.go(-1);
     },
-    setParentId() {},
+    setParentId() { },
   },
 
   watch: {
@@ -256,6 +218,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

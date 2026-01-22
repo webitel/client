@@ -6,105 +6,43 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.triggers.type')"
-        :options="TriggerTypes"
-        :v="v.itemInstance.type"
-        :value="itemInstance.type"
-        track-by="value"
-        required
-        @input="setItemProp({ prop: 'type', value: $event })"
-      />
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$tc('objects.integrations.triggers.schema')"
-        :search-method="loadDropdownOptionsList"
-        :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
-        required
-        @input="setItemProp({ prop: 'schema', value: $event })"
-      />
-      <wt-select
-        v-if="isCron"
-        :disabled="disableUserInput"
-        :label="$tc('date.timezone', 1)"
-        :search-method="loadTimezones"
-        :v="v.itemInstance.timezone"
-        :value="itemInstance.timezone"
-        required
-        @input="setItemProp({ prop: 'timezone', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-select :disabled="disableUserInput" :label="$t('objects.integrations.triggers.type')" :options="TriggerTypes"
+        :v="v.itemInstance.type" :value="itemInstance.type" track-by="value" required
+        @input="setItemProp({ prop: 'type', value: $event })" />
+      <wt-select :disabled="disableUserInput" :label="$t('objects.integrations.triggers.schema')"
+        :search-method="loadDropdownOptionsList" :v="v.itemInstance.schema" :value="itemInstance.schema" required
+        @input="setItemProp({ prop: 'schema', value: $event })" />
+      <wt-select v-if="isCron" :disabled="disableUserInput" :label="$t('date.timezone', 1)"
+        :search-method="loadTimezones" :v="v.itemInstance.timezone" :value="itemInstance.timezone" required
+        @input="setItemProp({ prop: 'timezone', value: $event })" />
 
-      <wt-select
-        v-if="isEvent"
-        :disabled="disableUserInput"
-        :label="$t('reusable.object')"
-        :options="TriggerObjects"
-        :v="v.itemInstance.object"
-        :value="itemInstance.object"
-        track-by="value"
-        required
-        @input="updateTriggerObject"
-      />
+      <wt-select v-if="isEvent" :disabled="disableUserInput" :label="$t('reusable.object')" :options="TriggerObjects"
+        :v="v.itemInstance.object" :value="itemInstance.object" track-by="value" required
+        @input="updateTriggerObject" />
 
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.triggers.timeout')"
-        :number-min="0"
-        :v="v.itemInstance.timeout"
-        :value="itemInstance.timeout"
-        type="number"
-        @input="setItemProp({ prop: 'timeout', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.triggers.timeout')" :number-min="0"
+        :v="v.itemInstance.timeout" :value="itemInstance.timeout" type="number"
+        @input="setItemProp({ prop: 'timeout', value: $event })" />
 
-      <wt-select
-        v-if="isEvent"
-        :disabled="disableUserInput || isEmptyObject"
-        :label="$t('objects.integrations.triggers.eventSelect')"
-        :options="triggerEventOptions"
-        :v="v.itemInstance.event"
-        :value="itemInstance.event"
-        track-by="value"
-        required
-        @input="setItemProp({ prop: 'event', value: $event })"
-      />
+      <wt-select v-if="isEvent" :disabled="disableUserInput || isEmptyObject"
+        :label="$t('objects.integrations.triggers.eventSelect')" :options="triggerEventOptions"
+        :v="v.itemInstance.event" :value="itemInstance.event" track-by="value" required
+        @input="setItemProp({ prop: 'event', value: $event })" />
 
-      <div
-        v-if="isCron"
-        class="crontab"
-      >
-        <wt-input
-          :custom-validators="cronValidator"
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.triggers.expression')"
-          :v="v.itemInstance.expression"
-          :value="itemInstance.expression"
-          required
-          @input="setItemProp({ prop: 'expression', value: $event })"
-        />
-        <p
-          v-show="!v.itemInstance.expression.$error"
-          class="crontab__parsed"
-        >
+      <div v-if="isCron" class="crontab">
+        <wt-input :custom-validators="cronValidator" :disabled="disableUserInput"
+          :label="$t('objects.integrations.triggers.expression')" :v="v.itemInstance.expression"
+          :value="itemInstance.expression" required @input="setItemProp({ prop: 'expression', value: $event })" />
+        <p v-show="!v.itemInstance.expression.$error" class="crontab__parsed">
           {{ parsedCron }}
         </p>
       </div>
 
-      <wt-textarea
-        :disabled="disableUserInput"
-        :label="$t('objects.description')"
+      <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
         :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
-      />
+        @update:model-value="setItemProp({ prop: 'description', value: $event })" />
     </div>
   </section>
 </template>

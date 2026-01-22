@@ -1,38 +1,20 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    size="sm"
-    :shown="!!subordinateId"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" size="sm" :shown="!!subordinateId" overflow @close="close">
     <template #title>
       {{ $t('objects.ccenter.agents.addSubordinate') }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.ccenter.agents.subordinates', 1)"
-          :search-method="loadDropdownOptionsList"
-          :v="v$.itemInstance.agent"
-          :value="itemInstance.agent"
-          required
-          @input="setItemProp({ prop: 'agent', value: $event })"
-        />
+        <wt-select :clearable="false" :label="$t('objects.ccenter.agents.subordinates', 1)"
+          :search-method="loadDropdownOptionsList" :v="v$.itemInstance.agent" :value="itemInstance.agent" required
+          @input="setItemProp({ prop: 'agent', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -53,7 +35,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
   data: () => ({
     namespace: 'ccenter/agents/subordinates',
@@ -95,6 +77,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

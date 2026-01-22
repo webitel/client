@@ -2,7 +2,9 @@ import '@webitel/ui-sdk/dist/ui-sdk.css';
 
 import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk.js';
 import * as locales from '@webitel/ui-sdk/locale';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus.js';
+import { eventBus } from '@webitel/ui-sdk/scripts';
+
+import '@webitel/ui-sdk/css/main.css';
 
 import i18n from '../locale/i18n.js';
 

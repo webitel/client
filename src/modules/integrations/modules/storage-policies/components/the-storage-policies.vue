@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
-    class="the-storage-policies"
     :actions-panel="false"
+    class="table-page"
   >
     <template #header>
       <wt-page-header
@@ -20,12 +20,12 @@
         @close="closeDelete"
       />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
-            {{ $tc('objects.integrations.storagePolicies.storagePolicies', 2) }}
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
+            {{ $t('objects.integrations.storagePolicies.storagePolicies', 2) }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
@@ -46,7 +46,7 @@
                     deleted: selectedRows,
                     callback: () => deleteData(selectedRows),
                   })
-                "
+                  "
               />
             </wt-table-actions>
           </div>
@@ -66,7 +66,7 @@
 
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
@@ -84,7 +84,10 @@
             </template>
 
             <template #channels="{ item }">
-              <wt-display-chip-items v-if="item?.channels.length" :items="item?.channels">
+              <wt-display-chip-items
+                v-if="item?.channels.length"
+                :items="item?.channels"
+              >
                 <template #first-item>
                   <p>
                     {{
@@ -96,22 +99,25 @@
                 </template>
 
                 <template #items>
-                    <p
-                      v-for="channel of item.channels.slice(1)"
-                      :key="channel"
-                    >
-                      {{
-                        $t(
-                          `objects.integrations.storagePolicies.channels.${channel}`,
-                        )
-                      }}
-                    </p>
+                  <p
+                    v-for="channel of item.channels.slice(1)"
+                    :key="channel"
+                  >
+                    {{
+                      $t(
+                        `objects.integrations.storagePolicies.channels.${channel}`,
+                      )
+                    }}
+                  </p>
                 </template>
               </wt-display-chip-items>
             </template>
 
             <template #mimeTypes="{ item }">
-              <wt-display-chip-items v-if="item?.mimeTypes.length" :items="item?.mimeTypes">
+              <wt-display-chip-items
+                v-if="item?.mimeTypes.length"
+                :items="item?.mimeTypes"
+              >
                 <template #first-item>
                   <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
                 </template>
@@ -133,7 +139,7 @@
                 :model-value="item.enabled"
                 @update:model-value="
                   patchItem({ item, index, prop: 'enabled', value: $event })
-                "
+                  "
               />
             </template>
 
@@ -151,7 +157,7 @@
                     deleted: [item],
                     callback: () => deleteData(item),
                   })
-                "
+                  "
               />
             </template>
           </wt-table>
@@ -224,7 +230,7 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc(
+          name: this.$t(
             'objects.integrations.storagePolicies.storagePolicies',
             2,
           ),

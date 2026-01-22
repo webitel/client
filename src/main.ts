@@ -1,7 +1,6 @@
 // dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
-import './app/assets/icons/sprite';
-import './app/css/main.scss';
+import './app/assets/icons/sprite/_index';
 /*
 Don't know why, but without this empty file import styles just breaking :/
 I suppose, it's a problem with webpack or sass/sass loader.
@@ -23,6 +22,8 @@ import router from './app/router/router';
 import store, { pinia } from './app/store/store';
 import { useUserinfoStore } from './modules/userinfo/userinfoStore';
 import App from './the-app.vue';
+
+import './app/css/main.scss';
 
 const fetchConfig = async () => {
   const response = await fetch(`${import.meta.env.BASE_URL}config.json`);

@@ -1,36 +1,17 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -93,7 +74,7 @@ export default {
       const tabs = [
         { value: 'general', text: this.$t('objects.general'), pathName: CalendarRouteNames.GENERAL },
         { value: 'work-week', text: this.$t('objects.lookups.calendars.workWeek'), pathName: CalendarRouteNames.WORKING_WEEK },
-        { value: 'holidays', text: this.$tc('objects.lookups.calendars.holidays', 2), pathName: CalendarRouteNames.HOLIDAYS },
+        { value: 'holidays', text: this.$t('objects.lookups.calendars.holidays', 2), pathName: CalendarRouteNames.HOLIDAYS },
       ];
 
       const specialTime = { value: 'special-time', text: this.$t('objects.lookups.calendars.specialTime'), pathName: CalendarRouteNames.SPECIAL_TIME };
@@ -111,7 +92,7 @@ export default {
           name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc('objects.lookups.calendars.calendars', 2),
+          name: this.$t('objects.lookups.calendars.calendars', 2),
           route: baseUrl,
         },
         {
@@ -127,6 +108,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -1,90 +1,50 @@
 <template>
-  <wt-page-wrapper>
+  <wt-page-wrapper
+    class="table-page"
+  >
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasCreateAccess"
-        :primary-action="create"
-      >
+      <wt-page-header :hide-primary="!hasCreateAccess" :primary-action="create">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <the-flow-filters
-        :namespace="filtersNamespace"
-      />
+      <the-flow-filters :namespace="filtersNamespace" />
     </template>
 
     <template #main>
-      <create-flow-popup
-        :shown="isCreateFlowPopup"
-        size="sm"
-        @close="isCreateFlowPopup = false"
-      />
-      <upload-popup
-        :file="jsonFile"
-        @close="closeUploadPopup"
-      />
-      <delete-confirmation-popup
-        :shown="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
-        :callback="deleteCallback"
-        @close="closeDelete"
-      />
+      <create-flow-popup :shown="isCreateFlowPopup" size="sm" @close="isCreateFlowPopup = false" />
+      <upload-popup :file="jsonFile" @close="closeUploadPopup" />
+      <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount"
+        :callback="deleteCallback" @close="closeDelete" />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
             {{ $t('objects.routing.flow.allFlowSchemas') }}
           </h3>
-          <div class="content-header__actions-wrap">
-            <filter-search
-              :namespace="filtersNamespace"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
+          <div class="table-title__actions-wrap">
+            <filter-search :namespace="filtersNamespace" />
+            <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+              <delete-all-action v-if="hasDeleteAccess" :class="{ 'hidden': anySelected }"
+                :selected-count="selectedRows.length" @click="askDeleteConfirmation({
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
-                })"
-              />
-              <upload-file-icon-btn
-                v-if="hasCreateAccess"
-                accept=".json"
-                class="icon-action"
-                @change="processJSON"
-              />
+                })" />
+              <upload-file-icon-btn v-if="hasCreateAccess" accept=".json" class="icon-action" @change="processJSON" />
             </wt-table-actions>
           </div>
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          class="dummy-wrapper"
-          @create="create"
-        ></wt-dummy>
+        <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+          :show-action="dummy.showAction" class="dummy-wrapper" @create="create"></wt-dummy>
 
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
-          <wt-table
-            :data="dataList"
-            :headers="headers"
-            sortable
-            @sort="sort"
-          >
+          <wt-table :data="dataList" :headers="headers" sortable @sort="sort">
             <template #name="{ item }">
               <wt-item-link :link="editLink(item)" target="_blank">
                 {{ item.name }}
@@ -102,14 +62,8 @@
               {{ item.type ? $t(`objects.flow.type.${item.type}`) : '' }}
             </template>
             <template #tags="{ item }">
-              <div
-                v-if="item.tags"
-                class="the-flow__tags"
-              >
-                <wt-chip
-                  v-for="(tag, key) of item.tags"
-                  :key="key"
-                >
+              <div v-if="item.tags" class="the-flow__tags">
+                <wt-chip v-for="(tag, key) of item.tags" :key="key">
                   {{ tag.name }}
                 </wt-chip>
               </div>
@@ -125,37 +79,18 @@
             </template>
 
             <template #actions="{ item }">
-              <wt-icon-action
-                action="download"
-                @click="download(item)"
-              />
-              <wt-icon-action
-                action="edit"
-                :disabled="!hasEditAccess"
-                @click="edit(item, {
-                  blank: item.editor
-                })"
-              />
-              <wt-icon-action
-                action="delete"
-                :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
-              />
+              <wt-icon-action action="download" @click="download(item)" />
+              <wt-icon-action action="edit" :disabled="!hasEditAccess" @click="edit(item, {
+                blank: item.editor
+              })" />
+              <wt-icon-action action="delete" :disabled="!hasDeleteAccess" @click="askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })" />
             </template>
           </wt-table>
-          <wt-pagination
-            :next="isNext"
-            :prev="page > 1"
-            :size="size"
-            debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
-          />
+          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+            @next="nextPage" @prev="prevPage" />
         </div>
       </section>
     </template>
@@ -231,7 +166,7 @@ export default {
           name: this.$t('objects.routing.routing'),
         },
         {
-          name: this.$tc('objects.routing.flow.flow', 2),
+          name: this.$t('objects.routing.flow.flow', 2),
           route: '/routing/flow',
         },
       ];
@@ -284,9 +219,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .the-flow__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-  }
+.the-flow__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
 </style>

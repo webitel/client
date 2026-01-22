@@ -1,38 +1,20 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!agentId"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!agentId" size="sm" overflow @close="close">
     <template #title>
       {{ $t('objects.ccenter.teams.agents.addAgent') }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.ccenter.agents.agents', 1)"
-          :search-method="loadAgentsOptions"
-          :v="v$.itemInstance.agent"
-          :value="itemInstance.agent"
-          required
-          @input="setItemProp({ prop: 'agent', value: $event })"
-        />
+        <wt-select :clearable="false" :label="$t('objects.ccenter.agents.agents', 1)" :search-method="loadAgentsOptions"
+          :v="v$.itemInstance.agent" :value="itemInstance.agent" required
+          @input="setItemProp({ prop: 'agent', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>

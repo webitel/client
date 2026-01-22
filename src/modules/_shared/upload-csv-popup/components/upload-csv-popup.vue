@@ -60,12 +60,12 @@
         <ul class="upload-popup-mapping">
           <li class="upload-popup-mapping-item">
             <p
-              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title"
+              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title typo-subtitle-1"
             >
               {{ t('objects.CSV.fieldName') }}
             </p>
             <p
-              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title"
+              class="upload-popup-mapping-item__field upload-popup-mapping-item__field--title typo-subtitle-1"
             >
               {{ t('objects.CSV.CSVColumn') }}
             </p>
@@ -75,7 +75,7 @@
             :key="key"
             class="upload-popup-mapping-item"
           >
-            <p class="upload-popup-mapping-item__field">
+            <p class="upload-popup-mapping-item__field typo-body-1">
               {{ t(field.locale) }}<span v-if="field.required">*</span>
             </p>
             <wt-select
@@ -97,7 +97,7 @@
             />
             <div
               v-if="field.tooltip"
-              class="upload-tooltip"
+              class="upload-tooltip typo-caption"
             >
               {{ field.tooltip }}
             </div>

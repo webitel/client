@@ -6,50 +6,23 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <generate-value-input
-        :disabled="disableUserInput"
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <generate-value-input :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.customChat.metadata.appSecret')"
         :label-props="{ hint: $t('objects.routing.chatGateways.customChat.appSecretHint'), hintPosition: 'right' }"
         :placeholder="$t('objects.routing.chatGateways.customChat.metadata.appSecret')"
-        :v="v.itemInstance.metadata.secret"
-        :value="itemInstance.metadata.secret"
-        required
-        @input="setItemMetadata({ prop: 'secret', value: $event })"
-      />
-      <copy-input
-        :copy-modifier="modifyUriCopy"
-        :disabled="!isUriEditable"
-        :label="$t('objects.routing.chatGateways.uri')"
-        :v="v.itemInstance.uri"
-        :value="itemInstance.uri"
-        required
-        @input="setItemProp({ prop: 'uri', value: $event })"
-      />
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$tc('objects.routing.flow.flow', 1)"
-        :search-method="loadDropdownOptionsList"
-        :v="v.itemInstance.flow"
-        :value="itemInstance.flow"
-        required
-        @input="setFlow"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.customChat.metadata.callback')"
-        :v="v.itemInstance.metadata.webhook"
-        :value="itemInstance.metadata.webhook"
-        required
-        @input="setItemMetadata({ prop: 'webhook', value: $event })"
-      />
+        :v="v.itemInstance.metadata.secret" :value="itemInstance.metadata.secret" required
+        @input="setItemMetadata({ prop: 'secret', value: $event })" />
+      <copy-input :copy-modifier="modifyUriCopy" :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')" :v="v.itemInstance.uri" :value="itemInstance.uri" required
+        @input="setItemProp({ prop: 'uri', value: $event })" />
+      <wt-select :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
+        :search-method="loadDropdownOptionsList" :v="v.itemInstance.flow" :value="itemInstance.flow" required
+        @input="setFlow" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.customChat.metadata.callback')"
+        :v="v.itemInstance.metadata.webhook" :value="itemInstance.metadata.webhook" required
+        @input="setItemMetadata({ prop: 'webhook', value: $event })" />
     </div>
   </section>
 </template>

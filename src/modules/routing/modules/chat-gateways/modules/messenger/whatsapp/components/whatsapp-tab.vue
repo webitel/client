@@ -7,8 +7,8 @@
       @close="closeDelete"
     />
 
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.routing.chatGateways.messenger.whatsapp.whatsapp') }}
       </h3>
     </header>
@@ -36,7 +36,7 @@
     <wt-loader v-show="!isLoaded" />
     <div
       v-show="isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"
@@ -151,7 +151,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .whatsapp-tab__actions-wrap {
   display: flex;
   align-items: center;

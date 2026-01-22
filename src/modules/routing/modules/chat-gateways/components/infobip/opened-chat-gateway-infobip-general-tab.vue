@@ -1,60 +1,31 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon
-        icon="infobip"
-        icon-prefix="messenger"
-        size="sm"
-      />
+      <wt-icon icon="infobip" icon-prefix="messenger" size="sm" />
       <h3 class="content-title">
         {{ $t('objects.routing.chatGateways.infobip.infobip') }}
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.apiKey')"
-        :v="v.itemInstance.metadata.apiKey"
-        :value="itemInstance.metadata.apiKey"
-        @input="setItemMetadata({ prop: 'apiKey', value: $event })"
-      />
-      <copy-input
-        :copy-modifier="modifyUriCopy"
-        :disabled="!isUriEditable"
-        :label="$t('objects.routing.chatGateways.uri')"
-        :v="v.itemInstance.uri"
-        :value="itemInstance.uri"
-        required
-        @input="setItemProp({ prop: 'uri', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.apiKey')"
+        :v="v.itemInstance.metadata.apiKey" :value="itemInstance.metadata.apiKey"
+        @input="setItemMetadata({ prop: 'apiKey', value: $event })" />
+      <copy-input :copy-modifier="modifyUriCopy" :disabled="!isUriEditable"
+        :label="$t('objects.routing.chatGateways.uri')" :v="v.itemInstance.uri" :value="itemInstance.uri" required
+        @input="setItemProp({ prop: 'uri', value: $event })" />
       <!--      <wt-input-->
       <!--        :disabled="disableUserInput"-->
       <!--        :label="$t('objects.routing.chatGateways.metadata.number')"-->
       <!--        :value="itemInstance.metadata.number"-->
       <!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
       <!--      ></wt-input>-->
-      <wt-select
-        :disabled="disableUserInput"
-        :label="$tc('objects.routing.flow.flow', 1)"
-        :search-method="loadDropdownOptionsList"
-        :v="v.itemInstance.flow"
-        :value="itemInstance.flow"
-        @input="setFlow"
-      />
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
-        :v="v.itemInstance.metadata.url"
-        :value="itemInstance.metadata.url"
-        @input="setItemMetadata({ prop: 'url', value: $event })"
-      />
+      <wt-select :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
+        :search-method="loadDropdownOptionsList" :v="v.itemInstance.flow" :value="itemInstance.flow" @input="setFlow" />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.baseUrl')"
+        :v="v.itemInstance.metadata.url" :value="itemInstance.metadata.url"
+        @input="setItemMetadata({ prop: 'url', value: $event })" />
     </div>
   </section>
 </template>

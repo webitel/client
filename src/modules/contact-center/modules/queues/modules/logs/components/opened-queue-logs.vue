@@ -1,13 +1,11 @@
 <template>
-  <section class="content-wrapper">
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.ccenter.queues.logs.logs', 1) }}
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.ccenter.queues.logs.logs', 1) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <filter-search
-          :namespace="filtersNamespace"
-        />
+      <div class="table-title__actions-wrap">
+        <filter-search :namespace="filtersNamespace" />
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -25,7 +23,7 @@
     ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"
@@ -66,7 +64,7 @@
           {{ item.attempts || 0 }}
         </template>
         <template #result="{ item }">
-          {{$t(`objects.ccenter.queues.logs.resultName.${item.result}`)}}
+          {{ $t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
         </template>
       </wt-table>
       <wt-pagination
@@ -133,5 +131,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

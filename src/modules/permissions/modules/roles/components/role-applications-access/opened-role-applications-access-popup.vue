@@ -1,44 +1,24 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!editedApp"
-    size="sm"
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!editedApp" size="sm" @close="close">
     <template #title>
-      {{ $tc('objects.permissions.roles.applicationsAccess.applicationsAccess', 1) }}:
+      {{ $t('objects.permissions.roles.applicationsAccess.applicationsAccess', 1) }}:
       {{ $t(`WebitelApplications.${editedApp}.name`) }}
     </template>
     <template #main>
       <form>
-        <wt-checkbox
-          v-for="sec of coreTypeSectionsAccess"
-          :key="sec.name"
-          :label="sec.displayName"
-          :selected="sec.enabled"
-          :value="true"
-          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event })"
-        />
-        <wt-checkbox
-          v-for="sec of customTypeSectionsAccess"
-          :key="sec.name"
-          :label="sec.displayName"
-          :selected="sec.enabled"
-          :value="true"
-          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event, custom: true })"
-        />
+        <wt-checkbox v-for="sec of coreTypeSectionsAccess" :key="sec.name" :label="sec.displayName"
+          :selected="sec.enabled" :value="true"
+          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event })" />
+        <wt-checkbox v-for="sec of customTypeSectionsAccess" :key="sec.name" :label="sec.displayName"
+          :selected="sec.enabled" :value="true"
+          @update:selected="updateAccess({ app: editedApp, section: sec.name, value: $event, custom: true })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        @click="close"
-      >
+      <wt-button @click="close">
         {{ $t('objects.ok') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -115,8 +95,8 @@ export default {
         return dispatch(`${this.namespace}/UPDATE_APPLICATION_SECTION_ACCESS`, payload);
       },
     }),
-    loadItem() {},
-    resetState() {},
+    loadItem() { },
+    resetState() { },
     async loadCustomTypes() {
       const { items } = await CustomTypesAPI.getList({
         size: -1,
@@ -138,6 +118,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

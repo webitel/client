@@ -98,7 +98,7 @@ export default {
     },
     localizeName(locale) {
       if (Array.isArray(locale)) {
-        if (typeof locale[1] === 'number') return this.$tc(...locale);
+        if (typeof locale[1] === 'number') return this.$t(...locale);
         return locale.reduce((text, _locale) => {
           return `${text} ${this.localizeName(_locale)}`;
         }, '');

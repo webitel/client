@@ -1,48 +1,23 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    size="sm"
-    :shown="!!hookId"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" size="sm" :shown="!!hookId" overflow @close="close">
     <template #title>
-      {{ $tc('objects.ccenter.queues.hooks.hooks', 1) }}
+      {{ $t('objects.ccenter.queues.hooks.hooks', 1) }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :value="event"
-          :clearable="false"
-          :label="$t('objects.ccenter.queues.hooks.event')"
-          :options="eventOptions"
-          :v="v$.itemInstance.event"
-          required
-          track-by="value"
-          @input="setItemProp({ prop: 'event', value: $event.value })"
-        />
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.routing.flow.flow', 1)"
-          :search-method="loadFlowOptions"
-          :v="v$.itemInstance.schema"
-          :value="itemInstance.schema"
-          required
-          @input="setItemProp({ prop: 'schema', value: $event })"
-        />
+        <wt-select :value="event" :clearable="false" :label="$t('objects.ccenter.queues.hooks.event')"
+          :options="eventOptions" :v="v$.itemInstance.event" required track-by="value"
+          @input="setItemProp({ prop: 'event', value: $event.value })" />
+        <wt-select :clearable="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
+          :v="v$.itemInstance.schema" :value="itemInstance.schema" required
+          @input="setItemProp({ prop: 'schema', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.save') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -66,7 +41,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
   data: () => ({
     namespace: 'ccenter/teams/hooks',
@@ -120,6 +95,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

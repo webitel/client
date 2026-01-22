@@ -1,44 +1,23 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :min-width="minWidth"
-    size="sm"
-    class="selection-popup"
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :min-width="minWidth" size="sm" class="selection-popup" @close="close">
     <template #title>
       {{ title }}
     </template>
     <template #main>
       <ul class="popup-options">
-        <li
-          v-for="(option, key) of options"
-          :key="key"
-          :class="{'active': option.value === selected.value }"
-          class="popup-options__item-wrap"
-          @click="selectOption(option)"
-        >
-          <slot
-            name="option"
-            :option="option"
-          >
-            <wt-icon
-              v-if="option.icon"
-              :icon="option.icon"
-              size="sm"
-            />
+        <li v-for="(option, key) of options" :key="key" :class="{ 'active': option.value === selected.value }"
+          class="popup-options__item-wrap" @click="selectOption(option)">
+          <slot name="option" :option="option">
+            <wt-icon v-if="option.icon" :icon="option.icon" size="sm" />
 
-            <h4 class="popup-options__item-header">
+            <h4 class="popup-options__item-header typo-subtitle-2">
               {{ option.title }}
             </h4>
 
             <div class="popup-options__tooltip-wrapper">
-              <wt-icon-btn
-                v-if="option.description"
-                v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }"
-                color="info"
-                icon="rounded-info"
-              />
+              <wt-icon-btn v-if="option.description"
+                v-tooltip="{ value: option.description, class: 'selection-popup__tooltip-popper' }" color="info"
+                icon="rounded-info" />
             </div>
           </slot>
         </li>
@@ -48,16 +27,10 @@
     </template>
 
     <template #actions>
-      <wt-button
-        :disabled="!selected"
-        @click="add"
-      >
+      <wt-button :disabled="!selected" @click="add">
         {{ $t('objects.create') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -132,7 +105,8 @@ export default {
         margin-bottom: 0;
       }
 
-      &:hover, &.active {
+      &:hover,
+      &.active {
         border-color: var(--primary-color);
       }
 
@@ -145,9 +119,6 @@ export default {
       margin-left: auto;
     }
 
-    .popup-options__item-header {
-      @extend %typo-subtitle-2;
-    }
   }
 }
 

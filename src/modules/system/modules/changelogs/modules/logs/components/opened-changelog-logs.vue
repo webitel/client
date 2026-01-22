@@ -1,10 +1,10 @@
 <template>
-  <section class="content-wrapper">
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.system.changelogs.logs.logs', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-icon-action
           action="download"
           @click="exportCSV({ parentId })"
@@ -17,16 +17,16 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-        ></wt-dummy>
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    ></wt-dummy>
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"
@@ -64,9 +64,7 @@
           {{ item.object.name }}
         </template>
         <template #record="{ item }">
-          <record-link
-            :item="item"
-          />
+          <record-link :item="item" />
         </template>
       </wt-table>
       <wt-pagination
@@ -104,13 +102,13 @@ export default {
 
   setup() {
     const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { 
+    return {
       dummy,
 
       // re-export from imports to template
       FormatDateMode,
       formatDate,
-     };
+    };
   },
   data: () => ({
     namespace,
@@ -157,5 +155,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

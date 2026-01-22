@@ -1,35 +1,16 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        > <!--  submit form on Enter  -->
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -37,7 +18,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxLength, maxValue,minValue, required } from '@vuelidate/validators';
+import { helpers, maxLength, maxValue, minValue, required } from '@vuelidate/validators';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -91,7 +72,7 @@ export default {
           pathName: ShiftTemplatesRouteNames.GENERAL
         },
         {
-          text: this.$tc('objects.routing.chatGateways.templates.templates', 1),
+          text: this.$t('objects.routing.chatGateways.templates.templates', 1),
           value: 'times',
           pathName: ShiftTemplatesRouteNames.TIMES
         },
@@ -106,7 +87,7 @@ export default {
           name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc('objects.lookups.shiftTemplates.shiftTemplates', 2),
+          name: this.$t('objects.lookups.shiftTemplates.shiftTemplates', 2),
           route: baseUrl,
         },
         {
@@ -122,6 +103,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

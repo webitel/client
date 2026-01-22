@@ -1,5 +1,9 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper
+    :actions-panel="false"
+
+    class="table-page"
+  >
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -9,12 +13,15 @@
           <wt-button
             :disabled="!selectedRows.length"
             color="secondary"
+
             @click="openAddSkillToAgentPopup"
           >
             {{ $t('objects.lookups.skills.assignAgent') }}
           </wt-button>
         </template>
-        <wt-breadcrumb :path="path" />
+        <wt-breadcrumb
+          :path="path"
+        />
       </wt-page-header>
     </template>
 
@@ -23,36 +30,41 @@
         :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
+
         @close="closeDelete"
       />
 
       <add-skill-to-agent-popup
         :skill-id="selectedRowsId"
+
         @close="closeAddSkillToAgentPopup"
         @saved="loadDataList"
       />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
             {{ $t('objects.lookups.skills.allSkills') }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
+
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
             />
             <wt-table-actions
               :icons="['refresh']"
+
               @input="tableActionsHandler"
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
+
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
@@ -62,24 +74,28 @@
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
+        <wt-loader
+          v-show="!isLoaded"
+        />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
           :src="dummy.src"
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
+
           class="dummy-wrapper"
           @create="create"
         />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
             :headers="headers"
             sortable
+
             @sort="sort"
           >
             <template #name="{ item }">
@@ -103,11 +119,13 @@
               <wt-icon-action
                 action="edit"
                 :disabled="!hasEditAccess"
+
                 @click="edit(item)"
               />
               <wt-icon-action
                 action="delete"
                 :disabled="!hasDeleteAccess"
+
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -120,6 +138,7 @@
             :prev="page > 1"
             :size="size"
             debounce
+
             @change="loadList"
             @input="setSize"
             @next="nextPage"
@@ -185,7 +204,7 @@ export default {
           name: this.$t('objects.lookups.lookups'),
         },
         {
-          name: this.$tc('objects.lookups.skills.agentSkills', 2),
+          name: this.$t('objects.lookups.skills.agentSkills', 2),
           route: '/lookups/skills',
         },
       ];
@@ -200,6 +219,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

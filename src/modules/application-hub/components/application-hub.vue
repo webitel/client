@@ -1,45 +1,22 @@
 <template>
   <div class="application-hub-wrap">
     <cc-header />
-    <nav
-      :class="{ 'application-hub--sm': $breakpoint.smAndDown }"
-      class="application-hub"
-    >
+    <nav :class="{ 'application-hub--sm': $breakpoint.smAndDown }" class="application-hub">
       <div class="application-hub__background" />
       <ul class="application-hub__list">
-        <li
-          v-for="(app, key) of apps"
-          :key="key"
-          class="application-hub__card"
-        >
-          <a
-            :href="app.href"
-            :title="app.title"
-            class="application-link"
-          >
+        <li v-for="(app, key) of apps" :key="key" class="application-hub__card">
+          <a :href="app.href" :title="app.title" class="application-link">
             <div class="application-link__pic">
-              <img
-                :alt="`${app.name}-pic`"
-                :src="app.pic.img"
-                class="application-link__pic__img"
-              />
+              <img :alt="`${app.name}-pic`" :src="app.pic.img" class="application-link__pic__img" />
             </div>
             <div class="application-link__text-wrap">
               <div class="application-link__title-pic">
-                <img
-                  v-if="$breakpoint.mdAndUp"
-                  :alt="`${app.name}`"
-                  :src="app.pic.title.md"
-                  class="application-link__title-pic__img application-link__title-pic__img--md"
-                />
-                <img
-                  v-else
-                  :alt="`${app.name}-title`"
-                  :src="app.pic.title.sm"
-                  class="application-link__title-pic__img application-link__title-pic__img--sm"
-                />
+                <img v-if="$breakpoint.mdAndUp" :alt="`${app.name}`" :src="app.pic.title.md"
+                  class="application-link__title-pic__img application-link__title-pic__img--md" />
+                <img v-else :alt="`${app.name}-title`" :src="app.pic.title.sm"
+                  class="application-link__title-pic__img application-link__title-pic__img--sm" />
               </div>
-              <h1 class="application-link__title">
+              <h1 :class="['application-link__title', $breakpoint.smAndDown ? 'typo-body-2' : 'typo-body-1']">
                 {{ app.title }}
               </h1>
             </div>
@@ -205,7 +182,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
+@use '@webitel/styleguide/viewport-breakpoints' as *;
 
 $card-bg-hover: rgba(255, 255, 255, 0.1);
 $transition: 0.4s;
@@ -286,7 +263,6 @@ $transition: 0.4s;
 
 // title text
 .application-link__title {
-  @extend %typo-body-1;
   color: var(--text-on-brand-color);
 }
 
@@ -304,9 +280,10 @@ $transition: 0.4s;
 }
 
 .application-hub--sm {
+
   // title text
   .application-link__title {
-    @extend %typo-body-2;
+    // typo-body-2 class added to template
   }
 }
 

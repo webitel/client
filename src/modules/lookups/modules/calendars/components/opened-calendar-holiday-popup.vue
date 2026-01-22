@@ -1,66 +1,29 @@
 <template>
-  <wt-popup
-    :shown="shown"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup :shown="shown" size="sm" overflow @close="close">
     <template #title>
-      {{ $tc('objects.lookups.calendars.holidays', 1) }}
+      {{ $t('objects.lookups.calendars.holidays', 1) }}
     </template>
     <template #main>
       <div class="popup-input-form">
-        <wt-input
-          v-model="itemInstance.name"
-          :label="$t('objects.name')"
-          :v="v$.itemInstance.name"
-          required
-        />
-        <wt-datepicker
-          v-model="itemInstance.date"
-          :label="$t('objects.lookups.calendars.date')"
-        />
-        <wt-switcher
-          :model-value="itemInstance.working"
-          :label="$t('objects.lookups.calendars.workingTime')"
-          @update:model-value="changeWorkingSwitcher"
-        />
-        <div
-          v-if="itemInstance.working"
-          class="opened-calendar-holiday-popup__wrapper">
-          <wt-timepicker
-            format="hh:mm"
-            :label="$t('objects.lookups.calendars.start')"
-            :v="v$.itemInstance.workStart"
-            :value="itemInstance.workStart * 60"
-            @input="updateWorkingTime($event, 'workStart')"
-          ></wt-timepicker>
-          <wt-timepicker
-            format="hh:mm"
-            :label="$t('objects.lookups.calendars.end')"
-            :v="v$.itemInstance.workStop"
-            :value="itemInstance.workStop * 60"
-            @input="updateWorkingTime($event, 'workStop')"
-          ></wt-timepicker>
+        <wt-input v-model="itemInstance.name" :label="$t('objects.name')" :v="v$.itemInstance.name" required />
+        <wt-datepicker v-model="itemInstance.date" :label="$t('objects.lookups.calendars.date')" />
+        <wt-switcher :model-value="itemInstance.working" :label="$t('objects.lookups.calendars.workingTime')"
+          @update:model-value="changeWorkingSwitcher" />
+        <div v-if="itemInstance.working" class="opened-calendar-holiday-popup__wrapper">
+          <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.start')" :v="v$.itemInstance.workStart"
+            :value="itemInstance.workStart * 60" @input="updateWorkingTime($event, 'workStart')"></wt-timepicker>
+          <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.end')" :v="v$.itemInstance.workStop"
+            :value="itemInstance.workStop * 60" @input="updateWorkingTime($event, 'workStop')"></wt-timepicker>
         </div>
         <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
-        <wt-switcher
-          v-model:model-value="itemInstance.repeat"
-          :label="$t('objects.lookups.calendars.repeat')"
-        />
+        <wt-switcher v-model:model-value="itemInstance.repeat" :label="$t('objects.lookups.calendars.repeat')" />
       </div>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="computeDisabled"
-        @click="save"
-      >
+      <wt-button :disabled="computeDisabled" @click="save">
         {{ $t('objects.save') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -172,8 +135,8 @@ export default {
     updateWorkingTime(event, prop) {
       this.itemInstance[prop] = event ? event / 60 : null;
     },
-    loadItem() {},
-    resetState() {},
+    loadItem() { },
+    resetState() { },
   },
 
   watch: {

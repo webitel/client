@@ -1,50 +1,28 @@
 <template>
-  <section class="opened-pause-template-causes">
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.routing.chatGateways.templates.templates', 1) }}
+  <section class="opened-pause-template-causes table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.routing.chatGateways.templates.templates', 1) }}
       </h3>
 
-      <div class="content-header__actions-wrap">
-        <wt-icon-btn
-          v-if="!disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="addCause"
-        />
+      <div class="table-title__actions-wrap">
+        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="addCause" />
       </div>
     </header>
 
-    <div class="table-wrapper">
-      <wt-table
-        :data="itemInstance.causes"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        :selectable="false"
-      >
+    <div class="table-section__table-wrapper">
+      <wt-table :data="itemInstance.causes" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
         <template #name="{ item, index }">
-          <wt-select
-            :search-method="loadAgentPauseCause"
-            :value="item.name"
+          <wt-select :search-method="loadAgentPauseCause" :value="item.name"
             :placeholder="$t('objects.lookups.pauseTemplates.notSelected')"
-            @input="setCause({ index, value: $event })"
-          />
+            @input="setCause({ index, value: $event })" />
         </template>
         <template #duration="{ item, index }">
-          <wt-input
-            class="opened-pause-template-causes__duration"
-            :disabled="disableUserInput"
-            :value="item.duration"
-            type="number"
-            required
-            @input="setCause({ prop: 'duration', index, value: +$event })"
-          />
+          <wt-input class="opened-pause-template-causes__duration" :disabled="disableUserInput" :value="item.duration"
+            type="number" required @input="setCause({ prop: 'duration', index, value: +$event })" />
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action
-            action="delete"
-            @click="removeCause(index)"
-          />
+          <wt-icon-action action="delete" @click="removeCause(index)" />
         </template>
       </wt-table>
     </div>

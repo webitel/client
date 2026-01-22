@@ -6,11 +6,11 @@
       :title="$t('objects.routing.chatGateways.messenger.accounts')"
       @close="closeAccountsPopup"
     />
-    <header class="content-header">
-      <h3 class="content-title">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.routing.chatGateways.messenger.instagram.instagram') }}
       </h3>
-      <div class="content-header__form-wrap">
+      <div class="table-title__form-wrap">
         <wt-switcher
           :disabled="disableUserInput"
           :label="$t('objects.routing.chatGateways.messenger.instagram.comments')"
@@ -24,7 +24,7 @@
           @update:model-value="setItemMetadata({ prop: 'instagramMentions', value: $event })"
         />
       </div>
-      <div class="content-header__actions-wrap">
+      <div class="table-title__actions-wrap">
         <wt-table-actions
           :icons="['refresh']"
           @input="tableActionsHandler"
@@ -42,7 +42,7 @@
     <wt-loader v-show="!isLoaded" />
     <div
       v-show="isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
       <wt-table
         :data="dataList"

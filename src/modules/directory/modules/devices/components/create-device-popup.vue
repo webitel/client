@@ -1,27 +1,17 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!isNew"
-    size="sm"
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!isNew" size="sm" @close="close">
     <template #title>
       {{ $t('objects.directory.devices.newDevice') }}
     </template>
     <template #main>
       <section>
         <ul class="popup-options">
-          <li
-            v-for="(option, key) of options"
-            :key="key"
-            :class="{'active': selectedOption === option}"
-            class="popup-options__item-wrap"
-            @click="selectOption(option)"
-          >
-            <h4 class="popup-options__item-header">
+          <li v-for="(option, key) of options" :key="key" :class="{ 'active': selectedOption === option }"
+            class="popup-options__item-wrap" @click="selectOption(option)">
+            <h4 class="popup-options__item-header typo-subtitle-2">
               {{ option.title }}
             </h4>
-            <p class="popup-options__item-text">
+            <p class="popup-options__item-text typo-body-2">
               {{ option.description }}
             </p>
           </li>
@@ -32,10 +22,7 @@
       <wt-button @click="createItemInstance">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -54,8 +41,8 @@ export default {
       options: [
         {
           value: 'default',
-          title: this.$tc('objects.directory.devices.devices', 1),
-          description: this.$tc('objects.directory.devices.deviceSettings', 1),
+          title: this.$t('objects.directory.devices.devices', 1),
+          description: this.$t('objects.directory.devices.deviceSettings', 1),
           routeName: `${RouteNames.DEVICES}-card`,
         }, {
           value: 'hotdesk',
@@ -118,16 +105,9 @@ export default {
     margin-bottom: 0;
   }
 
-  &:hover, &.active {
+  &:hover,
+  &.active {
     border-color: var(--primary-color);
   }
-}
-
-.popup-options__item-header {
-  @extend %typo-subtitle-2;
-}
-
-.popup-options__item-text {
-  @extend %typo-body-2;
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <section class="opened-calendar-work-week">
-    <header class="content-header">
-      <h3 class="content-title">
+  <section class="opened-calendar-work-week table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
         {{ $t('objects.lookups.calendars.workWeek') }}
       </h3>
     </header>
 
-    <div class="table-wrapper">
+    <div class="table-section__table-wrapper">
       <div class="table-wrapper__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
@@ -25,7 +25,7 @@
               :value="minToSec(item.start)"
               format="hh:mm"
               no-label
-              @input="setItemProp({ prop: 'start', index, value: secToMin($event)})"
+              @input="setItemProp({ prop: 'start', index, value: secToMin($event) })"
             />
           </template>
           <template #end="{ item, index }">
@@ -34,14 +34,14 @@
               :value="minToSec(item.end)"
               format="hh:mm"
               no-label
-              @input="setItemProp({prop: 'end', index, value: secToMin($event)})"
+              @input="setItemProp({ prop: 'end', index, value: secToMin($event) })"
             />
           </template>
           <template #state="{ item, index }">
             <wt-switcher
               :disabled="disableUserInput"
               :model-value="!item.disabled"
-              @update:model-value="setItemProp({prop: 'disabled', index, value: !$event})"
+              @update:model-value="setItemProp({ prop: 'disabled', index, value: !$event })"
             />
           </template>
           <template #actions="{ item, index }">
@@ -80,5 +80,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

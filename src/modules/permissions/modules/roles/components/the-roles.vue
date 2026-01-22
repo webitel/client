@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="table-page"
+  >
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -17,12 +20,12 @@
         @close="closeDelete"
       />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
             {{ $t('objects.permissions.allRoles') }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
@@ -36,7 +39,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -57,7 +60,7 @@
         />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
@@ -157,7 +160,7 @@ export default {
           name: this.$t('objects.permissions.permissions'),
         },
         {
-          name: this.$tc('objects.permissions.permissionsRole', 2),
+          name: this.$t('objects.permissions.permissionsRole', 2),
           route: '/permissions/roles',
         },
       ];
@@ -165,6 +168,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

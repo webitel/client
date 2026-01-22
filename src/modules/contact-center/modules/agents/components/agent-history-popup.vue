@@ -32,7 +32,7 @@
         />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
@@ -152,7 +152,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-</style>

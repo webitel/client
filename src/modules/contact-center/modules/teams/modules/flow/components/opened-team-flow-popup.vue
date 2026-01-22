@@ -1,45 +1,22 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!flowId"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!flowId" size="sm" overflow @close="close">
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
       <form>
-        <wt-input
-          :label="$t('objects.title')"
-          :v="v$.itemInstance.name"
-          :value="itemInstance.name"
-          required
-          @input="setItemProp({ prop: 'name', value: $event })"
-        />
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.routing.flow.flow', 1)"
-          :search-method="loadFlowOptions"
-          :v="v$.itemInstance.schema"
-          :value="itemInstance.schema"
-          required
-          @input="setItemProp({ prop: 'schema', value: $event })"
-        />
+        <wt-input :label="$t('objects.title')" :v="v$.itemInstance.name" :value="itemInstance.name" required
+          @input="setItemProp({ prop: 'name', value: $event })" />
+        <wt-select :clearable="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
+          :v="v$.itemInstance.schema" :value="itemInstance.schema" required
+          @input="setItemProp({ prop: 'schema', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.save') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -61,7 +38,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
   data: () => ({
     namespace: 'ccenter/teams/flow',
@@ -75,8 +52,8 @@ export default {
   computed: {
     popupTitle() {
       return this.itemInstance.id
-        ? this.$tc('objects.ccenter.teams.flows.editFlowSchema')
-        : this.$tc('objects.ccenter.teams.flows.addFlowSchema');
+        ? this.$t('objects.ccenter.teams.flows.editFlowSchema')
+        : this.$t('objects.ccenter.teams.flows.addFlowSchema');
     },
     flowId() {
       return this.$route.params.flowId;
@@ -105,6 +82,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

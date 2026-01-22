@@ -1,100 +1,43 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!configurationId"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!configurationId" size="sm" overflow @close="close">
     <template #title>
       {{ id ? $t('reusable.edit') : $t('reusable.new') }}
       {{ $t('objects.system.configuration.parameter').toLowerCase() }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
-          :disabled="id"
-          :label="$t('objects.system.configuration.parameter')"
-          :options="parameterList"
-          :track-by="name"
-          :v="v$.itemInstance.name"
-          :value="itemInstance.name"
-          required
-          @input="setParameterName"
-        />
+        <wt-select :clearable="false" :disabled="id" :label="$t('objects.system.configuration.parameter')"
+          :options="parameterList" :track-by="name" :v="v$.itemInstance.name" :value="itemInstance.name" required
+          @input="setParameterName" />
         <div v-if="itemInstance.name">
-          <wt-switcher
-            v-if="displayedConfigurationType.boolean"
-            :label="$t('reusable.state')"
-            :v="v$.itemInstance.value"
-            :model-value="itemInstance.value"
-            required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })"
-          />
-          <wt-input
-            v-if="displayedConfigurationType.number"
-            :label="$tc('vocabulary.values', 1)"
-            :v="v$.itemInstance.value"
-            :value="itemInstance.value"
-            required
-            type="number"
-            @input="setItemProp({ prop: 'value', value: +$event })"
-          />
-          <wt-select
-            v-if="displayedConfigurationType.multiselect"
-            :label="$tc('vocabulary.values', 2)"
-            :v="v$.itemInstance.value"
-            :value="itemInstance.value"
-            :search-method="multiselectConfig.searchMethod"
-            :options="multiselectConfig.options"
-            :option-label="multiselectConfig.optionLabel"
-            :track-by="multiselectConfig.trackBy"
-            multiple
-            required
-            @input="setItemProp({ prop: 'value', value: $event })"
-          />
+          <wt-switcher v-if="displayedConfigurationType.boolean" :label="$t('reusable.state')"
+            :v="v$.itemInstance.value" :model-value="itemInstance.value" required
+            @update:model-value="setItemProp({ prop: 'value', value: $event })" />
+          <wt-input v-if="displayedConfigurationType.number" :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value" :value="itemInstance.value" required type="number"
+            @input="setItemProp({ prop: 'value', value: +$event })" />
+          <wt-select v-if="displayedConfigurationType.multiselect" :label="$t('vocabulary.values', 2)"
+            :v="v$.itemInstance.value" :value="itemInstance.value" :search-method="multiselectConfig.searchMethod"
+            :options="multiselectConfig.options" :option-label="multiselectConfig.optionLabel"
+            :track-by="multiselectConfig.trackBy" multiple required
+            @input="setItemProp({ prop: 'value', value: $event })" />
           <div v-if="displayedConfigurationType.select">
-            <wt-select
-              :clearable="false"
-              :label="$t('vocabulary.format')"
-              :options="exportSettingOptions"
-              :v="v$.itemInstance.format"
-              :value="itemInstance.format"
-              required
-              @input="selectHandler"
-            />
-            <wt-input
-              v-if="isExportSettingsFormatCSV"
-              :label="$t('objects.CSV.separator')"
-              :v="v$.itemInstance.separator"
-              :value="itemInstance.separator"
-              required
-              @input="inputHandler"
-            />
+            <wt-select :clearable="false" :label="$t('vocabulary.format')" :options="exportSettingOptions"
+              :v="v$.itemInstance.format" :value="itemInstance.format" required @input="selectHandler" />
+            <wt-input v-if="isExportSettingsFormatCSV" :label="$t('objects.CSV.separator')"
+              :v="v$.itemInstance.separator" :value="itemInstance.separator" required @input="inputHandler" />
           </div>
-          <wt-input
-            v-if="displayedConfigurationType.string"
-            :label="$tc('vocabulary.values', 1)"
-            :v="v$.itemInstance.value"
-            :value="itemInstance.value"
-            required
-            @input="setItemProp({ prop: 'value', value: $event })"
-          />
+          <wt-input v-if="displayedConfigurationType.string" :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value" :value="itemInstance.value" required
+            @input="setItemProp({ prop: 'value', value: $event })" />
         </div>
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('reusable.save') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('reusable.cancel') }}
       </wt-button>
     </template>
@@ -155,7 +98,7 @@ export default {
           required,
           minValue: minValue(
             this.itemInstance.name ===
-            EngineSystemSettingName.PeriodToPlaybackRecords
+              EngineSystemSettingName.PeriodToPlaybackRecords
               ? 1
               : 0,
           ),
@@ -334,12 +277,12 @@ export default {
     async loadParameterList(params) {
       const { items } = await ConfigurationAPI.getObjectsList({ ...params, size: 5000 });
       this.parameterList = items
-      ////https://webitel.atlassian.net/browse/WTEL-8146
+        ////https://webitel.atlassian.net/browse/WTEL-8146
         .filter((item) => item.name !== EngineSystemSettingName.PasswordWarningDays)
         .map((item) => ({
-        name: item.name,
-        value: item.name,
-      }));
+          name: item.name,
+          value: item.name,
+        }));
     },
     setParameterName(event) {
       this.setItemProp({ prop: 'name', value: event.name });

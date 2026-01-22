@@ -1,24 +1,18 @@
 <template>
   <div>
-    <wt-button
-      :loading="isFilesLoading"
-      @click="exportFiles"
-    >
+    <wt-button :loading="isFilesLoading" @click="exportFiles">
       {{ $t('utils.downloadFilesBtn.downloadFiles') }}
     </wt-button>
-    <div
-      v-show="isFilesLoading"
-      class="files-counter"
-    >
+    <div v-show="isFilesLoading" class="files-counter typo-caption">
       <div>
         {{ $t('utils.downloadFilesBtn.filesLoaded') }}
-        <span class="files-counter__count">
+        <span class="files-counter__count typo-caption">
           {{ filesDownloadProgress }}
         </span>
       </div>
       <div v-show="filesZippingProgress">
         {{ $t('utils.downloadFilesBtn.zippingProgress') }}
-        <span class="files-counter__count">{{ filesZippingProgress }}%</span>
+        <span class="files-counter__count typo-caption">{{ filesZippingProgress }}%</span>
       </div>
     </div>
   </div>
@@ -50,7 +44,6 @@ export default {
 @use '@webitel/ui-sdk/src/css/main' as *;
 
 .files-counter {
-  @extend %typo-caption;
   position: absolute;
   top: 100%;
   right: 0;
@@ -59,9 +52,5 @@ export default {
   border-radius: var(--border-radius);
   background: var(--main-color);
   box-shadow: var(--box-shadow);
-
-  &__count {
-    @extend %typo-caption;
-  }
 }
 </style>

@@ -9,11 +9,11 @@
     </template>
     <template #main>
       <div class="token-created-popup__token__wrapper">
-        <div class="token-created-popup__token__token">
+        <div class="token-created-popup__token__token typo-subtitle-2">
           {{ token }}
         </div>
       </div>
-      <h4 class="token-created-popup__text">
+      <h4 class="token-created-popup__text typo-body-1">
         {{ $t('objects.directory.users.tokenPopupText') }}
       </h4>
     </template>
@@ -67,9 +67,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style
+  lang="scss"
+  scoped
+>
 .token-created-popup__token__wrapper {
   width: 75%;
   margin: 10px auto 30px;
@@ -79,11 +80,6 @@ export default {
 }
 
 .token-created-popup__token__token {
-  @extend %typo-subtitle-2;
   text-align: center;
-}
-
-.token-created-popup__text {
-  @extend %typo-body-1;
 }
 </style>

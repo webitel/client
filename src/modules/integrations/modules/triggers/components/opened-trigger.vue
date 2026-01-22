@@ -1,43 +1,21 @@
 <template>
   <wt-page-wrapper :actions-panel="!!currentTab?.filters">
     <template #header>
-      <wt-page-header
-        :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
-        :primary-disabled="disabledSave"
-        :primary-text="saveText"
-        :secondary-action="close"
-      >
+      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
+        :primary-text="saveText" :secondary-action="close">
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <component
-        :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
-      />
+      <component :is="currentTab.filters" :namespace="currentTab.filtersNamespace" />
     </template>
 
     <template #main>
-      <form
-        class="main-container"
-        @submit.prevent="save"
-      >
-        <wt-tabs
-          :current="currentTab"
-          :tabs="tabs"
-          @change="changeTab"
-        />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
-        <input
-          hidden
-          type="submit"
-        />
+      <form class="main-container" @submit.prevent="save">
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <input hidden type="submit" />
         <!--  submit form on Enter  -->
       </form>
     </template>
@@ -124,7 +102,7 @@ export default {
         pathName: TriggersRouteNames.GENERAL,
       };
       const variables = {
-        text: this.$tc('vocabulary.variables', 2),
+        text: this.$t('vocabulary.variables', 2),
         value: 'variables',
         pathName: TriggersRouteNames.VARIABLES,
       };
@@ -148,7 +126,7 @@ export default {
           name: this.$t('objects.integrations.integrations'),
         },
         {
-          name: this.$tc('objects.integrations.triggers.triggers', 2),
+          name: this.$t('objects.integrations.triggers.triggers', 2),
           route: baseUrl,
         },
         {

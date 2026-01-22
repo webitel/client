@@ -6,33 +6,15 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        required
-        @input="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-tags-input
-        :disabled="disableUserInput"
-        :label="$tc('vocabulary.tag', 2)"
-        :search-method="loadFlowTagOptions"
-        :value="itemInstance.tags"
-        option-label="name"
-        taggable
-        track-by="name"
-        @input="setItemProp({ prop: 'tags', value: $event })"
-      />
+      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-tags-input :disabled="disableUserInput" :label="$t('vocabulary.tag', 2)" :search-method="loadFlowTagOptions"
+        :value="itemInstance.tags" option-label="name" taggable track-by="name"
+        @input="setItemProp({ prop: 'tags', value: $event })" />
     </div>
-    <code-editor
-      :autocomplete="autocomplete"
-      :disabled="disableUserInput"
-      :label="$tc('objects.routing.flow.flow', 1)"
-      :value="itemInstance.schema"
-      @change="setItemProp({ prop: 'schema', value: $event })"
-      @error-listener="isSyntaxError = $event"
-    />
+    <code-editor :autocomplete="autocomplete" :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
+      :value="itemInstance.schema" @change="setItemProp({ prop: 'schema', value: $event })"
+      @error-listener="isSyntaxError = $event" />
   </section>
 </template>
 
@@ -66,5 +48,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

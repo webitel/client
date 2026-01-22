@@ -1,106 +1,51 @@
 <template>
-  <section>
-    <agent-popup
-      @close="closeAgentPopup"
-    />
-    <object-list-popup
-      :shown="!!supervisorsId"
-      :data-list="openedItemSupervisors"
-      :headers="openedItemSupervisorHeaders"
-      :title="$tc('objects.ccenter.agents.supervisors', 2)"
-      @close="closeSupervisorsAndSkillsPopup"
-    />
-    <object-list-popup
-      :shown="!!skillsId"
-      :data-list="openedItemSkills"
-      :headers="openedItemSkillsHeaders"
-      :title="$tc('objects.lookups.skills.skills', 2)"
-      @close="closeSupervisorsAndSkillsPopup"
-    />
+  <section class="table-section">
+    <agent-popup @close="closeAgentPopup" />
+    <object-list-popup :shown="!!supervisorsId" :data-list="openedItemSupervisors"
+      :headers="openedItemSupervisorHeaders" :title="$t('objects.ccenter.agents.supervisors', 2)"
+      @close="closeSupervisorsAndSkillsPopup" />
+    <object-list-popup :shown="!!skillsId" :data-list="openedItemSkills" :headers="openedItemSkillsHeaders"
+      :title="$t('objects.lookups.skills.skills', 2)" @close="closeSupervisorsAndSkillsPopup" />
 
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.ccenter.agents.agents', 2) }}
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.ccenter.agents.agents', 2) }}
       </h3>
-      <div class="content-header__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
+      <div class="table-title__actions-wrap">
+        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
+        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
+          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
+    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper" />
     <div
       v-show="dataList.length && isLoaded"
-      class="table-wrapper"
+      class="table-section__table-wrapper"
     >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        :selectable="false"
-        sortable
-        @sort="sort"
-      >
+      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" :selectable="false" sortable
+        @sort="sort">
         <template #name="{ item }">
-          <wt-item-link
-            :link="editLink(item)"
-            target="_blank"
-          >
+          <wt-item-link :link="editLink(item)" target="_blank">
             {{ item.name }}
           </wt-item-link>
         </template>
         <template #state="{ item }">
-          <wt-indicator
-            :color="statusIndicatorColor[snakeToCamel(item.status)]"
-            :text="statusIndicatorText[snakeToCamel(item.status)]"
-          />
+          <wt-indicator :color="statusIndicatorColor[snakeToCamel(item.status)]"
+            :text="statusIndicatorText[snakeToCamel(item.status)]" />
         </template>
         <template #supervisor="{ item }">
-          <one-plus-many
-            :collection="item.supervisor"
-            @input="setSupervisorQuery(item)"
-          />
+          <one-plus-many :collection="item.supervisor" @input="setSupervisorQuery(item)" />
         </template>
         <template #skills="{ item }">
-          <one-plus-many
-            :collection="item.skills"
-            @input="setSkillsQuery(item)"
-          />
+          <one-plus-many :collection="item.skills" @input="setSkillsQuery(item)" />
         </template>
       </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
+      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
+        @next="nextPage" @prev="prevPage" />
     </div>
   </section>
 </template>
@@ -164,5 +109,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

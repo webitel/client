@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="table-page">
     <token-popup
       :shown="isPopup"
       @close="closePopup"
@@ -16,76 +16,80 @@
       @close="closeDelete"
     />
 
-    <header class="content-header">
-      <h3 class="content-title">
-        {{ $tc('objects.directory.users.token', 2) }}
-      </h3>
+    <section class="table-section">
+      <header class="table-title">
+        <h3 class="table-title__title">
+          {{ $t('objects.directory.users.token', 2) }}
+        </h3>
 
-      <wt-table-actions
-        :icons="['refresh']"
-        @input="tableActionsHandler"
-      >
-        <delete-all-action
-          v-if="!disableUserInput"
-          :class="{'hidden': anySelected}"
-          :selected-count="selectedRows.length"
-          @click="askDeleteConfirmation({
-            deleted: selectedRows,
-            callback: () => deleteData(selectedRows),
-          })"
-        />
-        <wt-icon-action
-          v-if="!disableUserInput"
-          action="add"
-          @click="create"
-        />
-      </wt-table-actions>
-    </header>
+        <div class="table-title__actions-wrap">
+          <wt-table-actions
+            :icons="['refresh']"
+            @input="tableActionsHandler"
+          >
+            <delete-all-action
+              v-if="!disableUserInput"
+              :class="{ 'hidden': anySelected }"
+              :selected-count="selectedRows.length"
+              @click="askDeleteConfirmation({
+                deleted: selectedRows,
+                callback: () => deleteData(selectedRows),
+              })"
+            />
+            <wt-icon-action
+              v-if="!disableUserInput"
+              action="add"
+              @click="create"
+            />
+          </wt-table-actions>
+        </div>
+      </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <div
-      v-show="isLoaded"
-      class="table-wrapper"
-    >
-      <wt-table
-        :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
-        sortable
-        @sort="sort"
+      <wt-loader v-show="!isLoaded" />
+      <div
+        v-show="isLoaded"
+        class="table-section__table-wrapper"
       >
-        <template #usage="{ item }">
-          {{ item.usage }}
-        </template>
-        <template #createdBy="{ item }">
-          <div v-if="item.createdBy">
-            {{ item.createdBy.name }}
-          </div>
-        </template>
-        <template #createdAt="{ item }">
-          {{ prettifyDate(item.createdAt) }}
-        </template>
-        <template #actions="{ item }">
-          <wt-icon-btn
-            icon="bucket"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
-          />
-        </template>
-      </wt-table>
-      <wt-pagination
-        :next="isNext"
-        :prev="page > 1"
-        :size="size"
-        debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
-      />
-    </div>
+        <wt-table
+          :data="dataList"
+          :grid-actions="!disableUserInput"
+          :headers="headers"
+          sortable
+          @sort="sort"
+        >
+          <template #usage="{ item }">
+            {{ item.usage }}
+          </template>
+          <template #createdBy="{ item }">
+            <div v-if="item.createdBy">
+              {{ item.createdBy.name }}
+            </div>
+          </template>
+          <template #createdAt="{ item }">
+            {{ prettifyDate(item.createdAt) }}
+          </template>
+          <template #actions="{ item }">
+            <wt-icon-btn
+              icon="bucket"
+              @click="askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })"
+            />
+          </template>
+        </wt-table>
+        <wt-pagination
+          :next="isNext"
+          :prev="page > 1"
+          :size="size"
+          debounce
+          @change="loadList"
+          @input="setSize"
+          @next="nextPage"
+          @prev="prevPage"
+        />
+      </div>
+    </section>
   </section>
 </template>
 
@@ -184,5 +188,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

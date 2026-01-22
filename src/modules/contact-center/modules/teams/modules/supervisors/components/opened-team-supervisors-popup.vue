@@ -1,38 +1,20 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!supervisorId"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!supervisorId" size="sm" overflow @close="close">
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
-          :label="$tc('objects.ccenter.agents.agents', 1)"
-          :search-method="loadAgentsOptions"
-          :v="v$.itemInstance.agent"
-          :value="itemInstance.agent"
-          required
-          @input="setItemProp({ prop: 'agent', value: $event })"
-        />
+        <wt-select :clearable="false" :label="$t('objects.ccenter.agents.agents', 1)" :search-method="loadAgentsOptions"
+          :v="v$.itemInstance.agent" :value="itemInstance.agent" required
+          @input="setItemProp({ prop: 'agent', value: $event })" />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="disabledSave"
-        @click="save"
-      >
+      <wt-button :disabled="disabledSave" @click="save">
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button
-        color="secondary"
-        @click="close"
-      >
+      <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -55,7 +37,7 @@ export default {
   setup: () => ({
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
+    v$: useVuelidate({ $stopPropagation: true }),
   }),
 
   data: () => ({
@@ -87,7 +69,7 @@ export default {
       handler(id) {
         if (id === 'new') {
           this.resetState();
-        } else if (id){
+        } else if (id) {
           this.setId(id);
           this.loadItem();
         }
@@ -113,6 +95,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

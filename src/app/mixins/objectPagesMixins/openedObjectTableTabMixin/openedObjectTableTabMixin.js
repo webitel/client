@@ -59,7 +59,7 @@ export default {
       return this.headersValue.map((header) => ({
         ...header,
         text:
-          typeof header.locale === 'string' ? this.$t(header.locale) : this.$tc(...header.locale),
+          typeof header.locale === 'string' ? this.$t(header.locale) : this.$t(...header.locale),
       }));
     },
   },

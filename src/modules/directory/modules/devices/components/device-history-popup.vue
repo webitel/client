@@ -9,7 +9,7 @@
           <wt-datepicker :label="$t('objects.from')" :value="from" mode="datetime" @input="selectForm" />
           <wt-datepicker :label="$t('objects.to')" :value="to" mode="datetime" @input="selectTo" />
         </div>
-        <div class="table-wrapper">
+        <div class="table-section__table-wrapper">
           <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false">
             <template #loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}

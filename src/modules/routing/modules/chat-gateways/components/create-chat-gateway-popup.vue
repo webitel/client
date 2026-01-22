@@ -1,31 +1,13 @@
 <template>
-  <selection-popup
-    v-bind="$attrs"
-    :options="options"
-    :selected="selected"
-    :title="$t('objects.routing.chatGateways.newChatGateway')"
-    @change="selectOption"
-    @close="close"
-    @select="createGateway"
-  >
+  <selection-popup v-bind="$attrs" :options="options" :selected="selected"
+    :title="$t('objects.routing.chatGateways.newChatGateway')" @change="selectOption" @close="close"
+    @select="createGateway">
     <template #option="{ option }">
-      <wt-icon
-        v-if="option.icon && !Array.isArray(option.icon)"
-        :icon="option.icon"
-        size="sm"
-      />
-      <div
-        v-if="Array.isArray(option.icon)"
-        class="popup-options__icons-wrap"
-      >
-        <wt-icon
-          v-for="(icon, key) of option.icon"
-          :key="key"
-          :icon="icon"
-          size="sm"
-        />
+      <wt-icon v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm" />
+      <div v-if="Array.isArray(option.icon)" class="popup-options__icons-wrap">
+        <wt-icon v-for="(icon, key) of option.icon" :key="key" :icon="icon" size="sm" />
       </div>
-      <h4 class="popup-options__item-header">
+      <h4 class="popup-options__item-header typo-subtitle-2">
         {{ option.title }}
       </h4>
     </template>
@@ -96,7 +78,7 @@ export default {
     createGateway() {
       this.$router.push({
         name: `${RouteNames.CHAT_GATEWAYS}-card`,
-        params: {id: 'new'},
+        params: { id: 'new' },
         query: { type: this.selected.value },
       });
     },
@@ -117,14 +99,10 @@ export default {
     }
   }
 
-  .popup-options__item-header {
-    @extend %typo-subtitle-2;
-  }
 
   .popup-options__icons-wrap {
     display: flex;
   }
 
 }
-
 </style>

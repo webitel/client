@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="devices"
+    class="table-page"
   >
     <template #header>
       <wt-page-header
@@ -13,18 +13,14 @@
     </template>
 
     <template #main>
-      <history-popup
-        @close="closeHistoryPopup"
-      />
+      <history-popup @close="closeHistoryPopup" />
 
       <upload-popup
         :file="csvFile"
         @close="closeCSVPopup"
       />
 
-      <device-popup
-        @close="closeDeviceSelectPopup"
-      />
+      <device-popup @close="closeDeviceSelectPopup" />
 
       <delete-confirmation-popup
         :shown="isDeleteConfirmationPopup"
@@ -33,12 +29,12 @@
         @close="closeDelete"
       />
 
-      <section class="main-section__wrapper">
-        <header class="content-header">
-          <h3 class="content-title">
+      <section class="table-section">
+        <header class="table-title">
+          <h3 class="table-title__title">
             {{ $t('objects.directory.devices.allDevices') }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <wt-search-bar
               :value="search"
               debounce
@@ -52,7 +48,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -81,7 +77,7 @@
         />
         <div
           v-show="dataList.length && isLoaded"
-          class="table-wrapper"
+          class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
@@ -134,8 +130,8 @@
                 action="delete"
                 :disabled="!hasDeleteAccess"
                 @click="askDeleteConfirmation({
-                    deleted: [item],
-                    callback: () => deleteData(item),
+                  deleted: [item],
+                  callback: () => deleteData(item),
                 })"
               />
             </template>
@@ -219,7 +215,7 @@ export default {
           name: this.$t('objects.directory.directory'),
         },
         {
-          name: this.$tc('objects.directory.devices.devices', 2),
+          name: this.$t('objects.directory.devices.devices', 2),
           route: '/directory/devices',
         },
       ];
@@ -230,7 +226,7 @@ export default {
     create() {
       this.$router.push({
         ...this.$route,
-        query: {new: true},
+        query: { new: true },
       });
     },
     closeDeviceSelectPopup() {
@@ -251,7 +247,7 @@ export default {
       })
     },
     closeHistoryPopup() {
-      return this.$router.push({name: this.routeName});
+      return this.$router.push({ name: this.routeName });
     },
     closeCSVPopup() {
       this.csvFile = null;
@@ -290,6 +286,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
