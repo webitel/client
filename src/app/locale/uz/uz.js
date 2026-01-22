@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,16 +72,26 @@ export default {
     useWebPhone: 'WebPhone ishlatish',
     useStun: 'STUN ishlatish',
     notifications: {
-      [NotificationType.CallEndSound]: 'Zvonk tugash xonasi',
-      [NotificationType.SocketCloseSound]: "Bog'lanish yo'qolishi xonasi",
+      [NotificationType.NewMessageSound]: "Yangi xabar ovozi",
+      [NotificationType.NewChatSound]: "Yangi chat ovozi",
+      [NotificationType.ChatEndSound]: "Chat tugashi ovozi",
+      [NotificationType.CallEndSound]: "Qo'ng'iroq tugashi ovozi",
+      [NotificationType.TaskEndSound]: "Vazifa tugashi ovozi",
+      [NotificationType.ChatEndPush]: "Chat tugashi push bildiruvchi",
+      [NotificationType.CallEndPush]: "Qo'ng'iroq tugashi push bildiruvchi",
+      [NotificationType.TaskEndPush]: "Vazifa tugashi push bildiruvchi",
+      [NotificationType.SocketCloseSound]: "Ulanish uzilishi ovozi",
     },
     ringtones: {
-      title: "Zvonk tonini o'zgartirish",
+      title: "Qo'ng'iroq ringtonini o'zgartirish",
       ringtone: 'Zvonk ton',
       customRingtone: 'Xususiy zvonk tonini ishlatish',
     },
     ringtoneVolume: {
-      title: 'Zvonk toni hajmi',
+      title: 'Ovoz sozlamalari',
+      [RingtoneType.Call]: "Qo'ng'iroq",
+      [RingtoneType.Chat]: 'Chat',
+      [RingtoneType.Task]: 'Vazifa',
     },
   },
 
@@ -642,7 +653,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'API versiyasi',
-            apiVersionHint: 'Format: vXX.XX (masalan, v24.00)',
+            apiVersionHint: 'Format: vXX.X (masalan, v24.0)',
           },
           facebook: {
             pages: 'Facebook sahifalari',

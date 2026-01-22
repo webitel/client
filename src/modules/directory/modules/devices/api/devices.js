@@ -24,6 +24,7 @@ const fieldsToSend = [
   'ip',
   'brand',
   'model',
+  'phone',
   'hotdesks',
   'hotdesk',
 ];

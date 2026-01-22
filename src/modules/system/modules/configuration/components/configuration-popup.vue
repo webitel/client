@@ -172,7 +172,7 @@ export default {
         return deepmerge(defaults, defaultNumberConfig);
       case EngineSystemSettingName.PasswordCategories:
         return deepmerge(defaults, defaultMultiselectConfig);
-      case EngineSystemSettingName.PasswordContainsUsername:
+      case EngineSystemSettingName.PasswordContainsLogin:
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.PasswordWarningDays:
         return deepmerge(defaults, defaultNumberConfig);
@@ -192,7 +192,7 @@ export default {
         [EngineSystemSettingName.PushNotificationTimeout]: 30,
         [EngineSystemSettingName.ScreenshotInterval]: 30,
         [EngineSystemSettingName.PasswordMinLength]: 8,
-        [EngineSystemSettingName.PasswordContainsUsername]: false,
+        [EngineSystemSettingName.PasswordContainsLogin]: false,
       },
     };
   },

@@ -29,7 +29,7 @@
     >
       <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
         <template #event="{ item }">
-          {{ item.event }}
+          {{ getLocalizedEvent(item.event) }}
         </template>
         <template #schema="{ item }">
           <adm-item-link :id="item.schema.id" :route-name="RouteNames.FLOW" target="_blank">
@@ -57,6 +57,7 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -114,6 +115,10 @@ export default {
     },
     closePopup() {
       this.$router.go(-1)
+    },
+    getLocalizedEvent(event) {
+      if (!event) return '';
+      return this.$t(`objects.ccenter.teams.hooks.eventTypes.${snakeToCamel(event)}`);
     },
   },
 };

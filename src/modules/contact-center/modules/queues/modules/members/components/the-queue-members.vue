@@ -34,11 +34,22 @@
           <h3 class="table-title__title typo-heading-3">
             {{ $t('objects.ccenter.members.allMembers') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <filter-search :namespace="filtersNamespace" />
-            <wt-table-actions :icons="['settings', 'refresh']" @input="inputTableAction">
-              <wt-icon-btn v-if="hasEditAccess" v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
-                icon="member-reset" icon-prefix="adm" @click="openResetPopup" />
+          <div class="content-header__actions-wrap">
+            <filter-search
+              :namespace="filtersNamespace"
+            />
+            <wt-table-actions
+              :icons="['settings', 'refresh']"
+              is-settings-badge
+              @input="inputTableAction"
+            >
+              <wt-icon-btn
+                v-if="hasEditAccess"
+                v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
+                icon="member-reset"
+                icon-prefix="adm"
+                @click="openResetPopup"
+              />
 
               <wt-context-menu v-if="hasEditAccess && isNotInboundMember" :options="deleteOptions"
                 @click="$event.option.method.call()">

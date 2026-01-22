@@ -19,7 +19,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, requiredUnless } from '@vuelidate/validators';
+import { required, requiredUnless, requiredIf } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { StorageProviderType } from 'webitel-sdk';
 
@@ -80,7 +80,9 @@ export default {
           itemInstance: {
             properties: {
               key: {
-                required,
+                required: requiredIf(() => {
+                  return !this.itemInstance.properties.keyFilename && !!this.id
+                }),
               },
             },
           },

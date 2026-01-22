@@ -138,7 +138,7 @@ export default {
                 *
                 * [WTEL-7923](https://webitel.atlassian.net/browse/WTEL-7923)
                 *
-                * Validates Meta Graph API version format: "v{major}.{minor}" (e.g., v19.0, v21.0)''
+                * Validates Meta Graph API version format: "vX.X", "vXX.X", "vXX.XX" (e.g., v1.0, v19.0, v24.0)
                 */
                 valid: (value) => !value || /^v([1-9]\d*)(\.(0|[1-9]\d*))$/.test(value),
               },

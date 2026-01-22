@@ -4,9 +4,14 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
-        <wt-input :label="$t('objects.ccenter.res.numbers', 1)" :v="v$.itemInstance.display"
-          :value="itemInstance.display" required @input="setItemProp({ prop: 'display', value: $event })" />
+      <form @submit.prevent>
+        <wt-input
+          :label="$t('objects.ccenter.res.numbers', 1)"
+          :v="v$.itemInstance.display"
+          :value="itemInstance.display"
+          required
+          @input="setItemProp({ prop: 'display', value: $event })"
+        />
       </form>
     </template>
     <template #actions>

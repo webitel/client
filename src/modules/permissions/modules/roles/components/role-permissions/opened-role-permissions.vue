@@ -29,13 +29,15 @@
           {{ permissionUsageLocale[item.id] }}
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action action="edit" @click="edit(index)" />
-          <wt-icon-action action="delete" @click="
-            askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })
-            " />
+          <wt-icon-action
+            action="delete"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteData(item),
+              })
+            "
+          />
         </template>
       </wt-table>
     </div>
@@ -168,12 +170,6 @@ export default {
     },
     create() {
       this.addItem();
-    },
-    edit(index) {
-      this.$router.push({
-        ...this.$route,
-        params: { permissionIndex: index.toString() },
-      });
     },
     addItem() {
       this.$router.push({

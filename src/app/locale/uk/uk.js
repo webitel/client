@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,18 +72,26 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      [NotificationType.CallEndSound]:
-        'Звукове сповіщення про завершення дзвінка',
-      [NotificationType.SocketCloseSound]:
-        'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.NewMessageSound]: 'Звукове сповіщення про нове сповіщення',
+      [NotificationType.NewChatSound]: 'Звукове сповіщення про новий чат',
+      [NotificationType.ChatEndSound]: 'Звукове сповіщення про завершення чату',
+      [NotificationType.CallEndSound]: 'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.TaskEndSound]: 'Звукове сповіщення про завершення задачі',
+      [NotificationType.ChatEndPush]: 'Пуш-сповіщення про завершення чату',
+      [NotificationType.CallEndPush]: 'Пуш-сповіщення про завершення дзвінка',
+      [NotificationType.TaskEndPush]: 'Пуш-сповіщення про завершення задачі',
+      [NotificationType.SocketCloseSound]: 'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
-      title: 'Змінити рингтон',
+      title: 'Змінити рингтон дзвінка',
       ringtone: 'Рингтон',
       customRingtone: 'Вибрати інший рингтон',
     },
     ringtoneVolume: {
-      title: 'Гучність рингтону',
+      title: 'Налаштування гучності',
+      [RingtoneType.Call]: 'Дзвінок',
+      [RingtoneType.Chat]: 'Чат',
+      [RingtoneType.Task]: 'Задача',
     },
   },
 
@@ -647,7 +656,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'Версія API',
-            apiVersionHint: 'Формат: vXX.XX (наприклад, v24.00)',
+            apiVersionHint: 'Формат: vXX.X (наприклад, v24.0)',
           },
           facebook: {
             pages: 'Facebook сторінки',
@@ -830,7 +839,7 @@ export default {
         },
         hooks: {
           eventTypes: {
-            agentStatus: 'Зміна статуту оператора',
+            agentStatus: 'Зміна статусу оператора',
           },
         },
         flows: {
@@ -1204,7 +1213,7 @@ export default {
       },
       emailProfiles: {
         emailProfiles: 'Email профіль | Email профілі',
-        mailbox: 'Почтова скринька',
+        mailbox: 'Поштова скринька',
         smtpPort: 'SMTP Порт',
         imapPort: 'IMAP Порт',
         smtpHost: 'SMTP Хост',

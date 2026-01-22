@@ -41,9 +41,13 @@
                   callback: () => deleteData(selectedRows),
                 })" />
 
-              <wt-icon-btn v-if="isResetActiveAttemptsAllow"
-                v-tooltip="$t('objects.ccenter.queues.attemptsReset.resetActiveAttempts')" icon="update-calls"
-                @click="isAttemptsResetPopup = true" />
+              <!-- https://webitel.atlassian.net/browse/WTEL-8681 -->
+              <!-- <wt-icon-btn
+                v-if="isResetActiveAttemptsAllow"
+                v-tooltip="$t('objects.ccenter.queues.attemptsReset.resetActiveAttempts')"
+                icon="update-calls"
+                @click="isAttemptsResetPopup = true"
+              /> -->
 
             </wt-table-actions>
           </div>

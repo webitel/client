@@ -285,6 +285,9 @@ export default {
             calendar: {
               required,
             },
+            schema: {
+              required,
+            },
             payload: {
               maxAttempts: {
                 required,

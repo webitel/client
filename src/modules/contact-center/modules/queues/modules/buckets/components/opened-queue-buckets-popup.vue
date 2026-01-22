@@ -5,12 +5,23 @@
     </template>
     <template #main>
       <form>
-        <wt-select :clearable="false" :label="$t('objects.lookups.buckets.buckets', 1)"
-          :search-method="loadBucketsOptions" :v="v$.itemInstance.bucket" :value="itemInstance.bucket" required
-          @input="setItemProp({ prop: 'bucket', value: $event })" />
-        <wt-input :label="$t('objects.ccenter.queues.bucketPriority')" :v="v$.itemInstance.priority"
-          :value="itemInstance.priority" required type="number"
-          @input="setItemProp({ prop: 'priority', value: $event })" />
+        <wt-select
+          :clearable="false"
+          :label="$t('objects.lookups.buckets.buckets', 1)"
+          :search-method="loadBucketsOptions"
+          :v="v$.itemInstance.bucket"
+          :value="itemInstance.bucket"
+          required
+          @input="setItemProp({ prop: 'bucket', value: $event })"
+        />
+        <wt-input
+          :label="$t('objects.ccenter.queues.bucketPriority')"
+          :v="v$.itemInstance.priority"
+          :value="itemInstance.priority"
+          required
+          type="number"
+          @input="setItemProp({ prop: 'priority', value: +$event })"
+        />
       </form>
     </template>
     <template #actions>

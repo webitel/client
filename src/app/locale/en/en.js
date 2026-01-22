@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,16 +72,26 @@ export default {
     useWebPhone: 'Use WebPhone',
     useStun: 'Use STUN',
     notifications: {
+      [NotificationType.NewMessageSound]: 'New message sound',
+      [NotificationType.NewChatSound]: 'New chat sound',
+      [NotificationType.ChatEndSound]: 'Chat end sound',
       [NotificationType.CallEndSound]: 'Call end sound',
-      [NotificationType.SocketCloseSound]: 'Connection loss sound',
+      [NotificationType.TaskEndSound]: 'Task end sound',
+      [NotificationType.ChatEndPush]: 'Chat end push',
+      [NotificationType.CallEndPush]: 'Call end push',
+      [NotificationType.TaskEndPush]: 'Task end push',
+      [NotificationType.SocketCloseSound]: 'Socket connection loss sound',
     },
     ringtones: {
-      title: 'Change ringtone',
+      title: 'Change call ringtone',
       ringtone: 'Ringtone',
       customRingtone: 'Use the custom ringtone',
     },
     ringtoneVolume: {
-      title: 'Ringtone volume',
+      title: 'Volume settings',
+      [RingtoneType.Call]: 'Call',
+      [RingtoneType.Chat]: 'Chat',
+      [RingtoneType.Task]: 'Task',
     },
   },
 
@@ -639,7 +650,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'API Version',
-            apiVersionHint: 'Use format: vXX.XX (e.g., v24.0)',
+            apiVersionHint: 'Use format: vXX.X (e.g., v24.0)',
           },
           facebook: {
             pages: 'Facebook pages',

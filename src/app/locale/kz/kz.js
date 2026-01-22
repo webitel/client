@@ -5,6 +5,7 @@ import {
 } from '@webitel/api-services/gen/models';
 
 import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
 
 export default {
   auth: {
@@ -71,16 +72,26 @@ export default {
     useWebPhone: 'WebPhone пайдалану',
     useStun: 'STUN пайдалану',
     notifications: {
+      [NotificationType.NewMessageSound]: 'Жаңа хабарлама дыбысы',
+      [NotificationType.NewChatSound]: 'Жаңа чат дыбысы',
+      [NotificationType.ChatEndSound]: 'Чат аяқталған дыбыс',
       [NotificationType.CallEndSound]: 'Қоңырау аяқталған дыбыс',
-      [NotificationType.SocketCloseSound]: 'Байланыс жоғалған дыбыс',
+      [NotificationType.TaskEndSound]: 'Тапсырма аяқталған дыбыс',
+      [NotificationType.ChatEndPush]: 'Чат аяқталған push хабарландыру',
+      [NotificationType.CallEndPush]: 'Қоңырау аяқталған push хабарландыру',
+      [NotificationType.TaskEndPush]: 'Тапсырма аяқталған push хабарландыру',
+      [NotificationType.SocketCloseSound]: 'Байланыс үзілген дыбыс',
     },
     ringtones: {
-      title: 'Қоңырау дыбысын өзгерту',
+      title: 'Қоңырау рингтонын өзгерту',
       ringtone: 'Қоңырау дыбысы',
       customRingtone: 'Қолданба дыбысын пайдалану',
     },
     ringtoneVolume: {
-      title: 'Қоңырау дыбысы',
+      title: 'Дыбыс деңгейін баптау',
+      [RingtoneType.Call]: 'Қоңырау',
+      [RingtoneType.Chat]: 'Чат',
+      [RingtoneType.Task]: 'Тапсырма',
     },
   },
 
@@ -636,7 +647,7 @@ export default {
             clientId: 'App ID',
             clientSecret: 'App Secret',
             apiVersion: 'API нұсқасы',
-            apiVersionHint: 'Формат: vXX.XX (мысалы, v24.00)',
+            apiVersionHint: 'Формат: vXX.X (мысалы, v24.0)',
           },
           facebook: {
             pages: 'Facebook беректері',
