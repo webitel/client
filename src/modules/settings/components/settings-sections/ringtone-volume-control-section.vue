@@ -134,7 +134,6 @@ onMounted(() => {
 }
 
 .ringtone-volume-control-section__title {
-  @extend %typo-subtitle-2;
   padding: var(--spacing-2xs) var(--spacing-xs);
   margin-bottom: var(--spacing-xs);
 }

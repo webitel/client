@@ -8,8 +8,8 @@
         <wt-select :clearable="false" :label="$t('objects.ccenter.res.res', 1)" :search-method="loadDropdownOptionsList"
           :v="v$.itemInstance.resource" :value="itemInstance.resource" required
           @input="setItemProp({ prop: 'resource', value: $event })" />
-        <wt-input :label="$t('objects.ccenter.res.priority')" :value="itemInstance.priority" type="number"
-          @input="setItemProp({ prop: 'priority', value: +$event })" />
+        <wt-input-number :label="$t('objects.ccenter.res.priority')" :model-value="itemInstance.priority"
+          @update:model-value="setItemProp({ prop: 'priority', value: +$event })" />
         <wt-select :clearable="true" :label="$t('objects.ccenter.res.reserveResource', 1)"
           :search-method="loadDropdownOptionsList" :v="v$.itemInstance.reserveResource"
           :value="itemInstance.reserveResource" @input="setItemProp({ prop: 'reserveResource', value: $event })" />

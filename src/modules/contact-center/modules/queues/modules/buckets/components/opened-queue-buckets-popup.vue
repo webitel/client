@@ -14,13 +14,12 @@
           required
           @input="setItemProp({ prop: 'bucket', value: $event })"
         />
-        <wt-input
+        <wt-input-number
           :label="$t('objects.ccenter.queues.bucketPriority')"
           :v="v$.itemInstance.priority"
-          :value="itemInstance.priority"
+          :model-value="itemInstance.priority"
           required
-          type="number"
-          @input="setItemProp({ prop: 'priority', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'priority', value: +$event })"
         />
       </form>
     </template>

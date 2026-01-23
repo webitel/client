@@ -5,8 +5,8 @@
     </template>
     <template #main>
       <form class="opened-blacklist-number-popup__wrapper">
-        <wt-input :label="$t('objects.lookups.blacklist.number', 1)" :v="v$.itemInstance.number"
-          :value="itemInstance.number" required @input="setItemProp({ prop: 'number', value: $event })" />
+        <wt-input-text :label="$t('objects.lookups.blacklist.number', 1)" :v="v$.itemInstance.number"
+          :model-value="itemInstance.number" required @update:model-value="setItemProp({ prop: 'number', value: $event })" />
         <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
         <wt-switcher v-model:model-value="showExpireDate" :label="$t('objects.lookups.blacklist.temporary')" />
         <wt-datepicker v-if="showExpireDate" :label="$t('objects.lookups.blacklist.expireAt')"

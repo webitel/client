@@ -6,8 +6,8 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
       <generate-value-input :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.customChat.metadata.appSecret')"
         :label-props="{ hint: $t('objects.routing.chatGateways.customChat.appSecretHint'), hintPosition: 'right' }"
@@ -20,9 +20,9 @@
       <wt-select :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsList" :v="v.itemInstance.flow" :value="itemInstance.flow" required
         @input="setFlow" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.customChat.metadata.callback')"
-        :v="v.itemInstance.metadata.webhook" :value="itemInstance.metadata.webhook" required
-        @input="setItemMetadata({ prop: 'webhook', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.customChat.metadata.callback')"
+        :v="v.itemInstance.metadata.webhook" :model-value="itemInstance.metadata.webhook" required
+        @update:model-value="setItemMetadata({ prop: 'webhook', value: $event })" />
     </div>
   </section>
 </template>

@@ -26,20 +26,19 @@
             :value="acl.proto"
             @input="setVariableProp({ index: key, prop: 'proto', value: $event })"
           />
-          <wt-input
+          <wt-input-text
             :disabled="disableUserInput"
             :label="$t('objects.routing.ip')"
             :v="v.itemInstance.ipacl.$each.$response.$data[key].ip"
-            :value="acl.ip"
+            :model-value="acl.ip"
             required
-            @input="setVariableProp({ index: key, prop: 'ip', value: $event })"
+            @update:model-value="setVariableProp({ index: key, prop: 'ip', value: $event })"
           />
-          <wt-input
+          <wt-input-number
             :disabled="disableUserInput"
             :label="$t('objects.routing.port')"
-            :value="acl.port"
-            type="number"
-            @input="setVariableProp({ index: key, prop: 'port', value: $event })"
+            :model-value="acl.port"
+            @update:model-value="setVariableProp({ index: key, prop: 'port', value: $event })"
           />
           <wt-icon-action
             v-if="!disableUserInput"

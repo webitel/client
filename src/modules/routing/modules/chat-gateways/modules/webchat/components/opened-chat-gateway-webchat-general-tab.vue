@@ -11,12 +11,12 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
-        @input="setItemProp({ prop: 'name', value: $event })"
+        :model-value="itemInstance.name"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-tags-input
         :disabled="disableUserInput"

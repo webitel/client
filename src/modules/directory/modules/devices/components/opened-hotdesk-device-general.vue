@@ -6,8 +6,8 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
       <copy-input :label="$t('objects.directory.devices.authId')" :v="v.itemInstance.account"
         :value="itemInstance.account" disabled required />
       <password-input :disabled="disableUserInput" :v="v.itemInstance.password" :value="itemInstance.password" required

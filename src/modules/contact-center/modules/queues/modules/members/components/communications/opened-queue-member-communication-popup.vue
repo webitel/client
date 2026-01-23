@@ -5,16 +5,16 @@
     </template>
     <template #main>
       <form class="object-input-grid object-input-grid__1-col">
-        <wt-input v-model="itemInstance.destination" :label="$t('objects.ccenter.members.destination')"
+        <wt-input-text v-model:model-value="itemInstance.destination" :label="$t('objects.ccenter.members.destination')"
           :v="v$.itemInstance.destination" required />
         <wt-select v-model="itemInstance.type" :clearable="false"
           :label="$t('objects.lookups.communications.communications', 1)" :search-method="loadCommTypes"
           :v="v$.itemInstance.type" required />
         <wt-select v-model="itemInstance.resource" :label="$t('objects.ccenter.res.res', 1)"
           :search-method="loadResources" />
-        <wt-input v-model="itemInstance.display" :label="$t('objects.ccenter.members.display')" />
-        <wt-input v-model="itemInstance.dtmf" :label="$t('objects.ccenter.members.dtmf')" :v="v$.itemInstance.dtmf" />
-        <wt-input v-model="itemInstance.priority" :label="$t('objects.ccenter.members.priority')" type="number" />
+        <wt-input-text v-model:model-value="itemInstance.display" :label="$t('objects.ccenter.members.display')" />
+        <wt-input-text v-model:model-value="itemInstance.dtmf" :label="$t('objects.ccenter.members.dtmf')" :v="v$.itemInstance.dtmf" />
+        <wt-input-number v-model:model-value="itemInstance.priority" :label="$t('objects.ccenter.members.priority')" />
         <wt-textarea v-model:model-value="itemInstance.description" :label="$t('objects.description')" />
       </form>
     </template>

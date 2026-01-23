@@ -1,18 +1,18 @@
 <template>
   <div class="generate-value-input">
-    <wt-input
+    <wt-input-text
       :disabled="disabled"
       :label="label"
       :label-props="labelProps"
       :placeholder="placeholder"
       :required="required"
       :v="v"
-      :value="valueRepresentation"
-      @input="input"
+      :model-value="valueRepresentation"
+      @update:model-value="input"
     >
       <template
         v-if="!disabled"
-        #after-input
+        #suffix
       >
         <wt-copy-action
           v-show="valueRepresentation"
@@ -22,11 +22,12 @@
         <wt-icon-btn
           v-tooltip="$t('iconHints.generate')"
           icon="generate"
-          class="generate-value-input__icon-btn generate-value-input__icon-btn--generate"
+          :class="{'generate-value-input__icon-btn' : valueRepresentation}"
+          class="generate-value-input__icon-btn--generate"
           @click="generateValue"
         />
       </template>
-    </wt-input>
+    </wt-input-text>
   </div>
 </template>
 

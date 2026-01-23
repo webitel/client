@@ -24,14 +24,13 @@
         :value="itemInstance.storage"
         @input="setItemProp({ prop: 'storage', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.system.changelogs.daysToStore')"
         :v="v.itemInstance.daysToStore"
-        :value="itemInstance.daysToStore"
+        :model-value="itemInstance.daysToStore"
         required
-        type="number"
-        @input="setItemProp({ prop: 'daysToStore', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'daysToStore', value: +$event })"
       />
       <wt-select
         :clearable="false"

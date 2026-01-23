@@ -31,8 +31,8 @@
             disabled
           />
 
-          <wt-input
-            v-model="separator"
+          <wt-input-text
+            v-model:model-value="separator"
             :label="t('objects.CSV.separator')"
           />
         </form>

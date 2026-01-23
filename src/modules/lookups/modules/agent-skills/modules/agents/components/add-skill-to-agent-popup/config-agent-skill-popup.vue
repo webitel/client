@@ -9,10 +9,9 @@
     </template>
     <template #main>
       <form class="config-agent-skill-popup-form">
-        <wt-input
-          v-model="state.capacity"
+        <wt-input-number
+          v-model:model-value="state.capacity"
           :label="$t('objects.lookups.skills.capacity')"
-          type="number"
         />
         <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
         <wt-switcher

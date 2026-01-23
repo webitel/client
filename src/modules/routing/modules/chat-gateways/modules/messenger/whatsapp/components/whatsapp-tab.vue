@@ -13,11 +13,11 @@
       </h3>
     </header>
     <div class="object-input-grid object-input-grid__w50">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.messenger.whatsapp.token')"
-        :value="itemInstance.metadata.whatsappToken"
-        @input="setItemMetadata({ prop: 'whatsappToken', value: $event })"
+        :model-value="itemInstance.metadata.whatsappToken"
+        @update:model-value="setItemMetadata({ prop: 'whatsappToken', value: $event })"
       />
     </div>
     <div class="whatsapp-tab__actions-wrap">

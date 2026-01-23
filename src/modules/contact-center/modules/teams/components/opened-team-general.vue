@@ -6,9 +6,9 @@
       </h3>
     </header>
     <div class="object-input-area-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required class="object-input-area-grid__name"
-        @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required class="object-input-area-grid__name"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })" />
       <wt-select v-model="strategy" :clearable="false" :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.strategy')" :options="strategyOptions" :v="v.itemInstance.strategy" required
         class="object-input-area-grid__strategy" track-by="value" />

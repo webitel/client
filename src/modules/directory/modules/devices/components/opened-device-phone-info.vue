@@ -13,31 +13,31 @@
         :value="itemInstance.phone"
         @input="setDevice"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.ipv4')"
         :v="v.itemInstance.ip"
-        :value="itemInstance.ip"
-        @input="setItemProp({ prop: 'ip', value: $event })"
+        :model-value="itemInstance.ip"
+        @update:model-value="setItemProp({ prop: 'ip', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.vendor')"
-        :value="itemInstance.brand"
-        @input="setItemProp({ prop: 'brand', value: $event })"
+        :model-value="itemInstance.brand"
+        @update:model-value="setItemProp({ prop: 'brand', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.model')"
-        :value="itemInstance.model"
-        @input="setItemProp({ prop: 'model', value: $event })"
+        :model-value="itemInstance.model"
+        @update:model-value="setItemProp({ prop: 'model', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.mac')"
         :v="v.itemInstance.mac"
-        :value="itemInstance.mac"
-        @input="setItemProp({ prop: 'mac', value: $event })"
+        :model-value="itemInstance.mac"
+        @update:model-value="setItemProp({ prop: 'mac', value: $event })"
       />
     </div>
   </section>

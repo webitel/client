@@ -17,29 +17,29 @@
         :model-value="itemInstance.metadata.captcha.enabled"
         @update:model-value="setWebchatMetadata({ path: 'metadata.captcha.enabled', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableCaptchaFields"
         :label="$t('objects.routing.chatGateways.webchat.recaptcha.sitekey')"
         :v="v.itemInstance.metadata.captcha.sitekey"
-        :value="itemInstance.metadata.captcha.sitekey"
+        :model-value="itemInstance.metadata.captcha.sitekey"
         required
-        @input="setWebchatMetadata({ path: 'metadata.captcha.sitekey', value: $event })"
+        @update:model-value="setWebchatMetadata({ path: 'metadata.captcha.sitekey', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableCaptchaFields"
         :label="$t('objects.routing.chatGateways.webchat.recaptcha.secret')"
         :v="v.itemInstance.metadata.captcha.secret"
-        :value="itemInstance.metadata.captcha.secret"
+        :model-value="itemInstance.metadata.captcha.secret"
         required
-        @input="setWebchatMetadata({ path: 'metadata.captcha.secret', value: $event })"
+        @update:model-value="setWebchatMetadata({ path: 'metadata.captcha.secret', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableCaptchaFields"
         :label="$t('objects.routing.chatGateways.webchat.recaptcha.threshold')"
         :v="v.itemInstance.metadata.captcha.threshold"
-        :value="itemInstance.metadata.captcha.threshold"
+        :model-value="itemInstance.metadata.captcha.threshold"
         required
-        @input="setWebchatMetadata({ path: 'metadata.captcha.threshold', value: +$event })"
+        @update:model-value="setWebchatMetadata({ path: 'metadata.captcha.threshold', value: +$event })"
       />
       <wt-switcher
         :disabled="disableCaptchaFields"

@@ -1,6 +1,6 @@
 <template>
   <div class="generate-password-input">
-    <wt-input
+    <wt-input-text
       v-bind="$attrs"
       :disabled="disabled"
       :label="$t('objects.password')"
@@ -8,12 +8,12 @@
       :placeholder="$t('objects.password')"
       :required="required"
       :v="v"
-      :value="passwordRepresentation"
-      @input="input"
+      :model-value="passwordRepresentation"
+      @update:model-value="input"
     >
       <template
         v-if="!disabled"
-        #after-input
+        #suffix
       >
         <wt-copy-action
           v-show="passwordRepresentation"
@@ -23,11 +23,12 @@
         <wt-icon-btn
           v-tooltip="$t('iconHints.generate')"
           icon="generate"
-          class="generate-password-input__icon-btn generate-password-input__icon-btn--generate"
+          :class="{'generate-password-input__icon-btn' : passwordRepresentation}"
+          class="generate-password-input__icon-btn--generate"
           @click="generatePassword"
         />
       </template>
-    </wt-input>
+    </wt-input-text>
   </div>
 </template>
 

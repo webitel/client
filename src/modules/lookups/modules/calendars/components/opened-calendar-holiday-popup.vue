@@ -5,7 +5,8 @@
     </template>
     <template #main>
       <div class="popup-input-form">
-        <wt-input v-model="itemInstance.name" :label="$t('objects.name')" :v="v$.itemInstance.name" required />
+        <wt-input-text v-model:model-value="itemInstance.name" 
+          :label="$t('objects.name')" :v="v$.itemInstance.name" required />
         <wt-datepicker v-model="itemInstance.date" :label="$t('objects.lookups.calendars.date')" />
         <wt-switcher :model-value="itemInstance.working" :label="$t('objects.lookups.calendars.workingTime')"
           @update:model-value="changeWorkingSwitcher" />

@@ -6,40 +6,37 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.maxSize')"
-        :min-value="0"
+        :min="0"
         :v="v.itemInstance.maxSize"
-        :value="itemInstance.maxSize"
-        type="number"
-        @input="setItemProp({ prop: 'maxSize', value: $event })"
+        :model-value="itemInstance.maxSize"
+        @update:model-value="setItemProp({ prop: 'maxSize', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.expireDays')"
-        :min-value="0"
+        :min="0"
         :v="v.itemInstance.expireDays"
-        :value="itemInstance.expireDays"
-        type="number"
-        @input="setItemProp({ prop: 'expireDays', value: $event })"
+        :model-value="itemInstance.expireDays"
+        @update:model-value="setItemProp({ prop: 'expireDays', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.priority')"
-        :min-value="0"
+        :min="0"
         :v="v.itemInstance.priority"
-        :value="itemInstance.priority"
-        type="number"
-        @input="setItemProp({ prop: 'priority', value: $event })"
+        :model-value="itemInstance.priority"
+        @update:model-value="setItemProp({ prop: 'priority', value: $event })"
       />
     </div>
   </section>

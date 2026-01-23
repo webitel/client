@@ -6,36 +6,36 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.s3Key')"
         :v="v.itemInstance.properties.keyId"
-        :value="itemInstance.properties.keyId"
+        :model-value="itemInstance.properties.keyId"
         required
-        @input="setItemProp({ prop: 'keyId', value: $event })"
+        @update:model-value="setItemProp({ prop: 'keyId', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.s3Access')"
         :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
         :v="v.itemInstance.properties.accessKey"
-        :value="itemInstance.properties.accessKey"
+        :model-value="itemInstance.properties.accessKey"
         required
-        @input="setItemProp({ prop: 'accessKey', value: $event })"
+        @update:model-value="setItemProp({ prop: 'accessKey', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.bucket')"
         :v="v.itemInstance.properties.bucketName"
-        :value="itemInstance.properties.bucketName"
+        :model-value="itemInstance.properties.bucketName"
         required
-        @input="setItemProp({ prop: 'bucketName', value: $event })"
+        @update:model-value="setItemProp({ prop: 'bucketName', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.pathPattern')"
-        :value="itemInstance.properties.pathPattern"
-        @input="setItemProp({ prop: 'pathPattern', value: $event })"
+        :model-value="itemInstance.properties.pathPattern"
+        @update:model-value="setItemProp({ prop: 'pathPattern', value: $event })"
       />
       <wt-select
         :disabled="disableService"
@@ -57,23 +57,23 @@
         track-by="value"
         @input="setItemProp({ prop: 'region', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         v-if="isCustom"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.s3Endpoint')"
         :v="v.itemInstance.properties.endpoint"
-        :value="itemInstance.properties.endpoint"
+        :model-value="itemInstance.properties.endpoint"
         required
-        @input="setItemProp({ prop: 'endpoint', value: $event })"
+        @update:model-value="setItemProp({ prop: 'endpoint', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         v-if="isCustom"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.region')"
         :v="v.itemInstance.properties.region"
-        :value="itemInstance.properties.region"
+        :model-value="itemInstance.properties.region"
         required
-        @input="setItemProp({ prop: 'region', value: $event })"
+        @update:model-value="setItemProp({ prop: 'region', value: $event })"
       />
     </div>
   </section>

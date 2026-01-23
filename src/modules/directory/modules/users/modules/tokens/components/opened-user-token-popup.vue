@@ -9,10 +9,10 @@
     </template>
     <template #main>
       <form @submit.prevent="save">
-        <wt-input
+        <wt-input-text
           :label="$t('objects.name')"
-          :value="itemInstance.usage"
-          @input="setItemProp({ prop: 'usage', value: $event })"
+          :model-value="itemInstance.usage"
+          @update:model-value="setItemProp({ prop: 'usage', value: $event })"
         />
       </form>
     </template>

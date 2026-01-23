@@ -6,13 +6,13 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-select
         :clearable="false"
@@ -34,14 +34,14 @@
         track-by="value"
         @input="setItemProp({ prop: 'service', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.key')"
         :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
         :v="v.itemInstance.properties.key"
-        :value="itemInstance.properties.key"
+        :model-value="itemInstance.properties.key"
         required
-        @input="setItemPropertiesProp({ prop: 'key', value: $event })"
+        @update:model-value="setItemPropertiesProp({ prop: 'key', value: $event })"
       />
       <wt-select
         :clearable="false"

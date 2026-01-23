@@ -13,9 +13,9 @@
           <wt-switcher v-if="displayedConfigurationType.boolean" :label="$t('reusable.state')"
             :v="v$.itemInstance.value" :model-value="itemInstance.value" required
             @update:model-value="setItemProp({ prop: 'value', value: $event })" />
-          <wt-input v-if="displayedConfigurationType.number" :label="$t('vocabulary.values', 1)"
-            :v="v$.itemInstance.value" :value="itemInstance.value" required type="number"
-            @input="setItemProp({ prop: 'value', value: +$event })" />
+          <wt-input-number v-if="displayedConfigurationType.number" :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value" :model-value="itemInstance.value" required
+            @update:model-value="setItemProp({ prop: 'value', value: +$event })" />
           <wt-select v-if="displayedConfigurationType.multiselect" :label="$t('vocabulary.values', 2)"
             :v="v$.itemInstance.value" :value="itemInstance.value" :search-method="multiselectConfig.searchMethod"
             :options="multiselectConfig.options" :option-label="multiselectConfig.optionLabel"
@@ -24,12 +24,12 @@
           <div v-if="displayedConfigurationType.select">
             <wt-select :clearable="false" :label="$t('vocabulary.format')" :options="exportSettingOptions"
               :v="v$.itemInstance.format" :value="itemInstance.format" required @input="selectHandler" />
-            <wt-input v-if="isExportSettingsFormatCSV" :label="$t('objects.CSV.separator')"
-              :v="v$.itemInstance.separator" :value="itemInstance.separator" required @input="inputHandler" />
+            <wt-input-text v-if="isExportSettingsFormatCSV" :label="$t('objects.CSV.separator')"
+              :v="v$.itemInstance.separator" :model-value="itemInstance.separator" required @update:model-value="inputHandler" />
           </div>
-          <wt-input v-if="displayedConfigurationType.string" :label="$t('vocabulary.values', 1)"
-            :v="v$.itemInstance.value" :value="itemInstance.value" required
-            @input="setItemProp({ prop: 'value', value: $event })" />
+          <wt-input-text v-if="displayedConfigurationType.string" :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value" :model-value="itemInstance.value" required
+            @update:model-value="setItemProp({ prop: 'value', value: $event })" />
         </div>
       </form>
     </template>

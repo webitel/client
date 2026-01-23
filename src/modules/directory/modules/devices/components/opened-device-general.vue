@@ -6,10 +6,10 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.directory.devices.authId')" :v="v.itemInstance.account"
-        :value="itemInstance.account" required @input="setItemProp({ prop: 'account', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.directory.devices.authId')" :v="v.itemInstance.account"
+        :model-value="itemInstance.account" required @update:model-value="setItemProp({ prop: 'account', value: $event })" />
       <password-input :disabled="disableUserInput" :v="v.itemInstance.password" :value="itemInstance.password" required
         @input="setItemProp({ prop: 'password', value: $event })" />
       <wt-select :disabled="disableUserInput" :label="$t('objects.user')" :search-method="loadDropdownOptionsList"

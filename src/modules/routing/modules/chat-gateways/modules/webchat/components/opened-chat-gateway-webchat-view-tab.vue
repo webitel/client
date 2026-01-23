@@ -46,7 +46,7 @@
             track-by="name"
             @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
           />
-          <wt-input
+          <wt-input-text
             :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.webchat.view.logoUrl')"
             :label-props="{
@@ -54,8 +54,8 @@
               hintPosition: 'right',
             }"
             :v="v.itemInstance.metadata.view.logoUrl"
-            :value="itemInstance.metadata.view.logoUrl"
-            @input="setItemMetadata({ prop: 'logoUrl', value: $event })"
+            :model-value="itemInstance.metadata.view.logoUrl"
+            @update:model-value="setItemMetadata({ prop: 'logoUrl', value: $event })"
           />
           <section>
             <div class="colorpicker-section">

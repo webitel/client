@@ -7,23 +7,23 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" @input="setItemProp({ prop: 'name', value: $event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.messenger.metadata.clientId')"
-        :v="v.itemInstance.metadata.clientId" :value="itemInstance.metadata.clientId"
-        @input="setItemMetadata({ prop: 'clientId', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" @update:model-value="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.messenger.metadata.clientId')"
+        :v="v.itemInstance.metadata.clientId" :model-value="itemInstance.metadata.clientId"
+        @update:model-value="setItemMetadata({ prop: 'clientId', value: $event })" />
       <copy-input :copy-modifier="modifyUriCopy" :disabled="!isUriEditable"
         :label="$t('objects.routing.chatGateways.uri')" :v="v.itemInstance.uri" :value="itemInstance.uri" required
         @input="setItemProp({ prop: 'uri', value: $event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.messenger.metadata.clientSecret')"
-        :v="v.itemInstance.metadata.clientSecret" :value="itemInstance.metadata.clientSecret"
-        @input="setItemMetadata({ prop: 'clientSecret', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.messenger.metadata.clientSecret')"
+        :v="v.itemInstance.metadata.clientSecret" :model-value="itemInstance.metadata.clientSecret"
+        @update:model-value="setItemMetadata({ prop: 'clientSecret', value: $event })" />
       <wt-select :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsList" :v="v.itemInstance.flow" :value="itemInstance.flow" @input="setFlow" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.messenger.metadata.apiVersion')"
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.messenger.metadata.apiVersion')"
         :label-props="{ hint: $t('objects.routing.chatGateways.messenger.metadata.apiVersionHint') }"
-        :v="v.itemInstance.metadata.version" :value="itemInstance.metadata?.version || ''"
-        @input="setItemMetadata({ prop: 'version', value: $event })" />
+        :v="v.itemInstance.metadata.version" :model-value="itemInstance.metadata?.version || ''"
+        @update:model-value="setItemMetadata({ prop: 'version', value: $event })" />
     </div>
   </section>
 </template>

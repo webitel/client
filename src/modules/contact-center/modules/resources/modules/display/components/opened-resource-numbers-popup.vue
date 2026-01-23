@@ -5,12 +5,12 @@
     </template>
     <template #main>
       <form @submit.prevent>
-        <wt-input
+        <wt-input-text
           :label="$t('objects.ccenter.res.numbers', 1)"
           :v="v$.itemInstance.display"
-          :value="itemInstance.display"
+          :model-value="itemInstance.display"
           required
-          @input="setItemProp({ prop: 'display', value: $event })"
+          @update:model-value="setItemProp({ prop: 'display', value: $event })"
         />
       </form>
     </template>

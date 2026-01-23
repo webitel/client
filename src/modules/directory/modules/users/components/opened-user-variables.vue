@@ -17,19 +17,19 @@
           :key="key"
           class="value-pair"
         >
-          <wt-input
+          <wt-input-text
             :disabled="disableUserInput"
             :placeholder="$t('objects.directory.users.varKey')"
             :v="v.itemInstance.variables.$each.$response.$data[key].key"
-            :value="variable.key"
-            @input="setVariableProp({index: key, prop: 'key', value: $event})"
+            :model-value="variable.key"
+            @update:model-value="setVariableProp({index: key, prop: 'key', value: $event})"
           />
-          <wt-input
+          <wt-input-text
             :disabled="disableUserInput"
             :placeholder="$t('objects.directory.users.varVal')"
             :v="v.itemInstance.variables.$each.$response.$data[key].value"
-            :value="variable.value"
-            @input="setVariableProp({index: key, prop: 'value', value: $event})"
+            :model-value="variable.value"
+            @update:model-value="setVariableProp({index: key, prop: 'value', value: $event})"
           />
           <wt-icon-action
             v-if="!disableUserInput"

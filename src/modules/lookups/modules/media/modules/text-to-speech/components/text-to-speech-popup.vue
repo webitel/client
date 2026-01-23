@@ -9,7 +9,7 @@
       </template>
       <template #main>
         <form class="object-input-grid object-input-grid__1-col">
-          <wt-input v-model="draft.name" :label="$t('reusable.name')" :v="v$.draft.name" />
+          <wt-input-text v-model:model-value="draft.name" :label="$t('reusable.name')" :v="v$.draft.name" />
           <wt-select v-model="draft.profile" :clearable="false"
             :label="$t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)" :search-method="searchProfiles"
             :v="v$.draft.profile" />

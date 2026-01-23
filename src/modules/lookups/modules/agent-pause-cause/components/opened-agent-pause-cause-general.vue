@@ -6,20 +6,19 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.lookups.pauseCause.limit')"
-        :value="itemInstance.limitMin"
-        type="number"
-        @input="setItemProp({ prop: 'limitMin', value: $event })"
+        :model-value="itemInstance.limitMin"
+        @update:model-value="setItemProp({ prop: 'limitMin', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

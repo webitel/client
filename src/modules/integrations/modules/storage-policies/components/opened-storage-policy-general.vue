@@ -10,8 +10,8 @@
     </header>
     <div class="object-input-grid opened-storage-policy-general__grid-2col">
       <div class="grid-column">
-        <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-          :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+        <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+          :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
         <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
           :model-value="itemInstance.description"
           @update:model-value="setItemProp({ prop: 'description', value: $event })" />
@@ -42,18 +42,18 @@
         <wt-tags-input :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.mimeTypes')"
           :value="itemInstance.mimeTypes" :v="v.itemInstance.mimeTypes" taggable required :options="MimeTypes"
           @input="setItemProp({ prop: 'mimeTypes', value: $event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.retentionDays')"
-          :number-min="0" :value="itemInstance.retentionDays" type="number"
-          @input="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
-          :number-min="0" :value="itemInstance.speedDownload" type="number"
-          @input="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
-          :number-min="0" :value="itemInstance.speedUpload" type="number"
-          @input="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
-          :number-min="0" :value="itemInstance.maxUploadSize" type="number"
-          @input="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.retentionDays')"
+          :min="0" :value="itemInstance.retentionDays"
+          @update:model-value="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
+          :min="0" :model-value="itemInstance.speedDownload"
+          @update:model-value="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
+          :min="0" :value="itemInstance.speedUpload"
+          @update:model-value="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
+          :min="0" :value="itemInstance.maxUploadSize"
+          @update:model-value="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })" />
       </div>
     </div>
   </section>

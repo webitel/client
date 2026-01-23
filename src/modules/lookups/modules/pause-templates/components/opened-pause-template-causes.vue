@@ -18,8 +18,8 @@
             @input="setCause({ index, value: $event })" />
         </template>
         <template #duration="{ item, index }">
-          <wt-input class="opened-pause-template-causes__duration" :disabled="disableUserInput" :value="item.duration"
-            type="number" required @input="setCause({ prop: 'duration', index, value: +$event })" />
+          <wt-input-number class="opened-pause-template-causes__duration" :disabled="disableUserInput" 
+            :model-value="item.duration" required @update:model-value="setCause({ prop: 'duration', index, value: +$event })" />
         </template>
         <template #actions="{ item, index }">
           <wt-icon-action action="delete" @click="removeCause(index)" />

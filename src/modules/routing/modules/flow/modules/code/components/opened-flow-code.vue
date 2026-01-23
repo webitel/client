@@ -6,8 +6,8 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
       <wt-tags-input :disabled="disableUserInput" :label="$t('vocabulary.tag', 2)" :search-method="loadFlowTagOptions"
         :value="itemInstance.tags" option-label="name" taggable track-by="name"
         @input="setItemProp({ prop: 'tags', value: $event })" />

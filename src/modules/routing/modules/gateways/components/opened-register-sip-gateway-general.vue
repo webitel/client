@@ -6,25 +6,25 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
-        :value="itemInstance.name"
-        @input="setItemProp({ prop: 'name', value: $event })"
+        :model-value="itemInstance.name"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.account')"
         :v="v.itemInstance.account"
-        :value="itemInstance.account"
+        :model-value="itemInstance.account"
         required
-        @input="setItemProp({ prop: 'account', value: $event })"
+        @update:model-value="setItemProp({ prop: 'account', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.authID')"
-        :value="itemInstance.username"
-        @input="setItemProp({ prop: 'username', value: $event })"
+        :model-value="itemInstance.username"
+        @update:model-value="setItemProp({ prop: 'username', value: $event })"
       />
       <password-input
         :disabled="disableUserInput"
@@ -40,13 +40,13 @@
         :value="itemInstance.schema"
         @input="setItemProp({ prop: 'schema', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.outboundProxy')"
         :v="v.itemInstance.proxy"
-        :value="itemInstance.proxy"
+        :model-value="itemInstance.proxy"
         required
-        @input="setItemProp({ prop: 'proxy', value: $event })"
+        @update:model-value="setItemProp({ prop: 'proxy', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -54,14 +54,13 @@
         :model-value="itemInstance.usage"
         @update:model-value="setItemProp({ prop: 'usage', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.expire')"
         :v="v.itemInstance.expires"
-        :value="itemInstance.expires"
+        :model-value="itemInstance.expires"
         required
-        type="number"
-        @input="setItemProp({ prop: 'expires', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'expires', value: +$event })"
       />
     </div>
   </section>

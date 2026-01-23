@@ -16,29 +16,29 @@
         required
         @input="setItemProp({ prop: 'type', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.singleSignOn.clientId')"
         :v="v.itemInstance.clientId"
-        :value="itemInstance.clientId"
+        :model-value="itemInstance.clientId"
         required
-        @input="setItemProp({ prop: 'clientId', value: $event })"
+        @update:model-value="setItemProp({ prop: 'clientId', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.singleSignOn.clientSecret')"
         :v="v.itemInstance.clientSecret"
-        :value="itemInstance.clientSecret"
+        :model-value="itemInstance.clientSecret"
         required
-        @input="setItemProp({ prop: 'clientSecret', value: $event })"
+        @update:model-value="setItemProp({ prop: 'clientSecret', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
         :v="v.itemInstance.discoveryUrl"
-        :value="itemInstance.discoveryUrl"
+        :model-value="itemInstance.discoveryUrl"
         required
-        @input="setItemProp({ prop: 'discoveryUrl', value: $event })"
+        @update:model-value="setItemProp({ prop: 'discoveryUrl', value: $event })"
       />
     </div>
   </section>
