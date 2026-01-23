@@ -10,11 +10,10 @@
         autocomplete="new-password"
         @update:model-value="newPassword = $event"
       />
-      <wt-input
-        v-model="confirmNewPassword"
+      <wt-password
+        v-model:model-value="confirmNewPassword"
         :label="t('auth.confirmPassword')"
         :v="v$.confirmNewPassword"
-        type="password"
         autocomplete="new-password"
       />
       <wt-button

@@ -6,19 +6,19 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
-        :value="itemInstance.name"
-        @input="setItemProp({ prop: 'name', value: $event })"
+        :model-value="itemInstance.name"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.proxy')"
         :v="v.itemInstance.proxy"
-        :value="itemInstance.proxy"
+        :model-value="itemInstance.proxy"
         required
-        @input="setItemProp({ prop: 'proxy', value: $event })"
+        @update:model-value="setItemProp({ prop: 'proxy', value: $event })"
       />
       <wt-select
         :disabled="disableUserInput"
@@ -27,13 +27,13 @@
         :value="itemInstance.schema"
         @input="setItemProp({ prop: 'schema', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.gateways.host')"
         :v="v.itemInstance.host"
-        :value="itemInstance.host"
+        :model-value="itemInstance.host"
         required
-        @input="setItemProp({ prop: 'host', value: $event })"
+        @update:model-value="setItemProp({ prop: 'host', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

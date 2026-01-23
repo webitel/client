@@ -20,13 +20,13 @@
       <wt-select :clearable="false" :disabled="disableUserInput" :label="$t('vocabulary.duration')"
         :options="durationOptions" :v="v.itemInstance.metadata.appointment.duration" :value="duration" track-by="value"
         @input="setAppointmentMetadata({ prop: 'duration', value: $event.value })" />
-      <wt-input :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')" :number-min="1"
+      <wt-input-number :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')" :min="1"
         :v="v.itemInstance.metadata.appointment.availableAgents"
-        :value="itemInstance.metadata.appointment.availableAgents" :disabled="disableUserInput" type="number"
-        @input="setAppointmentMetadata({ prop: 'availableAgents', value: $event })" />
-      <wt-input :label="$t('objects.routing.chatGateways.webchat.appointment.days')" :number-max="7" :number-min="1"
-        :v="v.itemInstance.metadata.appointment.days" :value="itemInstance.metadata.appointment.days"
-        :disabled="disableUserInput" type="number" @input="setAppointmentMetadata({ prop: 'days', value: $event })" />
+        :model-value="itemInstance.metadata.appointment.availableAgents" :disabled="disableUserInput"
+        @update:model-value="setAppointmentMetadata({ prop: 'availableAgents', value: $event })" />
+      <wt-input-number :label="$t('objects.routing.chatGateways.webchat.appointment.days')" :max="7" :min="1"
+        :v="v.itemInstance.metadata.appointment.days" :model-value="itemInstance.metadata.appointment.days"
+        :disabled="disableUserInput" @update:model-value="setAppointmentMetadata({ prop: 'days', value: $event })" />
       <wt-switcher :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
         :model-value="itemInstance.metadata.appointment.showMessageField" :disabled="disableUserInput"
         @update:model-value="setAppointmentMetadata({ prop: 'showMessageField', value: $event })" />

@@ -9,8 +9,8 @@
     </template>
     <template #main>
       <form @submit.prevent="save">
-        <wt-input
-          v-model="certificate"
+        <wt-input-text
+          v-model:model-value="certificate"
           :label="$t('objects.directory.license.licenseKey')"
           :v="v$.certificate"
           required

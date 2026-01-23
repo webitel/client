@@ -20,18 +20,15 @@
           track-by="value"
           @input="attemptTypeInputHandler"
         />
-        <wt-input
-          :value="resetAttemptsForm.idleForMinutes"
+        <wt-input-number
+          v-model:model-value="resetAttemptsForm.idleForMinutes"
           :placeholder="t('objects.ccenter.queues.attemptsReset.idleTime')"
           :label="t('objects.ccenter.queues.attemptsReset.idleTime')"
-          type="number"
-          @input="resetAttemptsForm.idleForMinutes = $event"
         />
-        <wt-input
-          :value="resetAttemptsForm.result"
+        <wt-input-text
+          v-model:model-value="resetAttemptsForm.result"
           :placeholder="t('objects.ccenter.queues.attemptsReset.result')"
           :label="t('objects.ccenter.queues.attemptsReset.result')"
-          @input="resetAttemptsForm.result = $event"
         />
       </div>
     </template>

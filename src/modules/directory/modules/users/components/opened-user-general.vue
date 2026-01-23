@@ -6,37 +6,36 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         :v="v.itemInstance.name"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
 
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
-        :value="itemInstance.extension"
-        type="number"
-        @input="setItemProp({ prop: 'extension', value: $event })"
+        :model-value="itemInstance.extension"
+        @update:model-value="setItemProp({ prop: 'extension', value: $event })"
       />
 
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.login')"
         :v="v.itemInstance.username"
-        :value="itemInstance.username"
+        :model-value="itemInstance.username"
         required
-        @input="setItemProp({ prop: 'username', value: $event })"
+        @update:model-value="setItemProp({ prop: 'username', value: $event })"
       />
 
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.email')"
-        :value="itemInstance.email"
-        @input="setItemProp({ prop: 'email', value: $event })"
+        :model-value="itemInstance.email"
+        @update:model-value="setItemProp({ prop: 'email', value: $event })"
       />
 
       <user-password-input
@@ -61,11 +60,11 @@
         :model-value="itemInstance.forcePasswordChange"
         @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.chatName')"
-        :value="itemInstance.chatName"
-        @input="setItemProp({ prop: 'chatName', value: $event })"
+        :model-value="itemInstance.chatName"
+        @update:model-value="setItemProp({ prop: 'chatName', value: $event })"
       />
 
       <qrcode

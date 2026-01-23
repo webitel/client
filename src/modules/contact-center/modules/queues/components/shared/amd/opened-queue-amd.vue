@@ -13,33 +13,33 @@
         :label="$t('objects.ccenter.queues.ai')" :model-value="itemInstance.payload.amd.ai"
         @update:model-value="setAmdItemProp({ prop: 'ai', value: $event })" />
       <div v-if="!itemInstance.payload.amd.ai && itemInstance.payload.amd.enabled" class="amd-content-block">
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.maxNumberOfWords')"
-          :value="itemInstance.payload.amd.maxNumberOfWords" type="number"
-          @input="setAmdItemProp({ prop: 'maxNumberOfWords', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.betweenWordsSilence')"
-          :value="itemInstance.payload.amd.betweenWordsSilence" type="number"
-          @input="setAmdItemProp({ prop: 'betweenWordsSilence', value: + $event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.maxWordLength')"
-          :value="itemInstance.payload.amd.maxWordLength" type="number"
-          @input="setAmdItemProp({ prop: 'maxWordLength', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.minWordLength')"
-          :value="itemInstance.payload.amd.minWordLength" type="number"
-          @input="setAmdItemProp({ prop: 'minWordLength', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.totalAnalysisTime')"
-          :value="itemInstance.payload.amd.totalAnalysisTime" type="number"
-          @input="setAmdItemProp({ prop: 'totalAnalysisTime', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.silenceThreshold')"
-          :value="itemInstance.payload.amd.silenceThreshold" type="number"
-          @input="setAmdItemProp({ prop: 'silenceThreshold', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.afterGreetingSilence')"
-          :value="itemInstance.payload.amd.afterGreetingSilence" type="number"
-          @input="setAmdItemProp({ prop: 'afterGreetingSilence', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.greeting')"
-          :value="itemInstance.payload.amd.greeting" type="number"
-          @input="setAmdItemProp({ prop: 'greeting', value: +$event })" />
-        <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.initialSilence')"
-          :value="itemInstance.payload.amd.initialSilence" type="number"
-          @input="setAmdItemProp({ prop: 'initialSilence', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.maxNumberOfWords')"
+          :model-value="itemInstance.payload.amd.maxNumberOfWords"
+          @update:model-value="setAmdItemProp({ prop: 'maxNumberOfWords', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.betweenWordsSilence')"
+          :model-value="itemInstance.payload.amd.betweenWordsSilence"
+          @update:model-value="setAmdItemProp({ prop: 'betweenWordsSilence', value: + $event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.maxWordLength')"
+          :model-value="itemInstance.payload.amd.maxWordLength"
+          @update:model-value="setAmdItemProp({ prop: 'maxWordLength', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.minWordLength')"
+          :model-value="itemInstance.payload.amd.minWordLength"
+          @update:model-value="setAmdItemProp({ prop: 'minWordLength', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.totalAnalysisTime')"
+          :model-value="itemInstance.payload.amd.totalAnalysisTime"
+          @update:model-value="setAmdItemProp({ prop: 'totalAnalysisTime', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.silenceThreshold')"
+          :model-value="itemInstance.payload.amd.silenceThreshold"
+          @update:model-value="setAmdItemProp({ prop: 'silenceThreshold', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.afterGreetingSilence')"
+          :model-value="itemInstance.payload.amd.afterGreetingSilence"
+          @update:model-value="setAmdItemProp({ prop: 'afterGreetingSilence', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.greeting')"
+          :model-value="itemInstance.payload.amd.greeting"
+          @update:model-value="setAmdItemProp({ prop: 'greeting', value: +$event })" />
+        <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.initialSilence')"
+          :model-value="itemInstance.payload.amd.initialSilence"
+          @update:model-value="setAmdItemProp({ prop: 'initialSilence', value: +$event })" />
         <div />
         <wt-switcher :disabled="disableUserInput" :label="$t('objects.ccenter.queues.allowNotSure')"
           :model-value="itemInstance.payload.amd.allowNotSure"

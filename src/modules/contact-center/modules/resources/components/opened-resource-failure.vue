@@ -6,12 +6,11 @@
       </h3>
     </header>
     <div class="object-input-grid grid-w50">
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.maxErrors')"
-        :value="itemInstance.maxErrors"
-        type="number"
-        @input="setItemProp({ prop: 'maxErrors', value: +$event })"
+        :model-value="itemInstance.maxErrors"
+        @update:model-value="setItemProp({ prop: 'maxErrors', value: +$event })"
       />
       <wt-tags-input
         :disabled="disableUserInput"
@@ -21,12 +20,11 @@
         taggable
         @input="setItemProp({ prop: 'errorIds', value: $event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.failureDialDelay')"
-        :value="itemInstance.failureDialDelay"
-        type="number"
-        @input="setItemProp({ prop: 'failureDialDelay', value: +$event })"
+        :model-value="itemInstance.failureDialDelay"
+        @update:model-value="setItemProp({ prop: 'failureDialDelay', value: +$event })"
       />
     </div>
   </section>

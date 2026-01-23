@@ -6,15 +6,15 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
       <wt-select :clearable="false" :disabled="disableUserInput" :label="$t('objects.routing.gateways.gateways', 1)"
         :search-method="loadDropdownOptionsList" :v="v.itemInstance.gateway" :value="itemInstance.gateway" required
         @input="setItemProp({ prop: 'gateway', value: $event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.res.cps')" :v="v.itemInstance.cps"
-        :value="itemInstance.cps" required type="number" @input="setItemProp({ prop: 'cps', value: +$event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.res.limit')" :v="v.itemInstance.limit"
-        :value="itemInstance.limit" required type="number" @input="setItemProp({ prop: 'limit', value: +$event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.res.cps')" :v="v.itemInstance.cps"
+        :model-value="itemInstance.cps" required @update:model-value="setItemProp({ prop: 'cps', value: +$event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.res.limit')" :v="v.itemInstance.limit"
+        :model-value="itemInstance.limit" required @update:model-value="setItemProp({ prop: 'limit', value: +$event })" />
       <wt-select :disabled="disableUserInput" :label="$t('objects.ccenter.res.cidType')" :options="CidTypeList"
         :track-by="null" :value="itemInstance.parameters.cidType"
         @input="setItemParameterProp({ prop: 'cidType', value: $event })" />

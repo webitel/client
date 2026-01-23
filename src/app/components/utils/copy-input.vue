@@ -1,16 +1,16 @@
 <template>
   <div class="copy-input">
-    <wt-input
-      :value="value"
+    <wt-input-text
+      :model-value="value"
       v-bind="{ ...$attrs }"
-      @input="input"
+      @update:model-value="input"
     >
-      <template #after-input>
+      <template #suffix>
         <wt-copy-action
           :value="copyValue"
         />
       </template>
-    </wt-input>
+    </wt-input-text>
   </div>
 </template>
 

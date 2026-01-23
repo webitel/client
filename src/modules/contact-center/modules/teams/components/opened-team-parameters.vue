@@ -6,59 +6,53 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.maxNoAnswer')"
         :v="v.itemInstance.maxNoAnswer"
-        :value="itemInstance.maxNoAnswer"
+        :model-value="itemInstance.maxNoAnswer"
         required
-        type="number"
-        @input="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'maxNoAnswer', value: +$event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
         :v="v.itemInstance.noAnswerDelayTime"
-        :value="itemInstance.noAnswerDelayTime"
+        :model-value="itemInstance.noAnswerDelayTime"
         required
-        type="number"
-        @input="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'noAnswerDelayTime', value: +$event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.taskAcceptTimeout')"
         :v="v.itemInstance.taskAcceptTimeout"
-        :value="itemInstance.taskAcceptTimeout"
+        :model-value="itemInstance.taskAcceptTimeout"
         required
-        type="number"
-        @input="setItemProp({ prop: 'taskAcceptTimeout', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'taskAcceptTimeout', value: +$event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.callTimeout')"
         :v="v.itemInstance.callTimeout"
-        :value="itemInstance.callTimeout"
+        :model-value="itemInstance.callTimeout"
         required
-        type="number"
-        @input="setItemProp({ prop: 'callTimeout', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'callTimeout', value: +$event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.inviteChatTimeout')"
         :v="v.itemInstance.inviteChatTimeout"
-        :value="itemInstance.inviteChatTimeout"
+        :model-value="itemInstance.inviteChatTimeout"
         required
-        type="number"
-        @input="setItemProp({ prop: 'inviteChatTimeout', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'inviteChatTimeout', value: +$event })"
       />
-      <wt-input
+      <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.wrapUpTime')"
         :v="v.itemInstance.wrapUpTime"
-        :value="itemInstance.wrapUpTime"
+        :model-value="itemInstance.wrapUpTime"
         required
-        type="number"
-        @input="setItemProp({ prop: 'wrapUpTime', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'wrapUpTime', value: +$event })"
       />
     </div>
   </section>

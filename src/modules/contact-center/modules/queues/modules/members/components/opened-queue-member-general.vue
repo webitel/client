@@ -6,10 +6,10 @@
       </h3>
     </header>
     <form class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.ccenter.queues.priority')"
-        :value="itemInstance.priority" type="number" @input="setItemProp({ prop: 'priority', value: +$event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.ccenter.queues.priority')"
+        :model-value="itemInstance.priority" @update:model-value="setItemProp({ prop: 'priority', value: +$event })" />
       <wt-datepicker :disabled="disableUserInput" :label="$t('objects.ccenter.queues.expire')"
         :value="itemInstance.expireAt" mode="datetime" @input="setItemProp({ prop: 'expireAt', value: $event })" />
       <wt-select :clearable="false" :disabled="disableUserInput" :label="$t('objects.ccenter.queues.timezone')"

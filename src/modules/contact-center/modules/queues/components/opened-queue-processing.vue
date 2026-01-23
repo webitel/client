@@ -25,15 +25,14 @@
         @input="setItemProcessingProp({ prop: 'formSchema', value: $event })"
       />
 
-      <wt-input
+      <wt-input-number
         v-if="specificControls['taskProcessing.sec']"
         v-show="isProcessingEnabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.sec')"
-        :value="itemInstance.taskProcessing.sec"
-        type="number"
+        :model-value="itemInstance.taskProcessing.sec"
         class="object-input-area-grid__processing-sec"
-        @input="setItemProcessingProp({ prop: 'sec', value: +$event })"
+        @update:model-value="setItemProcessingProp({ prop: 'sec', value: +$event })"
       />
 
       <wt-switcher
@@ -46,39 +45,36 @@
         @update:model-value="setItemProlongationOption({ prop: 'enabled', value: $event })"
       />
 
-      <wt-input
+      <wt-input-number
         v-if="specificControls['taskProcessing.prolongationOptions.renewalSec']"
         v-show="isProlongationEnabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.renewalSec')"
-        :value="itemInstance.taskProcessing.renewalSec"
-        type="number"
+        :model-value="itemInstance.taskProcessing.renewalSec"
         class="object-input-area-grid__processing-renewal-sec"
-        @input="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
+        @update:model-value="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
       />
 
-      <wt-input
+      <wt-input-number
         v-if="specificControls['taskProcessing.prolongationOptions.repeatsNumber']"
         v-show="isProlongationEnabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.repeatsNumber')"
-        :value="itemInstance.taskProcessing.prolongationOptions.repeatsNumber"
-        min="1"
-        type="number"
+        :model-value="itemInstance.taskProcessing.prolongationOptions.repeatsNumber"
+        :min="1"
         class="object-input-area-grid__processing-repeat-numbers"
-        @input="setItemProlongationOption({ prop: 'repeatsNumber', value: +$event })"
+        @update:model-value="setItemProlongationOption({ prop: 'repeatsNumber', value: +$event })"
       />
 
-      <wt-input
+      <wt-input-number
         v-if="specificControls['taskProcessing.prolongationOptions.prolongationTimeSec']"
         v-show="isProlongationEnabled"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.processing.prolongationTimeSec')"
-        :value="itemInstance.taskProcessing.prolongationOptions.prolongationTimeSec"
-        min="1"
-        type="number"
+        :model-value="itemInstance.taskProcessing.prolongationOptions.prolongationTimeSec"
+        :min="1"
         class="object-input-area-grid__processing-prolongation-time"
-        @input="setItemProlongationOption({ prop: 'prolongationTimeSec', value: +$event })"
+        @update:model-value="setItemProlongationOption({ prop: 'prolongationTimeSec', value: +$event })"
       />
 
       <wt-switcher

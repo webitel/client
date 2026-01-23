@@ -101,10 +101,9 @@
           </adm-item-link>
         </template>
         <template #capacity="{ item, index }">
-          <wt-input
-            v-model="item.capacity"
-            type="number"
-            @input="handlePatchInput({item, index, prop:'capacity', value:$event})"
+          <wt-input-number
+            :model-value="item.capacity"
+            @update:model-value="handlePatchInput({item, index, prop:'capacity', value:$event})"
           />
         </template>
         <template #state="{ item, index }">

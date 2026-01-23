@@ -14,13 +14,13 @@
         disabled
         @input="setItemParamsProp({ prop: 'charset', value: $event })"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.CSV.separator')"
         :v="v.itemInstance.parameters.separator"
-        :value="itemInstance.parameters.separator"
+        :model-value="itemInstance.parameters.separator"
         required
-        @input="setItemParamsProp({ prop: 'separator', value: $event })"
+        @update:model-value="setItemParamsProp({ prop: 'separator', value: $event })"
       />
       <wt-switcher
         :label="$t('objects.CSV.skipHeaders')"

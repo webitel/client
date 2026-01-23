@@ -15,8 +15,8 @@
           v-model:selected="create"
           :label="$t('objects.routing.flow.createNew')"
         />
-        <wt-input
-          v-model="flow.name"
+        <wt-input-text
+          v-model:model-value="flow.name"
           :label="$t('objects.name')"
           :v="v$.flow.name"
           required

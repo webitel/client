@@ -5,8 +5,8 @@
     </template>
     <template #main>
       <form>
-        <wt-input :label="$t('objects.title')" :v="v$.itemInstance.name" :value="itemInstance.name" required
-          @input="setItemProp({ prop: 'name', value: $event })" />
+        <wt-input-text :label="$t('objects.title')" :v="v$.itemInstance.name" :model-value="itemInstance.name" required
+          @update:model-value="setItemProp({ prop: 'name', value: $event })" />
         <wt-select :clearable="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
           :v="v$.itemInstance.schema" :value="itemInstance.schema" required
           @input="setItemProp({ prop: 'schema', value: $event })" />

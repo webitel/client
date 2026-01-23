@@ -6,13 +6,13 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-select
         :clearable="false"

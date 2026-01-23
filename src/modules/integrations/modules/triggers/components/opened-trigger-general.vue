@@ -6,8 +6,8 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :value="itemInstance.name" required @input="setItemProp({ prop: 'name', value: $event })" />
+      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
+        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
       <wt-select :disabled="disableUserInput" :label="$t('objects.integrations.triggers.type')" :options="TriggerTypes"
         :v="v.itemInstance.type" :value="itemInstance.type" track-by="value" required
         @input="setItemProp({ prop: 'type', value: $event })" />
@@ -22,9 +22,9 @@
         :v="v.itemInstance.object" :value="itemInstance.object" track-by="value" required
         @input="updateTriggerObject" />
 
-      <wt-input :disabled="disableUserInput" :label="$t('objects.integrations.triggers.timeout')" :number-min="0"
-        :v="v.itemInstance.timeout" :value="itemInstance.timeout" type="number"
-        @input="setItemProp({ prop: 'timeout', value: $event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.triggers.timeout')" :min="0"
+        :v="v.itemInstance.timeout" :model-value="itemInstance.timeout"
+        @update:model-value="setItemProp({ prop: 'timeout', value: $event })" />
 
       <wt-select v-if="isEvent" :disabled="disableUserInput || isEmptyObject"
         :label="$t('objects.integrations.triggers.eventSelect')" :options="triggerEventOptions"
@@ -32,9 +32,9 @@
         @input="setItemProp({ prop: 'event', value: $event })" />
 
       <div v-if="isCron" class="crontab">
-        <wt-input :custom-validators="cronValidator" :disabled="disableUserInput"
+        <wt-input-text :custom-validators="cronValidator" :disabled="disableUserInput"
           :label="$t('objects.integrations.triggers.expression')" :v="v.itemInstance.expression"
-          :value="itemInstance.expression" required @input="setItemProp({ prop: 'expression', value: $event })" />
+          :model-value="itemInstance.expression" required @update:model-value="setItemProp({ prop: 'expression', value: $event })" />
         <p v-show="!v.itemInstance.expression.$error" class="crontab__parsed">
           {{ parsedCron }}
         </p>

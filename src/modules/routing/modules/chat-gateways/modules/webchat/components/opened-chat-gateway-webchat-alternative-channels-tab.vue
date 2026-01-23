@@ -35,10 +35,10 @@
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })" />
         </div>
         <div class=" object-input-grid object-input-grid__1-col">
-          <wt-input :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
+          <wt-input-text :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.chatGateways.webchat.call.url')" :v="v.itemInstance.metadata.call.url"
-            :value="itemInstance.metadata.call.url"
-            @input="setWebchatMetadata({ path: 'metadata.call.url', value: $event })" />
+            :model-value="itemInstance.metadata.call.url"
+            @update:model-value="setWebchatMetadata({ path: 'metadata.call.url', value: $event })" />
           <wt-select :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.flow.flow', 1)" :search-method="loadCallFlows"
             :v="v.itemInstance.metadata.call.flow" :value="itemInstance.metadata.call.flow"

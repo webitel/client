@@ -6,13 +6,13 @@
       </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-select
         v-model="channel"
@@ -23,13 +23,13 @@
         required
         track-by="value"
       />
-      <wt-input
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.lookups.communications.code')"
         :v="v.itemInstance.code"
-        :value="itemInstance.code"
+        :model-value="itemInstance.code"
         required
-        @input="setItemProp({ prop: 'code', value: $event })"
+        @update:model-value="setItemProp({ prop: 'code', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

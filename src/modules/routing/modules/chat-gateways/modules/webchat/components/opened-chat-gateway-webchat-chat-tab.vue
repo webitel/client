@@ -10,25 +10,25 @@
       <wt-switcher :label="$t('objects.enabled')" :model-value="itemInstance.metadata.chat.enabled"
         @update:model-value="setChatMetadata({ prop: 'enabled', value: $event })" />
       <div />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
-        :v="v.itemInstance.metadata.readTimeout" :value="itemInstance.metadata.readTimeout" type="number"
-        @input="setItemMetadata({ prop: 'readTimeout', value: $event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.readTimeout')"
+        :v="v.itemInstance.metadata.readTimeout" :model-value="itemInstance.metadata.readTimeout"
+        @update:model-value="setItemMetadata({ prop: 'readTimeout', value: $event })" />
       <wt-select :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsList" :v="v.itemInstance.flow" :value="itemInstance.flow" @input="setFlow" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
-        :v="v.itemInstance.metadata.writeTimeout" :value="itemInstance.metadata.writeTimeout" type="number"
-        @input="setItemMetadata({ prop: 'writeTimeout', value: $event })" />
-      <wt-input :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
-        :v="v.itemInstance.metadata.handshakeTimeout" :value="itemInstance.metadata.handshakeTimeout" type="number"
-        @input="setItemMetadata({ prop: 'handshakeTimeout', value: $event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.writeTimeout')"
+        :v="v.itemInstance.metadata.writeTimeout" :model-value="itemInstance.metadata.writeTimeout"
+        @update:model-value="setItemMetadata({ prop: 'writeTimeout', value: $event })" />
+      <wt-input-number :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.metadata.handshakeTimeout')"
+        :v="v.itemInstance.metadata.handshakeTimeout" :model-value="itemInstance.metadata.handshakeTimeout"
+        @update:model-value="setItemMetadata({ prop: 'handshakeTimeout', value: $event })" />
       <wt-switcher :label="$t('objects.routing.chatGateways.webchat.chat.openTimeout')"
         :model-value="itemInstance.metadata.chat.timeoutIsActive"
         @update:model-value="setChatMetadata({ prop: 'timeoutIsActive', value: $event })" />
-      <wt-input :disabled="disableOpenTimeout" :label="$t('objects.routing.chatGateways.webchat.chat.openTimeoutSec')"
-        :v="v.itemInstance.metadata.chat.openTimeout" :value="itemInstance.metadata.chat.openTimeout" type="number"
-        @input="setChatMetadata({ prop: 'openTimeout', value: $event })" />
-      <wt-input v-model="mediaMaxSize" :disabled="disableUserInput"
-        :label="$t('objects.routing.chatGateways.webchat.metadata.mediaMaxSize')" type="number" />
+      <wt-input-number :disabled="disableOpenTimeout" :label="$t('objects.routing.chatGateways.webchat.chat.openTimeoutSec')"
+        :v="v.itemInstance.metadata.chat.openTimeout" :model-value="itemInstance.metadata.chat.openTimeout"
+        @update:model-value="setChatMetadata({ prop: 'openTimeout', value: $event })" />
+      <wt-input-number v-model:model-value="mediaMaxSize" :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.webchat.metadata.mediaMaxSize')" />
     </div>
   </section>
 </template>

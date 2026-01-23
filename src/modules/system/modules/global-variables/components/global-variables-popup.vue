@@ -12,24 +12,22 @@
       : $t('objects.system.globalVariables.newTitle') }}
     </template>
     <template #main>
-      <wt-input
-        :value="itemInstance.name"
+      <wt-input-text
+        :model-value="itemInstance.name"
         :v="v$.itemInstance.name"
         :disabled="disableUserInput"
-        :clearable="false"
         :label="$t('objects.key')"
         required
-        @input="setItemProp({ prop: 'name', value: $event })"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-input
-        :value="itemInstance.value"
+      <wt-input-text
+        :model-value="itemInstance.value"
         :v="v$.itemInstance.value"
         :disabled="disableUserInput"
-        :clearable="false"
         :label="$t('vocabulary.values', 1)"
         :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
         :required="!itemInstance.id || !startEncryptValue"
-        @input="setItemProp({ prop: 'value', value: $event })"
+        @update:model-value="setItemProp({ prop: 'value', value: $event })"
       />
       <wt-switcher
         :model-value="itemInstance.encrypt"

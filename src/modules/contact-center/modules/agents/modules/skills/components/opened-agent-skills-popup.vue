@@ -5,12 +5,22 @@
     </template>
     <template #main>
       <form>
-        <wt-select :clearable="false" :label="$t('objects.lookups.skills.skills', 1)"
-          :search-method="loadDropdownOptionsList" :v="v$.itemInstance.skill" :value="itemInstance.skill" required
-          @input="setItemProp({ prop: 'skill', value: $event })" />
-        <wt-input :label="$t('objects.lookups.skills.capacity')" :number-max="100" :number-min="0"
-          :v="v$.itemInstance.capacity" :value="itemInstance.capacity" required type="number"
-          @input="setItemProp({ prop: 'capacity', value: +$event })" />
+        <wt-select
+          :clearable="false"
+          :label="$t('objects.lookups.skills.skills', 1)"
+          :search-method="loadDropdownOptionsList"
+          :v="v$.itemInstance.skill"
+          :value="itemInstance.skill"
+          required
+          @input="setItemProp({ prop: 'skill', value: $event })"
+        />
+        <wt-input-number
+          :label="$t('objects.lookups.skills.capacity')"
+          :v="v$.itemInstance.capacity"
+          :model-value="itemInstance.capacity"
+          required
+          @update:model-value="setItemProp({ prop: 'capacity', value: +$event })"
+        />
       </form>
     </template>
     <template #actions>
