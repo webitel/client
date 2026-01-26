@@ -18,8 +18,9 @@
       <wt-input-number
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
+        :min="0"
         :model-value="itemInstance.extension"
-        @update:model-value="setItemProp({ prop: 'extension', value: $event })"
+        @update:model-value="setItemProp({ prop: 'extension', value: String($event) })"
       />
 
       <wt-input-text
