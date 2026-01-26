@@ -36,6 +36,7 @@ import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatpl
 import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan.js';
 import FlowRoutes from '../../modules/routing/modules/flow/router/flow.js';
 import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways.js';
+import SettingsRoutes from '../../modules/settings/routes/routes.js';
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
@@ -49,8 +50,6 @@ const ModuleWrap = () =>
   import('../../modules/_shared/object-wrap/the-object-wrap.vue');
 const StartPage = () =>
   import('../../modules/start-page/components/the-start-page.vue');
-const Settings = () =>
-  import('../../modules/settings/components/the-settings.vue');
 const AccessDenied = () =>
   import(
     '../../modules/error-pages/components/the-access-denied-component.vue'
@@ -85,15 +84,7 @@ const router = createRouter({
           name: RouteNames.START,
           component: StartPage,
         },
-        {
-          path: '/settings',
-          name: RouteNames.SETTINGS_PAGE,
-          component: Settings,
-          meta: {
-            // prevent beforeEnter: checkAppAccess on parent route [WTEL-4321]
-            requiresAccess: false,
-          },
-        },
+        ...SettingsRoutes,
         {
           path: '/:pathMatch(.*)*',
           name: RouteNames.PAGE_404,
