@@ -60,12 +60,21 @@
         :model-value="itemInstance.forcePasswordChange"
         @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
       />
+
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.chatName')"
         :model-value="itemInstance.chatName"
         @update:model-value="setItemProp({ prop: 'chatName', value: $event })"
       />
+
+      <logout-action
+        v-if="itemInstance.id && hasUserAccess"
+        :id="itemInstance.id"
+      />
+
+      <!-- @Lera24 - to save the grid-->
+      <div v-if="itemInstance.id && hasUserAccess"></div>
 
       <qrcode
         v-if="isDisplayQRCode"
@@ -79,25 +88,31 @@
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapGetters } from 'vuex';
+import { computed } from 'vue';
 
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ContactsAPI from '../api/contacts.js';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
+import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 
 export default {
   name: 'OpenedUserGeneral',
-  components: { UserPasswordInput, Qrcode },
+  components: { UserPasswordInput, Qrcode, LogoutAction },
   mixins: [openedTabComponentMixin],
   setup: () => {
-    const { disableUserInput } = useUserAccessControl();
+    const { disableUserInput, hasCreateAccess, hasDeleteAccess, hasUpdateAccess } = useUserAccessControl();
 
     const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
       WtObject.Contact,
     );
 
+    const hasUserAccess = computed(() =>
+      hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value);
+
     return {
+      hasUserAccess,
       disableUserInput,
       hasContactsReadAccess,
     };
@@ -115,7 +130,3 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
-></style>

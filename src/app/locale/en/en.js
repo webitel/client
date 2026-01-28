@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Chat',
       [RingtoneType.Task]: 'Task',
     },
+    security: {
+      security: 'Security',
+      logoutTitle: 'Log out this user from other devices',
+    }
   },
 
   validation: {
@@ -255,6 +259,13 @@ export default {
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
+        logout: {
+          endAllSessions: 'End all sessions',
+          endAllMySessions: 'End all my sessions',
+          endSessionConfirmation: 'End session confirmation',
+          endSessionConfirmationText: 'Are you sure you want to end all sessions?',
+          tooltip: 'The user will be logged out from all devices',
+        }
       },
       license: {
         customers: 'Customers',
