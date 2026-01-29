@@ -15,7 +15,7 @@
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
 
-      <wt-input-number
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
         :model-value="itemInstance.extension"
