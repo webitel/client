@@ -37,12 +37,19 @@
 <script>
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 
 export default {
   name: 'OpenedImportCsvGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   methods: {
     loadQueueOptions(params) {
       const type = [
@@ -64,6 +71,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

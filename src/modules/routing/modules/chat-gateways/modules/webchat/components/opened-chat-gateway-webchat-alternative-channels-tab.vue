@@ -1,7 +1,11 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
       <h3 class="content-title typo-heading-3">
         {{
           $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
@@ -14,14 +18,26 @@
           {{ $t('objects.routing.chatGateways.webchat.alternativeChannels.title') }}
         </header>
         <div class="object-input-grid object-input-grid__1-col">
-          <div v-for="(channel) of alternativeChannels" :key="channel" class="webchat-alternative-channel">
-            <wt-icon :icon="channelIcon[channel]" size="lg" />
-            <copy-input :disabled="disableUserInput" :placeholder="$t(channelUrlPlaceholder[channel])"
+          <div
+            v-for="(channel) of alternativeChannels"
+            :key="channel"
+            class="webchat-alternative-channel"
+          >
+            <wt-icon
+              :icon="channelIcon[channel]"
+              size="lg"
+            />
+            <copy-input
+              :disabled="disableUserInput"
+              :placeholder="$t(channelUrlPlaceholder[channel])"
               :value="itemInstance.metadata.alternativeChannels[channel].url"
-              @input="handleUrlInput({ channel, value: $event })" />
-            <wt-switcher :disabled="disableUserInput"
+              @input="handleUrlInput({ channel, value: $event })"
+            />
+            <wt-switcher
+              :disabled="disableUserInput"
               :model-value="itemInstance.metadata.alternativeChannels[channel].enabled"
-              @update:model-value="setAltChannelValue({ channel, prop: 'enabled', value: $event })" />
+              @update:model-value="setAltChannelValue({ channel, prop: 'enabled', value: $event })"
+            />
           </div>
         </div>
       </article>
@@ -31,18 +47,28 @@
         </header>
         <div class="webchat-call-section-title-wrapper">
           <wt-icon icon="call" />
-          <wt-switcher :disabled="disableUserInput" :model-value="itemInstance.metadata.call.enabled"
-            @update:model-value="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })" />
+          <wt-switcher
+            :disabled="disableUserInput"
+            :model-value="itemInstance.metadata.call.enabled"
+            @update:model-value="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })"
+          />
         </div>
         <div class=" object-input-grid object-input-grid__1-col">
-          <wt-input-text :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
-            :label="$t('objects.routing.chatGateways.webchat.call.url')" :v="v.itemInstance.metadata.call.url"
+          <wt-input-text
+            :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
+            :label="$t('objects.routing.chatGateways.webchat.call.url')"
+            :v="v.itemInstance.metadata.call.url"
             :model-value="itemInstance.metadata.call.url"
-            @update:model-value="setWebchatMetadata({ path: 'metadata.call.url', value: $event })" />
-          <wt-select :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
-            :label="$t('objects.routing.flow.flow', 1)" :search-method="loadCallFlows"
-            :v="v.itemInstance.metadata.call.flow" :value="itemInstance.metadata.call.flow"
-            @input="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })" />
+            @update:model-value="setWebchatMetadata({ path: 'metadata.call.url', value: $event })"
+          />
+          <wt-select
+            :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
+            :label="$t('objects.routing.flow.flow', 1)"
+            :search-method="loadCallFlows"
+            :v="v.itemInstance.metadata.call.flow"
+            :value="itemInstance.metadata.call.flow"
+            @input="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })"
+          />
         </div>
       </article>
     </section>
@@ -53,6 +79,7 @@
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../flow/api/flow';
 import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
@@ -61,6 +88,12 @@ import uriCopyMixin from '../../../mixins/uriCopyMixin';
 export default {
   name: 'OpenedChatWebchatAlternativeChannelsTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   data: () => ({
     alternativeChannels: Object.values(WebchatAlternativeChannel),
     channelIcon: {
@@ -123,7 +156,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main' as *;
 @use '../../../css/chat-gateways';
 

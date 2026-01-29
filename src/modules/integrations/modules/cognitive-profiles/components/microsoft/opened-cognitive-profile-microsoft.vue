@@ -79,12 +79,19 @@ import { mapActions } from 'vuex';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
 import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
 
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
   name: 'OpenedCognitiveProfileMicrosoft',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   data: () => ({
     MicrosoftRegion,
     CognitiveProfileServices,
@@ -100,6 +107,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

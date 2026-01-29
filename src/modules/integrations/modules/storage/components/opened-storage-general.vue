@@ -43,14 +43,22 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedStorageGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

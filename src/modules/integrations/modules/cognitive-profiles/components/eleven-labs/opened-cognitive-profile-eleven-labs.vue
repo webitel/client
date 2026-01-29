@@ -34,7 +34,7 @@
         track-by="value"
         @input="setItemProp({ prop: 'service', value: $event })"
       />
-      <div/>
+      <div />
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.key')"
@@ -44,7 +44,7 @@
         required
         @update:model-value="setItemProp({ path: 'properties.key', value: $event })"
       />
-      <div/>
+      <div />
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
@@ -56,18 +56,23 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
   name: 'OpenedCognitiveProfileElevenLabs',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   data: () => ({
     CognitiveProfileServices,
   }),
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

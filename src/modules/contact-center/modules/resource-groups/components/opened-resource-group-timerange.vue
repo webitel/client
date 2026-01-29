@@ -23,7 +23,7 @@
             :value="range.start * 60"
             format="hh:mm"
             required
-            @input="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
+            @input="setVariableProp({ index: key, prop: 'start', value: $event / 60 })"
           />
           <wt-timepicker
             :disabled="disableUserInput"
@@ -32,7 +32,7 @@
             :value="range.end * 60"
             format="hh:mm"
             required
-            @input="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
+            @input="setVariableProp({ index: key, prop: 'end', value: $event / 60 })"
           />
           <wt-icon-action
             v-if="key !== 0"
@@ -47,15 +47,25 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedResourceGroupTimerange',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .range {
   display: flex;
   align-items: center;

@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import permissionsTabMixin from '../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from './_internals/permissions-role-column.vue';
@@ -105,6 +106,12 @@ export default {
   name: 'PermissionsTab',
   components: { RolePopup, RoleColumn },
   mixins: [openedTabComponentMixin, permissionsTabMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   data: () => ({
     subNamespace: 'permissions',
   }),

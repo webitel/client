@@ -10,7 +10,7 @@
         :custom-validators="hotDeskNameValidator"
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.hostName')"
-        :label-props=" { hint: $t('objects.directory.devices.hotdeskInputHint') }"
+        :label-props="{ hint: $t('objects.directory.devices.hotdeskInputHint') }"
         :v="v.itemInstance.hotdesks"
         :value="itemInstance.hotdesks"
         taggable
@@ -21,11 +21,18 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedDeviceHotdesking',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     hotDeskNameValidator() {
       return [
@@ -39,5 +46,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

@@ -35,9 +35,7 @@
         @input="setItemProp({ prop: 'service', value: $event })"
       />
       <div class="google-key">
-        <wt-label
-          :invalid="v.itemInstance.properties.key.$error"
-        >
+        <wt-label :invalid="v.itemInstance.properties.key.$error">
           {{ $t('objects.key') }}*
         </wt-label>
         <div v-if="!itemInstance.properties.keyFilename">
@@ -95,12 +93,19 @@
 import { mapActions } from 'vuex';
 import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
 
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
   name: 'OpenedCognitiveProfileGoogle',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   inject: ['$eventBus'],
   data: () => ({
     CognitiveProfileServices,
@@ -156,7 +161,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .google-key__input {
   width: 0;
   height: 0;

@@ -79,6 +79,7 @@
 import { Chrome } from 'vue-color';
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
 import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
@@ -89,6 +90,12 @@ export default {
     ColorPicker: Chrome,
   },
   mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   methods: {
     ...mapActions({
       setItemMetadata(dispatch, payload) {
@@ -99,7 +106,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '../../../css/chat-gateways';
 
 .webchat-view-main {
@@ -161,5 +171,4 @@ export default {
     }
   }
 }
-
 </style>

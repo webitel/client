@@ -65,6 +65,7 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { useWeekDaysData } from '../composables/useWeekDaysData.js';
@@ -75,9 +76,10 @@ export default {
   name: 'OpenedCalendarSpecialTime',
   mixins: [openedTabComponentMixin],
   setup() {
+    const { disableUserInput } = useUserAccessControl();
     const dataName = 'specials';
     const { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin } = useWeekDaysData(namespace, dataName);
-    return { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin };
+    return { disableUserInput, dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin };
   },
 
   methods: {

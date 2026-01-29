@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storage from '../../../../integrations/modules/storage/api/storage';
 import { ChangelogsAPI } from '@webitel/api-services/api';
@@ -58,6 +59,12 @@ import { ChangelogsAPI } from '@webitel/api-services/api';
 export default {
   name: 'OpenedChangelogGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     currentPeriod() {
       return this.periodOptions.find((period) => period.id === this.itemInstance.period);
@@ -90,6 +97,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

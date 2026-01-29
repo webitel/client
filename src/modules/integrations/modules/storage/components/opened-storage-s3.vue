@@ -82,6 +82,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storageMixin from '../mixins/storageMixin';
 import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
@@ -91,6 +92,12 @@ import Service from '../store/_internals/lookups/Service.lookup';
 export default {
   name: 'OpenedStorageAws',
   mixins: [openedTabComponentMixin, storageMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     ...mapState('integrations/storage', {
       id: (state) => state.itemId,
@@ -138,6 +145,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

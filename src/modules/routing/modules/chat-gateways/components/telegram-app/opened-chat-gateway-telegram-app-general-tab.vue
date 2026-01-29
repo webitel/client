@@ -1,24 +1,51 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon icon="telegram" icon-prefix="messenger" size="sm" />
+      <wt-icon
+        icon="telegram"
+        icon-prefix="messenger"
+        size="sm"
+      />
       <h3 class="content-title">
         {{ $t('objects.routing.chatGateways.telegramApp.telegramApp') }}
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :model-value="itemInstance.name" @update:model-value="setItemProp({ prop: 'name', value: $event })" />
-      <wt-input-text :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.telegramApp.metadata.apiId')"
-        :v="v.itemInstance.metadata.apiId" :model-value="itemInstance.metadata.apiId" type="number"
-        @update:model-value="setItemMetadata({ prop: 'apiId', value: $event })" />
-      <wt-select :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="loadDropdownOptionsList" :v="v.itemInstance.flow" :value="itemInstance.flow" @input="setFlow" />
-      <wt-input-text :disabled="disableUserInput" :label="$t('objects.routing.chatGateways.telegramApp.metadata.apiHash')"
-        :v="v.itemInstance.metadata.apiHash" :model-value="itemInstance.metadata.apiHash"
-        @update:model-value="setItemMetadata({ prop: 'apiHash', value: $event })" />
+      <wt-input-text
+        :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :model-value="itemInstance.name"
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
+      />
+      <wt-input-text
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.telegramApp.metadata.apiId')"
+        :v="v.itemInstance.metadata.apiId"
+        :model-value="itemInstance.metadata.apiId"
+        type="number"
+        @update:model-value="setItemMetadata({ prop: 'apiId', value: $event })"
+      />
+      <wt-select
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.flow.flow', 1)"
+        :search-method="loadDropdownOptionsList"
+        :v="v.itemInstance.flow"
+        :value="itemInstance.flow"
+        @input="setFlow"
+      />
+      <wt-input-text
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.chatGateways.telegramApp.metadata.apiHash')"
+        :v="v.itemInstance.metadata.apiHash"
+        :model-value="itemInstance.metadata.apiHash"
+        @update:model-value="setItemMetadata({ prop: 'apiHash', value: $event })"
+      />
       <div />
-      <telegram-app-button v-if="itemInstance.id" :uri="itemInstance.uri" />
+      <telegram-app-button
+        v-if="itemInstance.id"
+        :uri="itemInstance.uri"
+      />
     </div>
   </section>
 </template>
@@ -26,6 +53,7 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
@@ -35,6 +63,12 @@ export default {
   name: 'OpenedChatTelegramAppGeneralTab',
   components: { TelegramAppButton },
   mixins: [openedTabComponentMixin, uriCopyMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
@@ -67,7 +101,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '../../css/chat-gateways';
 
 .object-input-grid .telegram-app-button {
