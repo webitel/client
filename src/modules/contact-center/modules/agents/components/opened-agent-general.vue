@@ -98,9 +98,7 @@
         class="object-input-area-grid__is-supervisor"
         @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
       />
-      <div
-        class="object-input-area-grid__screen-control"
-      >
+      <div class="object-input-area-grid__screen-control">
         <wt-switcher
           :disabled="disableUserInput || disabledAgentScreenControl && !isNew"
           :label="$t('objects.ccenter.agents.agentScreenControl')"
@@ -108,8 +106,10 @@
           @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
         />
 
-        <span v-if="disabledAgentScreenControl && !isNew"
-          class="object-input-area-grid__screen-control-hint typo-body-2">
+        <span
+          v-if="disabledAgentScreenControl && !isNew"
+          class="object-input-area-grid__screen-control-hint typo-body-2"
+        >
           {{ $t('objects.ccenter.agents.agentScreenControlHint') }}
         </span>
       </div>
@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import UsersAPI from '../../../../directory/modules/users/api/users';
 import MediaAPI from '../../../../lookups/modules/media/api/media';
@@ -128,6 +129,12 @@ import AgentsAPI from '../api/agents';
 export default {
   name: 'OpenedAgentGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     disabledAgentScreenControl() {
       return !this.itemInstance.allowSetScreenControl
@@ -159,7 +166,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main' as *;
 
 .object-input-area-grid {

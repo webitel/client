@@ -52,7 +52,7 @@
         </template>
         <template #subscription="{ item }">
           <wt-switcher
-            :disabled="!hasEditAccess"
+            :disabled="!hasUpdateAccess"
             :model-value="!!item.subscribedFields"
             @update:model-value="updateSubscriptionState({ item, value: $event })"
           />
@@ -66,6 +66,7 @@
 import path from 'path';
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
@@ -74,6 +75,10 @@ export default {
   name: 'OpenedChatGatewayFacebookTab',
   mixins: [openedObjectTableTabMixin],
   inject: ['$eventBus'],
+  setup() {
+    const { hasUpdateAccess } = useUserAccessControl();
+    return { hasUpdateAccess };
+  },
   data: () => ({
     subNamespace: 'facebook',
     accountsOnPopup: null,
@@ -121,5 +126,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

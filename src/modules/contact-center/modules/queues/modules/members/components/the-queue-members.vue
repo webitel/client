@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="!hasEditAccess || !isNotInboundMember"
+        :hide-primary="!hasUpdateAccess || !isNotInboundMember"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -52,7 +52,7 @@
       />
 
       <reset-popup
-        :shown="hasEditAccess && isResetPopup"
+        :shown="hasUpdateAccess && isResetPopup"
         :callback="resetMembers"
         @close="closeResetPopup"
       />
@@ -70,7 +70,7 @@
               @input="inputTableAction"
             >
               <wt-icon-btn
-                v-if="hasEditAccess"
+                v-if="hasUpdateAccess"
                 v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
                 icon="member-reset"
                 icon-prefix="adm"
@@ -78,7 +78,7 @@
               />
 
               <wt-context-menu
-                v-if="hasEditAccess && isNotInboundMember"
+                v-if="hasUpdateAccess && isNotInboundMember"
                 :options="deleteOptions"
                 @click="$event.option.method.call()"
               >
@@ -107,7 +107,7 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasEditAccess && isNotInboundMember"
+            :grid-actions="hasUpdateAccess && isNotInboundMember"
             :headers="headers"
             sortable
             @sort="sort"
@@ -248,7 +248,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       isDeleteConfirmationPopup,
@@ -259,7 +259,7 @@ export default {
       closeDelete,
       dummy,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },

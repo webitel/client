@@ -39,54 +39,114 @@
       />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.strategy" v-model="strategy" :clearable="false" :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.strategy')" :options="dropdownOptionsStrategyList"
-        :v="v.itemInstance.strategy" required track-by="value" />
+      <wt-select
+        v-if="specificControls.strategy"
+        v-model="strategy"
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.strategy')"
+        :options="dropdownOptionsStrategyList"
+        :v="v.itemInstance.strategy"
+        required
+        track-by="value"
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.team" :clearable="true" :disabled="disableUserInput" :label="$t('objects.team')"
-        :search-method="loadDropdownOptionsTeamList" :v="v.itemInstance.team" :value="itemInstance.team"
-        @input="setItemProp({ prop: 'team', value: $event })" />
+      <wt-select
+        v-if="specificControls.team"
+        :clearable="true"
+        :disabled="disableUserInput"
+        :label="$t('objects.team')"
+        :search-method="loadDropdownOptionsTeamList"
+        :v="v.itemInstance.team"
+        :value="itemInstance.team"
+        @input="setItemProp({ prop: 'team', value: $event })"
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.ringtone" :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.ringtone')" :search-method="loadDropdownOptionsMediaList"
-        :value="itemInstance.ringtone" @input="setItemProp({ prop: 'ringtone', value: $event })" />
+      <wt-select
+        v-if="specificControls.ringtone"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.ringtone')"
+        :search-method="loadDropdownOptionsMediaList"
+        :value="itemInstance.ringtone"
+        @input="setItemProp({ prop: 'ringtone', value: $event })"
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.schema" :clearable="false" :disabled="disableUserInput"
-        :label="$t('objects.routing.flow.flow', 1)" :search-method="loadDropdownOptionsSchemaList"
-        :v="v.itemInstance.schema" :value="itemInstance.schema" required
-        @input="setItemProp({ prop: 'schema', value: $event })" />
+      <wt-select
+        v-if="specificControls.schema"
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.flow.flow', 1)"
+        :search-method="loadDropdownOptionsSchemaList"
+        :v="v.itemInstance.schema"
+        :value="itemInstance.schema"
+        required
+        @input="setItemProp({ prop: 'schema', value: $event })"
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.doSchema" :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.preSchema')" :search-method="loadDropdownOptionsServiceSchemaList"
-        :value="itemInstance.doSchema" @input="setItemProp({ prop: 'doSchema', value: $event })" />
+      <wt-select
+        v-if="specificControls.doSchema"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.preSchema')"
+        :search-method="loadDropdownOptionsServiceSchemaList"
+        :value="itemInstance.doSchema"
+        @input="setItemProp({ prop: 'doSchema', value: $event })"
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.resourceStrategy" v-model="resourceStrategy" :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')" :options="dropdownTypesResourceStrategy"
-        :value="itemInstance.payload.resourceStrategy" :v="v.itemInstance.payload.resourceStrategy" track-by="value"
-        required />
+      <wt-select
+        v-if="specificControls.resourceStrategy"
+        v-model="resourceStrategy"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
+        :options="dropdownTypesResourceStrategy"
+        :value="itemInstance.payload.resourceStrategy"
+        :v="v.itemInstance.payload.resourceStrategy"
+        track-by="value"
+        required
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.afterSchema" :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.afterSchema')" :search-method="loadDropdownOptionsServiceSchemaList"
-        :value="itemInstance.afterSchema" @input="setItemProp({ prop: 'afterSchema', value: $event })" />
+      <wt-select
+        v-if="specificControls.afterSchema"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.afterSchema')"
+        :search-method="loadDropdownOptionsServiceSchemaList"
+        :value="itemInstance.afterSchema"
+        @input="setItemProp({ prop: 'afterSchema', value: $event })"
+      />
 
       <!--      v-if-->
-      <wt-select v-if="specificControls.grantee" :clearable="true" :disabled="disableUserInput"
-        :label="$t('objects.permissions.object.grantee')" :search-method="loadDropdownOptionsRoleList"
-        :value="itemInstance.grantee" @input="setItemProp({ prop: 'grantee', value: $event })" />
+      <wt-select
+        v-if="specificControls.grantee"
+        :clearable="true"
+        :disabled="disableUserInput"
+        :label="$t('objects.permissions.object.grantee')"
+        :search-method="loadDropdownOptionsRoleList"
+        :value="itemInstance.grantee"
+        @input="setItemProp({ prop: 'grantee', value: $event })"
+      />
 
-      <wt-tags-input :disabled="disableUserInput" :label="$t('vocabulary.tag', 2)" :search-method="loadQueuesTagOptions"
-        :value="itemInstance.tags" option-label="name" taggable track-by="name"
-        @input="setItemProp({ prop: 'tags', value: $event })" />
+      <wt-tags-input
+        :disabled="disableUserInput"
+        :label="$t('vocabulary.tag', 2)"
+        :search-method="loadQueuesTagOptions"
+        :value="itemInstance.tags"
+        option-label="name"
+        taggable
+        track-by="name"
+        @input="setItemProp({ prop: 'tags', value: $event })"
+      />
 
-      <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
+      <wt-textarea
+        :disabled="disableUserInput"
+        :label="$t('objects.description')"
         :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })" />
+        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+      />
     </div>
   </section>
 </template>
@@ -96,6 +156,7 @@ import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
@@ -111,6 +172,12 @@ import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 export default {
   name: 'OpenedQueueGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
 
   computed: {
     strategy: {
@@ -200,4 +267,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

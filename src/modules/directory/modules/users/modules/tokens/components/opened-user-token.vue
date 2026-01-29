@@ -28,7 +28,7 @@
             @input="tableActionsHandler"
           >
             <delete-all-action
-              v-if="!disableUserInput"
+              :disabled="!hasDeleteAccess"
               :class="{ 'hidden': anySelected }"
               :selected-count="selectedRows.length"
               @click="askDeleteConfirmation({
@@ -37,7 +37,7 @@
               })"
             />
             <wt-icon-action
-              v-if="!disableUserInput"
+              :disabled="!hasCreateAccess"
               action="add"
               @click="create"
             />
@@ -52,7 +52,6 @@
       >
         <wt-table
           :data="dataList"
-          :grid-actions="!disableUserInput"
           :headers="headers"
           sortable
           @sort="sort"
@@ -71,6 +70,7 @@
           <template #actions="{ item }">
             <wt-icon-btn
               icon="bucket"
+              :disabled="!hasDeleteAccess"
               @click="askDeleteConfirmation({
                 deleted: [item],
                 callback: () => deleteData(item),
@@ -99,9 +99,11 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import TokenPopup from './opened-user-token-popup.vue';
+import { useHasUserTokensAccess } from '../composables/hasUserTokensAccess';
 
 export default {
   name: 'OpenedUserTokens',
@@ -113,19 +115,25 @@ export default {
   mixins: [openedObjectTableTabMixin],
 
   setup() {
+    
     const {
       isVisible: isDeleteConfirmationPopup,
       deleteCount,
       deleteCallback,
-
+      
       askDeleteConfirmation,
       closeDelete,
     } = useDeleteConfirmationPopup();
+
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useHasUserTokensAccess();
 
     return {
       isDeleteConfirmationPopup,
       deleteCount,
       deleteCallback,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
 
       askDeleteConfirmation,
       closeDelete,

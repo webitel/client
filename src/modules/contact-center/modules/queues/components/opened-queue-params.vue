@@ -308,6 +308,7 @@
 import { mapActions } from 'vuex';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
@@ -316,6 +317,12 @@ import ToneList from '../store/_internals/lookups/Tone.lookup';
 export default {
   name: 'OpenedQueueParams',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   data: () => ({
     ToneList,
   }),
@@ -385,7 +392,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .load-factor {
   display: grid;
   align-items: center;

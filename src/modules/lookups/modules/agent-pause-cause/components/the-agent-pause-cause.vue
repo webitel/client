@@ -83,21 +83,21 @@
             </template>
             <template #allowAdmin="{ item, index }">
               <wt-checkbox
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :selected="item.allowAdmin"
                 @update:selected="changeAdminPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowSupervisor="{ item, index }">
               <wt-checkbox
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :selected="item.allowSupervisor"
                 @update:selected="changeSupervisorPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowAgent="{ item, index }">
               <wt-checkbox
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :selected="item.allowAgent"
                 @update:selected="changeAgentPermissions({ item, index, value: $event })"
               />
@@ -105,7 +105,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -165,7 +165,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       dummy,
@@ -176,7 +176,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },

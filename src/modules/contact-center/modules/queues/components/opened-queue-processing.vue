@@ -94,6 +94,7 @@
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
@@ -101,6 +102,12 @@ import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 export default {
   name: 'OpenedQueueProcessing',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     specificControls() {
       return QueueTypeProperties[this.itemInstance.type].controls.reduce(
@@ -137,7 +144,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .object-input-area-grid {
   display: grid;
   grid-template-areas:
@@ -155,24 +165,31 @@ export default {
   &__processing-enabled {
     grid-area: processingEnabled;
   }
+
   &__form-schema {
     grid-area: formSchema;
   }
+
   &__processing-sec {
     grid-area: sec;
   }
+
   &__processing-renewal-sec {
     grid-area: renewalSec;
   }
+
   &__processing-allow-prolongation {
     grid-area: allowProlongation;
   }
+
   &__processing-repeat-numbers {
     grid-area: repeatNumbers;
   }
+
   &__processing-prolongation-time {
     grid-area: prolongationTime;
   }
+
   &__processing-timeout-retry {
     grid-area: timeoutRetry;
   }

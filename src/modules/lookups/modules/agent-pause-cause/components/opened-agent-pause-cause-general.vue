@@ -31,19 +31,19 @@
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowAdmin')"
           :selected="itemInstance.allowAdmin"
-          @update:selected="setItemProp({prop: 'allowAdmin', value: $event })"
+          @update:selected="setItemProp({ prop: 'allowAdmin', value: $event })"
         />
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowSupervisor')"
           :selected="itemInstance.allowSupervisor"
-          @update:selected="setItemProp({prop: 'allowSupervisor', value: $event })"
+          @update:selected="setItemProp({ prop: 'allowSupervisor', value: $event })"
         />
         <wt-checkbox
           :disabled="disableUserInput"
           :label="$t('objects.lookups.pauseCause.allowAgent')"
           :selected="itemInstance.allowAgent"
-          @update:selected="setItemProp({prop: 'allowAgent', value: $event })"
+          @update:selected="setItemProp({ prop: 'allowAgent', value: $event })"
         />
       </div>
     </div>
@@ -51,15 +51,25 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedAgentPauseCauseGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .form-checkbox-wrapper .wt-checkbox:not(:last-child) {
   margin-bottom: var(--spacing-sm);
 }

@@ -100,7 +100,7 @@
             </template>
             <template #state="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
                 @update:model-value="changeState({ item, index, value: $event })"
               />
@@ -108,7 +108,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -181,7 +181,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       dummy,
@@ -192,7 +192,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },

@@ -34,22 +34,27 @@ import { WtApplication } from '@webitel/ui-sdk/enums';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { storeToRefs } from 'pinia';
 import { computed, inject } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 
 import RoutePaths from '../../../../app/router/_internals/RoutePaths';
-import NavigationPages from '../../../../app/router/_internals/NavigationPages.lookup';
+import { useNavStore } from '../../../start-page/stores/navStore';
 import { useUserinfoStore } from '../../../userinfo/stores/userinfoStore';
 
-const { t } = useI18n();
 const store = useStore();
 const config = inject<{ ON_SITE?: boolean }>('$config');
 
+const navStore = useNavStore();
 const userInfoStore = useUserinfoStore();
 const { hasApplicationVisibility, logoutUser: logout } = userInfoStore;
 const { userInfo } = storeToRefs(userInfoStore);
 
 const currentApp = WtApplication.Admin;
+
+// Initialize nav, if not initialized yet
+navStore.initializeNav();
+
+const { nav } = storeToRefs(navStore);
+
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
@@ -57,44 +62,6 @@ const buildInfo = {
   release: process.env.npm_package_version,
   build: import.meta.env.VITE_BUILD_NUMBER,
 };
-
-type NavItem = {
-  value: string;
-  locale: string;
-  route: string;
-  subNav?: Array<{ value: string; locale: string; route: string }>;
-};
-
-const navWithLocale = (nav: NavItem) => ({
-  ...nav,
-  name: t(nav.locale),
-});
-
-const accessibleNav = computed(() => {
-  return NavigationPages.filter((nav) => {
-    if (nav.subNav) {
-      const filteredSubNav = nav.subNav.filter((subNav) =>
-        hasApplicationVisibility(subNav.value),
-      );
-      return filteredSubNav.length > 0;
-    }
-    return hasApplicationVisibility(nav.value);
-  });
-});
-
-const nav = computed(() => {
-  return accessibleNav.value.map((nav) => {
-    if (nav.subNav) {
-      return {
-        ...navWithLocale(nav),
-        subNav: nav.subNav
-          .filter((subNav) => hasApplicationVisibility(subNav.value))
-          .map((subNav) => navWithLocale(subNav)),
-      };
-    }
-    return navWithLocale(nav);
-  });
-});
 
 const apps = computed(() => {
   const agent = {

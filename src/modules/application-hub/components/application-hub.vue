@@ -1,20 +1,43 @@
 <template>
   <div class="application-hub-wrap">
     <cc-header />
-    <nav :class="{ 'application-hub--sm': $breakpoint.smAndDown }" class="application-hub">
+    <nav
+      :class="{ 'application-hub--sm': $breakpoint.smAndDown }"
+      class="application-hub"
+    >
       <div class="application-hub__background" />
       <ul class="application-hub__list">
-        <li v-for="(app, key) of apps" :key="key" class="application-hub__card">
-          <a :href="app.href" :title="app.title" class="application-link">
+        <li
+          v-for="(app, key) of apps"
+          :key="key"
+          class="application-hub__card"
+        >
+          <a
+            :href="app.href"
+            :title="app.title"
+            class="application-link"
+          >
             <div class="application-link__pic">
-              <img :alt="`${app.name}-pic`" :src="app.pic.img" class="application-link__pic__img" />
+              <img
+                :alt="`${app.name}-pic`"
+                :src="app.pic.img"
+                class="application-link__pic__img"
+              />
             </div>
             <div class="application-link__text-wrap">
               <div class="application-link__title-pic">
-                <img v-if="$breakpoint.mdAndUp" :alt="`${app.name}`" :src="app.pic.title.md"
-                  class="application-link__title-pic__img application-link__title-pic__img--md" />
-                <img v-else :alt="`${app.name}-title`" :src="app.pic.title.sm"
-                  class="application-link__title-pic__img application-link__title-pic__img--sm" />
+                <img
+                  v-if="$breakpoint.mdAndUp"
+                  :alt="`${app.name}`"
+                  :src="app.pic.title.md"
+                  class="application-link__title-pic__img application-link__title-pic__img--md"
+                />
+                <img
+                  v-else
+                  :alt="`${app.name}-title`"
+                  :src="app.pic.title.sm"
+                  class="application-link__title-pic__img application-link__title-pic__img--sm"
+                />
               </div>
               <h1 :class="['application-link__title', $breakpoint.smAndDown ? 'typo-body-2' : 'typo-body-1']">
                 {{ app.title }}
@@ -27,11 +50,16 @@
   </div>
 </template>
 
-<script>
+<script
+  setup
+  lang="ts"
+>
 import { WtApplication } from '@webitel/ui-sdk/enums';
-import { mapGetters } from 'vuex';
+import { computed, inject } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import CcHeader from '../../_reusable/app-header/components/app-header.vue';
+import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
 import admPic from '../assets/img/pictures/admin.svg';
 import grafanaPic from '../assets/img/pictures/analytics.svg';
 import auditPic from '../assets/img/pictures/audit.svg';
@@ -104,84 +132,77 @@ const picCrm = {
   },
 };
 
-export default {
-  name: 'TheApplicationHub',
-  components: { CcHeader },
-  inject: ['$config'],
-  computed: {
-    ...mapGetters('userinfo', {
-      checkAccess: 'CHECK_APP_ACCESS',
-    }),
-    apps() {
-      const agentApp = {
-        name: WtApplication.Agent,
-        title: this.$t(`WtApplication.${WtApplication.Agent}.name`),
-        href: import.meta.env.VITE_AGENT_URL,
-        pic: picAgent,
-      };
-      const supervisorApp = {
-        name: WtApplication.Supervisor,
-        title: this.$t(
-          `WtApplication.${WtApplication.Supervisor}.name`,
-        ),
-        href: import.meta.env.VITE_SUPERVISOR_URL,
-        pic: picSupervisor,
-      };
-      const historyApp = {
-        name: WtApplication.History,
-        title: this.$t(
-          `WtApplication.${WtApplication.History}.name`,
-        ),
-        href: import.meta.env.VITE_HISTORY_URL,
-        pic: picHistory,
-      };
+const { t } = useI18n();
+const config = inject<{ ON_SITE?: boolean }>('$config');
 
-      const auditApp = {
-        name: WtApplication.Audit,
-        title: this.$t(`WtApplication.${WtApplication.Audit}.name`),
-        href: import.meta.env.VITE_AUDIT_URL,
-        pic: picAudit,
-      };
+const userInfoStore = useUserinfoStore();
+const { hasApplicationVisibility } = userInfoStore;
 
-      const adminApp = {
-        name: WtApplication.Admin,
-        title: this.$t(`WtApplication.${WtApplication.Admin}.name`),
-        href: import.meta.env.VITE_ADMIN_URL,
-        pic: picAdmin,
-      };
+const apps = computed(() => {
+  const agentApp = {
+    name: WtApplication.Agent,
+    title: t(`WtApplication.${WtApplication.Agent}.name`),
+    href: import.meta.env.VITE_AGENT_URL,
+    pic: picAgent,
+  };
+  const supervisorApp = {
+    name: WtApplication.Supervisor,
+    title: t(`WtApplication.${WtApplication.Supervisor}.name`),
+    href: import.meta.env.VITE_SUPERVISOR_URL,
+    pic: picSupervisor,
+  };
+  const historyApp = {
+    name: WtApplication.History,
+    title: t(`WtApplication.${WtApplication.History}.name`),
+    href: import.meta.env.VITE_HISTORY_URL,
+    pic: picHistory,
+  };
 
-      const grafanaApp = {
-        name: WtApplication.Analytics,
-        title: this.$t(
-          `WtApplication.${WtApplication.Analytics}.name`,
-        ),
-        href: import.meta.env.VITE_GRAFANA_URL,
-        pic: picGrafana,
-      };
+  const auditApp = {
+    name: WtApplication.Audit,
+    title: t(`WtApplication.${WtApplication.Audit}.name`),
+    href: import.meta.env.VITE_AUDIT_URL,
+    pic: picAudit,
+  };
 
-      const crmApp = {
-        name: WtApplication.Crm,
-        title: this.$t(`WtApplication.${WtApplication.Crm}.name`),
-        href: import.meta.env.VITE_CRM_URL,
-        pic: picCrm,
-      };
+  const adminApp = {
+    name: WtApplication.Admin,
+    title: t(`WtApplication.${WtApplication.Admin}.name`),
+    href: import.meta.env.VITE_ADMIN_URL,
+    pic: picAdmin,
+  };
 
-      const apps = [
-        agentApp,
-        supervisorApp,
-        historyApp,
-        adminApp,
-        auditApp,
-        crmApp,
-      ];
-      if (this.$config.ON_SITE) apps.push(grafanaApp);
-      return apps.filter(({ name }) => this.checkAccess(name));
-    },
-  },
-};
+  const grafanaApp = {
+    name: WtApplication.Analytics,
+    title: t(`WtApplication.${WtApplication.Analytics}.name`),
+    href: import.meta.env.VITE_GRAFANA_URL,
+    pic: picGrafana,
+  };
+
+  const crmApp = {
+    name: WtApplication.Crm,
+    title: t(`WtApplication.${WtApplication.Crm}.name`),
+    href: import.meta.env.VITE_CRM_URL,
+    pic: picCrm,
+  };
+
+  const allApps = [
+    agentApp,
+    supervisorApp,
+    historyApp,
+    adminApp,
+    auditApp,
+    crmApp,
+  ];
+  if (config?.ON_SITE) allApps.push(grafanaApp);
+  return allApps.filter(({ name }) => hasApplicationVisibility(name));
+});
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/styleguide/viewport-breakpoints' as *;
 
 $card-bg-hover: rgba(255, 255, 255, 0.1);
@@ -276,14 +297,6 @@ $transition: 0.4s;
 
   .application-link__text-wrap {
     mix-blend-mode: soft-light;
-  }
-}
-
-.application-hub--sm {
-
-  // title text
-  .application-link__title {
-    // typo-body-2 class added to template
   }
 }
 

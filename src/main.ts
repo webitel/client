@@ -11,7 +11,6 @@ import './app/plugins/webitel-flow-ui';
 
 import { createApp } from 'vue';
 
-import instance from './app/api/instance';
 import ActionComponents from './app/components/actions';
 import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
@@ -41,9 +40,6 @@ const setTokenFromUrl = (): void => {
     console.error('Error restoring token from URL', err);
   }
 };
-
-const initSession = async () =>
-  store.dispatch('userinfo/OPEN_SESSION', { instance });
 
 const createVueInstance = async () => {
   const app = createApp(App)
@@ -80,7 +76,6 @@ const createVueInstance = async () => {
     setTokenFromUrl();
 
     config = await fetchConfig();
-    await initSession();
   } catch (err) {
     console.error('Error initializing app', err);
   } finally {

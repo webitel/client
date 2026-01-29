@@ -69,7 +69,7 @@
             :data="dataList"
             :headers="headers"
             sortable
-            :row-reorder="hasEditAccess"
+            :row-reorder="hasUpdateAccess"
             @sort="sort"
             @reorder:row="handleReorder"
           >
@@ -96,7 +96,7 @@
             </template>
             <template #state="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="!item.disabled"
                 @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
               />
@@ -104,7 +104,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -163,7 +163,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       dummy,
@@ -174,7 +174,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },

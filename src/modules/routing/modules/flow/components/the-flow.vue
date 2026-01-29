@@ -130,7 +130,7 @@
               />
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item, {
                   blank: item.editor
                 })"
@@ -203,7 +203,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
     const { dummy } = useDummy({ namespace, showAction: true });
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       isDeleteConfirmationPopup,
@@ -213,7 +213,7 @@ export default {
       closeDelete,
       dummy,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },

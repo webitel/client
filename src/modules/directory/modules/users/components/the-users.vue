@@ -96,7 +96,7 @@
             </template>
             <template #DnD="{ item }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="getDND(item.presence)"
                 @update:model-value="setDND({ item, value: $event })"
               />
@@ -104,7 +104,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -172,7 +172,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const pageUserAccessControl = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       dummy,
@@ -180,9 +180,9 @@ export default {
       deleteCount,
       deleteCallback,
 
-      hasCreateAccess: pageUserAccessControl.hasCreateAccess,
-      hasUpdateAccess: pageUserAccessControl.hasUpdateAccess,
-      hasDeleteAccess: pageUserAccessControl.hasDeleteAccess,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
 
       askDeleteConfirmation,
       closeDelete,

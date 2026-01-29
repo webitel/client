@@ -26,7 +26,7 @@ const emit = defineEmits(['logout']);
 const store = useStore();
 const route = useRoute();
 
-const { hasEditAccess } = useUserAccessControl({
+const { hasUpdateAccess } = useUserAccessControl({
   route: {
     name: `${RouteNames.USERS}-edit`,
   },
@@ -35,7 +35,7 @@ const { hasEditAccess } = useUserAccessControl({
 const domain = computed(() => store.state.userinfo.domain);
 
 const disableControl = computed(() => {
-  return !props.item.sessions || !hasEditAccess.value || props.item.domain?.name !== domain.value;
+  return !props.item.sessions || !hasUpdateAccess.value || props.item.domain?.name !== domain.value;
 });
 
 function logoutUser() {
@@ -43,6 +43,7 @@ function logoutUser() {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

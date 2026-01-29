@@ -2,31 +2,56 @@
   <section class="table-section">
     <communication-popup @close="closePopup" />
 
-    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
-      @close="closeDelete" />
+    <delete-confirmation-popup
+      :shown="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
+      @close="closeDelete"
+    />
 
     <header class="table-title">
-      <h3 :class="{ 'invalid': v.itemInstance.communications.$error }" class="table-title__title">
+      <h3
+        :class="{ 'invalid': v.itemInstance.communications.$error }"
+        class="table-title__title"
+      >
         {{ $t('objects.lookups.communications.communications', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
-          :selected-count="selectedRows.length" @click="askDeleteConfirmation({
+        <delete-all-action
+          v-if="!disableUserInput"
+          :class="{ 'hidden': anySelected }"
+          :selected-count="selectedRows.length"
+          @click="askDeleteConfirmation({
             deleted: selectedRows,
             callback: () => deleteData(selectedRows),
-          })" />
-        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="addItem" />
+          })"
+        />
+        <wt-icon-btn
+          v-if="!disableUserInput"
+          class="icon-action"
+          icon="plus"
+          @click="addItem"
+        />
       </div>
     </header>
 
-    <wt-dummy v-if="!dataList.length" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper" />
+    <wt-dummy
+      v-if="!dataList.length"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    />
 
     <div
       v-show="dataList.length"
       class="table-section__table-wrapper"
     >
-      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
+      <wt-table
+        :data="dataList"
+        :grid-actions="!disableUserInput"
+        :headers="headers"
+      >
         <template #destination="{ item }">
           {{ item.destination }}
         </template>
@@ -43,11 +68,17 @@
           {{ item.priority }}
         </template>
         <template #actions="{ index, item }">
-          <wt-icon-action action="edit" @click="edit(index)" />
-          <wt-icon-action action="delete" @click="askDeleteConfirmation({
-            deleted: [item],
-            callback: () => deleteData(item),
-          })" />
+          <wt-icon-action
+            action="edit"
+            @click="edit(index)"
+          />
+          <wt-icon-action
+            action="delete"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
+          />
         </template>
       </wt-table>
     </div>
@@ -61,6 +92,7 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 
 import { useDummy } from '../../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
@@ -82,6 +114,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
     } = useDeleteConfirmationPopup();
+    const { hasUpdateAccess } = useUserAccessControl();
 
     return {
       isDeleteConfirmationPopup,
@@ -91,6 +124,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       dummy,
+      hasUpdateAccess,
     };
   },
   data: () => ({
@@ -123,7 +157,7 @@ export default {
       },
     },
     disableUserInput() {
-      return !this.hasEditAccess;
+      return !this.hasUpdateAccess;
     },
     headers() {
       return [
@@ -182,4 +216,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

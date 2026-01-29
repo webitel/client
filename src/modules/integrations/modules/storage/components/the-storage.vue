@@ -43,7 +43,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -90,7 +90,7 @@
             </template>
             <template #state="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="!item.disabled"
                 @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
               />
@@ -98,7 +98,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -167,7 +167,7 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
     return {
       dummy,
@@ -178,7 +178,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },
@@ -237,6 +237,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

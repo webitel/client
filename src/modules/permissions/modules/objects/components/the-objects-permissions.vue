@@ -60,7 +60,7 @@
 
             <template #obac="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess || item.rbac"
+                :disabled="!hasUpdateAccess || item.rbac"
                 :model-value="item.obac"
                 @update:model-value="onObacToggled({ item, index, value: $event })"
               />
@@ -68,7 +68,7 @@
 
             <template #rbac="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="item.rbac"
                 @update:model-value="onRbacToggled({ item, index, value: $event })"
               />
@@ -76,7 +76,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
             </template>
@@ -116,11 +116,11 @@ export default {
       namespace,
       hiddenText: true,
     });
-    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
     return {
       dummy,
       hasCreateAccess,
-      hasEditAccess,
+      hasUpdateAccess,
       hasDeleteAccess,
     };
   },

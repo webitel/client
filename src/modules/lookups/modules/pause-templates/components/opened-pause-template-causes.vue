@@ -6,23 +6,44 @@
       </h3>
 
       <div class="table-title__actions-wrap">
-        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="addCause" />
+        <wt-icon-btn
+          v-if="!disableUserInput"
+          class="icon-action"
+          icon="plus"
+          @click="addCause"
+        />
       </div>
     </header>
 
     <div class="table-section__table-wrapper">
-      <wt-table :data="itemInstance.causes" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
+      <wt-table
+        :data="itemInstance.causes"
+        :grid-actions="!disableUserInput"
+        :headers="headers"
+        :selectable="false"
+      >
         <template #name="{ item, index }">
-          <wt-select :search-method="loadAgentPauseCause" :value="item.name"
+          <wt-select
+            :search-method="loadAgentPauseCause"
+            :value="item.name"
             :placeholder="$t('objects.lookups.pauseTemplates.notSelected')"
-            @input="setCause({ index, value: $event })" />
+            @input="setCause({ index, value: $event })"
+          />
         </template>
         <template #duration="{ item, index }">
-          <wt-input-number class="opened-pause-template-causes__duration" :disabled="disableUserInput" 
-            :model-value="item.duration" required @update:model-value="setCause({ prop: 'duration', index, value: +$event })" />
+          <wt-input-number
+            class="opened-pause-template-causes__duration"
+            :disabled="disableUserInput"
+            :model-value="item.duration"
+            required
+            @update:model-value="setCause({ prop: 'duration', index, value: +$event })"
+          />
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action action="delete" @click="removeCause(index)" />
+          <wt-icon-action
+            action="delete"
+            @click="removeCause(index)"
+          />
         </template>
       </wt-table>
     </div>
@@ -32,6 +53,7 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
@@ -39,6 +61,12 @@ import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
 export default {
   name: 'OpenedPauseTemplateCauses',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     headers() {
       return [
@@ -72,7 +100,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .opened-pause-template-causes__duration {
   width: 100%;
 }

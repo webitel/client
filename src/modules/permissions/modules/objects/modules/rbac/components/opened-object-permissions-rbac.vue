@@ -27,7 +27,7 @@
         />
 
         <wt-icon-action
-          v-if="hasEditAccess"
+          v-if="hasUpdateAccess"
           action="add"
           @click="addItem"
         />
@@ -66,7 +66,7 @@
           <template #read="{ item }">
             <wt-select
               :clearable="false"
-              :disabled="!hasEditAccess"
+              :disabled="!hasUpdateAccess"
               :options="accessOptions"
               :value="item.access.r"
               @input="changeReadAccessMode({ item, mode: $event })"
@@ -76,7 +76,7 @@
           <template #edit="{ item }">
             <wt-select
               :clearable="false"
-              :disabled="!hasEditAccess"
+              :disabled="!hasUpdateAccess"
               :options="accessOptions"
               :value="item.access.w"
               @input="changeUpdateAccessMode({ item, mode: $event })"
@@ -86,7 +86,7 @@
           <template #delete="{ item }">
             <wt-select
               :clearable="false"
-              :disabled="!hasEditAccess"
+              :disabled="!hasUpdateAccess"
               :options="accessOptions"
               :value="item.access.d"
               @input="changeDeleteAccessMode({ item, mode: $event })"
@@ -95,7 +95,7 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
-              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN }})"
+              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN } })"
             />
           </template>
         </wt-table>
@@ -116,6 +116,7 @@
 
 <script>
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import permissionsTabMixin from '../../../../../../../app/mixins/objectPagesMixins/permissionsTabMixin/permissionsTabMixin';
 import RoleColumn from '../../../../../../_shared/permissions-tab/components/_internals/permissions-role-column.vue';
 import RolePopup from './opened-object-permissions-rbac-role-popup.vue';
@@ -135,7 +136,8 @@ export default {
       namespace: `${namespace}/${subNamespace}`,
       hiddenText: true,
     });
-    return { dummy };
+    const { hasUpdateAccess } = useUserAccessControl();
+    return { dummy, hasUpdateAccess };
   },
   data: () => ({
     namespace,
@@ -145,5 +147,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

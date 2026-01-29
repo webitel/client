@@ -1,24 +1,37 @@
 <template>
   <wt-navigation-menu
     :nav="nav"
-    :icons="icons" />
+    :icons="icons"
+  />
 </template>
 
-<script>
-import navMixin from '../../../app/mixins/navMixin';
+<script
+  setup
+  lang="ts"
+>
+import { storeToRefs } from 'pinia';
 
-const icons = ['adm-directory', 'adm-integrations', 'adm-lookups', 'adm-routing', 'adm-system', 'adm-permissions', 'adm-contact-center'];
+import { useNavStore } from '../stores/navStore';
 
-export default {
-  name: 'TheStartPage',
-  mixins: [navMixin],
-  data() {
-    return {
-      icons,
-    };
-  },
-}
+const navStore = useNavStore();
+
+// Initialize nav, if not initialized yet
+navStore.initializeNav();
+
+const { nav } = storeToRefs(navStore);
+
+const icons = [
+  'adm-directory',
+  'adm-integrations',
+  'adm-lookups',
+  'adm-routing',
+  'adm-system',
+  'adm-permissions',
+  'adm-contact-center',
+];
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

@@ -64,10 +64,10 @@ export default {
 
   setup: () => {
     const v$ = useVuelidate();
-    const { hasEditAccess } = useUserAccessControl();
+    const { hasUpdateAccess } = useUserAccessControl();
     return {
       v$,
-      hasEditAccess,
+      hasUpdateAccess,
     };
   },
   data: () => ({
@@ -127,7 +127,7 @@ export default {
       ];
     },
     hasSaveActionAccess() {
-      return this.hasEditAccess;
+      return this.hasUpdateAccess;
     },
     saveOptions() {
       const saveAsNew = {

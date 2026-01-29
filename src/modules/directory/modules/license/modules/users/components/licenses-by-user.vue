@@ -61,7 +61,7 @@
           <wt-checkbox
             :key="key"
             :selected="item.license[license.value]"
-            :disabled="!hasEditAccess"
+            :disabled="!hasUpdateAccess"
             @update:selected="toggleUserLicense({ user: item, license })"
           />
         </template>
@@ -95,14 +95,14 @@ export default {
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace });
-    const { hasEditAccess } = useUserAccessControl({
+    const { hasUpdateAccess } = useUserAccessControl({
       route: {
         name: `${RouteNames.USERS}-edit`,
       },
     });
     return {
       dummy,
-      hasEditAccess,
+      hasUpdateAccess,
     };
   },
   data: () => ({

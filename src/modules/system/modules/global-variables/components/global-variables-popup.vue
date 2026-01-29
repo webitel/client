@@ -75,10 +75,10 @@ export default {
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
     const v$ = useVuelidate({ $stopPropagation: true });
-    const { hasEditAccess, hasCreateAccess } = useUserAccessControl();
+    const { hasUpdateAccess, hasCreateAccess } = useUserAccessControl();
     return {
       v$,
-      hasEditAccess,
+      hasUpdateAccess,
       hasCreateAccess,
     };
   },
@@ -100,8 +100,8 @@ export default {
       return this.$route.params.id;
     },
     disableUserInput() {
-      // Computed from setup() hasEditAccess/hasCreateAccess based on whether it's a new item
-      if (this.id) return !this.hasEditAccess;
+      // Computed from setup() hasUpdateAccess/hasCreateAccess based on whether it's a new item
+      if (this.id) return !this.hasUpdateAccess;
       return !this.hasCreateAccess;
     },
   },

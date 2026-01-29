@@ -50,7 +50,10 @@ import { helpers, required, requiredIf } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
+import { WtObject } from '@webitel/ui-sdk/src/enums';
 
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
@@ -62,6 +65,7 @@ import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
+import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 
 const namespace = 'directory/users';
 
@@ -114,16 +118,26 @@ export default {
       { $autoDirty: true },
     );
 
-    const pageUserAccessControl = useUserAccessControl();
+    const { 
+      hasCreateAccess, 
+      hasUpdateAccess, 
+      hasSaveActionAccess, 
+      disableUserInput 
+    } = useUserAccessControl();
+
+    const { hasReadAccess: hasUserTokensReadAccess } = useHasUserTokensAccess();
+    const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(WtObject.ChangeLog);
+
 
     return {
       v$,
 
-      hasCreateAccess: pageUserAccessControl.hasCreateAccess,
-      hasUpdateAccess: pageUserAccessControl.hasUpdateAccess,
-
-      hasSaveActionAccess: pageUserAccessControl.hasSaveActionAccess,
-      disableUserInput: pageUserAccessControl.disableUserInput,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasSaveActionAccess,
+      disableUserInput,
+      hasUserTokensReadAccess,
+      hasLogsReadAccess,
     };
   },
   data: () => ({
@@ -195,7 +209,9 @@ export default {
 
       const tabs = [general, roles, license, devices, variables];
 
-      if (this.id) tabs.push(tokens, logs, this.permissionsTab);
+      if (this.id && this.hasUserTokensReadAccess) tabs.push(tokens);
+      if (this.id && this.hasLogsReadAccess) tabs.push(logs);
+      if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
   },
