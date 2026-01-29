@@ -76,6 +76,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '/src/app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
 
 import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
@@ -103,6 +104,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -111,6 +114,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasEditAccess,
+      hasDeleteAccess,
     };
   },
 

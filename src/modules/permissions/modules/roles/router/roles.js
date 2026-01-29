@@ -1,4 +1,5 @@
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import RolesRouteNames from './_internals/RolesRouteNames.enum.js';
 
@@ -16,24 +17,30 @@ const RolesRoutes = [
     path: '/permissions/roles',
     name: RouteNames.ROLES,
     component: PermissionsRoles,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Role,
+      UiSection: AdminSections.Roles,
+    },
   },
   {
     path: '/permissions/roles/:id',
     name: `${RouteNames.ROLES}-card`,
     redirect: { name: RolesRouteNames.GENERAL },
     component: OpenedPermissionsRoles,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Role,
+      UiSection: AdminSections.Roles,
+    },
     children: [
       {
         path: 'general',
         name: RolesRouteNames.GENERAL,
         component: General,
-      },{
+      }, {
         path: 'applications-access/:applicationName?',
         name: RolesRouteNames.APPLICATIONS_ACCESS,
         component: ApplicationsAccess,
-      },{
+      }, {
         path: 'role-permissions/:permissionIndex?',
         name: RolesRouteNames.ROLE_PERMISSIONS,
         component: Permissions,

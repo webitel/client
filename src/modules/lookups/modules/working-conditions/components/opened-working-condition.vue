@@ -37,8 +37,9 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxLength, maxValue,minValue, required } from '@vuelidate/validators';
+import { maxLength, maxValue, minValue, required } from '@vuelidate/validators';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import WorkingConditionsRouteNames from '../router/_internals/WorkingConditionsRouteNames.enum.js';
@@ -49,9 +50,14 @@ export default {
   components: { General },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasSaveActionAccess,
+    };
+  },
   data: () => ({
     namespace: 'lookups/workingConditions',
     routeName: RouteNames.WORKING_CONDITIONS,
@@ -103,6 +109,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -143,7 +143,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
 import GlobalStateSwitcher from '../../../../../../../app/components/global-state-switcher.vue';
-import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin.js';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import GlobalStateConfirmationPopup
@@ -162,7 +162,7 @@ export default {
     ChangeSkillPopup,
     DeleteConfirmationPopup,
   },
-  mixins: [openedObjectTableTabMixin, accessControlMixin, addSkillToAgentPopupMixin],
+  mixins: [openedObjectTableTabMixin, addSkillToAgentPopupMixin],
   setup() {
     const {
       isVisible: isDeleteConfirmationPopup,
@@ -173,6 +173,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasDeleteAccess } = useUserAccessControl();
+
     return {
       isDeleteConfirmationPopup,
       deleteCount,
@@ -180,6 +182,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasDeleteAccess,
     };
   },
 

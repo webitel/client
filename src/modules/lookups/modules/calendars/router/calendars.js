@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import CalendarRouteNames from "./_internals/CalendarRouteNames.enum.js";
 
@@ -16,32 +17,38 @@ const CalendarsRoutes = [
     path: '/lookups/calendars',
     name: RouteNames.CALENDARS,
     component: Calendars,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Calendar,
+      UiSection: AdminSections.Calendars,
+    },
   },
   {
     path: '/lookups/calendars/:id',
     name: `${RouteNames.CALENDARS}-card`,
-    redirect: {name: CalendarRouteNames.GENERAL},
+    redirect: { name: CalendarRouteNames.GENERAL },
     component: OpenedCalendar,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Calendar,
+      UiSection: AdminSections.Calendars,
+    },
     children: [
       {
         path: 'general',
         name: CalendarRouteNames.GENERAL,
         component: OpenedCalendarGeneral,
-      },{
+      }, {
         path: 'working-week',
         name: CalendarRouteNames.WORKING_WEEK,
         component: OpenedCalendarWorkingWeek,
-      },{
+      }, {
         path: 'holidays/:holidayIndex?',
         name: CalendarRouteNames.HOLIDAYS,
         component: OpenedCalendarHolidays,
-      },{
+      }, {
         path: 'special-time',
         name: CalendarRouteNames.SPECIAL_TIME,
         component: OpenedCalendarSpecialTime,
-      },{
+      }, {
         path: 'permissions/:permissionId?',
         name: CalendarRouteNames.PERMISSIONS,
         component: PermissionsTab,

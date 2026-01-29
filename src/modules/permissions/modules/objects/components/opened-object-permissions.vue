@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import Obac from '../modules/obac/components/opened-object-permissions-obac.vue';
@@ -43,6 +44,12 @@ export default {
   name: 'OpenedObjectPermissions',
   components: { Obac, Rbac },
   mixins: [openedObjectMixin],
+  setup: () => {
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      hasSaveActionAccess,
+    };
+  },
   data: () => ({
     namespace: 'permissions/objects',
     routeName: RouteNames.OBJECTS,
@@ -101,6 +108,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

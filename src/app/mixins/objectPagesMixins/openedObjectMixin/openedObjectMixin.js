@@ -5,16 +5,16 @@ import { ErrorRedirectMap } from '../../../../modules/error-pages/enems/ErrorRed
 import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import breadcrumbMixin from '../../baseMixins/breadcrumbMixin/breadcrumbMixin';
-import openedObjectAccessControlMixin from './_internals/openedObjectAccessControlMixin';
 
 /**
  * @fileOverview contains openedObject (wrapper with tabs, like opened-agent.vue) common logic
  * @param {string} this.namespace - should be declared in data()
  *      and contain a string name for storeModule like 'ccenter/agents/skills'
  * @extends baseObjectMixin
+ * @note Access control is now handled via useUserAccessControl composable in component setup()
  */
 export default {
-  mixins: [openedObjectAccessControlMixin, breadcrumbMixin, baseObjectMixin],
+  mixins: [breadcrumbMixin, baseObjectMixin],
   components: {
     Permissions,
   },

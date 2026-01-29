@@ -39,7 +39,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -108,6 +108,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -125,6 +126,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       isDeleteConfirmationPopup,
       deleteCount,
@@ -132,6 +135,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasEditAccess,
+      hasDeleteAccess,
     };
   },
   data: () => ({
@@ -155,6 +161,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

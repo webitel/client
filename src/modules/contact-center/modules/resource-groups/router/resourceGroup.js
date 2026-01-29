@@ -1,4 +1,5 @@
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js'
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import OpenedResourceGroup from '../components/opened-resource-group.vue';
 import ResourceGroups from '../components/the-resource-groups.vue';
@@ -14,28 +15,34 @@ const ResourceGroupRoutes = [
     path: '/contact-center/resource-groups',
     name: RouteNames.RESOURCE_GROUPS,
     component: ResourceGroups,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ResourceGroup,
+      UiSection: AdminSections.ResourceGroups,
+    },
   },
   {
     path: '/contact-center/resource-groups/:id',
     name: `${RouteNames.RESOURCE_GROUPS}-card`,
     redirect: { name: ResourcesGroupsRouteNames.GENERAL },
     component: OpenedResourceGroup,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ResourceGroup,
+      UiSection: AdminSections.ResourceGroups,
+    },
     children: [
       {
         path: 'general',
         name: ResourcesGroupsRouteNames.GENERAL,
         component: General,
-      },{
+      }, {
         path: 'resources/:resourceId?',
         name: ResourcesGroupsRouteNames.RESOURCES,
         component: Resources,
-      },{
+      }, {
         path: 'time-range',
         name: ResourcesGroupsRouteNames.TIME_RANGE,
         component: Timerange,
-      },{
+      }, {
         path: 'permissions/:permissionId?',
         name: ResourcesGroupsRouteNames.PERMISSIONS,
         component: PermissionsTab,

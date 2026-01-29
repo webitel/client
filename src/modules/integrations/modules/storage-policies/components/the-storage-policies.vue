@@ -184,6 +184,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy.js';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -208,6 +209,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -216,6 +219,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasEditAccess,
+      hasDeleteAccess,
     };
   },
   data: () => ({

@@ -1,21 +1,43 @@
 <template>
   <wt-page-wrapper :actions-panel="!!currentTab?.filters">
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="close">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <component :is="currentTab.filters" :namespace="currentTab.filtersNamespace" />
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      />
     </template>
 
     <template #main>
-      <form class="main-container" @submit.prevent="save">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
-        <input hidden type="submit" />
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        />
         <!--  submit form on Enter  -->
       </form>
     </template>
@@ -28,6 +50,7 @@ import { minValue, numeric, required, requiredIf } from '@vuelidate/validators';
 import { isValidCron } from 'cron-validator';
 import { EngineTriggerType } from 'webitel-sdk';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Logs from '../modules/logs/components/opened-trigger-logs.vue';
@@ -51,9 +74,14 @@ export default {
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasSaveActionAccess,
+    };
+  },
   data: () => ({
     namespace: 'integrations/triggers',
     routeName: RouteNames.TRIGGERS,

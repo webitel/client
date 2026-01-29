@@ -1,4 +1,5 @@
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import OpenedTeam from '../components/opened-team.vue';
 import Teams from '../components/the-teams.vue';
@@ -16,39 +17,45 @@ const TeamsRoutes = [
     path: '/contact-center/teams',
     name: RouteNames.TEAMS,
     component: Teams,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Team,
+      UiSection: AdminSections.Teams,
+    },
   },
   {
     path: '/contact-center/teams/:id',
     name: `${RouteNames.TEAMS}-card`,
     component: OpenedTeam,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Team,
+      UiSection: AdminSections.Teams,
+    },
     children: [
       {
         path: 'general',
         name: TeamsRouteNames.GENERAL,
         component: OpenedTeamGeneral,
-      },{
+      }, {
         path: 'parameters',
         name: TeamsRouteNames.PARAMETERS,
         component: OpenedTeamParameters,
-      },{
+      }, {
         path: 'supervisors/:supervisorId?',
         name: TeamsRouteNames.SUPERVISORS,
         component: OpenedTeamSupervisors,
-      },{
+      }, {
         path: 'agents/:agentId?',
         name: TeamsRouteNames.AGENTS,
         component: OpenedTeamAgents,
-      },{
+      }, {
         path: 'hooks/:hookId?',
         name: TeamsRouteNames.HOOKS,
         component: OpenedTeamHooks,
-      },{
+      }, {
         path: 'flow-schemas/:flowId?',
         name: TeamsRouteNames.FLOWS,
         component: OpenedTeamFlows,
-      },{
+      }, {
         path: 'permissions/:permissionId?',
         name: TeamsRouteNames.PERMISSIONS,
         component: PermissionsTab,

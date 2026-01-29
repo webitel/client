@@ -101,6 +101,7 @@
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -115,7 +116,13 @@ export default {
       namespace,
       hiddenText: true,
     });
-    return { dummy };
+    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+    return {
+      dummy,
+      hasCreateAccess,
+      hasEditAccess,
+      hasDeleteAccess,
+    };
   },
   data: () => ({
     namespace,
@@ -178,5 +185,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

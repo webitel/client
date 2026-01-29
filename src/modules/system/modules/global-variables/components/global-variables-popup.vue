@@ -8,8 +8,8 @@
   >
     <template #title>
       {{ id
-      ? $t('objects.system.globalVariables.editTitle')
-      : $t('objects.system.globalVariables.newTitle') }}
+        ? $t('objects.system.globalVariables.editTitle')
+        : $t('objects.system.globalVariables.newTitle') }}
     </template>
     <template #main>
       <wt-input-text
@@ -56,7 +56,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
+import { computed } from 'vue';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -69,11 +71,17 @@ export default {
       required: true,
     },
   },
-  setup: () => ({
+  setup() {
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({$stopPropagation: true}),
-  }),
+    const v$ = useVuelidate({ $stopPropagation: true });
+    const { hasEditAccess, hasCreateAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasEditAccess,
+      hasCreateAccess,
+    };
+  },
   data: () => ({
     startEncryptValue: false,
   }),
@@ -90,6 +98,11 @@ export default {
   computed: {
     variableId() {
       return this.$route.params.id;
+    },
+    disableUserInput() {
+      // Computed from setup() hasEditAccess/hasCreateAccess based on whether it's a new item
+      if (this.id) return !this.hasEditAccess;
+      return !this.hasCreateAccess;
     },
   },
   watch: {
@@ -131,7 +144,7 @@ export default {
     close() {
       this.$emit('close');
     },
-    loadPageData(){},
+    loadPageData() { },
   },
 };
 </script>

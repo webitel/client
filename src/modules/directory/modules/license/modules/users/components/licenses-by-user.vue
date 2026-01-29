@@ -84,6 +84,7 @@
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
@@ -94,7 +95,15 @@ export default {
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace });
-    return { dummy };
+    const { hasEditAccess } = useUserAccessControl({
+      route: {
+        name: `${RouteNames.USERS}-edit`,
+      },
+    });
+    return {
+      dummy,
+      hasEditAccess,
+    };
   },
   data: () => ({
     staticHeaders: ['name'],
@@ -103,13 +112,6 @@ export default {
   computed: {
     licenseHeaders() {
       return this.headers.slice(1); // except 1st column "name"
-    },
-    hasEditAccess() {
-      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({
-        route: {
-          name: `${RouteNames.USERS}-edit`,
-        },
-      });
     },
   },
   methods: {

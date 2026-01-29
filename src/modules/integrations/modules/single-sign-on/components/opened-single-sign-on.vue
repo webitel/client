@@ -39,6 +39,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import General from './opened-single-sign-on-general.vue';
 
@@ -47,9 +48,14 @@ export default {
   components: { General },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasSaveActionAccess,
+    };
+  },
   data: () => ({
     namespace: 'integrations/singleSignOn',
   }),
@@ -94,6 +100,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

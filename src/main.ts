@@ -20,7 +20,7 @@ import BreakpointPlugin from './app/plugins/breakpoint';
 import { webitelUiOptions, webitelUiPlugin } from './app/plugins/webitel-ui';
 import router from './app/router/router';
 import store, { pinia } from './app/store/store';
-import { useUserinfoStore } from './modules/userinfo/userinfoStore';
+import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 import App from './the-app.vue';
 
 import './app/css/main.scss';

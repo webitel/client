@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import WorkingConditionsRouteNamesEnum
   from './_internals/WorkingConditionsRouteNames.enum.js';
@@ -14,14 +15,20 @@ const WorkingConditionsRoutes = [
     path: '/lookups/working-conditions',
     name: RouteNames.WORKING_CONDITIONS,
     component: WorkingConditions,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.WorkingCondition,
+      UiSection: AdminSections.WorkingConditions,
+    },
   },
   {
     path: '/lookups/working-conditions/:id',
     name: `${RouteNames.WORKING_CONDITIONS}-card`,
-    redirect: {name: WorkingConditionsRouteNamesEnum.GENERAL},
+    redirect: { name: WorkingConditionsRouteNamesEnum.GENERAL },
     component: OpenedWorkingCondition,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.WorkingCondition,
+      UiSection: AdminSections.WorkingConditions,
+    },
     children: [
       {
         path: 'general',

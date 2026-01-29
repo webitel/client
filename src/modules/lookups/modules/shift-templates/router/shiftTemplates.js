@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import ShiftTemplatesRouteNames
   from './_internals/ShiftTemplatesRouteNames.enum.js';
@@ -15,14 +16,20 @@ const ShiftTemplatesRoutes = [
     path: '/lookups/shift-templates',
     name: RouteNames.SHIFT_TEMPLATES,
     component: ShiftTemplates,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ShiftTemplate,
+      UiSection: AdminSections.ShiftTemplates,
+    },
   },
   {
     path: '/lookups/shift-templates/:id',
     name: `${RouteNames.SHIFT_TEMPLATES}-card`,
-    redirect: {name: ShiftTemplatesRouteNames.GENERAL},
+    redirect: { name: ShiftTemplatesRouteNames.GENERAL },
     component: OpenedShiftTemplate,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ShiftTemplate,
+      UiSection: AdminSections.ShiftTemplates,
+    },
     children: [
       {
         path: 'general',

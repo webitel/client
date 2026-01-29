@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import BucketsRouteNamesEnum from "./_internals/BucketsRouteNames.enum.js";
 
@@ -13,14 +14,20 @@ const BucketsRoutes = [
     path: '/lookups/buckets',
     name: RouteNames.BUCKETS,
     component: Buckets,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Bucket,
+      UiSection: AdminSections.Buckets,
+    },
   },
   {
     path: '/lookups/buckets/:id',
     name: `${RouteNames.BUCKETS}-card`,
-    redirect: {name: BucketsRouteNamesEnum.GENERAL},
+    redirect: { name: BucketsRouteNamesEnum.GENERAL },
     component: OpenedBucket,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Bucket,
+      UiSection: AdminSections.Buckets,
+    },
     children: [
       {
         path: 'general',

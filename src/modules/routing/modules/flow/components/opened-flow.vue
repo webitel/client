@@ -1,23 +1,57 @@
 <template>
-  <diagram v-if="isDiagram" :namespace="namespace" @close="close" @save="saveDiagram" />
-  <wt-page-wrapper v-else :actions-panel="false">
+  <diagram
+    v-if="isDiagram"
+    :namespace="namespace"
+    @close="close"
+    @save="saveDiagram"
+  />
+  <wt-page-wrapper
+    v-else
+    :actions-panel="false"
+  >
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="saveCode" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="handleConfirmationUnsavedChangesPopup">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="saveCode"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="handleConfirmationUnsavedChangesPopup"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
-      <confirmation-unsaved-changes-popup v-if="isConfirmationUnsavedChangesPopup" :name="itemInstance.name"
-        @close-page="closePage" @close-popup="toggleIsConfirmationUnsavedChangesPopup"
-        @save="saveCode"></confirmation-unsaved-changes-popup>
+      <confirmation-unsaved-changes-popup
+        v-if="isConfirmationUnsavedChangesPopup"
+        :name="itemInstance.name"
+        @close-page="closePage"
+        @close-popup="toggleIsConfirmationUnsavedChangesPopup"
+        @save="saveCode"
+      ></confirmation-unsaved-changes-popup>
     </template>
 
     <template #main>
-      <wt-save-failed-popup v-if="isSaveFailedPopup" @download="download" @save="saveCode"
-        @close-popup="hideSaveFailedPopup" />
-      <form class="main-container" @submit.prevent="saveCode">
-        <wt-tabs :current="currentTab" :tabs="tabs" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+      <wt-save-failed-popup
+        v-if="isSaveFailedPopup"
+        @download="download"
+        @save="saveCode"
+        @close-popup="hideSaveFailedPopup"
+      />
+      <form
+        class="main-container"
+        @submit.prevent="saveCode"
+      >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+        />
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -33,6 +67,7 @@ import { computed } from 'vue';
 import { mapActions, useStore } from 'vuex';
 
 import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import JsonSchema from '../modules/code/components/opened-flow-code.vue';
@@ -64,6 +99,8 @@ export default {
       toggleIsConfirmationUnsavedChangesPopup,
     } = useCheckingUnsavedChanges(itemInstance);
 
+    const { hasSaveActionAccess } = useUserAccessControl();
+
     return {
       v$,
       isConfirmationUnsavedChangesPopup,
@@ -71,6 +108,7 @@ export default {
       addCheckingUnsavedChanges,
       removeCheckingUnsavedChanges,
       toggleIsConfirmationUnsavedChangesPopup,
+      hasSaveActionAccess,
     };
   },
   data: () => ({
@@ -179,4 +217,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

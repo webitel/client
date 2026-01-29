@@ -39,7 +39,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -76,7 +76,8 @@
             <template #name="{ item }">
               <adm-item-link
                 :id="item.id"
-                :route-name="routeName">
+                :route-name="routeName"
+              >
                 {{ item.name }}
               </adm-item-link>
             </template>
@@ -97,7 +98,7 @@
               <wt-switcher
                 :disabled="!hasEditAccess"
                 :model-value="!item.disabled"
-                @update:model-value="patchProperty({index, prop: 'disabled', value: !$event})"
+                @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
               />
             </template>
             <template #actions="{ item }">
@@ -138,6 +139,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -161,6 +163,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -169,6 +173,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasEditAccess,
+      hasDeleteAccess,
     };
   },
   data: () => ({
@@ -216,7 +223,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .dialplan {
   :deep(.sortable-chosen) {
     .dialplan__draggable-icon .wt-icon {
@@ -242,4 +252,3 @@ export default {
   }
 }
 </style>
-

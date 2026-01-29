@@ -80,6 +80,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../mixins/agentStatusMixin';
@@ -107,6 +108,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasEditAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -115,6 +118,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasEditAccess,
+      hasDeleteAccess,
     };
   },
 

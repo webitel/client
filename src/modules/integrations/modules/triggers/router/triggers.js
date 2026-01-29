@@ -1,4 +1,5 @@
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import TriggersRouteNames from './_internals/TriggersRouteNames.enum.js';
 
@@ -15,24 +16,30 @@ const TriggersRoutes = [
     path: '/integrations/triggers',
     name: RouteNames.TRIGGERS,
     component: Triggers,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Trigger,
+      UiSection: AdminSections.Triggers,
+    },
   },
   {
     path: '/integrations/triggers/:id',
     name: `${RouteNames.TRIGGERS}-card`,
-    redirect: {name: TriggersRouteNames.GENERAL},
+    redirect: { name: TriggersRouteNames.GENERAL },
     component: OpenedTrigger,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Trigger,
+      UiSection: AdminSections.Triggers,
+    },
     children: [
       {
         path: 'general',
         name: TriggersRouteNames.GENERAL,
         component: General,
-      },{
+      }, {
         path: 'variables',
         name: TriggersRouteNames.VARIABLES,
         component: Variables,
-      },{
+      }, {
         path: 'running-history',
         name: TriggersRouteNames.RUNNING_HISTORY,
         component: Logs,
