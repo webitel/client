@@ -40,11 +40,13 @@ const path = computed(() => [
 const tabs = computed(() => [
   {
     text: t('objects.general'),
+    value: 'general',
     component: GeneralSettings,
     pathName: SettingsRouteNames.GENERAL,
   },
   {
     text: t('vocabulary.notification', 2),
+    value: 'notifications',
     component: NotificationSettings,
     pathName: SettingsRouteNames.NOTIFICATIONS,
   },

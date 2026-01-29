@@ -3,7 +3,7 @@
     <template #title>
       {{ t('vocabulary.notification') }}
     </template>
-    <template>
+    <template v-if="isLoaded">
         <notifications-sound-state
           v-for="(type) of Object.values(NotificationType)"
           :key="type"
@@ -27,12 +27,19 @@ import { onMounted, ref } from "vue";
 const { t } = useI18n();
 
 const settingsList = ref({})
+const isLoaded = ref(false)
 
-onMounted(async () => {
-  settingsList.value = await UserSettingsAPI.get({
-    key: 'notification',
-  })
-})
+const loadNotifications = async () => {
+  try {
+    settingsList.value = await UserSettingsAPI.get({
+      key: 'notification',
+    })
+  } finally {
+    isLoaded.value = true
+  }
+}
+
+onMounted(loadNotifications)
 
 const updateNotifications = async (type, value) => {
   settingsList.value[type] = value
