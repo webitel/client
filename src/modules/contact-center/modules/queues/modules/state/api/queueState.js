@@ -1,7 +1,7 @@
 import {
-  getQueuesGlobalStateQueryParams,
+  GetQueuesGlobalStateQueryParams,
   getQueueService,
-  setQueuesGlobalStateBody,
+  SetQueuesGlobalStateBody,
 } from '@webitel/api-services/gen';
 import { getShallowFieldsToSendFromZodSchema } from '@webitel/api-services/gen/utils';
 import applyTransform, {
@@ -14,7 +14,7 @@ import applyTransform, {
 
 const getQueuesGlobalState = async (params = {}) => {
   const fieldsToSend = getShallowFieldsToSendFromZodSchema(
-    getQueuesGlobalStateQueryParams,
+    GetQueuesGlobalStateQueryParams,
   );
 
   const transformedParams = applyTransform(params, [
@@ -39,7 +39,7 @@ const getQueuesGlobalState = async (params = {}) => {
 
 const setQueuesGlobalState = async ({ enabled, params }) => {
   const fieldsToSend = getShallowFieldsToSendFromZodSchema(
-    setQueuesGlobalStateBody,
+    SetQueuesGlobalStateBody,
   );
 
   const transformedParams = applyTransform(params, [
