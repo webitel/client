@@ -2,7 +2,7 @@
   <wt-popup v-bind="$attrs" :shown="!!editedApp" size="sm" @close="close">
     <template #title>
       {{ $t('objects.permissions.roles.applicationsAccess.applicationsAccess', 1) }}:
-      {{ $t(`WebitelApplications.${editedApp}.name`) }}
+      {{ $t(`WtApplication.${editedApp}.name`) }}
     </template>
     <template #main>
       <form>

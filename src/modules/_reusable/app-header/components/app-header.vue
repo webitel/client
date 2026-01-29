@@ -27,7 +27,7 @@
 
 <script>
 import { WtAppHeader, WtAppNavigator, WtHeaderActions,WtLogo, WtNavigationBar } from '@webitel/ui-sdk/components';
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import { WtApplication } from '@webitel/ui-sdk/enums';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
@@ -69,31 +69,31 @@ export default {
     },
     apps() {
       const agent = {
-        name: WebitelApplications.AGENT,
+        name: WtApplication.Agent,
         href: import.meta.env.VITE_AGENT_URL,
       };
       const supervisor = {
-        name: WebitelApplications.SUPERVISOR,
+        name: WtApplication.Supervisor,
         href: import.meta.env.VITE_SUPERVISOR_URL,
       };
       const history = {
-        name: WebitelApplications.HISTORY,
+        name: WtApplication.History,
         href: import.meta.env.VITE_HISTORY_URL,
       };
       const audit = {
-        name: WebitelApplications.AUDIT,
+        name: WtApplication.Audit,
         href: import.meta.env.VITE_AUDIT_URL,
       };
       const admin = {
-        name: WebitelApplications.ADMIN,
+        name: WtApplication.Admin,
         href: import.meta.env.VITE_ADMIN_URL,
       };
       const grafana = {
-        name: WebitelApplications.ANALYTICS,
+        name: WtApplication.Analytics,
         href: import.meta.env.VITE_GRAFANA_URL,
       };
       const crm = {
-        name: WebitelApplications.CRM,
+        name: WtApplication.Crm,
         href: import.meta.env.VITE_CRM_URL,
       };
       const apps = [admin, supervisor, agent, history, audit, crm];

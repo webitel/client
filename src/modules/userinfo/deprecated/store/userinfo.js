@@ -1,4 +1,4 @@
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum.js';
+import { WtApplication } from '@webitel/ui-sdk/enums';
 import UserinfoStoreModule from '@webitel/ui-sdk/src/modules/Userinfo/store/UserinfoStoreModule.js';
 
 import NavigationPages from '../../../../app/router/_internals/NavigationPages.lookup.js';
@@ -6,7 +6,7 @@ import RouteNames from '../../../../app/router/_internals/RouteNames.enum';
 import convertScope from './_internals/scripts/convertScope.js';
 
 const state = {
-  thisApp: WebitelApplications.ADMIN,
+  thisApp: WtApplication.Admin,
 };
 
 const getters = {

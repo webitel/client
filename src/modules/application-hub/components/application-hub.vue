@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import WebitelApplications from '@webitel/ui-sdk/src/enums/WebitelApplications/WebitelApplications.enum';
+import { WtApplication } from '@webitel/ui-sdk/enums';
 import { mapGetters } from 'vuex';
 
 import CcHeader from '../../_reusable/app-header/components/app-header.vue';
@@ -114,54 +114,54 @@ export default {
     }),
     apps() {
       const agentApp = {
-        name: WebitelApplications.AGENT,
-        title: this.$t(`WebitelApplications.${WebitelApplications.AGENT}.name`),
+        name: WtApplication.Agent,
+        title: this.$t(`WtApplication.${WtApplication.Agent}.name`),
         href: import.meta.env.VITE_AGENT_URL,
         pic: picAgent,
       };
       const supervisorApp = {
-        name: WebitelApplications.SUPERVISOR,
+        name: WtApplication.Supervisor,
         title: this.$t(
-          `WebitelApplications.${WebitelApplications.SUPERVISOR}.name`,
+          `WtApplication.${WtApplication.Supervisor}.name`,
         ),
         href: import.meta.env.VITE_SUPERVISOR_URL,
         pic: picSupervisor,
       };
       const historyApp = {
-        name: WebitelApplications.HISTORY,
+        name: WtApplication.History,
         title: this.$t(
-          `WebitelApplications.${WebitelApplications.HISTORY}.name`,
+          `WtApplication.${WtApplication.History}.name`,
         ),
         href: import.meta.env.VITE_HISTORY_URL,
         pic: picHistory,
       };
 
       const auditApp = {
-        name: WebitelApplications.AUDIT,
-        title: this.$t(`WebitelApplications.${WebitelApplications.AUDIT}.name`),
+        name: WtApplication.Audit,
+        title: this.$t(`WtApplication.${WtApplication.Audit}.name`),
         href: import.meta.env.VITE_AUDIT_URL,
         pic: picAudit,
       };
 
       const adminApp = {
-        name: WebitelApplications.ADMIN,
-        title: this.$t(`WebitelApplications.${WebitelApplications.ADMIN}.name`),
+        name: WtApplication.Admin,
+        title: this.$t(`WtApplication.${WtApplication.Admin}.name`),
         href: import.meta.env.VITE_ADMIN_URL,
         pic: picAdmin,
       };
 
       const grafanaApp = {
-        name: WebitelApplications.ANALYTICS,
+        name: WtApplication.Analytics,
         title: this.$t(
-          `WebitelApplications.${WebitelApplications.ANALYTICS}.name`,
+          `WtApplication.${WtApplication.Analytics}.name`,
         ),
         href: import.meta.env.VITE_GRAFANA_URL,
         pic: picGrafana,
       };
 
       const crmApp = {
-        name: WebitelApplications.CRM,
-        title: this.$t(`WebitelApplications.${WebitelApplications.CRM}.name`),
+        name: WtApplication.Crm,
+        title: this.$t(`WtApplication.${WtApplication.Crm}.name`),
         href: import.meta.env.VITE_CRM_URL,
         pic: picCrm,
       };

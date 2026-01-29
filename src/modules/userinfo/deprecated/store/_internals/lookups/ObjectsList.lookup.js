@@ -1,144 +1,144 @@
 
-import AdminSections from '@webitel/ui-sdk/src/enums/WebitelApplications/AdminSections.enum.js';
+import { AdminSections } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
 
 export default Object.freeze([
   // DIRECTORY
-  { field: null, name: AdminSections.LICENSE, route: RouteNames.LICENSE }, // permissions: add
-  { field: 'users', name: AdminSections.USERS, route: RouteNames.USERS }, // scope: users
+  { field: null, name: AdminSections.License, route: RouteNames.LICENSE }, // permissions: add
+  { field: 'users', name: AdminSections.Users, route: RouteNames.USERS }, // scope: users
   {
     field: 'devices',
-    name: AdminSections.DEVICES,
+    name: AdminSections.Devices,
     route: RouteNames.DEVICES,
   }, // scope: devices
 
   // ROUTING
-  { field: 'flow', name: AdminSections.FLOW, route: RouteNames.FLOW }, // scope: flow
+  { field: 'flow', name: AdminSections.Flow, route: RouteNames.FLOW }, // scope: flow
   {
     field: 'acr_routing',
-    name: AdminSections.DIALPLAN,
+    name: AdminSections.Dialplan,
     route: RouteNames.DIALPLAN,
   }, // scope: acr_routing
   {
     field: 'gateways',
-    name: AdminSections.GATEWAYS,
+    name: AdminSections.Gateways,
     route: RouteNames.GATEWAYS,
   }, // scope: gateways
   {
     field: 'acr_chat_plan',
-    name: AdminSections.CHATPLAN,
+    name: AdminSections.Chatplan,
     route: RouteNames.CHATPLAN,
   }, // scope: acr_chat_plan
   {
     field: 'chats',
-    name: AdminSections.CHAT_GATEWAYS,
+    name: AdminSections.ChatGateways,
     route: RouteNames.CHAT_GATEWAYS,
   }, // scope: chats
 
   // LOOKUPS
   {
     field: 'dictionaries',
-    name: AdminSections.SKILLS,
+    name: AdminSections.Skills,
     route: RouteNames.SKILLS,
   }, // scope: dictionaries
   {
     field: 'cc_list',
-    name: AdminSections.BLACKLIST,
+    name: AdminSections.Blacklist,
     route: RouteNames.BLACKLIST,
   }, // scope: cc_list
   {
     field: 'calendars',
-    name: AdminSections.CALENDARS,
+    name: AdminSections.Calendars,
     route: RouteNames.CALENDARS,
   }, // scope: calendars
   {
     field: 'dictionaries',
-    name: AdminSections.REGIONS,
+    name: AdminSections.Regions,
     route: RouteNames.REGIONS,
   }, // scope: dictionaries
   {
     field: 'dictionaries',
-    name: AdminSections.BUCKETS,
+    name: AdminSections.Buckets,
     route: RouteNames.BUCKETS,
   },
   {
     field: 'dictionaries',
-    name: AdminSections.COMMUNICATIONS,
+    name: AdminSections.Communications,
     route: RouteNames.COMMUNICATIONS,
   }, // scope: dictionaries
   {
     field: 'dictionaries',
-    name: AdminSections.PAUSE_CAUSE,
+    name: AdminSections.PauseCause,
     route: RouteNames.PAUSE_CAUSE,
   }, // scope: dictionaries
-  { field: 'media_file', name: AdminSections.MEDIA, route: RouteNames.MEDIA }, // scope: media_file
+  { field: 'media_file', name: AdminSections.Media, route: RouteNames.MEDIA }, // scope: media_file
 
   // CONTACT CENTER
-  { field: 'cc_agent', name: AdminSections.AGENTS, route: RouteNames.AGENTS }, // scope: cc_agent
-  { field: 'cc_queue', name: AdminSections.QUEUES, route: RouteNames.QUEUES }, // scope: cc_queue
+  { field: 'cc_agent', name: AdminSections.Agents, route: RouteNames.AGENTS }, // scope: cc_agent
+  { field: 'cc_queue', name: AdminSections.Queues, route: RouteNames.QUEUES }, // scope: cc_queue
   {
     field: 'cc_queue',
-    name: AdminSections.MEMBERS,
+    name: AdminSections.Members,
     route: RouteNames.MEMBERS,
   }, // scope: cc_queue
   {
     field: 'cc_resource_group',
-    name: AdminSections.RESOURCE_GROUPS,
+    name: AdminSections.ResourceGroups,
     route: RouteNames.RESOURCE_GROUPS,
   }, // scope: cc_resource_group
   {
     field: 'cc_resource',
-    name: AdminSections.RESOURCES,
+    name: AdminSections.Resources,
     route: RouteNames.RESOURCES,
   }, // scope: cc_resource
-  { field: 'cc_team', name: AdminSections.TEAMS, route: RouteNames.TEAMS }, // scope: cc_team
+  { field: 'cc_team', name: AdminSections.Teams, route: RouteNames.TEAMS }, // scope: cc_team
 
   // INTEGRATIONS
   {
     field: 'storage_profile',
-    name: AdminSections.STORAGE,
+    name: AdminSections.Storage,
     route: RouteNames.STORAGE,
   }, // scope: storage_profile
   {
     field: 'cognitive_profile',
-    name: AdminSections.COGNITIVE_PROFILES,
+    name: AdminSections.CognitiveProfiles,
     route: RouteNames.COGNITIVE_PROFILES,
   }, // scope: cognitive_profile
   {
     field: 'email_profile',
-    name: AdminSections.EMAIL_PROFILES,
+    name: AdminSections.EmailProfiles,
     route: RouteNames.EMAIL_PROFILES,
   },
   {
     field: 'single_sign_on',
-    name: AdminSections.SINGLE_SIGN_ON,
+    name: AdminSections.SingleSignOn,
     route: RouteNames.SINGLE_SIGN_ON,
   },
   {
     field: 'import_template',
-    name: AdminSections.IMPORT_CSV,
+    name: AdminSections.ImportCsv,
     route: RouteNames.IMPORT_CSV,
   },
   {
     field: 'trigger',
-    name: AdminSections.TRIGGERS,
+    name: AdminSections.Triggers,
     route: RouteNames.TRIGGERS,
   },
   {
     field: 'schema',
-    name: AdminSections.FLOW,
+    name: AdminSections.Flow,
     route: RouteNames.FLOW,
   },
   {
     field: 'files_policy',
-    name: AdminSections.STORAGE_POLICIES,
+    name: AdminSections.StoragePolicies,
     route: RouteNames.STORAGE_POLICIES,
   },
 
   // PERMISSIONS
-  { field: null, name: AdminSections.OBJECTS, route: RouteNames.OBJECTS }, // permissions: add
-  { field: 'roles', name: AdminSections.ROLES, route: RouteNames.ROLES }, // scope: roles
+  { field: null, name: AdminSections.Objects, route: RouteNames.OBJECTS }, // permissions: add
+  { field: 'roles', name: AdminSections.Roles, route: RouteNames.ROLES }, // scope: roles
 
   // Not used in ui sections
   // it used for check if some entities have access to this object
