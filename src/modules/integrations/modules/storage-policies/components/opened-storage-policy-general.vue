@@ -43,16 +43,16 @@
           :value="itemInstance.mimeTypes" :v="v.itemInstance.mimeTypes" taggable required :options="MimeTypes"
           @input="setItemProp({ prop: 'mimeTypes', value: $event })" />
         <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.retentionDays')"
-          :min="0" :value="itemInstance.retentionDays"
+          :min="0" :model-value="itemInstance.retentionDays"
           @update:model-value="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })" />
         <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
           :min="0" :model-value="itemInstance.speedDownload"
           @update:model-value="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })" />
         <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
-          :min="0" :value="itemInstance.speedUpload"
+          :min="0" :model-value="itemInstance.speedUpload"
           @update:model-value="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })" />
         <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
-          :min="0" :value="itemInstance.maxUploadSize"
+          :min="0" :model-value="itemInstance.maxUploadSize"
           @update:model-value="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })" />
       </div>
     </div>
