@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import ChangePasswordSection from './settings-sections/change-password-section.vue';
 import LanguageSettingsSection from './settings-sections/language-settings-section.vue';
 import TimezoneSection from './settings-sections/timezone-setting-section.vue';
@@ -21,7 +22,7 @@ import LogoutSection from './settings-sections/logout-section.vue';
 import SettingsWrapperColumn from './_internals/settings-wrapper-column.vue';
 import { useUserAccessControl} from '../../../app/composables/useUserAccessControl';
 
-const { hasUpdateAccess, hasCreateAccess, hasDeleteAccess } = useUserAccessControl();
+const { hasUpdateAccess, hasCreateAccess, hasDeleteAccess } = useUserAccessControl(WtObject.User);
 
 const hasUserAccess = computed(() =>
   hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value);

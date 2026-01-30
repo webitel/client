@@ -102,7 +102,7 @@ export default {
   components: { UserPasswordInput, Qrcode, LogoutAction },
   mixins: [openedTabComponentMixin],
   setup: () => {
-    const { disableUserInput, hasCreateAccess, hasDeleteAccess, hasUpdateAccess } = useUserAccessControl();
+    const { disableUserInput, hasCreateAccess, hasDeleteAccess, hasUpdateAccess } = useUserAccessControl(WtObject.User);
 
     const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
       WtObject.Contact,
