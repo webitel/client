@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Czat',
       [RingtoneType.Task]: 'Zadanie',
     },
+    security: {
+      security: 'Bezpieczeństwo',
+      logoutTitle: 'Wyloguj tego użytkownika z innych urządzeń',
+    },
   },
 
   validation: {
@@ -255,6 +259,13 @@ export default {
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
+        logout: {
+          endAllSessions: 'Zakończ wszystkie sesje',
+          endAllMySessions: 'Zakończ wszystkie moje sesje',
+          endSessionConfirmation: 'Potwierdzenie zakończenia sesji',
+          endSessionConfirmationText: 'Czy na pewno chcesz zakończyć wszystkie sesje?',
+          tooltip: 'Użytkownik zostanie wylogowany ze wszystkich urządzeń',
+        }
       },
       license: {
         customers: 'Klienci',

@@ -89,9 +89,13 @@ export default {
     },
     ringtoneVolume: {
       title: 'Ovoz sozlamalari',
-      [RingtoneType.Call]: "Qo'ng'iroq",
+      [RingtoneType.Call]: 'Qo\'ng\'iroq',
       [RingtoneType.Chat]: 'Chat',
       [RingtoneType.Task]: 'Vazifa',
+    },
+    security: {
+      security: 'Xavfsizlik',
+      logoutTitle: 'Ushbu foydalanuvchini boshqa qurilmalardan chiqarish',
     },
   },
 
@@ -257,6 +261,13 @@ export default {
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
+        logout: {
+          endAllSessions: 'Barcha sessiyalarni yakunlash',
+          endAllMySessions: 'Mening barcha sessiyalarimni yakunlash',
+          endSessionConfirmation: 'Sessiyani yakunlashni tasdiqlash',
+          endSessionConfirmationText: 'Barcha sessiyalarni yakunlamoqchimisiz?',
+          tooltip: 'Foydalanuvchi barcha qurilmalardan chiqariladi',
+        }
       },
       license: {
         customers: 'Mijozlar',
