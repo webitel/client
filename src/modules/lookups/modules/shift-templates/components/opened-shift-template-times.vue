@@ -13,18 +13,18 @@
     <div class="table-section__table-wrapper">
       <wt-table :data="itemInstance.times" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
         <template #start="{ item, index }">
-          <wt-timepicker :disabled="disableUserInput" :value="minToSec(item.start)"
+          <wt-timepicker :disabled="disableUserInput" :model-value="minToSec(item.start)"
             :v="v.itemInstance.times.$each.$response.$data[index].start" format="hh:mm" no-label
-            @input="setStartTime({ index, value: secToMin($event) })" />
+            @update:model-value="setStartTime({ index, value: secToMin($event) })" />
         </template>
         <template #end="{ item, index }">
-          <wt-timepicker :disabled="disableUserInput" :value="minToSec(item.end)" format="hh:mm" no-label
+          <wt-timepicker :disabled="disableUserInput" :model-value="minToSec(item.end)" format="hh:mm" no-label
             :v="v.itemInstance.times.$each.$response.$data[index].end"
-            @input="setEndTime({ index, value: secToMin($event) })" />
+            @update:model-value="setEndTime({ index, value: secToMin($event) })" />
         </template>
         <template #duration="{ item, index }">
-          <wt-timepicker :value="minToSec(item.duration)" format="hh:mm" type="number" no-label
-            @input="setDuration({ index, value: secToMin($event) })" />
+          <wt-timepicker :model-value="minToSec(item.duration)" format="hh:mm" type="number" no-label
+            @update:model-value="setDuration({ index, value: secToMin($event) })" />
         </template>
         <template #actions="{ item, index }">
           <wt-icon-action action="delete" @click="removeTime(index)" />

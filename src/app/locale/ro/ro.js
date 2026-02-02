@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Chat',
       [RingtoneType.Task]: 'Sarcină',
     },
+    security: {
+      security: 'Securitate',
+      logoutTitle: 'Deconectați acest utilizator de pe alte dispozitive',
+    },
   },
 
   validation: {
@@ -257,6 +261,13 @@ export default {
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
+        logout: {
+          endAllSessions: 'Încheie toate sesiunile',
+          endAllMySessions: 'Încheie toate sesiunile mele',
+          endSessionConfirmation: 'Confirmare încheiere sesiuni',
+          endSessionConfirmationText: 'Sunteți sigur că doriți să încheiați toate sesiunile?',
+          tooltip: 'Utilizatorul va fi deconectat de pe toate dispozitivele',
+        }
       },
       license: {
         customers: 'Clienți',

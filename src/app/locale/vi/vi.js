@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Trò chuyện',
       [RingtoneType.Task]: 'Nhiệm vụ',
     },
+    security: {
+      security: 'Bảo mật',
+      logoutTitle: 'Đăng xuất người dùng này khỏi các thiết bị khác',
+    },
   },
 
   validation: {
@@ -257,6 +261,13 @@ export default {
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
         },
+        logout: {
+          endAllSessions: 'Kết thúc tất cả phiên',
+          endAllMySessions: 'Kết thúc tất cả phiên của tôi',
+          endSessionConfirmation: 'Xác nhận kết thúc phiên',
+          endSessionConfirmationText: 'Bạn có chắc muốn kết thúc tất cả các phiên không?',
+          tooltip: 'Người dùng sẽ bị đăng xuất khỏi tất cả các thiết bị',
+        }
       },
       license: {
         customers: 'Khách hàng',
