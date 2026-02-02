@@ -22,6 +22,7 @@
           :placeholder="$t('objects.team')"
           :search-method="TeamsAPI.getLookup"
           :value="filters.teams"
+          :disabled="!hasReadTeamAccess"
           multiple
           @input="handleTeamsSelect"
         />
@@ -90,12 +91,14 @@
 <script setup>
 import { SortSymbols, sortToQueryAdapter } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, onMounted,reactive, ref } from 'vue';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
 import TeamsAPI from '../../../../../../../contact-center/modules/teams/api/teams';
 import SkillsAPI from '../../../../api/agentSkills';
 import WtIntersectionObserver from '@webitel/ui-sdk/components/wt-intersection-observer/wt-intersection-observer.vue';
+import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 
 const props = defineProps({
   skillId: {
@@ -114,6 +117,8 @@ const getFilters = () => ({
   skills: [],
   sort: '',
 });
+
+const { hasReadAccess: hasReadTeamAccess } = useUserAccessControl(WtObject.Team);
 
 const filters = ref(getFilters());
 const headers = reactive([

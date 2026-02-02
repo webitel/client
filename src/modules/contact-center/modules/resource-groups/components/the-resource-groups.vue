@@ -38,7 +38,7 @@
               @input="tableActionsHandler"
             >
               <delete-all-action
-                v-if="hasDeleteAccess"
+                :disabled="!hasDeleteAccess"
                 :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({

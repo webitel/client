@@ -1,25 +1,51 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!resourceId" size="sm" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!resourceId"
+    size="sm"
+    overflow
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
       <form>
-        <wt-select :clearable="false" :label="$t('objects.ccenter.res.res', 1)" :search-method="loadDropdownOptionsList"
-          :v="v$.itemInstance.resource" :value="itemInstance.resource" required
-          @input="setItemProp({ prop: 'resource', value: $event })" />
-        <wt-input-number :label="$t('objects.ccenter.res.priority')" :model-value="itemInstance.priority"
-          @update:model-value="setItemProp({ prop: 'priority', value: +$event })" />
-        <wt-select :clearable="true" :label="$t('objects.ccenter.res.reserveResource', 1)"
-          :search-method="loadDropdownOptionsList" :v="v$.itemInstance.reserveResource"
-          :value="itemInstance.reserveResource" @input="setItemProp({ prop: 'reserveResource', value: $event })" />
+        <wt-select
+          :clearable="false"
+          :label="$t('objects.ccenter.res.res', 1)"
+          :search-method="loadDropdownOptionsList"
+          :v="v$.itemInstance.resource"
+          :value="itemInstance.resource"
+          required
+          @input="setItemProp({ prop: 'resource', value: $event })"
+        />
+        <wt-input-number
+          :label="$t('objects.ccenter.res.priority')"
+          :model-value="itemInstance.priority"
+          @update:model-value="setItemProp({ prop: 'priority', value: +$event })"
+        />
+        <wt-select
+          :clearable="true"
+          :label="$t('objects.ccenter.res.reserveResource', 1)"
+          :search-method="loadDropdownOptionsList"
+          :v="v$.itemInstance.reserveResource"
+          :value="itemInstance.reserveResource"
+          @input="setItemProp({ prop: 'reserveResource', value: $event })"
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
+      <wt-button
+        :disabled="disabledSave"
+        @click="save"
+      >
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>

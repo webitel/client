@@ -10,7 +10,7 @@
       >
         <template #actions>
           <wt-button
-            :disabled="!selectedRows.length"
+            :disabled="!selectedRows.length || !hasSkillAssignToAgentAccess"
             color="secondary"
             @click="openAddSkillToAgentPopup"
           >
@@ -30,6 +30,7 @@
       />
 
       <add-skill-to-agent-popup
+        v-if="hasSkillAssignToAgentAccess"
         :skill-id="selectedRowsId"
         @close="closeAddSkillToAgentPopup"
         @saved="loadDataList"
@@ -135,6 +136,8 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
@@ -168,6 +171,15 @@ export default {
 
     const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
 
+    const {
+      hasReadAccess: hasReadAgentAccess,
+      hasUpdateAccess: hasUpdateAgentAccess,
+    } = useUserAccessControl(WtObject.Agent);
+
+    const hasSkillAssignToAgentAccess = computed(() => {
+      return hasReadAgentAccess.value && hasUpdateAgentAccess.value;
+    });
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -179,6 +191,8 @@ export default {
       hasCreateAccess,
       hasUpdateAccess,
       hasDeleteAccess,
+
+      hasSkillAssignToAgentAccess,
     };
   },
 

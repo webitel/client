@@ -28,7 +28,7 @@
       />
       <wt-select
         :close-on-select="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasAdminsReadAccess"
         :label="$t('objects.ccenter.agents.admins', 1)"
         :search-method="fetchAdmins"
         :value="itemInstance.admin"
@@ -56,6 +56,7 @@
 
 <script>
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -67,8 +68,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasAdminsReadAccess } = useUserAccessControl(WtObject.Agent);
     return {
       disableUserInput,
+      hasAdminsReadAccess,
     };
   },
 

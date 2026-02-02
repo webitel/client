@@ -16,7 +16,7 @@
       />
       <wt-select
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasCommunicationsReadAccess"
         :label="$t('objects.lookups.communications.communications', 1)"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.communication"
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
@@ -44,8 +46,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(WtObject.Communication);
     return {
       disableUserInput,
+      hasCommunicationsReadAccess,
     };
   },
   methods: {

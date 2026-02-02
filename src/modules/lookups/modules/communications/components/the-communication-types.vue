@@ -89,6 +89,7 @@
             <template #default="{ item, index }">
               <wt-radio
                 :selected="item.default"
+                :disabled="!hasUpdateAccess"
                 :value="true"
                 @update:selected="changeDefaultType({ item, index, value: $event })"
               />

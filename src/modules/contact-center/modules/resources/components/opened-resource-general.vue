@@ -16,7 +16,7 @@
       />
       <wt-select
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasGatewaysReadAccess"
         :label="$t('objects.routing.gateways.gateways', 1)"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.gateway"
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -87,8 +88,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasGatewaysReadAccess } = useUserAccessControl(WtObject.Gateway);
     return {
       disableUserInput,
+      hasGatewaysReadAccess,
     };
   },
   data() {

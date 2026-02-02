@@ -39,6 +39,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -55,9 +56,11 @@ export default {
   setup: () => {
     const v$ = useVuelidate();
     const { hasSaveActionAccess } = useUserAccessControl();
+    const { hasReadAccess: hasReadAgentAccess } = useUserAccessControl(WtObject.Agent);
     return {
       v$,
       hasSaveActionAccess,
+      hasReadAgentAccess,
     };
   },
   data: () => ({
@@ -84,7 +87,7 @@ export default {
         value: 'agents',
         pathName: AgentSkillsRoutesName.AGENTS,
       };
-      if (this.id) tabs.push(agents);
+      if (this.id && this.hasReadAgentAccess) tabs.push(agents);
       return tabs;
     },
 

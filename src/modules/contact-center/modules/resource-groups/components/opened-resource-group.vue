@@ -38,6 +38,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -65,9 +66,13 @@ export default {
   setup: () => {
     const v$ = useVuelidate();
     const { hasSaveActionAccess } = useUserAccessControl();
+
+    const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(WtObject.Resource);
+
     return {
       v$,
       hasSaveActionAccess,
+      hasResourcesReadAccess,
     };
   },
   data: () => ({
@@ -91,11 +96,24 @@ export default {
   },
   computed: {
     tabs() {
-      const tabs = [
-        { text: this.$t('objects.general'), value: 'general', pathName: ResourcesGroupsRouteNames.GENERAL },
-        { value: 'resources', text: this.$t('objects.ccenter.res.res', 2), pathName: ResourcesGroupsRouteNames.RESOURCES },
-        { value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange'), pathName: ResourcesGroupsRouteNames.TIME_RANGE },
-      ];
+      const general = {
+        text: this.$t('objects.general'),
+        value: 'general',
+        pathName: ResourcesGroupsRouteNames.GENERAL,
+      };
+      const resources = {
+        text: this.$t('objects.ccenter.res.res', 2),
+        value: 'resources',
+        pathName: ResourcesGroupsRouteNames.RESOURCES,
+      };
+      const timerange = {
+        text: this.$t('objects.ccenter.resGroups.timerange'),
+        value: 'timerange',
+        pathName: ResourcesGroupsRouteNames.TIME_RANGE,
+      };
+      const tabs = [general];
+      if (this.hasResourcesReadAccess) tabs.push(resources);
+      tabs.push(timerange);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
