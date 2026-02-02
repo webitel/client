@@ -19,13 +19,13 @@
           @input="tableActionsHandler"
         >
           <delete-all-action
-            v-if="!disableUserInput"
+            :disabled="disableUserInput"
             :class="{ 'hidden': anySelected }"
             :selected-count="selectedRows.length"
             @click="deleteData(selectedRows)"
           />
           <wt-icon-btn
-            v-if="!disableUserInput"
+            :disabled="disableUserInput"
             class="icon-action"
             icon="plus"
             @click="create"
@@ -48,7 +48,6 @@
     >
       <wt-table
         :data="dataList"
-        :grid-actions="!disableUserInput"
         :headers="headers"
         sortable
         @sort="sort"
@@ -61,7 +60,7 @@
         </template>
         <template #state="{ item, index }">
           <wt-switcher
-            :disabled="!hasUpdateAccess"
+            :disabled="disableUserInput"
             :model-value="!item.disabled"
             @update:model-value="patchItem({ item, index, prop: 'disabled', value: !$event })"
           />
@@ -69,10 +68,12 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
+            :disabled="disableUserInput"
             @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
+            :disabled="disableUserInput"
             @click="deleteData(item)"
           />
         </template>
@@ -109,8 +110,10 @@ export default {
       namespace: `${namespace}/${subNamespace}`,
       hiddenText: true,
     });
-    const { hasUpdateAccess } = useUserAccessControl();
-    return { dummy, hasUpdateAccess };
+    const { disableUserInput } = useUserAccessControl({
+      useUpdateAccessAsAllMutableChecksSource: true,
+    });
+    return { dummy, disableUserInput };
   },
   data: () => ({
     namespace,

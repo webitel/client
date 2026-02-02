@@ -16,7 +16,7 @@
       />
       <wt-select
         :clearable="true"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="$t('objects.lookups.calendars.calendars', 1)"
         :search-method="loadDropdownOptionsCalendarList"
         :v="v.itemInstance.calendar"
@@ -25,7 +25,7 @@
         @input="setItemProp({ prop: 'calendar', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasListsReadAccess"
         :label="$t('objects.ccenter.queues.blacklist')"
         :search-method="loadDropdownOptionsBlacklistList"
         :value="itemInstance.dncList"
@@ -55,7 +55,7 @@
       <wt-select
         v-if="specificControls.team"
         :clearable="true"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasTeamsReadAccess"
         :label="$t('objects.team')"
         :search-method="loadDropdownOptionsTeamList"
         :v="v.itemInstance.team"
@@ -66,7 +66,7 @@
       <!--      v-if-->
       <wt-select
         v-if="specificControls.ringtone"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasMediaReadAccess"
         :label="$t('objects.ccenter.queues.ringtone')"
         :search-method="loadDropdownOptionsMediaList"
         :value="itemInstance.ringtone"
@@ -77,7 +77,7 @@
       <wt-select
         v-if="specificControls.schema"
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsSchemaList"
         :v="v.itemInstance.schema"
@@ -89,7 +89,7 @@
       <!--      v-if-->
       <wt-select
         v-if="specificControls.doSchema"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.preSchema')"
         :search-method="loadDropdownOptionsServiceSchemaList"
         :value="itemInstance.doSchema"
@@ -112,7 +112,7 @@
       <!--      v-if-->
       <wt-select
         v-if="specificControls.afterSchema"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.afterSchema')"
         :search-method="loadDropdownOptionsServiceSchemaList"
         :value="itemInstance.afterSchema"
@@ -123,7 +123,7 @@
       <wt-select
         v-if="specificControls.grantee"
         :clearable="true"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasRolesReadAccess"
         :label="$t('objects.permissions.object.grantee')"
         :search-method="loadDropdownOptionsRoleList"
         :value="itemInstance.grantee"
@@ -155,6 +155,7 @@
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -174,8 +175,20 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(WtObject.Calendar);
+    const { hasReadAccess: hasListsReadAccess } = useUserAccessControl(WtObject.Blacklist);
+    const { hasReadAccess: hasTeamsReadAccess } = useUserAccessControl(WtObject.Team);
+    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
+    const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(WtObject.Media);
+    const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(WtObject.Role);
     return {
       disableUserInput,
+      hasCalendarsReadAccess,
+      hasListsReadAccess,
+      hasTeamsReadAccess,
+      hasFlowsReadAccess,
+      hasMediaReadAccess,
+      hasRolesReadAccess,
     };
   },
 

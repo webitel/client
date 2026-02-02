@@ -1,5 +1,12 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!bucketId" size="sm" min-width="480" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!bucketId"
+    size="sm"
+    min-width="480"
+    overflow
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
@@ -7,6 +14,7 @@
       <form>
         <wt-select
           :clearable="false"
+          :disabled="!hasBucketsReadAccess"
           :label="$t('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
           :v="v$.itemInstance.bucket"
@@ -24,10 +32,16 @@
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
+      <wt-button
+        :disabled="disabledSave"
+        @click="save"
+      >
         {{ $t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -37,19 +51,25 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 export default {
   name: 'OpenedQueueBucketsPopup',
   mixins: [nestedObjectMixin],
 
-  setup: () => ({
+  setup: () => {
+    const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(WtObject.Bucket);
+    return {
     // Reasons for use $stopPropagation
     // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
     v$: useVuelidate({ $stopPropagation: true }),
-  }),
+    hasBucketsReadAccess,
+  };
+  },
 
   data: () => ({
     namespace: 'ccenter/queues/buckets',

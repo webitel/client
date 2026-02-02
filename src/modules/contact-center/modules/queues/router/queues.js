@@ -101,7 +101,7 @@ const QueuesRoutes = [
     name: RouteNames.MEMBERS,
     component: Members,
     meta: {
-      WtObject: WtObject.QueueMember,
+      WtObject: WtObject.Queue,
       UiSection: AdminSections.Queues,
     },
   },
@@ -111,7 +111,7 @@ const QueuesRoutes = [
     redirect: { name: QueuesRoutesName.MEMBERS_GENERAL },
     component: OpenedMember,
     meta: {
-      WtObject: WtObject.QueueMember,
+      WtObject: WtObject.Queue,
       UiSection: AdminSections.Queues,
     },
     children: [

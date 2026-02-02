@@ -29,21 +29,21 @@
       />
       <wt-select
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="$t('objects.ccenter.queues.timezone')"
         :search-method="loadDropdownOptionsTimezoneList"
         :value="itemInstance.timezone"
         @input="setItemProp({ prop: 'timezone', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasBucketsReadAccess"
         :label="$t('objects.lookups.buckets.buckets', 1)"
         :search-method="loadDropdownOptionsBucketsList"
         :value="itemInstance.bucket"
         @input="setItemProp({ prop: 'bucket', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasAgentsReadAccess"
         :label="$t('objects.ccenter.agents.agents', 1)"
         :search-method="loadDropdownOptionsAgentsList"
         :value="itemInstance.agent"
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
@@ -64,9 +66,17 @@ export default {
   name: 'OpenedQueueMemberGeneral',
   mixins: [openedTabComponentMixin],
   setup: () => {
-    const { disableUserInput } = useUserAccessControl();
+    const { disableUserInput } = useUserAccessControl({
+      useUpdateAccessAsAllMutableChecksSource: true,
+    });
+    const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(WtObject.Bucket);
+    const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(WtObject.Calendar);
+    const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
     return {
       disableUserInput,
+      hasBucketsReadAccess,
+      hasCalendarsReadAccess,
+      hasAgentsReadAccess,
     };
   },
 

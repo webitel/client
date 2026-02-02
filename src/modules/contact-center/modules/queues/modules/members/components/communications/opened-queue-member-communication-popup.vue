@@ -1,28 +1,66 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" :shown="!!communicationIndex" @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    size="sm"
+    :shown="!!communicationIndex"
+    @close="close"
+  >
     <template #title>
       {{ $t('objects.lookups.communications.communications', 1) }}
     </template>
     <template #main>
       <form class="object-input-grid object-input-grid__1-col">
-        <wt-input-text v-model:model-value="itemInstance.destination" :label="$t('objects.ccenter.members.destination')"
-          :v="v$.itemInstance.destination" required />
-        <wt-select v-model="itemInstance.type" :clearable="false"
-          :label="$t('objects.lookups.communications.communications', 1)" :search-method="loadCommTypes"
-          :v="v$.itemInstance.type" required />
-        <wt-select v-model="itemInstance.resource" :label="$t('objects.ccenter.res.res', 1)"
-          :search-method="loadResources" />
-        <wt-input-text v-model:model-value="itemInstance.display" :label="$t('objects.ccenter.members.display')" />
-        <wt-input-text v-model:model-value="itemInstance.dtmf" :label="$t('objects.ccenter.members.dtmf')" :v="v$.itemInstance.dtmf" />
-        <wt-input-number v-model:model-value="itemInstance.priority" :label="$t('objects.ccenter.members.priority')" />
-        <wt-textarea v-model:model-value="itemInstance.description" :label="$t('objects.description')" />
+        <wt-input-text
+          v-model:model-value="itemInstance.destination"
+          :label="$t('objects.ccenter.members.destination')"
+          :v="v$.itemInstance.destination"
+          required
+        />
+        <wt-select
+          v-model="itemInstance.type"
+          :clearable="false"
+          :label="$t('objects.lookups.communications.communications', 1)"
+          :search-method="loadCommTypes"
+          :v="v$.itemInstance.type"
+          :disabled="!hasCommunicationsReadAccess"
+          required
+        />
+        <wt-select
+          v-model="itemInstance.resource"
+          :label="$t('objects.ccenter.res.res', 1)"
+          :search-method="loadResources"
+          :disabled="!hasResourcesReadAccess"
+        />
+        <wt-input-text
+          v-model:model-value="itemInstance.display"
+          :label="$t('objects.ccenter.members.display')"
+        />
+        <wt-input-text
+          v-model:model-value="itemInstance.dtmf"
+          :label="$t('objects.ccenter.members.dtmf')"
+          :v="v$.itemInstance.dtmf"
+        />
+        <wt-input-number
+          v-model:model-value="itemInstance.priority"
+          :label="$t('objects.ccenter.members.priority')"
+        />
+        <wt-textarea
+          v-model:model-value="itemInstance.description"
+          :label="$t('objects.description')"
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="computeDisabled" @click="save">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -32,6 +70,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import deepCopy from 'deep-copy';
 import { mapActions, mapState } from 'vuex';
@@ -40,6 +79,7 @@ import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMix
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';
 import { digitsDtmfOnly } from '../../validation/dtmf';
+import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 
 const getDefaultItemInstance = () => ({
   destination: '',
@@ -55,11 +95,18 @@ export default {
   name: 'OpenedAgentSkillsPopup',
   mixins: [nestedObjectMixin],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
+  setup: () => {
+    const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(WtObject.Communication);
+    const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(WtObject.Resource);
+
+    return {
+      // Reasons for use $stopPropagation
+      // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+      v$: useVuelidate({ $stopPropagation: true }),
+      hasCommunicationsReadAccess,
+      hasResourcesReadAccess,
+    };
+  },
   data: () => ({
     namespace: 'ccenter/queues/members',
     itemInstanceValue: getDefaultItemInstance(),

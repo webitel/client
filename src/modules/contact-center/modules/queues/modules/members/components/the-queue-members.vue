@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="!hasUpdateAccess || !isNotInboundMember"
+        :hide-primary="disableUserInput"
         :primary-action="create"
         :secondary-action="close"
       >
@@ -52,7 +52,7 @@
       />
 
       <reset-popup
-        :shown="hasUpdateAccess && isResetPopup"
+        :shown="!disableUserInput && isResetPopup"
         :callback="resetMembers"
         @close="closeResetPopup"
       />
@@ -62,7 +62,7 @@
           <h3 class="table-title__title typo-heading-3">
             {{ $t('objects.ccenter.members.allMembers') }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <filter-search :namespace="filtersNamespace" />
             <wt-table-actions
               :icons="['settings', 'refresh']"
@@ -70,7 +70,7 @@
               @input="inputTableAction"
             >
               <wt-icon-btn
-                v-if="hasUpdateAccess"
+                :disabled="disableUserInput"
                 v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
                 icon="member-reset"
                 icon-prefix="adm"
@@ -78,12 +78,12 @@
               />
 
               <wt-context-menu
-                v-if="hasUpdateAccess && isNotInboundMember"
                 :options="deleteOptions"
                 @click="$event.option.method.call()"
               >
                 <template #activator="{ toggle }">
                   <wt-icon-action
+                    :disabled="disableUserInput"
                     action="delete"
                     @click="toggle"
                   />
@@ -107,7 +107,6 @@
         >
           <wt-table
             :data="dataList"
-            :grid-actions="hasUpdateAccess && isNotInboundMember"
             :headers="headers"
             sortable
             @sort="sort"
@@ -166,10 +165,12 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
+                :disabled="disableUserInput"
                 @click="edit(item)"
               />
               <wt-icon-action
                 action="delete"
+                :disabled="disableUserInput"
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -248,7 +249,16 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+    const parentQueue = computed(() => getNamespacedState(store.state, namespace).parentQueue);
+
+    const { disableUserInput: disableUserInputOnNoAccess } = useUserAccessControl({
+      useUpdateAccessAsAllMutableChecksSource: true,
+    });
+
+    // if is NOT -- member is immutable. NOT prevents actions load by default
+    const isNotInboundMember = computed(() => parentQueue.value.type !== 1);
+
+    const disableUserInput = computed(() => disableUserInputOnNoAccess.value || !isNotInboundMember.value);
 
     return {
       isDeleteConfirmationPopup,
@@ -258,9 +268,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       dummy,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
+      disableUserInput,
     };
   },
 
@@ -284,10 +292,6 @@ export default {
     // }),
     parentId() {
       return this.$route.params.queueId;
-    },
-    // if is NOT -- member is immutable. NOT prevents actions load by default
-    isNotInboundMember() {
-      return !(this.parentQueue.type === 1);
     },
     path() {
       const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;

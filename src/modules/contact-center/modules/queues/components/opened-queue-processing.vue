@@ -17,7 +17,7 @@
 
       <wt-select
         v-if="specificControls['taskProcessing.formSchema']"
-        :disabled="disableUserInput || !isProcessingEnabled"
+        :disabled="disableUserInput || !isProcessingEnabled || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.processing.formSchema')"
         :search-method="loadDropdownOptionsSchemaList"
         :value="itemInstance.taskProcessing.formSchema"
@@ -93,6 +93,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -104,8 +105,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
     return {
       disableUserInput,
+      hasFlowsReadAccess,
     };
   },
   computed: {

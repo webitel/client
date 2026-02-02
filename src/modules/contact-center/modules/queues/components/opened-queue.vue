@@ -52,6 +52,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -89,11 +90,17 @@ export default {
   },
   mixins: [openedObjectMixin],
   setup: () => {
+const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
+const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(WtObject.ChangeLog);
+
+
     const v$ = useVuelidate();
     const { hasSaveActionAccess } = useUserAccessControl();
     return {
       v$,
       hasSaveActionAccess,
+      hasAgentsReadAccess,
+      hasLogsReadAccess,
     };
   },
 
@@ -369,6 +376,7 @@ export default {
       const agents = {
         text: this.$t('objects.ccenter.agents.agents', 2),
         value: 'agents',
+        disabled: !this.hasAgentsReadAccess,
         pathName: QueuesRoutesName.AGENTS,
       };
       const skills = {
@@ -405,6 +413,7 @@ export default {
         text: this.$t('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
         filters: 'logs-filters',
+        disabled: !this.hasLogsReadAccess,
         filtersNamespace: `${this.namespace}/log/filters`,
         pathName: QueuesRoutesName.LOGS,
       };
@@ -424,7 +433,7 @@ export default {
         general,
         params,
         // cannot destructure undefined, if queueType loading in progress
-        ...(queueTabsMap[this.queueType] || []),
+        ...(queueTabsMap[this.queueType] || []).filter(tab => !tab.disabled),
         hooks,
         variables,
       ];

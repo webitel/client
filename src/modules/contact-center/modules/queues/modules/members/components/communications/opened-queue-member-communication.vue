@@ -18,7 +18,7 @@
       </h3>
       <div class="table-title__actions-wrap">
         <delete-all-action
-          v-if="!disableUserInput"
+          :disabled="disableUserInput"
           :class="{ 'hidden': anySelected }"
           :selected-count="selectedRows.length"
           @click="askDeleteConfirmation({
@@ -27,7 +27,7 @@
           })"
         />
         <wt-icon-btn
-          v-if="!disableUserInput"
+          :disabled="disableUserInput"
           class="icon-action"
           icon="plus"
           @click="addItem"
@@ -49,7 +49,6 @@
     >
       <wt-table
         :data="dataList"
-        :grid-actions="!disableUserInput"
         :headers="headers"
       >
         <template #destination="{ item }">
@@ -70,10 +69,12 @@
         <template #actions="{ index, item }">
           <wt-icon-action
             action="edit"
+            :disabled="disableUserInput"
             @click="edit(index)"
           />
           <wt-icon-action
             action="delete"
+            :disabled="disableUserInput"
             @click="askDeleteConfirmation({
               deleted: [item],
               callback: () => deleteData(item),
@@ -114,7 +115,9 @@ export default {
       askDeleteConfirmation,
       closeDelete,
     } = useDeleteConfirmationPopup();
-    const { hasUpdateAccess } = useUserAccessControl();
+    const { disableUserInput } = useUserAccessControl({
+      useUpdateAccessAsAllMutableChecksSource: true,
+    });
 
     return {
       isDeleteConfirmationPopup,
@@ -124,7 +127,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       dummy,
-      hasUpdateAccess,
+      disableUserInput,
     };
   },
   data: () => ({
@@ -155,9 +158,6 @@ export default {
       set(value) {
         this.searchValue = value;
       },
-    },
-    disableUserInput() {
-      return !this.hasUpdateAccess;
     },
     headers() {
       return [
