@@ -108,6 +108,9 @@ export default {
               },
             }),
           },
+          extension: { 
+            digitsOnly: helpers.regex(/^[0-9]*$/) 
+           },
         },
       })),
       { itemInstance },

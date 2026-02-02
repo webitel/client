@@ -254,6 +254,7 @@ export default {
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
         temporaryPassword: 'Parolă temporară',
+        extensionsHint: 'Doar cifre',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nume',
@@ -265,9 +266,10 @@ export default {
           endAllSessions: 'Încheie toate sesiunile',
           endAllMySessions: 'Încheie toate sesiunile mele',
           endSessionConfirmation: 'Confirmare încheiere sesiuni',
-          endSessionConfirmationText: 'Sunteți sigur că doriți să încheiați toate sesiunile?',
+          endSessionConfirmationText:
+            'Sunteți sigur că doriți să încheiați toate sesiunile?',
           tooltip: 'Utilizatorul va fi deconectat de pe toate dispozitivele',
-        }
+        },
       },
       license: {
         customers: 'Clienți',
@@ -906,7 +908,8 @@ export default {
 
       globalStateConfirmation: {
         title: 'Aplică modificările',
-        message: 'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
+        message:
+          'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
       },
 
       queues: {
@@ -1198,7 +1201,8 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
-          [StorageUploadFileChannel.ScreenRecordingChannel]: 'înregistrări ecran',
+          [StorageUploadFileChannel.ScreenRecordingChannel]:
+            'înregistrări ecran',
         },
         encryptFile: 'Criptați fișiere noi',
         encryptFileHint:

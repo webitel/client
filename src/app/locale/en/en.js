@@ -96,7 +96,7 @@ export default {
     security: {
       security: 'Security',
       logoutTitle: 'Log out this user from other devices',
-    }
+    },
   },
 
   validation: {
@@ -252,6 +252,7 @@ export default {
           'Are you sure you want to regenerate the code? The user won’t be able to log in',
         chatName: 'Chat display name',
         temporaryPassword: 'Temporary password',
+        extensionsHint: 'Digits only',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Name',
@@ -263,9 +264,10 @@ export default {
           endAllSessions: 'End all sessions',
           endAllMySessions: 'End all my sessions',
           endSessionConfirmation: 'End session confirmation',
-          endSessionConfirmationText: 'Are you sure you want to end all sessions?',
+          endSessionConfirmationText:
+            'Are you sure you want to end all sessions?',
           tooltip: 'The user will be logged out from all devices',
-        }
+        },
       },
       license: {
         customers: 'Customers',
@@ -1197,7 +1199,8 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
           [StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
-          [StorageUploadFileChannel.ScreenRecordingChannel]: 'screen recordings',
+          [StorageUploadFileChannel.ScreenRecordingChannel]:
+            'screen recordings',
         },
         encryptFile: 'Encrypt new files',
         encryptFileHint:

@@ -18,9 +18,10 @@
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
-        :min="0"
         :model-value="itemInstance.extension"
-        @update:model-value="setItemProp({ prop: 'extension', value: String($event) })"
+        :v="v.itemInstance.extension"
+        :label-props="{ hint: $t('objects.directory.users.extensionsHint') }"
+        @update:model-value="setItemProp({ prop: 'extension', value: $event })"
       />
 
       <wt-input-text
@@ -88,15 +89,15 @@
 
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { mapGetters } from 'vuex';
 import { computed } from 'vue';
+import { mapGetters } from 'vuex';
 
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import ContactsAPI from '../api/contacts.js';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
-import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 
 export default {
   name: 'OpenedUserGeneral',
