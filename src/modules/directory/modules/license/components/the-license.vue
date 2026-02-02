@@ -10,9 +10,9 @@
     </template>
     <template #main>
       <div class="table-page-tabs-group-wrapper">
-          <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-          <component :is="currentTab.value" />
-        </div>
+        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
+        <component :is="currentTab.value" />
+      </div>
     </template>
   </wt-page-wrapper>
 </template>
@@ -66,4 +66,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .table-page-tabs-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+  }
+</style>
