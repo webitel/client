@@ -22,19 +22,19 @@
           <template #start="{ item, index }">
             <wt-timepicker
               :disabled="disableUserInput"
-              :value="minToSec(item.start)"
+              :model-value="minToSec(item.start)"
               format="hh:mm"
               no-label
-              @input="setItemProp({ prop: 'start', index, value: secToMin($event) })"
+              @update:model-value="setItemProp({ prop: 'start', index, value: secToMin($event) })"
             />
           </template>
           <template #end="{ item, index }">
             <wt-timepicker
               :disabled="disableUserInput"
-              :value="minToSec(item.end)"
+              :model-value="minToSec(item.end)"
               format="hh:mm"
               no-label
-              @input="setItemProp({ prop: 'end', index, value: secToMin($event) })"
+              @update:model-value="setItemProp({ prop: 'end', index, value: secToMin($event) })"
             />
           </template>
           <template #state="{ item, index }">

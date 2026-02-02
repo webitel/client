@@ -12,9 +12,9 @@
           @update:model-value="changeWorkingSwitcher" />
         <div v-if="itemInstance.working" class="opened-calendar-holiday-popup__wrapper">
           <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.start')" :v="v$.itemInstance.workStart"
-            :value="itemInstance.workStart * 60" @input="updateWorkingTime($event, 'workStart')"></wt-timepicker>
+            :model-value="itemInstance.workStart * 60" @update:model-value="updateWorkingTime($event, 'workStart')"></wt-timepicker>
           <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.end')" :v="v$.itemInstance.workStop"
-            :value="itemInstance.workStop * 60" @input="updateWorkingTime($event, 'workStop')"></wt-timepicker>
+            :model-value="itemInstance.workStop * 60" @update:model-value="updateWorkingTime($event, 'workStop')"></wt-timepicker>
         </div>
         <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
         <wt-switcher v-model:model-value="itemInstance.repeat" :label="$t('objects.lookups.calendars.repeat')" />

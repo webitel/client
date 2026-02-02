@@ -27,8 +27,8 @@
         :search-method="loadFlows" :v="v.itemInstance.schema" :value="itemInstance.schema" required
         @input="setItemProp({ prop: 'schema', value: $event })" />
       <wt-timepicker :disabled="disableUserInput" :label="$t('objects.integrations.emailProfiles.fetchInterval')"
-        :v="v.itemInstance.fetchInterval" :value="itemInstance.fetchInterval"
-        @input="setItemProp({ prop: 'fetchInterval', value: +$event })" />
+        :v="v.itemInstance.fetchInterval" :model-value="itemInstance.fetchInterval"
+        @update:model-value="setItemProp({ prop: 'fetchInterval', value: +$event })" />
       <div>
         <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
           :model-value="itemInstance.description" class="opened-email-profile-general__description"
