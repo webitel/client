@@ -49,7 +49,7 @@
         :disabled="disableUserInput || !hasContactsReadAccess"
         :label="$t('vocabulary.contact', 1)"
         :search-method="loadContactsOptions"
-        :track-by="name"
+        :track-by="'name'"
         :value="itemInstance.contact"
         @input="setItemProp({ prop: 'contact', value: $event })"
       />
