@@ -34,7 +34,7 @@
           <h3 class="table-title__title typo-heading-3">
             {{ $t('objects.ccenter.members.allMembers') }}
           </h3>
-          <div class="content-header__actions-wrap">
+          <div class="table-title__actions-wrap">
             <filter-search
               :namespace="filtersNamespace"
             />
