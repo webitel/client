@@ -28,9 +28,9 @@ const props = defineProps({
 });
 const attrs = useAttrs();
 
-const hasId = computed(() => props.id !== undefined && props.id !== null && props.id !== '');
+const hasId = computed(() => Boolean(props.id));
 
-const hasRouteName = computed(() => props.routeName !== undefined && props.routeName !== null && props.routeName !== '');
+const hasRouteName = computed(() => Boolean(props.routeName));
 
 const link = computed(() => {
   return {
