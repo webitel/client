@@ -27,7 +27,7 @@
         />
 
         <wt-icon-action
-          v-if="hasUpdateAccess"
+          :disabled="!hasUpdateAccess"
           action="add"
           @click="addItem"
         />
@@ -49,7 +49,6 @@
       <div class=".table-section__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
-          :grid-actions="!disableUserInput"
           :headers="headers"
           :selectable="false"
           sortable
@@ -95,6 +94,7 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
+              :disabled="!hasUpdateAccess"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN } })"
             />
           </template>

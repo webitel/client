@@ -38,7 +38,7 @@
               @input="tableActionsHandler"
             >
               <delete-all-action
-                v-if="hasDeleteAccess"
+                :disabled="!hasDeleteAccess"
                 :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
@@ -80,6 +80,7 @@
             </template>
             <template #source="{ item }">
               <adm-item-link
+                v-if="item.source.id"
                 :id="item.source.id"
                 :route-name="RouteNames.QUEUES"
               >
@@ -88,7 +89,7 @@
             </template>
             <template #actions="{ item }">
               <upload-action
-                v-if="hasUploadAccess"
+                :disabled="!hasUploadAccess"
                 :item="item"
               />
               <wt-icon-action
@@ -125,6 +126,8 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { WtObject } from '@webitel/ui-sdk/enums';
+
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -154,6 +157,7 @@ export default {
     } = useDeleteConfirmationPopup();
 
     const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasUpdateAccess: hasUploadAccess } = useUserAccessControl(WtObject.Queue);
 
     return {
       dummy,
@@ -166,6 +170,7 @@ export default {
       hasCreateAccess,
       hasUpdateAccess,
       hasDeleteAccess,
+      hasUploadAccess,
     };
   },
   data: () => ({
@@ -184,9 +189,6 @@ export default {
           route: '/integrations/import-csv',
         },
       ];
-    },
-    hasUploadAccess() {
-      return true;
     },
   },
 };

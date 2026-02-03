@@ -116,12 +116,10 @@ export default {
       namespace,
       hiddenText: true,
     });
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+    const { hasUpdateAccess } = useUserAccessControl();
     return {
       dummy,
-      hasCreateAccess,
       hasUpdateAccess,
-      hasDeleteAccess,
     };
   },
   data: () => ({

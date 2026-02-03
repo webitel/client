@@ -2,9 +2,11 @@
   <div class="import-csv-upload-action">
     <upload-file-icon-btn
       accept=".csv"
+      :disabled="disabled"
       @change="processCSV"
     />
     <upload-csv-preview-popup
+      :disabled="disabled"
       :shown="file"
       :add-bulk-items="saveBulkData"
       :charset="item.parameters.charset.value"
@@ -34,6 +36,10 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({

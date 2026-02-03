@@ -25,7 +25,7 @@
         @input="setItemProp({ prop: 'type', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.integrations.triggers.schema')"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.schema"
@@ -116,6 +116,7 @@ import 'cronstrue/locales/uk.min';
 import { isEmpty } from '@webitel/ui-sdk/scripts';
 import cronstrue from 'cronstrue';
 import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -131,8 +132,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
     return {
       disableUserInput,
+      hasFlowsReadAccess,
     };
   },
   data: () => ({

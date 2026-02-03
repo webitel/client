@@ -13,7 +13,7 @@ const StoragePoliciesRoutes = [
     name: RouteNames.STORAGE_POLICIES,
     component: StoragePolicies,
     meta: {
-      WtObject: WtObject.StoragePolicy,
+      WtObject: WtObject.FilePolicy,
       UiSection: AdminSections.StoragePolicies,
     },
   },
@@ -23,7 +23,7 @@ const StoragePoliciesRoutes = [
     redirect: { name: StoragePoliciesRouteNames.GENERAL },
     component: OpenedStoragePolicy,
     meta: {
-      WtObject: WtObject.StoragePolicy,
+      WtObject: WtObject.FilePolicy,
       UiSection: AdminSections.StoragePolicies,
     },
     children: [

@@ -27,7 +27,7 @@
         />
 
         <wt-icon-action
-          v-if="hasUpdateAccess"
+          :disabled="!hasUpdateAccess"
           action="add"
           @click="addItem"
         />
@@ -100,6 +100,7 @@
           <template #actions="{ item }">
             <wt-icon-action
               action="delete"
+              :disabled="!hasUpdateAccess"
               @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN } })"
             />
           </template>

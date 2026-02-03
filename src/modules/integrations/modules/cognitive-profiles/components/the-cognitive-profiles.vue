@@ -47,7 +47,7 @@
               @input="tableActionsHandler"
             >
               <delete-all-action
-                v-if="hasDeleteAccess"
+                :disabled="!hasDeleteAccess"
                 :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
@@ -92,7 +92,7 @@
             </template>
             <template #default="{ item, index }">
               <wt-radio
-                :disabled="!item.enabled"
+                :disabled="!hasUpdateAccess || !item.enabled"
                 :selected="item.default"
                 :value="true"
                 @update:selected="changeDefaultProfile({ item, index, value: $event })"

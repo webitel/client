@@ -60,7 +60,7 @@
       />
       <wt-select
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadFlows"
         :v="v.itemInstance.schema"
@@ -161,6 +161,7 @@
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import { mapActions } from 'vuex';
 import { EngineEmailAuthType } from 'webitel-sdk';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -173,8 +174,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
     return {
       disableUserInput,
+      hasFlowsReadAccess,
     };
   },
   data: () => ({

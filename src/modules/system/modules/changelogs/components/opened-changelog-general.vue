@@ -17,7 +17,7 @@
         @input="setItemProp({ prop: 'object', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasStorageReadAccess"
         :label="$t('objects.system.changelogs.storage')"
         :search-method="getStorageList"
         :v="v.itemInstance.storage"
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storage from '../../../../integrations/modules/storage/api/storage';
@@ -61,8 +63,10 @@ export default {
   mixins: [openedTabComponentMixin],
   setup: () => {
     const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasStorageReadAccess } = useUserAccessControl(WtObject.Storage);
     return {
       disableUserInput,
+      hasStorageReadAccess,
     };
   },
   computed: {
