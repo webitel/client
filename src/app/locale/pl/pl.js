@@ -78,8 +78,10 @@ export default {
       [NotificationType.CallEndSound]: 'Dźwięk końca połączenia',
       [NotificationType.TaskEndSound]: 'Dźwięk końca zadania',
       [NotificationType.ChatEndPush]: 'Powiadomienie push o zakończeniu czatu',
-      [NotificationType.CallEndPush]: 'Powiadomienie push o zakończeniu połączenia',
-      [NotificationType.TaskEndPush]: 'Powiadomienie push o zakończeniu zadania',
+      [NotificationType.CallEndPush]:
+        'Powiadomienie push o zakończeniu połączenia',
+      [NotificationType.TaskEndPush]:
+        'Powiadomienie push o zakończeniu zadania',
       [NotificationType.SocketCloseSound]: 'Dźwięk utraty połączenia',
     },
     ringtones: {
@@ -252,6 +254,7 @@ export default {
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
         temporaryPassword: 'Hasło tymczasowe',
+        extensionsHint: 'Tylko cyfry',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Imię',
@@ -263,9 +266,10 @@ export default {
           endAllSessions: 'Zakończ wszystkie sesje',
           endAllMySessions: 'Zakończ wszystkie moje sesje',
           endSessionConfirmation: 'Potwierdzenie zakończenia sesji',
-          endSessionConfirmationText: 'Czy na pewno chcesz zakończyć wszystkie sesje?',
+          endSessionConfirmationText:
+            'Czy na pewno chcesz zakończyć wszystkie sesje?',
           tooltip: 'Użytkownik zostanie wylogowany ze wszystkich urządzeń',
-        }
+        },
       },
       license: {
         customers: 'Klienci',
@@ -903,7 +907,8 @@ export default {
 
       globalStateConfirmation: {
         title: 'Zastosuj zmiany',
-        message: 'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
+        message:
+          'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
       },
 
       queues: {

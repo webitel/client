@@ -72,15 +72,19 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      [NotificationType.NewMessageSound]: 'Звуковое уведомление о новом уведомлении',
+      [NotificationType.NewMessageSound]:
+        'Звуковое уведомление о новом уведомлении',
       [NotificationType.NewChatSound]: 'Звуковое уведомление о новом чате',
       [NotificationType.ChatEndSound]: 'Звуковое уведомление о завершении чата',
-      [NotificationType.CallEndSound]: 'Звуковое уведомление о завершении звонка',
-      [NotificationType.TaskEndSound]: 'Звуковое уведомление о завершении задачи',
+      [NotificationType.CallEndSound]:
+        'Звуковое уведомление о завершении звонка',
+      [NotificationType.TaskEndSound]:
+        'Звуковое уведомление о завершении задачи',
       [NotificationType.ChatEndPush]: 'Пуш-уведомление о завершении чата',
       [NotificationType.CallEndPush]: 'Пуш-уведомление о завершении звонка',
       [NotificationType.TaskEndPush]: 'Пуш-уведомление о завершении задачи',
-      [NotificationType.SocketCloseSound]: 'Звуковое уведомление о разрыве соединения',
+      [NotificationType.SocketCloseSound]:
+        'Звуковое уведомление о разрыве соединения',
     },
     ringtones: {
       title: 'Изменить рингтон звонка',
@@ -252,6 +256,7 @@ export default {
           'Вы уверены, что хотите перегенерировать QR-код? Пользователь потеряет возможность войти в систему',
         chatName: 'Имя для отображения в чате',
         temporaryPassword: 'Временный пароль',
+        extensionsHint: 'Только цифры',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Имя',
@@ -263,9 +268,10 @@ export default {
           endAllSessions: 'Завершить все сеансы',
           endAllMySessions: 'Завершить все мои сеансы',
           endSessionConfirmation: 'Подтверждение завершения сеанса',
-          endSessionConfirmationText: 'Вы уверены, что хотите завершить все сеансы?',
+          endSessionConfirmationText:
+            'Вы уверены, что хотите завершить все сеансы?',
           tooltip: 'Пользователь будет выведен из системы на всех устройствах',
-        }
+        },
       },
       license: {
         customers: 'Пользователи',

@@ -252,6 +252,7 @@ export default {
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
         temporaryPassword: 'Уақытша құпия сөз',
+        extensionsHint: 'Тек сандар',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Аты',
@@ -263,9 +264,10 @@ export default {
           endAllSessions: 'Барлық сессияларды аяқтау',
           endAllMySessions: 'Менің барлық сессияларымды аяқтау',
           endSessionConfirmation: 'Сессияны аяқтауды растау',
-          endSessionConfirmationText: 'Барлық сессияларды аяқтағыңыз келгеніне сенімдісіз бе?',
+          endSessionConfirmationText:
+            'Барлық сессияларды аяқтағыңыз келгеніне сенімдісіз бе?',
           tooltip: 'Пайдаланушы барлық құрылғылардан шығарылады',
-        }
+        },
       },
       license: {
         customers: 'Клиенттер',
