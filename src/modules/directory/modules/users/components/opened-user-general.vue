@@ -71,12 +71,12 @@
       />
 
       <logout-action
-        v-if="itemInstance.id && hasUserAccess"
+        :disabled="!isActiveLogout"
         :id="itemInstance.id"
       />
 
       <!-- @Lera24 - to save the grid-->
-      <div v-if="itemInstance.id && hasUserAccess"></div>
+      <div v-if="isActiveLogout"></div>
 
       <qrcode
         v-if="isDisplayQRCode"
@@ -123,6 +123,9 @@ export default {
     ...mapGetters('directory/users', {
       isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
     }),
+    isActiveLogout() {
+      return this.itemInstance.id && this.hasUserAccess;
+    }
   },
   methods: {
     loadContactsOptions(params) {
