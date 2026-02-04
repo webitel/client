@@ -85,6 +85,7 @@
             <template #state="{ item, index }">
               <wt-switcher
                 :model-value="item.enabled"
+                :disabled="!hasUpdateAccess"
                 @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
               />
             </template>
