@@ -4,7 +4,6 @@
       {{ t('settings.security.security') }}
     </template>
     <template>
-      <p>{{ t('settings.security.logoutTitle' )}}</p>
       <logout-action
         :id="userId"
         my-sessions
