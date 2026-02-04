@@ -41,7 +41,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions, mapState } from 'vuex';
 
