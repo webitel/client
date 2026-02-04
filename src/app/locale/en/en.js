@@ -95,7 +95,7 @@ export default {
     },
     security: {
       security: 'Security',
-      logoutTitle: 'Log out this user from other devices',
+      logoutTitle: 'Log out this user from all devices',
     },
   },
 
