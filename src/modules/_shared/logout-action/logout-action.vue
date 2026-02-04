@@ -4,6 +4,7 @@
       <p>{{ t('settings.security.logoutTitle' )}}</p>
       <wt-button
         v-tooltip="t('objects.directory.users.logout.tooltip')"
+        :disabled="disabled"
         color="error"
         @click="openPopup"
       >
@@ -54,10 +55,12 @@ import UsersAPI from '../../directory/modules/users/api/users';
 const props = withDefaults(
   defineProps<{
     id: string;
-    mySessions: boolean;
+    mySessions?: boolean;
+    disabled?: boolean;
   }>(),
   {
     mySessions: false,
+    disabled: false
   },
 );
 
