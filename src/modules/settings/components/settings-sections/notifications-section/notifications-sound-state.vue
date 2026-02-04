@@ -31,11 +31,12 @@ const isNotificationTypeInEngineSystemSettingName = computed(() => {
 })
 
 const localStorageName = computed(() => `settings/${props.notificationType}`)
+const localStorageValue = ref(localStorage.getItem(localStorageName.value) === 'true');
 
 const isNotificationOn = computed(() => {
   return isNotificationTypeInEngineSystemSettingName.value
     ? props.value
-    : localStorage.getItem(localStorageName.value) === 'true'
+    : localStorageValue.value
 });
 
 function changeNotificationState(value: boolean) {
@@ -43,6 +44,7 @@ function changeNotificationState(value: boolean) {
     emit('change', value);
   } else {
     localStorage.setItem(localStorageName.value, value);
+    localStorageValue.value = value
   }
 }
 </script>
