@@ -1,6 +1,6 @@
 <template>
   <settings-wrapper-column>
-    <change-password-section />
+    <change-password-section v-if="hasUserAccess"/>
     <language-settings-section />
     <logout-section v-if="hasUserAccess"/>
   </settings-wrapper-column>
