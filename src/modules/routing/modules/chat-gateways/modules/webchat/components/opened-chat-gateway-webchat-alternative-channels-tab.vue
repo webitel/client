@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
-      <h3 class="content-title typo-heading-3">
+      <h3 class="content-title typo-heading-4">
         {{
           $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
         }}

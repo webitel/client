@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <wt-icon icon="meta" size="md" />
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.routing.chatGateways.messenger.meta') }}
       </h3>
     </header>

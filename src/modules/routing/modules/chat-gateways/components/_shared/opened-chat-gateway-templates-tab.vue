@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.routing.chatGateways.templates.templates', 2) }}
       </h3>
     </header>
