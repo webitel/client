@@ -1,12 +1,15 @@
 <template>
   <div class="logout-action">
-    <wt-button
-      v-tooltip="t('objects.directory.users.logout.tooltip')"
-      color="error"
-      @click="openPopup"
-    >
-      {{ buttonText }}
-    </wt-button>
+    <div class="logout-action__title-wrapper">
+      <p>{{ t('settings.security.logoutTitle' )}}</p>
+      <wt-button
+        v-tooltip="t('objects.directory.users.logout.tooltip')"
+        color="error"
+        @click="openPopup"
+      >
+        {{ buttonText }}
+      </wt-button>
+    </div>
 
     <wt-popup
       :shown="isOpened"
@@ -77,6 +80,13 @@ const logoutUser = async () => {
 </script>
 
 <style lang="scss" scoped>
+.logout-action__title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  gap: var(--spacing-xs);
+}
+
 .logout-action__wrapper {
   display: flex;
   justify-content: center;
