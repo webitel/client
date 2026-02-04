@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.ccenter.resGroups.timerange') }}
       </h3>
       <wt-icon-action

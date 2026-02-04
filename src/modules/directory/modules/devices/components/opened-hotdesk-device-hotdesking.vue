@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.directory.devices.hotdesk') }}
       </h3>
     </header>
