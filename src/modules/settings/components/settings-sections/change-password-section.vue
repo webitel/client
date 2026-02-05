@@ -4,17 +4,18 @@
       {{ t('settings.changePassword') }}
     </template>
     <template>
+
+      <change-password-decoy-inputs />
+  
       <user-password-input
         :model-value="newPassword"
         :label="t('auth.password')"
-        autocomplete="new-password"
         @update:model-value="newPassword = $event"
       />
       <wt-password
         v-model:model-value="confirmNewPassword"
         :label="t('auth.confirmPassword')"
         :v="v$.confirmNewPassword"
-        autocomplete="new-password"
       />
       <wt-button
         :disabled="v$.$invalid"
@@ -37,6 +38,7 @@ import { useStore } from 'vuex';
 
 import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
 import { changePassword as requestChangePassword } from '../../api/settings';
+import ChangePasswordDecoyInputs from './utils/change-password-decoy-inputs.vue'
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const $eventBus = inject('$eventBus');
