@@ -3,7 +3,7 @@ import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 const ConfigurationValueTypes = {
   [EngineSystemSettingName.EnableOmnichannel]: 'boolean',
   [EngineSystemSettingName.AmdCancelNotHuman]: 'boolean',
-  [EngineSystemSettingName.Enable_2fa]: 'boolean',
+  [EngineSystemSettingName.Enable2fa]: 'boolean',
   [EngineSystemSettingName.MemberChunkSize]: 'number',
   [EngineSystemSettingName.SchemeVersionLimit]: 'number',
   [EngineSystemSettingName.SearchNumberLength]: 'number',
