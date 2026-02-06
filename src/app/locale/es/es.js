@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Chat',
       [RingtoneType.Task]: 'Tarea',
     },
+    security: {
+      security: 'Seguridad',
+      logoutTitle: 'Cerrar sesión de este usuario en otros dispositivos',
+    },
   },
 
   validation: {
@@ -249,12 +253,21 @@ export default {
           '¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
         chatName: 'Nombre de visualización de chat',
         temporaryPassword: 'Contraseña temporal',
+        extensionsHint: 'Solo dígitos',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nombre',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Finalizar todas las sesiones',
+          endAllMySessions: 'Finalizar todas mis sesiones',
+          endSessionConfirmation: 'Confirmación de finalización de sesión',
+          endSessionConfirmationText:
+            '¿Está seguro de que desea finalizar todas las sesiones?',
+          tooltip: 'El usuario será desconectado de todos los dispositivos',
         },
       },
       license: {
@@ -1190,7 +1203,8 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'registro',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
-          [StorageUploadFileChannel.ScreenRecordingChannel]: 'grabaciones de pantalla',
+          [StorageUploadFileChannel.ScreenRecordingChannel]:
+            'grabaciones de pantalla',
         },
         encryptFile: 'Encriptar archivos nuevos',
         encryptFileHint:

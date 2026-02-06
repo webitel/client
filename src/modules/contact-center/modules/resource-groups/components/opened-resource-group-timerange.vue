@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.ccenter.resGroups.timerange') }}
       </h3>
       <wt-icon-action
@@ -20,19 +20,19 @@
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
             :v="v.itemInstance.range"
-            :value="range.start * 60"
+            :model-value="range.start * 60"
             format="hh:mm"
             required
-            @input="setVariableProp({ index: key, prop: 'start', value: $event / 60 })"
+            @update:model-value="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
           />
           <wt-timepicker
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeTo')"
             :v="v.itemInstance.range"
-            :value="range.end * 60"
+            :model-value="range.end * 60"
             format="hh:mm"
             required
-            @input="setVariableProp({ index: key, prop: 'end', value: $event / 60 })"
+            @update:model-value="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
           />
           <wt-icon-action
             v-if="key !== 0"

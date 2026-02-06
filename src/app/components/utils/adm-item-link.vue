@@ -1,10 +1,14 @@
 <template>
-<wt-item-link
-  :link="link"
-  v-bind="attrs"
->
-<slot />
-</wt-item-link>
+  <wt-item-link
+    v-if="hasId && hasRouteName"
+    :link="link"
+    v-bind="attrs"
+  >
+    <slot />
+  </wt-item-link>
+  <span v-else class="adm-item-link__fallback">
+    <slot />
+  </span>
 </template>
 
 <script setup>
@@ -23,6 +27,11 @@ const props = defineProps({
   },
 });
 const attrs = useAttrs();
+
+const hasId = computed(() => Boolean(props.id));
+
+const hasRouteName = computed(() => Boolean(props.routeName));
+
 const link = computed(() => {
   return {
     name: `${props.routeName}-card`,
@@ -32,4 +41,8 @@ const link = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.adm-item-link__fallback {
+  display: flex;
+  align-items: center;
+}
 </style>

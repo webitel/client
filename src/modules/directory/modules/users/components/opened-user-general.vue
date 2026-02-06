@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
@@ -15,10 +15,12 @@
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
 
-      <wt-input-number
+      <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.extensions')"
         :model-value="itemInstance.extension"
+        :v="v.itemInstance.extension"
+        :label-props="{ hint: $t('objects.directory.users.extensionsHint') }"
         @update:model-value="setItemProp({ prop: 'extension', value: $event })"
       />
 
@@ -49,7 +51,7 @@
         :disabled="disableUserInput || !hasContactsReadAccess"
         :label="$t('vocabulary.contact', 1)"
         :search-method="loadContactsOptions"
-        :track-by="name"
+        :track-by="'name'"
         :value="itemInstance.contact"
         @input="setItemProp({ prop: 'contact', value: $event })"
       />
@@ -60,12 +62,21 @@
         :model-value="itemInstance.forcePasswordChange"
         @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
       />
+
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.chatName')"
         :model-value="itemInstance.chatName"
         @update:model-value="setItemProp({ prop: 'chatName', value: $event })"
       />
+
+      <logout-action
+        :disabled="!isActiveLogout"
+        :id="itemInstance.id"
+      />
+
+      <!-- @Lera24 - to save the grid-->
+      <div v-if="isActiveLogout"></div>
 
       <qrcode
         v-if="isDisplayQRCode"
@@ -78,26 +89,32 @@
 
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
 import { mapGetters } from 'vuex';
 
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import ContactsAPI from '../api/contacts.js';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {
   name: 'OpenedUserGeneral',
-  components: { UserPasswordInput, Qrcode },
+  components: { UserPasswordInput, Qrcode, LogoutAction },
   mixins: [openedTabComponentMixin],
   setup: () => {
-    const { disableUserInput } = useUserAccessControl();
+    const { disableUserInput, hasCreateAccess, hasDeleteAccess, hasUpdateAccess } = useUserAccessControl(WtObject.User);
 
     const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
       WtObject.Contact,
     );
 
+    const hasUserAccess = computed(() =>
+      hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value);
+
     return {
+      hasUserAccess,
       disableUserInput,
       hasContactsReadAccess,
     };
@@ -106,6 +123,9 @@ export default {
     ...mapGetters('directory/users', {
       isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
     }),
+    isActiveLogout() {
+      return this.itemInstance.id && this.hasUserAccess;
+    }
   },
   methods: {
     loadContactsOptions(params) {
@@ -115,7 +135,3 @@ export default {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
-></style>

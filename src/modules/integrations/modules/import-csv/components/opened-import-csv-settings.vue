@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.integrations.importCsv.settings') }}
       </h3>
     </header>
@@ -34,7 +34,7 @@
         @update:model-value="setItemParamsProp({ prop: 'clearMembers', value: $event })"
       />
       <header class="content-header">
-        <h3 class="content-title">
+        <h3 class="content-title typo-heading-4">
           {{ $t('objects.integrations.importCsv.mappings') }}
         </h3>
         <p>{{ $t('objects.integrations.importCsv.mappingsHint') }}</p>

@@ -72,15 +72,19 @@ export default {
     useWebPhone: 'Використовувати Web-телефон',
     useStun: 'Використовувати STUN',
     notifications: {
-      [NotificationType.NewMessageSound]: 'Звукове сповіщення про нове сповіщення',
+      [NotificationType.NewMessageSound]:
+        'Звукове сповіщення про нове сповіщення',
       [NotificationType.NewChatSound]: 'Звукове сповіщення про новий чат',
       [NotificationType.ChatEndSound]: 'Звукове сповіщення про завершення чату',
-      [NotificationType.CallEndSound]: 'Звукове сповіщення про завершення дзвінка',
-      [NotificationType.TaskEndSound]: 'Звукове сповіщення про завершення задачі',
+      [NotificationType.CallEndSound]:
+        'Звукове сповіщення про завершення дзвінка',
+      [NotificationType.TaskEndSound]:
+        'Звукове сповіщення про завершення задачі',
       [NotificationType.ChatEndPush]: 'Пуш-сповіщення про завершення чату',
       [NotificationType.CallEndPush]: 'Пуш-сповіщення про завершення дзвінка',
       [NotificationType.TaskEndPush]: 'Пуш-сповіщення про завершення задачі',
-      [NotificationType.SocketCloseSound]: 'Звукове сповіщення про розрив зʼєднання',
+      [NotificationType.SocketCloseSound]:
+        'Звукове сповіщення про розрив зʼєднання',
     },
     ringtones: {
       title: 'Змінити рингтон дзвінка',
@@ -92,6 +96,10 @@ export default {
       [RingtoneType.Call]: 'Дзвінок',
       [RingtoneType.Chat]: 'Чат',
       [RingtoneType.Task]: 'Задача',
+    },
+    security: {
+      security: 'Безпека',
+      logoutTitle: 'Вийти з акаунту цього користувача на усіх пристроях',
     },
   },
 
@@ -249,12 +257,21 @@ export default {
           'Ви впевнені, що хочете перегенерувати QR-код? Користувач втратить можливість зайти в систему',
         chatName: 'Імʼя для відображення в чаті',
         temporaryPassword: 'Тимчасовий пароль',
+        extensionsHint: 'Тільки цифри',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Ім’я',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Завершити всі сеанси',
+          endAllMySessions: 'Завершити всі мої сеанси',
+          endSessionConfirmation: 'Підтвердження завершення сеансу',
+          endSessionConfirmationText:
+            'Ви впевнені, що хочете завершити всі сеанси?',
+          tooltip: 'Користувача буде вилогінено з усіх пристроїв',
         },
       },
       license: {

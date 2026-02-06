@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Trò chuyện',
       [RingtoneType.Task]: 'Nhiệm vụ',
     },
+    security: {
+      security: 'Bảo mật',
+      logoutTitle: 'Đăng xuất người dùng này khỏi các thiết bị khác',
+    },
   },
 
   validation: {
@@ -250,12 +254,21 @@ export default {
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
         temporaryPassword: 'Mật khẩu tạm thời',
+        extensionsHint: 'Chỉ số',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Tên',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Kết thúc tất cả phiên',
+          endAllMySessions: 'Kết thúc tất cả phiên của tôi',
+          endSessionConfirmation: 'Xác nhận kết thúc phiên',
+          endSessionConfirmationText:
+            'Bạn có chắc muốn kết thúc tất cả các phiên không?',
+          tooltip: 'Người dùng sẽ bị đăng xuất khỏi tất cả các thiết bị',
         },
       },
       license: {
@@ -892,7 +905,8 @@ export default {
 
       globalStateConfirmation: {
         title: 'Áp dụng thay đổi',
-        message: 'Các thay đổi sẽ được áp dụng cho {count} bản ghi. Bạn có chắc chắn?',
+        message:
+          'Các thay đổi sẽ được áp dụng cho {count} bản ghi. Bạn có chắc chắn?',
       },
 
       queues: {

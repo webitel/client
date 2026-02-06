@@ -1,12 +1,8 @@
 <template>
   <section>
     <header class="content-header">
-      <wt-icon
-        icon="viber"
-        icon-prefix="messenger"
-        size="sm"
-      />
-      <h3 class="content-title">
+      <wt-icon icon="viber" icon-prefix="messenger" size="sm" />
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.routing.chatGateways.viber.viber') }}
       </h3>
     </header>

@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Чат',
       [RingtoneType.Task]: 'Тапсырма',
     },
+    security: {
+      security: 'Қауіпсіздік',
+      logoutTitle: 'Бұл пайдаланушыны басқа құрылғылардан шығару',
+    },
   },
 
   validation: {
@@ -248,12 +252,21 @@ export default {
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
         temporaryPassword: 'Уақытша құпия сөз',
+        extensionsHint: 'Тек сандар',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Аты',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Барлық сессияларды аяқтау',
+          endAllMySessions: 'Менің барлық сессияларымды аяқтау',
+          endSessionConfirmation: 'Сессияны аяқтауды растау',
+          endSessionConfirmationText:
+            'Барлық сессияларды аяқтағыңыз келгеніне сенімдісіз бе?',
+          tooltip: 'Пайдаланушы барлық құрылғылардан шығарылады',
         },
       },
       license: {

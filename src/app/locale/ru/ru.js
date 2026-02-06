@@ -72,15 +72,19 @@ export default {
     useWebPhone: 'Использовать Web-телефон',
     useStun: 'Использовать STUN',
     notifications: {
-      [NotificationType.NewMessageSound]: 'Звуковое уведомление о новом уведомлении',
+      [NotificationType.NewMessageSound]:
+        'Звуковое уведомление о новом уведомлении',
       [NotificationType.NewChatSound]: 'Звуковое уведомление о новом чате',
       [NotificationType.ChatEndSound]: 'Звуковое уведомление о завершении чата',
-      [NotificationType.CallEndSound]: 'Звуковое уведомление о завершении звонка',
-      [NotificationType.TaskEndSound]: 'Звуковое уведомление о завершении задачи',
+      [NotificationType.CallEndSound]:
+        'Звуковое уведомление о завершении звонка',
+      [NotificationType.TaskEndSound]:
+        'Звуковое уведомление о завершении задачи',
       [NotificationType.ChatEndPush]: 'Пуш-уведомление о завершении чата',
       [NotificationType.CallEndPush]: 'Пуш-уведомление о завершении звонка',
       [NotificationType.TaskEndPush]: 'Пуш-уведомление о завершении задачи',
-      [NotificationType.SocketCloseSound]: 'Звуковое уведомление о разрыве соединения',
+      [NotificationType.SocketCloseSound]:
+        'Звуковое уведомление о разрыве соединения',
     },
     ringtones: {
       title: 'Изменить рингтон звонка',
@@ -92,6 +96,10 @@ export default {
       [RingtoneType.Call]: 'Звонок',
       [RingtoneType.Chat]: 'Чат',
       [RingtoneType.Task]: 'Задача',
+    },
+    security: {
+      security: 'Безопасность',
+      logoutTitle: 'Выйти из аккаунта этого пользователя на всех устройствах',
     },
   },
 
@@ -248,12 +256,21 @@ export default {
           'Вы уверены, что хотите перегенерировать QR-код? Пользователь потеряет возможность войти в систему',
         chatName: 'Имя для отображения в чате',
         temporaryPassword: 'Временный пароль',
+        extensionsHint: 'Только цифры',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Имя',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Завершить все сеансы',
+          endAllMySessions: 'Завершить все мои сеансы',
+          endSessionConfirmation: 'Подтверждение завершения сеанса',
+          endSessionConfirmationText:
+            'Вы уверены, что хотите завершить все сеансы?',
+          tooltip: 'Пользователь будет выведен из системы на всех устройствах',
         },
       },
       license: {

@@ -93,6 +93,10 @@ export default {
       [RingtoneType.Chat]: 'Chat',
       [RingtoneType.Task]: 'Sarcină',
     },
+    security: {
+      security: 'Securitate',
+      logoutTitle: 'Deconectați acest utilizator de pe alte dispozitive',
+    },
   },
 
   validation: {
@@ -250,12 +254,21 @@ export default {
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
         temporaryPassword: 'Parolă temporară',
+        extensionsHint: 'Doar cifre',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nume',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Încheie toate sesiunile',
+          endAllMySessions: 'Încheie toate sesiunile mele',
+          endSessionConfirmation: 'Confirmare încheiere sesiuni',
+          endSessionConfirmationText:
+            'Sunteți sigur că doriți să încheiați toate sesiunile?',
+          tooltip: 'Utilizatorul va fi deconectat de pe toate dispozitivele',
         },
       },
       license: {
@@ -895,7 +908,8 @@ export default {
 
       globalStateConfirmation: {
         title: 'Aplică modificările',
-        message: 'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
+        message:
+          'Modificările vor fi aplicate la {count} înregistrări. Sunteți sigur?',
       },
 
       queues: {
@@ -1187,7 +1201,8 @@ export default {
           [StorageUploadFileChannel.LogChannel]: 'log',
           [StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
           [StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
-          [StorageUploadFileChannel.ScreenRecordingChannel]: 'înregistrări ecran',
+          [StorageUploadFileChannel.ScreenRecordingChannel]:
+            'înregistrări ecran',
         },
         encryptFile: 'Criptați fișiere noi',
         encryptFileHint:

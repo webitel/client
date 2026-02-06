@@ -72,15 +72,15 @@ export default {
     useWebPhone: 'WebPhone ishlatish',
     useStun: 'STUN ishlatish',
     notifications: {
-      [NotificationType.NewMessageSound]: "Yangi xabar ovozi",
-      [NotificationType.NewChatSound]: "Yangi chat ovozi",
-      [NotificationType.ChatEndSound]: "Chat tugashi ovozi",
+      [NotificationType.NewMessageSound]: 'Yangi xabar ovozi',
+      [NotificationType.NewChatSound]: 'Yangi chat ovozi',
+      [NotificationType.ChatEndSound]: 'Chat tugashi ovozi',
       [NotificationType.CallEndSound]: "Qo'ng'iroq tugashi ovozi",
-      [NotificationType.TaskEndSound]: "Vazifa tugashi ovozi",
-      [NotificationType.ChatEndPush]: "Chat tugashi push bildiruvchi",
+      [NotificationType.TaskEndSound]: 'Vazifa tugashi ovozi',
+      [NotificationType.ChatEndPush]: 'Chat tugashi push bildiruvchi',
       [NotificationType.CallEndPush]: "Qo'ng'iroq tugashi push bildiruvchi",
-      [NotificationType.TaskEndPush]: "Vazifa tugashi push bildiruvchi",
-      [NotificationType.SocketCloseSound]: "Ulanish uzilishi ovozi",
+      [NotificationType.TaskEndPush]: 'Vazifa tugashi push bildiruvchi',
+      [NotificationType.SocketCloseSound]: 'Ulanish uzilishi ovozi',
     },
     ringtones: {
       title: "Qo'ng'iroq ringtonini o'zgartirish",
@@ -92,6 +92,10 @@ export default {
       [RingtoneType.Call]: "Qo'ng'iroq",
       [RingtoneType.Chat]: 'Chat',
       [RingtoneType.Task]: 'Vazifa',
+    },
+    security: {
+      security: 'Xavfsizlik',
+      logoutTitle: 'Ushbu foydalanuvchini boshqa qurilmalardan chiqarish',
     },
   },
 
@@ -250,12 +254,20 @@ export default {
           'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
         chatName: "Chat ko'rsatish nomi",
         temporaryPassword: 'Vaqtinchalik parol',
+        extensionsHint: 'Faqat raqamlar',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Ism',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Barcha sessiyalarni yakunlash',
+          endAllMySessions: 'Mening barcha sessiyalarimni yakunlash',
+          endSessionConfirmation: 'Sessiyani yakunlashni tasdiqlash',
+          endSessionConfirmationText: 'Barcha sessiyalarni yakunlamoqchimisiz?',
+          tooltip: 'Foydalanuvchi barcha qurilmalardan chiqariladi',
         },
       },
       license: {
@@ -896,7 +908,8 @@ export default {
 
       globalStateConfirmation: {
         title: "O'zgarishlarni qo'llash",
-        message: "O'zgarishlar {count} yozuvga qo'llaniladi. Ishonchingiz komilmi?",
+        message:
+          "O'zgarishlar {count} yozuvga qo'llaniladi. Ishonchingiz komilmi?",
       },
 
       queues: {

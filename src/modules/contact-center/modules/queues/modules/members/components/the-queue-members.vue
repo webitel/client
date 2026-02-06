@@ -63,7 +63,9 @@
             {{ $t('objects.ccenter.members.allMembers') }}
           </h3>
           <div class="table-title__actions-wrap">
-            <filter-search :namespace="filtersNamespace" />
+            <filter-search
+              :namespace="filtersNamespace"
+            />
             <wt-table-actions
               :icons="['settings', 'refresh']"
               is-settings-badge

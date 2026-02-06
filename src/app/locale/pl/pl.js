@@ -78,8 +78,10 @@ export default {
       [NotificationType.CallEndSound]: 'Dźwięk końca połączenia',
       [NotificationType.TaskEndSound]: 'Dźwięk końca zadania',
       [NotificationType.ChatEndPush]: 'Powiadomienie push o zakończeniu czatu',
-      [NotificationType.CallEndPush]: 'Powiadomienie push o zakończeniu połączenia',
-      [NotificationType.TaskEndPush]: 'Powiadomienie push o zakończeniu zadania',
+      [NotificationType.CallEndPush]:
+        'Powiadomienie push o zakończeniu połączenia',
+      [NotificationType.TaskEndPush]:
+        'Powiadomienie push o zakończeniu zadania',
       [NotificationType.SocketCloseSound]: 'Dźwięk utraty połączenia',
     },
     ringtones: {
@@ -92,6 +94,10 @@ export default {
       [RingtoneType.Call]: 'Połączenie',
       [RingtoneType.Chat]: 'Czat',
       [RingtoneType.Task]: 'Zadanie',
+    },
+    security: {
+      security: 'Bezpieczeństwo',
+      logoutTitle: 'Wyloguj tego użytkownika z innych urządzeń',
     },
   },
 
@@ -248,12 +254,21 @@ export default {
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
         temporaryPassword: 'Hasło tymczasowe',
+        extensionsHint: 'Tylko cyfry',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Imię',
           extension: ({ linked }) =>
             linked('objects.directory.users.extensions'),
           email: ({ linked }) => linked('vocabulary.emails'),
+        },
+        logout: {
+          endAllSessions: 'Zakończ wszystkie sesje',
+          endAllMySessions: 'Zakończ wszystkie moje sesje',
+          endSessionConfirmation: 'Potwierdzenie zakończenia sesji',
+          endSessionConfirmationText:
+            'Czy na pewno chcesz zakończyć wszystkie sesje?',
+          tooltip: 'Użytkownik zostanie wylogowany ze wszystkich urządzeń',
         },
       },
       license: {
@@ -892,7 +907,8 @@ export default {
 
       globalStateConfirmation: {
         title: 'Zastosuj zmiany',
-        message: 'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
+        message:
+          'Zmiany zostaną zastosowane do {count} rekordów. Czy na pewno?',
       },
 
       queues: {

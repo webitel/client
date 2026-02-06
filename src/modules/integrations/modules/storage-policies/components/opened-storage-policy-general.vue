@@ -12,7 +12,7 @@
       @confirm="confirmEncryptionChange"
     />
     <header class="content-header">
-      <h3 class="content-title typo-heading-3">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>

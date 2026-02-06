@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="content-header">
-      <h3 class="content-title">
+      <h3 class="content-title typo-heading-4">
         {{ $t('objects.ccenter.queues.params') }}
       </h3>
     </header>
@@ -11,64 +11,64 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :v="v.itemInstance.payload.originateTimeout"
-        :value="itemInstance.payload.originateTimeout"
-        @input="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
+        :model-value="itemInstance.payload.originateTimeout"
+        @update:model-value="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.maxWaitTime"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxWaitTime')"
         :v="v.itemInstance.payload.maxWaitTime"
-        :value="itemInstance.payload.maxWaitTime"
-        @input="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
+        :model-value="itemInstance.payload.maxWaitTime"
+        @update:model-value="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.discardAbandonedAfter"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
         :v="v.itemInstance.payload.discardAbandonedAfter"
-        :value="itemInstance.payload.discardAbandonedAfter"
-        @input="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"
+        :model-value="itemInstance.payload.discardAbandonedAfter"
+        @update:model-value="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.maxIdleAgent"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxIdleAgent')"
         :v="v.itemInstance.payload.maxIdleAgent"
-        :value="itemInstance.payload.maxIdleAgent"
-        @input="setItemPayloadProp({ prop: 'maxIdleAgent', value: +$event })"
+        :model-value="itemInstance.payload.maxIdleAgent"
+        @update:model-value="setItemPayloadProp({ prop: 'maxIdleAgent', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.maxIdleClient"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxIdleClient')"
         :v="v.itemInstance.payload.maxIdleClient"
-        :value="itemInstance.payload.maxIdleClient"
-        @input="setItemPayloadProp({ prop: 'maxIdleClient', value: +$event })"
+        :model-value="itemInstance.payload.maxIdleClient"
+        @update:model-value="setItemPayloadProp({ prop: 'maxIdleClient', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.maxIdleDialog"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxIdleDialog')"
         :v="v.itemInstance.payload.maxIdleDialog"
-        :value="itemInstance.payload.maxIdleDialog"
-        @input="setItemPayloadProp({ prop: 'maxIdleDialog', value: +$event })"
+        :model-value="itemInstance.payload.maxIdleDialog"
+        @update:model-value="setItemPayloadProp({ prop: 'maxIdleDialog', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.waitBetweenRetries"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :v="v.itemInstance.payload.waitBetweenRetries"
-        :value="itemInstance.payload.waitBetweenRetries"
-        @input="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
+        :model-value="itemInstance.payload.waitBetweenRetries"
+        @update:model-value="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
       />
       <wt-timepicker
         v-if="specificControls.minDuration"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minDuration')"
         :v="v.itemInstance.payload.minDuration"
-        :value="itemInstance.payload.minDuration"
-        @input="setItemPayloadProp({ prop: 'minDuration', value: +$event })"
+        :model-value="itemInstance.payload.minDuration"
+        @update:model-value="setItemPayloadProp({ prop: 'minDuration', value: +$event })"
       />
       <wt-select
         v-if="specificControls.statisticTime"
