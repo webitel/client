@@ -254,7 +254,8 @@ export default {
           'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
         chatName: "Chat ko'rsatish nomi",
         temporaryPassword: 'Vaqtinchalik parol',
-        extensionsHint: 'Faqat raqamlar',
+        extensionsHelperText:
+          'Ichki raqam faqat raqamlardan iborat boʻlishi kerak',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Ism',

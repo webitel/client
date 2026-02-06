@@ -254,7 +254,7 @@ export default {
           'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
         chatName: 'Tên hiển thị trò chuyện',
         temporaryPassword: 'Mật khẩu tạm thời',
-        extensionsHint: 'Chỉ số',
+        extensionsHelperText: 'Số nội bộ chỉ được chứa chữ số',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Tên',

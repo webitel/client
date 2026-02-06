@@ -20,7 +20,6 @@
         :label="$t('objects.directory.users.extensions')"
         :model-value="itemInstance.extension"
         :v="v.itemInstance.extension"
-        :label-props="{ hint: $t('objects.directory.users.extensionsHint') }"
         @update:model-value="setItemProp({ prop: 'extension', value: $event })"
       />
 

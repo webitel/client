@@ -252,7 +252,7 @@ export default {
           'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
         chatName: 'Чат көрсету аты',
         temporaryPassword: 'Уақытша құпия сөз',
-        extensionsHint: 'Тек сандар',
+        extensionsHelperText: 'Ішкі нөмір тек сандардан тұруы тиіс',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Аты',
