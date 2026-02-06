@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import ChatGatewayRouteNames from "./_internals/ChatGatewayRouteNames.enum.js";
 
@@ -27,80 +28,86 @@ const ChatGetewaysRoutes = [
     path: '/routing/chat-gateways',
     name: RouteNames.CHAT_GATEWAYS,
     component: ChatGateways,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ChatGateway,
+      UiSection: AdminSections.ChatGateways,
+    },
   },
   {
     path: '/routing/chat-gateways/:id',
     name: `${RouteNames.CHAT_GATEWAYS}-card`,
     redirect: { name: ChatGatewayRouteNames.GENERAL },
     component: OpenedChatGateways,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ChatGateway,
+      UiSection: AdminSections.ChatGateways,
+    },
     children: [
       {
         path: 'telegram-bot',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayTelegramBotGeneralTab,
-      },{
+      }, {
         path: 'telegram-app',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayTelegramAppGeneralTab,
-      },{
+      }, {
         path: 'infobip',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayInfobipGeneralTab,
-      },{
+      }, {
         path: 'meta',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayMessengerGeneralTab,
-      },{
+      }, {
         path: 'facebook-pages',
         name: ChatGatewayRouteNames.FACEBOOK_PAGES,
         component: OpenedChatFacebook,
-      },{
+      }, {
         path: 'instagram',
         name: ChatGatewayRouteNames.INSTAGRAM,
         component: OpenedChatInstagram,
-      },{
+      }, {
         path: 'whatsapp',
         name: ChatGatewayRouteNames.WHATSAPP,
         component: OpenedChatWhatsapp,
-      },{
+      }, {
         path: 'viber',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayViberGeneralTab,
-      },{
+      }, {
         path: 'general',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayWebchatGeneralTab,
-      },{
+      }, {
         path: 'view',
         name: ChatGatewayRouteNames.VIEW,
         component: OpenedChatGatewayWebchatViewTab,
-      },{
+      }, {
         path: 'chat',
         name: ChatGatewayRouteNames.CHAT,
         component: OpenedChatGatewayWebchatChatTab,
-      },{
+      }, {
         path: 'appointment',
         name: ChatGatewayRouteNames.APPOINTMENT,
         component: OpenedChatGatewayWebchatAppointmentTab,
-      },{
+      }, {
         path: 'alternative-channels',
         name: ChatGatewayRouteNames.ALTERNATIVE_CHANNELS,
         component: OpenedChatGatewayWebchatAlternativeChannelsTab,
-      },{
+      }, {
         path: 'recapcha',
         name: ChatGatewayRouteNames.RE_CAPTCHA,
         component: OpenedChatGatewayWebchatRecaptchaTab,
-      },{
+      }, {
         path: 'general',
         name: ChatGatewayRouteNames.GENERAL,
         component: OpenedChatGatewayCustomGeneralTab,
-      },{
+      }, {
         path: 'templates',
         name: ChatGatewayRouteNames.TEMPLATES,
         component: OpenedChatGatewayTemplatesTab,
-      },{
+      }, {
         path: 'style',
         name: ChatGatewayRouteNames.STYLE,
         component: OpenedChatGatewayViberStyleTab,

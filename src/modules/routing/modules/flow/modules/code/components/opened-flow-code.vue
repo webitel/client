@@ -6,15 +6,33 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
-      <wt-tags-input :disabled="disableUserInput" :label="$t('vocabulary.tag', 2)" :search-method="loadFlowTagOptions"
-        :value="itemInstance.tags" option-label="name" taggable track-by="name"
-        @input="setItemProp({ prop: 'tags', value: $event })" />
+      <wt-input-text
+        :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :model-value="itemInstance.name"
+        required
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
+      />
+      <wt-tags-input
+        :disabled="disableUserInput"
+        :label="$t('vocabulary.tag', 2)"
+        :search-method="loadFlowTagOptions"
+        :value="itemInstance.tags"
+        option-label="name"
+        taggable
+        track-by="name"
+        @input="setItemProp({ prop: 'tags', value: $event })"
+      />
     </div>
-    <code-editor :autocomplete="autocomplete" :disabled="disableUserInput" :label="$t('objects.routing.flow.flow', 1)"
-      :value="itemInstance.schema" @change="setItemProp({ prop: 'schema', value: $event })"
-      @error-listener="isSyntaxError = $event" />
+    <code-editor
+      :autocomplete="autocomplete"
+      :disabled="disableUserInput"
+      :label="$t('objects.routing.flow.flow', 1)"
+      :value="itemInstance.schema"
+      @change="setItemProp({ prop: 'schema', value: $event })"
+      @error-listener="isSyntaxError = $event"
+    />
   </section>
 </template>
 
@@ -22,6 +40,7 @@
 import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup';
 
 import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../../api/flow';
 import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
@@ -30,6 +49,12 @@ export default {
   name: 'OpenedFlowCode',
   components: { CodeEditor },
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     autocomplete() {
       const { type } = this.itemInstance;
@@ -48,4 +73,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

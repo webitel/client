@@ -122,6 +122,7 @@ import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils'
 
 import { useDummy } from '../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
@@ -136,7 +137,11 @@ export default {
   mixins: [tableComponentMixin],
   setup() {
     const { dummy } = useDummy({ namespace });
-    return { dummy };
+    const { hasCreateAccess } = useUserAccessControl();
+    return {
+      dummy,
+      hasCreateAccess,
+    };
   },
   data: () => ({
     namespace,

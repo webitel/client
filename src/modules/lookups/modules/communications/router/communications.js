@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import CommunicationsRouteNamesEnum from "./_internals/CommunicationsRouteNames.enum.js";
 
@@ -12,14 +13,20 @@ const CommunicationsRoutes = [
     path: '/lookups/communications',
     name: RouteNames.COMMUNICATIONS,
     component: CommunicationTypes,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Communication,
+      UiSection: AdminSections.Communications,
+    },
   },
   {
     path: '/lookups/communications/:id',
     name: `${RouteNames.COMMUNICATIONS}-card`,
-    redirect: {name: CommunicationsRouteNamesEnum.GENERAL},
+    redirect: { name: CommunicationsRouteNamesEnum.GENERAL },
     component: OpenedCommunicationType,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Communication,
+      UiSection: AdminSections.Communications,
+    },
     children: [
       {
         path: 'general',

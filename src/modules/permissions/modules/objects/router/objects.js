@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import ObjectsRouteNames from "./_internals/ObjectsRouteNames.enum.js";
 
@@ -13,20 +14,26 @@ const ObjectsRoutes = [
     path: '/permissions/objects',
     name: RouteNames.OBJECTS,
     component: TheObjectsPermissions,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Object,
+      UiSection: AdminSections.Objects,
+    },
   },
   {
     path: '/permissions/objects/:id',
     name: `${RouteNames.OBJECTS}-card`,
-    redirect: {name: ObjectsRouteNames.OBAC},
+    redirect: { name: ObjectsRouteNames.OBAC },
     component: OpenedObjectPermissions,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Object,
+      UiSection: AdminSections.Objects,
+    },
     children: [
       {
         path: 'obac/:permissionId?',
         name: ObjectsRouteNames.OBAC,
         component: Obac
-      },{
+      }, {
         path: 'rbac/:permissionId?',
         name: ObjectsRouteNames.RBAC,
         component: Rbac,

@@ -73,7 +73,7 @@
             :headers="headers"
             fixed-actions
             sortable
-            :row-reorder="hasEditAccess"
+            :row-reorder="hasUpdateAccess"
             @sort="sort"
             @reorder:row="handleReorder"
           >
@@ -135,7 +135,7 @@
 
             <template #state="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
                 @update:model-value="
                   patchItem({ item, index, prop: 'enabled', value: $event })
@@ -146,7 +146,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -184,6 +184,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy.js';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -208,6 +209,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -216,6 +219,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
     };
   },
   data: () => ({

@@ -1,4 +1,5 @@
-import { checkRouteAccess } from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import QuickRepliesRouteNamesEnum from "./_internals/QuickRepliesRouteNames.enum.js";
 
@@ -13,14 +14,20 @@ const QuickRepliesRoutes = [
     path: '/lookups/quick-replies',
     name: RouteNames.QUICK_REPLIES,
     component: QuickReplies,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.QuickReply,
+      UiSection: AdminSections.QuickReplies,
+    },
   },
   {
     path: '/lookups/quick-replies/:id',
     name: `${RouteNames.QUICK_REPLIES}-card`,
-    redirect: {name: QuickRepliesRouteNamesEnum.GENERAL},
+    redirect: { name: QuickRepliesRouteNamesEnum.GENERAL },
     component: OpenedQuickReply,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.QuickReply,
+      UiSection: AdminSections.QuickReplies,
+    },
     children: [
       {
         path: 'general',

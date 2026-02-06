@@ -1,8 +1,9 @@
 <template>
-  <div class="upload-file-icon-btn">
+  <div :class="{ 'upload-file-icon-btn--disabled': disabled }" class="upload-file-icon-btn">
     <wt-icon-btn
       v-tooltip="$t('iconHints.upload')"
       icon="upload"
+      :disabled="disabled"
       @click="triggerFileInput"
     />
 
@@ -10,6 +11,7 @@
       ref="file-input"
       :accept="accept"
       class="upload-file-icon-btn__input"
+      :disabled="disabled"
       type="file"
       @change="inputFileHandler"
     >
@@ -23,6 +25,10 @@ export default {
     accept: {
       type: String,
       default: '.csv',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['change'],
@@ -42,7 +48,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped>
 .upload-file-icon-btn {
   position: relative;
   line-height: 0;
@@ -57,5 +63,9 @@ export default {
     cursor: pointer;
     font-size: 0;
   }
+}
+
+.upload-file-icon-btn--disabled {
+  pointer-events: none;
 }
 </style>

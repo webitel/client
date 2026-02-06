@@ -1,13 +1,11 @@
-import { createUserAccessControlComposable } from "@webitel/ui-sdk/src/composables/useAccessControl/v2/createUserAccessControl";
-import type {
-    UseAccessControlReturn
-} from "@webitel/ui-sdk/src/composables/useAccessControl/v2/types/CreateUserAccessControl";
+import { createUserAccessControlComposable } from '@webitel/ui-sdk/modules/Userinfo';
 
-export let useUserAccessControl = (): UseAccessControlReturn => {
-    throw new Error("useUserAccessControl is not created");
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export let useUserAccessControl = (_?: any): any => {
+  throw new Error('useUserAccessControl is not created');
 };
 
 export const createUserAccessControl = (useUserinfoStore) => {
-    useUserAccessControl = createUserAccessControlComposable(useUserinfoStore);
-    return useUserAccessControl;
+  useUserAccessControl = createUserAccessControlComposable(useUserinfoStore);
+  return useUserAccessControl;
 };

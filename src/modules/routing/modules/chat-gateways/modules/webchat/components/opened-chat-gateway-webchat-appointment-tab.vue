@@ -7,48 +7,93 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-switcher :label="$t('objects.enabled')" :model-value="itemInstance.metadata.appointment.enabled"
-        :disabled="disableUserInput" @update:model-value="setAppointmentMetadata({ prop: 'enabled', value: $event })" />
+      <wt-switcher
+        :label="$t('objects.enabled')"
+        :model-value="itemInstance.metadata.appointment.enabled"
+        :disabled="disableUserInput"
+        @update:model-value="setAppointmentMetadata({ prop: 'enabled', value: $event })"
+      />
       <div />
-      <wt-select :clearable="false" :label="$t('objects.ccenter.queues.queues', 1)" :search-method="searchQueues"
-        :v="v.itemInstance.metadata.appointment.queue" :value="itemInstance.metadata.appointment.queue"
-        :disabled="disableUserInput" @input="setAppointmentMetadata({ prop: 'queue', value: $event })" />
-      <wt-select :clearable="false" :label="$t('objects.lookups.communications.communications', 1)"
-        :search-method="searchCommunications" :v="v.itemInstance.metadata.appointment.communicationType"
-        :value="itemInstance.metadata.appointment.communicationType" :disabled="disableUserInput"
-        @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })" />
-      <wt-select :clearable="false" :disabled="disableUserInput" :label="$t('vocabulary.duration')"
-        :options="durationOptions" :v="v.itemInstance.metadata.appointment.duration" :value="duration" track-by="value"
-        @input="setAppointmentMetadata({ prop: 'duration', value: $event.value })" />
-      <wt-input-number :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')" :min="1"
+      <wt-select
+        :clearable="false"
+        :label="$t('objects.ccenter.queues.queues', 1)"
+        :search-method="searchQueues"
+        :v="v.itemInstance.metadata.appointment.queue"
+        :value="itemInstance.metadata.appointment.queue"
+        :disabled="disableUserInput"
+        @input="setAppointmentMetadata({ prop: 'queue', value: $event })"
+      />
+      <wt-select
+        :clearable="false"
+        :label="$t('objects.lookups.communications.communications', 1)"
+        :search-method="searchCommunications"
+        :v="v.itemInstance.metadata.appointment.communicationType"
+        :value="itemInstance.metadata.appointment.communicationType"
+        :disabled="disableUserInput"
+        @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
+      />
+      <wt-select
+        :clearable="false"
+        :disabled="disableUserInput"
+        :label="$t('vocabulary.duration')"
+        :options="durationOptions"
+        :v="v.itemInstance.metadata.appointment.duration"
+        :value="duration"
+        track-by="value"
+        @input="setAppointmentMetadata({ prop: 'duration', value: $event.value })"
+      />
+      <wt-input-number
+        :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"
+        :min="1"
         :v="v.itemInstance.metadata.appointment.availableAgents"
-        :model-value="itemInstance.metadata.appointment.availableAgents" :disabled="disableUserInput"
-        @update:model-value="setAppointmentMetadata({ prop: 'availableAgents', value: $event })" />
-      <wt-input-number :label="$t('objects.routing.chatGateways.webchat.appointment.days')" :max="7" :min="1"
-        :v="v.itemInstance.metadata.appointment.days" :model-value="itemInstance.metadata.appointment.days"
-        :disabled="disableUserInput" @update:model-value="setAppointmentMetadata({ prop: 'days', value: $event })" />
-      <wt-switcher :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
-        :model-value="itemInstance.metadata.appointment.showMessageField" :disabled="disableUserInput"
-        @update:model-value="setAppointmentMetadata({ prop: 'showMessageField', value: $event })" />
+        :model-value="itemInstance.metadata.appointment.availableAgents"
+        :disabled="disableUserInput"
+        @update:model-value="setAppointmentMetadata({ prop: 'availableAgents', value: $event })"
+      />
+      <wt-input-number
+        :label="$t('objects.routing.chatGateways.webchat.appointment.days')"
+        :max="7"
+        :min="1"
+        :v="v.itemInstance.metadata.appointment.days"
+        :model-value="itemInstance.metadata.appointment.days"
+        :disabled="disableUserInput"
+        @update:model-value="setAppointmentMetadata({ prop: 'days', value: $event })"
+      />
+      <wt-switcher
+        :label="$t('objects.routing.chatGateways.webchat.appointment.showMessageField')"
+        :model-value="itemInstance.metadata.appointment.showMessageField"
+        :disabled="disableUserInput"
+        @update:model-value="setAppointmentMetadata({ prop: 'showMessageField', value: $event })"
+      />
       <div class="success-settings">
         <span class="success-settings__title typo-heading-3">
           {{ $t('objects.routing.chatGateways.webchat.appointment.resultPageText') }}
         </span>
-        <wt-switcher :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
-          :model-value="itemInstance.metadata.appointment.showDefaultHeading" :disabled="disableUserInput"
-          @update:model-value="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })" />
-        <wt-textarea :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
+        <wt-switcher
+          :label="$t('objects.routing.chatGateways.webchat.appointment.showDefaultHeading')"
+          :model-value="itemInstance.metadata.appointment.showDefaultHeading"
+          :disabled="disableUserInput"
+          @update:model-value="setAppointmentMetadata({ prop: 'showDefaultHeading', value: $event })"
+        />
+        <wt-textarea
+          :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
           :label="$t('objects.routing.chatGateways.webchat.appointment.headingText')"
           :model-value="itemInstance.metadata.appointment.successTitle"
-          @update:model-value="handleInput({ prop: 'successTitle', value: $event })" />
-        <wt-textarea :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
+          @update:model-value="handleInput({ prop: 'successTitle', value: $event })"
+        />
+        <wt-textarea
+          :disabled="itemInstance.metadata.appointment.showDefaultHeading || disableUserInput"
           :label="$t('objects.routing.chatGateways.webchat.appointment.subheadingText')"
           :model-value="itemInstance.metadata.appointment.successSubtitle"
-          @update:model-value="handleInput({ prop: 'successSubtitle', value: $event })" />
+          @update:model-value="handleInput({ prop: 'successSubtitle', value: $event })"
+        />
       </div>
-      <wt-switcher :label="$t('objects.routing.chatGateways.webchat.appointment.showEmailField')"
-        :model-value="itemInstance.metadata.appointment.showEmailField" :disabled="disableUserInput"
-        @update:model-value="setAppointmentMetadata({ prop: 'showEmailField', value: $event })" />
+      <wt-switcher
+        :label="$t('objects.routing.chatGateways.webchat.appointment.showEmailField')"
+        :model-value="itemInstance.metadata.appointment.showEmailField"
+        :disabled="disableUserInput"
+        @update:model-value="setAppointmentMetadata({ prop: 'showEmailField', value: $event })"
+      />
     </div>
   </section>
 </template>
@@ -56,6 +101,7 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
 import StatisticTimeList from '../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup';
@@ -64,6 +110,12 @@ import CommunicationsAPI from '../../../../../../lookups/modules/communications/
 export default {
   name: 'OpenedChatGatewayWebchatAppointmentTab',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     duration() {
       return this.durationOptions.find((duration) => {
@@ -95,7 +147,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main' as *;
 @use '../../../css/chat-gateways';
 

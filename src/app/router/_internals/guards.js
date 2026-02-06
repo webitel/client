@@ -1,23 +1,11 @@
-import store from '../../store/store.js';
+import { WtApplication } from '@webitel/ui-sdk/enums';
 
-export const checkAppAccess = (to) => {
-  // check for === false because it can be undefined
-  if (to.meta.requiresAccess === false) return true;
+import { useUserinfoStore } from '../../../modules/userinfo/stores/userinfoStore';
 
-  const hasReadAccess = store.getters['userinfo/CHECK_APP_ACCESS'](
-    store.getters['userinfo/THIS_APP'],
-  );
-  if (hasReadAccess) {
-    return true;
-  } else {
-    return { path: '/access-denied' };
-  }
-};
+export const checkAppAccess = () => {
+  const userInfoStore = useUserinfoStore()
 
-export const checkRouteAccess = (to) => {
-  const hasReadAccess = store.getters['userinfo/HAS_READ_ACCESS']({
-    route: to,
-  });
+  const hasReadAccess = userInfoStore.hasApplicationVisibility(WtApplication.Admin)
   if (hasReadAccess) {
     return true;
   } else {

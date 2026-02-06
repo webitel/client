@@ -7,7 +7,7 @@
     </header>
 
     <div class="table-section__table-wrapper">
-      <div class="table-wrapper__visible-scroll-wrapper">
+      <div class=".table-section__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
           :grid-actions="!disableUserInput"
@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { useWeekDaysData } from '../composables/useWeekDaysData.js';
@@ -74,8 +75,9 @@ export default {
   name: 'OpenedCalendarWorkWeek',
   mixins: [openedTabComponentMixin],
   setup() {
+    const { disableUserInput } = useUserAccessControl();
     const { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin } = useWeekDaysData(namespace, dataName);
-    return { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin };
+    return { disableUserInput, dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin };
   },
 };
 </script>

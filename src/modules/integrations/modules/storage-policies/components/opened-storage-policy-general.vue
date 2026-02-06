@@ -1,8 +1,16 @@
 <template>
   <section class="opened-storage-policy-general">
-    <apply-to-files-popup :id="itemInstance.id" :shown="isPopupOpened" @close="closePopup" />
-    <encryption-alert-popup :shown="isEncryptionAlertOpened" :message="encryptionAlertMessage"
-      @close="closeEncryptionAlert" @confirm="confirmEncryptionChange" />
+    <apply-to-files-popup
+      :id="itemInstance.id"
+      :shown="isPopupOpened"
+      @close="closePopup"
+    />
+    <encryption-alert-popup
+      :shown="isEncryptionAlertOpened"
+      :message="encryptionAlertMessage"
+      @close="closeEncryptionAlert"
+      @confirm="confirmEncryptionChange"
+    />
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
         {{ $t('objects.generalInfo') }}
@@ -10,16 +18,33 @@
     </header>
     <div class="object-input-grid opened-storage-policy-general__grid-2col">
       <div class="grid-column">
-        <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-          :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
-        <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
+        <wt-input-text
+          :disabled="disableUserInput"
+          :label="$t('objects.name')"
+          :v="v.itemInstance.name"
+          :model-value="itemInstance.name"
+          required
+          @update:model-value="setItemProp({ prop: 'name', value: $event })"
+        />
+        <wt-textarea
+          :disabled="disableUserInput"
+          :label="$t('objects.description')"
           :model-value="itemInstance.description"
-          @update:model-value="setItemProp({ prop: 'description', value: $event })" />
-        <wt-switcher :disabled="disableUserInput" :label="$t('reusable.state')" :model-value="itemInstance.enabled"
-          @update:model-value="setItemProp({ prop: 'enabled', value: $event })" />
+          @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        />
+        <wt-switcher
+          :disabled="disableUserInput"
+          :label="$t('reusable.state')"
+          :model-value="itemInstance.enabled"
+          @update:model-value="setItemProp({ prop: 'enabled', value: $event })"
+        />
         <div class="opened-storage-policy-general-encrypt">
-          <wt-switcher :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.encryptFile')"
-            :model-value="itemInstance.encrypt" @update:model-value="handleEncryptChange" />
+          <wt-switcher
+            :disabled="disableUserInput"
+            :label="$t('objects.integrations.storagePolicies.encryptFile')"
+            :model-value="itemInstance.encrypt"
+            @update:model-value="handleEncryptChange"
+          />
           <span class="opened-storage-policy-general-encrypt__hint typo-body-2">
             {{ $t('objects.integrations.storagePolicies.encryptFileHint') }}
           </span>
@@ -36,24 +61,55 @@
         </div>
       </div>
       <div class="grid-column">
-        <wt-select :disabled="disableUserInput" :label="$t('vocabulary.channel', 2)" :v="v.itemInstance.channels"
-          :value="channels" :options="channelsOptions" track-by="value" multiple required
-          @input="setItemProp({ prop: 'channels', value: $event });" />
-        <wt-tags-input :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.mimeTypes')"
-          :value="itemInstance.mimeTypes" :v="v.itemInstance.mimeTypes" taggable required :options="MimeTypes"
-          @input="setItemProp({ prop: 'mimeTypes', value: $event })" />
-        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.retentionDays')"
-          :min="0" :model-value="itemInstance.retentionDays"
-          @update:model-value="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })" />
-        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
-          :min="0" :model-value="itemInstance.speedDownload"
-          @update:model-value="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })" />
-        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
-          :min="0" :model-value="itemInstance.speedUpload"
-          @update:model-value="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })" />
-        <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
-          :min="0" :model-value="itemInstance.maxUploadSize"
-          @update:model-value="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })" />
+        <wt-select
+          :disabled="disableUserInput"
+          :label="$t('vocabulary.channel', 2)"
+          :v="v.itemInstance.channels"
+          :value="channels"
+          :options="channelsOptions"
+          track-by="value"
+          multiple
+          required
+          @input="setItemProp({ prop: 'channels', value: $event });"
+        />
+        <wt-tags-input
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.mimeTypes')"
+          :value="itemInstance.mimeTypes"
+          :v="v.itemInstance.mimeTypes"
+          taggable
+          required
+          :options="MimeTypes"
+          @input="setItemProp({ prop: 'mimeTypes', value: $event })"
+        />
+        <wt-input-number
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.retentionDays')"
+          :min="0"
+          :value="itemInstance.retentionDays"
+          @update:model-value="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })"
+        />
+        <wt-input-number
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
+          :min="0"
+          :model-value="itemInstance.speedDownload"
+          @update:model-value="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })"
+        />
+        <wt-input-number
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
+          :min="0"
+          :value="itemInstance.speedUpload"
+          @update:model-value="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })"
+        />
+        <wt-input-number
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
+          :min="0"
+          :value="itemInstance.maxUploadSize"
+          @update:model-value="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })"
+        />
       </div>
     </div>
   </section>
@@ -65,6 +121,7 @@ import { MimeTypes } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin
   from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
@@ -74,6 +131,12 @@ export default {
   name: 'OpenedStoragePolicyGeneral',
   components: { ApplyToFilesPopup, EncryptionAlertPopup },
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   data: () => ({
     MimeTypes: Object.values(MimeTypes),
     isPopupOpened: false,
@@ -140,7 +203,10 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style
+  scoped
+  lang="scss"
+>
 @use '@webitel/ui-sdk/src/css/main' as *;
 
 .opened-storage-policy-general {

@@ -1,7 +1,6 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-
     class="table-page"
   >
     <template #header>
@@ -11,17 +10,14 @@
       >
         <template #actions>
           <wt-button
-            :disabled="!selectedRows.length"
+            :disabled="!selectedRows.length || !hasSkillAssignToAgentAccess"
             color="secondary"
-
             @click="openAddSkillToAgentPopup"
           >
             {{ $t('objects.lookups.skills.assignAgent') }}
           </wt-button>
         </template>
-        <wt-breadcrumb
-          :path="path"
-        />
+        <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
@@ -30,13 +26,12 @@
         :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
-
         @close="closeDelete"
       />
 
       <add-skill-to-agent-popup
+        v-if="hasSkillAssignToAgentAccess"
         :skill-id="selectedRowsId"
-
         @close="closeAddSkillToAgentPopup"
         @saved="loadDataList"
       />
@@ -50,21 +45,18 @@
             <wt-search-bar
               :value="search"
               debounce
-
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
             />
             <wt-table-actions
               :icons="['refresh']"
-
               @input="tableActionsHandler"
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
                 :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
-
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
@@ -74,16 +66,13 @@
           </div>
         </header>
 
-        <wt-loader
-          v-show="!isLoaded"
-        />
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :show-action="dummy.showAction"
           :src="dummy.src"
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
-
           class="dummy-wrapper"
           @create="create"
         />
@@ -95,7 +84,6 @@
             :data="dataList"
             :headers="headers"
             sortable
-
             @sort="sort"
           >
             <template #name="{ item }">
@@ -118,14 +106,12 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
-
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
                 action="delete"
                 :disabled="!hasDeleteAccess"
-
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -138,7 +124,6 @@
             :prev="page > 1"
             :size="size"
             debounce
-
             @change="loadList"
             @input="setSize"
             @next="nextPage"
@@ -151,10 +136,13 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import addSkillToAgentMixin from '../mixins/addSkillToAgentPopupMixin.js';
@@ -181,6 +169,17 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+
+    const {
+      hasReadAccess: hasReadAgentAccess,
+      hasUpdateAccess: hasUpdateAgentAccess,
+    } = useUserAccessControl(WtObject.Agent);
+
+    const hasSkillAssignToAgentAccess = computed(() => {
+      return hasReadAgentAccess.value && hasUpdateAgentAccess.value;
+    });
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -189,6 +188,11 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
+
+      hasSkillAssignToAgentAccess,
     };
   },
 

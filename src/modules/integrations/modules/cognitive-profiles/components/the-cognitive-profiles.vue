@@ -4,15 +4,25 @@
     class="table-page"
   >
     <template #header>
-      <wt-page-header :hide-primary="!hasCreateAccess" :primary-action="create">
+      <wt-page-header
+        :hide-primary="!hasCreateAccess"
+        :primary-action="create"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #main>
-      <create-cognitive-profile-popup :shown="isCognitiveProfilePopup" @close="isCognitiveProfilePopup = false" />
-      <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount"
-        :callback="deleteCallback" @close="closeDelete" />
+      <create-cognitive-profile-popup
+        :shown="isCognitiveProfilePopup"
+        @close="isCognitiveProfilePopup = false"
+      />
+      <delete-confirmation-popup
+        :shown="isDeleteConfirmationPopup"
+        :delete-count="deleteCount"
+        :callback="deleteCallback"
+        @close="closeDelete"
+      />
 
       <section class="table-section">
         <header class="table-title">
@@ -25,25 +35,50 @@
             }}
           </h3>
           <div class="table-title__actions-wrap">
-            <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
-            <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
-              <delete-all-action v-if="hasDeleteAccess" :class="{ 'hidden': anySelected }"
-                :selected-count="selectedRows.length" @click="askDeleteConfirmation({
+            <wt-search-bar
+              :value="search"
+              debounce
+              @enter="loadList"
+              @input="setSearch"
+              @search="loadList"
+            />
+            <wt-table-actions
+              :icons="['refresh']"
+              @input="tableActionsHandler"
+            >
+              <delete-all-action
+                :disabled="!hasDeleteAccess"
+                :class="{ 'hidden': anySelected }"
+                :selected-count="selectedRows.length"
+                @click="askDeleteConfirmation({
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
-                })" />
+                })"
+              />
             </wt-table-actions>
           </div>
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <wt-dummy v-if="dummy && isLoaded" :show-action="dummy.showAction" :src="dummy.src" :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)" class="dummy-wrapper" @create="create" />
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :show-action="dummy.showAction"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+          @create="create"
+        />
         <div
           v-show="dataList.length && isLoaded"
           class="table-section__table-wrapper"
         >
-          <wt-table :data="dataList" :headers="headers" sortable @sort="sort">
+          <wt-table
+            :data="dataList"
+            :headers="headers"
+            sortable
+            @sort="sort"
+          >
             <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
@@ -56,23 +91,46 @@
               {{ $t(`objects.${item.service.toLowerCase()}`) }}
             </template>
             <template #default="{ item, index }">
-              <wt-radio :disabled="!item.enabled" :selected="item.default" :value="true"
-                @update:selected="changeDefaultProfile({ item, index, value: $event })" />
+              <wt-radio
+                :disabled="!hasUpdateAccess || !item.enabled"
+                :selected="item.default"
+                :value="true"
+                @update:selected="changeDefaultProfile({ item, index, value: $event })"
+              />
             </template>
             <template #state="{ item, index }">
-              <wt-switcher :disabled="!hasEditAccess" :model-value="item.enabled"
-                @update:model-value="changeState({ item, index, value: $event })" />
+              <wt-switcher
+                :disabled="!hasUpdateAccess"
+                :model-value="item.enabled"
+                @update:model-value="changeState({ item, index, value: $event })"
+              />
             </template>
             <template #actions="{ item }">
-              <wt-icon-action action="edit" :disabled="!hasEditAccess" @click="edit(item)" />
-              <wt-icon-action action="delete" :disabled="!hasDeleteAccess" @click="askDeleteConfirmation({
-                deleted: [item],
-                callback: () => deleteData(item),
-              })" />
+              <wt-icon-action
+                action="edit"
+                :disabled="!hasUpdateAccess"
+                @click="edit(item)"
+              />
+              <wt-icon-action
+                action="delete"
+                :disabled="!hasDeleteAccess"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
-          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-            @next="nextPage" @prev="prevPage" />
+          <wt-pagination
+            :next="isNext"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="loadList"
+            @input="setSize"
+            @next="nextPage"
+            @prev="prevPage"
+          />
         </div>
       </section>
     </template>
@@ -86,6 +144,7 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
@@ -122,6 +181,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -130,6 +191,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
     };
   },
   data: () => ({

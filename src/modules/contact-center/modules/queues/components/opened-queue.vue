@@ -1,21 +1,46 @@
 <template>
-  <wt-page-wrapper v-if="showQueuePage" :actions-panel="!!currentTab.filters">
+  <wt-page-wrapper
+    v-if="showQueuePage"
+    :actions-panel="!!currentTab.filters"
+  >
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="close">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <component :is="currentTab.filters" :namespace="currentTab.filtersNamespace" />
+      <component
+        :is="currentTab.filters"
+        :namespace="currentTab.filtersNamespace"
+      />
     </template>
 
     <template #main>
-      <form class="tabs-page-wrapper" @submit.prevent="save">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+      <form
+        class="tabs-page-wrapper"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -27,7 +52,9 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import deepmerge from 'deepmerge';
 import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
@@ -62,9 +89,20 @@ export default {
     LogsFilters,
   },
   mixins: [openedObjectMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
+const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(WtObject.ChangeLog);
+
+
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasSaveActionAccess,
+      hasAgentsReadAccess,
+      hasLogsReadAccess,
+    };
+  },
 
   data: () => ({
     namespace: 'ccenter/queues',
@@ -338,6 +376,7 @@ export default {
       const agents = {
         text: this.$t('objects.ccenter.agents.agents', 2),
         value: 'agents',
+        disabled: !this.hasAgentsReadAccess,
         pathName: QueuesRoutesName.AGENTS,
       };
       const skills = {
@@ -374,6 +413,7 @@ export default {
         text: this.$t('objects.ccenter.queues.logs.logs', 2),
         value: 'logs',
         filters: 'logs-filters',
+        disabled: !this.hasLogsReadAccess,
         filtersNamespace: `${this.namespace}/log/filters`,
         pathName: QueuesRoutesName.LOGS,
       };
@@ -393,7 +433,7 @@ export default {
         general,
         params,
         // cannot destructure undefined, if queueType loading in progress
-        ...(queueTabsMap[this.queueType] || []),
+        ...(queueTabsMap[this.queueType] || []).filter(tab => !tab.disabled),
         hooks,
         variables,
       ];
@@ -432,4 +472,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

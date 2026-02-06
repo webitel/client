@@ -15,7 +15,7 @@
             deleted: selectedRows,
             callback: () => deleteData(selectedRows),
           })" />
-        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
+        <wt-icon-btn :disabled="disableUserInput" class="icon-action" icon="plus" @click="create" />
       </div>
     </header>
 
@@ -24,8 +24,8 @@
     <div
       v-show="dataListValue.length"
       class="table-section__table-wrapper"
-    >
-      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
+      >
+      <wt-table :data="dataList" :headers="headers">
         <template #date="{ item }">
           {{ prettifyDate(item.date) }}
         </template>
@@ -44,8 +44,8 @@
             @update:model-value="setRepeatValue({ prop: 'repeat', index, value: $event })" />
         </template>
         <template #actions="{ item, index }">
-          <wt-icon-action action="edit" @click="edit(index)" />
-          <wt-icon-action action="delete" @click="askDeleteConfirmation({
+          <wt-icon-action action="edit" :disabled="disableUserInput" @click="edit(index)" />
+          <wt-icon-action action="delete" :disabled="disableUserInput" @click="askDeleteConfirmation({
             deleted: [item],
             callback: () => deleteData(item),
           })" />
@@ -63,6 +63,7 @@ import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurat
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapActions, mapGetters, mapState } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
 import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
 import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -83,6 +84,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { disableUserInput } = useUserAccessControl();
+
     return {
       isDeleteConfirmationPopup,
       deleteCount,
@@ -90,6 +93,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      disableUserInput,
     };
   },
 

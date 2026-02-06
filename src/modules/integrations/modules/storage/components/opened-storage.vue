@@ -40,6 +40,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required, requiredUnless } from '@vuelidate/validators';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import storageMixin from '../mixins/storageMixin';
@@ -63,9 +64,14 @@ export default {
     Drive,
   },
   mixins: [openedObjectMixin, storageMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasSaveActionAccess,
+    };
+  },
   data: () => ({
     namespace: 'integrations/storage',
     routeName: RouteNames.STORAGE,

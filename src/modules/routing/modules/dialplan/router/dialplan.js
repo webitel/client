@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import DialplanRouteNames from "./_internals/DialplanRouteNames.enum.js";
 
@@ -12,14 +13,20 @@ const DialplanRoutes = [
     path: '/routing/dialplan',
     name: RouteNames.DIALPLAN,
     component: Dialplan,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Dialplan,
+      UiSection: AdminSections.Dialplan,
+    },
   },
   {
     path: '/routing/dialplan/:id',
     name: `${RouteNames.DIALPLAN}-card`,
     redirect: { name: DialplanRouteNames.GENERAL },
     component: OpenedDialplan,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Dialplan,
+      UiSection: AdminSections.Dialplan,
+    },
     children: [
       {
         path: 'general',

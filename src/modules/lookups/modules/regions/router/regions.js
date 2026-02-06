@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import RegionRouteNames from "./_internals/RegionRouteNames.enum.js";
 
@@ -12,14 +13,20 @@ const RegionsRoutes = [
     path: '/lookups/regions',
     name: RouteNames.REGIONS,
     component: Regions,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Region,
+      UiSection: AdminSections.Regions,
+    },
   },
   {
     path: '/lookups/regions/:id',
     name: `${RouteNames.REGIONS}-card`,
-    redirect: {name: RegionRouteNames.GENERAL},
+    redirect: { name: RegionRouteNames.GENERAL },
     component: OpenedRegion,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Region,
+      UiSection: AdminSections.Regions,
+    },
     children: [
       {
         path: 'general',

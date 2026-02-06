@@ -9,7 +9,8 @@ import resetOnDestroyMixin from '../resetOnDestroyMixin/resetOnDestroyMixin';
  * and nested (nestedObjectMixin) mixins
  * @param {string} this.namespace - should be declared in data()
  *      and contain a string name for storeModule like 'ccenter/agents/skills'
- * @extends openedObjectValidationMixin, openedObjectAccessControlMixin
+ * @extends openedObjectValidationMixin
+ * @note Access control is now handled via useUserAccessControl composable in component setup()
  */
 export default {
   mixins: [resetOnDestroyMixin, openedObjectValidationMixin],

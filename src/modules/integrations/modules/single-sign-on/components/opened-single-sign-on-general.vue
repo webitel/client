@@ -45,12 +45,19 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import SingleSignOnAPI from '../api/singleSignOn';
 
 export default {
   name: 'OpenedSingleSignOnGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   methods: {
     loadFlows(params) {
       return SingleSignOnAPI.getLookup(params);
@@ -59,6 +66,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -68,6 +68,7 @@
 
 <script>
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
 
@@ -75,6 +76,12 @@ export default {
   name: 'OpenedSipGatewayRegisterGeneral',
   components: { PasswordInput },
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   methods: {
     loadDropdownOptionsList(params) {
       return FlowsAPI.getLookup(params);
@@ -83,5 +90,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

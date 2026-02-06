@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <application-access-popup :namespace="namespace" @close="closePopup" />
+    <application-access-popup
+      :namespace="namespace"
+      @close="closePopup"
+    />
 
     <header class="table-title">
       <h3 class="table-title__title">
@@ -9,16 +12,28 @@
     </header>
 
     <div class="table-section__table-wrapper">
-      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" :selectable="false">
+      <wt-table
+        :data="dataList"
+        :headers="headers"
+        :selectable="false"
+      >
         <template #name="{ item }">
           {{ item.displayName }}
         </template>
         <template #access="{ item }">
-          <wt-switcher :model-value="item.enabled"
-            @update:model-value="updateAccess({ app: item.name, value: $event })" />
+          <wt-switcher
+            :model-value="item.enabled"
+            :disabled="disableUserInput"
+            @update:model-value="updateAccess({ app: item.name, value: $event })"
+          />
         </template>
         <template #actions="{ item }">
-          <wt-icon-action v-if="item.isEditAction" :disabled="!item.enabled" action="edit" @click="edit(item)" />
+          <wt-icon-action
+            v-if="item.isEditAction"
+            :disabled="disableUserInput || !item.enabled"
+            action="edit"
+            @click="edit(item)"
+          />
         </template>
       </wt-table>
     </div>
@@ -31,6 +46,7 @@ import { mapActions, mapState } from 'vuex';
 
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 
 export default {
   name: 'OpenedRoleApplicationsAccess',
@@ -40,6 +56,12 @@ export default {
     dataListValue: [],
     searchValue: '',
   }),
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   watch: {
     access() {
       this.loadList();

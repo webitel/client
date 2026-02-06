@@ -39,7 +39,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -69,14 +69,15 @@
             :data="dataList"
             :headers="headers"
             sortable
-            :row-reorder="hasEditAccess"
+            :row-reorder="hasUpdateAccess"
             @sort="sort"
             @reorder:row="handleReorder"
           >
             <template #name="{ item }">
               <adm-item-link
                 :id="item.id"
-                :route-name="routeName">
+                :route-name="routeName"
+              >
                 {{ item.name }}
               </adm-item-link>
             </template>
@@ -95,15 +96,15 @@
             </template>
             <template #state="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="!item.disabled"
-                @update:model-value="patchProperty({index, prop: 'disabled', value: !$event})"
+                @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -138,6 +139,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -161,6 +163,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -169,6 +173,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
     };
   },
   data: () => ({
@@ -216,7 +223,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .dialplan {
   :deep(.sortable-chosen) {
     .dialplan__draggable-icon .wt-icon {
@@ -242,4 +252,3 @@ export default {
   }
 }
 </style>
-

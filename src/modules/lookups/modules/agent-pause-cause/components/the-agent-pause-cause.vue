@@ -39,7 +39,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{'hidden': anySelected}"
+                :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
@@ -83,21 +83,21 @@
             </template>
             <template #allowAdmin="{ item, index }">
               <wt-checkbox
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :selected="item.allowAdmin"
                 @update:selected="changeAdminPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowSupervisor="{ item, index }">
               <wt-checkbox
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :selected="item.allowSupervisor"
                 @update:selected="changeSupervisorPermissions({ item, index, value: $event })"
               />
             </template>
             <template #allowAgent="{ item, index }">
               <wt-checkbox
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :selected="item.allowAgent"
                 @update:selected="changeAgentPermissions({ item, index, value: $event })"
               />
@@ -105,7 +105,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
               <wt-icon-action
@@ -140,6 +140,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -164,6 +165,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -172,6 +175,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
     };
   },
 
@@ -211,6 +217,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

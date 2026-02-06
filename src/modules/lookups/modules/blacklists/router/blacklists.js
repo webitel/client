@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import BlacklistRouteNamesEnum from "./_internals/BlacklistRouteNames.enum.js";
 
@@ -13,24 +14,30 @@ const BlacklistsRoutes = [
     path: '/lookups/blacklist',
     name: RouteNames.BLACKLIST,
     component: Blacklists,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Blacklist,
+      UiSection: AdminSections.Blacklist,
+    },
   },
   {
     path: '/lookups/blacklist/:id',
     name: `${RouteNames.BLACKLIST}-card`,
-    redirect: {name: BlacklistRouteNamesEnum.GENERAL},
+    redirect: { name: BlacklistRouteNamesEnum.GENERAL },
     component: OpenedBlacklist,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Blacklist,
+      UiSection: AdminSections.Blacklist,
+    },
     children: [
       {
         path: 'general',
         name: BlacklistRouteNamesEnum.GENERAL,
         component: OpenedBlacklistGeneral,
-      },{
+      }, {
         path: 'numbers/:numberId?',
         name: BlacklistRouteNamesEnum.NUMBERS,
         component: OpenedBlacklistNumbers,
-      },{
+      }, {
         path: 'permissions/:permissionId?',
         name: BlacklistRouteNamesEnum.PERMISSIONS,
         component: PermissionsTab,

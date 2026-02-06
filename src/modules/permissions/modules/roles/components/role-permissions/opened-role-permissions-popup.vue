@@ -1,20 +1,37 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!permissionIndex" size="sm" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!permissionIndex"
+    size="sm"
+    overflow
+    @close="close"
+  >
     <template #title>
       {{ $t('objects.permissions.roles.addPermission') }}
     </template>
     <template #main>
       <form>
-        <wt-select v-model="itemInstance.permission" :clearable="false"
-          :label="$t('objects.permissions.roles.permissions.permissions', 1)" :search-method="loadPermissionsList"
-          :v="v$.itemInstance.permission" required />
+        <wt-select
+          v-model="itemInstance.permission"
+          :clearable="false"
+          :label="$t('objects.permissions.roles.permissions.permissions', 1)"
+          :search-method="loadPermissionsList"
+          :v="v$.itemInstance.permission"
+          required
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="computeDisabled" @click="save">
+      <wt-button
+        :disabled="computeDisabled"
+        @click="save"
+      >
         {{ $t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('objects.close') }}
       </wt-button>
     </template>
@@ -24,7 +41,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions, mapState } from 'vuex';
 

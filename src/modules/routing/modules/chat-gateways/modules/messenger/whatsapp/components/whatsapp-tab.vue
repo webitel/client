@@ -58,7 +58,7 @@
         </template>
         <template #subscription="{ item }">
           <wt-switcher
-            :disabled="!hasEditAccess"
+            :disabled="!hasUpdateAccess"
             :model-value="!!item.subscribedFields"
             @update:model-value="updateSubscriptionState({ item, value: $event })"
           />
@@ -83,6 +83,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 import WhatsappAPI from '../api/whatsapp';
@@ -101,11 +102,13 @@ export default {
       askDeleteConfirmation,
       closeDelete,
     } = useDeleteConfirmationPopup();
+    const { hasUpdateAccess } = useUserAccessControl();
 
     return {
       isDeleteConfirmationPopup,
       deleteCount,
       deleteCallback,
+      hasUpdateAccess,
 
       askDeleteConfirmation,
       closeDelete,

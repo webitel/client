@@ -1,4 +1,5 @@
-import { checkRouteAccess } from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import PauseTemplatesRouteNames
   from './_internals/PauseTemplatesRouteNames.enum.js';
@@ -15,7 +16,10 @@ const PauseTemplatesRoutes = [
     path: '/lookups/pause-templates',
     name: RouteNames.PAUSE_TEMPLATES,
     component: PauseTemplates,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.PauseTemplate,
+      UiSection: AdminSections.PauseTemplates,
+    },
   },
   {
     path: '/lookups/pause-templates/:id',
@@ -24,7 +28,10 @@ const PauseTemplatesRoutes = [
       name: PauseTemplatesRouteNames.GENERAL
     },
     component: OpenedPauseTemplate,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.PauseTemplate,
+      UiSection: AdminSections.PauseTemplates,
+    },
     children: [
       {
         path: 'general',

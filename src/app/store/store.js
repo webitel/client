@@ -9,7 +9,6 @@ import lookups from '../../modules/lookups/store/lookups';
 import permissions from '../../modules/permissions/store/permissions';
 import routing from '../../modules/routing/store/routing';
 import system from '../../modules/system/store/system';
-import userinfo from '../../modules/userinfo/deprecated/store/userinfo';
 
 const store = createStore({
   strict: false,
@@ -22,7 +21,6 @@ const store = createStore({
     },
   },
   modules: {
-    userinfo,
     directory,
     routing,
     lookups,

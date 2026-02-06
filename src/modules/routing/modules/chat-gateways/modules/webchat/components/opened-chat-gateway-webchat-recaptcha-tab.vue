@@ -54,11 +54,18 @@
 <script>
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedChatWebchatRecaptchaTab',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     disableCaptchaFields() {
       return !this.itemInstance.metadata?.captcha?.enabled || this.disableUserInput;
@@ -74,7 +81,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '../../../css/chat-gateways';
-
 </style>

@@ -4,13 +4,26 @@
     class="table-page"
   >
     <template #header>
-      <wt-page-header :hide-primary="!hasEditAccess || !isNotInboundMember" :primary-action="create"
-        :secondary-action="close">
+      <wt-page-header
+        :hide-primary="disableUserInput"
+        :primary-action="create"
+        :secondary-action="close"
+      >
         <template #primary-action>
-          <wt-button-select :options="saveOptions" @click="create" @click:option="({ callback }) => callback()">
+          <wt-button-select
+            :options="saveOptions"
+            @click="create"
+            @click:option="({ callback }) => callback()"
+          >
             {{ $t('objects.add') }}
           </wt-button-select>
-          <input ref="file-input" :accept="'.csv'" class="upload-file-input" type="file" @change="inputFileHandler">
+          <input
+            ref="file-input"
+            :accept="'.csv'"
+            class="upload-file-input"
+            type="file"
+            @change="inputFileHandler"
+          >
         </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -19,15 +32,30 @@
       <the-queue-members-filters :namespace="filtersNamespace" />
     </template>
     <template #main>
-      <destinations-popup v-if="isDestinationsPopup" :communications="communicationsOnPopup"
-        @close="closeDestinationsPopup" />
+      <destinations-popup
+        v-if="isDestinationsPopup"
+        :communications="communicationsOnPopup"
+        @close="closeDestinationsPopup"
+      />
 
-      <upload-popup :file="csvFile" :parent-id="parentId" @close="closeCSVPopup" />
+      <upload-popup
+        :file="csvFile"
+        :parent-id="parentId"
+        @close="closeCSVPopup"
+      />
 
-      <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :callback="deleteCallback"
-        :delete-count="deleteCount" @close="closeDelete" />
+      <delete-confirmation-popup
+        :shown="isDeleteConfirmationPopup"
+        :callback="deleteCallback"
+        :delete-count="deleteCount"
+        @close="closeDelete"
+      />
 
-      <reset-popup :shown="hasEditAccess && isResetPopup" :callback="resetMembers" @close="closeResetPopup" />
+      <reset-popup
+        :shown="!disableUserInput && isResetPopup"
+        :callback="resetMembers"
+        @close="closeResetPopup"
+      />
 
       <section class="table-section">
         <header class="table-title">
@@ -44,17 +72,23 @@
               @input="inputTableAction"
             >
               <wt-icon-btn
-                v-if="hasEditAccess"
+                :disabled="disableUserInput"
                 v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
                 icon="member-reset"
                 icon-prefix="adm"
                 @click="openResetPopup"
               />
 
-              <wt-context-menu v-if="hasEditAccess && isNotInboundMember" :options="deleteOptions"
-                @click="$event.option.method.call()">
+              <wt-context-menu
+                :options="deleteOptions"
+                @click="$event.option.method.call()"
+              >
                 <template #activator="{ toggle }">
-                  <wt-icon-action action="delete" @click="toggle" />
+                  <wt-icon-action
+                    :disabled="disableUserInput"
+                    action="delete"
+                    @click="toggle"
+                  />
                 </template>
               </wt-context-menu>
             </wt-table-actions>
@@ -62,14 +96,23 @@
         </header>
 
         <wt-loader v-show="!isLoaded" />
-        <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"></wt-dummy>
+        <wt-dummy
+          v-if="dummy && isLoaded"
+          :src="dummy.src"
+          :dark-mode="darkMode"
+          :text="dummy.text && $t(dummy.text)"
+          class="dummy-wrapper"
+        ></wt-dummy>
         <div
           v-show="dataList.length && isLoaded"
           class="table-section__table-wrapper"
         >
-          <wt-table :data="dataList" :grid-actions="hasEditAccess && isNotInboundMember" :headers="headers" sortable
-            @sort="sort">
+          <wt-table
+            :data="dataList"
+            :headers="headers"
+            sortable
+            @sort="sort"
+          >
             <template #name="{ item }">
               <wt-item-link :link="editLink(item)">
                 {{ item.name }}
@@ -96,31 +139,57 @@
               </div>
             </template>
             <template #destination="{ item }">
-              <div v-if="item.communications.length" class="members__destinations-wrapper">
+              <div
+                v-if="item.communications.length"
+                class="members__destinations-wrapper"
+              >
                 {{ item.communications[0].destination }}
-                <span v-if="item.communications.length > 1" class="members__destinations-num typo-body-2"
-                  @click="readDestinations(item)">+{{ item.communications.length - 1 }}</span>
+                <span
+                  v-if="item.communications.length > 1"
+                  class="members__destinations-num typo-body-2"
+                  @click="readDestinations(item)"
+                >+{{ item.communications.length - 1 }}</span>
               </div>
             </template>
             <template #type="{ item }">
               {{ item.type }}
             </template>
             <template #agent="{ item }">
-              <wt-item-link v-if="item.agent" :link="editAgentsLink(item.agent)" target="_blank">
+              <wt-item-link
+                v-if="item.agent"
+                :link="editAgentsLink(item.agent)"
+                target="_blank"
+              >
                 {{ item.agent.name }}
               </wt-item-link>
             </template>
 
             <template #actions="{ item }">
-              <wt-icon-action action="edit" @click="edit(item)" />
-              <wt-icon-action action="delete" @click="askDeleteConfirmation({
-                deleted: [item],
-                callback: () => deleteData(item),
-              })" />
+              <wt-icon-action
+                action="edit"
+                :disabled="disableUserInput"
+                @click="edit(item)"
+              />
+              <wt-icon-action
+                action="delete"
+                :disabled="disableUserInput"
+                @click="askDeleteConfirmation({
+                  deleted: [item],
+                  callback: () => deleteData(item),
+                })"
+              />
             </template>
           </wt-table>
-          <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-            @next="nextPage" @prev="prevPage" />
+          <wt-pagination
+            :next="isNext"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="loadList"
+            @input="setSize"
+            @next="nextPage"
+            @prev="prevPage"
+          />
         </div>
       </section>
     </template>
@@ -138,6 +207,7 @@ import { computed } from 'vue';
 import { mapActions, mapState, useStore } from 'vuex';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
@@ -181,6 +251,17 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const parentQueue = computed(() => getNamespacedState(store.state, namespace).parentQueue);
+
+    const { disableUserInput: disableUserInputOnNoAccess } = useUserAccessControl({
+      useUpdateAccessAsAllMutableChecksSource: true,
+    });
+
+    // if is NOT -- member is immutable. NOT prevents actions load by default
+    const isNotInboundMember = computed(() => parentQueue.value.type !== 1);
+
+    const disableUserInput = computed(() => disableUserInputOnNoAccess.value || !isNotInboundMember.value);
+
     return {
       isDeleteConfirmationPopup,
       deleteCount,
@@ -189,6 +270,7 @@ export default {
       askDeleteConfirmation,
       closeDelete,
       dummy,
+      disableUserInput,
     };
   },
 
@@ -212,10 +294,6 @@ export default {
     // }),
     parentId() {
       return this.$route.params.queueId;
-    },
-    // if is NOT -- member is immutable. NOT prevents actions load by default
-    isNotInboundMember() {
-      return !(this.parentQueue.type === 1);
     },
     path() {
       const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
@@ -402,7 +480,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/ui-sdk/src/css/main' as *;
 
 .members__destinations-wrapper {

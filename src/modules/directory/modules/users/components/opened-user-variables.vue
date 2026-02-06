@@ -22,14 +22,14 @@
             :placeholder="$t('objects.directory.users.varKey')"
             :v="v.itemInstance.variables.$each.$response.$data[key].key"
             :model-value="variable.key"
-            @update:model-value="setVariableProp({index: key, prop: 'key', value: $event})"
+            @update:model-value="setVariableProp({ index: key, prop: 'key', value: $event })"
           />
           <wt-input-text
             :disabled="disableUserInput"
             :placeholder="$t('objects.directory.users.varVal')"
             :v="v.itemInstance.variables.$each.$response.$data[key].value"
             :model-value="variable.value"
-            @update:model-value="setVariableProp({index: key, prop: 'value', value: $event})"
+            @update:model-value="setVariableProp({ index: key, prop: 'value', value: $event })"
           />
           <wt-icon-action
             v-if="!disableUserInput"
@@ -44,15 +44,25 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedUserVariables',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .value-pair__delete-button {
   margin-bottom: 20px;
 }

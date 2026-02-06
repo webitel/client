@@ -21,13 +21,13 @@
             :disabled="disableUserInput"
             :placeholder="$t('objects.ccenter.queues.varKey')"
             :model-value="variable.key"
-            @update:model-value="setVariableProp({index: key, prop: 'key', value: $event})"
+            @update:model-value="setVariableProp({ index: key, prop: 'key', value: $event })"
           />
           <wt-input-text
             :disabled="disableUserInput"
             :placeholder="$t('objects.ccenter.queues.varVal')"
             :model-value="variable.value"
-            @update:model-value="setVariableProp({index: key, prop: 'value', value: $event})"
+            @update:model-value="setVariableProp({ index: key, prop: 'value', value: $event })"
           />
           <wt-icon-action
             v-if="!disableUserInput"
@@ -41,18 +41,22 @@
 </template>
 
 <script>
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
   name: 'OpenedQueueMemberVariables',
   mixins: [openedTabComponentMixin],
-  computed: {
-    disableUserInput() {
-      return !this.hasEditAccess;
-    },
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

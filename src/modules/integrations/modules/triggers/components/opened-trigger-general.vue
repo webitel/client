@@ -6,43 +6,104 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-input-text :disabled="disableUserInput" :label="$t('objects.name')" :v="v.itemInstance.name"
-        :model-value="itemInstance.name" required @update:model-value="setItemProp({ prop: 'name', value: $event })" />
-      <wt-select :disabled="disableUserInput" :label="$t('objects.integrations.triggers.type')" :options="TriggerTypes"
-        :v="v.itemInstance.type" :value="itemInstance.type" track-by="value" required
-        @input="setItemProp({ prop: 'type', value: $event })" />
-      <wt-select :disabled="disableUserInput" :label="$t('objects.integrations.triggers.schema')"
-        :search-method="loadDropdownOptionsList" :v="v.itemInstance.schema" :value="itemInstance.schema" required
-        @input="setItemProp({ prop: 'schema', value: $event })" />
-      <wt-select v-if="isCron" :disabled="disableUserInput" :label="$t('date.timezone', 1)"
-        :search-method="loadTimezones" :v="v.itemInstance.timezone" :value="itemInstance.timezone" required
-        @input="setItemProp({ prop: 'timezone', value: $event })" />
+      <wt-input-text
+        :disabled="disableUserInput"
+        :label="$t('objects.name')"
+        :v="v.itemInstance.name"
+        :model-value="itemInstance.name"
+        required
+        @update:model-value="setItemProp({ prop: 'name', value: $event })"
+      />
+      <wt-select
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.triggers.type')"
+        :options="TriggerTypes"
+        :v="v.itemInstance.type"
+        :value="itemInstance.type"
+        track-by="value"
+        required
+        @input="setItemProp({ prop: 'type', value: $event })"
+      />
+      <wt-select
+        :disabled="disableUserInput || !hasFlowsReadAccess"
+        :label="$t('objects.integrations.triggers.schema')"
+        :search-method="loadDropdownOptionsList"
+        :v="v.itemInstance.schema"
+        :value="itemInstance.schema"
+        required
+        @input="setItemProp({ prop: 'schema', value: $event })"
+      />
+      <wt-select
+        v-if="isCron"
+        :disabled="disableUserInput"
+        :label="$t('date.timezone', 1)"
+        :search-method="loadTimezones"
+        :v="v.itemInstance.timezone"
+        :value="itemInstance.timezone"
+        required
+        @input="setItemProp({ prop: 'timezone', value: $event })"
+      />
 
-      <wt-select v-if="isEvent" :disabled="disableUserInput" :label="$t('reusable.object')" :options="TriggerObjects"
-        :v="v.itemInstance.object" :value="itemInstance.object" track-by="value" required
-        @input="updateTriggerObject" />
+      <wt-select
+        v-if="isEvent"
+        :disabled="disableUserInput"
+        :label="$t('reusable.object')"
+        :options="TriggerObjects"
+        :v="v.itemInstance.object"
+        :value="itemInstance.object"
+        track-by="value"
+        required
+        @input="updateTriggerObject"
+      />
 
-      <wt-input-number :disabled="disableUserInput" :label="$t('objects.integrations.triggers.timeout')" :min="0"
-        :v="v.itemInstance.timeout" :model-value="itemInstance.timeout"
-        @update:model-value="setItemProp({ prop: 'timeout', value: $event })" />
+      <wt-input-number
+        :disabled="disableUserInput"
+        :label="$t('objects.integrations.triggers.timeout')"
+        :min="0"
+        :v="v.itemInstance.timeout"
+        :model-value="itemInstance.timeout"
+        @update:model-value="setItemProp({ prop: 'timeout', value: $event })"
+      />
 
-      <wt-select v-if="isEvent" :disabled="disableUserInput || isEmptyObject"
-        :label="$t('objects.integrations.triggers.eventSelect')" :options="triggerEventOptions"
-        :v="v.itemInstance.event" :value="itemInstance.event" track-by="value" required
-        @input="setItemProp({ prop: 'event', value: $event })" />
+      <wt-select
+        v-if="isEvent"
+        :disabled="disableUserInput || isEmptyObject"
+        :label="$t('objects.integrations.triggers.eventSelect')"
+        :options="triggerEventOptions"
+        :v="v.itemInstance.event"
+        :value="itemInstance.event"
+        track-by="value"
+        required
+        @input="setItemProp({ prop: 'event', value: $event })"
+      />
 
-      <div v-if="isCron" class="crontab">
-        <wt-input-text :custom-validators="cronValidator" :disabled="disableUserInput"
-          :label="$t('objects.integrations.triggers.expression')" :v="v.itemInstance.expression"
-          :model-value="itemInstance.expression" required @update:model-value="setItemProp({ prop: 'expression', value: $event })" />
-        <p v-show="!v.itemInstance.expression.$error" class="crontab__parsed">
+      <div
+        v-if="isCron"
+        class="crontab"
+      >
+        <wt-input-text
+          :custom-validators="cronValidator"
+          :disabled="disableUserInput"
+          :label="$t('objects.integrations.triggers.expression')"
+          :v="v.itemInstance.expression"
+          :model-value="itemInstance.expression"
+          required
+          @update:model-value="setItemProp({ prop: 'expression', value: $event })"
+        />
+        <p
+          v-show="!v.itemInstance.expression.$error"
+          class="crontab__parsed"
+        >
           {{ parsedCron }}
         </p>
       </div>
 
-      <wt-textarea :disabled="disableUserInput" :label="$t('objects.description')"
+      <wt-textarea
+        :disabled="disableUserInput"
+        :label="$t('objects.description')"
         :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })" />
+        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+      />
     </div>
   </section>
 </template>
@@ -55,7 +116,9 @@ import 'cronstrue/locales/uk.min';
 import { isEmpty } from '@webitel/ui-sdk/scripts';
 import cronstrue from 'cronstrue';
 import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
@@ -67,6 +130,14 @@ import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 export default {
   name: 'OpenedTriggerGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
+    return {
+      disableUserInput,
+      hasFlowsReadAccess,
+    };
+  },
   data: () => ({
     TriggerTypes,
     TriggerEvents,
@@ -120,7 +191,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .crontab__parsed {
   margin-top: var(--spacing-xs);
 }

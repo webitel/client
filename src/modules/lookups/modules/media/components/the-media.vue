@@ -4,18 +4,13 @@
     class="table-page"
   >
     <template #header>
-      <wt-page-header
-        hide-primary
-      >
-        <wt-breadcrumb
-          :path="path"
-        />
+      <wt-page-header hide-primary>
+        <wt-breadcrumb :path="path" />
         <template #actions>
           <download-files-btn
             :files-download-progress="filesDownloadProgress"
             :files-zipping-progress="filesZippingProgress"
             :is-files-loading="isFilesLoading"
-
             @export-files="exportFiles(null, { fields: undefined })"
           />
         </template>
@@ -27,7 +22,6 @@
         :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
-
         @close="closeDelete"
       />
 
@@ -40,29 +34,24 @@
             <wt-search-bar
               :value="search"
               debounce
-
               @enter="loadList"
               @input="setSearch"
               @search="loadList"
             />
             <wt-table-actions
               :icons="['refresh']"
-
               @input="tableActionsHandler"
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
                 :class="{ 'hidden': anySelected }"
                 :selected-count="selectedRows.length"
-
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,
                   callback: () => deleteData(selectedRows),
                 })"
               />
-              <text-to-speech-popup
-                @opened="closePlayer"
-              />
+              <text-to-speech-popup @opened="closePlayer" />
             </wt-table-actions>
           </div>
         </header>
@@ -73,7 +62,6 @@
           :options="dropzoneOptions"
           duplicate-check
           use-custom-slot
-
           @vdropzone-files-added="onFilesAdded"
           @vdropzone-success="onFileSuccess"
           @vdropzone-error="onFileError"
@@ -103,15 +91,12 @@
           </div>
         </vue-dropzone>
 
-        <wt-loader
-          v-show="!isLoaded"
-        />
+        <wt-loader v-show="!isLoaded" />
         <wt-dummy
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
-
           class="dummy-wrapper"
         />
         <div
@@ -122,7 +107,6 @@
             :data="dataList"
             :headers="headers"
             sortable
-
             @sort="sort"
           >
             <template #name="{ item }">
@@ -141,19 +125,16 @@
               <media-file-preview-table-action
                 :playing="index === playingIndex && currentlyPlaying"
                 :type="item.mimeType"
-
                 @open="openFile(item)"
                 @play="play(index)"
               />
               <wt-icon-action
                 action="download"
-
                 @click="downloadFile(item)"
               />
               <wt-icon-action
                 v-if="hasDeleteAccess"
                 action="delete"
-
                 @click="askDeleteConfirmation({
                   deleted: [item],
                   callback: () => deleteData(item),
@@ -166,7 +147,6 @@
             :prev="page > 1"
             :size="size"
             debounce
-
             @change="loadList"
             @input="setSize"
             @next="nextPage"
@@ -177,7 +157,6 @@
         <wt-player
           v-show="audioLink"
           :src="audioLink"
-
           @close="closePlayer"
           @pause="currentlyPlaying = false"
           @play="currentlyPlaying = true"
@@ -198,6 +177,7 @@ import vueDropzone from 'vue2-dropzone';
 
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
@@ -233,6 +213,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -241,6 +223,9 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      hasCreateAccess,
+      hasUpdateAccess,
+      hasDeleteAccess,
     };
   },
   data() {
@@ -359,7 +344,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 .progress-count {
   display: flex;
   align-items: center;

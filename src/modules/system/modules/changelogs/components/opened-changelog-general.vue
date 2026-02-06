@@ -17,7 +17,7 @@
         @input="setItemProp({ prop: 'object', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasStorageReadAccess"
         :label="$t('objects.system.changelogs.storage')"
         :search-method="getStorageList"
         :v="v.itemInstance.storage"
@@ -51,6 +51,9 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storage from '../../../../integrations/modules/storage/api/storage';
 import { ChangelogsAPI } from '@webitel/api-services/api';
@@ -58,6 +61,14 @@ import { ChangelogsAPI } from '@webitel/api-services/api';
 export default {
   name: 'OpenedChangelogGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasStorageReadAccess } = useUserAccessControl(WtObject.Storage);
+    return {
+      disableUserInput,
+      hasStorageReadAccess,
+    };
+  },
   computed: {
     currentPeriod() {
       return this.periodOptions.find((period) => period.id === this.itemInstance.period);
@@ -90,6 +101,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

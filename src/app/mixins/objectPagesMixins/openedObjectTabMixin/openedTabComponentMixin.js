@@ -2,16 +2,16 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 
 import openedObjectValidationMixin from '../../baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-import openedObjectTabAccessControlMixin from './_internals/openedObjectTabAccessControlMixin';
 
 /**
  * @fileOverview contains openedObject tab
  *      (tab with subordinate entity, like opened-agent-general.vue) common logic
  * @param {string} this.namespace - should be passed as prop from tabs wrapper
- * @extends openedObjectValidationMixin, openedObjectTabAccessControlMixin
+ * @extends openedObjectValidationMixin
+ * @note Access control is now handled via useUserAccessControl composable in component setup()
  */
 export default {
-  mixins: [openedObjectValidationMixin, openedObjectTabAccessControlMixin],
+  mixins: [openedObjectValidationMixin],
   props: {
     namespace: {
       type: String,

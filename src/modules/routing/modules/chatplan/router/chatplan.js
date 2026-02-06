@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import ChatplanRouteNames from "./_internals/ChatplanRouteNames.enum.js";
 
@@ -12,14 +13,20 @@ const ChatplanRoutes = [
     path: '/routing/chatplan',
     name: RouteNames.CHATPLAN,
     component: Chatplan,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Chatplan,
+      UiSection: AdminSections.Chatplan,
+    },
   },
   {
     path: '/routing/chatplan/:id',
     name: `${RouteNames.CHATPLAN}-card`,
     redirect: { name: ChatplanRouteNames.GENERAL },
     component: OpenedChatplan,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Chatplan,
+      UiSection: AdminSections.Chatplan,
+    },
     children: [
       {
         path: 'general',

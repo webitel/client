@@ -9,7 +9,7 @@
     <div class="object-input-area-grid">
       <wt-select
         :clearable="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasUserReadAccess"
         :label="$t('objects.user')"
         :search-method="loadUsersOptions"
         :v="v.itemInstance.user"
@@ -19,7 +19,7 @@
         @input="setItemProp({ prop: 'user', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasTeamReadAccess"
         :label="$t('objects.team')"
         :search-method="loadTeamsOptions"
         :v="v.itemInstance.team"
@@ -30,7 +30,7 @@
       />
       <wt-select
         :close-on-select="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasAuditorReadAccess"
         :label="$t('objects.auditor')"
         :search-method="loadAuditorsOptions"
         :value="itemInstance.auditor"
@@ -40,7 +40,7 @@
       />
       <wt-select
         :close-on-select="false"
-        :disabled="disableUserInput || itemInstance.isSupervisor"
+        :disabled="disableUserInput || itemInstance.isSupervisor || !hasSupervisorReadAccess"
         :label="$t('objects.supervisor')"
         :search-method="loadSupervisorsOptions"
         :value="itemInstance.supervisor"
@@ -49,7 +49,7 @@
         @input="setItemProp({ prop: 'supervisor', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasMediaReadAccess"
         :label="$t('objects.lookups.media.mediaFiles', 1)"
         :search-method="loadMediaOptions"
         :value="itemInstance.greetingMedia"
@@ -57,7 +57,7 @@
         @input="setItemProp({ prop: 'greetingMedia', value: $event })"
       />
       <wt-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasRegionReadAccess"
         :label="$t('objects.region')"
         :search-method="loadRegionsOptions"
         :value="itemInstance.region"
@@ -98,9 +98,7 @@
         class="object-input-area-grid__is-supervisor"
         @update:model-value="setItemProp({ prop: 'isSupervisor', value: $event })"
       />
-      <div
-        class="object-input-area-grid__screen-control"
-      >
+      <div class="object-input-area-grid__screen-control">
         <wt-switcher
           :disabled="disableUserInput || disabledAgentScreenControl && !isNew"
           :label="$t('objects.ccenter.agents.agentScreenControl')"
@@ -108,8 +106,10 @@
           @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
         />
 
-        <span v-if="disabledAgentScreenControl && !isNew"
-          class="object-input-area-grid__screen-control-hint typo-body-2">
+        <span
+          v-if="disabledAgentScreenControl && !isNew"
+          class="object-input-area-grid__screen-control-hint typo-body-2"
+        >
           {{ $t('objects.ccenter.agents.agentScreenControlHint') }}
         </span>
       </div>
@@ -118,6 +118,9 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import UsersAPI from '../../../../directory/modules/users/api/users';
 import MediaAPI from '../../../../lookups/modules/media/api/media';
@@ -128,6 +131,25 @@ import AgentsAPI from '../api/agents';
 export default {
   name: 'OpenedAgentGeneral',
   mixins: [openedTabComponentMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    const { hasReadAccess: hasUserReadAccess } = useUserAccessControl(WtObject.User);
+    const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(WtObject.Team);
+    const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(WtObject.User);
+    const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(WtObject.User);
+    const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(WtObject.Media);
+    const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(WtObject.Region);
+
+    return {
+      disableUserInput,
+      hasUserReadAccess,
+      hasTeamReadAccess,
+      hasAuditorReadAccess,
+      hasSupervisorReadAccess,
+      hasMediaReadAccess,
+      hasRegionReadAccess,
+    };
+  },
   computed: {
     disabledAgentScreenControl() {
       return !this.itemInstance.allowSetScreenControl
@@ -159,9 +181,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .object-input-area-grid {
   display: grid;
   grid-template-areas:
@@ -174,55 +194,56 @@ export default {
   ;
   grid-template-columns: 1fr 1fr;
 
-  &__user {
-    grid-area: user;
-  }
+}
 
-  &__team {
-    grid-area: team;
-  }
+.object-input-area-grid__user {
+  grid-area: user;
+}
 
-  &__is-supervisor {
-    grid-area: isSupervisor;
-    align-self: center;
-  }
+.object-input-area-grid__team {
+  grid-area: team;
+}
 
-  &__auditor {
-    grid-area: auditor;
-  }
+.object-input-area-grid__is-supervisor {
+  grid-area: isSupervisor;
+  align-self: center;
+}
 
-  &__supervisor {
-    grid-area: supervisor;
-  }
+.object-input-area-grid__auditor {
+  grid-area: auditor;
+}
 
-  &__media {
-    grid-area: media;
-  }
+.object-input-area-grid__supervisor {
+  grid-area: supervisor;
+}
 
-  &__region {
-    grid-area: region;
-  }
+.object-input-area-grid__media {
+  grid-area: media;
+}
 
-  &__progressive-count {
-    grid-area: progressiveCount;
-  }
+.object-input-area-grid__region {
+  grid-area: region;
+}
 
-  &__chat-count {
-    grid-area: chatCount;
-  }
+.object-input-area-grid__progressive-count {
+  grid-area: progressiveCount;
+}
 
-  &__task-count {
-    grid-area: taskCount;
-  }
+.object-input-area-grid__chat-count {
+  grid-area: chatCount;
+}
 
-  &__screen-control {
-    grid-area: screenControl;
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-2xs);
+.object-input-area-grid__task-count {
+  grid-area: taskCount;
+}
 
-  }
+.object-input-area-grid__screen-control {
+  grid-area: screenControl;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-2xs);
+
 }
 </style>

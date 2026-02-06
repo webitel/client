@@ -6,44 +6,44 @@
   />
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
-import accessControlMixin from '../../../../../../../app/mixins/baseMixins/accessControlMixin/accessControlMixin';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
-export default {
-  name: 'UserLogoutControl',
-  mixins: [accessControlMixin],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
-  computed: {
-    ...mapState('userinfo', {
-      domain: (state) => state.domain,
-    }),
-    disableControl() {
-      return !this.item.sessions || !this.hasEditAccess || this.item.domain?.name !== this.domain;
-    },
-    hasEditAccess() {
-      return this.$store.getters['userinfo/HAS_EDIT_ACCESS']({
-        route: {
-          name: `${RouteNames.USERS}-edit`,
-        },
-      });
-    },
+});
+
+const emit = defineEmits(['logout']);
+
+const store = useStore();
+const route = useRoute();
+
+const { hasUpdateAccess } = useUserAccessControl({
+  route: {
+    name: `${RouteNames.USERS}-edit`,
   },
-  methods: {
-    logoutUser() {
-      this.$emit('logout', this.item.user);
-    },
-  },
-};
+});
+
+const domain = computed(() => store.state.userinfo.domain);
+
+const disableControl = computed(() => {
+  return !props.item.sessions || !hasUpdateAccess.value || props.item.domain?.name !== domain.value;
+});
+
+function logoutUser() {
+  emit('logout', props.item.user);
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

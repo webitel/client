@@ -60,7 +60,7 @@
 
             <template #obac="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess || item.rbac"
+                :disabled="!hasUpdateAccess || item.rbac"
                 :model-value="item.obac"
                 @update:model-value="onObacToggled({ item, index, value: $event })"
               />
@@ -68,7 +68,7 @@
 
             <template #rbac="{ item, index }">
               <wt-switcher
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 :model-value="item.rbac"
                 @update:model-value="onRbacToggled({ item, index, value: $event })"
               />
@@ -76,7 +76,7 @@
             <template #actions="{ item }">
               <wt-icon-action
                 action="edit"
-                :disabled="!hasEditAccess"
+                :disabled="!hasUpdateAccess"
                 @click="edit(item)"
               />
             </template>
@@ -101,6 +101,7 @@
 import { mapActions } from 'vuex';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
@@ -115,7 +116,11 @@ export default {
       namespace,
       hiddenText: true,
     });
-    return { dummy };
+    const { hasUpdateAccess } = useUserAccessControl();
+    return {
+      dummy,
+      hasUpdateAccess,
+    };
   },
   data: () => ({
     namespace,
@@ -178,5 +183,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style
+  lang="scss"
+  scoped
+></style>

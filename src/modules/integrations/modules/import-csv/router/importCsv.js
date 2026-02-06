@@ -1,4 +1,5 @@
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import ImportCsvRouteNames from './_internals/ImportCsvRouteNames.enum.js';
 
@@ -16,24 +17,30 @@ const ImportCsvRoutes = [
     path: '/integrations/import-csv',
     name: RouteNames.IMPORT_CSV,
     component: ImportCsv,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ImportCsv,
+      UiSection: AdminSections.ImportCsv,
+    },
   },
   {
     path: '/integrations/import-csv/:id',
     name: `${RouteNames.IMPORT_CSV}-card`,
     component: OpenedImportCsv,
     redirect: { name: ImportCsvRouteNames.GENERAL },
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ImportCsv,
+      UiSection: AdminSections.ImportCsv,
+    },
     children: [
       {
         path: 'general',
         name: ImportCsvRouteNames.GENERAL,
         component: General,
-      },{
+      }, {
         path: 'settings',
         name: ImportCsvRouteNames.SETTINGS,
         component: Settings,
-      },{
+      }, {
         path: 'permissions/:permissionId?',
         name: ImportCsvRouteNames.PERMISSIONS,
         component: Permissions,

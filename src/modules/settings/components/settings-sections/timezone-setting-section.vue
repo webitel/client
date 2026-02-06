@@ -15,9 +15,9 @@
 
 <script setup lang="ts">
 import { CalendarsAPI } from '@webitel/api-services/api';
-import UserSettingsAPI from '@webitel/ui-sdk/src/modules/Userinfo/v2/api/UserSettingsAPI';
-import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/Userinfo/v2/constants/UserSettingsConstants';
-import type { Timezone } from '@webitel/ui-sdk/src/modules/Userinfo/v2/types/UserSettings';
+import UserSettingsAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/UserSettingsAPI';
+import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/Userinfo/constants/UserSettingsConstants';
+import type { Timezone } from '@webitel/ui-sdk/src/modules/Userinfo/types/UserSettings';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

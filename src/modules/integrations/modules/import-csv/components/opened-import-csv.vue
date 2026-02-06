@@ -21,6 +21,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
@@ -35,9 +36,14 @@ export default {
     Settings,
   },
   mixins: [openedObjectMixin],
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasSaveActionAccess,
+    };
+  },
   data: () => ({
     namespace: 'integrations/importCsv',
     routeName: RouteNames.IMPORT_CSV,

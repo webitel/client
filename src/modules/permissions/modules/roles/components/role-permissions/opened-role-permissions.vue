@@ -1,27 +1,43 @@
 <template>
   <section class="table-section">
     <permissions-popup @close="closePopup" />
-    <delete-confirmation-popup :callback="deleteCallback" :delete-count="deleteCount" :shown="isDeleteConfirmationPopup"
-      @close="closeDelete" />
+    <delete-confirmation-popup
+      :callback="deleteCallback"
+      :delete-count="deleteCount"
+      :shown="isDeleteConfirmationPopup"
+      @close="closeDelete"
+    />
 
     <header class="table-title">
       <h3 class="table-title__title">
         {{ $t('objects.permissions.roles.permissions.permissions', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <delete-all-action v-if="!disableUserInput" :class="{ hidden: anySelected }"
-          :selected-count="selectedRows.length" @click="
+        <delete-all-action
+          :disabled="disableUserInput"
+          :class="{ hidden: anySelected }"
+          :selected-count="selectedRows.length"
+          @click="
             askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
             })
-            " />
-        <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
+            "
+        />
+        <wt-icon-btn
+          class="icon-action"
+          icon="plus"
+          :disabled="disableUserInput"
+          @click="create"
+        />
       </div>
     </header>
 
     <div class="table-section__table-wrapper">
-      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers">
+      <wt-table
+        :data="dataList"
+        :headers="headers"
+      >
         <template #name="{ item }">
           {{ permissionNameLocale[item.id] }}
         </template>
@@ -31,12 +47,13 @@
         <template #actions="{ item, index }">
           <wt-icon-action
             action="delete"
+            :disabled="disableUserInput"
             @click="
               askDeleteConfirmation({
                 deleted: [item],
                 callback: () => deleteData(item),
               })
-            "
+              "
           />
         </template>
       </wt-table>
@@ -47,11 +64,12 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { CrudGlobalAction, SpecialGlobalAction } from '@webitel/ui-sdk/src/modules/Userinfo/v2/enums/index';
+import { CrudGlobalAction, SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import { mapActions, mapState } from 'vuex';
 
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import PermissionsPopup from './opened-role-permissions-popup.vue';
+import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 
 export default {
   name: 'OpenedRolePermissions',
@@ -67,6 +85,8 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { disableUserInput } = useUserAccessControl();
+
     return {
       isDeleteConfirmationPopup,
       deleteCount,
@@ -74,6 +94,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      disableUserInput,
     };
   },
   data: () => ({

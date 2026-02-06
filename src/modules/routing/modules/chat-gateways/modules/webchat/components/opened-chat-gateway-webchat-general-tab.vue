@@ -42,12 +42,19 @@
 import path from 'path';
 import { mapActions } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
   name: 'OpenedChatWebchatGeneralTab',
   mixins: [openedTabComponentMixin, uriCopyMixin],
+  setup: () => {
+    const { disableUserInput } = useUserAccessControl();
+    return {
+      disableUserInput,
+    };
+  },
   computed: {
     isUriEditable() {
       return !this.disableUserInput && this.$route.path.includes('/new');
@@ -67,7 +74,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
 @use '../../../css/chat-gateways';
-
 </style>

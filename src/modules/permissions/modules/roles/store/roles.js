@@ -1,4 +1,4 @@
-import ApplicationsAccess from '@webitel/ui-sdk/src/modules/Userinfo/classes/ApplicationsAccess';
+import {ApplicationsAccess} from '@webitel/ui-sdk/modules/Userinfo';
 import deepCopy from 'deep-copy';
 import { set } from 'lodash';
 

@@ -1,4 +1,5 @@
-import { checkRouteAccess } from '../../../../../app/router/_internals/guards.js';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import OpenedChangelog from '../components/opened-changelog.vue';
 import OpenedChangelogGeneral from '../components/opened-changelog-general.vue';
@@ -11,20 +12,26 @@ const ChangeLogsRoutes = [
     path: '/system/changelogs',
     name: RouteNames.CHANGELOGS,
     component: Changelogs,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ChangeLog,
+      UiSection: AdminSections.Changelogs,
+    },
   },
   {
     path: '/system/changelogs/:id',
     name: `${RouteNames.CHANGELOGS}-card`,
     redirect: { name: ChangelogsRouteNames.GENERAL },
     component: OpenedChangelog,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.ChangeLog,
+      UiSection: AdminSections.Changelogs,
+    },
     children: [
       {
         path: 'general',
         name: ChangelogsRouteNames.GENERAL,
         component: OpenedChangelogGeneral,
-      },{
+      }, {
         path: 'logs',
         name: ChangelogsRouteNames.LOGS,
         component: OpenedChangelogLogs,

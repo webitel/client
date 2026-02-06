@@ -1,49 +1,106 @@
 <template>
   <section class="table-section">
     <number-popup @close="closePopup" />
-    <upload-popup :file="csvFile" :parent-id="parentId" @close="closeCSVPopup" />
-    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
-      @close="closeDelete" />
+    <upload-popup
+      :file="csvFile"
+      :parent-id="parentId"
+      @close="closeCSVPopup"
+    />
+    <delete-confirmation-popup
+      :shown="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
+      @close="closeDelete"
+    />
 
     <header class="table-title">
       <h3 class="table-title__title">
         {{ $t('objects.ccenter.res.numbers', 1) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
-        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
-          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
-            :selected-count="selectedRows.length" @click="askDeleteConfirmation({
+        <wt-search-bar
+          :value="search"
+          debounce
+          @enter="loadList"
+          @input="setSearch"
+          @search="loadList"
+        />
+        <wt-table-actions
+          :icons="['refresh']"
+          @input="tableActionsHandler"
+        >
+          <delete-all-action
+            :disabled="disableUserInput"
+            :class="{ 'hidden': anySelected }"
+            :selected-count="selectedRows.length"
+            @click="askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
-            })" />
-          <upload-file-icon-btn v-if="!disableUserInput" accept=".csv" class="icon-action" @change="processCSV" />
-          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
+            })"
+          />
+          <upload-file-icon-btn
+            :disabled="disableUserInput"
+            accept=".csv"
+            class="icon-action"
+            @change="processCSV"
+          />
+          <wt-icon-btn
+            :disabled="disableUserInput"
+            class="icon-action"
+            icon="plus"
+            @click="create"
+          />
         </wt-table-actions>
       </div>
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper" />
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    />
     <div
       v-show="dataList.length && isLoaded"
       class="table-section__table-wrapper"
     >
-      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
+      <wt-table
+        :data="dataList"
+        :headers="headers"
+        sortable
+        @sort="sort"
+      >
         <template #name="{ item }">
           {{ item.display }}
         </template>
         <template #actions="{ item }">
-          <wt-icon-action action="edit" @click="editItem(item)" />
-          <wt-icon-action action="delete" @click="askDeleteConfirmation({
-            deleted: [item],
-            callback: () => deleteData(item),
-          })" />
+          <wt-icon-action
+            action="edit"
+            :disabled="disableUserInput"
+            @click="editItem(item)"
+          />
+          <wt-icon-action
+            action="delete"
+            :disabled="disableUserInput"
+            @click="askDeleteConfirmation({
+              deleted: [item],
+              callback: () => deleteData(item),
+            })"
+          />
         </template>
       </wt-table>
-      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-        @next="nextPage" @prev="prevPage" />
+      <wt-pagination
+        :next="isNext"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="loadList"
+        @input="setSize"
+        @next="nextPage"
+        @prev="prevPage"
+      />
     </div>
   </section>
 </template>
@@ -57,6 +114,7 @@ import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import NumberPopup from './opened-resource-numbers-popup.vue';
 import UploadPopup from './upload-resource-numbers-popup.vue';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'ccenter/res';
 const subNamespace = 'numbers';
@@ -85,6 +143,10 @@ export default {
       closeDelete,
     } = useDeleteConfirmationPopup();
 
+    const { disableUserInput } = useUserAccessControl({
+      useUpdateAccessAsAllMutableChecksSource: true,
+    });
+
     return {
       dummy,
       isDeleteConfirmationPopup,
@@ -93,6 +155,7 @@ export default {
 
       askDeleteConfirmation,
       closeDelete,
+      disableUserInput,
     };
   },
 
@@ -132,4 +195,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  scoped
+></style>

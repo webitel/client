@@ -1,4 +1,5 @@
-import {checkRouteAccess} from '../../../../../app/router/_internals/guards.js';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import LicencesRouteNames from './_internals/LicencesRouteNames.enum.js';
 
@@ -11,14 +12,17 @@ const LicenseRoutes = [
     path: '/directory/license',
     name: RouteNames.LICENSE,
     component: License,
-    redirect: {name: `${LicencesRouteNames.ALL}-card`},
-    beforeEnter: checkRouteAccess,
+    redirect: { name: `${LicencesRouteNames.ALL}-card` },
+    meta: {
+      WtObject: WtObject.License,
+      UiSection: AdminSections.License,
+    },
     children: [
       {
         path: 'all/:id?',
         name: `${LicencesRouteNames.ALL}-card`,
         component: AllLicenses,
-      },{
+      }, {
         path: 'by-user',
         name: LicencesRouteNames.BY_USER,
         component: LicensesByUser,

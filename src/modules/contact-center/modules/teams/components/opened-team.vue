@@ -1,16 +1,35 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="close">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
-      <form class="main-container" @submit.prevent="save">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -19,7 +38,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Agents from '../modules/agents/components/opened-team-agents.vue';
@@ -42,9 +63,22 @@ export default {
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+
+    const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
+    const { hasReadAccess: hasSupervisorsReadAccess } = useUserAccessControl(WtObject.Agent);
+    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
+
+    return {
+      v$,
+      hasSaveActionAccess,
+      hasAgentsReadAccess,
+      hasSupervisorsReadAccess,
+      hasFlowsReadAccess,
+    };
+  },
 
   data: () => ({
     namespace: 'ccenter/teams',
@@ -83,33 +117,41 @@ export default {
   },
   computed: {
     tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: TeamsRouteNames.GENERAL,
-        }, {
-          text: this.$t('objects.ccenter.teams.parameters'),
-          value: 'parameters',
-          pathName: TeamsRouteNames.PARAMETERS,
-        }, {
-          text: this.$t('objects.ccenter.agents.supervisors', 2),
-          value: 'supervisors',
-          pathName: TeamsRouteNames.SUPERVISORS,
-        }, {
-          text: this.$t('objects.ccenter.agents.agents', 2),
-          value: 'agents',
-          pathName: TeamsRouteNames.AGENTS,
-        }, {
-          text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
-          value: 'hooks',
-          pathName: TeamsRouteNames.HOOKS,
-        }, {
-          text: this.$t('objects.routing.flow.flow', 2),
-          value: 'flows',
-          pathName: TeamsRouteNames.FLOWS,
-        }
-      ];
+      const general = {
+        text: this.$t('objects.general'),
+        value: 'general',
+        pathName: TeamsRouteNames.GENERAL,
+      };
+      const parameters = {
+        text: this.$t('objects.ccenter.teams.parameters'),
+        value: 'parameters',
+        pathName: TeamsRouteNames.PARAMETERS,
+      };
+      const supervisors = {
+        text: this.$t('objects.ccenter.agents.supervisors', 2),
+        value: 'supervisors',
+        pathName: TeamsRouteNames.SUPERVISORS,
+      };
+      const agents = {
+        text: this.$t('objects.ccenter.agents.agents', 2),
+        value: 'agents',
+        pathName: TeamsRouteNames.AGENTS,
+      };
+      const hooks = {
+        text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
+        value: 'hooks',
+        pathName: TeamsRouteNames.HOOKS,
+      };
+      const flows = {
+        text: this.$t('objects.routing.flow.flow', 2),
+        value: 'flows',
+        pathName: TeamsRouteNames.FLOWS,
+      };
+      const tabs = [general, parameters, hooks];
+
+      if (this.hasAgentsReadAccess) tabs.push(agents);
+      if (this.hasSupervisorsReadAccess) tabs.push(supervisors);
+      if (this.hasFlowsReadAccess) tabs.push(flows);
 
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
@@ -138,4 +180,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

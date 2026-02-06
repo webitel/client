@@ -1,16 +1,35 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="close">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
-      <form class="main-container" @submit.prevent="save">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+      <form
+        class="main-container"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        />
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
@@ -19,7 +38,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -42,9 +63,18 @@ export default {
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasSaveActionAccess } = useUserAccessControl();
+
+    const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(WtObject.Resource);
+
+    return {
+      v$,
+      hasSaveActionAccess,
+      hasResourcesReadAccess,
+    };
+  },
   data: () => ({
     namespace: 'ccenter/resGroups',
     routeName: RouteNames.RESOURCE_GROUPS,
@@ -66,11 +96,24 @@ export default {
   },
   computed: {
     tabs() {
-      const tabs = [
-        { text: this.$t('objects.general'), value: 'general', pathName: ResourcesGroupsRouteNames.GENERAL },
-        { value: 'resources', text: this.$t('objects.ccenter.res.res', 2), pathName: ResourcesGroupsRouteNames.RESOURCES },
-        { value: 'timerange', text: this.$t('objects.ccenter.resGroups.timerange'), pathName: ResourcesGroupsRouteNames.TIME_RANGE },
-      ];
+      const general = {
+        text: this.$t('objects.general'),
+        value: 'general',
+        pathName: ResourcesGroupsRouteNames.GENERAL,
+      };
+      const resources = {
+        text: this.$t('objects.ccenter.res.res', 2),
+        value: 'resources',
+        pathName: ResourcesGroupsRouteNames.RESOURCES,
+      };
+      const timerange = {
+        text: this.$t('objects.ccenter.resGroups.timerange'),
+        value: 'timerange',
+        pathName: ResourcesGroupsRouteNames.TIME_RANGE,
+      };
+      const tabs = [general];
+      if (this.hasResourcesReadAccess) tabs.push(resources);
+      tabs.push(timerange);
       if (this.id) tabs.push(this.permissionsTab);
       return tabs;
     },
@@ -98,4 +141,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style
+  lang="scss"
+  scoped
+></style>

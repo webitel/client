@@ -1,4 +1,5 @@
-import {checkRouteAccess} from "../../../../../app/router/_internals/guards.js";
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+
 import RouteNames from "../../../../../app/router/_internals/RouteNames.enum.js";
 import AgentSkillsRouteNames from "./_internals/AgentSkillsRouteNames.enum.js";
 
@@ -13,20 +14,26 @@ const AgentSkillsRoutes = [
     path: '/lookups/skills',
     name: RouteNames.SKILLS,
     component: AgentSkills,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Skill,
+      UiSection: AdminSections.Skills,
+    },
   },
   {
     path: '/lookups/skills/:id',
     name: `${RouteNames.SKILLS}-card`,
-    redirect: {name: AgentSkillsRouteNames.GENERAL},
+    redirect: { name: AgentSkillsRouteNames.GENERAL },
     component: OpenedAgentSkill,
-    beforeEnter: checkRouteAccess,
+    meta: {
+      WtObject: WtObject.Skill,
+      UiSection: AdminSections.Skills,
+    },
     children: [
       {
         path: 'general',
         name: AgentSkillsRouteNames.GENERAL,
         component: OpenedAgentSkillGeneral,
-      },{
+      }, {
         path: 'agents',
         name: AgentSkillsRouteNames.AGENTS,
         component: OpenedSkillAgents

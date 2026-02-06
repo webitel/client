@@ -1,11 +1,20 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="close">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
         <template #primary-action>
-          <wt-button-select :color="disabledSave ? 'secondary' : 'primary'" :options="saveOptions" @click="save"
-            @click:option="({ callback }) => callback()">
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
             {{ $t('objects.save') }}
           </wt-button-select>
         </template>
@@ -14,8 +23,16 @@
     </template>
     <template #main>
       <div class="main-container">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <component
+          :is="currentTab.value"
+          :namespace="namespace"
+          :v="v$"
+        />
       </div>
     </template>
   </wt-page-wrapper>
@@ -27,6 +44,7 @@ import { required } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
 import { requiredArrayValue } from '../../../../../../../app/utils/validators';
@@ -44,9 +62,14 @@ export default {
   },
   mixins: [openedObjectMixin],
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
+  setup: () => {
+    const v$ = useVuelidate();
+    const { hasUpdateAccess } = useUserAccessControl();
+    return {
+      v$,
+      hasUpdateAccess,
+    };
+  },
   data: () => ({
     namespace: 'ccenter/queues/members',
     routeName: RouteNames.MEMBERS,
@@ -104,7 +127,7 @@ export default {
       ];
     },
     hasSaveActionAccess() {
-      return this.hasEditAccess;
+      return this.hasUpdateAccess;
     },
     saveOptions() {
       const saveAsNew = {
