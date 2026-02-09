@@ -1054,7 +1054,7 @@ export default {
           enabled: 'Așteaptă rezultat apel',
           formSchema: 'Schema de procesare dinamică',
           sec: 'Timp postprocesare (sec)',
-          renewalSec: 'Notifică pentru continuare după (sec)',
+          renewalSec: 'Oferă prelungirea postprocesării când rămân (sec)',
           allowProlongation: 'Permite prelungirea postprocesării',
           repeatsNumber: 'Număr de repetări',
           prolongationTimeSec: 'Timp pentru prelungire (sec)',

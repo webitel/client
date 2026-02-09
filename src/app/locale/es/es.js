@@ -1055,7 +1055,7 @@ export default {
           enabled: 'Esperando resultado de llamada',
           formSchema: 'Esquema de procesamiento dinámico',
           sec: 'Tiempo de postprocesamiento (seg)',
-          renewalSec: 'Notificar para continuar después de (seg)',
+          renewalSec: 'Ofrecer prolongar el postprocesamiento cuando queden (seg)',
           allowProlongation: 'Permitir prolongación del postprocesamiento',
           repeatsNumber: 'Número de repeticiones',
           prolongationTimeSec: 'Tiempo para prolongación (seg)',

@@ -1053,7 +1053,7 @@ export default {
           enabled: 'Zvonk natijasi kutish',
           formSchema: 'Dinamik tahrirlash sxemasi',
           sec: 'Posttizim vaqti (sek)',
-          renewalSec: 'Davom etishni boshlashdan keyin bildirish (sek)',
+          renewalSec: 'Qolgan (sek) bo\'lganda posttizimni uzaytirishni taklif qilish',
           allowProlongation: 'Posttizimni uzaytirishga ruxsat berish',
           repeatsNumber: 'Takrorlashlar soni',
           prolongationTimeSec: 'Uzaytirish vaqti (sek)',

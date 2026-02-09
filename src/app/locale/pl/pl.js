@@ -1053,7 +1053,7 @@ export default {
           enabled: 'Czekaj na wynik połączenia',
           formSchema: 'Schemat dynamicznego przetwarzania',
           sec: 'Czas przetwarzania pośredniego (sek)',
-          renewalSec: 'Powiadom o kontynuacji po (sek)',
+          renewalSec: 'Zaproponuj przedłużenie przetwarzania końcowego, gdy pozostało (sek)',
           allowProlongation: 'Zezwalaj na przedłużenie przetwarzania końcowego',
           repeatsNumber: 'Liczba powtórzeń',
           prolongationTimeSec: 'Czas przedłużenia (sek)',
