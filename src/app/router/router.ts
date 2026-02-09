@@ -1,6 +1,7 @@
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import { WtApplication } from '@webitel/ui-sdk/enums';
 
 import i18n from '../../app/locale/i18n';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
@@ -40,7 +41,6 @@ import SettingsRoutes from '../../modules/settings/routes/routes.js';
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration.js';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
-import { checkAppAccess } from './_internals/guards.js';
 import RouteNames from './_internals/RouteNames.enum.js';
 import RoutePaths from './_internals/RoutePaths'
 
@@ -57,152 +57,162 @@ const AccessDenied = () =>
 const NotFound = () =>
   import('../../modules/error-pages/components/the-not-found-component.vue');
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  scrollBehavior(/*to, from, savedPosition*/) {
-    return { left: 0, top: 0 };
-  },
-  routes: [
-    {
-      path: '/',
-      name: RouteNames.APPLICATION_HUB,
-      component: ApplicationHub,
+export let router = null;
+
+export const initRouter = async ({
+  beforeEach = [],
+} = {}) => {
+  router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    scrollBehavior(/*to, from, savedPosition*/) {
+      return { left: 0, top: 0 };
     },
-    {
-      path: '/access-denied',
-      name: RouteNames.PAGE_403,
-      component: AccessDenied,
-    },
-    {
-      path: '/admin',
-      component: ModuleWrap,
-      redirect: RoutePaths.StartPage,
-      beforeEnter: checkAppAccess,
-      children: [
-        {
-          path: RoutePaths.StartPage,
-          name: RouteNames.START,
-          component: StartPage,
-        },
-        ...SettingsRoutes,
-        {
-          path: '/:pathMatch(.*)*',
-          name: RouteNames.PAGE_404,
-          component: NotFound,
-        },
-        {
-          path: '/404',
-          name: RouteNames.PAGE_404,
-          component: NotFound,
-        },
+    routes: [
+      {
+        path: '/',
+        name: RouteNames.APPLICATION_HUB,
+        component: ApplicationHub,
+      },
+      {
+        path: '/access-denied',
+        name: RouteNames.PAGE_403,
+        component: AccessDenied,
+      },
+      {
+        path: '/admin',
+        component: ModuleWrap,
+        redirect: RoutePaths.StartPage,
+        meta: { WtApplication: WtApplication.Admin },
+        children: [
+          {
+            path: RoutePaths.StartPage,
+            name: RouteNames.START,
+            component: StartPage,
+          },
+          ...SettingsRoutes,
+          {
+            path: '/:pathMatch(.*)*',
+            name: RouteNames.PAGE_404,
+            component: NotFound,
+          },
+          {
+            path: '/404',
+            name: RouteNames.PAGE_404,
+            component: NotFound,
+          },
 
-        // ----------DIRECTORY------------
-        ...DevicesRoutes,
-        ...LicenseRoutes,
-        ...UsersRoutes,
-        // ----------DIRECTORY END------------
+          // ----------DIRECTORY------------
+          ...DevicesRoutes,
+          ...LicenseRoutes,
+          ...UsersRoutes,
+          // ----------DIRECTORY END------------
 
-        // ----------ROUTING------------
-        ...FlowRoutes,
-        ...ChatGetewaysRoutes,
-        ...DialplanRoutes,
-        ...GatewaysRoutes,
-        ...ChatplanRoutes,
-        // ----------ROUTING END------------
+          // ----------ROUTING------------
+          ...FlowRoutes,
+          ...ChatGetewaysRoutes,
+          ...DialplanRoutes,
+          ...GatewaysRoutes,
+          ...ChatplanRoutes,
+          // ----------ROUTING END------------
 
-        // ----------LOOKUPS------------
-        ...AgentSkillsRoutes,
-        ...BucketsRoutes,
-        ...BlacklistsRoutes,
-        ...MediaRoutes,
-        ...CalendarsRoutes,
-        ...CommunicationsRoutes,
-        ...RegionsRoutes,
-        ...AgentPauseCauseRoutes,
-        ...ShiftTemplatesRoutes,
-        ...PauseTemplatesRoutes,
-        ...WorkingConditionsRoutes,
-        ...QuickRepliesRoutes,
-        // ----------LOOKUPS END------------
+          // ----------LOOKUPS------------
+          ...AgentSkillsRoutes,
+          ...BucketsRoutes,
+          ...BlacklistsRoutes,
+          ...MediaRoutes,
+          ...CalendarsRoutes,
+          ...CommunicationsRoutes,
+          ...RegionsRoutes,
+          ...AgentPauseCauseRoutes,
+          ...ShiftTemplatesRoutes,
+          ...PauseTemplatesRoutes,
+          ...WorkingConditionsRoutes,
+          ...QuickRepliesRoutes,
+          // ----------LOOKUPS END------------
 
-        // --------------CONTACT CENTER-------------
-        ...AgentRoutes,
-        ...TeamsRoutes,
-        ...ResourcesRoutes,
-        ...ResourcesGroupRoutes,
-        ...QueuesRoutes,
-        // --------------CONTACT CENTER END-------------
+          // --------------CONTACT CENTER-------------
+          ...AgentRoutes,
+          ...TeamsRoutes,
+          ...ResourcesRoutes,
+          ...ResourcesGroupRoutes,
+          ...QueuesRoutes,
+          // --------------CONTACT CENTER END-------------
 
-        // ----------INTEGRATIONS-----------------
-        ...StorageRoutes,
-        ...CognitiveProfilesRoutes,
-        ...EmailProfilesRoutes,
-        ...ImportCsvRoutes,
-        ...TriggersRoutes,
-        ...StoragePoliciesRoutes,
-        // Unused routes for unused integrations/single-sign-on module
-        // {
-        //   path: '/integrations/single-sign-on',
-        //   name: RouteNames.SINGLE_SIGN_ON,
-        //   component: SingleSignOn,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        // {
-        //   path: '/integrations/single-sign-on/new',
-        //   name: `${RouteNames.SINGLE_SIGN_ON}-new`,
-        //   component: OpenedSingleSignOn,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        // {
-        //   path: '/integrations/single-sign-on/:id',
-        //   name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
-        //   component: OpenedSingleSignOn,
-        //   beforeEnter: checkRouteAccess,
-        // },
-        // --------------INTEGRATIONS END-------------
+          // ----------INTEGRATIONS-----------------
+          ...StorageRoutes,
+          ...CognitiveProfilesRoutes,
+          ...EmailProfilesRoutes,
+          ...ImportCsvRoutes,
+          ...TriggersRoutes,
+          ...StoragePoliciesRoutes,
+          // Unused routes for unused integrations/single-sign-on module
+          // {
+          //   path: '/integrations/single-sign-on',
+          //   name: RouteNames.SINGLE_SIGN_ON,
+          //   component: SingleSignOn,
+          //   beforeEnter: checkRouteAccess,
+          // },
+          // {
+          //   path: '/integrations/single-sign-on/new',
+          //   name: `${RouteNames.SINGLE_SIGN_ON}-new`,
+          //   component: OpenedSingleSignOn,
+          //   beforeEnter: checkRouteAccess,
+          // },
+          // {
+          //   path: '/integrations/single-sign-on/:id',
+          //   name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
+          //   component: OpenedSingleSignOn,
+          //   beforeEnter: checkRouteAccess,
+          // },
+          // --------------INTEGRATIONS END-------------
 
-        // ----------PERMISSIONS-----------------
-        ...RolesRoutes,
-        ...ObjectsRoutes,
-        // ----------PERMISSIONS END-----------------
+          // ----------PERMISSIONS-----------------
+          ...RolesRoutes,
+          ...ObjectsRoutes,
+          // ----------PERMISSIONS END-----------------
 
-        // ----------SYSTEM START-----------------
-        ...ChangeLogsRoutes,
-        ...ConfigurationRoutes,
-        ...GlobalVariablesRoutes,
-        // ----------SYSTEM END-----------------
-      ],
-    },
-  ],
-});
+          // ----------SYSTEM START-----------------
+          ...ChangeLogsRoutes,
+          ...ConfigurationRoutes,
+          ...GlobalVariablesRoutes,
+          // ----------SYSTEM END-----------------
+        ],
+      },
+    ],
+  });
 
-router.beforeEach((to) => {
-  if (!localStorage.getItem('access-token') && !to.query.accessToken) {
-    const desiredUrl = encodeURIComponent(window.location.href);
-    const authUrl = import.meta.env.VITE_AUTH_URL;
-    window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
-  } else if (to.query.accessToken) {
-    // assume that access token was set from query before app initialization in main.js
-    const newQuery = { ...to.query };
-    newQuery.accessToken = undefined;
-    return { ...to, query: newQuery };
-  }
-  return true;
-});
+  router.beforeEach((to) => {
+    if (!localStorage.getItem('access-token') && !to.query.accessToken) {
+      const desiredUrl = encodeURIComponent(window.location.href);
+      const authUrl = import.meta.env.VITE_AUTH_URL;
+      window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
+    } else if (to.query.accessToken) {
+      // assume that access token was set from query before app initialization in main.js
+      const newQuery = { ...to.query };
+      newQuery.accessToken = undefined;
+      return { ...to, query: newQuery };
+    }
+    return true;
+  });
 
-// @author @stanislav-kozak
-// https://webitel.atlassian.net/browse/WTEL-8339
-// That fix should on failed to fetch dynamically imported do reload page
-router.onError((err) => {
-  const msg = String(err?.message || err);
-  if (
-    msg.includes('Failed to fetch dynamically imported module') ||
-    msg.includes('ChunkLoadError')
-  ) {
-    window.location.reload();
-  }
-});
+  beforeEach.forEach((guard) => {
+    router.beforeEach(guard);
+  });
 
-window.router = router;
+  // @author @stanislav-kozak
+  // https://webitel.atlassian.net/browse/WTEL-8339
+  // That fix should on failed to fetch dynamically imported do reload page
+  router.onError((err) => {
+    const msg = String(err?.message || err);
+    if (
+      msg.includes('Failed to fetch dynamically imported module') ||
+      msg.includes('ChunkLoadError')
+    ) {
+      window.location.reload();
+    }
+  });
 
-export default router;
+  window.router = router;
+
+  return router;
+};
