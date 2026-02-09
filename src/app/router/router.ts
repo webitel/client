@@ -82,7 +82,7 @@ export const initRouter = async ({
         path: '/admin',
         component: ModuleWrap,
         redirect: RoutePaths.StartPage,
-        meta: { app: WtApplication.Admin },
+        meta: { WtApplication: WtApplication.Admin },
         children: [
           {
             path: RoutePaths.StartPage,
