@@ -142,7 +142,7 @@ export default {
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.AmdCancelNotHuman:
         return deepmerge(defaults, defaultBooleanConfig);
-      case EngineSystemSettingName.Enable_2fa:
+      case EngineSystemSettingName.Enable2fa:
         return deepmerge(defaults, defaultBooleanConfig);
       case EngineSystemSettingName.MemberChunkSize:
         return deepmerge(defaults, defaultNumberConfig);
