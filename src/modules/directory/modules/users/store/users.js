@@ -6,6 +6,10 @@ import logs from '../modules/logs/store/logs';
 import tokens from '../modules/tokens/store/usersTokens';
 import headers from './_internals/headers';
 
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo'
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
+
+
 const resettableState = {
   itemInstance: {
     name: '',
@@ -30,8 +34,11 @@ const resettableState = {
 };
 
 const getters = {
-  IS_DISPLAY_QR_CODE: (state, getters, rootState, rootGetters) =>
-    rootGetters['userinfo/IS_CHANGE_USER_PASSWORD_ALLOW'] && !!state.itemInstance.totpUrl,
+  IS_DISPLAY_QR_CODE: (state, getters, rootState, rootGetters) => {
+    const userinfoStore = useUserinfoStore();
+
+    return userinfoStore.hasSpecialGlobalActionAccess(SpecialGlobalAction.ChangeUserPassword) && !!state.itemInstance.totpUrl
+  }
 };
 
 const actions = {
