@@ -17,7 +17,7 @@ import { createUserAccessControl } from './app/composables/useUserAccessControl'
 import i18n from './app/locale/i18n';
 import BreakpointPlugin from './app/plugins/breakpoint';
 import { plugin as WebitelUi, options as WebitelUiOptions } from './app/plugins/webitel/ui-sdk';
-import { initRouter, router } from './app/router/router';
+import { initRouter } from './app/router/router';
 import store, { pinia } from './app/store/store';
 import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 import App from './the-app.vue';
@@ -58,12 +58,14 @@ const createVueInstance = async () => {
     .use(BreakpointPlugin);
 
   const { initialize, routeAccessGuard } = useUserinfoStore();
+
+  const router = await initRouter({
+    beforeEach: [routeAccessGuard],
+  });
+
   try {
     await initialize();
     createUserAccessControl(useUserinfoStore);
-    await initRouter({
-      beforeEach: [routeAccessGuard],
-    });
   } catch (err) {
     console.error('Error initializing app', err);
   }
