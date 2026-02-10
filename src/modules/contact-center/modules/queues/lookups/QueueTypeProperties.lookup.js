@@ -238,7 +238,6 @@ const QueueTypeProperties = Object.freeze({
       // params specific
       'maxWaitTime',
       'maxWaitingSize',
-      'discardAbandonedAfter',
       'maxIdleAgent',
       'maxIdleClient',
       'maxIdleDialog',
