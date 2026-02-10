@@ -1,3 +1,5 @@
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo'
+
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import UsersAPI from '../api/users';
@@ -5,8 +7,6 @@ import Users2faAPI from '../api/users-2fa.js';
 import logs from '../modules/logs/store/logs';
 import tokens from '../modules/tokens/store/usersTokens';
 import headers from './_internals/headers';
-
-import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo'
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 
 
