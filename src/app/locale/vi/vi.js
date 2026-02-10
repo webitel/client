@@ -1049,7 +1049,7 @@ export default {
           enabled: 'Đợi kết quả cuộc gọi',
           formSchema: 'Sơ đồ xử lý động',
           sec: 'Thời gian xử lý sau (giây)',
-          renewalSec: 'Thông báo để tiếp tục sau (giây)',
+          renewalSec: 'Đề xuất kéo dài xử lý sau khi còn lại (giây)',
           allowProlongation: 'Cho phép kéo dài xử lý sau',
           repeatsNumber: 'Số lần lặp lại',
           prolongationTimeSec: 'Thời gian kéo dài (giây)',

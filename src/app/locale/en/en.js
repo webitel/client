@@ -1052,7 +1052,7 @@ export default {
           enabled: 'Waiting for call result',
           formSchema: 'Dynamic processing schema',
           sec: 'Postprocessing time (sec)',
-          renewalSec: 'Notify to continue after (sec)',
+          renewalSec: 'Offer postprocessing prolongation (seconds before end)',
           allowProlongation: 'Allow postprocessing prolongation',
           repeatsNumber: 'Number of repeats',
           prolongationTimeSec: 'Time for prolongation (sec)',
