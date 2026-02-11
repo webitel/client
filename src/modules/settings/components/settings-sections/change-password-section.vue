@@ -5,7 +5,7 @@
     </template>
     <template>
 
-      <change-password-decoy-inputs />
+      <change-password-autocomplete />
   
       <user-password-input
         :model-value="newPassword"
@@ -38,7 +38,7 @@ import { useStore } from 'vuex';
 
 import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
 import { changePassword as requestChangePassword } from '../../api/settings';
-import ChangePasswordDecoyInputs from './utils/change-password-decoy-inputs.vue'
+import ChangePasswordAutocomplete from './utils/change-password-autocomplete.vue'
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const $eventBus = inject('$eventBus');

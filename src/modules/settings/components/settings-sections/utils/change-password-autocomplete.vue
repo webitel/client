@@ -11,13 +11,13 @@
 <template>
   <input
   	type="text"
-    name="prevent_autofill_username"
+    name="autocomplete_username"
     autocomplete="username"
     style="display: none;"
   >
   <input
     type="password"
-    name="prevent_autofill_password"
+    name="autocomplete_password"
     autocomplete="current-password"
     style="display: none;"
   >
