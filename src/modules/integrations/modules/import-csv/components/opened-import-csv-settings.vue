@@ -34,21 +34,23 @@
         @update:model-value="setItemParamsProp({ prop: 'clearMembers', value: $event })"
       />
       <header class="content-header">
-        <h3 class="content-title typo-heading-4">
-          {{ $t('objects.integrations.importCsv.mappings') }}
-        </h3>
-        <p>{{ $t('objects.integrations.importCsv.mappingsHint') }}</p>
+        <div>
+          <h3 class="content-title typo-heading-4">
+            {{ $t('objects.integrations.importCsv.mappings') }}
+          </h3>
+          <p>{{ $t('objects.integrations.importCsv.mappingsHint') }}</p>
+        </div>
       </header>
       <div />
       <component
-        :is="multiple ? 'wt-tags-input' : 'wt-input'"
+        :is="multiple ? 'wt-tags-input' : 'wt-input-text'"
         v-for="({ multiple, name, locale, required }) of mappingsList"
         :key="name"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.importCsv.columnHeader', { name: localizeName(locale) })"
         :required="required"
         :v="v.itemInstance.parameters.mappings[name]"
-        :value="itemInstance.parameters.mappings[name]"
+        :model-value="itemInstance.parameters.mappings[name]"
         taggable
         @input="handleMappingInput({ name, value: $event })"
       />
