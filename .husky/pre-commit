@@ -1,6 +1,1 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-# npm run test:unit
-
-# npm run lint:pre-commit
+npx lint-staged
