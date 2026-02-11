@@ -252,7 +252,7 @@ export default {
           'Are you sure you want to regenerate the code? The user won’t be able to log in',
         chatName: 'Chat display name',
         temporaryPassword: 'Temporary password',
-        extensionsHint: 'Digits only',
+        extensionsHelperText: 'Extension must contain only digits',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Name',

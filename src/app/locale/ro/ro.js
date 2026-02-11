@@ -254,7 +254,7 @@ export default {
           'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
         chatName: 'Nume de afișare în chat',
         temporaryPassword: 'Parolă temporară',
-        extensionsHint: 'Doar cifre',
+        extensionsHelperText: 'Numărul intern trebuie să conțină doar cifre',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nume',

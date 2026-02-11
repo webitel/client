@@ -256,7 +256,7 @@ export default {
           'Вы уверены, что хотите перегенерировать QR-код? Пользователь потеряет возможность войти в систему',
         chatName: 'Имя для отображения в чате',
         temporaryPassword: 'Временный пароль',
-        extensionsHint: 'Только цифры',
+        extensionsHelperText: 'Внутренний номер должен содержать только цифры',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Имя',

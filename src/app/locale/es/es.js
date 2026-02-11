@@ -253,7 +253,7 @@ export default {
           '¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
         chatName: 'Nombre de visualización de chat',
         temporaryPassword: 'Contraseña temporal',
-        extensionsHint: 'Solo dígitos',
+        extensionsHelperText: 'La extensión debe contener solo dígitos',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Nombre',

@@ -49,6 +49,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, requiredIf } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { storeToRefs } from 'pinia';
 import { WtObject } from '@webitel/ui-sdk/src/enums';
@@ -84,6 +85,7 @@ export default {
   mixins: [openedObjectMixin],
 
   setup: () => {
+    const { t } = useI18n();
     const store = useStore();
 
     const itemInstance = computed(
@@ -112,9 +114,11 @@ export default {
               },
             }),
           },
-          extension: { 
-            digitsOnly: helpers.regex(/^[0-9]*$/) 
-           },
+          extension: {
+            regex: helpers.withMessage(
+              t('objects.directory.users.extensionsHelperText'),
+              helpers.regex(/^[0-9]*$/)),
+          },
         },
       })),
       { itemInstance },

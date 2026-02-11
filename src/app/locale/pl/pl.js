@@ -254,7 +254,7 @@ export default {
           'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
         chatName: 'Nazwa wyświetlana w czacie',
         temporaryPassword: 'Hasło tymczasowe',
-        extensionsHint: 'Tylko cyfry',
+        extensionsHelperText: 'Numer wewnętrzny musi zawierać tylko cyfry',
         csvMappingFields: {
           login: ({ linked }) => linked('vocabulary.login'),
           name: 'Imię',
