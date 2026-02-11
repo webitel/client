@@ -51,22 +51,24 @@ import QueuesAPI from '../../../../contact-center/modules/queues/api/queues.js';
 import TeamsAPI from '../../../../contact-center/modules/teams/api/teams.js';
 
 export default {
-  name: 'OpenedBucketGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadDropdownOptionsTeamList(params) {
-      return TeamsAPI.getLookup(params);
-    },
-    loadDropdownOptionsQueueList(params) {
-      return QueuesAPI.getLookup(params);
-    }
-  }
+	name: 'OpenedBucketGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadDropdownOptionsTeamList(params) {
+			return TeamsAPI.getLookup(params);
+		},
+		loadDropdownOptionsQueueList(params) {
+			return QueuesAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

@@ -46,60 +46,68 @@ import ChatplanRoutesName from '../router/_internals/ChatplanRouteNames.enum.js'
 import General from './opened-chatplan-general.vue';
 
 export default {
-  name: 'OpenedChatplan',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedChatplan',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'routing/chatplan',
-    routeName: RouteNames.CHATPLAN,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      schema: { required },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'routing/chatplan',
+		routeName: RouteNames.CHATPLAN,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			schema: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: ChatplanRoutesName.GENERAL,
-        },
-      ];
-      return tabs;
-    },
-    path() {
-      const baseUrl = '/routing/chatplan';
-      return [
-        {
-          name: this.$t('objects.routing.routing'),
-        },
-        {
-          name: this.$t('objects.routing.chatplan.chatplan', 1),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: ChatplanRoutesName.GENERAL,
+				},
+			];
+			return tabs;
+		},
+		path() {
+			const baseUrl = '/routing/chatplan';
+			return [
+				{
+					name: this.$t('objects.routing.routing'),
+				},
+				{
+					name: this.$t('objects.routing.chatplan.chatplan', 1),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

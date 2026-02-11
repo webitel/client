@@ -45,16 +45,18 @@ import { useUserAccessControl } from '../../../../../../../app/composables/useUs
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedQueueVariables',
-  components: {},
+	name: 'OpenedQueueVariables',
+	components: {},
 
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
 };
 </script>
 

@@ -3,23 +3,27 @@ import BlacklistNumbersAPI from '../api/blacklistNumbers';
 import headers from './_internals/headers';
 
 const resettableItemState = {
-  itemInstance: {
-    number: '',
-    description: '',
-    expireAt: 0,
-  },
+	itemInstance: {
+		number: '',
+		description: '',
+		expireAt: 0,
+	},
 };
 
 const state = {
-  fields: ['id'].concat(headers.map((header) => header.field)),
+	fields: [
+		'id',
+	].concat(headers.map((header) => header.field)),
 };
 
 const blacklistNumbers = new NestedObjectStoreModule({
-  resettableItemState,
-  headers,
+	resettableItemState,
+	headers,
 })
-  .attachAPIModule(BlacklistNumbersAPI)
-  .generateAPIActions()
-  .getModule({ state });
+	.attachAPIModule(BlacklistNumbersAPI)
+	.generateAPIActions()
+	.getModule({
+		state,
+	});
 
 export default blacklistNumbers;

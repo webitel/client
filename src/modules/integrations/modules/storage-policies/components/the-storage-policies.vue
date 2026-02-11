@@ -191,88 +191,100 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'integrations/storagePolicies';
 
 export default {
-  name: 'TheStoragePolicies',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
+	name: 'TheStoragePolicies',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.STORAGE_POLICIES,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.STORAGE_POLICIES,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t(
-            'objects.integrations.storagePolicies.storagePolicies',
-            2,
-          ),
-          route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
-        },
-      ];
-    },
-  },
-  methods: {
-    ...mapActions({
-      swapRows(dispatch, payload) {
-        return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
-      },
-    }),
-    create() {
-      this.$router.push({
-        name: `${RouteNames.STORAGE_POLICIES}-card`,
-        params: { id: 'new' },
-      });
-    },
-    editLink({ id }) {
-      return { name: `${RouteNames.STORAGE_POLICIES}-card`, params: { id } };
-    },
-    async handleReorder({ oldIndex, newIndex }) {
-      if (oldIndex === newIndex) return;
-      const fromId = this.dataList[oldIndex].id;
-      const toId = this.dataList[newIndex].id;
-      await this.swapRowsAndReloadList({
-        fromId,
-        toId,
-      });
-    },
-    async swapRowsAndReloadList(swapPayload) {
-      await this.swapRows(swapPayload);
-      await this.loadList();
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t(
+						'objects.integrations.storagePolicies.storagePolicies',
+						2,
+					),
+					route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
+				},
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			swapRows(dispatch, payload) {
+				return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
+			},
+		}),
+		create() {
+			this.$router.push({
+				name: `${RouteNames.STORAGE_POLICIES}-card`,
+				params: {
+					id: 'new',
+				},
+			});
+		},
+		editLink({ id }) {
+			return {
+				name: `${RouteNames.STORAGE_POLICIES}-card`,
+				params: {
+					id,
+				},
+			};
+		},
+		async handleReorder({ oldIndex, newIndex }) {
+			if (oldIndex === newIndex) return;
+			const fromId = this.dataList[oldIndex].id;
+			const toId = this.dataList[newIndex].id;
+			await this.swapRowsAndReloadList({
+				fromId,
+				toId,
+			});
+		},
+		async swapRowsAndReloadList(swapPayload) {
+			await this.swapRows(swapPayload);
+			await this.loadList();
+		},
+	},
 };
 </script>

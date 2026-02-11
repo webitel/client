@@ -54,49 +54,50 @@
 import { mapActions } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
 
 export default {
-  name: 'OpenedPauseTemplateCauses',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    headers() {
-      return [
-        {
-          value: 'name',
-          text: this.$t('objects.lookups.pauseTemplates.pauseReason'),
-        },
-        {
-          value: 'duration',
-          text: this.$t('objects.lookups.pauseTemplates.duration'),
-        },
-      ];
-    },
-  },
-  methods: {
-    ...mapActions({
-      addCause(dispatch, payload) {
-        dispatch(`${this.namespace}/ADD_CAUSE`, payload);
-      },
-      setCause(dispatch, payload) {
-        dispatch(`${this.namespace}/SET_CAUSE`, payload);
-      },
-      removeCause(dispatch, payload) {
-        dispatch(`${this.namespace}/REMOVE_CAUSE`, payload);
-      },
-    }),
-    loadAgentPauseCause(params) {
-      return AgentPauseCauseAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedPauseTemplateCauses',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		headers() {
+			return [
+				{
+					value: 'name',
+					text: this.$t('objects.lookups.pauseTemplates.pauseReason'),
+				},
+				{
+					value: 'duration',
+					text: this.$t('objects.lookups.pauseTemplates.duration'),
+				},
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			addCause(dispatch, payload) {
+				dispatch(`${this.namespace}/ADD_CAUSE`, payload);
+			},
+			setCause(dispatch, payload) {
+				dispatch(`${this.namespace}/SET_CAUSE`, payload);
+			},
+			removeCause(dispatch, payload) {
+				dispatch(`${this.namespace}/REMOVE_CAUSE`, payload);
+			},
+		}),
+		loadAgentPauseCause(params) {
+			return AgentPauseCauseAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

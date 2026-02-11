@@ -66,26 +66,28 @@
 
 <script>
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: 'OpenedAgentQueues',
-  mixins: [openedObjectTableTabMixin],
-  data: () => ({
-    subNamespace: 'queues',
-    QueueTypeProperties,
-  }),
-  methods: {
-    editLink(item) {
-      return {
-        name: `${RouteNames.QUEUES}-card`,
-        params: {
-          id: item.queue.id,
-          type: QueueTypeProperties[item.type].subpath,
-        },
-      }
-    }
-  }
+	name: 'OpenedAgentQueues',
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	data: () => ({
+		subNamespace: 'queues',
+		QueueTypeProperties,
+	}),
+	methods: {
+		editLink(item) {
+			return {
+				name: `${RouteNames.QUEUES}-card`,
+				params: {
+					id: item.queue.id,
+					type: QueueTypeProperties[item.type].subpath,
+				},
+			};
+		},
+	},
 };
 </script>

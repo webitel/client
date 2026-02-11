@@ -15,31 +15,37 @@ import { useUserAccessControl } from '../../../../../../../app/composables/useUs
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 const props = defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
+	item: {
+		type: Object,
+		required: true,
+	},
 });
 
-const emit = defineEmits(['logout']);
+const emit = defineEmits([
+	'logout',
+]);
 
 const store = useStore();
 const route = useRoute();
 
 const { hasUpdateAccess } = useUserAccessControl({
-  route: {
-    name: `${RouteNames.USERS}-edit`,
-  },
+	route: {
+		name: `${RouteNames.USERS}-edit`,
+	},
 });
 
 const domain = computed(() => store.state.userinfo.domain);
 
 const disableControl = computed(() => {
-  return !props.item.sessions || !hasUpdateAccess.value || props.item.domain?.name !== domain.value;
+	return (
+		!props.item.sessions ||
+		!hasUpdateAccess.value ||
+		props.item.domain?.name !== domain.value
+	);
 });
 
 function logoutUser() {
-  emit('logout', props.item.user);
+	emit('logout', props.item.user);
 }
 </script>
 

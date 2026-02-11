@@ -10,42 +10,48 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps,ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
+import { computed, defineProps, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { NotificationType } from '../../../enums/NotificationType';
 import SettingsSwitcherRow from '../utils/settings-switcher-row.vue';
 
-const props = defineProps<{ 
-  notificationType: NotificationType,
-  value: boolean
+const props = defineProps<{
+	notificationType: NotificationType;
+	value: boolean;
 }>();
 
 const { t } = useI18n();
 
-const emit = defineEmits(['change']);
+const emit = defineEmits([
+	'change',
+]);
 
 const isNotificationTypeInEngineSystemSettingName = computed(() => {
-  return Object.values(EngineSystemSettingName).includes(props.notificationType)
-})
+	return Object.values(EngineSystemSettingName).includes(
+		props.notificationType,
+	);
+});
 
-const localStorageName = computed(() => `settings/${props.notificationType}`)
-const localStorageValue = ref(localStorage.getItem(localStorageName.value) === 'true');
+const localStorageName = computed(() => `settings/${props.notificationType}`);
+const localStorageValue = ref(
+	localStorage.getItem(localStorageName.value) === 'true',
+);
 
 const isNotificationOn = computed(() => {
-  return isNotificationTypeInEngineSystemSettingName.value
-    ? props.value
-    : localStorageValue.value
+	return isNotificationTypeInEngineSystemSettingName.value
+		? props.value
+		: localStorageValue.value;
 });
 
 function changeNotificationState(value: boolean) {
-  if (isNotificationTypeInEngineSystemSettingName.value) {
-    emit('change', value);
-  } else {
-    localStorage.setItem(localStorageName.value, value);
-    localStorageValue.value = value
-  }
+	if (isNotificationTypeInEngineSystemSettingName.value) {
+		emit('change', value);
+	} else {
+		localStorage.setItem(localStorageName.value, value);
+		localStorageValue.value = value;
+	}
 }
 </script>
 

@@ -72,57 +72,64 @@ import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
 export default {
-  name: 'OpenedChatGatewayFacebookTab',
-  mixins: [openedObjectTableTabMixin],
-  inject: ['$eventBus'],
-  setup() {
-    const { hasUpdateAccess } = useUserAccessControl();
-    return { hasUpdateAccess };
-  },
-  data: () => ({
-    subNamespace: 'facebook',
-    accountsOnPopup: null,
-  }),
-  computed: {
-    baseUrl() {
-      const originUrl = getChatOriginUrl();
-      const chatUrl = import.meta.env.VITE_CHAT_URL;
-      const uri = this.$store.getters[`${this.namespace}/${this.subNamespace}/CHAT_URI`];
-      return new URL(path.join(chatUrl, uri), originUrl);
-    },
-  },
-  methods: {
-    ...mapActions({
-      updateSubscriptionState(dispatch, payload) {
-        return dispatch(
-          `${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`,
-          payload,
-        );
-      },
-    }),
-    addOrRemovePagesWindowHandler({ data }) {
-      if (data.status === 'success') this.loadList();
-      else if (data.status === 'error') {
-        this.$eventBus.$emit('notification', {
-          type: 'error',
-          text: data.detail,
-        });
-      }
-    },
-    addOrRemovePages() {
-      const url = `${this.baseUrl}?pages=setup`;
-      openMessengerWindow({
-        url,
-        listener: this.addOrRemovePagesWindowHandler,
-      });
-    },
-    openAccountsPopup(item) {
-      this.accountsOnPopup = item.accounts;
-    },
-    closeAccountsPopup() {
-      this.accountsOnPopup = null;
-    },
-  },
+	name: 'OpenedChatGatewayFacebookTab',
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	inject: [
+		'$eventBus',
+	],
+	setup() {
+		const { hasUpdateAccess } = useUserAccessControl();
+		return {
+			hasUpdateAccess,
+		};
+	},
+	data: () => ({
+		subNamespace: 'facebook',
+		accountsOnPopup: null,
+	}),
+	computed: {
+		baseUrl() {
+			const originUrl = getChatOriginUrl();
+			const chatUrl = import.meta.env.VITE_CHAT_URL;
+			const uri =
+				this.$store.getters[`${this.namespace}/${this.subNamespace}/CHAT_URI`];
+			return new URL(path.join(chatUrl, uri), originUrl);
+		},
+	},
+	methods: {
+		...mapActions({
+			updateSubscriptionState(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/${this.subNamespace}/UPDATE_SUBSCRIPTION_STATE`,
+					payload,
+				);
+			},
+		}),
+		addOrRemovePagesWindowHandler({ data }) {
+			if (data.status === 'success') this.loadList();
+			else if (data.status === 'error') {
+				this.$eventBus.$emit('notification', {
+					type: 'error',
+					text: data.detail,
+				});
+			}
+		},
+		addOrRemovePages() {
+			const url = `${this.baseUrl}?pages=setup`;
+			openMessengerWindow({
+				url,
+				listener: this.addOrRemovePagesWindowHandler,
+			});
+		},
+		openAccountsPopup(item) {
+			this.accountsOnPopup = item.accounts;
+		},
+		closeAccountsPopup() {
+			this.accountsOnPopup = null;
+		},
+	},
 };
 </script>
 

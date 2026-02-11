@@ -67,13 +67,13 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 
 const props = defineProps({
-  namespace: {
-    type: String,
-  },
-  url: {
-    type: String,
-    required: true,
-  },
+	namespace: {
+		type: String,
+	},
+	url: {
+		type: String,
+		required: true,
+	},
 });
 
 const store = useStore();
@@ -82,24 +82,24 @@ const qrcodeContainer = ref();
 const isConfirmationPopup = ref(false);
 
 function download() {
-  const canvas = qrcodeContainer.value.querySelector('canvas');
-  const link = document.createElement('a');
-  link.download = 'qr-code.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+	const canvas = qrcodeContainer.value.querySelector('canvas');
+	const link = document.createElement('a');
+	link.download = 'qr-code.png';
+	link.href = canvas.toDataURL('image/png');
+	link.click();
 }
 
 async function regenerateUrl() {
-  await store.dispatch(`${props.namespace}/REGENERATE_2FA_URL`);
-  closeConfirmationPopup();
+	await store.dispatch(`${props.namespace}/REGENERATE_2FA_URL`);
+	closeConfirmationPopup();
 }
 
 function openConfirmationPopup() {
-  isConfirmationPopup.value = true;
+	isConfirmationPopup.value = true;
 }
 
 function closeConfirmationPopup() {
-  isConfirmationPopup.value = false;
+	isConfirmationPopup.value = false;
 }
 </script>
 

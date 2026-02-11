@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums'
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
@@ -94,40 +94,49 @@ const namespace = 'ccenter/queues';
 const subNamespace = 'log';
 
 export default {
-  name: 'OpenedQueueLogs',
-  components: { FilterSearch },
-  mixins: [openedObjectTableTabMixin],
+	name: 'OpenedQueueLogs',
+	components: {
+		FilterSearch,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
-  computed: {
-    filtersNamespace() {
-      return `${this.namespace}/${this.subNamespace}/filters`;
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
-  methods: {
-    formatDate(value) {
-      if (!value) return '';
-      return formatDate(+value, FormatDateMode.DATETIME);
-    },
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return {
+			dummy,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+	}),
+	computed: {
+		filtersNamespace() {
+			return `${this.namespace}/${this.subNamespace}/filters`;
+		},
+	},
+	watch: {
+		'$route.query': {
+			async handler() {
+				await this.loadList();
+			},
+		},
+	},
+	methods: {
+		formatDate(value) {
+			if (!value) return '';
+			return formatDate(+value, FormatDateMode.DATETIME);
+		},
 
-    calcDuration(item) {
-      return convertDuration((item.leavingAt - item.joinedAt) / 1000);
-    },
-  },
+		calcDuration(item) {
+			return convertDuration((item.leavingAt - item.joinedAt) / 1000);
+		},
+	},
 };
 </script>
 

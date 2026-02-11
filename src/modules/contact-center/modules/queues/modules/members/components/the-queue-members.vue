@@ -220,263 +220,289 @@ import uploadPopup from './upload-members-popup.vue';
 const namespace = 'ccenter/queues/members';
 
 export default {
-  name: 'TheQueueMembers',
-  components: {
-    FilterSearch,
-    uploadPopup,
-    destinationsPopup,
-    ResetPopup,
-    TheQueueMembersFilters,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+	name: 'TheQueueMembers',
+	components: {
+		FilterSearch,
+		uploadPopup,
+		destinationsPopup,
+		ResetPopup,
+		TheQueueMembersFilters,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const store = useStore();
-    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
+	setup() {
+		const store = useStore();
+		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+		const dummyPic = computed(() =>
+			darkMode.value ? dummyPicDark : dummyPicLight,
+		);
 
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-      dummyPic,
-      dummyText: 'objects.ccenter.members.emptyWorkspace',
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+			dummyPic,
+			dummyText: 'objects.ccenter.members.emptyWorkspace',
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const parentQueue = computed(() => getNamespacedState(store.state, namespace).parentQueue);
+		const parentQueue = computed(
+			() => getNamespacedState(store.state, namespace).parentQueue,
+		);
 
-    const { disableUserInput: disableUserInputOnNoAccess } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
+		const { disableUserInput: disableUserInputOnNoAccess } =
+			useUserAccessControl({
+				useUpdateAccessAsAllMutableChecksSource: true,
+			});
 
-    // if is NOT -- member is immutable. NOT prevents actions load by default
-    const isNotInboundMember = computed(() => parentQueue.value.type !== 1);
+		// if is NOT -- member is immutable. NOT prevents actions load by default
+		const isNotInboundMember = computed(() => parentQueue.value.type !== 1);
 
-    const disableUserInput = computed(() => disableUserInputOnNoAccess.value || !isNotInboundMember.value);
+		const disableUserInput = computed(
+			() => disableUserInputOnNoAccess.value || !isNotInboundMember.value,
+		);
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      dummy,
-      disableUserInput,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			dummy,
+			disableUserInput,
+		};
+	},
 
-  data: () => ({
-    namespace: 'ccenter/queues/members',
-    communicationsOnPopup: null,
-    isDestinationsPopup: false,
-    isResetPopup: false,
-    csvFile: null,
-    showActionsPanel: false,
-  }),
+	data: () => ({
+		namespace: 'ccenter/queues/members',
+		communicationsOnPopup: null,
+		isDestinationsPopup: false,
+		isResetPopup: false,
+		csvFile: null,
+		showActionsPanel: false,
+	}),
 
-  computed: {
-    ...mapState({
-      parentQueue(state) {
-        return getNamespacedState(state, this.namespace).parentQueue;
-      },
-    }),
-    // ...mapGetters('appearance', {
-    //   darkMode: 'DARK_MODE',
-    // }),
-    parentId() {
-      return this.$route.params.queueId;
-    },
-    path() {
-      const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
-      return [
-        {
-          name: this.$t('objects.ccenter.ccenter'),
-        },
-        {
-          name: this.parentQueue.name,
-          route: baseUrl,
-        },
-        {
-          name: this.$t('objects.ccenter.members.members', 2),
-          route: `${baseUrl}/members`,
-        },
-      ];
-    },
-    filtersNamespace() {
-      return `${this.namespace}/filters`;
-    },
-    deleteOptions() {
-      const loadListAfterDecorator =
-        (method) =>
-          async (...args) => {
-            try {
-              await method(...args);
-            } finally {
-              await this.loadList();
-            }
-          };
-      const all = {
-        text: this.$t('iconHints.deleteAll'),
-        method: loadListAfterDecorator(this.deleteAll),
-      };
-      const filtered = {
-        text: this.$t('iconHints.deleteFiltered'),
-        method: loadListAfterDecorator(this.deleteFiltered),
-      };
+	computed: {
+		...mapState({
+			parentQueue(state) {
+				return getNamespacedState(state, this.namespace).parentQueue;
+			},
+		}),
+		// ...mapGetters('appearance', {
+		//   darkMode: 'DARK_MODE',
+		// }),
+		parentId() {
+			return this.$route.params.queueId;
+		},
+		path() {
+			const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
+			return [
+				{
+					name: this.$t('objects.ccenter.ccenter'),
+				},
+				{
+					name: this.parentQueue.name,
+					route: baseUrl,
+				},
+				{
+					name: this.$t('objects.ccenter.members.members', 2),
+					route: `${baseUrl}/members`,
+				},
+			];
+		},
+		filtersNamespace() {
+			return `${this.namespace}/filters`;
+		},
+		deleteOptions() {
+			const loadListAfterDecorator =
+				(method) =>
+				async (...args) => {
+					try {
+						await method(...args);
+					} finally {
+						await this.loadList();
+					}
+				};
+			const all = {
+				text: this.$t('iconHints.deleteAll'),
+				method: loadListAfterDecorator(this.deleteAll),
+			};
+			const filtered = {
+				text: this.$t('iconHints.deleteFiltered'),
+				method: loadListAfterDecorator(this.deleteFiltered),
+			};
 
-      const selectedCount = this.selectedRows.length;
-      const selected = {
-        text: this.$t('iconHints.deleteSelected', {
-          count: selectedCount,
-        }),
-        method: loadListAfterDecorator(this.deleteSelected.bind(this, this.selectedRows)),
-      };
+			const selectedCount = this.selectedRows.length;
+			const selected = {
+				text: this.$t('iconHints.deleteSelected', {
+					count: selectedCount,
+				}),
+				method: loadListAfterDecorator(
+					this.deleteSelected.bind(this, this.selectedRows),
+				),
+			};
 
-      const options = [all, filtered];
-      if (selectedCount) options.push(selected);
-      return options;
-    },
+			const options = [
+				all,
+				filtered,
+			];
+			if (selectedCount) options.push(selected);
+			return options;
+		},
 
-    saveOptions() {
-      const importCsv = {
-        text: this.$t('objects.integrations.importCsv.importCsv', 2),
-        callback: this.triggerFileInput,
-      };
-      return [importCsv];
-    },
-  },
+		saveOptions() {
+			const importCsv = {
+				text: this.$t('objects.integrations.importCsv.importCsv', 2),
+				callback: this.triggerFileInput,
+			};
+			return [
+				importCsv,
+			];
+		},
+	},
 
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
+	watch: {
+		'$route.query': {
+			async handler() {
+				await this.loadList();
+			},
+		},
+	},
 
-  methods: {
-    prettifyDateTime(timestamp) {
-      return formatDate(+timestamp, FormatDateMode.DATETIME);
-    },
+	methods: {
+		prettifyDateTime(timestamp) {
+			return formatDate(+timestamp, FormatDateMode.DATETIME);
+		},
 
-    openResetPopup() {
-      this.isResetPopup = true;
-    },
+		openResetPopup() {
+			this.isResetPopup = true;
+		},
 
-    closeResetPopup() {
-      this.isResetPopup = false;
-    },
+		closeResetPopup() {
+			this.isResetPopup = false;
+		},
 
-    readDestinations(item) {
-      this.communicationsOnPopup = item.communications;
-      this.isDestinationsPopup = true;
-    },
+		readDestinations(item) {
+			this.communicationsOnPopup = item.communications;
+			this.isDestinationsPopup = true;
+		},
 
-    closeDestinationsPopup() {
-      this.communicationsOnPopup = null;
-      this.isDestinationsPopup = false;
-    },
+		closeDestinationsPopup() {
+			this.communicationsOnPopup = null;
+			this.isDestinationsPopup = false;
+		},
 
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-      }
-    },
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.csvFile = file;
+			}
+		},
 
-    closeCSVPopup() {
-      this.csvFile = null;
-      this.loadList();
-    },
+		closeCSVPopup() {
+			this.csvFile = null;
+			this.loadList();
+		},
 
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
+		triggerFileInput() {
+			this.$refs['file-input'].click();
+		},
 
-    inputFileHandler(event) {
-      const { files } = event.target;
-      this.processCSV(files);
-      this.clearFileInput();
-    },
+		inputFileHandler(event) {
+			const { files } = event.target;
+			this.processCSV(files);
+			this.clearFileInput();
+		},
 
-    clearFileInput() {
-      this.$refs['file-input'].value = null;
-    },
+		clearFileInput() {
+			this.$refs['file-input'].value = null;
+		},
 
-    create() {
-      this.$router.push({
-        name: `${RouteNames.MEMBERS}-card`,
-        params: { queueId: this.parentId, id: 'new' },
-      });
-    },
+		create() {
+			this.$router.push({
+				name: `${RouteNames.MEMBERS}-card`,
+				params: {
+					queueId: this.parentId,
+					id: 'new',
+				},
+			});
+		},
 
-    editLink(item) {
-      return {
-        name: `${RouteNames.MEMBERS}-card`,
-        params: { queueId: this.parentId, id: item.id },
-      };
-    },
+		editLink(item) {
+			return {
+				name: `${RouteNames.MEMBERS}-card`,
+				params: {
+					queueId: this.parentId,
+					id: item.id,
+				},
+			};
+		},
 
-    editAgentsLink(item) {
-      return {
-        name: `${RouteNames.AGENTS}-card`,
-        params: { id: item.id },
-      };
-    },
+		editAgentsLink(item) {
+			return {
+				name: `${RouteNames.AGENTS}-card`,
+				params: {
+					id: item.id,
+				},
+			};
+		},
 
-    close() {
-      this.$router.push({ name: RouteNames.QUEUES });
-      this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
-    },
+		close() {
+			this.$router.push({
+				name: RouteNames.QUEUES,
+			});
+			this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
+		},
 
-    inputTableAction(event) {
-      if (event === 'settings') {
-        this.showActionsPanel = !this.showActionsPanel;
-        return;
-      }
-      this.tableActionsHandler(event)
-    },
+		inputTableAction(event) {
+			if (event === 'settings') {
+				this.showActionsPanel = !this.showActionsPanel;
+				return;
+			}
+			this.tableActionsHandler(event);
+		},
 
-    ...mapActions({
-      setDestinationId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
-      },
-      setParentId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-      },
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-      loadParentQueue(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-      },
-      resetState(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_STATE`, payload);
-      },
-      resetMembers(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
-      },
+		...mapActions({
+			setDestinationId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
+			},
+			setParentId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
+			},
+			setId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+			},
+			loadParentQueue(dispatch, payload) {
+				return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
+			},
+			resetState(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_STATE`, payload);
+			},
+			resetMembers(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
+			},
 
-      deleteSelected(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_BULK`, payload);
-      },
-      deleteFiltered(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
-      },
-      deleteAll(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_ALL`, payload);
-      },
-    }),
-  },
+			deleteSelected(dispatch, payload) {
+				return dispatch(`${this.namespace}/DELETE_BULK`, payload);
+			},
+			deleteFiltered(dispatch, payload) {
+				return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
+			},
+			deleteAll(dispatch, payload) {
+				return dispatch(`${this.namespace}/DELETE_ALL`, payload);
+			},
+		}),
+	},
 };
 </script>
 

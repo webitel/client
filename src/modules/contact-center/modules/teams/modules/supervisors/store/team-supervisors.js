@@ -3,17 +3,17 @@ import TeamSupervisorsAPI from '../api/teamSupervisors';
 import headers from './_internals/headers';
 
 const resettableItemState = {
-  itemInstance: {
-    agent: {},
-  },
+	itemInstance: {
+		agent: {},
+	},
 };
 
 const teamSupervisors = new NestedObjectStoreModule({
-  resettableItemState,
-  headers,
+	resettableItemState,
+	headers,
 })
-  .attachAPIModule(TeamSupervisorsAPI)
-  .generateAPIActions()
-  .getModule();
+	.attachAPIModule(TeamSupervisorsAPI)
+	.generateAPIActions()
+	.getModule();
 
 export default teamSupervisors;

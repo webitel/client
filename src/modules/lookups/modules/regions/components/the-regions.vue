@@ -130,59 +130,64 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'lookups/regions';
 
 export default {
-  name: 'TheRegions',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheRegions',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.REGIONS,
-  }),
+	data: () => ({
+		namespace,
+		routeName: RouteNames.REGIONS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.regions.regions', 2),
-          route: '/lookups/regions',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.regions.regions', 2),
+					route: '/lookups/regions',
+				},
+			];
+		},
+	},
 };
 </script>
 

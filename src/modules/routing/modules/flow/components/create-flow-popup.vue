@@ -38,89 +38,96 @@ import DiagramSectionLight from '../assets/diagram-section-light.svg';
 import FlowEditor from '../enums/FlowEditor.enum';
 
 export default {
-  name: 'CreateFlowPopup',
-  components: { SelectionPopup },
+	name: 'CreateFlowPopup',
+	components: {
+		SelectionPopup,
+	},
 
-  data: () => ({
-    namespace: 'routing/flow',
-    selected: {},
-    type: {},
-    typeOptions: Object.values(EngineRoutingSchemaType)
-      .filter((type) => type !== EngineRoutingSchemaType.Default)
-      .map((value) => ({
-        value,
-        locale: `objects.flow.type.${value}`,
-      })),
-  }),
+	data: () => ({
+		namespace: 'routing/flow',
+		selected: {},
+		type: {},
+		typeOptions: Object.values(EngineRoutingSchemaType)
+			.filter((type) => type !== EngineRoutingSchemaType.Default)
+			.map((value) => ({
+				value,
+				locale: `objects.flow.type.${value}`,
+			})),
+	}),
 
-  computed: {
-    ...mapState('appearance', {
-      theme: (state) => state.theme,
-    }),
-    editorOptions() {
-      const diagram = {
-        value: FlowEditor.DIAGRAM,
-        title: this.$t('objects.routing.flow.diagram.diagram'),
-        description: this.$t('objects.routing.flow.diagram.description'),
-        image: this.theme === 'dark' ? DiagramSectionDark : DiagramSectionLight,
-        alt: this.$t('objects.routing.flow.diagram.diagram'),
-      };
-      const code = {
-        value: FlowEditor.CODE,
-        title: this.$t('objects.routing.flow.code.code'),
-        description: this.$t('objects.routing.flow.code.description'),
-        image: this.theme === 'dark' ? CodeSectionDark : CodeSectionLight,
-        alt: this.$t('objects.routing.flow.code.code'),
-      };
-      return [diagram, code];
-    },
-  },
+	computed: {
+		...mapState('appearance', {
+			theme: (state) => state.theme,
+		}),
+		editorOptions() {
+			const diagram = {
+				value: FlowEditor.DIAGRAM,
+				title: this.$t('objects.routing.flow.diagram.diagram'),
+				description: this.$t('objects.routing.flow.diagram.description'),
+				image: this.theme === 'dark' ? DiagramSectionDark : DiagramSectionLight,
+				alt: this.$t('objects.routing.flow.diagram.diagram'),
+			};
+			const code = {
+				value: FlowEditor.CODE,
+				title: this.$t('objects.routing.flow.code.code'),
+				description: this.$t('objects.routing.flow.code.description'),
+				image: this.theme === 'dark' ? CodeSectionDark : CodeSectionLight,
+				alt: this.$t('objects.routing.flow.code.code'),
+			};
+			return [
+				diagram,
+				code,
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      setItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-      },
-    }),
+	methods: {
+		...mapActions({
+			setItemProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
+			},
+		}),
 
-    create() {
-      if (this.selected.value === 'diagram') {
-        this.setItemProp({
-          prop: 'editor',
-          value: true,
-        });
-      } else {
-        this.setItemProp({
-          prop: 'editor',
-          value: false,
-        });
-      }
-      const route = this.$router.resolve({
-        name: `${RouteNames.FLOW}-card`,
-        params: { id: 'new' },
-        query: {
-          editor: this.selected.value,
-          type: this.type.value,
-        },
-      });
-      window.open(route.href, '_blank');
-      this.close();
-    },
+		create() {
+			if (this.selected.value === 'diagram') {
+				this.setItemProp({
+					prop: 'editor',
+					value: true,
+				});
+			} else {
+				this.setItemProp({
+					prop: 'editor',
+					value: false,
+				});
+			}
+			const route = this.$router.resolve({
+				name: `${RouteNames.FLOW}-card`,
+				params: {
+					id: 'new',
+				},
+				query: {
+					editor: this.selected.value,
+					type: this.type.value,
+				},
+			});
+			window.open(route.href, '_blank');
+			this.close();
+		},
 
-    close() {
-      this.$emit('close');
-      this.setBasicFields();
-    },
+		close() {
+			this.$emit('close');
+			this.setBasicFields();
+		},
 
-    setBasicFields() {
-      [this.selected] = this.editorOptions;
-      [this.type] = this.typeOptions;
-    },
-  },
+		setBasicFields() {
+			[this.selected] = this.editorOptions;
+			[this.type] = this.typeOptions;
+		},
+	},
 
-  mounted() {
-    this.setBasicFields();
-  },
+	mounted() {
+		this.setBasicFields();
+	},
 };
 </script>
 

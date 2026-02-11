@@ -56,44 +56,51 @@ import { useI18n } from 'vue-i18n';
 import { AttemptsResetTypeEnum } from '../enums/AttemptsResetType.enum';
 
 type ResetAttemptsFormType = {
-  attemptType: string[];
-  idleForMinutes: number;
-  result: string;
+	attemptType: string[];
+	idleForMinutes: number;
+	result: string;
 };
 
-const emit = defineEmits(['close', 'reset']);
+const emit = defineEmits([
+	'close',
+	'reset',
+]);
 
 const { t } = useI18n();
 
 const attemptsResetTypesOptions = computed(() => {
-  return Object.values(AttemptsResetTypeEnum).map((type) => ({
-    value: type,
-    locale: `objects.ccenter.queues.attemptsReset.${type}`,
-  }));
+	return Object.values(AttemptsResetTypeEnum).map((type) => ({
+		value: type,
+		locale: `objects.ccenter.queues.attemptsReset.${type}`,
+	}));
 });
 
 const resetAttemptsForm = reactive<ResetAttemptsFormType>({
-  attemptType: [AttemptsResetTypeEnum.CALLS],
-  idleForMinutes: 1,
-  result: 'Error',
+	attemptType: [
+		AttemptsResetTypeEnum.CALLS,
+	],
+	idleForMinutes: 1,
+	result: 'Error',
 });
 
 const selectedAttemptTypeOption = computed(() =>
-  attemptsResetTypesOptions.value.find(
-    option => option.value === resetAttemptsForm.attemptType[0],
-  ),
+	attemptsResetTypesOptions.value.find(
+		(option) => option.value === resetAttemptsForm.attemptType[0],
+	),
 );
 
-function attemptTypeInputHandler(option: { value: string, locale: string }) {
-  resetAttemptsForm.attemptType = [option.value];
+function attemptTypeInputHandler(option: { value: string; locale: string }) {
+	resetAttemptsForm.attemptType = [
+		option.value,
+	];
 }
 
 function reset() {
-  emit('reset', resetAttemptsForm);
+	emit('reset', resetAttemptsForm);
 }
 
 function close() {
-  emit('close');
+	emit('close');
 }
 </script>
 

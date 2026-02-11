@@ -47,20 +47,24 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import UsersAPI from '../../users/api/users';
 
 export default {
-  name: 'OpenedDeviceGeneral',
-  components: { PasswordInput },
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadDropdownOptionsList(params) {
-      return UsersAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedDeviceGeneral',
+	components: {
+		PasswordInput,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadDropdownOptionsList(params) {
+			return UsersAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

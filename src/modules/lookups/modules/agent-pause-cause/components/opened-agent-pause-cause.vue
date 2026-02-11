@@ -42,65 +42,70 @@ import { required } from '@vuelidate/validators';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import AgentPauseCauseRouteNames
-  from '../router/_internals/AgentPauseCauseRouteNames.enum.js';
+import AgentPauseCauseRouteNames from '../router/_internals/AgentPauseCauseRouteNames.enum.js';
 import General from './opened-agent-pause-cause-general.vue';
 
 export default {
-  name: 'OpenedAgentPauseCause',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedAgentPauseCause',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'lookups/pauseCause',
-    routeName: RouteNames.PAUSE_CAUSE,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'lookups/pauseCause',
+		routeName: RouteNames.PAUSE_CAUSE,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: AgentPauseCauseRouteNames.GENERAL,
-        },
-      ];
-      return tabs;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: AgentPauseCauseRouteNames.GENERAL,
+				},
+			];
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/pause-cause';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.pauseCause.pauseCause'),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/lookups/pause-cause';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.pauseCause.pauseCause'),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

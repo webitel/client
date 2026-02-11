@@ -37,32 +37,32 @@
 import { useI18n } from 'vue-i18n';
 
 interface Props {
-  title?: string | null;
-  description?: string | null;
-  shown?: boolean;
-  affectedCount?: number;
+	title?: string | null;
+	description?: string | null;
+	shown?: boolean;
+	affectedCount?: number;
 }
 
 withDefaults(defineProps<Props>(), {
-  shown: false,
-  affectedCount: 0,
-  title: null,
-  description: null,
+	shown: false,
+	affectedCount: 0,
+	title: null,
+	description: null,
 });
 
 const emit = defineEmits<{
-  (e: 'close'): void;
-  (e: 'confirm'): void;
+	(e: 'close'): void;
+	(e: 'confirm'): void;
 }>();
 
 const { t } = useI18n();
 
 function handleConfirm() {
-  emit('confirm');
+	emit('confirm');
 }
 
 function handleClose() {
-  emit('close');
+	emit('close');
 }
 </script>
 

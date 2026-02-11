@@ -155,100 +155,108 @@ import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
 const namespace = 'integrations/cognitiveProfiles';
 
 export default {
-  name: 'TheCognitiveProfiles',
-  components: {
-    CreateCognitiveProfilePopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+	name: 'TheCognitiveProfiles',
+	components: {
+		CreateCognitiveProfilePopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const store = useStore();
-    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-      dummyPic,
-      dummyText: 'objects.integrations.emptyWorkspace',
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const store = useStore();
+		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+		const dummyPic = computed(() =>
+			darkMode.value ? dummyPicDark : dummyPicLight,
+		);
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+			dummyPic,
+			dummyText: 'objects.integrations.emptyWorkspace',
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    isCognitiveProfilePopup: false,
-    routeName: RouteNames.COGNITIVE_PROFILES,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		isCognitiveProfilePopup: false,
+		routeName: RouteNames.COGNITIVE_PROFILES,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
-          route: '/integrations/cognitive-profiles',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t(
+						'objects.integrations.cognitiveProfiles.cognitiveProfiles',
+						2,
+					),
+					route: '/integrations/cognitive-profiles',
+				},
+			];
+		},
+	},
 
-  methods: {
-    create() {
-      this.isCognitiveProfilePopup = true;
-    },
-    async changeDefaultProfile({ index, item, value }) {
-      try {
-        await this.patchItem({
-          index,
-          item,
-          prop: 'default',
-          value,
-        });
-        if (value) this.loadList();
-      } catch {
-        this.loadList();
-      }
-    },
-    async changeState({ item, index, value }) {
-      await this.patchItem({
-        item,
-        index,
-        prop: 'enabled',
-        value,
-      });
-      if (item.default && !value) {
-        await this.changeDefaultProfile({
-          item,
-          index,
-          value: false,
-        });
-      }
-    },
-  },
+	methods: {
+		create() {
+			this.isCognitiveProfilePopup = true;
+		},
+		async changeDefaultProfile({ index, item, value }) {
+			try {
+				await this.patchItem({
+					index,
+					item,
+					prop: 'default',
+					value,
+				});
+				if (value) this.loadList();
+			} catch {
+				this.loadList();
+			}
+		},
+		async changeState({ item, index, value }) {
+			await this.patchItem({
+				item,
+				index,
+				prop: 'enabled',
+				value,
+			});
+			if (item.default && !value) {
+				await this.changeDefaultProfile({
+					item,
+					index,
+					value: false,
+				});
+			}
+		},
+	},
 };
 </script>
 

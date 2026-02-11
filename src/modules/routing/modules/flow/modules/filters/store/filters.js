@@ -6,28 +6,35 @@ import { EngineRoutingSchemaType } from 'webitel-sdk';
 import FlowsAPI from '../../../api/flow';
 
 const state = {
-  search: new BaseFilterSchema(),
-  type: new BaseFilterSchema({
-    value: [
-      EngineRoutingSchemaType.Chat,
-      EngineRoutingSchemaType.Voice,
-      EngineRoutingSchemaType.Service,
-      EngineRoutingSchemaType.Processing,
-    ],
-    defaultValue: [
-      EngineRoutingSchemaType.Chat,
-      EngineRoutingSchemaType.Voice,
-      EngineRoutingSchemaType.Service,
-      EngineRoutingSchemaType.Processing,
-    ],
-  }),
-  tags: new ApiFilterSchema({
-    value: [],
-    defaultValue: [],
-    API: FlowsAPI.getFlowTags,
-    locale: { label: ['vocabulary.tag', 2] },
-    storedProp: 'name',
-  }),
+	search: new BaseFilterSchema(),
+	type: new BaseFilterSchema({
+		value: [
+			EngineRoutingSchemaType.Chat,
+			EngineRoutingSchemaType.Voice,
+			EngineRoutingSchemaType.Service,
+			EngineRoutingSchemaType.Processing,
+		],
+		defaultValue: [
+			EngineRoutingSchemaType.Chat,
+			EngineRoutingSchemaType.Voice,
+			EngineRoutingSchemaType.Service,
+			EngineRoutingSchemaType.Processing,
+		],
+	}),
+	tags: new ApiFilterSchema({
+		value: [],
+		defaultValue: [],
+		API: FlowsAPI.getFlowTags,
+		locale: {
+			label: [
+				'vocabulary.tag',
+				2,
+			],
+		},
+		storedProp: 'name',
+	}),
 };
 
-export default new QueryFiltersStoreModule({ state }).getModule();
+export default new QueryFiltersStoreModule({
+	state,
+}).getModule();

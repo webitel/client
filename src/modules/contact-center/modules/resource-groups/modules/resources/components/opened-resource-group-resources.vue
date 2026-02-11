@@ -114,67 +114,76 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ResPopup from './opened-resource-group-resource-popup.vue';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'ccenter/resGroups';
 const subNamespace = 'res';
 
 export default {
-  name: 'OpenedResourceGroupResources',
-  components: { ResPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
+	name: 'OpenedResourceGroupResources',
+	components: {
+		ResPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
 
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { resourceId: 'new' },
-      })
-    },
-    editItem(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { resourceId: item.id },
-      })
-    },
-    closePopup() {
-      this.$router.go(-1)
-    },
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+	}),
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					resourceId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					resourceId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 

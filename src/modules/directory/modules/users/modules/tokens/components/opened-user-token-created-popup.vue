@@ -39,31 +39,31 @@ import { mapState } from 'vuex';
 import { downloadAsTXT } from '../../../../../../../app/utils/download';
 
 export default {
-  name: 'OpenedUserTokenCreatedPopup',
+	name: 'OpenedUserTokenCreatedPopup',
 
-  computed: {
-    ...mapState('directory/users', {
-      userName: (state) => state.itemInstance.name,
-    }),
-    ...mapState('directory/users/tokens', {
-      token: (state) => state.itemInstance.token,
-    }),
-  },
+	computed: {
+		...mapState('directory/users', {
+			userName: (state) => state.itemInstance.name,
+		}),
+		...mapState('directory/users/tokens', {
+			token: (state) => state.itemInstance.token,
+		}),
+	},
 
-  methods: {
-    copy() {
-      clipboardCopy(this.token);
-    },
+	methods: {
+		copy() {
+			clipboardCopy(this.token);
+		},
 
-    async saveTxt() {
-      const filename = `${this.userName}-token`;
-      downloadAsTXT(this.token, filename);
-    },
+		async saveTxt() {
+			const filename = `${this.userName}-token`;
+			downloadAsTXT(this.token, filename);
+		},
 
-    close() {
-      this.$emit('close');
-    },
-  },
+		close() {
+			this.$emit('close');
+		},
+	},
 };
 </script>
 

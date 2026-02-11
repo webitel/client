@@ -5,8 +5,14 @@ import openedObjectMixinMock from '../../../../../../../tests/unit/mocks/mixinMo
 import OpenedEmailProfile from '../opened-email-profile.vue';
 
 describe('OpenedEmailProfile', () => {
-  it('renders a component', () => {
-    const wrapper = shallowMount(OpenedEmailProfile, deepmerge.all([openedObjectMixinMock(), {}]));
-    expect(wrapper.exists()).toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(
+			OpenedEmailProfile,
+			deepmerge.all([
+				openedObjectMixinMock(),
+				{},
+			]),
+		);
+		expect(wrapper.exists()).toBe(true);
+	});
 });

@@ -63,88 +63,94 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'GlobalVariablesPopup',
-  mixins: [openedObjectMixin, openedTabComponentMixin],
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    const v$ = useVuelidate({ $stopPropagation: true });
-    const { hasUpdateAccess, hasCreateAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasUpdateAccess,
-      hasCreateAccess,
-    };
-  },
-  data: () => ({
-    startEncryptValue: false,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      value: {
-        required: requiredIf(function () {
-          return !this.itemInstance.id || !this.startEncryptValue;
-        }),
-      },
-    },
-  },
-  computed: {
-    variableId() {
-      return this.$route.params.id;
-    },
-    disableUserInput() {
-      // Computed from setup() hasUpdateAccess/hasCreateAccess based on whether it's a new item
-      if (this.id) return !this.hasUpdateAccess;
-      return !this.hasCreateAccess;
-    },
-  },
-  watch: {
-    variableId: {
-      async handler(id) {
-        if (id) {
-          await this.loadPopupData(id)
-        }
-
-        else {
-          this.resetState()
-        }
-      },
-    }, immediate: true,
-  },
-  methods: {
-    async save() {
-      if (!this.disabledSave) {
-        if (this.id) {
-          await this.updateItem();
-        } else {
-          try {
-            await this.addItem();
-          } catch (err) {
-            throw err;
-          }
-        }
-        this.close();
-      }
-    },
-    async loadPopupData(id) {
-      try {
-        await this.setId(id);
-        await this.loadItem();
-      } finally {
-        this.startEncryptValue = this.itemInstance.encrypt;
-      }
-    },
-    close() {
-      this.$emit('close');
-    },
-    loadPageData() { },
-  },
+	name: 'GlobalVariablesPopup',
+	mixins: [
+		openedObjectMixin,
+		openedTabComponentMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	setup() {
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		const v$ = useVuelidate({
+			$stopPropagation: true,
+		});
+		const { hasUpdateAccess, hasCreateAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasUpdateAccess,
+			hasCreateAccess,
+		};
+	},
+	data: () => ({
+		startEncryptValue: false,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			value: {
+				required: requiredIf(function () {
+					return !this.itemInstance.id || !this.startEncryptValue;
+				}),
+			},
+		},
+	},
+	computed: {
+		variableId() {
+			return this.$route.params.id;
+		},
+		disableUserInput() {
+			// Computed from setup() hasUpdateAccess/hasCreateAccess based on whether it's a new item
+			if (this.id) return !this.hasUpdateAccess;
+			return !this.hasCreateAccess;
+		},
+	},
+	watch: {
+		variableId: {
+			async handler(id) {
+				if (id) {
+					await this.loadPopupData(id);
+				} else {
+					this.resetState();
+				}
+			},
+		},
+		immediate: true,
+	},
+	methods: {
+		async save() {
+			if (!this.disabledSave) {
+				if (this.id) {
+					await this.updateItem();
+				} else {
+					try {
+						await this.addItem();
+					} catch (err) {
+						throw err;
+					}
+				}
+				this.close();
+			}
+		},
+		async loadPopupData(id) {
+			try {
+				await this.setId(id);
+				await this.loadItem();
+			} finally {
+				this.startEncryptValue = this.itemInstance.encrypt;
+			}
+		},
+		close() {
+			this.$emit('close');
+		},
+		loadPageData() {},
+	},
 };
 </script>

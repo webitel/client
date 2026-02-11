@@ -33,133 +33,148 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, numeric, required, requiredIf } from '@vuelidate/validators';
+import {
+	maxValue,
+	minValue,
+	numeric,
+	required,
+	requiredIf,
+} from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'OpenedCalendarHolidayPopup',
-  mixins: [nestedObjectMixin],
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'lookups/calendars',
-    shown: false,
-    itemInstanceValue: {
-      name: '',
-      date: Date.now(),
-      repeat: true,
-    },
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      date: { required },
-      workStart: {
-        numeric,
-        minValue: minValue(0),
-        maxValue: maxValue(1440),
-      },
-      workStop: {
-        numeric,
-        required: requiredIf((value, item) => item.workStart),
-        minValue: minValue(0),
-        maxValue: maxValue(1440),
-      },
-    },
-  },
+	name: 'OpenedCalendarHolidayPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'lookups/calendars',
+		shown: false,
+		itemInstanceValue: {
+			name: '',
+			date: Date.now(),
+			repeat: true,
+		},
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			date: {
+				required,
+			},
+			workStart: {
+				numeric,
+				minValue: minValue(0),
+				maxValue: maxValue(1440),
+			},
+			workStop: {
+				numeric,
+				required: requiredIf((value, item) => item.workStart),
+				minValue: minValue(0),
+				maxValue: maxValue(1440),
+			},
+		},
+	},
 
-  computed: {
-    ...mapState({
-      holidayList(state) {
-        return getNamespacedState(state, this.namespace).itemInstance.excepts;
-      },
-    }),
-    // override mixin map state
-    itemInstance: {
-      get() {
-        return this.itemInstanceValue;
-      },
-      set(value) {
-        this.itemInstanceValue = value;
-      },
-    },
-    computeDisabled() {
-      return this.checkValidations();
-    },
-    holidayIndex() {
-      return this.$route.params.holidayIndex;
-    }
-  },
-  methods: {
-    ...mapActions({
-      addHoliday(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_EXCEPT_ITEM`, payload);
-      },
-      updateHoliday(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_EXCEPT_ITEM`, payload);
-      },
-    }),
-    initEditedValue() {
-      if (this.holidayIndex !== 'new') {
-        this.itemInstance = { ...this.holidayList[Number(this.holidayIndex)] };
-      }
-    },
-    resetItemInstance() {
-      this.itemInstance = {
-        name: '',
-        date: Date.now(),
-        repeat: true,
-      };
-    },
-    save() {
-      if (this.holidayIndex !== 'new') {
-        this.updateHoliday({
-          index: Number(this.holidayIndex),
-          item: this.itemInstance,
-        });
-      } else {
-        this.addHoliday(this.itemInstance);
-      }
-      this.close();
-    },
-    changeWorkingSwitcher(event) {
-      this.itemInstance.working = event;
-      this.itemInstance.workStart = this.itemInstance.working ? 9 * 60 : null;
-      this.itemInstance.workStop = this.itemInstance.working ? 20 * 60 : null;
-    },
-    updateWorkingTime(event, prop) {
-      this.itemInstance[prop] = event ? event / 60 : null;
-    },
-    loadItem() { },
-    resetState() { },
-  },
+	computed: {
+		...mapState({
+			holidayList(state) {
+				return getNamespacedState(state, this.namespace).itemInstance.excepts;
+			},
+		}),
+		// override mixin map state
+		itemInstance: {
+			get() {
+				return this.itemInstanceValue;
+			},
+			set(value) {
+				this.itemInstanceValue = value;
+			},
+		},
+		computeDisabled() {
+			return this.checkValidations();
+		},
+		holidayIndex() {
+			return this.$route.params.holidayIndex;
+		},
+	},
+	methods: {
+		...mapActions({
+			addHoliday(dispatch, payload) {
+				return dispatch(`${this.namespace}/ADD_EXCEPT_ITEM`, payload);
+			},
+			updateHoliday(dispatch, payload) {
+				return dispatch(`${this.namespace}/UPDATE_EXCEPT_ITEM`, payload);
+			},
+		}),
+		initEditedValue() {
+			if (this.holidayIndex !== 'new') {
+				this.itemInstance = {
+					...this.holidayList[Number(this.holidayIndex)],
+				};
+			}
+		},
+		resetItemInstance() {
+			this.itemInstance = {
+				name: '',
+				date: Date.now(),
+				repeat: true,
+			};
+		},
+		save() {
+			if (this.holidayIndex !== 'new') {
+				this.updateHoliday({
+					index: Number(this.holidayIndex),
+					item: this.itemInstance,
+				});
+			} else {
+				this.addHoliday(this.itemInstance);
+			}
+			this.close();
+		},
+		changeWorkingSwitcher(event) {
+			this.itemInstance.working = event;
+			this.itemInstance.workStart = this.itemInstance.working ? 9 * 60 : null;
+			this.itemInstance.workStop = this.itemInstance.working ? 20 * 60 : null;
+		},
+		updateWorkingTime(event, prop) {
+			this.itemInstance[prop] = event ? event / 60 : null;
+		},
+		loadItem() {},
+		resetState() {},
+	},
 
-  watch: {
-    holidayList() {
-      this.initEditedValue();
-    },
-    holidayIndex: {
-      handler(value) {
-        if (value === 'new') {
-          this.resetItemInstance();
-          this.shown = true;
-        }
+	watch: {
+		holidayList() {
+			this.initEditedValue();
+		},
+		holidayIndex: {
+			handler(value) {
+				if (value === 'new') {
+					this.resetItemInstance();
+					this.shown = true;
+				}
 
-        if (value) {
-          this.initEditedValue();
-          this.shown = true;
-        }
-
-        else this.shown = false;
-      }, immediate: true,
-    }
-  },
+				if (value) {
+					this.initEditedValue();
+					this.shown = true;
+				} else this.shown = false;
+			},
+			immediate: true,
+		},
+	},
 };
 </script>
 

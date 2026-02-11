@@ -40,37 +40,40 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface Props {
-  title?: string;
-  dataList?: Array<any>;
-  headers?: Array<{ value: string; text: string }>;
-  routeName?: string;
+	title?: string;
+	dataList?: Array<any>;
+	headers?: Array<{
+		value: string;
+		text: string;
+	}>;
+	routeName?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: '',
-  dataList: () => [],
-  headers: null,
-  routeName: null,
+	title: '',
+	dataList: () => [],
+	headers: null,
+	routeName: null,
 });
 
 const emit = defineEmits<{
-  close: [];
+	close: [];
 }>();
 
 const { t } = useI18n();
 
 const tableHeaders = computed(() => {
-  const defaultHeaders = [
-    {
-      value: 'name',
-      text: t('reusable.name'),
-    },
-  ];
-  return props.headers || defaultHeaders;
+	const defaultHeaders = [
+		{
+			value: 'name',
+			text: t('reusable.name'),
+		},
+	];
+	return props.headers || defaultHeaders;
 });
 
 const close = () => {
-  emit('close');
+	emit('close');
 };
 </script>
 

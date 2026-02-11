@@ -60,120 +60,142 @@ import TtsMicrosoftVoice from '../enums/TtsMicrosoftVoice.enum';
 import TtsTextType from '../lookups/TtsTextType.lookup';
 
 const getModel = () => ({
-  name: '',
-  profile: {},
-  textType: TtsTextType[0],
-  language: TtsMicrosoftLanguage['en-US'],
-  voice: TtsMicrosoftVoice[0],
-  text: '',
-  format: 'wav',
+	name: '',
+	profile: {},
+	textType: TtsTextType[0],
+	language: TtsMicrosoftLanguage['en-US'],
+	voice: TtsMicrosoftVoice[0],
+	text: '',
+	format: 'wav',
 });
 
 export default {
-  name: 'TextToSpeechPopup',
-  mixins: [validationMixin],
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    isOpened: false,
-    draft: {},
-    textTypeOptions: TtsTextType,
-    TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
-    TtsMicrosoftVoice,
-    audio: null,
-    audioUrl: '',
-    isGenerating: false,
-    isSaving: false,
-  }),
-  validations: {
-    draft: {
-      name: { required },
-      profile: { required },
-      text: { required },
-    },
-  },
-  computed: {
-    disabled() {
-      return this.checkValidations('draft');
-    },
-    mediaId() {
-      return this.$route.params.mediaId;
-    },
-  },
-  watch: {
-    mediaId: {
-      handler(value) {
-        if (value === 'new') this.openPopup();
-      },
-      immediate: true
-    },
-    isOpened: {
-      handler() {
-        this.draft = getModel();
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    openPopup() {
-      this.$emit('opened');
-      this.$router.push({
-        ...this.$route,
-        params: { mediaId: 'new' }
-      })
-      this.isOpened = true;
-    },
-    closePopup() {
-      this.$router.go(-1);
-      this.isOpened = false;
-      this.audio = null;
-      this.audioUrl = '';
-    },
-    async generate() {
-      try {
-        this.isGenerating = true;
-        this.audioUrl = '';
-        const params = {
-          profileId: this.draft.profile.id,
-          textType: this.draft.textType.value,
-          language: this.draft.language,
-          voice: this.draft.voice,
-          format: this.draft.format,
-          text: this.draft.text,
-        };
-        this.audio = await TextToSpeechAPI.getTts(params);
-        this.audioUrl = TextToSpeechAPI.getTtsStreamUrl(params, true);
-      } finally {
-        this.isGenerating = false;
-      }
-    },
-    async save() {
-      try {
-        this.isSaving = true;
-        const file = new File([this.audio], `${this.draft.name}.wav`, {
-          type: 'audio/wav',
-        });
-        await MediaAPI.add({
-          itemInstance: file,
-        });
-        this.closePopup();
-      } finally {
-        this.isSaving = false;
-      }
-    },
-    searchProfiles(params) {
-      const fields = ['id', 'name', 'provider'];
-      const service = StorageServiceType.TTS;
-      return CognitiveProfilesAPI.getLookup({
-        ...params,
-        fields,
-        service,
-      });
-    },
-  },
+	name: 'TextToSpeechPopup',
+	mixins: [
+		validationMixin,
+	],
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		isOpened: false,
+		draft: {},
+		textTypeOptions: TtsTextType,
+		TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
+		TtsMicrosoftVoice,
+		audio: null,
+		audioUrl: '',
+		isGenerating: false,
+		isSaving: false,
+	}),
+	validations: {
+		draft: {
+			name: {
+				required,
+			},
+			profile: {
+				required,
+			},
+			text: {
+				required,
+			},
+		},
+	},
+	computed: {
+		disabled() {
+			return this.checkValidations('draft');
+		},
+		mediaId() {
+			return this.$route.params.mediaId;
+		},
+	},
+	watch: {
+		mediaId: {
+			handler(value) {
+				if (value === 'new') this.openPopup();
+			},
+			immediate: true,
+		},
+		isOpened: {
+			handler() {
+				this.draft = getModel();
+			},
+			immediate: true,
+		},
+	},
+	methods: {
+		openPopup() {
+			this.$emit('opened');
+			this.$router.push({
+				...this.$route,
+				params: {
+					mediaId: 'new',
+				},
+			});
+			this.isOpened = true;
+		},
+		closePopup() {
+			this.$router.go(-1);
+			this.isOpened = false;
+			this.audio = null;
+			this.audioUrl = '';
+		},
+		async generate() {
+			try {
+				this.isGenerating = true;
+				this.audioUrl = '';
+				const params = {
+					profileId: this.draft.profile.id,
+					textType: this.draft.textType.value,
+					language: this.draft.language,
+					voice: this.draft.voice,
+					format: this.draft.format,
+					text: this.draft.text,
+				};
+				this.audio = await TextToSpeechAPI.getTts(params);
+				this.audioUrl = TextToSpeechAPI.getTtsStreamUrl(params, true);
+			} finally {
+				this.isGenerating = false;
+			}
+		},
+		async save() {
+			try {
+				this.isSaving = true;
+				const file = new File(
+					[
+						this.audio,
+					],
+					`${this.draft.name}.wav`,
+					{
+						type: 'audio/wav',
+					},
+				);
+				await MediaAPI.add({
+					itemInstance: file,
+				});
+				this.closePopup();
+			} finally {
+				this.isSaving = false;
+			}
+		},
+		searchProfiles(params) {
+			const fields = [
+				'id',
+				'name',
+				'provider',
+			];
+			const service = StorageServiceType.TTS;
+			return CognitiveProfilesAPI.getLookup({
+				...params,
+				fields,
+				service,
+			});
+		},
+	},
 };
 </script>
 

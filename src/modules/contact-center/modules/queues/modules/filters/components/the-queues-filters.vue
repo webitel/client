@@ -22,46 +22,46 @@ import { mapActions } from 'vuex';
 import QueuesTagsFilter from './queues-tags-filter.vue';
 
 export default {
-  name: 'TheQueuesFilters',
-  components: {
-    QueuesTagsFilter,
-    AbstractApiFilter,
-    AbstractEnumFilter,
-  },
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    filters: [
-      {
-        type: 'api',
-        filterQuery: 'team',
-      },
-      {
-        type: 'enum',
-        filterQuery: 'queueType',
-      },
-    ],
-  }),
-  methods: {
-    ...mapActions({
-      resetFilterValues(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
-      },
-    }),
-    resetFilters() {
-      this.$router.push({
-        query: null,
-      });
-      this.resetFilterValues();
-    },
-  },
-  unmounted() {
-    this.resetFilters();
-  },
+	name: 'TheQueuesFilters',
+	components: {
+		QueuesTagsFilter,
+		AbstractApiFilter,
+		AbstractEnumFilter,
+	},
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({
+		filters: [
+			{
+				type: 'api',
+				filterQuery: 'team',
+			},
+			{
+				type: 'enum',
+				filterQuery: 'queueType',
+			},
+		],
+	}),
+	methods: {
+		...mapActions({
+			resetFilterValues(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+			},
+		}),
+		resetFilters() {
+			this.$router.push({
+				query: null,
+			});
+			this.resetFilterValues();
+		},
+	},
+	unmounted() {
+		this.resetFilters();
+	},
 };
 </script>
 

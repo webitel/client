@@ -5,25 +5,25 @@ import OpenedTabComponentMixinMock from '../../../../../../../tests/unit/mocks/m
 import OpenedTriggerVariables from '../opened-trigger-variables.vue';
 
 describe('OpenedTriggerVariables', () => {
-  const computed = {
-    itemInstance: () => ({}),
-  };
+	const computed = {
+		itemInstance: () => ({}),
+	};
 
-  it('renders a component', () => {
-    const wrapper = shallowMount(
-      OpenedTriggerVariables,
-      deepmerge.all([
-        OpenedTabComponentMixinMock(),
-        {
-          props: {
-            v: {
-              itemInstance: {},
-            },
-          },
-          computed,
-        },
-      ]),
-    );
-    expect(wrapper.exists()).toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(
+			OpenedTriggerVariables,
+			deepmerge.all([
+				OpenedTabComponentMixinMock(),
+				{
+					props: {
+						v: {
+							itemInstance: {},
+						},
+					},
+					computed,
+				},
+			]),
+		);
+		expect(wrapper.exists()).toBe(true);
+	});
 });

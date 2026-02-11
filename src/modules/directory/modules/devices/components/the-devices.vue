@@ -169,126 +169,135 @@ import UploadPopup from './upload-devices-popup.vue';
 const namespace = 'directory/devices';
 
 export default {
-  name: 'TheDevices',
-  components: {
-    HistoryPopup,
-    UploadPopup,
-    DevicePopup,
-    UploadFileIconBtn,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+	name: 'TheDevices',
+	components: {
+		HistoryPopup,
+		UploadPopup,
+		DevicePopup,
+		UploadFileIconBtn,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    csvFile: null,
-    routeName: RouteNames.DEVICES,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		csvFile: null,
+		routeName: RouteNames.DEVICES,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.directory.directory'),
-        },
-        {
-          name: this.$t('objects.directory.devices.devices', 2),
-          route: '/directory/devices',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.directory.directory'),
+				},
+				{
+					name: this.$t('objects.directory.devices.devices', 2),
+					route: '/directory/devices',
+				},
+			];
+		},
+	},
 
-  methods: {
-    create() {
-      this.$router.push({
-        ...this.$route,
-        query: { new: true },
-      });
-    },
-    closeDeviceSelectPopup() {
-      this.$router.go(-1);
-    },
+	methods: {
+		create() {
+			this.$router.push({
+				...this.$route,
+				query: {
+					new: true,
+				},
+			});
+		},
+		closeDeviceSelectPopup() {
+			this.$router.go(-1);
+		},
 
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-      }
-    },
-    openHistory(id) {
-      return this.$router.push({
-        ...this.$route,
-        name: DevicesRouteNames.HISTORY,
-        params: { historyId: id },
-      })
-    },
-    closeHistoryPopup() {
-      return this.$router.push({ name: this.routeName });
-    },
-    closeCSVPopup() {
-      this.csvFile = null;
-      this.loadList();
-    },
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.csvFile = file;
+			}
+		},
+		openHistory(id) {
+			return this.$router.push({
+				...this.$route,
+				name: DevicesRouteNames.HISTORY,
+				params: {
+					historyId: id,
+				},
+			});
+		},
+		closeHistoryPopup() {
+			return this.$router.push({
+				name: this.routeName,
+			});
+		},
+		closeCSVPopup() {
+			this.csvFile = null;
+			this.loadList();
+		},
 
-    stateClass(state) {
-      switch (state) {
-        case 0:
-          return 'disabled';
-        case 1:
-          return 'success';
-        default:
-          return '';
-      }
-    },
+		stateClass(state) {
+			switch (state) {
+				case 0:
+					return 'disabled';
+				case 1:
+					return 'success';
+				default:
+					return '';
+			}
+		},
 
-    stateText(state) {
-      switch (state) {
-        case 0:
-          return this.$t('objects.directory.devices.state.nonreg');
-        case 1:
-          return this.$t('objects.directory.devices.state.reged');
-        // case 2:
-        //   return this.$t('objects.directory.devices.state.ringing');
-        // case 3:
-        //   return this.$t('objects.directory.devices.state.dialing');
-        // case 4:
-        //   return this.$t('objects.directory.devices.state.dialog');
-        // case 5:
-        //   return this.$t('objects.directory.devices.state.onhold');
-        default:
-          return 'unknown';
-      }
-    },
-  },
+		stateText(state) {
+			switch (state) {
+				case 0:
+					return this.$t('objects.directory.devices.state.nonreg');
+				case 1:
+					return this.$t('objects.directory.devices.state.reged');
+				// case 2:
+				//   return this.$t('objects.directory.devices.state.ringing');
+				// case 3:
+				//   return this.$t('objects.directory.devices.state.dialing');
+				// case 4:
+				//   return this.$t('objects.directory.devices.state.dialog');
+				// case 5:
+				//   return this.$t('objects.directory.devices.state.onhold');
+				default:
+					return 'unknown';
+			}
+		},
+	},
 };
 </script>

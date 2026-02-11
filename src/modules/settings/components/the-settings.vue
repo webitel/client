@@ -34,30 +34,34 @@ const route = useRoute();
 const router = useRouter();
 
 const path = computed(() => [
-  { name: t('settings.settings', 2) },
+	{
+		name: t('settings.settings', 2),
+	},
 ]);
 
 const tabs = computed(() => [
-  {
-    text: t('objects.general'),
-    value: 'general',
-    component: GeneralSettings,
-    pathName: SettingsRouteNames.GENERAL,
-  },
-  {
-    text: t('vocabulary.notification', 2),
-    value: 'notifications',
-    component: NotificationSettings,
-    pathName: SettingsRouteNames.NOTIFICATIONS,
-  },
+	{
+		text: t('objects.general'),
+		value: 'general',
+		component: GeneralSettings,
+		pathName: SettingsRouteNames.GENERAL,
+	},
+	{
+		text: t('vocabulary.notification', 2),
+		value: 'notifications',
+		component: NotificationSettings,
+		pathName: SettingsRouteNames.NOTIFICATIONS,
+	},
 ]);
 
-const currentTab = computed(() =>
-  tabs.value.find((tab) => tab.pathName === route.name) || tabs.value[0]
+const currentTab = computed(
+	() => tabs.value.find((tab) => tab.pathName === route.name) || tabs.value[0],
 );
 
 function changeTab(tab: { pathName: string }) {
-  router.push({ name: tab.pathName });
+	router.push({
+		name: tab.pathName,
+	});
 }
 </script>
 

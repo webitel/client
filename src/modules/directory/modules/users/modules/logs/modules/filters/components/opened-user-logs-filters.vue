@@ -33,47 +33,47 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'OpenedUserLogsFilters',
-  components: {
-    FilterDatetime,
-    FilterFromTo,
-    AbstractApiFilter,
-    AbstractEnumFilter,
-  },
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    filters: [
-      {
-        type: 'enum',
-        filterQuery: 'action',
-      },
-      {
-        type: 'api',
-        filterQuery: 'object',
-      },
-    ],
-  }),
-  methods: {
-    ...mapActions({
-      resetFilterValues(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
-      },
-    }),
-    resetFilters() {
-      this.$router.push({
-        query: null,
-      });
-      this.resetFilterValues();
-    },
-  },
-  unmounted() {
-    this.resetFilters();
-  },
+	name: 'OpenedUserLogsFilters',
+	components: {
+		FilterDatetime,
+		FilterFromTo,
+		AbstractApiFilter,
+		AbstractEnumFilter,
+	},
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({
+		filters: [
+			{
+				type: 'enum',
+				filterQuery: 'action',
+			},
+			{
+				type: 'api',
+				filterQuery: 'object',
+			},
+		],
+	}),
+	methods: {
+		...mapActions({
+			resetFilterValues(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+			},
+		}),
+		resetFilters() {
+			this.$router.push({
+				query: null,
+			});
+			this.resetFilterValues();
+		},
+	},
+	unmounted() {
+		this.resetFilters();
+	},
 };
 </script>
 

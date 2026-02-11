@@ -96,62 +96,72 @@ const namespace = 'system/changelogs';
 const subNamespace = 'logs';
 
 export default {
-  name: 'OpenedChangelogLogs',
-  components: { RecordLink },
-  mixins: [openedObjectTableTabMixin, ExportCSVMixin],
+	name: 'OpenedChangelogLogs',
+	components: {
+		RecordLink,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+		ExportCSVMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({ namespace: `${namespace}/${subNamespace}`, hiddenText: true });
-    return {
-      dummy,
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return {
+			dummy,
 
-      // re-export from imports to template
-      FormatDateMode,
-      formatDate,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    usersRouteName: RouteNames.USERS,
-  }),
-  computed: {
-    getFilters() {
-      return this.$store.getters[`${namespace}/${subNamespace}/filters/GET_FILTERS`];
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
-  created() {
-    this.initCSVExport(this.getDataForCSVExport, {
-      filename: `${this.itemInstance.object.name}-logs-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
-    });
-  },
-  methods: {
-    async getDataForCSVExport(params) {
-      const filters = this.getFilters;
-      const { items, next } = await LogsAPI.getList({
-        ...filters,
-        ...params,
-        parentId: this.parentId,
-      });
+			// re-export from imports to template
+			FormatDateMode,
+			formatDate,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		usersRouteName: RouteNames.USERS,
+	}),
+	computed: {
+		getFilters() {
+			return this.$store.getters[
+				`${namespace}/${subNamespace}/filters/GET_FILTERS`
+			];
+		},
+	},
+	watch: {
+		'$route.query': {
+			async handler() {
+				await this.loadList();
+			},
+		},
+	},
+	created() {
+		this.initCSVExport(this.getDataForCSVExport, {
+			filename: `${this.itemInstance.object.name}-logs-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
+		});
+	},
+	methods: {
+		async getDataForCSVExport(params) {
+			const filters = this.getFilters;
+			const { items, next } = await LogsAPI.getList({
+				...filters,
+				...params,
+				parentId: this.parentId,
+			});
 
-      const transformedItems = items.map((item) => ({
-        ...item,
-        date: formatDate(+item.date, FormatDateMode.DATETIME),
-      }));
+			const transformedItems = items.map((item) => ({
+				...item,
+				date: formatDate(+item.date, FormatDateMode.DATETIME),
+			}));
 
-      return {
-        items: transformedItems,
-        next,
-      };
-    },
-  },
+			return {
+				items: transformedItems,
+				next,
+			};
+		},
+	},
 };
 </script>
 

@@ -35,28 +35,29 @@
 </template>
 
 <script setup>
-
 import { defineEmits, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import StoragePoliciesAPI from '../api/storagePolicies.js';
 
 const props = defineProps({
-  id: {
-    type: Number, String,
-    required: true,
-  },
+	id: {
+		type: Number,
+		String,
+		required: true,
+	},
 });
 
 const { t } = useI18n();
-const emit = defineEmits(['close']);
+const emit = defineEmits([
+	'close',
+]);
 const attrs = useAttrs();
 
 const apply = async () => {
- await StoragePoliciesAPI.applyPolicies(props.id);
-  emit('close')
-}
-
+	await StoragePoliciesAPI.applyPolicies(props.id);
+	emit('close');
+};
 </script>
 
 <style scoped>

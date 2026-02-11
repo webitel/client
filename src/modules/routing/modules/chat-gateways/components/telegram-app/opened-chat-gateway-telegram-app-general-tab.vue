@@ -60,44 +60,49 @@ import uriCopyMixin from '../../mixins/uriCopyMixin';
 import TelegramAppButton from './telegram-app-button.vue';
 
 export default {
-  name: 'OpenedChatTelegramAppGeneralTab',
-  components: { TelegramAppButton },
-  mixins: [openedTabComponentMixin, uriCopyMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    isUriEditable() {
-      return !this.disableUserInput && this.$route.path.includes('/new');
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
-      },
-    }),
+	name: 'OpenedChatTelegramAppGeneralTab',
+	components: {
+		TelegramAppButton,
+	},
+	mixins: [
+		openedTabComponentMixin,
+		uriCopyMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		isUriEditable() {
+			return !this.disableUserInput && this.$route.path.includes('/new');
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+			},
+		}),
 
-    setFlow(value) {
-      if (!this.itemInstance.name) {
-        this.setItemProp({
-          prop: 'name',
-          value: value.name,
-        });
-      }
-      this.setItemProp({
-        prop: 'flow',
-        value,
-      });
-    },
+		setFlow(value) {
+			if (!this.itemInstance.name) {
+				this.setItemProp({
+					prop: 'name',
+					value: value.name,
+				});
+			}
+			this.setItemProp({
+				prop: 'flow',
+				value,
+			});
+		},
 
-    loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+		loadDropdownOptionsList(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

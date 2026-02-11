@@ -99,38 +99,51 @@ import ContactsAPI from '../api/contacts.js';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {
-  name: 'OpenedUserGeneral',
-  components: { UserPasswordInput, Qrcode, LogoutAction },
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput, hasCreateAccess, hasDeleteAccess, hasUpdateAccess } = useUserAccessControl(WtObject.User);
+	name: 'OpenedUserGeneral',
+	components: {
+		UserPasswordInput,
+		Qrcode,
+		LogoutAction,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const {
+			disableUserInput,
+			hasCreateAccess,
+			hasDeleteAccess,
+			hasUpdateAccess,
+		} = useUserAccessControl(WtObject.User);
 
-    const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
-      WtObject.Contact,
-    );
+		const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
+			WtObject.Contact,
+		);
 
-    const hasUserAccess = computed(() =>
-      hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value);
+		const hasUserAccess = computed(
+			() =>
+				hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value,
+		);
 
-    return {
-      hasUserAccess,
-      disableUserInput,
-      hasContactsReadAccess,
-    };
-  },
-  computed: {
-    ...mapGetters('directory/users', {
-      isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
-    }),
-    isActiveLogout() {
-      return this.itemInstance.id && this.hasUserAccess;
-    }
-  },
-  methods: {
-    loadContactsOptions(params) {
-      return ContactsAPI.getLookup(params);
-    },
-  },
+		return {
+			hasUserAccess,
+			disableUserInput,
+			hasContactsReadAccess,
+		};
+	},
+	computed: {
+		...mapGetters('directory/users', {
+			isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
+		}),
+		isActiveLogout() {
+			return this.itemInstance.id && this.hasUserAccess;
+		},
+	},
+	methods: {
+		loadContactsOptions(params) {
+			return ContactsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

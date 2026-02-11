@@ -45,9 +45,9 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
-  requiredArrayValue,
-  timerangeNotIntersect,
-  timerangeStartLessThanEnd,
+	requiredArrayValue,
+	timerangeNotIntersect,
+	timerangeStartLessThanEnd,
 } from '../../../../../app/utils/validators';
 import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
 import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
@@ -55,89 +55,99 @@ import General from './opened-resource-group-general.vue';
 import Timerange from './opened-resource-group-timerange.vue';
 
 export default {
-  name: 'OpenedResourceGroup',
-  components: {
-    General,
-    Resources,
-    Timerange,
-  },
-  mixins: [openedObjectMixin],
+	name: 'OpenedResourceGroup',
+	components: {
+		General,
+		Resources,
+		Timerange,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
 
-    const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(WtObject.Resource);
+		const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
+			WtObject.Resource,
+		);
 
-    return {
-      v$,
-      hasSaveActionAccess,
-      hasResourcesReadAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'ccenter/resGroups',
-    routeName: RouteNames.RESOURCE_GROUPS,
-    permissionsTabPathName: ResourcesGroupsRouteNames.PERMISSIONS,
-  }),
-  // by vuelidate
-  validations: {
-    itemInstance: {
-      name: { required },
-      communication: { required },
-      time: {
-        requiredArrayValue,
-        timerangeNotIntersect,
-        $each: helpers.forEach({
-          timerangeStartLessThanEnd,
-        }),
-      },
-    },
-  },
-  computed: {
-    tabs() {
-      const general = {
-        text: this.$t('objects.general'),
-        value: 'general',
-        pathName: ResourcesGroupsRouteNames.GENERAL,
-      };
-      const resources = {
-        text: this.$t('objects.ccenter.res.res', 2),
-        value: 'resources',
-        pathName: ResourcesGroupsRouteNames.RESOURCES,
-      };
-      const timerange = {
-        text: this.$t('objects.ccenter.resGroups.timerange'),
-        value: 'timerange',
-        pathName: ResourcesGroupsRouteNames.TIME_RANGE,
-      };
-      const tabs = [general];
-      if (this.hasResourcesReadAccess) tabs.push(resources);
-      tabs.push(timerange);
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+		return {
+			v$,
+			hasSaveActionAccess,
+			hasResourcesReadAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'ccenter/resGroups',
+		routeName: RouteNames.RESOURCE_GROUPS,
+		permissionsTabPathName: ResourcesGroupsRouteNames.PERMISSIONS,
+	}),
+	// by vuelidate
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			communication: {
+				required,
+			},
+			time: {
+				requiredArrayValue,
+				timerangeNotIntersect,
+				$each: helpers.forEach({
+					timerangeStartLessThanEnd,
+				}),
+			},
+		},
+	},
+	computed: {
+		tabs() {
+			const general = {
+				text: this.$t('objects.general'),
+				value: 'general',
+				pathName: ResourcesGroupsRouteNames.GENERAL,
+			};
+			const resources = {
+				text: this.$t('objects.ccenter.res.res', 2),
+				value: 'resources',
+				pathName: ResourcesGroupsRouteNames.RESOURCES,
+			};
+			const timerange = {
+				text: this.$t('objects.ccenter.resGroups.timerange'),
+				value: 'timerange',
+				pathName: ResourcesGroupsRouteNames.TIME_RANGE,
+			};
+			const tabs = [
+				general,
+			];
+			if (this.hasResourcesReadAccess) tabs.push(resources);
+			tabs.push(timerange);
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/contact-center/resource-groups';
-      return [
-        {
-          name: this.$t('objects.ccenter.ccenter'),
-        },
-        {
-          name: this.$t('objects.ccenter.resGroups.resGroups', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/contact-center/resource-groups';
+			return [
+				{
+					name: this.$t('objects.ccenter.ccenter'),
+				},
+				{
+					name: this.$t('objects.ccenter.resGroups.resGroups', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

@@ -113,51 +113,56 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'TheSingleSignOn',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'TheSingleSignOn',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'integrations/singleSignOn',
-    routeName: RouteNames.SINGLE_SIGN_ON,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'integrations/singleSignOn',
+		routeName: RouteNames.SINGLE_SIGN_ON,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
-          route: '/integrations/single-sign-on',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t('objects.integrations.singleSignOn.singleSignOn'),
+					route: '/integrations/single-sign-on',
+				},
+			];
+		},
+	},
 };
 </script>
 

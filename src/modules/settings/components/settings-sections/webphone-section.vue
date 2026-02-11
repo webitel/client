@@ -31,28 +31,28 @@ const webrtc = ref(true);
 const stun = ref(false);
 
 async function changeWebrtc(value: boolean) {
-  webrtc.value = value;
-  if (!value) stun.value = false;
+	webrtc.value = value;
+	if (!value) stun.value = false;
 
-  await changeWebPhone({
-    webrtc: webrtc.value,
-    stun: stun.value,
-  });
+	await changeWebPhone({
+		webrtc: webrtc.value,
+		stun: stun.value,
+	});
 }
 
 async function changeStun(value: boolean) {
-  stun.value = !webrtc.value ? false : value;
-  
-  await changeWebPhone({
-    webrtc: webrtc.value,
-    stun: stun.value,
-  });
+	stun.value = !webrtc.value ? false : value;
+
+	await changeWebPhone({
+		webrtc: webrtc.value,
+		stun: stun.value,
+	});
 }
 
 async function fetchWebPhoneSettings() {
-  const response = await getWebPhone();
-  webrtc.value = response.webrtc;
-  stun.value = response.stun;
+	const response = await getWebPhone();
+	webrtc.value = response.webrtc;
+	stun.value = response.stun;
 }
 
 fetchWebPhoneSettings();

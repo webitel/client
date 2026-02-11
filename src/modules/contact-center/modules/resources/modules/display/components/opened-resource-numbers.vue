@@ -111,87 +111,93 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import NumberPopup from './opened-resource-numbers-popup.vue';
 import UploadPopup from './upload-resource-numbers-popup.vue';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'ccenter/res';
 const subNamespace = 'numbers';
 
 export default {
-  name: 'OpenedResourceNumber',
-  components: {
-    NumberPopup,
-    UploadFileIconBtn,
-    UploadPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin],
+	name: 'OpenedResourceNumber',
+	components: {
+		NumberPopup,
+		UploadFileIconBtn,
+		UploadPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      disableUserInput,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			disableUserInput,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    subNamespace,
-    csvFile: null,
-  }),
+	data: () => ({
+		namespace,
+		subNamespace,
+		csvFile: null,
+	}),
 
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { numberId: 'new' },
-      })
-    },
-    editItem(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { numberId: item.id },
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-      }
-    },
-    closeCSVPopup() {
-      this.csvFile = null;
-      this.loadDataList();
-    },
-  },
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					numberId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					numberId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.csvFile = file;
+			}
+		},
+		closeCSVPopup() {
+			this.csvFile = null;
+			this.loadDataList();
+		},
+	},
 };
 </script>
 

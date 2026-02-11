@@ -48,71 +48,79 @@ import Causes from './opened-pause-template-causes.vue';
 import General from './opened-pause-template-general.vue';
 
 export default {
-  name: 'OpenedPauseTemplate',
-  components: { General, Causes },
-  mixins: [openedObjectMixin],
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'lookups/pauseTemplates',
-    routeName: RouteNames.PAUSE_TEMPLATES,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required, maxLength: maxLength(250) },
-      causes: {
-        requiredArrayValue,
-        $each: helpers.forEach({
-          duration: {
-            required,
-            minValue: minValue(1)
-          }
-        }),
-      }
-    },
-  },
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: PauseTemplatesRouteNames.GENERAL
-        },
-        {
-          text: this.$t('objects.routing.chatGateways.templates.templates', 1),
-          value: 'causes',
-          pathName: PauseTemplatesRouteNames.CAUSES
-        },
-      ];
-      return tabs;
-    },
-    path() {
-      const baseUrl = '/lookups/pause-templates';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.pauseTemplates.pauseTemplates', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+	name: 'OpenedPauseTemplate',
+	components: {
+		General,
+		Causes,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'lookups/pauseTemplates',
+		routeName: RouteNames.PAUSE_TEMPLATES,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+				maxLength: maxLength(250),
+			},
+			causes: {
+				requiredArrayValue,
+				$each: helpers.forEach({
+					duration: {
+						required,
+						minValue: minValue(1),
+					},
+				}),
+			},
+		},
+	},
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: PauseTemplatesRouteNames.GENERAL,
+				},
+				{
+					text: this.$t('objects.routing.chatGateways.templates.templates', 1),
+					value: 'causes',
+					pathName: PauseTemplatesRouteNames.CAUSES,
+				},
+			];
+			return tabs;
+		},
+		path() {
+			const baseUrl = '/lookups/pause-templates';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.pauseTemplates.pauseTemplates', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

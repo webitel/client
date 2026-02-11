@@ -40,19 +40,21 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: 'OpenedChatplan',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadFlows(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedChatplan',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadFlows(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

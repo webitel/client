@@ -36,26 +36,28 @@ import { mapActions } from 'vuex';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'OpenedUserTokensPopup',
-  mixins: [nestedObjectMixin],
-  data: () => ({
-    namespace: 'directory/users/tokens',
-  }),
+	name: 'OpenedUserTokensPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
+	data: () => ({
+		namespace: 'directory/users/tokens',
+	}),
 
-  methods: {
-    ...mapActions({
-      addToken(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_TOKEN`, payload);
-      },
-    }),
-    async save() {
-      try {
-        await this.addToken();
-        this.$emit('token-created');
-      } catch { }
-    },
-    resetState() { },
-  },
+	methods: {
+		...mapActions({
+			addToken(dispatch, payload) {
+				return dispatch(`${this.namespace}/ADD_TOKEN`, payload);
+			},
+		}),
+		async save() {
+			try {
+				await this.addToken();
+				this.$emit('token-created');
+			} catch {}
+		},
+		resetState() {},
+	},
 };
 </script>
 

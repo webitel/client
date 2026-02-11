@@ -116,62 +116,73 @@ const namespace = 'ccenter/teams';
 const subNamespace = 'hooks';
 
 export default {
-  name: 'OpenedTeamHooks',
-  components: { HookPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
+	name: 'OpenedTeamHooks',
+	components: {
+		HookPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-    const { hasUpdateAccess } = useUserAccessControl();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
+		const { hasUpdateAccess } = useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasUpdateAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+	}),
 
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.$route,
-        params: { hookId: 'new' }
-      })
-    },
-    editItem(item) {
-      return this.$router.push({
-        ...this.$route,
-        params: { hookId: item.id }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1)
-    },
-    getLocalizedEvent(event) {
-      if (!event) return '';
-      return this.$t(`objects.ccenter.teams.hooks.eventTypes.${snakeToCamel(event)}`);
-    },
-  },
+	methods: {
+		addItem() {
+			return this.$router.push({
+				...this.$route,
+				params: {
+					hookId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				...this.$route,
+				params: {
+					hookId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+		getLocalizedEvent(event) {
+			if (!event) return '';
+			return this.$t(
+				`objects.ccenter.teams.hooks.eventTypes.${snakeToCamel(event)}`,
+			);
+		},
+	},
 };
 </script>
 

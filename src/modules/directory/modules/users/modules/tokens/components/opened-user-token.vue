@@ -101,98 +101,102 @@ import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useHasUserTokensAccess } from '../composables/hasUserTokensAccess';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import TokenPopup from './opened-user-token-popup.vue';
-import { useHasUserTokensAccess } from '../composables/hasUserTokensAccess';
 
 export default {
-  name: 'OpenedUserTokens',
-  components: {
-    TokenPopup,
-    TokenCreatedPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin],
+	name: 'OpenedUserTokens',
+	components: {
+		TokenPopup,
+		TokenCreatedPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
 
-  setup() {
-    
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-      
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useHasUserTokensAccess();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useHasUserTokensAccess();
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 
-  data: () => ({
-    subNamespace: 'tokens',
-    isPopup: false,
-    isTokenGenerated: false,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
 
-  computed: {
-    tokenId() {
-      return this.$route.params.tokenId;
-    },
-  },
-  watch: {
-    tokenId: {
-      async handler(value) {
-        if (value === 'new') {
-          this.openPopup();
-        }
-      },
-      immediate: true,
-    }
-  },
+	data: () => ({
+		subNamespace: 'tokens',
+		isPopup: false,
+		isTokenGenerated: false,
+	}),
 
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.$route,
-        params: { tokenId: 'new' },
-      });
-    },
-    openPopup() {
-      this.isPopup = true;
-    },
-    closePopup() {
-      this.$router.go(-1);
-      this.isPopup = false;
-      this.resetItemState();
-    },
+	computed: {
+		tokenId() {
+			return this.$route.params.tokenId;
+		},
+	},
+	watch: {
+		tokenId: {
+			async handler(value) {
+				if (value === 'new') {
+					this.openPopup();
+				}
+			},
+			immediate: true,
+		},
+	},
 
-    openTokenCreatedPopup() {
-      this.isPopup = false;
-      this.isTokenGenerated = true;
-    },
+	methods: {
+		addItem() {
+			return this.$router.push({
+				...this.$route,
+				params: {
+					tokenId: 'new',
+				},
+			});
+		},
+		openPopup() {
+			this.isPopup = true;
+		},
+		closePopup() {
+			this.$router.go(-1);
+			this.isPopup = false;
+			this.resetItemState();
+		},
 
-    closeTokenCreatedPopup() {
-      this.isTokenGenerated = false;
-      this.$router.go(-1);
-      this.resetItemState();
-    },
+		openTokenCreatedPopup() {
+			this.isPopup = false;
+			this.isTokenGenerated = true;
+		},
 
-    prettifyDate(value) {
-      return formatDate(+value, FormatDateMode.DATETIME);
-    },
-  },
+		closeTokenCreatedPopup() {
+			this.isTokenGenerated = false;
+			this.$router.go(-1);
+			this.resetItemState();
+		},
+
+		prettifyDate(value) {
+			return formatDate(+value, FormatDateMode.DATETIME);
+		},
+	},
 };
 </script>
 

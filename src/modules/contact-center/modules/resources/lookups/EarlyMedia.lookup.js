@@ -1,1 +1,6 @@
-export default Object.freeze(['true', 'false', 'consume', 'ring_ready']);
+export default Object.freeze([
+	'true',
+	'false',
+	'consume',
+	'ring_ready',
+]);

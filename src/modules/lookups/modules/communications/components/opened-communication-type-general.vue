@@ -48,59 +48,63 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedCommunicationsType',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    savedChannel: '',
-  }),
-  computed: {
-    channel: {
-      get() {
-        return this.channelOptions.find((channel) => channel.value === this.itemInstance.channel);
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'channel',
-          value: value.value,
-        });
-      },
-    },
-    channelOptions() {
-      return Object.values(EngineCommunicationChannels)
-        .filter((channel) => channel !== EngineCommunicationChannels.Undefined)
-        .map((channel) => ({
-          name: this.$t(`objects.lookups.communications.channels.${channel}`),
-          value: channel,
-        }));
-    },
-  },
-  watch: {
-    'itemInstance._dirty': {
-      handler(value) {
-        if (!value) {
-          if (!this.itemInstance.id) return;
-          this.setSavedChannel();
-        }
-      },
-    },
-  },
-  mounted() {
-    const unwatch = this.$watch('itemInstance', () => {
-      this.setSavedChannel();
-      unwatch();
-    });
-  },
-  methods: {
-    setSavedChannel() {
-      this.savedChannel = this.itemInstance.channel;
-    },
-  },
+	name: 'OpenedCommunicationsType',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		savedChannel: '',
+	}),
+	computed: {
+		channel: {
+			get() {
+				return this.channelOptions.find(
+					(channel) => channel.value === this.itemInstance.channel,
+				);
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'channel',
+					value: value.value,
+				});
+			},
+		},
+		channelOptions() {
+			return Object.values(EngineCommunicationChannels)
+				.filter((channel) => channel !== EngineCommunicationChannels.Undefined)
+				.map((channel) => ({
+					name: this.$t(`objects.lookups.communications.channels.${channel}`),
+					value: channel,
+				}));
+		},
+	},
+	watch: {
+		'itemInstance._dirty': {
+			handler(value) {
+				if (!value) {
+					if (!this.itemInstance.id) return;
+					this.setSavedChannel();
+				}
+			},
+		},
+	},
+	mounted() {
+		const unwatch = this.$watch('itemInstance', () => {
+			this.setSavedChannel();
+			unwatch();
+		});
+	},
+	methods: {
+		setSavedChannel() {
+			this.savedChannel = this.itemInstance.channel;
+		},
+	},
 };
 </script>
 

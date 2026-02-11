@@ -46,22 +46,22 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { ref, computed } from 'vue';
 import { ComponentSize } from '@webitel/ui-sdk/enums';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import UsersAPI from '../../directory/modules/users/api/users';
 
 const props = withDefaults(
-  defineProps<{
-    id: string;
-    mySessions?: boolean;
-    disabled?: boolean;
-  }>(),
-  {
-    mySessions: false,
-    disabled: false
-  },
+	defineProps<{
+		id: string;
+		mySessions?: boolean;
+		disabled?: boolean;
+	}>(),
+	{
+		mySessions: false,
+		disabled: false,
+	},
 );
 
 const { t } = useI18n();
@@ -69,17 +69,20 @@ const { t } = useI18n();
 const isOpened = ref(false);
 
 const buttonText = computed(() =>
-  props.mySessions ?
-    t('objects.directory.users.logout.endAllMySessions') :
-    t('objects.directory.users.logout.endAllSessions'));
+	props.mySessions
+		? t('objects.directory.users.logout.endAllMySessions')
+		: t('objects.directory.users.logout.endAllSessions'),
+);
 
-const openPopup = () => isOpened.value = true;
-const closePopup = () => isOpened.value = false;
+const openPopup = () => (isOpened.value = true);
+const closePopup = () => (isOpened.value = false);
 
 const logoutUser = async () => {
-  await UsersAPI.logoutUser({ id: props.id });
-  closePopup();
-}
+	await UsersAPI.logoutUser({
+		id: props.id,
+	});
+	closePopup();
+};
 </script>
 
 <style lang="scss" scoped>

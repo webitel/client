@@ -9,14 +9,23 @@ import '@webitel/ui-sdk/css/main.css';
 import i18n from '../../locale/i18n';
 
 const globals = {
-  $baseURL: import.meta.env.BASE_URL,
+	$baseURL: import.meta.env.BASE_URL,
 };
 
-export default [WebitelUI, { eventBus, globals }];
+export default [
+	WebitelUI,
+	{
+		eventBus,
+		globals,
+	},
+];
 
 export const plugin = WebitelUI;
-export const options = { eventBus, globals };
+export const options = {
+	eventBus,
+	globals,
+};
 
 Object.entries(locales).forEach(([locale, messages]) => {
-  i18n.global.mergeLocaleMessage(locale, messages);
+	i18n.global.mergeLocaleMessage(locale, messages);
 });

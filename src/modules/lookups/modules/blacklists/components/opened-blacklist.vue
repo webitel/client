@@ -48,73 +48,81 @@ import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.j
 import General from './opened-blacklist-general.vue';
 
 export default {
-  name: 'OpenedBlacklist',
-  components: { General, Numbers },
-  mixins: [openedObjectMixin],
+	name: 'OpenedBlacklist',
+	components: {
+		General,
+		Numbers,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
 
-  data: () => ({
-    namespace: 'lookups/blacklists',
-    routeName: RouteNames.BLACKLIST,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-    },
-  },
+	data: () => ({
+		namespace: 'lookups/blacklists',
+		routeName: RouteNames.BLACKLIST,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: BlacklistRouteNames.GENERAL,
-        }, {
-          text: this.$t('objects.lookups.blacklist.number', 2),
-          value: 'numbers',
-          pathName: BlacklistRouteNames.NUMBERS,
-        },
-      ];
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: BlacklistRouteNames.GENERAL,
+				},
+				{
+					text: this.$t('objects.lookups.blacklist.number', 2),
+					value: 'numbers',
+					pathName: BlacklistRouteNames.NUMBERS,
+				},
+			];
 
-      const permissions = {
-        text: this.$t('objects.permissions.permissions', 2),
-        value: 'permissions',
-        pathName: BlacklistRouteNames.PERMISSIONS,
-      };
+			const permissions = {
+				text: this.$t('objects.permissions.permissions', 2),
+				value: 'permissions',
+				pathName: BlacklistRouteNames.PERMISSIONS,
+			};
 
-      if (this.id) tabs.push(permissions);
-      return tabs;
-    },
+			if (this.id) tabs.push(permissions);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/blacklist';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.blacklist.blacklist', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/lookups/blacklist';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.blacklist.blacklist', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

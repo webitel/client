@@ -48,91 +48,101 @@ import Failure from './opened-resource-failure.vue';
 import General from './opened-resource-general.vue';
 
 export default {
-  name: 'OpenedResource',
-  components: {
-    General,
-    Numbers,
-    Failure,
-  },
-  mixins: [openedObjectMixin],
+	name: 'OpenedResource',
+	components: {
+		General,
+		Numbers,
+		Failure,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
 
-  data: () => ({
-    namespace: 'ccenter/res',
-    routeName: RouteNames.RESOURCES,
-    permissionsTabPathName: ResourcesRouteNames.PERMISSIONS,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      gateway: { required },
-      cps: {
-        required,
-        minValue: minValue(-1),
-        maxValue: maxValue(1000),
-      },
-      limit: {
-        required,
-        minValue: minValue(-1),
-        maxValue: maxValue(1000),
-      },
-      maxErrors: { required },
-      // numberList: {
-      //     requiredArrayValue
-      // }
-    },
-  },
+	data: () => ({
+		namespace: 'ccenter/res',
+		routeName: RouteNames.RESOURCES,
+		permissionsTabPathName: ResourcesRouteNames.PERMISSIONS,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			gateway: {
+				required,
+			},
+			cps: {
+				required,
+				minValue: minValue(-1),
+				maxValue: maxValue(1000),
+			},
+			limit: {
+				required,
+				minValue: minValue(-1),
+				maxValue: maxValue(1000),
+			},
+			maxErrors: {
+				required,
+			},
+			// numberList: {
+			//     requiredArrayValue
+			// }
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: ResourcesRouteNames.GENERAL,
-        }, {
-          text: this.$t('objects.ccenter.res.numbers', 2),
-          value: 'numbers',
-          pathName: ResourcesRouteNames.NUMBERS,
-        }, {
-          text: this.$t('objects.ccenter.res.failure'),
-          value: 'failure',
-          pathName: ResourcesRouteNames.FAILURE,
-        },
-      ];
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: ResourcesRouteNames.GENERAL,
+				},
+				{
+					text: this.$t('objects.ccenter.res.numbers', 2),
+					value: 'numbers',
+					pathName: ResourcesRouteNames.NUMBERS,
+				},
+				{
+					text: this.$t('objects.ccenter.res.failure'),
+					value: 'failure',
+					pathName: ResourcesRouteNames.FAILURE,
+				},
+			];
 
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/contact-center/resources';
-      return [
-        {
-          name: this.$t('objects.ccenter.ccenter'),
-        },
-        {
-          name: this.$t('objects.ccenter.res.res', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/contact-center/resources';
+			return [
+				{
+					name: this.$t('objects.ccenter.ccenter'),
+				},
+				{
+					name: this.$t('objects.ccenter.res.res', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

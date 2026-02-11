@@ -16,42 +16,42 @@
 
 <script>
 export default {
-  name: 'CopyInput',
-  props: {
-    value: {
-      type: String,
-    },
-    copyModifier: {
-      type: Function,
-    },
-  },
-  data() {
-    return {
-      isCopied: false,
-      isMounted: false,
-    };
-  },
-  computed: {
-    copyValue() {
-      let copyValue;
-      if (this.copyModifier) {
-        copyValue = this.copyModifier(this.value);
-      } else {
-        copyValue = this.value;
-      }
-      return copyValue;
-    },
-  },
+	name: 'CopyInput',
+	props: {
+		value: {
+			type: String,
+		},
+		copyModifier: {
+			type: Function,
+		},
+	},
+	data() {
+		return {
+			isCopied: false,
+			isMounted: false,
+		};
+	},
+	computed: {
+		copyValue() {
+			let copyValue;
+			if (this.copyModifier) {
+				copyValue = this.copyModifier(this.value);
+			} else {
+				copyValue = this.value;
+			}
+			return copyValue;
+		},
+	},
 
-  mounted() {
-    this.isMounted = true;
-  },
+	mounted() {
+		this.isMounted = true;
+	},
 
-  methods: {
-    input(value) {
-      this.$emit('input', value);
-    },
-  },
+	methods: {
+		input(value) {
+			this.$emit('input', value);
+		},
+	},
 };
 </script>
 

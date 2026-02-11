@@ -91,9 +91,9 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -101,49 +101,65 @@ import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {
-  name: 'OpenedQueueProcessing',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
-    return {
-      disableUserInput,
-      hasFlowsReadAccess,
-    };
-  },
-  computed: {
-    specificControls() {
-      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-        (controls, control) => ({
-          ...controls,
-          [control]: true,
-        }),
-        {},
-      );
-    },
-    isProcessingEnabled() {
-      return this.itemInstance.taskProcessing.enabled;
-    },
-    isProlongationEnabled() {
-      return this.itemInstance.taskProcessing.enabled && this.itemInstance.taskProcessing.prolongationOptions.enabled;
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemProcessingProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`, payload);
-      },
-      setItemProlongationOption(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROLONGATION_OPTION`, payload);
-      },
-    }),
-    loadDropdownOptionsSchemaList(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Processing, EngineRoutingSchemaType.Default],
-      });
-    },
-  },
+	name: 'OpenedQueueProcessing',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
+		return {
+			disableUserInput,
+			hasFlowsReadAccess,
+		};
+	},
+	computed: {
+		specificControls() {
+			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+				(controls, control) => ({
+					...controls,
+					[control]: true,
+				}),
+				{},
+			);
+		},
+		isProcessingEnabled() {
+			return this.itemInstance.taskProcessing.enabled;
+		},
+		isProlongationEnabled() {
+			return (
+				this.itemInstance.taskProcessing.enabled &&
+				this.itemInstance.taskProcessing.prolongationOptions.enabled
+			);
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemProcessingProp(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/SET_ITEM_PROCESSING_PROPERTY`,
+					payload,
+				);
+			},
+			setItemProlongationOption(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/SET_ITEM_PROLONGATION_OPTION`,
+					payload,
+				);
+			},
+		}),
+		loadDropdownOptionsSchemaList(params) {
+			return FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Processing,
+					EngineRoutingSchemaType.Default,
+				],
+			});
+		},
+	},
 };
 </script>
 

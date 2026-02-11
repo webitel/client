@@ -40,44 +40,47 @@ import { required } from '@vuelidate/validators';
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'LicensePopup',
+	name: 'LicensePopup',
 
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  data: () => ({
-    namespace: 'directory/license',
-    certificate: '',
-  }),
-  validations: {
-    certificate: { required, $autoDirty: true },
-  },
-  computed: {
-    invalid() {
-      return this.v$.$error;
-    },
-  },
-  methods: {
-    ...mapActions({
-      updateItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
-      },
-    }),
-    async save() {
-      if (!this.invalid) {
-        await this.updateItem({
-          certificate: this.certificate,
-        });
-        this.close();
-      }
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
-  mounted() {
-    this.v$.$touch();
-  },
+	setup: () => ({
+		v$: useVuelidate(),
+	}),
+	data: () => ({
+		namespace: 'directory/license',
+		certificate: '',
+	}),
+	validations: {
+		certificate: {
+			required,
+			$autoDirty: true,
+		},
+	},
+	computed: {
+		invalid() {
+			return this.v$.$error;
+		},
+	},
+	methods: {
+		...mapActions({
+			updateItem(dispatch, payload) {
+				return dispatch(`${this.namespace}/UPDATE_ITEM`, payload);
+			},
+		}),
+		async save() {
+			if (!this.invalid) {
+				await this.updateItem({
+					certificate: this.certificate,
+				});
+				this.close();
+			}
+		},
+		close() {
+			this.$emit('close');
+		},
+	},
+	mounted() {
+		this.v$.$touch();
+	},
 };
 </script>
 

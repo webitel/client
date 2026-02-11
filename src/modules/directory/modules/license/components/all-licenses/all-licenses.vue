@@ -119,7 +119,7 @@
 
 <script>
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
-import { formatDate } from '@webitel/ui-sdk/utils'
+import { formatDate } from '@webitel/ui-sdk/utils';
 
 import { useDummy } from '../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
@@ -132,77 +132,87 @@ import LicensePopup from './license-popup.vue';
 const namespace = 'directory/license';
 
 export default {
-  name: 'AllLicenses',
-  components: { LicensePopup, LicenseUsersPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace });
-    const { hasCreateAccess } = useUserAccessControl();
-    return {
-      dummy,
-      hasCreateAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    isLicensePopup: false,
-    isLicenseUsersPopup: false,
-    LicencesRouteNames,
-    routeName: RouteNames.LICENSE,
-  }),
-  computed: {
-    licenseId() {
-      return this.$route.params.id;
-    },
-  },
-  watch: {
-    licenseId: {
-      async handler(value) {
-        if (value === 'new') {
-          this.openLicensePopup();
-        } else if (value) {
-          this.openLicenseUsersPopup();
-        }
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    openLicensePopup() {
-      this.isLicensePopup = true;
-    },
-    closeLicensePopup() {
-      this.$router.go(-1); // remove license id
-      this.isLicensePopup = false;
-    },
-    openLicenseUsersPopup() {
-      this.isLicenseUsersPopup = true;
-    },
-    closeLicenseUsersPopup() {
-      this.$router.go(-1);
-      this.isLicenseUsersPopup = false;
-    },
+	name: 'AllLicenses',
+	components: {
+		LicensePopup,
+		LicenseUsersPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+		});
+		const { hasCreateAccess } = useUserAccessControl();
+		return {
+			dummy,
+			hasCreateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		isLicensePopup: false,
+		isLicenseUsersPopup: false,
+		LicencesRouteNames,
+		routeName: RouteNames.LICENSE,
+	}),
+	computed: {
+		licenseId() {
+			return this.$route.params.id;
+		},
+	},
+	watch: {
+		licenseId: {
+			async handler(value) {
+				if (value === 'new') {
+					this.openLicensePopup();
+				} else if (value) {
+					this.openLicenseUsersPopup();
+				}
+			},
+			immediate: true,
+		},
+	},
+	methods: {
+		openLicensePopup() {
+			this.isLicensePopup = true;
+		},
+		closeLicensePopup() {
+			this.$router.go(-1); // remove license id
+			this.isLicensePopup = false;
+		},
+		openLicenseUsersPopup() {
+			this.isLicenseUsersPopup = true;
+		},
+		closeLicenseUsersPopup() {
+			this.$router.go(-1);
+			this.isLicenseUsersPopup = false;
+		},
 
-    prettifyDate(date) {
-      return formatDate(+date, FormatDateMode.DATE);
-    },
+		prettifyDate(date) {
+			return formatDate(+date, FormatDateMode.DATE);
+		},
 
-    statusText(endDate) {
-      const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) return this.$t('objects.directory.license.daysToExpire.0');
-      if (daysLeft < 30) return this.$t('objects.directory.license.daysToExpire.30');
-      if (daysLeft < 90) return this.$t('objects.directory.license.daysToExpire.90');
-      return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
-    },
+		statusText(endDate) {
+			const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+			if (daysLeft <= 0)
+				return this.$t('objects.directory.license.daysToExpire.0');
+			if (daysLeft < 30)
+				return this.$t('objects.directory.license.daysToExpire.30');
+			if (daysLeft < 90)
+				return this.$t('objects.directory.license.daysToExpire.90');
+			return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
+		},
 
-    statusColor(endDate) {
-      const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-      if (daysLeft <= 0) return 'error';
-      if (daysLeft < 30) return 'warning';
-      if (daysLeft < 90) return 'success';
-      return 'success';
-    },
-  },
+		statusColor(endDate) {
+			const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
+			if (daysLeft <= 0) return 'error';
+			if (daysLeft < 30) return 'warning';
+			if (daysLeft < 90) return 'success';
+			return 'success';
+		},
+	},
 };
 </script>
 

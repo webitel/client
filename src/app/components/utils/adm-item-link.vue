@@ -15,16 +15,20 @@
 import { computed, useAttrs } from 'vue';
 
 import RouteNames from '../../router/_internals/RouteNames.enum.js';
+
 const props = defineProps({
-  routeName: {
-    type: String,
-    required: true,
-    validator: (v) => Object.values(RouteNames).includes(v),
-  },
-  id: {
-    type: [String, Number],
-    required: true,
-  },
+	routeName: {
+		type: String,
+		required: true,
+		validator: (v) => Object.values(RouteNames).includes(v),
+	},
+	id: {
+		type: [
+			String,
+			Number,
+		],
+		required: true,
+	},
 });
 const attrs = useAttrs();
 
@@ -33,10 +37,12 @@ const hasId = computed(() => Boolean(props.id));
 const hasRouteName = computed(() => Boolean(props.routeName));
 
 const link = computed(() => {
-  return {
-    name: `${props.routeName}-card`,
-    params: { id: props.id }
-  };
+	return {
+		name: `${props.routeName}-card`,
+		params: {
+			id: props.id,
+		},
+	};
 });
 </script>
 

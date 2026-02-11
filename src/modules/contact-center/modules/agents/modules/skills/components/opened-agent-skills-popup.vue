@@ -42,51 +42,58 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 
 export default {
-  name: 'OpenedAgentSkillsPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedAgentSkillsPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'ccenter/agents/skills',
-  }),
-  validations: {
-    itemInstance: {
-      skill: { required },
-      capacity: {
-        numeric,
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        required,
-      },
-    },
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'ccenter/agents/skills',
+	}),
+	validations: {
+		itemInstance: {
+			skill: {
+				required,
+			},
+			capacity: {
+				numeric,
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				required,
+			},
+		},
+	},
 
-  computed: {
-    skillId() {
-      return this.$route.params.skillId;
-    }
-  },
+	computed: {
+		skillId() {
+			return this.$route.params.skillId;
+		},
+	},
 
-  watch: {
-    skillId: {
-      handler(id) {
-        if (id) {
-          this.setId(id);
-          this.loadItem();
-        }
-      }, immediate: true,
-    }
-  },
+	watch: {
+		skillId: {
+			handler(id) {
+				if (id) {
+					this.setId(id);
+					this.loadItem();
+				}
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    loadDropdownOptionsList(params) {
-      return SkillsAPI.getLookup(params);
-    },
-  }
+	methods: {
+		loadDropdownOptionsList(params) {
+			return SkillsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

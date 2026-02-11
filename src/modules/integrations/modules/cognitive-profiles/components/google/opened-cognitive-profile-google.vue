@@ -98,66 +98,70 @@ import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMix
 import CognitiveProfileServices from '../../lookups/CognitiveProfileServices.lookup';
 
 export default {
-  name: 'OpenedCognitiveProfileGoogle',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  inject: ['$eventBus'],
-  data: () => ({
-    CognitiveProfileServices,
-    LanguageOptions: Object.values(MicrosoftLanguage),
-    isKeyLoading: false,
-  }),
-  methods: {
-    ...mapActions({
-      setItemPropertiesProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
-      },
-    }),
-    triggerFileInput() {
-      this.$refs.googleKeyInput.click();
-    },
-    handleFileInput(event) {
-      this.isKeyLoading = true;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const value = JSON.parse(e.target.result);
-          this.setItemPropertiesProp({
-            prop: 'key',
-            value,
-          });
-          this.setItemPropertiesProp({
-            prop: 'keyFilename',
-            value: event.target.files[0].name,
-          });
-        } catch (err) {
-          this.$eventBus.$emit('notification', {
-            type: 'error',
-            text: this.$t('errors.invalidJson'),
-          });
-        } finally {
-          this.isKeyLoading = false;
-          this.$refs.googleKeyInput.value = '';
-        }
-      };
-      reader.readAsText(event.target.files[0]);
-    },
-    handleFileDelete() {
-      this.setItemPropertiesProp({
-        prop: 'key',
-        value: '',
-      });
-      this.setItemPropertiesProp({
-        prop: 'keyFilename',
-        value: '',
-      });
-    },
-  },
+	name: 'OpenedCognitiveProfileGoogle',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	inject: [
+		'$eventBus',
+	],
+	data: () => ({
+		CognitiveProfileServices,
+		LanguageOptions: Object.values(MicrosoftLanguage),
+		isKeyLoading: false,
+	}),
+	methods: {
+		...mapActions({
+			setItemPropertiesProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PROPERTIES_PROP`, payload);
+			},
+		}),
+		triggerFileInput() {
+			this.$refs.googleKeyInput.click();
+		},
+		handleFileInput(event) {
+			this.isKeyLoading = true;
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				try {
+					const value = JSON.parse(e.target.result);
+					this.setItemPropertiesProp({
+						prop: 'key',
+						value,
+					});
+					this.setItemPropertiesProp({
+						prop: 'keyFilename',
+						value: event.target.files[0].name,
+					});
+				} catch (err) {
+					this.$eventBus.$emit('notification', {
+						type: 'error',
+						text: this.$t('errors.invalidJson'),
+					});
+				} finally {
+					this.isKeyLoading = false;
+					this.$refs.googleKeyInput.value = '';
+				}
+			};
+			reader.readAsText(event.target.files[0]);
+		},
+		handleFileDelete() {
+			this.setItemPropertiesProp({
+				prop: 'key',
+				value: '',
+			});
+			this.setItemPropertiesProp({
+				prop: 'keyFilename',
+				value: '',
+			});
+		},
+	},
 };
 </script>
 

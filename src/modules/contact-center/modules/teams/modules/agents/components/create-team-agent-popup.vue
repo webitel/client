@@ -29,39 +29,45 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: 'OpenedTeamAgentPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedTeamAgentPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
 
-  data: () => ({
-    namespace: 'ccenter/teams/agents',
-  }),
-  validations: {
-    itemInstance: {
-      agent: { required },
-    },
-  },
-  computed: {
-    agentId() {
-      return this.$route.params.agentId;
-    },
-  },
+	data: () => ({
+		namespace: 'ccenter/teams/agents',
+	}),
+	validations: {
+		itemInstance: {
+			agent: {
+				required,
+			},
+		},
+	},
+	computed: {
+		agentId() {
+			return this.$route.params.agentId;
+		},
+	},
 
-  watch: {
-    agentId() {
-      this.resetState();
-    },
-  },
-  methods: {
-    loadAgentsOptions(params) {
-      return AgentsAPI.getLookup(params);
-    },
-  },
+	watch: {
+		agentId() {
+			this.resetState();
+		},
+	},
+	methods: {
+		loadAgentsOptions(params) {
+			return AgentsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

@@ -32,53 +32,64 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
 export default {
-  name: 'OpenedTeamFlowPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedTeamFlowPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'ccenter/teams/flow',
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      schema: { required },
-    },
-  },
-  computed: {
-    popupTitle() {
-      return this.itemInstance.id
-        ? this.$t('objects.ccenter.teams.flows.editFlowSchema')
-        : this.$t('objects.ccenter.teams.flows.addFlowSchema');
-    },
-    flowId() {
-      return this.$route.params.flowId;
-    },
-  },
-  watch: {
-    flowId: {
-      handler(id) {
-        if (id === 'new') this.resetState()
-        else {
-          this.setId(id);
-          this.loadItem();
-        }
-      }, immediate: true,
-    }
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'ccenter/teams/flow',
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			schema: {
+				required,
+			},
+		},
+	},
+	computed: {
+		popupTitle() {
+			return this.itemInstance.id
+				? this.$t('objects.ccenter.teams.flows.editFlowSchema')
+				: this.$t('objects.ccenter.teams.flows.addFlowSchema');
+		},
+		flowId() {
+			return this.$route.params.flowId;
+		},
+	},
+	watch: {
+		flowId: {
+			handler(id) {
+				if (id === 'new') this.resetState();
+				else {
+					this.setId(id);
+					this.loadItem();
+				}
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    loadFlowOptions(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-  }
+	methods: {
+		loadFlowOptions(params) {
+			return FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Service,
+				],
+			});
+		},
+	},
 };
 </script>
 

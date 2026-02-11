@@ -173,96 +173,103 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 
 const iconType = {
-  [ChatGatewayProvider.MESSENGER]: 'meta',
-  [ChatGatewayProvider.INFOBIP]: 'messenger-infobip',
-  [ChatGatewayProvider.VIBER]: 'messenger-viber',
-  [ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',
-  [ChatGatewayProvider.TELEGRAM_BOT]: 'telegram-bot',
-  [ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
-  [ChatGatewayProvider.CUSTOM]: 'custom-chat-gateway',
+	[ChatGatewayProvider.MESSENGER]: 'meta',
+	[ChatGatewayProvider.INFOBIP]: 'messenger-infobip',
+	[ChatGatewayProvider.VIBER]: 'messenger-viber',
+	[ChatGatewayProvider.WEBCHAT]: 'messenger-web-chat',
+	[ChatGatewayProvider.TELEGRAM_BOT]: 'telegram-bot',
+	[ChatGatewayProvider.TELEGRAM_APP]: 'messenger-telegram',
+	[ChatGatewayProvider.CUSTOM]: 'custom-chat-gateway',
 };
 
 const namespace = 'routing/chatGateways';
 
 export default {
-  name: 'TheChatGateways',
-  components: {
-    CreateChatGatewayPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+	name: 'TheChatGateways',
+	components: {
+		CreateChatGatewayPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    isChatGatewayPopup: false,
-    iconType,
-    routeName: RouteNames.CHAT_GATEWAYS,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		isChatGatewayPopup: false,
+		iconType,
+		routeName: RouteNames.CHAT_GATEWAYS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.routing.routing'),
-        },
-        {
-          name: this.$t('objects.routing.chatGateways.chatGateways', 2),
-          route: '/routing/chat-gateways',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.routing.routing'),
+				},
+				{
+					name: this.$t('objects.routing.chatGateways.chatGateways', 2),
+					route: '/routing/chat-gateways',
+				},
+			];
+		},
+	},
 
-  methods: {
-    create() {
-      this.isChatGatewayPopup = true;
-    },
-    providerIcon(value) {
-      switch (value) {
-        case ChatGatewayProvider.INFOBIP:
-          return [iconType[value], 'send-arrow', 'messenger-whatsapp'];
-        case ChatGatewayProvider.MESSENGER:
-          return [
-            iconType[value],
-            'send-arrow',
-            'messenger-facebook',
-            'instagram',
-            'messenger-whatsapp',
-          ];
-        default:
-          return iconType[value];
-      }
-    },
-  },
+	methods: {
+		create() {
+			this.isChatGatewayPopup = true;
+		},
+		providerIcon(value) {
+			switch (value) {
+				case ChatGatewayProvider.INFOBIP:
+					return [
+						iconType[value],
+						'send-arrow',
+						'messenger-whatsapp',
+					];
+				case ChatGatewayProvider.MESSENGER:
+					return [
+						iconType[value],
+						'send-arrow',
+						'messenger-facebook',
+						'instagram',
+						'messenger-whatsapp',
+					];
+				default:
+					return iconType[value];
+			}
+		},
+	},
 };
 </script>
 

@@ -47,20 +47,25 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import UsersAPI from '../../users/api/users';
 
 export default {
-  name: 'OpenedHotdeskDeviceGeneral',
-  components: { CopyInput, PasswordInput },
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadDropdownOptionsList(params) {
-      return UsersAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedHotdeskDeviceGeneral',
+	components: {
+		CopyInput,
+		PasswordInput,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadDropdownOptionsList(params) {
+			return UsersAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

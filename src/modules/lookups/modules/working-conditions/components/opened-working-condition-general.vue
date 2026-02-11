@@ -86,28 +86,29 @@
 
 <script>
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import PauseTemplatesAPI from '../../pause-templates/api/pauseTemplates.js';
 import ShiftTemplatesAPI from '../../shift-templates/api/shiftTemplates.js';
 
 export default {
-  name: 'OpenedWorkingConditionGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadPauseTemplate(params) {
-      return PauseTemplatesAPI.getLookup(params);
-    },
-    loadShiftTemplate(params) {
-      return ShiftTemplatesAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedWorkingConditionGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadPauseTemplate(params) {
+			return PauseTemplatesAPI.getLookup(params);
+		},
+		loadShiftTemplate(params) {
+			return ShiftTemplatesAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

@@ -1,3 +1,3 @@
 export default Object.freeze({
-  AGENT_STATUS: 'agent_status',
+	AGENT_STATUS: 'agent_status',
 });

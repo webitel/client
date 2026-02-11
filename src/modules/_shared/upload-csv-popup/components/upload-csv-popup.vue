@@ -138,19 +138,26 @@ import { useI18n } from 'vue-i18n';
 import uploadCSVMixin from '../mixins/uploadCSVMixin';
 
 export default {
-  name: 'UploadCsvPopup',
-  mixins: [uploadCSVMixin],
-  setup() {
-    const { t } = useI18n();
+	name: 'UploadCsvPopup',
+	mixins: [
+		uploadCSVMixin,
+	],
+	setup() {
+		const { t } = useI18n();
 
-    return { t };
-  },
-  data: () => ({
-    skipHeaders: true,
-    separator: ',',
-    charsetOptions: [],
-    charset: { name: 'UTF-8', value: 'utf-8' },
-  }),
+		return {
+			t,
+		};
+	},
+	data: () => ({
+		skipHeaders: true,
+		separator: ',',
+		charsetOptions: [],
+		charset: {
+			name: 'UTF-8',
+			value: 'utf-8',
+		},
+	}),
 };
 </script>
 

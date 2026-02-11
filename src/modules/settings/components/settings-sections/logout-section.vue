@@ -13,15 +13,14 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-
-import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 import LogoutAction from '../../../_shared/logout-action/logout-action.vue';
+import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const { t } = useI18n();
 const store = useStore();
 
-const userId = computed(() => store.state.userinfo.userId)
+const userId = computed(() => store.state.userinfo.userId);
 </script>

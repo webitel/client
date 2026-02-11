@@ -55,92 +55,95 @@ import ChangelogsRouteNames from '../router/_internals/ChangelogsRouteNames.enum
 import General from './opened-changelog-general.vue';
 
 export default {
-  name: 'OpenedChangelog',
-  components: {
-    General,
-    Logs,
-    LogsFilters,
-  },
-  mixins: [openedObjectMixin],
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'system/changelogs',
-  }),
-  validations: {
-    itemInstance: {
-      object: { required },
-      // storage: { required },
-      daysToStore: {
-        required,
-        minValue: minValue(1),
-      },
-      // period: { required, minValue: minValue(1) },
-    },
-  },
+	name: 'OpenedChangelog',
+	components: {
+		General,
+		Logs,
+		LogsFilters,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'system/changelogs',
+	}),
+	validations: {
+		itemInstance: {
+			object: {
+				required,
+			},
+			// storage: { required },
+			daysToStore: {
+				required,
+				minValue: minValue(1),
+			},
+			// period: { required, minValue: minValue(1) },
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: ChangelogsRouteNames.GENERAL,
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: ChangelogsRouteNames.GENERAL,
+				},
+			];
+			const logs = {
+				text: this.$t('objects.system.changelogs.logs.logs', 2),
+				value: 'logs',
+				filters: 'logs-filters',
+				filtersNamespace: `${this.namespace}/logs/filters`,
+				pathName: ChangelogsRouteNames.LOGS,
+			};
+			if (this.id) tabs.push(logs);
+			return tabs;
+		},
 
-        },
-      ];
-      const logs = {
-        text: this.$t('objects.system.changelogs.logs.logs', 2),
-        value: 'logs',
-        filters: 'logs-filters',
-        filtersNamespace: `${this.namespace}/logs/filters`,
-        pathName: ChangelogsRouteNames.LOGS,
-      };
-      if (this.id) tabs.push(logs);
-      return tabs;
-    },
-
-    path() {
-      const baseUrl = '/system/changelogs';
-      return [
-        {
-          name: this.$t('objects.system.system'),
-        },
-        {
-          name: this.$t('objects.system.changelogs.changelogs', 1),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
-  mounted() {
-    // override breadcrumbMixin
-    const unwatch = this.$watch('itemInstance.object', () => {
-      this.setPathName();
-      unwatch();
-    });
-  },
-  methods: {
-    setPathName() {
-      this.pathName = this.itemInstance.object.name;
-    },
-    close() {
-      this.$router.push(`/${this.namespace}`);
-    }
-  },
+		path() {
+			const baseUrl = '/system/changelogs';
+			return [
+				{
+					name: this.$t('objects.system.system'),
+				},
+				{
+					name: this.$t('objects.system.changelogs.changelogs', 1),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
+	mounted() {
+		// override breadcrumbMixin
+		const unwatch = this.$watch('itemInstance.object', () => {
+			this.setPathName();
+			unwatch();
+		});
+	},
+	methods: {
+		setPathName() {
+			this.pathName = this.itemInstance.object.name;
+		},
+		close() {
+			this.$router.push(`/${this.namespace}`);
+		},
+	},
 };
 </script>
 

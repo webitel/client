@@ -16,31 +16,31 @@ import FlowTagsFilter from './flow-tags-filter.vue';
 import FlowTypeFilter from './flow-type-filter.vue';
 
 export default {
-  name: 'TheFlowFilters',
-  components: {
-    FlowTagsFilter,
-    FlowTypeFilter,
-  },
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({}),
-  methods: {
-    ...mapActions({
-      resetFilterValues(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
-      },
-    }),
-    resetFilters() {
-      this.$router.push({
-        query: null,
-      });
-      this.resetFilterValues();
-    },
-  },
+	name: 'TheFlowFilters',
+	components: {
+		FlowTagsFilter,
+		FlowTypeFilter,
+	},
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({}),
+	methods: {
+		...mapActions({
+			resetFilterValues(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+			},
+		}),
+		resetFilters() {
+			this.$router.push({
+				query: null,
+			});
+			this.resetFilterValues();
+		},
+	},
 };
 </script>
 

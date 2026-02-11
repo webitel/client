@@ -152,68 +152,73 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'lookups/quickReplies';
 
 export default {
-  name: 'TheQuickReplies',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheQuickReplies',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.QUICK_REPLIES,
-    IconAction,
-  }),
+	data: () => ({
+		namespace,
+		routeName: RouteNames.QUICK_REPLIES,
+		IconAction,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.quickReplies.quickReplies', 2),
-          route: '/lookups/quick-replies',
-        },
-      ];
-    },
-    selectedRows() {
-      return this.dataList.filter((item) => item._isSelected);
-    },
-  },
-  methods: {
-    prettifyDateTime(timestamp) {
-      return formatDate(+timestamp, FormatDateMode.DATETIME);
-    },
-  }
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.quickReplies.quickReplies', 2),
+					route: '/lookups/quick-replies',
+				},
+			];
+		},
+		selectedRows() {
+			return this.dataList.filter((item) => item._isSelected);
+		},
+	},
+	methods: {
+		prettifyDateTime(timestamp) {
+			return formatDate(+timestamp, FormatDateMode.DATETIME);
+		},
+	},
 };
 </script>
 

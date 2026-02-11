@@ -43,45 +43,52 @@ const $eventBus = inject('$eventBus');
 const { t } = useI18n();
 const store = useStore();
 
-const userId = computed(() => getNamespacedState(store.state, 'userinfo').userId);
+const userId = computed(
+	() => getNamespacedState(store.state, 'userinfo').userId,
+);
 
 const isPasswordPatching = ref(false);
 const newPassword = ref('');
 const confirmNewPassword = ref('');
 
 const v$ = useVuelidate(
-  computed(() => ({
-    newPassword: {
-      required,
-    },
-    confirmNewPassword: {
-      sameAs: sameAs(newPassword),
-    },
-  })),
-  { newPassword, confirmNewPassword },
-  { $autoDirty: true },
+	computed(() => ({
+		newPassword: {
+			required,
+		},
+		confirmNewPassword: {
+			sameAs: sameAs(newPassword),
+		},
+	})),
+	{
+		newPassword,
+		confirmNewPassword,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
 async function changePassword() {
-  try {
-    isPasswordPatching.value = true;
-    const changes = {
-      password: newPassword.value,
-    };
-    await requestChangePassword({
-      id: userId.value,
-      changes,
-    });
-    newPassword.value = '';
-    confirmNewPassword.value = '';
-    v$.value.$reset();
-    $eventBus.$emit('notification', {
-      type: 'success',
-      text: 'Password is successfully updated!',
-    });
-  } finally {
-    isPasswordPatching.value = false;
-  }
+	try {
+		isPasswordPatching.value = true;
+		const changes = {
+			password: newPassword.value,
+		};
+		await requestChangePassword({
+			id: userId.value,
+			changes,
+		});
+		newPassword.value = '';
+		confirmNewPassword.value = '';
+		v$.value.$reset();
+		$eventBus.$emit('notification', {
+			type: 'success',
+			text: 'Password is successfully updated!',
+		});
+	} finally {
+		isPasswordPatching.value = false;
+	}
 }
 </script>
 

@@ -11,34 +11,36 @@ import openedObjectValidationMixin from '../../baseMixins/openedObjectValidation
  * @note Access control is now handled via useUserAccessControl composable in component setup()
  */
 export default {
-  mixins: [openedObjectValidationMixin],
-  props: {
-    namespace: {
-      type: String,
-      // required: true, FIXME: MAKE ME REQUIRED AFTER REFACTOR
-    },
-  },
-  computed: {
-    ...mapState({
-      itemInstance(state) {
-        return getNamespacedState(state, this.namespace).itemInstance;
-      },
-    }),
-  },
-  methods: {
-    ...mapActions({
-      setItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-      },
-      addVariable(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_VARIABLE_PAIR`, payload);
-      },
-      deleteVariable(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_VARIABLE_PAIR`, payload);
-      },
-      setVariableProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_VARIABLE_PROP`, payload);
-      },
-    }),
-  },
+	mixins: [
+		openedObjectValidationMixin,
+	],
+	props: {
+		namespace: {
+			type: String,
+			// required: true, FIXME: MAKE ME REQUIRED AFTER REFACTOR
+		},
+	},
+	computed: {
+		...mapState({
+			itemInstance(state) {
+				return getNamespacedState(state, this.namespace).itemInstance;
+			},
+		}),
+	},
+	methods: {
+		...mapActions({
+			setItemProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
+			},
+			addVariable(dispatch, payload) {
+				return dispatch(`${this.namespace}/ADD_VARIABLE_PAIR`, payload);
+			},
+			deleteVariable(dispatch, payload) {
+				return dispatch(`${this.namespace}/DELETE_VARIABLE_PAIR`, payload);
+			},
+			setVariableProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_VARIABLE_PROP`, payload);
+			},
+		}),
+	},
 };

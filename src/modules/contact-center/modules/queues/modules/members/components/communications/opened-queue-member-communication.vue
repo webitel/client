@@ -98,121 +98,134 @@ import openedObjectTableTabMixin from '../../../../../../../../app/mixins/object
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
 export default {
-  name: 'OpenedQueueMemberCommunication',
-  components: { CommunicationPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: 'ccenter/queues/members',
-      hiddenText: true,
-    });
+	name: 'OpenedQueueMemberCommunication',
+	components: {
+		CommunicationPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: 'ccenter/queues/members',
+			hiddenText: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      dummy,
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    dataListValue: [],
-    searchValue: '',
-    isCommPopup: false,
-  }),
-  computed: {
-    ...mapState({
-      commList(state) {
-        return getNamespacedState(state, `${this.namespace}`).itemInstance.communications;
-      },
-    }),
-    // override mixin map state
-    dataList: {
-      get() {
-        return this.dataListValue;
-      },
-      set(value) {
-        this.dataListValue = value;
-      },
-    },
-    // override mixin map state
-    search: {
-      get() {
-        return this.searchValue;
-      },
-      set(value) {
-        this.searchValue = value;
-      },
-    },
-    headers() {
-      return [
-        {
-          value: 'destination',
-          text: this.$t('objects.name'),
-        },
-        {
-          value: 'type',
-          text: this.$t('objects.ccenter.queues.type'),
-        },
-        {
-          value: 'priority',
-          text: this.$t('objects.ccenter.queues.priority'),
-        },
-      ];
-    },
-  },
-  watch: {
-    commList() {
-      this.loadList();
-    },
-  },
-  methods: {
-    ...mapActions({
-      dispatchDelete(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_MEMBER_COMMUNICATION`, payload);
-      },
-    }),
-    loadList() {
-      this.dataList = this.commList
-        .filter((comm) => comm.destination.includes(this.search))
-        .map((comm) => ({
-          ...comm,
-          _isSelected: false,
-        }));
-    },
+			askDeleteConfirmation,
+			closeDelete,
+			dummy,
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		dataListValue: [],
+		searchValue: '',
+		isCommPopup: false,
+	}),
+	computed: {
+		...mapState({
+			commList(state) {
+				return getNamespacedState(state, `${this.namespace}`).itemInstance
+					.communications;
+			},
+		}),
+		// override mixin map state
+		dataList: {
+			get() {
+				return this.dataListValue;
+			},
+			set(value) {
+				this.dataListValue = value;
+			},
+		},
+		// override mixin map state
+		search: {
+			get() {
+				return this.searchValue;
+			},
+			set(value) {
+				this.searchValue = value;
+			},
+		},
+		headers() {
+			return [
+				{
+					value: 'destination',
+					text: this.$t('objects.name'),
+				},
+				{
+					value: 'type',
+					text: this.$t('objects.ccenter.queues.type'),
+				},
+				{
+					value: 'priority',
+					text: this.$t('objects.ccenter.queues.priority'),
+				},
+			];
+		},
+	},
+	watch: {
+		commList() {
+			this.loadList();
+		},
+	},
+	methods: {
+		...mapActions({
+			dispatchDelete(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/DELETE_MEMBER_COMMUNICATION`,
+					payload,
+				);
+			},
+		}),
+		loadList() {
+			this.dataList = this.commList
+				.filter((comm) => comm.destination.includes(this.search))
+				.map((comm) => ({
+					...comm,
+					_isSelected: false,
+				}));
+		},
 
-    edit(index) {
-      this.$router.push({
-        ...this.$route,
-        params: { communicationIndex: index.toString() }
-      })
-    },
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { communicationIndex: 'new' }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-    setParentId() { },
-  },
+		edit(index) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					communicationIndex: index.toString(),
+				},
+			});
+		},
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					communicationIndex: 'new',
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+		setParentId() {},
+	},
 };
 </script>
 

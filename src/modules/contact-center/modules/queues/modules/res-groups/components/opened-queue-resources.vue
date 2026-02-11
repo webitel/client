@@ -49,49 +49,55 @@
 <script>
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import resourcePopup from './opened-queue-resources-popup.vue';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import resourcePopup from './opened-queue-resources-popup.vue';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'resGroups';
 
 export default {
-  name: 'OpenedQueueResources',
-  components: { resourcePopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.$route,
-        params: {
-          resourceId: 'new',
-        }
-      })
-    },
-    editItem(item) {
-      return this.$router.push({
-        ...this.$route,
-        params: {
-          resourceId: item.id,
-        }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-  },
+	name: 'OpenedQueueResources',
+	components: {
+		resourcePopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return {
+			dummy,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		addItem() {
+			return this.$router.push({
+				...this.$route,
+				params: {
+					resourceId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				...this.$route,
+				params: {
+					resourceId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 

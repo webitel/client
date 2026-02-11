@@ -60,48 +60,57 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import ResourcesAPI from '../../../../resources/api/resources';
 
 export default {
-  name: 'OpenedResNumbersPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedResNumbersPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'ccenter/resGroups/res',
-  }),
-  validations: {
-    itemInstance: {
-      resource: { required },
-    },
-  },
-  computed: {
-    popupTitle() {
-      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
-      return action + ' ' + this.$t('objects.ccenter.res.res', 1).toLowerCase();
-    },
-    resourceId() {
-      return this.$route.params.resourceId;
-    },
-  },
-  watch: {
-    resourceId: {
-      handler(id) {
-        if (id === 'new') this.resetState()
-        else {
-          this.setId(id);
-          this.loadItem();
-        }
-      }, immediate: true,
-    }
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'ccenter/resGroups/res',
+	}),
+	validations: {
+		itemInstance: {
+			resource: {
+				required,
+			},
+		},
+	},
+	computed: {
+		popupTitle() {
+			const action = this.id
+				? this.$t('reusable.edit')
+				: this.$t('reusable.add');
+			return action + ' ' + this.$t('objects.ccenter.res.res', 1).toLowerCase();
+		},
+		resourceId() {
+			return this.$route.params.resourceId;
+		},
+	},
+	watch: {
+		resourceId: {
+			handler(id) {
+				if (id === 'new') this.resetState();
+				else {
+					this.setId(id);
+					this.loadItem();
+				}
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    loadDropdownOptionsList(params) {
-      return ResourcesAPI.getLookup(params);
-    },
-  }
+	methods: {
+		loadDropdownOptionsList(params) {
+			return ResourcesAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

@@ -46,30 +46,40 @@ import FlowsAPI from '../../../api/flow';
 import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 
 export default {
-  name: 'OpenedFlowCode',
-  components: { CodeEditor },
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    autocomplete() {
-      const { type } = this.itemInstance;
-      // if there's app, but no autocomplete -- skip
-      return (
-        FlowTypeApplications[type]?.reduce(
-          (apps, app) => (FlowAppAutocomplete[app] ? [...apps, FlowAppAutocomplete[app]] : apps),
-          [],
-        ) || Object.values(FlowAppAutocomplete)
-      );
-    },
-  },
-  methods: {
-    loadFlowTagOptions: FlowsAPI.getFlowTags,
-  },
+	name: 'OpenedFlowCode',
+	components: {
+		CodeEditor,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		autocomplete() {
+			const { type } = this.itemInstance;
+			// if there's app, but no autocomplete -- skip
+			return (
+				FlowTypeApplications[type]?.reduce(
+					(apps, app) =>
+						FlowAppAutocomplete[app]
+							? [
+									...apps,
+									FlowAppAutocomplete[app],
+								]
+							: apps,
+					[],
+				) || Object.values(FlowAppAutocomplete)
+			);
+		},
+	},
+	methods: {
+		loadFlowTagOptions: FlowsAPI.getFlowTags,
+	},
 };
 </script>
 

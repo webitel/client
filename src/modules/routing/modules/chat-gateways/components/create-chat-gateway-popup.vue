@@ -21,71 +21,97 @@ import SelectionPopup from '../../../../../app/components/utils/selection-popup/
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'CreateChatGatewayPopup',
-  components: { SelectionPopup },
+	name: 'CreateChatGatewayPopup',
+	components: {
+		SelectionPopup,
+	},
 
-  data: () => ({
-    selected: {},
-  }),
-  computed: {
-    options() {
-      const telegramBot = {
-        value: ChatGatewayProvider.TELEGRAM_BOT,
-        title: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
-        icon: 'messenger-telegram',
-      };
-      const telegramApp = {
-        value: ChatGatewayProvider.TELEGRAM_APP,
-        title: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
-        icon: 'messenger-telegram',
-      };
-      const infobip = {
-        value: ChatGatewayProvider.INFOBIP,
-        title: this.$t('objects.routing.chatGateways.infobip.infobip'),
-        icon: ['messenger-infobip', 'send-arrow', 'messenger-whatsapp'],
-      };
-      const messenger = {
-        value: ChatGatewayProvider.MESSENGER,
-        title: this.$t('objects.routing.chatGateways.messenger.meta'),
-        icon: ['meta', 'send-arrow', 'messenger-facebook', 'instagram', 'messenger-whatsapp'],
-      };
-      const viber = {
-        value: ChatGatewayProvider.VIBER,
-        title: this.$t('objects.routing.chatGateways.viber.viber'),
-        icon: 'messenger-viber',
-      };
-      const webchat = {
-        value: ChatGatewayProvider.WEBCHAT,
-        title: this.$t('objects.routing.chatGateways.webchat.webchat'),
-        icon: 'messenger-web-chat',
-      };
-      const custom = {
-        value: ChatGatewayProvider.CUSTOM,
-        title: this.$t('objects.routing.chatGateways.customChat.customChatGateway'),
-        icon: 'custom-chat-gateway',
-      };
-      return [telegramBot, telegramApp, infobip, messenger, viber, webchat, custom];
-    },
-  },
+	data: () => ({
+		selected: {},
+	}),
+	computed: {
+		options() {
+			const telegramBot = {
+				value: ChatGatewayProvider.TELEGRAM_BOT,
+				title: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
+				icon: 'messenger-telegram',
+			};
+			const telegramApp = {
+				value: ChatGatewayProvider.TELEGRAM_APP,
+				title: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
+				icon: 'messenger-telegram',
+			};
+			const infobip = {
+				value: ChatGatewayProvider.INFOBIP,
+				title: this.$t('objects.routing.chatGateways.infobip.infobip'),
+				icon: [
+					'messenger-infobip',
+					'send-arrow',
+					'messenger-whatsapp',
+				],
+			};
+			const messenger = {
+				value: ChatGatewayProvider.MESSENGER,
+				title: this.$t('objects.routing.chatGateways.messenger.meta'),
+				icon: [
+					'meta',
+					'send-arrow',
+					'messenger-facebook',
+					'instagram',
+					'messenger-whatsapp',
+				],
+			};
+			const viber = {
+				value: ChatGatewayProvider.VIBER,
+				title: this.$t('objects.routing.chatGateways.viber.viber'),
+				icon: 'messenger-viber',
+			};
+			const webchat = {
+				value: ChatGatewayProvider.WEBCHAT,
+				title: this.$t('objects.routing.chatGateways.webchat.webchat'),
+				icon: 'messenger-web-chat',
+			};
+			const custom = {
+				value: ChatGatewayProvider.CUSTOM,
+				title: this.$t(
+					'objects.routing.chatGateways.customChat.customChatGateway',
+				),
+				icon: 'custom-chat-gateway',
+			};
+			return [
+				telegramBot,
+				telegramApp,
+				infobip,
+				messenger,
+				viber,
+				webchat,
+				custom,
+			];
+		},
+	},
 
-  created() {
-    this.selectOption(this.options[0]);
-  },
-  methods: {
-    selectOption(option) {
-      this.selected = option;
-    },
-    createGateway() {
-      this.$router.push({
-        name: `${RouteNames.CHAT_GATEWAYS}-card`,
-        params: { id: 'new' },
-        query: { type: this.selected.value },
-      });
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
+	created() {
+		this.selectOption(this.options[0]);
+	},
+	methods: {
+		selectOption(option) {
+			this.selected = option;
+		},
+		createGateway() {
+			this.$router.push({
+				name: `${RouteNames.CHAT_GATEWAYS}-card`,
+				params: {
+					id: 'new',
+				},
+				query: {
+					type: this.selected.value,
+				},
+			});
+		},
+		close() {
+			this.$emit('close');
+		},
+	},
 };
 </script>
 

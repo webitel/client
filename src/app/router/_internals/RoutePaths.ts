@@ -1,5 +1,5 @@
 const RoutePaths = {
-    StartPage: '/start'
-}
+	StartPage: '/start',
+};
 
 export default RoutePaths;

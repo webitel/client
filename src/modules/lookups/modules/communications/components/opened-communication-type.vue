@@ -42,65 +42,75 @@ import { required } from '@vuelidate/validators';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CommunicationsRouteNames from '../router/_internals/CommunicationsRouteNames.enum.js'
+import CommunicationsRouteNames from '../router/_internals/CommunicationsRouteNames.enum.js';
 import General from './opened-communication-type-general.vue';
 
 export default {
-  name: 'OpenedCommunicationsType',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedCommunicationsType',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'lookups/communications',
-    routeName: RouteNames.COMMUNICATIONS,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      code: { required },
-      channel: { required },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'lookups/communications',
+		routeName: RouteNames.COMMUNICATIONS,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			code: {
+				required,
+			},
+			channel: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: CommunicationsRouteNames.GENERAL,
-        },
-      ];
-      return tabs;
-    },
-    path() {
-      const baseUrl = '/lookups/communications';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.communications.communications', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: CommunicationsRouteNames.GENERAL,
+				},
+			];
+			return tabs;
+		},
+		path() {
+			const baseUrl = '/lookups/communications';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.communications.communications', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

@@ -33,60 +33,65 @@
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 export default {
-  name: 'CreateDevicePopup',
+	name: 'CreateDevicePopup',
 
-  data() {
-    return {
-      selectedOptionValue: '',
-      options: [
-        {
-          value: 'default',
-          title: this.$t('objects.directory.devices.devices', 1),
-          description: this.$t('objects.directory.devices.deviceSettings', 1),
-          routeName: `${RouteNames.DEVICES}-card`,
-        }, {
-          value: 'hotdesk',
-          title: this.$t('objects.directory.devices.hotdeskDevice'),
-          description: this.$t('objects.directory.devices.hotdeskDeviceSettings'),
-          routeName: `${RouteNames.DEVICES}-card`,
-        },
-      ],
-    };
-  },
+	data() {
+		return {
+			selectedOptionValue: '',
+			options: [
+				{
+					value: 'default',
+					title: this.$t('objects.directory.devices.devices', 1),
+					description: this.$t('objects.directory.devices.deviceSettings', 1),
+					routeName: `${RouteNames.DEVICES}-card`,
+				},
+				{
+					value: 'hotdesk',
+					title: this.$t('objects.directory.devices.hotdeskDevice'),
+					description: this.$t(
+						'objects.directory.devices.hotdeskDeviceSettings',
+					),
+					routeName: `${RouteNames.DEVICES}-card`,
+				},
+			],
+		};
+	},
 
-  computed: {
-    selectedOption: {
-      get() {
-        return this.selectedOptionValue || this.options[0];
-      },
-      set(value) {
-        this.selectedOptionValue = value;
-      },
-    },
-    isNew() {
-      return this.$route.query.new;
-    },
-  },
+	computed: {
+		selectedOption: {
+			get() {
+				return this.selectedOptionValue || this.options[0];
+			},
+			set(value) {
+				this.selectedOptionValue = value;
+			},
+		},
+		isNew() {
+			return this.$route.query.new;
+		},
+	},
 
-  methods: {
-    selectOption(option) {
-      this.selectedOption = option;
-    },
+	methods: {
+		selectOption(option) {
+			this.selectedOption = option;
+		},
 
-    createItemInstance() {
-      this.$router.push(
-        {
-          name: this.selectedOption.routeName,
-          params: { id: 'new' },
-          query: { type: this.selectedOption.value },
-        }
-      );
-    },
+		createItemInstance() {
+			this.$router.push({
+				name: this.selectedOption.routeName,
+				params: {
+					id: 'new',
+				},
+				query: {
+					type: this.selectedOption.value,
+				},
+			});
+		},
 
-    close() {
-      this.$emit('close');
-    },
-  },
+		close() {
+			this.$emit('close');
+		},
+	},
 };
 </script>
 

@@ -133,57 +133,62 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'system/changelogs';
 
 export default {
-  name: 'TheChangelogs',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheChangelogs',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.CHANGELOGS,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.CHANGELOGS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.system.system'),
-        },
-        {
-          name: this.$t('objects.system.changelogs.changelogs', 1),
-          route: '/system/changelogs',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.system.system'),
+				},
+				{
+					name: this.$t('objects.system.changelogs.changelogs', 1),
+					route: '/system/changelogs',
+				},
+			];
+		},
+	},
 };
 </script>
 

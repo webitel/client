@@ -74,126 +74,139 @@ import { WtObject } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import deepCopy from 'deep-copy';
 import { mapActions, mapState } from 'vuex';
-
+import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';
 import { digitsDtmfOnly } from '../../validation/dtmf';
-import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 
 const getDefaultItemInstance = () => ({
-  destination: '',
-  display: '',
-  priority: 0,
-  type: {},
-  resource: {},
-  description: '',
-  dtmf: '',
+	destination: '',
+	display: '',
+	priority: 0,
+	type: {},
+	resource: {},
+	description: '',
+	dtmf: '',
 });
 
 export default {
-  name: 'OpenedAgentSkillsPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedAgentSkillsPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => {
-    const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(WtObject.Communication);
-    const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(WtObject.Resource);
+	setup: () => {
+		const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
+			WtObject.Communication,
+		);
+		const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
+			WtObject.Resource,
+		);
 
-    return {
-      // Reasons for use $stopPropagation
-      // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-      v$: useVuelidate({ $stopPropagation: true }),
-      hasCommunicationsReadAccess,
-      hasResourcesReadAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'ccenter/queues/members',
-    itemInstanceValue: getDefaultItemInstance(),
-  }),
-  validations: {
-    itemInstance: {
-      destination: { required },
-      type: { required },
-      dtmf: { digitsDtmfOnly },
-    },
-  },
+		return {
+			// Reasons for use $stopPropagation
+			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+			v$: useVuelidate({
+				$stopPropagation: true,
+			}),
+			hasCommunicationsReadAccess,
+			hasResourcesReadAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'ccenter/queues/members',
+		itemInstanceValue: getDefaultItemInstance(),
+	}),
+	validations: {
+		itemInstance: {
+			destination: {
+				required,
+			},
+			type: {
+				required,
+			},
+			dtmf: {
+				digitsDtmfOnly,
+			},
+		},
+	},
 
-  computed: {
-    ...mapState({
-      commList(state) {
-        return getNamespacedState(state, `${this.namespace}`).itemInstance
-          .communications;
-      },
-    }),
-    // override mixin map state
-    itemInstance: {
-      get() {
-        return this.itemInstanceValue;
-      },
-      set(value) {
-        console.log(value);
-        this.itemInstanceValue = value;
-      },
-    },
-    computeDisabled() {
-      return this.checkValidations();
-    },
-    communicationIndex() {
-      return this.$route.params.communicationIndex;
-    },
-  },
+	computed: {
+		...mapState({
+			commList(state) {
+				return getNamespacedState(state, `${this.namespace}`).itemInstance
+					.communications;
+			},
+		}),
+		// override mixin map state
+		itemInstance: {
+			get() {
+				return this.itemInstanceValue;
+			},
+			set(value) {
+				console.log(value);
+				this.itemInstanceValue = value;
+			},
+		},
+		computeDisabled() {
+			return this.checkValidations();
+		},
+		communicationIndex() {
+			return this.$route.params.communicationIndex;
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      addItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
-      },
-      updateItem(dispatch, payload) {
-        return dispatch(
-          `${this.namespace}/UPDATE_MEMBER_COMMUNICATION`,
-          payload,
-        );
-      },
-    }),
-    initEditedValue() {
-      if (this.communicationIndex !== 'new') {
-        this.itemInstance = deepCopy(this.commList[this.communicationIndex]);
-      }
-    },
-    save() {
-      if (this.communicationIndex !== 'new') {
-        this.updateItem({
-          index: this.communicationIndex,
-          item: this.itemInstance,
-        });
-      } else {
-        this.addItem(this.itemInstance);
-      }
-      this.close();
-    },
-    loadCommTypes(params) {
-      return CommunicationsAPI.getLookup(params);
-    },
-    loadResources(params) {
-      return ResourcesAPI.getLookup(params);
-    },
-    loadItem() { },
-    resetItemInstance() {
-      this.itemInstance = getDefaultItemInstance();
-    },
-    resetState() {
-      this.resetItemInstance();
-    },
-  },
-  watch: {
-    communicationIndex: {
-      handler(index) {
-        index ? this.initEditedValue() : this.resetState();
-      },
-      immediate: true,
-    },
-  },
+	methods: {
+		...mapActions({
+			addItem(dispatch, payload) {
+				return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
+			},
+			updateItem(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`,
+					payload,
+				);
+			},
+		}),
+		initEditedValue() {
+			if (this.communicationIndex !== 'new') {
+				this.itemInstance = deepCopy(this.commList[this.communicationIndex]);
+			}
+		},
+		save() {
+			if (this.communicationIndex !== 'new') {
+				this.updateItem({
+					index: this.communicationIndex,
+					item: this.itemInstance,
+				});
+			} else {
+				this.addItem(this.itemInstance);
+			}
+			this.close();
+		},
+		loadCommTypes(params) {
+			return CommunicationsAPI.getLookup(params);
+		},
+		loadResources(params) {
+			return ResourcesAPI.getLookup(params);
+		},
+		loadItem() {},
+		resetItemInstance() {
+			this.itemInstance = getDefaultItemInstance();
+		},
+		resetState() {
+			this.resetItemInstance();
+		},
+	},
+	watch: {
+		communicationIndex: {
+			handler(index) {
+				index ? this.initEditedValue() : this.resetState();
+			},
+			immediate: true,
+		},
+	},
 };
 </script>
 

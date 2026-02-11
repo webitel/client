@@ -11,52 +11,54 @@ import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
  * @extends baseObjectMixin
  */
 export default {
-  mixins: [baseObjectMixin],
+	mixins: [
+		baseObjectMixin,
+	],
 
-  computed: {
-    ...mapState({
-      id(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-      itemInstance(state) {
-        return getNamespacedState(state, this.namespace).itemInstance;
-      },
-    }),
-  },
+	computed: {
+		...mapState({
+			id(state) {
+				return getNamespacedState(state, this.namespace).itemId;
+			},
+			itemInstance(state) {
+				return getNamespacedState(state, this.namespace).itemInstance;
+			},
+		}),
+	},
 
-  methods: {
-    ...mapActions({
-      setItemProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-      },
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-    }),
+	methods: {
+		...mapActions({
+			setItemProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
+			},
+			setId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+			},
+		}),
 
-    async save() {
-      const invalid = this.checkValidations();
-      if (!invalid) {
-        try {
-          if (this.id) {
-            await this.updateItem();
-          } else {
-            await this.addItem();
-          }
-          this.close();
-        } catch {}
-      }
-    },
+		async save() {
+			const invalid = this.checkValidations();
+			if (!invalid) {
+				try {
+					if (this.id) {
+						await this.updateItem();
+					} else {
+						await this.addItem();
+					}
+					this.close();
+				} catch {}
+			}
+		},
 
-    close() {
-      this.$emit('close');
-    },
-    async handleIdChange(id) {
-      await this.resetState();
-      if (id) {
-        await this.setId(id);
-        await this.loadItem();
-      }
-    }
-  },
+		close() {
+			this.$emit('close');
+		},
+		async handleIdChange(id) {
+			await this.resetState();
+			if (id) {
+				await this.setId(id);
+				await this.loadItem();
+			}
+		},
+	},
 };

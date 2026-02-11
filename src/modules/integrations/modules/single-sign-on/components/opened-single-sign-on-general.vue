@@ -50,19 +50,21 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import SingleSignOnAPI from '../api/singleSignOn';
 
 export default {
-  name: 'OpenedSingleSignOnGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadFlows(params) {
-      return SingleSignOnAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedSingleSignOnGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadFlows(params) {
+			return SingleSignOnAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

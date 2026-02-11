@@ -74,95 +74,112 @@
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import { lessOrEqualTo, moreOrEqualTo } from '../../../../../../../app/utils/validators';
+import {
+	lessOrEqualTo,
+	moreOrEqualTo,
+} from '../../../../../../../app/utils/validators';
 import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 export default {
-  name: 'OpenedQueueSkillsPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedQueueSkillsPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => {
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    const v$ = useVuelidate({ $stopPropagation: true });
-    const { hasReadAccess: hasSkillsReadAccess } = useUserAccessControl(WtObject.Skill);
-    const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(WtObject.Bucket);
-    return {
-      v$,
-      hasSkillsReadAccess,
-      hasBucketsReadAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'ccenter/queues/skills',
-  }),
-  validations: {
-    itemInstance: {
-      skill: { required },
-      lvl: {
-        required,
-        minValue: minValue(0),
-        maxValue: maxValue(1000),
-      },
-      minCapacity: {
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        lessOrEqualTo: lessOrEqualTo('maxCapacity'),
-      },
-      maxCapacity: {
-        minValue: minValue(0),
-        maxValue: maxValue(100),
-        moreOrEqualTo: moreOrEqualTo('minCapacity'),
-      },
-    },
-  },
-  computed: {
-    minCapacityCustomValidator() {
-      return [
-        {
-          name: 'lessOrEqualTo',
-          text: this.$t('objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator'),
-        },
-      ];
-    },
-    maxCapacityCustomValidator() {
-      return [
-        {
-          name: 'moreOrEqualTo',
-          text: this.$t('objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator'),
-        },
-      ];
-    },
-    popupTitle() {
-      return this.id
-        ? this.$t('objects.ccenter.queues.skills.editSkill')
-        : this.$t('objects.ccenter.queues.skills.addSkill');
-    },
-    skillId() {
-      return this.$route.params.skillId;
-    }
-  },
-  watch: {
-    skillId: {
-      handler(id) {
-        this.handleIdChange(id);
-      }, immediate: true,
-    },
-  },
+	setup: () => {
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		const v$ = useVuelidate({
+			$stopPropagation: true,
+		});
+		const { hasReadAccess: hasSkillsReadAccess } = useUserAccessControl(
+			WtObject.Skill,
+		);
+		const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
+			WtObject.Bucket,
+		);
+		return {
+			v$,
+			hasSkillsReadAccess,
+			hasBucketsReadAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'ccenter/queues/skills',
+	}),
+	validations: {
+		itemInstance: {
+			skill: {
+				required,
+			},
+			lvl: {
+				required,
+				minValue: minValue(0),
+				maxValue: maxValue(1000),
+			},
+			minCapacity: {
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				lessOrEqualTo: lessOrEqualTo('maxCapacity'),
+			},
+			maxCapacity: {
+				minValue: minValue(0),
+				maxValue: maxValue(100),
+				moreOrEqualTo: moreOrEqualTo('minCapacity'),
+			},
+		},
+	},
+	computed: {
+		minCapacityCustomValidator() {
+			return [
+				{
+					name: 'lessOrEqualTo',
+					text: this.$t(
+						'objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator',
+					),
+				},
+			];
+		},
+		maxCapacityCustomValidator() {
+			return [
+				{
+					name: 'moreOrEqualTo',
+					text: this.$t(
+						'objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator',
+					),
+				},
+			];
+		},
+		popupTitle() {
+			return this.id
+				? this.$t('objects.ccenter.queues.skills.editSkill')
+				: this.$t('objects.ccenter.queues.skills.addSkill');
+		},
+		skillId() {
+			return this.$route.params.skillId;
+		},
+	},
+	watch: {
+		skillId: {
+			handler(id) {
+				this.handleIdChange(id);
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    loadSkillsOptions(params) {
-      return SkillsAPI.getLookup(params);
-    },
+	methods: {
+		loadSkillsOptions(params) {
+			return SkillsAPI.getLookup(params);
+		},
 
-    loadBucketsOptions(params) {
-      return BucketsAPI.getLookup(params);
-    },
-  },
+		loadBucketsOptions(params) {
+			return BucketsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

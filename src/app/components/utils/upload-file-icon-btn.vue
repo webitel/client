@@ -20,31 +20,33 @@
 
 <script>
 export default {
-  name: 'UploadFileIconBtn',
-  props: {
-    accept: {
-      type: String,
-      default: '.csv',
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['change'],
-  methods: {
-    triggerFileInput() {
-      this.$refs['file-input'].click();
-    },
-    inputFileHandler(event) {
-      const { files } = event.target;
-      this.$emit('change', files, event);
-      this.clearFileInput();
-    },
-    clearFileInput() {
-      this.$refs['file-input'].value = null;
-    },
-  },
+	name: 'UploadFileIconBtn',
+	props: {
+		accept: {
+			type: String,
+			default: '.csv',
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	emits: [
+		'change',
+	],
+	methods: {
+		triggerFileInput() {
+			this.$refs['file-input'].click();
+		},
+		inputFileHandler(event) {
+			const { files } = event.target;
+			this.$emit('change', files, event);
+			this.clearFileInput();
+		},
+		clearFileInput() {
+			this.$refs['file-input'].value = null;
+		},
+	},
 };
 </script>
 

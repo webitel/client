@@ -49,26 +49,28 @@ import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMix
 import viberChatGateway from '../../store/_internals/providers/viberChatGateway';
 
 export default {
-  name: 'OpenedChatViberGeneralTab',
-  components: {
-    ColorPicker: Chrome,
-  },
-  mixins: [openedTabComponentMixin],
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
-      },
-    }),
+	name: 'OpenedChatViberGeneralTab',
+	components: {
+		ColorPicker: Chrome,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_METADATA`, payload);
+			},
+		}),
 
-    resetBtnColor(prop) {
-      const value = viberChatGateway().metadata[prop];
-      return this.setItemMetadata({
-        prop,
-        value,
-      });
-    },
-  },
+		resetBtnColor(prop) {
+			const value = viberChatGateway().metadata[prop];
+			return this.setItemMetadata({
+				prop,
+				value,
+			});
+		},
+	},
 };
 </script>
 

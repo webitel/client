@@ -146,128 +146,132 @@ import GlobalStateSwitcher from '../../../../../../../app/components/global-stat
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import GlobalStateConfirmationPopup
-  from '../../../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
-import addSkillToAgentPopupMixin from "../../../mixins/addSkillToAgentPopupMixin.js";
+import GlobalStateConfirmationPopup from '../../../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
+import addSkillToAgentPopupMixin from '../../../mixins/addSkillToAgentPopupMixin.js';
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
 
 export default {
-  name: 'OpenedSkillAgents',
-  components: {
-    GlobalStateConfirmationPopup,
-    GlobalStateSwitcher,
-    AddSkillToAgentPopup,
-    ChangeSkillPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin, addSkillToAgentPopupMixin],
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'OpenedSkillAgents',
+	components: {
+		GlobalStateConfirmationPopup,
+		GlobalStateSwitcher,
+		AddSkillToAgentPopup,
+		ChangeSkillPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+		addSkillToAgentPopupMixin,
+	],
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasDeleteAccess } = useUserAccessControl();
+		const { hasDeleteAccess } = useUserAccessControl();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace: 'lookups/skills',
-    subNamespace: 'agents',
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    agentSkillPopup: false,
-    showGlobalStateConfirmationPopup: false,
-    affectedAgentSkillCount: 0,
-  }),
-  mounted() {
-    this.handlePatchInput = debounce(this.handlePatchInput);
-  },
-  methods: {
-    openAgentSkillPopup() {
-      this.agentSkillPopup = true;
-    },
-    closeAgentSkillPopup() {
-      this.agentSkillPopup = false;
-    },
-    async changeStateForAll(enabled) {
-      const { parentId } = this;
-      const changes = {
-        enabled,
-      };
-      try {
-        if (this.search) {
-          changes.q = this.search;
-        }
+	data: () => ({
+		namespace: 'lookups/skills',
+		subNamespace: 'agents',
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+		agentSkillPopup: false,
+		showGlobalStateConfirmationPopup: false,
+		affectedAgentSkillCount: 0,
+	}),
+	mounted() {
+		this.handlePatchInput = debounce(this.handlePatchInput);
+	},
+	methods: {
+		openAgentSkillPopup() {
+			this.agentSkillPopup = true;
+		},
+		closeAgentSkillPopup() {
+			this.agentSkillPopup = false;
+		},
+		async changeStateForAll(enabled) {
+			const { parentId } = this;
+			const changes = {
+				enabled,
+			};
+			try {
+				if (this.search) {
+					changes.q = this.search;
+				}
 
-        await AgentSkillsAPI.patch({
-          parentId,
-          changes,
-        });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await this.loadDataList();
-        this.closeGlobalStateConfirmation();
-      }
-    },
-    showGlobalStateConfirmation() {
-      this.showGlobalStateConfirmationPopup = true
-    },
-    closeGlobalStateConfirmation () {
-      this.showGlobalStateConfirmationPopup = false
-    },
-    async change({ changes, id }) {
-      const { parentId } = this;
-      try {
-        await AgentSkillsAPI.patch({
-          parentId,
-          changes,
-          id,
-        });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await this.loadDataList();
-      }
-    },
-    handlePatchInput(payload) {
-      const modifiedIdPayload = this.payloadIdModifier(payload);
-      this.patchItem(modifiedIdPayload);
-    },
-    async handlePatchEnabled(payload) {
-      const modifiedIdPayload = this.payloadIdModifier(payload);
-      try {
-        await this.patchItem(modifiedIdPayload);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        await this.loadDataList();
-      }
-    },
-    payloadIdModifier(payload) {
-      return {
-        ...payload,
-        item: {
-          ...payload.item,
-          id: [payload.item.id],
-        },
-      };
-    },
-  },
+				await AgentSkillsAPI.patch({
+					parentId,
+					changes,
+				});
+			} catch (e) {
+				console.error(e);
+			} finally {
+				await this.loadDataList();
+				this.closeGlobalStateConfirmation();
+			}
+		},
+		showGlobalStateConfirmation() {
+			this.showGlobalStateConfirmationPopup = true;
+		},
+		closeGlobalStateConfirmation() {
+			this.showGlobalStateConfirmationPopup = false;
+		},
+		async change({ changes, id }) {
+			const { parentId } = this;
+			try {
+				await AgentSkillsAPI.patch({
+					parentId,
+					changes,
+					id,
+				});
+			} catch (e) {
+				console.error(e);
+			} finally {
+				await this.loadDataList();
+			}
+		},
+		handlePatchInput(payload) {
+			const modifiedIdPayload = this.payloadIdModifier(payload);
+			this.patchItem(modifiedIdPayload);
+		},
+		async handlePatchEnabled(payload) {
+			const modifiedIdPayload = this.payloadIdModifier(payload);
+			try {
+				await this.patchItem(modifiedIdPayload);
+			} catch (e) {
+				console.error(e);
+			} finally {
+				await this.loadDataList();
+			}
+		},
+		payloadIdModifier(payload) {
+			return {
+				...payload,
+				item: {
+					...payload.item,
+					id: [
+						payload.item.id,
+					],
+				},
+			};
+		},
+	},
 };
 </script>

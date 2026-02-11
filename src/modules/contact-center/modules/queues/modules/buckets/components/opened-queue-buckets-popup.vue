@@ -52,63 +52,70 @@
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required } from '@vuelidate/validators';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 export default {
-  name: 'OpenedQueueBucketsPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedQueueBucketsPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => {
-    const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(WtObject.Bucket);
-    return {
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-    hasBucketsReadAccess,
-  };
-  },
+	setup: () => {
+		const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
+			WtObject.Bucket,
+		);
+		return {
+			// Reasons for use $stopPropagation
+			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+			v$: useVuelidate({
+				$stopPropagation: true,
+			}),
+			hasBucketsReadAccess,
+		};
+	},
 
-  data: () => ({
-    namespace: 'ccenter/queues/buckets',
-  }),
-  validations: {
-    itemInstance: {
-      bucket: { required },
-      priority: {
-        numeric,
-        minValue: minValue(0),
-        required,
-      },
-    },
-  },
-  computed: {
-    popupTitle() {
-      return this.id
-        ? this.$t('objects.ccenter.queues.buckets.editBucket')
-        : this.$t('objects.ccenter.queues.buckets.addBucket');
-    },
-    bucketId() {
-      return this.$route.params.bucketId;
-    },
-  },
+	data: () => ({
+		namespace: 'ccenter/queues/buckets',
+	}),
+	validations: {
+		itemInstance: {
+			bucket: {
+				required,
+			},
+			priority: {
+				numeric,
+				minValue: minValue(0),
+				required,
+			},
+		},
+	},
+	computed: {
+		popupTitle() {
+			return this.id
+				? this.$t('objects.ccenter.queues.buckets.editBucket')
+				: this.$t('objects.ccenter.queues.buckets.addBucket');
+		},
+		bucketId() {
+			return this.$route.params.bucketId;
+		},
+	},
 
-  watch: {
-    bucketId: {
-      immediate: true,
-      handler(id) {
-        if (id) this.handleIdChange(id);
-      },
-    },
-  },
+	watch: {
+		bucketId: {
+			immediate: true,
+			handler(id) {
+				if (id) this.handleIdChange(id);
+			},
+		},
+	},
 
-  methods: {
-    loadBucketsOptions(params) {
-      return BucketsAPI.getLookup(params);
-    },
-  },
+	methods: {
+		loadBucketsOptions(params) {
+			return BucketsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

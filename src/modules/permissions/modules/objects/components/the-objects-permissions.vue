@@ -108,78 +108,80 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'permissions/objects';
 
 export default {
-  name: 'TheObjectsPermissions',
-  mixins: [tableComponentMixin],
+	name: 'TheObjectsPermissions',
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      hiddenText: true,
-    });
-    const { hasUpdateAccess } = useUserAccessControl();
-    return {
-      dummy,
-      hasUpdateAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.OBJECTS,
-  }),
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			hiddenText: true,
+		});
+		const { hasUpdateAccess } = useUserAccessControl();
+		return {
+			dummy,
+			hasUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.OBJECTS,
+	}),
 
-  computed: {
-    path() {
-      const baseUrl = '/permissions/objects';
-      return [
-        {
-          name: this.$t('objects.permissions.permissions'),
-        },
-        {
-          name: this.$t('objects.permissions.object.object'),
-          route: baseUrl,
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			const baseUrl = '/permissions/objects';
+			return [
+				{
+					name: this.$t('objects.permissions.permissions'),
+				},
+				{
+					name: this.$t('objects.permissions.object.object'),
+					route: baseUrl,
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      toggleObjectObac(dispatch, payload) {
-        return dispatch(`${this.namespace}/TOGGLE_OBJECT_OBAC`, payload);
-      },
-      toggleObjectRbac(dispatch, payload) {
-        return dispatch(`${this.namespace}/TOGGLE_OBJECT_RBAC`, payload);
-      },
-    }),
+	methods: {
+		...mapActions({
+			toggleObjectObac(dispatch, payload) {
+				return dispatch(`${this.namespace}/TOGGLE_OBJECT_OBAC`, payload);
+			},
+			toggleObjectRbac(dispatch, payload) {
+				return dispatch(`${this.namespace}/TOGGLE_OBJECT_RBAC`, payload);
+			},
+		}),
 
-    async onRbacToggled({ item, index, value }) {
-      const wasEnabled = item.rbac;
+		async onRbacToggled({ item, index, value }) {
+			const wasEnabled = item.rbac;
 
-      await this.toggleObjectRbac({
-        item,
-        index,
-        value,
-      });
+			await this.toggleObjectRbac({
+				item,
+				index,
+				value,
+			});
 
-      if (!wasEnabled && value && !item.obac) {
-        this.toggleObjectObac({
-          item,
-          index,
-          value: true,
-        });
-      }
-    },
+			if (!wasEnabled && value && !item.obac) {
+				this.toggleObjectObac({
+					item,
+					index,
+					value: true,
+				});
+			}
+		},
 
-    async onObacToggled({ item, index, value }) {
-      if (item.rbac && value === false) return;
+		async onObacToggled({ item, index, value }) {
+			if (item.rbac && value === false) return;
 
-      await this.toggleObjectObac({
-        item,
-        index,
-        value,
-      });
-    },
-  },
+			await this.toggleObjectObac({
+				item,
+				index,
+				value,
+			});
+		},
+	},
 };
 </script>
 

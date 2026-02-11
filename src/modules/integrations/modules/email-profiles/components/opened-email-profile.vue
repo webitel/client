@@ -37,7 +37,12 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, required, requiredIf } from '@vuelidate/validators';
+import {
+	maxValue,
+	minValue,
+	required,
+	requiredIf,
+} from '@vuelidate/validators';
 import { EngineEmailAuthType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -47,98 +52,120 @@ import EmailProfilesRouteNames from '../router/_internals/EmailProfilesRouteName
 import General from './opened-email-profile-general.vue';
 
 export default {
-  name: 'OpenedEmailProfile',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedEmailProfile',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'integrations/emailProfiles',
-    routeName: RouteNames.EMAIL_PROFILES,
-  }),
-  validations() {
-    const itemInstance = {
-      name: { required },
-      schema: { required },
-      imapHost: { required },
-      smtpHost: { required },
-      fetchInterval: { required },
-      imapPort: {
-        required,
-        minValue: minValue(0),
-        maxValue: maxValue(65535),
-      },
-      smtpPort: {
-        required,
-        minValue: minValue(0),
-        maxValue: maxValue(65535),
-      },
-      login: { required },
-      mailbox: { required },
-      authType: { required },
-      password: {
-        required: requiredIf(!this.isOauth2AuthType && !this.id),
-      },
-      params: {
-        oauth2: {
-          clientId: {
-            required: requiredIf(this.isOauth2AuthType),
-          },
-          clientSecret: {
-            required: requiredIf(this.isOauth2AuthType),
-          },
-          redirectUrl: {
-            required: requiredIf(this.isOauth2AuthType),
-          },
-        },
-      },
-    };
-    return { itemInstance };
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'integrations/emailProfiles',
+		routeName: RouteNames.EMAIL_PROFILES,
+	}),
+	validations() {
+		const itemInstance = {
+			name: {
+				required,
+			},
+			schema: {
+				required,
+			},
+			imapHost: {
+				required,
+			},
+			smtpHost: {
+				required,
+			},
+			fetchInterval: {
+				required,
+			},
+			imapPort: {
+				required,
+				minValue: minValue(0),
+				maxValue: maxValue(65535),
+			},
+			smtpPort: {
+				required,
+				minValue: minValue(0),
+				maxValue: maxValue(65535),
+			},
+			login: {
+				required,
+			},
+			mailbox: {
+				required,
+			},
+			authType: {
+				required,
+			},
+			password: {
+				required: requiredIf(!this.isOauth2AuthType && !this.id),
+			},
+			params: {
+				oauth2: {
+					clientId: {
+						required: requiredIf(this.isOauth2AuthType),
+					},
+					clientSecret: {
+						required: requiredIf(this.isOauth2AuthType),
+					},
+					redirectUrl: {
+						required: requiredIf(this.isOauth2AuthType),
+					},
+				},
+			},
+		};
+		return {
+			itemInstance,
+		};
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: EmailProfilesRouteNames.GENERAL,
-        },
-      ];
-      // if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
-    isOauth2AuthType() {
-      return this.itemInstance.authType === EngineEmailAuthType.OAuth2;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: EmailProfilesRouteNames.GENERAL,
+				},
+			];
+			// if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
+		isOauth2AuthType() {
+			return this.itemInstance.authType === EngineEmailAuthType.OAuth2;
+		},
 
-    path() {
-      const baseUrl = '/integrations/email-profiles';
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t('objects.integrations.emailProfiles.emailProfiles', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/integrations/email-profiles';
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t('objects.integrations.emailProfiles.emailProfiles', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

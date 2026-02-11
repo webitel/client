@@ -34,38 +34,43 @@ import FilterFromTo from '@webitel/ui-sdk/src/modules/QueryFilters/components/fi
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'TheTriggersLogsFilters',
-  components: {
-    FilterDatetime,
-    FilterFromTo,
-    AbstractApiFilter,
-    AbstractEnumFilter,
-  },
-  props: {
-    namespace: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    filters: [{ type: 'enum', filterQuery: 'result' }],
-  }),
-  methods: {
-    ...mapActions({
-      resetFilterValues(dispatch, payload) {
-        return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
-      },
-    }),
-    resetFilters() {
-      this.$router.push({
-        query: null,
-      });
-      this.resetFilterValues();
-    },
-  },
-  unmounted() {
-    this.resetFilters();
-  },
+	name: 'TheTriggersLogsFilters',
+	components: {
+		FilterDatetime,
+		FilterFromTo,
+		AbstractApiFilter,
+		AbstractEnumFilter,
+	},
+	props: {
+		namespace: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({
+		filters: [
+			{
+				type: 'enum',
+				filterQuery: 'result',
+			},
+		],
+	}),
+	methods: {
+		...mapActions({
+			resetFilterValues(dispatch, payload) {
+				return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
+			},
+		}),
+		resetFilters() {
+			this.$router.push({
+				query: null,
+			});
+			this.resetFilterValues();
+		},
+	},
+	unmounted() {
+		this.resetFilters();
+	},
 };
 </script>
 

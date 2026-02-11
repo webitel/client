@@ -63,34 +63,42 @@ import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calend
 import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: 'OpenedQueueMemberGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
-    const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(WtObject.Bucket);
-    const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(WtObject.Calendar);
-    const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
-    return {
-      disableUserInput,
-      hasBucketsReadAccess,
-      hasCalendarsReadAccess,
-      hasAgentsReadAccess,
-    };
-  },
+	name: 'OpenedQueueMemberGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
+		const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
+			WtObject.Bucket,
+		);
+		const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
+			WtObject.Calendar,
+		);
+		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		return {
+			disableUserInput,
+			hasBucketsReadAccess,
+			hasCalendarsReadAccess,
+			hasAgentsReadAccess,
+		};
+	},
 
-  methods: {
-    loadDropdownOptionsBucketsList(params) {
-      return BucketsAPI.getLookup(params);
-    },
-    loadDropdownOptionsTimezoneList(params) {
-      return CalendarsAPI.getTimezonesLookup(params);
-    },
-    loadDropdownOptionsAgentsList(params) {
-      return AgentsAPI.getLookup(params);
-    },
-  },
+	methods: {
+		loadDropdownOptionsBucketsList(params) {
+			return BucketsAPI.getLookup(params);
+		},
+		loadDropdownOptionsTimezoneList(params) {
+			return CalendarsAPI.getTimezonesLookup(params);
+		},
+		loadDropdownOptionsAgentsList(params) {
+			return AgentsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

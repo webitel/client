@@ -64,21 +64,43 @@
 
 <script>
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { useWeekDaysData } from '../composables/useWeekDaysData.js';
 
 const namespace = 'lookups/calendars';
 const dataName = 'accepts';
 
 export default {
-  name: 'OpenedCalendarWorkWeek',
-  mixins: [openedTabComponentMixin],
-  setup() {
-    const { disableUserInput } = useUserAccessControl();
-    const { dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin } = useWeekDaysData(namespace, dataName);
-    return { disableUserInput, dataList, headers, weekDaysList, setItemProp, addRange, removeRange, isDayStart, minToSec, secToMin };
-  },
+	name: 'OpenedCalendarWorkWeek',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup() {
+		const { disableUserInput } = useUserAccessControl();
+		const {
+			dataList,
+			headers,
+			weekDaysList,
+			setItemProp,
+			addRange,
+			removeRange,
+			isDayStart,
+			minToSec,
+			secToMin,
+		} = useWeekDaysData(namespace, dataName);
+		return {
+			disableUserInput,
+			dataList,
+			headers,
+			weekDaysList,
+			setItemProp,
+			addRange,
+			removeRange,
+			isDayStart,
+			minToSec,
+			secToMin,
+		};
+	},
 };
 </script>
 

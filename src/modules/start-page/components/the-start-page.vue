@@ -21,13 +21,13 @@ navStore.initializeNav();
 const { nav } = storeToRefs(navStore);
 
 const icons = [
-  'adm-directory',
-  'adm-integrations',
-  'adm-lookups',
-  'adm-routing',
-  'adm-system',
-  'adm-permissions',
-  'adm-contact-center',
+	'adm-directory',
+	'adm-integrations',
+	'adm-lookups',
+	'adm-routing',
+	'adm-system',
+	'adm-permissions',
+	'adm-contact-center',
 ];
 </script>
 

@@ -11,25 +11,25 @@ import routing from '../../modules/routing/store/routing';
 import system from '../../modules/system/store/system';
 
 const store = createStore({
-  strict: false,
-  state: {
-    router: null,
-  },
-  mutations: {
-    SET_ROUTER: (state, router) => {
-      state.router = router;
-    },
-  },
-  modules: {
-    directory,
-    routing,
-    lookups,
-    ccenter,
-    integrations,
-    permissions,
-    system,
-    appearance,
-  },
+	strict: false,
+	state: {
+		router: null,
+	},
+	mutations: {
+		SET_ROUTER: (state, router) => {
+			state.router = router;
+		},
+	},
+	modules: {
+		directory,
+		routing,
+		lookups,
+		ccenter,
+		integrations,
+		permissions,
+		system,
+		appearance,
+	},
 });
 
 const pinia = createPinia();

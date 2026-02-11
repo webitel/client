@@ -25,24 +25,26 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedDeviceHotdesking',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    hotDeskNameValidator() {
-      return [
-        {
-          name: 'hotDeskNameValidator',
-          text: this.$t('objects.directory.devices.hotdeskIncorrectInput'),
-        },
-      ];
-    },
-  },
+	name: 'OpenedDeviceHotdesking',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		hotDeskNameValidator() {
+			return [
+				{
+					name: 'hotDeskNameValidator',
+					text: this.$t('objects.directory.devices.hotdeskIncorrectInput'),
+				},
+			];
+		},
+	},
 };
 </script>
 

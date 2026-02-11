@@ -90,58 +90,64 @@ import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions
 import Service from '../store/_internals/lookups/Service.lookup';
 
 export default {
-  name: 'OpenedStorageAws',
-  mixins: [openedTabComponentMixin, storageMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    ...mapState('integrations/storage', {
-      id: (state) => state.itemId,
-    }),
+	name: 'OpenedStorageAws',
+	mixins: [
+		openedTabComponentMixin,
+		storageMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		...mapState('integrations/storage', {
+			id: (state) => state.itemId,
+		}),
 
-    serviceOptions() {
-      return Object.values(Service);
-    },
+		serviceOptions() {
+			return Object.values(Service);
+		},
 
-    isCustom() {
-      return !(this.endpoint === Service.AWS.endpoint || this.endpoint === Service.DO.endpoint);
-    },
+		isCustom() {
+			return !(
+				this.endpoint === Service.AWS.endpoint ||
+				this.endpoint === Service.DO.endpoint
+			);
+		},
 
-    regionOptions() {
-      if (this.endpoint.includes(Service.AWS.endpoint)) {
-        return AWSRegions;
-      }
-      if (this.endpoint.includes(Service.DO.endpoint)) {
-        return DigitalOceanRegions;
-      }
-      return [];
-    },
+		regionOptions() {
+			if (this.endpoint.includes(Service.AWS.endpoint)) {
+				return AWSRegions;
+			}
+			if (this.endpoint.includes(Service.DO.endpoint)) {
+				return DigitalOceanRegions;
+			}
+			return [];
+		},
 
-    disableService() {
-      return this.disableUserInput || !!this.id;
-    },
-  },
+		disableService() {
+			return this.disableUserInput || !!this.id;
+		},
+	},
 
-  methods: {
-    ...mapActions('integrations/storage', {
-      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
-    }),
+	methods: {
+		...mapActions('integrations/storage', {
+			setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
+		}),
 
-    setService({ endpoint }) {
-      this.setItemProp({
-        prop: 'endpoint',
-        value: endpoint,
-      });
-      this.setItemProp({
-        prop: 'region',
-        value: '',
-      });
-    },
-  },
+		setService({ endpoint }) {
+			this.setItemProp({
+				prop: 'endpoint',
+				value: endpoint,
+			});
+			this.setItemProp({
+				prop: 'region',
+				value: '',
+			});
+		},
+	},
 };
 </script>
 

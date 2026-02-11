@@ -25,30 +25,30 @@
 
 <script>
 export default {
-  name: 'UserStatusChips',
-  props: {
-    presence: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  computed: {
-    status() {
-      return this.presence.status || '';
-    },
-    isSip() {
-      return this.status.includes('sip');
-    },
-    isWeb() {
-      return this.status.includes('web');
-    },
-    isDnd() {
-      return this.status.includes('dnd');
-    },
-    isDlg() {
-      return this.status.includes('dlg');
-    },
-  },
+	name: 'UserStatusChips',
+	props: {
+		presence: {
+			type: Object,
+			default: () => ({}),
+		},
+	},
+	computed: {
+		status() {
+			return this.presence.status || '';
+		},
+		isSip() {
+			return this.status.includes('sip');
+		},
+		isWeb() {
+			return this.status.includes('web');
+		},
+		isDnd() {
+			return this.status.includes('dnd');
+		},
+		isDlg() {
+			return this.status.includes('dlg');
+		},
+	},
 };
 </script>
 

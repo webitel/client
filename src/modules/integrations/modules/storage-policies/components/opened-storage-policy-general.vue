@@ -122,84 +122,100 @@ import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
 import deepCopy from 'deep-copy';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin
-  from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
 import EncryptionAlertPopup from './encryption-alert-popup.vue';
 
 export default {
-  name: 'OpenedStoragePolicyGeneral',
-  components: { ApplyToFilesPopup, EncryptionAlertPopup },
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    MimeTypes: Object.values(MimeTypes),
-    isPopupOpened: false,
-    isEncryptionAlertOpened: false,
-    pendingEncryptValue: false,
-  }),
-  computed: {
-    encryptionAlertMessage() {
-      if (this.pendingEncryptValue) {
-        return this.$t('objects.integrations.storagePolicies.encryptionEnableMessage');
-      }
-      return this.$t('objects.integrations.storagePolicies.encryptionDisableMessage');
-    },
-    channels() {
-      const copy = deepCopy(this.itemInstance.channels);
+	name: 'OpenedStoragePolicyGeneral',
+	components: {
+		ApplyToFilesPopup,
+		EncryptionAlertPopup,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		MimeTypes: Object.values(MimeTypes),
+		isPopupOpened: false,
+		isEncryptionAlertOpened: false,
+		pendingEncryptValue: false,
+	}),
+	computed: {
+		encryptionAlertMessage() {
+			if (this.pendingEncryptValue) {
+				return this.$t(
+					'objects.integrations.storagePolicies.encryptionEnableMessage',
+				);
+			}
+			return this.$t(
+				'objects.integrations.storagePolicies.encryptionDisableMessage',
+			);
+		},
+		channels() {
+			const copy = deepCopy(this.itemInstance.channels);
 
-      return copy.length ?
-        copy.map((item) => {
-          const channel = this.snakeToCamel(item.value || item);
-          return {
-            name: this.$t(`objects.integrations.storagePolicies.channels.${channel}`),
-            value: channel,
-          };
-        })
-        : [];
-    },
-    channelsOptions() {
-      return Object.values(StorageUploadFileChannel)
-        .filter((channel) =>
-          channel !== StorageUploadFileChannel.UnknownChannel
-          && channel !== StorageUploadFileChannel.KnowledgebaseChannel
-          && channel !== StorageUploadFileChannel.CasesChannel,
-        )
-        .map((channel) => ({
-          name: this.$t(`objects.integrations.storagePolicies.channels.${this.snakeToCamel(channel)}`),
-          value: this.snakeToCamel(channel),
-        }));
-    },
-  },
-  methods: {
-    snakeToCamel,
-    openPopup() {
-      this.isPopupOpened = true;
-    },
-    closePopup() {
-      this.isPopupOpened = false;
-    },
-    apply() {
-      this.closePopup();
-    },
-    handleEncryptChange(value) {
-      this.pendingEncryptValue = value;
-      this.isEncryptionAlertOpened = true;
-    },
-    confirmEncryptionChange() {
-      this.setItemProp({ prop: 'encrypt', value: this.pendingEncryptValue });
-      this.closeEncryptionAlert();
-    },
-    closeEncryptionAlert() {
-      this.isEncryptionAlertOpened = false;
-      this.pendingEncryptValue = false;
-    },
-  },
+			return copy.length
+				? copy.map((item) => {
+						const channel = this.snakeToCamel(item.value || item);
+						return {
+							name: this.$t(
+								`objects.integrations.storagePolicies.channels.${channel}`,
+							),
+							value: channel,
+						};
+					})
+				: [];
+		},
+		channelsOptions() {
+			return Object.values(StorageUploadFileChannel)
+				.filter(
+					(channel) =>
+						channel !== StorageUploadFileChannel.UnknownChannel &&
+						channel !== StorageUploadFileChannel.KnowledgebaseChannel &&
+						channel !== StorageUploadFileChannel.CasesChannel,
+				)
+				.map((channel) => ({
+					name: this.$t(
+						`objects.integrations.storagePolicies.channels.${this.snakeToCamel(channel)}`,
+					),
+					value: this.snakeToCamel(channel),
+				}));
+		},
+	},
+	methods: {
+		snakeToCamel,
+		openPopup() {
+			this.isPopupOpened = true;
+		},
+		closePopup() {
+			this.isPopupOpened = false;
+		},
+		apply() {
+			this.closePopup();
+		},
+		handleEncryptChange(value) {
+			this.pendingEncryptValue = value;
+			this.isEncryptionAlertOpened = true;
+		},
+		confirmEncryptionChange() {
+			this.setItemProp({
+				prop: 'encrypt',
+				value: this.pendingEncryptValue,
+			});
+			this.closeEncryptionAlert();
+		},
+		closeEncryptionAlert() {
+			this.isEncryptionAlertOpened = false;
+			this.pendingEncryptValue = false;
+		},
+	},
 };
 </script>
 

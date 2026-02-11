@@ -30,98 +30,100 @@ import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
 
 export default {
-  name: 'OpenedImportCsv',
-  components: {
-    General,
-    Settings,
-  },
-  mixins: [openedObjectMixin],
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'integrations/importCsv',
-    routeName: RouteNames.IMPORT_CSV,
-    permissionsTabPathName: ImportCsvRouteName.PERMISSIONS,
-  }),
-  validations() {
-    return {
-      itemInstance: {
-        name: {
-          required,
-        },
-        source: {
-          required,
-        },
-        parameters: {
-          charset: {
-            required,
-          },
-          separator: {
-            required,
-          },
-          skipHeaders: {
-            required,
-          },
-          mappings: Object.entries(ImportCsvMemberMappings).reduce(
-            (mappings, [name, { required: reqField }]) =>
-              reqField
-                ? {
-                  ...mappings,
-                  [name]: {
-                    required,
-                  },
-                }
-                : mappings,
-            {},
-          ),
-        },
-      },
-    };
-  },
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: ImportCsvRouteName.GENERAL,
-        },
-        {
-          text: this.$t('objects.integrations.importCsv.settings'),
-          value: 'settings',
-          pathName: ImportCsvRouteName.SETTINGS,
-        },
-      ];
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+	name: 'OpenedImportCsv',
+	components: {
+		General,
+		Settings,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'integrations/importCsv',
+		routeName: RouteNames.IMPORT_CSV,
+		permissionsTabPathName: ImportCsvRouteName.PERMISSIONS,
+	}),
+	validations() {
+		return {
+			itemInstance: {
+				name: {
+					required,
+				},
+				source: {
+					required,
+				},
+				parameters: {
+					charset: {
+						required,
+					},
+					separator: {
+						required,
+					},
+					skipHeaders: {
+						required,
+					},
+					mappings: Object.entries(ImportCsvMemberMappings).reduce(
+						(mappings, [name, { required: reqField }]) =>
+							reqField
+								? {
+										...mappings,
+										[name]: {
+											required,
+										},
+									}
+								: mappings,
+						{},
+					),
+				},
+			},
+		};
+	},
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: ImportCsvRouteName.GENERAL,
+				},
+				{
+					text: this.$t('objects.integrations.importCsv.settings'),
+					value: 'settings',
+					pathName: ImportCsvRouteName.SETTINGS,
+				},
+			];
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/integrations/import-csv';
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t('objects.integrations.importCsv.importCsv'),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/integrations/import-csv';
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t('objects.integrations.importCsv.importCsv'),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

@@ -1,6 +1,6 @@
 const HandlingCSVMode = Object.freeze({
-    UPLOAD: 'upload',
-    PROCESS: 'process',
+	UPLOAD: 'upload',
+	PROCESS: 'process',
 });
 
 export default HandlingCSVMode;

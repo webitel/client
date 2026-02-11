@@ -189,158 +189,165 @@ const API_URL = import.meta.env.VITE_API_URL;
 const namespace = 'lookups/media';
 
 export default {
-  name: 'TheMedia',
-  components: {
-    DownloadFilesBtn,
-    vueDropzone,
-    TextToSpeechPopup,
-    MediaFilePreviewTableAction,
-    DeleteConfirmationPopup,
-  },
-  mixins: [exportFilesMixin, tableComponentMixin],
-  inject: ['$eventBus'],
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'TheMedia',
+	components: {
+		DownloadFilesBtn,
+		vueDropzone,
+		TextToSpeechPopup,
+		MediaFilePreviewTableAction,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		exportFilesMixin,
+		tableComponentMixin,
+	],
+	inject: [
+		'$eventBus',
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data() {
-    return {
-      namespace,
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data() {
+		return {
+			namespace,
 
-      isLoadingFiles: false,
-      loadedCount: 0,
-      allLoadingCount: 0,
-      audioLink: '',
-      playingIndex: null,
-      currentlyPlaying: true,
+			isLoadingFiles: false,
+			loadedCount: 0,
+			allLoadingCount: 0,
+			audioLink: '',
+			playingIndex: null,
+			currentlyPlaying: true,
 
-      dropzoneOptions: {
-        url: `${API_URL}/storage/media?access_token=${token}`,
-        thumbnailWidth: 150,
-        // maxFilesize: 0.5,
-        // acceptedFiles: '.mp3, .wav, .mpeg',
-        uploadMultiple: true,
-      },
-    };
-  },
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.media.mediaFiles', 2),
-          route: '/lookups/media',
-        },
-      ];
-    },
-  },
-  created() {
-    this.initFilesExport({
-      fetchMethod: this.getMediaList, // API call method
-      filename: 'media', // name of downloaded file. default is 'files'
-      filesURL: (id) => `${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
-      skipFilesWithError: true,
-    });
-  },
+			dropzoneOptions: {
+				url: `${API_URL}/storage/media?access_token=${token}`,
+				thumbnailWidth: 150,
+				// maxFilesize: 0.5,
+				// acceptedFiles: '.mp3, .wav, .mpeg',
+				uploadMultiple: true,
+			},
+		};
+	},
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.media.mediaFiles', 2),
+					route: '/lookups/media',
+				},
+			];
+		},
+	},
+	created() {
+		this.initFilesExport({
+			fetchMethod: this.getMediaList, // API call method
+			filename: 'media', // name of downloaded file. default is 'files'
+			filesURL: (id) =>
+				`${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
+			skipFilesWithError: true,
+		});
+	},
 
-  methods: {
-    openFile({ id }) {
-      const url = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
-      window.open(url, '_blank');
-    },
-    async downloadFile({ id, name }) {
-      const url = `${API_URL}/storage/media/${id}/download?access_token=${token}`;
-      download(url, name);
-    },
+	methods: {
+		openFile({ id }) {
+			const url = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
+			window.open(url, '_blank');
+		},
+		async downloadFile({ id, name }) {
+			const url = `${API_URL}/storage/media/${id}/download?access_token=${token}`;
+			download(url, name);
+		},
 
-    getSelectedFiles() {
-      const selected = this.dataList.filter((item) => item._isSelected);
-      return selected.length ? selected : null;
-    },
+		getSelectedFiles() {
+			const selected = this.dataList.filter((item) => item._isSelected);
+			return selected.length ? selected : null;
+		},
 
-    // dropzone event on loading start
-    // used for computing files number for UI and animation start
-    onFilesAdded(files) {
-      this.isLoadingFiles = true;
-      this.loadedCount = 0;
-      this.allLoadingCount = files.length;
-    },
+		// dropzone event on loading start
+		// used for computing files number for UI and animation start
+		onFilesAdded(files) {
+			this.isLoadingFiles = true;
+			this.loadedCount = 0;
+			this.allLoadingCount = files.length;
+		},
 
-    // dropzone event firing on ech file loaded successfully
-    // used for updating loaded files number on UI
+		// dropzone event firing on ech file loaded successfully
+		// used for updating loaded files number on UI
 
-    onFileSuccess(file, res) {
-      this.loadedCount += 1;
-    },
+		onFileSuccess(file, res) {
+			this.loadedCount += 1;
+		},
 
-    // dropzone event firing on ech file load
-    // used for updating loaded files number on UI
-    onFileError(file, message) {
-      this.loadedCount += 1;
-      this.$eventBus.$emit('notification', {
-        type: 'error',
-        text: message.message || message,
-      });
-    },
+		// dropzone event firing on ech file load
+		// used for updating loaded files number on UI
+		onFileError(file, message) {
+			this.loadedCount += 1;
+			this.$eventBus.$emit('notification', {
+				type: 'error',
+				text: message.message || message,
+			});
+		},
 
-    // dropzone event firing on all files loaded and sent
-    // used for animation end and list update
-    onComplete() {
-      this.isLoadingFiles = false;
-      this.loadList();
-    },
+		// dropzone event firing on all files loaded and sent
+		// used for animation end and list update
+		onComplete() {
+			this.isLoadingFiles = false;
+			this.loadList();
+		},
 
-    play(rowId) {
-      const { id } = this.dataList[rowId];
-      this.playingIndex = rowId;
-      this.audioLink = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
-    },
+		play(rowId) {
+			const { id } = this.dataList[rowId];
+			this.playingIndex = rowId;
+			this.audioLink = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
+		},
 
-    closePlayer() {
-      this.playingIndex = null;
-      this.audioLink = '';
-    },
-    getMediaList: MediaAPI.getList,
-    prettifyDate(date) {
-      return formatDate(+date, FormatDateMode.DATE);
-    },
-    prettifyFormat(format) {
-      return format.split('/').pop();
-    },
-    prettifyFileSize,
-    displayFormatFile(item) {
-      const array = item.name.split('.');
-      const format = array.length > 1 ? array.at(-1) : null;
-      return format || this.prettifyFormat(item.mimeType) || 'N/A';
-    },
-  },
+		closePlayer() {
+			this.playingIndex = null;
+			this.audioLink = '';
+		},
+		getMediaList: MediaAPI.getList,
+		prettifyDate(date) {
+			return formatDate(+date, FormatDateMode.DATE);
+		},
+		prettifyFormat(format) {
+			return format.split('/').pop();
+		},
+		prettifyFileSize,
+		displayFormatFile(item) {
+			const array = item.name.split('.');
+			const format = array.length > 1 ? array.at(-1) : null;
+			return format || this.prettifyFormat(item.mimeType) || 'N/A';
+		},
+	},
 };
 </script>
 

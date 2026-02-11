@@ -34,45 +34,50 @@
 
 <script>
 export default {
-  name: 'ResetMembersPopup',
-  inject: ['$eventBus'],
-  props: {
-    callback: {
-      type: Function,
-      required: true,
-    },
-  },
-  data: () => ({
-    isResetting: false,
-  }),
-  computed: {},
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-    async confirm() {
-      try {
-        this.isResetting = true;
-        const response = await this.callback();
-        const { count = 0 } = response;
-        this.$eventBus.$emit('notification', {
-          type: 'success',
-          text: this.$t('objects.ccenter.members.resetMembers.successResetCount', {
-            count,
-          }),
-        });
-      } catch (err) {
-        throw err;
-      } finally {
-        this.isResetting = false;
-        this.close();
-      }
-    },
-    cancel() {
-      this.$emit('cancel');
-      this.close();
-    },
-  },
+	name: 'ResetMembersPopup',
+	inject: [
+		'$eventBus',
+	],
+	props: {
+		callback: {
+			type: Function,
+			required: true,
+		},
+	},
+	data: () => ({
+		isResetting: false,
+	}),
+	computed: {},
+	methods: {
+		close() {
+			this.$emit('close');
+		},
+		async confirm() {
+			try {
+				this.isResetting = true;
+				const response = await this.callback();
+				const { count = 0 } = response;
+				this.$eventBus.$emit('notification', {
+					type: 'success',
+					text: this.$t(
+						'objects.ccenter.members.resetMembers.successResetCount',
+						{
+							count,
+						},
+					),
+				});
+			} catch (err) {
+				throw err;
+			} finally {
+				this.isResetting = false;
+				this.close();
+			}
+		},
+		cancel() {
+			this.$emit('cancel');
+			this.close();
+		},
+	},
 };
 </script>
 

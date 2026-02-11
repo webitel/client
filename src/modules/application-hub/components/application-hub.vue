@@ -83,119 +83,121 @@ import supervisorTitleMd from '../assets/img/titles/supervisor-md.svg';
 import supervisorTitleSm from '../assets/img/titles/supervisor-sm.svg';
 
 const picAdmin = {
-  img: admPic,
-  title: {
-    md: admTitleMd,
-    sm: admTitleSm,
-  },
+	img: admPic,
+	title: {
+		md: admTitleMd,
+		sm: admTitleSm,
+	},
 };
 const picAgent = {
-  img: agentPic,
-  title: {
-    md: agentTitleMd,
-    sm: agentTitleSm,
-  },
+	img: agentPic,
+	title: {
+		md: agentTitleMd,
+		sm: agentTitleSm,
+	},
 };
 const picAudit = {
-  img: auditPic,
-  title: {
-    md: auditTitleMd,
-    sm: auditTitleSm,
-  },
+	img: auditPic,
+	title: {
+		md: auditTitleMd,
+		sm: auditTitleSm,
+	},
 };
 const picHistory = {
-  img: historyPic,
-  title: {
-    md: historyTitleMd,
-    sm: historyTitleSm,
-  },
+	img: historyPic,
+	title: {
+		md: historyTitleMd,
+		sm: historyTitleSm,
+	},
 };
 const picSupervisor = {
-  img: supervisorPic,
-  title: {
-    md: supervisorTitleMd,
-    sm: supervisorTitleSm,
-  },
+	img: supervisorPic,
+	title: {
+		md: supervisorTitleMd,
+		sm: supervisorTitleSm,
+	},
 };
 const picGrafana = {
-  img: grafanaPic,
-  title: {
-    md: grafanaTitleMd,
-    sm: grafanaTitleSm,
-  },
+	img: grafanaPic,
+	title: {
+		md: grafanaTitleMd,
+		sm: grafanaTitleSm,
+	},
 };
 const picCrm = {
-  img: crmPic,
-  title: {
-    md: crmTitleMd,
-    sm: crmTitleSm,
-  },
+	img: crmPic,
+	title: {
+		md: crmTitleMd,
+		sm: crmTitleSm,
+	},
 };
 
 const { t } = useI18n();
-const config = inject<{ ON_SITE?: boolean }>('$config');
+const config = inject<{
+	ON_SITE?: boolean;
+}>('$config');
 
 const userInfoStore = useUserinfoStore();
 const { hasApplicationVisibility } = userInfoStore;
 
 const apps = computed(() => {
-  const agentApp = {
-    name: WtApplication.Agent,
-    title: t(`WtApplication.${WtApplication.Agent}.name`),
-    href: import.meta.env.VITE_AGENT_URL,
-    pic: picAgent,
-  };
-  const supervisorApp = {
-    name: WtApplication.Supervisor,
-    title: t(`WtApplication.${WtApplication.Supervisor}.name`),
-    href: import.meta.env.VITE_SUPERVISOR_URL,
-    pic: picSupervisor,
-  };
-  const historyApp = {
-    name: WtApplication.History,
-    title: t(`WtApplication.${WtApplication.History}.name`),
-    href: import.meta.env.VITE_HISTORY_URL,
-    pic: picHistory,
-  };
+	const agentApp = {
+		name: WtApplication.Agent,
+		title: t(`WtApplication.${WtApplication.Agent}.name`),
+		href: import.meta.env.VITE_AGENT_URL,
+		pic: picAgent,
+	};
+	const supervisorApp = {
+		name: WtApplication.Supervisor,
+		title: t(`WtApplication.${WtApplication.Supervisor}.name`),
+		href: import.meta.env.VITE_SUPERVISOR_URL,
+		pic: picSupervisor,
+	};
+	const historyApp = {
+		name: WtApplication.History,
+		title: t(`WtApplication.${WtApplication.History}.name`),
+		href: import.meta.env.VITE_HISTORY_URL,
+		pic: picHistory,
+	};
 
-  const auditApp = {
-    name: WtApplication.Audit,
-    title: t(`WtApplication.${WtApplication.Audit}.name`),
-    href: import.meta.env.VITE_AUDIT_URL,
-    pic: picAudit,
-  };
+	const auditApp = {
+		name: WtApplication.Audit,
+		title: t(`WtApplication.${WtApplication.Audit}.name`),
+		href: import.meta.env.VITE_AUDIT_URL,
+		pic: picAudit,
+	};
 
-  const adminApp = {
-    name: WtApplication.Admin,
-    title: t(`WtApplication.${WtApplication.Admin}.name`),
-    href: import.meta.env.VITE_ADMIN_URL,
-    pic: picAdmin,
-  };
+	const adminApp = {
+		name: WtApplication.Admin,
+		title: t(`WtApplication.${WtApplication.Admin}.name`),
+		href: import.meta.env.VITE_ADMIN_URL,
+		pic: picAdmin,
+	};
 
-  const grafanaApp = {
-    name: WtApplication.Analytics,
-    title: t(`WtApplication.${WtApplication.Analytics}.name`),
-    href: import.meta.env.VITE_GRAFANA_URL,
-    pic: picGrafana,
-  };
+	const grafanaApp = {
+		name: WtApplication.Analytics,
+		title: t(`WtApplication.${WtApplication.Analytics}.name`),
+		href: import.meta.env.VITE_GRAFANA_URL,
+		pic: picGrafana,
+	};
 
-  const crmApp = {
-    name: WtApplication.Crm,
-    title: t(`WtApplication.${WtApplication.Crm}.name`),
-    href: import.meta.env.VITE_CRM_URL,
-    pic: picCrm,
-  };
+	const crmApp = {
+		name: WtApplication.Crm,
+		title: t(`WtApplication.${WtApplication.Crm}.name`),
+		href: import.meta.env.VITE_CRM_URL,
+		pic: picCrm,
+	};
 
-  const allApps = [
-    agentApp,
-    supervisorApp,
-    historyApp,
-    adminApp,
-    auditApp,
-    crmApp,
-  ];
-  if (config?.ON_SITE) allApps.push(grafanaApp);
-  return allApps.filter(({ name }) => hasApplicationVisibility(name));
+	const allApps = [
+		agentApp,
+		supervisorApp,
+		historyApp,
+		adminApp,
+		auditApp,
+		crmApp,
+	];
+	if (config?.ON_SITE) allApps.push(grafanaApp);
+	return allApps.filter(({ name }) => hasApplicationVisibility(name));
 });
 </script>
 

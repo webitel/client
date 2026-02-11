@@ -47,185 +47,202 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, requiredIf } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/src/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { storeToRefs } from 'pinia';
-import { WtObject } from '@webitel/ui-sdk/src/enums';
-
-import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
+import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
 import Devices from './opened-user-devices.vue';
 import General from './opened-user-general.vue';
 import License from './opened-user-license.vue';
 import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
-import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 
 const namespace = 'directory/users';
 
 export default {
-  name: 'OpenedUser',
-  components: {
-    General,
-    Roles,
-    License,
-    Devices,
-    Variables,
-    Tokens,
-    Logs,
-    LogsFilters,
-  },
-  mixins: [openedObjectMixin],
+	name: 'OpenedUser',
+	components: {
+		General,
+		Roles,
+		License,
+		Devices,
+		Variables,
+		Tokens,
+		Logs,
+		LogsFilters,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const { t } = useI18n();
-    const store = useStore();
+	setup: () => {
+		const { t } = useI18n();
+		const store = useStore();
 
-    const itemInstance = computed(
-      () => getNamespacedState(store.state, namespace).itemInstance,
-    );
+		const itemInstance = computed(
+			() => getNamespacedState(store.state, namespace).itemInstance,
+		);
 
-    /** useVuelidate collects nested validations,
-     *  so that it collects validation from nested user-password-input.vue */
-    const v$ = useVuelidate(
-      computed(() => ({
-        itemInstance: {
-          username: { required },
-          name: { required },
+		/** useVuelidate collects nested validations,
+		 *  so that it collects validation from nested user-password-input.vue */
+		const v$ = useVuelidate(
+			computed(() => ({
+				itemInstance: {
+					username: {
+						required,
+					},
+					name: {
+						required,
+					},
 
-          /** see comment above */
-          // password: {
-          //   required: requiredUnless((value, item) => !!item.id),
-          // },
-          variables: {
-            $each: helpers.forEach({
-              key: {
-                required: requiredIf((value, item) => !!item.value),
-              },
-              value: {
-                required: requiredIf((value, item) => !!item.key),
-              },
-            }),
-          },
-          extension: {
-            regex: helpers.withMessage(
-              t('objects.directory.users.extensionsHelperText'),
-              helpers.regex(/^[0-9]*$/)),
-          },
-        },
-      })),
-      { itemInstance },
-      { $autoDirty: true },
-    );
+					/** see comment above */
+					// password: {
+					//   required: requiredUnless((value, item) => !!item.id),
+					// },
+					variables: {
+						$each: helpers.forEach({
+							key: {
+								required: requiredIf((value, item) => !!item.value),
+							},
+							value: {
+								required: requiredIf((value, item) => !!item.key),
+							},
+						}),
+					},
+					extension: {
+						regex: helpers.withMessage(
+							t('objects.directory.users.extensionsHelperText'),
+							helpers.regex(/^[0-9]*$/),
+						),
+					},
+				},
+			})),
+			{
+				itemInstance,
+			},
+			{
+				$autoDirty: true,
+			},
+		);
 
-    const { 
-      hasCreateAccess, 
-      hasUpdateAccess, 
-      hasSaveActionAccess, 
-      disableUserInput 
-    } = useUserAccessControl();
+		const {
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasSaveActionAccess,
+			disableUserInput,
+		} = useUserAccessControl();
 
-    const { hasReadAccess: hasUserTokensReadAccess } = useHasUserTokensAccess();
-    const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(WtObject.ChangeLog);
+		const { hasReadAccess: hasUserTokensReadAccess } = useHasUserTokensAccess();
+		const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(
+			WtObject.ChangeLog,
+		);
 
+		return {
+			v$,
 
-    return {
-      v$,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasSaveActionAccess,
+			disableUserInput,
+			hasUserTokensReadAccess,
+			hasLogsReadAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		permissionsTabPathName: `${UsersRouteNames.PERMISSIONS}-card`,
+		passwordRegExp: '',
+		validationText: '',
+	}),
 
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasSaveActionAccess,
-      disableUserInput,
-      hasUserTokensReadAccess,
-      hasLogsReadAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    permissionsTabPathName: `${UsersRouteNames.PERMISSIONS}-card`,
-    passwordRegExp: '',
-    validationText: '',
-  }),
+	computed: {
+		path() {
+			const baseUrl = '/directory/users';
+			return [
+				{
+					name: this.$t('objects.directory.directory'),
+				},
+				{
+					name: this.$t('objects.user', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.new ? this.$t('objects.new') : this.pathName,
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
 
-  computed: {
-    path() {
-      const baseUrl = '/directory/users';
-      return [
-        {
-          name: this.$t('objects.directory.directory'),
-        },
-        {
-          name: this.$t('objects.user', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.new ? this.$t('objects.new') : this.pathName,
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
+		tabs() {
+			const general = {
+				text: this.$t('objects.general'),
+				value: 'general',
+				pathName: UsersRouteNames.GENERAL,
+			};
+			const roles = {
+				text: this.$t('objects.directory.users.roles'),
+				value: 'roles',
+				pathName: UsersRouteNames.ROLES,
+			};
+			const license = {
+				text: this.$t('objects.directory.users.license'),
+				value: 'license',
+				pathName: UsersRouteNames.LICENSE,
+			};
+			const devices = {
+				text: this.$t('objects.directory.users.devices'),
+				value: 'devices',
+				pathName: UsersRouteNames.DEVICES,
+			};
+			const variables = {
+				text: this.$t('objects.directory.users.variables'),
+				value: 'variables',
+				pathName: UsersRouteNames.VARIABLES,
+			};
+			const logs = {
+				text: this.$t('objects.system.changelogs.changelogs', 2),
+				value: 'logs',
+				filters: 'logs-filters',
+				filtersNamespace: `${this.namespace}/logs/filters`,
+				pathName: UsersRouteNames.LOGS,
+			};
+			const tokens = {
+				text: this.$t('objects.directory.users.tokens'),
+				value: 'tokens',
+				pathName: UsersRouteNames.TOKENS,
+			};
 
-    tabs() {
-      const general = {
-        text: this.$t('objects.general'),
-        value: 'general',
-        pathName: UsersRouteNames.GENERAL,
-      };
-      const roles = {
-        text: this.$t('objects.directory.users.roles'),
-        value: 'roles',
-        pathName: UsersRouteNames.ROLES,
-      };
-      const license = {
-        text: this.$t('objects.directory.users.license'),
-        value: 'license',
-        pathName: UsersRouteNames.LICENSE,
-      };
-      const devices = {
-        text: this.$t('objects.directory.users.devices'),
-        value: 'devices',
-        pathName: UsersRouteNames.DEVICES,
-      };
-      const variables = {
-        text: this.$t('objects.directory.users.variables'),
-        value: 'variables',
-        pathName: UsersRouteNames.VARIABLES,
-      };
-      const logs = {
-        text: this.$t('objects.system.changelogs.changelogs', 2),
-        value: 'logs',
-        filters: 'logs-filters',
-        filtersNamespace: `${this.namespace}/logs/filters`,
-        pathName: UsersRouteNames.LOGS,
-      };
-      const tokens = {
-        text: this.$t('objects.directory.users.tokens'),
-        value: 'tokens',
-        pathName: UsersRouteNames.TOKENS,
-      };
+			const tabs = [
+				general,
+				roles,
+				license,
+				devices,
+				variables,
+			];
 
-      const tabs = [general, roles, license, devices, variables];
-
-      if (this.id && this.hasUserTokensReadAccess) tabs.push(tokens);
-      if (this.id && this.hasLogsReadAccess) tabs.push(logs);
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
-  },
-  methods: {
-    close() {
-      this.$router.push(`/${this.namespace}`);
-    },
-  },
+			if (this.id && this.hasUserTokensReadAccess) tabs.push(tokens);
+			if (this.id && this.hasLogsReadAccess) tabs.push(logs);
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
+	},
+	methods: {
+		close() {
+			this.$router.push(`/${this.namespace}`);
+		},
+	},
 };
 </script>

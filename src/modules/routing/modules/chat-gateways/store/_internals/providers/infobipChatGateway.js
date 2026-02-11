@@ -3,13 +3,13 @@ import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/C
 import defaultChatGateway from '../defaults/defaultChatGateway';
 
 const infobipChatGateway = () => ({
-  ...defaultChatGateway(),
-  provider: ChatGatewayProvider.INFOBIP,
-  metadata: {
-    apiKey: '',
-    // number: '',
-    url: '',
-  },
+	...defaultChatGateway(),
+	provider: ChatGatewayProvider.INFOBIP,
+	metadata: {
+		apiKey: '',
+		// number: '',
+		url: '',
+	},
 });
 
 export default infobipChatGateway;

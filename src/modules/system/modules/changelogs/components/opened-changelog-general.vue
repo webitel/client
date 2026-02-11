@@ -51,53 +51,58 @@
 </template>
 
 <script>
+import { ChangelogsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import storage from '../../../../integrations/modules/storage/api/storage';
-import { ChangelogsAPI } from '@webitel/api-services/api';
 
 export default {
-  name: 'OpenedChangelogGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasStorageReadAccess } = useUserAccessControl(WtObject.Storage);
-    return {
-      disableUserInput,
-      hasStorageReadAccess,
-    };
-  },
-  computed: {
-    currentPeriod() {
-      return this.periodOptions.find((period) => period.id === this.itemInstance.period);
-    },
-    periodOptions() {
-      return [
-        {
-          name: this.$t('objects.system.changelogs.period.options.daily'),
-          id: 1,
-        },
-        {
-          name: this.$t('objects.system.changelogs.period.options.weekly'),
-          id: 7,
-        },
-        {
-          name: this.$t('objects.system.changelogs.period.options.fortnightly'),
-          id: 14,
-        },
-        {
-          name: this.$t('objects.system.changelogs.period.options.monthly'),
-          id: 30,
-        },
-      ];
-    },
-  },
-  methods: {
-    getObjectsList: ChangelogsAPI.getObjectsList,
-    getStorageList: storage.getLookup,
-  },
+	name: 'OpenedChangelogGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasStorageReadAccess } = useUserAccessControl(
+			WtObject.Storage,
+		);
+		return {
+			disableUserInput,
+			hasStorageReadAccess,
+		};
+	},
+	computed: {
+		currentPeriod() {
+			return this.periodOptions.find(
+				(period) => period.id === this.itemInstance.period,
+			);
+		},
+		periodOptions() {
+			return [
+				{
+					name: this.$t('objects.system.changelogs.period.options.daily'),
+					id: 1,
+				},
+				{
+					name: this.$t('objects.system.changelogs.period.options.weekly'),
+					id: 7,
+				},
+				{
+					name: this.$t('objects.system.changelogs.period.options.fortnightly'),
+					id: 14,
+				},
+				{
+					name: this.$t('objects.system.changelogs.period.options.monthly'),
+					id: 30,
+				},
+			];
+		},
+	},
+	methods: {
+		getObjectsList: ChangelogsAPI.getObjectsList,
+		getStorageList: storage.getLookup,
+	},
 };
 </script>
 

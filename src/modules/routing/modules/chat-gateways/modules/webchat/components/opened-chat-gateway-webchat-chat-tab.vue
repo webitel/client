@@ -75,59 +75,64 @@ import openedTabComponentMixin from '../../../../../../../app/mixins/objectPages
 import FlowsAPI from '../../../../flow/api/flow';
 
 export default {
-  name: 'OpenedChatWebchatGeneralTab',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    disableOpenTimeout() {
-      return !this.itemInstance.metadata.chat.timeoutIsActive || this.disableUserInput;
-    },
-    mediaMaxSize: {
-      get() {
-        const bToMb = (b) => (b || 0) / 1024 / 1024;
-        return bToMb(this.itemInstance.metadata.mediaMaxSize);
-      },
-      set(value) {
-        const mbToB = (mb) => `${(mb || 0) * 1024 * 1024}`;
-        this.setItemMetadata({
-          prop: 'mediaMaxSize',
-          value: mbToB(value),
-        });
-      },
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
-      },
-      setChatMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_CHAT_METADATA`, payload);
-      },
-    }),
+	name: 'OpenedChatWebchatGeneralTab',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		disableOpenTimeout() {
+			return (
+				!this.itemInstance.metadata.chat.timeoutIsActive ||
+				this.disableUserInput
+			);
+		},
+		mediaMaxSize: {
+			get() {
+				const bToMb = (b) => (b || 0) / 1024 / 1024;
+				return bToMb(this.itemInstance.metadata.mediaMaxSize);
+			},
+			set(value) {
+				const mbToB = (mb) => `${(mb || 0) * 1024 * 1024}`;
+				this.setItemMetadata({
+					prop: 'mediaMaxSize',
+					value: mbToB(value),
+				});
+			},
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+			},
+			setChatMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_WEBCHAT_CHAT_METADATA`, payload);
+			},
+		}),
 
-    setFlow(value) {
-      if (!this.itemInstance.name) {
-        this.setItemProp({
-          prop: 'name',
-          value: value.name,
-        });
-      }
-      this.setItemProp({
-        prop: 'flow',
-        value,
-      });
-    },
+		setFlow(value) {
+			if (!this.itemInstance.name) {
+				this.setItemProp({
+					prop: 'name',
+					value: value.name,
+				});
+			}
+			this.setItemProp({
+				prop: 'flow',
+				value,
+			});
+		},
 
-    loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+		loadDropdownOptionsList(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

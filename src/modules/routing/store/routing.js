@@ -5,14 +5,14 @@ import flow from '../modules/flow/store/flow';
 import gateways from '../modules/gateways/store/gateways';
 
 const modules = {
-  flow,
-  dialplan,
-  gateways,
-  chatplan,
-  chatGateways,
+	flow,
+	dialplan,
+	gateways,
+	chatplan,
+	chatGateways,
 };
 
 export default {
-  namespaced: true,
-  modules,
+	namespaced: true,
+	modules,
 };

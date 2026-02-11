@@ -68,53 +68,55 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 
 export default {
-  name: 'OpenedImportCsvSettings',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({}),
-  computed: {
-    mappingsList() {
-      return Object.entries(ImportCsvMemberMappings).reduce(
-        (list, [name, value]) => [
-          ...list,
-          {
-            name,
-            ...value,
-          },
-        ],
-        [],
-      );
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemParamsProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROP`, payload);
-      },
-    }),
-    handleMappingInput({ name, value }) {
-      const mappings = deepCopy(this.itemInstance.parameters.mappings);
-      mappings[name] = value;
-      this.setItemParamsProp({
-        prop: 'mappings',
-        value: mappings,
-      });
-    },
-    localizeName(locale) {
-      if (Array.isArray(locale)) {
-        if (typeof locale[1] === 'number') return this.$t(...locale);
-        return locale.reduce((text, _locale) => {
-          return `${text} ${this.localizeName(_locale)}`;
-        }, '');
-      }
-      return this.$t(locale);
-    },
-  },
+	name: 'OpenedImportCsvSettings',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({}),
+	computed: {
+		mappingsList() {
+			return Object.entries(ImportCsvMemberMappings).reduce(
+				(list, [name, value]) => [
+					...list,
+					{
+						name,
+						...value,
+					},
+				],
+				[],
+			);
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemParamsProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROP`, payload);
+			},
+		}),
+		handleMappingInput({ name, value }) {
+			const mappings = deepCopy(this.itemInstance.parameters.mappings);
+			mappings[name] = value;
+			this.setItemParamsProp({
+				prop: 'mappings',
+				value: mappings,
+			});
+		},
+		localizeName(locale) {
+			if (Array.isArray(locale)) {
+				if (typeof locale[1] === 'number') return this.$t(...locale);
+				return locale.reduce((text, _locale) => {
+					return `${text} ${this.localizeName(_locale)}`;
+				}, '');
+			}
+			return this.$t(locale);
+		},
+	},
 };
 </script>
 

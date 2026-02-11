@@ -105,67 +105,82 @@
 </template>
 
 <script>
-import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
 import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'ccenter/queues';
 const subNamespace = 'agents';
 
 export default {
-  name: 'OpenedQueueAgents',
-  components: { ObjectListPopup },
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
-  setup() {
-    const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    return { dummy, hasAgentsReadAccess };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    isDeleteConfirmation: false,
-  }),
-  watch: {
-    dataList(data) {
-      if (data && this.skillsId) {
-        this.setOpenedItemId(this.skillsId);
-      }
+	name: 'OpenedQueueAgents',
+	components: {
+		ObjectListPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+		agentSupervisorsAndSkillsPopupMixin,
+		agentStatusMixin,
+	],
+	setup() {
+		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return {
+			dummy,
+			hasAgentsReadAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+		isDeleteConfirmation: false,
+	}),
+	watch: {
+		dataList(data) {
+			if (data && this.skillsId) {
+				this.setOpenedItemId(this.skillsId);
+			}
 
-      if (data && this.supervisorsId) {
-        this.setOpenedItemId(this.supervisorsId);
-      }
-    },
-  },
-  methods: {
-    snakeToCamel,
-    addItem() {
-      return this.$router.push({
-        ...this.route,
-        params: { agentId: 'new' }
-      })
-    },
-    editItem(item) {
-      return this.$router.push({
-        ...this.route,
-        params: { agentId: item.id }
-      })
-    },
-    closePopup() {
-      return this.$router.go(-1);
-    },
-  },
+			if (data && this.supervisorsId) {
+				this.setOpenedItemId(this.supervisorsId);
+			}
+		},
+	},
+	methods: {
+		snakeToCamel,
+		addItem() {
+			return this.$router.push({
+				...this.route,
+				params: {
+					agentId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				...this.route,
+				params: {
+					agentId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			return this.$router.go(-1);
+		},
+	},
 };
 </script>
 

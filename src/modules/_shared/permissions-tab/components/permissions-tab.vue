@@ -103,18 +103,24 @@ import RoleColumn from './_internals/permissions-role-column.vue';
 import RolePopup from './permissions-tab-role-popup.vue';
 
 export default {
-  name: 'PermissionsTab',
-  components: { RolePopup, RoleColumn },
-  mixins: [openedTabComponentMixin, permissionsTabMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    subNamespace: 'permissions',
-  }),
+	name: 'PermissionsTab',
+	components: {
+		RolePopup,
+		RoleColumn,
+	},
+	mixins: [
+		openedTabComponentMixin,
+		permissionsTabMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		subNamespace: 'permissions',
+	}),
 };
 </script>
 

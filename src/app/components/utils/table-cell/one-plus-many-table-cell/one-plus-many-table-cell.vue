@@ -31,21 +31,23 @@
 
 <script setup>
 const props = defineProps({
-  collection: {
-    type: Array,
-    required: true,
-  },
-  routeName: {
-    type: String,
-    required: false,
-    default: null,
-  },
+	collection: {
+		type: Array,
+		required: true,
+	},
+	routeName: {
+		type: String,
+		required: false,
+		default: null,
+	},
 });
 
-const emit = defineEmits(['input']);
+const emit = defineEmits([
+	'input',
+]);
 
 const inputHandler = () => {
-  emit('input');
+	emit('input');
 };
 </script>
 

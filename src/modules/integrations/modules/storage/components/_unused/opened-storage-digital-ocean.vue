@@ -42,66 +42,72 @@ import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMix
 import { DigitalOceanRegions } from '../../api/storage';
 
 export default {
-  name: 'OpenedStorageDigitalOcean',
-  mixins: [openedTabComponentMixin],
-  data() {
-    return {
-      DigitalOceanRegions,
-    };
-  },
+	name: 'OpenedStorageDigitalOcean',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	data() {
+		return {
+			DigitalOceanRegions,
+		};
+	},
 
-  computed: {
-    keyId: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.keyId;
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'keyId',
-          value,
-        });
-      },
-    },
-    accessKey: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.accessKey;
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'accessKey',
-          value,
-        });
-      },
-    },
-    bucketName: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.bucketName;
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'bucketName',
-          value,
-        });
-      },
-    },
-    region: {
-      get() {
-        return this.$store.state.integrations.storage.itemInstance.properties.region;
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'region',
-          value,
-        });
-      },
-    },
-  },
+	computed: {
+		keyId: {
+			get() {
+				return this.$store.state.integrations.storage.itemInstance.properties
+					.keyId;
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'keyId',
+					value,
+				});
+			},
+		},
+		accessKey: {
+			get() {
+				return this.$store.state.integrations.storage.itemInstance.properties
+					.accessKey;
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'accessKey',
+					value,
+				});
+			},
+		},
+		bucketName: {
+			get() {
+				return this.$store.state.integrations.storage.itemInstance.properties
+					.bucketName;
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'bucketName',
+					value,
+				});
+			},
+		},
+		region: {
+			get() {
+				return this.$store.state.integrations.storage.itemInstance.properties
+					.region;
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'region',
+					value,
+				});
+			},
+		},
+	},
 
-  methods: {
-    ...mapActions('integrations/storage', {
-      setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
-    }),
-  },
+	methods: {
+		...mapActions('integrations/storage', {
+			setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
+		}),
+	},
 };
 </script>
 

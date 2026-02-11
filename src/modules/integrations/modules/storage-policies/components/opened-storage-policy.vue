@@ -45,57 +45,70 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js'
 import General from './opened-storage-policy-general.vue';
 
 export default {
-  name: 'OpenedStoragePolicy',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedStoragePolicy',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'integrations/storagePolicies',
-    routeName: RouteNames.STORAGE_POLICIES,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      channels: { required },
-      mimeTypes: { required },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'integrations/storagePolicies',
+		routeName: RouteNames.STORAGE_POLICIES,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			channels: {
+				required,
+			},
+			mimeTypes: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      return [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-        },
-      ];
-    },
+	computed: {
+		tabs() {
+			return [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+				},
+			];
+		},
 
-    path() {
-      const baseUrl = '/integrations/storage-policies';
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t('objects.integrations.storagePolicies.storagePolicies', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/integrations/storage-policies';
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t(
+						'objects.integrations.storagePolicies.storagePolicies',
+						2,
+					),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
+				},
+			];
+		},
+	},
 };
 </script>
 

@@ -8,27 +8,25 @@ import media from '../modules/media/store/media';
 import pauseTemplates from '../modules/pause-templates/store/pause-templates.js';
 import quickReplies from '../modules/quick-replies/store/quick-replies.js';
 import regions from '../modules/regions/store/regions';
-import shiftTemplates
-  from '../modules/shift-templates/store/shift-templates.js';
-import workingConditions
-  from '../modules/working-conditions/store/working-conditions.js';
+import shiftTemplates from '../modules/shift-templates/store/shift-templates.js';
+import workingConditions from '../modules/working-conditions/store/working-conditions.js';
 
 const modules = {
-  skills,
-  buckets,
-  blacklists,
-  regions,
-  calendars,
-  communications,
-  pauseCause,
-  media,
-  shiftTemplates,
-  pauseTemplates,
-  workingConditions,
-  quickReplies,
+	skills,
+	buckets,
+	blacklists,
+	regions,
+	calendars,
+	communications,
+	pauseCause,
+	media,
+	shiftTemplates,
+	pauseTemplates,
+	workingConditions,
+	quickReplies,
 };
 
 export default {
-  namespaced: true,
-  modules,
+	namespaced: true,
+	modules,
 };

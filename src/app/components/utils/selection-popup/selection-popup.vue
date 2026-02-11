@@ -39,42 +39,46 @@
 
 <script>
 export default {
-  name: 'SelectionPopup',
-  model: {
-    prop: 'selected',
-    event: 'change',
-  },
-  props: {
-    title: {
-      type: String,
-    },
-    selected: {
-      type: Object,
-      description: "Should have following schema: { value: '', title: '', description: ''}",
-    },
-    options: {
-      type: Array,
-      default: () => [],
-    },
-    minWidth: {
-      type: [String, Number],
-      default: 480,
-    },
-  },
-  methods: {
-    add() {
-      this.$emit('select', this.selected);
-    },
-    close() {
-      this.$emit('close');
-    },
-    selectOption(option) {
-      this.$emit('change', option);
-    },
-    isSelected(option) {
-      return option === this.selected;
-    },
-  },
+	name: 'SelectionPopup',
+	model: {
+		prop: 'selected',
+		event: 'change',
+	},
+	props: {
+		title: {
+			type: String,
+		},
+		selected: {
+			type: Object,
+			description:
+				"Should have following schema: { value: '', title: '', description: ''}",
+		},
+		options: {
+			type: Array,
+			default: () => [],
+		},
+		minWidth: {
+			type: [
+				String,
+				Number,
+			],
+			default: 480,
+		},
+	},
+	methods: {
+		add() {
+			this.$emit('select', this.selected);
+		},
+		close() {
+			this.$emit('close');
+		},
+		selectOption(option) {
+			this.$emit('change', option);
+		},
+		isSelected(option) {
+			return option === this.selected;
+		},
+	},
 };
 </script>
 

@@ -1,3 +1,3 @@
 export enum AttemptsResetTypeEnum {
-  CALLS = 'calls',
+	CALLS = 'calls',
 }

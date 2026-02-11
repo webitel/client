@@ -32,32 +32,38 @@ import baseFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/bas
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 export default {
-  name: 'FlowTypeFilter',
-  mixins: [baseFilterMixin],
-  data: () => ({
-    EngineRoutingSchemaType,
-    filterQuery: 'type',
-  }),
-  methods: {
-    handleChange(value) {
-      this.setValue({
-        filter: this.filterQuery,
-        value,
-      });
-      this.setValueToQuery({
-        filterQuery: this.filterQuery,
-        value,
-      });
-    },
-    restoreValue(_value) {
-      // if only 1 checkbox is seelcted, returned value is string
-      const value = Array.isArray(_value) ? _value : [_value];
-      this.setValue({
-        filter: this.filterQuery,
-        value,
-      });
-    },
-  },
+	name: 'FlowTypeFilter',
+	mixins: [
+		baseFilterMixin,
+	],
+	data: () => ({
+		EngineRoutingSchemaType,
+		filterQuery: 'type',
+	}),
+	methods: {
+		handleChange(value) {
+			this.setValue({
+				filter: this.filterQuery,
+				value,
+			});
+			this.setValueToQuery({
+				filterQuery: this.filterQuery,
+				value,
+			});
+		},
+		restoreValue(_value) {
+			// if only 1 checkbox is seelcted, returned value is string
+			const value = Array.isArray(_value)
+				? _value
+				: [
+						_value,
+					];
+			this.setValue({
+				filter: this.filterQuery,
+				value,
+			});
+		},
+	},
 };
 </script>
 

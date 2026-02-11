@@ -36,56 +36,57 @@
 const MIN_HASH_SIZE = 59;
 
 export default {
-  name: 'GeneratePasswordInput',
-  props: {
-    value: {
-      type: String,
-      default: '',
-    },
-    v: {
-      type: Object,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      isCopied: false,
-      isMounted: false,
-    };
-  },
+	name: 'GeneratePasswordInput',
+	props: {
+		value: {
+			type: String,
+			default: '',
+		},
+		v: {
+			type: Object,
+		},
+		required: {
+			type: Boolean,
+			default: false,
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data() {
+		return {
+			isCopied: false,
+			isMounted: false,
+		};
+	},
 
-  computed: {
-    passwordRepresentation() {
-      return this.value.length <= MIN_HASH_SIZE ? this.value : '';
-    },
-  },
+	computed: {
+		passwordRepresentation() {
+			return this.value.length <= MIN_HASH_SIZE ? this.value : '';
+		},
+	},
 
-  mounted() {
-    this.isMounted = true;
-  },
+	mounted() {
+		this.isMounted = true;
+	},
 
-  methods: {
-    generatePassword() {
-      const length = 12;
-      const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let value = '';
-      for (let i = 0; i < length; i += 1) {
-        value += charset.charAt(Math.floor(Math.random() * charset.length));
-      }
-      this.input(value);
-    },
+	methods: {
+		generatePassword() {
+			const length = 12;
+			const charset =
+				'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			let value = '';
+			for (let i = 0; i < length; i += 1) {
+				value += charset.charAt(Math.floor(Math.random() * charset.length));
+			}
+			this.input(value);
+		},
 
-    input(value) {
-      this.$emit('input', value);
-    },
-  },
+		input(value) {
+			this.$emit('input', value);
+		},
+	},
 };
 </script>
 

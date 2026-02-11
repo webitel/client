@@ -108,42 +108,49 @@ import StatisticTimeList from '../../../../../../contact-center/modules/queues/s
 import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 export default {
-  name: 'OpenedChatGatewayWebchatAppointmentTab',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    duration() {
-      return this.durationOptions.find((duration) => {
-        return duration.value === this.itemInstance.metadata.appointment.duration;
-      });
-    },
-    durationOptions() {
-      return StatisticTimeList.slice(0, 4).map((time) => ({
-        value: `${time.value}m`,
-        name: this.$t(`reusable.time.${time.name}`),
-      }));
-    },
-  },
-  methods: {
-    ...mapActions({
-      setAppointmentMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_APPOINTMENT_METADATA`, payload);
-      },
-    }),
-    searchQueues: QueuesAPI.getLookup,
-    searchCommunications: CommunicationsAPI.getLookup,
-    handleInput({ prop, value }) {
-      this.setAppointmentMetadata({
-        prop,
-        value: value.trimStart().replace(/\s{2,}/g, ' '),
-      });
-    },
-  },
+	name: 'OpenedChatGatewayWebchatAppointmentTab',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		duration() {
+			return this.durationOptions.find((duration) => {
+				return (
+					duration.value === this.itemInstance.metadata.appointment.duration
+				);
+			});
+		},
+		durationOptions() {
+			return StatisticTimeList.slice(0, 4).map((time) => ({
+				value: `${time.value}m`,
+				name: this.$t(`reusable.time.${time.name}`),
+			}));
+		},
+	},
+	methods: {
+		...mapActions({
+			setAppointmentMetadata(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/SET_WEBCHAT_APPOINTMENT_METADATA`,
+					payload,
+				);
+			},
+		}),
+		searchQueues: QueuesAPI.getLookup,
+		searchCommunications: CommunicationsAPI.getLookup,
+		handleInput({ prop, value }) {
+			this.setAppointmentMetadata({
+				prop,
+				value: value.trimStart().replace(/\s{2,}/g, ' '),
+			});
+		},
+	},
 };
 </script>
 

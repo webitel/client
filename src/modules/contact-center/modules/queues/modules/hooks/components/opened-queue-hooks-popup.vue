@@ -33,72 +33,89 @@ import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookQueueEvent.enum';
 
 export default {
-  name: 'OpenedQueueHooksPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedQueueHooksPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'ccenter/queues/hooks',
-  }),
-  validations: {
-    itemInstance: {
-      event: { required },
-      schema: { required },
-    },
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'ccenter/queues/hooks',
+	}),
+	validations: {
+		itemInstance: {
+			event: {
+				required,
+			},
+			schema: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    eventOptions() {
-      return Object.values(HookEvent).map((event) => ({
-        name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-        value: event,
-      }));
-    },
-    event: {
-      get() {
-        const { event } = this.itemInstance;
-        return event
-          ? {
-            name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-            value: event,
-          }
-          : {};
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'event',
-          value: value.value,
-        });
-      },
-    },
-    popupTitle() {
-      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
-      return action + ' ' + this.$t('objects.ccenter.queues.hooks.hooks', 1).toLowerCase();
-    },
-    hookId() {
-      return this.$route.params.hookId;
-    },
-  },
-  watch: {
-    hookId: {
-      handler(id) {
-        this.handleIdChange(id);
-      }, immediate: true,
-    },
-  },
+	computed: {
+		eventOptions() {
+			return Object.values(HookEvent).map((event) => ({
+				name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+				value: event,
+			}));
+		},
+		event: {
+			get() {
+				const { event } = this.itemInstance;
+				return event
+					? {
+							name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+							value: event,
+						}
+					: {};
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'event',
+					value: value.value,
+				});
+			},
+		},
+		popupTitle() {
+			const action = this.id
+				? this.$t('reusable.edit')
+				: this.$t('reusable.add');
+			return (
+				action +
+				' ' +
+				this.$t('objects.ccenter.queues.hooks.hooks', 1).toLowerCase()
+			);
+		},
+		hookId() {
+			return this.$route.params.hookId;
+		},
+	},
+	watch: {
+		hookId: {
+			handler(id) {
+				this.handleIdChange(id);
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    loadFlowOptions(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-  },
+	methods: {
+		loadFlowOptions(params) {
+			return FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Service,
+				],
+			});
+		},
+	},
 };
 </script>
 

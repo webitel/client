@@ -73,78 +73,84 @@ const namespace = 'lookups/blacklists';
 const subNamespace = 'numbers';
 
 export default {
-  name: 'OpenedBlacklistNumbers',
-  components: {
-    numberPopup,
-    uploadPopup,
-    UploadFileIconBtn,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin],
+	name: 'OpenedBlacklistNumbers',
+	components: {
+		numberPopup,
+		uploadPopup,
+		UploadFileIconBtn,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data() {
-    return {
-      namespace,
-      subNamespace,
-      csvFile: null,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data() {
+		return {
+			namespace,
+			subNamespace,
+			csvFile: null,
+		};
+	},
 
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { numberId: 'new' },
-      })
-    },
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-      }
-    },
-    closeCSVPopup() {
-      this.csvFile = null;
-      this.loadDataList();
-    },
-    closePopup() {
-      this.resetItemState();
-      this.$router.go(-1);
-    },
-    editItem(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { numberId: item.id },
-      })
-    },
-    prettifyDate(date) {
-      if (date) return formatDate(+date, FormatDateMode.DATE);
-    },
-  },
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					numberId: 'new',
+				},
+			});
+		},
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.csvFile = file;
+			}
+		},
+		closeCSVPopup() {
+			this.csvFile = null;
+			this.loadDataList();
+		},
+		closePopup() {
+			this.resetItemState();
+			this.$router.go(-1);
+		},
+		editItem(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					numberId: item.id,
+				},
+			});
+		},
+		prettifyDate(date) {
+			if (date) return formatDate(+date, FormatDateMode.DATE);
+		},
+	},
 };
 </script>
 

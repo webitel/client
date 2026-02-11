@@ -14,59 +14,61 @@ import BlacklistNumbersAPI from '../api/blacklistNumbers';
 const baseLocale = 'objects.lookups.blacklist.csvMappingFields';
 
 export default {
-  name: 'UploadUsersPopup',
-  mixins: [uploadCSVWrapperComponentMixin],
-  props: {
-    parentId: {
-      type: [Number, String],
-      required: true, // required to create new numbers
-    },
-  },
-  data: () => ({
-    mappingFields: [
-      {
-        name: 'number',
-        required: true,
-        locale: `${baseLocale}.number`,
-        csv: '',
-      },
-      {
-        name: 'description',
-        required: false,
-        locale: `${baseLocale}.description`,
-        csv: '',
-      },
-      {
-        name: 'expireAt',
-        required: false,
-        locale: `${baseLocale}.expireAt`,
-        csv: '',
-      },
-    ],
-  }),
+	name: 'UploadUsersPopup',
+	mixins: [
+		uploadCSVWrapperComponentMixin,
+	],
+	props: {
+		parentId: {
+			type: [
+				Number,
+				String,
+			],
+			required: true, // required to create new numbers
+		},
+	},
+	data: () => ({
+		mappingFields: [
+			{
+				name: 'number',
+				required: true,
+				locale: `${baseLocale}.number`,
+				csv: '',
+			},
+			{
+				name: 'description',
+				required: false,
+				locale: `${baseLocale}.description`,
+				csv: '',
+			},
+			{
+				name: 'expireAt',
+				required: false,
+				locale: `${baseLocale}.expireAt`,
+				csv: '',
+			},
+		],
+	}),
 
-  methods: {
-    async saveBulkData(data) {
-      let processedChunkIndex = 1;
-      try {
-         
-        for (const item of data) {
-           
-          await this.addItem(item);
-          processedChunkIndex += 1;
-        }
-      } catch (err) {
-         
-        throw `An error occurred during saving ${processedChunkIndex} record: ${JSON.stringify(err)}`;
-      }
-    },
-    addItem(itemInstance) {
-      return BlacklistNumbersAPI.add({
-        parentId: this.parentId,
-        itemInstance,
-      });
-    },
-  },
+	methods: {
+		async saveBulkData(data) {
+			let processedChunkIndex = 1;
+			try {
+				for (const item of data) {
+					await this.addItem(item);
+					processedChunkIndex += 1;
+				}
+			} catch (err) {
+				throw `An error occurred during saving ${processedChunkIndex} record: ${JSON.stringify(err)}`;
+			}
+		},
+		addItem(itemInstance) {
+			return BlacklistNumbersAPI.add({
+				parentId: this.parentId,
+				itemInstance,
+			});
+		},
+	},
 };
 </script>
 

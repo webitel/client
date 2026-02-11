@@ -73,20 +73,24 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import FlowsAPI from '../../flow/api/flow';
 
 export default {
-  name: 'OpenedSipGatewayRegisterGeneral',
-  components: { PasswordInput },
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedSipGatewayRegisterGeneral',
+	components: {
+		PasswordInput,
+	},
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadDropdownOptionsList(params) {
+			return FlowsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

@@ -102,45 +102,52 @@ const namespace = 'ccenter/queues';
 const subNamespace = 'buckets';
 
 export default {
-  name: 'OpenedQueueOutboundIvrBuckets',
-  components: { BucketPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
-    return { dummy, disableUserInput };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.route,
-        params: {
-          bucketId: 'new',
-        },
-      });
-    },
-    editItem(item) {
-      return this.$router.push({
-        ...this.route,
-        params: {
-          bucketId: item.id,
-        },
-      });
-    },
-    closePopup() {
-      return this.$router.go(-1);
-    },
-  },
+	name: 'OpenedQueueOutboundIvrBuckets',
+	components: {
+		BucketPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
+		return {
+			dummy,
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		addItem() {
+			return this.$router.push({
+				...this.route,
+				params: {
+					bucketId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				...this.route,
+				params: {
+					bucketId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			return this.$router.go(-1);
+		},
+	},
 };
 </script>
 

@@ -52,128 +52,145 @@ import HotdeskGeneral from './opened-hotdesk-device-general.vue';
 import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
 
 const hotDeskNameValidator = (array) =>
-  !array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
+	!array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
 
 export default {
-  name: 'OpenedDevice',
-  components: {
-    General,
-    PhoneInfo,
-    HotdeskGeneral,
-    HotdeskHotdesking,
-  },
-  mixins: [openedObjectMixin],
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'directory/devices',
-    permissionsTabPathName: `${DevicesRouteNames.PERMISSIONS}-card`,
-    routeName: RouteNames.DEVICES,
-  }),
-  validations() {
-    let itemInstance = {
-      name: { required },
-      password: {
-        required: requiredUnless('id'),
-      },
-      account: { required },
-      ip: { ipValidator },
-      mac: { macValidator },
-    };
-    if (this.itemInstance.hotdesk) {
-      itemInstance = {
-        ...itemInstance,
-        hotdesks: {
-          hotDeskNameValidator,
-        },
-      };
-    }
-    return { itemInstance };
-  },
+	name: 'OpenedDevice',
+	components: {
+		General,
+		PhoneInfo,
+		HotdeskGeneral,
+		HotdeskHotdesking,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'directory/devices',
+		permissionsTabPathName: `${DevicesRouteNames.PERMISSIONS}-card`,
+		routeName: RouteNames.DEVICES,
+	}),
+	validations() {
+		let itemInstance = {
+			name: {
+				required,
+			},
+			password: {
+				required: requiredUnless('id'),
+			},
+			account: {
+				required,
+			},
+			ip: {
+				ipValidator,
+			},
+			mac: {
+				macValidator,
+			},
+		};
+		if (this.itemInstance.hotdesk) {
+			itemInstance = {
+				...itemInstance,
+				hotdesks: {
+					hotDeskNameValidator,
+				},
+			};
+		}
+		return {
+			itemInstance,
+		};
+	},
 
-  computed: {
-    isHotdesk() {
-      return this.$route.query.type === 'hotdesk' || this.itemInstance.hotdesk;
-    },
+	computed: {
+		isHotdesk() {
+			return this.$route.query.type === 'hotdesk' || this.itemInstance.hotdesk;
+		},
 
-    tabs() {
-      const defaultTabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: DevicesRouteNames.GENERAL,
-        }, {
-          text: this.$t('objects.directory.devices.phoneInfo'),
-          value: 'phone-info',
-          pathName: DevicesRouteNames.PHONE_INFO,
-        },
-      ];
+		tabs() {
+			const defaultTabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: DevicesRouteNames.GENERAL,
+				},
+				{
+					text: this.$t('objects.directory.devices.phoneInfo'),
+					value: 'phone-info',
+					pathName: DevicesRouteNames.PHONE_INFO,
+				},
+			];
 
-      const hotdeskTabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'hotdesk-general',
-          pathName: DevicesRouteNames.GENERAL,
-        }, {
-          text: this.$t('objects.directory.devices.hotdesk'),
-          value: 'hotdesk-hotdesking',
-          pathName: DevicesRouteNames.HOTDESKING,
-        }, {
-          text: this.$t('objects.directory.devices.phoneInfo'),
-          value: 'phone-info',
-          pathName: DevicesRouteNames.PHONE_INFO,
-        },
-      ];
-      if (this.isHotdesk) return hotdeskTabs;
+			const hotdeskTabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'hotdesk-general',
+					pathName: DevicesRouteNames.GENERAL,
+				},
+				{
+					text: this.$t('objects.directory.devices.hotdesk'),
+					value: 'hotdesk-hotdesking',
+					pathName: DevicesRouteNames.HOTDESKING,
+				},
+				{
+					text: this.$t('objects.directory.devices.phoneInfo'),
+					value: 'phone-info',
+					pathName: DevicesRouteNames.PHONE_INFO,
+				},
+			];
+			if (this.isHotdesk) return hotdeskTabs;
 
-      if (this.id) defaultTabs.push(this.permissionsTab);
-      return defaultTabs;
-    },
+			if (this.id) defaultTabs.push(this.permissionsTab);
+			return defaultTabs;
+		},
 
-    path() {
-      const baseUrl = '/directory/devices';
-      return [
-        {
-          name: this.$t('objects.directory.directory'),
-        },
-        {
-          name: this.$t('objects.directory.devices.devices', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/directory/devices';
+			return [
+				{
+					name: this.$t('objects.directory.directory'),
+				},
+				{
+					name: this.$t('objects.directory.devices.devices', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      loadTypedItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
-      },
-    }),
-    async loadPageData() {
-      if (!this.new) await this.setId(this.$route.params.id);
-      return this.loadItem();
-    },
-    loadItem() {
-      return this.loadTypedItem(this.isHotdesk);
-    },
-    close() {
-      this.$router.push({ name: RouteNames.DEVICES });
-    },
-  },
+	methods: {
+		...mapActions({
+			loadTypedItem(dispatch, payload) {
+				return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+			},
+		}),
+		async loadPageData() {
+			if (!this.new) await this.setId(this.$route.params.id);
+			return this.loadItem();
+		},
+		loadItem() {
+			return this.loadTypedItem(this.isHotdesk);
+		},
+		close() {
+			this.$router.push({
+				name: RouteNames.DEVICES,
+			});
+		},
+	},
 };
 </script>
 

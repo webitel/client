@@ -129,55 +129,69 @@ import TeamsAPI from '../../teams/api/teams';
 import AgentsAPI from '../api/agents';
 
 export default {
-  name: 'OpenedAgentGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasUserReadAccess } = useUserAccessControl(WtObject.User);
-    const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(WtObject.Team);
-    const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(WtObject.User);
-    const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(WtObject.User);
-    const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(WtObject.Media);
-    const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(WtObject.Region);
+	name: 'OpenedAgentGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasUserReadAccess } = useUserAccessControl(
+			WtObject.User,
+		);
+		const { hasReadAccess: hasTeamReadAccess } = useUserAccessControl(
+			WtObject.Team,
+		);
+		const { hasReadAccess: hasAuditorReadAccess } = useUserAccessControl(
+			WtObject.User,
+		);
+		const { hasReadAccess: hasSupervisorReadAccess } = useUserAccessControl(
+			WtObject.User,
+		);
+		const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(
+			WtObject.Media,
+		);
+		const { hasReadAccess: hasRegionReadAccess } = useUserAccessControl(
+			WtObject.Region,
+		);
 
-    return {
-      disableUserInput,
-      hasUserReadAccess,
-      hasTeamReadAccess,
-      hasAuditorReadAccess,
-      hasSupervisorReadAccess,
-      hasMediaReadAccess,
-      hasRegionReadAccess,
-    };
-  },
-  computed: {
-    disabledAgentScreenControl() {
-      return !this.itemInstance.allowSetScreenControl
-    },
-    isNew() {
-      return this.$route.fullPath.includes('new');
-    },
-  },
-  methods: {
-    loadUsersOptions(params) {
-      return AgentsAPI.getAgentUsersOptions(params);
-    },
-    loadTeamsOptions(params) {
-      return TeamsAPI.getLookup(params);
-    },
-    loadSupervisorsOptions(params) {
-      return AgentsAPI.getSupervisorOptions(params);
-    },
-    loadAuditorsOptions(params) {
-      return UsersAPI.getLookup(params);
-    },
-    loadRegionsOptions(params) {
-      return RegionsAPI.getLookup(params);
-    },
-    loadMediaOptions(params) {
-      return MediaAPI.getLookup(params);
-    },
-  },
+		return {
+			disableUserInput,
+			hasUserReadAccess,
+			hasTeamReadAccess,
+			hasAuditorReadAccess,
+			hasSupervisorReadAccess,
+			hasMediaReadAccess,
+			hasRegionReadAccess,
+		};
+	},
+	computed: {
+		disabledAgentScreenControl() {
+			return !this.itemInstance.allowSetScreenControl;
+		},
+		isNew() {
+			return this.$route.fullPath.includes('new');
+		},
+	},
+	methods: {
+		loadUsersOptions(params) {
+			return AgentsAPI.getAgentUsersOptions(params);
+		},
+		loadTeamsOptions(params) {
+			return TeamsAPI.getLookup(params);
+		},
+		loadSupervisorsOptions(params) {
+			return AgentsAPI.getSupervisorOptions(params);
+		},
+		loadAuditorsOptions(params) {
+			return UsersAPI.getLookup(params);
+		},
+		loadRegionsOptions(params) {
+			return RegionsAPI.getLookup(params);
+		},
+		loadMediaOptions(params) {
+			return MediaAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

@@ -113,10 +113,10 @@ import 'cronstrue/locales/en.min';
 import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
 
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { isEmpty } from '@webitel/ui-sdk/scripts';
 import cronstrue from 'cronstrue';
 import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
-import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -128,66 +128,80 @@ import { TriggerObjects } from '../lookups/TriggerObjects.lookup';
 import { TriggerTypes } from '../lookups/TriggerTypes.lookup';
 
 export default {
-  name: 'OpenedTriggerGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
-    return {
-      disableUserInput,
-      hasFlowsReadAccess,
-    };
-  },
-  data: () => ({
-    TriggerTypes,
-    TriggerEvents,
-    TriggerObjects,
-    EngineTriggerType,
-  }),
-  computed: {
-    parsedCron() {
-      const locale = this.$i18n.locale;
-      return cronstrue.toString(this.itemInstance.expression, {
-        locale,
-        throwExceptionOnParseError: false,
-      });
-    },
-    cronValidator() {
-      return [
-        {
-          name: 'cron',
-          text: this.$t('validation.cron'),
-        },
-      ];
-    },
-    isCron() {
-      return this.itemInstance?.type?.value === EngineTriggerType.Cron;
-    },
-    isEvent() {
-      return this.itemInstance?.type?.value === EngineTriggerType.Event;
-    },
-    isEmptyObject() {
-      return isEmpty(this.itemInstance.object)
-    },
-    triggerEventOptions() {
-      return this.isEmptyObject ? [] : TriggerEventsByObjectConfig[this.itemInstance.object.value]
-    }
-  },
-  methods: {
-    loadDropdownOptionsList(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-    loadTimezones(params) {
-      return CalendarsAPI.getTimezonesLookup(params);
-    },
-    updateTriggerObject(value) {
-      this.setItemProp({ prop: 'event', value: null })
-      this.setItemProp({ prop: 'object', value })
-    }
-  },
+	name: 'OpenedTriggerGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
+		return {
+			disableUserInput,
+			hasFlowsReadAccess,
+		};
+	},
+	data: () => ({
+		TriggerTypes,
+		TriggerEvents,
+		TriggerObjects,
+		EngineTriggerType,
+	}),
+	computed: {
+		parsedCron() {
+			const locale = this.$i18n.locale;
+			return cronstrue.toString(this.itemInstance.expression, {
+				locale,
+				throwExceptionOnParseError: false,
+			});
+		},
+		cronValidator() {
+			return [
+				{
+					name: 'cron',
+					text: this.$t('validation.cron'),
+				},
+			];
+		},
+		isCron() {
+			return this.itemInstance?.type?.value === EngineTriggerType.Cron;
+		},
+		isEvent() {
+			return this.itemInstance?.type?.value === EngineTriggerType.Event;
+		},
+		isEmptyObject() {
+			return isEmpty(this.itemInstance.object);
+		},
+		triggerEventOptions() {
+			return this.isEmptyObject
+				? []
+				: TriggerEventsByObjectConfig[this.itemInstance.object.value];
+		},
+	},
+	methods: {
+		loadDropdownOptionsList(params) {
+			return FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Service,
+				],
+			});
+		},
+		loadTimezones(params) {
+			return CalendarsAPI.getTimezonesLookup(params);
+		},
+		updateTriggerObject(value) {
+			this.setItemProp({
+				prop: 'event',
+				value: null,
+			});
+			this.setItemProp({
+				prop: 'object',
+				value,
+			});
+		},
+	},
 };
 </script>
 

@@ -130,8 +130,8 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '/src/app/composables/useDummy';
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '/src/app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin.js';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 import baseObjectMixin from '../../../../../app/mixins/baseMixins/baseObjectMixin/baseObjectMixin';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -140,73 +140,85 @@ import GlobalVariablesPopup from './global-variables-popup.vue';
 const namespace = 'system/globalVariables';
 
 export default {
-  name: 'TheGlobalVariables',
-  components: { DeleteConfirmationPopup, GlobalVariablesPopup },
-  mixins: [tableComponentMixin, baseObjectMixin, openedObjectMixin],
+	name: 'TheGlobalVariables',
+	components: {
+		DeleteConfirmationPopup,
+		GlobalVariablesPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+		baseObjectMixin,
+		openedObjectMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    isGlobalVariablesPopup: false,
-  }),
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.system.system'),
-        },
-        {
-          name: this.$t('objects.system.globalVariables.globalVariables', 1),
-          route: '/system/global-variables',
-        },
-      ];
-    },
-  },
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { id: 'new' }
-      })
-    },
-    edit(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { id: item.id }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    }
-  },
+	data: () => ({
+		namespace,
+		isGlobalVariablesPopup: false,
+	}),
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.system.system'),
+				},
+				{
+					name: this.$t('objects.system.globalVariables.globalVariables', 1),
+					route: '/system/global-variables',
+				},
+			];
+		},
+	},
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					id: 'new',
+				},
+			});
+		},
+		edit(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					id: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+	},
 };
 </script>

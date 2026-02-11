@@ -217,207 +217,221 @@
 </template>
 
 <script>
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
 import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
 import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import OnePlusMany
-  from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
+import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import GlobalStateConfirmationPopup
-  from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
+import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
 import QueueMembersAPI from '../modules/members/api/queueMembers';
 import QueueStateAPI from '../modules/state/api/queueState';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
+
 const namespace = 'ccenter/queues';
 
 export default {
-  name: 'TheQueues',
-  components: { ObjectListPopup, OnePlusMany, AttemptsResetPopup, TheQueuesFilters, QueuePopup, DeleteConfirmationPopup, GlobalStateSwitcher, GlobalStateConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheQueues',
+	components: {
+		ObjectListPopup,
+		OnePlusMany,
+		AttemptsResetPopup,
+		TheQueuesFilters,
+		QueuePopup,
+		DeleteConfirmationPopup,
+		GlobalStateSwitcher,
+		GlobalStateConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    objectListPopupData: null,
-    objectListPopupTitle: '',
-    objectListPopupItemRouteName: null,
-    namespace,
-    isQueueSelectPopup: false,
-    isAttemptsResetPopup: false,
-    QueueTypeProperties,
-    routeName: RouteNames.QUEUES,
-    globalState: false,
-    isGlobalStateConfirmationPopup: false,
-    pendingGlobalStateValue: null,
-    affectedQueuesCount: 0,
-    globalStateSwitcherKey: 0,
-  }),
+	data: () => ({
+		objectListPopupData: null,
+		objectListPopupTitle: '',
+		objectListPopupItemRouteName: null,
+		namespace,
+		isQueueSelectPopup: false,
+		isAttemptsResetPopup: false,
+		QueueTypeProperties,
+		routeName: RouteNames.QUEUES,
+		globalState: false,
+		isGlobalStateConfirmationPopup: false,
+		pendingGlobalStateValue: null,
+		affectedQueuesCount: 0,
+		globalStateSwitcherKey: 0,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.ccenter.ccenter'),
-        },
-        {
-          name: this.$t('objects.ccenter.queues.queues', 2),
-          route: '/contact-center/queues',
-        },
-      ];
-    },
-    filtersNamespace() {
-      return `${this.namespace}/filters`;
-    },
-    isResetActiveAttemptsAllow() {
-      return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
-    },
-    getFilters() {
-      return this.$store.getters[`${this.filtersNamespace}/GET_FILTERS`];
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-    getFilters: {
-      deep: true,
-      async handler() {
-        await this.fetchGlobalState();
-      },
-    },
-    search: {
-      handler() {
-        this.debouncedFetchGlobalState();
-      },
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.ccenter.ccenter'),
+				},
+				{
+					name: this.$t('objects.ccenter.queues.queues', 2),
+					route: '/contact-center/queues',
+				},
+			];
+		},
+		filtersNamespace() {
+			return `${this.namespace}/filters`;
+		},
+		isResetActiveAttemptsAllow() {
+			return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
+		},
+		getFilters() {
+			return this.$store.getters[`${this.filtersNamespace}/GET_FILTERS`];
+		},
+	},
+	watch: {
+		'$route.query': {
+			async handler() {
+				await this.loadList();
+			},
+		},
+		getFilters: {
+			deep: true,
+			async handler() {
+				await this.fetchGlobalState();
+			},
+		},
+		search: {
+			handler() {
+				this.debouncedFetchGlobalState();
+			},
+		},
+	},
 
-  async mounted() {
-    // Load global state for all items in table
-    await this.fetchGlobalState();
-  },
+	async mounted() {
+		// Load global state for all items in table
+		await this.fetchGlobalState();
+	},
 
-  methods: {
-    closeObjectListPopup() {
-      this.objectListPopupData = null;
-      this.objectListPopupTitle = '';
-    },
-    openResourcesPopup(item) {
-      this.objectListPopupData = item.resources;
-      this.objectListPopupTitle = this.$t('objects.ccenter.queues.resources', 2);
-      this.objectListPopupItemRouteName = RouteNames.RESOURCES;
-    },
-    openResourceGroupsPopup(item) {
-      this.objectListPopupData = item.resourceGroups;
-      this.objectListPopupTitle = this.$t('objects.ccenter.queues.resourceGroups', 2);
-      this.objectListPopupItemRouteName = RouteNames.RESOURCE_GROUPS;
-    },
-    async fetchGlobalState() {
-      const state = await QueueStateAPI.getQueuesGlobalState({
-        ...this.getFilters,
-        search: this.search,
-      });
-      this.globalState = !!state?.isAllEnabled;
-      this.affectedQueuesCount = state?.potentialRows || 0;
-    },
-    debouncedFetchGlobalState() {
-      this.debouncedFetchGlobalState = debounce(async () => {
-        await this.fetchGlobalState();
-      });
-    },
-    changeGlobalState(value) {
-      this.pendingGlobalStateValue = value;
-      this.isGlobalStateConfirmationPopup = true;
-    },
-    resetConfirmationState() {
-      this.isGlobalStateConfirmationPopup = false;
-      this.pendingGlobalStateValue = null;
-    },
-    async confirmGlobalStateChange() {
-      await QueueStateAPI.setQueuesGlobalState({
-        enabled: this.pendingGlobalStateValue,
-        params: {
-          ...this.getFilters,
-          search: this.search,
-        }
-      });
-      this.globalState = this.pendingGlobalStateValue;
-      this.resetConfirmationState();
-      await this.loadDataList();
-      await this.fetchGlobalState();
-    },
-    closeGlobalStateConfirmation() {
-      this.resetConfirmationState();
-    },
-    openMembers(item) {
-      return this.$router.push({
-        ...this.$route,
-        name: `${RouteNames.MEMBERS}`,
-        params: {
-          queueId: item.id,
-        },
-      });
-    },
-    async resetAttempts(resetAttemptsForm) {
-      await QueueMembersAPI.resetActiveAttempts(resetAttemptsForm);
-      this.isAttemptsResetPopup = false;
-    },
-    create() {
-      this.isQueueSelectPopup = true;
-    },
-    async changeStateItem(value, index, item) {
-      await this.patchItem({
-        item,
-        index,
-        prop: 'enabled',
-        value,
-      });
-      // Update global state after individual queue state change
-      await this.fetchGlobalState();
-    },
-  },
+	methods: {
+		closeObjectListPopup() {
+			this.objectListPopupData = null;
+			this.objectListPopupTitle = '';
+		},
+		openResourcesPopup(item) {
+			this.objectListPopupData = item.resources;
+			this.objectListPopupTitle = this.$t(
+				'objects.ccenter.queues.resources',
+				2,
+			);
+			this.objectListPopupItemRouteName = RouteNames.RESOURCES;
+		},
+		openResourceGroupsPopup(item) {
+			this.objectListPopupData = item.resourceGroups;
+			this.objectListPopupTitle = this.$t(
+				'objects.ccenter.queues.resourceGroups',
+				2,
+			);
+			this.objectListPopupItemRouteName = RouteNames.RESOURCE_GROUPS;
+		},
+		async fetchGlobalState() {
+			const state = await QueueStateAPI.getQueuesGlobalState({
+				...this.getFilters,
+				search: this.search,
+			});
+			this.globalState = !!state?.isAllEnabled;
+			this.affectedQueuesCount = state?.potentialRows || 0;
+		},
+		debouncedFetchGlobalState() {
+			this.debouncedFetchGlobalState = debounce(async () => {
+				await this.fetchGlobalState();
+			});
+		},
+		changeGlobalState(value) {
+			this.pendingGlobalStateValue = value;
+			this.isGlobalStateConfirmationPopup = true;
+		},
+		resetConfirmationState() {
+			this.isGlobalStateConfirmationPopup = false;
+			this.pendingGlobalStateValue = null;
+		},
+		async confirmGlobalStateChange() {
+			await QueueStateAPI.setQueuesGlobalState({
+				enabled: this.pendingGlobalStateValue,
+				params: {
+					...this.getFilters,
+					search: this.search,
+				},
+			});
+			this.globalState = this.pendingGlobalStateValue;
+			this.resetConfirmationState();
+			await this.loadDataList();
+			await this.fetchGlobalState();
+		},
+		closeGlobalStateConfirmation() {
+			this.resetConfirmationState();
+		},
+		openMembers(item) {
+			return this.$router.push({
+				...this.$route,
+				name: `${RouteNames.MEMBERS}`,
+				params: {
+					queueId: item.id,
+				},
+			});
+		},
+		async resetAttempts(resetAttemptsForm) {
+			await QueueMembersAPI.resetActiveAttempts(resetAttemptsForm);
+			this.isAttemptsResetPopup = false;
+		},
+		create() {
+			this.isQueueSelectPopup = true;
+		},
+		async changeStateItem(value, index, item) {
+			await this.patchItem({
+				item,
+				index,
+				prop: 'enabled',
+				value,
+			});
+			// Update global state after individual queue state change
+			await this.fetchGlobalState();
+		},
+	},
 };
 </script>
 

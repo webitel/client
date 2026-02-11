@@ -30,147 +30,158 @@ import { mapState } from 'vuex';
 // https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
 
 const defaultSizeConfig = {
-  fontSize: '14px',
+	fontSize: '14px',
 };
 
 const fullscreenSizeConfig = {
-  fontSize: '16px',
+	fontSize: '16px',
 };
 
 const config = {
-  ...defaultSizeConfig,
-  language: 'json',
-  wordWrap: 'off',
-  autoClosingQuotes: true,
-  autoClosingBrackets: true,
-  automaticLayout: true,
-  autoIndent: true,
-  horizontal: 'scroll',
-  readOnly: false,
+	...defaultSizeConfig,
+	language: 'json',
+	wordWrap: 'off',
+	autoClosingQuotes: true,
+	autoClosingBrackets: true,
+	automaticLayout: true,
+	autoIndent: true,
+	horizontal: 'scroll',
+	readOnly: false,
 };
 
 let autocompleteDisposed = null;
 
 export default {
-  name: 'CodeEditor',
-  model: {
-    event: 'change',
-  },
-  props: {
-    value: {
-      type: [Array, Object, String],
-      required: true,
-    },
-    options: Object,
-    label: {
-      type: String,
-      default: '',
-    },
-    autocomplete: {
-      type: Array,
-      default: () => [],
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data: () => ({
-    editor: '',
-    isFullscreen: false,
-  }),
-  computed: {
-    ...mapState('appearance', {
-      theme: (state) => state.theme,
-    }),
-    fullscreenIcon() {
-      return this.isFullscreen ? 'collapse' : 'expand';
-    },
-    fullscreenIconSize() {
-      return this.isFullscreen ? 'xl' : 'md';
-    },
-    fullscreenIconTooltip() {
-      return this.isFullscreen ? this.$t('iconHints.collapse') : this.$t('iconHints.expand');
-    },
-  },
-  watch: {
-    value(value) {
-      if (this.editor) {
-        if (value !== this.editor.getValue()) {
-          this.editor.setValue(value);
-        }
-      }
-    },
-    theme: {
-      handler() {
-        this.theme === 'dark' ? editor.setTheme('vs-dark') : editor.setTheme('vs');
-      },
-      immediate: true,
-    },
-  },
-  mounted() {
-    this.initEditor();
-  },
-  unmounted() {
-    this.editor.dispose();
-    autocompleteDisposed.dispose();
-  },
-  methods: {
-    initEditor() {
-      this.handleDisabled();
-      config.value = this.value || '[]';
-      // https://twitter.com/xanf_ua/status/1607423628387438593
-      this.editor = markRaw(editor.create(this.$refs.editor, config));
-      this.editor.onDidChangeModelContent((event) => {
-        const value = this.editor.getValue();
-        if (this.value !== value) {
-          this.$emit('change', value, event);
-        }
-      });
+	name: 'CodeEditor',
+	model: {
+		event: 'change',
+	},
+	props: {
+		value: {
+			type: [
+				Array,
+				Object,
+				String,
+			],
+			required: true,
+		},
+		options: Object,
+		label: {
+			type: String,
+			default: '',
+		},
+		autocomplete: {
+			type: Array,
+			default: () => [],
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data: () => ({
+		editor: '',
+		isFullscreen: false,
+	}),
+	computed: {
+		...mapState('appearance', {
+			theme: (state) => state.theme,
+		}),
+		fullscreenIcon() {
+			return this.isFullscreen ? 'collapse' : 'expand';
+		},
+		fullscreenIconSize() {
+			return this.isFullscreen ? 'xl' : 'md';
+		},
+		fullscreenIconTooltip() {
+			return this.isFullscreen
+				? this.$t('iconHints.collapse')
+				: this.$t('iconHints.expand');
+		},
+	},
+	watch: {
+		value(value) {
+			if (this.editor) {
+				if (value !== this.editor.getValue()) {
+					this.editor.setValue(value);
+				}
+			}
+		},
+		theme: {
+			handler() {
+				this.theme === 'dark'
+					? editor.setTheme('vs-dark')
+					: editor.setTheme('vs');
+			},
+			immediate: true,
+		},
+	},
+	mounted() {
+		this.initEditor();
+	},
+	unmounted() {
+		this.editor.dispose();
+		autocompleteDisposed.dispose();
+	},
+	methods: {
+		initEditor() {
+			this.handleDisabled();
+			config.value = this.value || '[]';
+			// https://twitter.com/xanf_ua/status/1607423628387438593
+			this.editor = markRaw(editor.create(this.$refs.editor, config));
+			this.editor.onDidChangeModelContent((event) => {
+				const value = this.editor.getValue();
+				if (this.value !== value) {
+					this.$emit('change', value, event);
+				}
+			});
 
+			this.editor.onDidChangeModelDecorations((event) => {
+				this.checkSyntaxError();
+			});
 
-      this.editor.onDidChangeModelDecorations((event) => {
-        this.checkSyntaxError();
-      });
-
-      this.setupAutocomplete();
-    },
-    setupAutocomplete() {
-      autocompleteDisposed = languages.registerCompletionItemProvider('json', {
-        provideCompletionItems: (model, position) => {
-          const word = model.getWordUntilPosition(position);
-          const range = {
-            startLineNumber: position.lineNumber,
-            startColumn: word.startColumn,
-            endLineNumber: position.lineNumber,
-            endColumn: word.endColumn,
-          };
-          return {
-            suggestions: this.autocomplete.map(({ label, documentation, insertText }) => ({
-              label,
-              range,
-              kind: languages.CompletionItemKind.Function,
-              documentation,
-              insertText: JSON.stringify(insertText, null, 4),
-            })),
-          };
-        },
-      });
-    },
-    toggleFullscreen() {
-      this.isFullscreen = !this.isFullscreen;
-      const options = this.isFullscreen ? fullscreenSizeConfig : defaultSizeConfig;
-      this.editor.updateOptions(options);
-      this.editor.layout();
-    },
-    checkSyntaxError() {
-      const errors = editor.getModelMarkers();
-      this.$emit('errorListener', !!errors.length);
-    },
-    handleDisabled() {
-      if (this.disabled) config.readOnly = true;
-    },
-  },
+			this.setupAutocomplete();
+		},
+		setupAutocomplete() {
+			autocompleteDisposed = languages.registerCompletionItemProvider('json', {
+				provideCompletionItems: (model, position) => {
+					const word = model.getWordUntilPosition(position);
+					const range = {
+						startLineNumber: position.lineNumber,
+						startColumn: word.startColumn,
+						endLineNumber: position.lineNumber,
+						endColumn: word.endColumn,
+					};
+					return {
+						suggestions: this.autocomplete.map(
+							({ label, documentation, insertText }) => ({
+								label,
+								range,
+								kind: languages.CompletionItemKind.Function,
+								documentation,
+								insertText: JSON.stringify(insertText, null, 4),
+							}),
+						),
+					};
+				},
+			});
+		},
+		toggleFullscreen() {
+			this.isFullscreen = !this.isFullscreen;
+			const options = this.isFullscreen
+				? fullscreenSizeConfig
+				: defaultSizeConfig;
+			this.editor.updateOptions(options);
+			this.editor.layout();
+		},
+		checkSyntaxError() {
+			const errors = editor.getModelMarkers();
+			this.$emit('errorListener', !!errors.length);
+		},
+		handleDisabled() {
+			if (this.disabled) config.readOnly = true;
+		},
+	},
 };
 </script>
 

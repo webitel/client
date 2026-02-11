@@ -49,24 +49,26 @@ import { useUserAccessControl } from '../../../../../../app/composables/useUserA
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedChatGatewayTemplatesTab',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    ChatGatewayProvider,
-  }),
-  methods: {
-    ...mapActions({
-      setTemplateValue(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_TEMPLATE`, payload);
-      },
-    }),
-  },
+	name: 'OpenedChatGatewayTemplatesTab',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		ChatGatewayProvider,
+	}),
+	methods: {
+		...mapActions({
+			setTemplateValue(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_TEMPLATE`, payload);
+			},
+		}),
+	},
 };
 </script>
 

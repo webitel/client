@@ -147,73 +147,81 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'lookups/pauseCause';
 
 export default {
-  name: 'TheAgentPauseCause',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheAgentPauseCause',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.PAUSE_CAUSE,
-  }),
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.pauseCause.pauseCause'),
-          route: '/lookups/pause-cause',
-        },
-      ];
-    },
-  },
-  methods: {
-    ...mapActions({
-      changeAdminPermissions(dispatch, payload) {
-        return dispatch(`${this.namespace}/CHANGE_ADMIN_PERMISSIONS`, payload);
-      },
-      changeSupervisorPermissions(dispatch, payload) {
-        return dispatch(`${this.namespace}/CHANGE_SUPERVISOR_PERMISSIONS`, payload);
-      },
-      changeAgentPermissions(dispatch, payload) {
-        return dispatch(`${this.namespace}/CHANGE_AGENT_PERMISSIONS`, payload);
-      },
-    }),
-    prettifyPauseCauseLimit(limit) {
-      return `${limit} ${this.$t('objects.lookups.pauseCause.min')}`;
-    },
-  },
+	data: () => ({
+		namespace,
+		routeName: RouteNames.PAUSE_CAUSE,
+	}),
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.pauseCause.pauseCause'),
+					route: '/lookups/pause-cause',
+				},
+			];
+		},
+	},
+	methods: {
+		...mapActions({
+			changeAdminPermissions(dispatch, payload) {
+				return dispatch(`${this.namespace}/CHANGE_ADMIN_PERMISSIONS`, payload);
+			},
+			changeSupervisorPermissions(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/CHANGE_SUPERVISOR_PERMISSIONS`,
+					payload,
+				);
+			},
+			changeAgentPermissions(dispatch, payload) {
+				return dispatch(`${this.namespace}/CHANGE_AGENT_PERMISSIONS`, payload);
+			},
+		}),
+		prettifyPauseCauseLimit(limit) {
+			return `${limit} ${this.$t('objects.lookups.pauseCause.min')}`;
+		},
+	},
 };
 </script>
 

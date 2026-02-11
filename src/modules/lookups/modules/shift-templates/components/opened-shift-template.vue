@@ -37,7 +37,13 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { helpers, maxLength, maxValue, minValue, required } from '@vuelidate/validators';
+import {
+	helpers,
+	maxLength,
+	maxValue,
+	minValue,
+	required,
+} from '@vuelidate/validators';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -48,83 +54,91 @@ import General from './opened-shift-template-general.vue';
 import Times from './opened-shift-template-times.vue';
 
 export default {
-  name: 'OpenedShiftTemplate',
-  components: { General, Times },
-  mixins: [openedObjectMixin],
+	name: 'OpenedShiftTemplate',
+	components: {
+		General,
+		Times,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'lookups/shiftTemplates',
-    routeName: RouteNames.SHIFT_TEMPLATES,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required, maxLength: maxLength(250) },
-      times: {
-        requiredArrayValue,
-        $each: helpers.forEach({
-          start: {
-            required,
-            minValue: minValue(0),
-            maxValue: maxValue(1440),
-          },
-          end: {
-            required,
-            minValue: minValue(0),
-            maxValue: maxValue(1440),
-          },
-          duration: {
-            minValue: minValue(1)
-          }
-        }),
-      }
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'lookups/shiftTemplates',
+		routeName: RouteNames.SHIFT_TEMPLATES,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+				maxLength: maxLength(250),
+			},
+			times: {
+				requiredArrayValue,
+				$each: helpers.forEach({
+					start: {
+						required,
+						minValue: minValue(0),
+						maxValue: maxValue(1440),
+					},
+					end: {
+						required,
+						minValue: minValue(0),
+						maxValue: maxValue(1440),
+					},
+					duration: {
+						minValue: minValue(1),
+					},
+				}),
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: ShiftTemplatesRouteNames.GENERAL
-        },
-        {
-          text: this.$t('objects.routing.chatGateways.templates.templates', 1),
-          value: 'times',
-          pathName: ShiftTemplatesRouteNames.TIMES
-        },
-      ];
-      return tabs;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: ShiftTemplatesRouteNames.GENERAL,
+				},
+				{
+					text: this.$t('objects.routing.chatGateways.templates.templates', 1),
+					value: 'times',
+					pathName: ShiftTemplatesRouteNames.TIMES,
+				},
+			];
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/shift-templates';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.shiftTemplates.shiftTemplates', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/lookups/shift-templates';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.shiftTemplates.shiftTemplates', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

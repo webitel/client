@@ -35,42 +35,46 @@
 </template>
 
 <script>
-import { QueueType } from 'webitel-sdk/esm2015/enums';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { QueueType } from 'webitel-sdk/esm2015/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 
 export default {
-  name: 'OpenedImportCsvGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasQueuesReadAccess } = useUserAccessControl(WtObject.Queue);
-    return {
-      disableUserInput,
-      hasQueuesReadAccess,
-    };
-  },
-  methods: {
-    loadQueueOptions(params) {
-      const type = [
-        QueueType.OFFLINE_QUEUE,
-        QueueType.OUTBOUND_IVR_QUEUE,
-        QueueType.PREVIEW_DIALER,
-        QueueType.PROGRESSIVE_DIALER,
-        QueueType.PREDICTIVE_DIALER,
-        QueueType.CHAT_INBOUND_QUEUE,
-        QueueType.INBOUND_JOB_QUEUE,
-        QueueType.OUTBOUND_JOB_QUEUE,
-      ];
-      return QueuesAPI.getLookup({
-        ...params,
-        type,
-      });
-    },
-  },
+	name: 'OpenedImportCsvGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasQueuesReadAccess } = useUserAccessControl(
+			WtObject.Queue,
+		);
+		return {
+			disableUserInput,
+			hasQueuesReadAccess,
+		};
+	},
+	methods: {
+		loadQueueOptions(params) {
+			const type = [
+				QueueType.OFFLINE_QUEUE,
+				QueueType.OUTBOUND_IVR_QUEUE,
+				QueueType.PREVIEW_DIALER,
+				QueueType.PROGRESSIVE_DIALER,
+				QueueType.PREDICTIVE_DIALER,
+				QueueType.CHAT_INBOUND_QUEUE,
+				QueueType.INBOUND_JOB_QUEUE,
+				QueueType.OUTBOUND_JOB_QUEUE,
+			];
+			return QueuesAPI.getLookup({
+				...params,
+				type,
+			});
+		},
+	},
 };
 </script>
 

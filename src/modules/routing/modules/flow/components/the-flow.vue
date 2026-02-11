@@ -183,107 +183,115 @@ import UploadPopup from './upload-flow-popup.vue';
 const namespace = 'routing/flow';
 
 export default {
-  name: 'TheFlow',
-  components: {
-    CreateFlowPopup,
-    UploadPopup,
-    UploadFileIconBtn,
-    TheFlowFilters,
-    FilterSearch,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+	name: 'TheFlow',
+	components: {
+		CreateFlowPopup,
+		UploadPopup,
+		UploadFileIconBtn,
+		TheFlowFilters,
+		FilterSearch,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-    const { dummy } = useDummy({ namespace, showAction: true });
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
-      askDeleteConfirmation,
-      closeDelete,
-      dummy,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
+			askDeleteConfirmation,
+			closeDelete,
+			dummy,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.FLOW,
-    jsonFile: null,
-    isCreateFlowPopup: false,
-  }),
+	data: () => ({
+		namespace,
+		routeName: RouteNames.FLOW,
+		jsonFile: null,
+		isCreateFlowPopup: false,
+	}),
 
-  computed: {
-    FormatDateMode() {
-      return FormatDateMode;
-    },
-    path() {
-      return [
-        {
-          name: this.$t('objects.routing.routing'),
-        },
-        {
-          name: this.$t('objects.routing.flow.flow', 2),
-          route: '/routing/flow',
-        },
-      ];
-    },
-    filtersNamespace() {
-      return `${this.namespace}/filters`;
-    },
-  },
-  watch: {
-    '$route.query': {
-      async handler() {
-        await this.loadList();
-      },
-    },
-  },
-  methods: {
-    formatDate,
-    create() {
-      this.isCreateFlowPopup = true;
-    },
-    processJSON(files) {
-      const file = files[0];
-      if (file) {
-        this.jsonFile = file;
-      }
-    },
-    closeUploadPopup() {
-      this.jsonFile = null;
-      this.loadList();
-    },
-    async download({ id, name }) {
-      const flow = await FlowsAPI.get({
-        itemId: id,
-      });
-      const filename = `${name}-schema`;
-      downloadAsJSON(flow, filename);
-    },
-    editLink({ id, editor }) {
-      const routeName = this.routeName || this.tableObjectRouteName;
-      return {
-        name: `${routeName}-card`,
-        params: { id },
-        query: {
-          editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
-        },
-      };
-    },
-  },
+	computed: {
+		FormatDateMode() {
+			return FormatDateMode;
+		},
+		path() {
+			return [
+				{
+					name: this.$t('objects.routing.routing'),
+				},
+				{
+					name: this.$t('objects.routing.flow.flow', 2),
+					route: '/routing/flow',
+				},
+			];
+		},
+		filtersNamespace() {
+			return `${this.namespace}/filters`;
+		},
+	},
+	watch: {
+		'$route.query': {
+			async handler() {
+				await this.loadList();
+			},
+		},
+	},
+	methods: {
+		formatDate,
+		create() {
+			this.isCreateFlowPopup = true;
+		},
+		processJSON(files) {
+			const file = files[0];
+			if (file) {
+				this.jsonFile = file;
+			}
+		},
+		closeUploadPopup() {
+			this.jsonFile = null;
+			this.loadList();
+		},
+		async download({ id, name }) {
+			const flow = await FlowsAPI.get({
+				itemId: id,
+			});
+			const filename = `${name}-schema`;
+			downloadAsJSON(flow, filename);
+		},
+		editLink({ id, editor }) {
+			const routeName = this.routeName || this.tableObjectRouteName;
+			return {
+				name: `${routeName}-card`,
+				params: {
+					id,
+				},
+				query: {
+					editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
+				},
+			};
+		},
+	},
 };
 </script>
 

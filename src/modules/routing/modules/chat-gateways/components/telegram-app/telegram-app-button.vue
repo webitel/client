@@ -20,51 +20,51 @@ import openMessengerWindow from '../../modules/messenger/_shared/scripts/openMes
 import chatGatewaysTelegramAppAPI from '../../modules/telegram-app/api/chatGatewaysTelegramAppAPI';
 
 export default {
-  name: 'TelegramAppButton',
-  props: {
-    uri: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => ({
-    state: {},
-  }),
-  computed: {
-    isAuthorized() {
-      return this.state.authorized;
-    },
-    btnText() {
-      return this.isAuthorized
-        ? this.$t('vocabulary.logout')
-        : this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
-    },
-  },
-  created() {
-    this.loadAuth();
-  },
-  methods: {
-    async handleButtonClick() {
-      if (this.isAuthorized) {
-        try {
-          await chatGatewaysTelegramAppAPI.logout(this.uri);
-        } finally {
-          await this.loadAuth();
-        }
-      } else {
-        const url = `${chatBaseUrl}${this.uri}?auth`;
-        openMessengerWindow({
-          url,
-          listener: ({ data }) => {
-            if (data.status === 'success') this.loadAuth();
-          },
-        });
-      }
-    },
-    async loadAuth() {
-      this.state = await chatGatewaysTelegramAppAPI.getAuth(this.uri);
-    },
-  },
+	name: 'TelegramAppButton',
+	props: {
+		uri: {
+			type: String,
+			required: true,
+		},
+	},
+	data: () => ({
+		state: {},
+	}),
+	computed: {
+		isAuthorized() {
+			return this.state.authorized;
+		},
+		btnText() {
+			return this.isAuthorized
+				? this.$t('vocabulary.logout')
+				: this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
+		},
+	},
+	created() {
+		this.loadAuth();
+	},
+	methods: {
+		async handleButtonClick() {
+			if (this.isAuthorized) {
+				try {
+					await chatGatewaysTelegramAppAPI.logout(this.uri);
+				} finally {
+					await this.loadAuth();
+				}
+			} else {
+				const url = `${chatBaseUrl}${this.uri}?auth`;
+				openMessengerWindow({
+					url,
+					listener: ({ data }) => {
+						if (data.status === 'success') this.loadAuth();
+					},
+				});
+			}
+		},
+		async loadAuth() {
+			this.state = await chatGatewaysTelegramAppAPI.getAuth(this.uri);
+		},
+	},
 };
 </script>
 

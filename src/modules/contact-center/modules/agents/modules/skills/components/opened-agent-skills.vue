@@ -104,50 +104,68 @@ import { mapActions } from 'vuex';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from "../../../../../../../app/router/_internals/RouteNames.enum.js";
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
 import SkillPopup from './opened-agent-skills-popup.vue';
 
 const namespace = 'ccenter/agents';
 const subNamespace = 'skills';
 
 export default {
-  name: 'OpenedAgentSkills',
-  components: { SkillPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
-    return { dummy, disableUserInput };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isSkillPopup: false,
-    isDeleteConfirmation: false,
-    skillsRoute: RouteNames.SKILLS,
-  }),
-  methods: {
-    ...mapActions({
-      patchItem(dispatch, payload) {
-        return dispatch(`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`, payload);
-      },
-    }),
-    addItem() {
-      return this.$router.push({ params: { skillId: 'new' } });
-    },
-    editItem(item) {
-      return this.$router.push({ params: { skillId: item.id } });
-    },
-    closePopup() {
-      this.resetItemState();
-      this.$router.go(-1);
-    },
-  },
+	name: 'OpenedAgentSkills',
+	components: {
+		SkillPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
+		return {
+			dummy,
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isSkillPopup: false,
+		isDeleteConfirmation: false,
+		skillsRoute: RouteNames.SKILLS,
+	}),
+	methods: {
+		...mapActions({
+			patchItem(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`,
+					payload,
+				);
+			},
+		}),
+		addItem() {
+			return this.$router.push({
+				params: {
+					skillId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				params: {
+					skillId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.resetItemState();
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 

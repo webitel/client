@@ -149,90 +149,93 @@ import UploadPopup from './upload-users-popup.vue';
 const namespace = 'directory/users';
 
 export default {
-  name: 'TheUsers',
-  components: {
-    UploadPopup,
-    UserStatus,
-    UploadFileIconBtn,
-    DeleteConfirmationPopup,
-  },
-  mixins: [tableComponentMixin],
+	name: 'TheUsers',
+	components: {
+		UploadPopup,
+		UserStatus,
+		UploadFileIconBtn,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 
-      askDeleteConfirmation,
-      closeDelete,
-    };
-  },
-  data: () => ({
-    csvFile: null,
-    namespace,
-    routeName: RouteNames.USERS,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+		};
+	},
+	data: () => ({
+		csvFile: null,
+		namespace,
+		routeName: RouteNames.USERS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.directory.directory'),
-        },
-        {
-          name: this.$t('objects.user', 2),
-          route: '/directory/users',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.directory.directory'),
+				},
+				{
+					name: this.$t('objects.user', 2),
+					route: '/directory/users',
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      setDND(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_USER_DND`, payload);
-      },
-    }),
+	methods: {
+		...mapActions({
+			setDND(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_USER_DND`, payload);
+			},
+		}),
 
-    getDND(value) {
-      if (value?.status) {
-        return value.status.includes('dnd');
-      }
-      return false;
-    },
+		getDND(value) {
+			if (value?.status) {
+				return value.status.includes('dnd');
+			}
+			return false;
+		},
 
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.csvFile = file;
-      }
-    },
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.csvFile = file;
+			}
+		},
 
-    closeCSVPopup() {
-      this.csvFile = null;
-      this.loadList();
-    },
-  },
+		closeCSVPopup() {
+			this.csvFile = null;
+			this.loadList();
+		},
+	},
 };
 </script>

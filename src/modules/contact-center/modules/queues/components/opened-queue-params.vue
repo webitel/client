@@ -315,80 +315,82 @@ import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup'
 import ToneList from '../store/_internals/lookups/Tone.lookup';
 
 export default {
-  name: 'OpenedQueueParams',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    ToneList,
-  }),
-  computed: {
-    autoAnswerTone: {
-      get() {
-        if (this.itemInstance.payload.autoAnswerTone) {
-          return this.ToneList.find(
-            (tone) => tone.value === this.itemInstance.payload.autoAnswerTone,
-          );
-        }
-        /* https://my.webitel.com/browse/WTEL-3268 */
-        /* For queues with types INBOUND_QUEUE, PROGRESSIVE_DIALER, */
-        /* PREDICTIVE_DIALER add a default alert tone if there is no value */
-        if (
-          this.itemInstance.type === QueueType.INBOUND_QUEUE ||
-          this.itemInstance.type === QueueType.PROGRESSIVE_DIALER ||
-          this.itemInstance.type === QueueType.PREDICTIVE_DIALER
-        ) {
-          return this.ToneList.find((tone) => tone.value === 'default');
-        }
-      },
-      set(value) {
-        this.setItemPayloadProp({
-          prop: 'autoAnswerTone',
-          value: value.value,
-        });
-      },
-    },
-    statisticTime: {
-      get() {
-        return this.dropdownOptionsStatisticTimeList.find(
-          (time) => time.value === this.itemInstance.payload.statisticTime,
-        );
-      },
-      set(value) {
-        this.setItemPayloadProp({
-          prop: 'statisticTime',
-          value: value.value,
-        });
-      },
-    },
-    specificControls() {
-      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-        (controls, control) => ({
-          ...controls,
-          [control]: true,
-        }),
-        {},
-      );
-    },
+	name: 'OpenedQueueParams',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		ToneList,
+	}),
+	computed: {
+		autoAnswerTone: {
+			get() {
+				if (this.itemInstance.payload.autoAnswerTone) {
+					return this.ToneList.find(
+						(tone) => tone.value === this.itemInstance.payload.autoAnswerTone,
+					);
+				}
+				/* https://my.webitel.com/browse/WTEL-3268 */
+				/* For queues with types INBOUND_QUEUE, PROGRESSIVE_DIALER, */
+				/* PREDICTIVE_DIALER add a default alert tone if there is no value */
+				if (
+					this.itemInstance.type === QueueType.INBOUND_QUEUE ||
+					this.itemInstance.type === QueueType.PROGRESSIVE_DIALER ||
+					this.itemInstance.type === QueueType.PREDICTIVE_DIALER
+				) {
+					return this.ToneList.find((tone) => tone.value === 'default');
+				}
+			},
+			set(value) {
+				this.setItemPayloadProp({
+					prop: 'autoAnswerTone',
+					value: value.value,
+				});
+			},
+		},
+		statisticTime: {
+			get() {
+				return this.dropdownOptionsStatisticTimeList.find(
+					(time) => time.value === this.itemInstance.payload.statisticTime,
+				);
+			},
+			set(value) {
+				this.setItemPayloadProp({
+					prop: 'statisticTime',
+					value: value.value,
+				});
+			},
+		},
+		specificControls() {
+			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+				(controls, control) => ({
+					...controls,
+					[control]: true,
+				}),
+				{},
+			);
+		},
 
-    dropdownOptionsStatisticTimeList() {
-      return StatisticTimeList.map((time) => ({
-        value: time.value,
-        name: this.$t(`reusable.time.${time.name}`),
-      }));
-    },
-  },
-  methods: {
-    ...mapActions({
-      setItemPayloadProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
-      },
-    }),
-  },
+		dropdownOptionsStatisticTimeList() {
+			return StatisticTimeList.map((time) => ({
+				value: time.value,
+				name: this.$t(`reusable.time.${time.name}`),
+			}));
+		},
+	},
+	methods: {
+		...mapActions({
+			setItemPayloadProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+			},
+		}),
+	},
 };
 </script>
 

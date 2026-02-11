@@ -18,32 +18,34 @@
 import apiFilterMixin from '@webitel/ui-sdk/src/modules/QueryFilters/mixins/apiFilterMixin';
 
 export default {
-  name: 'FlowTagsFilter',
-  mixins: [apiFilterMixin],
-  data: () => ({
-    filterQuery: 'tags',
-  }),
-  methods: {
-    handleInput(value) {
-      this.setValue({
-        filter: this.filterQuery,
-        value,
-      });
-      this.setValueToQuery({
-        value,
-        filterQuery: this.filterQuery,
-        storedProp: this.filterSchema.storedProp,
-      });
-    },
-    search(params) {
-      return this.filterSchema.search(params);
-    },
-    fetchSelected(tags) {
-      return tags.map((name) => ({
-        name,
-      }));
-    },
-  },
+	name: 'FlowTagsFilter',
+	mixins: [
+		apiFilterMixin,
+	],
+	data: () => ({
+		filterQuery: 'tags',
+	}),
+	methods: {
+		handleInput(value) {
+			this.setValue({
+				filter: this.filterQuery,
+				value,
+			});
+			this.setValueToQuery({
+				value,
+				filterQuery: this.filterQuery,
+				storedProp: this.filterSchema.storedProp,
+			});
+		},
+		search(params) {
+			return this.filterSchema.search(params);
+		},
+		fetchSelected(tags) {
+			return tags.map((name) => ({
+				name,
+			}));
+		},
+	},
 };
 </script>
 

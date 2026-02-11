@@ -142,78 +142,87 @@ import GatewayPopup from './create-gateway-popup.vue';
 const namespace = 'routing/gateways';
 
 export default {
-  name: 'TheSipGateways',
-  components: { GatewayPopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheSipGateways',
+	components: {
+		GatewayPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    isGatewayPopup: false,
-    routeName: RouteNames.GATEWAYS,
-  }),
+	data: () => ({
+		namespace,
+		isGatewayPopup: false,
+		routeName: RouteNames.GATEWAYS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.routing.routing'),
-        },
-        {
-          name: this.$t('objects.routing.gateways.gateways', 2),
-          route: '/routing/gateways',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.routing.routing'),
+				},
+				{
+					name: this.$t('objects.routing.gateways.gateways', 2),
+					route: '/routing/gateways',
+				},
+			];
+		},
+	},
 
-  methods: {
-    create() {
-      this.isGatewayPopup = true;
-    },
+	methods: {
+		create() {
+			this.isGatewayPopup = true;
+		},
 
-    computeStatusText(stateCode) {
-      if (stateCode === 3) return this.$t('objects.routing.gateways.stateSuccess');
-      if (stateCode > 3 && stateCode < 8) return this.$t('objects.routing.gateways.stateFailed');
-      if (stateCode > 7 && stateCode < 2) return this.$t('objects.routing.gateways.stateProgress');
-      return this.$t('objects.routing.gateways.stateNonreg');
-    },
+		computeStatusText(stateCode) {
+			if (stateCode === 3)
+				return this.$t('objects.routing.gateways.stateSuccess');
+			if (stateCode > 3 && stateCode < 8)
+				return this.$t('objects.routing.gateways.stateFailed');
+			if (stateCode > 7 && stateCode < 2)
+				return this.$t('objects.routing.gateways.stateProgress');
+			return this.$t('objects.routing.gateways.stateNonreg');
+		},
 
-    computeStatusClass(stateCode) {
-      if (stateCode === 3) return 'success';
-      if (stateCode > 3 && stateCode < 8) return 'error';
-      if (stateCode > 7 && stateCode < 2) return 'primary';
-      return 'disabled';
-    },
-  },
+		computeStatusClass(stateCode) {
+			if (stateCode === 3) return 'success';
+			if (stateCode > 3 && stateCode < 8) return 'error';
+			if (stateCode > 7 && stateCode < 2) return 'primary';
+			return 'disabled';
+		},
+	},
 };
 </script>

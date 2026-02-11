@@ -63,52 +63,64 @@ const namespace = 'ccenter/agents';
 const subNamespace = 'subordinates';
 
 export default {
-  name: 'OpenedAgentSubordinates',
-  components: { SubordinatePopup, ObjectListPopup },
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    return { dummy };
-  },
-  data: () => ({
-    namespace,
-    subNamespace, // used in mixin map actions
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+	name: 'OpenedAgentSubordinates',
+	components: {
+		SubordinatePopup,
+		ObjectListPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+		agentSupervisorsAndSkillsPopupMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		return {
+			dummy,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace, // used in mixin map actions
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
 
-    isDeleteConfirmation: false,
-  }),
-  watch: {
-    dataList(data) {
-      if (data && this.skillsId) {
-        this.setOpenedItemId(this.skillsId);
-      }
+		isDeleteConfirmation: false,
+	}),
+	watch: {
+		dataList(data) {
+			if (data && this.skillsId) {
+				this.setOpenedItemId(this.skillsId);
+			}
 
-      if (data && this.supervisorsId) {
-        this.setOpenedItemId(this.supervisorsId);
-      }
-    },
-  },
+			if (data && this.supervisorsId) {
+				this.setOpenedItemId(this.supervisorsId);
+			}
+		},
+	},
 
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.route,
-        params: { subordinateId: 'new' }
-      })
-    },
-    editItem(item) {
-      return this.$router.push({
-        ...this.route,
-        params: { subordinateId: item.id }
-      })
-    },
-    closeSubordinatePopup() {
-      return this.$router.go(-1);
-    },
-  },
+	methods: {
+		addItem() {
+			return this.$router.push({
+				...this.route,
+				params: {
+					subordinateId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				...this.route,
+				params: {
+					subordinateId: item.id,
+				},
+			});
+		},
+		closeSubordinatePopup() {
+			return this.$router.go(-1);
+		},
+	},
 };
 </script>
 

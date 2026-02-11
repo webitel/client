@@ -29,42 +29,48 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 
 export default {
-  name: 'OpenedQueueBucketsPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedQueueBucketsPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'ccenter/queues/resGroups',
-  }),
-  computed: {
-    resourceId() {
-      return this.$route.params.resourceId;
-    },
-  },
-  validations: {
-    itemInstance: {
-      resourceGroup: { required },
-    },
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'ccenter/queues/resGroups',
+	}),
+	computed: {
+		resourceId() {
+			return this.$route.params.resourceId;
+		},
+	},
+	validations: {
+		itemInstance: {
+			resourceGroup: {
+				required,
+			},
+		},
+	},
 
-  watch: {
-    resourceId: {
-      immediate: true,
-      handler(id) {
-        if (id) this.handleIdChange(id);
-      },
-    },
-  },
+	watch: {
+		resourceId: {
+			immediate: true,
+			handler(id) {
+				if (id) this.handleIdChange(id);
+			},
+		},
+	},
 
-  methods: {
-    loadResGroupsOptions(params) {
-      return ResourceGroupsAPI.getLookup(params);
-    },
-  },
+	methods: {
+		loadResGroupsOptions(params) {
+			return ResourceGroupsAPI.getLookup(params);
+		},
+	},
 };
 </script>
 

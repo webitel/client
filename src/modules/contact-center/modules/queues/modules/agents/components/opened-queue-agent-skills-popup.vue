@@ -19,34 +19,34 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'OpenedQueueAgentSkillsPopup',
-  props: {
-    itemId: {
-      required: true,
-    },
-  },
+	name: 'OpenedQueueAgentSkillsPopup',
+	props: {
+		itemId: {
+			required: true,
+		},
+	},
 
-  computed: {
-    ...mapGetters('ccenter/queues/agents', {
-      getSkills: 'GET_ITEM_SKILLS',
-    }),
-    dataList() {
-      return this.getSkills(this.itemId);
-    },
-    headers() {
-      return [
-        {
-          value: 'skill',
-          text: this.$t('objects.lookups.skills.skills', 1),
-        },
-      ];
-    },
-  },
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-  },
+	computed: {
+		...mapGetters('ccenter/queues/agents', {
+			getSkills: 'GET_ITEM_SKILLS',
+		}),
+		dataList() {
+			return this.getSkills(this.itemId);
+		},
+		headers() {
+			return [
+				{
+					value: 'skill',
+					text: this.$t('objects.lookups.skills.skills', 1),
+				},
+			];
+		},
+	},
+	methods: {
+		close() {
+			this.$emit('close');
+		},
+	},
 };
 </script>
 

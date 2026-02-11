@@ -2,9 +2,11 @@ import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreMod
 import QueueAgentsAPI from '../api/queueAgents';
 import headers from './_internals/headers';
 
-const queueAgents = new NestedObjectStoreModule({ headers })
-  .attachAPIModule(QueueAgentsAPI)
-  .generateAPIActions()
-  .getModule();
+const queueAgents = new NestedObjectStoreModule({
+	headers,
+})
+	.attachAPIModule(QueueAgentsAPI)
+	.generateAPIActions()
+	.getModule();
 
 export default queueAgents;

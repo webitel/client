@@ -111,67 +111,76 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import FlowPopup from './opened-team-flow-popup.vue';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 
 const namespace = 'ccenter/teams';
 const subNamespace = 'flow';
 
 export default {
-  name: 'OpenedTeamFlows',
-  components: { FlowPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
+	name: 'OpenedTeamFlows',
+	components: {
+		FlowPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { disableUserInput } = useUserAccessControl();
+		const { disableUserInput } = useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+	}),
 
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { flowId: 'new' }
-      })
-    },
-    editItem(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { flowId: item.id }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-  },
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					flowId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					flowId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 

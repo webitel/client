@@ -27,29 +27,33 @@
 </template>
 
 <script setup lang="ts">
+import { TranslationLocale } from '@webitel/ui-sdk/locale';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { TranslationLocale } from '@webitel/ui-sdk/locale';
 
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 const { t, locale, fallbackLocale } = useI18n();
 
-const languageOptions = computed(() => Object.values(TranslationLocale).map((locale) => ({
-  name: t(`reusable.lang.${locale}`, null, { missingWarn: false, fallbackWarn: false }), // skip err, coz notTranslatable locale
-  id: locale,
-})));
+const languageOptions = computed(() =>
+	Object.values(TranslationLocale).map((locale) => ({
+		name: t(`reusable.lang.${locale}`, null, {
+			missingWarn: false,
+			fallbackWarn: false,
+		}), // skip err, coz notTranslatable locale
+		id: locale,
+	})),
+);
 
 function changeLanguage(lang: string) {
-  locale.value = lang;
-  localStorage.setItem('lang', lang);
+	locale.value = lang;
+	localStorage.setItem('lang', lang);
 }
 
 // function changeFallbackLanguage(lang: string) {
 //   fallbackLocale.value = lang;
 //   localStorage.setItem('fallbackLang', lang);
 // }
-
 </script>
 
 <style scoped>

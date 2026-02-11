@@ -45,60 +45,66 @@ import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum.js';
 import General from './opened-bucket-general.vue';
 
 export default {
-  name: 'OpenedBucket',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedBucket',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'lookups/buckets',
-    routeName: RouteNames.BUCKETS,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'lookups/buckets',
+		routeName: RouteNames.BUCKETS,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: BucketsRouteNames.GENERAL
-        },
-      ];
-      return tabs;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: BucketsRouteNames.GENERAL,
+				},
+			];
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/buckets';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.buckets.buckets', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/lookups/buckets';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.buckets.buckets', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

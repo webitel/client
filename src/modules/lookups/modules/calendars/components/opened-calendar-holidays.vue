@@ -62,163 +62,173 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapActions, mapGetters, mapState } from 'vuex';
-
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import dummyPicDark from '../../../../../app/assets/dummy/adm-dummy-after-search-dark.svg';
 import dummyPicLight from '../../../../../app/assets/dummy/adm-dummy-after-search-light.svg';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import holidayPopup from './opened-calendar-holiday-popup.vue';
 
 export default {
-  name: 'OpenedCalendarHolidays',
-  components: { holidayPopup, DeleteConfirmationPopup },
-  mixins: [openedObjectTableTabMixin],
+	name: 'OpenedCalendarHolidays',
+	components: {
+		holidayPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
 
-  setup() {
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { disableUserInput } = useUserAccessControl();
+		const { disableUserInput } = useUserAccessControl();
 
-    return {
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      disableUserInput,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			disableUserInput,
+		};
+	},
 
-  data: () => ({
-    dataListValue: [],
-    searchValue: '',
-  }),
+	data: () => ({
+		dataListValue: [],
+		searchValue: '',
+	}),
 
-  computed: {
-    ...mapState('lookups/calendars', {
-      holidayList: (state) => state.itemInstance.excepts,
-    }),
-    ...mapGetters('appearance', {
-      darkMode: 'DARK_MODE',
-    }),
-    // override mixin map state
-    dataList: {
-      get() {
-        return this.dataListValue;
-      },
-      set(value) {
-        this.dataListValue = value;
-      },
-    },
-    // override mixin map state
-    search: {
-      get() {
-        return this.searchValue;
-      },
-      set(value) {
-        this.searchValue = value;
-      },
-    },
-    headers() {
-      return [
-        {
-          value: 'name',
-          text: this.$t('objects.name'),
-        },
-        {
-          value: 'date',
-          text: this.$t('objects.lookups.calendars.date'),
-        },
-        {
-          value: 'workStart',
-          text: this.$t('objects.lookups.calendars.workStart'),
-        },
-        {
-          value: 'workStop',
-          text: this.$t('objects.lookups.calendars.workStop'),
-        },
-        {
-          value: 'repeat',
-          text: this.$t('objects.lookups.calendars.repeat'),
-        },
-      ];
-    },
-    dummyPic() {
-      return this.darkMode ? dummyPicDark : dummyPicLight;
-    },
-    dummy() {
-      if (!this.dataListValue.length) {
-        if (this.searchValue) {
-          return {
-            src: this.dummyPic,
-            text: 'objects.emptyResultSearch',
-          };
-        }
-        return {
-          src: this.dummyPic,
-          text: '',
-        };
-      }
-      return '';
-    },
-  },
+	computed: {
+		...mapState('lookups/calendars', {
+			holidayList: (state) => state.itemInstance.excepts,
+		}),
+		...mapGetters('appearance', {
+			darkMode: 'DARK_MODE',
+		}),
+		// override mixin map state
+		dataList: {
+			get() {
+				return this.dataListValue;
+			},
+			set(value) {
+				this.dataListValue = value;
+			},
+		},
+		// override mixin map state
+		search: {
+			get() {
+				return this.searchValue;
+			},
+			set(value) {
+				this.searchValue = value;
+			},
+		},
+		headers() {
+			return [
+				{
+					value: 'name',
+					text: this.$t('objects.name'),
+				},
+				{
+					value: 'date',
+					text: this.$t('objects.lookups.calendars.date'),
+				},
+				{
+					value: 'workStart',
+					text: this.$t('objects.lookups.calendars.workStart'),
+				},
+				{
+					value: 'workStop',
+					text: this.$t('objects.lookups.calendars.workStop'),
+				},
+				{
+					value: 'repeat',
+					text: this.$t('objects.lookups.calendars.repeat'),
+				},
+			];
+		},
+		dummyPic() {
+			return this.darkMode ? dummyPicDark : dummyPicLight;
+		},
+		dummy() {
+			if (!this.dataListValue.length) {
+				if (this.searchValue) {
+					return {
+						src: this.dummyPic,
+						text: 'objects.emptyResultSearch',
+					};
+				}
+				return {
+					src: this.dummyPic,
+					text: '',
+				};
+			}
+			return '';
+		},
+	},
 
-  methods: {
-    ConvertDurationWithMinutes,
-    ...mapActions({
-      dispatchDelete(dispatch, payload) {
-        return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
-      },
-      setExceptItemProperty(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_EXCEPT_ITEM_PROPERTY`, payload);
-      },
-    }),
-    loadList() {
-      this.dataList = this.holidayList
-        .filter((holiday) => holiday.name.toLowerCase().includes(this.search.toLowerCase()))
-        .map((holiday) => ({
-          ...holiday,
-          _isSelected: false,
-        }));
-    },
-    setRepeatValue(payload) {
-      this.setExceptItemProperty(payload);
-      this.loadList();
-    },
-    prettifyDate(date) {
-      return formatDate(+date, FormatDateMode.DATE);
-    },
-    create() {
-      this.$router.push({
-        ...this.$route,
-        params: { holidayIndex: 'new' },
-      })
-    },
-    edit(index) {
-      this.$router.push({
-        ...this.$route,
-        params: { holidayIndex: index.toString() },
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-    setParentId() { },
-  },
+	methods: {
+		ConvertDurationWithMinutes,
+		...mapActions({
+			dispatchDelete(dispatch, payload) {
+				return dispatch(`${this.namespace}/DELETE_EXCEPT_ITEM`, payload);
+			},
+			setExceptItemProperty(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_EXCEPT_ITEM_PROPERTY`, payload);
+			},
+		}),
+		loadList() {
+			this.dataList = this.holidayList
+				.filter((holiday) =>
+					holiday.name.toLowerCase().includes(this.search.toLowerCase()),
+				)
+				.map((holiday) => ({
+					...holiday,
+					_isSelected: false,
+				}));
+		},
+		setRepeatValue(payload) {
+			this.setExceptItemProperty(payload);
+			this.loadList();
+		},
+		prettifyDate(date) {
+			return formatDate(+date, FormatDateMode.DATE);
+		},
+		create() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					holidayIndex: 'new',
+				},
+			});
+		},
+		edit(index) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					holidayIndex: index.toString(),
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+		setParentId() {},
+	},
 
-  watch: {
-    holidayList() {
-      this.loadList();
-    },
-  },
+	watch: {
+		holidayList() {
+			this.loadList();
+		},
+	},
 };
 </script>
 

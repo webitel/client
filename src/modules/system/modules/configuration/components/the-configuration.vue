@@ -129,101 +129,109 @@
 
 <script>
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import DeleteConfirmationPopup
-  from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import {
-  useDeleteConfirmationPopup,
-} from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import {
-  getMultiselectDisplayConfig,
-  getPropertyValue,
+	getMultiselectDisplayConfig,
+	getPropertyValue,
 } from '../utils/multiselectConfigurations';
 import ConfigurationPopup from './configuration-popup.vue';
 
 const namespace = 'system/configuration';
 
 export default {
-  name: 'TheConfiguration',
-  components: { ConfigurationPopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({ namespace });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'TheConfiguration',
+	components: {
+		ConfigurationPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    EngineSystemSettingName,
-  }),
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.system.system'),
-        },
-        {
-          name: this.$t('objects.system.configuration.configuration', 1),
-          route: 'configuration',
-        },
-      ];
-    },
-  },
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { id: 'new' },
-      });
-    },
-    closeConfigurationPopup() {
-      this.$router.go(-1);
-
-    },
-    editParameter(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { id: item.id },
-      });
-    },
-    isMultiselectValue(value) {
-      return Array.isArray(value) && value.length;
-    },
-    getChipKey(settingName, chip, index) {
-      const config = getMultiselectDisplayConfig(settingName);
-      const keyProperty = config.display?.keyProperty || 'id';
-      return getPropertyValue(chip, keyProperty, index);
-    },
-    getChipLabel(settingName, chip) {
-      const config = getMultiselectDisplayConfig(settingName);
-      const labelProperty = config.display?.labelProperty || 'label';
-      return getPropertyValue(chip, labelProperty, chip);
-    },
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		EngineSystemSettingName,
+	}),
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.system.system'),
+				},
+				{
+					name: this.$t('objects.system.configuration.configuration', 1),
+					route: 'configuration',
+				},
+			];
+		},
+	},
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					id: 'new',
+				},
+			});
+		},
+		closeConfigurationPopup() {
+			this.$router.go(-1);
+		},
+		editParameter(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					id: item.id,
+				},
+			});
+		},
+		isMultiselectValue(value) {
+			return Array.isArray(value) && value.length;
+		},
+		getChipKey(settingName, chip, index) {
+			const config = getMultiselectDisplayConfig(settingName);
+			const keyProperty = config.display?.keyProperty || 'id';
+			return getPropertyValue(chip, keyProperty, index);
+		},
+		getChipLabel(settingName, chip) {
+			const config = getMultiselectDisplayConfig(settingName);
+			const labelProperty = config.display?.labelProperty || 'label';
+			return getPropertyValue(chip, labelProperty, chip);
+		},
+	},
 };
 </script>
 <style

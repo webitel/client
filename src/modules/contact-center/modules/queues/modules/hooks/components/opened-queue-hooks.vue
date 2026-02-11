@@ -115,56 +115,65 @@ const namespace = 'ccenter/queues';
 const subNamespace = 'hooks';
 
 export default {
-  name: 'OpenedQueueHooks',
-  components: { DeleteConfirmationPopup, HookPopup },
-  mixins: [openedObjectTableTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'OpenedQueueHooks',
+	components: {
+		DeleteConfirmationPopup,
+		HookPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
-    const { hasUpdateAccess } = useUserAccessControl();
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
+		const { hasUpdateAccess } = useUserAccessControl();
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasUpdateAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+	}),
 
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { hookId: 'new' }
-      })
-    },
-    editItem(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { hookId: item.id }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-  },
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					hookId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					hookId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 

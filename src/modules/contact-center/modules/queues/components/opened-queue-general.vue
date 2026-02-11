@@ -152,10 +152,10 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -171,112 +171,132 @@ import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { StrategyList } from '../store/_internals/enums/Strategy.enum';
 
 export default {
-  name: 'OpenedQueueGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(WtObject.Calendar);
-    const { hasReadAccess: hasListsReadAccess } = useUserAccessControl(WtObject.Blacklist);
-    const { hasReadAccess: hasTeamsReadAccess } = useUserAccessControl(WtObject.Team);
-    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
-    const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(WtObject.Media);
-    const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(WtObject.Role);
-    return {
-      disableUserInput,
-      hasCalendarsReadAccess,
-      hasListsReadAccess,
-      hasTeamsReadAccess,
-      hasFlowsReadAccess,
-      hasMediaReadAccess,
-      hasRolesReadAccess,
-    };
-  },
+	name: 'OpenedQueueGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
+			WtObject.Calendar,
+		);
+		const { hasReadAccess: hasListsReadAccess } = useUserAccessControl(
+			WtObject.Blacklist,
+		);
+		const { hasReadAccess: hasTeamsReadAccess } = useUserAccessControl(
+			WtObject.Team,
+		);
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
+		const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(
+			WtObject.Media,
+		);
+		const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
+			WtObject.Role,
+		);
+		return {
+			disableUserInput,
+			hasCalendarsReadAccess,
+			hasListsReadAccess,
+			hasTeamsReadAccess,
+			hasFlowsReadAccess,
+			hasMediaReadAccess,
+			hasRolesReadAccess,
+		};
+	},
 
-  computed: {
-    strategy: {
-      get() {
-        return this.dropdownOptionsStrategyList.find(
-          (strategy) => strategy.value === this.itemInstance.strategy,
-        );
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'strategy',
-          value: value.value,
-        });
-      },
-    },
-    resourceStrategy: {
-      get() {
-        return this.dropdownTypesResourceStrategy.find(
-          (resourceStrategy) => resourceStrategy.value === this.itemInstance.payload.resourceStrategy,
-        );
-      },
-      set({ value }) {
-        this.setItemPayloadProp({
-          prop: 'resourceStrategy',
-          value,
-        });
-      },
-    },
+	computed: {
+		strategy: {
+			get() {
+				return this.dropdownOptionsStrategyList.find(
+					(strategy) => strategy.value === this.itemInstance.strategy,
+				);
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'strategy',
+					value: value.value,
+				});
+			},
+		},
+		resourceStrategy: {
+			get() {
+				return this.dropdownTypesResourceStrategy.find(
+					(resourceStrategy) =>
+						resourceStrategy.value ===
+						this.itemInstance.payload.resourceStrategy,
+				);
+			},
+			set({ value }) {
+				this.setItemPayloadProp({
+					prop: 'resourceStrategy',
+					value,
+				});
+			},
+		},
 
-    dropdownOptionsStrategyList() {
-      return StrategyList.map((strategy) => ({
-        value: strategy.value,
-        name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
-      }));
-    },
-    dropdownTypesResourceStrategy() {
-      return Object.values(TypesResourceStrategy).map((value) => {
-        return {
-          value,
-          name: this.$t(`objects.ccenter.queues.resourceStrategy.${kebabToCamel(value)}`)
-        };
-      });
-    },
-    specificControls() {
-      return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-        (controls, control) => ({
-          ...controls,
-          [control]: true,
-        }),
-        {},
-      );
-    },
-  },
+		dropdownOptionsStrategyList() {
+			return StrategyList.map((strategy) => ({
+				value: strategy.value,
+				name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
+			}));
+		},
+		dropdownTypesResourceStrategy() {
+			return Object.values(TypesResourceStrategy).map((value) => {
+				return {
+					value,
+					name: this.$t(
+						`objects.ccenter.queues.resourceStrategy.${kebabToCamel(value)}`,
+					),
+				};
+			});
+		},
+		specificControls() {
+			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
+				(controls, control) => ({
+					...controls,
+					[control]: true,
+				}),
+				{},
+			);
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      setItemPayloadProp(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
-      },
-    }),
-    loadDropdownOptionsCalendarList(params) {
-      return CalendarsAPI.getLookup(params);
-    },
-    loadDropdownOptionsBlacklistList(params) {
-      return BlacklistsAPI.getLookup(params);
-    },
-    loadDropdownOptionsTeamList(params) {
-      return TeamsAPI.getLookup(params);
-    },
-    loadDropdownOptionsSchemaList(params) {
-      return FlowsAPI.getLookup(params);
-    },
-    loadDropdownOptionsServiceSchemaList(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-    loadDropdownOptionsMediaList(params) {
-      return MediaAPI.getLookup(params);
-    },
-    loadDropdownOptionsRoleList(params) {
-      return RolesAPI.getLookup(params);
-    },
-    loadQueuesTagOptions: QueuesAPI.getQueuesTags,
-  },
+	methods: {
+		...mapActions({
+			setItemPayloadProp(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
+			},
+		}),
+		loadDropdownOptionsCalendarList(params) {
+			return CalendarsAPI.getLookup(params);
+		},
+		loadDropdownOptionsBlacklistList(params) {
+			return BlacklistsAPI.getLookup(params);
+		},
+		loadDropdownOptionsTeamList(params) {
+			return TeamsAPI.getLookup(params);
+		},
+		loadDropdownOptionsSchemaList(params) {
+			return FlowsAPI.getLookup(params);
+		},
+		loadDropdownOptionsServiceSchemaList(params) {
+			return FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Service,
+				],
+			});
+		},
+		loadDropdownOptionsMediaList(params) {
+			return MediaAPI.getLookup(params);
+		},
+		loadDropdownOptionsRoleList(params) {
+			return RolesAPI.getLookup(params);
+		},
+		loadQueuesTagOptions: QueuesAPI.getQueuesTags,
+	},
 };
 </script>
 

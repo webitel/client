@@ -35,63 +35,80 @@ import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
 
 export default {
-  name: 'OpenedTeamHooksPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedTeamHooksPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'ccenter/teams/hooks',
-  }),
-  validations: {
-    itemInstance: {
-      event: { required },
-      schema: { required },
-    },
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'ccenter/teams/hooks',
+	}),
+	validations: {
+		itemInstance: {
+			event: {
+				required,
+			},
+			schema: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    eventOptions() {
-      return Object.values(HookEvent).map((event) => ({
-        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-        value: event,
-      }));
-    },
-    event() {
-      const { event } = this.itemInstance;
-      return event ? {
-        name: this.$t(`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`),
-        value: event,
-      } : {};
-    },
-    hookId() {
-      return this.$route.params.hookId;
-    }
-  },
-  watch: {
-    hookId: {
-      handler(id) {
-        if (id === 'new') this.resetState();
-        if (id) {
-          this.setId(id);
-          this.loadItem();
-        }
-      }, immediate: true
-    },
-  },
+	computed: {
+		eventOptions() {
+			return Object.values(HookEvent).map((event) => ({
+				name: this.$t(
+					`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`,
+				),
+				value: event,
+			}));
+		},
+		event() {
+			const { event } = this.itemInstance;
+			return event
+				? {
+						name: this.$t(
+							`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`,
+						),
+						value: event,
+					}
+				: {};
+		},
+		hookId() {
+			return this.$route.params.hookId;
+		},
+	},
+	watch: {
+		hookId: {
+			handler(id) {
+				if (id === 'new') this.resetState();
+				if (id) {
+					this.setId(id);
+					this.loadItem();
+				}
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    loadFlowOptions(params) {
-      return FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Service],
-      });
-    },
-    snakeToCamel,
-  }
+	methods: {
+		loadFlowOptions(params) {
+			return FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Service,
+				],
+			});
+		},
+		snakeToCamel,
+	},
 };
 </script>
 

@@ -69,65 +69,97 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedShiftTemplateTimes',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    headers() {
-      return [
-        {
-          value: 'start',
-          text: this.$t('objects.lookups.calendars.start'),
-        },
-        {
-          value: 'end',
-          text: this.$t('objects.lookups.calendars.end'),
-        },
-        {
-          value: 'duration',
-          text: this.$t('objects.lookups.shiftTemplates.duration'),
-        },
-      ];
-    },
-  },
+	name: 'OpenedShiftTemplateTimes',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		headers() {
+			return [
+				{
+					value: 'start',
+					text: this.$t('objects.lookups.calendars.start'),
+				},
+				{
+					value: 'end',
+					text: this.$t('objects.lookups.calendars.end'),
+				},
+				{
+					value: 'duration',
+					text: this.$t('objects.lookups.shiftTemplates.duration'),
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      addTime(dispatch, payload) {
-        dispatch(`${this.namespace}/ADD_TIME`, payload);
-      },
-      setTime(dispatch, payload) {
-        dispatch(`${this.namespace}/SET_TIME`, payload);
-      },
-      removeTime(dispatch, payload) {
-        dispatch(`${this.namespace}/REMOVE_TIME`, payload);
-      },
-    }),
+	methods: {
+		...mapActions({
+			addTime(dispatch, payload) {
+				dispatch(`${this.namespace}/ADD_TIME`, payload);
+			},
+			setTime(dispatch, payload) {
+				dispatch(`${this.namespace}/SET_TIME`, payload);
+			},
+			removeTime(dispatch, payload) {
+				dispatch(`${this.namespace}/REMOVE_TIME`, payload);
+			},
+		}),
 
-    minToSec(min) {
-      return min * 60;
-    },
-    secToMin(sec) {
-      return sec / 60;
-    },
-    setStartTime({ index, value }) {
-      this.setTime({ prop: 'start', index, value });
-      this.setTime({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
-    },
-    setEndTime({ index, value }) {
-      this.setTime({ prop: 'end', index, value });
-      this.setTime({ prop: 'duration', index, value: this.itemInstance.times[index].end - this.itemInstance.times[index].start });
-    },
-    setDuration({ index, value }) {
-      this.setTime({ prop: 'duration', index, value });
-      this.setTime({ prop: 'end', index, value: this.itemInstance.times[index].start + this.itemInstance.times[index].duration });
-    },
-  },
+		minToSec(min) {
+			return min * 60;
+		},
+		secToMin(sec) {
+			return sec / 60;
+		},
+		setStartTime({ index, value }) {
+			this.setTime({
+				prop: 'start',
+				index,
+				value,
+			});
+			this.setTime({
+				prop: 'duration',
+				index,
+				value:
+					this.itemInstance.times[index].end -
+					this.itemInstance.times[index].start,
+			});
+		},
+		setEndTime({ index, value }) {
+			this.setTime({
+				prop: 'end',
+				index,
+				value,
+			});
+			this.setTime({
+				prop: 'duration',
+				index,
+				value:
+					this.itemInstance.times[index].end -
+					this.itemInstance.times[index].start,
+			});
+		},
+		setDuration({ index, value }) {
+			this.setTime({
+				prop: 'duration',
+				index,
+				value,
+			});
+			this.setTime({
+				prop: 'end',
+				index,
+				value:
+					this.itemInstance.times[index].start +
+					this.itemInstance.times[index].duration,
+			});
+		},
+	},
 };
 </script>
 

@@ -25,28 +25,33 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import LicenseAPI from '../../license/api/license';
 
 export default {
-  name: 'OpenedUserLicense',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    async loadDropdownOptionsList(params) {
-      const fields = ['product', 'id'];
-      const response = await LicenseAPI.getList({
-        ...params,
-        fields,
-      });
-      response.items = response.items.map(({ product, id }) => ({
-        name: product,
-        id,
-      }));
-      return response;
-    },
-  },
+	name: 'OpenedUserLicense',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		async loadDropdownOptionsList(params) {
+			const fields = [
+				'product',
+				'id',
+			];
+			const response = await LicenseAPI.getList({
+				...params,
+				fields,
+			});
+			response.items = response.items.map(({ product, id }) => ({
+				name: product,
+				id,
+			}));
+			return response;
+		},
+	},
 };
 </script>
 

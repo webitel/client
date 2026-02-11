@@ -20,23 +20,23 @@
 
 <script>
 export default {
-  name: 'DownloadFilesBtn',
-  props: {
-    isFilesLoading: {
-      type: Boolean,
-    },
-    filesDownloadProgress: {
-      type: Number,
-    },
-    filesZippingProgress: {
-      type: Number,
-    },
-  },
-  methods: {
-    exportFiles() {
-      this.$emit('export-files');
-    },
-  },
+	name: 'DownloadFilesBtn',
+	props: {
+		isFilesLoading: {
+			type: Boolean,
+		},
+		filesDownloadProgress: {
+			type: Number,
+		},
+		filesZippingProgress: {
+			type: Number,
+		},
+	},
+	methods: {
+		exportFiles() {
+			this.$emit('export-files');
+		},
+	},
 };
 </script>
 

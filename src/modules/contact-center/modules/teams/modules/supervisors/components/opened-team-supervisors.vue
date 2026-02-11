@@ -115,9 +115,8 @@
 import { WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum.js';
@@ -128,81 +127,88 @@ const namespace = 'ccenter/teams';
 const subNamespace = 'supervisors';
 
 export default {
-  name: 'OpenedTeamSupervisors',
-  components: {
-    SupervisorPopup,
-    SupervisorSubordinatesPopup,
-    DeleteConfirmationPopup,
-  },
-  mixins: [openedObjectTableTabMixin],
+	name: 'OpenedTeamSupervisors',
+	components: {
+		SupervisorPopup,
+		SupervisorSubordinatesPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
-    const { hasUpdateAccess: hasSupervisorsUpdateAccess } = useUserAccessControl(WtObject.Agent);
+		const { hasUpdateAccess: hasSupervisorsUpdateAccess } =
+			useUserAccessControl(WtObject.Agent);
 
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasSupervisorsUpdateAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-    supervisorId: null,
-    isSupervisorSubordinatesPopup: false,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasSupervisorsUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+		supervisorId: null,
+		isSupervisorSubordinatesPopup: false,
+	}),
 
-  methods: {
-    openSubordinates({ id }) {
-      this.supervisorId = id;
-      this.openSubordinatesPopup();
-    },
-    closeSubordinates() {
-      this.supervisorId = null;
-      this.closeSubordinatesPopup();
-    },
-    addItem() {
-      return this.$router.push({
-        ...this.route,
-        params: { supervisorId: 'new' }
-      })
-    },
-    editItem(item) {
-      return this.$router.push({
-        ...this.route,
-        params: { supervisorId: item.id }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-    openSubordinatesPopup() {
-      this.isSupervisorSubordinatesPopup = true;
-    },
-    closeSubordinatesPopup() {
-      this.isSupervisorSubordinatesPopup = false;
-    },
-  },
+	methods: {
+		openSubordinates({ id }) {
+			this.supervisorId = id;
+			this.openSubordinatesPopup();
+		},
+		closeSubordinates() {
+			this.supervisorId = null;
+			this.closeSubordinatesPopup();
+		},
+		addItem() {
+			return this.$router.push({
+				...this.route,
+				params: {
+					supervisorId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			return this.$router.push({
+				...this.route,
+				params: {
+					supervisorId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+		openSubordinatesPopup() {
+			this.isSupervisorSubordinatesPopup = true;
+		},
+		closeSubordinatesPopup() {
+			this.isSupervisorSubordinatesPopup = false;
+		},
+	},
 };
 </script>
 

@@ -82,73 +82,82 @@ import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.e
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
 export default {
-  name: 'OpenedChatWebchatAlternativeChannelsTab',
-  mixins: [openedTabComponentMixin, uriCopyMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    alternativeChannels: Object.values(WebchatAlternativeChannel),
-    channelIcon: {
-      ...Object.values(WebchatAlternativeChannel).reduce(
-        (channels, channel) => ({
-          ...channels,
-          [channel]: `messenger-${channel}`,
-        }),
-        {},
-      ),
-      [WebchatAlternativeChannel.EMAIL]: 'mail--color',
-    },
-    channelUrlPlaceholder: {
-      ...Object.values(WebchatAlternativeChannel).reduce(
-        (channels, channel) => ({
-          ...channels,
-          [channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-        }),
-        {},
-      ),
-      [WebchatAlternativeChannel.EMAIL]:
-        'objects.routing.chatGateways.webchat.alternativeChannels.email',
-      [WebchatAlternativeChannel.WHATSAPP]:
-        'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
-      [WebchatAlternativeChannel.TELEGRAM]:
-        'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
-      [WebchatAlternativeChannel.MESSENGER]:
-        'objects.routing.chatGateways.webchat.alternativeChannels.messenger',
-    },
-  }),
-  methods: {
-    ...mapActions({
-      setAltChannelValue(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE`, payload);
-      },
-      setWebchatMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
-      },
-    }),
-    loadCallFlows: (params) =>
-      FlowsAPI.getLookup({
-        ...params,
-        type: [EngineRoutingSchemaType.Voice, EngineRoutingSchemaType.Default],
-      }),
-    handleUrlInput({ channel, value }) {
-      this.setAltChannelValue({
-        channel,
-        prop: 'url',
-        value,
-      });
-      if (!value) {
-        this.setAltChannelValue({
-          channel,
-          prop: 'enabled',
-          value: false,
-        });
-      }
-    },
-  },
+	name: 'OpenedChatWebchatAlternativeChannelsTab',
+	mixins: [
+		openedTabComponentMixin,
+		uriCopyMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		alternativeChannels: Object.values(WebchatAlternativeChannel),
+		channelIcon: {
+			...Object.values(WebchatAlternativeChannel).reduce(
+				(channels, channel) => ({
+					...channels,
+					[channel]: `messenger-${channel}`,
+				}),
+				{},
+			),
+			[WebchatAlternativeChannel.EMAIL]: 'mail--color',
+		},
+		channelUrlPlaceholder: {
+			...Object.values(WebchatAlternativeChannel).reduce(
+				(channels, channel) => ({
+					...channels,
+					[channel]: `objects.routing.chatGateways.${channel}.${channel}`,
+				}),
+				{},
+			),
+			[WebchatAlternativeChannel.EMAIL]:
+				'objects.routing.chatGateways.webchat.alternativeChannels.email',
+			[WebchatAlternativeChannel.WHATSAPP]:
+				'objects.routing.chatGateways.webchat.alternativeChannels.whatsapp',
+			[WebchatAlternativeChannel.TELEGRAM]:
+				'objects.routing.chatGateways.webchat.alternativeChannels.telegram',
+			[WebchatAlternativeChannel.MESSENGER]:
+				'objects.routing.chatGateways.webchat.alternativeChannels.messenger',
+		},
+	}),
+	methods: {
+		...mapActions({
+			setAltChannelValue(dispatch, payload) {
+				return dispatch(
+					`${this.namespace}/SET_WEBCHAT_ALTERNATIVE_CHANNEL_VALUE`,
+					payload,
+				);
+			},
+			setWebchatMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+			},
+		}),
+		loadCallFlows: (params) =>
+			FlowsAPI.getLookup({
+				...params,
+				type: [
+					EngineRoutingSchemaType.Voice,
+					EngineRoutingSchemaType.Default,
+				],
+			}),
+		handleUrlInput({ channel, value }) {
+			this.setAltChannelValue({
+				channel,
+				prop: 'url',
+				value,
+			});
+			if (!value) {
+				this.setAltChannelValue({
+					channel,
+					prop: 'enabled',
+					value: false,
+				});
+			}
+		},
+	},
 };
 </script>
 

@@ -145,95 +145,115 @@ import StoragePopup from './_unused/create-storage-popup.vue';
 const namespace = 'integrations/storage';
 
 export default {
-  name: 'TheStorage',
-  components: { StoragePopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
+	name: 'TheStorage',
+	components: {
+		StoragePopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
 
-  setup() {
-    const store = useStore();
-    const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-    const dummyPic = computed(() => (darkMode.value ? dummyPicDark : dummyPicLight));
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-      dummyPic,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const store = useStore();
+		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+		const dummyPic = computed(() =>
+			darkMode.value ? dummyPicDark : dummyPicLight,
+		);
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+			dummyPic,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.STORAGE,
-    isStorageSelectPopup: false,
-  }),
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.STORAGE,
+		isStorageSelectPopup: false,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.integrations.integrations'),
-        },
-        {
-          name: this.$t('objects.integrations.storage.storage'),
-          route: '/integrations/storage',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.integrations.integrations'),
+				},
+				{
+					name: this.$t('objects.integrations.storage.storage'),
+					route: '/integrations/storage',
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      patchProperty(dispatch, payload) {
-        return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-      },
-    }),
-    create() {
-      this.$router.push({ name: `${RouteNames.STORAGE}-card`, params: { type: Storage.S3, id: 'new' } });
-    },
-    editLink({ type, id }) {
-      return { name: `${RouteNames.STORAGE}-card`, params: { type, id } };
-    },
-    closeStorageSelectPopup() {
-      this.isStorageSelectPopup = false;
-    },
-    prettifyType(type) {
-      switch (type) {
-        case Storage.LOCAL:
-          return 'Local';
-        case Storage.S3:
-          return 'S3 Bucket';
-        case Storage.BACKBLAZE:
-          return 'Backblaze';
-        case Storage.DROPBOX:
-          return 'Dropbox';
-        case Storage.DRIVE:
-          return 'Google Drive';
-        default:
-          return '';
-      }
-    },
-  },
+	methods: {
+		...mapActions({
+			patchProperty(dispatch, payload) {
+				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
+			},
+		}),
+		create() {
+			this.$router.push({
+				name: `${RouteNames.STORAGE}-card`,
+				params: {
+					type: Storage.S3,
+					id: 'new',
+				},
+			});
+		},
+		editLink({ type, id }) {
+			return {
+				name: `${RouteNames.STORAGE}-card`,
+				params: {
+					type,
+					id,
+				},
+			};
+		},
+		closeStorageSelectPopup() {
+			this.isStorageSelectPopup = false;
+		},
+		prettifyType(type) {
+			switch (type) {
+				case Storage.LOCAL:
+					return 'Local';
+				case Storage.S3:
+					return 'S3 Bucket';
+				case Storage.BACKBLAZE:
+					return 'Backblaze';
+				case Storage.DROPBOX:
+					return 'Dropbox';
+				case Storage.DRIVE:
+					return 'Google Drive';
+				default:
+					return '';
+			}
+		},
+	},
 };
 </script>
 

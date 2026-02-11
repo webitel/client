@@ -14,40 +14,45 @@ import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv
 import resourceDisplayApi from '../api/resourceDisplay';
 
 export default {
-  name: 'UploadResourceNumbersPopup',
-  mixins: [uploadCSVWrapperComponentMixin],
-  props: {
-    parentId: {
-      type: [Number, String],
-      required: true,
-    },
-  },
+	name: 'UploadResourceNumbersPopup',
+	mixins: [
+		uploadCSVWrapperComponentMixin,
+	],
+	props: {
+		parentId: {
+			type: [
+				Number,
+				String,
+			],
+			required: true,
+		},
+	},
 
-  data: () => ({
-    handlingMode: HandlingCSVMode.UPLOAD,
-    mappingFields: [
-      {
-        name: 'number',
-        locale: 'objects.ccenter.res.csvMappingFields.number',
-        required: true,
-        csv: '',
-      },
-    ],
-  }),
+	data: () => ({
+		handlingMode: HandlingCSVMode.UPLOAD,
+		mappingFields: [
+			{
+				name: 'number',
+				locale: 'objects.ccenter.res.csvMappingFields.number',
+				required: true,
+				csv: '',
+			},
+		],
+	}),
 
-  methods: {
-    async uploadFile() {
-      const selectedColumn = this.mappingFields[0].csv;
+	methods: {
+		async uploadFile() {
+			const selectedColumn = this.mappingFields[0].csv;
 
-      const payload = {
-        parentId: this.parentId,
-        file: this.file,
-        delimiter: this.separator || ',',
-        map: selectedColumn,
-      };
+			const payload = {
+				parentId: this.parentId,
+				file: this.file,
+				delimiter: this.separator || ',',
+				map: selectedColumn,
+			};
 
-      await resourceDisplayApi.uploadNumbers(payload);
-    },
-  },
+			await resourceDisplayApi.uploadNumbers(payload);
+		},
+	},
 };
 </script>

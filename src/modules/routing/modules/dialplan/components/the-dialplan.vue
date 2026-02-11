@@ -146,80 +146,85 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'routing/dialplan';
 
 export default {
-  name: 'TheDialplan',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'TheDialplan',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.DIALPLAN,
-  }),
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.routing.routing'),
-        },
-        {
-          name: this.$t('objects.routing.dialplan.dialplan'),
-          route: '/routing/dialplan',
-        },
-      ];
-    },
-  },
-  methods: {
-    async handleReorder({ oldIndex, newIndex }) {
-      if (oldIndex === newIndex) return;
-      const fromId = this.dataList[oldIndex].id;
-      const toId = this.dataList[newIndex].id;
-      await this.swapRowsAndReloadList({
-        fromId,
-        toId,
-      });
-    },
-    async swapRowsAndReloadList(swapPayload) {
-      this.isLoading = true;
-      await this.swapRows(swapPayload);
-      await this.loadList();
-      this.isLoading = false;
-    },
-    ...mapActions({
-      patchProperty(dispatch, payload) {
-        return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-      },
-      swapRows(dispatch, payload) {
-        return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
-      },
-    }),
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.DIALPLAN,
+	}),
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.routing.routing'),
+				},
+				{
+					name: this.$t('objects.routing.dialplan.dialplan'),
+					route: '/routing/dialplan',
+				},
+			];
+		},
+	},
+	methods: {
+		async handleReorder({ oldIndex, newIndex }) {
+			if (oldIndex === newIndex) return;
+			const fromId = this.dataList[oldIndex].id;
+			const toId = this.dataList[newIndex].id;
+			await this.swapRowsAndReloadList({
+				fromId,
+				toId,
+			});
+		},
+		async swapRowsAndReloadList(swapPayload) {
+			this.isLoading = true;
+			await this.swapRows(swapPayload);
+			await this.loadList();
+			this.isLoading = false;
+		},
+		...mapActions({
+			patchProperty(dispatch, payload) {
+				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
+			},
+			swapRows(dispatch, payload) {
+				return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
+			},
+		}),
+	},
 };
 </script>
 

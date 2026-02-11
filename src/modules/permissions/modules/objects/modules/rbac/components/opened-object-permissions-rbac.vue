@@ -125,25 +125,30 @@ const namespace = 'permissions/objects';
 const subNamespace = 'rbac';
 
 export default {
-  name: 'OpenedObjectPermissionsRbac',
-  components: {
-    RolePopup,
-    RoleColumn,
-  },
-  mixins: [permissionsTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const { hasUpdateAccess } = useUserAccessControl();
-    return { dummy, hasUpdateAccess };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    headerTitle: '',
-  }),
+	name: 'OpenedObjectPermissionsRbac',
+	components: {
+		RolePopup,
+		RoleColumn,
+	},
+	mixins: [
+		permissionsTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const { hasUpdateAccess } = useUserAccessControl();
+		return {
+			dummy,
+			hasUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		headerTitle: '',
+	}),
 };
 </script>
 

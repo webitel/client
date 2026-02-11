@@ -104,12 +104,11 @@
 </template>
 
 <script>
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
@@ -120,52 +119,63 @@ const namespace = 'ccenter/teams';
 const subNamespace = 'agents';
 
 export default {
-  name: 'OpenedTeamAgents',
-  components: { AgentPopup, ObjectListPopup },
-  mixins: [openedObjectTableTabMixin, agentSupervisorsAndSkillsPopupMixin, agentStatusMixin],
+	name: 'OpenedTeamAgents',
+	components: {
+		AgentPopup,
+		ObjectListPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+		agentSupervisorsAndSkillsPopupMixin,
+		agentStatusMixin,
+	],
 
-  setup() {
-    const { hasUpdateAccess: hasAgentsUpdateAccess } = useUserAccessControl(WtObject.Agent);
+	setup() {
+		const { hasUpdateAccess: hasAgentsUpdateAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
 
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
-    return { 
-      dummy, 
-      hasAgentsUpdateAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-  }),
-  watch: {
-    dataList(data) {
-      if (data && this.skillsId) {
-        this.setOpenedItemId(this.skillsId);
-      }
+		return {
+			dummy,
+			hasAgentsUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
+	}),
+	watch: {
+		dataList(data) {
+			if (data && this.skillsId) {
+				this.setOpenedItemId(this.skillsId);
+			}
 
-      if (data && this.supervisorsId) {
-        this.setOpenedItemId(this.supervisorsId);
-      }
-    },
-  },
+			if (data && this.supervisorsId) {
+				this.setOpenedItemId(this.supervisorsId);
+			}
+		},
+	},
 
-  methods: {
-    addItem() {
-      return this.$router.push({
-        ...this.route,
-        params: { agentId: 'new' }
-      })
-    },
-    closeAgentPopup() {
-      return this.$router.go(-1);
-    },
-    snakeToCamel,
-  },
+	methods: {
+		addItem() {
+			return this.$router.push({
+				...this.route,
+				params: {
+					agentId: 'new',
+				},
+			});
+		},
+		closeAgentPopup() {
+			return this.$router.go(-1);
+		},
+		snakeToCamel,
+	},
 };
 </script>
 

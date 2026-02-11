@@ -1,4 +1,4 @@
 export const TypesResourceStrategy = Object.freeze({
-  PRIORITY_BASED: 'priority-based',
-  EVEN_DISTRIBUTION: 'even-distribution',
+	PRIORITY_BASED: 'priority-based',
+	EVEN_DISTRIBUTION: 'even-distribution',
 });

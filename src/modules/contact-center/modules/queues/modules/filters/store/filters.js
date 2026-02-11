@@ -8,22 +8,33 @@ import TeamLookupApi from '../api/teamLookupApi';
 import QueueTypeOptions from './QueueTypeOptions';
 
 const state = {
-  search: new BaseFilterSchema(),
-  queueType: new EnumFilterSchema({
-    options: QueueTypeOptions,
-    locale: { label: 'filters.queueType' },
-  }),
-  team: new ApiFilterSchema({
-    API: TeamLookupApi,
-    locale: { label: 'webitelUI.filters.team' },
-  }),
-  tags: new ApiFilterSchema({
-    value: [],
-    defaultValue: [],
-    API: QueuesAPI.getQueuesTags,
-    locale: { label: ['vocabulary.tag', 2] },
-    storedProp: 'name',
-  }),
+	search: new BaseFilterSchema(),
+	queueType: new EnumFilterSchema({
+		options: QueueTypeOptions,
+		locale: {
+			label: 'filters.queueType',
+		},
+	}),
+	team: new ApiFilterSchema({
+		API: TeamLookupApi,
+		locale: {
+			label: 'webitelUI.filters.team',
+		},
+	}),
+	tags: new ApiFilterSchema({
+		value: [],
+		defaultValue: [],
+		API: QueuesAPI.getQueuesTags,
+		locale: {
+			label: [
+				'vocabulary.tag',
+				2,
+			],
+		},
+		storedProp: 'name',
+	}),
 };
 
-export default new QueryFiltersStoreModule({ state }).getModule();
+export default new QueryFiltersStoreModule({
+	state,
+}).getModule();

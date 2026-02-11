@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -64,43 +64,49 @@ import AgentsAPI from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
 
 export default {
-  name: 'OpenedTeamGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasAdminsReadAccess } = useUserAccessControl(WtObject.Agent);
-    return {
-      disableUserInput,
-      hasAdminsReadAccess,
-    };
-  },
+	name: 'OpenedTeamGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasAdminsReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		return {
+			disableUserInput,
+			hasAdminsReadAccess,
+		};
+	},
 
-  computed: {
-    strategy: {
-      get() {
-        return this.strategyOptions.find(
-          (strategy) => strategy.value === this.itemInstance.strategy,
-        );
-      },
-      set(value) {
-        this.setItemProp({
-          prop: 'strategy',
-          value: value.value,
-        });
-      },
-    },
-    strategyOptions() {
-      return Object.values(TeamStrategy).map((strategy) => ({
-        name: this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`),
-        value: strategy,
-      }));
-    },
-  },
-  methods: {
-    fetchAdmins(params) {
-      return AgentsAPI.getList(params);
-    },
-  },
+	computed: {
+		strategy: {
+			get() {
+				return this.strategyOptions.find(
+					(strategy) => strategy.value === this.itemInstance.strategy,
+				);
+			},
+			set(value) {
+				this.setItemProp({
+					prop: 'strategy',
+					value: value.value,
+				});
+			},
+		},
+		strategyOptions() {
+			return Object.values(TeamStrategy).map((strategy) => ({
+				name: this.$t(
+					`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`,
+				),
+				value: strategy,
+			}));
+		},
+	},
+	methods: {
+		fetchAdmins(params) {
+			return AgentsAPI.getList(params);
+		},
+	},
 };
 </script>
 

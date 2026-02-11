@@ -85,24 +85,28 @@ import webChatPreviewMixin from '../mixins/webChatPreviewMixin';
 import webChatViewFormMixin from '../mixins/webChatViewFormMixin';
 
 export default {
-  name: 'OpenedChatGatewayWebchatViewTab',
-  components: {
-    ColorPicker: Chrome,
-  },
-  mixins: [openedTabComponentMixin, webChatViewFormMixin, webChatPreviewMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    ...mapActions({
-      setItemMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_METADATA`, payload);
-      },
-    }),
-  },
+	name: 'OpenedChatGatewayWebchatViewTab',
+	components: {
+		ColorPicker: Chrome,
+	},
+	mixins: [
+		openedTabComponentMixin,
+		webChatViewFormMixin,
+		webChatPreviewMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		...mapActions({
+			setItemMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_WEBCHAT_VIEW_METADATA`, payload);
+			},
+		}),
+	},
 };
 </script>
 

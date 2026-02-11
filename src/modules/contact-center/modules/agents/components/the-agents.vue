@@ -151,72 +151,83 @@ import HistoryPopup from './agent-history-popup.vue';
 const namespace = 'ccenter/agents';
 
 export default {
-  name: 'TheAgents',
-  components: { HistoryPopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin, agentStatusMixin],
+	name: 'TheAgents',
+	components: {
+		HistoryPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+		agentStatusMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.AGENTS,
-  }),
+	data: () => ({
+		namespace,
+		routeName: RouteNames.AGENTS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.ccenter.ccenter'),
-        },
-        {
-          name: this.$t('objects.ccenter.agents.agents', 2),
-          route: '/contact-center/agents',
-        },
-      ];
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.ccenter.ccenter'),
+				},
+				{
+					name: this.$t('objects.ccenter.agents.agents', 2),
+					route: '/contact-center/agents',
+				},
+			];
+		},
+	},
 
-  methods: {
-    openHistory(id) {
-      return this.$router.push({
-        ...this.$route,
-        name: AgentsRouteNames.HISTORY,
-        params: { historyId: id }
-      })
-    },
-    closeHistoryPopup() {
-      return this.$router.push({ name: this.routeName });
-    },
-    snakeToCamel,
-  },
+	methods: {
+		openHistory(id) {
+			return this.$router.push({
+				...this.$route,
+				name: AgentsRouteNames.HISTORY,
+				params: {
+					historyId: id,
+				},
+			});
+		},
+		closeHistoryPopup() {
+			return this.$router.push({
+				name: this.routeName,
+			});
+		},
+		snakeToCamel,
+	},
 };
 </script>
 

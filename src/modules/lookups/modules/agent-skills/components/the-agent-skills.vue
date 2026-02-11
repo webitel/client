@@ -136,10 +136,10 @@
 </template>
 
 <script>
-import { computed } from 'vue';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { computed } from 'vue';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -151,75 +151,82 @@ import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agen
 const namespace = 'lookups/skills';
 
 export default {
-  name: 'TheAgentSkills',
-  components: { AddSkillToAgentPopup, DeleteConfirmationPopup },
-  mixins: [tableComponentMixin, addSkillToAgentMixin],
+	name: 'TheAgentSkills',
+	components: {
+		AddSkillToAgentPopup,
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+		addSkillToAgentMixin,
+	],
 
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      showAction: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			showAction: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    const {
-      hasReadAccess: hasReadAgentAccess,
-      hasUpdateAccess: hasUpdateAgentAccess,
-    } = useUserAccessControl(WtObject.Agent);
+		const {
+			hasReadAccess: hasReadAgentAccess,
+			hasUpdateAccess: hasUpdateAgentAccess,
+		} = useUserAccessControl(WtObject.Agent);
 
-    const hasSkillAssignToAgentAccess = computed(() => {
-      return hasReadAgentAccess.value && hasUpdateAgentAccess.value;
-    });
+		const hasSkillAssignToAgentAccess = computed(() => {
+			return hasReadAgentAccess.value && hasUpdateAgentAccess.value;
+		});
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 
-      hasSkillAssignToAgentAccess,
-    };
-  },
+			hasSkillAssignToAgentAccess,
+		};
+	},
 
-  data: () => ({
-    namespace,
-    routeName: RouteNames.SKILLS,
-  }),
+	data: () => ({
+		namespace,
+		routeName: RouteNames.SKILLS,
+	}),
 
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.skills.agentSkills', 2),
-          route: '/lookups/skills',
-        },
-      ];
-    },
-    selectedRows() {
-      return this.dataList.filter((item) => item._isSelected);
-    },
-    selectedRowsId() {
-      return this.selectedRows.map((item) => item.id);
-    },
-  },
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.skills.agentSkills', 2),
+					route: '/lookups/skills',
+				},
+			];
+		},
+		selectedRows() {
+			return this.dataList.filter((item) => item._isSelected);
+		},
+		selectedRowsId() {
+			return this.selectedRows.map((item) => item.id);
+		},
+	},
 };
 </script>
 

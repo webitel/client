@@ -39,26 +39,26 @@
 
 <script setup lang="ts">
 interface Props {
-  shown?: boolean;
-  message?: string;
+	shown?: boolean;
+	message?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  shown: false,
-  message: '',
+	shown: false,
+	message: '',
 });
 
 const emit = defineEmits<{
-  (e: 'close'): void;
-  (e: 'confirm'): void;
+	(e: 'close'): void;
+	(e: 'confirm'): void;
 }>();
 
 const close = () => {
-  emit('close');
+	emit('close');
 };
 
 const confirm = () => {
-  emit('confirm');
+	emit('confirm');
 };
 </script>
 

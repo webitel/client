@@ -20,28 +20,28 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapState } from 'vuex';
 
 export default {
-  name: 'OpenedQueueSkillsBucketsPopup',
-  computed: {
-    ...mapState({
-      itemBuckets(state) {
-        return getNamespacedState(state, 'ccenter/queues/skills').buckets;
-      },
-    }),
-    headers() {
-      return [
-        {
-          value: 'bucket',
-          text: this.$t('reusable.name'),
-        },
-      ];
-    },
-  },
+	name: 'OpenedQueueSkillsBucketsPopup',
+	computed: {
+		...mapState({
+			itemBuckets(state) {
+				return getNamespacedState(state, 'ccenter/queues/skills').buckets;
+			},
+		}),
+		headers() {
+			return [
+				{
+					value: 'bucket',
+					text: this.$t('reusable.name'),
+				},
+			];
+		},
+	},
 
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-  },
+	methods: {
+		close() {
+			this.$emit('close');
+		},
+	},
 };
 </script>
 

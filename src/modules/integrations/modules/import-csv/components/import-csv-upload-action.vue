@@ -29,52 +29,57 @@ import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import ImportCsvRouteNames from '../router/_internals/ImportCsvRouteNames.enum.js';
 
 export default {
-  name: 'ImportCsvUploadAction',
-  components: { UploadFileIconBtn, UploadCsvPreviewPopup },
-  mixins: [normalizeCsvMembers],
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data: () => ({
-    file: null,
-  }),
-  computed: {
-    parentId() {
-      return this.item.source.id;
-    },
-    mappingFields() {
-      return Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
-        ...mapping,
-        name,
-        csv: this.item.parameters.mappings[name],
-      }));
-    },
-  },
-  methods: {
-    processCSV(files) {
-      const file = files[0];
-      if (file) {
-        this.file = file;
-      }
-    },
-    close() {
-      this.file = null;
-    },
-    handleSave() {
-      if (this.item.parameters.clearMembers) {
-        QueueMembersAPI.deleteBulk(this.parentId, {
-          ids: [],
-        });
-      }
-    },
-  },
+	name: 'ImportCsvUploadAction',
+	components: {
+		UploadFileIconBtn,
+		UploadCsvPreviewPopup,
+	},
+	mixins: [
+		normalizeCsvMembers,
+	],
+	props: {
+		item: {
+			type: Object,
+			required: true,
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data: () => ({
+		file: null,
+	}),
+	computed: {
+		parentId() {
+			return this.item.source.id;
+		},
+		mappingFields() {
+			return Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
+				...mapping,
+				name,
+				csv: this.item.parameters.mappings[name],
+			}));
+		},
+	},
+	methods: {
+		processCSV(files) {
+			const file = files[0];
+			if (file) {
+				this.file = file;
+			}
+		},
+		close() {
+			this.file = null;
+		},
+		handleSave() {
+			if (this.item.parameters.clearMembers) {
+				QueueMembersAPI.deleteBulk(this.parentId, {
+					ids: [],
+				});
+			}
+		},
+	},
 };
 </script>
 

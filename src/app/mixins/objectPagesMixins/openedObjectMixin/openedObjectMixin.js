@@ -1,8 +1,7 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import { ErrorRedirectMap } from '../../../../modules/error-pages/enems/ErrorRedirectMap.enum';
-
 import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
+import { ErrorRedirectMap } from '../../../../modules/error-pages/enems/ErrorRedirectMap.enum';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import breadcrumbMixin from '../../baseMixins/breadcrumbMixin/breadcrumbMixin';
 
@@ -14,75 +13,85 @@ import breadcrumbMixin from '../../baseMixins/breadcrumbMixin/breadcrumbMixin';
  * @note Access control is now handled via useUserAccessControl composable in component setup()
  */
 export default {
-  mixins: [breadcrumbMixin, baseObjectMixin],
-  components: {
-    Permissions,
-  },
+	mixins: [
+		breadcrumbMixin,
+		baseObjectMixin,
+	],
+	components: {
+		Permissions,
+	},
 
-  async created() {
-    try {
-      await this.loadPageData();
-    } catch (err) {
-      this.handleError(err)
-    }
-  },
+	async created() {
+		try {
+			await this.loadPageData();
+		} catch (err) {
+			this.handleError(err);
+		}
+	},
 
-  computed: {
-    ...mapState({
-      id(state) {
-        return getNamespacedState(state, this.namespace).itemId;
-      },
-      itemInstance(state) {
-        return getNamespacedState(state, this.namespace).itemInstance;
-      },
-    }),
-    permissionsTab() {
-      return {
-        text: this.$t('objects.permissions.permissions', 2),
-        value: 'permissions',
-        pathName: this.permissionsTabPathName,
-      };
-    },
-    currentTab() {
-      return this.tabs.find(({ pathName }) => this.$route.name === pathName) || this.tabs[0];
-    },
-    tabs() {
-      return [];
-    },
-  },
+	computed: {
+		...mapState({
+			id(state) {
+				return getNamespacedState(state, this.namespace).itemId;
+			},
+			itemInstance(state) {
+				return getNamespacedState(state, this.namespace).itemInstance;
+			},
+		}),
+		permissionsTab() {
+			return {
+				text: this.$t('objects.permissions.permissions', 2),
+				value: 'permissions',
+				pathName: this.permissionsTabPathName,
+			};
+		},
+		currentTab() {
+			return (
+				this.tabs.find(({ pathName }) => this.$route.name === pathName) ||
+				this.tabs[0]
+			);
+		},
+		tabs() {
+			return [];
+		},
+	},
 
-  methods: {
-    ...mapActions({
-      setId(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-      },
-    }),
+	methods: {
+		...mapActions({
+			setId(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
+			},
+		}),
 
-    async loadPageData() {
-      await this.setId(this.$route.params.id);
-      return this.loadItem();
-    },
+		async loadPageData() {
+			await this.setId(this.$route.params.id);
+			return this.loadItem();
+		},
 
-    setInitialTab() {
+		setInitialTab() {
+			if (this.tabs.length) this.currentTab = this.tabs[0];
+		},
 
-      if (this.tabs.length) this.currentTab = this.tabs[0];
-    },
+		close() {
+			// Need to close the tab if it was open in a new tab
+			// https://webitel.atlassian.net/browse/WTEL-4575
+			// TODO delete close method in all opened objects and add to them routeName property
+			if (window.history.length === 1) window.close();
+			this.$router.push({
+				name: this.routeName,
+			});
+		},
+		changeTab(tab) {
+			this.$router.push({
+				...this.$route,
+				name: tab.pathName,
+			});
+		},
 
-    close() {
-      // Need to close the tab if it was open in a new tab
-      // https://webitel.atlassian.net/browse/WTEL-4575
-      // TODO delete close method in all opened objects and add to them routeName property
-      if (window.history.length === 1) window.close();
-      this.$router.push({ name: this.routeName });
-    },
-    changeTab(tab) {
-      this.$router.push({ ...this.$route, name: tab.pathName });
-    },
-
-    handleError(err) {
-      const status = err?.status ?? err?.response?.status;
-      const to = ErrorRedirectMap[status];
-      if (to) return this.$router.push(to);
-    }
-  },
+		handleError(err) {
+			const status = err?.status ?? err?.response?.status;
+			const to = ErrorRedirectMap[status];
+			if (to) return this.$router.push(to);
+		},
+	},
 };

@@ -58,26 +58,30 @@ import { useUserAccessControl } from '../../../../../../../app/composables/useUs
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedChatWebchatRecaptchaTab',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  computed: {
-    disableCaptchaFields() {
-      return !this.itemInstance.metadata?.captcha?.enabled || this.disableUserInput;
-    },
-  },
-  methods: {
-    ...mapActions({
-      setWebchatMetadata(dispatch, payload) {
-        return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
-      },
-    }),
-  },
+	name: 'OpenedChatWebchatRecaptchaTab',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	computed: {
+		disableCaptchaFields() {
+			return (
+				!this.itemInstance.metadata?.captcha?.enabled || this.disableUserInput
+			);
+		},
+	},
+	methods: {
+		...mapActions({
+			setWebchatMetadata(dispatch, payload) {
+				return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
+			},
+		}),
+	},
 };
 </script>
 

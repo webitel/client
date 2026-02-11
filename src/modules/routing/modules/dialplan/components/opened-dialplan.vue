@@ -43,68 +43,76 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { regExpValidator } from '../../../../../app/utils/validators';
-import DialplanRouteNames from "../router/_internals/DialplanRouteNames.enum.js";
+import DialplanRouteNames from '../router/_internals/DialplanRouteNames.enum.js';
 import General from './opened-dialplan-general.vue';
 
 export default {
-  name: 'OpenedDialplan',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedDialplan',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'routing/dialplan',
-    routeName: RouteNames.DIALPLAN,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      schema: { required },
-      pattern: {
-        required,
-        regExpValidator,
-      },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'routing/dialplan',
+		routeName: RouteNames.DIALPLAN,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			schema: {
+				required,
+			},
+			pattern: {
+				required,
+				regExpValidator,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: DialplanRouteNames.GENERAL
-        },
-      ];
-      return tabs;
-    },
-    path() {
-      const baseUrl = '/routing/dialplan';
-      return [
-        {
-          name: this.$t('objects.routing.routing'),
-        },
-        {
-          name: this.$t('objects.routing.dialplan.dialplan'),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: DialplanRouteNames.GENERAL,
+				},
+			];
+			return tabs;
+		},
+		path() {
+			const baseUrl = '/routing/dialplan';
+			return [
+				{
+					name: this.$t('objects.routing.routing'),
+				},
+				{
+					name: this.$t('objects.routing.dialplan.dialplan'),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

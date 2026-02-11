@@ -5,10 +5,16 @@ import openedObjectMixinMock from '../../../../../../../tests/unit/mocks/mixinMo
 import OpenedQueue from '../opened-queue.vue';
 
 describe('OpenedQueue', () => {
-  it('renders a component', () => {
-    const mock = vi.fn();
-    vi.spyOn(OpenedQueue.methods, 'loadPageData').mockImplementation(mock);
-    const wrapper = shallowMount(OpenedQueue, deepmerge.all([openedObjectMixinMock(), {}]));
-    expect(wrapper.exists()).toBe(true);
-  });
+	it('renders a component', () => {
+		const mock = vi.fn();
+		vi.spyOn(OpenedQueue.methods, 'loadPageData').mockImplementation(mock);
+		const wrapper = shallowMount(
+			OpenedQueue,
+			deepmerge.all([
+				openedObjectMixinMock(),
+				{},
+			]),
+		);
+		expect(wrapper.exists()).toBe(true);
+	});
 });

@@ -33,52 +33,63 @@ import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 
 export default {
-  name: 'OpenedBlacklistNumberPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedBlacklistNumberPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
-  data: () => ({
-    namespace: 'lookups/blacklists/numbers',
-    showExpireDate: false,
-  }),
-  validations: {
-    itemInstance: {
-      number: { required },
-    },
-  },
-  computed: {
-    popupTitle() {
-      const action = this.id ? this.$t('reusable.edit') : this.$t('reusable.add');
-      return action + ' ' + this.$t('objects.ccenter.res.numbers', 1).toLowerCase();
-    },
-    numberId() {
-      return this.$route.params.numberId;
-    },
-  },
-  watch: {
-    showExpireDate() {
-      if (this.itemInstance.expireAt && this.showExpireDate) return;
-      this.setItemProp({
-        prop: 'expireAt',
-        value: this.showExpireDate ? Date.now() : 0,
-      });
-    },
-    'itemInstance.id': {
-      handler() {
-        if (this.itemInstance.expireAt) this.showExpireDate = true;
-      },
-    },
-    numberId: {
-      async handler(id) {
-        this.handleIdChange(id);
-        if (!id) this.showExpireDate = false;
-      }, immediate: true,
-    },
-  },
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
+	data: () => ({
+		namespace: 'lookups/blacklists/numbers',
+		showExpireDate: false,
+	}),
+	validations: {
+		itemInstance: {
+			number: {
+				required,
+			},
+		},
+	},
+	computed: {
+		popupTitle() {
+			const action = this.id
+				? this.$t('reusable.edit')
+				: this.$t('reusable.add');
+			return (
+				action + ' ' + this.$t('objects.ccenter.res.numbers', 1).toLowerCase()
+			);
+		},
+		numberId() {
+			return this.$route.params.numberId;
+		},
+	},
+	watch: {
+		showExpireDate() {
+			if (this.itemInstance.expireAt && this.showExpireDate) return;
+			this.setItemProp({
+				prop: 'expireAt',
+				value: this.showExpireDate ? Date.now() : 0,
+			});
+		},
+		'itemInstance.id': {
+			handler() {
+				if (this.itemInstance.expireAt) this.showExpireDate = true;
+			},
+		},
+		numberId: {
+			async handler(id) {
+				this.handleIdChange(id);
+				if (!id) this.showExpireDate = false;
+			},
+			immediate: true,
+		},
+	},
 };
 </script>
 

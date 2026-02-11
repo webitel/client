@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums'
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapGetters } from 'vuex';
@@ -99,56 +99,61 @@ import dummyPicLight from '../assets/adm-agent-history-light.svg';
 import agentState from '../dictionaries/agentState.dictionary';
 
 export default {
-  name: 'AgentHistoryPopup',
-  mixins: [historyPopupMixin],
-  data: () => ({
-    namespace: 'ccenter/agents/history',
-    agentState,
-  }),
+	name: 'AgentHistoryPopup',
+	mixins: [
+		historyPopupMixin,
+	],
+	data: () => ({
+		namespace: 'ccenter/agents/history',
+		agentState,
+	}),
 
-  computed: {
-    ...mapGetters('appearance', {
-      darkMode: 'DARK_MODE',
-    }),
-    headers() {
-      return [
-        {
-          value: 'state',
-          text: this.$t('objects.ccenter.agents.historyState'),
-        },
-        {
-          value: 'channel',
-          text: this.$t('objects.ccenter.agents.historyChannel'),
-        },
-        {
-          value: 'from',
-          text: this.$t('objects.ccenter.agents.historyFrom'),
-        },
-        {
-          value: 'to',
-          text: this.$t('objects.ccenter.agents.historyTo'),
-        },
-        {
-          value: 'duration',
-          text: this.$t('objects.ccenter.agents.historyDuration'),
-        },
-      ];
-    },
-    dummy() {
-      return (
-        !this.dataList.length && {
-          src: this.darkMode ? dummyPicDark : dummyPicLight,
-          text: 'objects.ccenter.agents.emptyPopup',
-        }
-      );
-    },
-  },
+	computed: {
+		...mapGetters('appearance', {
+			darkMode: 'DARK_MODE',
+		}),
+		headers() {
+			return [
+				{
+					value: 'state',
+					text: this.$t('objects.ccenter.agents.historyState'),
+				},
+				{
+					value: 'channel',
+					text: this.$t('objects.ccenter.agents.historyChannel'),
+				},
+				{
+					value: 'from',
+					text: this.$t('objects.ccenter.agents.historyFrom'),
+				},
+				{
+					value: 'to',
+					text: this.$t('objects.ccenter.agents.historyTo'),
+				},
+				{
+					value: 'duration',
+					text: this.$t('objects.ccenter.agents.historyDuration'),
+				},
+			];
+		},
+		dummy() {
+			return (
+				!this.dataList.length && {
+					src: this.darkMode ? dummyPicDark : dummyPicLight,
+					text: 'objects.ccenter.agents.emptyPopup',
+				}
+			);
+		},
+	},
 
-  methods: {
-    convertDuration,
-    calcStatusTo(item) {
-      return formatDate(+item.joinedAt + item.duration * 1000, FormatDateMode.DATETIME);
-    },
-  },
+	methods: {
+		convertDuration,
+		calcStatusTo(item) {
+			return formatDate(
+				+item.joinedAt + item.duration * 1000,
+				FormatDateMode.DATETIME,
+			);
+		},
+	},
 };
 </script>

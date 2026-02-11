@@ -31,67 +31,77 @@ import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins
 import AgentsAPI from '../../../../agents/api/agents';
 
 export default {
-  name: 'OpenedTeamAgentsPopup',
-  mixins: [nestedObjectMixin],
+	name: 'OpenedTeamAgentsPopup',
+	mixins: [
+		nestedObjectMixin,
+	],
 
-  setup: () => ({
-    // Reasons for use $stopPropagation
-    // https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-    v$: useVuelidate({ $stopPropagation: true }),
-  }),
+	setup: () => ({
+		// Reasons for use $stopPropagation
+		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+		v$: useVuelidate({
+			$stopPropagation: true,
+		}),
+	}),
 
-  data: () => ({
-    namespace: 'ccenter/teams/supervisors',
-  }),
-  validations: {
-    itemInstance: {
-      agent: { required },
-    },
-  },
+	data: () => ({
+		namespace: 'ccenter/teams/supervisors',
+	}),
+	validations: {
+		itemInstance: {
+			agent: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    ...mapState({
-      parentId(state) {
-        return getNamespacedState(state, this.namespace).parentId;
-      },
-    }),
-    popupTitle() {
-      return this.id
-        ? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
-        : this.$t('objects.ccenter.teams.supervisors.addSupervisor');
-    },
-    supervisorId() {
-      return this.$route.params.supervisorId;
-    }
-  },
-  watch: {
-    supervisorId: {
-      handler(id) {
-        if (id === 'new') {
-          this.resetState();
-        } else if (id) {
-          this.setId(id);
-          this.loadItem();
-        }
-      }, immediate: true,
-    },
-  },
+	computed: {
+		...mapState({
+			parentId(state) {
+				return getNamespacedState(state, this.namespace).parentId;
+			},
+		}),
+		popupTitle() {
+			return this.id
+				? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
+				: this.$t('objects.ccenter.teams.supervisors.addSupervisor');
+		},
+		supervisorId() {
+			return this.$route.params.supervisorId;
+		},
+	},
+	watch: {
+		supervisorId: {
+			handler(id) {
+				if (id === 'new') {
+					this.resetState();
+				} else if (id) {
+					this.setId(id);
+					this.loadItem();
+				}
+			},
+			immediate: true,
+		},
+	},
 
-  methods: {
-    async loadAgentsOptions(params) {
-      const fields = ['id', 'user'];
-      const response = await AgentsAPI.getSupervisorOptions({
-        ...params,
-        fields,
-        notTeamId: this.parentId,
-      });
-      response.items = response.items.map(({ user, id }) => ({
-        name: user.name,
-        id,
-      }));
-      return response;
-    },
-  },
+	methods: {
+		async loadAgentsOptions(params) {
+			const fields = [
+				'id',
+				'user',
+			];
+			const response = await AgentsAPI.getSupervisorOptions({
+				...params,
+				fields,
+				notTeamId: this.parentId,
+			});
+			response.items = response.items.map(({ user, id }) => ({
+				name: user.name,
+				id,
+			}));
+			return response;
+		},
+	},
 };
 </script>
 

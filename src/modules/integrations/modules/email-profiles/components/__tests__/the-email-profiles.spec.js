@@ -6,13 +6,15 @@ import { useDummy } from '../../../../../../app/composables/useDummy';
 import TheEmailProfiles from '../the-email-profiles.vue';
 
 vi.mock('../../../../../../app/composables/useDummy');
-useDummy.mockImplementation(() => ({ store: reactive({}) }));
+useDummy.mockImplementation(() => ({
+	store: reactive({}),
+}));
 
 describe('TheEmailProfiles', () => {
-  it('renders a component', () => {
-    const wrapper = shallowMount(TheEmailProfiles, {
-      computed: tableComponentComputedMock(),
-    });
-    expect(wrapper.exists()).toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(TheEmailProfiles, {
+			computed: tableComponentComputedMock(),
+		});
+		expect(wrapper.exists()).toBe(true);
+	});
 });

@@ -5,33 +5,33 @@ import OpenedTabComponentMixinMock from '../../../../../../../../tests/unit/mock
 import OpenedCognitiveProfileGoogle from '../opened-cognitive-profile-google.vue';
 
 describe('OpenedCognitiveProfileGoogle', () => {
-  const computed = {
-    itemInstance: () => ({
-      properties: {},
-    }),
-  };
+	const computed = {
+		itemInstance: () => ({
+			properties: {},
+		}),
+	};
 
-  it('renders a component', () => {
-    const wrapper = shallowMount(
-      OpenedCognitiveProfileGoogle,
-      deepmerge.all([
-        OpenedTabComponentMixinMock(),
-        {
-          props: {
-            v: {
-              itemInstance: {
-                properties: {
-                  key: {
-                    $error: false,
-                  },
-                },
-              },
-            },
-          },
-          computed,
-        },
-      ]),
-    );
-    expect(wrapper.exists()).toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(
+			OpenedCognitiveProfileGoogle,
+			deepmerge.all([
+				OpenedTabComponentMixinMock(),
+				{
+					props: {
+						v: {
+							itemInstance: {
+								properties: {
+									key: {
+										$error: false,
+									},
+								},
+							},
+						},
+					},
+					computed,
+				},
+			]),
+		);
+		expect(wrapper.exists()).toBe(true);
+	});
 });

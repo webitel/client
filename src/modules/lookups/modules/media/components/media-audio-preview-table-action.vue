@@ -16,16 +16,16 @@
 
 <script>
 export default {
-  name: 'MediaAudioPreviewTableAction',
-  props: {
-    playing: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data: () => ({
-    baseUrl: import.meta.env.BASE_URL, // to resolve iframe equalizer path after build
-  }),
+	name: 'MediaAudioPreviewTableAction',
+	props: {
+		playing: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data: () => ({
+		baseUrl: import.meta.env.BASE_URL, // to resolve iframe equalizer path after build
+	}),
 };
 </script>
 

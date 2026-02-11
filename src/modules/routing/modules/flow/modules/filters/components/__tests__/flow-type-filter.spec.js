@@ -4,10 +4,10 @@ import filterComponentMixinMock from '../../../../../../../../../tests/unit/mock
 import FlowTypeFilter from '../flow-type-filter.vue';
 
 describe('FlowTypeFilter', () => {
-  it('renders a component', () => {
-    const wrapper = shallowMount(FlowTypeFilter, {
-      ...filterComponentMixinMock(),
-    });
-    expect(wrapper.isVisible()).toBe(true);
-  });
+	it('renders a component', () => {
+		const wrapper = shallowMount(FlowTypeFilter, {
+			...filterComponentMixinMock(),
+		});
+		expect(wrapper.isVisible()).toBe(true);
+	});
 });

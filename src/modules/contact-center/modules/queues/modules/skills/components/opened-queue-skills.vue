@@ -121,7 +121,7 @@
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import bucketsPopupMixin from "../mixins/bucketsPopupMixin.js";
+import bucketsPopupMixin from '../mixins/bucketsPopupMixin.js';
 import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
 import SkillPopup from './opened-queue-skills-popup.vue';
 
@@ -129,42 +129,55 @@ const namespace = 'ccenter/queues';
 const subNamespace = 'skills';
 
 export default {
-  name: 'OpenedQueueSkills',
-  components: { SkillPopup, SkillBucketsPopup },
-  mixins: [openedObjectTableTabMixin, bucketsPopupMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const { disableUserInput } = useUserAccessControl({
-      useUpdateAccessAsAllMutableChecksSource: true,
-    });
-    return { dummy, disableUserInput };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    isSkillBucketsPopup: null,
-    isDeleteConfirmation: false,
-  }),
-  methods: {
-    addItem() {
-      this.$router.push({
-        ...this.$route,
-        params: { skillId: 'new' }
-      })
-    },
-    editItem(item) {
-      this.$router.push({
-        ...this.$route,
-        params: { skillId: item.id }
-      })
-    },
-    closePopup() {
-      this.$router.go(-1);
-    },
-  },
+	name: 'OpenedQueueSkills',
+	components: {
+		SkillPopup,
+		SkillBucketsPopup,
+	},
+	mixins: [
+		openedObjectTableTabMixin,
+		bucketsPopupMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const { disableUserInput } = useUserAccessControl({
+			useUpdateAccessAsAllMutableChecksSource: true,
+		});
+		return {
+			dummy,
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		isSkillBucketsPopup: null,
+		isDeleteConfirmation: false,
+	}),
+	methods: {
+		addItem() {
+			this.$router.push({
+				...this.$route,
+				params: {
+					skillId: 'new',
+				},
+			});
+		},
+		editItem(item) {
+			this.$router.push({
+				...this.$route,
+				params: {
+					skillId: item.id,
+				},
+			});
+		},
+		closePopup() {
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 

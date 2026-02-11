@@ -1,4 +1,4 @@
 export const TimeBaseScore = Object.freeze({
-  QUEUE: 'queue',
-  SYSTEM: 'system',
+	QUEUE: 'queue',
+	SYSTEM: 'system',
 });

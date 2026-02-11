@@ -14,22 +14,30 @@ import ImportCsvMemberMappings from '../../../../../../integrations/modules/impo
 import normalizeCsvMembers from '../mixins/normalizeCsvMembers';
 
 export default {
-  name: 'UploadMembersPopup',
-  mixins: [uploadCSVWrapperComponentMixin, normalizeCsvMembers],
-  props: {
-    parentId: {
-      type: [Number, String],
-      required: true,
-    },
-  },
-  data: () => ({
-    bulk: [],
-    allCommunications: null,
-    mappingFields: Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
-      ...mapping,
-      name,
-    })),
-  }),
+	name: 'UploadMembersPopup',
+	mixins: [
+		uploadCSVWrapperComponentMixin,
+		normalizeCsvMembers,
+	],
+	props: {
+		parentId: {
+			type: [
+				Number,
+				String,
+			],
+			required: true,
+		},
+	},
+	data: () => ({
+		bulk: [],
+		allCommunications: null,
+		mappingFields: Object.entries(ImportCsvMemberMappings).map(
+			([name, mapping]) => ({
+				...mapping,
+				name,
+			}),
+		),
+	}),
 };
 </script>
 

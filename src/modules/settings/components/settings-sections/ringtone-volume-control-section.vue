@@ -34,95 +34,111 @@
 </template>
 
 <script setup lang="ts">
-import {debounce} from '@webitel/ui-sdk/scripts';
+import { RingtoneType } from '@webitel/ui-sdk/enums';
+import { debounce } from '@webitel/ui-sdk/scripts';
 import triggerSound from '@webitel/ui-sdk/src/modules/Notifications/assets/audio/triggerSound';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import { RingtoneType } from '@webitel/ui-sdk/enums';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
 type RingtoneVolumes = {
-  [RingtoneType.Call]: number;
-  [RingtoneType.Chat]: number;
-  [RingtoneType.Task]: number;
+	[RingtoneType.Call]: number;
+	[RingtoneType.Chat]: number;
+	[RingtoneType.Task]: number;
 };
 
 interface RingtoneEntity {
-  type: RingtoneType;
-  volume: number;
+	type: RingtoneType;
+	volume: number;
 }
 
 const { t } = useI18n();
 const ringtoneVolume = reactive<RingtoneVolumes>({
-  [RingtoneType.Call]: 1,
-  [RingtoneType.Chat]: 1,
-  [RingtoneType.Task]: 1,
+	[RingtoneType.Call]: 1,
+	[RingtoneType.Chat]: 1,
+	[RingtoneType.Task]: 1,
 }); // Default ringtoneVolume levels
 const isRingtoneVolumeSaved = ref(false);
 
 const ringtoneEntities = computed<RingtoneEntity[]>(() => [
-  { type: RingtoneType.Call, volume: ringtoneVolume[RingtoneType.Call] },
-  { type: RingtoneType.Chat, volume: ringtoneVolume[RingtoneType.Chat] },
-  { type: RingtoneType.Task, volume: ringtoneVolume[RingtoneType.Task] },
+	{
+		type: RingtoneType.Call,
+		volume: ringtoneVolume[RingtoneType.Call],
+	},
+	{
+		type: RingtoneType.Chat,
+		volume: ringtoneVolume[RingtoneType.Chat],
+	},
+	{
+		type: RingtoneType.Task,
+		volume: ringtoneVolume[RingtoneType.Task],
+	},
 ]);
 
 function handleRingtoneVolume(type: RingtoneType, newVolume: number) {
-  ringtoneVolume[type] = newVolume;
-  debouncedPlayBeep(newVolume); // Debounced beep sound with selected ringtoneVolume
+	ringtoneVolume[type] = newVolume;
+	debouncedPlayBeep(newVolume); // Debounced beep sound with selected ringtoneVolume
 
-  const savedVolumeStr = localStorage.getItem('settings/ringtone-volume');
-  if (!savedVolumeStr) {
-    isRingtoneVolumeSaved.value = false;
-    return;
-  }
+	const savedVolumeStr = localStorage.getItem('settings/ringtone-volume');
+	if (!savedVolumeStr) {
+		isRingtoneVolumeSaved.value = false;
+		return;
+	}
 
-  try {
-    const savedVolumes = JSON.parse(savedVolumeStr) as RingtoneVolumes;
-    const isMatch = savedVolumes[RingtoneType.Call] === ringtoneVolume[RingtoneType.Call] &&
-                    savedVolumes[RingtoneType.Chat] === ringtoneVolume[RingtoneType.Chat] &&
-                    savedVolumes[RingtoneType.Task] === ringtoneVolume[RingtoneType.Task];
-    isRingtoneVolumeSaved.value = isMatch;
-  } catch {
-    isRingtoneVolumeSaved.value = false;
-  }
+	try {
+		const savedVolumes = JSON.parse(savedVolumeStr) as RingtoneVolumes;
+		const isMatch =
+			savedVolumes[RingtoneType.Call] === ringtoneVolume[RingtoneType.Call] &&
+			savedVolumes[RingtoneType.Chat] === ringtoneVolume[RingtoneType.Chat] &&
+			savedVolumes[RingtoneType.Task] === ringtoneVolume[RingtoneType.Task];
+		isRingtoneVolumeSaved.value = isMatch;
+	} catch {
+		isRingtoneVolumeSaved.value = false;
+	}
 }
 
 function saveRingtoneVolume() {
-  // Save the ringtoneVolumes to localStorage as JSON object
-  localStorage.setItem('settings/ringtone-volume', JSON.stringify(ringtoneVolume));
-  isRingtoneVolumeSaved.value = true;
+	// Save the ringtoneVolumes to localStorage as JSON object
+	localStorage.setItem(
+		'settings/ringtone-volume',
+		JSON.stringify(ringtoneVolume),
+	);
+	isRingtoneVolumeSaved.value = true;
 }
 
-const debouncedPlayBeep = debounce(function(volume: number) {
-  const playSound = async () => {
-    const audio = await triggerSound(volume);
-    audio.play();
-  };
-  playSound();
-}, null, 200);
+const debouncedPlayBeep = debounce(
+	(volume: number) => {
+		const playSound = async () => {
+			const audio = await triggerSound(volume);
+			audio.play();
+		};
+		playSound();
+	},
+	null,
+	200,
+);
 
 onMounted(() => {
-  // Load the saved ringtoneVolumes from localStorage if it exists
-  const savedVolumeStr = localStorage.getItem('settings/ringtone-volume');
-  if (savedVolumeStr) {
-    try {
-      const savedVolumes = JSON.parse(savedVolumeStr) as RingtoneVolumes;
-      ringtoneVolume[RingtoneType.Call] = savedVolumes[RingtoneType.Call] ?? 1;
-      ringtoneVolume[RingtoneType.Chat] = savedVolumes[RingtoneType.Chat] ?? 1;
-      ringtoneVolume[RingtoneType.Task] = savedVolumes[RingtoneType.Task] ?? 1;
-      isRingtoneVolumeSaved.value = true;
-    } catch {
-      // If parsing fails, migrate old single value to new structure
-      const oldVolume = parseFloat(savedVolumeStr);
-      if (!isNaN(oldVolume)) {
-        ringtoneVolume[RingtoneType.Call] = oldVolume;
-        ringtoneVolume[RingtoneType.Chat] = oldVolume;
-        ringtoneVolume[RingtoneType.Task] = oldVolume;
-      }
-      isRingtoneVolumeSaved.value = false;
-    }
-  }
+	// Load the saved ringtoneVolumes from localStorage if it exists
+	const savedVolumeStr = localStorage.getItem('settings/ringtone-volume');
+	if (savedVolumeStr) {
+		try {
+			const savedVolumes = JSON.parse(savedVolumeStr) as RingtoneVolumes;
+			ringtoneVolume[RingtoneType.Call] = savedVolumes[RingtoneType.Call] ?? 1;
+			ringtoneVolume[RingtoneType.Chat] = savedVolumes[RingtoneType.Chat] ?? 1;
+			ringtoneVolume[RingtoneType.Task] = savedVolumes[RingtoneType.Task] ?? 1;
+			isRingtoneVolumeSaved.value = true;
+		} catch {
+			// If parsing fails, migrate old single value to new structure
+			const oldVolume = parseFloat(savedVolumeStr);
+			if (!isNaN(oldVolume)) {
+				ringtoneVolume[RingtoneType.Call] = oldVolume;
+				ringtoneVolume[RingtoneType.Chat] = oldVolume;
+				ringtoneVolume[RingtoneType.Task] = oldVolume;
+			}
+			isRingtoneVolumeSaved.value = false;
+		}
+	}
 });
 </script>
 

@@ -45,57 +45,65 @@ import QuickRepliesRouteNames from '../router/_internals/QuickRepliesRouteNames.
 import General from './opened-quick-reply-general.vue';
 
 export default {
-  name: 'OpenedQuickReply',
-  components: { General },
-  mixins: [openedObjectMixin],
+	name: 'OpenedQuickReply',
+	components: {
+		General,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
-    return {
-      v$,
-      hasSaveActionAccess,
-    };
-  },
-  data: () => ({
-    namespace: 'lookups/quickReplies',
-    routeName: RouteNames.QUICK_REPLIES,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      text: { required },
-    },
-  },
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
+		return {
+			v$,
+			hasSaveActionAccess,
+		};
+	},
+	data: () => ({
+		namespace: 'lookups/quickReplies',
+		routeName: RouteNames.QUICK_REPLIES,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			text: {
+				required,
+			},
+		},
+	},
 
-  computed: {
-    tabs() {
-      const tabs = [
-        {
-          text: this.$t('objects.general'),
-          value: 'general',
-          pathName: QuickRepliesRouteNames.GENERAL
-        },
-      ];
-      return tabs;
-    },
+	computed: {
+		tabs() {
+			const tabs = [
+				{
+					text: this.$t('objects.general'),
+					value: 'general',
+					pathName: QuickRepliesRouteNames.GENERAL,
+				},
+			];
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/lookups/quick-replies';
-      return [
-        {
-          name: this.$t('objects.lookups.lookups'),
-        },
-        {
-          name: this.$t('objects.lookups.quickReplies.quickReplies', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/lookups/quick-replies';
+			return [
+				{
+					name: this.$t('objects.lookups.lookups'),
+				},
+				{
+					name: this.$t('objects.lookups.quickReplies.quickReplies', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+				},
+			];
+		},
+	},
 };
 </script>
 

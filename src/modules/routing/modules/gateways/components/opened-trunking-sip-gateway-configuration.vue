@@ -56,17 +56,23 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
-  name: 'OpenedSipGatewayTrunkingConfiguration',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  data: () => ({
-    protocolList: ['any', 'udp', 'tcp'],
-  }),
+	name: 'OpenedSipGatewayTrunkingConfiguration',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	data: () => ({
+		protocolList: [
+			'any',
+			'udp',
+			'tcp',
+		],
+	}),
 };
 </script>
 

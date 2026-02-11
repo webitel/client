@@ -123,54 +123,59 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 const namespace = 'permissions/roles';
 
 export default {
-  name: 'TheRoles',
-  components: { DeleteConfirmationPopup },
-  mixins: [tableComponentMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace,
-      hiddenText: true,
-    });
-    const {
-      isVisible: isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+	name: 'TheRoles',
+	components: {
+		DeleteConfirmationPopup,
+	},
+	mixins: [
+		tableComponentMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace,
+			hiddenText: true,
+		});
+		const {
+			isVisible: isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-    } = useDeleteConfirmationPopup();
+			askDeleteConfirmation,
+			closeDelete,
+		} = useDeleteConfirmationPopup();
 
-    const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } = useUserAccessControl();
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl();
 
-    return {
-      dummy,
-      isDeleteConfirmationPopup,
-      deleteCount,
-      deleteCallback,
+		return {
+			dummy,
+			isDeleteConfirmationPopup,
+			deleteCount,
+			deleteCallback,
 
-      askDeleteConfirmation,
-      closeDelete,
-      hasCreateAccess,
-      hasUpdateAccess,
-      hasDeleteAccess,
-    };
-  },
-  data: () => ({
-    namespace,
-    routeName: RouteNames.ROLES,
-  }),
-  computed: {
-    path() {
-      return [
-        {
-          name: this.$t('objects.permissions.permissions'),
-        },
-        {
-          name: this.$t('objects.permissions.permissionsRole', 2),
-          route: '/permissions/roles',
-        },
-      ];
-    },
-  },
+			askDeleteConfirmation,
+			closeDelete,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		routeName: RouteNames.ROLES,
+	}),
+	computed: {
+		path() {
+			return [
+				{
+					name: this.$t('objects.permissions.permissions'),
+				},
+				{
+					name: this.$t('objects.permissions.permissionsRole', 2),
+					route: '/permissions/roles',
+				},
+			];
+		},
+	},
 };
 </script>

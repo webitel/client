@@ -37,26 +37,26 @@
 </template>
 <script>
 export default {
-  name: 'ConfirmationUnsavedChangesPopup',
-  props: {
-    name: {
-      type: String,
-      default: '',
-    },
-  },
-  methods: {
-    closePopup() {
-      this.$emit('closePopup');
-    },
-    closePage() {
-      this.closePopup();
-      this.$emit('closePage');
-    },
-    save() {
-      this.$emit('save');
-      this.closePage();
-    },
-  },
+	name: 'ConfirmationUnsavedChangesPopup',
+	props: {
+		name: {
+			type: String,
+			default: '',
+		},
+	},
+	methods: {
+		closePopup() {
+			this.$emit('closePopup');
+		},
+		closePage() {
+			this.closePopup();
+			this.$emit('closePage');
+		},
+		save() {
+			this.$emit('save');
+			this.closePage();
+		},
+	},
 };
 </script>
 

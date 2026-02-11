@@ -40,19 +40,21 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import CalendarsAPI from '../../calendars/api/calendars';
 
 export default {
-  name: 'OpenedRegionGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    return {
-      disableUserInput,
-    };
-  },
-  methods: {
-    loadTimezones(params) {
-      return CalendarsAPI.getTimezonesLookup(params);
-    },
-  },
+	name: 'OpenedRegionGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		return {
+			disableUserInput,
+		};
+	},
+	methods: {
+		loadTimezones(params) {
+			return CalendarsAPI.getTimezonesLookup(params);
+		},
+	},
 };
 </script>
 

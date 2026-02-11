@@ -42,20 +42,24 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
 
 export default {
-  name: 'OpenedResourceGroupGeneral',
-  mixins: [openedTabComponentMixin],
-  setup: () => {
-    const { disableUserInput } = useUserAccessControl();
-    const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(WtObject.Communication);
-    return {
-      disableUserInput,
-      hasCommunicationsReadAccess,
-    };
-  },
-  methods: {
-    loadDropdownOptionsList(params) {
-      return CommunicationsAPI.getLookup(params);
-    },
-  },
+	name: 'OpenedResourceGroupGeneral',
+	mixins: [
+		openedTabComponentMixin,
+	],
+	setup: () => {
+		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
+			WtObject.Communication,
+		);
+		return {
+			disableUserInput,
+			hasCommunicationsReadAccess,
+		};
+	},
+	methods: {
+		loadDropdownOptionsList(params) {
+			return CommunicationsAPI.getLookup(params);
+		},
+	},
 };
 </script>

@@ -52,131 +52,147 @@ import General from './opened-team-general.vue';
 import Parameters from './opened-team-parameters.vue';
 
 export default {
-  name: 'OpenedTeam',
-  components: {
-    General,
-    Supervisors,
-    Agents,
-    Parameters,
-    Hooks,
-    Flows,
-  },
-  mixins: [openedObjectMixin],
+	name: 'OpenedTeam',
+	components: {
+		General,
+		Supervisors,
+		Agents,
+		Parameters,
+		Hooks,
+		Flows,
+	},
+	mixins: [
+		openedObjectMixin,
+	],
 
-  setup: () => {
-    const v$ = useVuelidate();
-    const { hasSaveActionAccess } = useUserAccessControl();
+	setup: () => {
+		const v$ = useVuelidate();
+		const { hasSaveActionAccess } = useUserAccessControl();
 
-    const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(WtObject.Agent);
-    const { hasReadAccess: hasSupervisorsReadAccess } = useUserAccessControl(WtObject.Agent);
-    const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(WtObject.Flow);
+		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		const { hasReadAccess: hasSupervisorsReadAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 
-    return {
-      v$,
-      hasSaveActionAccess,
-      hasAgentsReadAccess,
-      hasSupervisorsReadAccess,
-      hasFlowsReadAccess,
-    };
-  },
+		return {
+			v$,
+			hasSaveActionAccess,
+			hasAgentsReadAccess,
+			hasSupervisorsReadAccess,
+			hasFlowsReadAccess,
+		};
+	},
 
-  data: () => ({
-    namespace: 'ccenter/teams',
-    routeName: RouteNames.TEAMS,
-    permissionsTabPathName: TeamsRouteNames.PERMISSIONS,
-  }),
-  validations: {
-    itemInstance: {
-      name: { required },
-      strategy: { required },
-      maxNoAnswer: {
-        numeric,
-        required,
-      },
-      wrapUpTime: {
-        numeric,
-        required,
-      },
-      noAnswerDelayTime: {
-        numeric,
-        required,
-      },
-      taskAcceptTimeout: {
-        numeric,
-        required,
-      },
-      callTimeout: {
-        numeric,
-        required,
-      },
-      inviteChatTimeout: {
-        numeric,
-        required,
-      },
-    },
-  },
-  computed: {
-    tabs() {
-      const general = {
-        text: this.$t('objects.general'),
-        value: 'general',
-        pathName: TeamsRouteNames.GENERAL,
-      };
-      const parameters = {
-        text: this.$t('objects.ccenter.teams.parameters'),
-        value: 'parameters',
-        pathName: TeamsRouteNames.PARAMETERS,
-      };
-      const supervisors = {
-        text: this.$t('objects.ccenter.agents.supervisors', 2),
-        value: 'supervisors',
-        pathName: TeamsRouteNames.SUPERVISORS,
-      };
-      const agents = {
-        text: this.$t('objects.ccenter.agents.agents', 2),
-        value: 'agents',
-        pathName: TeamsRouteNames.AGENTS,
-      };
-      const hooks = {
-        text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
-        value: 'hooks',
-        pathName: TeamsRouteNames.HOOKS,
-      };
-      const flows = {
-        text: this.$t('objects.routing.flow.flow', 2),
-        value: 'flows',
-        pathName: TeamsRouteNames.FLOWS,
-      };
-      const tabs = [general, parameters, hooks];
+	data: () => ({
+		namespace: 'ccenter/teams',
+		routeName: RouteNames.TEAMS,
+		permissionsTabPathName: TeamsRouteNames.PERMISSIONS,
+	}),
+	validations: {
+		itemInstance: {
+			name: {
+				required,
+			},
+			strategy: {
+				required,
+			},
+			maxNoAnswer: {
+				numeric,
+				required,
+			},
+			wrapUpTime: {
+				numeric,
+				required,
+			},
+			noAnswerDelayTime: {
+				numeric,
+				required,
+			},
+			taskAcceptTimeout: {
+				numeric,
+				required,
+			},
+			callTimeout: {
+				numeric,
+				required,
+			},
+			inviteChatTimeout: {
+				numeric,
+				required,
+			},
+		},
+	},
+	computed: {
+		tabs() {
+			const general = {
+				text: this.$t('objects.general'),
+				value: 'general',
+				pathName: TeamsRouteNames.GENERAL,
+			};
+			const parameters = {
+				text: this.$t('objects.ccenter.teams.parameters'),
+				value: 'parameters',
+				pathName: TeamsRouteNames.PARAMETERS,
+			};
+			const supervisors = {
+				text: this.$t('objects.ccenter.agents.supervisors', 2),
+				value: 'supervisors',
+				pathName: TeamsRouteNames.SUPERVISORS,
+			};
+			const agents = {
+				text: this.$t('objects.ccenter.agents.agents', 2),
+				value: 'agents',
+				pathName: TeamsRouteNames.AGENTS,
+			};
+			const hooks = {
+				text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
+				value: 'hooks',
+				pathName: TeamsRouteNames.HOOKS,
+			};
+			const flows = {
+				text: this.$t('objects.routing.flow.flow', 2),
+				value: 'flows',
+				pathName: TeamsRouteNames.FLOWS,
+			};
+			const tabs = [
+				general,
+				parameters,
+				hooks,
+			];
 
-      if (this.hasAgentsReadAccess) tabs.push(agents);
-      if (this.hasSupervisorsReadAccess) tabs.push(supervisors);
-      if (this.hasFlowsReadAccess) tabs.push(flows);
+			if (this.hasAgentsReadAccess) tabs.push(agents);
+			if (this.hasSupervisorsReadAccess) tabs.push(supervisors);
+			if (this.hasFlowsReadAccess) tabs.push(flows);
 
-      if (this.id) tabs.push(this.permissionsTab);
-      return tabs;
-    },
+			if (this.id) tabs.push(this.permissionsTab);
+			return tabs;
+		},
 
-    path() {
-      const baseUrl = '/contact-center/teams';
-      return [
-        {
-          name: this.$t('objects.ccenter.ccenter'),
-        },
-        {
-          name: this.$t('objects.team', 2),
-          route: baseUrl,
-        },
-        {
-          name: this.id ? this.pathName : this.$t('objects.new'),
-          route: {
-            name: this.currentTab.pathName,
-            query: this.$route.query,
-          },
-        },
-      ];
-    },
-  },
+		path() {
+			const baseUrl = '/contact-center/teams';
+			return [
+				{
+					name: this.$t('objects.ccenter.ccenter'),
+				},
+				{
+					name: this.$t('objects.team', 2),
+					route: baseUrl,
+				},
+				{
+					name: this.id ? this.pathName : this.$t('objects.new'),
+					route: {
+						name: this.currentTab.pathName,
+						query: this.$route.query,
+					},
+				},
+			];
+		},
+	},
 };
 </script>
 

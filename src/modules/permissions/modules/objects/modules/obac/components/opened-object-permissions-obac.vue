@@ -133,27 +133,35 @@ const namespace = 'permissions/objects';
 const subNamespace = 'obac';
 
 export default {
-  name: 'OpenedObjectPermissionsObac',
-  components: { RolePopup, RoleColumn },
-  mixins: [permissionsTabMixin],
-  setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
-    const { hasUpdateAccess } = useUserAccessControl();
-    return { dummy, hasUpdateAccess };
-  },
-  data: () => ({
-    namespace,
-    subNamespace,
-    headerTitle: '',
-  }),
-  computed: {
-    ...mapState('permissions/objects', {
-      id: (state) => state.itemId,
-    }),
-  },
+	name: 'OpenedObjectPermissionsObac',
+	components: {
+		RolePopup,
+		RoleColumn,
+	},
+	mixins: [
+		permissionsTabMixin,
+	],
+	setup() {
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
+		const { hasUpdateAccess } = useUserAccessControl();
+		return {
+			dummy,
+			hasUpdateAccess,
+		};
+	},
+	data: () => ({
+		namespace,
+		subNamespace,
+		headerTitle: '',
+	}),
+	computed: {
+		...mapState('permissions/objects', {
+			id: (state) => state.itemId,
+		}),
+	},
 };
 </script>
 

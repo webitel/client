@@ -3,20 +3,25 @@
 
 let windowRef = null;
 
-const openMessengerWindow = ({ url, name = 'Add or remove pages', listener }) => {
-  const windowFeatures = 'toolbar=no, menubar=no, width=600, height=700, top=100, left=100';
+const openMessengerWindow = ({
+	url,
+	name = 'Add or remove pages',
+	listener,
+}) => {
+	const windowFeatures =
+		'toolbar=no, menubar=no, width=600, height=700, top=100, left=100';
 
-  if (windowRef) windowRef.close();
-  windowRef = window.open(url, name, windowFeatures);
-  windowRef.focus();
+	if (windowRef) windowRef.close();
+	windowRef = window.open(url, name, windowFeatures);
+	windowRef.focus();
 
-  const _listener = (msg) => {
-    listener(msg);
-    if (msg.data.detail === 'canceled') {
-      windowRef.opener.removeEventListener('message', _listener);
-    }
-  };
-  windowRef.opener.addEventListener('message', _listener, false);
+	const _listener = (msg) => {
+		listener(msg);
+		if (msg.data.detail === 'canceled') {
+			windowRef.opener.removeEventListener('message', _listener);
+		}
+	};
+	windowRef.opener.addEventListener('message', _listener, false);
 };
 
 export default openMessengerWindow;
