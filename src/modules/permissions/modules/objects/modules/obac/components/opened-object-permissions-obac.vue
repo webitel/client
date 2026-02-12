@@ -46,7 +46,7 @@
       v-show="dataList.length && isLoaded"
       class="table-section__table-wrapper"
     >
-      <div class=".table-section__visible-scroll-wrapper">
+      <div class="table-section__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
           :headers="headers"

@@ -31,7 +31,7 @@
       v-show="isLoaded"
       class="table-section__table-wrapper"
     >
-      <div class=".table-section__visible-scroll-wrapper">
+      <div class="table-section__visible-scroll-wrapper">
         <wt-table
           :data="dataList"
           :grid-actions="!disableUserInput"
