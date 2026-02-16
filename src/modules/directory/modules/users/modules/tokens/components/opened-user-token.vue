@@ -46,8 +46,15 @@
       </header>
 
       <wt-loader v-show="!isLoaded" />
+      <wt-dummy
+        v-if="dummy && isLoaded"
+        :src="dummy.src"
+        :dark-mode="darkMode"
+        :text="dummy.text && $t(dummy.text)"
+        class="dummy-wrapper"
+      />
       <div
-        v-show="isLoaded"
+        v-show="dataList.length && isLoaded"
         class="table-section__table-wrapper"
       >
         <wt-table
@@ -98,12 +105,16 @@ import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import { useHasUserTokensAccess } from '../composables/hasUserTokensAccess';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import TokenPopup from './opened-user-token-popup.vue';
+
+const namespace = 'directory/users';
+const subNamespace = 'tokens';
 
 export default {
 	name: 'OpenedUserTokens',
@@ -117,6 +128,11 @@ export default {
 	],
 
 	setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+
 		const {
 			isVisible: isDeleteConfirmationPopup,
 			deleteCount,
@@ -130,6 +146,7 @@ export default {
 			useHasUserTokensAccess();
 
 		return {
+      dummy,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,
@@ -143,7 +160,8 @@ export default {
 	},
 
 	data: () => ({
-		subNamespace: 'tokens',
+    namespace,
+		subNamespace,
 		isPopup: false,
 		isTokenGenerated: false,
 	}),
