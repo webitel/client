@@ -73,8 +73,15 @@
       </div>
     </header>
     <wt-loader v-show="!isLoaded" />
+    <wt-dummy
+      v-if="dummy && isLoaded"
+      :src="dummy.src"
+      :dark-mode="darkMode"
+      :text="dummy.text && $t(dummy.text)"
+      class="dummy-wrapper"
+    />
     <div
-      v-show="isLoaded"
+      v-show="dataList.length && isLoaded"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -143,6 +150,7 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
 
 import GlobalStateSwitcher from '../../../../../../../app/components/global-state-switcher.vue';
+import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
@@ -151,6 +159,9 @@ import addSkillToAgentPopupMixin from '../../../mixins/addSkillToAgentPopupMixin
 import AgentSkillsAPI from '../api/skillAgents';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import ChangeSkillPopup from './replace-agent-skill-popup.vue';
+
+const namespace = 'lookups/skills';
+const subNamespace = 'agents';
 
 export default {
 	name: 'OpenedSkillAgents',
@@ -166,6 +177,11 @@ export default {
 		addSkillToAgentPopupMixin,
 	],
 	setup() {
+    const { dummy } = useDummy({
+      namespace: `${namespace}/${subNamespace}`,
+      hiddenText: true,
+    });
+
 		const {
 			isVisible: isDeleteConfirmationPopup,
 			deleteCount,
@@ -178,6 +194,7 @@ export default {
 		const { hasDeleteAccess } = useUserAccessControl();
 
 		return {
+      dummy,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,
@@ -189,8 +206,8 @@ export default {
 	},
 
 	data: () => ({
-		namespace: 'lookups/skills',
-		subNamespace: 'agents',
+		namespace,
+		subNamespace,
 		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
 		agentSkillPopup: false,
 		showGlobalStateConfirmationPopup: false,
