@@ -369,5 +369,8 @@ export default {
 
 #dropzone {
   background: var(--content-wrapper-color);
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
