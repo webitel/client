@@ -16,7 +16,7 @@ export default [
 	{
 		value: 'reserveResource',
 		locale: 'objects.ccenter.res.reserveResource',
-		field: 'reserveResource',
+		field: 'reserve_resource',
 		sort: SortSymbols.NONE,
 	},
 ];
