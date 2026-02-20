@@ -8,10 +8,10 @@
         <wt-breadcrumb :path="path" />
         <template #actions>
           <download-files-btn
-            :files-download-progress="filesDownloadProgress"
-            :files-zipping-progress="filesZippingProgress"
+            :files-download-progress="filesDownloadProgress.count"
+            :files-zipping-progress="filesZippingProgress.percent"
             :is-files-loading="isFilesLoading"
-            @export-files="exportFiles(null, { fields: undefined })"
+            @export-files="exportFiles"
           />
         </template>
       </wt-page-header>
@@ -170,10 +170,13 @@
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import vueDropzone from 'vue2-dropzone';
+import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
@@ -198,7 +201,6 @@ export default {
 		DeleteConfirmationPopup,
 	},
 	mixins: [
-		exportFilesMixin,
 		tableComponentMixin,
 	],
 	inject: [
@@ -221,6 +223,33 @@ export default {
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useUserAccessControl();
 
+		const store = useStore();
+		const dataList = computed(
+			() => getNamespacedState(store.state, namespace).dataList,
+		);
+		const selected = computed(() =>
+			dataList.value.filter((item) => item._isSelected),
+		);
+
+		const {
+			exportFiles,
+			isLoading: isFilesLoading,
+			downloadStatus: filesDownloadProgress,
+			zippingStatus: filesZippingProgress,
+		} = useFilesExport({
+			getFileURL: (item) =>
+				`${API_URL}/storage/media/${item.id}/download?access_token=${token}`,
+			fetch: (params) => {
+				if (selected.value.length)
+					return {
+						items: selected.value,
+					};
+				return MediaAPI.getList(params);
+			},
+			filename: 'media',
+			skipFilesWithError: true,
+		});
+
 		return {
 			dummy,
 			isDeleteConfirmationPopup,
@@ -232,6 +261,11 @@ export default {
 			hasCreateAccess,
 			hasUpdateAccess,
 			hasDeleteAccess,
+
+			exportFiles,
+			isFilesLoading,
+			filesDownloadProgress,
+			filesZippingProgress,
 		};
 	},
 	data() {
@@ -266,15 +300,6 @@ export default {
 				},
 			];
 		},
-	},
-	created() {
-		this.initFilesExport({
-			fetchMethod: this.getMediaList, // API call method
-			filename: 'media', // name of downloaded file. default is 'files'
-			filesURL: (id) =>
-				`${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
-			skipFilesWithError: true,
-		});
 	},
 
 	methods: {
