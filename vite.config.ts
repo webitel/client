@@ -16,8 +16,8 @@ export default () => {
 				scss: {
 					api: 'modern-compiler',
 					additionalData: `
-          // @use "@/app/css/reusable.scss" as *;
-        `,
+            // @use "@/app/css/reusable.scss" as *;
+          `,
 				},
 			},
 		},
