@@ -994,7 +994,7 @@ export default {
 				maxNumberOfRetry: 'Số lần thử tối đa',
 				minDuration: 'Thời gian cuộc gọi thành công tối thiểu',
 				maxAttempts: 'Số lần thử tối đa',
-				minOnlineAgents: 'Truy cập khi có nhiều đại lý trực tuyến hơn:',
+				minOnlineAgents: 'Truy cập khi có nhiều đại lý trực tuyến hơn',
 				waitForResultStatus: 'Đợi trạng thái kết quả',
 				bucketPriority: 'Ưu tiên',
 				amd: 'AMD',

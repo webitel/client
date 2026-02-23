@@ -999,7 +999,7 @@ export default {
 				minDuration: 'Durata apelului cu succes minimă',
 				maxAttempts: 'Încercări maxime',
 				minOnlineAgents:
-					'Acces la pauză când sunt mai mulți agenți online decât:',
+					'Acces la pauză când sunt mai mulți agenți online decât',
 				waitForResultStatus: 'Așteaptă status rezultat',
 				bucketPriority: 'Prioritate',
 				amd: 'AMD',

@@ -998,7 +998,7 @@ export default {
 				minDuration: 'Minimalna długość udanego połączenia',
 				maxAttempts: 'Maksymalna liczba prób',
 				minOnlineAgents:
-					'Dostęp do zawieszenia, gdy jest więcej online agentów niż:',
+					'Dostęp do zawieszenia, gdy jest więcej online agentów niż',
 				waitForResultStatus: 'Czekaj na status wyniku',
 				bucketPriority: 'Priorytet',
 				amd: 'AMD',

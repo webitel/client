@@ -990,7 +990,7 @@ export default {
 				maxNumberOfRetry: 'Максимальды қайтару саны',
 				minDuration: 'Ең аз қоңырау уақыты',
 				maxAttempts: 'Ең көп сынамалар',
-				minOnlineAgents: 'Тұрақты онлайн агенттер санынан көп болуы керек:',
+				minOnlineAgents: 'Тұрақты онлайн агенттер санынан көп болуы керек',
 				waitForResultStatus: 'Нәтиже күйін күту',
 				bucketPriority: 'Приоритет',
 				amd: 'AMD',

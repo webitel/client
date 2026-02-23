@@ -1000,7 +1000,7 @@ export default {
 				minDuration: 'Duración mínima de llamada exitosa',
 				maxAttempts: 'Intentos máximos',
 				minOnlineAgents:
-					'Acceso a la pausa cuando hay más agentes en línea que:',
+					'Acceso a la pausa cuando hay más agentes en línea que',
 				waitForResultStatus: 'Esperar estado de resultado',
 				bucketPriority: 'Prioridad',
 				amd: 'AMD',
