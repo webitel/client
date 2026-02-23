@@ -30,9 +30,6 @@ export default () => {
       },
       dedupe: ['vue', '@vue/compat'],
     },
-    optimizeDeps: {
-      exclude: ['@webitel/styleguide'],
-    },
     plugins: [
       vue({
         template: {
