@@ -50,6 +50,7 @@
         :data="dataList"
         :grid-actions="false"
         :headers="headers"
+        :selectable="false"
         sortable
         @sort="sort"
       >
