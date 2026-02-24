@@ -45,8 +45,8 @@ export default {
 				...params,
 				fields,
 			});
-			response.items = response.items.map(({ product, id }) => ({
-				name: product,
+			response.items = response.items.map(({ name, product, id }) => ({
+				name: name || product,
 				id,
 			}));
 			return response;

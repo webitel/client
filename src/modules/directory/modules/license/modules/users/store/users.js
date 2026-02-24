@@ -17,14 +17,18 @@ const state = {
 const actions = {
 	INITIALIZE_HEADERS: (context) => {
 		const licenses = context.rootState.directory.license.dataList;
-		const licenseHeaders = licenses.map(({ id, product, notAfter }, index) => ({
-			value: id,
-			name: product,
-			text: product.concat(` (${formatDate(+notAfter, FormatDateMode.DATE)})`),
-			field: `license.${id}`,
-			show: index < 5, // show only first 4 licenses
-			sort: SortSymbols.NONE,
-		}));
+		const licenseHeaders = licenses.map(
+			({ id, name, product, notAfter }, index) => ({
+				value: id,
+				name: product,
+				text: (name || product).concat(
+					` (${formatDate(+notAfter, FormatDateMode.DATE)})`,
+				),
+				field: `license.${id}`,
+				show: index < 5, // show only first 4 licenses
+				sort: SortSymbols.NONE,
+			}),
+		);
 		const headers = [
 			...staticHeaders,
 			...licenseHeaders,

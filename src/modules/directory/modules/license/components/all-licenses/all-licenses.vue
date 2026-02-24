@@ -65,7 +65,7 @@
               icon="license"
               icon-prefix="adm"
             />
-            {{ item.product }}
+            {{ item.name || item.product }}
           </div>
         </template>
 
