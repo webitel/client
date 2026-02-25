@@ -5,7 +5,7 @@ export default {
 				online: 'success',
 				pause: 'primary',
 				offline: 'disabled',
-				breakOut: 'secondary',
+				breakOut: 'break-out',
 			};
 		},
 		statusIndicatorText() {
