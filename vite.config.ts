@@ -1,9 +1,12 @@
+/// <reference types="vitest/config" />
+
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vueDevTools from 'vite-plugin-vue-devtools';
+import { vite as vidstack } from 'vidstack/plugins';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -30,6 +33,7 @@ export default ({ mode }) => {
 			dedupe: [
 				'vue',
 				'@vue/compat',
+				'vidstack',
 			],
 		},
 		plugins: [
@@ -39,6 +43,7 @@ export default ({ mode }) => {
 						compatConfig: {
 							MODE: 2,
 						},
+						isCustomElement: (tag) => tag.startsWith('media-'),
 					},
 				},
 			}),
@@ -55,9 +60,8 @@ export default ({ mode }) => {
 					process: true, // csv stringify
 				},
 			}),
-			vueDevTools({
-				launchEditor: 'webstorm',
-			}),
+			vidstack(),
+			vueDevTools(),
 			checker({
 				typescript: false,
 				vueTsc: false,

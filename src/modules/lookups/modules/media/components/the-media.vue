@@ -122,7 +122,7 @@
               {{ prettifyFileSize(item.size) }}
             </template>
             <template #actions="{ item, index }">
-              <media-file-preview-table-action
+              <table-media-file-preview-action
                 :playing="index === playingIndex && currentlyPlaying"
                 :type="item.mimeType"
                 @open="openFile(item)"
@@ -155,8 +155,8 @@
         </div>
 
         <wt-player
-          v-show="audioLink"
-          :src="audioLink"
+          v-if="audioPreviewSrc"
+          :src="audioPreviewSrc"
           @close="closePlayer"
           @pause="currentlyPlaying = false"
           @play="currentlyPlaying = true"
@@ -177,6 +177,7 @@ import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
@@ -185,7 +186,7 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
-import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
+import TableMediaFilePreviewAction from './table-media-file-preview-action.vue';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;
@@ -197,8 +198,9 @@ export default {
 		DownloadFilesBtn,
 		vueDropzone,
 		TextToSpeechPopup,
-		MediaFilePreviewTableAction,
+		TableMediaFilePreviewAction,
 		DeleteConfirmationPopup,
+		WtPlayer,
 	},
 	mixins: [
 		tableComponentMixin,
@@ -275,7 +277,7 @@ export default {
 			isLoadingFiles: false,
 			loadedCount: 0,
 			allLoadingCount: 0,
-			audioLink: '',
+			audioPreviewSrc: null,
 			playingIndex: null,
 			currentlyPlaying: true,
 
@@ -350,14 +352,17 @@ export default {
 		},
 
 		play(rowId) {
-			const { id } = this.dataList[rowId];
+			const { id, mimeType } = this.dataList[rowId];
 			this.playingIndex = rowId;
-			this.audioLink = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
+			this.audioPreviewSrc = {
+				src: `${API_URL}/storage/media/${id}/stream?access_token=${token}`,
+				type: mimeType,
+			};
 		},
 
 		closePlayer() {
 			this.playingIndex = null;
-			this.audioLink = '';
+			this.audioPreviewSrc = null;
 		},
 		getMediaList: MediaAPI.getList,
 		prettifyDate(date) {
