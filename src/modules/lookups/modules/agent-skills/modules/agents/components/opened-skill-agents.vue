@@ -177,10 +177,10 @@ export default {
 		addSkillToAgentPopupMixin,
 	],
 	setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
 		const {
 			isVisible: isDeleteConfirmationPopup,
@@ -194,7 +194,7 @@ export default {
 		const { hasDeleteAccess } = useUserAccessControl();
 
 		return {
-      dummy,
+			dummy,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,

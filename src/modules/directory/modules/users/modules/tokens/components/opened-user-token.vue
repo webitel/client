@@ -128,10 +128,10 @@ export default {
 	],
 
 	setup() {
-    const { dummy } = useDummy({
-      namespace: `${namespace}/${subNamespace}`,
-      hiddenText: true,
-    });
+		const { dummy } = useDummy({
+			namespace: `${namespace}/${subNamespace}`,
+			hiddenText: true,
+		});
 
 		const {
 			isVisible: isDeleteConfirmationPopup,
@@ -146,7 +146,7 @@ export default {
 			useHasUserTokensAccess();
 
 		return {
-      dummy,
+			dummy,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,
@@ -160,7 +160,7 @@ export default {
 	},
 
 	data: () => ({
-    namespace,
+		namespace,
 		subNamespace,
 		isPopup: false,
 		isTokenGenerated: false,

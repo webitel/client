@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import AudioPreview from './media-audio-preview-table-action.vue';
+import AudioPreview from './table-media-audio-preview-action.vue';
 
 export default {
-	name: 'MediaFilePreviewTableAction',
+	name: 'TableMediaFilePreviewAction',
 	components: {
 		AudioPreview,
 	},

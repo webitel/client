@@ -8,10 +8,10 @@
         <wt-breadcrumb :path="path" />
         <template #actions>
           <download-files-btn
-            :files-download-progress="filesDownloadProgress"
-            :files-zipping-progress="filesZippingProgress"
+            :files-download-progress="filesDownloadProgress.count"
+            :files-zipping-progress="filesZippingProgress.percent"
             :is-files-loading="isFilesLoading"
-            @export-files="exportFiles(null, { fields: undefined })"
+            @export-files="exportFiles"
           />
         </template>
       </wt-page-header>
@@ -122,7 +122,7 @@
               {{ prettifyFileSize(item.size) }}
             </template>
             <template #actions="{ item, index }">
-              <media-file-preview-table-action
+              <table-media-file-preview-action
                 :playing="index === playingIndex && currentlyPlaying"
                 :type="item.mimeType"
                 @open="openFile(item)"
@@ -155,8 +155,8 @@
         </div>
 
         <wt-player
-          v-show="audioLink"
-          :src="audioLink"
+          v-if="audioPreviewSrc"
+          :src="audioPreviewSrc"
           @close="closePlayer"
           @pause="currentlyPlaying = false"
           @play="currentlyPlaying = true"
@@ -170,10 +170,14 @@
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import exportFilesMixin from '@webitel/ui-sdk/src/modules/FilesExport/mixins/exportFilesMixin';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import vueDropzone from 'vue2-dropzone';
+import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
+import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
@@ -182,7 +186,7 @@ import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/obj
 import { download } from '../../../../../app/utils/download';
 import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
-import MediaFilePreviewTableAction from './media-file-preview-table-action.vue';
+import TableMediaFilePreviewAction from './table-media-file-preview-action.vue';
 
 const token = localStorage.getItem('access-token');
 const API_URL = import.meta.env.VITE_API_URL;
@@ -194,11 +198,11 @@ export default {
 		DownloadFilesBtn,
 		vueDropzone,
 		TextToSpeechPopup,
-		MediaFilePreviewTableAction,
+		TableMediaFilePreviewAction,
 		DeleteConfirmationPopup,
+		WtPlayer,
 	},
 	mixins: [
-		exportFilesMixin,
 		tableComponentMixin,
 	],
 	inject: [
@@ -221,6 +225,33 @@ export default {
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useUserAccessControl();
 
+		const store = useStore();
+		const dataList = computed(
+			() => getNamespacedState(store.state, namespace).dataList,
+		);
+		const selected = computed(() =>
+			dataList.value.filter((item) => item._isSelected),
+		);
+
+		const {
+			exportFiles,
+			isLoading: isFilesLoading,
+			downloadStatus: filesDownloadProgress,
+			zippingStatus: filesZippingProgress,
+		} = useFilesExport({
+			getFileURL: (item) =>
+				`${API_URL}/storage/media/${item.id}/download?access_token=${token}`,
+			fetch: (params) => {
+				if (selected.value.length)
+					return {
+						items: selected.value,
+					};
+				return MediaAPI.getList(params);
+			},
+			filename: 'media',
+			skipFilesWithError: true,
+		});
+
 		return {
 			dummy,
 			isDeleteConfirmationPopup,
@@ -232,6 +263,11 @@ export default {
 			hasCreateAccess,
 			hasUpdateAccess,
 			hasDeleteAccess,
+
+			exportFiles,
+			isFilesLoading,
+			filesDownloadProgress,
+			filesZippingProgress,
 		};
 	},
 	data() {
@@ -241,7 +277,7 @@ export default {
 			isLoadingFiles: false,
 			loadedCount: 0,
 			allLoadingCount: 0,
-			audioLink: '',
+			audioPreviewSrc: null,
 			playingIndex: null,
 			currentlyPlaying: true,
 
@@ -266,15 +302,6 @@ export default {
 				},
 			];
 		},
-	},
-	created() {
-		this.initFilesExport({
-			fetchMethod: this.getMediaList, // API call method
-			filename: 'media', // name of downloaded file. default is 'files'
-			filesURL: (id) =>
-				`${API_URL}/storage/media/${id}/download?access_token=${token}`, // Function. accepts file id param, and generates download link for file
-			skipFilesWithError: true,
-		});
 	},
 
 	methods: {
@@ -325,14 +352,17 @@ export default {
 		},
 
 		play(rowId) {
-			const { id } = this.dataList[rowId];
+			const { id, mimeType } = this.dataList[rowId];
 			this.playingIndex = rowId;
-			this.audioLink = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
+			this.audioPreviewSrc = {
+				src: `${API_URL}/storage/media/${id}/stream?access_token=${token}`,
+				type: mimeType,
+			};
 		},
 
 		closePlayer() {
 			this.playingIndex = null;
-			this.audioLink = '';
+			this.audioPreviewSrc = null;
 		},
 		getMediaList: MediaAPI.getList,
 		prettifyDate(date) {
