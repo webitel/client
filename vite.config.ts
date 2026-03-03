@@ -2,22 +2,15 @@
 
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import { vite as vidstack } from 'vidstack/plugins';
 
 // https://vitejs.dev/config/
-export default ({ mode }) => {
-	const env = loadEnv(mode, process.cwd(), '');
-
+export default () => {
 	return defineConfig({
-		define: {
-			'process.env': JSON.parse(
-				JSON.stringify(env).replaceAll('VITE_', 'VUE_APP_'),
-			),
-		},
 		server: {
 			// host: true,  // uncomment me to enable localhost access by IP (including from other devices in the network)
 		},
