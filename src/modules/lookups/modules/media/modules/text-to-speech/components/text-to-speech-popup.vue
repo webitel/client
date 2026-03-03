@@ -67,11 +67,14 @@
 			<template #actions>
 				<div class="tts__footer-wrapper">
 					<wt-player
-						v-if="audioUrl"
+						v-if="audio"
+						:src="{
+							src: audio,
+							type: 'audio/object',
+						}"
 						:autoplay="false"
 						:closable="false"
 						:download="false"
-						:src="audioUrl"
 						position="static"
 					/>
 					<div class="tts__footer-actions-wrapper">
@@ -112,6 +115,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { StorageServiceType } from 'webitel-sdk';
 import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
+import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import validationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
@@ -132,6 +136,9 @@ const getModel = () => ({
 
 export default {
 	name: 'TextToSpeechPopup',
+	components: {
+		WtPlayer,
+	},
 	mixins: [
 		validationMixin,
 	],
@@ -149,7 +156,6 @@ export default {
 		TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
 		TtsMicrosoftVoice,
 		audio: null,
-		audioUrl: '',
 		isGenerating: false,
 		isSaving: false,
 	}),
@@ -203,12 +209,10 @@ export default {
 			this.$router.go(-1);
 			this.isOpened = false;
 			this.audio = null;
-			this.audioUrl = '';
 		},
 		async generate() {
 			try {
 				this.isGenerating = true;
-				this.audioUrl = '';
 				const params = {
 					profileId: this.draft.profile.id,
 					textType: this.draft.textType.value,
@@ -218,7 +222,6 @@ export default {
 					text: this.draft.text,
 				};
 				this.audio = await TextToSpeechAPI.getTts(params);
-				this.audioUrl = TextToSpeechAPI.getTtsStreamUrl(params, true);
 			} finally {
 				this.isGenerating = false;
 			}
