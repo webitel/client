@@ -45,17 +45,18 @@
         >
           <global-state-switcher
             :model-value="aggs.enabled"
+            :disabled="!hasAgentUpdateAccess"
             @update:model-value="showGlobalStateConfirmation"
           />
           <wt-icon-btn
-            v-if="!disableUserInput"
+            :disabled="!hasAgentUpdateAccess"
             :class="{'hidden': anySelected}"
             class="icon-action"
             icon="arrow-mix"
             @click="openAgentSkillPopup"
           />
           <delete-all-action
-            v-if="!disableUserInput"
+            :disabled="!hasAgentUpdateAccess"
             :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="askDeleteConfirmation({
@@ -64,7 +65,7 @@
             })"
           />
           <wt-icon-btn
-            v-if="!disableUserInput"
+            :disabled="!hasAgentUpdateAccess"
             class="icon-action"
             icon="plus"
             @click="openAddSkillToAgentPopup"
@@ -109,12 +110,14 @@
         </template>
         <template #capacity="{ item, index }">
           <wt-input-number
+            :disabled="!hasAgentUpdateAccess"
             :model-value="item.capacity"
             @update:model-value="handlePatchInput({item, index, prop:'capacity', value:$event})"
           />
         </template>
         <template #state="{ item, index }">
           <wt-switcher
+            :disabled="!hasAgentUpdateAccess"
             :model-value="item.enabled"
             @update:model-value="handlePatchEnabled({ item, index, prop: 'enabled', value: $event })"
           />
@@ -122,7 +125,7 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="delete"
-            :disabled="!hasDeleteAccess"
+            :disabled="!hasAgentUpdateAccess"
             @click="askDeleteConfirmation({
               deleted: [item],
               callback: () => deleteData(item),
@@ -145,6 +148,7 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import debounce from '@webitel/ui-sdk/src/scripts/debounce';
@@ -191,7 +195,9 @@ export default {
 			closeDelete,
 		} = useDeleteConfirmationPopup();
 
-		const { hasDeleteAccess } = useUserAccessControl();
+		const { hasUpdateAccess: hasAgentUpdateAccess } = useUserAccessControl(
+			WtObject.Agent,
+		);
 
 		return {
 			dummy,
@@ -201,7 +207,7 @@ export default {
 
 			askDeleteConfirmation,
 			closeDelete,
-			hasDeleteAccess,
+			hasAgentUpdateAccess,
 		};
 	},
 
