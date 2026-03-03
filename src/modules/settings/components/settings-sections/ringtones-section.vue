@@ -21,10 +21,12 @@
           @input="(val: Ringtone) => (ringtone = val)"
         />
         <wt-player
-          v-show="audioLink"
+          v-if="audioLink"
           :src="audioLink"
+          :download="false"
           :closable="false"
           :autoplay="false"
+          position="static"
         />
         <wt-button
           :disabled="isRingtoneSaved"
@@ -40,6 +42,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import { getRingtonesList } from '../../api/settings';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
@@ -110,11 +113,5 @@ onMounted(async () => {
     align-self: flex-end;
   
   }
-
-  .wt-player {
-    position: relative;
-    bottom: auto;
-  }
-
 </style>
 
