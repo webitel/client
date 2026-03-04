@@ -51,7 +51,10 @@
                   callback: () => deleteData(selectedRows),
                 })"
               />
-              <text-to-speech-popup @opened="closePlayer" />
+              <text-to-speech-popup
+                :disabled="!hasCreateAccess"
+                @opened="closePlayer"
+              />
             </wt-table-actions>
           </div>
         </header>

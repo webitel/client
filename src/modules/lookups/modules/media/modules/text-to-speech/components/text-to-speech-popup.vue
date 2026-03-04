@@ -4,6 +4,7 @@
 			v-show="!isOpened"
 			v-tooltip="$t('objects.lookups.media.tts.hint')"
 			icon="tts-download"
+			:disabled="disabled"
 			@click="openPopup"
 		/>
 
@@ -80,7 +81,7 @@
 					<div class="tts__footer-actions-wrapper">
 						<wt-button
 							v-if="audio"
-							:disabled="disabled"
+							:disabled="disabledActions"
 							:loading="isSaving"
 							wide
 							@click="save"
@@ -89,7 +90,7 @@
 						</wt-button>
 						<wt-button
 							:color="audio ? 'secondary' : 'primary'"
-							:disabled="disabled"
+							:disabled="disabledActions"
 							:loading="isGenerating"
 							wide
 							@click="generate"
@@ -142,6 +143,12 @@ export default {
 	mixins: [
 		validationMixin,
 	],
+	props: {
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	setup: () => ({
 		// Reasons for use $stopPropagation
 		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
@@ -173,8 +180,8 @@ export default {
 		},
 	},
 	computed: {
-		disabled() {
-			return this.checkValidations('draft');
+		disabledActions() {
+			return this.checkValidations('draft') || this.disabled;
 		},
 		mediaId() {
 			return this.$route.params.mediaId;
