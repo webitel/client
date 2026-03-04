@@ -18,7 +18,7 @@
           @input="tableActionsHandler"
         >
           <delete-all-action
-            v-if="!disableUserInput"
+            :disabled="!hasUpdateAccess"
             :class="{ 'hidden': anySelected }"
             :selected-count="selectedRows.length"
             @click="askDeleteConfirmation({
@@ -27,7 +27,7 @@
             })"
           />
           <wt-icon-btn
-            v-if="!disableUserInput"
+            :disabled="!hasUpdateAccess"
             class="icon-action"
             icon="plus"
             @click="create"
@@ -50,7 +50,6 @@
     >
       <wt-table
         :data="dataList"
-        :grid-actions="!disableUserInput"
         :headers="headers"
         sortable
         @sort="sort"
@@ -77,10 +76,12 @@
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
+            :disabled="!hasUpdateAccess"
             @click="editItem(item)"
           />
           <wt-icon-action
             action="delete"
+            :disabled="!hasUpdateAccess"
             @click="askDeleteConfirmation({
               deleted: [item],
               callback: () => deleteData(item),
