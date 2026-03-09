@@ -6,7 +6,7 @@
     <template>
 
       <change-password-autocomplete />
-  
+
       <user-password-input
         :model-value="newPassword"
         :label="t('auth.password')"
@@ -31,23 +31,23 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { computed, inject, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
 
 import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
 import { changePassword as requestChangePassword } from '../../api/settings';
-import ChangePasswordAutocomplete from './utils/change-password-autocomplete.vue'
+import ChangePasswordAutocomplete from './utils/change-password-autocomplete.vue';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
+import { useUserinfoStore } from '../../../userinfo/stores/userinfoStore';
 
 const $eventBus = inject('$eventBus');
 const { t } = useI18n();
-const store = useStore();
 
-const userId = computed(
-	() => getNamespacedState(store.state, 'userinfo').userId,
-);
+const userStore = useUserinfoStore();
+const { userInfo } = storeToRefs(userStore);
+
+const userId = computed(() => userInfo.value?.userId);
 
 const isPasswordPatching = ref(false);
 const newPassword = ref('');
