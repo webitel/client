@@ -53,7 +53,7 @@
     >
       <wt-table
         :data="dataList"
-        :grid-actions="disableUserInput"
+        :grid-actions="!disableUserInput"
         :headers="headers"
         sortable
         @sort="sort"
