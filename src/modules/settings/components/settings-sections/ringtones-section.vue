@@ -4,7 +4,7 @@
       {{ t('settings.ringtones.title') }}
     </template>
     <template>
-  
+
         <wt-checkbox
           :selected="isCustomRingtone"
           :label="t('settings.ringtones.customRingtone')"
@@ -23,7 +23,6 @@
         <wt-player
           v-if="audioLink"
           :src="audioLink"
-          :download="false"
           :closable="false"
           :autoplay="false"
           position="static"
@@ -34,7 +33,7 @@
         >
           {{ t('objects.save') }}
         </wt-button>
-      
+
     </template>
   </settings-section-wrapper>
 </template>
@@ -63,11 +62,16 @@ const savedRingtone = ref<string | null>(null);
 const isRingtoneSelected = computed(
 	() => isCustomRingtone.value && ringtone.value.name,
 );
-const audioLink = computed(() =>
-	isRingtoneSelected.value
+const audioLink = computed(() => {
+	const src = isRingtoneSelected.value
 		? `${import.meta.env.VITE_RINGTONES_URL}/${ringtone.value.name}`
-		: '',
-);
+		: '';
+	const type = 'audio/mp3';
+	return {
+		src,
+		type,
+	};
+});
 const isRingtoneSaved = computed(
 	() =>
 		(!savedRingtone.value && !ringtone.value.name) ||
@@ -111,7 +115,7 @@ onMounted(async () => {
 <style scoped>
   .wt-button {
     align-self: flex-end;
-  
+
   }
 </style>
 
