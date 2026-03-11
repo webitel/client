@@ -442,7 +442,7 @@ const FlowAppAutocomplete = Object.freeze({
 		insertText: {
 			[FlowApp.RECORD_FILE]: {
 				maxSec: 30,
-				name: '${uuid}',
+				name: '',
 				silenceHits: 5,
 				terminators: '#',
 				type: 'mp3',
