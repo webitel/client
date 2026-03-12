@@ -23,6 +23,7 @@
         <wt-player
           v-if="audioLink.src"
           :src="audioLink"
+          :id="ringtone.name"
           :closable="false"
           :autoplay="false"
           position="static"
@@ -66,10 +67,9 @@ const audioLink = computed(() => {
 	const src = isRingtoneSelected.value
 		? `${import.meta.env.VITE_RINGTONES_URL}/${ringtone.value.name}`
 		: '';
-	const type = 'audio/mp3';
 	return {
 		src,
-		type,
+		type: 'audio/mp3',
 	};
 });
 const isRingtoneSaved = computed(
