@@ -23,7 +23,7 @@
         <wt-player
           v-if="audioLink.src"
           :src="audioLink"
-          :id="ringtone.name"
+          :file-name="ringtone.name"
           :closable="false"
           :autoplay="false"
           position="static"
