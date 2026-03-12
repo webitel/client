@@ -21,7 +21,7 @@
           @input="(val: Ringtone) => (ringtone = val)"
         />
         <wt-player
-          v-if="audioLink"
+          v-if="audioLink.src"
           :src="audioLink"
           :closable="false"
           :autoplay="false"
