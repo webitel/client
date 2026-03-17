@@ -42,6 +42,7 @@
         class="scroll-wrap"
       >
         <wt-table
+          :key="tableKey"
           :data="dataList"
           :grid-actions="false"
           :headers="headers"
@@ -89,7 +90,6 @@
 </template>
 
 <script setup>
-import WtIntersectionObserver from '@webitel/ui-sdk/components/wt-intersection-observer/wt-intersection-observer.vue';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import {
 	SortSymbols,
@@ -131,6 +131,7 @@ const { hasReadAccess: hasReadTeamAccess } = useUserAccessControl(
 );
 
 const filters = ref(getFilters());
+const tableKey = ref(0);
 const headers = reactive([
 	{
 		value: 'name',
@@ -180,6 +181,7 @@ async function loadDataList() {
 
 function handleFilterChange() {
 	page.value = 1;
+	tableKey.value += 1;
 	return loadDataList();
 }
 
@@ -227,7 +229,7 @@ async function callLoadDataList() {
 }
 
 const handleIntersect = () => {
-	if (!isNext.value) return;
+	if (!isNext.value || isLoading.value) return;
 	page.value += 1;
 	callLoadDataList();
 };
