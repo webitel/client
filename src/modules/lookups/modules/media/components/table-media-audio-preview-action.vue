@@ -34,5 +34,15 @@ export default {
   overflow: hidden;
   width: var(--icon-md-size);
   height: var(--icon-md-size);
+
+  /**
+    @author @rzaritskyi
+    Vidstack player rewrites iframe`s width and height in vidstack/player/styles/base.css.
+    So here we need to write sizes explicitly.
+  **/
+  iframe {
+    width: inherit;
+    height: inherit;
+  }
 }
 </style>
