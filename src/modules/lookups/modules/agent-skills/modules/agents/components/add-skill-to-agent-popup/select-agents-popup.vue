@@ -182,7 +182,7 @@ async function loadDataList() {
 function handleFilterChange() {
 	page.value = 1;
 	tableKey.value += 1;
-	return loadDataList();
+	return callLoadDataList();
 }
 
 function handleTeamsSelect(value) {
