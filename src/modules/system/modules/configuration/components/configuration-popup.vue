@@ -5,7 +5,7 @@
       {{ $t('objects.system.configuration.parameter').toLowerCase() }}
     </template>
     <template #main>
-      <form>
+      <form class="configuration-popup__form">
         <wt-select :clearable="false" :disabled="id" :label="$t('objects.system.configuration.parameter')"
           :options="parameterList" :track-by="name" :v="v$.itemInstance.name" :value="itemInstance.name" required
           @input="setParameterName" />
@@ -353,3 +353,11 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.configuration-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+</style>
