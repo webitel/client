@@ -12,29 +12,31 @@
         : $t('objects.system.globalVariables.newTitle') }}
     </template>
     <template #main>
-      <wt-input-text
-        :model-value="itemInstance.name"
-        :v="v$.itemInstance.name"
-        :disabled="disableUserInput"
-        :label="$t('objects.key')"
-        required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-input-text
-        :model-value="itemInstance.value"
-        :v="v$.itemInstance.value"
-        :disabled="disableUserInput"
-        :label="$t('vocabulary.values', 1)"
-        :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
-        :required="!itemInstance.id || !startEncryptValue"
-        @update:model-value="setItemProp({ prop: 'value', value: $event })"
-      />
-      <wt-switcher
-        :model-value="itemInstance.encrypt"
-        :disabled="startEncryptValue"
-        :label="$t('objects.system.globalVariables.encrypted')"
-        @update:model-value="setItemProp({ prop: 'encrypt', value: $event })"
-      />
+      <form class="global-variables-popup__form">
+        <wt-input-text
+          :model-value="itemInstance.name"
+          :v="v$.itemInstance.name"
+          :disabled="disableUserInput"
+          :label="$t('objects.key')"
+          required
+          @update:model-value="setItemProp({ prop: 'name', value: $event })"
+        />
+        <wt-input-text
+          :model-value="itemInstance.value"
+          :v="v$.itemInstance.value"
+          :disabled="disableUserInput"
+          :label="$t('vocabulary.values', 1)"
+          :label-props="{ hint: $t('objects.system.globalVariables.valueInfo'), hintPosition: 'right' }"
+          :required="!itemInstance.id || !startEncryptValue"
+          @update:model-value="setItemProp({ prop: 'value', value: $event })"
+        />
+        <wt-switcher
+          :model-value="itemInstance.encrypt"
+          :disabled="startEncryptValue"
+          :label="$t('objects.system.globalVariables.encrypted')"
+          @update:model-value="setItemProp({ prop: 'encrypt', value: $event })"
+        />
+      </form>
     </template>
     <template #actions>
       <wt-button
@@ -154,3 +156,11 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.global-variables-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+</style>
