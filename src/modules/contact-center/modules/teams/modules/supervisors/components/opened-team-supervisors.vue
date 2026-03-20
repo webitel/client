@@ -30,8 +30,8 @@
           @input="tableActionsHandler"
         >
           <delete-all-action
+            v-show="!anySelected"
             :disabled="!hasSupervisorsUpdateAccess"
-            :class="{ 'hidden': anySelected }"
             :selected-count="selectedRows.length"
             @click="askDeleteConfirmation({
               deleted: selectedRows,

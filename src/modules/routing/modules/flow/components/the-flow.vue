@@ -43,7 +43,7 @@
             >
               <delete-all-action
                 v-if="hasDeleteAccess"
-                :class="{ 'hidden': anySelected }"
+                v-show="!anySelected"
                 :selected-count="selectedRows.length"
                 @click="askDeleteConfirmation({
                   deleted: selectedRows,

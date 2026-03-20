@@ -49,15 +49,15 @@
             @update:model-value="showGlobalStateConfirmation"
           />
           <wt-icon-btn
+            v-show="!anySelected"
             :disabled="!hasAgentUpdateAccess"
-            :class="{'hidden': anySelected}"
             class="icon-action"
             icon="arrow-mix"
             @click="openAgentSkillPopup"
           />
           <delete-all-action
+            v-show="!anySelected"
             :disabled="!hasAgentUpdateAccess"
-            :class="{'hidden': anySelected}"
             :selected-count="selectedRows.length"
             @click="askDeleteConfirmation({
               deleted: selectedRows,
