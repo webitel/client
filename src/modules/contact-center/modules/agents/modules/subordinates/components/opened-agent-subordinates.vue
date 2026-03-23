@@ -14,7 +14,7 @@
       <div class="table-title__actions-wrap">
         <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
         <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
-          <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+          <delete-all-action v-if="!disableUserInput" v-show="!anySelected"
             :selected-count="selectedRows.length" @click="deleteData(selectedRows)" />
           <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>

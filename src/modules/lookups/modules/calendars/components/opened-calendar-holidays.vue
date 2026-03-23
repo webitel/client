@@ -10,7 +10,7 @@
       </h3>
       <div class="table-title__actions-wrap">
         <wt-search-bar v-model="search" debounce @enter="loadList" @search="loadList" />
-        <delete-all-action v-if="!disableUserInput" :class="{ 'hidden': anySelected }"
+        <delete-all-action v-if="!disableUserInput" v-show="!anySelected"
           :selected-count="selectedRows.length" @click="askDeleteConfirmation({
             deleted: selectedRows,
             callback: () => deleteData(selectedRows),
