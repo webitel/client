@@ -38,7 +38,14 @@
           @click="resetFilters"
         />
       </div>
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
       <div
+        v-show="dataList.length"
         class="scroll-wrap"
       >
         <wt-table
@@ -96,6 +103,7 @@ import {
 	sortToQueryAdapter,
 } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, onMounted, reactive, ref } from 'vue';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
@@ -154,6 +162,17 @@ const isLoading = ref(false);
 const selectedRows = computed(() =>
 	dataList.value.filter((item) => item._isSelected),
 );
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	filters,
+	error: false,
+	isLoading,
+});
 
 function setDataList(items) {
 	if (page.value === 1) dataList.value = items;
