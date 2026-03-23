@@ -18,8 +18,8 @@
       </h3>
       <div class="table-title__actions-wrap">
         <delete-all-action
+		  v-show="!anySelected"
           :disabled="disableUserInput"
-          :class="{ 'hidden': anySelected }"
           :selected-count="selectedRows.length"
           @click="askDeleteConfirmation({
             deleted: selectedRows,
