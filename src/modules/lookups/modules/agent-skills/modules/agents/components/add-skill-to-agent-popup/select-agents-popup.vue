@@ -15,7 +15,7 @@
           :value="filters.search"
           debounce
           @enter="handleFilterChange"
-          @input="filters.search = $event"
+          @input="updateSearchValue($event)"
           @search="handleFilterChange"
         />
         <wt-select
@@ -39,10 +39,14 @@
         />
       </div>
       <wt-empty
-        v-show="showEmpty"
+        v-show="showEmpty && !isLoading"
         :image="imageEmpty"
         :text="textEmpty"
       />
+
+      <div class="opened-skill-agent-popup__loader" v-show="!dataList.length && isLoading">
+        <wt-loader  />
+      </div>
 
       <div
         v-show="dataList.length"
@@ -198,6 +202,14 @@ async function loadDataList() {
 	isNext.value = next;
 }
 
+function updateSearchValue(value) {
+	if (!value) {
+		isLoading.value = true;
+	}
+
+	filters.value.search = value;
+}
+
 function handleFilterChange() {
 	page.value = 1;
 	tableKey.value += 1;
@@ -215,6 +227,7 @@ function handleSkillsSelect(value) {
 }
 
 function resetFilters() {
+	isLoading.value = true;
 	filters.value = getFilters();
 	return handleFilterChange();
 }
@@ -269,6 +282,13 @@ onMounted(async () => {
     gap: var(--spacing-xs);
   }
 
+  &__loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35vh;
+  }
+
   &.wt-popup {
     .wt-popup__main {
       display: flex;
@@ -283,7 +303,7 @@ onMounted(async () => {
   }
 
   .scroll-wrap {
-    height: 65vh;
+    height: 35vh;
   }
 }
 
