@@ -72,7 +72,7 @@ export default {
 		useStun: 'Використовувати STUN',
 		notifications: {
 			[NotificationType.NewMessageSound]:
-				'Звукове сповіщення про нове сповіщення',
+				'Звукове сповіщення про нове повідомлення',
 			[NotificationType.NewChatSound]: 'Звукове сповіщення про новий чат',
 			[NotificationType.ChatEndSound]: 'Звукове сповіщення про завершення чату',
 			[NotificationType.CallEndSound]:
