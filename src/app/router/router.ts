@@ -1,9 +1,11 @@
+import { ref } from 'vue';
 import { WtApplication } from '@webitel/ui-sdk/enums';
 import { eventBus } from '@webitel/ui-sdk/scripts';
-import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 import i18n from '../../app/locale/i18n';
+import { useUserinfoStore } from '../../modules/userinfo/stores/userinfoStore';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
@@ -217,6 +219,34 @@ export const initRouter = async ({ beforeEach = [] } = {}) => {
 			msg.includes('ChunkLoadError')
 		) {
 			window.location.reload();
+		}
+	});
+
+	const isWarningShown = ref(false);
+
+	router.afterEach(() => {
+		const userInfoStore = useUserinfoStore();
+		const { warnings } = storeToRefs(userInfoStore);
+
+		if (!isWarningShown.value) {
+			const expiredWarning = warnings.value.find(
+				(warning) => warning.id === 'app.password.expires_soon',
+			);
+			if (expiredWarning) {
+				const expiredDays =
+					expiredWarning.warningData?.passwordExpiry?.daysRemaining;
+
+				eventBus.$emit('notification', {
+					type: 'info',
+					text: i18n.global.t(
+						'systemNotifications.info.passwordExpirationMessage',
+						{
+							expiredDays,
+						},
+					),
+				});
+				isWarningShown.value = true;
+			}
 		}
 	});
 
