@@ -307,6 +307,10 @@ onMounted(async () => {
   .scroll-wrap {
     height: 35vh;
   }
+
+  .wt-item-link {
+    word-break: break-word;
+  }
 }
 
 </style>
