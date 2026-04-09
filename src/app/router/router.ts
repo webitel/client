@@ -226,34 +226,6 @@ export const initRouter = async ({ beforeEach = [], afterEach = [] } = {}) => {
 		}
 	});
 
-	const isWarningShown = ref(false);
-
-	router.afterEach(() => {
-		const userInfoStore = useUserinfoStore();
-		const { warnings } = storeToRefs(userInfoStore);
-
-		if (!isWarningShown.value) {
-			const expiredWarning = warnings.value.find(
-				(warning) => warning.id === 'app.password.expires_soon',
-			);
-			if (expiredWarning) {
-				const expiredDays =
-					expiredWarning.warningData?.passwordExpiry?.daysRemaining;
-
-				eventBus.$emit('notification', {
-					type: 'info',
-					text: i18n.global.t(
-						'systemNotifications.info.passwordExpirationMessage',
-						{
-							expiredDays,
-						},
-					),
-				});
-				isWarningShown.value = true;
-			}
-		}
-	});
-
 	window.router = router;
 
 	return router;
