@@ -61,7 +61,7 @@ const NotFound = () =>
 
 export let router = null;
 
-export const initRouter = async ({ beforeEach = [] } = {}) => {
+export const initRouter = async ({ beforeEach = [], afterEach = [] } = {}) => {
 	router = createRouter({
 		history: createWebHistory(import.meta.env.BASE_URL),
 		scrollBehavior(/*to, from, savedPosition*/) {
@@ -207,6 +207,10 @@ export const initRouter = async ({ beforeEach = [] } = {}) => {
 
 	beforeEach.forEach((guard) => {
 		router.beforeEach(guard);
+	});
+
+	afterEach.forEach((guard) => {
+		router.afterEach(guard);
 	});
 
 	// @author @stanislav-kozak
