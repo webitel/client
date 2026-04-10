@@ -7,7 +7,6 @@ I suppose, it's a problem with webpack or sass/sass loader.
 I think, this issue should go on migration to Vue 3, so I left it "as is".
  */
 import './app/css/do-not-delete-me.scss';
-import './app/plugins/webitel-flow-ui';
 
 import { createApp } from 'vue';
 

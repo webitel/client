@@ -1,4 +1,4 @@
-import FlowApp from '@webitel/flow-ui-sdk/src/enums/FlowApp.enum';
+import { FlowApp } from '@webitel/ui-sdk/modules/Flow';
 
 const FlowAppAutocomplete = Object.freeze({
 	[FlowApp.CALENDAR]: {

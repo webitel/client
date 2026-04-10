@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import FlowTypeApplications from '@webitel/flow-ui-sdk/src/lookups/FlowTypeApplications.lookup';
+import { FlowTypeApplications } from '@webitel/ui-sdk/modules/Flow';
 
 import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
