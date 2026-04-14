@@ -11,6 +11,11 @@ import { vite as vidstack } from 'vidstack/plugins';
 // https://vitejs.dev/config/
 export default () => {
 	return defineConfig({
+		optimizeDeps: {
+			include: [
+				'deep-equal',
+			],
+		},
 		server: {
 			// host: true,  // uncomment me to enable localhost access by IP (including from other devices in the network)
 		},
