@@ -60,7 +60,7 @@
         :v="v.itemInstance.expires"
         :model-value="itemInstance.expires"
         required
-        @update:model-value="setItemProp({ prop: 'expires', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'expires', value: $event })"
       />
     </div>
   </section>

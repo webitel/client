@@ -23,7 +23,7 @@
         <wt-input-number
           :label="$t('objects.ccenter.res.priority')"
           :model-value="itemInstance.priority"
-          @update:model-value="setItemProp({ prop: 'priority', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'priority', value: $event })"
         />
         <wt-select
           :clearable="true"

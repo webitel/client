@@ -71,7 +71,7 @@
         :model-value="itemInstance.progressiveCount"
         required
         class="object-input-area-grid__progressive-count"
-        @update:model-value="setItemProp({ prop: 'progressiveCount', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -80,7 +80,7 @@
         :model-value="itemInstance.chatCount"
         required
         class="object-input-area-grid__chat-count"
-        @update:model-value="setItemProp({ prop: 'chatCount', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'chatCount', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -89,7 +89,7 @@
         :model-value="itemInstance.taskCount"
         required
         class="object-input-area-grid__task-count"
-        @update:model-value="setItemProp({ prop: 'taskCount', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'taskCount', value: $event })"
       />
       <wt-switcher
         :disabled="disableUserInput"

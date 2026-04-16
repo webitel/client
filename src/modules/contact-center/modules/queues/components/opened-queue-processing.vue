@@ -32,7 +32,7 @@
         :label="$t('objects.ccenter.queues.processing.sec')"
         :model-value="itemInstance.taskProcessing.sec"
         class="object-input-area-grid__processing-sec"
-        @update:model-value="setItemProcessingProp({ prop: 'sec', value: +$event })"
+        @update:model-value="setItemProcessingProp({ prop: 'sec', value: $event })"
       />
 
       <wt-switcher
@@ -52,7 +52,7 @@
         :label="$t('objects.ccenter.queues.processing.renewalSec')"
         :model-value="itemInstance.taskProcessing.renewalSec"
         class="object-input-area-grid__processing-renewal-sec"
-        @update:model-value="setItemProcessingProp({ prop: 'renewalSec', value: +$event })"
+        @update:model-value="setItemProcessingProp({ prop: 'renewalSec', value: $event })"
       />
 
       <wt-input-number
@@ -63,7 +63,7 @@
         :model-value="itemInstance.taskProcessing.prolongationOptions.repeatsNumber"
         :min="1"
         class="object-input-area-grid__processing-repeat-numbers"
-        @update:model-value="setItemProlongationOption({ prop: 'repeatsNumber', value: +$event })"
+        @update:model-value="setItemProlongationOption({ prop: 'repeatsNumber', value: $event })"
       />
 
       <wt-input-number
@@ -74,7 +74,7 @@
         :model-value="itemInstance.taskProcessing.prolongationOptions.prolongationTimeSec"
         :min="1"
         class="object-input-area-grid__processing-prolongation-time"
-        @update:model-value="setItemProlongationOption({ prop: 'prolongationTimeSec', value: +$event })"
+        @update:model-value="setItemProlongationOption({ prop: 'prolongationTimeSec', value: $event })"
       />
 
       <wt-switcher

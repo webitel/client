@@ -20,7 +20,7 @@
         :v="v.itemInstance.workdayHours"
         :label="$t('objects.lookups.workingConditions.workdayDuration')"
         required
-        @update:model-value="setItemProp({ prop: 'workdayHours', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'workdayHours', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -34,7 +34,7 @@
           :model-value="itemInstance.workdayPerMonth"
           :v="v.itemInstance.workdayPerMonth"
           :label="$t('objects.lookups.workingConditions.workdaysPerMonth')"
-          @update:model-value="setItemProp({ prop: 'workdayPerMonth', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'workdayPerMonth', value: $event })"
         />
 
         <wt-input-number
@@ -42,7 +42,7 @@
           :model-value="itemInstance.pauseDuration"
           :v="v.itemInstance.pauseDuration"
           :label="$t('objects.lookups.workingConditions.pauseDuration')"
-          @update:model-value="setItemProp({ prop: 'pauseDuration', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'pauseDuration', value: $event })"
         />
       </div>
       <wt-input-number
@@ -50,7 +50,7 @@
         :model-value="itemInstance.vacation"
         :v="v.itemInstance.vacation"
         :label="$t('objects.lookups.workingConditions.vacationDaysPerYear')"
-        @update:model-value="setItemProp({ prop: 'vacation', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'vacation', value: $event })"
       />
       <wt-select
         :value="itemInstance.pauseTemplate"
@@ -65,7 +65,7 @@
         :model-value="itemInstance.sickLeaves"
         :v="v.itemInstance.sickLeaves"
         :label="$t('objects.lookups.workingConditions.sickLeavesPerYear')"
-        @update:model-value="setItemProp({ prop: 'sickLeaves', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'sickLeaves', value: $event })"
       />
       <wt-select
         :search-method="loadShiftTemplate"
@@ -78,7 +78,7 @@
         :model-value="itemInstance.daysOff"
         :v="v.itemInstance.daysOff"
         :label="$t('objects.lookups.workingConditions.daysOffPerYear')"
-        @update:model-value="setItemProp({ prop: 'daysOff', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'daysOff', value: $event })"
       />
     </div>
   </section>

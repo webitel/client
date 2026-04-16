@@ -30,7 +30,7 @@
         :v="v.itemInstance.daysToStore"
         :model-value="itemInstance.daysToStore"
         required
-        @update:model-value="setItemProp({ prop: 'daysToStore', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'daysToStore', value: $event })"
       />
       <wt-select
         :clearable="false"

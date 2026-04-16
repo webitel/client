@@ -36,7 +36,7 @@
             :disabled="disableUserInput"
             :model-value="item.duration"
             required
-            @update:model-value="setCause({ prop: 'duration', index, value: +$event })"
+            @update:model-value="setCause({ prop: 'duration', index, value: $event })"
           />
         </template>
         <template #actions="{ item, index }">
