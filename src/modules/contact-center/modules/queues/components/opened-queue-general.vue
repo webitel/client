@@ -35,7 +35,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.priority')"
         :model-value="itemInstance.priority"
-        @update:model-value="setItemProp({ prop: 'priority', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'priority', value: $event })"
       />
 
       <!--      v-if-->

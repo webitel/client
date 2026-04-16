@@ -85,56 +85,56 @@
         :label="$t('objects.ccenter.queues.maxCalls')"
         :label-props="{ hint: $t('objects.ccenter.queues.maxCallsHint') }"
         :model-value="itemInstance.payload.maxCalls"
-        @update:model-value="setItemPayloadProp({ prop: 'maxCalls', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxCalls', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.minAttempts"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minAttempts')"
         :model-value="itemInstance.payload.minAttempts"
-        @update:model-value="setItemPayloadProp({ prop: 'minAttempts', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'minAttempts', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.maxAttempts"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxAttempts')"
         :model-value="itemInstance.payload.maxAttempts"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAttempts', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.maxAgentLine"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxAgentLine')"
         :model-value="itemInstance.payload.maxAgentLine"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAgentLine', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxAgentLine', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.dialingRate"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.dialingRate')"
         :model-value="itemInstance.payload.dialingRate"
-        @update:model-value="setItemPayloadProp({ prop: 'dialingRate', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'dialingRate', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.maxAgentLose"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxAgentLose')"
         :model-value="itemInstance.payload.maxAgentLose"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAgentLose', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxAgentLose', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.playbackSilence"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.playbackSilence')"
         :model-value="itemInstance.payload.playbackSilence"
-        @update:model-value="setItemPayloadProp({ prop: 'playbackSilence', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'playbackSilence', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.abandonRateAdjustment"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.abandonRateAdjustment')"
         :model-value="itemInstance.payload.abandonRateAdjustment"
-        @update:model-value="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: $event })"
       />
       <wt-select
         v-if="specificControls.autoAnswerTone"
@@ -150,14 +150,14 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxWaitingSize')"
         :model-value="itemInstance.payload.maxWaitingSize"
-        @update:model-value="setItemPayloadProp({ prop: 'maxWaitingSize', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxWaitingSize', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.targetAbandonedRate"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.targetAbandonedRate')"
         :model-value="itemInstance.payload.targetAbandonedRate"
-        @update:model-value="setItemPayloadProp({ prop: 'targetAbandonedRate', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'targetAbandonedRate', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.minOnlineAgents"
@@ -165,21 +165,21 @@
         :label="$t('objects.ccenter.queues.minOnlineAgents')"
         :v="v.itemInstance.payload.minOnlineAgents"
         :model-value="itemInstance.payload.minOnlineAgents"
-        @update:model-value="setItemPayloadProp({ prop: 'minOnlineAgents', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'minOnlineAgents', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.maxAbandonedRate"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxAbandonedRate')"
         :model-value="itemInstance.payload.maxAbandonedRate"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAbandonedRate', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxAbandonedRate', value: $event })"
       />
       <wt-input-number
         v-if="specificControls.maxMemberLimit"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxMemberLimit')"
         :model-value="itemInstance.payload.maxMemberLimit"
-        @update:model-value="setItemPayloadProp({ prop: 'maxMemberLimit', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'maxMemberLimit', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.waitBetweenRetriesDesc"
@@ -202,7 +202,7 @@
             :max="100"
             :min="0"
             :value="itemInstance.payload.loadFactor"
-            @update:model-value="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
+            @update:model-value="setItemPayloadProp({ prop: 'loadFactor', value: $event })"
           />
         </div>
       </div>
@@ -269,7 +269,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.stickyAgentSec')"
         :model-value="itemInstance.payload.stickyAgentSec"
-        @update:model-value="setItemPayloadProp({ prop: 'stickyAgentSec', value: +$event })"
+        @update:model-value="setItemPayloadProp({ prop: 'stickyAgentSec', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.stickyIgnoreStatus"

@@ -27,7 +27,7 @@
           :v="v$.itemInstance.priority"
           :model-value="itemInstance.priority"
           required
-          @update:model-value="setItemProp({ prop: 'priority', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'priority', value: $event })"
         />
       </form>
     </template>

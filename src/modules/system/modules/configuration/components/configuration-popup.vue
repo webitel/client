@@ -15,7 +15,7 @@
             @update:model-value="setItemProp({ prop: 'value', value: $event })" />
           <wt-input-number v-if="displayedConfigurationType.number" :label="$t('vocabulary.values', 1)"
             :v="v$.itemInstance.value" :model-value="itemInstance.value" required
-            @update:model-value="setItemProp({ prop: 'value', value: +$event })" />
+            @update:model-value="setItemProp({ prop: 'value', value: $event })" />
           <wt-select v-if="displayedConfigurationType.multiselect" :label="$t('vocabulary.values', 2)"
             :v="v$.itemInstance.value" :value="itemInstance.value" :search-method="multiselectConfig.searchMethod"
             :options="multiselectConfig.options" :option-label="multiselectConfig.optionLabel"
