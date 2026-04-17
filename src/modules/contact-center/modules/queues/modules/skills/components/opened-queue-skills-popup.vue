@@ -25,7 +25,7 @@
           :label="$t('objects.lookups.skills.lvl')"
           :v="v$.itemInstance.lvl"
           :model-value="itemInstance.lvl"
-          @update:model-value="setItemProp({ prop: 'lvl', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'lvl', value: $event })"
         />
         <div class="input-row-wrap">
           <wt-input-number
@@ -33,14 +33,14 @@
             :label="$t('objects.lookups.skills.minCapacity')"
             :v="v$.itemInstance.minCapacity"
             :model-value="itemInstance.minCapacity"
-            @update:model-value="setItemProp({ prop: 'minCapacity', value: +$event })"
+            @update:model-value="setItemProp({ prop: 'minCapacity', value: $event })"
           />
           <wt-input-number
             :custom-validators="maxCapacityCustomValidator"
             :label="$t('objects.lookups.skills.maxCapacity')"
             :v="v$.itemInstance.maxCapacity"
             :model-value="itemInstance.maxCapacity"
-            @update:model-value="setItemProp({ prop: 'maxCapacity', value: +$event })"
+            @update:model-value="setItemProp({ prop: 'maxCapacity', value: $event })"
           />
         </div>
         <wt-select

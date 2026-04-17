@@ -19,7 +19,7 @@
           :v="v$.itemInstance.capacity"
           :model-value="itemInstance.capacity"
           required
-          @update:model-value="setItemProp({ prop: 'capacity', value: +$event })"
+          @update:model-value="setItemProp({ prop: 'capacity', value: $event })"
         />
       </form>
     </template>

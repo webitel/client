@@ -30,7 +30,7 @@
         :v="v.itemInstance.cps"
         :model-value="itemInstance.cps"
         required
-        @update:model-value="setItemProp({ prop: 'cps', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'cps', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -38,7 +38,7 @@
         :v="v.itemInstance.limit"
         :model-value="itemInstance.limit"
         required
-        @update:model-value="setItemProp({ prop: 'limit', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'limit', value: $event })"
       />
       <wt-select
         :disabled="disableUserInput"

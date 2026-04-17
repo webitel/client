@@ -16,7 +16,7 @@ const SettingsRoutes = [
 		},
 		meta: {
 			// prevent beforeEnter: checkAppAccess on parent route [WTEL-4321]
-			requiresAccess: false,
+			alwaysAllowed: true,
 		},
 		children: [
 			{

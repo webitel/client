@@ -10,7 +10,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.maxErrors')"
         :model-value="itemInstance.maxErrors"
-        @update:model-value="setItemProp({ prop: 'maxErrors', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'maxErrors', value: $event })"
       />
       <wt-tags-input
         :disabled="disableUserInput"
@@ -24,7 +24,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.failureDialDelay')"
         :model-value="itemInstance.failureDialDelay"
-        @update:model-value="setItemProp({ prop: 'failureDialDelay', value: +$event })"
+        @update:model-value="setItemProp({ prop: 'failureDialDelay', value: $event })"
       />
     </div>
   </section>
