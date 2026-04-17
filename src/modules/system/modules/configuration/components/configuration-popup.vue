@@ -240,9 +240,6 @@ export default {
 			return this.$route.params.id;
 		},
 	},
-	async mounted() {
-		await this.loadParameterList();
-	},
 	methods: {
 		...mapActions({
 			setItemId(dispatch, payload) {
@@ -265,6 +262,8 @@ export default {
 		},
 		async loadPopupData(id) {
 			await this.setId(id);
+			const isNew = !this.id;
+			if (isNew) await this.loadParameterList();
 			return this.loadItem();
 		},
 		close() {
