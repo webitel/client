@@ -59,13 +59,8 @@ const createVueInstance = async () => {
 		.use(pinia)
 		.use(BreakpointPlugin);
 
-	const { initialize, routeAccessGuard } = useUserinfoStore();
-
-	const router = await initRouter({
-		beforeEach: [
-			routeAccessGuard,
-		],
-	});
+	const { initialize, routeAccessGuard, showUserNotifications } =
+		useUserinfoStore();
 
 	try {
 		await initialize();
@@ -73,6 +68,15 @@ const createVueInstance = async () => {
 	} catch (err) {
 		console.error('Error initializing app', err);
 	}
+
+	const router = await initRouter({
+		beforeEach: [
+			routeAccessGuard,
+		],
+		afterEach: [
+			showUserNotifications,
+		],
+	});
 
 	app.use(router);
 	app.use(WebitelUi, {

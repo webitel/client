@@ -1,4 +1,5 @@
 <template>
+  <wt-notifications-bar />
   <router-view :class="locale /* root element class to control fonts on each locale */" />
 </template>
 

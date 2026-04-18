@@ -1,9 +1,6 @@
 import { WtApplication } from '@webitel/ui-sdk/enums';
-import { eventBus } from '@webitel/ui-sdk/scripts';
-import { nextTick } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import i18n from '../../app/locale/i18n';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
@@ -59,7 +56,7 @@ const NotFound = () =>
 
 export let router = null;
 
-export const initRouter = async ({ beforeEach = [] } = {}) => {
+export const initRouter = async ({ beforeEach = [], afterEach = [] } = {}) => {
 	router = createRouter({
 		history: createWebHistory(import.meta.env.BASE_URL),
 		scrollBehavior(/*to, from, savedPosition*/) {
@@ -205,6 +202,10 @@ export const initRouter = async ({ beforeEach = [] } = {}) => {
 
 	beforeEach.forEach((guard) => {
 		router.beforeEach(guard);
+	});
+
+	afterEach.forEach((guard) => {
+		router.afterEach(guard);
 	});
 
 	// @author @stanislav-kozak
