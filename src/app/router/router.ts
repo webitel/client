@@ -1,11 +1,6 @@
-import { ref } from 'vue';
 import { WtApplication } from '@webitel/ui-sdk/enums';
-import { eventBus } from '@webitel/ui-sdk/scripts';
 import { createRouter, createWebHistory } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
-import i18n from '../../app/locale/i18n';
-import { useUserinfoStore } from '../../modules/userinfo/stores/userinfoStore';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues.js';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
