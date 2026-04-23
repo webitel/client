@@ -1,8 +1,9 @@
 import chatInstance from '../../../api/chatInstance';
 
-const getAuth = (uri) => {
+const getAuth = async (uri) => {
 	const url = `${uri}`;
-	return chatInstance.get(url);
+	const { data } = await chatInstance.get(url);
+	return data;
 };
 
 const logout = (uri) => {
