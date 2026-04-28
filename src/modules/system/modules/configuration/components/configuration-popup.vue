@@ -240,9 +240,6 @@ export default {
 			return this.$route.params.id;
 		},
 	},
-	async mounted() {
-		await this.loadParameterList();
-	},
 	methods: {
 		...mapActions({
 			setItemId(dispatch, payload) {
@@ -251,7 +248,7 @@ export default {
 		}),
 		async save() {
 			if (!this.disabledSave) {
-				if (this.id) {
+				if (!this.new) {
 					await this.updateItem();
 				} else {
 					try {
@@ -265,6 +262,7 @@ export default {
 		},
 		async loadPopupData(id) {
 			await this.setId(id);
+			if (this.new) await this.loadParameterList();
 			return this.loadItem();
 		},
 		close() {
