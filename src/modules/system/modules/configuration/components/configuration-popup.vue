@@ -7,7 +7,7 @@
     <template #main>
       <form class="configuration-popup__form">
         <wt-select :clearable="false" :disabled="id" :label="$t('objects.system.configuration.parameter')"
-          :options="parameterList" :track-by="name" :v="v$.itemInstance.name" :value="itemInstance.name" required
+          :options="parameterList" track-by="name" :v="v$.itemInstance.name" :value="itemInstance.name" required
           @input="setParameterName" />
         <div v-if="itemInstance.name">
           <wt-switcher v-if="displayedConfigurationType.boolean" :label="$t('reusable.state')"
