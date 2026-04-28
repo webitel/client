@@ -190,6 +190,8 @@ export default {
 				return deepmerge(defaults, defaultNumberConfig);
 			case EngineSystemSettingName.DefaultPassword:
 				return deepmerge(defaults, defaultStringConfig);
+			case 'expand_contact_tabs':
+				return deepmerge(defaults, defaultBooleanConfig);
 			default:
 				return defaults;
 		}
