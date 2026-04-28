@@ -150,12 +150,14 @@ const headers = reactive([
 		field: 'name',
 		locale: 'reusable.name',
 		sort: SortSymbols.NONE,
+		width: '100%',
 	},
 	{
 		value: 'team',
 		field: 'team',
 		locale: 'objects.team',
 		sort: SortSymbols.NONE,
+		width: '100%',
 	},
 ]);
 const dataList = ref([]);
@@ -304,6 +306,10 @@ onMounted(async () => {
 
   .scroll-wrap {
     height: 35vh;
+  }
+
+  .wt-item-link {
+    word-break: break-word;
   }
 }
 
