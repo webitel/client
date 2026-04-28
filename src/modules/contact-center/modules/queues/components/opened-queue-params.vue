@@ -201,7 +201,7 @@
           <wt-input-number
             :max="100"
             :min="0"
-            :value="itemInstance.payload.loadFactor"
+            :model-value="itemInstance.payload.loadFactor"
             @update:model-value="setItemPayloadProp({ prop: 'loadFactor', value: $event })"
           />
         </div>
