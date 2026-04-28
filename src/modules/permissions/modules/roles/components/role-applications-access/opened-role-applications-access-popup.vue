@@ -62,18 +62,23 @@ export default {
 		coreTypeSectionsAccess() {
 			if (!this.editedApp) return [];
 
-			// TODO Hidden before WFM will be ready
-			// https://webitel.atlassian.net/browse/WTEL-8690
-			const WFMSections = [
+			const HiddenSections = [
+				// TODO Hidden before WFM will be ready
+				// https://webitel.atlassian.net/browse/WTEL-8690
 				'pause-templates',
 				'shift-templates',
 				'working-conditions',
+
+				//@author @rzaritskyi
+				// Hidden before SSO will be ready
+				// https://webitel.atlassian.net/browse/WTEL-9433
+				'single-sign-on',
 			];
 
 			return Object.keys(this.access[this.editedApp])
 				.filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
 				.filter((section) => !this.access[this.editedApp][section]._custom) // custom types are handled in a separate computed
-				.filter((section) => !WFMSections.includes(section))
+				.filter((section) => !HiddenSections.includes(section))
 				.map((section) => ({
 					name: section,
 					displayName: this.$t(
