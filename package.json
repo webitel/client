@@ -16,7 +16,9 @@
 		"utils:up-libs": "npm up @webitel/api-services @webitel/ui-sdk @webitel/styleguide && npm run utils:ls-libs",
 		"utils:link-libs": "npm link @webitel/api-services @webitel/ui-sdk @webitel/styleguide && npm run utils:ls-libs",
 		"utils:ls-libs": "npm ls @webitel/api-services @webitel/ui-sdk @webitel/styleguide",
-		"prepare": "husky || true"
+		"prepare": "husky || true",
+		"biome:ci:gh": "biome ci ./src --reporter=github",
+		"test:unit:ci": "vitest run --coverage"
 	},
 	"type": "module",
 	"dependencies": {
