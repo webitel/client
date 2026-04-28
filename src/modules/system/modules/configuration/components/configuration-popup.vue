@@ -248,7 +248,7 @@ export default {
 		}),
 		async save() {
 			if (!this.disabledSave) {
-				if (this.id) {
+				if (!this.new) {
 					await this.updateItem();
 				} else {
 					try {
@@ -262,8 +262,7 @@ export default {
 		},
 		async loadPopupData(id) {
 			await this.setId(id);
-			const isNew = !this.id;
-			if (isNew) await this.loadParameterList();
+			if (this.new) await this.loadParameterList();
 			return this.loadItem();
 		},
 		close() {
