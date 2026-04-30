@@ -37,6 +37,7 @@ const ConfigurationValueTypes = {
 	[EngineSystemSettingName.PasswordContainsLogin]: 'boolean',
 	[EngineSystemSettingName.PasswordWarningDays]: 'number',
 	[EngineSystemSettingName.DefaultPassword]: 'string',
+	[EngineSystemSettingName.ExpandContactTabs]: 'boolean',
 } as const;
 
 export default ConfigurationValueTypes;
