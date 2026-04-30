@@ -1,50 +1,54 @@
 <template>
-  <wt-popup
-    v-bind="$attrs"
-    :shown="!!configurationId"
-    size="sm"
-    overflow
-    @close="close"
-  >
+  <wt-popup v-bind="$attrs" :shown="!!configurationId" size="sm" overflow @close="close">
     <template #title>
       {{ id ? $t('reusable.edit') : $t('reusable.new') }}
       {{ $t('objects.system.configuration.parameter').toLowerCase() }}
     </template>
     <template #main>
-      <form>
+      <form class="configuration-popup__form">
         <wt-select
-          :clearable="false"
-          :disabled="id"
+			    :clearable="false"
+		  	  :disabled="id"
           :label="$t('objects.system.configuration.parameter')"
-          :search-method="loadParameterList"
-          :track-by="null"
+          :options="parameterList" 
+          :value="selectedConfiguration" 
           :v="v$.itemInstance.name"
-          :value="itemInstance.name"
+          track-by="name" 
           required
-          @input="setParameterName"
-        />
-        <div
-          v-if="itemInstance.name"
-        >
-          <wt-switcher
+          @input="setParameterName" 
+		    />
+        <div v-if="itemInstance.name">
+          <wt-switcher 
             v-if="displayedConfigurationType.boolean"
             :label="$t('reusable.state')"
             :v="v$.itemInstance.value"
-            :value="itemInstance.value"
+            :model-value="itemInstance.value" 
             required
-            @change="setItemProp({ prop: 'value', value: $event })"
+            @update:model-value="setItemProp({ prop: 'value', value: $event })" 
           />
-          <wt-input
-            v-if="displayedConfigurationType.number"
-            :label="$tc('vocabulary.values', 1)"
+          <wt-input-number 
+            v-if="displayedConfigurationType.number" 
+            :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value"
+            :model-value="itemInstance.value"
+            required
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
+          />
+          <wt-select 
+            v-if="displayedConfigurationType.multiselect" 
+            :label="$t('vocabulary.values', 2)"
             :v="v$.itemInstance.value"
             :value="itemInstance.value"
+            :search-method="multiselectConfig.searchMethod"
+            :options="multiselectConfig.options" 
+            :option-label="multiselectConfig.optionLabel"
+            :track-by="multiselectConfig.trackBy"
+            multiple
             required
-            type="number"
-            @input="setItemProp({ prop: 'value', value: +$event })"
+            @input="setItemProp({ prop: 'value', value: $event })"
           />
           <div v-if="displayedConfigurationType.select">
-            <wt-select
+            <wt-select 
               :clearable="false"
               :label="$t('vocabulary.format')"
               :options="exportSettingOptions"
@@ -53,37 +57,35 @@
               required
               @input="selectHandler"
             />
-            <wt-input
+            <wt-input-text
               v-if="isExportSettingsFormatCSV"
               :label="$t('objects.CSV.separator')"
               :v="v$.itemInstance.separator"
-              :value="itemInstance.separator"
+              :model-value="itemInstance.separator"
               required
-              @input="inputHandler"
+              @update:model-value="inputHandler"
             />
           </div>
-          <wt-input
+          <wt-input-text
             v-if="displayedConfigurationType.string"
-            :label="$tc('vocabulary.values', 1)"
+            :label="$t('vocabulary.values', 1)"
             :v="v$.itemInstance.value"
-            :value="itemInstance.value"
+            :model-value="itemInstance.value"
             required
-            @input="setItemProp({ prop: 'value', value: $event })"
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
           />
         </div>
       </form>
     </template>
     <template #actions>
-      <wt-button
+      <wt-button 
         :disabled="disabledSave"
-        @click="save"
-      >
+        @click="save">
         {{ $t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
-        @click="close"
-      >
+        @click="close">
         {{ $t('reusable.cancel') }}
       </wt-button>
     </template>
@@ -93,14 +95,21 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
+import { LabelsAPI } from '@webitel/api-services/api';
+import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import deepmerge from 'deepmerge';
-import { mapActions, mapState } from 'vuex';
-import { EngineSystemSettingName } from 'webitel-sdk';
+import { mapActions } from 'vuex';
+
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
+import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
+import {
+	defaultMultiselectConfig,
+	multiselectConfigurations,
+} from '../utils/multiselectConfigurations';
 
 export default {
 	name: 'ConfigurationPopup',
@@ -141,7 +150,20 @@ export default {
 			itemInstance: {
 				value: {
 					required,
-					minValue: minValue(0),
+					minValue: minValue(
+						this.itemInstance.name ===
+							EngineSystemSettingName.PeriodToPlaybackRecords
+							? 1
+							: 0,
+					),
+				},
+			},
+		};
+
+		const defaultMultiselectConfig = {
+			itemInstance: {
+				value: {
+					required,
 				},
 			},
 		};
@@ -190,6 +212,8 @@ export default {
 				return deepmerge(defaults, defaultNumberConfig);
 			case EngineSystemSettingName.ExportSettings:
 				return deepmerge(defaults, defaultSelectConfig);
+			case EngineSystemSettingName.LabelsToLimitContacts:
+				return deepmerge(defaults, defaultMultiselectConfig);
 			case EngineSystemSettingName.ChatAiConnection:
 				return deepmerge(defaults, defaultStringConfig);
 			case EngineSystemSettingName.PasswordRegExp:
@@ -198,23 +222,56 @@ export default {
 				return deepmerge(defaults, defaultStringConfig);
 			case EngineSystemSettingName.AutolinkCallToContact:
 				return deepmerge(defaults, defaultBooleanConfig);
+			case EngineSystemSettingName.PeriodToPlaybackRecords:
+				return deepmerge(defaults, defaultNumberConfig);
+			case EngineSystemSettingName.WbtHideContact:
+				return deepmerge(defaults, defaultBooleanConfig);
+			case EngineSystemSettingName.PasswordExpiryDays:
+				return deepmerge(defaults, defaultNumberConfig);
+			case EngineSystemSettingName.PasswordMinLength:
+				return deepmerge(defaults, defaultNumberConfig);
+			case EngineSystemSettingName.PasswordCategories:
+				return deepmerge(defaults, defaultMultiselectConfig);
+			case EngineSystemSettingName.PasswordContainsLogin:
+				return deepmerge(defaults, defaultBooleanConfig);
+			case EngineSystemSettingName.PasswordWarningDays:
+				return deepmerge(defaults, defaultNumberConfig);
+			case EngineSystemSettingName.DefaultPassword:
+				return deepmerge(defaults, defaultStringConfig);
 			default:
 				return defaults;
 		}
 	},
 	data() {
 		return {
+			parameterList: [],
 			TypesExportedSettings,
 			EngineSystemSettingName,
+			PasswordCategories,
+			SettingDefaultValue: {
+				[EngineSystemSettingName.PushNotificationTimeout]: 30,
+				[EngineSystemSettingName.ScreenshotInterval]: 30,
+				[EngineSystemSettingName.PasswordMinLength]: 8,
+				[EngineSystemSettingName.PasswordContainsLogin]: false,
+			},
 		};
 	},
 	computed: {
+		LabelsAPI() {
+			return LabelsAPI;
+		},
 		exportSettingOptions() {
 			return Object.keys(TypesExportedSettings).map((key) => ({
 				name: TypesExportedSettings[key],
 				value: TypesExportedSettings[key],
 				id: TypesExportedSettings[key],
 			}));
+		},
+		multiselectConfig() {
+			return (
+				multiselectConfigurations[this.itemInstance.name] ||
+				defaultMultiselectConfig
+			);
 		},
 		valueType() {
 			return ConfigurationValueTypes[this.itemInstance.name];
@@ -230,6 +287,15 @@ export default {
 		configurationId() {
 			return this.$route.params.id;
 		},
+		selectedConfiguration() {
+			return (
+				this.parameterList.find((p) => p.name === this.itemInstance.name) ??
+				null
+			);
+		},
+	},
+	async mounted() {
+		await this.loadParameterList();
 	},
 	methods: {
 		...mapActions({
@@ -280,25 +346,49 @@ export default {
 			this.handleDefaultSelectConfigInput();
 		},
 		async loadParameterList(params) {
-			return await ConfigurationAPI.getObjectsList({
+			const { items } = await ConfigurationAPI.getObjectsList({
 				...params,
 				size: 5000,
 			});
+			this.parameterList = items
+				////https://webitel.atlassian.net/browse/WTEL-8146
+				.filter(
+					(item) => item.name !== EngineSystemSettingName.PasswordWarningDays,
+				)
+				.map((item) => ({
+					name: item.name,
+					value: item.name,
+				}));
 		},
 		setParameterName(event) {
 			this.setItemProp({
 				prop: 'name',
 				value: event.name,
 			});
-			if (this.valueType === 'boolean')
+
+			const defaultValue = this.SettingDefaultValue[event.name];
+
+			// @author @stanislav-kozak
+			// We check if the parameter have specified default value, if their not we use default set value by type
+			if (defaultValue)
+				this.setItemProp({
+					prop: 'value',
+					value: defaultValue,
+				});
+			else if (this.valueType === 'boolean')
 				this.setItemProp({
 					prop: 'value',
 					value: false,
 				});
-			if (this.valueType === 'number')
+			else if (this.valueType === 'number')
 				this.setItemProp({
 					prop: 'value',
 					value: 0,
+				});
+			else if (this.valueType === 'multiselect')
+				this.setItemProp({
+					prop: 'value',
+					value: [],
 				});
 		},
 		loadPageData() {},
@@ -317,3 +407,11 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.configuration-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+</style>
