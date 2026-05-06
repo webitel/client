@@ -235,7 +235,6 @@ export default {
 
 .license-status {
   align-self: flex-end;
-  width: 93px;
   text-align: center;
 }
 </style>
