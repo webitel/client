@@ -36,7 +36,7 @@ export default {
 		},
 		btnText() {
 			return this.isAuthorized
-				? this.$t('vocabulary.logout')
+				? this.$t('objects.routing.chatGateways.telegramApp.signOut')
 				: this.$t('objects.routing.chatGateways.telegramApp.joinTelegram');
 		},
 	},

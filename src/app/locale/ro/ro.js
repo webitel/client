@@ -648,6 +648,7 @@ export default {
 					telegramApp: 'Aplicativ Telegram',
 					signedAs: 'Ești înregistrat ca',
 					joinTelegram: 'Autentifică-te la Telegram',
+					signOut: 'Deconectează-te de la Telegram',
 					metadata: {
 						apiId: 'ID API',
 						apiHash: 'Hash API',

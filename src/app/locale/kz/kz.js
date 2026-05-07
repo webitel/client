@@ -643,6 +643,7 @@ export default {
 					telegramApp: 'Telegram Қолданбасы',
 					signedAs: 'Сіз тіркелгенсіз',
 					joinTelegram: 'Telegramға кіру',
+					signOut: 'Telegramнан шығу',
 					metadata: {
 						apiId: 'API id',
 						apiHash: 'API hash',
