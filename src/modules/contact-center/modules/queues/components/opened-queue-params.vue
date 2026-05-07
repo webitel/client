@@ -11,6 +11,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.originateTimeout')"
         :v="v.itemInstance.payload.originateTimeout"
+        no-max-hours
         :model-value="itemInstance.payload.originateTimeout"
         @update:model-value="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
       />
@@ -19,6 +20,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxWaitTime')"
         :v="v.itemInstance.payload.maxWaitTime"
+        no-max-hours
         :model-value="itemInstance.payload.maxWaitTime"
         @update:model-value="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
       />
@@ -27,6 +29,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
         :v="v.itemInstance.payload.discardAbandonedAfter"
+        no-max-hours
         :model-value="itemInstance.payload.discardAbandonedAfter"
         @update:model-value="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"
       />
@@ -35,6 +38,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxIdleAgent')"
         :v="v.itemInstance.payload.maxIdleAgent"
+        no-max-hours
         :model-value="itemInstance.payload.maxIdleAgent"
         @update:model-value="setItemPayloadProp({ prop: 'maxIdleAgent', value: +$event })"
       />
@@ -43,6 +47,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxIdleClient')"
         :v="v.itemInstance.payload.maxIdleClient"
+        no-max-hours
         :model-value="itemInstance.payload.maxIdleClient"
         @update:model-value="setItemPayloadProp({ prop: 'maxIdleClient', value: +$event })"
       />
@@ -51,6 +56,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.maxIdleDialog')"
         :v="v.itemInstance.payload.maxIdleDialog"
+        no-max-hours
         :model-value="itemInstance.payload.maxIdleDialog"
         @update:model-value="setItemPayloadProp({ prop: 'maxIdleDialog', value: +$event })"
       />
@@ -59,6 +65,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.waitBetweenRetries')"
         :v="v.itemInstance.payload.waitBetweenRetries"
+        no-max-hours
         :model-value="itemInstance.payload.waitBetweenRetries"
         @update:model-value="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
       />
@@ -67,6 +74,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.minDuration')"
         :v="v.itemInstance.payload.minDuration"
+        no-max-hours
         :model-value="itemInstance.payload.minDuration"
         @update:model-value="setItemPayloadProp({ prop: 'minDuration', value: +$event })"
       />
