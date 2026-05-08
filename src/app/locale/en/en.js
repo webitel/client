@@ -646,6 +646,7 @@ export default {
 					telegramApp: 'Telegram App',
 					signedAs: "You're signed as",
 					joinTelegram: 'Sign in to Telegram',
+					signOut: 'Sign out of Telegram',
 					metadata: {
 						apiId: 'API id',
 						apiHash: 'API hash',

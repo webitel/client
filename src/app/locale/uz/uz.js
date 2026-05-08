@@ -649,6 +649,7 @@ export default {
 					telegramApp: 'Telegram App',
 					signedAs: "Siz ro'yxatdan o'tingiz",
 					joinTelegram: 'Telegramga kirish',
+					signOut: 'Telegramdan chiqish',
 					metadata: {
 						apiId: 'API id',
 						apiHash: 'API hash',

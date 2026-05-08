@@ -645,6 +645,7 @@ export default {
 					telegramApp: 'Ứng dụng Telegram',
 					signedAs: 'Bạn đã đăng nhập như',
 					joinTelegram: 'Đăng nhập vào Telegram',
+					signOut: 'Đăng xuất khỏi Telegram',
 					metadata: {
 						apiId: 'ID API',
 						apiHash: 'Mã băm API',

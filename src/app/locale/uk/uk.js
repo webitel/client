@@ -655,7 +655,8 @@ export default {
 				telegramApp: {
 					telegramApp: 'Telegram Застосунок',
 					signedAs: 'Ви авторизовані як',
-					joinTelegram: 'Sign in to Telegram',
+					joinTelegram: 'Увійти в Telegram',
+					signOut: 'Вийти з Telegram',
 					metadata: {
 						apiId: 'API ідентифікатор',
 						apiHash: 'API хеш',

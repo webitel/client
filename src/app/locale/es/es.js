@@ -651,6 +651,7 @@ export default {
 					telegramApp: 'Aplicación de Telegram',
 					signedAs: 'Estás firmado como',
 					joinTelegram: 'Inicia sesión en Telegram',
+					signOut: 'Cerrar sesión en Telegram',
 					metadata: {
 						apiId: 'ID de API',
 						apiHash: 'Hash de API',
