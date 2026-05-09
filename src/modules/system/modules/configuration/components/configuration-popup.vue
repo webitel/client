@@ -18,6 +18,7 @@
           :label="$t('objects.system.configuration.parameter')"
           :options="parameterList"
           track-by="name"
+          use-value-from-options-by-prop="name"
           :v="v$.itemInstance.name"
           :value="itemInstance.name"
           required
@@ -365,10 +366,10 @@ export default {
 		setParameterName(event) {
 			this.setItemProp({
 				prop: 'name',
-				value: event.name,
+				value: event,
 			});
 
-			const defaultValue = this.SettingDefaultValue[event.name];
+			const defaultValue = this.SettingDefaultValue[event];
 
 			// @author @stanislav-kozak
 			// We check if the parameter have specified default value, if their not we use default set value by type
