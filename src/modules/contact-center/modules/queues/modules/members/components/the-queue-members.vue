@@ -143,12 +143,12 @@
                 v-if="item.communications.length"
                 class="members__destinations-wrapper"
               >
-                {{ item.communications[0].destination }}
-                <span
+                <span>{{ item.communications[0].destination }}</span>
+                <wt-chip
                   v-if="item.communications.length > 1"
-                  class="members__destinations-num typo-body-2"
-                  @click="readDestinations(item)"
-                >+{{ item.communications.length - 1 }}</span>
+                  class="members__destinations-num"
+                  @click.native="readDestinations(item)"
+                >+{{ item.communications.length - 1 }}</wt-chip>
               </div>
             </template>
             <template #type="{ item }">
@@ -514,12 +514,11 @@ export default {
 
 .members__destinations-wrapper {
   display: flex;
+	gap: var(--spacing-xs);
 }
 
 .members__destinations-num {
-  margin-left: 20px;
   cursor: pointer;
-  text-decoration: underline;
 }
 
 .upload-file-input {
