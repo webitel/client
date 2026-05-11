@@ -1,43 +1,100 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!configurationId" size="sm" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!configurationId"
+    size="sm"
+    overflow
+    @close="close"
+  >
     <template #title>
       {{ id ? $t('reusable.edit') : $t('reusable.new') }}
       {{ $t('objects.system.configuration.parameter').toLowerCase() }}
     </template>
     <template #main>
       <form class="configuration-popup__form">
-        <wt-select :clearable="false" :disabled="id" :label="$t('objects.system.configuration.parameter')"
-          :options="parameterList" track-by="name" :v="v$.itemInstance.name" :value="itemInstance.name" required
-          @input="setParameterName" />
+        <wt-select
+          :clearable="false"
+          :disabled="id"
+          :label="$t('objects.system.configuration.parameter')"
+          :options="parameterList"
+          track-by="name"
+          use-value-from-options-by-prop="name"
+          :v="v$.itemInstance.name"
+          :value="itemInstance.name"
+          required
+          @input="setParameterName"
+        />
         <div v-if="itemInstance.name">
-          <wt-switcher v-if="displayedConfigurationType.boolean" :label="$t('reusable.state')"
-            :v="v$.itemInstance.value" :model-value="itemInstance.value" required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })" />
-          <wt-input-number v-if="displayedConfigurationType.number" :label="$t('vocabulary.values', 1)"
-            :v="v$.itemInstance.value" :model-value="itemInstance.value" required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })" />
-          <wt-select v-if="displayedConfigurationType.multiselect" :label="$t('vocabulary.values', 2)"
-            :v="v$.itemInstance.value" :value="itemInstance.value" :search-method="multiselectConfig.searchMethod"
-            :options="multiselectConfig.options" :option-label="multiselectConfig.optionLabel"
-            :track-by="multiselectConfig.trackBy" multiple required
-            @input="setItemProp({ prop: 'value', value: $event })" />
+          <wt-switcher
+            v-if="displayedConfigurationType.boolean"
+            :label="$t('reusable.state')"
+            :v="v$.itemInstance.value"
+            :model-value="itemInstance.value"
+            required
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
+          />
+          <wt-input-number
+            v-if="displayedConfigurationType.number"
+            :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value"
+            :model-value="itemInstance.value"
+            required
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
+          />
+          <wt-select
+            v-if="displayedConfigurationType.multiselect"
+            :label="$t('vocabulary.values', 2)"
+            :v="v$.itemInstance.value"
+            :value="itemInstance.value"
+            :search-method="multiselectConfig.searchMethod"
+            :options="multiselectConfig.options"
+            :option-label="multiselectConfig.optionLabel"
+            :track-by="multiselectConfig.trackBy"
+            multiple
+            required
+            @input="setItemProp({ prop: 'value', value: $event })"
+          />
           <div v-if="displayedConfigurationType.select">
-            <wt-select :clearable="false" :label="$t('vocabulary.format')" :options="exportSettingOptions"
-              :v="v$.itemInstance.format" :value="itemInstance.format" required @input="selectHandler" />
-            <wt-input-text v-if="isExportSettingsFormatCSV" :label="$t('objects.CSV.separator')"
-              :v="v$.itemInstance.separator" :model-value="itemInstance.separator" required @update:model-value="inputHandler" />
+            <wt-select
+              :clearable="false"
+              :label="$t('vocabulary.format')"
+              :options="exportSettingOptions"
+              :v="v$.itemInstance.format"
+              :value="itemInstance.format"
+              required
+              @input="selectHandler"
+            />
+            <wt-input-text
+              v-if="isExportSettingsFormatCSV"
+              :label="$t('objects.CSV.separator')"
+              :v="v$.itemInstance.separator"
+              :model-value="itemInstance.separator"
+              required
+              @update:model-value="inputHandler"
+            />
           </div>
-          <wt-input-text v-if="displayedConfigurationType.string" :label="$t('vocabulary.values', 1)"
-            :v="v$.itemInstance.value" :model-value="itemInstance.value" required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })" />
+          <wt-input-text
+            v-if="displayedConfigurationType.string"
+            :label="$t('vocabulary.values', 1)"
+            :v="v$.itemInstance.value"
+            :model-value="itemInstance.value"
+            required
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
+          />
         </div>
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
+      <wt-button
+        :disabled="disabledSave"
+        @click="save"
+      >
         {{ $t('reusable.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
         {{ $t('reusable.cancel') }}
       </wt-button>
     </template>
@@ -309,10 +366,10 @@ export default {
 		setParameterName(event) {
 			this.setItemProp({
 				prop: 'name',
-				value: event.name,
+				value: event,
 			});
 
-			const defaultValue = this.SettingDefaultValue[event.name];
+			const defaultValue = this.SettingDefaultValue[event];
 
 			// @author @stanislav-kozak
 			// We check if the parameter have specified default value, if their not we use default set value by type
