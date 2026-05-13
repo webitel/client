@@ -51,6 +51,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import UsersAPI from '../../directory/modules/users/api/users';
+import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
 
 const props = withDefaults(
 	defineProps<{
@@ -65,6 +66,7 @@ const props = withDefaults(
 );
 
 const { t } = useI18n();
+const { clearStorageNotifications } = useUserinfoStore();
 
 const isOpened = ref(false);
 
@@ -82,6 +84,7 @@ const logoutUser = async () => {
 		id: props.id,
 	});
 	closePopup();
+	clearStorageNotifications(props.id);
 };
 </script>
 

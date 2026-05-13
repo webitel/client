@@ -59,7 +59,7 @@ const createVueInstance = async () => {
 		.use(pinia)
 		.use(BreakpointPlugin);
 
-	const { initialize, routeAccessGuard, showUserNotifications } =
+	const { initialize, routeAccessGuard, clearStorageNotifications } =
 		useUserinfoStore();
 
 	try {
@@ -73,9 +73,7 @@ const createVueInstance = async () => {
 		beforeEach: [
 			routeAccessGuard,
 		],
-		afterEach: [
-			showUserNotifications,
-		],
+		onUnauthorized: clearStorageNotifications,
 	});
 
 	app.use(router);
