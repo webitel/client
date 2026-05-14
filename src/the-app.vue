@@ -7,10 +7,12 @@
 import { computed, onMounted, provide } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 
 const store = useStore();
 
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+const { showUserNotifications } = useUserinfoStore();
 
 provide('darkMode', darkMode);
 
@@ -29,6 +31,7 @@ const setLanguage = () => {
 
 onMounted(() => {
 	setLanguage();
+	showUserNotifications();
 });
 </script>
 
