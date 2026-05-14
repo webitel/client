@@ -7,11 +7,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import { useUserinfoStore } from '../../../../../../../modules/userinfo/stores/userinfoStore';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 const props = defineProps({
@@ -25,22 +25,20 @@ const emit = defineEmits([
 	'logout',
 ]);
 
-const store = useStore();
-const route = useRoute();
-
 const { hasUpdateAccess } = useUserAccessControl({
 	route: {
 		name: `${RouteNames.USERS}-edit`,
 	},
 });
 
-const domain = computed(() => store.state.userinfo.domain);
+const userinfoStore = useUserinfoStore();
+const { userInfo } = storeToRefs(userinfoStore);
 
 const disableControl = computed(() => {
 	return (
 		!props.item.sessions ||
 		!hasUpdateAccess.value ||
-		props.item.domain?.name !== domain.value
+		props.item.domain?.name !== userInfo.value.domain
 	);
 });
 

@@ -19,6 +19,7 @@
       <wt-search-bar
         :value="search"
         debounce
+        full-width
         @enter="loadList"
         @input="setSearch"
         @search="loadList"
