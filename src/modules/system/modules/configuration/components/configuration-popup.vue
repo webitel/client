@@ -393,6 +393,11 @@ export default {
 					prop: 'value',
 					value: [],
 				});
+			else
+				this.setItemProp({
+					prop: 'value',
+					value: '',
+				});
 		},
 		loadPageData() {},
 	},
