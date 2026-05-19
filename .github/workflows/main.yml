@@ -84,7 +84,7 @@ jobs:
     steps:
       - name: setup Github Pages
         id: setup_pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v6
 
       - name: deploy to Github Pages
         id: deploy_pages
