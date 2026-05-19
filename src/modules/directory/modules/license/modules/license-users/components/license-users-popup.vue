@@ -2,7 +2,6 @@
   <wt-popup
     v-bind="$attrs"
     size="md"
-    overflow
     @close="close"
   >
     <template #header>
