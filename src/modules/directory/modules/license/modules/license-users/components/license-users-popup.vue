@@ -15,21 +15,21 @@
       </h3>
     </template>
     <template #main>
-      <wt-search-bar
-        :value="search"
-        debounce
-        full-width
-        @enter="loadList"
-        @input="setSearch"
-        @search="loadList"
-      />
+      <section class="table-section">
+        <wt-search-bar
+          :value="search"
+          debounce
+          full-width
+          @enter="loadList"
+          @input="setSearch"
+          @search="loadList"
+        />
 
-      <wt-loader v-show="!isLoaded" />
-      <div
-        v-show="isLoaded"
-        class="table-section__table-wrapper"
-      >
-        <div class="table-wrapper__scroll-wrapper">
+        <wt-loader v-show="!isLoaded" />
+        <div
+          v-show="isLoaded"
+          class="table-section__table-wrapper"
+        >
           <wt-table
             :data="dataList"
             :grid-actions="false"
@@ -59,18 +59,18 @@
               />
             </template>
           </wt-table>
+          <wt-pagination
+            :next="isNext"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="loadList"
+            @input="setSize"
+            @next="nextPage"
+            @prev="prevPage"
+          />
         </div>
-        <wt-pagination
-          :next="isNext"
-          :prev="page > 1"
-          :size="size"
-          debounce
-          @change="loadList"
-          @input="setSize"
-          @next="nextPage"
-          @prev="prevPage"
-        />
-      </div>
+      </section>
     </template>
   </wt-popup>
 </template>
