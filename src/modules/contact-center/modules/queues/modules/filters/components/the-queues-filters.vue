@@ -52,22 +52,19 @@ export default {
 				return dispatch(`${this.namespace}/RESET_FILTERS`, payload);
 			},
 		}),
-
 		/**
 		 * @author @Oleksandr Palonnyi
 		 *
-		 * On unmount we clear the filter query params, but keep `type` —
-		 * it's passed through to the create-item page. Pushing `query: null`
-		 * here would wipe the param after the router has already set it
+		 * Preserve `type` query param — it's passed to the create-item page and must survive unmount.
+		 * Pushing `query: null` here would wipe the param after the router has already set it
 		 * for the next route.
 		 *
 		 * [WTEL-9657](https://webitel.atlassian.net/browse/WTEL-9657)
 		 * */
 		resetFilters() {
-			const type = this.$route?.query?.type;
 			this.$router.push({
 				query: {
-					type,
+					type: this.$route.query.type,
 				},
 			});
 			this.resetFilterValues();
