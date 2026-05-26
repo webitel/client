@@ -76,7 +76,6 @@
       <!--      v-if-->
       <wt-select
         v-if="specificControls.schema"
-        :clearable="false"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsSchemaList"
