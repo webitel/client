@@ -6,13 +6,6 @@
       :item-id="supervisorId"
       @close="closeSubordinates"
     />
-    <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
-      @close="closeDelete"
-    />
-
     <header class="table-title">
       <h3 class="table-title__title">
         {{ $t('objects.ccenter.agents.supervisors', 2) }}
@@ -29,15 +22,6 @@
           :icons="['refresh']"
           @input="tableActionsHandler"
         >
-          <delete-all-action
-            v-show="!anySelected"
-            :disabled="!hasSupervisorsUpdateAccess"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
-          />
           <wt-icon-btn
             :disabled="!hasSupervisorsUpdateAccess"
             class="icon-action"
@@ -63,6 +47,7 @@
       <wt-table
         :data="dataList"
         :headers="headers"
+        :selectable="false"
         sortable
         @sort="sort"
       >
@@ -80,20 +65,6 @@
             v-tooltip="$t('objects.ccenter.agents.subordinates', 2)"
             icon="queue-member"
             @click="openSubordinates(item)"
-          />
-
-          <wt-icon-action
-            :disabled="!hasSupervisorsUpdateAccess"
-            action="edit"
-            @click="editItem(item)"
-          />
-          <wt-icon-action
-            :disabled="!hasSupervisorsUpdateAccess"
-            action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
           />
         </template>
       </wt-table>
@@ -113,13 +84,10 @@
 
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
-import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum.js';
 import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
 
@@ -131,7 +99,6 @@ export default {
 	components: {
 		SupervisorPopup,
 		SupervisorSubordinatesPopup,
-		DeleteConfirmationPopup,
 	},
 	mixins: [
 		openedObjectTableTabMixin,
@@ -146,23 +113,9 @@ export default {
 		const { hasUpdateAccess: hasSupervisorsUpdateAccess } =
 			useUserAccessControl(WtObject.Agent);
 
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
 		return {
 			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
 
-			askDeleteConfirmation,
-			closeDelete,
 			hasSupervisorsUpdateAccess,
 		};
 	},
@@ -188,14 +141,6 @@ export default {
 				...this.route,
 				params: {
 					supervisorId: 'new',
-				},
-			});
-		},
-		editItem(item) {
-			return this.$router.push({
-				...this.route,
-				params: {
-					supervisorId: item.id,
 				},
 			});
 		},
