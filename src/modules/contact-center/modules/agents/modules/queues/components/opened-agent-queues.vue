@@ -77,6 +77,8 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 
+const namespace = 'ccenter/agents/queues';
+
 export default {
 	name: 'OpenedAgentQueues',
 	mixins: [
@@ -84,7 +86,7 @@ export default {
 	],
 	setup() {
 		const { dummy } = useDummy({
-			namespace: 'ccenter/agents/queues',
+			namespace,
 			hiddenText: true,
 		});
 		return {
