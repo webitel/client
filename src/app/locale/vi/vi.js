@@ -70,6 +70,9 @@ export default {
 		webPhone: 'Điện thoại Web',
 		useWebPhone: 'Sử dụng điện thoại Web',
 		useStun: 'Sử dụng STUN',
+		volumeLeveling: 'Cân bằng âm lượng',
+		echoCancellation: 'Khử tiếng vọng',
+		noiseReduction: 'Giảm tiếng ồn',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Âm thanh tin nhắn mới',
 			[NotificationType.NewChatSound]: 'Âm thanh chat mới',

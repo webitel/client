@@ -70,6 +70,9 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'WebPhone пайдалану',
 		useStun: 'STUN пайдалану',
+		volumeLeveling: 'Дыбысты теңестіру',
+		echoCancellation: 'Жаңғырықты жою',
+		noiseReduction: 'Шуды азайту',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Жаңа хабарлама дыбысы',
 			[NotificationType.NewChatSound]: 'Жаңа чат дыбысы',
