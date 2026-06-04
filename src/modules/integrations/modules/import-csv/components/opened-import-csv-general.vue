@@ -14,15 +14,15 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput || !hasQueuesReadAccess"
         :label="$t('objects.integrations.importCsv.source')"
         :search-method="loadQueueOptions"
         :v="v.itemInstance.source"
-        :value="itemInstance.source"
+        :model-value="itemInstance.source"
         required
-        @input="setItemProp({ prop: 'source', value: $event })"
+        @update:model-value="setItemProp({ prop: 'source', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

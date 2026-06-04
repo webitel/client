@@ -4,23 +4,23 @@
       {{ t('settings.language') }}
     </template>
     <template>
-      <wt-select
+      <wt-single-select
         :label="t('settings.language')"
         :options="languageOptions"
-        :value="locale"
-        :clearable="false"
-        use-value-from-options-by-prop="id"
-        @input="changeLanguage"
+        :model-value="locale"
+        :show-clear="false"
+        option-value="id"
+        @update:model-value="changeLanguage"
       />
       
       <!--  https://webitel.atlassian.net/browse/WTEL-7541  -->
-      <!-- <wt-select
+      <!-- <wt-single-select
         :label="t('settings.fallbackLanguage')"
         :options="languageOptions"
-        :value="fallbackLocale"
-        :clearable="false"
-        use-value-from-options-by-prop="id"
-        @input="changeFallbackLanguage"
+        :model-value="fallbackLocale"
+        :show-clear="false"
+        option-value="id"
+        @update:model-value="changeFallbackLanguage"
       /> -->
     </template>
   </settings-section-wrapper>

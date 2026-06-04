@@ -17,14 +17,14 @@
           :key="key"
           class="value-pair"
         >
-          <wt-select
-            :clearable="false"
+          <wt-single-select
+            :show-clear="false"
             :disabled="disableUserInput"
             :label="$t('objects.routing.protocol')"
             :options="protocolList"
-            :track-by="null"
-            :value="acl.proto"
-            @input="setVariableProp({ index: key, prop: 'proto', value: $event })"
+            :data-key="null"
+            :model-value="acl.proto"
+            @update:model-value="setVariableProp({ index: key, prop: 'proto', value: $event })"
           />
           <wt-input-text
             :disabled="disableUserInput"

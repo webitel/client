@@ -18,20 +18,18 @@
           @input="updateSearchValue($event)"
           @search="handleFilterChange"
         />
-        <wt-select
+        <wt-multi-select
           :placeholder="$t('objects.team')"
           :search-method="TeamsAPI.getLookup"
-          :value="filters.teams"
+          :model-value="filters.teams"
           :disabled="!hasReadTeamAccess"
-          multiple
-          @input="handleTeamsSelect"
+          @update:model-value="handleTeamsSelect"
         />
-        <wt-select
+        <wt-multi-select
           :placeholder="$t('objects.lookups.skills.skills', 1)"
           :search-method="SkillsAPI.getLookup"
-          :value="filters.skills"
-          multiple
-          @input="handleSkillsSelect"
+          :model-value="filters.skills"
+          @update:model-value="handleSkillsSelect"
         />
         <wt-icon-btn
           icon="clear"

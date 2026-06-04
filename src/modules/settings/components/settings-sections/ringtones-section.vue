@@ -10,15 +10,15 @@
           :label="t('settings.ringtones.customRingtone')"
           @update:selected="selectRingtoneType"
         />
-        <wt-select
-          :value="ringtone"
+        <wt-single-select
+          :model-value="ringtone"
           :options="options"
           :disabled="!isCustomRingtone"
-          :clearable="false"
+          :show-clear="false"
           :label="t('settings.ringtones.ringtone')"
           option-label="label"
-          track-by="label"
-          @input="(val: Ringtone) => (ringtone = val)"
+          data-key="label"
+          @update:model-value="(val: Ringtone) => (ringtone = val)"
         />
         <wt-player
           v-if="audioLink.src"

@@ -18,8 +18,8 @@
             </p>
           </button>
         </section>
-        <wt-select v-model="type" :clearable="false" :label="$t('vocabulary.type')" :options="typeOptions"
-          track-by="value" />
+        <wt-single-select v-model:model-value="type" :show-clear="false" :label="$t('vocabulary.type')" :options="typeOptions"
+          data-key="value" />
       </div>
     </template>
   </selection-popup>

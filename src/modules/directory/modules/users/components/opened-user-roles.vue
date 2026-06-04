@@ -6,14 +6,12 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-select
-        :close-on-select="false"
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('objects.permissions.permissionsRole')"
         :search-method="loadDropdownOptionsList"
-        :value="itemInstance.roles"
-        multiple
-        @input="setItemProp({ prop: 'roles', value: $event })"
+        :model-value="itemInstance.roles"
+        @update:model-value="setItemProp({ prop: 'roles', value: $event })"
       />
     </div>
   </section>

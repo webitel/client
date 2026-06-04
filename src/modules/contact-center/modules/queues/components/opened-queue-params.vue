@@ -78,14 +78,14 @@
         :model-value="itemInstance.payload.minDuration"
         @update:model-value="setItemPayloadProp({ prop: 'minDuration', value: +$event })"
       />
-      <wt-select
+      <wt-single-select
         v-if="specificControls.statisticTime"
-        v-model="statisticTime"
-        :clearable="false"
+        v-model:model-value="statisticTime"
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.statisticTime')"
         :options="dropdownOptionsStatisticTimeList"
-        track-by="value"
+        data-key="value"
       />
       <wt-input-number
         v-if="specificControls.maxCalls"
@@ -144,14 +144,13 @@
         :model-value="itemInstance.payload.abandonRateAdjustment"
         @update:model-value="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         v-if="specificControls.autoAnswerTone"
-        v-model="autoAnswerTone"
+        v-model:model-value="autoAnswerTone"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.autoAnswerTone')"
         :options="ToneList"
-        clearable
-        track-by="value"
+        data-key="value"
       />
       <wt-input-number
         v-if="specificControls.maxWaitingSize"

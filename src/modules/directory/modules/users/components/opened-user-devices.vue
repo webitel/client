@@ -6,25 +6,23 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.directory.users.defaultDevice')"
         :options="itemInstance.devices"
-        :value="itemInstance.device"
+        :model-value="itemInstance.device"
         required
-        track-by="id"
-        @input="setItemProp({ prop: 'device', value: $event })"
+        data-key="id"
+        @update:model-value="setItemProp({ prop: 'device', value: $event })"
         @reset="setItemProp({ prop: 'device', value: {} })"
       />
       <div>
-        <wt-select
-          :close-on-select="false"
+        <wt-multi-select
           :disabled="disableUserInput"
           :label="$t('objects.directory.devices.devices', 2)"
           :search-method="loadDropdownOptionsList"
-          :value="itemInstance.devices"
-          multiple
-          @input="setItemProp({ prop: 'devices', value: $event })"
+          :model-value="itemInstance.devices"
+          @update:model-value="setItemProp({ prop: 'devices', value: $event })"
         />
         <div class="hint-link__wrap typo-body-2">
           <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>

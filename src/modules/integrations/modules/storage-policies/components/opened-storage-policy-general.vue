@@ -61,26 +61,26 @@
         </div>
       </div>
       <div class="grid-column">
-        <wt-select
+        <wt-multi-select
           :disabled="disableUserInput"
           :label="$t('vocabulary.channel', 2)"
           :v="v.itemInstance.channels"
-          :value="channels"
+          :model-value="channels"
           :options="channelsOptions"
-          track-by="value"
-          multiple
+          data-key="value"
           required
-          @input="setItemProp({ prop: 'channels', value: $event });"
+          @update:model-value="setItemProp({ prop: 'channels', value: $event });"
         />
-        <wt-tags-input
+        <wt-multi-select
           :disabled="disableUserInput"
           :label="$t('objects.integrations.storagePolicies.mimeTypes')"
-          :value="itemInstance.mimeTypes"
+          :model-value="itemInstance.mimeTypes"
           :v="v.itemInstance.mimeTypes"
-          taggable
+          chips-view
+          allow-custom-values
           required
           :options="MimeTypes"
-          @input="setItemProp({ prop: 'mimeTypes', value: $event })"
+          @update:model-value="setItemProp({ prop: 'mimeTypes', value: $event })"
         />
         <wt-input-number
           :disabled="disableUserInput"

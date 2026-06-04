@@ -59,42 +59,42 @@
           </template>
 
           <template #create="{ item }">
-            <wt-select
-              :clearable="false"
+            <wt-single-select
+              :show-clear="false"
               :disabled="!hasUpdateAccess"
               :options="accessOptions"
-              :value="item.access.x"
-              @input="changeCreateAccessMode({ item, mode: $event })"
+              :model-value="item.access.x"
+              @update:model-value="changeCreateAccessMode({ item, mode: $event })"
             />
           </template>
 
           <template #read="{ item }">
-            <wt-select
-              :clearable="false"
+            <wt-single-select
+              :show-clear="false"
               :disabled="!hasUpdateAccess"
               :options="accessOptions"
-              :value="item.access.r"
-              @input="changeReadAccessMode({ item, mode: $event })"
+              :model-value="item.access.r"
+              @update:model-value="changeReadAccessMode({ item, mode: $event })"
             />
           </template>
 
           <template #edit="{ item }">
-            <wt-select
-              :clearable="false"
+            <wt-single-select
+              :show-clear="false"
               :disabled="!hasUpdateAccess"
               :options="accessOptions"
-              :value="item.access.w"
-              @input="changeUpdateAccessMode({ item, mode: $event })"
+              :model-value="item.access.w"
+              @update:model-value="changeUpdateAccessMode({ item, mode: $event })"
             />
           </template>
 
           <template #delete="{ item }">
-            <wt-select
-              :clearable="false"
+            <wt-single-select
+              :show-clear="false"
               :disabled="!hasUpdateAccess"
               :options="accessOptions"
-              :value="item.access.d"
-              @input="changeDeleteAccessMode({ item, mode: $event })"
+              :model-value="item.access.d"
+              @update:model-value="changeDeleteAccessMode({ item, mode: $event })"
             />
           </template>
           <template #actions="{ item }">

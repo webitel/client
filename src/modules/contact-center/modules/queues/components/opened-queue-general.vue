@@ -14,22 +14,21 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="true"
+      <wt-single-select
         :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="$t('objects.lookups.calendars.calendars', 1)"
         :search-method="loadDropdownOptionsCalendarList"
         :v="v.itemInstance.calendar"
-        :value="itemInstance.calendar"
+        :model-value="itemInstance.calendar"
         :required="v.itemInstance.calendar"
-        @input="setItemProp({ prop: 'calendar', value: $event })"
+        @update:model-value="setItemProp({ prop: 'calendar', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasListsReadAccess"
         :label="$t('objects.ccenter.queues.blacklist')"
         :search-method="loadDropdownOptionsBlacklistList"
-        :value="itemInstance.dncList"
-        @input="setItemProp({ prop: 'dncList', value: $event })"
+        :model-value="itemInstance.dncList"
+        @update:model-value="setItemProp({ prop: 'dncList', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -39,105 +38,104 @@
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.strategy"
-        v-model="strategy"
-        :clearable="false"
+        v-model:model-value="strategy"
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.strategy')"
         :options="dropdownOptionsStrategyList"
         :v="v.itemInstance.strategy"
         required
-        track-by="value"
+        data-key="value"
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.team"
-        :clearable="true"
         :disabled="disableUserInput || !hasTeamsReadAccess"
         :label="$t('objects.team')"
         :search-method="loadDropdownOptionsTeamList"
         :v="v.itemInstance.team"
-        :value="itemInstance.team"
-        @input="setItemProp({ prop: 'team', value: $event })"
+        :model-value="itemInstance.team"
+        @update:model-value="setItemProp({ prop: 'team', value: $event })"
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.ringtone"
         :disabled="disableUserInput || !hasMediaReadAccess"
         :label="$t('objects.ccenter.queues.ringtone')"
         :search-method="loadDropdownOptionsMediaList"
-        :value="itemInstance.ringtone"
-        @input="setItemProp({ prop: 'ringtone', value: $event })"
+        :model-value="itemInstance.ringtone"
+        @update:model-value="setItemProp({ prop: 'ringtone', value: $event })"
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.schema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsSchemaList"
         :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
+        :model-value="itemInstance.schema"
         required
-        @input="setItemProp({ prop: 'schema', value: $event })"
+        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.doSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.preSchema')"
         :search-method="loadDropdownOptionsServiceSchemaList"
-        :value="itemInstance.doSchema"
-        @input="setItemProp({ prop: 'doSchema', value: $event })"
+        :model-value="itemInstance.doSchema"
+        @update:model-value="setItemProp({ prop: 'doSchema', value: $event })"
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.resourceStrategy"
-        v-model="resourceStrategy"
+        v-model:model-value="itemInstance.payload.resourceStrategy"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
         :options="dropdownTypesResourceStrategy"
-        :value="itemInstance.payload.resourceStrategy"
         :v="v.itemInstance.payload.resourceStrategy"
-        track-by="value"
+        option-value="value"
+        data-key="value"
         required
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.afterSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.afterSchema')"
         :search-method="loadDropdownOptionsServiceSchemaList"
-        :value="itemInstance.afterSchema"
-        @input="setItemProp({ prop: 'afterSchema', value: $event })"
+        :model-value="itemInstance.afterSchema"
+        @update:model-value="setItemProp({ prop: 'afterSchema', value: $event })"
       />
 
       <!--      v-if-->
-      <wt-select
+      <wt-single-select
         v-if="specificControls.grantee"
-        :clearable="true"
         :disabled="disableUserInput || !hasRolesReadAccess"
         :label="$t('objects.permissions.object.grantee')"
         :search-method="loadDropdownOptionsRoleList"
-        :value="itemInstance.grantee"
-        @input="setItemProp({ prop: 'grantee', value: $event })"
+        :model-value="itemInstance.grantee"
+        @update:model-value="setItemProp({ prop: 'grantee', value: $event })"
       />
 
-      <wt-tags-input
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('vocabulary.tag', 2)"
         :search-method="loadQueuesTagOptions"
-        :value="itemInstance.tags"
+        :model-value="itemInstance.tags"
         option-label="name"
-        taggable
-        track-by="name"
-        @input="setItemProp({ prop: 'tags', value: $event })"
+        chips-view
+        allow-custom-values
+        data-key="name"
+        @update:model-value="setItemProp({ prop: 'tags', value: $event })"
       />
 
       <wt-textarea

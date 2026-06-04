@@ -12,17 +12,17 @@
     </template>
     <template #main>
       <form class="configuration-popup__form">
-        <wt-select
-          :clearable="false"
+        <wt-single-select
+          :show-clear="false"
           :disabled="id"
           :label="$t('objects.system.configuration.parameter')"
           :options="parameterList"
-          track-by="name"
-          use-value-from-options-by-prop="name"
+          data-key="name"
+          option-value="name"
           :v="v$.itemInstance.name"
-          :value="itemInstance.name"
+          :model-value="itemInstance.name"
           required
-          @input="setParameterName"
+          @update:model-value="setParameterName"
         />
         <div v-if="itemInstance.name">
           <wt-switcher
@@ -41,28 +41,27 @@
             required
             @update:model-value="setItemProp({ prop: 'value', value: $event })"
           />
-          <wt-select
+          <wt-multi-select
             v-if="displayedConfigurationType.multiselect"
             :label="$t('vocabulary.values', 2)"
             :v="v$.itemInstance.value"
-            :value="itemInstance.value"
+            :model-value="itemInstance.value"
             :search-method="multiselectConfig.searchMethod"
             :options="multiselectConfig.options"
             :option-label="multiselectConfig.optionLabel"
-            :track-by="multiselectConfig.trackBy"
-            multiple
+            :data-key="multiselectConfig.trackBy"
             required
-            @input="setItemProp({ prop: 'value', value: $event })"
+            @update:model-value="setItemProp({ prop: 'value', value: $event })"
           />
           <div v-if="displayedConfigurationType.select">
-            <wt-select
-              :clearable="false"
+            <wt-single-select
+              :show-clear="false"
               :label="$t('vocabulary.format')"
               :options="exportSettingOptions"
               :v="v$.itemInstance.format"
-              :value="itemInstance.format"
+              :model-value="itemInstance.format"
               required
-              @input="selectHandler"
+              @update:model-value="selectHandler"
             />
             <wt-input-text
               v-if="isExportSettingsFormatCSV"

@@ -19,32 +19,32 @@
       </section>
       <section class="chat-config-section">
         <div class="object-input-grid object-input-grid__1-col">
-          <wt-select
-            v-model="selectedLanguage"
-            :clearable="false"
+          <wt-single-select
+            v-model:model-value="selectedLanguage"
+            :show-clear="false"
             :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.webchat.view.language')"
             :options="languages"
-            track-by="name"
-            @input="setItemMetadata({ prop: 'lang', value: $event.value })"
+            data-key="name"
+            @update:model-value="setItemMetadata({ prop: 'lang', value: $event.value })"
           />
-          <wt-select
-            v-model="selectedPosition"
-            :clearable="false"
+          <wt-single-select
+            v-model:model-value="selectedPosition"
+            :show-clear="false"
             :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.webchat.view.position')"
             :options="positionOptions"
-            track-by="name"
-            @input="setItemMetadata({ prop: 'position', value: $event.value })"
+            data-key="name"
+            @update:model-value="setItemMetadata({ prop: 'position', value: $event.value })"
           />
-          <wt-select
-            v-model="selectedBorderRadius"
-            :clearable="false"
+          <wt-single-select
+            v-model:model-value="selectedBorderRadius"
+            :show-clear="false"
             :disabled="disableUserInput"
             :label="$t('objects.routing.chatGateways.webchat.view.borderRadius')"
             :options="borderRadiusOptions"
-            track-by="name"
-            @input="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
+            data-key="name"
+            @update:model-value="setItemMetadata({ prop: 'borderRadiusStyle', value: $event.value })"
           />
           <wt-input-text
             :disabled="disableUserInput"

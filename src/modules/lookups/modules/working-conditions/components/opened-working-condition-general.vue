@@ -52,13 +52,13 @@
         :label="$t('objects.lookups.workingConditions.vacationDaysPerYear')"
         @update:model-value="setItemProp({ prop: 'vacation', value: $event })"
       />
-      <wt-select
-        :value="itemInstance.pauseTemplate"
+      <wt-single-select
+        :model-value="itemInstance.pauseTemplate"
         :v="v.itemInstance.pauseTemplate"
         :label="$t('objects.lookups.pauseTemplates.pauseTemplates', 1)"
         required
         :search-method="loadPauseTemplate"
-        @input="setItemProp({ prop: 'pauseTemplate', value: $event })"
+        @update:model-value="setItemProp({ prop: 'pauseTemplate', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -67,11 +67,11 @@
         :label="$t('objects.lookups.workingConditions.sickLeavesPerYear')"
         @update:model-value="setItemProp({ prop: 'sickLeaves', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :search-method="loadShiftTemplate"
         :label="$t('objects.lookups.shiftTemplates.shiftTemplates', 1)"
-        :value="itemInstance.shiftTemplate"
-        @input="setItemProp({ prop: 'shiftTemplate', value: $event })"
+        :model-value="itemInstance.shiftTemplate"
+        @update:model-value="setItemProp({ prop: 'shiftTemplate', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"

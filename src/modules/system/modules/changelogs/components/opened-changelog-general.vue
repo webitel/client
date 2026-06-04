@@ -6,23 +6,23 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="itemInstance.id || disableUserInput"
         :label="$t('objects.system.changelogs.objects', 1)"
         :search-method="getObjectsList"
         :v="v.itemInstance.object"
-        :value="itemInstance.object"
+        :model-value="itemInstance.object"
         required
-        @input="setItemProp({ prop: 'object', value: $event })"
+        @update:model-value="setItemProp({ prop: 'object', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasStorageReadAccess"
         :label="$t('objects.system.changelogs.storage')"
         :search-method="getStorageList"
         :v="v.itemInstance.storage"
-        :value="itemInstance.storage"
-        @input="setItemProp({ prop: 'storage', value: $event })"
+        :model-value="itemInstance.storage"
+        @update:model-value="setItemProp({ prop: 'storage', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -32,13 +32,13 @@
         required
         @update:model-value="setItemProp({ prop: 'daysToStore', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.system.changelogs.period.period')"
         :options="periodOptions"
-        :value="currentPeriod"
-        @input="setItemProp({ prop: 'period', value: $event.id })"
+        :model-value="currentPeriod"
+        @update:model-value="setItemProp({ prop: 'period', value: $event.id })"
       />
       <wt-textarea
         :disabled="disableUserInput"

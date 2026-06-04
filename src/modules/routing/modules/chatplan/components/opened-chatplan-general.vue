@@ -14,15 +14,15 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadFlows"
         :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
+        :model-value="itemInstance.schema"
         required
-        @input="setItemProp({ prop: 'schema', value: $event })"
+        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

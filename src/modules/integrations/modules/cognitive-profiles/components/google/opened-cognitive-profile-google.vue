@@ -14,25 +14,25 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="true || disableUserInput"
         :label="$t('objects.provider')"
         :v="v.itemInstance.provider"
-        :value="itemInstance.provider"
+        :model-value="itemInstance.provider"
         required
-        @input="setItemProp({ prop: 'provider', value: $event })"
+        @update:model-value="setItemProp({ prop: 'provider', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="true || disableUserInput"
         :label="$t('objects.service')"
         :options="CognitiveProfileServices"
         :v="v.itemInstance.service"
-        :value="itemInstance.service"
+        :model-value="itemInstance.service"
         required
-        track-by="value"
-        @input="setItemProp({ prop: 'service', value: $event })"
+        data-key="value"
+        @update:model-value="setItemProp({ prop: 'service', value: $event })"
       />
       <div class="google-key">
         <wt-label :invalid="v.itemInstance.properties.key.$error">
@@ -67,16 +67,16 @@
           />
         </div>
       </div>
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.cognitiveProfiles.properties.locale')"
         :options="LanguageOptions"
-        :track-by="null"
+        :data-key="null"
         :v="v.itemInstance.properties.locale"
-        :value="itemInstance.properties.locale"
+        :model-value="itemInstance.properties.locale"
         required
-        @input="setItemPropertiesProp({ prop: 'locale', value: $event })"
+        @update:model-value="setItemPropertiesProp({ prop: 'locale', value: $event })"
       />
       <div />
       <wt-textarea

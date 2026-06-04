@@ -14,15 +14,15 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.timezone')"
         :search-method="loadTimezones"
         :v="v.itemInstance.timezone"
-        :value="itemInstance.timezone"
+        :model-value="itemInstance.timezone"
         required
-        @input="setItemProp({ prop: 'timezone', value: $event })"
+        @update:model-value="setItemProp({ prop: 'timezone', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

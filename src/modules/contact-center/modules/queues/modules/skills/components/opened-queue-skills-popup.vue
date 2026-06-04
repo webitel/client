@@ -11,15 +11,15 @@
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
+        <wt-single-select
+          :show-clear="false"
           :disabled="!hasSkillsReadAccess"
           :label="$t('objects.lookups.skills.skills', 1)"
           :search-method="loadSkillsOptions"
           :v="v$.itemInstance.skill"
-          :value="itemInstance.skill"
+          :model-value="itemInstance.skill"
           required
-          @input="setItemProp({ prop: 'skill', value: $event })"
+          @update:model-value="setItemProp({ prop: 'skill', value: $event })"
         />
         <wt-input-number
           :label="$t('objects.lookups.skills.lvl')"
@@ -43,14 +43,12 @@
             @update:model-value="setItemProp({ prop: 'maxCapacity', value: $event })"
           />
         </div>
-        <wt-select
-          :close-on-select="false"
+        <wt-multi-select
           :disabled="!hasBucketsReadAccess"
           :label="$t('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
-          :value="itemInstance.buckets"
-          multiple
-          @input="setItemProp({ prop: 'buckets', value: $event })"
+          :model-value="itemInstance.buckets"
+          @update:model-value="setItemProp({ prop: 'buckets', value: $event })"
         />
       </form>
     </template>

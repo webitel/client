@@ -6,15 +6,16 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-tags-input
+      <wt-multi-select
         :custom-validators="hotDeskNameValidator"
         :disabled="disableUserInput"
         :label="$t('objects.directory.devices.hostName')"
         :label-props="{ hint: $t('objects.directory.devices.hotdeskInputHint') }"
         :v="v.itemInstance.hotdesks"
-        :value="itemInstance.hotdesks"
-        taggable
-        @input="setItemProp({ prop: 'hotdesks', value: $event })"
+        :model-value="itemInstance.hotdesks"
+        chips-view
+        allow-custom-values
+        @update:model-value="setItemProp({ prop: 'hotdesks', value: $event })"
       />
     </div>
   </section>

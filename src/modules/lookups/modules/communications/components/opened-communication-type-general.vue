@@ -14,14 +14,14 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        v-model="channel"
+      <wt-single-select
+        v-model:model-value="channel"
         :disabled="savedChannel || disableUserInput"
         :label="$t('vocabulary.channel')"
         :options="channelOptions"
         :v="v.itemInstance.channel"
         required
-        track-by="value"
+        data-key="value"
       />
       <wt-input-text
         :disabled="disableUserInput"

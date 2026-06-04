@@ -1,15 +1,14 @@
 <template>
-  <wt-tags-input
-    :close-on-select="filterSchema.closeOnSelect"
+  <wt-multi-select
     :label="label"
-    :multiple="filterSchema.multiple"
     :search-method="search"
-    :track-by="filterSchema.storedProp"
-    :value="filterSchema.value"
+    :data-key="filterSchema.storedProp"
+    :model-value="filterSchema.value"
+		chips-view
     class="queues-tags-filter"
     option-label="name"
     v-bind="$attrs"
-    @input="handleInput"
+    @update:model-value="handleInput"
     @reset="setValueToQuery({ value, filterQuery, storedProp: filterSchema.storedProp })"
   />
 </template>

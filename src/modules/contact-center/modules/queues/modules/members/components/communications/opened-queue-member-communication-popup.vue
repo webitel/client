@@ -16,17 +16,17 @@
           :v="v$.itemInstance.destination"
           required
         />
-        <wt-select
-          v-model="itemInstance.type"
-          :clearable="false"
+        <wt-single-select
+          v-model:model-value="itemInstance.type"
+          :show-clear="false"
           :label="$t('objects.lookups.communications.communications', 1)"
           :search-method="loadCommTypes"
           :v="v$.itemInstance.type"
           :disabled="!hasCommunicationsReadAccess"
           required
         />
-        <wt-select
-          v-model="itemInstance.resource"
+        <wt-single-select
+          v-model:model-value="itemInstance.resource"
           :label="$t('objects.ccenter.res.res', 1)"
           :search-method="loadResources"
           :disabled="!hasResourcesReadAccess"
