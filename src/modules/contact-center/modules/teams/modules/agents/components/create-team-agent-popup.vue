@@ -5,9 +5,9 @@
     </template>
     <template #main>
       <form>
-        <wt-select :clearable="false" :label="$t('objects.ccenter.agents.agents', 1)" :search-method="loadAgentsOptions"
-          :v="v$.itemInstance.agent" :value="itemInstance.agent" required
-          @input="setItemProp({ prop: 'agent', value: $event })" />
+        <wt-single-select :show-clear="false" :label="$t('objects.ccenter.agents.agents', 1)" :search-method="loadAgentsOptions"
+          :v="v$.itemInstance.agent" :model-value="itemInstance.agent" required
+          @update:model-value="setItemProp({ prop: 'agent', value: $event })" />
       </form>
     </template>
     <template #actions>

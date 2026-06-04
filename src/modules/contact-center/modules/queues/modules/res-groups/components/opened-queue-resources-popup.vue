@@ -5,9 +5,9 @@
     </template>
     <template #main>
       <form>
-        <wt-select :clearable="false" :label="$t('objects.ccenter.resGroups.resGroups', 1)"
-          :search-method="loadResGroupsOptions" :v="v$.itemInstance.resourceGroup" :value="itemInstance.resourceGroup"
-          required @input="setItemProp({ prop: 'resourceGroup', value: $event })" />
+        <wt-single-select :show-clear="false" :label="$t('objects.ccenter.resGroups.resGroups', 1)"
+          :search-method="loadResGroupsOptions" :v="v$.itemInstance.resourceGroup" :model-value="itemInstance.resourceGroup"
+          required @update:model-value="setItemProp({ prop: 'resourceGroup', value: $event })" />
       </form>
     </template>
     <template #actions>

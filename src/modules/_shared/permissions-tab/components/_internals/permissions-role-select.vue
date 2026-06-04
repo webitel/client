@@ -1,30 +1,30 @@
 <template>
-  <wt-select
+  <wt-single-select
     class="permissions-role-select"
     option-label="name"
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <template #singleLabel="{ option, optionLabel }">
+    <template #value="{ value, getOptionLabel }">
       <span class="multiselect__single-label permissions-tab-role-popup__select-option">
         <wt-icon
-          :icon="option.user ? 'user' : 'role'"
+          :icon="value.user ? 'user' : 'role'"
           class="permissions-role-icon"
         />
-        {{ option[optionLabel] || option }}
+        {{ getOptionLabel(value) || value }}
       </span>
     </template>
 
-    <template #option="{ option, optionLabel }">
+    <template #option="{ option, getOptionLabel }">
       <span class="permissions-tab-role-popup__select-option">
         <wt-icon
           :icon="option.user ? 'user' : 'role'"
           class="permissions-role-icon"
         />
-        {{ option[optionLabel] || option }}
+        {{ getOptionLabel(option) || option }}
       </span>
     </template>
-  </wt-select>
+  </wt-single-select>
 </template>
 
 <script>
@@ -34,8 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//  elevating specificity
-.wt-select.permissions-role-select .permissions-tab-role-popup__select-option {
+.permissions-tab-role-popup__select-option {
   display: flex;
   align-items: center;
 }

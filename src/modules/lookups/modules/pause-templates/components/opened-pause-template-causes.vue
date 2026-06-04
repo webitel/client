@@ -23,11 +23,11 @@
         :selectable="false"
       >
         <template #name="{ item, index }">
-          <wt-select
+          <wt-single-select
             :search-method="loadAgentPauseCause"
-            :value="item.name"
+            :model-value="item.name"
             :placeholder="$t('objects.lookups.pauseTemplates.notSelected')"
-            @input="setCause({ index, value: $event })"
+            @update:model-value="setCause({ index, value: $event })"
           />
         </template>
         <template #duration="{ item, index }">

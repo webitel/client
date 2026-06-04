@@ -58,15 +58,15 @@
         required
         @update:model-value="setItemProp({ prop: 'smtpPort', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadFlows"
         :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
+        :model-value="itemInstance.schema"
         required
-        @input="setItemProp({ prop: 'schema', value: $event })"
+        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
       <wt-timepicker
         :disabled="disableUserInput"
@@ -90,15 +90,15 @@
         />
       </div>
       <div>
-        <wt-select
+        <wt-single-select
           :disabled="disableUserInput || isDisabledAuthParams"
           :label="$t('objects.integrations.emailProfiles.authType')"
           :options="authTypesList"
-          :track-by="null"
+          :data-key="null"
           :v="v.itemInstance.authType"
-          :value="itemInstance.authType"
+          :model-value="itemInstance.authType"
           required
-          @input="changeAuthType"
+          @update:model-value="changeAuthType"
         />
         <div v-if="!isPlainAuthType">
           <wt-input-text

@@ -14,15 +14,15 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput || !hasCommunicationsReadAccess"
         :label="$t('objects.lookups.communications.communications', 1)"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.communication"
-        :value="itemInstance.communication"
+        :model-value="itemInstance.communication"
         required
-        @input="setItemProp({ prop: 'communication', value: $event })"
+        @update:model-value="setItemProp({ prop: 'communication', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

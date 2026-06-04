@@ -23,39 +23,39 @@
 						:label="$t('reusable.name')"
 						:v="v$.draft.name"
 					/>
-					<wt-select
-						v-model="draft.profile"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.profile"
+						:show-clear="false"
 						:label="$t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)"
 						:search-method="searchProfiles"
 						:v="v$.draft.profile"
 					/>
-					<wt-select
-						v-model="draft.textType"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.textType"
+						:show-clear="false"
 						:label="$t('objects.lookups.media.tts.textType.textType')"
 						:options="textTypeOptions"
-						track-by="value"
+						data-key="value"
 					/>
-					<wt-select
-						v-model="draft.language"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.language"
+						:show-clear="false"
 						:label="$t('vocabulary.language')"
 						:options="TtsMicrosoftLanguage"
-						:track-by="null"
+						:data-key="null"
 					/>
-					<wt-select
-						v-model="draft.voice"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.voice"
+						:show-clear="false"
 						:label="$t('vocabulary.voice')"
 						:options="TtsMicrosoftVoice"
-						:track-by="null"
+						:data-key="null"
 					/>
-					<wt-select
-						v-model="draft.format"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.format"
+						:show-clear="false"
 						:label="$t('vocabulary.format')"
-						:track-by="null"
+						:data-key="null"
 						disabled
 					/>
 					<wt-textarea

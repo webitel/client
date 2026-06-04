@@ -12,15 +12,14 @@
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
+        <wt-single-select
           :disabled="!hasBucketsReadAccess"
           :label="$t('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
           :v="v$.itemInstance.bucket"
-          :value="itemInstance.bucket"
+          :model-value="itemInstance.bucket"
           required
-          @input="setItemProp({ prop: 'bucket', value: $event })"
+          @update:model-value="setItemProp({ prop: 'bucket', value: $event })"
         />
         <wt-input-number
           :label="$t('objects.ccenter.queues.bucketPriority')"

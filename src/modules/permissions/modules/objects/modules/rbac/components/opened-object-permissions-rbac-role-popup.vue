@@ -11,14 +11,14 @@
     </template>
     <template #main>
       <permissions-role-select
-        v-model="newGrantor"
-        :clearable="false"
+        v-model:model-value="newGrantor"
+        :show-clear="false"
         :placeholder="$t('objects.permissions.object.grantor')"
         :search-method="loadRoles"
       />
       <permissions-role-select
-        v-model="newGrantee"
-        :clearable="false"
+        v-model:model-value="newGrantee"
+        :show-clear="false"
         :placeholder="$t('objects.permissions.object.grantee')"
         :search-method="loadRoles"
       />

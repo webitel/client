@@ -28,12 +28,12 @@
         required
         @input="setItemProp({ prop: 'password', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.user')"
         :search-method="loadDropdownOptionsList"
-        :value="itemInstance.user"
-        @input="setItemProp({ prop: 'user', value: $event })"
+        :model-value="itemInstance.user"
+        @update:model-value="setItemProp({ prop: 'user', value: $event })"
       />
     </div>
   </section>

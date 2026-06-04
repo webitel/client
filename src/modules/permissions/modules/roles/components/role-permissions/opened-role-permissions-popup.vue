@@ -11,9 +11,9 @@
     </template>
     <template #main>
       <form>
-        <wt-select
-          v-model="itemInstance.permission"
-          :clearable="false"
+        <wt-single-select
+          v-model:model-value="itemInstance.permission"
+          :show-clear="false"
           :label="$t('objects.permissions.roles.permissions.permissions', 1)"
           :search-method="loadPermissionsList"
           :v="v$.itemInstance.permission"

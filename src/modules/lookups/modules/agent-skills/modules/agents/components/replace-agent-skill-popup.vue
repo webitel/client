@@ -10,9 +10,9 @@
     </template>
     <template #main>
       <div class="skill-select-wrapper">
-        <wt-select
-          v-model="itemInstance.skill"
-          :clearable="false"
+        <wt-single-select
+          v-model:model-value="itemInstance.skill"
+          :show-clear="false"
           :label="$t('objects.lookups.skills.changeSkillTo')"
           :search-method="loadDropdownOptionsList"
           :v="v$.itemInstance.skill"

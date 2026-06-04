@@ -20,12 +20,12 @@
         required
         @update:model-value="setItemProp({ prop: 'proxy', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.schema')"
         :search-method="loadDropdownOptionsList"
-        :value="itemInstance.schema"
-        @input="setItemProp({ prop: 'schema', value: $event })"
+        :model-value="itemInstance.schema"
+        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
       <wt-input-text
         :disabled="disableUserInput"

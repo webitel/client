@@ -14,15 +14,14 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
         :disabled="disableUserInput || !hasGatewaysReadAccess"
         :label="$t('objects.routing.gateways.gateways', 1)"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.gateway"
-        :value="itemInstance.gateway"
+        :model-value="itemInstance.gateway"
         required
-        @input="setItemProp({ prop: 'gateway', value: $event })"
+        @update:model-value="setItemProp({ prop: 'gateway', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"
@@ -40,21 +39,21 @@
         required
         @update:model-value="setItemProp({ prop: 'limit', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.cidType')"
         :options="CidTypeList"
-        :track-by="null"
-        :value="itemInstance.parameters.cidType"
-        @input="setItemParameterProp({ prop: 'cidType', value: $event })"
+        :data-key="null"
+        :model-value="itemInstance.parameters.cidType"
+        @update:model-value="setItemParameterProp({ prop: 'cidType', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
         :options="EarlyMediaList"
-        :track-by="null"
-        :value="itemInstance.parameters.ignoreEarlyMedia"
-        @input="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
+        :data-key="null"
+        :model-value="itemInstance.parameters.ignoreEarlyMedia"
+        @update:model-value="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -62,12 +61,13 @@
         :model-value="itemInstance.description"
         @update:model-value="setItemProp({ prop: 'description', value: $event })"
       />
-      <wt-tags-input
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.patterns')"
-        :value="itemInstance.patterns"
-        taggable
-        @input="setItemProp({ prop: 'patterns', value: $event })"
+        :model-value="itemInstance.patterns"
+        chips-view
+        allow-custom-values
+        @update:model-value="setItemProp({ prop: 'patterns', value: $event })"
       />
     </div>
   </section>

@@ -12,13 +12,14 @@
         :model-value="itemInstance.maxErrors"
         @update:model-value="setItemProp({ prop: 'maxErrors', value: $event })"
       />
-      <wt-tags-input
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.res.errorCodes')"
         :options="errorIdsAutocomplete"
-        :value="itemInstance.errorIds"
-        taggable
-        @input="setItemProp({ prop: 'errorIds', value: $event })"
+        :model-value="itemInstance.errorIds"
+        chips-view
+        allow-custom-values
+        @update:model-value="setItemProp({ prop: 'errorIds', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"

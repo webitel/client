@@ -18,12 +18,13 @@
         :model-value="itemInstance.name"
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-tags-input
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
-        :value="itemInstance.metadata.allowOrigin"
-        taggable
-        @input="setItemMetadata({ prop: 'allowOrigin', value: $event })"
+        :model-value="itemInstance.metadata.allowOrigin"
+        chips-view
+        allow-custom-values
+        @update:model-value="setItemMetadata({ prop: 'allowOrigin', value: $event })"
       />
       <copy-input
         :copy-modifier="modifyUriCopy"
