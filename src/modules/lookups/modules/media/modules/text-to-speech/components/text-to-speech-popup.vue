@@ -45,10 +45,11 @@
 						:data-key="null"
 					/>
 					<wt-single-select
+						:key="`${draft.profile?.provider}-${draft.language}`"
 						v-model:model-value="draft.voice"
 						:show-clear="false"
 						:label="$t('vocabulary.voice')"
-						:options="TtsMicrosoftVoice"
+						:options="voiceOptions"
 						:data-key="null"
 					/>
 					<wt-single-select
@@ -122,6 +123,7 @@ import validationMixin from '../../../../../../../app/mixins/baseMixins/openedOb
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
 import MediaAPI from '../../../api/media';
 import TextToSpeechAPI from '../api/TextToSpeechAPI';
+import TtsGoogleVoice from '../enums/TtsGoogleVoice.enum';
 import TtsMicrosoftVoice from '../enums/TtsMicrosoftVoice.enum';
 import TtsTextType from '../lookups/TtsTextType.lookup';
 
@@ -162,6 +164,7 @@ export default {
 		textTypeOptions: TtsTextType,
 		TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
 		TtsMicrosoftVoice,
+		TtsGoogleVoice,
 		audio: null,
 		isGenerating: false,
 		isSaving: false,
@@ -186,6 +189,16 @@ export default {
 		mediaId() {
 			return this.$route.params.mediaId;
 		},
+		voiceOptions() {
+			const language = this.draft.language;
+			if (this.draft.profile?.provider === 'Google' && language) {
+				const googleVoices = this.TtsGoogleVoice.filter((voice) =>
+					voice.toLowerCase().includes(language.toLowerCase()),
+				);
+				if (googleVoices.length) return googleVoices;
+			}
+			return this.TtsMicrosoftVoice;
+		},
 	},
 	watch: {
 		mediaId: {
@@ -199,6 +212,11 @@ export default {
 				this.draft = getModel();
 			},
 			immediate: true,
+		},
+		voiceOptions(options) {
+			if (!options.includes(this.draft.voice)) {
+				this.draft.voice = options[0];
+			}
 		},
 	},
 	methods: {
