@@ -38,23 +38,15 @@ const actions = {
 	AUTH: async (context) => {
 		const { itemInstance } = context.state;
 		if (itemInstance.logged) {
-			try {
-				await EmailProfilesAPI.logout({
-					id: itemInstance.id,
-				});
-				await context.dispatch('LOAD_ITEM');
-			} catch (err) {
-				throw err;
-			}
+			await EmailProfilesAPI.logout({
+				id: itemInstance.id,
+			});
+			await context.dispatch('LOAD_ITEM');
 		} else {
-			try {
-				const { redirect_url } = await EmailProfilesAPI.login({
-					id: itemInstance.id,
-				});
-				if (redirect_url) window.parent.location.replace(redirect_url);
-			} catch (err) {
-				throw err;
-			}
+			const { redirect_url } = await EmailProfilesAPI.login({
+				id: itemInstance.id,
+			});
+			if (redirect_url) window.parent.location.replace(redirect_url);
 		}
 	},
 };

@@ -48,10 +48,8 @@ const preRequestHandler = (item) => {
 	const copy = deepCopy(item);
 	copy.variables = copy.variables.reduce((variables, variable) => {
 		if (!variable.key) return variables;
-		return {
-			...variables,
-			[variable.key]: variable.value,
-		};
+		variables[variable.key] = variable.value;
+		return variables;
 	}, {});
 	return {
 		...copy,

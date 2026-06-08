@@ -37,12 +37,8 @@ export default {
 			},
 		}),
 		async save() {
-			try {
-				await this.addRolePermissions(this.newGrantee);
-				this.close();
-			} catch (err) {
-				throw err;
-			}
+			await this.addRolePermissions(this.newGrantee);
+			this.close();
 		},
 
 		// filter new roles

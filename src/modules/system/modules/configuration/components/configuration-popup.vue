@@ -309,11 +309,7 @@ export default {
 				if (!this.new) {
 					await this.updateItem();
 				} else {
-					try {
-						await this.addItem();
-					} catch (err) {
-						throw err;
-					}
+					await this.addItem();
 				}
 				this.close();
 			}

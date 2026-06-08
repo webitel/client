@@ -96,30 +96,25 @@ export default {
 	},
 	methods: {
 		async save() {
-			try {
-				if (this.create) {
-					this.flow.id = undefined;
-					await FlowsAPI.add({
-						itemInstance: this.flow,
-					});
-				} else {
-					await FlowsAPI.update({
-						itemId: this.flow.id,
-						itemInstance: this.flow,
-					});
-				}
-				this.close();
-			} catch (err) {
-				throw err;
+			if (this.create) {
+				this.flow.id = undefined;
+				await FlowsAPI.add({
+					itemInstance: this.flow,
+				});
+			} else {
+				await FlowsAPI.update({
+					itemId: this.flow.id,
+					itemInstance: this.flow,
+				});
 			}
+			this.close();
 		},
 		initFileReader() {
 			this.fileReader = new FileReader();
 			this.fileReader.addEventListener('load', this.handleFileLoad);
 		},
 		destroyFileReader() {
-			this.fileReader &&
-				this.fileReader.removeEventListener('load', this.handleFileLoad);
+			this.fileReader?.removeEventListener('load', this.handleFileLoad);
 		},
 		processJSON() {
 			this.fileReader.readAsText(this.file);

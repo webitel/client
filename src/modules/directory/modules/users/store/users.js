@@ -84,8 +84,6 @@ const actions = {
 				id: item.id,
 				changes,
 			});
-		} catch (err) {
-			throw err;
 		} finally {
 			await context.dispatch('LOAD_DATA_LIST');
 		}
@@ -101,14 +99,10 @@ const actions = {
 		);
 	},
 	REGENERATE_2FA_URL: async (context) => {
-		try {
-			await Users2faAPI.generate({
-				id: context.state.itemId,
-			});
-			await context.dispatch('LOAD_ITEM');
-		} catch (err) {
-			throw err;
-		}
+		await Users2faAPI.generate({
+			id: context.state.itemId,
+		});
+		await context.dispatch('LOAD_ITEM');
 	},
 };
 

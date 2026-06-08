@@ -170,17 +170,17 @@
 </template>
 
 <script>
+import { WtPlayer } from '@webitel/ui-sdk/components';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
-import { formatDate } from '@webitel/ui-sdk/utils';
-import vueDropzone from 'vue2-dropzone';
-import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { useStore } from 'vuex';
+import { formatDate } from '@webitel/ui-sdk/utils';
 import { computed } from 'vue';
-import { WtPlayer } from '@webitel/ui-sdk/components';
+import vueDropzone from 'vue2-dropzone';
+import { useStore } from 'vuex';
 
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';

@@ -153,18 +153,12 @@ const actions = {
 		}
 		try {
 			await context.dispatch(action, deleted);
-		} catch (err) {
-			throw err;
 		} finally {
 			await context.dispatch('LOAD_DATA_LIST');
 		}
 	},
 	DELETE_SINGLE: async (context, { id }) => {
-		try {
-			await context.dispatch('DELETE_ITEM', id);
-		} catch (err) {
-			throw err;
-		}
+		await context.dispatch('DELETE_ITEM', id);
 	},
 	DELETE_BULK: async (context, deleted) =>
 		Promise.allSettled(

@@ -1,3 +1,5 @@
+// biome-ignore-all lint/suspicious/noTemplateCurlyInString: ${...} are literal flow-code snippet placeholders inserted into the editor, not JS template literals
+// biome-ignore-all lint/suspicious/noThenProperty: "then" is a flow IF-app keyword, not a thenable
 import { FlowApp } from '@webitel/ui-sdk/modules/Flow';
 
 const FlowAppAutocomplete = Object.freeze({

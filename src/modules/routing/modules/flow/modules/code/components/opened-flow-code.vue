@@ -65,16 +65,12 @@ export default {
 			const { type } = this.itemInstance;
 			// if there's app, but no autocomplete -- skip
 			return (
-				FlowTypeApplications[type]?.reduce(
-					(apps, app) =>
-						FlowAppAutocomplete[app]
-							? [
-									...apps,
-									FlowAppAutocomplete[app],
-								]
-							: apps,
-					[],
-				) || Object.values(FlowAppAutocomplete)
+				FlowTypeApplications[type]?.reduce((apps, app) => {
+					if (FlowAppAutocomplete[app]) {
+						apps.push(FlowAppAutocomplete[app]);
+					}
+					return apps;
+				}, []) || Object.values(FlowAppAutocomplete)
 			);
 		},
 	},

@@ -40,9 +40,9 @@
 </template>
 
 <script setup lang="ts">
+import { WtPlayer } from '@webitel/ui-sdk/components';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import { getRingtonesList } from '../../api/settings';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
@@ -50,13 +50,13 @@ import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 interface Ringtone {
 	name: string;
 	label: string;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 const { t } = useI18n();
 
 const isCustomRingtone = ref(false);
-const ringtone = ref<Ringtone | Record<string, any>>({});
+const ringtone = ref<Partial<Ringtone>>({});
 const options = ref<Ringtone[]>([]);
 const savedRingtone = ref<string | null>(null);
 

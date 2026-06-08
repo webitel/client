@@ -31,8 +31,6 @@ const actions = {
 				item,
 				changes,
 			});
-		} catch (err) {
-			throw err;
 		} finally {
 			context.dispatch('LOAD_DATA_LIST');
 		}

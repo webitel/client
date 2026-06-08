@@ -86,7 +86,7 @@ export default {
 			const action = this.id
 				? this.$t('reusable.edit')
 				: this.$t('reusable.add');
-			return action + ' ' + this.$t('objects.ccenter.res.res', 1).toLowerCase();
+			return `${action} ${this.$t('objects.ccenter.res.res', 1).toLowerCase()}`;
 		},
 		resourceId() {
 			return this.$route.params.resourceId;

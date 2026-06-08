@@ -94,13 +94,13 @@ export default {
 	computed: {
 		mappingsList() {
 			return Object.entries(ImportCsvMemberMappings).reduce(
-				(list, [name, value]) => [
-					...list,
-					{
+				(list, [name, value]) => {
+					list.push({
 						name,
 						...value,
-					},
-				],
+					});
+					return list;
+				},
 				[],
 			);
 		},

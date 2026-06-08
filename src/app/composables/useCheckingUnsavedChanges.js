@@ -1,6 +1,4 @@
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { computed, ref } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
 
 export const useCheckingUnsavedChanges = (itemInstance) => {
 	const isConfirmationUnsavedChangesPopup = ref(false);

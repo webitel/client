@@ -71,15 +71,14 @@ export default {
 						required,
 					},
 					mappings: Object.entries(ImportCsvMemberMappings).reduce(
-						(mappings, [name, { required: reqField }]) =>
-							reqField
-								? {
-										...mappings,
-										[name]: {
-											required,
-										},
-									}
-								: mappings,
+						(mappings, [name, { required: reqField }]) => {
+							if (reqField) {
+								mappings[name] = {
+									required,
+								};
+							}
+							return mappings;
+						},
 						{},
 					),
 				},

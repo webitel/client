@@ -45,19 +45,21 @@ export function useDummy({
 						? search.value
 						: Object.values(route.query).some((query) => query.length)
 				) {
-					return (dummy.value = {
+					dummy.value = {
 						src: dummyImgAfterSearch,
 						text: dummyTextAfterSearch,
-					});
+					};
+					return;
 				}
-				return (dummy.value = {
+				dummy.value = {
 					src: dummyPic,
 					text: dummyText,
 					showAction,
 					hiddenText,
-				});
+				};
+				return;
 			}
-			return (dummy.value = '');
+			dummy.value = '';
 		},
 		{
 			deep: true,

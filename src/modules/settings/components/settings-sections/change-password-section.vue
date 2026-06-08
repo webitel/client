@@ -31,15 +31,15 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
+import { storeToRefs } from 'pinia';
 import { computed, inject, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 
 import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
+import { useUserinfoStore } from '../../../userinfo/stores/userinfoStore';
 import { changePassword as requestChangePassword } from '../../api/settings';
 import ChangePasswordAutocomplete from './utils/change-password-autocomplete.vue';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
-import { useUserinfoStore } from '../../../userinfo/stores/userinfoStore';
 
 const $eventBus = inject('$eventBus');
 const { t } = useI18n();

@@ -131,7 +131,7 @@ onMounted(() => {
 		} catch {
 			// If parsing fails, migrate old single value to new structure
 			const oldVolume = parseFloat(savedVolumeStr);
-			if (!isNaN(oldVolume)) {
+			if (!Number.isNaN(oldVolume)) {
 				ringtoneVolume[RingtoneType.Call] = oldVolume;
 				ringtoneVolume[RingtoneType.Chat] = oldVolume;
 				ringtoneVolume[RingtoneType.Task] = oldVolume;

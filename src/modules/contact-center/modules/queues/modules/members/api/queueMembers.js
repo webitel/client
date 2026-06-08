@@ -65,16 +65,13 @@ const mapDefaultCommunications = (item) => {
 
 const preRequestHandler = (item) => {
 	const copy = deepCopy(item);
-	copy.communications.forEach((copy) =>
-		sanitize(copy, communicationsFieldsToSend),
-	);
-	const variables = copy.variables.reduce(
-		(variables, variable) => ({
-			...variables,
-			[variable.key]: variable.value,
-		}),
-		{},
-	);
+	copy.communications.forEach((copy) => {
+		sanitize(copy, communicationsFieldsToSend);
+	});
+	const variables = copy.variables.reduce((variables, variable) => {
+		variables[variable.key] = variable.value;
+		return variables;
+	}, {});
 	return {
 		...copy,
 		variables,
