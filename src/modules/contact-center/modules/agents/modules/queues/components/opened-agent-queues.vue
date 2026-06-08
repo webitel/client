@@ -72,9 +72,9 @@
 </template>
 
 <script>
+import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 
 const namespace = 'ccenter/agents/queues';

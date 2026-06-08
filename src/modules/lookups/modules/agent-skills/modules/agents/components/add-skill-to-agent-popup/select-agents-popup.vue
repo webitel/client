@@ -100,12 +100,12 @@
 
 <script setup>
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import {
 	SortSymbols,
 	sortToQueryAdapter,
 } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, onMounted, reactive, ref } from 'vue';
-import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';

@@ -14,7 +14,7 @@
 		"tsc": "vue-tsc -p tsconfig.json",
 		"utils:i": "npm i --install-links",
 		"utils:up-libs": "npm up @webitel/api-services @webitel/ui-sdk @webitel/styleguide && npm run utils:ls-libs",
-		"utils:link-libs": "npm link @webitel/api-services @webitel/ui-sdk @webitel/styleguide && npm run utils:ls-libs",
+		"utils:ln-libs": "npm link @webitel/api-services @webitel/ui-sdk @webitel/styleguide && npm run utils:ls-libs",
 		"utils:ls-libs": "npm ls @webitel/api-services @webitel/ui-sdk @webitel/styleguide",
 		"prepare": "husky || true",
 		"biome:ci:gh": "biome ci ./src --reporter=github",

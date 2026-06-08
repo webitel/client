@@ -7,12 +7,12 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import { computed, onMounted } from 'vue';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import { useUserinfoStore } from '../../../../../../../modules/userinfo/stores/userinfoStore';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../../../../modules/userinfo/stores/userinfoStore';
 
 const props = defineProps({
 	item: {
