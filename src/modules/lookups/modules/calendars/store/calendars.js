@@ -122,11 +122,7 @@ const actions = {
 		if (Array.isArray(deleted)) {
 			if (deleted.length) action = 'DELETE_BULK_EXCEPT_ITEMS';
 		}
-		try {
-			await context.dispatch(action, deleted);
-		} catch (err) {
-			throw err;
-		}
+		await context.dispatch(action, deleted);
 	},
 	DELETE_SINGLE_EXCEPT_ITEM: async (context, item) => {
 		const { excepts } = context.state.itemInstance;

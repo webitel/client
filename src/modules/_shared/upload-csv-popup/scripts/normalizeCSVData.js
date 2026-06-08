@@ -43,12 +43,10 @@ const normalizeCSVData = ({ data, mappings }) => {
 					);
 				}
 
-				return isValueEmpty
-					? normalizedItem
-					: {
-							...normalizedItem,
-							[name]: value, // Return the original value for proper mapping (e.g., variables in members)
-						};
+				if (!isValueEmpty) {
+					normalizedItem[name] = value; // Return the original value for proper mapping (e.g., variables in members)
+				}
+				return normalizedItem;
 			},
 			{},
 		);

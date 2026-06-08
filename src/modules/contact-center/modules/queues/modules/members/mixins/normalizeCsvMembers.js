@@ -8,16 +8,12 @@ const findCommunicationIdByCode = ({ communications, code }) =>
 export default {
 	methods: {
 		async saveBulkData(data) {
-			try {
-				const normalizedData = await this.normalizeData(data);
-				return QueueMembersAPI.addBulk(
-					this.parentId,
-					this.file.name,
-					normalizedData,
-				);
-			} catch (err) {
-				throw err;
-			}
+			const normalizedData = await this.normalizeData(data);
+			return QueueMembersAPI.addBulk(
+				this.parentId,
+				this.file.name,
+				normalizedData,
+			);
 		},
 
 		async getCommunicationTypes() {
@@ -58,10 +54,10 @@ export default {
 						(field) => field.name === 'variables',
 					);
 					normalizedItem.variables = item.variables.reduce(
-						(variables, variable, index) => ({
-							...variables,
-							[variablesMappings.csv[index]]: variable, // csv is arr of tags
-						}),
+						(variables, variable, index) => {
+							variables[variablesMappings.csv[index]] = variable; // csv is arr of tags
+							return variables;
+						},
 						{},
 					);
 				}

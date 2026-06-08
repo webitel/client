@@ -376,10 +376,10 @@ export default {
 		},
 		specificControls() {
 			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-				(controls, control) => ({
-					...controls,
-					[control]: true,
-				}),
+				(controls, control) => {
+					controls[control] = true;
+					return controls;
+				},
 				{},
 			);
 		},

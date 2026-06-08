@@ -8,7 +8,6 @@ import applyTransform, {
 	notify,
 	sanitize,
 	snakeToCamel,
-	starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 

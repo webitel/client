@@ -66,8 +66,6 @@ export default {
 						},
 					),
 				});
-			} catch (err) {
-				throw err;
 			} finally {
 				this.isResetting = false;
 				this.close();

@@ -21,10 +21,10 @@ const resettableState = {
 			skipHeaders: true,
 			clearMembers: false,
 			mappings: Object.entries(ImportCsvMemberMappings).reduce(
-				(mappings, [name, { csv }]) => ({
-					...mappings,
-					[name]: csv,
-				}),
+				(mappings, [name, { csv }]) => {
+					mappings[name] = csv;
+					return mappings;
+				},
 				{},
 			),
 		},

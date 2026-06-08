@@ -41,7 +41,11 @@ import { useI18n } from 'vue-i18n';
 
 interface Props {
 	title?: string;
-	dataList?: Array<any>;
+	dataList?: Array<{
+		id?: string | number;
+		name?: string;
+		[key: string]: unknown;
+	}>;
 	headers?: Array<{
 		value: string;
 		text: string;

@@ -97,20 +97,21 @@ export default {
 		alternativeChannels: Object.values(WebchatAlternativeChannel),
 		channelIcon: {
 			...Object.values(WebchatAlternativeChannel).reduce(
-				(channels, channel) => ({
-					...channels,
-					[channel]: `messenger-${channel}`,
-				}),
+				(channels, channel) => {
+					channels[channel] = `messenger-${channel}`;
+					return channels;
+				},
 				{},
 			),
 			[WebchatAlternativeChannel.EMAIL]: 'mail--color',
 		},
 		channelUrlPlaceholder: {
 			...Object.values(WebchatAlternativeChannel).reduce(
-				(channels, channel) => ({
-					...channels,
-					[channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-				}),
+				(channels, channel) => {
+					channels[channel] =
+						`objects.routing.chatGateways.${channel}.${channel}`;
+					return channels;
+				},
 				{},
 			),
 			[WebchatAlternativeChannel.EMAIL]:

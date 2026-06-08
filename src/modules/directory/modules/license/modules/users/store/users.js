@@ -40,13 +40,10 @@ const actions = {
 		const _items = items.map((item) => ({
 			...item,
 			_license: item.license || [], // save "default" format for api license patching
-			license: licenseHeaders.reduce(
-				(licenses, { value: licenseId }) => ({
-					...licenses,
-					[licenseId]: item.license?.some(({ id }) => id === licenseId),
-				}),
-				{},
-			),
+			license: licenseHeaders.reduce((licenses, { value: licenseId }) => {
+				licenses[licenseId] = item.license?.some(({ id }) => id === licenseId);
+				return licenses;
+			}, {}),
 		}));
 		return {
 			items: _items,
@@ -54,36 +51,30 @@ const actions = {
 		};
 	},
 	TOGGLE_USER_LICENSE: async (context, { user, license }) => {
-		try {
-			const licenseId = license.value; // "value" from license col header is its id
-			const licenseIndex = user._license.findIndex(
-				({ id }) => id === licenseId,
-			);
-			const changes = {
-				license: [
-					...user._license,
-				],
-			};
-			if (licenseIndex !== -1) {
-				changes.license.splice(licenseIndex, 1);
-			} else {
-				changes.license.push({
-					id: licenseId,
-				});
-			}
-			await context.dispatch('PATCH_ITEM', {
-				id: user.id,
-				changes,
+		const licenseId = license.value; // "value" from license col header is its id
+		const licenseIndex = user._license.findIndex(({ id }) => id === licenseId);
+		const changes = {
+			license: [
+				...user._license,
+			],
+		};
+		if (licenseIndex !== -1) {
+			changes.license.splice(licenseIndex, 1);
+		} else {
+			changes.license.push({
+				id: licenseId,
 			});
-			/* i decided to mutate user directly to avoid all dataList redraw */
-
-			user._license = changes.license;
-			/* i decided to mutate user directly to avoid all dataList redraw */
-
-			user.license[licenseId] = !user.license[licenseId];
-		} catch (err) {
-			throw err;
 		}
+		await context.dispatch('PATCH_ITEM', {
+			id: user.id,
+			changes,
+		});
+		/* i decided to mutate user directly to avoid all dataList redraw */
+
+		user._license = changes.license;
+		/* i decided to mutate user directly to avoid all dataList redraw */
+
+		user.license[licenseId] = !user.license[licenseId];
 	},
 };
 

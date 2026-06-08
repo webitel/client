@@ -55,15 +55,11 @@ export default {
 
 	methods: {
 		async save() {
-			try {
-				await this.addRolePermissions({
-					grantee: this.newGrantee,
-					grantor: this.newGrantor,
-				});
-				this.close();
-			} catch (err) {
-				throw err;
-			}
+			await this.addRolePermissions({
+				grantee: this.newGrantee,
+				grantor: this.newGrantor,
+			});
+			this.close();
 		},
 	},
 };
