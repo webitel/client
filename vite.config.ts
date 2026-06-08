@@ -72,9 +72,23 @@ export default () => {
 				reporter: 'json',
 			},
 			environment: 'happy-dom',
+			// some modules read VITE_API_URL at import time (e.g. getChatOriginUrl);
+			// provide a valid default so `new URL(...)` doesn't throw under test
+			env: {
+				VITE_API_URL: 'https://api.example.test/api',
+			},
 			setupFiles: [
 				'./tests/config/config.js',
 			],
+			server: {
+				deps: {
+					// @webitel packages ship raw .ts source under node_modules;
+					// inline them so Vite transforms the types instead of Node's loader
+					inline: [
+						/@webitel\//,
+					],
+				},
+			},
 		},
 	});
 };

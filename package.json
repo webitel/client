@@ -63,7 +63,7 @@
 		"@tsconfig/node22": "^22.0.0",
 		"@types/node": "^22.10.10",
 		"@vitejs/plugin-vue": "^6.x",
-		"@vitest/coverage-v8": "^2.0.5",
+		"@vitest/coverage-v8": "^4.1.8",
 		"@vue/test-utils": "^2.4.6",
 		"@vue/tsconfig": "^0.7.0",
 		"csv-parse": "^5.0.4",
@@ -82,7 +82,7 @@
 		"vite-plugin-vue-devtools": "^7.6.4",
 		"vite-plugin-vue-docgen": "^0.3.4",
 		"vitepress": "^1.4.3",
-		"vitest": "^2.0.5",
+		"vitest": "^4.1.8",
 		"vue-color": "^2.8.1",
 		"vue-tsc": "^2.2.0"
 	},
