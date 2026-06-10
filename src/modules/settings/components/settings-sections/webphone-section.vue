@@ -56,8 +56,8 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useSettingsBroadcast } from '../../composables/useSettingsBroadcast';
 import { changeWebPhone, getWebPhone } from '../../api/settings';
+import { useSettingsBroadcast } from '../../composables/useSettingsBroadcast';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 import SettingsSwitcherRow from './utils/settings-switcher-row.vue';
 
