@@ -80,6 +80,16 @@
             required
             @update:model-value="setItemProp({ prop: 'value', value: $event })"
           />
+										<wt-single-select
+												v-if="displayedConfigurationType.singleselect && selectConfig"
+												:show-clear="false"
+												:label="$t('vocabulary.values', 1)"
+												:options="selectConfig.options"
+												:v="v$.itemInstance.value"
+												:model-value="itemInstance.value"
+												required
+												@update:model-value="setItemProp({ prop: 'value', value: $event.id })"
+										/>
         </div>
       </form>
     </template>
@@ -112,12 +122,18 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
 import { PasswordCategories } from '../enum/PasswordCategories.enum';
+import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
+
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 import {
 	defaultMultiselectConfig,
 	multiselectConfigurations,
 } from '../utils/multiselectConfigurations';
+import {
+	getSelectConfig,
+	selectConfigurations,
+} from '../utils/selectConfigurations';
 
 export default {
 	name: 'ConfigurationPopup',
@@ -205,6 +221,14 @@ export default {
 			},
 		};
 
+		const defaultTabConfig = {
+			itemInstance: {
+				value: {
+					required,
+				},
+			},
+		}
+
 		switch (this.itemInstance.name) {
 			case EngineSystemSettingName.EnableOmnichannel:
 				return deepmerge(defaults, defaultBooleanConfig);
@@ -248,6 +272,8 @@ export default {
 				return deepmerge(defaults, defaultStringConfig);
 			case EngineSystemSettingName.ExpandContactTabs:
 				return deepmerge(defaults, defaultBooleanConfig);
+			case EngineSystemSettingName.DefaultWorkspaceTab:
+					return deepmerge(defaults, defaultTabConfig);
 			default:
 				return defaults;
 		}
@@ -296,6 +322,9 @@ export default {
 		},
 		configurationId() {
 			return this.$route.params.id;
+		},
+		selectConfig() {
+				return getSelectConfig(this.itemInstance.name);
 		},
 	},
 	methods: {
