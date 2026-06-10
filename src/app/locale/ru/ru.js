@@ -70,6 +70,9 @@ export default {
 		webPhone: 'Web-телефон',
 		useWebPhone: 'Использовать Web-телефон',
 		useStun: 'Использовать STUN',
+		volumeLeveling: 'Выравнивание громкости',
+		echoCancellation: 'Устранение эха',
+		noiseReduction: 'Приглушение шумов',
 		notifications: {
 			[NotificationType.NewMessageSound]:
 				'Звуковое уведомление о новом сообщении',
