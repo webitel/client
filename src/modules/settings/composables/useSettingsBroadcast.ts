@@ -1,7 +1,7 @@
 import {
-	type WebphoneBroadcastPayload,
-	type UserSettingsBroadcastMessage,
 	BroadcastChannelName,
+	type UserSettingsBroadcastMessage,
+	type WebphoneBroadcastPayload,
 } from '@webitel/ui-sdk/enums';
 import { onUnmounted } from 'vue';
 
