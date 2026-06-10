@@ -11,14 +11,14 @@
     </template>
     <template #main>
       <div class="attempts-reset-popup__main">
-        <wt-select
+        <wt-single-select
           disabled
-          :value="selectedAttemptTypeOption"
+          :model-value="selectedAttemptTypeOption"
           :options="attemptsResetTypesOptions"
           :label="t('objects.ccenter.queues.attemptsReset.attemptType')"
           :placeholder="t('objects.ccenter.queues.attemptsReset.attemptType')"
-          track-by="value"
-          @input="attemptTypeInputHandler"
+          data-key="value"
+          @update:model-value="attemptTypeInputHandler"
         />
         <wt-input-number
           v-model:model-value="resetAttemptsForm.idleForMinutes"

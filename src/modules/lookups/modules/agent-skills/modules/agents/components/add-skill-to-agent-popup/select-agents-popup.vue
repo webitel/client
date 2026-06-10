@@ -18,20 +18,18 @@
           @input="updateSearchValue($event)"
           @search="handleFilterChange"
         />
-        <wt-select
+        <wt-multi-select
           :placeholder="$t('objects.team')"
           :search-method="TeamsAPI.getLookup"
-          :value="filters.teams"
+          :model-value="filters.teams"
           :disabled="!hasReadTeamAccess"
-          multiple
-          @input="handleTeamsSelect"
+          @update:model-value="handleTeamsSelect"
         />
-        <wt-select
+        <wt-multi-select
           :placeholder="$t('objects.lookups.skills.skills', 1)"
           :search-method="SkillsAPI.getLookup"
-          :value="filters.skills"
-          multiple
-          @input="handleSkillsSelect"
+          :model-value="filters.skills"
+          @update:model-value="handleSkillsSelect"
         />
         <wt-icon-btn
           icon="clear"
@@ -102,12 +100,12 @@
 
 <script setup>
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import {
 	SortSymbols,
 	sortToQueryAdapter,
 } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, onMounted, reactive, ref } from 'vue';
-import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';

@@ -32,14 +32,14 @@ export default {
 		dataList: {
 			handler(data) {
 				if (data && this.agentBucketsId) {
-					this.getItemBuckets(parseInt(this.agentBucketsId));
+					this.getItemBuckets(parseInt(this.agentBucketsId, 10));
 				}
 			},
 		},
 
 		agentBucketsId: {
 			handler(id) {
-				if (id && this.dataList) this.getItemBuckets(parseInt(id));
+				if (id && this.dataList) this.getItemBuckets(parseInt(id, 10));
 			},
 		},
 	},

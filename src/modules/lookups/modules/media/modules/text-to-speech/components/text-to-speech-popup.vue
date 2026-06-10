@@ -23,39 +23,40 @@
 						:label="$t('reusable.name')"
 						:v="v$.draft.name"
 					/>
-					<wt-select
-						v-model="draft.profile"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.profile"
+						:show-clear="false"
 						:label="$t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)"
 						:search-method="searchProfiles"
 						:v="v$.draft.profile"
 					/>
-					<wt-select
-						v-model="draft.textType"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.textType"
+						:show-clear="false"
 						:label="$t('objects.lookups.media.tts.textType.textType')"
 						:options="textTypeOptions"
-						track-by="value"
+						data-key="value"
 					/>
-					<wt-select
-						v-model="draft.language"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.language"
+						:show-clear="false"
 						:label="$t('vocabulary.language')"
 						:options="TtsMicrosoftLanguage"
-						:track-by="null"
+						:data-key="null"
 					/>
-					<wt-select
-						v-model="draft.voice"
-						:clearable="false"
+					<wt-single-select
+						:key="`${draft.profile?.provider}-${draft.language}`"
+						v-model:model-value="draft.voice"
+						:show-clear="false"
 						:label="$t('vocabulary.voice')"
-						:options="TtsMicrosoftVoice"
-						:track-by="null"
+						:options="voiceOptions"
+						:data-key="null"
 					/>
-					<wt-select
-						v-model="draft.format"
-						:clearable="false"
+					<wt-single-select
+						v-model:model-value="draft.format"
+						:show-clear="false"
 						:label="$t('vocabulary.format')"
-						:track-by="null"
+						:data-key="null"
 						disabled
 					/>
 					<wt-textarea
@@ -114,14 +115,15 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtPlayer } from '@webitel/ui-sdk/components';
 import { StorageServiceType } from 'webitel-sdk';
 import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
-import { WtPlayer } from '@webitel/ui-sdk/components';
 
 import validationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
 import MediaAPI from '../../../api/media';
 import TextToSpeechAPI from '../api/TextToSpeechAPI';
+import TtsGoogleVoice from '../enums/TtsGoogleVoice.enum';
 import TtsMicrosoftVoice from '../enums/TtsMicrosoftVoice.enum';
 import TtsTextType from '../lookups/TtsTextType.lookup';
 
@@ -162,6 +164,7 @@ export default {
 		textTypeOptions: TtsTextType,
 		TtsMicrosoftLanguage: Object.values(TtsMicrosoftLanguage),
 		TtsMicrosoftVoice,
+		TtsGoogleVoice,
 		audio: null,
 		isGenerating: false,
 		isSaving: false,
@@ -186,6 +189,16 @@ export default {
 		mediaId() {
 			return this.$route.params.mediaId;
 		},
+		voiceOptions() {
+			const language = this.draft.language;
+			if (this.draft.profile?.provider === 'Google' && language) {
+				const googleVoices = this.TtsGoogleVoice.filter((voice) =>
+					voice.toLowerCase().includes(language.toLowerCase()),
+				);
+				if (googleVoices.length) return googleVoices;
+			}
+			return this.TtsMicrosoftVoice;
+		},
 	},
 	watch: {
 		mediaId: {
@@ -199,6 +212,11 @@ export default {
 				this.draft = getModel();
 			},
 			immediate: true,
+		},
+		voiceOptions(options) {
+			if (!options.includes(this.draft.voice)) {
+				this.draft.voice = options[0];
+			}
 		},
 	},
 	methods: {

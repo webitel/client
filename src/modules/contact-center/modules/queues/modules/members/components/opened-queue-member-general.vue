@@ -27,27 +27,26 @@
         mode="datetime"
         @input="setItemProp({ prop: 'expireAt', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
         :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="$t('objects.ccenter.queues.timezone')"
         :search-method="loadDropdownOptionsTimezoneList"
-        :value="itemInstance.timezone"
-        @input="setItemProp({ prop: 'timezone', value: $event })"
+        :model-value="itemInstance.timezone"
+        @update:model-value="setItemProp({ prop: 'timezone', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasBucketsReadAccess"
         :label="$t('objects.lookups.buckets.buckets', 1)"
         :search-method="loadDropdownOptionsBucketsList"
-        :value="itemInstance.bucket"
-        @input="setItemProp({ prop: 'bucket', value: $event })"
+        :model-value="itemInstance.bucket"
+        @update:model-value="setItemProp({ prop: 'bucket', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasAgentsReadAccess"
         :label="$t('objects.ccenter.agents.agents', 1)"
         :search-method="loadDropdownOptionsAgentsList"
-        :value="itemInstance.agent"
-        @input="setItemProp({ prop: 'agent', value: $event })"
+        :model-value="itemInstance.agent"
+        @update:model-value="setItemProp({ prop: 'agent', value: $event })"
       />
     </form>
   </section>

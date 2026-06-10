@@ -96,21 +96,21 @@
         v-else-if="itemInstance.payload.amd.enabled"
         class="amd-content-block"
       >
-        <wt-tags-input
+        <wt-multi-select
           :disabled="disableUserInput"
           :label="$t('objects.ccenter.queues.positiveLabels')"
           :options="AmdAiLabels"
-          :value="itemInstance.payload.amd.positive"
-          taggable
-          @input="setAmdItemProp({ prop: 'positive', value: $event })"
+          :model-value="itemInstance.payload.amd.positive"
+          chips-view
+          allow-custom-values
+          @update:model-value="setAmdItemProp({ prop: 'positive', value: $event })"
         />
-        <wt-select
-          :clearable="true"
+        <wt-single-select
           :disabled="disableUserInput"
           :label="$t('objects.ccenter.queues.aiPlayback')"
           :search-method="loadDropdownOptionsMediaList"
-          :value="itemInstance.payload.amd.playback"
-          @input="setAmdItemProp({ prop: 'playback', value: $event })"
+          :model-value="itemInstance.payload.amd.playback"
+          @update:model-value="setAmdItemProp({ prop: 'playback', value: $event })"
         />
       </div>
     </form>

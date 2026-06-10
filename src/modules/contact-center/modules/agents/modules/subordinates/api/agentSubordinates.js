@@ -84,19 +84,15 @@ export const updateAgentSubordinate = async ({
 	itemInstance,
 	dataList,
 }) => {
-	try {
-		await addAgentSubordinate({
-			parentId,
-			itemInstance,
-		});
-		await deleteAgentSubordinate({
-			id: itemId,
-			parentId,
-			dataList,
-		});
-	} catch (err) {
-		throw err;
-	}
+	await addAgentSubordinate({
+		parentId,
+		itemInstance,
+	});
+	await deleteAgentSubordinate({
+		id: itemId,
+		parentId,
+		dataList,
+	});
 };
 
 const AgentSubordinatesAPI = {

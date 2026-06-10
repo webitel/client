@@ -60,14 +60,10 @@ export default {
 				if (!this.new && this.id !== null) {
 					await this.updateItem();
 				} else {
-					try {
-						await this.addItem();
+					await this.addItem();
 
-						if (this.id) {
-							await this.redirectToEdit();
-						}
-					} catch (err) {
-						throw err;
+					if (this.id) {
+						await this.redirectToEdit();
 					}
 				}
 			}

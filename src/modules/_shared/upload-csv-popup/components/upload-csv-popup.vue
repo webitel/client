@@ -23,9 +23,9 @@
           disabled
         />
         <form class="upload-popup-form__form">
-          <wt-select
-            v-model="charset"
-            :clearable="false"
+          <wt-single-select
+            v-model:model-value="charset"
+            :show-clear="false"
             :label="t('objects.CSV.charSet')"
             :options="charsetOptions"
             disabled
@@ -78,19 +78,19 @@
             <p class="upload-popup-mapping-item__field typo-body-1">
               {{ t(field.locale) }}<span v-if="field.required">*</span>
             </p>
-            <wt-select
+            <wt-single-select
               v-if="!field.multiple"
-              v-model="field.csv"
-              :clearable="!field.required"
+              v-model:model-value="field.csv"
+              :show-clear="!field.required"
               :options="csvColumns"
               :placeholder="t(field.locale)"
-              :track-by="null"
-              open-direction="above"
+              :data-key="null"
               class="upload-popup-mapping-item__select"
             />
-            <wt-tags-input
+            <wt-multi-select
               v-else
-              v-model="field.csv"
+              v-model:model-value="field.csv"
+              chips-view
               :options="csvColumns"
               :placeholder="t(field.locale)"
               class="upload-popup-mapping-item__select"

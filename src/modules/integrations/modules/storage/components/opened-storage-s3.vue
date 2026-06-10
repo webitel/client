@@ -37,25 +37,25 @@
         :model-value="itemInstance.properties.pathPattern"
         @update:model-value="setItemProp({ prop: 'pathPattern', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableService"
         :label="$t('objects.service')"
         :options="serviceOptions"
-        :value="service"
-        track-by="value"
-        @input="setService"
+        :model-value="service"
+        data-key="value"
+        @update:model-value="setService"
       />
-      <wt-select
+      <wt-single-select
         v-if="!isCustom"
-        :clearable="false"
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.integrations.storage.region')"
         :options="regionOptions"
         :v="v.itemInstance.properties.region"
-        :value="itemInstance.properties.region"
+        :model-value="itemInstance.properties.region"
         required
-        track-by="value"
-        @input="setItemProp({ prop: 'region', value: $event })"
+        data-key="value"
+        @update:model-value="setItemProp({ prop: 'region', value: $event })"
       />
       <wt-input-text
         v-if="isCustom"

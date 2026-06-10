@@ -14,14 +14,12 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        :clearable="true"
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('objects.team')"
         :search-method="loadDropdownOptionsTeamList"
-        :value="itemInstance.teams"
-        multiple
-        @input="setItemProp({ prop: 'teams', value: $event })"
+        :model-value="itemInstance.teams"
+        @update:model-value="setItemProp({ prop: 'teams', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"
@@ -31,14 +29,12 @@
         required
         @update:model-value="setItemProp({ prop: 'text', value: $event })"
       />
-      <wt-select
-        :clearable="true"
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.queues', 1)"
         :search-method="loadDropdownOptionsQueueList"
-        :value="itemInstance.queues"
-        multiple
-        @input="setItemProp({ prop: 'queues', value: $event })"
+        :model-value="itemInstance.queues"
+        @update:model-value="setItemProp({ prop: 'queues', value: $event })"
       />
     </div>
   </section>

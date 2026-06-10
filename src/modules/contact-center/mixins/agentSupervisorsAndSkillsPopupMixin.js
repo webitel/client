@@ -1,5 +1,3 @@
-import { mapActions } from 'vuex';
-
 export default {
 	data: () => ({
 		openedItemId: null, // "selected" id object list popup

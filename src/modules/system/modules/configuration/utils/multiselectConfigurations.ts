@@ -4,7 +4,7 @@ import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { PasswordCategories } from '../enum/PasswordCategories.enum';
 
 interface MultiselectConfig {
-	searchMethod: ((params: any) => Promise<any>) | null;
+	searchMethod: ((params: unknown) => Promise<unknown>) | null;
 	options: Array<{
 		name: string;
 		value: string;

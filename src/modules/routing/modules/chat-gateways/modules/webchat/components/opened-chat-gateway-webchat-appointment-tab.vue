@@ -14,33 +14,33 @@
         @update:model-value="setAppointmentMetadata({ prop: 'enabled', value: $event })"
       />
       <div />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :label="$t('objects.ccenter.queues.queues', 1)"
         :search-method="searchQueues"
         :v="v.itemInstance.metadata.appointment.queue"
-        :value="itemInstance.metadata.appointment.queue"
+        :model-value="itemInstance.metadata.appointment.queue"
         :disabled="disableUserInput"
-        @input="setAppointmentMetadata({ prop: 'queue', value: $event })"
+        @update:model-value="setAppointmentMetadata({ prop: 'queue', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :label="$t('objects.lookups.communications.communications', 1)"
         :search-method="searchCommunications"
         :v="v.itemInstance.metadata.appointment.communicationType"
-        :value="itemInstance.metadata.appointment.communicationType"
+        :model-value="itemInstance.metadata.appointment.communicationType"
         :disabled="disableUserInput"
-        @input="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
+        @update:model-value="setAppointmentMetadata({ prop: 'communicationType', value: $event })"
       />
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('vocabulary.duration')"
         :options="durationOptions"
         :v="v.itemInstance.metadata.appointment.duration"
-        :value="duration"
-        track-by="value"
-        @input="setAppointmentMetadata({ prop: 'duration', value: $event.value })"
+        :model-value="duration"
+        data-key="value"
+        @update:model-value="setAppointmentMetadata({ prop: 'duration', value: $event.value })"
       />
       <wt-input-number
         :label="$t('objects.routing.chatGateways.webchat.appointment.availableAgents')"

@@ -26,16 +26,12 @@ const CHAT_URL = import.meta.env.VITE_CHAT_URL;
 const WS_SERVER_URL = SCRIPT_URL.replace(/^http/, 'ws');
 
 const filterEmptyValues = (obj) =>
-	Object.entries(obj).reduce(
-		(acc, [key, value]) =>
-			isEmpty(value)
-				? acc
-				: {
-						...acc,
-						[key]: value,
-					},
-		{},
-	);
+	Object.entries(obj).reduce((acc, [key, value]) => {
+		if (!isEmpty(value)) {
+			acc[key] = value;
+		}
+		return acc;
+	}, {});
 
 const generateCode = (config) => `
       const script = document.createElement('script');
@@ -177,13 +173,12 @@ export default {
 		processAlternativeChannelsConfig(channels) {
 			const minifyAltChannels = (altChannels) =>
 				Object.entries(altChannels).reduce(
-					(channels, [channelName, { enabled, url }]) =>
-						enabled && url
-							? {
-									...channels,
-									[channelName]: url,
-								}
-							: channels,
+					(channels, [channelName, { enabled, url }]) => {
+						if (enabled && url) {
+							channels[channelName] = url;
+						}
+						return channels;
+					},
 					{},
 				);
 			const result = minifyAltChannels(channels);

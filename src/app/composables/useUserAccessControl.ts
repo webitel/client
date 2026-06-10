@@ -1,7 +1,10 @@
 import { createUserAccessControlComposable } from '@webitel/ui-sdk/modules/Userinfo';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export let useUserAccessControl = (_?: any): any => {
+type UseUserAccessControl = ReturnType<
+	typeof createUserAccessControlComposable
+>;
+
+export let useUserAccessControl: UseUserAccessControl = () => {
 	throw new Error('useUserAccessControl is not created');
 };
 

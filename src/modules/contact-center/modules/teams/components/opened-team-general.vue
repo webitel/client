@@ -15,26 +15,24 @@
         class="object-input-area-grid__name"
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
-        v-model="strategy"
-        :clearable="false"
+      <wt-single-select
+        v-model:model-value="strategy"
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.teams.strategy')"
         :options="strategyOptions"
         :v="v.itemInstance.strategy"
         required
         class="object-input-area-grid__strategy"
-        track-by="value"
+        data-key="value"
       />
-      <wt-select
-        :close-on-select="false"
+      <wt-multi-select
         :disabled="disableUserInput || !hasAdminsReadAccess"
         :label="$t('objects.ccenter.agents.admins', 1)"
         :search-method="fetchAdmins"
-        :value="itemInstance.admin"
-        multiple
+        :model-value="itemInstance.admin"
         class="object-input-area-grid__admins"
-        @input="setItemProp({ prop: 'admin', value: $event })"
+        @update:model-value="setItemProp({ prop: 'admin', value: $event })"
       />
       <wt-textarea
         :disabled="disableUserInput"

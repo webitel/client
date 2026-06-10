@@ -20,14 +20,10 @@ const resettableItemState = {
 
 const actions = {
 	LOAD_PARENT_QUEUE: async (context) => {
-		try {
-			const queue = await QueuesAPI.get({
-				itemId: context.state.parentId,
-			});
-			context.commit('SET_PARENT_QUEUE', queue);
-		} catch (err) {
-			throw err;
-		}
+		const queue = await QueuesAPI.get({
+			itemId: context.state.parentId,
+		});
+		context.commit('SET_PARENT_QUEUE', queue);
 	},
 	ADD_ITEM: async (context) => {
 		if (!context.state.itemId) {

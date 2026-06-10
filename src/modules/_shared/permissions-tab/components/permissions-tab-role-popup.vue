@@ -4,7 +4,7 @@
       {{ $t('objects.permissions.object.newPermissionRole') }}
     </template>
     <template #main>
-      <permissions-role-select v-model="newGrantee" :clearable="false"
+      <permissions-role-select v-model:model-value="newGrantee" :show-clear="false"
         :placeholder="$t('objects.permissions.permissionsRole', 1)" :search-method="getAvailableGrantees" />
     </template>
     <template #actions>

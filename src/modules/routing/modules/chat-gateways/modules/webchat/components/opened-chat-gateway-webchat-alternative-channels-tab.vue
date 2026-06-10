@@ -57,13 +57,13 @@
             :model-value="itemInstance.metadata.call.url"
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.url', value: $event })"
           />
-          <wt-select
+          <wt-single-select
             :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.flow.flow', 1)"
             :search-method="loadCallFlows"
             :v="v.itemInstance.metadata.call.flow"
-            :value="itemInstance.metadata.call.flow"
-            @input="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })"
+            :model-value="itemInstance.metadata.call.flow"
+            @update:model-value="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })"
           />
         </div>
       </article>
@@ -97,20 +97,21 @@ export default {
 		alternativeChannels: Object.values(WebchatAlternativeChannel),
 		channelIcon: {
 			...Object.values(WebchatAlternativeChannel).reduce(
-				(channels, channel) => ({
-					...channels,
-					[channel]: `messenger-${channel}`,
-				}),
+				(channels, channel) => {
+					channels[channel] = `messenger-${channel}`;
+					return channels;
+				},
 				{},
 			),
 			[WebchatAlternativeChannel.EMAIL]: 'mail--color',
 		},
 		channelUrlPlaceholder: {
 			...Object.values(WebchatAlternativeChannel).reduce(
-				(channels, channel) => ({
-					...channels,
-					[channel]: `objects.routing.chatGateways.${channel}.${channel}`,
-				}),
+				(channels, channel) => {
+					channels[channel] =
+						`objects.routing.chatGateways.${channel}.${channel}`;
+					return channels;
+				},
 				{},
 			),
 			[WebchatAlternativeChannel.EMAIL]:

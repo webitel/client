@@ -174,20 +174,16 @@ export default {
 		async create() {
 			const invalid = this.checkValidations();
 			if (!invalid) {
-				try {
-					if (!this.parentId) {
-						await this.addParentItem();
-						await this.$router.replace({
-							...this.$route,
-							params: {
-								id: this.parentId,
-							},
-						});
-					}
-					this.addItem();
-				} catch (err) {
-					throw err;
+				if (!this.parentId) {
+					await this.addParentItem();
+					await this.$router.replace({
+						...this.$route,
+						params: {
+							id: this.parentId,
+						},
+					});
 				}
+				this.addItem();
 			} else {
 				this.$eventBus.$emit('notification', {
 					type: 'error',

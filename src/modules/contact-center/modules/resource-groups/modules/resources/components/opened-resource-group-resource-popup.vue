@@ -11,27 +11,26 @@
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
+        <wt-single-select
+          :show-clear="false"
           :label="$t('objects.ccenter.res.res', 1)"
           :search-method="loadDropdownOptionsList"
           :v="v$.itemInstance.resource"
-          :value="itemInstance.resource"
+          :model-value="itemInstance.resource"
           required
-          @input="setItemProp({ prop: 'resource', value: $event })"
+          @update:model-value="setItemProp({ prop: 'resource', value: $event })"
         />
         <wt-input-number
           :label="$t('objects.ccenter.res.priority')"
           :model-value="itemInstance.priority"
           @update:model-value="setItemProp({ prop: 'priority', value: $event })"
         />
-        <wt-select
-          :clearable="true"
+        <wt-single-select
           :label="$t('objects.ccenter.res.reserveResource', 1)"
           :search-method="loadDropdownOptionsList"
           :v="v$.itemInstance.reserveResource"
-          :value="itemInstance.reserveResource"
-          @input="setItemProp({ prop: 'reserveResource', value: $event })"
+          :model-value="itemInstance.reserveResource"
+          @update:model-value="setItemProp({ prop: 'reserveResource', value: $event })"
         />
       </form>
     </template>
@@ -87,7 +86,7 @@ export default {
 			const action = this.id
 				? this.$t('reusable.edit')
 				: this.$t('reusable.add');
-			return action + ' ' + this.$t('objects.ccenter.res.res', 1).toLowerCase();
+			return `${action} ${this.$t('objects.ccenter.res.res', 1).toLowerCase()}`;
 		},
 		resourceId() {
 			return this.$route.params.resourceId;

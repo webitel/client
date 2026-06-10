@@ -161,17 +161,13 @@ const deleteTeamSupervisor = ({ id }) => {
 };
 
 const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
-	try {
-		await addTeamSupervisor({
-			parentId,
-			itemInstance,
-		});
-		await deleteTeamSupervisor({
-			id: itemId,
-		});
-	} catch (err) {
-		throw err;
-	}
+	await addTeamSupervisor({
+		parentId,
+		itemInstance,
+	});
+	await deleteTeamSupervisor({
+		id: itemId,
+	});
 };
 
 const TeamSupervisorsAPI = {

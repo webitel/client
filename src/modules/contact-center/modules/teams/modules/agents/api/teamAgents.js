@@ -8,7 +8,6 @@ import applyTransform, {
 	mergeEach,
 	notify,
 	snakeToCamel,
-	starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { AgentServiceApiFactory } from 'webitel-sdk';
 
@@ -132,17 +131,13 @@ const deleteTeamAgent = ({ id }) => {
 };
 
 const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
-	try {
-		await addTeamAgent({
-			parentId,
-			itemInstance,
-		});
-		await deleteTeamAgent({
-			id: itemId,
-		});
-	} catch (err) {
-		throw err;
-	}
+	await addTeamAgent({
+		parentId,
+		itemInstance,
+	});
+	await deleteTeamAgent({
+		id: itemId,
+	});
 };
 
 const TeamAgentsAPI = {

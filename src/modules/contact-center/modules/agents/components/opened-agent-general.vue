@@ -7,62 +7,58 @@
     </header>
 
     <div class="object-input-area-grid">
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput || !hasUserReadAccess"
         :label="$t('objects.user')"
         :search-method="loadUsersOptions"
         :v="v.itemInstance.user"
-        :value="itemInstance.user"
+        :model-value="itemInstance.user"
         required
         class="object-input-area-grid__user"
-        @input="setItemProp({ prop: 'user', value: $event })"
+        @update:model-value="setItemProp({ prop: 'user', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasTeamReadAccess"
         :label="$t('objects.team')"
         :search-method="loadTeamsOptions"
         :v="v.itemInstance.team"
-        :value="itemInstance.team"
+        :model-value="itemInstance.team"
         required
         class="object-input-area-grid__team"
-        @input="setItemProp({ prop: 'team', value: $event })"
+        @update:model-value="setItemProp({ prop: 'team', value: $event })"
       />
-      <wt-select
-        :close-on-select="false"
+      <wt-multi-select
         :disabled="disableUserInput || !hasAuditorReadAccess"
         :label="$t('objects.auditor')"
         :search-method="loadAuditorsOptions"
-        :value="itemInstance.auditor"
-        multiple
+        :model-value="itemInstance.auditor"
         class="object-input-area-grid__auditor"
-        @input="setItemProp({ prop: 'auditor', value: $event })"
+        @update:model-value="setItemProp({ prop: 'auditor', value: $event })"
       />
-      <wt-select
-        :close-on-select="false"
+      <wt-multi-select
         :disabled="disableUserInput || itemInstance.isSupervisor || !hasSupervisorReadAccess"
         :label="$t('objects.supervisor')"
         :search-method="loadSupervisorsOptions"
-        :value="itemInstance.supervisor"
-        multiple
+        :model-value="itemInstance.supervisor"
         class="object-input-area-grid__supervisor"
-        @input="setItemProp({ prop: 'supervisor', value: $event })"
+        @update:model-value="setItemProp({ prop: 'supervisor', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasMediaReadAccess"
         :label="$t('objects.lookups.media.mediaFiles', 1)"
         :search-method="loadMediaOptions"
-        :value="itemInstance.greetingMedia"
+        :model-value="itemInstance.greetingMedia"
         class="object-input-area-grid__media"
-        @input="setItemProp({ prop: 'greetingMedia', value: $event })"
+        @update:model-value="setItemProp({ prop: 'greetingMedia', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasRegionReadAccess"
         :label="$t('objects.region')"
         :search-method="loadRegionsOptions"
-        :value="itemInstance.region"
+        :model-value="itemInstance.region"
         class="object-input-area-grid__region"
-        @input="setItemProp({ prop: 'region', value: $event })"
+        @update:model-value="setItemProp({ prop: 'region', value: $event })"
       />
       <wt-input-number
         :disabled="disableUserInput"

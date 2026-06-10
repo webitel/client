@@ -14,46 +14,46 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.integrations.triggers.type')"
         :options="TriggerTypes"
         :v="v.itemInstance.type"
-        :value="itemInstance.type"
-        track-by="value"
+        :model-value="itemInstance.type"
+        data-key="value"
         required
-        @input="setItemProp({ prop: 'type', value: $event })"
+        @update:model-value="setItemProp({ prop: 'type', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.integrations.triggers.schema')"
         :search-method="loadDropdownOptionsList"
         :v="v.itemInstance.schema"
-        :value="itemInstance.schema"
+        :model-value="itemInstance.schema"
         required
-        @input="setItemProp({ prop: 'schema', value: $event })"
+        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
-      <wt-select
+      <wt-single-select
         v-if="isCron"
         :disabled="disableUserInput"
         :label="$t('date.timezone', 1)"
         :search-method="loadTimezones"
         :v="v.itemInstance.timezone"
-        :value="itemInstance.timezone"
+        :model-value="itemInstance.timezone"
         required
-        @input="setItemProp({ prop: 'timezone', value: $event })"
+        @update:model-value="setItemProp({ prop: 'timezone', value: $event })"
       />
 
-      <wt-select
+      <wt-single-select
         v-if="isEvent"
         :disabled="disableUserInput"
         :label="$t('reusable.object')"
         :options="TriggerObjects"
         :v="v.itemInstance.object"
-        :value="itemInstance.object"
-        track-by="value"
+        :model-value="itemInstance.object"
+        data-key="value"
         required
-        @input="updateTriggerObject"
+        @update:model-value="updateTriggerObject"
       />
 
       <wt-input-number
@@ -65,16 +65,16 @@
         @update:model-value="setItemProp({ prop: 'timeout', value: $event })"
       />
 
-      <wt-select
+      <wt-single-select
         v-if="isEvent"
         :disabled="disableUserInput || isEmptyObject"
         :label="$t('objects.integrations.triggers.eventSelect')"
         :options="triggerEventOptions"
         :v="v.itemInstance.event"
-        :value="itemInstance.event"
-        track-by="value"
+        :model-value="itemInstance.event"
+        data-key="value"
         required
-        @input="setItemProp({ prop: 'event', value: $event })"
+        @update:model-value="setItemProp({ prop: 'event', value: $event })"
       />
 
       <div

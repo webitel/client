@@ -14,15 +14,16 @@
         required
         @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
-      <wt-tags-input
+      <wt-multi-select
         :disabled="disableUserInput"
         :label="$t('vocabulary.tag', 2)"
         :search-method="loadFlowTagOptions"
-        :value="itemInstance.tags"
+        :model-value="itemInstance.tags"
         option-label="name"
-        taggable
-        track-by="name"
-        @input="setItemProp({ prop: 'tags', value: $event })"
+        chips-view
+        allow-custom-values
+        data-key="name"
+        @update:model-value="setItemProp({ prop: 'tags', value: $event })"
       />
     </div>
     <code-editor
@@ -64,16 +65,12 @@ export default {
 			const { type } = this.itemInstance;
 			// if there's app, but no autocomplete -- skip
 			return (
-				FlowTypeApplications[type]?.reduce(
-					(apps, app) =>
-						FlowAppAutocomplete[app]
-							? [
-									...apps,
-									FlowAppAutocomplete[app],
-								]
-							: apps,
-					[],
-				) || Object.values(FlowAppAutocomplete)
+				FlowTypeApplications[type]?.reduce((apps, app) => {
+					if (FlowAppAutocomplete[app]) {
+						apps.push(FlowAppAutocomplete[app]);
+					}
+					return apps;
+				}, []) || Object.values(FlowAppAutocomplete)
 			);
 		},
 	},

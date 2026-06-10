@@ -6,7 +6,6 @@ import applyTransform, {
 	camelToSnake,
 	generateUrl,
 	merge,
-	mergeEach,
 	notify,
 	sanitize,
 	snakeToCamel,

@@ -6,15 +6,15 @@
       </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :disabled="disableUserInput"
         :label="$t('vocabulary.type')"
         :search-method="loadFlows"
         :v="v.itemInstance.name"
-        :value="itemInstance.name"
+        :model-value="itemInstance.name"
         required
-        @input="setItemProp({ prop: 'type', value: $event })"
+        @update:model-value="setItemProp({ prop: 'type', value: $event })"
       />
       <wt-input-text
         :disabled="disableUserInput"

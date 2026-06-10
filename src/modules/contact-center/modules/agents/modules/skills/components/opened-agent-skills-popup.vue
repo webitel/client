@@ -5,14 +5,14 @@
     </template>
     <template #main>
       <form>
-        <wt-select
-          :clearable="false"
+        <wt-single-select
+          :show-clear="false"
           :label="$t('objects.lookups.skills.skills', 1)"
           :search-method="loadDropdownOptionsList"
           :v="v$.itemInstance.skill"
-          :value="itemInstance.skill"
+          :model-value="itemInstance.skill"
           required
-          @input="setItemProp({ prop: 'skill', value: $event })"
+          @update:model-value="setItemProp({ prop: 'skill', value: $event })"
         />
         <wt-input-number
           :label="$t('objects.lookups.skills.capacity')"

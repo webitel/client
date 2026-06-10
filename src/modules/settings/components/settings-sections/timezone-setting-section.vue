@@ -2,12 +2,12 @@
   <settings-section-wrapper>
     <template #title>{{ t('date.timezone') }}</template>
     <template #default>
-      <wt-select
+      <wt-single-select
         :label="t('date.timezone')"
         :search-method="CalendarsAPI.getTimezonesLookup"
-        :value="selectedTimezone"
-        :clearable="false"
-        @input="handleTimezoneChange"
+        :model-value="selectedTimezone"
+        :show-clear="false"
+        @update:model-value="handleTimezoneChange"
       />
     </template>
   </settings-section-wrapper>

@@ -70,8 +70,6 @@ export class PermissionsStoreModule extends BaseStoreModule {
 					item,
 					changes,
 				});
-			} catch (err) {
-				throw err;
 			} finally {
 				context.dispatch('LOAD_DATA_LIST');
 			}

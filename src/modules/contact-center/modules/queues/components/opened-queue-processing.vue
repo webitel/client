@@ -15,14 +15,14 @@
         @update:model-value="setItemProcessingProp({ prop: 'enabled', value: $event })"
       />
 
-      <wt-select
+      <wt-single-select
         v-if="specificControls['taskProcessing.formSchema']"
         :disabled="disableUserInput || !isProcessingEnabled || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.processing.formSchema')"
         :search-method="loadDropdownOptionsSchemaList"
-        :value="itemInstance.taskProcessing.formSchema"
+        :model-value="itemInstance.taskProcessing.formSchema"
         class="object-input-area-grid__form-schema"
-        @input="setItemProcessingProp({ prop: 'formSchema', value: $event })"
+        @update:model-value="setItemProcessingProp({ prop: 'formSchema', value: $event })"
       />
 
       <wt-input-number
@@ -118,10 +118,10 @@ export default {
 	computed: {
 		specificControls() {
 			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-				(controls, control) => ({
-					...controls,
-					[control]: true,
-				}),
+				(controls, control) => {
+					controls[control] = true;
+					return controls;
+				},
 				{},
 			);
 		},

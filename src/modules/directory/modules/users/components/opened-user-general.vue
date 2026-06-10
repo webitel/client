@@ -46,13 +46,13 @@
         @update:model-value="setItemProp({ prop: 'password', value: $event })"
       />
 
-      <wt-select
+      <wt-single-select
         :disabled="disableUserInput || !hasContactsReadAccess"
         :label="$t('vocabulary.contact', 1)"
         :search-method="loadContactsOptions"
-        :track-by="'name'"
-        :value="itemInstance.contact"
-        @input="setItemProp({ prop: 'contact', value: $event })"
+        :data-key="'name'"
+        :model-value="itemInstance.contact"
+        @update:model-value="setItemProp({ prop: 'contact', value: $event })"
       />
 
       <wt-switcher

@@ -6,13 +6,13 @@
       </h3>
     </header>
     <div class="object-input-grid">
-      <wt-select
-        :clearable="false"
+      <wt-single-select
+        :show-clear="false"
         :label="$t('objects.CSV.charSet')"
         :v="v.itemInstance.parameters.charset"
-        :value="itemInstance.parameters.charset"
+        :model-value="itemInstance.parameters.charset"
         disabled
-        @input="setItemParamsProp({ prop: 'charset', value: $event })"
+        @update:model-value="setItemParamsProp({ prop: 'charset', value: $event })"
       />
       <wt-input-text
         :disabled="disableUserInput"
@@ -46,15 +46,16 @@
         v-for="({ multiple, name, locale, required }) of mappingsList"
         :key="name"
       >
-        <wt-tags-input
+        <wt-multi-select
           v-if="multiple"
           :disabled="disableUserInput"
           :label="$t('objects.integrations.importCsv.columnHeader', { name: localizeName(locale) })"
           :required="required"
           :v="v.itemInstance.parameters.mappings[name]"
-          :value="itemInstance.parameters.mappings[name]"
-          taggable
-          @input="handleMappingInput({ name, value: $event })"
+          :model-value="itemInstance.parameters.mappings[name]"
+          chips-view
+          allow-custom-values
+          @update:model-value="handleMappingInput({ name, value: $event })"
         />
         <wt-input-text
           v-else
@@ -66,7 +67,6 @@
           @update:model-value="handleMappingInput({ name, value: $event })"
         />
       </template>
-      <!--        <wt-tags-input></wt-tags-input>-->
     </div>
   </section>
 </template>
@@ -94,13 +94,13 @@ export default {
 	computed: {
 		mappingsList() {
 			return Object.entries(ImportCsvMemberMappings).reduce(
-				(list, [name, value]) => [
-					...list,
-					{
+				(list, [name, value]) => {
+					list.push({
 						name,
 						...value,
-					},
-				],
+					});
+					return list;
+				},
 				[],
 			);
 		},

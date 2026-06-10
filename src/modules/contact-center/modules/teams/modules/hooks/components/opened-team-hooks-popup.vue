@@ -5,12 +5,12 @@
     </template>
     <template #main>
       <form>
-        <wt-select :value="event" :clearable="false" :label="$t('objects.ccenter.queues.hooks.event')"
-          :options="eventOptions" :v="v$.itemInstance.event" required track-by="value"
-          @input="setItemProp({ prop: 'event', value: $event.value })" />
-        <wt-select :clearable="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
-          :v="v$.itemInstance.schema" :value="itemInstance.schema" required
-          @input="setItemProp({ prop: 'schema', value: $event })" />
+        <wt-single-select :model-value="event" :show-clear="false" :label="$t('objects.ccenter.queues.hooks.event')"
+          :options="eventOptions" :v="v$.itemInstance.event" required data-key="value"
+          @update:model-value="setItemProp({ prop: 'event', value: $event.value })" />
+        <wt-singale-select :show-clear="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
+          :v="v$.itemInstance.schema" :model-value="itemInstance.schema" required
+          @update:model-value="setItemProp({ prop: 'schema', value: $event })" />
       </form>
     </template>
     <template #actions>
