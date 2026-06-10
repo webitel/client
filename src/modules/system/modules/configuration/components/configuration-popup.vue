@@ -121,8 +121,8 @@ import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
-import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
+import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
@@ -227,7 +227,7 @@ export default {
 					required,
 				},
 			},
-		}
+		};
 
 		switch (this.itemInstance.name) {
 			case EngineSystemSettingName.EnableOmnichannel:
@@ -273,7 +273,7 @@ export default {
 			case EngineSystemSettingName.ExpandContactTabs:
 				return deepmerge(defaults, defaultBooleanConfig);
 			case EngineSystemSettingName.DefaultWorkspaceTab:
-					return deepmerge(defaults, defaultTabConfig);
+				return deepmerge(defaults, defaultTabConfig);
 			default:
 				return defaults;
 		}
@@ -324,7 +324,7 @@ export default {
 			return this.$route.params.id;
 		},
 		selectConfig() {
-				return getSelectConfig(this.itemInstance.name);
+			return getSelectConfig(this.itemInstance.name);
 		},
 	},
 	methods: {
