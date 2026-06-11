@@ -18,7 +18,7 @@ const ConfigurationValueTypes = {
 	[EngineSystemSettingName.WbtHideContact]: 'boolean',
 	[EngineSystemSettingName.ShowFullContact]: 'boolean',
 	[EngineSystemSettingName.ScreenshotInterval]: 'number',
-	[EngineSystemSettingName.DefaultWorkspaceTab]: 'singleselect',
+	[EngineSystemSettingName.DefaultWorkspaceTab]: 'select',
 
 	// Notification
 	[EngineSystemSettingName.CallEndSoundNotification]: 'boolean',
