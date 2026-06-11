@@ -218,8 +218,7 @@ export default {
 			string: defaultStringConfig,
 		};
 
-		const typeConfig = configByType[this.valueType];
-		return deepmerge(defaults, typeConfig || {});
+		return deepmerge(defaults, configByType[this.valueType] || {});
 	},
 	data() {
 		return {
