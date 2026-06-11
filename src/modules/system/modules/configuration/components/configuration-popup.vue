@@ -56,10 +56,10 @@
           <div v-if="displayedConfigurationType.select">
             <wt-single-select
               :show-clear="false"
-              :label="$t('vocabulary.format')"
-              :options="exportSettingOptions"
-              :v="v$.itemInstance.format"
-              :model-value="itemInstance.format"
+              :label="$t(selectConfig.labelKey)"
+              :options="selectConfig.options"
+              :v="v$.itemInstance[selectConfig.prop]"
+              :model-value="itemInstance[selectConfig.prop]"
               required
               @update:model-value="selectHandler"
             />
@@ -111,13 +111,14 @@ import { mapActions } from 'vuex';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
-import { PasswordCategories } from '../enum/PasswordCategories.enum';
 import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
+
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 import {
 	defaultMultiselectConfig,
 	multiselectConfigurations,
 } from '../utils/multiselectConfigurations';
+import { getSelectConfig } from '../utils/selectConfigurations';
 
 export default {
 	name: 'ConfigurationPopup',
@@ -177,20 +178,24 @@ export default {
 		};
 
 		let defaultSelectConfig;
-		defaultSelectConfig = {
-			itemInstance: {
-				format: {
-					required,
-				},
-			},
-		};
-		if (this.isExportSettingsFormatCSV) {
+
+		if (this.itemInstance.name === EngineSystemSettingName.ExportSettings) {
 			defaultSelectConfig = {
 				itemInstance: {
 					format: {
 						required,
 					},
-					separator: {
+					...(this.isExportSettingsFormatCSV && {
+						separator: {
+							required,
+						},
+					}),
+				},
+			};
+		} else {
+			defaultSelectConfig = {
+				itemInstance: {
+					value: {
 						required,
 					},
 				},
@@ -205,59 +210,21 @@ export default {
 			},
 		};
 
-		switch (this.itemInstance.name) {
-			case EngineSystemSettingName.EnableOmnichannel:
-				return deepmerge(defaults, defaultBooleanConfig);
-			case EngineSystemSettingName.AmdCancelNotHuman:
-				return deepmerge(defaults, defaultBooleanConfig);
-			case EngineSystemSettingName.Enable2fa:
-				return deepmerge(defaults, defaultBooleanConfig);
-			case EngineSystemSettingName.MemberChunkSize:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.SchemeVersionLimit:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.SearchNumberLength:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.ExportSettings:
-				return deepmerge(defaults, defaultSelectConfig);
-			case EngineSystemSettingName.LabelsToLimitContacts:
-				return deepmerge(defaults, defaultMultiselectConfig);
-			case EngineSystemSettingName.ChatAiConnection:
-				return deepmerge(defaults, defaultStringConfig);
-			case EngineSystemSettingName.PasswordRegExp:
-				return deepmerge(defaults, defaultStringConfig);
-			case EngineSystemSettingName.PasswordValidationText:
-				return deepmerge(defaults, defaultStringConfig);
-			case EngineSystemSettingName.AutolinkCallToContact:
-				return deepmerge(defaults, defaultBooleanConfig);
-			case EngineSystemSettingName.PeriodToPlaybackRecords:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.WbtHideContact:
-				return deepmerge(defaults, defaultBooleanConfig);
-			case EngineSystemSettingName.PasswordExpiryDays:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.PasswordMinLength:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.PasswordCategories:
-				return deepmerge(defaults, defaultMultiselectConfig);
-			case EngineSystemSettingName.PasswordContainsLogin:
-				return deepmerge(defaults, defaultBooleanConfig);
-			case EngineSystemSettingName.PasswordWarningDays:
-				return deepmerge(defaults, defaultNumberConfig);
-			case EngineSystemSettingName.DefaultPassword:
-				return deepmerge(defaults, defaultStringConfig);
-			case EngineSystemSettingName.ExpandContactTabs:
-				return deepmerge(defaults, defaultBooleanConfig);
-			default:
-				return defaults;
-		}
+		const configByType = {
+			boolean: defaultBooleanConfig,
+			number: defaultNumberConfig,
+			multiselect: defaultMultiselectConfig,
+			select: defaultSelectConfig,
+			string: defaultStringConfig,
+		};
+
+		return deepmerge(defaults, configByType[this.valueType] || {});
 	},
 	data() {
 		return {
 			parameterList: [],
 			TypesExportedSettings,
 			EngineSystemSettingName,
-			PasswordCategories,
 			SettingDefaultValue: {
 				[EngineSystemSettingName.PushNotificationTimeout]: 30,
 				[EngineSystemSettingName.ScreenshotInterval]: 30,
@@ -269,13 +236,6 @@ export default {
 	computed: {
 		LabelsAPI() {
 			return LabelsAPI;
-		},
-		exportSettingOptions() {
-			return Object.keys(TypesExportedSettings).map((key) => ({
-				name: TypesExportedSettings[key],
-				value: TypesExportedSettings[key],
-				id: TypesExportedSettings[key],
-			}));
 		},
 		multiselectConfig() {
 			return (
@@ -296,6 +256,9 @@ export default {
 		},
 		configurationId() {
 			return this.$route.params.id;
+		},
+		selectConfig() {
+			return getSelectConfig(this.itemInstance.name);
 		},
 	},
 	methods: {
@@ -333,11 +296,18 @@ export default {
 			});
 		},
 		selectHandler(selectedValue) {
-			this.itemInstance.format = selectedValue;
-			if (!this.isExportSettingsFormatCSV) {
-				delete this.itemInstance.separator;
+			if (this.itemInstance.name === EngineSystemSettingName.ExportSettings) {
+				this.itemInstance.format = selectedValue;
+				if (!this.isExportSettingsFormatCSV) {
+					delete this.itemInstance.separator;
+				}
+				this.handleDefaultSelectConfigInput();
+			} else {
+				this.setItemProp({
+					prop: this.selectConfig.prop,
+					value: selectedValue.id,
+				});
 			}
-			this.handleDefaultSelectConfigInput();
 		},
 		inputHandler(inputValue) {
 			this.itemInstance.separator = inputValue;
