@@ -7,57 +7,55 @@
     </header>
 
     <div class="table-section__table-wrapper">
-      <div class="table-section__visible-scroll-wrapper">
-        <wt-table
-          :data="dataList"
-          :grid-actions="!disableUserInput"
-          :headers="headers"
-          :selectable="false"
-        >
-          <template #name="{ item, index }">
-            <span v-if="isDayStart(index)">
-              {{ weekDaysList[item.day] }}
-            </span>
-          </template>
-          <template #start="{ item, index }">
-            <wt-timepicker
-              :disabled="disableUserInput"
-              :model-value="minToSec(item.start)"
-              format="hh:mm"
-              no-label
-              @update:model-value="setItemProp({ prop: 'start', index, value: secToMin($event) })"
-            />
-          </template>
-          <template #end="{ item, index }">
-            <wt-timepicker
-              :disabled="disableUserInput"
-              :model-value="minToSec(item.end)"
-              format="hh:mm"
-              no-label
-              @update:model-value="setItemProp({ prop: 'end', index, value: secToMin($event) })"
-            />
-          </template>
-          <template #state="{ item, index }">
-            <wt-switcher
-              :disabled="disableUserInput"
-              :model-value="!item.disabled"
-              @update:model-value="setItemProp({ prop: 'disabled', index, value: !$event })"
-            />
-          </template>
-          <template #actions="{ item, index }">
-            <wt-icon-action
-              v-if="isDayStart(index)"
-              action="add"
-              @click="addRange(item.day)"
-            />
-            <wt-icon-action
-              v-else
-              action="delete"
-              @click="removeRange(index)"
-            />
-          </template>
-        </wt-table>
-      </div>
+      <wt-table
+        :data="dataList"
+        :grid-actions="!disableUserInput"
+        :headers="headers"
+        :selectable="false"
+      >
+        <template #name="{ item, index }">
+          <span v-if="isDayStart(index)">
+            {{ weekDaysList[item.day] }}
+          </span>
+        </template>
+        <template #start="{ item, index }">
+          <wt-timepicker
+            :disabled="disableUserInput"
+            :model-value="minToSec(item.start)"
+            format="hh:mm"
+            no-label
+            @update:model-value="setItemProp({ prop: 'start', index, value: secToMin($event) })"
+          />
+        </template>
+        <template #end="{ item, index }">
+          <wt-timepicker
+            :disabled="disableUserInput"
+            :model-value="minToSec(item.end)"
+            format="hh:mm"
+            no-label
+            @update:model-value="setItemProp({ prop: 'end', index, value: secToMin($event) })"
+          />
+        </template>
+        <template #state="{ item, index }">
+          <wt-switcher
+            :disabled="disableUserInput"
+            :model-value="!item.disabled"
+            @update:model-value="setItemProp({ prop: 'disabled', index, value: !$event })"
+          />
+        </template>
+        <template #actions="{ item, index }">
+          <wt-icon-action
+            v-if="isDayStart(index)"
+            action="add"
+            @click="addRange(item.day)"
+          />
+          <wt-icon-action
+            v-else
+            action="delete"
+            @click="removeRange(index)"
+          />
+        </template>
+      </wt-table>
     </div>
   </section>
 </template>
