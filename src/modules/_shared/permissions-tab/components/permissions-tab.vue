@@ -31,56 +31,54 @@
       v-show="isLoaded"
       class="table-section__table-wrapper"
     >
-      <div class="table-section__visible-scroll-wrapper">
-        <wt-table
-          :data="dataList"
-          :grid-actions="!disableUserInput"
-          :headers="headers"
-          :selectable="false"
-          sortable
-          @sort="sort"
-        >
-          <template #grantee="{ item }">
-            <role-column :role="item.grantee" />
-          </template>
+      <wt-table
+        :data="dataList"
+        :grid-actions="!disableUserInput"
+        :headers="headers"
+        :selectable="false"
+        sortable
+        @sort="sort"
+      >
+        <template #grantee="{ item }">
+          <role-column :role="item.grantee" />
+        </template>
 
-          <template #read="{ item }">
-            <wt-single-select
-              :show-clear="false"
-              :disabled="disableUserInput"
-              :options="accessOptions"
-              :model-value="item.access.r"
-              @update:model-value="changeReadAccessMode({ item, mode: $event })"
-            />
-          </template>
+        <template #read="{ item }">
+          <wt-single-select
+            :show-clear="false"
+            :disabled="disableUserInput"
+            :options="accessOptions"
+            :model-value="item.access.r"
+            @update:model-value="changeReadAccessMode({ item, mode: $event })"
+          />
+        </template>
 
-          <template #edit="{ item }">
-            <wt-single-select
-              :show-clear="false"
-              :disabled="disableUserInput"
-              :options="accessOptions"
-              :model-value="item.access.w"
-              @update:model-value="changeUpdateAccessMode({ item, mode: $event })"
-            />
-          </template>
+        <template #edit="{ item }">
+          <wt-single-select
+            :show-clear="false"
+            :disabled="disableUserInput"
+            :options="accessOptions"
+            :model-value="item.access.w"
+            @update:model-value="changeUpdateAccessMode({ item, mode: $event })"
+          />
+        </template>
 
-          <template #delete="{ item }">
-            <wt-single-select
-              :show-clear="false"
-              :disabled="disableUserInput"
-              :options="accessOptions"
-              :model-value="item.access.d"
-              @update:model-value="changeDeleteAccessMode({ item, mode: $event })"
-            />
-          </template>
-          <template #actions="{ item }">
-            <wt-icon-action
-              action="delete"
-              @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN } })"
-            />
-          </template>
-        </wt-table>
-      </div>
+        <template #delete="{ item }">
+          <wt-single-select
+            :show-clear="false"
+            :disabled="disableUserInput"
+            :options="accessOptions"
+            :model-value="item.access.d"
+            @update:model-value="changeDeleteAccessMode({ item, mode: $event })"
+          />
+        </template>
+        <template #actions="{ item }">
+          <wt-icon-action
+            action="delete"
+            @click="changeReadAccessMode({ item, mode: { id: accessMode.FORBIDDEN } })"
+          />
+        </template>
+      </wt-table>
       <wt-pagination
         :next="isNext"
         :prev="page > 1"
