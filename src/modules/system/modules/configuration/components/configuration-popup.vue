@@ -105,13 +105,13 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import { LabelsAPI } from '@webitel/api-services/api';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
+import { TypesExportedSettings } from '@webitel/ui-sdk/enums';
 import deepmerge from 'deepmerge';
 import { mapActions } from 'vuex';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
-import TypesExportedSettings from '../enum/TypesExportedSettings.enum.js';
 
 import ConfigurationValueTypes from '../utils/configurationValueTypes';
 import {
