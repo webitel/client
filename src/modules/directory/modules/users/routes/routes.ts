@@ -11,9 +11,8 @@ const PermissionsTab = () =>
 const Users = () => import('../components/the-users.vue');
 const OpenedUser = () => import('../components/opened-user.vue');
 const OpenedUserGeneral = () => import('../components/opened-user-general.vue');
-const OpenedUserRoles = () => import('../components/opened-user-roles.vue');
-const OpenedUserLicense = () => import('../components/opened-user-license.vue');
-const OpenedUserDevices = () => import('../components/opened-user-devices.vue');
+const OpenedUserCommunications = () =>
+	import('../components/opened-user-communications.vue');
 const OpenedUserVariables = () =>
 	import('../components/opened-user-variables.vue');
 const OpenedUserToken = () =>
@@ -49,19 +48,9 @@ const UsersRoutes = [
 				component: OpenedUserGeneral,
 			},
 			{
-				path: 'roles',
-				name: UsersRouteNames.ROLES,
-				component: OpenedUserRoles,
-			},
-			{
-				path: 'license',
-				name: UsersRouteNames.LICENSE,
-				component: OpenedUserLicense,
-			},
-			{
-				path: 'devices',
-				name: UsersRouteNames.DEVICES,
-				component: OpenedUserDevices,
+				path: 'communications',
+				name: UsersRouteNames.COMMUNICATIONS,
+				component: OpenedUserCommunications,
 			},
 			{
 				path: 'variables',

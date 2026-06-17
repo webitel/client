@@ -255,6 +255,19 @@ export default {
 				chatName: 'Chat display name',
 				temporaryPassword: 'Temporary password',
 				extensionsHelperText: 'Extension must contain only digits',
+				// WTEL-9735 Підзадача 6
+				communications: 'Communications',
+				generateDevice: 'Generate device',
+				deviceGenerationTitle: 'Device generation',
+				deviceGeneration:
+					'This action will create a new device for this user automatically.',
+				deviceWasGenerated: 'Device was generated',
+				deviceGenerationConfirmTitle: 'Confirm device generation',
+				generateDeviceConfirmation:
+					'Current devices will be replaced with generated. Proceed?',
+				authorizationSecurity: 'Authorization and security',
+				mustChangePassword:
+					'The user must change the password on the first login.',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),
 					name: 'Name',
