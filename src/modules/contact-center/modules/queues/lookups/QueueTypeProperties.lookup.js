@@ -261,6 +261,7 @@ const QueueTypeProperties = Object.freeze({
 			'taskProcessing.prolongationOptions.prolongationTimeSec',
 		],
 	},
+	// hide me https://webitel.atlassian.net/browse/WS-2
 	[QueueType.IM_CHAT_QUEUE]: {
 		locale: baseLocale.concat('.imChatQueue'),
 		subpath: 'im-chat-queue',

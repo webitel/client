@@ -65,6 +65,7 @@ export default {
 				QueueType.PROGRESSIVE_DIALER,
 				QueueType.PREDICTIVE_DIALER,
 				QueueType.CHAT_INBOUND_QUEUE,
+				QueueType.IM_CHAT_QUEUE,
 				QueueType.INBOUND_JOB_QUEUE,
 				QueueType.OUTBOUND_JOB_QUEUE,
 			];
