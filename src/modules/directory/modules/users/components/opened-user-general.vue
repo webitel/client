@@ -94,6 +94,7 @@
       <div class="opened-user-general__col">
         <wt-section-card
           icon="generate"
+          icon-color="info"
           :title="$t('objects.directory.users.deviceGenerationTitle')"
         >
           <template #description>
@@ -109,7 +110,8 @@
         </wt-section-card>
 
         <wt-section-card
-          icon="lock"
+          icon="shield-check"
+          icon-color="info"
           :title="$t('objects.directory.users.authorizationSecurity')"
         >
           <template #description>
