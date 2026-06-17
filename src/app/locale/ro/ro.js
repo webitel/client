@@ -956,6 +956,9 @@ export default {
 				chatInboundQueue: 'Coadă inbound chat',
 				chatInboundQueueDescription:
 					'La fel ca și coada inbound, dar cu chat-uri',
+				imChatQueue: 'Coadă chat IM',
+				imChatQueueDescription:
+					'La fel ca și coada de chat, dar pentru mesagerie instant',
 				inboundJobQueue: 'Coadă sarcină inbound',
 				inboundJobQueueDescription: 'Coadă sarcină inbound',
 				outboundJobQueue: 'Coadă sarcină outbound',

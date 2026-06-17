@@ -283,6 +283,7 @@ export default {
 					},
 				});
 			case QueueType.CHAT_INBOUND_QUEUE:
+			case QueueType.IM_CHAT_QUEUE:
 				return deepmerge(defaults, {
 					itemInstance: {
 						strategy: {
@@ -468,6 +469,11 @@ export default {
 					amd,
 				],
 				[QueueType.CHAT_INBOUND_QUEUE]: [
+					processing,
+					agents,
+					skills,
+				],
+				[QueueType.IM_CHAT_QUEUE]: [
 					processing,
 					agents,
 					skills,

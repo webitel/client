@@ -952,6 +952,9 @@ export default {
 				chatInboundQueue: 'Hàng đợi nhập trò chuyện',
 				chatInboundQueueDescription:
 					'Giống như hàng đợi nhập, nhưng với trò chuyện',
+				imChatQueue: 'Hàng đợi trò chuyện IM',
+				imChatQueueDescription:
+					'Giống như hàng đợi trò chuyện, nhưng cho tin nhắn tức thời',
 				inboundJobQueue: 'Hàng đợi nhiệm vụ nhập',
 				inboundJobQueueDescription: 'Hàng đợi nhiệm vụ nhập',
 				outboundJobQueue: 'Hàng đợi nhiệm vụ xuất',

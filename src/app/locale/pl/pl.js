@@ -955,6 +955,9 @@ export default {
 				chatInboundQueue: 'Kolejka przychodząca czatu',
 				chatInboundQueueDescription:
 					'Tak samo jak kolejka przychodząca, ale z czatami',
+				imChatQueue: 'Kolejka czatu IM',
+				imChatQueueDescription:
+					'Tak samo jak kolejka czatu, ale dla komunikatorów',
 				inboundJobQueue: 'Kolejka zadań przychodzących',
 				inboundJobQueueDescription: 'Kolejka zadań przychodzących',
 				outboundJobQueue: 'Kolejka zadań wychodzących',
