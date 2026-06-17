@@ -52,7 +52,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import deepmerge from 'deepmerge';
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { QueueType } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';

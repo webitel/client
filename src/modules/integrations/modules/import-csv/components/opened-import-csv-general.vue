@@ -36,7 +36,7 @@
 
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { QueueType } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
