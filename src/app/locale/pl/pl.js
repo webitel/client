@@ -256,6 +256,18 @@ export default {
 					'Czy na pewno chcesz zregenerować kod? Użytkownik nie będzie mógł się zalogować',
 				chatName: 'Nazwa wyświetlana w czacie',
 				temporaryPassword: 'Hasło tymczasowe',
+				communications: 'Komunikacja',
+				generateDevice: 'Wygeneruj urządzenie',
+				deviceGenerationTitle: 'Generowanie urządzenia',
+				deviceGeneration:
+					'Ta akcja automatycznie utworzy nowe urządzenie dla tego użytkownika.',
+				deviceWasGenerated: 'Urządzenie zostało wygenerowane',
+				deviceGenerationConfirmTitle: 'Potwierdź generowanie urządzenia',
+				generateDeviceConfirmation:
+					'Bieżące urządzenia zostaną zastąpione wygenerowanym. Kontynuować?',
+				authorizationSecurity: 'Autoryzacja i bezpieczeństwo',
+				mustChangePassword:
+					'Użytkownik musi zmienić hasło przy pierwszym logowaniu.',
 				extensionsHelperText: 'Numer wewnętrzny musi zawierać tylko cyfry',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),

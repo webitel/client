@@ -256,6 +256,18 @@ export default {
 					'Bạn có chắc chắn muốn tạo lại mã không? Người dùng sẽ không thể đăng nhập',
 				chatName: 'Tên hiển thị trò chuyện',
 				temporaryPassword: 'Mật khẩu tạm thời',
+				communications: 'Liên lạc',
+				generateDevice: 'Tạo thiết bị',
+				deviceGenerationTitle: 'Tạo thiết bị',
+				deviceGeneration:
+					'Hành động này sẽ tự động tạo một thiết bị mới cho người dùng này.',
+				deviceWasGenerated: 'Thiết bị đã được tạo',
+				deviceGenerationConfirmTitle: 'Xác nhận tạo thiết bị',
+				generateDeviceConfirmation:
+					'Các thiết bị hiện tại sẽ được thay thế bằng thiết bị được tạo. Tiếp tục?',
+				authorizationSecurity: 'Ủy quyền và bảo mật',
+				mustChangePassword:
+					'Người dùng phải thay đổi mật khẩu trong lần đăng nhập đầu tiên.',
 				extensionsHelperText: 'Số nội bộ chỉ được chứa chữ số',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),

@@ -3,7 +3,7 @@
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
-        :primary-action="save"
+        :primary-action="onSave"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
         :secondary-action="close"
@@ -22,7 +22,7 @@
     <template #main>
       <form
         class="main-container"
-        @submit.prevent="save"
+        @submit.prevent="onSave"
       >
         <wt-tabs
           :current="currentTab"
@@ -61,10 +61,9 @@ import LogsFilters from '../modules/logs/modules/filters/components/opened-user-
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
-import Devices from './opened-user-devices.vue';
+// WTEL-9735 Підзадача 1: Roles/License/Devices прибрано, додано Communications
+import Communications from './opened-user-communications.vue';
 import General from './opened-user-general.vue';
-import License from './opened-user-license.vue';
-import Roles from './opened-user-roles.vue';
 import Variables from './opened-user-variables.vue';
 
 const namespace = 'directory/users';
@@ -73,9 +72,7 @@ export default {
 	name: 'OpenedUser',
 	components: {
 		General,
-		Roles,
-		License,
-		Devices,
+		Communications,
 		Variables,
 		Tokens,
 		Logs,
@@ -83,6 +80,10 @@ export default {
 	},
 	mixins: [
 		openedObjectMixin,
+	],
+	// WTEL-9735 Підзадача 5 (AC_06): для toast «Device was generated»
+	inject: [
+		'$eventBus',
 	],
 
 	setup: () => {
@@ -124,6 +125,9 @@ export default {
 							t('objects.directory.users.extensionsHelperText'),
 							helpers.regex(/^[0-9]*$/),
 						),
+					},
+					device: {
+						required: requiredIf(() => !itemInstance.value.generateDevice),
 					},
 				},
 			})),
@@ -192,20 +196,11 @@ export default {
 				value: 'general',
 				pathName: UsersRouteNames.GENERAL,
 			};
-			const roles = {
-				text: this.$t('objects.directory.users.roles'),
-				value: 'roles',
-				pathName: UsersRouteNames.ROLES,
-			};
-			const license = {
-				text: this.$t('objects.directory.users.license'),
-				value: 'license',
-				pathName: UsersRouteNames.LICENSE,
-			};
-			const devices = {
-				text: this.$t('objects.directory.users.devices'),
-				value: 'devices',
-				pathName: UsersRouteNames.DEVICES,
+			// WTEL-9735 Підзадача 1/2: замість Roles/License/Devices — Communications
+			const communications = {
+				text: this.$t('objects.directory.users.communications'),
+				value: 'communications',
+				pathName: UsersRouteNames.COMMUNICATIONS,
 			};
 			const variables = {
 				text: this.$t('objects.directory.users.variables'),
@@ -227,9 +222,7 @@ export default {
 
 			const tabs = [
 				general,
-				roles,
-				license,
-				devices,
+				communications,
 				variables,
 			];
 
@@ -240,6 +233,19 @@ export default {
 		},
 	},
 	methods: {
+		// WTEL-9735 Підзадача 5 (AC_06): обгортка над save() мікс­ину — після
+		// успішного збереження з генерацією (create або edit) показуємо
+		// success-toast. Прапорець читаємо ДО save(), бо LOAD_ITEM скидає його.
+		async onSave() {
+			const wasGenerating = this.itemInstance.generateDevice;
+			await this.save();
+			if (wasGenerating) {
+				this.$eventBus.$emit('notification', {
+					type: 'success',
+					text: this.$t('objects.directory.users.deviceWasGenerated'),
+				});
+			}
+		},
 		close() {
 			this.$router.push(`/${this.namespace}`);
 		},

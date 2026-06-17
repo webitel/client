@@ -256,6 +256,18 @@ export default {
 					'Sigur vrei să regenerezi codul? Utilizatorul nu va putea să se autentifice',
 				chatName: 'Nume de afișare în chat',
 				temporaryPassword: 'Parolă temporară',
+				communications: 'Comunicații',
+				generateDevice: 'Generează dispozitiv',
+				deviceGenerationTitle: 'Generare dispozitiv',
+				deviceGeneration:
+					'Această acțiune va crea automat un nou dispozitiv pentru acest utilizator.',
+				deviceWasGenerated: 'Dispozitivul a fost generat',
+				deviceGenerationConfirmTitle: 'Confirmați generarea dispozitivului',
+				generateDeviceConfirmation:
+					'Dispozitivele curente vor fi înlocuite cu cel generat. Continuați?',
+				authorizationSecurity: 'Autorizare și securitate',
+				mustChangePassword:
+					'Utilizatorul trebuie să schimbe parola la prima conectare.',
 				extensionsHelperText: 'Numărul intern trebuie să conțină doar cifre',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),

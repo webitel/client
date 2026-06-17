@@ -254,6 +254,18 @@ export default {
 					'Сіз қайта құруды қалаймыз ба? Пайдаланушы кіру мүмкін емес болады',
 				chatName: 'Чат көрсету аты',
 				temporaryPassword: 'Уақытша құпия сөз',
+				communications: 'Коммуникациялар',
+				generateDevice: 'Құрылғыны генерациялау',
+				deviceGenerationTitle: 'Құрылғы генерациясы',
+				deviceGeneration:
+					'Бұл әрекет осы пайдаланушы үшін жаңа құрылғыны автоматты түрде жасайды.',
+				deviceWasGenerated: 'Құрылғы жасалды',
+				deviceGenerationConfirmTitle: 'Құрылғы генерациясын растау',
+				generateDeviceConfirmation:
+					'Ағымдағы құрылғылар жасалған құрылғымен ауыстырылады. Жалғастырасыз ба?',
+				authorizationSecurity: 'Авторизация және қауіпсіздік',
+				mustChangePassword:
+					'Пайдаланушы алғашқы кіргенде құпия сөзді өзгертуі керек.',
 				extensionsHelperText: 'Ішкі нөмір тек сандардан тұруы тиіс',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),
