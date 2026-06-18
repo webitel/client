@@ -2,6 +2,7 @@ import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { TypesExportedSettings } from '@webitel/ui-sdk/enums';
 
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
+import { LoginOptions } from '../enum/LoginOptions.enum';
 
 interface SelectOption {
 	name: string;
@@ -31,6 +32,15 @@ export const selectConfigurations: SelectConfigurations = {
 	},
 	[EngineSystemSettingName.DefaultWorkspaceTab]: {
 		options: Object.values(DefaultWorkspaceTabOptions).map((value: string) => ({
+			name: value,
+			value,
+			id: value,
+		})),
+		labelKey: 'vocabulary.values',
+		prop: 'value',
+	},
+	[EngineSystemSettingName.LoginOptions]: {
+		options: Object.values(LoginOptions).map((value: string) => ({
 			name: value,
 			value,
 			id: value,
