@@ -1,5 +1,5 @@
-import deepMerge from 'deepmerge';
 import { QueueType } from '@webitel/ui-sdk/enums';
+import deepMerge from 'deepmerge';
 
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
@@ -15,6 +15,7 @@ import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
 import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
 import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
+import defaultImChatQueueState from './_internals/queueSchema/imChatQueue';
 import defaultInboundJobQueueState from './_internals/queueSchema/inboundJobQueue';
 import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
 import defaultOfflineQueueState from './_internals/queueSchema/offlineQueue';
@@ -36,6 +37,7 @@ const queueStateMap = {
 	[QueueType.PROGRESSIVE_DIALER]: defaultProgressiveDialerState,
 	[QueueType.PREDICTIVE_DIALER]: defaultPredictiveDialerState,
 	[QueueType.CHAT_INBOUND_QUEUE]: defaultChatInboundQueueState,
+	[QueueType.IM_CHAT_QUEUE]: defaultImChatQueueState,
 	[QueueType.INBOUND_JOB_QUEUE]: defaultInboundJobQueueState,
 	[QueueType.OUTBOUND_JOB_QUEUE]: defaultOutboundJobQueueState,
 };

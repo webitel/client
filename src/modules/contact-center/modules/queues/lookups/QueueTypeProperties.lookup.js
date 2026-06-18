@@ -261,6 +261,40 @@ const QueueTypeProperties = Object.freeze({
 			'taskProcessing.prolongationOptions.prolongationTimeSec',
 		],
 	},
+	// hide me https://webitel.atlassian.net/browse/WS-2
+	[QueueType.IM_CHAT_QUEUE]: {
+		locale: baseLocale.concat('.imChatQueue'),
+		subpath: 'im-chat-queue',
+		controls: [
+			// general specific
+			'strategy',
+			'team',
+			// params specific
+			'maxWaitTime',
+			'maxWaitingSize',
+			'maxIdleAgent',
+			'maxIdleClient',
+			'maxIdleDialog',
+			'stickyAgent',
+			'stickyAgentSec',
+			'stickyIgnoreStatus',
+			'ignoreCalendar',
+			'minOnlineAgents',
+			'manualDistribution',
+			'lastMessageTimeout',
+			'maxMemberLimit',
+
+			// processing specific
+			'taskProcessing.enabled',
+			'taskProcessing.formSchema',
+			'taskProcessing.sec',
+			'taskProcessing.renewalSec',
+			'taskProcessing.prolongationOptions.enabled',
+			'taskProcessing.prolongationOptions.renewalSec',
+			'taskProcessing.prolongationOptions.repeatsNumber',
+			'taskProcessing.prolongationOptions.prolongationTimeSec',
+		],
+	},
 	[QueueType.INBOUND_JOB_QUEUE]: {
 		locale: baseLocale.concat('.inboundJobQueue'),
 		subpath: 'inbound-job-queue',

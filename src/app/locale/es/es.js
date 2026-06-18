@@ -957,6 +957,9 @@ export default {
 				chatInboundQueue: 'Cola de chat de entrada',
 				chatInboundQueueDescription:
 					'Lo mismo que la cola de entrada, pero con chats',
+				imChatQueue: 'Cola de chat IM',
+				imChatQueueDescription:
+					'Lo mismo que la cola de chat, pero para mensajería instantánea',
 				inboundJobQueue: 'Cola de tarea de entrada',
 				inboundJobQueueDescription: 'Cola de tarea de entrada',
 				outboundJobQueue: 'Cola de tarea de salida',

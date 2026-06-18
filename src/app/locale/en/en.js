@@ -953,6 +953,9 @@ export default {
 				chatInboundQueue: 'Chat inbound queue',
 				chatInboundQueueDescription:
 					'The same as inbound queue, but with chats',
+				imChatQueue: 'IM chat queue',
+				imChatQueueDescription:
+					'The same as chat inbound queue, but for instant messaging',
 				inboundJobQueue: 'Inbound task queue',
 				inboundJobQueueDescription: 'Inbound task queue',
 				outboundJobQueue: 'Outbound task queue',

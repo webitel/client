@@ -948,6 +948,9 @@ export default {
 					'Прогнозды дайындық бір уақытта көп сандарды қоңырауға мүмкіндік береді. Қолданушы жауап бергенде, агент оларға қосылады.',
 				chatInboundQueue: 'Чат кіру қоймасы',
 				chatInboundQueueDescription: 'Кіру қоймасымен бірдей, бірақ чаттармен',
+				imChatQueue: 'IM чат қоймасы',
+				imChatQueueDescription:
+					'Чат қоймасымен бірдей, бірақ мессенджерлер үшін',
 				inboundJobQueue: 'Кіру тапсырмасы қоймасы',
 				inboundJobQueueDescription: 'Кіру тапсырмасы қоймасы',
 				outboundJobQueue: 'Шығыс тапсырмасы қоймасы',
