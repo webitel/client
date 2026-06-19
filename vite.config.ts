@@ -11,6 +11,10 @@ import { vite as vidstack } from 'vidstack/plugins';
 // https://vitejs.dev/config/
 export default () => {
 	return defineConfig({
+		build: {
+			sourcemap: import.meta.env.VITE_STAGING_ENV,
+			minify: !import.meta.env.VITE_STAGING_ENV, // Disable minification for readable debugging
+		},
 		optimizeDeps: {
 			include: [
 				'deep-equal',
