@@ -22,6 +22,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.metadata.allowOrigin')"
         :model-value="itemInstance.metadata.allowOrigin"
+        :options="itemInstance.metadata.allowOrigin"
         chips-view
         allow-custom-values
         @update:model-value="setItemMetadata({ prop: 'allowOrigin', value: $event })"
