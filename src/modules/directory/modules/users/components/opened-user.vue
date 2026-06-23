@@ -61,7 +61,6 @@ import LogsFilters from '../modules/logs/modules/filters/components/opened-user-
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
-// WTEL-9735 Підзадача 1: Roles/License/Devices прибрано, додано Communications
 import Communications from './opened-user-communications.vue';
 import General from './opened-user-general.vue';
 import Variables from './opened-user-variables.vue';
@@ -81,7 +80,6 @@ export default {
 	mixins: [
 		openedObjectMixin,
 	],
-	// WTEL-9735 Підзадача 5 (AC_06): для toast «Device was generated»
 	inject: [
 		'$eventBus',
 	],
@@ -196,7 +194,6 @@ export default {
 				value: 'general',
 				pathName: UsersRouteNames.GENERAL,
 			};
-			// WTEL-9735 Підзадача 1/2: замість Roles/License/Devices — Communications
 			const communications = {
 				text: this.$t('objects.directory.users.communications'),
 				value: 'communications',
@@ -233,9 +230,6 @@ export default {
 		},
 	},
 	methods: {
-		// WTEL-9735 Підзадача 5 (AC_06): обгортка над save() мікс­ину — після
-		// успішного збереження з генерацією (create або edit) показуємо
-		// success-toast. Прапорець читаємо ДО save(), бо LOAD_ITEM скидає його.
 		async onSave() {
 			const wasGenerating = this.itemInstance.generateDevice;
 			await this.save();
