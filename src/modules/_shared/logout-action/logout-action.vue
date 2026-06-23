@@ -1,7 +1,13 @@
 <template>
   <div class="logout-action">
     <div class="logout-action__title-wrapper">
-      <p>{{ t('settings.security.logoutTitle' )}}</p>
+      <header class="logout-action__header">
+        <wt-icon
+          icon="logout"
+          color="error"
+        />
+        <p>{{ t('settings.security.logoutTitle' )}}</p>
+      </header>
       <wt-button
         v-tooltip="t('objects.directory.users.logout.tooltip')"
         :disabled="disabled"
@@ -93,6 +99,12 @@ const logoutUser = async () => {
   display: flex;
   flex-direction: column;
   align-items: baseline;
+  gap: var(--spacing-xs);
+}
+
+.logout-action__header {
+  display: flex;
+  align-items: flex-start;
   gap: var(--spacing-xs);
 }
 
