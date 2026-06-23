@@ -171,7 +171,6 @@
 
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { WtCard } from '@webitel/ui-sdk/components';
 import { computed } from 'vue';
 import { mapGetters } from 'vuex';
 
@@ -192,7 +191,6 @@ export default {
 		UserPasswordInput,
 		Qrcode,
 		LogoutAction,
-		WtCard,
 		GlobalStateConfirmationPopup,
 	},
 	mixins: [
