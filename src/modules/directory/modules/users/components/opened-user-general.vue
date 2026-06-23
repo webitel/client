@@ -6,139 +6,156 @@
       </h3>
     </header>
     <div class="opened-user-general__grid">
-      <wt-section-card>
-        <wt-input-text
-          :disabled="disableUserInput"
-          :label="$t('objects.name')"
-          :model-value="itemInstance.name"
-          :v="v.itemInstance.name"
-          required
-          @update:model-value="setItemProp({ prop: 'name', value: $event })"
-        />
-
-        <wt-input-text
-          :disabled="disableUserInput"
-          :label="$t('objects.directory.users.login')"
-          :model-value="itemInstance.username"
-          :v="v.itemInstance.username"
-          required
-          @update:model-value="setItemProp({ prop: 'username', value: $event })"
-        />
-
-        <user-password-input
-          :disabled="disableUserInput"
-          :model-value="itemInstance.password"
-          required
-          @update:model-value="setItemProp({ prop: 'password', value: $event })"
-        />
-
-        <wt-input-text
-          :disabled="disableUserInput"
-          :label="$t('objects.directory.users.extensions')"
-          :model-value="itemInstance.extension"
-          :v="v.itemInstance.extension"
-          @update:model-value="setItemProp({ prop: 'extension', value: $event })"
-        />
-      </wt-section-card>
-
-      <wt-section-card>
-        <wt-multi-select
-          :disabled="disableUserInput"
-          :label="$t('objects.permissions.permissionsRole')"
-          :search-method="loadRolesOptions"
-          :model-value="itemInstance.roles"
-          @update:model-value="setItemProp({ prop: 'roles', value: $event })"
-        />
-
-        <wt-multi-select
-          :disabled="disableUserInput"
-          :label="$t('objects.directory.license.license', 1)"
-          :search-method="loadLicenseOptions"
-          :model-value="itemInstance.license"
-          @update:model-value="setItemProp({ prop: 'license', value: $event })"
-        />
-
-        <div>
-          <wt-multi-select
-            :disabled="disableUserInput || itemInstance.generateDevice"
-            :label="$t('objects.directory.devices.devices', 2)"
-            :search-method="loadDevicesOptions"
-            :model-value="itemInstance.devices"
-            @update:model-value="onDevicesChange"
+      <wt-card>
+        <div class="opened-user-general__card-content">
+          <wt-input-text
+            :disabled="disableUserInput"
+            :label="$t('objects.name')"
+            :model-value="itemInstance.name"
+            :v="v.itemInstance.name"
+            required
+            @update:model-value="setItemProp({ prop: 'name', value: $event })"
           />
-          <div class="hint-link__wrap typo-body-2">
-            <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
-            <adm-item-link
-              id="new"
-              class="hint-link__link typo-subtitle-2"
-              :route-name="RouteNames.DEVICES"
-            >
-              {{ $t('objects.directory.users.createNewDevice') }}
-            </adm-item-link>
-          </div>
-        </div>
 
-        <wt-single-select
-          :disabled="disableUserInput || itemInstance.generateDevice"
-          :label="$t('objects.directory.users.defaultDevice')"
-          :options="itemInstance.devices"
-          :model-value="itemInstance.device"
-          :v="v.itemInstance.device"
-          required
-          data-key="id"
-          @update:model-value="setItemProp({ prop: 'device', value: $event })"
-          @reset="setItemProp({ prop: 'device', value: {} })"
-        />
-      </wt-section-card>
+          <wt-input-text
+            :disabled="disableUserInput"
+            :label="$t('objects.directory.users.login')"
+            :model-value="itemInstance.username"
+            :v="v.itemInstance.username"
+            required
+            @update:model-value="setItemProp({ prop: 'username', value: $event })"
+          />
+
+          <user-password-input
+            :disabled="disableUserInput"
+            :model-value="itemInstance.password"
+            required
+            @update:model-value="setItemProp({ prop: 'password', value: $event })"
+          />
+
+          <wt-input-text
+            :disabled="disableUserInput"
+            :label="$t('objects.directory.users.extensions')"
+            :model-value="itemInstance.extension"
+            :v="v.itemInstance.extension"
+            @update:model-value="setItemProp({ prop: 'extension', value: $event })"
+          />
+        </div>
+      </wt-card>
+
+      <wt-card>
+        <div class="opened-user-general__card-content">
+          <wt-multi-select
+            :disabled="disableUserInput"
+            :label="$t('objects.permissions.permissionsRole')"
+            :search-method="loadRolesOptions"
+            :model-value="itemInstance.roles"
+            @update:model-value="setItemProp({ prop: 'roles', value: $event })"
+          />
+
+          <wt-multi-select
+            :disabled="disableUserInput"
+            :label="$t('objects.directory.license.license', 1)"
+            :search-method="loadLicenseOptions"
+            :model-value="itemInstance.license"
+            @update:model-value="setItemProp({ prop: 'license', value: $event })"
+          />
+
+          <div>
+            <wt-multi-select
+              :disabled="disableUserInput || itemInstance.generateDevice"
+              :label="$t('objects.directory.devices.devices', 2)"
+              :search-method="loadDevicesOptions"
+              :model-value="itemInstance.devices"
+              @update:model-value="onDevicesChange"
+            />
+            <div class="hint-link typo-body-2">
+              <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
+              <adm-item-link
+                id="new"
+                class="hint-link__link typo-subtitle-2"
+                :route-name="RouteNames.DEVICES"
+              >
+                {{ $t('objects.directory.users.createNewDevice') }}
+              </adm-item-link>
+            </div>
+          </div>
+
+          <wt-single-select
+            :disabled="disableUserInput || itemInstance.generateDevice"
+            :label="$t('objects.directory.users.defaultDevice')"
+            :options="itemInstance.devices"
+            :model-value="itemInstance.device"
+            :v="v.itemInstance.device"
+            required
+            data-key="id"
+            @update:model-value="setItemProp({ prop: 'device', value: $event })"
+            @reset="setItemProp({ prop: 'device', value: {} })"
+          />
+        </div>
+      </wt-card>
 
       <div class="opened-user-general__col">
-        <wt-section-card
-          icon="generate"
-          icon-color="info"
-          :title="$t('objects.directory.users.deviceGenerationTitle')"
-        >
-          <template #description>
-            {{ $t('objects.directory.users.deviceGeneration') }}
-          </template>
-          <wt-switcher
-            controlled
-            :disabled="disableUserInput"
-            :label="$t('objects.directory.users.generateDevice')"
-            :model-value="itemInstance.generateDevice"
-            @update:model-value="onToggleGenerateDevice"
-          />
-        </wt-section-card>
+        <wt-card>
+          <div class="opened-user-general__card-content">
+            <header class="opened-user-general__card-header">
+              <wt-icon
+                icon="generate"
+                color="info"
+              />
+              <wt-label>
+                {{ $t('objects.directory.users.deviceGenerationTitle') }}
+              </wt-label>
+            </header>
+            <p class="opened-user-general__card-description typo-subtitle-2">
+              {{ $t('objects.directory.users.deviceGeneration') }}
+            </p>
+            <wt-switcher
+              controlled
+              :disabled="disableUserInput"
+              :label="$t('objects.directory.users.generateDevice')"
+              :model-value="itemInstance.generateDevice"
+              @update:model-value="onToggleGenerateDevice"
+            />
+          </div>
+        </wt-card>
 
-        <wt-section-card
-          icon="shield-check"
-          icon-color="info"
-          :title="$t('objects.directory.users.authorizationSecurity')"
-        >
-          <template #description>
-            {{ $t('objects.directory.users.mustChangePassword') }}
-          </template>
+        <wt-card>
+          <div class="opened-user-general__card-content">
+            <header class="opened-user-general__card-header">
+              <wt-icon
+                icon="shield-check"
+                color="info"
+              />
+              <wt-label>
+                {{ $t('objects.directory.users.authorizationSecurity') }}
+              </wt-label>
+            </header>
+            <p class="opened-user-general__card-description typo-subtitle-2">
+              {{ $t('objects.directory.users.mustChangePassword') }}
+            </p>
+            <wt-switcher
+              :disabled="disableUserInput"
+              :label="$t('objects.directory.users.temporaryPassword')"
+              :model-value="itemInstance.forcePasswordChange"
+              @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
+            />
+          </div>
+        </wt-card>
 
-          <wt-switcher
-            :disabled="disableUserInput"
-            :label="$t('objects.directory.users.temporaryPassword')"
-            :model-value="itemInstance.forcePasswordChange"
-            @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
-          />
-        </wt-section-card>
-
-        <wt-section-card v-if="isDisplayQRCode">
+        <wt-card v-if="isDisplayQRCode">
           <qrcode
             :namespace="namespace"
             :url="itemInstance.totpUrl"
           />
-        </wt-section-card>
+        </wt-card>
 
-        <wt-section-card>
+        <wt-card>
           <logout-action
             :id="itemInstance.id"
             :disabled="!isActiveLogout"
           />
-        </wt-section-card>
+        </wt-card>
       </div>
     </div>
 
@@ -154,7 +171,7 @@
 
 <script>
 import { WtObject } from '@webitel/ui-sdk/enums';
-import WtSectionCard from '@webitel/ui-sdk/src/components/wt-section-card/wt-section-card.vue';
+import { WtCard } from '@webitel/ui-sdk/components';
 import { computed } from 'vue';
 import { mapGetters } from 'vuex';
 
@@ -175,7 +192,7 @@ export default {
 		UserPasswordInput,
 		Qrcode,
 		LogoutAction,
-		WtSectionCard,
+		WtCard,
 		GlobalStateConfirmationPopup,
 	},
 	mixins: [
@@ -302,6 +319,7 @@ export default {
   scoped
 >
 @use '@webitel/ui-sdk/src/css/main' as *;
+@use '@webitel/styleguide/viewport-breakpoints' as *;
 
 .opened-user-general__grid {
   display: grid;
@@ -317,21 +335,32 @@ export default {
   gap: var(--spacing-sm);
 }
 
-// WTEL-9735 ризик E1: object-input-grid не має брейкпоінтів — задаємо власні
-@media (max-width: 1366px) {
+.opened-user-general__card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.opened-user-general__card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.opened-user-general__card-description {
+  margin: 0;
+}
+
+@media (max-width: $viewport-md) {
   .opened-user-general__grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: $viewport-sm) {
   .opened-user-general__grid {
     grid-template-columns: 1fr;
   }
-}
-
-.hint-link__wrap {
-  margin-top: 8px;
 }
 
 .hint-link__link {
