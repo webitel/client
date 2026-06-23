@@ -66,6 +66,7 @@
         :label="$t('objects.ccenter.res.patterns')"
         :model-value="itemInstance.patterns"
         :options="itemInstance.patterns"
+        :data-key="null"
         chips-view
         allow-custom-values
         @update:model-value="setItemProp({ prop: 'patterns', value: $event })"

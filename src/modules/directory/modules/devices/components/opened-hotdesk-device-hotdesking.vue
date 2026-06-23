@@ -14,6 +14,7 @@
         :v="v.itemInstance.hotdesks"
         :model-value="itemInstance.hotdesks"
         :options="itemInstance.hotdesks"
+        :data-key="null"
         chips-view
         allow-custom-values
         @update:model-value="setItemProp({ prop: 'hotdesks', value: $event })"

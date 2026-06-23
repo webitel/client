@@ -25,6 +25,7 @@
         :options="itemInstance.metadata.allowOrigin"
         chips-view
         allow-custom-values
+        :data-key="null"
         @update:model-value="setItemMetadata({ prop: 'allowOrigin', value: $event })"
       />
       <copy-input
