@@ -80,6 +80,7 @@
           allow-custom-values
           required
           :options="MimeTypes"
+          :data-key="null"
           @update:model-value="setItemProp({ prop: 'mimeTypes', value: $event })"
         />
         <wt-input-number
