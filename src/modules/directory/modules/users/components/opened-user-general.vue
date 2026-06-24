@@ -316,7 +316,6 @@ export default {
   lang="scss"
   scoped
 >
-@use '@webitel/ui-sdk/src/css/main' as *;
 @use '@webitel/styleguide/viewport-breakpoints' as *;
 
 .opened-user-general__grid {
