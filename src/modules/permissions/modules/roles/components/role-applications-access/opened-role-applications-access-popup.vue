@@ -68,11 +68,6 @@ export default {
 				'pause-templates',
 				'shift-templates',
 				'working-conditions',
-
-				//@author @rzaritskyi
-				// Hidden before SSO will be ready
-				// https://webitel.atlassian.net/browse/WTEL-9433
-				'single-sign-on',
 			];
 
 			return Object.keys(this.access[this.editedApp])

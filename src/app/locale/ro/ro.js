@@ -1240,10 +1240,23 @@ export default {
 			},
 			singleSignOn: {
 				allTypes: 'Toate tipurile',
-				singleSignOn: 'Autentificare unică',
-				clientId: 'ID client',
-				clientSecret: 'Secret client',
-				discoveryUrl: 'URL descoperire',
+				singleSignOn: 'Profil SSO | Profile SSO',
+				provider: 'Furnizor',
+				clientId: 'Application (client) ID',
+				clientSecret: 'Client secret',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Domenii de acces',
+				scopesPlaceholder: 'Introduceți un domeniu și apăsați Enter',
+				inspect: 'Inspect',
+				inspectHint: 'Trimiteți o cerere furnizorului și primiți un token',
+				token: 'Token',
+				showToken: 'Afișați tokenul',
+				inspectDescription:
+					'Trimiteți o cerere furnizorului și primiți un token',
+				mapping: 'Mapare',
+				mappingKeyHint:
+					'Introduceți un atribut de utilizator (de ex., email, username, extension) ca cheie de căutare.',
+				mappingValueHint: 'Câmp token (de ex., {{.preferred_username}})',
 			},
 
 			importCsv: {

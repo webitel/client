@@ -1251,11 +1251,22 @@ export default {
 
 			singleSignOn: {
 				allTypes: 'Все типы',
-				// TODO: add locale
-				singleSignOn: 'Single Sign-on',
-				clientId: 'Client id',
+				singleSignOn: 'SSO профиль | SSO профили',
+				provider: 'Провайдер',
+				clientId: 'Application (client) ID',
 				clientSecret: 'Client secret',
-				discoveryUrl: 'Discovery url',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Скоупы',
+				scopesPlaceholder: 'Введите скоуп и нажмите Enter',
+				inspect: 'Inspect',
+				inspectHint: 'Отправить запрос провайдеру на получение токена.',
+				token: 'Токен',
+				showToken: 'Показать токен',
+				inspectDescription: 'Отправить запрос провайдеру на получение токена.',
+				mapping: 'Маппинг',
+				mappingKeyHint:
+					'Введите название поля пользователя, такого как email, username, extension, или другого его атрибута, по которому должен проводиться поиск.',
+				mappingValueHint: 'Поле токена (например, {{.preferred_username}})',
 			},
 
 			importCsv: {
