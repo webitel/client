@@ -19,6 +19,7 @@
         :model-value="itemInstance.errorIds"
         chips-view
         allow-custom-values
+        :data-key="null"
         @update:model-value="setItemProp({ prop: 'errorIds', value: $event })"
       />
       <wt-input-number
