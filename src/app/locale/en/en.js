@@ -255,7 +255,6 @@ export default {
 				chatName: 'Chat display name',
 				temporaryPassword: 'Temporary password',
 				extensionsHelperText: 'Extension must contain only digits',
-				// WTEL-9735 Підзадача 6
 				communications: 'Communications',
 				generateDevice: 'Generate device',
 				deviceGenerationTitle: 'Device generation',
