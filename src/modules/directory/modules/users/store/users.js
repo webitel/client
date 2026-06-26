@@ -29,6 +29,7 @@ const resettableState = {
 		contact: {},
 		chatName: '',
 		forcePasswordChange: false,
+		generateDevice: false,
 	},
 };
 

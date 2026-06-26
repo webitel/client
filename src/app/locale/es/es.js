@@ -255,6 +255,18 @@ export default {
 					'¿Está seguro de que desea regenerar el código? El usuario no podrá iniciar sesión',
 				chatName: 'Nombre de visualización de chat',
 				temporaryPassword: 'Contraseña temporal',
+				communications: 'Comunicaciones',
+				generateDevice: 'Generar dispositivo',
+				deviceGenerationTitle: 'Generación de dispositivo',
+				deviceGeneration:
+					'Esta acción creará automáticamente un nuevo dispositivo para este usuario.',
+				deviceWasGenerated: 'El dispositivo fue generado',
+				deviceGenerationConfirmTitle: 'Confirmar generación de dispositivo',
+				generateDeviceConfirmation:
+					'Los dispositivos actuales serán reemplazados por el generado. ¿Continuar?',
+				authorizationSecurity: 'Autorización y seguridad',
+				mustChangePassword:
+					'El usuario debe cambiar la contraseña en el primer inicio de sesión.',
 				extensionsHelperText: 'La extensión debe contener solo dígitos',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),

@@ -1,9 +1,7 @@
 import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
 export default Object.freeze({
 	GENERAL: `${RouteNames.USERS}-general`,
-	ROLES: `${RouteNames.USERS}-roles`,
-	LICENSE: `${RouteNames.USERS}-license`,
-	DEVICES: `${RouteNames.USERS}-devices`,
+	COMMUNICATIONS: `${RouteNames.USERS}-communications`,
 	VARIABLES: `${RouteNames.USERS}-variables`,
 	TOKENS: `${RouteNames.USERS}-tokens`,
 	LOGS: `${RouteNames.USERS}-logs`,

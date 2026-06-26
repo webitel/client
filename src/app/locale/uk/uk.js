@@ -260,6 +260,19 @@ export default {
 				chatName: 'Імʼя для відображення в чаті',
 				temporaryPassword: 'Тимчасовий пароль',
 				extensionsHelperText: 'Внутрішній номер повинен містити лише цифри',
+				// WTEL-9735 Підзадача 6
+				communications: 'Комунікації',
+				generateDevice: 'Згенерувати пристрій',
+				deviceGenerationTitle: 'Генерація пристрою',
+				deviceGeneration:
+					'Ця дія автоматично створить новий пристрій для цього користувача.',
+				deviceWasGenerated: 'Пристрій було згенеровано',
+				deviceGenerationConfirmTitle: 'Підтвердження генерації пристрою',
+				generateDeviceConfirmation:
+					'Поточні пристрої будуть замінені згенерованим. Продовжити?',
+				authorizationSecurity: 'Авторизація та безпека',
+				mustChangePassword:
+					'Користувач повинен змінити пароль під час першого входу.',
 				csvMappingFields: {
 					login: ({ linked }) => linked('vocabulary.login'),
 					name: 'Ім’я',

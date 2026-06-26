@@ -256,6 +256,18 @@ export default {
 					'Siz kodni qayta yaratmoqchimisiz? Foydalanuvchi kirishga ruxsat etilmaydi',
 				chatName: "Chat ko'rsatish nomi",
 				temporaryPassword: 'Vaqtinchalik parol',
+				communications: 'Aloqalar',
+				generateDevice: 'Qurilma yaratish',
+				deviceGenerationTitle: 'Qurilma yaratish',
+				deviceGeneration:
+					'Bu amal ushbu foydalanuvchi uchun avtomatik ravishda yangi qurilma yaratadi.',
+				deviceWasGenerated: 'Qurilma yaratildi',
+				deviceGenerationConfirmTitle: 'Qurilma yaratishni tasdiqlash',
+				generateDeviceConfirmation:
+					'Joriy qurilmalar yaratilgan qurilma bilan almashtiriladi. Davom etasizmi?',
+				authorizationSecurity: 'Avtorizatsiya va xavfsizlik',
+				mustChangePassword:
+					"Foydalanuvchi birinchi kirishda parolni o'zgartirishi kerak.",
 				extensionsHelperText:
 					'Ichki raqam faqat raqamlardan iborat boʻlishi kerak',
 				csvMappingFields: {
