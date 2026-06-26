@@ -1,4 +1,4 @@
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { QueueType } from '@webitel/ui-sdk/enums';
 
 import { TypesResourceStrategy } from '../../../enums/TypesResourceStrategy.enum';
 import { Strategy } from '../enums/Strategy.enum';

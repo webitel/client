@@ -974,6 +974,9 @@ export default {
 				chatInboundQueue: 'Входящая очередь чатов',
 				chatInboundQueueDescription:
 					'То же самое, что и Входящая очередь, но с чатами',
+				imChatQueue: 'Очередь IM-чатов',
+				imChatQueueDescription:
+					'То же самое, что и очередь чатов, но для мессенджеров',
 				inboundJobQueue: 'Входящая очередь заданий',
 				inboundJobQueueDescription: 'Входящая очередь заданий',
 				outboundJobQueue: 'Исходящая очередь заданий',

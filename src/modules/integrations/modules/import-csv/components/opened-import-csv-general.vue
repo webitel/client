@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import { WtObject } from '@webitel/ui-sdk/enums';
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { QueueType, WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -66,6 +65,7 @@ export default {
 				QueueType.PROGRESSIVE_DIALER,
 				QueueType.PREDICTIVE_DIALER,
 				QueueType.CHAT_INBOUND_QUEUE,
+				QueueType.IM_CHAT_QUEUE,
 				QueueType.INBOUND_JOB_QUEUE,
 				QueueType.OUTBOUND_JOB_QUEUE,
 			];

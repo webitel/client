@@ -93,6 +93,7 @@
               chips-view
               :options="csvColumns"
               :placeholder="t(field.locale)"
+              :data-key="null"
               class="upload-popup-mapping-item__select"
             />
             <div

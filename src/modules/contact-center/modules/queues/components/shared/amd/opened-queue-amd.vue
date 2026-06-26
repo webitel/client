@@ -101,6 +101,7 @@
           :label="$t('objects.ccenter.queues.positiveLabels')"
           :options="AmdAiLabels"
           :model-value="itemInstance.payload.amd.positive"
+          :data-key="null"
           chips-view
           allow-custom-values
           @update:model-value="setAmdItemProp({ prop: 'positive', value: $event })"

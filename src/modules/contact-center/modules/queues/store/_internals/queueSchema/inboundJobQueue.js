@@ -1,4 +1,4 @@
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { QueueType } from '@webitel/ui-sdk/enums';
 
 import { Strategy } from '../enums/Strategy.enum';
 import queue from './defaults/defaultQueue';

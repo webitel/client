@@ -53,6 +53,8 @@
           :required="required"
           :v="v.itemInstance.parameters.mappings[name]"
           :model-value="itemInstance.parameters.mappings[name]"
+          :options="itemInstance.parameters.mappings[name]"
+          :data-key="null"
           chips-view
           allow-custom-values
           @update:model-value="handleMappingInput({ name, value: $event })"

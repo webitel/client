@@ -1,4 +1,4 @@
-import { QueueType } from 'webitel-sdk/esm2015/enums';
+import { QueueType } from '@webitel/ui-sdk/enums';
 
 const baseLocale = 'objects.ccenter.queues';
 
@@ -231,6 +231,40 @@ const QueueTypeProperties = Object.freeze({
 	[QueueType.CHAT_INBOUND_QUEUE]: {
 		locale: baseLocale.concat('.chatInboundQueue'),
 		subpath: 'chat-inbound-queue',
+		controls: [
+			// general specific
+			'strategy',
+			'team',
+			// params specific
+			'maxWaitTime',
+			'maxWaitingSize',
+			'maxIdleAgent',
+			'maxIdleClient',
+			'maxIdleDialog',
+			'stickyAgent',
+			'stickyAgentSec',
+			'stickyIgnoreStatus',
+			'ignoreCalendar',
+			'minOnlineAgents',
+			'manualDistribution',
+			'lastMessageTimeout',
+			'maxMemberLimit',
+
+			// processing specific
+			'taskProcessing.enabled',
+			'taskProcessing.formSchema',
+			'taskProcessing.sec',
+			'taskProcessing.renewalSec',
+			'taskProcessing.prolongationOptions.enabled',
+			'taskProcessing.prolongationOptions.renewalSec',
+			'taskProcessing.prolongationOptions.repeatsNumber',
+			'taskProcessing.prolongationOptions.prolongationTimeSec',
+		],
+	},
+	// hide me https://webitel.atlassian.net/browse/WS-2
+	[QueueType.IM_CHAT_QUEUE]: {
+		locale: baseLocale.concat('.imChatQueue'),
+		subpath: 'im-chat-queue',
 		controls: [
 			// general specific
 			'strategy',

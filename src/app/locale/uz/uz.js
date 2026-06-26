@@ -969,6 +969,9 @@ export default {
 				chatInboundQueue: "Chat kirish qo'yuv",
 				chatInboundQueueDescription:
 					"Kirish qo'yuv bilan bir xil, lekin chatlar bilan",
+				imChatQueue: "IM chat qo'yuv",
+				imChatQueueDescription:
+					"Chat qo'yuv bilan bir xil, lekin messenjerlar uchun",
 				inboundJobQueue: "Kirish vazifa qo'yuv",
 				inboundJobQueueDescription: "Kirish vazifa qo'yuv",
 				outboundJobQueue: "Chiqish vazifa qo'yuv",

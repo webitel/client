@@ -1,31 +1,34 @@
 import { QueueType } from '@webitel/ui-sdk/enums';
 
+import { Strategy } from '../enums/Strategy.enum';
 import { TimeBaseScore } from '../enums/TimeBaseScore.enum';
 import queue from './defaults/defaultQueue';
 import processing from './defaults/processing';
 
-const inboundQueue = () => ({
+const imChatQueue = () => ({
 	...queue(),
-	type: QueueType.INBOUND_QUEUE,
+	type: QueueType.IM_CHAT_QUEUE,
 	team: {}, // required
-	ringtone: {},
-	grantee: {},
+	strategy: Strategy.FIFO, // required
+	formSchema: {},
 	stickyAgent: false,
 	taskProcessing: processing(),
 	payload: {
 		discardAbandonedAfter: 0,
 		timeBaseScore: TimeBaseScore.QUEUE, // required
 		maxWaitTime: 60 * 60, // required
-		allowGreetingAgent: false,
+		stickyAgentSec: 5,
 		stickyIgnoreStatus: false,
 		ignoreCalendar: false,
-		stickyAgentSec: 5,
+		maxIdleAgent: 60 * 60, // hour
+		maxIdleClient: 60 * 60, // hour
+		maxIdleDialog: 0,
 		maxWaitingSize: 0,
-		autoAnswerTone: null,
 		minOnlineAgents: 0,
 		manualDistribution: false,
+		lastMessageTimeout: false,
 		maxMemberLimit: 0,
 	},
 });
 
-export default inboundQueue;
+export default imChatQueue;

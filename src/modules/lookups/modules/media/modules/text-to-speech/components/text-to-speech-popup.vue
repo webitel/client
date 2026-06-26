@@ -112,12 +112,12 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { WtPlayer } from '@webitel/ui-sdk/components';
 import { StorageServiceType } from 'webitel-sdk';
-import TtsMicrosoftLanguage from 'webitel-sdk/esm2015/enums/cloud-providers/microsoft/microsoft-language.enum';
+import { MicrosoftLanguage as TtsMicrosoftLanguage } from 'webitel-sdk/enums';
 
 import validationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';

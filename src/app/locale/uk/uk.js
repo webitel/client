@@ -976,6 +976,8 @@ export default {
 					'Вихідна кампанія без попереднього резервування оператора для максимального скорочення часу очікування дзвінка.',
 				chatInboundQueue: 'Вхідна черга чатів',
 				chatInboundQueueDescription: 'Така ж вхідна черга, але для чатів',
+				imChatQueue: 'Черга IM-чатів',
+				imChatQueueDescription: 'Така ж черга чатів, але для месенджерів',
 				inboundJobQueue: 'Вхідна черга завдань',
 				inboundJobQueueDescription: 'Вхідна черга завдань',
 				outboundJobQueue: 'Вихідна черга завдань',
