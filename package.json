@@ -55,7 +55,7 @@
 		"vue-router": "^4.4.3",
 		"vue2-dropzone": "^3.6.0",
 		"vuex": "^4.1.0",
-		"webitel-sdk": "^26.4.14",
+		"webitel-sdk": "^26.4.15",
 		"zod": "^4.x"
 	},
 	"devDependencies": {
