@@ -65,9 +65,9 @@ const { t } = useI18n();
 const { postWebphoneSettings } = useSettingsBroadcast();
 const webrtc = ref(true);
 const stun = ref(false);
-const autoGainControl = ref(false);
-const echoCancellation = ref(false);
-const noiseSuppression = ref(false);
+const autoGainControl = ref(true);
+const echoCancellation = ref(true);
+const noiseSuppression = ref(true);
 
 async function save() {
 	const payload = {
