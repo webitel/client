@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { WtObject } from '@webitel/ui-sdk/enums';
 import { ContactsAPI } from '@webitel/api-services/api';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
