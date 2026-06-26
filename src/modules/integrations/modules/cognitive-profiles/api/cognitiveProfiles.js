@@ -12,7 +12,7 @@ import applyTransform, {
 	starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { CognitiveProfileServiceApiFactory } from 'webitel-sdk';
-import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
+import { MicrosoftRegion } from 'webitel-sdk/enums';
 
 import instance from '../../../../../app/api/instance';
 import configuration from '../../../../../app/api/openAPIConfig';

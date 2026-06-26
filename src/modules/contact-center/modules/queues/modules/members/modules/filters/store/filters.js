@@ -2,7 +2,7 @@ import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/Ap
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import { MemberStopCause } from 'webitel-sdk/esm2015/enums';
+import { MemberStopCause } from 'webitel-sdk/enums';
 
 import BucketsAPI from '../../../../../../../../lookups/modules/buckets/api/buckets';
 import AgentsAPI from '../../../../../../agents/api/agents';
