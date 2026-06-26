@@ -1,6 +1,5 @@
 import { StorageProviderType } from 'webitel-sdk';
-import { MicrosoftLanguage } from 'webitel-sdk/esm2015/enums';
-import { MicrosoftRegion } from 'webitel-sdk/esm2015/lookups';
+import { MicrosoftLanguage, MicrosoftRegion } from 'webitel-sdk/enums';
 
 import defaultCognitiveProfile from './defaultCognitiveProfile';
 
