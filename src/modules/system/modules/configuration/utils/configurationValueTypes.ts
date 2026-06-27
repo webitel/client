@@ -40,6 +40,7 @@ const ConfigurationValueTypes = {
 	[EngineSystemSettingName.DefaultPassword]: 'string',
 	[EngineSystemSettingName.ExpandContactTabs]: 'boolean',
 	[EngineSystemSettingName.LoginOptions]: 'select',
+	[EngineSystemSettingName.BlockAllMemberNumbersFromList]: 'boolean',
 } as const;
 
 export default ConfigurationValueTypes;
