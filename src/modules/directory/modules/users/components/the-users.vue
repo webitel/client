@@ -42,26 +42,26 @@
               @input="setSearch"
               @search="loadList"
             />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
+            <wt-action-bar
+              :include="[IconAction.REFRESH, IconAction.DELETE, IconAction.UPLOAD, IconAction.LOGOUT]"
+              :disabled:logout="!hasUpdateAccess || anySelected"
+              :disabled:delete="!hasDeleteAccess || anySelected"
+              @click:logout="openLogoutConfirmationPopup"
+              @click:refresh="loadList"
+              @click:delete="askDeleteConfirmation({
+                deleted: selectedRows,
+                callback:() => deleteData(selectedRows),
+              })"
             >
-              <delete-all-action
-                v-show="!anySelected"
-                v-if="hasDeleteAccess"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
-              />
-              <upload-file-icon-btn
-                v-if="hasCreateAccess"
-                accept=".csv"
-                class="icon-action"
-                @change="processCSV"
-              />
-            </wt-table-actions>
+              <template #upload>
+                <upload-file-icon-btn
+                  :disabled="!hasCreateAccess"
+                  accept=".csv"
+                  class="icon-action"
+                  @change="processCSV"
+                />
+              </template>
+            </wt-action-bar>
           </div>
         </header>
 
@@ -191,6 +191,7 @@ export default {
 			closeDelete,
 		} = useDeleteConfirmationPopup();
 
+    // TODO: add Access for Logout action, now it is the same as Update action
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useUserAccessControl();
 
@@ -218,6 +219,7 @@ export default {
 		csvFile: null,
 		namespace,
 		routeName: RouteNames.USERS,
+    IconAction
 	}),
 
 	computed: {
