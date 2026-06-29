@@ -36,24 +36,24 @@ import { ComponentSize } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
-  isPopupOpened: boolean;
-  logoutMessage: string;
+	isPopupOpened: boolean;
+	logoutMessage: string;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:isPopupOpened', value: boolean): void;
-  (e: 'logout'): void;
+	(e: 'update:isPopupOpened', value: boolean): void;
+	(e: 'logout'): void;
 }>();
 
 const { t } = useI18n();
 
 const closePopup = () => {
-  emit('update:isPopupOpened', false);
+	emit('update:isPopupOpened', false);
 };
 
 const logout = async () => {
-  emit('logout');
-  closePopup()
+	emit('logout');
+	closePopup();
 };
 </script>
 

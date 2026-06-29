@@ -142,29 +142,27 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { mapActions } from 'vuex';
 import { ref } from 'vue';
-
+import { useI18n } from 'vue-i18n';
+import { mapActions } from 'vuex';
+import { UsersAPI } from '../../../../../../../webitel-ui-sdk/packages/api-services/src/api/clients/users/users.ts';
+import IconAction from '../../../../../../../webitel-ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore';
+import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
-
-import IconAction from '../../../../../../../webitel-ui-sdk/src/enums/IconAction/IconAction.enum.js';
-import { UsersAPI } from '../../../../../../../webitel-ui-sdk/packages/api-services/src/api/clients/users/users.ts';
-import { useI18n } from 'vue-i18n';
-import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
-import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore'
 
 const namespace = 'directory/users';
 
 export default {
 	name: 'TheUsers',
 	components: {
-    LogoutConfirmationPopup,
+		LogoutConfirmationPopup,
 		UploadPopup,
 		UserStatus,
 		UploadFileIconBtn,
@@ -175,8 +173,8 @@ export default {
 	],
 
 	setup() {
-    const { t } = useI18n();
-    const { clearStorageNotifications } = useUserinfoStore();
+		const { t } = useI18n();
+		const { clearStorageNotifications } = useUserinfoStore();
 
 		const { dummy } = useDummy({
 			namespace,
@@ -191,21 +189,21 @@ export default {
 			closeDelete,
 		} = useDeleteConfirmationPopup();
 
-    // TODO: add Access for Logout action, now it is the same as Update action
+		// TODO: add Access for Logout action, now it is the same as Update action
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useUserAccessControl();
 
-    const isLogoutConfirmationPopup = ref(false);
+		const isLogoutConfirmationPopup = ref(false);
 
 		return {
-      t,
-      clearStorageNotifications,
+			t,
+			clearStorageNotifications,
 			dummy,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,
 
-      isLogoutConfirmationPopup,
+			isLogoutConfirmationPopup,
 
 			hasCreateAccess,
 			hasUpdateAccess,
@@ -219,7 +217,7 @@ export default {
 		csvFile: null,
 		namespace,
 		routeName: RouteNames.USERS,
-    IconAction
+		IconAction,
 	}),
 
 	computed: {
@@ -262,16 +260,16 @@ export default {
 			this.loadList();
 		},
 
-    openLogoutConfirmationPopup() {
-      this.isLogoutConfirmationPopup = true;
-    },
+		openLogoutConfirmationPopup() {
+			this.isLogoutConfirmationPopup = true;
+		},
 
-    async logoutUsers() {
-      const selection = this.selectedRows.map(user => user.id);
-      await UsersAPI.logoutMultipleUsers(selection);
-      this.isLogoutConfirmationPopup = false;
-      this.clearStorageNotifications(selection)
-    },
+		async logoutUsers() {
+			const selection = this.selectedRows.map((user) => user.id);
+			await UsersAPI.logoutMultipleUsers(selection);
+			this.isLogoutConfirmationPopup = false;
+			this.clearStorageNotifications(selection);
+		},
 	},
 };
 </script>
