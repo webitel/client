@@ -157,7 +157,7 @@ import IconAction from '../../../../../../../webitel-ui-sdk/src/enums/IconAction
 import { UsersAPI } from '../../../../../../../webitel-ui-sdk/packages/api-services/src/api/clients/users/users.ts';
 import { useI18n } from 'vue-i18n';
 import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
-import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore.ts';
+import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore'
 
 const namespace = 'directory/users';
 
@@ -270,7 +270,7 @@ export default {
       const selection = this.selectedRows.map(user => user.id);
       await UsersAPI.logoutMultipleUsers(selection);
       this.isLogoutConfirmationPopup = false;
-      clearStorageNotifications(selection);
+      this.clearStorageNotifications(selection)
     },
 	},
 };
