@@ -280,6 +280,8 @@ export default {
 					endSessionConfirmation: 'Сессияны аяқтауды растау',
 					endSessionConfirmationText:
 						'Барлық сессияларды аяқтағыңыз келгеніне сенімдісіз бе?',
+					endMultipleSessionsConfirmationText:
+						'Сіз {selectionQuantity} пайдаланушы үшін барлық сеанстарды аяқтауға сенімдісіз бе?',
 					tooltip: 'Пайдаланушы барлық құрылғылардан шығарылады',
 				},
 			},

@@ -282,6 +282,8 @@ export default {
 					endSessionConfirmation: 'Xác nhận kết thúc phiên',
 					endSessionConfirmationText:
 						'Bạn có chắc muốn kết thúc tất cả các phiên không?',
+					endMultipleSessionsConfirmationText:
+						'Bạn có chắc chắn muốn kết thúc tất cả các phiên cho {selectionQuantity} người dùng không?',
 					tooltip: 'Người dùng sẽ bị đăng xuất khỏi tất cả các thiết bị',
 				},
 			},

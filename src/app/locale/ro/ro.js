@@ -282,6 +282,8 @@ export default {
 					endSessionConfirmation: 'Confirmare încheiere sesiuni',
 					endSessionConfirmationText:
 						'Sunteți sigur că doriți să încheiați toate sesiunile?',
+					endMultipleSessionsConfirmationText:
+						'Sigur doriți să închideți toate sesiunile pentru {selectionQuantity} utilizatori?',
 					tooltip: 'Utilizatorul va fi deconectat de pe toate dispozitivele',
 				},
 			},
