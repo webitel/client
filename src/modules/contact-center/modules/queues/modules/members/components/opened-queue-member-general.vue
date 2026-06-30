@@ -23,9 +23,9 @@
       <wt-datepicker
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.queues.expire')"
-        :value="itemInstance.expireAt"
-        mode="datetime"
-        @input="setItemProp({ prop: 'expireAt', value: $event })"
+        :model-value="itemInstance.expireAt"
+        show-time
+        @update:model-value="setItemProp({ prop: 'expireAt', value: $event })"
       />
       <wt-single-select
         :disabled="disableUserInput || !hasCalendarsReadAccess"

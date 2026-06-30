@@ -10,7 +10,7 @@
         <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
         <wt-switcher v-model:model-value="showExpireDate" :label="$t('objects.lookups.blacklist.temporary')" />
         <wt-datepicker v-if="showExpireDate" :label="$t('objects.lookups.blacklist.expireAt')"
-          :value="itemInstance.expireAt" mode="datetime" @input="setItemProp({ prop: 'expireAt', value: $event })" />
+          :model-value="itemInstance.expireAt" show-time @update:model-value="setItemProp({ prop: 'expireAt', value: $event })" />
         <wt-textarea :label="$t('objects.description')" :model-value="itemInstance.description"
           @update:model-value="setItemProp({ prop: 'description', value: $event })" />
       </form>
