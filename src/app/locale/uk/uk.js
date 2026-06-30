@@ -1260,12 +1260,21 @@ export default {
 				authenticatedAs: 'Аутентифіковано як',
 			},
 			singleSignOn: {
-				allTypes: 'Всі типи',
-				// TODO: add locale
-				singleSignOn: 'Single Sign-on',
-				clientId: 'Client id',
+				singleSignOn: 'SSO | SSO',
+				provider: 'Провайдер',
+				clientId: 'Application (client) ID',
 				clientSecret: 'Client secret',
-				discoveryUrl: 'Discovery url',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Скоупи',
+				scopesPlaceholder: 'Введіть скоуп і натисніть Enter',
+				inspect: 'Inspect',
+				inspectHint: 'Надіслати запит провайдеру на отримання токена.',
+				token: 'Токен',
+				showToken: 'Показати токен',
+				inspectDescription: 'Надіслати запит провайдеру на отримання токена.',
+				mapping: 'Маппінг',
+				mappingKeyHint:
+					'Введіть назву поля користувача, таку як email, username, extension, або іншого його атрибута, по якому має проводитись пошук.',
 			},
 			importCsv: {
 				importCsv: 'Імпорт даних з CSV файлу | Імпорт даних з CSV файлів',

@@ -1241,11 +1241,21 @@ export default {
 				authenticatedAs: 'Авторизацияланған',
 			},
 			singleSignOn: {
-				allTypes: 'Барлық түрлер',
-				singleSignOn: 'Бірдей кіру',
-				clientId: 'Клиент ID',
-				clientSecret: 'Клиент құпиясы',
-				discoveryUrl: 'Табу URL',
+				singleSignOn: 'SSO профилі | SSO профильдері',
+				provider: 'Провайдер',
+				clientId: 'Application (client) ID',
+				clientSecret: 'Client secret',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Рұқсаттар',
+				scopesPlaceholder: 'Рұқсатты енгізіп Enter басыңыз',
+				inspect: 'Inspect',
+				inspectHint: 'Провайдерге сұраныс жіберіп, токен алу',
+				token: 'Токен',
+				showToken: 'Токенді көрсету',
+				inspectDescription: 'Провайдерге сұраныс жіберіп, токен алу',
+				mapping: 'Маппинг',
+				mappingKeyHint:
+					'Пайдаланушы атрибутын енгізіңіз (мыс., email, username, extension).',
 			},
 
 			importCsv: {

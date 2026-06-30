@@ -1255,11 +1255,22 @@ export default {
 				authenticatedAs: 'Autenticado como',
 			},
 			singleSignOn: {
-				allTypes: 'Todos los tipos',
-				singleSignOn: 'Inicio de sesión único',
-				clientId: 'ID de cliente',
-				clientSecret: 'Secreto de cliente',
-				discoveryUrl: 'URL de descubrimiento',
+				singleSignOn: 'Perfil SSO | Perfiles SSO',
+				provider: 'Proveedor',
+				clientId: 'Application (client) ID',
+				clientSecret: 'Client secret',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Ámbitos',
+				scopesPlaceholder: 'Escriba un ámbito y presione Enter',
+				inspect: 'Inspect',
+				inspectHint: 'Enviar una solicitud al proveedor y recibir un token',
+				token: 'Token',
+				showToken: 'Mostrar token',
+				inspectDescription:
+					'Enviar una solicitud al proveedor y recibir un token',
+				mapping: 'Mapeo',
+				mappingKeyHint:
+					'Proporcione un atributo de usuario (p. ej., email, username, extension u otro) para usarlo como clave de búsqueda.',
 			},
 
 			importCsv: {

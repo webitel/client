@@ -176,12 +176,11 @@ const nav = Object.freeze([
 				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.EmailProfiles}`,
 				route: 'email-profiles',
 			},
-			// Note: commented out because of singleSignOn feature is not ready yet
-			// {
-			//   value: AdminSections.SingleSignOn,
-			//   locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.SingleSignOn}`,
-			//   route: 'single-sign-on',
-			// },
+			{
+				value: AdminSections.SingleSignOn,
+				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.SingleSignOn}`,
+				route: 'single-sign-on',
+			},
 			{
 				value: AdminSections.ImportCsv,
 				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.ImportCsv}`,

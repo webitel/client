@@ -25,11 +25,16 @@ import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 import App from './the-app.vue';
 
 import './app/css/main.scss';
+import { configureZod } from '@webitel/ui-sdk/validations';
 
 const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
 	return response.json();
 };
+
+configureZod({
+	t: i18n.global.t,
+});
 
 const setTokenFromUrl = () => {
 	try {

@@ -1249,11 +1249,20 @@ export default {
 				authenticatedAs: 'Authenticated as',
 			},
 			singleSignOn: {
-				allTypes: 'All types',
-				singleSignOn: 'Single Sign-on',
-				clientId: 'Client id',
+				singleSignOn: 'SSO',
+				provider: 'Provider',
+				clientId: 'Application (client) ID',
 				clientSecret: 'Client secret',
-				discoveryUrl: 'Discovery url',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Scopes',
+				inspect: 'Inspect',
+				token: 'Token',
+				showToken: 'Show token',
+				inspectDescription:
+					'Send a request to the provider and receive a token',
+				mapping: 'Mapping',
+				mappingKeyHint:
+					'Provide a user attribute (e.g., email, username, extension or other) to be used as the search key.',
 			},
 
 			importCsv: {

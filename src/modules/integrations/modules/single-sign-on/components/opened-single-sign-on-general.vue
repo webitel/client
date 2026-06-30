@@ -2,70 +2,97 @@
   <section>
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
-      <wt-single-select
-        :show-clear="false"
+    <div class="object-input-grid">
+      <wt-input-text
         :disabled="disableUserInput"
-        :label="$t('vocabulary.type')"
-        :search-method="loadFlows"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
+        v-model:model-value="modelValue.name"
         required
-        @update:model-value="setItemProp({ prop: 'type', value: $event })"
+      />
+      <wt-password
+        :disabled="disableUserInput"
+        :label="t('objects.integrations.singleSignOn.clientSecret')"
+        :regle-validation="validationFields?.clientSecret"
+        v-model:model-value="modelValue.clientSecret"
+        required
       />
       <wt-input-text
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.singleSignOn.clientId')"
-        :v="v.itemInstance.clientId"
-        :model-value="itemInstance.clientId"
+        :label="t('objects.integrations.singleSignOn.clientId')"
+        :regle-validation="validationFields?.clientId"
+        v-model:model-value="modelValue.clientId"
         required
-        @update:model-value="setItemProp({ prop: 'clientId', value: $event })"
       />
+
       <wt-input-text
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.singleSignOn.clientSecret')"
-        :v="v.itemInstance.clientSecret"
-        :model-value="itemInstance.clientSecret"
+        :label="t('objects.integrations.singleSignOn.discoveryUrl')"
+        :regle-validation="validationFields?.discoveryUrl"
+        v-model:model-value="modelValue.discoveryUrl"
         required
-        @update:model-value="setItemProp({ prop: 'clientSecret', value: $event })"
       />
-      <wt-input-text
-        :disabled="disableUserInput"
-        :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
-        :v="v.itemInstance.discoveryUrl"
-        :model-value="itemInstance.discoveryUrl"
-        required
-        @update:model-value="setItemProp({ prop: 'discoveryUrl', value: $event })"
+
+
+    </div>
+    <div class="object-input-grid token-grid">
+      <single-sign-on-token v-if="modelValue.id" />
+
+      <wt-multi-select
+        v-model:model-value="modelValue.scopes"
+        :label="t('objects.integrations.singleSignOn.scopes')"
+        :options="modelValue.scopes"
+        :data-key="null"
+        chips-view
+        allow-custom-values
       />
     </div>
+
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import { RegleSchemaFieldStatus } from '@regle/schemas';
+import type { ApiOAuthService } from '@webitel/api-services/gen/models';
+import { WtInputText } from '@webitel/ui-sdk/components';
+import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import SingleSignOnAPI from '../api/singleSignOn';
+import SingleSignOnToken from './single-sign-on-token.vue';
+import { watch } from 'vue';
+import { SingleSignOnType } from '../enums/SingleSignOnType.enum'
 
-export default {
-	name: 'OpenedSingleSignOnGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	methods: {
-		loadFlows(params) {
-			return SingleSignOnAPI.getLookup(params);
-		},
-	},
-};
+const modelValue = defineModel<ApiOAuthService>();
+
+defineProps<{
+  validationFields?: {
+    [K in keyof ApiOAuthService]?: RegleSchemaFieldStatus<
+      ApiOAuthService[K]
+    >;
+  };
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
+
+watch(
+  () => modelValue.value.discoveryUrl,
+  (val) => {
+    const condition = val && modelValue.value.discoveryUrl.includes(SingleSignOnType.FACEBOOK);
+    modelValue.value.type = condition ? SingleSignOnType.FACEBOOK : SingleSignOnType.OPENID
+  },
+  { immediate: true },
+)
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.token-grid {
+  grid-auto-rows: 1fr;
+  align-items: stretch;
+  height: 100%;
+}
+</style>

@@ -1251,11 +1251,21 @@ export default {
 				authenticatedAs: 'Autentifikatsiya qilingan',
 			},
 			singleSignOn: {
-				allTypes: 'Barcha turlar',
-				singleSignOn: 'Bitta kirish',
-				clientId: 'Klient ID',
-				clientSecret: 'Klient maxfiy kaliti',
-				discoveryUrl: 'Kuzatish URL',
+				singleSignOn: 'SSO profil | SSO profillari',
+				provider: 'Provayder',
+				clientId: 'Application (client) ID',
+				clientSecret: 'Client secret',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Ruxsatlar',
+				scopesPlaceholder: 'Ruxsatni kiriting va Enter bosing',
+				inspect: 'Inspect',
+				inspectHint: 'Provayderga so rov yuborish va token olish',
+				token: 'Token',
+				showToken: 'Tokenni ko‘rsatish',
+				inspectDescription: 'Provayderga so rov yuborish va token olish',
+				mapping: 'Moslash',
+				mappingKeyHint:
+					'Foydalanuvchi atributini kiriting (masalan, email, username, extension) qidiruv kaliti sifatida.',
 			},
 
 			importCsv: {
