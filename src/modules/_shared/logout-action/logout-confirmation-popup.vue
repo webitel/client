@@ -38,12 +38,12 @@ import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
 	shown: boolean;
-  text: string;
+	text: string;
 }>();
 
 const emit = defineEmits<{
-  close: [];
-  logout: [];
+	close: [];
+	logout: [];
 }>();
 
 const { t } = useI18n();

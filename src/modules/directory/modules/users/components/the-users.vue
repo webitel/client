@@ -141,18 +141,17 @@
 </template>
 
 <script>
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { ref } from 'vue';
-
 import { mapActions } from 'vuex';
-import { UsersAPI } from '../../../../../../../webitel-ui-sdk/packages/api-services/src/api/clients/users/users.ts';
-import IconAction from '../../../../../../../webitel-ui-sdk/src/enums/IconAction/IconAction.enum.js';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UsersAPI from '../../../../../modules/directory/modules/users/api/users';
 import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore';
 import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
@@ -268,7 +267,7 @@ export default {
 			await UsersAPI.logoutMultipleUsers(selection);
 			this.isLogoutConfirmationPopup = false;
 			this.clearStorageNotifications(selection);
-      await this.loadList();
+			await this.loadList();
 		},
 	},
 };
