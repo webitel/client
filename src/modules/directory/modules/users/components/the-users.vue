@@ -143,7 +143,7 @@
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+
 import { mapActions } from 'vuex';
 import { UsersAPI } from '../../../../../../../webitel-ui-sdk/packages/api-services/src/api/clients/users/users.ts';
 import IconAction from '../../../../../../../webitel-ui-sdk/src/enums/IconAction/IconAction.enum.js';
