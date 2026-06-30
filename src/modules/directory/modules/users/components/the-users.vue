@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import { UsersAPI } from '@webitel/api-services/api';
 import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -151,7 +152,6 @@ import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { UsersAPI } from '@webitel/api-services/api';
 import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore';
 import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
