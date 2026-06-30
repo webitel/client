@@ -40,15 +40,15 @@
         v-show="itemInstance.expires"
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.start')"
-        :value="itemInstance.startAt"
-        @input="setItemProp({ prop: 'startAt', value: $event })"
+        :model-value="itemInstance.startAt"
+        @update:model-value="setItemProp({ prop: 'startAt', value: $event })"
       />
       <wt-datepicker
         v-show="itemInstance.expires"
         :disabled="disableUserInput"
         :label="$t('objects.lookups.calendars.end')"
-        :value="itemInstance.endAt"
-        @input="setItemProp({ prop: 'endAt', value: $event })"
+        :model-value="itemInstance.endAt"
+        @update:model-value="setItemProp({ prop: 'endAt', value: $event })"
       />
     </div>
   </section>

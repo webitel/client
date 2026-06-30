@@ -6,8 +6,8 @@
     <template #main>
       <section class="history-popup">
         <div class="history-popup__filters">
-          <wt-datepicker :label="$t('objects.from')" :value="from" mode="datetime" @input="selectForm" />
-          <wt-datepicker :label="$t('objects.to')" :value="to" mode="datetime" @input="selectTo" />
+          <wt-datepicker :label="$t('objects.from')" :model-value="from" show-time @update:model-value="selectForm" />
+          <wt-datepicker :label="$t('objects.to')" :model-value="to" show-time @update:model-value="selectTo" />
         </div>
         <div class="table-section__table-wrapper">
           <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false">
