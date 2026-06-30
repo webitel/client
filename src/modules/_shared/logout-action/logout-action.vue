@@ -18,7 +18,7 @@
       </wt-button>
     </div>
     <logout-confirmation-popup
-      v-model:isPopupOpened="isPopupOpened"
+      v-model:shown="isPopupOpened"
       :logout-message="t('objects.directory.users.logout.endSessionConfirmationText')"
       @logout="logoutUser"
     />

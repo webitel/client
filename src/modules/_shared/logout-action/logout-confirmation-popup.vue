@@ -1,23 +1,24 @@
 <template>
   <wt-popup
-    :shown="isPopupOpened"
+    :shown="shown"
     :size="ComponentSize.SM"
     overflow
-    @close="closePopup"
+    @close="close"
+    class='logout-confirmation-popup'
   >
     <template #title>
       {{ t('objects.directory.users.logout.endSessionConfirmation') }}
     </template>
     <template #main>
-      <div class="logout-action__wrapper">
-        {{ logoutMessage }}
+      <div class="logout-confirmation-popup__message">
+        {{ text }}
       </div>
     </template>
 
     <template #actions>
       <wt-button
         color="secondary"
-        @click="closePopup"
+        @click="close"
       >
         {{ t('vocabulary.no') }}
       </wt-button>
@@ -36,29 +37,29 @@ import { ComponentSize } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
-	isPopupOpened: boolean;
-	logoutMessage: string;
+	shown: boolean;
+  text: string;
 }>();
 
 const emit = defineEmits<{
-	(e: 'update:isPopupOpened', value: boolean): void;
-	(e: 'logout'): void;
+  'update:shown': [value: boolean];
+  logout: [];
 }>();
 
 const { t } = useI18n();
 
-const closePopup = () => {
-	emit('update:isPopupOpened', false);
+const close = () => {
+	emit('update:shown', false);
 };
 
 const logout = async () => {
 	emit('logout');
-	closePopup();
+  close();
 };
 </script>
 
 <style scoped>
-.logout-action__wrapper {
+.logout-confirmation-popup__message {
   display: flex;
   justify-content: center;
   padding: var(--spacing-lg);
