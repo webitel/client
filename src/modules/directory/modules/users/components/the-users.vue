@@ -146,8 +146,8 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { ref } from 'vue';
 
 import { mapActions } from 'vuex';
-import { UsersAPI } from '../../../../../../../webitel-ui-sdk/packages/api-services/src/api/clients/users/users.ts';
-import IconAction from '../../../../../../../webitel-ui-sdk/src/enums/IconAction/IconAction.enum.js';
+import UsersAPI from '../../../../../modules/directory/modules/users/api/users';
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
