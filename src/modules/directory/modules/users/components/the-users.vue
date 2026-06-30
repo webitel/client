@@ -267,6 +267,7 @@ export default {
 			await UsersAPI.logoutMultipleUsers(selection);
 			this.isLogoutConfirmationPopup = false;
 			this.clearStorageNotifications(selection);
+      await this.loadList();
 		},
 	},
 };
