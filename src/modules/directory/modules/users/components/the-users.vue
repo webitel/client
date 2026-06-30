@@ -173,7 +173,6 @@ export default {
 	],
 
 	setup() {
-		const { t } = useI18n();
 		const { clearStorageNotifications } = useUserinfoStore();
 
 		const { dummy } = useDummy({
@@ -196,7 +195,6 @@ export default {
 		const isLogoutConfirmationPopup = ref(false);
 
 		return {
-			t,
 			clearStorageNotifications,
 			dummy,
 			isDeleteConfirmationPopup,
