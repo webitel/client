@@ -283,7 +283,7 @@ export default {
 					endSessionConfirmation: 'Sessiyani yakunlashni tasdiqlash',
 					endSessionConfirmationText: 'Barcha sessiyalarni yakunlamoqchimisiz?',
 					endMultipleSessionsConfirmationText:
-						'Siz {selectionQuantity} foydalanuvchi uchun barcha seanslarni yakunlashga ishonchingiz komilmi?',
+						'Siz {count} foydalanuvchi uchun barcha seanslarni yakunlashga ishonchingiz komilmi?',
 					tooltip: 'Foydalanuvchi barcha qurilmalardan chiqariladi',
 				},
 			},

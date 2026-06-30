@@ -282,7 +282,7 @@ export default {
 					endSessionConfirmationText:
 						'¿Está seguro de que desea finalizar todas las sesiones?',
 					endMultipleSessionsConfirmationText:
-						'¿Estás seguro de que deseas finalizar todas las sesiones de {selectionQuantity} usuarios?',
+						'¿Estás seguro de que deseas finalizar todas las sesiones de {count} usuarios?',
 					tooltip: 'El usuario será desconectado de todos los dispositivos',
 				},
 			},

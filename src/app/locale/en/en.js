@@ -281,7 +281,7 @@ export default {
 					endSessionConfirmationText:
 						'Are you sure you want to end all sessions?',
 					endMultipleSessionsConfirmationText:
-						'Are you sure you want to end all sessions for {selectionQuantity} users?',
+						'Are you sure you want to end all sessions for {count} users?',
 					tooltip: 'The user will be logged out from all devices',
 				},
 			},

@@ -23,9 +23,9 @@
         @close="closeDelete"
       />
       <logout-confirmation-popup
-        v-model:isPopupOpened="isLogoutConfirmationPopup"
-        :logout-message="t('objects.directory.users.logout.endMultipleSessionsConfirmationText', {
-          selectionQuantity: selectedRows.length,
+        v-model:shown="isLogoutConfirmationPopup"
+        :logout-message="$t('objects.directory.users.logout.endMultipleSessionsConfirmationText', {
+          count: selectedRows.length,
         })"
         @logout="logoutUsers"
       />

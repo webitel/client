@@ -283,7 +283,7 @@ export default {
 					endSessionConfirmationText:
 						'Czy na pewno chcesz zakończyć wszystkie sesje?',
 					endMultipleSessionsConfirmationText:
-						'Czy na pewno chcesz zakończyć wszystkie sesje dla {selectionQuantity} użytkowników?',
+						'Czy na pewno chcesz zakończyć wszystkie sesje dla {count} użytkowników?',
 					tooltip: 'Użytkownik zostanie wylogowany ze wszystkich urządzeń',
 				},
 			},

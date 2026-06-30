@@ -287,7 +287,7 @@ export default {
 					endSessionConfirmationText:
 						'Ви впевнені, що хочете завершити всі сеанси?',
 					endMultipleSessionsConfirmationText:
-						'Ви впевнені, що хочете завершити всі сеанси для {selectionQuantity} користувачів?',
+						'Ви впевнені, що хочете завершити всі сеанси для {count} користувачів?',
 					tooltip: 'Користувача буде вилогінено з усіх пристроїв',
 				},
 			},
