@@ -42,19 +42,18 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  'update:shown': [value: boolean];
+  close: [];
   logout: [];
 }>();
 
 const { t } = useI18n();
 
 const close = () => {
-	emit('update:shown', false);
+	emit('close');
 };
 
 const logout = async () => {
 	emit('logout');
-  close();
 };
 </script>
 
