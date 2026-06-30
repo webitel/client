@@ -57,50 +57,50 @@ const { t } = useI18n();
 const { hasSaveActionAccess } = useUserAccessControl();
 
 const {
-  modelValue,
-  debouncedIsLoading,
-  originalItemInstance,
-  isNew,
-  saveText,
-  hasValidationErrors,
-  isAnyFieldEdited,
-  validationFields,
-  save,
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
 } = useCardComponent<ApiOAuthService>({
-  useCardStore: useSingleSignOnCardStore,
+	useCardStore: useSingleSignOnCardStore,
 });
 
 const tabs = computed(() => {
-  return [
-    {
-      text: t('objects.general'),
-      value: 'general',
-      pathName: SingleSignOnRouteNames.GENERAL,
-    },
-    {
-      text: t('objects.integrations.singleSignOn.mapping'),
-      value: 'mapping',
-      pathName: SingleSignOnRouteNames.MAPPING,
-    },
-  ];
+	return [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: SingleSignOnRouteNames.GENERAL,
+		},
+		{
+			text: t('objects.integrations.singleSignOn.mapping'),
+			value: 'mapping',
+			pathName: SingleSignOnRouteNames.MAPPING,
+		},
+	];
 });
 
 const { currentTab, changeTab } = useCardTabs(tabs);
 const { close } = useClose(RouteNames.SINGLE_SIGN_ON);
 
 const path = computed(() => {
-  return [
-    {
-      name: t('objects.integrations.integrations'),
-    },
-    {
-      name: t('objects.integrations.singleSignOn.singleSignOn'),
-      route: '/integrations/single-sign-on',
-    },
-    {
-      name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
-    },
-  ];
+	return [
+		{
+			name: t('objects.integrations.integrations'),
+		},
+		{
+			name: t('objects.integrations.singleSignOn.singleSignOn'),
+			route: '/integrations/single-sign-on',
+		},
+		{
+			name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
+		},
+	];
 });
 </script>
 

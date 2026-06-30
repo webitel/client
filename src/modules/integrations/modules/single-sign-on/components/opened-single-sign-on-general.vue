@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="opened-single-sign-on-general">
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
         {{ t('objects.generalInfo') }}
@@ -38,7 +38,7 @@
 
 
     </div>
-    <div class="object-input-grid token-grid">
+    <div class="object-input-grid opened-single-sign-on-general__token-grid">
       <single-sign-on-token v-if="modelValue.id" />
 
       <wt-multi-select
@@ -58,20 +58,18 @@
 import { RegleSchemaFieldStatus } from '@regle/schemas';
 import type { ApiOAuthService } from '@webitel/api-services/gen/models';
 import { WtInputText } from '@webitel/ui-sdk/components';
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import { SingleSignOnType } from '../enums/SingleSignOnType.enum';
 import SingleSignOnToken from './single-sign-on-token.vue';
-import { watch } from 'vue';
-import { SingleSignOnType } from '../enums/SingleSignOnType.enum'
 
 const modelValue = defineModel<ApiOAuthService>();
 
 defineProps<{
-  validationFields?: {
-    [K in keyof ApiOAuthService]?: RegleSchemaFieldStatus<
-      ApiOAuthService[K]
-    >;
-  };
+	validationFields?: {
+		[K in keyof ApiOAuthService]?: RegleSchemaFieldStatus<ApiOAuthService[K]>;
+	};
 }>();
 
 const { t } = useI18n();
@@ -79,18 +77,22 @@ const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 
 watch(
-  () => modelValue.value.discoveryUrl,
-  (val) => {
-    const condition = val && modelValue.value.discoveryUrl.includes(SingleSignOnType.FACEBOOK);
-    modelValue.value.type = condition ? SingleSignOnType.FACEBOOK : SingleSignOnType.OPENID
-  },
-  { immediate: true },
-)
+	() => modelValue.value.discoveryUrl,
+	(val) => {
+		const condition =
+			val && modelValue.value.discoveryUrl.includes(SingleSignOnType.FACEBOOK);
+		modelValue.value.type = condition
+			? SingleSignOnType.FACEBOOK
+			: SingleSignOnType.OPENID;
+	},
+	{
+		immediate: true,
+	},
+);
 </script>
 
 <style scoped>
-
-.token-grid {
+.opened-single-sign-on-general__token-grid {
   grid-auto-rows: 1fr;
   align-items: stretch;
   height: 100%;

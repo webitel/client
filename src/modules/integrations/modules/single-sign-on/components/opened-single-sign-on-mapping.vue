@@ -42,8 +42,8 @@
 
 <script setup lang="ts">
 import type { ApiOAuthService } from '@webitel/api-services/gen/models';
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useI18n } from 'vue-i18n';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 const modelValue = defineModel<ApiOAuthService>();
 
@@ -51,20 +51,21 @@ const { t } = useI18n();
 
 const { disableUserInput } = useUserAccessControl();
 
-
 const addMapping = () => {
-  const mapping = [
-    ...(modelValue.value.claims ?? []),
-    {
-      type: '',
-      value: '',
-    },
-  ];
-  modelValue.value.claims = mapping;
+	const mapping = [
+		...(modelValue.value.claims ?? []),
+		{
+			type: '',
+			value: '',
+		},
+	];
+	modelValue.value.claims = mapping;
 };
 
 const removePair = (index: number) => {
-  const mapping = modelValue.value.claims.filter((_, currentIndex) => currentIndex !== index);
-  modelValue.value.claims = mapping;
+	const mapping = modelValue.value.claims.filter(
+		(_, currentIndex) => currentIndex !== index,
+	);
+	modelValue.value.claims = mapping;
 };
 </script>

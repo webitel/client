@@ -50,15 +50,15 @@ const isShownPopup = ref(false);
 const token = ref('');
 
 const handleShownPopup = () => {
-  isShownPopup.value = !isShownPopup.value;
+	isShownPopup.value = !isShownPopup.value;
 };
 
 const getToken = async () => {
-  const { idToken } = await InspectTokenAPI.get({
-    id: route.params.id,
-  });
-  token.value = idToken;
-  handleShownPopup();
+	const { idToken } = await InspectTokenAPI.get({
+		id: route.params.id,
+	});
+	token.value = idToken;
+	handleShownPopup();
 };
 </script>
 

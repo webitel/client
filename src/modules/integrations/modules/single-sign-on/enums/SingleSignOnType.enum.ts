@@ -1,6 +1,7 @@
 export const SingleSignOnType = {
-  FACEBOOK: 'facebook',
-  OPENID: 'openid',
-}
+	FACEBOOK: 'facebook',
+	OPENID: 'openid',
+};
 
-export type SingleSignOnType = (typeof SingleSignOnType)[keyof typeof SingleSignOnType];
+export type SingleSignOnType =
+	(typeof SingleSignOnType)[keyof typeof SingleSignOnType];

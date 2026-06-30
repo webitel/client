@@ -127,7 +127,11 @@
 <script setup lang="ts">
 import type { ApiOAuthService } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { IconAction, SingleSignOnProvider, WtObject } from '@webitel/ui-sdk/enums';
+import {
+	IconAction,
+	SingleSignOnProvider,
+	WtObject,
+} from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -144,98 +148,98 @@ const { t } = useI18n();
 const router = useRouter();
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-  useUserAccessControl(WtObject.SingleSignOn);
+	useUserAccessControl(WtObject.SingleSignOn);
 
 const tableStore = useSingleSignOnDataListStore();
 
 const {
-  dataList,
-  error,
-  isLoading,
-  page,
-  size,
-  next,
-  selected,
-  shownHeaders,
-  filtersManager,
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
 } = storeToRefs(tableStore);
 
 const {
-  initialize,
-  loadDataList,
-  updatePage,
-  updateSize,
-  updateSort,
-  patchItemProperty,
-  deleteEls,
-  addFilter,
-  updateFilter,
-  deleteFilter,
-  updateSelected,
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
 } = tableStore;
 
 initialize();
 
 const {
-  isVisible: isDeleteConfirmationPopup,
-  deleteCount,
-  deleteCallback,
-  askDeleteConfirmation,
-  closeDelete,
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
 } = useDeleteConfirmationPopup();
 
 const path = computed(() => [
-  {
-    name: t('objects.integrations.integrations'),
-  },
-  {
-    name: t('objects.integrations.singleSignOn.singleSignOn'),
-    route: '/integrations/single-sign-on',
-  },
+	{
+		name: t('objects.integrations.integrations'),
+	},
+	{
+		name: t('objects.integrations.singleSignOn.singleSignOn'),
+		route: '/integrations/single-sign-on',
+	},
 ]);
 
 const singleSignOnProviderIconMap: Record<SingleSignOnProvider, string> = {
-  [SingleSignOnProvider.MICROSOFT]: 'microsoft',
-  [SingleSignOnProvider.GOOGLE]: 'google',
-  [SingleSignOnProvider.FACEBOOK]: 'messenger',
-  [SingleSignOnProvider.CUSTOM]: 'custom-provider',
+	[SingleSignOnProvider.MICROSOFT]: 'microsoft',
+	[SingleSignOnProvider.GOOGLE]: 'google',
+	[SingleSignOnProvider.FACEBOOK]: 'messenger',
+	[SingleSignOnProvider.CUSTOM]: 'custom-provider',
 };
 
 const getProviderIcon = (url) => {
-  const matched = Object.keys(singleSignOnProviderIconMap).find((key) =>
-    url?.includes(key),
-  );
-  return matched ? singleSignOnProviderIconMap[matched] : 'custom-provider';
+	const matched = Object.keys(singleSignOnProviderIconMap).find((key) =>
+		url?.includes(key),
+	);
+	return matched ? singleSignOnProviderIconMap[matched] : 'custom-provider';
 };
 
 const add = () => {
-  return router.push({
-    name: `${RouteNames.SINGLE_SIGN_ON}-card`,
-    params: {
-    id: 'new',
-  },
-});
+	return router.push({
+		name: `${RouteNames.SINGLE_SIGN_ON}-card`,
+		params: {
+			id: 'new',
+		},
+	});
 };
 
 const edit = (item: ApiOAuthService) => {
-  return router.push({
-    name: `${RouteNames.SINGLE_SIGN_ON}-card`,
-    params: {
-    id: item.id,
-  },
-});
+	return router.push({
+		name: `${RouteNames.SINGLE_SIGN_ON}-card`,
+		params: {
+			id: item.id,
+		},
+	});
 };
 
 const {
-  showEmpty,
-  image: imageEmpty,
-  text: textEmpty,
-  primaryActionText: primaryActionTextEmpty,
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
 } = useTableEmpty({
-  dataList,
-  error,
-  filters: computed(() => filtersManager.value.getAllValues()),
-  isLoading,
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
 });
 </script>
 

@@ -6,7 +6,7 @@ import { createCardStore } from '@webitel/ui-datalist/card';
 import { SingleSignOnNamespace } from '../namespace';
 
 export const useSingleSignOnCardStore = createCardStore<ApiOAuthService>({
-  namespace: `${SingleSignOnNamespace}/card`,
-  apiModule: OAuthAppsAPI,
-  standardValidationSchema,
+	namespace: `${SingleSignOnNamespace}/card`,
+	apiModule: OAuthAppsAPI,
+	standardValidationSchema,
 });

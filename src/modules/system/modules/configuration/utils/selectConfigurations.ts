@@ -1,5 +1,5 @@
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import { TypesExportedSettings, LoginOptions } from '@webitel/ui-sdk/enums';
+import { LoginOptions, TypesExportedSettings } from '@webitel/ui-sdk/enums';
 
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
 
