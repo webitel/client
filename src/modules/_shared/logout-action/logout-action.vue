@@ -20,6 +20,7 @@
     <logout-confirmation-popup
       :shown="isPopupOpened"
       :text="t('objects.directory.users.logout.endSessionConfirmationText')"
+      :is-loading="isLoadingUsersLogout"
       @close="closePopup"
       @logout="logoutUser"
     />
@@ -50,6 +51,7 @@ const { t } = useI18n();
 const { clearStorageNotifications } = useUserinfoStore();
 
 const isPopupOpened = ref(false);
+const isLoadingUsersLogout = ref(false);
 
 const buttonText = computed(() =>
 	props.mySessions
@@ -61,10 +63,12 @@ const openPopup = () => (isPopupOpened.value = true);
 const closePopup = () => (isPopupOpened.value = false);
 
 const logoutUser = async () => {
+  isLoadingUsersLogout.value = true;
 	await UsersAPI.logoutUser({
 		id: props.id,
 	});
 	closePopup();
+  isLoadingUsersLogout.value = false;
 	clearStorageNotifications(props.id);
 };
 </script>

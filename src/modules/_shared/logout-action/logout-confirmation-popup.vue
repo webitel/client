@@ -25,6 +25,7 @@
       <wt-button
         color="error"
         @click="logout"
+        :loading="isLoading"
       >
         {{ t('vocabulary.yes') }}
       </wt-button>
@@ -39,6 +40,7 @@ import { useI18n } from 'vue-i18n';
 const props = defineProps<{
 	shown: boolean;
 	text: string;
+  isLoading: boolean;
 }>();
 
 const emit = defineEmits<{

@@ -27,6 +27,7 @@
         :text="$t('objects.directory.users.logout.endMultipleSessionsConfirmationText', {
           count: selectedRows.length,
         })"
+        :is-loading="isLoadingUsersLogout"
         @close="isLogoutConfirmationPopup = false"
         @logout="logoutUsers"
       />
@@ -192,6 +193,7 @@ export default {
 			useUserAccessControl();
 
 		const isLogoutConfirmationPopup = ref(false);
+    const isLoadingUsersLogout = ref(false);
 
 		return {
 			clearStorageNotifications,
@@ -201,6 +203,7 @@ export default {
 			deleteCallback,
 
 			isLogoutConfirmationPopup,
+      isLoadingUsersLogout,
 
 			hasCreateAccess,
 			hasUpdateAccess,
@@ -265,9 +268,11 @@ export default {
 		},
 
 		async logoutUsers() {
+      this.isLoadingUsersLogout = true;
 			const selection = this.selectedRows.map((user) => user.id);
 			await UsersAPI.logoutMultipleUsers(selection);
 			this.isLogoutConfirmationPopup = false;
+      this.isLoadingUsersLogout = false;
 			this.clearStorageNotifications(selection);
 			await this.loadList();
 		},
