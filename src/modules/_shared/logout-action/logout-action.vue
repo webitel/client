@@ -63,12 +63,12 @@ const openPopup = () => (isPopupOpened.value = true);
 const closePopup = () => (isPopupOpened.value = false);
 
 const logoutUser = async () => {
-  isLoadingUsersLogout.value = true;
+	isLoadingUsersLogout.value = true;
 	await UsersAPI.logoutUser({
 		id: props.id,
 	});
 	closePopup();
-  isLoadingUsersLogout.value = false;
+	isLoadingUsersLogout.value = false;
 	clearStorageNotifications(props.id);
 };
 </script>

@@ -193,7 +193,7 @@ export default {
 			useUserAccessControl();
 
 		const isLogoutConfirmationPopup = ref(false);
-    const isLoadingUsersLogout = ref(false);
+		const isLoadingUsersLogout = ref(false);
 
 		return {
 			clearStorageNotifications,
@@ -203,7 +203,7 @@ export default {
 			deleteCallback,
 
 			isLogoutConfirmationPopup,
-      isLoadingUsersLogout,
+			isLoadingUsersLogout,
 
 			hasCreateAccess,
 			hasUpdateAccess,
@@ -232,9 +232,11 @@ export default {
 				},
 			];
 		},
-    hasLogoutAccess() {
-      return this.hasCreateAccess || this.hasUpdateAccess || this.hasDeleteAccess
-    }
+		hasLogoutAccess() {
+			return (
+				this.hasCreateAccess || this.hasUpdateAccess || this.hasDeleteAccess
+			);
+		},
 	},
 
 	methods: {
@@ -268,11 +270,11 @@ export default {
 		},
 
 		async logoutUsers() {
-      this.isLoadingUsersLogout = true;
+			this.isLoadingUsersLogout = true;
 			const selection = this.selectedRows.map((user) => user.id);
 			await UsersAPI.logoutMultipleUsers(selection);
 			this.isLogoutConfirmationPopup = false;
-      this.isLoadingUsersLogout = false;
+			this.isLoadingUsersLogout = false;
 			this.clearStorageNotifications(selection);
 			await this.loadList();
 		},

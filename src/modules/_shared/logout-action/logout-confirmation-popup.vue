@@ -40,7 +40,7 @@ import { useI18n } from 'vue-i18n';
 const props = defineProps<{
 	shown: boolean;
 	text: string;
-  isLoading: boolean;
+	isLoading: boolean;
 }>();
 
 const emit = defineEmits<{
