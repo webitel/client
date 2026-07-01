@@ -13,15 +13,15 @@
         <div class="history-popup__filters">
           <wt-datepicker
             :label="$t('objects.from')"
-            :value="from"
-            mode="datetime"
-            @input="selectForm"
+            :model-value="from"
+            show-time
+            @update:model-value="selectForm"
           />
           <wt-datepicker
             :label="$t('objects.to')"
-            :value="to"
-            mode="datetime"
-            @input="selectTo"
+            :model-value="to"
+            show-time
+            @update:model-value="selectTo"
           />
         </div>
         <wt-dummy

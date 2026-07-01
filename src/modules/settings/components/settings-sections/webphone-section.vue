@@ -118,9 +118,9 @@ async function fetchWebPhoneSettings() {
 	if (!response) return;
 	webrtc.value = response.webrtc;
 	stun.value = response.stun;
-	autoGainControl.value = response.autoGainControl;
-	echoCancellation.value = response.echoCancellation;
-	noiseSuppression.value = response.noiseSuppression;
+	autoGainControl.value = response.autoGainControl ?? autoGainControl.value;
+	echoCancellation.value = response.echoCancellation ?? echoCancellation.value;
+	noiseSuppression.value = response.noiseSuppression ?? noiseSuppression.value;
 }
 
 fetchWebPhoneSettings();
