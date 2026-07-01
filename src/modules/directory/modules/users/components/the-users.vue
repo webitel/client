@@ -45,7 +45,7 @@
             />
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.DELETE, IconAction.UPLOAD, IconAction.LOGOUT]"
-              :disabled:logout="!hasUpdateAccess || anySelected"
+              :disabled:logout="!hasLogoutAccess || anySelected"
               :disabled:delete="!hasDeleteAccess || anySelected"
               @click:logout="openLogoutConfirmationPopup"
               @click:refresh="loadList"
@@ -188,7 +188,6 @@ export default {
 			closeDelete,
 		} = useDeleteConfirmationPopup();
 
-		// TODO: add Access for Logout action, now it is the same as Update action
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useUserAccessControl();
 
@@ -230,6 +229,9 @@ export default {
 				},
 			];
 		},
+    hasLogoutAccess() {
+      return this.hasCreateAccess || this.hasUpdateAccess || this.hasDeleteAccess
+    }
 	},
 
 	methods: {
