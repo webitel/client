@@ -1,7 +1,6 @@
 <template>
   <main class="object-wrap">
     <section class="object wt-scrollbar">
-      <wt-notifications-bar />
       <app-header />
       <div class="object-content-wrap">
         <router-view />
