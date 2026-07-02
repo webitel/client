@@ -129,7 +129,6 @@ import type { ApiOAuthService } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import {
 	IconAction,
-	WtObject,
   SingleSignOnProviderIconMappings,
 } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -148,7 +147,7 @@ const { t } = useI18n();
 const router = useRouter();
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-	useUserAccessControl(WtObject.SingleSignOn);
+	useUserAccessControl();
 
 const tableStore = useSingleSignOnDataListStore();
 

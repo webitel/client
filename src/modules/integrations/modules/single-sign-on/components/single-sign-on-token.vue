@@ -41,7 +41,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import InspectTokenAPI from '../api/inspectToken';
+import { InspectTokenAPI } from '../api/inspectToken';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -54,9 +54,7 @@ const handleShownPopup = () => {
 };
 
 const getToken = async () => {
-	const { idToken } = await InspectTokenAPI.get({
-		id: route.params.id,
-	});
+	const { idToken } = await InspectTokenAPI(route.params.id);
 	token.value = idToken;
 	handleShownPopup();
 };

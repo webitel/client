@@ -1,7 +1,7 @@
 import applyTransform, { notify } from '@webitel/ui-sdk/src/api/transformers';
 import instance from '../../../../../app/api/instance';
 
-const getToken = async ({ id }) => {
+export const InspectTokenAPI = async (id) => {
 	try {
 		const url = `/login/${id}/inspect`;
 		const response = await instance.get(url);
@@ -11,10 +11,4 @@ const getToken = async ({ id }) => {
 			notify,
 		]);
 	}
-};
-
-const InspectTokenAPI = {
-	get: getToken,
-};
-
-export default InspectTokenAPI;
+}
