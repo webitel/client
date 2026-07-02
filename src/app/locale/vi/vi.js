@@ -1247,11 +1247,21 @@ export default {
 				authenticatedAs: 'Đã xác thực như',
 			},
 			singleSignOn: {
-				allTypes: 'Tất cả loại',
-				singleSignOn: 'Đăng nhập đơn',
-				clientId: 'ID khách hàng',
-				clientSecret: 'Mật khẩu khách hàng',
-				discoveryUrl: 'URL khám phá',
+				singleSignOn: 'Hồ sơ SSO | Hồ sơ SSO',
+				provider: 'Nhà cung cấp',
+				clientId: 'Application (client) ID',
+				clientSecret: 'Client secret',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Phạm vi',
+				scopesPlaceholder: 'Nhập phạm vi và nhấn Enter',
+				inspect: 'Inspect',
+				inspectHint: 'Gửi yêu cầu tới nhà cung cấp và nhận token',
+				token: 'Token',
+				showToken: 'Hiển thị token',
+				inspectDescription: 'Gửi yêu cầu tới nhà cung cấp và nhận token',
+				mapping: 'Ánh xạ',
+				mappingKeyHint:
+					'Cung cấp thuộc tính người dùng (ví dụ: email, username, extension) làm khóa tìm kiếm.',
 			},
 
 			importCsv: {

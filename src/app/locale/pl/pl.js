@@ -1253,11 +1253,21 @@ export default {
 				authenticatedAs: 'Uwierzytelniony jako',
 			},
 			singleSignOn: {
-				allTypes: 'Wszystkie typy',
-				singleSignOn: 'Logowanie jednokrotne',
-				clientId: 'ID klienta',
-				clientSecret: 'Sekret klienta',
-				discoveryUrl: 'URL odnajdywania',
+				singleSignOn: 'Profil SSO | Profile SSO',
+				provider: 'Dostawca',
+				clientId: 'Application (client) ID',
+				clientSecret: 'Client secret',
+				discoveryUrl: 'Discovery URL',
+				scopes: 'Zakresy',
+				scopesPlaceholder: 'Wpisz zakres i naciśnij Enter',
+				inspect: 'Inspect',
+				inspectHint: 'Wyślij żądanie do dostawcy i odbierz token',
+				token: 'Token',
+				showToken: 'Pokaż token',
+				inspectDescription: 'Wyślij żądanie do dostawcy i odbierz token',
+				mapping: 'Mapowanie',
+				mappingKeyHint:
+					'Podaj atrybut użytkownika (np. email, username, extension) jako klucz wyszukiwania.',
 			},
 
 			importCsv: {

@@ -12,6 +12,7 @@ import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js'
 import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
+import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
@@ -148,25 +149,7 @@ export const initRouter = async ({
 					...ImportCsvRoutes,
 					...TriggersRoutes,
 					...StoragePoliciesRoutes,
-					// Unused routes for unused integrations/single-sign-on module
-					// {
-					//   path: '/integrations/single-sign-on',
-					//   name: RouteNames.SINGLE_SIGN_ON,
-					//   component: SingleSignOn,
-					//   beforeEnter: checkRouteAccess,
-					// },
-					// {
-					//   path: '/integrations/single-sign-on/new',
-					//   name: `${RouteNames.SINGLE_SIGN_ON}-new`,
-					//   component: OpenedSingleSignOn,
-					//   beforeEnter: checkRouteAccess,
-					// },
-					// {
-					//   path: '/integrations/single-sign-on/:id',
-					//   name: `${RouteNames.SINGLE_SIGN_ON}-edit`,
-					//   component: OpenedSingleSignOn,
-					//   beforeEnter: checkRouteAccess,
-					// },
+					...SingleSignOnRoutes,
 					// --------------INTEGRATIONS END-------------
 
 					// ----------PERMISSIONS-----------------
