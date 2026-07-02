@@ -285,6 +285,8 @@ export default {
 					endSessionConfirmation: 'Подтверждение завершения сеанса',
 					endSessionConfirmationText:
 						'Вы уверены, что хотите завершить все сеансы?',
+					endMultipleSessionsConfirmationText:
+						'Вы уверены, что хотите завершить все сеансы для {count} пользователей?',
 					tooltip: 'Пользователь будет выведен из системы на всех устройствах',
 				},
 			},

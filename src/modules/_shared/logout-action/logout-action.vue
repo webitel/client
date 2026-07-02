@@ -17,47 +17,23 @@
         {{ buttonText }}
       </wt-button>
     </div>
-
-    <wt-popup
-      :shown="isOpened"
-      :size="ComponentSize.SM"
-      overflow
+    <logout-confirmation-popup
+      :shown="isPopupOpened"
+      :text="t('objects.directory.users.logout.endSessionConfirmationText')"
+      :is-loading="isLoadingUsersLogout"
       @close="closePopup"
-    >
-      <template #title>
-        {{ t('objects.directory.users.logout.endSessionConfirmation') }}
-      </template>
-      <template #main>
-        <div class="logout-action__wrapper">
-          {{ t('objects.directory.users.logout.endSessionConfirmationText')}}
-        </div>
-      </template>
-
-      <template #actions>
-        <wt-button
-          color="secondary"
-          @click="closePopup"
-        >
-          {{ t('vocabulary.no') }}
-        </wt-button>
-        <wt-button
-          color="error"
-          @click="logoutUser"
-        >
-          {{ t('vocabulary.yes') }}
-        </wt-button>
-      </template>
-    </wt-popup>
+      @logout="logoutUser"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ComponentSize } from '@webitel/ui-sdk/enums';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import UsersAPI from '../../directory/modules/users/api/users';
 import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
+import LogoutConfirmationPopup from './logout-confirmation-popup.vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -74,7 +50,8 @@ const props = withDefaults(
 const { t } = useI18n();
 const { clearStorageNotifications } = useUserinfoStore();
 
-const isOpened = ref(false);
+const isPopupOpened = ref(false);
+const isLoadingUsersLogout = ref(false);
 
 const buttonText = computed(() =>
 	props.mySessions
@@ -82,14 +59,16 @@ const buttonText = computed(() =>
 		: t('objects.directory.users.logout.endAllSessions'),
 );
 
-const openPopup = () => (isOpened.value = true);
-const closePopup = () => (isOpened.value = false);
+const openPopup = () => (isPopupOpened.value = true);
+const closePopup = () => (isPopupOpened.value = false);
 
 const logoutUser = async () => {
+	isLoadingUsersLogout.value = true;
 	await UsersAPI.logoutUser({
 		id: props.id,
 	});
 	closePopup();
+	isLoadingUsersLogout.value = false;
 	clearStorageNotifications(props.id);
 };
 </script>
@@ -106,11 +85,5 @@ const logoutUser = async () => {
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-xs);
-}
-
-.logout-action__wrapper {
-  display: flex;
-  justify-content: center;
-  padding: var(--spacing-lg);
 }
 </style>

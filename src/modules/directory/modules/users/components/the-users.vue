@@ -22,7 +22,15 @@
         :callback="deleteCallback"
         @close="closeDelete"
       />
-
+      <logout-confirmation-popup
+        :shown="isLogoutConfirmationPopup"
+        :text="$t('objects.directory.users.logout.endMultipleSessionsConfirmationText', {
+          count: selectedRows.length,
+        })"
+        :is-loading="isLoadingUsersLogout"
+        @close="isLogoutConfirmationPopup = false"
+        @logout="logoutUsers"
+      />
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
@@ -36,26 +44,26 @@
               @input="setSearch"
               @search="loadList"
             />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
+            <wt-action-bar
+              :include="[IconAction.REFRESH, IconAction.DELETE, IconAction.UPLOAD, IconAction.LOGOUT]"
+              :disabled:logout="!hasLogoutAccess || anySelected"
+              :disabled:delete="!hasDeleteAccess || anySelected"
+              @click:logout="openLogoutConfirmationPopup"
+              @click:refresh="loadList"
+              @click:delete="askDeleteConfirmation({
+                deleted: selectedRows,
+                callback:() => deleteData(selectedRows),
+              })"
             >
-              <delete-all-action
-                v-show="!anySelected"
-                v-if="hasDeleteAccess"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
-              />
-              <upload-file-icon-btn
-                v-if="hasCreateAccess"
-                accept=".csv"
-                class="icon-action"
-                @change="processCSV"
-              />
-            </wt-table-actions>
+              <template #upload>
+                <upload-file-icon-btn
+                  :disabled="!hasCreateAccess"
+                  accept=".csv"
+                  class="icon-action"
+                  @change="processCSV"
+                />
+              </template>
+            </wt-action-bar>
           </div>
         </header>
 
@@ -134,15 +142,19 @@
 </template>
 
 <script>
+import { UsersAPI } from '@webitel/api-services/api';
+import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { ref } from 'vue';
 import { mapActions } from 'vuex';
-
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../../modules/userinfo/stores/userinfoStore';
+import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
 import UserStatus from './_internals/user-status-chips.vue';
 import UploadPopup from './upload-users-popup.vue';
 
@@ -151,6 +163,7 @@ const namespace = 'directory/users';
 export default {
 	name: 'TheUsers',
 	components: {
+		LogoutConfirmationPopup,
 		UploadPopup,
 		UserStatus,
 		UploadFileIconBtn,
@@ -161,6 +174,8 @@ export default {
 	],
 
 	setup() {
+		const { clearStorageNotifications } = useUserinfoStore();
+
 		const { dummy } = useDummy({
 			namespace,
 			hiddenText: true,
@@ -177,11 +192,18 @@ export default {
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useUserAccessControl();
 
+		const isLogoutConfirmationPopup = ref(false);
+		const isLoadingUsersLogout = ref(false);
+
 		return {
+			clearStorageNotifications,
 			dummy,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,
+
+			isLogoutConfirmationPopup,
+			isLoadingUsersLogout,
 
 			hasCreateAccess,
 			hasUpdateAccess,
@@ -195,6 +217,7 @@ export default {
 		csvFile: null,
 		namespace,
 		routeName: RouteNames.USERS,
+		IconAction,
 	}),
 
 	computed: {
@@ -208,6 +231,11 @@ export default {
 					route: '/directory/users',
 				},
 			];
+		},
+		hasLogoutAccess() {
+			return (
+				this.hasCreateAccess || this.hasUpdateAccess || this.hasDeleteAccess
+			);
 		},
 	},
 
@@ -235,6 +263,20 @@ export default {
 		closeCSVPopup() {
 			this.csvFile = null;
 			this.loadList();
+		},
+
+		openLogoutConfirmationPopup() {
+			this.isLogoutConfirmationPopup = true;
+		},
+
+		async logoutUsers() {
+			this.isLoadingUsersLogout = true;
+			const selection = this.selectedRows.map((user) => user.id);
+			await UsersAPI.logoutMultipleUsers(selection);
+			this.isLogoutConfirmationPopup = false;
+			this.isLoadingUsersLogout = false;
+			this.clearStorageNotifications(selection);
+			await this.loadList();
 		},
 	},
 };
