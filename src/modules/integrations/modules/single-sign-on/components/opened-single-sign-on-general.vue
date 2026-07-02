@@ -80,10 +80,10 @@ watch(
 	() => modelValue.value.discoveryUrl,
 	(val) => {
 		const condition =
-			val && modelValue.value.discoveryUrl.includes(SingleSignOnType.FACEBOOK);
+			val && modelValue.value.discoveryUrl.includes(SingleSignOnType.Facebook);
 		modelValue.value.type = condition
-			? SingleSignOnType.FACEBOOK
-			: SingleSignOnType.OPENID;
+			? SingleSignOnType.Facebook
+			: SingleSignOnType.OpenId;
 	},
 	{
 		immediate: true,

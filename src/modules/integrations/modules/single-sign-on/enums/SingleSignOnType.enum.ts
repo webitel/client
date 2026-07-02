@@ -1,6 +1,6 @@
 export const SingleSignOnType = {
-	FACEBOOK: 'facebook',
-	OPENID: 'openid',
+	Facebook: 'facebook',
+	OpenId: 'openid',
 };
 
 export type SingleSignOnType =
