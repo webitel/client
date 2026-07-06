@@ -41,83 +41,45 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { isEmpty } from '@webitel/ui-sdk/scripts';
-
-const STORAGE_KEY = 'ssoInspectToken';
+import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
 
 const { t } = useI18n();
 const route = useRoute();
+const {
+  getTokenDataFromStorage,
+  setTokenDataToStorage,
+  inspectToken,
+} = useInspectSingleSignOnToken();
 
 const isShownPopup = ref(false);
-const tokenData = ref({});
+const tokenData = ref('');
 
 const handleShownPopup = () => {
 	isShownPopup.value = !isShownPopup.value;
 };
 
+const setTokenData = (data) => {
+  tokenData.value = JSON.stringify(data, null, 2);
+}
+
 const setInitialTokenData = () => {
-  const currentToken = localStorage.getItem(STORAGE_KEY);
+  const currentToken = getTokenDataFromStorage();
   if (!currentToken) return;
 
-  const rowToken = JSON.parse(currentToken);
-  tokenData.value = JSON.stringify(rowToken, null, 2);
+  setTokenData(currentToken);
 }
 
 onMounted(() => {
   setInitialTokenData();
 });
 
-const getTokenData = () => {
-  const url = `/api/login/${route.params.id}/inspect`;
+const getTokenData = async () => {
+  const data = await inspectToken(route.params.id);
+  if (!data) return;
 
-  const tab = window.open(url, '_blank');
-  if (!tab) return;
-
-  let sawCrossOrigin = false;
-  const startTime = Date.now();
-  const TIMEOUT_MS = 120_000;
-
-  const checkTabInterval = setInterval(() => {
-    if (tab.closed) {
-      clearInterval(checkTabInterval);
-      console.log('tab closed');
-      return;
-    }
-
-    if (Date.now() - startTime > TIMEOUT_MS) {
-      clearInterval(checkTabInterval);
-      console.log('timeout');
-      tab.close();
-      return;
-    }
-
-    try {
-      tab.location.origin;
-    } catch (e) {
-      console.log('cross origin');
-      sawCrossOrigin = true;
-      return;
-    }
-
-    if (!sawCrossOrigin) return;
-
-    try {
-      const bodyText = tab.document.body?.textContent?.trim();
-      if (!bodyText) return;
-
-      const data = JSON.parse(bodyText);
-
-      clearInterval(checkTabInterval);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      tokenData.value = JSON.stringify(data, null, 2);
-      tab.close();
-      isShownPopup.value = true;
-    } catch (error) {
-      clearInterval(checkTabInterval);
-      throw error;
-    } finally {
-      tab.close();
-    }
-  }, 300);
+  setTokenData(data);
+  setTokenDataToStorage(data);
+  isShownPopup.value = true;
 };
 </script>
 
