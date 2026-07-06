@@ -37,19 +37,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { isEmpty } from '@webitel/ui-sdk/scripts';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { isEmpty } from '@webitel/ui-sdk/scripts';
 import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
 
 const { t } = useI18n();
 const route = useRoute();
-const {
-  getTokenDataFromStorage,
-  setTokenDataToStorage,
-  inspectToken,
-} = useInspectSingleSignOnToken();
+const { getTokenDataFromStorage, setTokenDataToStorage, inspectToken } =
+	useInspectSingleSignOnToken();
 
 const isShownPopup = ref(false);
 const tokenData = ref('');
@@ -59,27 +56,27 @@ const handleShownPopup = () => {
 };
 
 const setTokenData = (data) => {
-  tokenData.value = JSON.stringify(data, null, 2);
-}
+	tokenData.value = JSON.stringify(data, null, 2);
+};
 
 const setInitialTokenData = () => {
-  const currentToken = getTokenDataFromStorage();
-  if (!currentToken) return;
+	const currentToken = getTokenDataFromStorage();
+	if (!currentToken) return;
 
-  setTokenData(currentToken);
-}
+	setTokenData(currentToken);
+};
 
 onMounted(() => {
-  setInitialTokenData();
+	setInitialTokenData();
 });
 
 const getTokenData = async () => {
-  const data = await inspectToken(route.params.id);
-  if (!data) return;
+	const data = await inspectToken(route.params.id);
+	if (!data) return;
 
-  setTokenData(data);
-  setTokenDataToStorage(data);
-  isShownPopup.value = true;
+	setTokenData(data);
+	setTokenDataToStorage(data);
+	isShownPopup.value = true;
 };
 </script>
 
