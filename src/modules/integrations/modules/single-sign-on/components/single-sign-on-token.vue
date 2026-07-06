@@ -3,18 +3,17 @@
     <p class="typo-body-2">
       {{ t('objects.integrations.singleSignOn.inspectDescription') }}
     </p>
-    <wt-button @click="getToken">
+    <wt-button @click="getTokenData">
       {{ t('objects.integrations.singleSignOn.inspect') }}
     </wt-button>
 
     <p
-      v-if="token"
+      v-if="!isEmpty(tokenData)"
       class="typo-body-1 single-sign-on-token__action"
       @click="handleShownPopup">{{ t('objects.integrations.singleSignOn.showToken') }}</p>
 
     <wt-popup
       :shown="isShownPopup"
-      size="md"
       closable
       @close="handleShownPopup"
     >
@@ -22,7 +21,7 @@
         {{ t('objects.integrations.tokens.tokens') }}
       </template>
 
-      <template #main>{{token}}</template>
+      <template #main><pre>{{tokenData}}</pre></template>
 
       <template #actions>
         <wt-button
@@ -38,25 +37,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { isEmpty } from '@webitel/ui-sdk/scripts';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { InspectTokenAPI } from '../api/inspectToken';
+import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
 
 const { t } = useI18n();
 const route = useRoute();
+const { getTokenDataFromStorage, setTokenDataToStorage, inspectToken } =
+	useInspectSingleSignOnToken();
 
 const isShownPopup = ref(false);
-const token = ref('');
+const tokenData = ref('');
 
 const handleShownPopup = () => {
 	isShownPopup.value = !isShownPopup.value;
 };
 
-const getToken = async () => {
-	const { idToken } = await InspectTokenAPI(route.params.id);
-	token.value = idToken;
-	handleShownPopup();
+const setTokenData = (data) => {
+	tokenData.value = JSON.stringify(data, null, 2);
+};
+
+const setInitialTokenData = () => {
+	const currentToken = getTokenDataFromStorage();
+	if (!currentToken) return;
+
+	setTokenData(currentToken);
+};
+
+onMounted(() => {
+	setInitialTokenData();
+});
+
+const getTokenData = async () => {
+	const data = await inspectToken(route.params.id);
+	if (!data) return;
+
+	setTokenData(data);
+	setTokenDataToStorage(data);
+	isShownPopup.value = true;
 };
 </script>
 

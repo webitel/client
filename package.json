@@ -30,7 +30,7 @@
 		"@vueuse/core": "^14.x",
 		"@webitel/api-services": "^0.1.48",
 		"@webitel/styleguide": "~26.2",
-		"@webitel/ui-datalist": "^1.1.40",
+		"@webitel/ui-datalist": "^1.1.42",
 		"@webitel/ui-sdk": "~26.6",
 		"axios": "^1.18.1",
 		"clipboard-copy": "^4.0.1",
