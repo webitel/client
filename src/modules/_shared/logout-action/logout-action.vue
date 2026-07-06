@@ -12,6 +12,7 @@
         v-tooltip="t('objects.directory.users.logout.tooltip')"
         :disabled="disabled"
         color="error"
+        wide
         @click="openPopup"
       >
         {{ buttonText }}

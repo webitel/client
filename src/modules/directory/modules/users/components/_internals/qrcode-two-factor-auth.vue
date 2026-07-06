@@ -46,14 +46,18 @@
       <wt-button
         color="secondary"
         @click="download"
+        wide
       >
+        <wt-icon icon="download" />
         {{ $t('objects.directory.users.download') }}
       </wt-button>
 
       <wt-button
-        color="error"
+        color="secondary"
         @click="openConfirmationPopup"
+        wide
       >
+        <wt-icon icon="refresh" />
         {{ $t('objects.directory.users.regenerate') }}
       </wt-button>
     </div>
@@ -111,7 +115,9 @@ function closeConfirmationPopup() {
   gap: var(--spacing-sm);
 
   &__wrapper {
+    width: 100%;
     display: flex;
+    flex-direction: column;
     gap: var(--spacing-sm);
   }
 
