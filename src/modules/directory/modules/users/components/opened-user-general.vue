@@ -320,7 +320,7 @@ export default {
 
 .opened-user-general__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1.5fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: var(--spacing-sm);
   align-items: start;
@@ -348,15 +348,25 @@ export default {
   margin: 0;
 }
 
-@media (max-width: $viewport-md) {
+@media (max-width: $viewport-sm) {
   .opened-user-general__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
+  }
+
+  .opened-user-general__grid > :nth-child(3) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
   }
 }
 
-@media (max-width: $viewport-sm) {
+@media (max-width: $viewport-xs) {
   .opened-user-general__grid {
     grid-template-columns: 1fr;
+  }
+
+  .opened-user-general__grid > :nth-child(3) {
+    grid-column: auto;
+    grid-row: auto;
   }
 }
 
