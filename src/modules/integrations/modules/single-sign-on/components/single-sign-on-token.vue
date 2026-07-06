@@ -58,12 +58,8 @@ const setInitialTokenData = () => {
   const currentToken = localStorage.getItem(STORAGE_KEY);
   if (!currentToken) return;
 
-  try {
-    const rowToken = JSON.parse(currentToken);
-    tokenData.value = JSON.stringify(rowToken, null, 2);
-  } catch (error) {
-    throw error;
-  }
+  const rowToken = JSON.parse(currentToken);
+  tokenData.value = JSON.stringify(rowToken, null, 2);
 }
 
 onMounted(() => {
@@ -80,15 +76,15 @@ const getTokenData = () => {
   const startTime = Date.now();
   const TIMEOUT_MS = 120_000;
 
-  const checkTab = setInterval(() => {
+  const checkTabInterval = setInterval(() => {
     if (tab.closed) {
-      clearInterval(checkTab);
+      clearInterval(checkTabInterval);
       console.log('tab closed');
       return;
     }
 
     if (Date.now() - startTime > TIMEOUT_MS) {
-      clearInterval(checkTab);
+      clearInterval(checkTabInterval);
       console.log('timeout');
       tab.close();
       return;
@@ -110,15 +106,16 @@ const getTokenData = () => {
 
       const data = JSON.parse(bodyText);
 
-      clearInterval(checkTab);
+      clearInterval(checkTabInterval);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       tokenData.value = JSON.stringify(data, null, 2);
       tab.close();
       isShownPopup.value = true;
     } catch (error) {
-      clearInterval(checkTab);
-      tab.close();
+      clearInterval(checkTabInterval);
       throw error;
+    } finally {
+      tab.close();
     }
   }, 300);
 };
