@@ -129,7 +129,7 @@ import type { ApiOAuthService } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import {
 	IconAction,
-  SingleSignOnProviderIconMappings,
+	SingleSignOnProviderIconMappings,
 } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -201,7 +201,9 @@ const getProviderIcon = (url) => {
 	const matched = Object.keys(SingleSignOnProviderIconMappings).find((key) =>
 		url?.includes(key),
 	);
-	return matched ? SingleSignOnProviderIconMappings[matched] : 'custom-provider';
+	return matched
+		? SingleSignOnProviderIconMappings[matched]
+		: 'custom-provider';
 };
 
 const add = () => {
