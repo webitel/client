@@ -18,6 +18,7 @@
         :label="t('objects.integrations.singleSignOn.clientSecret')"
         :regle-validation="validationFields?.clientSecret"
         v-model:model-value="modelValue.clientSecret"
+        autocomplete="new-password"
         required
       />
       <wt-input-text
