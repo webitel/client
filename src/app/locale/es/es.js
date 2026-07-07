@@ -1035,6 +1035,7 @@ export default {
 				preSchema: 'Esquema pre-ejecutivo',
 				afterSchema: 'Esquema post-ejecutivo',
 				maxCalls: 'Tareas máximas',
+				progressiveCount: 'Contador de llamadas progresivas',
 				dialingRate: 'Tasa de dialado',
 				maxCallsHint: 'Si el valor es 0, no se realizan tareas',
 				recordings: 'Grabación',

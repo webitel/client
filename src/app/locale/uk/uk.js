@@ -1043,6 +1043,7 @@ export default {
 				preSchema: 'Схема попереднього набору',
 				afterSchema: 'Схема подальшого набору',
 				maxCalls: 'Ліміт задач',
+				progressiveCount: 'Кількість одночасних дзвінків',
 				dialingRate: 'Швидкість набору',
 				maxCallsHint: 'Якщо значення дорівнює 0, схема не буде виконуватися',
 				recordings: 'Запис',

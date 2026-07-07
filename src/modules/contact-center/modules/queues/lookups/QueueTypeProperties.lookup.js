@@ -161,6 +161,7 @@ const QueueTypeProperties = Object.freeze({
 			'minOnlineAgents',
 			'resourceStrategy',
 			'maxMemberLimit',
+			'progressiveCount',
 
 			// processing specific
 			'taskProcessing.enabled',
@@ -215,6 +216,7 @@ const QueueTypeProperties = Object.freeze({
 			'minOnlineAgents',
 			'resourceStrategy',
 			'maxMemberLimit',
+			'progressiveCount',
 
 			// processing specific
 			'taskProcessing.enabled',

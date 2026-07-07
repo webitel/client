@@ -1034,6 +1034,7 @@ export default {
 				preSchema: 'Avvalo-ishchi sxema',
 				afterSchema: 'Keyingi-ishchi sxema',
 				maxCalls: 'Max vazifalar',
+				progressiveCount: 'Progressiv zvonk soni',
 				dialingRate: 'Dialing tezligi',
 				maxCallsHint: "Agar qiymat 0 bo'lsa, vazifalar bajarilmaydi",
 				recordings: 'Yozuv',

@@ -65,7 +65,6 @@
         :label="$t('objects.ccenter.agents.progressiveCount')"
         :v="v.itemInstance.progressiveCount"
         :model-value="itemInstance.progressiveCount"
-        required
         class="object-input-area-grid__progressive-count"
         @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
       />

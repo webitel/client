@@ -95,7 +95,7 @@ const getAgent = async ({ itemId: id }) => {
 		supervisor: [],
 		auditor: [],
 		region: {},
-		progressiveCount: 0,
+		progressiveCount: null,
 		chatCount: 0,
 		taskCount: 0,
 		isSupervisor: false,

@@ -1043,6 +1043,7 @@ export default {
 				afterSchema: 'Схема посленабора',
 				formSchema: '',
 				maxCalls: 'Лимит задач',
+				progressiveCount: 'Количество одновременных звонков',
 				dialingRate: 'Скорость набора',
 				maxCallsHint: 'Если значение равно 0, схема не будет выполняться',
 				recordings: 'Запись',

@@ -1032,6 +1032,7 @@ export default {
 				preSchema: 'Pre-executive schema',
 				afterSchema: 'After-executive schema',
 				maxCalls: 'Max tasks',
+				progressiveCount: 'Progressive call count',
 				dialingRate: 'Dialing rate',
 				maxCallsHint: 'If the value is 0, no tasks are performed',
 				recordings: 'Recording',

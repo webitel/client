@@ -1033,6 +1033,7 @@ export default {
 				preSchema: 'Schemat przedwykonawczy',
 				afterSchema: 'Schemat po wykonawczy',
 				maxCalls: 'Maksymalna liczba zadań',
+				progressiveCount: 'Liczba połączeń progressive',
 				dialingRate: 'Szybkość dialingu',
 				maxCallsHint: 'Jeśli wartość wynosi 0, nie są wykonywane zadania',
 				recordings: 'Nagrywanie',

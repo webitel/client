@@ -82,7 +82,6 @@ export default {
 				required,
 			},
 			progressiveCount: {
-				required,
 				minValue: minValue(1),
 			},
 			chatCount: {

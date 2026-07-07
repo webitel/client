@@ -1025,6 +1025,7 @@ export default {
 				preSchema: 'Алдын ала құрылғы схемасы',
 				afterSchema: 'Кейін құрылғы схемасы',
 				maxCalls: 'Ең көп тапсырмалар',
+				progressiveCount: 'Прогрессивті қоңырау саны',
 				dialingRate: 'Дайындық ставкасы',
 				maxCallsHint: 'Мән 0 болса, тапсырмалар жүргізілмейді',
 				recordings: 'Көрсеткіш',

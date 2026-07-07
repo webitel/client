@@ -1034,6 +1034,7 @@ export default {
 				preSchema: 'Schema pre-executivă',
 				afterSchema: 'Schema post-executivă',
 				maxCalls: 'Sarcini maxime',
+				progressiveCount: 'Număr apeluri progressive',
 				dialingRate: 'Rata dialării',
 				maxCallsHint: 'Dacă valoarea este 0, nu se efectuează sarcini',
 				recordings: 'Înregistrare',
