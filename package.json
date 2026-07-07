@@ -28,7 +28,7 @@
 		"@vuelidate/core": "^2.0.3",
 		"@vuelidate/validators": "^2.0.4",
 		"@vueuse/core": "^14.x",
-		"@webitel/api-services": "^0.1.48",
+		"@webitel/api-services": "^0.1.49",
 		"@webitel/styleguide": "~26.2",
 		"@webitel/ui-datalist": "^1.1.42",
 		"@webitel/ui-sdk": "~26.6",
