@@ -22,9 +22,12 @@ export const useInspectSingleSignOnToken = () => {
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 	};
 
-	const inspectToken = (id: number) => {
+	const inspectToken = (id: number, onResult: (data: any) => void) => {
 		const tab = window.open(getUrl(id), '_blank');
-		if (!tab) return;
+		if (!tab) {
+			onResult(null);
+			return;
+		}
 
 		let sawCrossOrigin = false;
 		const startTime = Date.now();
@@ -32,6 +35,7 @@ export const useInspectSingleSignOnToken = () => {
 		const checkTabInterval = setInterval(() => {
 			if (tab.closed) {
 				clearInterval(checkTabInterval);
+				onResult(null);
 				console.log('tab closed');
 				return;
 			}
@@ -39,6 +43,7 @@ export const useInspectSingleSignOnToken = () => {
 			if (Date.now() - startTime > TIMEOUT) {
 				clearInterval(checkTabInterval);
 				tab.close();
+				onResult(null);
 				console.log('timeout');
 				return;
 			}
@@ -59,8 +64,10 @@ export const useInspectSingleSignOnToken = () => {
 
 				clearInterval(checkTabInterval);
 				setTokenDataToStorage(data);
+				onResult(data);
 			} catch (error) {
 				clearInterval(checkTabInterval);
+				onResult(null);
 				throw error;
 			} finally {
 				tab.close();
