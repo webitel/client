@@ -45,7 +45,7 @@ import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSign
 
 const { t } = useI18n();
 const route = useRoute();
-const { getTokenDataFromStorage, setTokenDataToStorage, inspectToken } =
+const { getTokenDataFromStorage, inspectToken } =
 	useInspectSingleSignOnToken();
 
 const isShownPopup = ref(false);
@@ -70,13 +70,13 @@ onMounted(() => {
 	setInitialTokenData();
 });
 
-const getTokenData = async () => {
-	const data = await inspectToken(route.params.id);
-	if (!data) return;
+const getTokenData = () => {
+  inspectToken(route.params.id, (data) => {
+    if (!data) return;
 
-	setTokenData(data);
-	setTokenDataToStorage(data);
-	isShownPopup.value = true;
+    setTokenData(data);
+    isShownPopup.value = true;
+  });
 };
 </script>
 
