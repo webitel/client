@@ -62,7 +62,7 @@
       />
       <wt-input-number
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.agents.progressiveCount')"
+        :label="$t('reusable.progressiveCount')"
         :v="v.itemInstance.progressiveCount"
         :model-value="itemInstance.progressiveCount"
         class="object-input-area-grid__progressive-count"
