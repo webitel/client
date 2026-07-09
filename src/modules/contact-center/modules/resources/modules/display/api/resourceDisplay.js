@@ -115,9 +115,14 @@ const uploadNumbersFile = async ({ parentId, file, delimiter, map }) => {
 			snakeToCamel(),
 		]);
 	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
+		throw err.response?.status === 400 &&
+			err.response?.data?.id?.startsWith(
+				'cc_outbound_resource.validatePhoneNumber',
+			)
+			? err
+			: applyTransform(err, [
+					notify,
+				]);
 	}
 };
 

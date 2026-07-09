@@ -116,6 +116,8 @@ export default {
 		requiredArrayValue: 'Tablica nie może być pusta',
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
 		cron: 'Nieprawidłowe wyrażenie cron',
+		phoneNumbersFileUploadValidator:
+			"Numer może zawierać wyłącznie litery (a-z, A-Z), cyfry (0-9) oraz symbole: +, -, _, ., !, ~, *, ', (, )",
 	},
 
 	nav: {

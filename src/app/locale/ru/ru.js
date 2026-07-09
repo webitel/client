@@ -118,6 +118,8 @@ export default {
 		requiredArrayValue: 'Поле не должно быть пустым',
 		isPositiveValue: 'Значение должно быть больше нуля',
 		cron: 'Некорректное cron-выражение',
+		phoneNumbersFileUploadValidator:
+			"Номер может содержать только буквы (a-z, A-Z), цифры (0-9) и символы: +, -, _, ., !, ~, *, ', (, )",
 	},
 
 	nav: {

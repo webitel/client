@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: 'Массив бос болмауы керек',
 		isPositiveValue: 'Мән оң сан болуы керек',
 		cron: 'Крон өрнегі қате',
+		phoneNumbersFileUploadValidator:
+			"Нөмірде тек әріптер (a-z, A-Z), сандар (0-9) және мына таңбалар болуы мүмкін: +, -, _, ., !, ~, *, ', (, )",
 	},
 
 	nav: {

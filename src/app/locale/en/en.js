@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: 'Array should not be empty',
 		isPositiveValue: 'Value should be positive number',
 		cron: 'Invalid cron expression',
+		phoneNumbersFileUploadValidator:
+			"Number must contain letters (a-z, A-Z), numbers (0-9), and special characters: +, -, _, ., !, ~, *, ', (, )",
 	},
 
 	nav: {

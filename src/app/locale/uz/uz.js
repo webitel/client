@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: "Massiv bo'sh bo'lmasligi kerak",
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",
 		cron: 'Nogiron cron ifoda',
+		phoneNumbersFileUploadValidator:
+			"Raqamda faqat harflar (a-z, A-Z), raqamlar (0-9) va quyidagi belgilar bo'lishi mumkin: +, -, _, ., !, ~, *, ', (, )",
 	},
 
 	nav: {
