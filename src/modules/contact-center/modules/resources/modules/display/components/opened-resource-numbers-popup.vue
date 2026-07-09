@@ -29,7 +29,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import { phoneNumberValidator } from '../../../../../../../app/utils/validators';
+import { phoneNumberSymbolsValidator } from '../../../../../../../app/utils/validators';
 
 export default {
 	name: 'OpenedResNumbersPopup',
@@ -47,15 +47,13 @@ export default {
 	data: () => ({
 		namespace: 'ccenter/res/numbers',
 	}),
-	validations() {
-		return {
-			itemInstance: {
-				display: {
-					required,
-					phoneNumberValidator,
-				},
+	validations: {
+		itemInstance: {
+			display: {
+				required,
+				phoneNumberSymbolsValidator,
 			},
-		};
+		},
 	},
 	computed: {
 		popupTitle() {

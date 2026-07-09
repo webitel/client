@@ -42,7 +42,7 @@ export const sipAccountValidator = (value) => {
 	);
 };
 
-export const phoneNumberValidator = (value) => {
+export const phoneNumberSymbolsValidator = (value) => {
 	if (typeof value === 'undefined' || value === null || value === '') {
 		return true;
 	}
