@@ -29,6 +29,7 @@
             :is="Component"
             v-model="modelValue"
             :validation-fields="validationFields"
+            v-bind="permissionsStoreData"
           />
         </router-view>
         <input
@@ -50,11 +51,17 @@ import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SingleSignOnRouteNames from '../router/_internals/SingleSignOnRouteNames.enum';
-import { useSingleSignOnCardStore } from '../stores';
+import {
+	useSingleSignOnCardStore,
+	useSingleSignOnPermissionsStore,
+} from '../stores';
 
 const { t } = useI18n();
 
-const { hasSaveActionAccess } = useUserAccessControl();
+const {
+  userAccess,
+	hasSaveActionAccess,
+} = useUserAccessControl();
 
 const {
 	modelValue,
@@ -71,7 +78,7 @@ const {
 });
 
 const tabs = computed(() => {
-	return [
+	const array = [
 		{
 			text: t('objects.general'),
 			value: 'general',
@@ -83,9 +90,27 @@ const tabs = computed(() => {
 			pathName: SingleSignOnRouteNames.MAPPING,
 		},
 	];
+
+	if (!isNew.value) {
+    array.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: SingleSignOnRouteNames.PERMISSIONS,
+		});
+	}
+
+	return array;
 });
 
 const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() =>
+  currentTab.value.value === 'permissions'
+		&& {
+				store: useSingleSignOnPermissionsStore,
+				access: userAccess.value,
+			}
+);
 const { close } = useClose(RouteNames.SINGLE_SIGN_ON);
 
 const path = computed(() => {
