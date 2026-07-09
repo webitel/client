@@ -191,7 +191,7 @@
       <wt-input-number
         v-if="specificControls.progressiveCount"
         :disabled="disableUserInput"
-        :label="$t('reusable.progressiveCount')"
+        :label="$t('objects.queue.progressiveCount')"
         :v="v.itemInstance.payload.progressiveCount"
         :model-value="itemInstance.payload.progressiveCount"
         required
