@@ -9,9 +9,6 @@
 </template>
 
 <script>
-import applyTransform, {
-	notify,
-} from '../../../../../../../../../webitel-ui-sdk/src/api/transformers/index.js';
 import HandlingCSVMode from '../../../../../../_shared/upload-csv-popup/enums/HandlingCSVMode.enum.js';
 import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
 import resourceDisplayApi from '../api/resourceDisplay';
@@ -54,18 +51,7 @@ export default {
 				map: selectedColumn,
 			};
 
-			try {
-				await resourceDisplayApi.uploadNumbers(payload);
-			} catch (err) {
-				throw applyTransform(err, [
-					notify(({ callback }) =>
-						callback({
-							type: 'error',
-							text: this.$t('validation.phoneNumbersFileUploadValidator'),
-						}),
-					),
-				]);
-			}
+			await resourceDisplayApi.uploadNumbers(payload);
 		},
 	},
 };

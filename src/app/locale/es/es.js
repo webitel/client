@@ -115,7 +115,7 @@ export default {
 		isPositiveValue: 'El valor debe ser un número positivo',
 		cron: 'Expresión cron inválida',
 		phoneNumbersFileUploadValidator:
-			"El número solo puede contener letras (a-z, A-Z), números (0-9) y los símbolos: +, -, _, ., !, ~, *, ', (, )",
+			"El archivo contiene números incorrectos. El número solo puede contener letras (a-z, A-Z), números (0-9) y los símbolos: +, -, _, ., !, ~, *, ', (,)",
 	},
 
 	nav: {

@@ -115,7 +115,7 @@ export default {
 		isPositiveValue: 'Giá trị phải là số dương',
 		cron: 'Biểu thức cron không hợp lệ',
 		phoneNumbersFileUploadValidator:
-			"Số chỉ được chứa chữ cái (a-z, A-Z), chữ số (0-9) và các ký tự: +, -, _, ., !, ~, *, ', (, )",
+			"Tệp chứa số không hợp lệ. Số chỉ được chứa chữ cái (a-z, A-Z), chữ số (0-9) và các ký tự: +, -, _, ., !, ~, *, ', (,)",
 	},
 
 	nav: {
