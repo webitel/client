@@ -11,9 +11,11 @@ import applyTransform, {
 	starToSearch,
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 import { OutboundResourceServiceApiFactory } from 'webitel-sdk';
-
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
+import i18n from '../../../../../../../app/locale/i18n';
+
+const { t } = i18n.global;
 
 const resService = new OutboundResourceServiceApiFactory(
 	configuration,
@@ -116,7 +118,14 @@ const uploadNumbersFile = async ({ parentId, file, delimiter, map }) => {
 		]);
 	} catch (err) {
 		throw applyTransform(err, [
-			notify,
+			err.response?.data?.id?.includes('validatePhoneNumber')
+				? notify(({ callback }) =>
+						callback({
+							type: 'error',
+							text: t('validation.phoneNumbersFileUploadValidator'),
+						}),
+					)
+				: notify,
 		]);
 	}
 };

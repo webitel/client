@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: 'Array should not be empty',
 		isPositiveValue: 'Value should be positive number',
 		cron: 'Invalid cron expression',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`File contains invalid numbers. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {

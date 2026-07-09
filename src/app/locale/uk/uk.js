@@ -118,6 +118,8 @@ export default {
 		requiredArrayValue: 'Поле не може бути пустим',
 		isPositiveValue: 'Значення має бути додатнім числом',
 		cron: 'Некоректний cron-вираз',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Файл містить некоректні номери. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
