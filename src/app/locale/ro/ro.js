@@ -114,8 +114,7 @@ export default {
 		requiredArrayValue: 'Matricea nu ar trebui să fie goală',
 		isPositiveValue: 'Valoarea ar trebui să fie un număr pozitiv',
 		cron: 'Expresie cron invalidă',
-		phoneNumbersFileUploadValidator:
-			"Fișierul conține numere incorecte. Numărul poate conține doar litere (a-z, A-Z), cifre (0-9) și simbolurile: +, -, _, ., !, ~, *, ', (,)",
+		phoneNumbersFileUploadValidator: ({ linked }) => `Fișierul conține numere incorecte. ${ linked('validation.phoneNumberSymbolsValidator') }`,
 	},
 
 	nav: {

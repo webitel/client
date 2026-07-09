@@ -116,8 +116,7 @@ export default {
 		requiredArrayValue: 'Tablica nie może być pusta',
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
 		cron: 'Nieprawidłowe wyrażenie cron',
-		phoneNumbersFileUploadValidator:
-			"Plik zawiera nieprawidłowe numery. Numer może zawierać wyłącznie litery (a-z, A-Z), cyfry (0-9) oraz symbole: +, -, _, ., !, ~, *, ', (,)",
+		phoneNumbersFileUploadValidator: ({ linked }) => `Plik zawiera nieprawidłowe numery. ${ linked('validation.phoneNumberSymbolsValidator') }`,
 	},
 
 	nav: {

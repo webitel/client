@@ -114,8 +114,7 @@ export default {
 		requiredArrayValue: "Massiv bo'sh bo'lmasligi kerak",
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",
 		cron: 'Nogiron cron ifoda',
-		phoneNumbersFileUploadValidator:
-			"Faylda noto'g'ri raqamlar mavjud. Raqamda faqat harflar (a-z, A-Z), raqamlar (0-9) va quyidagi belgilar bo'lishi mumkin: +, -, _, ., !, ~, *, ', (,)",
+		phoneNumbersFileUploadValidator: ({ linked }) => `Faylda noto'g'ri raqamlar mavjud. ${ linked('validation.phoneNumberSymbolsValidator') }`,
 	},
 
 	nav: {

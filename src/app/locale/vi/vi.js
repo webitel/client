@@ -114,8 +114,7 @@ export default {
 		requiredArrayValue: 'Mảng không được rỗng',
 		isPositiveValue: 'Giá trị phải là số dương',
 		cron: 'Biểu thức cron không hợp lệ',
-		phoneNumbersFileUploadValidator:
-			"Tệp chứa số không hợp lệ. Số chỉ được chứa chữ cái (a-z, A-Z), chữ số (0-9) và các ký tự: +, -, _, ., !, ~, *, ', (,)",
+		phoneNumbersFileUploadValidator: ({ linked }) => `Tệp chứa số không hợp lệ. ${ linked('validation.phoneNumberSymbolsValidator') }`,
 	},
 
 	nav: {

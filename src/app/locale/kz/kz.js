@@ -114,8 +114,7 @@ export default {
 		requiredArrayValue: 'Массив бос болмауы керек',
 		isPositiveValue: 'Мән оң сан болуы керек',
 		cron: 'Крон өрнегі қате',
-		phoneNumbersFileUploadValidator:
-			"Файлда қате нөмірлер бар. Нөмірде тек әріптер (a-z, A-Z), сандар (0-9) және мына таңбалар болуы мүмкін: +, -, _, ., !, ~, *, ', (,)",
+		phoneNumbersFileUploadValidator: ({ linked }) => `Файлда қате нөмірлер бар. ${ linked('validation.phoneNumberSymbolsValidator') }`,
 	},
 
 	nav: {
