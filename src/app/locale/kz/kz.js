@@ -114,7 +114,8 @@ export default {
 		requiredArrayValue: 'Массив бос болмауы керек',
 		isPositiveValue: 'Мән оң сан болуы керек',
 		cron: 'Крон өрнегі қате',
-		phoneNumbersFileUploadValidator: ({ linked }) => `Файлда қате нөмірлер бар. ${ linked('validation.phoneNumberSymbolsValidator') }`,
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Файлда қате нөмірлер бар. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {

@@ -116,7 +116,8 @@ export default {
 		requiredArrayValue: 'Tablica nie może być pusta',
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
 		cron: 'Nieprawidłowe wyrażenie cron',
-		phoneNumbersFileUploadValidator: ({ linked }) => `Plik zawiera nieprawidłowe numery. ${ linked('validation.phoneNumberSymbolsValidator') }`,
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
