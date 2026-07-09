@@ -28,9 +28,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { phoneNumberValidator } from '../../../../../../../app/utils/validators'
-
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { phoneNumberValidator } from '../../../../../../../app/utils/validators';
 
 export default {
 	name: 'OpenedResNumbersPopup',
@@ -48,15 +47,15 @@ export default {
 	data: () => ({
 		namespace: 'ccenter/res/numbers',
 	}),
-	validations () {
-    return {
-      itemInstance: {
-        display: {
-          required,
-          phoneNumberValidator,
-        },
-      }
-    }
+	validations() {
+		return {
+			itemInstance: {
+				display: {
+					required,
+					phoneNumberValidator,
+				},
+			},
+		};
 	},
 	computed: {
 		popupTitle() {
