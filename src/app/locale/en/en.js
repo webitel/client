@@ -810,7 +810,6 @@ export default {
 				admins: 'Admin | Admins',
 				subordinates: 'Subordinate agent | Subordinate agents',
 				allAgents: 'All agents',
-				progressiveCount: 'Progressive call count',
 				chatCount: 'Chat count',
 				taskCount: 'Task count',
 				state: 'Status',

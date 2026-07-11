@@ -807,7 +807,6 @@ export default {
 				admins: 'Админ | Админдер',
 				subordinates: 'Басқа агент | Басқа агенттер',
 				allAgents: 'Барлық агенттер',
-				progressiveCount: 'Прогрессивті қоңырау саны',
 				chatCount: 'Чат саны',
 				taskCount: 'Тапсырма саны',
 				state: 'Күй',

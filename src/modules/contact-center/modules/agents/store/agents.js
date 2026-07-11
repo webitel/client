@@ -14,7 +14,7 @@ const resettableState = {
 		supervisor: [],
 		auditor: [],
 		region: {},
-		progressiveCount: 1,
+		progressiveCount: null,
 		chatCount: 1,
 		taskCount: 1,
 		isSupervisor: false,

@@ -814,7 +814,6 @@ export default {
 				admins: 'Admin | Adminlar',
 				subordinates: 'Subordinat agent | Subordinat agentlar',
 				allAgents: 'Barcha agentlar',
-				progressiveCount: 'Progressiv zvonk soni',
 				chatCount: 'Chat soni',
 				taskCount: 'Vazifa soni',
 				state: 'Holat',

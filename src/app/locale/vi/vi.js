@@ -810,7 +810,6 @@ export default {
 				admins: 'Quản trị viên',
 				subordinates: 'Đại lý phụ',
 				allAgents: 'Tất cả đại lý',
-				progressiveCount: 'Số cuộc gọi tiến triển',
 				chatCount: 'Số cuộc trò chuyện',
 				taskCount: 'Số nhiệm vụ',
 				state: 'Trạng thái',

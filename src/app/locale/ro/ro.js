@@ -812,7 +812,6 @@ export default {
 				admins: 'Admin | Admini',
 				subordinates: 'Agent subordonat | Agenți subordonati',
 				allAgents: 'Toți agenții',
-				progressiveCount: 'Număr apeluri progressive',
 				chatCount: 'Număr mesaje chat',
 				taskCount: 'Număr sarcini',
 				state: 'Stare',

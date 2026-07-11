@@ -811,7 +811,6 @@ export default {
 				admins: 'Administrator | Administracja',
 				subordinates: 'Podwładny agent | Podwładni agentzy',
 				allAgents: 'Wszystkie agentzy',
-				progressiveCount: 'Liczba połączeń progressive',
 				chatCount: 'Liczba czatów',
 				taskCount: 'Liczba zadań',
 				state: 'Status',

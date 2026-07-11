@@ -823,7 +823,6 @@ export default {
 				subordinates: 'Підлеглий оператор | Підлеглі оператори',
 				allAgents: 'Всі оператори',
 				state: 'Статус',
-				progressiveCount: 'Кількість одночасних дзвінків',
 				chatCount: 'Кількість одночасних чатів',
 				taskCount: 'Кількість одночасних задач',
 				isSupervisor: 'Супервізор',
