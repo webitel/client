@@ -65,12 +65,12 @@ export const useInspectSingleSignOnToken = () => {
 				clearInterval(checkTabInterval);
 				setTokenDataToStorage(data);
 				onResult(data);
+				tab.close();
 			} catch (error) {
 				clearInterval(checkTabInterval);
 				onResult(null);
-				throw error;
-			} finally {
 				tab.close();
+				throw error;
 			}
 		}, INTERVAL);
 	};
