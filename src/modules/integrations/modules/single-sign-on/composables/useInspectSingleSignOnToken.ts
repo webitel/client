@@ -14,12 +14,46 @@ export const useInspectSingleSignOnToken = () => {
 
 	const getTokenDataFromStorage = () => {
 		const tokenData = localStorage.getItem(STORAGE_KEY);
-		if (!tokenData) return null;
-		return JSON.parse(tokenData);
+		return tokenData ? JSON.parse(tokenData) : null;
 	};
 
 	const setTokenDataToStorage = (data) => {
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+	};
+
+	const watchSsoTab = (tab: Window, onResult: (data: any) => void) => {
+		const startTime = Date.now();
+		let intervalId: ReturnType<typeof setInterval>;
+		let finished = false;
+
+		const finish = (data) => {
+			if (finished) return;
+			finished = true;
+
+			clearInterval(intervalId);
+			if (!tab.closed) tab.close();
+			onResult(data);
+		};
+
+		const check = () => {
+			if (tab.closed) return finish(null);
+			if (Date.now() - startTime > TIMEOUT) return finish(null);
+
+			let data = null;
+			try {
+				data = parseTokenData(tab);
+			} catch {
+				// tab is on the provider's cross-origin page, or not loaded yet
+				return;
+			}
+			if (!data) return;
+
+			setTokenDataToStorage(data);
+			finish(data);
+		};
+
+		check();
+		if (!finished) intervalId = setInterval(check, INTERVAL);
 	};
 
 	const inspectToken = (id: number, onResult: (data: any) => void) => {
@@ -29,50 +63,7 @@ export const useInspectSingleSignOnToken = () => {
 			return;
 		}
 
-		let sawCrossOrigin = false;
-		const startTime = Date.now();
-
-		const checkTabInterval = setInterval(() => {
-			if (tab.closed) {
-				clearInterval(checkTabInterval);
-				onResult(null);
-				console.log('tab closed');
-				return;
-			}
-
-			if (Date.now() - startTime > TIMEOUT) {
-				clearInterval(checkTabInterval);
-				tab.close();
-				onResult(null);
-				console.log('timeout');
-				return;
-			}
-
-			try {
-				tab.location.origin;
-			} catch {
-				console.log('cross origin');
-				sawCrossOrigin = true;
-				return;
-			}
-
-			if (!sawCrossOrigin) return;
-
-			try {
-				const data = parseTokenData(tab);
-				if (!data) return;
-
-				clearInterval(checkTabInterval);
-				setTokenDataToStorage(data);
-				onResult(data);
-				tab.close();
-			} catch (error) {
-				clearInterval(checkTabInterval);
-				onResult(null);
-				tab.close();
-				throw error;
-			}
-		}, INTERVAL);
+		watchSsoTab(tab, onResult);
 	};
 
 	return {
