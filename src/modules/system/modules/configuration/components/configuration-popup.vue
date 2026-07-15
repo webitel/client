@@ -121,7 +121,7 @@ export default {
 				itemInstance: {
 					value: {
 						required,
-						minValue: minValue(this.descriptor.minValue ?? 0),
+						minValue: minValue(0),
 					},
 				},
 			},
@@ -142,10 +142,15 @@ export default {
 			},
 		};
 
-		return deepmerge(
+		return deepmerge.all([
 			defaults,
 			configByType[this.descriptor.type] || requiredValueConfig,
-		);
+			{
+				itemInstance: {
+					value: this.descriptor.validators || {},
+				},
+			},
+		]);
 	},
 	data() {
 		return {
@@ -188,7 +193,7 @@ export default {
 				size: 5000,
 			});
 			this.parameterList = items
-				.filter((item) => !getParameterDescriptor(item.name).hidden)
+				.filter((item) => getParameterDescriptor(item.name).hidden)
 				.map((item) => ({
 					name: item.name,
 					value: item.name,

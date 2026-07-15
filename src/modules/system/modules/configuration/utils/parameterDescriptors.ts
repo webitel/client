@@ -1,8 +1,9 @@
+import type { ValidationArgs } from '@vuelidate/core';
+import { minValue } from '@vuelidate/validators';
 import { LabelsAPI } from '@webitel/api-services/api';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { LoginOptions, TypesExportedSettings } from '@webitel/ui-sdk/enums';
 
-import { DefaultMembersFilterOptions } from '../enum/DefaultMembersFilterOptions.enum';
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
 import { PasswordCategories } from '../enum/PasswordCategories.enum';
 
@@ -28,8 +29,8 @@ export interface ParameterDescriptor {
 	type: ConfigurationValueType;
 	// value assigned on parameter creation; falls back to the type default
 	defaultValue?: unknown;
-	// number
-	minValue?: number;
+	// vuelidate rules merged into the popup's `value` rules on top of the type defaults
+	validators?: ValidationArgs;
 	// select
 	options?: unknown[];
 	labelKey?: string;
@@ -104,7 +105,9 @@ const parameterDescriptors: {
 	},
 	[EngineSystemSettingName.PeriodToPlaybackRecords]: {
 		type: ConfigurationValueType.Number,
-		minValue: 1,
+		validators: {
+			minValue: minValue(1),
+		},
 	},
 	[EngineSystemSettingName.ScreenshotInterval]: {
 		type: ConfigurationValueType.Number,
@@ -138,12 +141,6 @@ const parameterDescriptors: {
 		options: toSelectOptions(LoginOptions),
 		labelKey: 'vocabulary.values',
 	},
-	[EngineSystemSettingName.DefaultMembersFilter]: {
-		type: ConfigurationValueType.Select,
-		options: toSelectOptions(DefaultMembersFilterOptions),
-		labelKey: 'vocabulary.values',
-	},
-
 	[EngineSystemSettingName.LabelsToLimitContacts]: {
 		type: ConfigurationValueType.Multiselect,
 		searchMethod: LabelsAPI.getLookup,
