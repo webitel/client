@@ -24,63 +24,14 @@
           required
           @update:model-value="setParameterName"
         />
-        <div v-if="itemInstance.name">
-          <wt-switcher
-            v-if="displayedConfigurationType.boolean"
-            :label="$t('reusable.state')"
-            :v="v$.itemInstance.value"
-            :model-value="itemInstance.value"
-            required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })"
-          />
-          <wt-input-number
-            v-if="displayedConfigurationType.number"
-            :label="$t('vocabulary.values', 1)"
-            :v="v$.itemInstance.value"
-            :model-value="itemInstance.value"
-            required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })"
-          />
-          <wt-multi-select
-            v-if="displayedConfigurationType.multiselect"
-            :label="$t('vocabulary.values', 2)"
-            :v="v$.itemInstance.value"
-            :model-value="itemInstance.value"
-            :search-method="multiselectConfig.searchMethod"
-            :options="multiselectConfig.options"
-            :option-label="multiselectConfig.optionLabel"
-            :data-key="multiselectConfig.trackBy"
-            required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })"
-          />
-          <div v-if="displayedConfigurationType.select">
-            <wt-single-select
-              :show-clear="false"
-              :label="$t(selectConfig.labelKey)"
-              :options="selectConfig.options"
-              :v="v$.itemInstance[selectConfig.prop]"
-              :model-value="itemInstance[selectConfig.prop]"
-              required
-              @update:model-value="selectHandler"
-            />
-            <wt-input-text
-              v-if="isExportSettingsFormatCSV"
-              :label="$t('objects.CSV.separator')"
-              :v="v$.itemInstance.separator"
-              :model-value="itemInstance.separator"
-              required
-              @update:model-value="inputHandler"
-            />
-          </div>
-          <wt-input-text
-            v-if="displayedConfigurationType.string"
-            :label="$t('vocabulary.values', 1)"
-            :v="v$.itemInstance.value"
-            :model-value="itemInstance.value"
-            required
-            @update:model-value="setItemProp({ prop: 'value', value: $event })"
-          />
-        </div>
+        <component
+          :is="valueComponent"
+          v-if="itemInstance.name"
+          :descriptor="descriptor"
+          :v="v$.itemInstance.value"
+          :model-value="itemInstance.value"
+          @update:model-value="setItemProp({ prop: 'value', value: $event })"
+        />
       </form>
     </template>
     <template #actions>
@@ -103,22 +54,32 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, required } from '@vuelidate/validators';
-import { LabelsAPI } from '@webitel/api-services/api';
-import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { TypesExportedSettings } from '@webitel/ui-sdk/enums';
 import deepmerge from 'deepmerge';
-import { mapActions } from 'vuex';
 
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ConfigurationAPI from '../api/configuration';
-
-import ConfigurationValueTypes from '../utils/configurationValueTypes';
 import {
-	defaultMultiselectConfig,
-	multiselectConfigurations,
-} from '../utils/multiselectConfigurations';
-import { getSelectConfig } from '../utils/selectConfigurations';
+	ConfigurationValueType,
+	getParameterDefaultValue,
+	getParameterDescriptor,
+} from '../utils/parameterDescriptors';
+import ConfigurationValueBoolean from './value-fields/configuration-value-boolean.vue';
+import ConfigurationValueExportSettings from './value-fields/configuration-value-export-settings.vue';
+import ConfigurationValueMultiselect from './value-fields/configuration-value-multiselect.vue';
+import ConfigurationValueNumber from './value-fields/configuration-value-number.vue';
+import ConfigurationValueSelect from './value-fields/configuration-value-select.vue';
+import ConfigurationValueString from './value-fields/configuration-value-string.vue';
+
+const valueComponentByType = {
+	[ConfigurationValueType.Boolean]: ConfigurationValueBoolean,
+	[ConfigurationValueType.Number]: ConfigurationValueNumber,
+	[ConfigurationValueType.String]: ConfigurationValueString,
+	[ConfigurationValueType.Select]: ConfigurationValueSelect,
+	[ConfigurationValueType.Multiselect]: ConfigurationValueMultiselect,
+	[ConfigurationValueType.ExportSettings]: ConfigurationValueExportSettings,
+};
 
 export default {
 	name: 'ConfigurationPopup',
@@ -147,62 +108,7 @@ export default {
 			},
 		};
 
-		const defaultBooleanConfig = {
-			itemInstance: {
-				value: {
-					required,
-				},
-			},
-		};
-
-		const defaultNumberConfig = {
-			itemInstance: {
-				value: {
-					required,
-					minValue: minValue(
-						this.itemInstance.name ===
-							EngineSystemSettingName.PeriodToPlaybackRecords
-							? 1
-							: 0,
-					),
-				},
-			},
-		};
-
-		const defaultMultiselectConfig = {
-			itemInstance: {
-				value: {
-					required,
-				},
-			},
-		};
-
-		let defaultSelectConfig;
-
-		if (this.itemInstance.name === EngineSystemSettingName.ExportSettings) {
-			defaultSelectConfig = {
-				itemInstance: {
-					format: {
-						required,
-					},
-					...(this.isExportSettingsFormatCSV && {
-						separator: {
-							required,
-						},
-					}),
-				},
-			};
-		} else {
-			defaultSelectConfig = {
-				itemInstance: {
-					value: {
-						required,
-					},
-				},
-			};
-		}
-
-		const defaultStringConfig = {
+		const requiredValueConfig = {
 			itemInstance: {
 				value: {
 					required,
@@ -211,62 +117,53 @@ export default {
 		};
 
 		const configByType = {
-			boolean: defaultBooleanConfig,
-			number: defaultNumberConfig,
-			multiselect: defaultMultiselectConfig,
-			select: defaultSelectConfig,
-			string: defaultStringConfig,
+			[ConfigurationValueType.Number]: {
+				itemInstance: {
+					value: {
+						required,
+						minValue: minValue(this.descriptor.minValue ?? 0),
+					},
+				},
+			},
+			[ConfigurationValueType.ExportSettings]: {
+				itemInstance: {
+					value: {
+						format: {
+							required,
+						},
+						...(this.itemInstance?.value?.format ===
+							TypesExportedSettings.CSV && {
+							separator: {
+								required,
+							},
+						}),
+					},
+				},
+			},
 		};
 
-		return deepmerge(defaults, configByType[this.valueType] || {});
+		return deepmerge(
+			defaults,
+			configByType[this.descriptor.type] || requiredValueConfig,
+		);
 	},
 	data() {
 		return {
 			parameterList: [],
-			TypesExportedSettings,
-			EngineSystemSettingName,
-			SettingDefaultValue: {
-				[EngineSystemSettingName.PushNotificationTimeout]: 30,
-				[EngineSystemSettingName.ScreenshotInterval]: 30,
-				[EngineSystemSettingName.PasswordMinLength]: 8,
-				[EngineSystemSettingName.PasswordContainsLogin]: false,
-			},
 		};
 	},
 	computed: {
-		LabelsAPI() {
-			return LabelsAPI;
-		},
-		multiselectConfig() {
-			return (
-				multiselectConfigurations[this.itemInstance.name] ||
-				defaultMultiselectConfig
-			);
-		},
-		valueType() {
-			return ConfigurationValueTypes[this.itemInstance.name];
-		},
-		displayedConfigurationType() {
-			return {
-				[this.valueType]: true,
-			};
-		},
-		isExportSettingsFormatCSV() {
-			return this.itemInstance?.format?.value === TypesExportedSettings.CSV;
-		},
 		configurationId() {
 			return this.$route.params.id;
 		},
-		selectConfig() {
-			return getSelectConfig(this.itemInstance.name);
+		descriptor() {
+			return getParameterDescriptor(this.itemInstance.name);
+		},
+		valueComponent() {
+			return valueComponentByType[this.descriptor.type];
 		},
 	},
 	methods: {
-		...mapActions({
-			setItemId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-		}),
 		async save() {
 			if (!this.disabledSave) {
 				if (!this.new) {
@@ -285,84 +182,27 @@ export default {
 		close() {
 			this.$emit('close');
 		},
-
-		handleDefaultSelectConfigInput() {
-			this.setItemProp({
-				prop: 'value',
-				value: {
-					format: this.itemInstance.format.name,
-					separator: this.itemInstance.separator,
-				},
-			});
-		},
-		selectHandler(selectedValue) {
-			if (this.itemInstance.name === EngineSystemSettingName.ExportSettings) {
-				this.itemInstance.format = selectedValue;
-				if (!this.isExportSettingsFormatCSV) {
-					delete this.itemInstance.separator;
-				}
-				this.handleDefaultSelectConfigInput();
-			} else {
-				this.setItemProp({
-					prop: this.selectConfig.prop,
-					value: selectedValue.id,
-				});
-			}
-		},
-		inputHandler(inputValue) {
-			this.itemInstance.separator = inputValue;
-			this.handleDefaultSelectConfigInput();
-		},
 		async loadParameterList(params) {
 			const { items } = await ConfigurationAPI.getObjectsList({
 				...params,
 				size: 5000,
 			});
 			this.parameterList = items
-				////https://webitel.atlassian.net/browse/WTEL-8146
-				.filter(
-					(item) => item.name !== EngineSystemSettingName.PasswordWarningDays,
-				)
+				.filter((item) => !getParameterDescriptor(item.name).hidden)
 				.map((item) => ({
 					name: item.name,
 					value: item.name,
 				}));
 		},
-		setParameterName(event) {
+		setParameterName(name) {
 			this.setItemProp({
 				prop: 'name',
-				value: event,
+				value: name,
 			});
-
-			const defaultValue = this.SettingDefaultValue[event];
-
-			// @author @stanislav-kozak
-			// We check if the parameter have specified default value, if their not we use default set value by type
-			if (defaultValue)
-				this.setItemProp({
-					prop: 'value',
-					value: defaultValue,
-				});
-			else if (this.valueType === 'boolean')
-				this.setItemProp({
-					prop: 'value',
-					value: false,
-				});
-			else if (this.valueType === 'number')
-				this.setItemProp({
-					prop: 'value',
-					value: 0,
-				});
-			else if (this.valueType === 'multiselect')
-				this.setItemProp({
-					prop: 'value',
-					value: [],
-				});
-			else
-				this.setItemProp({
-					prop: 'value',
-					value: '',
-				});
+			this.setItemProp({
+				prop: 'value',
+				value: getParameterDefaultValue(name),
+			});
 		},
 		loadPageData() {},
 	},
