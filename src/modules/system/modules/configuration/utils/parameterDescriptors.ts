@@ -221,8 +221,7 @@ const fallbackDescriptor: ParameterDescriptor = {
 
 export const getParameterDescriptor = (
 	name?: EngineSystemSettingName | string,
-): ParameterDescriptor =>
-	parameterDescriptors[name as EngineSystemSettingName] || fallbackDescriptor;
+): ParameterDescriptor => parameterDescriptors[name] || fallbackDescriptor;
 
 const defaultValueByType: Record<ConfigurationValueType, unknown> = {
 	[ConfigurationValueType.Boolean]: false,
