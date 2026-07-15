@@ -1,5 +1,5 @@
 import { OAuthAppsAPI } from '@webitel/api-services/api';
-import { createPermissionsStore } from '@webitel/ui-datalist/permissions';
+import { createPermissionsStore } from '@webitel/ui-datalist/permissions-page';
 
 import { SingleSignOnNamespace } from '../namespace';
 

@@ -44,9 +44,11 @@
 <script setup lang="ts">
 import type { ApiOAuthService } from '@webitel/api-services/gen/models';
 import { useCardComponent } from '@webitel/ui-datalist/card';
+import { usePermissionsTabAccess } from '@webitel/ui-sdk/modules/ObjectPermissions';
 import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -57,8 +59,11 @@ import {
 } from '../stores';
 
 const { t } = useI18n();
+const route = useRoute();
 
-const { userAccess, hasSaveActionAccess } = useUserAccessControl();
+const accessControl = useUserAccessControl();
+const { hasSaveActionAccess } = accessControl;
+const access = usePermissionsTabAccess(accessControl);
 
 const {
 	modelValue,
@@ -105,7 +110,8 @@ const permissionsStoreData = computed(
 	() =>
 		currentTab.value.value === 'permissions' && {
 			store: useSingleSignOnPermissionsStore,
-			access: userAccess.value,
+			access: access.value,
+			parentId: route.params.id,
 		},
 );
 const { close } = useClose(RouteNames.SINGLE_SIGN_ON);

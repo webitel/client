@@ -9,7 +9,7 @@ const OpenedSingleSignOn = () =>
 const General = () => import('../components/opened-single-sign-on-general.vue');
 const Mapping = () => import('../components/opened-single-sign-on-mapping.vue');
 
-import { PermissionsTab } from '@webitel/ui-datalist/permissions';
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 
 const SingleSignOnRoutes = [
 	{
