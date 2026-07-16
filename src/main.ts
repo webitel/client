@@ -8,8 +8,9 @@ I think, this issue should go on migration to Vue 3, so I left it "as is".
  */
 import './app/css/do-not-delete-me.scss';
 
+import { setConfig as setApiServicesConfig } from '@webitel/api-services';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { createApp } from 'vue';
-
 import ActionComponents from './app/components/actions';
 import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
@@ -34,6 +35,10 @@ const fetchConfig = async () => {
 
 configureZod({
 	t: i18n.global.t,
+});
+
+setApiServicesConfig({
+	eventBus,
 });
 
 const setTokenFromUrl = () => {
