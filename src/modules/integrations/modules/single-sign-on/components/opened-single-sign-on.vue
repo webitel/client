@@ -103,18 +103,16 @@ const tabs = computed(() => {
 
 const { currentTab, changeTab } = useCardTabs(tabs);
 
-const permissionsStoreData = computed(
-	() =>
-		currentTab.value.value === 'permissions' && {
-			store: useSingleSignOnPermissionsStore,
-			access: {
-        create: hasCreateAccess.value,
-        update: hasUpdateAccess.value,
-        read: hasReadAccess.value,
-        delete: hasDeleteAccess.value,
-      },
-			parentId: route.params.id,
-		},
+const permissionsStoreData = computed(() => ({
+    store: useSingleSignOnPermissionsStore,
+    access: {
+      create: hasCreateAccess.value,
+      update: hasUpdateAccess.value,
+      read: hasReadAccess.value,
+      delete: hasDeleteAccess.value,
+    },
+    parentId: route.params.id,
+  })
 );
 const { close } = useClose(RouteNames.SINGLE_SIGN_ON);
 
