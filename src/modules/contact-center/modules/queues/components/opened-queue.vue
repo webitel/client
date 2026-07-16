@@ -248,6 +248,10 @@ export default {
 							resourceStrategy: {
 								required,
 							},
+							progressiveCount: {
+								required,
+								minValue: minValue(1),
+							},
 						},
 					},
 				});
@@ -277,6 +281,10 @@ export default {
 							},
 							resourceStrategy: {
 								required,
+							},
+							progressiveCount: {
+								required,
+								minValue: minValue(1),
 							},
 						},
 					},

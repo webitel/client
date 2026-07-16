@@ -188,6 +188,15 @@
         :model-value="itemInstance.payload.maxMemberLimit"
         @update:model-value="setItemPayloadProp({ prop: 'maxMemberLimit', value: $event })"
       />
+      <wt-input-number
+        v-if="specificControls.progressiveCount"
+        :disabled="disableUserInput"
+        :label="$t('objects.queue.progressiveCount')"
+        :v="v.itemInstance.payload.progressiveCount"
+        :model-value="itemInstance.payload.progressiveCount"
+        required
+        @update:model-value="setItemPayloadProp({ prop: 'progressiveCount', value: $event })"
+      />
       <wt-switcher
         v-if="specificControls.waitBetweenRetriesDesc"
         :disabled="disableUserInput"

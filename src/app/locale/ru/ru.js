@@ -118,6 +118,8 @@ export default {
 		requiredArrayValue: 'Поле не должно быть пустым',
 		isPositiveValue: 'Значение должно быть больше нуля',
 		cron: 'Некорректное cron-выражение',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Файл содержит некорректные номера. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -818,7 +820,6 @@ export default {
 				subordinates: 'Подчинённый оператор | Подчинённые операторы',
 				allAgents: 'Все операторы',
 				state: 'Статус',
-				progressiveCount: 'Количество одновременных звонков',
 				chatCount: 'Количество одновременных чатов',
 				taskCount: 'Количество одновременных задач',
 				isSupervisor: 'Супервизор',

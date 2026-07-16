@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: 'Matricea nu ar trebui să fie goală',
 		isPositiveValue: 'Valoarea ar trebui să fie un număr pozitiv',
 		cron: 'Expresie cron invalidă',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Fișierul conține numere incorecte. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -810,7 +812,6 @@ export default {
 				admins: 'Admin | Admini',
 				subordinates: 'Agent subordonat | Agenți subordonati',
 				allAgents: 'Toți agenții',
-				progressiveCount: 'Număr apeluri progressive',
 				chatCount: 'Număr mesaje chat',
 				taskCount: 'Număr sarcini',
 				state: 'Stare',

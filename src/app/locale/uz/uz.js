@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: "Massiv bo'sh bo'lmasligi kerak",
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",
 		cron: 'Nogiron cron ifoda',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Faylda noto'g'ri raqamlar mavjud. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -812,7 +814,6 @@ export default {
 				admins: 'Admin | Adminlar',
 				subordinates: 'Subordinat agent | Subordinat agentlar',
 				allAgents: 'Barcha agentlar',
-				progressiveCount: 'Progressiv zvonk soni',
 				chatCount: 'Chat soni',
 				taskCount: 'Vazifa soni',
 				state: 'Holat',

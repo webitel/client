@@ -28,8 +28,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { phoneNumberSymbolsValidator } from '../../../../../../../app/utils/validators';
 
 export default {
 	name: 'OpenedResNumbersPopup',
@@ -51,6 +51,7 @@ export default {
 		itemInstance: {
 			display: {
 				required,
+				phoneNumberSymbolsValidator,
 			},
 		},
 	},

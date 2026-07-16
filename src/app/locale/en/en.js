@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: 'Array should not be empty',
 		isPositiveValue: 'Value should be positive number',
 		cron: 'Invalid cron expression',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`File contains invalid numbers. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -808,7 +810,6 @@ export default {
 				admins: 'Admin | Admins',
 				subordinates: 'Subordinate agent | Subordinate agents',
 				allAgents: 'All agents',
-				progressiveCount: 'Progressive call count',
 				chatCount: 'Chat count',
 				taskCount: 'Task count',
 				state: 'Status',

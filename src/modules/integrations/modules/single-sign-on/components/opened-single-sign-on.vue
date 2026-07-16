@@ -60,7 +60,13 @@ import {
 const { t } = useI18n();
 const route = useRoute();
 
-const { hasSaveActionAccess, hasDeleteAccess, hasCreateAccess, hasReadAccess, hasUpdateAccess } = useUserAccessControl();
+const {
+	hasSaveActionAccess,
+	hasDeleteAccess,
+	hasCreateAccess,
+	hasReadAccess,
+	hasUpdateAccess,
+} = useUserAccessControl();
 
 const {
 	modelValue,
@@ -104,16 +110,15 @@ const tabs = computed(() => {
 const { currentTab, changeTab } = useCardTabs(tabs);
 
 const permissionsStoreData = computed(() => ({
-    store: useSingleSignOnPermissionsStore,
-    access: {
-      create: hasCreateAccess.value,
-      update: hasUpdateAccess.value,
-      read: hasReadAccess.value,
-      delete: hasDeleteAccess.value,
-    },
-    parentId: route.params.id,
-  })
-);
+	store: useSingleSignOnPermissionsStore,
+	access: {
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		read: hasReadAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: route.params.id,
+}));
 const { close } = useClose(RouteNames.SINGLE_SIGN_ON);
 
 const path = computed(() => {

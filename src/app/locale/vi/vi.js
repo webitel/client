@@ -114,6 +114,8 @@ export default {
 		requiredArrayValue: 'Mảng không được rỗng',
 		isPositiveValue: 'Giá trị phải là số dương',
 		cron: 'Biểu thức cron không hợp lệ',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -808,7 +810,6 @@ export default {
 				admins: 'Quản trị viên',
 				subordinates: 'Đại lý phụ',
 				allAgents: 'Tất cả đại lý',
-				progressiveCount: 'Số cuộc gọi tiến triển',
 				chatCount: 'Số cuộc trò chuyện',
 				taskCount: 'Số nhiệm vụ',
 				state: 'Trạng thái',

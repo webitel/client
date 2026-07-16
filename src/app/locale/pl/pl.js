@@ -116,6 +116,8 @@ export default {
 		requiredArrayValue: 'Tablica nie może być pusta',
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
 		cron: 'Nieprawidłowe wyrażenie cron',
+		phoneNumbersFileUploadValidator: ({ linked }) =>
+			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -809,7 +811,6 @@ export default {
 				admins: 'Administrator | Administracja',
 				subordinates: 'Podwładny agent | Podwładni agentzy',
 				allAgents: 'Wszystkie agentzy',
-				progressiveCount: 'Liczba połączeń progressive',
 				chatCount: 'Liczba czatów',
 				taskCount: 'Liczba zadań',
 				state: 'Status',
