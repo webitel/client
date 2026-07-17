@@ -193,7 +193,7 @@ export default {
 				size: 5000,
 			});
 			this.parameterList = items
-				.filter((item) => getParameterDescriptor(item.name).hidden)
+				.filter((item) => !getParameterDescriptor(item.name).hidden)
 				.map((item) => ({
 					name: item.name,
 					value: item.name,
