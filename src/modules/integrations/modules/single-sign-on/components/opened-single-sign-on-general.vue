@@ -17,7 +17,7 @@
         :disabled="disableUserInput"
         :label="t('objects.integrations.singleSignOn.clientSecret')"
         :regle-validation="validationFields?.clientSecret"
-        :hideInputValue="true"
+        hide-input-value
         v-model:model-value="modelValue.clientSecret"
         required
       />
