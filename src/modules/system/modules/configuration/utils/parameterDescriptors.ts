@@ -25,19 +25,26 @@ export interface SelectOption {
 	id: string;
 }
 
+export interface SelectConfig {
+	options: SelectOption[];
+	labelKey?: string;
+}
+
+export interface MultiselectConfig {
+	searchMethod: ((params: unknown) => Promise<unknown>) | null;
+	options: unknown[];
+	optionLabel: string;
+	trackBy: string;
+}
+
 export interface ParameterDescriptor {
 	type: ConfigurationValueType;
 	// value assigned on parameter creation; falls back to the type default
 	defaultValue?: unknown;
 	// vuelidate rules merged into the popup's `value` rules on top of the type defaults
 	validators?: ValidationArgs;
-	// select
-	options?: unknown[];
-	labelKey?: string;
-	// multiselect
-	searchMethod?: ((params: unknown) => Promise<unknown>) | null;
-	optionLabel?: string;
-	trackBy?: string;
+	select?: SelectConfig;
+	multiselect?: MultiselectConfig;
 	// how to render array values in the configurations table
 	listDisplay?: {
 		keyProperty: string;
@@ -129,24 +136,32 @@ const parameterDescriptors: {
 
 	[EngineSystemSettingName.ExportSettings]: {
 		type: ConfigurationValueType.ExportSettings,
-		options: toSelectOptions(TypesExportedSettings),
+		select: {
+			options: toSelectOptions(TypesExportedSettings),
+		},
 	},
 	[EngineSystemSettingName.DefaultWorkspaceTab]: {
 		type: ConfigurationValueType.Select,
-		options: toSelectOptions(DefaultWorkspaceTabOptions),
-		labelKey: 'vocabulary.values',
+		select: {
+			options: toSelectOptions(DefaultWorkspaceTabOptions),
+			labelKey: 'vocabulary.values',
+		},
 	},
 	[EngineSystemSettingName.LoginOptions]: {
 		type: ConfigurationValueType.Select,
-		options: toSelectOptions(LoginOptions),
-		labelKey: 'vocabulary.values',
+		select: {
+			options: toSelectOptions(LoginOptions),
+			labelKey: 'vocabulary.values',
+		},
 	},
 	[EngineSystemSettingName.LabelsToLimitContacts]: {
 		type: ConfigurationValueType.Multiselect,
-		searchMethod: LabelsAPI.getLookup,
-		options: [],
-		optionLabel: 'label',
-		trackBy: 'label',
+		multiselect: {
+			searchMethod: LabelsAPI.getLookup,
+			options: [],
+			optionLabel: 'label',
+			trackBy: 'label',
+		},
 		listDisplay: {
 			keyProperty: 'id',
 			labelProperty: 'label',
@@ -193,10 +208,12 @@ const parameterDescriptors: {
 	},
 	[EngineSystemSettingName.PasswordCategories]: {
 		type: ConfigurationValueType.Multiselect,
-		searchMethod: null,
-		options: passwordCategoriesOptions,
-		optionLabel: 'category',
-		trackBy: 'category',
+		multiselect: {
+			searchMethod: null,
+			options: passwordCategoriesOptions,
+			optionLabel: 'category',
+			trackBy: 'category',
+		},
 		listDisplay: {
 			keyProperty: 'category',
 			labelProperty: 'category',

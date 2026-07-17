@@ -1,8 +1,8 @@
 <template>
   <wt-single-select
     :show-clear="false"
-    :label="t(descriptor.labelKey || 'vocabulary.values')"
-    :options="descriptor.options"
+    :label="t(descriptor.select?.labelKey || 'vocabulary.values')"
+    :options="descriptor.select?.options"
     :v="v"
     :model-value="modelValue"
     required

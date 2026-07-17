@@ -3,10 +3,10 @@
     :label="t('vocabulary.values', 2)"
     :v="v"
     :model-value="modelValue"
-    :search-method="descriptor.searchMethod"
-    :options="descriptor.options"
-    :option-label="descriptor.optionLabel"
-    :data-key="descriptor.trackBy"
+    :search-method="descriptor.multiselect?.searchMethod"
+    :options="descriptor.multiselect?.options"
+    :option-label="descriptor.multiselect?.optionLabel"
+    :data-key="descriptor.multiselect?.trackBy"
     required
     @update:model-value="emit('update:modelValue', $event)"
   />

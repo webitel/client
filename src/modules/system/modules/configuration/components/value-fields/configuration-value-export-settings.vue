@@ -3,7 +3,7 @@
     <wt-single-select
       :show-clear="false"
       :label="t('vocabulary.format')"
-      :options="descriptor.options"
+      :options="descriptor.select?.options"
       :v="v?.format"
       :model-value="value?.format"
       required
