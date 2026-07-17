@@ -1077,6 +1077,7 @@ export default {
 					renewalSec:
 						'Zaproponuj przedłużenie przetwarzania końcowego, gdy pozostało (sek)',
 					allowProlongation: 'Zezwalaj na przedłużenie przetwarzania końcowego',
+					autosave: 'Zezwalaj na automatyczny zapis przetwarzania końcowego',
 					repeatsNumber: 'Liczba powtórzeń',
 					prolongationTimeSec: 'Czas przedłużenia (sek)',
 					isTimeoutRetry: 'Ponawiaj do przekroczenia czasu',

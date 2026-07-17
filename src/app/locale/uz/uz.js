@@ -1078,6 +1078,7 @@ export default {
 					renewalSec:
 						"Qolgan (sek) bo'lganda posttizimni uzaytirishni taklif qilish",
 					allowProlongation: 'Posttizimni uzaytirishga ruxsat berish',
+					autosave: 'Posttizimni avtomatik saqlashga ruxsat berish',
 					repeatsNumber: 'Takrorlashlar soni',
 					prolongationTimeSec: 'Uzaytirish vaqti (sek)',
 					isTimeoutRetry: 'Vaqt tugagunga qadar qayta urinish',
