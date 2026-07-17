@@ -128,20 +128,23 @@
 </template>
 
 <script>
-import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import {
-	getMultiselectDisplayConfig,
-	getPropertyValue,
-} from '../utils/multiselectConfigurations';
+import { getParameterDescriptor } from '../utils/parameterDescriptors';
 import ConfigurationPopup from './configuration-popup.vue';
 
 const namespace = 'system/configuration';
+
+const getPropertyValue = (obj, property, fallback = '') => {
+	if (typeof obj === 'string') {
+		return obj;
+	}
+	return obj?.[property] || fallback;
+};
 
 export default {
 	name: 'TheConfiguration',
@@ -183,7 +186,6 @@ export default {
 	},
 	data: () => ({
 		namespace,
-		EngineSystemSettingName,
 	}),
 	computed: {
 		path() {
@@ -222,14 +224,16 @@ export default {
 			return Array.isArray(value) && value.length;
 		},
 		getChipKey(settingName, chip, index) {
-			const config = getMultiselectDisplayConfig(settingName);
-			const keyProperty = config.display?.keyProperty || 'id';
-			return getPropertyValue(chip, keyProperty, index);
+			const { listDisplay } = getParameterDescriptor(settingName);
+			return getPropertyValue(chip, listDisplay?.keyProperty || 'id', index);
 		},
 		getChipLabel(settingName, chip) {
-			const config = getMultiselectDisplayConfig(settingName);
-			const labelProperty = config.display?.labelProperty || 'label';
-			return getPropertyValue(chip, labelProperty, chip);
+			const { listDisplay } = getParameterDescriptor(settingName);
+			return getPropertyValue(
+				chip,
+				listDisplay?.labelProperty || 'label',
+				chip,
+			);
 		},
 	},
 };
