@@ -13,12 +13,12 @@
         v-model:model-value="modelValue.name"
         required
       />
-      <wt-password
+      <wt-input-text
         :disabled="disableUserInput"
         :label="t('objects.integrations.singleSignOn.clientSecret')"
         :regle-validation="validationFields?.clientSecret"
+        hide-input-value
         v-model:model-value="modelValue.clientSecret"
-        autocomplete="new-password"
         required
       />
       <wt-input-text
