@@ -1,17 +1,15 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import SingleSignOnRouteNames from './_internals/SingleSignOnRouteNames.enum.ts';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import SingleSignOnRouteNames from './_internals/SingleSignOnRouteNames.enum';
 
 const TheSingleSignOn = () => import('../components/the-single-sign-on.vue');
 const OpenedSingleSignOn = () =>
 	import('../components/opened-single-sign-on.vue');
 const General = () => import('../components/opened-single-sign-on-general.vue');
 const Mapping = () => import('../components/opened-single-sign-on-mapping.vue');
-const Permissions = () =>
-	import(
-		'../../../../../modules/_shared/permissions-tab/components/permissions-tab.vue'
-	);
+
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 
 const SingleSignOnRoutes = [
 	{
@@ -45,11 +43,11 @@ const SingleSignOnRoutes = [
 				name: SingleSignOnRouteNames.MAPPING,
 				component: Mapping,
 			},
-			// {
-			// 	path: 'permissions/:permissionId?',
-			// 	name: SingleSignOnRouteNames.PERMISSIONS,
-			// 	component: Permissions,
-			// },
+			{
+				path: 'permissions/:permissionId?',
+				name: SingleSignOnRouteNames.PERMISSIONS,
+				component: PermissionsTab,
+			},
 		],
 	},
 ];

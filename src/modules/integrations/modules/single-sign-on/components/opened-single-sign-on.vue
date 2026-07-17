@@ -29,6 +29,7 @@
             :is="Component"
             v-model="modelValue"
             :validation-fields="validationFields"
+            v-bind="permissionsStoreData"
           />
         </router-view>
         <input
@@ -46,15 +47,26 @@ import { useCardComponent } from '@webitel/ui-datalist/card';
 import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SingleSignOnRouteNames from '../router/_internals/SingleSignOnRouteNames.enum';
-import { useSingleSignOnCardStore } from '../stores';
+import {
+	useSingleSignOnCardStore,
+	useSingleSignOnPermissionsStore,
+} from '../stores';
 
 const { t } = useI18n();
+const route = useRoute();
 
-const { hasSaveActionAccess } = useUserAccessControl();
+const {
+	hasSaveActionAccess,
+	hasDeleteAccess,
+	hasCreateAccess,
+	hasReadAccess,
+	hasUpdateAccess,
+} = useUserAccessControl();
 
 const {
 	modelValue,
@@ -71,7 +83,7 @@ const {
 });
 
 const tabs = computed(() => {
-	return [
+	const array = [
 		{
 			text: t('objects.general'),
 			value: 'general',
@@ -83,9 +95,30 @@ const tabs = computed(() => {
 			pathName: SingleSignOnRouteNames.MAPPING,
 		},
 	];
+
+	if (!isNew.value) {
+		array.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: SingleSignOnRouteNames.PERMISSIONS,
+		});
+	}
+
+	return array;
 });
 
 const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() => ({
+	store: useSingleSignOnPermissionsStore,
+	access: {
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		read: hasReadAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: route.params.id,
+}));
 const { close } = useClose(RouteNames.SINGLE_SIGN_ON);
 
 const path = computed(() => {
