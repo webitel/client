@@ -223,10 +223,8 @@ const parameterDescriptors: {
 		type: ConfigurationValueType.Boolean,
 		defaultValue: false,
 	},
-	// https://webitel.atlassian.net/browse/WTEL-8146
 	[EngineSystemSettingName.PasswordWarningDays]: {
 		type: ConfigurationValueType.Number,
-		hidden: true,
 	},
 };
 
