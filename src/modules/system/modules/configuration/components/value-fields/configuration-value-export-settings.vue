@@ -4,6 +4,7 @@
       :show-clear="false"
       :label="t('vocabulary.format')"
       :options="descriptor.select?.options"
+      option-value="id"
       :v="v?.format"
       :model-value="value?.format"
       required
@@ -25,10 +26,7 @@ import { TypesExportedSettings } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import type {
-	ParameterDescriptor,
-	SelectOption,
-} from '../../utils/parameterDescriptors';
+import type { ParameterDescriptor } from '../../utils/parameterDescriptors';
 
 interface ExportSettingsValue {
 	format: string;
@@ -59,9 +57,7 @@ const value = computed<ExportSettingsValue | undefined>(() =>
 
 const isCSV = computed(() => value.value?.format === TypesExportedSettings.CSV);
 
-const setFormat = (option: SelectOption) => {
-	const format = option.value;
-
+const setFormat = (format: string) => {
 	// separator makes sense only for CSV, so it's dropped on format change
 	emit(
 		'update:modelValue',
