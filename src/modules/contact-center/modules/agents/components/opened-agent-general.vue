@@ -86,6 +86,14 @@
         class="object-input-area-grid__task-count"
         @update:model-value="setItemProp({ prop: 'taskCount', value: $event })"
       />
+      <wt-input-number
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.agents.extraChatCount')"
+        :v="v.itemInstance.extraChatCount"
+        :model-value="itemInstance.extraChatCount"
+        class="object-input-area-grid__extra-chat-count"
+        @update:model-value="setItemProp({ prop: 'extraChatCount', value: $event })"
+      />
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.ccenter.agents.isSupervisor')"
@@ -194,12 +202,12 @@ export default {
 .object-input-area-grid {
   display: grid;
   grid-template-areas:
-    'user team'
-    'progressiveCount media'
-    'chatCount region'
-    'taskCount auditor'
-    'screenControl supervisor'
-    '. isSupervisor'
+    'user media'
+    'team progressiveCount'
+    'region chatCount'
+    'auditor extraChatCount'
+    'supervisor taskCount'
+    'screenControl isSupervisor'
   ;
   grid-template-columns: 1fr 1fr;
 

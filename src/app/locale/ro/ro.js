@@ -814,6 +814,7 @@ export default {
 				allAgents: 'Toți agenții',
 				chatCount: 'Număr mesaje chat',
 				taskCount: 'Număr sarcini',
+				extraChatCount: 'Număr suplimentar de chat-uri',
 				state: 'Stare',
 				isSupervisor: 'Supraveghetor',
 				stateTime: 'Timp stare',

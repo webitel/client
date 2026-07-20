@@ -813,6 +813,7 @@ export default {
 				allAgents: 'Wszystkie agentzy',
 				chatCount: 'Liczba czatów',
 				taskCount: 'Liczba zadań',
+				extraChatCount: 'Dodatkowa liczba czatów',
 				state: 'Status',
 				isSupervisor: 'Nadzorca',
 				stateTime: 'Czas statusu',
