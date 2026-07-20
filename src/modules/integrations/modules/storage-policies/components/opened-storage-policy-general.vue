@@ -79,7 +79,7 @@
           chips-view
           allow-custom-values
           required
-          :options="MimeTypes"
+          :options="mimeTypeOptions"
           :data-key="null"
           @update:model-value="setItemProp({ prop: 'mimeTypes', value: $event })"
         />
@@ -188,6 +188,14 @@ export default {
 					),
 					value: this.snakeToCamel(channel),
 				}));
+		},
+		mimeTypeOptions() {
+			return [
+				...new Set([
+					...this.MimeTypes,
+					...this.itemInstance.mimeTypes,
+				]),
+			];
 		},
 	},
 	methods: {
