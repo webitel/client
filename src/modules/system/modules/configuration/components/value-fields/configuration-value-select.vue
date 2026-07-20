@@ -3,10 +3,11 @@
     :show-clear="false"
     :label="t(descriptor.select?.labelKey || 'vocabulary.values')"
     :options="descriptor.select?.options"
+    option-value="id"
     :v="v"
     :model-value="modelValue"
     required
-    @update:model-value="emit('update:modelValue', $event.id)"
+    @update:model-value="emit('update:modelValue', $event)"
   />
 </template>
 
