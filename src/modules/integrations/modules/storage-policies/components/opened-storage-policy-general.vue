@@ -189,9 +189,14 @@ export default {
 					value: this.snakeToCamel(channel),
 				}));
 		},
-    mimeTypeOptions() {
-      return [...new Set([...this.MimeTypes, ...this.itemInstance.mimeTypes])];
-    }
+		mimeTypeOptions() {
+			return [
+				...new Set([
+					...this.MimeTypes,
+					...this.itemInstance.mimeTypes,
+				]),
+			];
+		},
 	},
 	methods: {
 		snakeToCamel,
