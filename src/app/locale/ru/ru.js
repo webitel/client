@@ -822,6 +822,7 @@ export default {
 				state: 'Статус',
 				chatCount: 'Количество одновременных чатов',
 				taskCount: 'Количество одновременных задач',
+				extraChatCount: 'Дополнительное количество чатов',
 				isSupervisor: 'Супервизор',
 				stateTime: 'Длительность',
 				addSkill: 'Добавить навык',

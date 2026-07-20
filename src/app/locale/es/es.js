@@ -817,6 +817,7 @@ export default {
 				allAgents: 'Todos los agentes',
 				chatCount: 'Contador de chats',
 				taskCount: 'Contador de tareas',
+				extraChatCount: 'Recuento de chats adicionales',
 				state: 'Estado',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Tiempo de estado',

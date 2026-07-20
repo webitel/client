@@ -812,6 +812,7 @@ export default {
 				allAgents: 'Tất cả đại lý',
 				chatCount: 'Số cuộc trò chuyện',
 				taskCount: 'Số nhiệm vụ',
+				extraChatCount: 'Số cuộc trò chuyện bổ sung',
 				state: 'Trạng thái',
 				isSupervisor: 'Giám sát',
 				stateTime: 'Thời gian trạng thái',
