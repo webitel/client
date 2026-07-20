@@ -1072,6 +1072,7 @@ export default {
 					sec: 'Thời gian xử lý sau (giây)',
 					renewalSec: 'Đề xuất kéo dài xử lý sau khi còn lại (giây)',
 					allowProlongation: 'Cho phép kéo dài xử lý sau',
+					autosave: 'Cho phép tự động lưu xử lý sau',
 					repeatsNumber: 'Số lần lặp lại',
 					prolongationTimeSec: 'Thời gian kéo dài (giây)',
 					isTimeoutRetry: 'Thử lại cho đến hết thời gian chờ',

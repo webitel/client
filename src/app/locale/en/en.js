@@ -1075,6 +1075,7 @@ export default {
 					sec: 'Postprocessing time (sec)',
 					renewalSec: 'Offer postprocessing prolongation (seconds before end)',
 					allowProlongation: 'Allow postprocessing prolongation',
+					autosave: 'Allow autosave postprocessing',
 					repeatsNumber: 'Number of repeats',
 					prolongationTimeSec: 'Time for prolongation (sec)',
 					isTimeoutRetry: 'Retry to timeout',

@@ -1090,6 +1090,7 @@ export default {
 					renewalSec:
 						'Предложить продление постобработки, когда осталось (сек)',
 					allowProlongation: 'Разрешить продление постобработки',
+					autosave: 'Разрешить автосохранение обработки',
 					repeatsNumber: 'Количество повторов',
 					prolongationTimeSec: 'Время для продления (сек)',
 					isTimeoutRetry: 'Повтор до таймаута',

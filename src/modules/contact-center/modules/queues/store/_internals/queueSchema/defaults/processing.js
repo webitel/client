@@ -4,6 +4,7 @@ const processing = (processing = {}) =>
 	deepmerge(
 		{
 			enabled: false,
+			autosave: false,
 			formSchema: {},
 			sec: 30,
 			renewalSec: 15,
