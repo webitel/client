@@ -816,7 +816,7 @@ export default {
 				allAgents: 'Barcha agentlar',
 				chatCount: 'Chat soni',
 				taskCount: 'Vazifa soni',
-				extraChatCount: 'Qo\'shimcha chatlar soni',
+				extraChatCount: 'Qoshimcha chatlar soni',
 				state: 'Holat',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Holat vaqti',

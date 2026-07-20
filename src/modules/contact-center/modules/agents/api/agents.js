@@ -128,7 +128,7 @@ const fieldsToSend = [
 	'taskCount',
 	'isSupervisor',
 	'screenControl',
-	'extraChatCount'
+	'extraChatCount',
 ];
 
 const addAgent = async ({ itemInstance }) => {
