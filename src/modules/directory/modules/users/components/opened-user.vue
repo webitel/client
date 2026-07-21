@@ -124,9 +124,6 @@ export default {
 							helpers.regex(/^[0-9]*$/),
 						),
 					},
-					device: {
-						required: requiredIf(() => !itemInstance.value.generateDevice),
-					},
 				},
 			})),
 			{
