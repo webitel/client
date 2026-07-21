@@ -86,8 +86,6 @@
             :label="$t('objects.directory.users.defaultDevice')"
             :options="itemInstance.devices"
             :model-value="itemInstance.device"
-            :v="v.itemInstance.device"
-            required
             data-key="id"
             @update:model-value="setItemProp({ prop: 'device', value: $event })"
             @reset="setItemProp({ prop: 'device', value: {} })"
