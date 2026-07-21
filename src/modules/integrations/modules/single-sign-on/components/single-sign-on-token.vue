@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { isEmpty } from '@webitel/ui-sdk/scripts';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
@@ -55,19 +55,19 @@ const handleShownPopup = () => {
 };
 
 const setTokenData = (data) => {
-	tokenData.value = JSON.stringify(data, null, 2);
+	tokenData.value = data ? JSON.stringify(data, null, 2) : '';
 };
 
 const setInitialTokenData = () => {
-	const currentToken = getTokenDataFromStorage();
-	if (!currentToken) return;
-
+	const currentToken = getTokenDataFromStorage(route.params.id);
 	setTokenData(currentToken);
 };
 
 onMounted(() => {
 	setInitialTokenData();
 });
+
+watch(() => route.params.id, setInitialTokenData);
 
 const getTokenData = () => {
 	inspectToken(route.params.id, (data) => {

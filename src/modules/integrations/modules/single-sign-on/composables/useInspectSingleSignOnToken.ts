@@ -12,16 +12,24 @@ export const useInspectSingleSignOnToken = () => {
 		return JSON.parse(bodyText);
 	};
 
-	const getTokenDataFromStorage = () => {
-		const tokenData = localStorage.getItem(STORAGE_KEY);
-		return tokenData ? JSON.parse(tokenData) : null;
+	const getToken = () => {
+		const token = localStorage.getItem(STORAGE_KEY);
+		return token ? JSON.parse(token) : {};
 	};
 
-	const setTokenDataToStorage = (data) => {
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+	const getTokenDataFromStorage = (id: number) => getToken()[id] ?? null;
+
+	const setTokenDataToStorage = (id: number, data) => {
+		const allTokens = getToken();
+		allTokens[id] = data;
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(allTokens));
 	};
 
-	const watchSsoTab = (tab: Window, onResult: (data: any) => void) => {
+	const watchSsoTab = (
+		id: number,
+		tab: Window,
+		onResult: (data: any) => void,
+	) => {
 		const startTime = Date.now();
 		let intervalId: ReturnType<typeof setInterval>;
 		let finished = false;
@@ -48,7 +56,7 @@ export const useInspectSingleSignOnToken = () => {
 			}
 			if (!data) return;
 
-			setTokenDataToStorage(data);
+			setTokenDataToStorage(id, data);
 			finish(data);
 		};
 
@@ -63,7 +71,7 @@ export const useInspectSingleSignOnToken = () => {
 			return;
 		}
 
-		watchSsoTab(tab, onResult);
+		watchSsoTab(id, tab, onResult);
 	};
 
 	return {
