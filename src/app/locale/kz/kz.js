@@ -809,6 +809,7 @@ export default {
 				allAgents: 'Барлық агенттер',
 				chatCount: 'Чат саны',
 				taskCount: 'Тапсырма саны',
+				progressiveCountValidator: 'Мән кемінде 1 болуы немесе бос болуы керек',
 				extraChatCount: 'Қосымша чаттар саны',
 				state: 'Күй',
 				isSupervisor: 'Бақылаушы',
