@@ -147,6 +147,7 @@ export default {
 		isPopupOpened: false,
 		isEncryptionAlertOpened: false,
 		pendingEncryptValue: false,
+		mimeTypeOptions: [],
 	}),
 	computed: {
 		encryptionAlertMessage() {
@@ -189,14 +190,6 @@ export default {
 					value: this.snakeToCamel(channel),
 				}));
 		},
-		mimeTypeOptions() {
-			return [
-				...new Set([
-					...this.MimeTypes,
-					...this.itemInstance.mimeTypes,
-				]),
-			];
-		},
 	},
 	methods: {
 		snakeToCamel,
@@ -223,6 +216,19 @@ export default {
 		closeEncryptionAlert() {
 			this.isEncryptionAlertOpened = false;
 			this.pendingEncryptValue = false;
+		},
+	},
+	watch: {
+		'itemInstance.mimeTypes': {
+			handler(newValue) {
+				this.mimeTypeOptions = [
+					...new Set([
+						...this.MimeTypes,
+						...newValue,
+					]),
+				];
+			},
+			once: true,
 		},
 	},
 };
