@@ -813,6 +813,8 @@ export default {
 				allAgents: 'Wszystkie agentzy',
 				chatCount: 'Liczba czatów',
 				taskCount: 'Liczba zadań',
+				progressiveCountValidator:
+					'Wartość powinna wynosić co najmniej 1 lub być pusta',
 				extraChatCount: 'Dodatkowa liczba czatów',
 				state: 'Status',
 				isSupervisor: 'Nadzorca',

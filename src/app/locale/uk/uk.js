@@ -825,6 +825,8 @@ export default {
 				state: 'Статус',
 				chatCount: 'Кількість одночасних чатів',
 				taskCount: 'Кількість одночасних задач',
+				progressiveCountValidator:
+					'Значення повинно бути не менше 1 або порожнім',
 				extraChatCount: 'Додаткова кількість чатів',
 				isSupervisor: 'Супервізор',
 				stateTime: 'Тривалість',

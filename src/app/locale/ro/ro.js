@@ -814,6 +814,8 @@ export default {
 				allAgents: 'Toți agenții',
 				chatCount: 'Număr mesaje chat',
 				taskCount: 'Număr sarcini',
+				progressiveCountValidator:
+					'Valoarea trebuie să fie cel puțin 1 sau goală',
 				extraChatCount: 'Număr suplimentar de chat-uri',
 				state: 'Stare',
 				isSupervisor: 'Supraveghetor',

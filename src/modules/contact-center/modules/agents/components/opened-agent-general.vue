@@ -64,6 +64,7 @@
         :disabled="disableUserInput"
         :label="$t('objects.queue.progressiveCount')"
         :v="v.itemInstance.progressiveCount"
+        :custom-validators="progressiveCountValidator"
         :model-value="itemInstance.progressiveCount"
         class="object-input-area-grid__progressive-count"
         @update:model-value="setItemProp({ prop: 'progressiveCount', value: $event })"
@@ -168,6 +169,14 @@ export default {
 		};
 	},
 	computed: {
+		progressiveCountValidator() {
+			return [
+				{
+					name: 'minValue',
+					text: this.$t('objects.ccenter.agents.progressiveCountValidator'),
+				},
+			];
+		},
 		disabledAgentScreenControl() {
 			return !this.itemInstance.allowSetScreenControl;
 		},
