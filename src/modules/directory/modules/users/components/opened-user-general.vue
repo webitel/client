@@ -368,9 +368,14 @@ export default {
   }
 }
 
-.hint-link__link {
-  display: inline-block;
-  text-decoration: underline;
-  color: var(--info-color);
+.hint-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+	padding: var(--spacing-2xs) var(--spacing-xs);
+
+  &__link {
+    --wt-item-link-text-color: var(--info-color);
+  }
 }
 </style>
