@@ -40,7 +40,7 @@
 
     </div>
     <div class="object-input-grid opened-single-sign-on-general__token-grid">
-      <single-sign-on-token v-if="modelValue.id" />
+      <single-sign-on-token :disabled="!modelValue.id" />
 
       <wt-multi-select
         v-model:model-value="modelValue.scopes"
