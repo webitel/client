@@ -3,7 +3,7 @@
     <p class="typo-body-2">
       {{ t('objects.integrations.singleSignOn.inspectDescription') }}
     </p>
-    <wt-button @click="getTokenData">
+    <wt-button @click="getTokenData" :disabled="disabled">
       {{ t('objects.integrations.singleSignOn.inspect') }}
     </wt-button>
 
@@ -42,6 +42,10 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
+
+const props = defineProps<{
+	disabled?: boolean;
+}>();
 
 const { t } = useI18n();
 const route = useRoute();
