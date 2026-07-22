@@ -201,6 +201,10 @@ const parameterDescriptors: {
 	// Password settings
 	[EngineSystemSettingName.PasswordExpiryDays]: {
 		type: ConfigurationValueType.Number,
+		defaultValue: 120,
+		validators: {
+			minValue: minValue(1),
+		},
 	},
 	[EngineSystemSettingName.PasswordMinLength]: {
 		type: ConfigurationValueType.Number,
@@ -225,6 +229,10 @@ const parameterDescriptors: {
 	},
 	[EngineSystemSettingName.PasswordWarningDays]: {
 		type: ConfigurationValueType.Number,
+		defaultValue: 30,
+		validators: {
+			minValue: minValue(1),
+		},
 	},
 };
 
