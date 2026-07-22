@@ -143,11 +143,12 @@ export default {
 		};
 	},
 	data: () => ({
-		MimeTypes: Object.values(MimeTypes),
 		isPopupOpened: false,
 		isEncryptionAlertOpened: false,
 		pendingEncryptValue: false,
-		mimeTypeOptions: [],
+		mimeTypeOptions: [
+			...Object.values(MimeTypes),
+		],
 	}),
 	computed: {
 		encryptionAlertMessage() {
@@ -221,12 +222,14 @@ export default {
 	watch: {
 		'itemInstance.mimeTypes': {
 			handler(newValue) {
-				this.mimeTypeOptions = [
-					...new Set([
-						...this.MimeTypes,
-						...newValue,
-					]),
-				];
+				if (newValue.length) {
+					this.mimeTypeOptions = [
+						...new Set([
+							...this.mimeTypeOptions,
+							...newValue,
+						]),
+					];
+				}
 			},
 			once: true,
 		},
