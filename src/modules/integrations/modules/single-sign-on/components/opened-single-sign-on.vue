@@ -83,7 +83,11 @@ const {
 });
 
 const tabs = computed(() => {
-	const array = [
+	const array: {
+		text: string;
+		value: string;
+		pathName: string;
+	}[] = [
 		{
 			text: t('objects.general'),
 			value: 'general',

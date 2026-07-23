@@ -3,7 +3,7 @@ const INTERVAL = 300;
 const STORAGE_KEY = 'ssoInspectToken';
 
 export const useInspectSingleSignOnToken = () => {
-	const getUrl = (id: number) => `/api/login/${id}/inspect`;
+	const getUrl = (id: string) => `/api/login/${id}/inspect`;
 
 	const parseTokenData = (tab) => {
 		const bodyText = tab.document.body?.textContent?.trim();
@@ -17,16 +17,16 @@ export const useInspectSingleSignOnToken = () => {
 		return token ? JSON.parse(token) : {};
 	};
 
-	const getTokenDataFromStorage = (id: number) => getToken()[id] ?? null;
+	const getTokenDataFromStorage = (id: string) => getToken()[id] ?? null;
 
-	const setTokenDataToStorage = (id: number, data) => {
+	const setTokenDataToStorage = (id: string, data) => {
 		const allTokens = getToken();
 		allTokens[id] = data;
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(allTokens));
 	};
 
 	const watchSsoTab = (
-		id: number,
+		id: string,
 		tab: Window,
 		onResult: (data: any) => void,
 	) => {
@@ -64,7 +64,7 @@ export const useInspectSingleSignOnToken = () => {
 		if (!finished) intervalId = setInterval(check, INTERVAL);
 	};
 
-	const inspectToken = (id: number, onResult: (data: any) => void) => {
+	const inspectToken = (id: string, onResult: (data: any) => void) => {
 		const tab = window.open(getUrl(id), '_blank');
 		if (!tab) {
 			onResult(null);

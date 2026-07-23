@@ -37,7 +37,7 @@
 import { ComponentSize } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps<{
+defineProps<{
 	shown: boolean;
 	text: string;
 	isLoading: boolean;

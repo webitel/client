@@ -1,4 +1,3 @@
-// @ts-expect-error він там є!
 import { fillIconsRepository } from '@webitel/ui-sdk';
 
 import admContactCenter from './adm-contact-center.svg?raw';

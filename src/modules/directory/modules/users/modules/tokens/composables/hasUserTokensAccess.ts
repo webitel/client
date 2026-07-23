@@ -22,7 +22,7 @@ export const useHasUserTokensAccess = () => {
 		hasCreateAccess: hasGlobalCreateAccess,
 		hasUpdateAccess: hasGlobalUpdateAccess,
 	} = useUserAccessControl({
-		useGlobalAccessAsChecksSource: true,
+		useGlobalCrudActionAccessAsChecksSource: true,
 	});
 
 	const isMe = computed(() => {

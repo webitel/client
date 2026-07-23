@@ -12,6 +12,7 @@
 		"docs:dev": "vitepress dev docs",
 		"docs:build": "vitepress build docs",
 		"tsc": "vue-tsc -p tsconfig.json",
+		"typecheck": "vue-tsc --noEmit -p ./tsconfig.json",
 		"utils:i": "npm i --install-links",
 		"utils:up-libs": "npm up @webitel/api-services @webitel/ui-sdk @webitel/styleguide @webitel/ui-datalist && npm run utils:ls-libs",
 		"utils:ln-libs": "npm link @webitel/api-services @webitel/ui-sdk @webitel/styleguide @webitel/ui-datalist && npm run utils:ls-libs",
@@ -19,7 +20,7 @@
 		"prepare": "husky || true",
 		"biome:ci:gh": "biome ci ./src --reporter=github",
 		"test:unit:ci": "vitest run --coverage",
-		"typecheck:ci": "true"
+		"typecheck:ci": "npm run typecheck"
 	},
 	"type": "module",
 	"dependencies": {

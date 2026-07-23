@@ -41,7 +41,9 @@ import { changePassword as requestChangePassword } from '../../api/settings';
 import ChangePasswordAutocomplete from './utils/change-password-autocomplete.vue';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
-const $eventBus = inject('$eventBus');
+const $eventBus = inject<{
+	$emit: (event: string, ...args: unknown[]) => void;
+}>('$eventBus');
 const { t } = useI18n();
 
 const userStore = useUserinfoStore();
