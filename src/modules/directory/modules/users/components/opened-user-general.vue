@@ -152,6 +152,7 @@
           <logout-action
             :id="itemInstance.id"
             :disabled="!isActiveLogout"
+            wide
           />
         </wt-card>
       </div>
