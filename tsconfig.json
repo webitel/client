@@ -1,29 +1,48 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["esnext", "DOM"],
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"lib": [
+			"esnext",
+			"DOM"
+		],
+		"plugins": [
+			{
+				"name": "typescript-plugin-css-modules"
+			}
+		],
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
 
-    "allowJs": false,
-    "skipLibCheck": true,
+		"allowJs": false,
+		"skipLibCheck": true,
 
-    "moduleResolution": "Bundler",
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "noEmitOnError": false,
+		"moduleResolution": "Bundler",
+		// @webitel/ui-sdk ships an exports map whose `types` conditions use
+		// extensionless wildcard targets (e.g. "./src/scripts*" -> "./types/scripts*").
+		// TS's Bundler resolver won't append `.d.ts` to those, so deep `src/*` imports
+		// fail in .ts / `<script lang="ts">` (plain-JS <script setup> blocks are unaffected).
+		// Map the deep paths straight to the bundled declarations (falling back to src).
+		// TODO(types): drop this once ui-sdk's exports map ships extensioned `types` targets.
+		"paths": {
+			"@webitel/ui-sdk/src/*": [
+				"./node_modules/@webitel/ui-sdk/types/*",
+				"./node_modules/@webitel/ui-sdk/src/*"
+			]
+		},
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"noEmitOnError": false,
 
-    "strict": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
-  },
-  "include": [
-    "src",
-    "node_modules/vite-plugin-checker/dist/esm/checkers/vueTsc/typescript-vue-tsc/lib/lib.dom.d.ts"
-  ]
+		"strict": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
+	},
+	"include": [
+		"src",
+		"node_modules/vite-plugin-checker/dist/esm/checkers/vueTsc/typescript-vue-tsc/lib/lib.dom.d.ts"
+	]
 }

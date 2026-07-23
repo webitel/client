@@ -43,7 +43,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
 
-const props = defineProps<{
+defineProps<{
 	disabled?: boolean;
 }>();
 
@@ -63,7 +63,7 @@ const setTokenData = (data) => {
 };
 
 const setInitialTokenData = () => {
-	const currentToken = getTokenDataFromStorage(route.params.id);
+	const currentToken = getTokenDataFromStorage(route.params.id as string);
 	setTokenData(currentToken);
 };
 
@@ -74,7 +74,7 @@ onMounted(() => {
 watch(() => route.params.id, setInitialTokenData);
 
 const getTokenData = () => {
-	inspectToken(route.params.id, (data) => {
+	inspectToken(route.params.id as string, (data) => {
 		if (!data) return;
 
 		setTokenData(data);

@@ -31,8 +31,9 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
+import { useEventBus } from '@webitel/ui-sdk/composables';
 import { storeToRefs } from 'pinia';
-import { computed, inject, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import UserPasswordInput from '../../../../app/components/utils/user-password-input.vue';
@@ -41,7 +42,7 @@ import { changePassword as requestChangePassword } from '../../api/settings';
 import ChangePasswordAutocomplete from './utils/change-password-autocomplete.vue';
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
-const $eventBus = inject('$eventBus');
+const $eventBus = useEventBus();
 const { t } = useI18n();
 
 const userStore = useUserinfoStore();

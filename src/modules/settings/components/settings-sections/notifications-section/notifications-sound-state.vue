@@ -29,7 +29,7 @@ const emit = defineEmits([
 ]);
 
 const isNotificationTypeInEngineSystemSettingName = computed(() => {
-	return Object.values(EngineSystemSettingName).includes(
+	return (Object.values(EngineSystemSettingName) as string[]).includes(
 		props.notificationType,
 	);
 });
@@ -49,7 +49,7 @@ function changeNotificationState(value: boolean) {
 	if (isNotificationTypeInEngineSystemSettingName.value) {
 		emit('change', value);
 	} else {
-		localStorage.setItem(localStorageName.value, value);
+		localStorage.setItem(localStorageName.value, String(value));
 		localStorageValue.value = value;
 	}
 }
