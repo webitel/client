@@ -11,8 +11,8 @@
       <wt-button
         v-tooltip="t('objects.directory.users.logout.tooltip')"
         :disabled="disabled"
+        :wide="wide"
         color="error"
-        wide
         @click="openPopup"
       >
         {{ buttonText }}
@@ -41,10 +41,12 @@ const props = withDefaults(
 		id: string;
 		mySessions?: boolean;
 		disabled?: boolean;
+		wide?: boolean;
 	}>(),
 	{
 		mySessions: false,
 		disabled: false,
+		wide: false,
 	},
 );
 
