@@ -5,7 +5,7 @@ export default Object.keys(QueueType)
 		(key) =>
 			Number.isNaN(+key) &&
 			// staging only https://webitel.atlassian.net/browse/WS-2
-			(import.meta.env.VITE_STAGING_ENV ||
+			(import.meta.env.VITE_STAGING_ENV === 'true' ||
 				QueueType[key] !== QueueType.IM_CHAT_QUEUE),
 	)
 	.map((key) => ({

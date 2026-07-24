@@ -264,7 +264,7 @@ const QueueTypeProperties = Object.freeze({
 		],
 	},
 	// staging only https://webitel.atlassian.net/browse/WS-2
-	...(import.meta.env.VITE_STAGING_ENV
+	...(import.meta.env.VITE_STAGING_ENV === 'true'
 		? {
 				[QueueType.IM_CHAT_QUEUE]: {
 					locale: baseLocale.concat('.imChatQueue'),
