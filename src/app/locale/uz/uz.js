@@ -114,6 +114,7 @@ export default {
 		requiredArrayValue: "Massiv bo'sh bo'lmasligi kerak",
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",
 		cron: 'Nogiron cron ifoda',
+		hourRange: "Soatlar 00 dan 23 gacha bo'lishi kerak",
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Faylda noto'g'ri raqamlar mavjud. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},

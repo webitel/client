@@ -114,6 +114,7 @@ export default {
 		requiredArrayValue: 'Array should not be empty',
 		isPositiveValue: 'Value should be positive number',
 		cron: 'Invalid cron expression',
+		hourRange: 'Hours must be from 00 to 23',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`File contains invalid numbers. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
