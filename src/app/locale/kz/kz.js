@@ -114,6 +114,7 @@ export default {
 		requiredArrayValue: 'Массив бос болмауы керек',
 		isPositiveValue: 'Мән оң сан болуы керек',
 		cron: 'Крон өрнегі қате',
+		hourRange: 'Сағат 00-ден 23-ке дейін болуы керек',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файлда қате нөмірлер бар. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},

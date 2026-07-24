@@ -20,8 +20,10 @@
         </template>
         <template #start="{ item, index }">
           <wt-timepicker
+            :custom-validators="hourRangeValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
+            :v="getFieldValidation(index, 'start')"
             format="hh:mm"
             no-label
             @update:model-value="setItemProp({ prop: 'start', index, value: secToMin($event) })"
@@ -29,8 +31,10 @@
         </template>
         <template #end="{ item, index }">
           <wt-timepicker
+            :custom-validators="hourRangeValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
+            :v="getFieldValidation(index, 'end')"
             format="hh:mm"
             no-label
             @update:model-value="setItemProp({ prop: 'end', index, value: secToMin($event) })"
@@ -63,6 +67,7 @@
 <script>
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { getForEachHourRangeValidation } from '../../../../../app/utils/validators';
 import { useWeekDaysData } from '../composables/useWeekDaysData.js';
 
 const namespace = 'lookups/calendars';
@@ -98,6 +103,25 @@ export default {
 			minToSec,
 			secToMin,
 		};
+	},
+	computed: {
+		hourRangeValidators() {
+			return [
+				{
+					name: 'hourRange',
+					text: this.$t('validation.hourRange'),
+				},
+			];
+		},
+	},
+	methods: {
+		getFieldValidation(index, prop) {
+			return getForEachHourRangeValidation(
+				this.v.itemInstance.accepts.$each.$response,
+				index,
+				prop,
+			);
+		},
 	},
 };
 </script>

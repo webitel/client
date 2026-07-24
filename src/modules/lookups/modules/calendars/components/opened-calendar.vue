@@ -45,6 +45,7 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
+	hourRange,
 	timerangeNotIntersect,
 	timerangeStartLessThanEnd,
 } from '../../../../../app/utils/validators';
@@ -79,27 +80,39 @@ export default {
 		routeName: RouteNames.CALENDARS,
 		permissionsTabPathName: CalendarRouteNames.PERMISSIONS,
 	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
+	validations() {
+		const hourRangeWithMessage = helpers.withMessage(
+			this.$t('validation.hourRange'),
+			hourRange,
+		);
+		return {
+			itemInstance: {
+				name: {
+					required,
+				},
+				timezone: {
+					required,
+				},
+				accepts: {
+					timerangeNotIntersect,
+					$each: helpers.forEach({
+						timerangeStartLessThanEnd,
+						start: {
+							hourRange: hourRangeWithMessage,
+						},
+						end: {
+							hourRange: hourRangeWithMessage,
+						},
+					}),
+				},
+				// specials: {
+				//   timerangeNotIntersect,
+				//   $each: helpers.forEach({
+				//     timerangeStartLessThanEnd,
+				//   }),
+				// },
 			},
-			timezone: {
-				required,
-			},
-			accepts: {
-				timerangeNotIntersect,
-				$each: helpers.forEach({
-					timerangeStartLessThanEnd,
-				}),
-			},
-			// specials: {
-			//   timerangeNotIntersect,
-			//   $each: helpers.forEach({
-			//     timerangeStartLessThanEnd,
-			//   }),
-			// },
-		},
+		};
 	},
 
 	computed: {

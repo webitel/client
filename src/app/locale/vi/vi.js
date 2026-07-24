@@ -114,6 +114,7 @@ export default {
 		requiredArrayValue: 'Mảng không được rỗng',
 		isPositiveValue: 'Giá trị phải là số dương',
 		cron: 'Biểu thức cron không hợp lệ',
+		hourRange: 'Giờ phải từ 00 đến 23',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
