@@ -53,6 +53,27 @@ export const requiredArrayValue = (array) => array.some((value) => value);
 
 export const timerangeStartLessThanEnd = (object) => object.start < object.end;
 
+export const hourRange = (value) => value >= 0 && value < 1440;
+
+// @author HlukhovYe
+// helpers.forEach only exposes raw per-rule booleans on $data (no
+// $invalid/$message per rule). Rebuild a real { $invalid } object here so
+// a wt-timepicker's :custom-validators can read it for this exact row/field.
+export const getForEachHourRangeValidation = (eachResponse, index, prop) => {
+	const {
+		$invalid,
+		$error,
+		hourRange: isHourRangeValid,
+	} = eachResponse.$data[index][prop];
+	return {
+		$invalid,
+		$error,
+		hourRange: {
+			$invalid: isHourRangeValid === false,
+		},
+	};
+};
+
 export const timerangeNotIntersect = (array) => {
 	let isIntersecting = false;
 	let ranges = [

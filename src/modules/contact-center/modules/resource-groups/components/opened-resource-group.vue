@@ -45,6 +45,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
+	hourRange,
 	requiredArrayValue,
 	timerangeNotIntersect,
 	timerangeStartLessThanEnd,
@@ -85,22 +86,34 @@ export default {
 		permissionsTabPathName: ResourcesGroupsRouteNames.PERMISSIONS,
 	}),
 	// by vuelidate
-	validations: {
-		itemInstance: {
-			name: {
-				required,
+	validations() {
+		const hourRangeWithMessage = helpers.withMessage(
+			this.$t('validation.hourRange'),
+			hourRange,
+		);
+		return {
+			itemInstance: {
+				name: {
+					required,
+				},
+				communication: {
+					required,
+				},
+				time: {
+					requiredArrayValue,
+					timerangeNotIntersect,
+					$each: helpers.forEach({
+						timerangeStartLessThanEnd,
+						start: {
+							hourRange: hourRangeWithMessage,
+						},
+						end: {
+							hourRange: hourRangeWithMessage,
+						},
+					}),
+				},
 			},
-			communication: {
-				required,
-			},
-			time: {
-				requiredArrayValue,
-				timerangeNotIntersect,
-				$each: helpers.forEach({
-					timerangeStartLessThanEnd,
-				}),
-			},
-		},
+		};
 	},
 	computed: {
 		tabs() {
