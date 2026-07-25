@@ -70,9 +70,6 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'Folosește WebPhone',
 		useStun: 'Folosește STUN',
-		volumeLeveling: 'Nivelare volum',
-		echoCancellation: 'Anulare ecou',
-		noiseReduction: 'Reducere zgomot',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Sunet pentru mesaj nou',
 			[NotificationType.NewChatSound]: 'Sunet pentru chat nou',
