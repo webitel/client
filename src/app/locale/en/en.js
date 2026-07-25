@@ -813,7 +813,7 @@ export default {
 				allAgents: 'All agents',
 				chatCount: 'Chat count',
 				taskCount: 'Task count',
-				progressiveCountValidator: 'Value should be at least 1 or empty',
+				progressiveCountValidator: 'Value should be greater than 1 or empty',
 				extraChatCount: 'Extra chat count',
 				state: 'Status',
 				isSupervisor: 'Supervisor',

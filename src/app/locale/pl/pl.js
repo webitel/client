@@ -815,7 +815,7 @@ export default {
 				chatCount: 'Liczba czatów',
 				taskCount: 'Liczba zadań',
 				progressiveCountValidator:
-					'Wartość powinna wynosić co najmniej 1 lub być pusta',
+					'Wartość powinna być większa niż 1 lub pusta',
 				extraChatCount: 'Dodatkowa liczba czatów',
 				state: 'Status',
 				isSupervisor: 'Nadzorca',

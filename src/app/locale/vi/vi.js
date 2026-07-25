@@ -813,7 +813,7 @@ export default {
 				allAgents: 'Tất cả đại lý',
 				chatCount: 'Số cuộc trò chuyện',
 				taskCount: 'Số nhiệm vụ',
-				progressiveCountValidator: 'Giá trị phải ít nhất là 1 hoặc để trống',
+				progressiveCountValidator: 'Giá trị phải lớn hơn 1 hoặc để trống',
 				extraChatCount: 'Số cuộc trò chuyện bổ sung',
 				state: 'Trạng thái',
 				isSupervisor: 'Giám sát',

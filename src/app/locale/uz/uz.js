@@ -818,7 +818,7 @@ export default {
 				chatCount: 'Chat soni',
 				taskCount: 'Vazifa soni',
 				progressiveCountValidator:
-					'Qiymat kamida 1 boʻlishi yoki boʻsh boʻlishi kerak',
+					'Qiymat 1 dan katta yoki boʻsh boʻlishi kerak',
 				extraChatCount: 'Qoshimcha chatlar soni',
 				state: 'Holat',
 				isSupervisor: 'Supervisor',
