@@ -896,7 +896,10 @@ export default {
 				resetMembers: {
 					resetMembers: 'Đặt lại thử',
 					description:
-						'Bạn có chắc chắn muốn đặt lại thử của thành viên thất bại?',
+						'Bạn có chắc chắn muốn đặt lại các lần thử không thành công từ\n{dateFrom} đến {dateTo}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?',
+					descriptionCount: '{count} bản ghi sẽ bị ảnh hưởng.',
+					emptyDescription:
+						'Không có lần thử không thành công nào khớp với bộ lọc hiện tại. Không có gì để đặt lại.',
 					reset: 'Đặt lại',
 					successResetCount: 'Đặt lại thành công {count} thành viên',
 				},

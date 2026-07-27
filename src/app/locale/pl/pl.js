@@ -898,7 +898,10 @@ export default {
 				resetMembers: {
 					resetMembers: 'Resetuj członków',
 					description:
-						'Czy na pewno chcesz zresetować próby nieudanych członków?',
+						'Czy na pewno chcesz zresetować nieudane próby z okresu\n{dateFrom} do {dateTo}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?',
+					descriptionCount: 'Zostanie przetworzonych rekordów: {count}',
+					emptyDescription:
+						'Żadne nieudane próby nie pasują do bieżących filtrów. Nie ma nic do zresetowania.',
 					reset: 'Resetuj',
 					successResetCount: 'Pomyślnie zresetowano {count} członków',
 				},

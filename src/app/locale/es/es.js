@@ -901,7 +901,10 @@ export default {
 				resetMembers: {
 					resetMembers: 'Restablecer miembros',
 					description:
-						'¿Está seguro de que desea restablecer los intentos de miembros no exitosos?',
+						'¿Está seguro de que desea reiniciar los intentos fallidos desde\n{dateFrom} hasta {dateTo}\nsegún los filtros aplicados y los resultados de la búsqueda?',
+					descriptionCount: 'Se verán afectados {count} registros.',
+					emptyDescription:
+						'No hay intentos fallidos que coincidan con los filtros actuales. No hay nada que reiniciar.',
 					reset: 'Restablecer',
 					successResetCount: 'Se restablecieron con éxito {count} miembros',
 				},

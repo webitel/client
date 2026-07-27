@@ -896,7 +896,10 @@ export default {
 				resetMembers: {
 					resetMembers: 'Reset members',
 					description:
-						'Are you sure you want to reset attempts of unsuccessful members?',
+						'Are you sure you want to reset the failed attempts from\n{dateFrom} to {dateTo}\n based on the applied filters and search results?',
+					descriptionCount: '{count} records will be affected.',
+					emptyDescription:
+						'No failed attempts match the current filters. There is nothing to reset.',
 					reset: 'Reset',
 					successResetCount: 'Successfully reset {count} members',
 				},
