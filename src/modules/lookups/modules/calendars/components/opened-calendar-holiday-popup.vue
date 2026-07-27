@@ -12,8 +12,10 @@
           @update:model-value="changeWorkingSwitcher" />
         <div v-if="itemInstance.working" class="opened-calendar-holiday-popup__wrapper">
           <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.start')" :v="v$.itemInstance.workStart"
+            :custom-validators="hourRangeValidators"
             :model-value="itemInstance.workStart * 60" @update:model-value="updateWorkingTime($event, 'workStart')"></wt-timepicker>
           <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.end')" :v="v$.itemInstance.workStop"
+            :custom-validators="hourRangeValidators"
             :model-value="itemInstance.workStop * 60" @update:model-value="updateWorkingTime($event, 'workStop')"></wt-timepicker>
         </div>
         <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
@@ -33,17 +35,12 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import {
-	maxValue,
-	minValue,
-	numeric,
-	required,
-	requiredIf,
-} from '@vuelidate/validators';
+import { helpers, numeric, required, requiredIf } from '@vuelidate/validators';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { hourRange } from '../../../../../app/utils/validators';
 
 export default {
 	name: 'OpenedCalendarHolidayPopup',
@@ -66,29 +63,41 @@ export default {
 			repeat: true,
 		},
 	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
+	validations() {
+		const hourRangeWithMessage = helpers.withMessage(
+			this.$t('validation.hourRange'),
+			hourRange,
+		);
+		return {
+			itemInstance: {
+				name: {
+					required,
+				},
+				date: {
+					required,
+				},
+				workStart: {
+					numeric,
+					hourRange: hourRangeWithMessage,
+				},
+				workStop: {
+					numeric,
+					required: requiredIf((value, item) => item.workStart),
+					hourRange: hourRangeWithMessage,
+				},
 			},
-			date: {
-				required,
-			},
-			workStart: {
-				numeric,
-				minValue: minValue(0),
-				maxValue: maxValue(1440),
-			},
-			workStop: {
-				numeric,
-				required: requiredIf((value, item) => item.workStart),
-				minValue: minValue(0),
-				maxValue: maxValue(1440),
-			},
-		},
+		};
 	},
 
 	computed: {
+		hourRangeValidators() {
+			return [
+				{
+					name: 'hourRange',
+					text: this.$t('validation.hourRange'),
+				},
+			];
+		},
 		...mapState({
 			holidayList(state) {
 				return getNamespacedState(state, this.namespace).itemInstance.excepts;
