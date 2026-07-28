@@ -55,8 +55,14 @@ const actions = {
 		MembersAPI.deleteBulk(context.state.parentId, {
 			id: [],
 		}),
-	RESET_MEMBERS: (context) => {
-		const response = MembersAPI.resetMembers(context.state);
+	RESET_MEMBERS: (
+		context,
+		filters = context.getters['filters/GET_FILTERS'],
+	) => {
+		const response = MembersAPI.resetMembers({
+			parentId: context.state.parentId,
+			filters,
+		});
 		context.dispatch('LOAD_DATA_LIST');
 		return response;
 	},
