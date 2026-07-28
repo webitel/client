@@ -80,6 +80,7 @@ export default {
 	mixins: [
 		openedObjectMixin,
 	],
+	/** Kept for the disabled device generation notification, see onSave */
 	inject: [
 		'$eventBus',
 	],
@@ -227,15 +228,24 @@ export default {
 		},
 	},
 	methods: {
+		/**
+		 * @author @rzaritskyi
+		 *
+		 * [WTEL-9735](https://webitel.atlassian.net/browse/WTEL-9735)
+		 *
+		 * Success notification about device generation is temporarily disabled:
+		 * the current variant needs rework.
+		 * The `objects.directory.users.deviceWasGenerated` message is kept in all locales.
+		 */
 		async onSave() {
-			const wasGenerating = this.itemInstance.generateDevice;
+			// const wasGenerating = this.itemInstance.generateDevice;
 			await this.save();
-			if (wasGenerating) {
-				this.$eventBus.$emit('notification', {
-					type: 'success',
-					text: this.$t('objects.directory.users.deviceWasGenerated'),
-				});
-			}
+			// if (wasGenerating) {
+			// 	this.$eventBus.$emit('notification', {
+			// 		type: 'success',
+			// 		text: this.$t('objects.directory.users.deviceWasGenerated'),
+			// 	});
+			// }
 		},
 		close() {
 			this.$router.push(`/${this.namespace}`);
