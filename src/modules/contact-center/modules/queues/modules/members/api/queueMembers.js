@@ -162,10 +162,10 @@ const getMembersList = async (params) => {
 	}
 };
 
-const getMembersQuantity = async ({ queueId, filters }) => {
+const getMembersQuantity = async ({ queueId, query }) => {
 	const baseUrl = `/call_center/queues/${queueId}/members/reset/count`;
 
-	const params = applyTransform(filters, [
+	const params = applyTransform(query, [
 		mapResetMembersQuantityFilters,
 		starToSearch('q'),
 	]);

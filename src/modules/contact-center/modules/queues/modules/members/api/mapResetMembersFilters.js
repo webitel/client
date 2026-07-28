@@ -1,16 +1,16 @@
 const mapResetMembersFilters = (filters) => ({
-	agent_id: filters.agent?.value?.map((agent) => agent.id),
-	bucket_id: filters.bucket?.value?.map((bucket) => bucket.id),
+	agent_id: filters.agent,
+	bucket_id: filters.bucket,
 	created_at: {
-		from: filters.from?.value,
-		to: filters.to?.value,
+		from: filters.from,
+		to: filters.to,
 	},
 	priority: {
-		from: filters.priority?.value?.from,
-		to: filters.priority?.value?.to,
+		from: filters.priority?.from,
+		to: filters.priority?.to,
 	},
-	q: filters.search?.value,
-	stop_cause: filters.cause?.value?.map((cause) => cause.value),
+	q: filters.search,
+	stop_cause: filters.cause,
 });
 
 const mapResetMembersQuantityFilters = (filters) => {

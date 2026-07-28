@@ -60,10 +60,13 @@ const actions = {
 		context.dispatch('LOAD_DATA_LIST');
 		return response;
 	},
-	GET_MEMBERS_QUANTITY: (context) =>
+	GET_MEMBERS_QUANTITY: (
+		context,
+		query = context.getters['filters/GET_FILTERS'],
+	) =>
 		MembersAPI.getQuantity({
 			queueId: context.state.parentId,
-			filters: context.state.filters,
+			query,
 		}),
 	SET_PARENT_ITEM_ID: (context, id) => {
 		context.commit('SET_PARENT_ITEM_ID', id);
