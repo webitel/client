@@ -70,9 +70,6 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'Użyj WebPhone',
 		useStun: 'Użyj STUN',
-		volumeLeveling: 'Wyrównywanie głośności',
-		echoCancellation: 'Usuwanie echa',
-		noiseReduction: 'Redukcja szumów',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Dźwięk nowej wiadomości',
 			[NotificationType.NewChatSound]: 'Dźwięk nowego czatu',
