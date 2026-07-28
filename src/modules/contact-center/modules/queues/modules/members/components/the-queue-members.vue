@@ -55,7 +55,7 @@
         :shown="!disableUserInput && isResetPopup"
         :callback="resetMembers"
         :date-range="selectedDateRage"
-        :members-quantity="membersQuantity"
+        :quantity="resetMembersQuantity"
         @close="closeResetPopup"
       />
 
@@ -305,7 +305,7 @@ export default {
 		isResetPopup: false,
 		csvFile: null,
 		showActionsPanel: false,
-		membersQuantity: 0,
+		resetMembersQuantity: 0,
 	}),
 
 	computed: {
@@ -401,7 +401,7 @@ export default {
 		},
 
 		async openResetPopup() {
-			this.membersQuantity = await this.getMembersQuantity();
+			this.resetMembersQuantity = await this.getMembersQuantity();
 			this.isResetPopup = true;
 		},
 

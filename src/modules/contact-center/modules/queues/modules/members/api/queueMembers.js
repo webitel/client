@@ -19,7 +19,7 @@ import configuration from '../../../../../../../app/api/openAPIConfig';
 import {
 	mapResetMembersFilters,
 	mapResetMembersQuantityFilters,
-} from './mapResetMembersFilters.js';
+} from './mapResetMembersFilters';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -162,7 +162,7 @@ const getMembersList = async (params) => {
 	}
 };
 
-const getMembersQuantity = async (queueId, filters) => {
+const getMembersQuantity = async ({ queueId, filters }) => {
 	const baseUrl = `/call_center/queues/${queueId}/members/reset/count`;
 
 	const params = applyTransform(filters, [
@@ -171,10 +171,10 @@ const getMembersQuantity = async (queueId, filters) => {
 	]);
 
 	try {
-		const res = await instance.get(baseUrl, {
+		const response = await instance.get(baseUrl, {
 			params,
 		});
-		return res?.data?.count || 0;
+		return response?.data?.count || 0;
 	} catch (err) {
 		throw applyTransform(err, [
 			notify,
