@@ -98,6 +98,7 @@ const getAgent = async ({ itemId: id }) => {
 		progressiveCount: null,
 		chatCount: 0,
 		taskCount: 0,
+		extraChatCount: 0,
 		isSupervisor: false,
 		description: '',
 		greetingMedia: {},
