@@ -896,7 +896,10 @@ export default {
 				resetMembers: {
 					resetMembers: 'Resetează membri',
 					description:
-						'Sigur vrei să resetezi încercările membrilor cu succes nereușite?',
+						'Sunteți sigur că doriți să resetați încercările eșuate din perioada\n{dateFrom} până la {dateTo}\nținând cont de filtrele aplicate și de rezultatele căutării?',
+					descriptionCount: 'Vor fi afectate {count} înregistrări.',
+					emptyDescription:
+						'Nu există încercări eșuate care să corespundă filtrelor curente. Nu este nimic de resetat.',
 					reset: 'Resetează',
 					successResetCount: 'Succes la reseta {count} membri',
 				},

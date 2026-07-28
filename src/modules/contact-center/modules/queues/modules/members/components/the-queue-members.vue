@@ -54,6 +54,8 @@
       <reset-popup
         :shown="!disableUserInput && isResetPopup"
         :callback="resetMembers"
+        :date-range="selectedDateRage"
+        :quantity="resetMembersQuantity"
         @close="closeResetPopup"
       />
 
@@ -259,6 +261,18 @@ export default {
 			() => getNamespacedState(store.state, namespace).parentQueue,
 		);
 
+		const filters = computed(
+			() => getNamespacedState(store.state, namespace).filters,
+		);
+
+		const selectedDateRage = {
+			from: formatDate(
+				+filters.value.from.value,
+				FormatDateMode.DATETIME_SHORT,
+			),
+			to: formatDate(+filters.value.to.value, FormatDateMode.DATETIME_SHORT),
+		};
+
 		const { disableUserInput: disableUserInputOnNoAccess } =
 			useUserAccessControl({
 				useUpdateAccessAsAllMutableChecksSource: true,
@@ -280,6 +294,7 @@ export default {
 			closeDelete,
 			dummy,
 			disableUserInput,
+			selectedDateRage,
 		};
 	},
 
@@ -290,6 +305,7 @@ export default {
 		isResetPopup: false,
 		csvFile: null,
 		showActionsPanel: false,
+		resetMembersQuantity: 0,
 	}),
 
 	computed: {
@@ -384,7 +400,8 @@ export default {
 			return formatDate(+timestamp, FormatDateMode.DATETIME);
 		},
 
-		openResetPopup() {
+		async openResetPopup() {
+			this.resetMembersQuantity = await this.getMembersQuantity();
 			this.isResetPopup = true;
 		},
 
@@ -491,7 +508,9 @@ export default {
 			resetMembers(dispatch, payload) {
 				return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
 			},
-
+			getMembersQuantity(dispatch, payload) {
+				return dispatch(`${this.namespace}/GET_MEMBERS_QUANTITY`, payload);
+			},
 			deleteSelected(dispatch, payload) {
 				return dispatch(`${this.namespace}/DELETE_BULK`, payload);
 			},

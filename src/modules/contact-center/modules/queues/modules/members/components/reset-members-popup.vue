@@ -9,9 +9,20 @@
       {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
     </template>
     <template #main>
-      <p>
-        {{ $t('objects.ccenter.members.resetMembers.description') }}
-      </p>
+      <div class="reset-members-popup--description">
+        <p
+          v-if="!!quantity"
+          class="reset-members-popup--description-main"
+        >
+          {{ $t('objects.ccenter.members.resetMembers.description', {
+            dateFrom: dateRange.from,
+            dateTo: dateRange.to
+          }) }}
+        </p>
+        <p class="reset-members-popup--description-count">
+          {{ descriptionCountText }}
+        </p>
+      </div>
     </template>
     <template #actions>
       <wt-button
@@ -19,9 +30,10 @@
         color="secondary"
         @click="cancel"
       >
-        {{ $t('reusable.cancel') }}
+        {{ $t(!!quantity ? 'reusable.cancel' : 'objects.ok') }}
       </wt-button>
       <wt-button
+        v-if="!!quantity"
         :loading="isResetting"
         color="error"
         @click="confirm"
@@ -43,11 +55,26 @@ export default {
 			type: Function,
 			required: true,
 		},
+		dateRange: {
+			type: Object,
+		},
+		quantity: {
+			type: Number,
+		},
 	},
 	data: () => ({
 		isResetting: false,
 	}),
-	computed: {},
+	computed: {
+		descriptionCountText() {
+			return this.$t(
+				`objects.ccenter.members.resetMembers.${this.quantity ? 'descriptionCount' : 'emptyDescription'}`,
+				{
+					count: this.quantity,
+				},
+			);
+		},
+	},
 	methods: {
 		close() {
 			this.$emit('close');
@@ -80,5 +107,12 @@ export default {
 </script>
 
 <style scoped>
-
+.reset-members-popup--description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  white-space: pre-line;
+  text-align: center;
+}
 </style>

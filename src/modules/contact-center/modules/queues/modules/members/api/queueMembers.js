@@ -16,6 +16,10 @@ import { MemberServiceApiFactory } from 'webitel-sdk';
 
 import instance from '../../../../../../../app/api/instance';
 import configuration from '../../../../../../../app/api/openAPIConfig';
+import {
+	mapResetMembersFilters,
+	mapResetMembersQuantityFilters,
+} from './mapResetMembersFilters';
 
 const memberService = new MemberServiceApiFactory(configuration, '', instance);
 
@@ -158,6 +162,26 @@ const getMembersList = async (params) => {
 	}
 };
 
+const getMembersQuantity = async ({ queueId, query }) => {
+	const baseUrl = `/call_center/queues/${queueId}/members/reset/count`;
+
+	const params = applyTransform(query, [
+		mapResetMembersQuantityFilters,
+		starToSearch('q'),
+	]);
+
+	try {
+		const response = await instance.get(baseUrl, {
+			params,
+		});
+		return response?.data?.count || 0;
+	} catch (err) {
+		throw applyTransform(err, [
+			notify,
+		]);
+	}
+};
+
 const getMember = async ({ parentId, itemId: id }) => {
 	const defaultObject = {
 		createdAt: 'unknown',
@@ -259,9 +283,14 @@ const deleteMember = async ({ parentId, id }) => {
 	}
 };
 
-const resetMembers = async ({ parentId }) => {
+const resetMembers = async ({ parentId, filters }) => {
+	const body = applyTransform(filters, [
+		mapResetMembersFilters,
+		starToSearch('q'),
+	]);
+
 	try {
-		const response = await memberService.resetMembers(parentId, {});
+		const response = await memberService.resetMembers(parentId, body);
 		return applyTransform(response.data, [
 			snakeToCamel([
 				'variables',
@@ -347,6 +376,7 @@ export const deleteMembersBulk = async (
 
 const QueueMembersAPI = {
 	getList: getMembersList,
+	getQuantity: getMembersQuantity,
 	get: getMember,
 	add: addMember,
 	addBulk: addMembersBulk,
