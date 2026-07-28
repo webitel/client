@@ -36,7 +36,7 @@
         :model-value="itemInstance.metadata.botName"
         @update:model-value="setItemMetadata({ prop: 'botName', value: $event })"
       />
-      <wt-single--select
+      <wt-single-select
         :disabled="disableUserInput"
         :label="$t('objects.routing.flow.flow', 1)"
         :search-method="loadDropdownOptionsList"
