@@ -815,7 +815,8 @@ export default {
 				allAgents: 'Todos los agentes',
 				chatCount: 'Contador de chats',
 				taskCount: 'Contador de tareas',
-				progressiveCountValidator: 'El valor debe ser al menos 1 o estar vacío',
+				progressiveCountValidator:
+					'El valor debe ser mayor que 1 o estar vacío',
 				extraChatCount: 'Recuento de chats adicionales',
 				state: 'Estado',
 				isSupervisor: 'Supervisor',

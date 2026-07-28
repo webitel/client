@@ -813,7 +813,7 @@ export default {
 				chatCount: 'Număr mesaje chat',
 				taskCount: 'Număr sarcini',
 				progressiveCountValidator:
-					'Valoarea trebuie să fie cel puțin 1 sau goală',
+					'Valoarea trebuie să fie mai mare decât 1 sau goală',
 				extraChatCount: 'Număr suplimentar de chat-uri',
 				state: 'Stare',
 				isSupervisor: 'Supraveghetor',

@@ -820,8 +820,7 @@ export default {
 				state: 'Статус',
 				chatCount: 'Количество одновременных чатов',
 				taskCount: 'Количество одновременных задач',
-				progressiveCountValidator:
-					'Значение должно быть не меньше 1 или пустым',
+				progressiveCountValidator: 'Значение должно быть больше 1 или пустым',
 				extraChatCount: 'Дополнительное количество чатов',
 				isSupervisor: 'Супервизор',
 				stateTime: 'Длительность',
