@@ -92,6 +92,9 @@ export default {
 				required,
 				minValue: minValue(1),
 			},
+			extraChatCount: {
+				minValue: minValue(0),
+			},
 		},
 	},
 
