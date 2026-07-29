@@ -105,8 +105,6 @@ export default {
 		gatewayHostValidator: "IPv4 yoki FQDN shaklida bo'lishi kerak",
 		ipValidator: "IPv4 shaklida bo'lishi kerak",
 		macValidator: "MAC shaklida bo'lishi kerak",
-		minValue: 'Qiymat kamida',
-		maxValue: 'Qiymat kamida emas',
 		numeric: "Raqam bo'lishi kerak",
 		requiredArrayValue: "Massiv bo'sh bo'lmasligi kerak",
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",

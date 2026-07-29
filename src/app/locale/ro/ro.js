@@ -105,8 +105,6 @@ export default {
 		gatewayHostValidator: 'Ar trebui să arate ca un IPv4 sau FQDN',
 		ipValidator: 'Ar trebui să arate ca un IPv4',
 		macValidator: 'Ar trebui să arate ca un MAC',
-		minValue: 'Valoarea ar trebui să fie cel puțin',
-		maxValue: 'Valoarea ar trebui să nu fie prea mare',
 		numeric: 'Ar trebui să fie numeric',
 		requiredArrayValue: 'Matricea nu ar trebui să fie goală',
 		isPositiveValue: 'Valoarea ar trebui să fie un număr pozitiv',

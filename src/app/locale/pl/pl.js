@@ -107,8 +107,6 @@ export default {
 		gatewayHostValidator: 'Powinien wyglądać jak IPv4 lub FQDN',
 		ipValidator: 'Powinien wyglądać jak IPv4',
 		macValidator: 'Powinien wyglądać jak MAC',
-		minValue: 'Wartość powinna być co najmniej',
-		maxValue: 'Wartość powinna być nieco mniejsza',
 		numeric: 'Powinna być liczba',
 		requiredArrayValue: 'Tablica nie może być pusta',
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
