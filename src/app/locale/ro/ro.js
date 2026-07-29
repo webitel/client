@@ -1081,6 +1081,7 @@ export default {
 					sec: 'Timp postprocesare (sec)',
 					renewalSec: 'Oferă prelungirea postprocesării când rămân (sec)',
 					allowProlongation: 'Permite prelungirea postprocesării',
+					autosave: 'Permite salvarea automată a postprocesării',
 					repeatsNumber: 'Număr de repetări',
 					prolongationTimeSec: 'Timp pentru prelungire (sec)',
 					isTimeoutRetry: 'Reîncearcă până la timeout',

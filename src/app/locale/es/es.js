@@ -1083,6 +1083,7 @@ export default {
 					renewalSec:
 						'Ofrecer prolongar el postprocesamiento cuando queden (seg)',
 					allowProlongation: 'Permitir prolongación del postprocesamiento',
+					autosave: 'Permitir autoguardado del postprocesamiento',
 					repeatsNumber: 'Número de repeticiones',
 					prolongationTimeSec: 'Tiempo para prolongación (seg)',
 					isTimeoutRetry: 'Reintentar hasta tiempo de espera',

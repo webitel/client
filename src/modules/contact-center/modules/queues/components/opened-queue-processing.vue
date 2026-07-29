@@ -36,6 +36,16 @@
       />
 
       <wt-switcher
+        v-if="specificControls['taskProcessing.autosave']"
+        v-show="isProcessingEnabled"
+        :disabled="disableUserInput"
+        :label="$t('objects.ccenter.queues.processing.autosave')"
+        :model-value="itemInstance.taskProcessing.autosave"
+        class="object-input-area-grid__processing-autosave"
+        @update:model-value="setItemProcessingProp({ prop: 'autosave', value: $event })"
+      />
+
+      <wt-switcher
         v-if="specificControls['taskProcessing.prolongationOptions.enabled']"
         v-show="isProcessingEnabled"
         :disabled="disableUserInput"
@@ -170,19 +180,21 @@ export default {
 .object-input-area-grid {
   display: grid;
   grid-template-areas:
-    'processingEnabled formSchema'
-    'sec .'
-    'allowProlongation .'
-    'renewalSec .'
-    'repeatNumbers .'
-    'prolongationTime .'
-    'timeoutRetry .'
+    'processingEnabled allowProlongation'
+    'formSchema renewalSec'
+    'sec repeatNumbers'
+    'autosave prolongationTime'
+    '. timeoutRetry'
   ;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: 1fr;
 
   &__processing-enabled {
     grid-area: processingEnabled;
+  }
+
+  &__processing-autosave {
+    grid-area: autosave;
   }
 
   &__form-schema {
