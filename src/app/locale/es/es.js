@@ -105,8 +105,6 @@ export default {
 		gatewayHostValidator: 'Debe parecer una dirección IPv4 o FQDN',
 		ipValidator: 'Debe parecer una dirección IPv4',
 		macValidator: 'Debe parecer una dirección MAC',
-		minValue: 'El valor debe ser al menos',
-		maxValue: 'El valor no debe ser demasiado',
 		numeric: 'Debe ser numérico',
 		requiredArrayValue: 'El array no debe estar vacío',
 		isPositiveValue: 'El valor debe ser un número positivo',
