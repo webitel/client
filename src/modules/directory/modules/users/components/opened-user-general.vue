@@ -46,7 +46,7 @@
       <wt-card>
         <div class="opened-user-general__card-content">
           <wt-multi-select
-            :disabled="disableUserInput"
+            :disabled="disableUserInput || !hasRolesReadAccess"
             :label="$t('objects.permissions.permissionsRole')"
             :search-method="loadRolesOptions"
             :model-value="itemInstance.roles"
@@ -63,7 +63,7 @@
 
           <div>
             <wt-multi-select
-              :disabled="disableUserInput || itemInstance.generateDevice"
+              :disabled="disableUserInput || itemInstance.generateDevice || !hasDevicesReadAccess"
               :label="$t('objects.directory.devices.devices', 2)"
               :search-method="loadDevicesOptions"
               :model-value="itemInstance.devices"
@@ -72,6 +72,7 @@
             <div class="hint-link typo-body-2">
               <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
               <adm-item-link
+                v-if="hasDevicesCreateAccess"
                 id="new"
                 class="hint-link__link typo-subtitle-2"
                 :route-name="RouteNames.DEVICES"
@@ -82,7 +83,7 @@
           </div>
 
           <wt-single-select
-            :disabled="disableUserInput || itemInstance.generateDevice"
+            :disabled="disableUserInput || itemInstance.generateDevice || !hasDevicesReadAccess"
             :label="$t('objects.directory.users.defaultDevice')"
             :options="itemInstance.devices"
             :model-value="itemInstance.device"
@@ -204,6 +205,16 @@ export default {
 			hasUpdateAccess,
 		} = useUserAccessControl(WtObject.User);
 
+		const { hasReadAccess: hasDevicesReadAccess } = useUserAccessControl(
+			WtObject.Device,
+		);
+		const { hasCreateAccess: hasDevicesCreateAccess } = useUserAccessControl(
+			WtObject.Device,
+		);
+		const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
+			WtObject.Role,
+		);
+
 		const hasUserAccess = computed(
 			() =>
 				hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value,
@@ -212,6 +223,9 @@ export default {
 		return {
 			hasUserAccess,
 			disableUserInput,
+			hasDevicesReadAccess,
+			hasDevicesCreateAccess,
+			hasRolesReadAccess,
 		};
 	},
 	data: () => ({
@@ -227,6 +241,12 @@ export default {
 	},
 	methods: {
 		loadRolesOptions(params) {
+			if (!this.hasRolesReadAccess) {
+				return {
+					items: [],
+				};
+			}
+
 			return RolesAPI.getLookup(params);
 		},
 		async loadLicenseOptions(params) {
@@ -245,6 +265,12 @@ export default {
 			return response;
 		},
 		async loadDevicesOptions(params) {
+			if (!this.hasDevicesReadAccess) {
+				return {
+					items: [],
+				};
+			}
+
 			const fields = [
 				'id',
 				'name',
