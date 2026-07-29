@@ -105,8 +105,6 @@ export default {
 		gatewayHostValidator: 'Phải giống IPv4 hoặc FQDN',
 		ipValidator: 'Phải giống IPv4',
 		macValidator: 'Phải giống MAC',
-		minValue: 'Giá trị phải ít nhất là',
-		maxValue: 'Giá trị không được lớn hơn',
 		numeric: 'Phải là số',
 		requiredArrayValue: 'Mảng không được rỗng',
 		isPositiveValue: 'Giá trị phải là số dương',

@@ -109,8 +109,6 @@ export default {
 		gatewayHostValidator: 'Має виглядати як IPv4 або FQDN',
 		ipValidator: 'Має виглядати як IPv4',
 		macValidator: 'Має виглядати як MAC',
-		minValue: 'Значення має бути не менше',
-		maxValue: 'Значення має бути не надто великим',
 		numeric: 'Мають бути цифри',
 		requiredArrayValue: 'Поле не може бути пустим',
 		isPositiveValue: 'Значення має бути додатнім числом',
