@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-const globalState = defineModel({
+const globalState = defineModel<boolean>({
 	default: false,
 });
 
