@@ -23,7 +23,7 @@
       <wt-single-select
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.schema')"
-        :search-method="hasFlowsReadAccess ? loadDropdownOptionsList : undefined"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :model-value="itemInstance.schema"
         @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />

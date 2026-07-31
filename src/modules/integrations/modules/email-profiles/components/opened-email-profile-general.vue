@@ -62,7 +62,7 @@
         :show-clear="false"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="hasFlowsReadAccess ? loadFlows : undefined"
+        :search-method="hasFlowsReadAccess && loadFlows"
         :v="v.itemInstance.schema"
         :model-value="itemInstance.schema"
         required

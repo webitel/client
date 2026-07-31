@@ -27,7 +27,7 @@
       <wt-single-select
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="hasFlowsReadAccess ? loadDropdownOptionsList : undefined"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :v="v.itemInstance.flow"
         :model-value="itemInstance.flow"
         @update:model-value="setFlow"

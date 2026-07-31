@@ -76,7 +76,7 @@
         v-if="specificControls.schema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="hasFlowsReadAccess ? loadDropdownOptionsSchemaList : undefined"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsSchemaList"
         :v="v.itemInstance.schema"
         :model-value="itemInstance.schema"
         required
@@ -88,7 +88,7 @@
         v-if="specificControls.doSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.preSchema')"
-        :search-method="hasFlowsReadAccess ? loadDropdownOptionsServiceSchemaList : undefined"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsServiceSchemaList"
         :model-value="itemInstance.doSchema"
         @update:model-value="setItemProp({ prop: 'doSchema', value: $event })"
       />
@@ -111,7 +111,7 @@
         v-if="specificControls.afterSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.afterSchema')"
-        :search-method="hasFlowsReadAccess ? loadDropdownOptionsServiceSchemaList : undefined"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsServiceSchemaList"
         :model-value="itemInstance.afterSchema"
         @update:model-value="setItemProp({ prop: 'afterSchema', value: $event })"
       />

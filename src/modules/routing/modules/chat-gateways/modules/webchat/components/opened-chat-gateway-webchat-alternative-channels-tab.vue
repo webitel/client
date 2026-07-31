@@ -58,9 +58,9 @@
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.url', value: $event })"
           />
           <wt-single-select
-            :disabled="disableUserInput || !hasFlowsReadAccess || !itemInstance.metadata.call.enabled"
+            :disabled="disableCallFlowInput"
             :label="$t('objects.routing.flow.flow', 1)"
-            :search-method="hasFlowsReadAccess ? loadCallFlows : undefined"
+            :search-method="hasFlowsReadAccess && loadCallFlows"
             :v="v.itemInstance.metadata.call.flow"
             :model-value="itemInstance.metadata.call.flow"
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })"
@@ -97,6 +97,15 @@ export default {
 			disableUserInput,
 			hasFlowsReadAccess,
 		};
+	},
+	computed: {
+		disableCallFlowInput() {
+			return (
+				this.disableUserInput ||
+				!this.hasFlowsReadAccess ||
+				!this.itemInstance.metadata.call.enabled
+			);
+		},
 	},
 	data: () => ({
 		alternativeChannels: Object.values(WebchatAlternativeChannel),

@@ -12,7 +12,7 @@
           :disabled="!hasFlowsReadAccess"
           :show-clear="false"
           :label="$t('objects.routing.flow.flow', 1)"
-          :search-method="hasFlowsReadAccess ? loadFlowOptions : undefined"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
           :v="v$.itemInstance.schema"
           :model-value="itemInstance.schema"
           required
