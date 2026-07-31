@@ -34,9 +34,9 @@
         @input="setItemProp({ prop: 'password', value: $event })"
       />
       <wt-single-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.schema')"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :model-value="itemInstance.schema"
         @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
@@ -82,8 +84,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	methods: {

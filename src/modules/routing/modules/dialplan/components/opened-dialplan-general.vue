@@ -16,9 +16,9 @@
       />
       <wt-single-select
         :show-clear="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.schema', 1)"
-        :search-method="loadFlows"
+        :search-method="hasFlowsReadAccess && loadFlows"
         :v="v.itemInstance.schema"
         :model-value="itemInstance.schema"
         required
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import FlowsAPI from '../../flow/api/flow';
@@ -54,8 +56,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	methods: {

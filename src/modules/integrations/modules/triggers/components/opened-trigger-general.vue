@@ -27,7 +27,7 @@
       <wt-single-select
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.integrations.triggers.schema')"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :v="v.itemInstance.schema"
         :model-value="itemInstance.schema"
         required

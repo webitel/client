@@ -8,9 +8,16 @@
         <wt-single-select :model-value="event" :show-clear="false" :label="$t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions" :v="v$.itemInstance.event" required data-key="value"
           @update:model-value="setItemProp({ prop: 'event', value: $event.value })" />
-        <wt-singale-select :show-clear="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
-          :v="v$.itemInstance.schema" :model-value="itemInstance.schema" required
-          @update:model-value="setItemProp({ prop: 'schema', value: $event })" />
+        <wt-single-select
+          :disabled="!hasFlowsReadAccess"
+          :show-clear="false"
+          :label="$t('objects.routing.flow.flow', 1)"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
+          :v="v$.itemInstance.schema"
+          :model-value="itemInstance.schema"
+          required
+          @update:model-value="setItemProp({ prop: 'schema', value: $event })"
+        />
       </form>
     </template>
     <template #actions>
@@ -27,9 +34,11 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
@@ -40,13 +49,19 @@ export default {
 		nestedObjectMixin,
 	],
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
+	setup: () => {
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
+		return {
+			// Reasons for use $stopPropagation
+			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+			v$: useVuelidate({
+				$stopPropagation: true,
+			}),
+			hasFlowsReadAccess,
+		};
+	},
 	data: () => ({
 		namespace: 'ccenter/teams/hooks',
 	}),

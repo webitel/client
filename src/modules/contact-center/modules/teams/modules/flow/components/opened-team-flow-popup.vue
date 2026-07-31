@@ -7,9 +7,16 @@
       <form>
         <wt-input-text :label="$t('objects.title')" :v="v$.itemInstance.name" :model-value="itemInstance.name" required
           @update:model-value="setItemProp({ prop: 'name', value: $event })" />
-        <wt-single-select :show-clear="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
-          :v="v$.itemInstance.schema" :model-value="itemInstance.schema" required
-          @update:model-value="setItemProp({ prop: 'schema', value: $event })" />
+        <wt-single-select
+          :disabled="!hasFlowsReadAccess"
+          :show-clear="false"
+          :label="$t('objects.routing.flow.flow', 1)"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
+          :v="v$.itemInstance.schema"
+          :model-value="itemInstance.schema"
+          required
+          @update:model-value="setItemProp({ prop: 'schema', value: $event })"
+        />
       </form>
     </template>
     <template #actions>
@@ -26,8 +33,10 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 
@@ -37,13 +46,19 @@ export default {
 		nestedObjectMixin,
 	],
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
+	setup: () => {
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
+		return {
+			// Reasons for use $stopPropagation
+			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
+			v$: useVuelidate({
+				$stopPropagation: true,
+			}),
+			hasFlowsReadAccess,
+		};
+	},
 	data: () => ({
 		namespace: 'ccenter/teams/flow',
 	}),
