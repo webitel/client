@@ -12,13 +12,13 @@
       <div class="table-title__actions-wrap">
         <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
         <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
-          <delete-all-action v-if="!disableUserInput" v-show="!anySelected"
+          <delete-all-action v-show="!anySelected" :disabled="!hasDeleteAccess"
             :selected-count="selectedRows.length" @click="askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteData(selectedRows),
             })" />
-          <upload-file-icon-btn v-if="!disableUserInput" accept=".csv" class="icon-action" @change="processCSV" />
-          <wt-icon-btn v-if="!disableUserInput" class="icon-action" icon="plus" @click="create" />
+          <upload-file-icon-btn :disabled="!hasCreateAccess" accept=".csv" class="icon-action" @change="processCSV" />
+          <wt-icon-btn :disabled="!hasCreateAccess" class="icon-action" icon="plus" @click="create" />
         </wt-table-actions>
       </div>
     </header>
@@ -30,7 +30,7 @@
       v-show="dataList.length && isLoaded"
       class="table-section__table-wrapper"
     >
-      <wt-table :data="dataList" :grid-actions="!disableUserInput" :headers="headers" sortable @sort="sort">
+      <wt-table :data="dataList" :headers="headers" sortable @sort="sort">
         <template #number="{ item }">
           {{ item.number }}
         </template>
@@ -44,8 +44,8 @@
         </template>
 
         <template #actions="{ item }">
-          <wt-icon-action action="edit" @click="editItem(item)" />
-          <wt-icon-action action="delete" @click="askDeleteConfirmation({
+          <wt-icon-action :disabled="!hasUpdateAccess" action="edit" @click="editItem(item)" />
+          <wt-icon-action :disabled="!hasDeleteAccess" action="delete" @click="askDeleteConfirmation({
             deleted: [item],
             callback: () => deleteData(item),
           })" />
@@ -58,13 +58,14 @@
 </template>
 
 <script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { FormatDateMode, WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import numberPopup from './opened-blacklist-number-popup.vue';
 import uploadPopup from './upload-blacklist-numbers-popup.vue';
@@ -98,6 +99,9 @@ export default {
 			closeDelete,
 		} = useDeleteConfirmationPopup();
 
+		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+			useUserAccessControl(WtObject.ListNumber);
+
 		return {
 			dummy,
 			isDeleteConfirmationPopup,
@@ -106,6 +110,10 @@ export default {
 
 			askDeleteConfirmation,
 			closeDelete,
+
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 		};
 	},
 	data() {
