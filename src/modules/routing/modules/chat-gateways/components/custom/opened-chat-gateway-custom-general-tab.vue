@@ -34,9 +34,9 @@
         @input="setItemProp({ prop: 'uri', value: $event })"
       />
       <wt-single-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess ? loadDropdownOptionsList : undefined"
         :v="v.itemInstance.flow"
         :model-value="itemInstance.flow"
         required
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 
 import GenerateValueInput from '../../../../../../app/components/utils/generate-value-input.vue';
@@ -74,8 +75,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	computed: {

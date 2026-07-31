@@ -37,9 +37,9 @@
       <!--        @input="setItemMetadata({ prop: 'number', value: $event })"-->
       <!--      ></wt-input>-->
       <wt-single-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess ? loadDropdownOptionsList : undefined"
         :v="v.itemInstance.flow"
         :model-value="itemInstance.flow"
         @update:model-value="setFlow"
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
@@ -71,8 +72,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	computed: {

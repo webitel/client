@@ -19,7 +19,7 @@
         v-if="specificControls['taskProcessing.formSchema']"
         :disabled="disableUserInput || !isProcessingEnabled || !hasFlowsReadAccess"
         :label="$t('objects.ccenter.queues.processing.formSchema')"
-        :search-method="loadDropdownOptionsSchemaList"
+        :search-method="hasFlowsReadAccess ? loadDropdownOptionsSchemaList : undefined"
         :model-value="itemInstance.taskProcessing.formSchema"
         class="object-input-area-grid__form-schema"
         @update:model-value="setItemProcessingProp({ prop: 'formSchema', value: $event })"
