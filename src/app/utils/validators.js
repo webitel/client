@@ -51,9 +51,12 @@ export const phoneNumberSymbolsValidator = (value) => {
 
 export const requiredArrayValue = (array) => array.some((value) => value);
 
-export const timerangeStartLessThanEnd = (object) => object.start < object.end;
-
 export const hourRange = (value) => value >= 0 && value < 1440;
+
+// forEach's per-field validators are called as (value, collectionItem, index),
+// so `range` here is the whole { start, end } row, letting start/end be compared.
+export const timerangeStartLessThanEnd = (value, range) =>
+	range.start < range.end;
 
 // @author HlukhovYe
 // helpers.forEach only exposes raw per-rule booleans on $data (no
@@ -64,12 +67,16 @@ export const getForEachHourRangeValidation = (eachResponse, index, prop) => {
 		$invalid,
 		$error,
 		hourRange: isHourRangeValid,
+		timerangeStartLessThanEnd: isStartLessThanEndValid,
 	} = eachResponse.$data[index][prop];
 	return {
 		$invalid,
 		$error,
 		hourRange: {
 			$invalid: isHourRangeValid === false,
+		},
+		timerangeStartLessThanEnd: {
+			$invalid: isStartLessThanEndValid === false,
 		},
 	};
 };

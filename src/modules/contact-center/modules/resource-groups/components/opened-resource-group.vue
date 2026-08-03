@@ -91,6 +91,10 @@ export default {
 			this.$t('validation.hourRange'),
 			hourRange,
 		);
+		const timerangeStartLessThanEndWithMessage = helpers.withMessage(
+			this.$t('validation.timerangeStartLessThanEnd'),
+			timerangeStartLessThanEnd,
+		);
 		return {
 			itemInstance: {
 				name: {
@@ -103,9 +107,9 @@ export default {
 					requiredArrayValue,
 					timerangeNotIntersect,
 					$each: helpers.forEach({
-						timerangeStartLessThanEnd,
 						start: {
 							hourRange: hourRangeWithMessage,
+							timerangeStartLessThanEnd: timerangeStartLessThanEndWithMessage,
 						},
 						end: {
 							hourRange: hourRangeWithMessage,

@@ -12,7 +12,7 @@
           @update:model-value="changeWorkingSwitcher" />
         <div v-if="itemInstance.working" class="opened-calendar-holiday-popup__wrapper">
           <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.start')" :v="v$.itemInstance.workStart"
-            :custom-validators="hourRangeValidators"
+            :custom-validators="fromValidators"
             :model-value="itemInstance.workStart * 60" @update:model-value="updateWorkingTime($event, 'workStart')"></wt-timepicker>
           <wt-timepicker format="hh:mm" :label="$t('objects.lookups.calendars.end')" :v="v$.itemInstance.workStop"
             :custom-validators="hourRangeValidators"
@@ -40,7 +40,10 @@ import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedS
 import { mapActions, mapState } from 'vuex';
 
 import nestedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import { hourRange } from '../../../../../app/utils/validators';
+import {
+	hourRange,
+	timerangeStartLessThanEnd,
+} from '../../../../../app/utils/validators';
 
 export default {
 	name: 'OpenedCalendarHolidayPopup',
@@ -68,6 +71,15 @@ export default {
 			this.$t('validation.hourRange'),
 			hourRange,
 		);
+		const workTimerangeStartLessThanEnd = (value, item) =>
+			timerangeStartLessThanEnd(value, {
+				start: item.workStart,
+				end: item.workStop,
+			});
+		const timerangeStartLessThanEndWithMessage = helpers.withMessage(
+			this.$t('validation.timerangeStartLessThanEnd'),
+			workTimerangeStartLessThanEnd,
+		);
 		return {
 			itemInstance: {
 				name: {
@@ -79,6 +91,7 @@ export default {
 				workStart: {
 					numeric,
 					hourRange: hourRangeWithMessage,
+					timerangeStartLessThanEnd: timerangeStartLessThanEndWithMessage,
 				},
 				workStop: {
 					numeric,
@@ -95,6 +108,15 @@ export default {
 				{
 					name: 'hourRange',
 					text: this.$t('validation.hourRange'),
+				},
+			];
+		},
+		fromValidators() {
+			return [
+				...this.hourRangeValidators,
+				{
+					name: 'timerangeStartLessThanEnd',
+					text: this.$t('validation.timerangeStartLessThanEnd'),
 				},
 			];
 		},

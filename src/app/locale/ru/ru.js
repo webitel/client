@@ -114,6 +114,7 @@ export default {
 		isPositiveValue: 'Значение должно быть больше нуля',
 		cron: 'Некорректное cron-выражение',
 		hourRange: 'Часы должны быть от 00 до 23',
+		timerangeStartLessThanEnd: 'Время От не может быть больше чем До',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файл содержит некорректные номера. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},

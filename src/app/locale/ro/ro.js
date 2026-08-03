@@ -110,6 +110,8 @@ export default {
 		isPositiveValue: 'Valoarea ar trebui să fie un număr pozitiv',
 		cron: 'Expresie cron invalidă',
 		hourRange: 'Orele trebuie să fie între 00 și 23',
+		timerangeStartLessThanEnd:
+			'Ora "De la" nu poate fi mai târzie decât "Până la"',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Fișierul conține numere incorecte. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},

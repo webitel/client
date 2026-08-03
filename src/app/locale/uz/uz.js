@@ -110,6 +110,8 @@ export default {
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",
 		cron: 'Nogiron cron ifoda',
 		hourRange: "Soatlar 00 dan 23 gacha bo'lishi kerak",
+		timerangeStartLessThanEnd:
+			'"Dan" vaqti "Gacha" vaqtidan kech bo\'lishi mumkin emas',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Faylda noto'g'ri raqamlar mavjud. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
