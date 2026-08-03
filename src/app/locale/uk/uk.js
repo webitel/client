@@ -653,6 +653,10 @@ export default {
 				SIPregistrationsDescription: 'Опис SIP-реєстрації',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Опис SIP-транків',
+				errors: {
+					passwordInvalid:
+						"Пароль містить заборонені символи. Зарезервовані символи URI, пробіли, спецсимволи !*'()&$ не підтримуються.",
+				},
 			},
 
 			chatGateways: {

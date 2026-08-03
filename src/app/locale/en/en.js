@@ -643,6 +643,10 @@ export default {
 				SIPregistrationsDescription: 'SIP registration description',
 				SIPtrunking: 'SIP Trunking',
 				SIPtrunkingDescription: 'SIP trunking description',
+				errors: {
+					passwordInvalid:
+						"Password contains forbidden characters. Reserved URI symbols, whitespace, and special characters like (! * ' ( ) & $) are not allowed.",
+				},
 			},
 			chatGateways: {
 				templates: {

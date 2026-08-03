@@ -55,6 +55,7 @@ import {
 	gatewayHostValidator,
 	ipValidator,
 	sipAccountValidator,
+	sipPasswordSymbolsValidator,
 } from '../../../../../app/utils/validators';
 import GatewaysRoutesName from '../router/_internals/GatewaysRouteNames.enum.js';
 import RegisterGeneral from './opened-register-sip-gateway-general.vue';
@@ -97,6 +98,7 @@ export default {
 						required,
 					},
 					password: {
+						sipPasswordSymbolsValidator,
 						required: requiredUnless(() => !!this.id),
 					},
 					expires: {
