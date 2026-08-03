@@ -110,6 +110,8 @@ export default {
 		isPositiveValue: 'El valor debe ser un número positivo',
 		cron: 'Expresión cron inválida',
 		hourRange: 'Las horas deben estar entre 00 y 23',
+		timerangeStartLessThanEnd:
+			'La hora "Desde" no puede ser posterior a "Hasta"',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`El archivo contiene números incorrectos. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},

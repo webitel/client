@@ -20,7 +20,7 @@
         </template>
         <template #start="{ item, index }">
           <wt-timepicker
-            :custom-validators="hourRangeValidators"
+            :custom-validators="fromValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
             :v="getFieldValidation(index, 'start')"
@@ -110,6 +110,15 @@ export default {
 				{
 					name: 'hourRange',
 					text: this.$t('validation.hourRange'),
+				},
+			];
+		},
+		fromValidators() {
+			return [
+				...this.hourRangeValidators,
+				{
+					name: 'timerangeStartLessThanEnd',
+					text: this.$t('validation.timerangeStartLessThanEnd'),
 				},
 			];
 		},

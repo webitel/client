@@ -17,7 +17,7 @@
           class="range"
         >
           <wt-timepicker
-            :custom-validators="hourRangeValidators"
+            :custom-validators="fromValidators"
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
             :v="getFieldValidation(key, 'start')"
@@ -70,6 +70,15 @@ export default {
 				{
 					name: 'hourRange',
 					text: this.$t('validation.hourRange'),
+				},
+			];
+		},
+		fromValidators() {
+			return [
+				...this.hourRangeValidators,
+				{
+					name: 'timerangeStartLessThanEnd',
+					text: this.$t('validation.timerangeStartLessThanEnd'),
 				},
 			];
 		},
