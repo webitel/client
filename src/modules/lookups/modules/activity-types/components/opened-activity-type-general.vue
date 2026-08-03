@@ -29,25 +29,25 @@
 </template>
 
 <script setup lang="ts">
-import type { EngineSkillPreset } from '@webitel/api-services/gen/models';
 import { RegleSchemaFieldStatus } from '@regle/schemas';
+import type { EngineSkillPreset } from '@webitel/api-services/gen/models';
 import SkillsAPI from '../../agent-skills/api/agentSkills';
 
 const modelValue = defineModel<EngineSkillPreset>();
 
 defineProps<{
-  validationFields?: {
-    [K in keyof EngineSkillPreset]?: RegleSchemaFieldStatus<EngineSkillPreset[K]>;
-  };
+	validationFields?: {
+		[K in keyof EngineSkillPreset]?: RegleSchemaFieldStatus<
+			EngineSkillPreset[K]
+		>;
+	};
 }>();
 
-
-
 const loadSkillsOptions = (params) => {
-  return SkillsAPI.getLookup(params)
-}
+	return SkillsAPI.getLookup(params);
+};
 
-const setItemProp = (item) => {}
+const setItemProp = (item) => {};
 
-const skillsOptions = []
+const skillsOptions = [];
 </script>

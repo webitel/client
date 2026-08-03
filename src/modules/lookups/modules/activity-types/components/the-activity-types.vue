@@ -108,107 +108,105 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { IconAction } from '@webitel/ui-sdk/enums';
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl.js';
-import { useI18n } from 'vue-i18n';
-import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { useActivityTypesDataListStore } from '../stores/datalist/activityTypesDataListStore.js';
-import { storeToRefs } from 'pinia';
-import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import { useRouter } from 'vue-router';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useActivityTypesDataListStore } from '../stores/datalist/activityTypesDataListStore.js';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-  useUserAccessControl();
+	useUserAccessControl();
 
 const tableStore = useActivityTypesDataListStore();
 
 const {
-  dataList,
-  error,
-  isLoading,
-  page,
-  size,
-  next,
-  selected,
-  shownHeaders,
-  filtersManager,
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
 } = storeToRefs(tableStore);
 
 const {
-  initialize,
-  loadDataList,
-  updatePage,
-  updateSize,
-  updateSort,
-  patchItemProperty,
-  deleteEls,
-  addFilter,
-  updateFilter,
-  deleteFilter,
-  updateSelected,
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
 } = tableStore;
-
 
 initialize();
 
 const { t } = useI18n();
 const router = useRouter();
 
-const create = () => {}
+const create = () => {};
 
 const {
-  isVisible: isDeleteConfirmationPopup,
-  deleteCount,
-  deleteCallback,
-  askDeleteConfirmation,
-  closeDelete,
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
 } = useDeleteConfirmationPopup();
 
 const path = computed(() => [
-  {
-    name: t('objects.lookups.lookups'),
-  },
-  {
-    name: t('objects.lookups.activityTypes.activityTypes'),
-    route: '/lookups/activity-types',
-  },
-])
+	{
+		name: t('objects.lookups.lookups'),
+	},
+	{
+		name: t('objects.lookups.activityTypes.activityTypes'),
+		route: '/lookups/activity-types',
+	},
+]);
 
 const add = () => {
-  return router.push({
-    name: `${RouteNames.ACTIVITY_TYPES}-card`,
-    params: {
-      id: 'new',
-    },
-  });
+	return router.push({
+		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		params: {
+			id: 'new',
+		},
+	});
 };
-
 
 const edit = (item) => {
-  return router.push({
-    name: `${RouteNames.ACTIVITY_TYPES}-card`,
-    params: {
-      id: item.id,
-    },
-  });
+	return router.push({
+		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		params: {
+			id: item.id,
+		},
+	});
 };
 
-const addItem = () => {}
+const addItem = () => {};
 
 const {
-  showEmpty,
-  image: imageEmpty,
-  text: textEmpty,
-  primaryActionText: primaryActionTextEmpty,
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
 } = useTableEmpty({
-  dataList,
-  error,
-  filters: computed(() => filtersManager.value.getAllValues()),
-  isLoading,
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
 });
 </script>
 

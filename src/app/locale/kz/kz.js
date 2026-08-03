@@ -572,8 +572,8 @@ export default {
 				quickReplies: 'Тез жауап | Тез жауаптар',
 			},
 			activityTypes: {
-				activityTypes: 'Әрекет түрі | Әрекет түрлері'
-			}
+				activityTypes: 'Әрекет түрі | Әрекет түрлері',
+			},
 		},
 		routing: {
 			routing: 'Маршруттау',

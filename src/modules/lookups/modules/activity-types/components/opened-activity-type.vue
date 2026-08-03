@@ -42,61 +42,61 @@
 <script setup lang="ts">
 import type { EngineSkillPreset } from '@webitel/api-services/gen/models';
 import { useCardComponent } from '@webitel/ui-datalist/card';
-import { useActivityTypesCardStore } from '../stores/card/activityTypesCardStroe';
+import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import { computed } from 'vue';
-import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import ActivityTypeRouteNames from '../router/_internals/ActivityTypeRouteNames.enum'
+import ActivityTypeRouteNames from '../router/_internals/ActivityTypeRouteNames.enum';
+import { useActivityTypesCardStore } from '../stores/card/activityTypesCardStroe';
 
 const { t } = useI18n();
 const route = useRoute();
 
 const {
-  hasSaveActionAccess,
-  hasDeleteAccess,
-  hasCreateAccess,
-  hasReadAccess,
-  hasUpdateAccess,
+	hasSaveActionAccess,
+	hasDeleteAccess,
+	hasCreateAccess,
+	hasReadAccess,
+	hasUpdateAccess,
 } = useUserAccessControl();
 
 const {
-  modelValue,
-  debouncedIsLoading,
-  originalItemInstance,
-  isNew,
-  saveText,
-  hasValidationErrors,
-  isAnyFieldEdited,
-  validationFields,
-  save,
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
 } = useCardComponent<EngineSkillPreset>({
-  useCardStore: useActivityTypesCardStore,
+	useCardStore: useActivityTypesCardStore,
 });
 
-const tabs =  computed(() => [
-  {
-    text: t('objects.general'),
-    value: 'general',
-    pathName: ActivityTypeRouteNames.GENERAL,
-  },
-])
+const tabs = computed(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: ActivityTypeRouteNames.GENERAL,
+	},
+]);
 
 const { currentTab, changeTab } = useCardTabs(tabs);
 const { close } = useClose(RouteNames.ACTIVITY_TYPES);
 
 const path = computed(() => [
-  {
-    name: t('objects.lookups.lookups'),
-  },
-  {
-    name: t('objects.lookups.activityTypes.activityTypes'),
-    route: '/lookups/activity-types',
-  },
-  {
-    name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
-  },
-])
+	{
+		name: t('objects.lookups.lookups'),
+	},
+	{
+		name: t('objects.lookups.activityTypes.activityTypes'),
+		route: '/lookups/activity-types',
+	},
+	{
+		name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
+	},
+]);
 </script>

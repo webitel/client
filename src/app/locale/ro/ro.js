@@ -577,8 +577,8 @@ export default {
 				quickReplies: 'Răspuns rapid | Răspunsuri rapide',
 			},
 			activityTypes: {
-				activityTypes: 'Tip de activitate | Tipuri de activitate'
-			}
+				activityTypes: 'Tip de activitate | Tipuri de activitate',
+			},
 		},
 		routing: {
 			routing: 'Rutare',

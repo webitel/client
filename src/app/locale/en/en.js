@@ -577,8 +577,8 @@ export default {
 				quickReplies: 'Quick reply | Quick replies',
 			},
 			activityTypes: {
-				activityTypes: 'Activity type | Activity types'
-			}
+				activityTypes: 'Activity type | Activity types',
+			},
 		},
 		routing: {
 			routing: 'Routing',

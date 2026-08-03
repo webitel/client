@@ -575,8 +575,8 @@ export default {
 				quickReplies: 'Trả lời nhanh',
 			},
 			activityTypes: {
-				activityTypes: 'Loại hoạt động | Loại hoạt động'
-			}
+				activityTypes: 'Loại hoạt động | Loại hoạt động',
+			},
 		},
 		routing: {
 			routing: 'Định tuyến',
