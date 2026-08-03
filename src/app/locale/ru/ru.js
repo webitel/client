@@ -651,6 +651,10 @@ export default {
 				SIPregistrationsDescription: 'Описание SIP-регистрации',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Описание SIP-транков',
+				errors: {
+					passwordInvalid:
+						"Пароль содержит запрещенные символы. Зарезервированные символы URI, пробелы, спецсимволы !*'()&$ не поддерживаются.",
+				},
 			},
 
 			chatGateways: {

@@ -644,6 +644,10 @@ export default {
 				SIPregistrationsDescription: 'Descriere înregistrare SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Descriere trunking SIP',
+				errors: {
+					passwordInvalid:
+						"Parola conține caractere interzise. Simbolurile URI rezervate, spațiile și caracterele speciale precum (! * ' ( ) & $) nu sunt permise.",
+				},
 			},
 			chatGateways: {
 				templates: {

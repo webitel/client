@@ -647,6 +647,10 @@ export default {
 				SIPregistrationsDescription: 'Descripción del registro SIP',
 				SIPtrunking: 'Troncalización SIP',
 				SIPtrunkingDescription: 'Descripción de la troncalización SIP',
+				errors: {
+					passwordInvalid:
+						"La contraseña contiene caracteres no permitidos. No se permiten símbolos reservados de URI, espacios en blanco ni caracteres especiales como (! * ' ( ) & $).",
+				},
 			},
 			chatGateways: {
 				templates: {

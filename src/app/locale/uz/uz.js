@@ -645,6 +645,10 @@ export default {
 				SIPregistrationsDescription: "SIP ro'yxat tavsifi",
 				SIPtrunking: 'SIP trunking',
 				SIPtrunkingDescription: 'SIP trunking tavsifi',
+				errors: {
+					passwordInvalid:
+						"Parolda ruxsat etilmagan belgilar mavjud. Rezervlangan URI belgilari, bo'sh joylar va (! * ' ( ) & $) kabi maxsus belgilardan foydalanish mumkin emas.",
+				},
 			},
 			chatGateways: {
 				templates: {
