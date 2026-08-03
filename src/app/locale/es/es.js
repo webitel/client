@@ -578,6 +578,9 @@ export default {
 			quickReplies: {
 				quickReplies: 'Respuesta rápida | Respuestas rápidas',
 			},
+			activityTypes: {
+				activityTypes: 'Tipo de actividad | Tipos de actividad'
+			}
 		},
 		routing: {
 			routing: 'Enrutamiento',

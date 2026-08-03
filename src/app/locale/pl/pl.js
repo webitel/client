@@ -576,6 +576,9 @@ export default {
 			quickReplies: {
 				quickReplies: 'Szybka odpowiedź | Szybkie odpowiedzi',
 			},
+			activityTypes: {
+				activityTypes: 'Typ aktywności | Typy aktywności'
+			}
 		},
 		routing: {
 			routing: 'Routing',
