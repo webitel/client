@@ -30,9 +30,13 @@
 <script setup lang="ts">
 import { RegleSchemaFieldStatus } from '@regle/schemas';
 import type { EngineSkillPreset } from '@webitel/api-services/gen/models';
-import SkillsAPI from '../../agent-skills/api/agentSkills';
-import { WtInputText, WtMultiSelect, WtTextarea } from '@webitel/ui-sdk/components';
+import {
+	WtInputText,
+	WtMultiSelect,
+	WtTextarea,
+} from '@webitel/ui-sdk/components';
 import { useI18n } from 'vue-i18n';
+import SkillsAPI from '../../agent-skills/api/agentSkills';
 
 const modelValue = defineModel<EngineSkillPreset>();
 
