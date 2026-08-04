@@ -110,6 +110,8 @@ export default {
 		isPositiveValue: 'Мән оң сан болуы керек',
 		cron: 'Крон өрнегі қате',
 		hourRange: 'Сағат 00-ден 23-ке дейін болуы керек',
+		timerangeStartLessThanEnd:
+			'"Бастап" уақыты "Дейін" уақытынан кеш болмауы керек',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файлда қате нөмірлер бар. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -642,6 +644,10 @@ export default {
 				SIPregistrationsDescription: 'SIP тіркеу сипаттамасы',
 				SIPtrunking: 'SIP транкинг',
 				SIPtrunkingDescription: 'SIP транкинг сипаттамасы',
+				errors: {
+					passwordInvalid:
+						"Құпия сөзде рұқсат етілмеген таңбалар бар. Резервтелген URI таңбалары, бос орындар және (! * ' ( ) & $) сияқты арнайы таңбаларды пайдалануға болмайды.",
+				},
 			},
 			chatGateways: {
 				templates: {

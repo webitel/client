@@ -112,6 +112,7 @@ export default {
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
 		cron: 'Nieprawidłowe wyrażenie cron',
 		hourRange: 'Godziny muszą być od 00 do 23',
+		timerangeStartLessThanEnd: 'Czas "Od" nie może być późniejszy niż "Do"',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -646,6 +647,10 @@ export default {
 				SIPregistrationsDescription: 'Opis rejestracji SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Opis trunkingu SIP',
+				errors: {
+					passwordInvalid:
+						"Hasło zawiera niedozwolone znaki. Zarezerwowane symbole URI, spacje oraz znaki specjalne takie jak (! * ' ( ) & $) są niedozwolone.",
+				},
 			},
 			chatGateways: {
 				templates: {

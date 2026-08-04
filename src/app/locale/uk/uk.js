@@ -114,6 +114,7 @@ export default {
 		isPositiveValue: 'Значення має бути додатнім числом',
 		cron: 'Некоректний cron-вираз',
 		hourRange: 'Години мають бути від 00 до 23',
+		timerangeStartLessThanEnd: 'Час Від не може бути більший ніж До',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файл містить некоректні номери. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -655,6 +656,10 @@ export default {
 				SIPregistrationsDescription: 'Опис SIP-реєстрації',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Опис SIP-транків',
+				errors: {
+					passwordInvalid:
+						"Пароль містить заборонені символи. Зарезервовані символи URI, пробіли, спецсимволи !*'()&$ не підтримуються.",
+				},
 			},
 
 			chatGateways: {

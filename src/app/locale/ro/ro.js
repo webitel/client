@@ -110,6 +110,8 @@ export default {
 		isPositiveValue: 'Valoarea ar trebui să fie un număr pozitiv',
 		cron: 'Expresie cron invalidă',
 		hourRange: 'Orele trebuie să fie între 00 și 23',
+		timerangeStartLessThanEnd:
+			'Ora "De la" nu poate fi mai târzie decât "Până la"',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Fișierul conține numere incorecte. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -647,6 +649,10 @@ export default {
 				SIPregistrationsDescription: 'Descriere înregistrare SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Descriere trunking SIP',
+				errors: {
+					passwordInvalid:
+						"Parola conține caractere interzise. Simbolurile URI rezervate, spațiile și caracterele speciale precum (! * ' ( ) & $) nu sunt permise.",
+				},
 			},
 			chatGateways: {
 				templates: {

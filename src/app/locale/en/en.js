@@ -110,6 +110,7 @@ export default {
 		isPositiveValue: 'Value should be positive number',
 		cron: 'Invalid cron expression',
 		hourRange: 'Hours must be from 00 to 23',
+		timerangeStartLessThanEnd: 'Time From cannot be greater than To',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`File contains invalid numbers. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -645,6 +646,10 @@ export default {
 				SIPregistrationsDescription: 'SIP registration description',
 				SIPtrunking: 'SIP Trunking',
 				SIPtrunkingDescription: 'SIP trunking description',
+				errors: {
+					passwordInvalid:
+						"Password contains forbidden characters. Reserved URI symbols, whitespace, and special characters like (! * ' ( ) & $) are not allowed.",
+				},
 			},
 			chatGateways: {
 				templates: {

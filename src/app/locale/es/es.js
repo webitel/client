@@ -110,6 +110,8 @@ export default {
 		isPositiveValue: 'El valor debe ser un número positivo',
 		cron: 'Expresión cron inválida',
 		hourRange: 'Las horas deben estar entre 00 y 23',
+		timerangeStartLessThanEnd:
+			'La hora "Desde" no puede ser posterior a "Hasta"',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`El archivo contiene números incorrectos. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -650,6 +652,10 @@ export default {
 				SIPregistrationsDescription: 'Descripción del registro SIP',
 				SIPtrunking: 'Troncalización SIP',
 				SIPtrunkingDescription: 'Descripción de la troncalización SIP',
+				errors: {
+					passwordInvalid:
+						"La contraseña contiene caracteres no permitidos. No se permiten símbolos reservados de URI, espacios en blanco ni caracteres especiales como (! * ' ( ) & $).",
+				},
 			},
 			chatGateways: {
 				templates: {

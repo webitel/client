@@ -110,6 +110,7 @@ export default {
 		isPositiveValue: 'Giá trị phải là số dương',
 		cron: 'Biểu thức cron không hợp lệ',
 		hourRange: 'Giờ phải từ 00 đến 23',
+		timerangeStartLessThanEnd: 'Thời gian "Từ" không được muộn hơn "Đến"',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -644,6 +645,10 @@ export default {
 				SIPregistrationsDescription: 'Mô tả đăng ký SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Mô tả trunking SIP',
+				errors: {
+					passwordInvalid:
+						"Mật khẩu chứa ký tự không hợp lệ. Không được phép dùng các ký hiệu URI dành riêng, khoảng trắng và ký tự đặc biệt như (! * ' ( ) & $).",
+				},
 			},
 			chatGateways: {
 				templates: {

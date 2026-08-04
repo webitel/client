@@ -14,10 +14,14 @@ import applyTransform, {
 } from '@webitel/ui-sdk/src/api/transformers/index.js';
 
 import instance from '../../../../../app/api/instance';
+import i18n from '../../../../../app/locale/i18n';
 import registerGateway from '../store/_internals/gatewaySchema/registerGateway';
 import trunkingGateway from '../store/_internals/gatewaySchema/trunkingGateway';
 
 const baseUrl = '/sip/gateways';
+const invalidPasswordId = 'sip.gateway.password.invalid';
+
+const { t } = i18n.global;
 
 const getGatewayList = async (params) => {
 	const fieldsToSend = [
@@ -142,8 +146,17 @@ const addGateway = async ({ itemInstance }) => {
 			snakeToCamel(),
 		]);
 	} catch (err) {
+		const isPasswordInvalid = err.response?.data?.id === invalidPasswordId;
+
 		throw applyTransform(err, [
-			notify,
+			isPasswordInvalid
+				? notify(({ callback }) =>
+						callback({
+							type: 'error',
+							text: t('objects.routing.gateways.errors.passwordInvalid'),
+						}),
+					)
+				: notify,
 		]);
 	}
 };
@@ -160,8 +173,17 @@ const updateGateway = async ({ itemInstance, itemId: id }) => {
 			snakeToCamel(),
 		]);
 	} catch (err) {
+		const isPasswordInvalid = err.response?.data?.id === invalidPasswordId;
+
 		throw applyTransform(err, [
-			notify,
+			isPasswordInvalid
+				? notify(({ callback }) =>
+						callback({
+							type: 'error',
+							text: t('objects.routing.gateways.errors.passwordInvalid'),
+						}),
+					)
+				: notify,
 		]);
 	}
 };
