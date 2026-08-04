@@ -86,7 +86,7 @@
 
               <template #skills="{ item }">
                 <div
-                  v-if="item.skills.length"
+                  v-if="item.skills?.length"
                   class="table-row--skills"
                 >
                   <wt-chip :color="ChipColor.ON_PRIMARY">
@@ -219,8 +219,6 @@ const edit = (item) => {
 		},
 	});
 };
-
-const addItem = () => {};
 
 const {
 	showEmpty,
