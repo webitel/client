@@ -30,10 +30,11 @@
           >
             <template #search-bar>
               <dynamic-filter-search
-                :filters-manager="{
-                  filters: new Map()
-                }"
+                :filters-manager="filtersManager"
                 single-search-name="q"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
             </template>
           </wt-action-bar>
@@ -117,6 +118,15 @@
                 />
               </template>
             </wt-table>
+            <wt-pagination
+              :next="next"
+              :prev="page > 1"
+              :size="size"
+              debounce
+              @change="updateSize"
+              @next="updatePage(page + 1)"
+              @prev="updatePage(page - 1)"
+            />
           </div>
       </section>
     </template>
@@ -160,7 +170,6 @@ const {
 	updatePage,
 	updateSize,
 	updateSort,
-	patchItemProperty,
 	deleteEls,
 	addFilter,
 	updateFilter,
