@@ -924,6 +924,7 @@ export default {
 					failed: 'Неуспішний',
 					missed: 'Пропущений',
 					expired: 'Час вийшов',
+					canceledByTimeout: 'Скасовано по тайм-ауту',
 				},
 				csvMappingFields: {
 					name: 'Імʼя',

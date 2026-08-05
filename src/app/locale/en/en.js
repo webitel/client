@@ -911,6 +911,7 @@ export default {
 					failed: 'Failed',
 					missed: 'Missed',
 					expired: 'Expired',
+					canceledByTimeout: 'Canceled by timeout',
 				},
 				csvMappingFields: {
 					name: 'Name',
