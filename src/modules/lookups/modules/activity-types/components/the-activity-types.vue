@@ -89,7 +89,7 @@
                   v-if="item.skills?.length"
                   class="table-row--skills"
                 >
-                  <wt-chip :color="ChipColor.ON_PRIMARY">
+                  <wt-chip :color="ChipColor.ON_PRIMARY" constrained-by-width>
                     {{ item.skills[0].name }}
                   </wt-chip>
                   <wt-chip
