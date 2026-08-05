@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import type { EngineSkillPreset } from '@webitel/api-services/gen/models';
+import type { EngineOnlineSkills } from '@webitel/api-services/gen/models';
 import { useCardComponent } from '@webitel/ui-datalist/card';
 import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
@@ -54,13 +54,7 @@ import { useActivityTypesCardStore } from '../stores/card/activityTypesCardStroe
 const { t } = useI18n();
 const route = useRoute();
 
-const {
-	hasSaveActionAccess,
-	hasDeleteAccess,
-	hasCreateAccess,
-	hasReadAccess,
-	hasUpdateAccess,
-} = useUserAccessControl();
+const { hasSaveActionAccess } = useUserAccessControl();
 
 const {
 	modelValue,
@@ -72,7 +66,7 @@ const {
 	isAnyFieldEdited,
 	validationFields,
 	save,
-} = useCardComponent<EngineSkillPreset>({
+} = useCardComponent<EngineOnlineSkills>({
 	useCardStore: useActivityTypesCardStore,
 });
 

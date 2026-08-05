@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="false"
+        :hide-primary="!hasCreateAccess"
         :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
@@ -38,7 +38,6 @@
               />
             </template>
           </wt-action-bar>
-
         </header>
 
         <delete-confirmation-popup
@@ -49,85 +48,85 @@
         />
 
         <div class="table-section__table-wrapper">
-            <wt-empty
-              v-show="showEmpty"
-              :image="imageEmpty"
-              :text="textEmpty"
-              :primary-action-text="primaryActionTextEmpty"
-              :disabled-primary-action="!hasCreateAccess"
-              @click:primary="add"
-            />
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
 
-            <wt-loader v-show="isLoading" />
+          <wt-loader v-show="isLoading" />
 
-            <wt-table
-              v-show="dataList.length && !isLoading"
-              :data="dataList"
-              :selected="selected"
-              :headers="shownHeaders"
-              sortable
-              @sort="updateSort"
-              @update:selected="updateSelected"
-            >
-              <template #name="{ item }">
-                <wt-item-link
-                  :link="{
-                    name: `${RouteNames.ACTIVITY_TYPES}-card`,
-                    params: { id: item.id },
-                  }"
-                >
-                  {{ item.name }}
-                </wt-item-link>
-              </template>
+          <wt-table
+            v-show="dataList.length && !isLoading"
+            :data="dataList"
+            :selected="selected"
+            :headers="shownHeaders"
+            sortable
+            @sort="updateSort"
+            @update:selected="updateSelected"
+          >
+            <template #name="{ item }">
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.ACTIVITY_TYPES}-card`,
+                  params: { id: item.id },
+                }"
+              >
+                {{ item.name }}
+              </wt-item-link>
+            </template>
 
-              <template #description="{ item }">
-                <p>{{ item.description }}</p>
-              </template>
+            <template #description="{ item }">
+              <p>{{ item.description }}</p>
+            </template>
 
-              <template #skills="{ item }">
-                <div
-                  v-if="item.skills?.length"
-                  class="table-row--skills"
-                >
-                  <wt-chip :color="ChipColor.ON_PRIMARY" constrained-by-width>
-                    {{ item.skills[0].name }}
-                  </wt-chip>
-                  <wt-chip
-                    v-if="item.skills.length > 1"
-                    class="table-row--skills-num"
-                  >+{{ item.skills.length - 1 }}</wt-chip>
-                </div>
+            <template #skills="{ item }">
+              <div
+                v-if="item.skills?.length"
+                class="table-row--skills"
+              >
+                <wt-chip :color="ChipColor.ON_PRIMARY" constrained-by-width>
+                  {{ item.skills[0].name }}
+                </wt-chip>
+                <wt-chip
+                  v-if="item.skills.length > 1"
+                  class="table-row--skills-num"
+                >+{{ item.skills.length - 1 }}</wt-chip>
+              </div>
 
-              </template>
+            </template>
 
-              <template #actions="{ item }">
-                <wt-icon-action
-                  :disabled="!hasUpdateAccess"
-                  action="edit"
-                  @click="edit(item)"
-                />
-                <wt-icon-action
-                  :disabled="!hasDeleteAccess"
-                  action="delete"
-                  @click="
+            <template #actions="{ item }">
+              <wt-icon-action
+                :disabled="!hasUpdateAccess"
+                action="edit"
+                @click="edit(item)"
+              />
+              <wt-icon-action
+                :disabled="!hasDeleteAccess"
+                action="delete"
+                @click="
                   askDeleteConfirmation({
                     deleted: [item],
                     callback: () => deleteEls([item]),
                   })
                 "
-                />
-              </template>
-            </wt-table>
-            <wt-pagination
-              :next="next"
-              :prev="page > 1"
-              :size="size"
-              debounce
-              @change="updateSize"
-              @next="updatePage(page + 1)"
-              @prev="updatePage(page - 1)"
-            />
-          </div>
+              />
+            </template>
+          </wt-table>
+          <wt-pagination
+            :next="next"
+            :prev="page > 1"
+            :size="size"
+            debounce
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
+          />
+        </div>
       </section>
     </template>
   </wt-page-wrapper>
@@ -181,8 +180,6 @@ initialize();
 
 const { t } = useI18n();
 const router = useRouter();
-
-const create = () => {};
 
 const {
 	isVisible: isDeleteConfirmationPopup,

@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { RegleSchemaFieldStatus } from '@regle/schemas';
-import type { EngineSkillPreset } from '@webitel/api-services/gen/models';
+import type { EngineOnlineSkills } from '@webitel/api-services/gen/models';
 import {
 	WtInputText,
 	WtMultiSelect,
@@ -38,12 +38,12 @@ import {
 import { useI18n } from 'vue-i18n';
 import SkillsAPI from '../../agent-skills/api/agentSkills';
 
-const modelValue = defineModel<EngineSkillPreset>();
+const modelValue = defineModel<EngineOnlineSkills>();
 
 defineProps<{
 	validationFields?: {
-		[K in keyof EngineSkillPreset]?: RegleSchemaFieldStatus<
-			EngineSkillPreset[K]
+		[K in keyof EngineOnlineSkills]?: RegleSchemaFieldStatus<
+			EngineOnlineSkills[K]
 		>;
 	};
 }>();
