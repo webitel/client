@@ -911,6 +911,7 @@ export default {
 					failed: 'Thất bại',
 					missed: 'Bỏ qua',
 					expired: 'Hết hạn',
+					canceledByTimeout: 'Đã hủy do hết thời gian chờ',
 				},
 				csvMappingFields: {
 					timezoneId: ({ linked }) => linked('date.timezone'),

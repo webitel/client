@@ -915,6 +915,7 @@ export default {
 					failed: 'Eșuat',
 					missed: 'Pierdut',
 					expired: 'Expirat',
+					canceledByTimeout: 'Anulat din cauza timpului expirat',
 				},
 				csvMappingFields: {
 					name: 'Nume',
