@@ -920,6 +920,7 @@ export default {
 					failed: 'Yaroqsiz',
 					missed: 'Bekor qilindi',
 					expired: 'Yaroqli',
+					canceledByTimeout: 'Vaqt tugashi sababli bekor qilindi',
 				},
 				csvMappingFields: {
 					timezoneId: ({ linked }) => linked('date.timezone'),

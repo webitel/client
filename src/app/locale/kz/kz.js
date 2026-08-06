@@ -913,6 +913,7 @@ export default {
 					failed: 'Ақау',
 					missed: 'Жоқ',
 					expired: 'Төмендеді',
+					canceledByTimeout: 'Күту уақыты бойынша болдырылмады',
 				},
 				csvMappingFields: {
 					name: 'Атауы',

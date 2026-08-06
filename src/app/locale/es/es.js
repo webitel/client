@@ -921,6 +921,7 @@ export default {
 					failed: 'Fallido',
 					missed: 'Perdido',
 					expired: 'Expirado',
+					canceledByTimeout: 'Cancelado por tiempo de espera',
 				},
 				csvMappingFields: {
 					name: 'Nombre',

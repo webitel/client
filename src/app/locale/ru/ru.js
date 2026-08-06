@@ -923,6 +923,7 @@ export default {
 					failed: 'Неудачный',
 					missed: 'Пропущенный',
 					expired: 'Истекший',
+					canceledByTimeout: 'Отменен по тайм-ауту',
 				},
 				csvMappingFields: {
 					name: 'Имя',

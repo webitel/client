@@ -916,6 +916,7 @@ export default {
 					failed: 'Niepowodzenie',
 					missed: 'Przegapione',
 					expired: 'Wygasło',
+					canceledByTimeout: 'Anulowano z powodu przekroczenia czasu',
 				},
 				csvMappingFields: {
 					name: 'Nazwa',
