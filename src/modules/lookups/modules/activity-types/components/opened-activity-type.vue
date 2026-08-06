@@ -45,14 +45,12 @@ import { useCardComponent } from '@webitel/ui-datalist/card';
 import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ActivityTypeRouteNames from '../router/_internals/ActivityTypeRouteNames.enum';
 import { useActivityTypesCardStore } from '../stores/card/activityTypesCardStroe';
 
 const { t } = useI18n();
-const route = useRoute();
 
 const { hasSaveActionAccess } = useUserAccessControl();
 
