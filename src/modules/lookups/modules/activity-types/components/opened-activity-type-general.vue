@@ -15,7 +15,7 @@
       <wt-multi-select
         v-model:model-value="modelValue.skills"
         :label="t('objects.lookups.skills.skills', 2)"
-        :search-method="loadSkillsOptions"
+        :search-method="SkillsAPI.getLookup"
         class="opened-activity-type__skills"
         chips-view
       />
@@ -49,8 +49,4 @@ defineProps<{
 }>();
 
 const { t } = useI18n();
-
-const loadSkillsOptions = (params) => {
-	return SkillsAPI.getLookup(params);
-};
 </script>

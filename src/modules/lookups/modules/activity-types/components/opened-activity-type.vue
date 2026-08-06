@@ -4,7 +4,7 @@
       <wt-page-header
         :hide-primary="false"
         :primary-action="save"
-        :primary-disabled="!hasSaveActionAccess || !isAnyFieldEdited || hasValidationErrors"
+        :primary-disabled="disabledSave"
         :primary-text="saveText"
         :secondary-action="close"
       >
@@ -93,4 +93,11 @@ const path = computed(() => [
 		name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
 	},
 ]);
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
 </script>

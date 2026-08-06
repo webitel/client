@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="activity-types table-page"
   >
     <template #header>
       <wt-page-header
@@ -86,7 +86,7 @@
             <template #skills="{ item }">
               <div
                 v-if="item.skills?.length"
-                class="table-row--skills"
+                class="activity-types__skills"
               >
                 <wt-chip :color="ChipColor.ON_PRIMARY" constrained-by-width>
                   {{ item.skills[0].name }}
@@ -142,9 +142,9 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl.js';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useActivityTypesDataListStore } from '../stores/datalist/activityTypesDataListStore.js';
+import { useActivityTypesDataListStore } from '../stores/datalist/activityTypesDataListStore';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 	useUserAccessControl();
@@ -231,7 +231,7 @@ const {
 </script>
 
 <style scoped>
-.table-row--skills {
+.activity-types__skills {
   display: flex;
   gap: var(--spacing-xs);
 }
