@@ -16,6 +16,7 @@ import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-o
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
+import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause.js';
 import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
 import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
@@ -128,6 +129,7 @@ export const initRouter = async ({
 					...CommunicationsRoutes,
 					...RegionsRoutes,
 					...AgentPauseCauseRoutes,
+					...ActivityTypeRoutes,
 					...ShiftTemplatesRoutes,
 					...PauseTemplatesRoutes,
 					...WorkingConditionsRoutes,

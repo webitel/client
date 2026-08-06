@@ -578,6 +578,9 @@ export default {
 			quickReplies: {
 				quickReplies: 'Tez javob | Tez javoblar',
 			},
+			activityTypes: {
+				activityTypes: 'Faoliyat turi | Faoliyat turlari',
+			},
 		},
 		routing: {
 			routing: "Yo'naltirish",

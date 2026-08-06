@@ -578,6 +578,9 @@ export default {
 			quickReplies: {
 				quickReplies: 'Răspuns rapid | Răspunsuri rapide',
 			},
+			activityTypes: {
+				activityTypes: 'Tip de activitate | Tipuri de activitate',
+			},
 		},
 		routing: {
 			routing: 'Rutare',

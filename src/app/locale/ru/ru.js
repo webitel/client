@@ -584,6 +584,9 @@ export default {
 			quickReplies: {
 				quickReplies: 'Быстрый ответ | Быстрые ответы',
 			},
+			activityTypes: {
+				activityTypes: 'Тип активности | Типы активности',
+			},
 		},
 		routing: {
 			routing: 'Маршрутизация',
