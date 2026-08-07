@@ -1330,6 +1330,7 @@ export default {
 				caseFiles: 'Файли звернення',
 				caseComments: 'Коментарі звернення',
 				caseLinks: 'Посилання звернення',
+				call: 'Дзвінок',
 				relatedCases: "Зв'язані звернення",
 				expression: 'Вираз',
 				timeout: 'Час очікування',

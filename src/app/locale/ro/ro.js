@@ -1325,6 +1325,7 @@ export default {
 				caseFiles: 'Fișiere caz',
 				caseComments: 'Comentarii caz',
 				caseLinks: 'Legături caz',
+				call: 'Apel',
 				relatedCases: 'Cazuri legate',
 				expression: 'Expresie',
 				timeout: 'Timp de așteptare',

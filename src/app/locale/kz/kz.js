@@ -1315,6 +1315,7 @@ export default {
 				caseFiles: 'Кейінірек файлдары',
 				caseComments: 'Кейінірек комментарийлер',
 				caseLinks: 'Кейінірек байланыстар',
+				call: 'Қоңырау',
 				relatedCases: 'Байланыстырылған кейініректер',
 				expression: 'Өрнек',
 				timeout: 'Таймақ',

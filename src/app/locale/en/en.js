@@ -1319,6 +1319,7 @@ export default {
 				caseFiles: 'Case files',
 				caseComments: 'Case comments',
 				caseLinks: 'Case links',
+				call: 'Call',
 				relatedCases: 'Related cases',
 				expression: 'Expression',
 				timeout: 'Timeout',
