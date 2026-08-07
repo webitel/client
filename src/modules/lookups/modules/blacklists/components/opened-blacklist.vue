@@ -39,6 +39,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -60,9 +61,13 @@ export default {
 	setup: () => {
 		const v$ = useVuelidate();
 		const { hasSaveActionAccess } = useUserAccessControl();
+		const { hasReadAccess: hasReadListNumberAccess } = useUserAccessControl(
+			WtObject.ListNumber,
+		);
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadListNumberAccess,
 		};
 	},
 
@@ -86,12 +91,13 @@ export default {
 					value: 'general',
 					pathName: BlacklistRouteNames.GENERAL,
 				},
-				{
-					text: this.$t('objects.lookups.blacklist.number', 2),
-					value: 'numbers',
-					pathName: BlacklistRouteNames.NUMBERS,
-				},
 			];
+
+			const numbers = {
+				text: this.$t('objects.lookups.blacklist.number', 2),
+				value: 'numbers',
+				pathName: BlacklistRouteNames.NUMBERS,
+			};
 
 			const permissions = {
 				text: this.$t('objects.permissions.permissions', 2),
@@ -99,6 +105,7 @@ export default {
 				pathName: BlacklistRouteNames.PERMISSIONS,
 			};
 
+			if (this.hasReadListNumberAccess) tabs.push(numbers);
 			if (this.id) tabs.push(permissions);
 			return tabs;
 		},
