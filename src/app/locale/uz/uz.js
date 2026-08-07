@@ -1324,6 +1324,7 @@ export default {
 				caseFiles: 'Hollar fayllari',
 				caseComments: 'Hollar izohlari',
 				caseLinks: 'Hollar boglanishlar',
+				call: "Qo'ng'iroq",
 				relatedCases: "Bog'lanishli hollar",
 				expression: 'Ifoda',
 				timeout: 'Vaqt',

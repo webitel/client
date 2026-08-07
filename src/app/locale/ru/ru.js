@@ -1335,6 +1335,7 @@ export default {
 				caseFiles: 'Файлы обращений',
 				caseComments: 'Комментарии обращений',
 				caseLinks: 'Связанные обращения',
+				call: 'Звонок',
 				relatedCases: 'Связанные обращения',
 				expression: 'Выражение',
 				timeout: 'Время ожидания',

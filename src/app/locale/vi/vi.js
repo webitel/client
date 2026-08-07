@@ -1317,6 +1317,7 @@ export default {
 				caseFiles: 'Tệp trường hợp',
 				caseComments: 'Bình luận trường hợp',
 				caseLinks: 'Liên kết trường hợp',
+				call: 'Cuộc gọi',
 				relatedCases: 'Trường hợp liên quan',
 				expression: 'Biểu thức',
 				timeout: 'Hết thời gian',

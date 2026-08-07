@@ -1323,6 +1323,7 @@ export default {
 				caseFiles: 'Pliki przypadków',
 				caseComments: 'Komentarze do przypadków',
 				caseLinks: 'Linki do przypadków',
+				call: 'Połączenie',
 				relatedCases: 'Powiązane przypadki',
 				expression: 'Wyrażenie',
 				timeout: 'Czas oczekiwania',

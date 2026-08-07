@@ -1330,6 +1330,7 @@ export default {
 				caseFiles: 'Archivos de caso',
 				caseComments: 'Comentarios de caso',
 				caseLinks: 'Enlaces de caso',
+				call: 'Llamada',
 				relatedCases: 'Casos relacionados',
 				expression: 'Expresión',
 				timeout: 'Tiempo de espera',
