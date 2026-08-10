@@ -1,7 +1,7 @@
 <template>
   <wt-popup v-bind="$attrs" size="sm" :shown="!!skillId" overflow @close="close">
     <template #title>
-      {{ $t('objects.ccenter.agents.addSkill') }}
+      {{ popupTitle }}
     </template>
     <template #main>
       <form>
@@ -25,7 +25,7 @@
     </template>
     <template #actions>
       <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.add') }}
+        {{ saveActionText }}
       </wt-button>
       <wt-button color="secondary" @click="close">
         {{ $t('objects.close') }}
@@ -74,6 +74,16 @@ export default {
 	computed: {
 		skillId() {
 			return this.$route.params.skillId;
+		},
+		popupTitle() {
+			return this.skillId === 'new'
+				? this.$t('objects.ccenter.agents.addSkill')
+				: this.$t('objects.ccenter.agents.editSkill');
+		},
+		saveActionText() {
+			return this.skillId === 'new'
+				? this.$t('objects.add')
+				: this.$t('objects.save');
 		},
 	},
 

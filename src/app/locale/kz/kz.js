@@ -821,6 +821,7 @@ export default {
 				isSupervisor: 'Бақылаушы',
 				stateTime: 'Күй уақыты',
 				addSkill: 'Қабілет қосу',
+				editSkill: 'Қабілетті өзгерту',
 				statusHistory: 'Күй тізімі',
 				historyState: 'Күй',
 				payload: 'Себеп',

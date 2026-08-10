@@ -826,6 +826,7 @@ export default {
 				isSupervisor: 'Supraveghetor',
 				stateTime: 'Timp stare',
 				addSkill: 'Adaugă competență',
+				editSkill: 'Editează competență',
 				statusHistory: 'Istoric stare',
 				historyState: 'Stare',
 				payload: 'Motiv',

@@ -822,6 +822,7 @@ export default {
 				isSupervisor: 'Giám sát',
 				stateTime: 'Thời gian trạng thái',
 				addSkill: 'Thêm kỹ năng',
+				editSkill: 'Sửa kỹ năng',
 				statusHistory: 'Lịch sử trạng thái',
 				historyState: 'Trạng thái',
 				payload: 'Nguyên nhân',
