@@ -194,6 +194,9 @@ export default {
 			});
 			this.parameterList = items
 				.filter((item) => !getParameterDescriptor(item.name).hidden)
+				// self_assigned_call_sound_notification is excluded from the UI
+				// https://webitel.atlassian.net/browse/WTEL-10121
+				.filter((item) => item.name !== 'self_assigned_call_sound_notification')
 				.map((item) => ({
 					name: item.name,
 					value: item.name,
