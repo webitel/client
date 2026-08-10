@@ -7,21 +7,15 @@ import { MemberStopCause } from 'webitel-sdk/enums';
 import BucketsAPI from '../../../../../../../../lookups/modules/buckets/api/buckets';
 import AgentsAPI from '../../../../../../agents/api/agents';
 
-const defaultDateFrom = () => {
-	const dateNow = new Date();
-	dateNow.setMonth(dateNow.getMonth() - 1, 1);
-	return dateNow.setHours(0, 0, 0, 0);
-};
-
 const state = {
 	search: new BaseFilterSchema(),
 	from: new BaseFilterSchema({
-		value: defaultDateFrom(),
-		defaultValue: defaultDateFrom(),
+		value: undefined,
+		defaultValue: undefined,
 	}),
 	to: new BaseFilterSchema({
-		value: new Date().setHours(23, 59, 59, 0),
-		defaultValue: new Date().setHours(23, 59, 59, 0),
+		value: undefined,
+		defaultValue: undefined,
 	}),
 	cause: new EnumFilterSchema({
 		options: Object.values(MemberStopCause).map((value) => ({
