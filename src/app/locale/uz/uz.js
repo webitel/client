@@ -828,6 +828,7 @@ export default {
 				isSupervisor: 'Supervisor',
 				stateTime: 'Holat vaqti',
 				addSkill: "Xususiyat qo'shish",
+				editSkill: 'Xususiyatni tahrirlash',
 				statusHistory: 'Holat tarixi',
 				historyState: 'Holat',
 				payload: 'Sabab',

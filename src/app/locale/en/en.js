@@ -822,6 +822,7 @@ export default {
 				isSupervisor: 'Supervisor',
 				stateTime: 'Status time',
 				addSkill: 'Add skill',
+				editSkill: 'Edit skill',
 				statusHistory: 'State history',
 				historyState: 'State',
 				payload: 'Cause',

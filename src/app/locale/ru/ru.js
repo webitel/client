@@ -831,6 +831,7 @@ export default {
 				isSupervisor: 'Супервизор',
 				stateTime: 'Длительность',
 				addSkill: 'Добавить навык',
+				editSkill: 'Редактировать навык',
 				addSubordinate: 'Добавить подчинённого оператора',
 				statusHistory: 'История состояний',
 				historyState: 'Состояние',

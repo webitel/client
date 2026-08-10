@@ -835,6 +835,7 @@ export default {
 				isSupervisor: 'Супервізор',
 				stateTime: 'Тривалість',
 				addSkill: 'Додати навичку',
+				editSkill: 'Редагувати навичку',
 				addSubordinate: 'Додати підлеглого оператора',
 				statusHistory: 'Історія станів',
 				historyState: 'Стан',
