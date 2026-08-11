@@ -1,45 +1,45 @@
 <template>
-  <section>
+  <section class="opened-bucket-general">
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
     <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import type { EngineBucket } from '@webitel/api-services/gen/models';
+import { WtInputText, WtTextarea } from '@webitel/ui-sdk/components';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedBucketGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-};
+const modelValue = defineModel<EngineBucket>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: {
+		[K in keyof EngineBucket]?: RegleSchemaFieldStatus<EngineBucket[K]>;
+	};
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style scoped></style>
