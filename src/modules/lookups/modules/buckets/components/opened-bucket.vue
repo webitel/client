@@ -12,100 +12,90 @@
       </wt-page-header>
     </template>
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="main-container"
         @submit.prevent="save"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { EngineBucket } from '@webitel/api-services/gen/models';
+import { useCardComponent } from '@webitel/ui-datalist/card';
+import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum.js';
-import General from './opened-bucket-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum';
+import { useBucketsCardStore } from '../stores';
 
-export default {
-	name: 'OpenedBucket',
-	components: {
-		General,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'lookups/buckets',
-		routeName: RouteNames.BUCKETS,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-		},
-	},
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<EngineBucket>({
+	useCardStore: useBucketsCardStore,
+});
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: BucketsRouteNames.GENERAL,
-				},
-			];
-			return tabs;
-		},
-
-		path() {
-			const baseUrl = '/lookups/buckets';
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.buckets.buckets', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
+const tabs = computed(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: BucketsRouteNames.GENERAL,
 	},
-};
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+const { close } = useClose(RouteNames.BUCKETS);
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
+	},
+	{
+		name: t('objects.lookups.buckets.buckets', 2),
+		route: '/lookups/buckets',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+	},
+]);
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
 </script>
-
-<style scoped></style>
