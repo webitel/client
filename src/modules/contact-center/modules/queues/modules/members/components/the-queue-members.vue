@@ -265,13 +265,14 @@ export default {
 			() => getNamespacedState(store.state, namespace).filters,
 		);
 
-		const selectedDateRage = {
-			from: formatDate(
-				+filters.value.from.value,
-				FormatDateMode.DATETIME_SHORT,
-			),
-			to: formatDate(+filters.value.to.value, FormatDateMode.DATETIME_SHORT),
-		};
+		const selectedDateRage = computed(() => ({
+			from: filters.value.from.value
+				? formatDate(+filters.value.from.value, FormatDateMode.DATETIME_SHORT)
+				: undefined,
+			to: filters.value.to.value
+				? formatDate(+filters.value.to.value, FormatDateMode.DATETIME_SHORT)
+				: undefined,
+		}));
 
 		const { disableUserInput: disableUserInputOnNoAccess } =
 			useUserAccessControl({
