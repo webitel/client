@@ -69,18 +69,16 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <wt-item-link
-                :link="{
-                  name: `${RouteNames.BUCKETS}-card`,
-                  params: { id: item.id },
-                }"
+              <adm-item-link
+                :id="item.id"
+                :route-name="RouteNames.BUCKETS"
               >
                 {{ item.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <template #description="{ item }">
-              <p>{{ item.description }}</p>
+              {{ item.description }}
             </template>
 
             <template #actions="{ item }">
