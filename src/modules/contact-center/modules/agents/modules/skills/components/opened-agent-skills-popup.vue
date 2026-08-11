@@ -4,7 +4,7 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
+      <form class="opened-skill-agent-popup__form">
         <wt-single-select
           :show-clear="false"
           :label="$t('objects.lookups.skills.skills', 1)"
@@ -107,4 +107,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.opened-skill-agent-popup__form{
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+</style>
