@@ -69,15 +69,22 @@ const props = defineProps<{
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 
+/**
+ * An empty timezone fails on `timezone.id` when the lookup is `{}`, but on
+ * `timezone` itself when it is missing entirely — bind whichever one carries
+ * the error, or the select stays unmarked for a brand new calendar.
+ */
 const timezoneRegleValidation = computed(() => {
 	const timezone = props.validationFields?.timezone as
-		| {
+		| (RegleSchemaFieldStatus<CalendarCard['timezone']> & {
 				$fields?: {
 					id?: RegleSchemaFieldStatus<string>;
 				};
-		  }
+		  })
 		| undefined;
 
-	return timezone?.$fields?.id;
+	const id = timezone?.$fields?.id;
+
+	return id?.$error ? id : timezone;
 });
 </script>
