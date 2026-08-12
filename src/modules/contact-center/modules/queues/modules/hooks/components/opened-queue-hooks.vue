@@ -1,65 +1,59 @@
 <template>
   <section class="table-section">
-    <hook-popup @close="closePopup" />
+    <hook-popup @saved="loadDataList" />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
       :callback="deleteCallback"
+      :delete-count="deleteCount"
       @close="closeDelete"
     />
 
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.queues.hooks.hooks', 2) }}
+        {{ t('objects.ccenter.queues.hooks.hooks', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <delete-all-action
-            v-if="!disableUserInput"
-            v-show="!anySelected"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
-          />
-          <wt-icon-btn
-            v-if="!disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
-        </wt-table-actions>
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.REFRESH, IconAction.DELETE]"
+          :disabled:add="disableUserInput"
+          :disabled:delete="disableUserInput || !selected.length"
+          @click:add="add"
+          @click:refresh="loadDataList"
+          @click:delete="
+            askDeleteConfirmation({
+              deleted: selected,
+              callback: () => deleteEls(selected),
+            })
+          "
+        />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
         :grid-actions="!disableUserInput"
-        :headers="headers"
+        :headers="shownHeaders"
+        :selected="selected"
         sortable
-        @sort="sort"
+        @sort="updateSort"
+        @update:selected="updateSelected"
       >
         <template #event="{ item }">
-          {{ $t(`objects.ccenter.queues.hooks.eventTypes.${item.event}`) }}
+          {{ t(`objects.ccenter.queues.hooks.eventTypes.${item.event}`) }}
         </template>
         <template #schema="{ item }">
           <adm-item-link
+            v-if="item.schema"
             :id="item.schema.id"
             :route-name="RouteNames.FLOW"
             target="_blank"
@@ -71,110 +65,157 @@
           <wt-switcher
             :disabled="!hasUpdateAccess"
             :model-value="item.enabled"
-            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
+            @update:model-value="
+              patchItemProperty({ index, path: 'enabled', value: $event })
+            "
           />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
             action="edit"
-            @click="editItem(item)"
+            @click="edit(item)"
           />
           <wt-icon-action
             action="delete"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteEls([item]),
+              })
+            "
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
+import type { EngineQueueHook } from '@webitel/api-services/gen/models';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../../../app/composables/useDummy.js';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { useDeleteConfirmation } from '../../../composables/useDeleteConfirmation';
+import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
+import { useQueueHooksDatalistStore } from '../stores';
 import HookPopup from './opened-queue-hooks-popup.vue';
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'hooks';
+/**
+ * The card page still hands every tab a `namespace` and a vuelidate instance;
+ * neither means anything here. Remove once no legacy tab is left to feed.
+ */
+defineOptions({
+	inheritAttrs: false,
+});
 
-export default {
-	name: 'OpenedQueueHooks',
-	components: {
-		DeleteConfirmationPopup,
-		HookPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
+const { disableUserInput, hasUpdateAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+
+const parentId = computed(() => route.params.id as string);
+const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
+
+const tableStore = useQueueHooksDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(tableStore);
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	deleteEls,
+	patchItemProperty,
+} = tableStore;
+
+if (!isNewQueue.value)
+	initialize({
+		parentId: parentId.value,
+	});
+
+// a queue saved from this tab gets its id late; load the list once it exists
+watch(parentId, (id, previous) => {
+	if (id && id !== 'new' && previous === 'new')
+		initialize({
+			parentId: id,
 		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+});
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-		const { hasUpdateAccess } = useUserAccessControl();
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const ensureQueueSaved = useEnsureQueueSaved();
 
-			askDeleteConfirmation,
-			closeDelete,
-			hasUpdateAccess,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-	}),
+const {
+	isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmation();
 
-	methods: {
-		addItem() {
-			this.$router.push({
-				...this.$route,
-				params: {
-					hookId: 'new',
-				},
-			});
+const openPopup = (hookId: string) =>
+	router.push({
+		name: route.name,
+		params: {
+			...route.params,
+			hookId,
 		},
-		editItem(item) {
-			this.$router.push({
-				...this.$route,
-				params: {
-					hookId: item.id,
-				},
-			});
-		},
-		closePopup() {
-			this.$router.go(-1);
-		},
-	},
+		query: route.query,
+	});
+
+/**
+ * A hook cannot exist before its queue does, so adding one from an unsaved
+ * queue saves the queue first. The card owns that save and it validates, so an
+ * invalid queue leaves us here with its errors shown instead.
+ */
+const add = async () => {
+	if (isNewQueue.value) {
+		const savedId = await ensureQueueSaved();
+		if (!savedId) return;
+	}
+	return openPopup('new');
 };
+
+const edit = (item: EngineQueueHook) => openPopup(String(item.id));
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
 <style

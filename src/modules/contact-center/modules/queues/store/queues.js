@@ -4,7 +4,6 @@ import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreMo
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
-import hooks from '../modules/hooks/store/queue-hooks';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
 import resGroups from '../modules/res-groups/store/queue-res-groups';
@@ -120,13 +119,6 @@ const actions = {
 			},
 		);
 		context.dispatch(
-			'ccenter/queues/hooks/RESET_STATE',
-			{},
-			{
-				root: true,
-			},
-		);
-		context.dispatch(
 			'ccenter/queues/buckets/RESET_STATE',
 			{},
 			{
@@ -190,7 +182,6 @@ const queues = new ObjectStoreModule({
 		skills,
 		buckets,
 		resGroups,
-		hooks,
 		log,
 		members,
 		permissions,

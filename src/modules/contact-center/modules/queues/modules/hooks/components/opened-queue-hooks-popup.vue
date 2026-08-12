@@ -1,137 +1,156 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" :shown="!!hookId" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!hookId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
-        <wt-single-select v-model:model-value="event" :show-clear="false" :label="$t('objects.ccenter.queues.hooks.event')"
-          :options="eventOptions" :v="v$.itemInstance.event" required data-key="value" />
+      <form @submit.prevent="save">
         <wt-single-select
-          :disabled="!hasFlowsReadAccess"
+          v-model="event"
+          :label="t('objects.ccenter.queues.hooks.event')"
+          :options="eventOptions"
+          :regle-validation="validationFields?.event"
           :show-clear="false"
-          :label="$t('objects.routing.flow.flow', 1)"
-          :search-method="hasFlowsReadAccess && loadFlowOptions"
-          :v="v$.itemInstance.schema"
-          :model-value="itemInstance.schema"
+          data-key="value"
           required
-          @update:model-value="setItemProp({ prop: 'schema', value: $event })"
+        />
+        <wt-single-select
+          v-model="hook.schema"
+          :disabled="!hasFlowsReadAccess"
+          :label="t('objects.routing.flow.flow', 1)"
+          :regle-validation="validationFields?.schema"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
+          :show-clear="false"
+          required
         />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.save') }}
+      <wt-button
+        :disabled="!hasSaveActionAccess || hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import type { EngineQueueHook } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
-import HookEvent from '../enum/HookQueueEvent.enum';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
+import HookEvent from '../enums/HookQueueEvent.enum';
+import { useQueueHooksCardStore } from '../stores';
 
-export default {
-	name: 'OpenedQueueHooksPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	setup: () => {
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
-		return {
-			// Reasons for use $stopPropagation
-			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-			v$: useVuelidate({
-				$stopPropagation: true,
-			}),
-			hasFlowsReadAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'ccenter/queues/hooks',
-	}),
-	validations: {
-		itemInstance: {
-			event: {
-				required,
-			},
-			schema: {
-				required,
-			},
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	computed: {
-		eventOptions() {
-			return Object.values(HookEvent).map((event) => ({
-				name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-				value: event,
-			}));
-		},
-		event: {
-			get() {
-				const { event } = this.itemInstance;
-				return event
-					? {
-							name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-							value: event,
-						}
-					: {};
-			},
-			set(value) {
-				this.setItemProp({
-					prop: 'event',
-					value: value.value,
-				});
-			},
-		},
-		popupTitle() {
-			const action = this.id
-				? this.$t('reusable.edit')
-				: this.$t('reusable.add');
-			return (
-				action +
-				' ' +
-				this.$t('objects.ccenter.queues.hooks.hooks', 1).toLowerCase()
-			);
-		},
-		hookId() {
-			return this.$route.params.hookId;
-		},
-	},
-	watch: {
-		hookId: {
-			handler(id) {
-				this.handleIdChange(id);
-			},
-			immediate: true,
-		},
-	},
+const { hasSaveActionAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
 
-	methods: {
-		loadFlowOptions(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [
-					EngineRoutingSchemaType.Service,
-				],
-			});
-		},
+const {
+	modelValue,
+	validationFields: rawValidationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineQueueHook>({
+	useCardStore: useQueueHooksCardStore,
+	routeParamName: 'hookId',
+	parentId: route.params.id as string,
+});
+
+/**
+ * TODO(types): Regle infers an empty-object arm into the validationFields
+ * union; narrow to the named-fields arm so template access typechecks.
+ */
+const validationFields = computed(
+	() =>
+		rawValidationFields.value as Extract<
+			(typeof rawValidationFields)['value'],
+			{
+				event: unknown;
+			}
+		>,
+);
+
+/**
+ * Same cross-package ref problem as the delete-confirmation composable: the
+ * card store's `modelValue` is created by ui-datalist's vue, so the template
+ * will not unwrap it. Reading it through a local computed does.
+ */
+const hook = computed(() => modelValue.value as EngineQueueHook);
+
+const hookId = computed(() => route.params.hookId);
+
+const eventOptions = computed(() =>
+	Object.values(HookEvent).map((event) => ({
+		name: t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+		value: event,
+	})),
+);
+
+/** the select works in option objects while the hook stores the bare value */
+const event = computed({
+	get: () =>
+		eventOptions.value.find(
+			(option) => option.value === modelValue.value?.event,
+		),
+	set: (option) => {
+		modelValue.value.event = option?.value;
 	},
+});
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.ccenter.queues.hooks.hooks', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(QueuesRoutesName.HOOKS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadFlowOptions = (params: object) =>
+	FlowsAPI.getLookup({
+		...params,
+		type: [
+			EngineRoutingSchemaType.Service,
+		],
+	});
 </script>
 
 <style lang="scss" scoped></style>
