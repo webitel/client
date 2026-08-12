@@ -1,4 +1,3 @@
-import { getCalendarAcceptsIntersectingIndices } from '@webitel/api-services/validations';
 import type { SuperCompatibleRegleFieldStatus } from '@regle/core';
 import { computed, type Ref } from 'vue';
 
@@ -27,6 +26,48 @@ type AcceptsValidationFields = {
 };
 
 const DAY_MINUTE_MAX = 24 * 60 - 1;
+
+const getIntersectingIndices = (items: CalendarAcceptOfDayUi[]) => {
+	const indices = new Set<number>();
+	const indicesByDay = new Map<number, number[]>();
+
+	items.forEach((item, index) => {
+		const dayIndices = indicesByDay.get(item.day) ?? [];
+		dayIndices.push(index);
+		indicesByDay.set(item.day, dayIndices);
+	});
+
+	indicesByDay.forEach((dayIndices) => {
+		const ranges: Array<{
+			start: number;
+			end: number;
+			index: number;
+		}> = [];
+
+		dayIndices.forEach((index) => {
+			const current = items[index];
+
+			ranges.forEach((range) => {
+				if (
+					(current.start >= range.start && current.end <= range.end) ||
+					(current.start <= range.start && current.end >= range.start) ||
+					(current.start <= range.end && current.end >= range.end)
+				) {
+					indices.add(index);
+					indices.add(range.index);
+				}
+			});
+
+			ranges.push({
+				start: current.start,
+				end: current.end,
+				index,
+			});
+		});
+	});
+
+	return indices;
+};
 
 const emptyFieldValidation = (): VuelidateLikeFieldValidation => ({
 	$invalid: false,
@@ -105,7 +146,7 @@ export function useWeekDaysAcceptsFieldValidation(
 	);
 
 	const intersectingIndices = computed(() =>
-		getCalendarAcceptsIntersectingIndices(accepts.value ?? []),
+		getIntersectingIndices(accepts.value ?? []),
 	);
 
 	const getFieldValidation = (

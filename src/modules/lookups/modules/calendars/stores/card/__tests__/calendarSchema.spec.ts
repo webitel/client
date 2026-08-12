@@ -2,9 +2,21 @@ import { calendarSchema } from '@webitel/api-services/validations';
 import { describe, expect, it } from 'vitest';
 
 describe('calendarSchema', () => {
-	it('rejects empty name and timezone without id', () => {
+	it('rejects an empty name', () => {
 		const result = calendarSchema.safeParse({
 			name: '',
+			timezone: {
+				id: '1',
+				name: 'UTC',
+			},
+		});
+
+		expect(result.success).toBe(false);
+	});
+
+	it('rejects a timezone without id', () => {
+		const result = calendarSchema.safeParse({
+			name: 'Support',
 			timezone: {
 				name: 'UTC',
 			},

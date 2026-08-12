@@ -70,7 +70,6 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
 import type { CalendarExceptUi } from '../stores';
 import { useCalendarsCardStore } from '../stores';
@@ -85,7 +84,6 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const route = useRoute();
 const cardStore = useCalendarsCardStore();
-const { draftItemInstance } = storeToRefs(cardStore);
 
 const shown = ref(false);
 
@@ -104,7 +102,7 @@ const holidayIndex = computed(
 	() => route.params.holidayIndex as string | undefined,
 );
 
-const holidayList = computed(() => draftItemInstance.value?.excepts ?? []);
+const holidayList = computed(() => cardStore.draftItemInstance?.excepts ?? []);
 
 const hourRangeValidators = computed(() => [
 	{
@@ -124,8 +122,8 @@ const fromValidators = computed(() => [
 const isWorkTimeValid = computed(() => {
 	if (!itemInstance.working) return true;
 
-	const workStart = itemInstance.workStart ?? 0;
-	const workStop = itemInstance.workStop ?? 0;
+	const { workStart, workStop } = itemInstance;
+	if (workStart == null || workStop == null) return false;
 
 	return workStart < workStop;
 });
@@ -155,6 +153,8 @@ const close = () => {
 };
 
 const save = () => {
+	if (!isWorkTimeValid.value) return;
+
 	emit('save', {
 		...itemInstance,
 	});
