@@ -4,7 +4,6 @@ import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreMo
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
-import filters from '../modules/filters/store/filters';
 import hooks from '../modules/hooks/store/queue-hooks';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
@@ -195,7 +194,6 @@ const queues = new ObjectStoreModule({
 		log,
 		members,
 		permissions,
-		filters,
 	})
 	.getModule({
 		actions,

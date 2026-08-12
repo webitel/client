@@ -1388,6 +1388,18 @@ export default {
 		queueType: 'Queue Type',
 	},
 
+	/**
+	 * Labels for filters this app defines itself. ui-datalist resolves a filter's
+	 * label from `webitelUI.filters.<filter name>`, and ui-sdk's own messages are
+	 * deep-merged over these at startup, so only names it does not ship belong
+	 * here. `fallbackLocale` is `en`, which covers the other locales.
+	 */
+	webitelUI: {
+		filters: {
+			tags: 'Tags',
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Download files',
