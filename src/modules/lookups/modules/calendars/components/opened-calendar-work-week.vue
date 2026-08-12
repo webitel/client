@@ -69,11 +69,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { useI18n } from 'vue-i18n';
 
+import {
+	getRegleEachField,
+	useRegleErrorsTranslation,
+} from '../../../../../app/composables/useRegleErrorsTranslation';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import { useAcceptsRegleField } from '../composables/useAcceptsRegleField';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
 import type { CalendarCard } from '../stores';
 
@@ -82,11 +85,12 @@ const modelValue = defineModel<CalendarCard>({
 });
 
 const props = defineProps<{
-	validationFields?: Record<string, unknown>;
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
 
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
+const { translateRegleErrors } = useRegleErrorsTranslation();
 
 const {
 	dataList,
@@ -100,7 +104,8 @@ const {
 	secToMin,
 } = useWeekDaysData(modelValue, 'accepts');
 
-const { getAcceptsRegleField } = useAcceptsRegleField(
-	computed(() => props.validationFields),
-);
+const getAcceptsRegleField = (index: number, prop: 'start' | 'end') =>
+	translateRegleErrors(
+		getRegleEachField(props.validationFields?.accepts, index, prop),
+	);
 </script>

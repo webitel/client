@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { CalendarsAPI } from '@webitel/api-services/api';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -62,9 +63,7 @@ const modelValue = defineModel<CalendarCard>({
 });
 
 const props = defineProps<{
-	validationFields?: {
-		[K in keyof CalendarCard]?: RegleSchemaFieldStatus<CalendarCard[K]>;
-	};
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
 
 const { t } = useI18n();

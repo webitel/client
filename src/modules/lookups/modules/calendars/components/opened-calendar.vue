@@ -44,14 +44,14 @@
 <script setup lang="ts">
 import { useCardComponent } from '@webitel/ui-datalist/card';
 import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
-// import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
+import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-// import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
 import {
 	type CalendarCard,
@@ -71,8 +71,8 @@ const {
 	hasUpdateAccess,
 } = useUserAccessControl();
 
-// const { hasLicense } = useUserinfoStore();
-// const hasLicenseOnWfm = computed(() => hasLicense(WebitelLicense.WFM));
+const { hasLicense } = useUserinfoStore();
+const hasLicenseOnWfm = computed(() => hasLicense(WebitelLicense.WFM));
 
 const {
 	modelValue,
@@ -111,13 +111,13 @@ const tabs = computed(() => {
 		},
 	];
 
-	// if (hasLicenseOnWfm.value) {
-	// 	array.push({
-	// 		text: t('objects.lookups.calendars.specialTime'),
-	// 		value: 'special-time',
-	// 		pathName: CalendarRouteNames.SPECIAL_TIME,
-	// 	});
-	// }
+	if (hasLicenseOnWfm.value) {
+		array.push({
+			text: t('objects.lookups.calendars.specialTime'),
+			value: 'special-time',
+			pathName: CalendarRouteNames.SPECIAL_TIME,
+		});
+	}
 
 	if (!isNew.value) {
 		array.push({

@@ -11,40 +11,38 @@
     <template #main>
       <div class="popup-input-form">
         <wt-input-text
-          v-model:model-value="itemInstance.name"
+          v-model:model-value="draft.name"
           :label="t('objects.name')"
           required
         />
         <wt-datepicker
-          v-model:model-value="itemInstance.date"
+          v-model:model-value="draft.date"
           :label="t('objects.lookups.calendars.date')"
         />
         <wt-switcher
-          :model-value="itemInstance.working"
+          :model-value="draft.working"
           :label="t('objects.lookups.calendars.workingTime')"
           @update:model-value="changeWorkingSwitcher"
         />
         <div
-          v-if="itemInstance.working"
+          v-if="draft.working"
           class="opened-calendar-holiday-popup__wrapper"
         >
           <wt-timepicker
             format="hh:mm"
             :label="t('objects.lookups.calendars.start')"
-            :custom-validators="fromValidators"
-            :model-value="(itemInstance.workStart ?? 0) * 60"
+            :model-value="(draft.workStart ?? 0) * 60"
             @update:model-value="updateWorkingTime($event, 'workStart')"
           />
           <wt-timepicker
             format="hh:mm"
             :label="t('objects.lookups.calendars.end')"
-            :custom-validators="hourRangeValidators"
-            :model-value="(itemInstance.workStop ?? 0) * 60"
+            :model-value="(draft.workStop ?? 0) * 60"
             @update:model-value="updateWorkingTime($event, 'workStop')"
           />
         </div>
         <wt-switcher
-          v-model:model-value="itemInstance.repeat"
+          v-model:model-value="draft.repeat"
           :label="t('objects.lookups.calendars.repeat')"
         />
       </div>
@@ -67,12 +65,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
 
 import type { CalendarExceptUi } from '../stores';
-import { useCalendarsCardStore } from '../stores';
+
+const props = defineProps<{
+	shown: boolean;
+	/** the holiday being edited; absent means "new" */
+	item?: CalendarExceptUi;
+}>();
 
 const emit = defineEmits<{
 	close: [];
@@ -82,10 +84,6 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-const route = useRoute();
-const cardStore = useCalendarsCardStore();
-
-const shown = ref(false);
 
 const emptyItem = (): CalendarExceptUi => ({
 	name: '',
@@ -96,95 +94,47 @@ const emptyItem = (): CalendarExceptUi => ({
 	workStop: null,
 });
 
-const itemInstance = reactive<CalendarExceptUi>(emptyItem());
-
-const holidayIndex = computed(
-	() => route.params.holidayIndex as string | undefined,
-);
-
-const holidayList = computed(() => cardStore.draftItemInstance?.excepts ?? []);
-
-const hourRangeValidators = computed(() => [
-	{
-		name: 'hourRange',
-		text: t('validation.hourRange'),
-	},
-]);
-
-const fromValidators = computed(() => [
-	...hourRangeValidators.value,
-	{
-		name: 'timerangeStartLessThanEnd',
-		text: t('validation.timerangeStartLessThanEnd'),
-	},
-]);
+const draft = reactive<CalendarExceptUi>(emptyItem());
 
 const isWorkTimeValid = computed(() => {
-	if (!itemInstance.working) return true;
+	if (!draft.working) return true;
 
-	const { workStart, workStop } = itemInstance;
+	const { workStart, workStop } = draft;
 	if (workStart == null || workStop == null) return false;
 
 	return workStart < workStop;
 });
 
-const canSave = computed(
-	() => Boolean(itemInstance.name) && isWorkTimeValid.value,
-);
+const canSave = computed(() => Boolean(draft.name) && isWorkTimeValid.value);
 
-const resetItemInstance = () => {
-	Object.assign(itemInstance, emptyItem());
-};
-
-const initEditedValue = () => {
-	if (holidayIndex.value && holidayIndex.value !== 'new') {
-		const source = holidayList.value[Number(holidayIndex.value)];
-		if (source) {
-			Object.assign(itemInstance, {
-				...source,
-			});
-		}
-	}
-};
-
-const close = () => {
-	shown.value = false;
-	emit('close');
-};
+const close = () => emit('close');
 
 const save = () => {
-	if (!isWorkTimeValid.value) return;
+	if (!canSave.value) return;
 
 	emit('save', {
-		...itemInstance,
+		...draft,
 	});
 	close();
 };
 
-const changeWorkingSwitcher = (event: boolean) => {
-	itemInstance.working = event;
-	itemInstance.workStart = event ? 9 * 60 : null;
-	itemInstance.workStop = event ? 20 * 60 : null;
+const changeWorkingSwitcher = (working: boolean) => {
+	draft.working = working;
+	draft.workStart = working ? 9 * 60 : null;
+	draft.workStop = working ? 20 * 60 : null;
 };
 
 const updateWorkingTime = (event: number, prop: 'workStart' | 'workStop') => {
-	itemInstance[prop] = event != null ? event / 60 : null;
+	draft[prop] = event != null ? event / 60 : null;
 };
 
+/** each opening starts from the edited holiday, or from a blank one */
 watch(
-	holidayIndex,
-	(value) => {
-		if (value === 'new') {
-			resetItemInstance();
-			shown.value = true;
-			return;
-		}
-		if (value) {
-			initEditedValue();
-			shown.value = true;
-			return;
-		}
-		shown.value = false;
+	() => props.shown,
+	(shown) => {
+		if (!shown) return;
+
+		Object.assign(draft, emptyItem(), props.item);
 	},
 	{
 		immediate: true,
