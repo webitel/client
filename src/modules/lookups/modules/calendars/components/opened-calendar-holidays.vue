@@ -225,7 +225,7 @@ const create = () => {
 	router.push({
 		name: CalendarRouteNames.HOLIDAYS,
 		params: {
-			...route.params,
+			id: route.params.id,
 			holidayIndex: 'new',
 		},
 		query: route.query,
@@ -238,7 +238,7 @@ const edit = (index: number) => {
 	router.push({
 		name: CalendarRouteNames.HOLIDAYS,
 		params: {
-			...route.params,
+			id: route.params.id,
 			holidayIndex: String(item.sourceIndex),
 		},
 		query: route.query,
@@ -249,8 +249,7 @@ const closePopup = () => {
 	router.replace({
 		name: CalendarRouteNames.HOLIDAYS,
 		params: {
-			...route.params,
-			holidayIndex: '',
+			id: route.params.id,
 		},
 		query: route.query,
 	});

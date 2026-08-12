@@ -25,6 +25,7 @@
         />
         <router-view v-slot="{ Component }">
           <component
+            v-if="Component"
             :is="Component"
             v-model="modelValue"
             :validation-fields="validationFields"
@@ -46,7 +47,7 @@ import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
 import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
@@ -60,6 +61,7 @@ import {
 
 const { t } = useI18n();
 const route = useRoute();
+const router = useRouter();
 
 const {
 	hasSaveActionAccess,
@@ -128,7 +130,16 @@ const tabs = computed(() => {
 	return array;
 });
 
-const { currentTab, changeTab } = useCardTabs(tabs);
+const { currentTab } = useCardTabs(tabs);
+
+const changeTab = (tab: { pathName?: string }) => {
+	if (!tab?.pathName) return;
+
+	return router.push({
+		...route,
+		name: tab.pathName,
+	});
+};
 
 const isPermissionsTab = computed(
 	() => route.name === CalendarRouteNames.PERMISSIONS,
