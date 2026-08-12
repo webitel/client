@@ -1,8 +1,8 @@
 <template>
   <section class="table-section">
     <holiday-popup
-      v-model="modelValue"
       @close="closePopup"
+      @save="saveHoliday"
     />
     <delete-confirmation-popup
       :shown="deletePopupShown"
@@ -108,10 +108,12 @@ import { formatDate } from '@webitel/ui-sdk/utils';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
 import type { CalendarCard, CalendarExceptUi } from '../stores';
+import { useCalendarsCardStore } from '../stores';
 import HolidayPopup from './opened-calendar-holiday-popup.vue';
 
 type CalendarExceptRow = CalendarExceptUi & {
@@ -130,6 +132,8 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const { disableUserInput } = useUserAccessControl();
+const cardStore = useCalendarsCardStore();
+const { draftItemInstance } = storeToRefs(cardStore);
 
 const search = ref('');
 const selectedRows = ref<CalendarExceptRow[]>([]);
@@ -170,7 +174,7 @@ const headers = computed(() => [
 	},
 ]);
 
-const holidayList = computed(() => modelValue.value.excepts ?? []);
+const holidayList = computed(() => draftItemInstance.value?.excepts ?? []);
 
 const loadList = () => {
 	const q = search.value.toLowerCase();
@@ -183,7 +187,9 @@ const loadList = () => {
 };
 
 const setRepeatValue = (index: number, value: boolean) => {
-	const excepts = modelValue.value.excepts ?? [];
+	const excepts = [
+		...(draftItemInstance.value?.excepts ?? []),
+	];
 	const item = filteredList.value[index];
 	const realIndex = item?.sourceIndex;
 
@@ -195,9 +201,7 @@ const setRepeatValue = (index: number, value: boolean) => {
 		...excepts[realIndex],
 		repeat: value,
 	};
-	modelValue.value.excepts = [
-		...excepts,
-	];
+	draftItemInstance.value.excepts = excepts;
 	loadList();
 };
 
@@ -211,10 +215,37 @@ const deleteData = (deleted: CalendarExceptRow | CalendarExceptRow[]) => {
 		items.map((item) => item.sourceIndex).filter((index) => index >= 0),
 	);
 
-	modelValue.value.excepts = (modelValue.value.excepts ?? []).filter(
-		(_, index) => !indexes.has(index),
-	);
+	draftItemInstance.value.excepts = (
+		draftItemInstance.value?.excepts ?? []
+	).filter((_, index) => !indexes.has(index));
 	selectedRows.value = [];
+	loadList();
+};
+
+const saveHoliday = (item: CalendarExceptUi) => {
+	const excepts = [
+		...(draftItemInstance.value?.excepts ?? []),
+	];
+	const holidayIndex = route.params.holidayIndex as string | undefined;
+	const index = Number(holidayIndex);
+
+	if (holidayIndex !== 'new') {
+		if (!Number.isInteger(index) || index < 0 || index >= excepts.length) {
+			excepts.push({
+				...item,
+			});
+		} else {
+			excepts.splice(index, 1, {
+				...item,
+			});
+		}
+	} else {
+		excepts.push({
+			...item,
+		});
+	}
+
+	draftItemInstance.value.excepts = excepts;
 	loadList();
 };
 

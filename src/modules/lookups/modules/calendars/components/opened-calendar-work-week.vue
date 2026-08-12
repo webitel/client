@@ -23,6 +23,7 @@
             :custom-validators="fromValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
+            :v="getFieldValidation(index, 'start')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -32,9 +33,10 @@
         </template>
         <template #end="{ item, index }">
           <wt-timepicker
-            :custom-validators="hourRangeValidators"
+            :custom-validators="toValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
+            :v="getFieldValidation(index, 'end')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -73,6 +75,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import { useWeekDaysAcceptsFieldValidation } from '../composables/useWeekDaysAcceptsFieldValidation';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
 import type { CalendarCard } from '../stores';
 
@@ -80,7 +83,7 @@ const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-defineProps<{
+const props = defineProps<{
 	validationFields?: Record<string, unknown>;
 }>();
 
@@ -99,11 +102,32 @@ const {
 	secToMin,
 } = useWeekDaysData(modelValue, 'accepts');
 
+const { getFieldValidation } = useWeekDaysAcceptsFieldValidation(
+	computed(() => props.validationFields),
+	computed(() => modelValue.value.accepts),
+);
+
 const hourRangeValidators = computed(() => [
 	{
 		name: 'hourRange',
 		text: t('validation.hourRange'),
 	},
+]);
+
+const intersectValidators = computed(() => [
+	{
+		name: 'timerangeNotIntersect',
+		text: t('validation.timerangeNotIntersect'),
+	},
+]);
+
+const toValidators = computed(() => [
+	...hourRangeValidators.value,
+	{
+		name: 'timerangeStartLessThanEnd',
+		text: t('validation.timerangeStartLessThanEnd'),
+	},
+	...intersectValidators.value,
 ]);
 
 const fromValidators = computed(() => [
@@ -112,5 +136,6 @@ const fromValidators = computed(() => [
 		name: 'timerangeStartLessThanEnd',
 		text: t('validation.timerangeStartLessThanEnd'),
 	},
+	...intersectValidators.value,
 ]);
 </script>

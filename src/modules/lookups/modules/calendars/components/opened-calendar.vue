@@ -88,6 +88,31 @@ const {
 	useCardStore: useCalendarsCardStore,
 });
 
+const hasAcceptsValidationErrors = computed(() => {
+	const accepts = validationFields.value?.accepts as
+		| {
+				$invalid?: boolean;
+				$each?: Array<{
+					start?: {
+						$invalid?: boolean;
+					};
+					end?: {
+						$invalid?: boolean;
+					};
+				}>;
+		  }
+		| undefined;
+
+	if (!accepts) return false;
+	if (accepts.$invalid) return true;
+
+	return (
+		accepts.$each?.some(
+			(item) => item?.start?.$invalid || item?.end?.$invalid,
+		) ?? false
+	);
+});
+
 const tabs = computed(() => {
 	const array: {
 		text: string;
@@ -175,6 +200,7 @@ const disabledSave = computed(
 	() =>
 		!hasSaveActionAccess.value ||
 		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
+		hasValidationErrors.value ||
+		hasAcceptsValidationErrors.value,
 );
 </script>

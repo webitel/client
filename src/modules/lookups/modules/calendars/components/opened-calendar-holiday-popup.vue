@@ -70,19 +70,22 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
-import type { CalendarCard, CalendarExceptUi } from '../stores';
-
-const modelValue = defineModel<CalendarCard>({
-	required: true,
-});
+import type { CalendarExceptUi } from '../stores';
+import { useCalendarsCardStore } from '../stores';
 
 const emit = defineEmits<{
 	close: [];
+	save: [
+		item: CalendarExceptUi,
+	];
 }>();
 
 const { t } = useI18n();
 const route = useRoute();
+const cardStore = useCalendarsCardStore();
+const { draftItemInstance } = storeToRefs(cardStore);
 
 const shown = ref(false);
 
@@ -101,7 +104,7 @@ const holidayIndex = computed(
 	() => route.params.holidayIndex as string | undefined,
 );
 
-const holidayList = computed(() => modelValue.value.excepts ?? []);
+const holidayList = computed(() => draftItemInstance.value?.excepts ?? []);
 
 const hourRangeValidators = computed(() => [
 	{
@@ -152,27 +155,9 @@ const close = () => {
 };
 
 const save = () => {
-	const excepts = [
-		...(modelValue.value.excepts ?? []),
-	];
-	const index = Number(holidayIndex.value);
-
-	if (holidayIndex.value !== 'new') {
-		if (!Number.isInteger(index) || index < 0 || index >= excepts.length) {
-			excepts.push({
-				...itemInstance,
-			});
-		} else {
-			excepts.splice(index, 1, {
-				...itemInstance,
-			});
-		}
-	} else {
-		excepts.push({
-			...itemInstance,
-		});
-	}
-	modelValue.value.excepts = excepts;
+	emit('save', {
+		...itemInstance,
+	});
 	close();
 };
 
