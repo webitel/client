@@ -1,9 +1,7 @@
-import { QueueType } from '@webitel/ui-sdk/enums';
+import { getQueueDefaults, QueuesAPI } from '@webitel/api-services/api';
 import deepMerge from 'deepmerge';
-
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import QueuesAPI from '../api/queues';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
 import filters from '../modules/filters/store/filters';
@@ -13,33 +11,9 @@ import members from '../modules/members/store/queue-members';
 import resGroups from '../modules/res-groups/store/queue-res-groups';
 import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
-import defaultChatInboundQueueState from './_internals/queueSchema/chatInboundQueue';
-import defaultQueueState from './_internals/queueSchema/defaults/defaultQueue';
-import defaultImChatQueueState from './_internals/queueSchema/imChatQueue';
-import defaultInboundJobQueueState from './_internals/queueSchema/inboundJobQueue';
-import defaultInboundQueueState from './_internals/queueSchema/inboundQueue';
-import defaultOfflineQueueState from './_internals/queueSchema/offlineQueue';
-import defaultOutboundIVRQueueState from './_internals/queueSchema/outboundIVRQueue';
-import defaultOutboundJobQueueState from './_internals/queueSchema/outboundJobQueue';
-import defaultPredictiveDialerState from './_internals/queueSchema/predictiveDialer';
-import defaultPreviewDialerState from './_internals/queueSchema/previewDialer';
-import defaultProgressiveDialerState from './_internals/queueSchema/progressiveDialer';
 
 const resettableState = {
-	itemInstance: defaultQueueState(),
-};
-
-const queueStateMap = {
-	[QueueType.OFFLINE_QUEUE]: defaultOfflineQueueState,
-	[QueueType.INBOUND_QUEUE]: defaultInboundQueueState,
-	[QueueType.OUTBOUND_IVR_QUEUE]: defaultOutboundIVRQueueState,
-	[QueueType.PREVIEW_DIALER]: defaultPreviewDialerState,
-	[QueueType.PROGRESSIVE_DIALER]: defaultProgressiveDialerState,
-	[QueueType.PREDICTIVE_DIALER]: defaultPredictiveDialerState,
-	[QueueType.CHAT_INBOUND_QUEUE]: defaultChatInboundQueueState,
-	[QueueType.IM_CHAT_QUEUE]: defaultImChatQueueState,
-	[QueueType.INBOUND_JOB_QUEUE]: defaultInboundJobQueueState,
-	[QueueType.OUTBOUND_JOB_QUEUE]: defaultOutboundJobQueueState,
+	itemInstance: getQueueDefaults(),
 };
 
 const actions = {
@@ -57,7 +31,7 @@ const actions = {
 		}
 	},
 	SET_TYPED_ITEM: (context, { type, item = {} }) => {
-		const typedItem = deepMerge(queueStateMap[type](), item);
+		const typedItem = deepMerge(getQueueDefaults(type), item);
 		context.commit('SET_ITEM', typedItem);
 	},
 	SET_ITEM_PAYLOAD_PROPERTY: (context, payload) => {
