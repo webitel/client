@@ -41,9 +41,9 @@
         </header>
 
         <delete-confirmation-popup
-          :shown="isDeleteConfirmationPopup"
-          :callback="deleteCallback"
-          :delete-count="deleteCount"
+          :shown="deletePopupShown"
+          :callback="deletePopupCallback"
+          :delete-count="deletePopupCount"
           @close="closeDelete"
         />
 
@@ -114,7 +114,8 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { EngineCalendar } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -159,9 +160,7 @@ const {
 	updateSelected,
 } = tableStore;
 
-initialize().catch(() => {
-	// loadDataList already records the error in store state
-});
+initialize();
 
 const { t } = useI18n();
 const router = useRouter();
@@ -173,6 +172,10 @@ const {
 	askDeleteConfirmation,
 	closeDelete,
 } = useDeleteConfirmationPopup();
+
+const deletePopupShown = computed(() => isDeleteConfirmationPopup.value);
+const deletePopupCount = computed(() => deleteCount.value);
+const deletePopupCallback = computed(() => deleteCallback.value);
 
 const path = computed(() => [
 	{
@@ -192,7 +195,7 @@ const add = () =>
 		},
 	});
 
-const edit = (item) =>
+const edit = (item: EngineCalendar) =>
 	router.push({
 		name: `${RouteNames.CALENDARS}-card`,
 		params: {
