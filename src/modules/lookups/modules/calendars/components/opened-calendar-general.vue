@@ -18,7 +18,7 @@
         :show-clear="false"
         :disabled="disableUserInput"
         :label="t('objects.lookups.calendars.timezone')"
-        :search-method="loadTimezones"
+        :search-method="CalendarsAPI.getTimezonesLookup"
         :regle-validation="validationFields?.timezone"
         required
       />
@@ -68,7 +68,4 @@ defineProps<{
 
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
-
-const loadTimezones = (params: Record<string, unknown>) =>
-	CalendarsAPI.getTimezonesLookup(params);
 </script>
