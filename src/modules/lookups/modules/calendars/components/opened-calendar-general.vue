@@ -19,7 +19,7 @@
         :disabled="disableUserInput"
         :label="t('objects.lookups.calendars.timezone')"
         :search-method="CalendarsAPI.getTimezonesLookup"
-        :regle-validation="validationFields?.timezone"
+        :regle-validation="validationFields?.timezone?.$fields?.id"
         required
       />
       <wt-textarea
