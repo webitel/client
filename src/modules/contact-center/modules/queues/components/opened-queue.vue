@@ -60,7 +60,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { provideEnsureQueueSaved } from '../composables/useEnsureQueueSaved';
-import { useLegacyQueueVuexBridge } from '../composables/useLegacyQueueVuexBridge';
 import {
 	type QueueTab,
 	QueueTabId,
@@ -112,8 +111,6 @@ const {
 	useCardStore: useQueuesCardStore,
 	manualSetup: true,
 });
-
-const { bridgeToLegacyVuex } = useLegacyQueueVuexBridge();
 
 const isInitialized = ref(false);
 
@@ -315,9 +312,6 @@ onMounted(async () => {
 		);
 	}
 
-	// must run before the router-view renders: a legacy tab that mounts first
-	// would read itemId 0 from vuex and load the wrong list
-	bridgeToLegacyVuex();
 	isInitialized.value = true;
 });
 

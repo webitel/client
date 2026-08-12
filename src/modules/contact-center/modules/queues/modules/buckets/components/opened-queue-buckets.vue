@@ -93,9 +93,6 @@ import { useQueueBucketsDatalistStore } from '../stores';
 import BucketPopup from './opened-queue-buckets-popup.vue';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab
-defineOptions({
-	inheritAttrs: false,
-});
 
 const { t } = useI18n();
 const route = useRoute();

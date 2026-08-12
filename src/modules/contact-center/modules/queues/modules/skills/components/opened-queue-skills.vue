@@ -118,9 +118,6 @@ import { useQueueSkillsDatalistStore } from '../stores';
 import SkillPopup from './opened-queue-skills-popup.vue';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab
-defineOptions({
-	inheritAttrs: false,
-});
 
 const { t } = useI18n();
 const route = useRoute();

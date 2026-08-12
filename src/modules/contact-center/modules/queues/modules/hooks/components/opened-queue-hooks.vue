@@ -120,9 +120,6 @@ import HookPopup from './opened-queue-hooks-popup.vue';
  * The card page still hands every tab a `namespace` and a vuelidate instance;
  * neither means anything here. Remove once no legacy tab is left to feed.
  */
-defineOptions({
-	inheritAttrs: false,
-});
 
 const { t } = useI18n();
 const route = useRoute();
