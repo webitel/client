@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper
-    :actions-panel="showActionsPanel"
+    :actions-panel="isFiltersPanelShown"
     class="table-page"
   >
     <template #header>
@@ -15,11 +15,11 @@
             @click="create"
             @click:option="({ callback }) => callback()"
           >
-            {{ $t('objects.add') }}
+            {{ t('objects.add') }}
           </wt-button-select>
           <input
-            ref="file-input"
-            :accept="'.csv'"
+            ref="fileInput"
+            accept=".csv"
             class="upload-file-input"
             type="file"
             @change="inputFileHandler"
@@ -28,20 +28,22 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
+
     <template #actions-panel>
-      <the-queue-members-filters :namespace="filtersNamespace" />
+      <the-queue-members-filters @hide="isFiltersPanelShown = false" />
     </template>
+
     <template #main>
       <destinations-popup
-        v-if="isDestinationsPopup"
-        :communications="communicationsOnPopup"
-        @close="closeDestinationsPopup"
+        v-if="destinationsOnPopup"
+        :communications="destinationsOnPopup"
+        @close="destinationsOnPopup = null"
       />
 
       <upload-popup
         :file="csvFile"
-        :parent-id="parentId"
-        @close="closeCSVPopup"
+        :parent-id="queueId"
+        @close="closeCsvPopup"
       />
 
       <delete-confirmation-popup
@@ -52,30 +54,47 @@
       />
 
       <reset-popup
-        :shown="!disableUserInput && isResetPopup"
+        v-if="isResetPopup"
         :callback="resetMembers"
-        :date-range="selectedDateRage"
+        :date-range="selectedDateRange"
         :quantity="resetMembersQuantity"
-        @close="closeResetPopup"
+        :shown="!disableUserInput && isResetPopup"
+        @close="isResetPopup = false"
       />
 
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title typo-heading-3">
-            {{ $t('objects.ccenter.members.allMembers') }}
+            {{ t('objects.ccenter.members.allMembers') }}
           </h3>
           <div class="table-title__actions-wrap">
-            <filter-search
-              :namespace="filtersNamespace"
-            />
-            <wt-table-actions
-              :icons="['settings', 'refresh']"
-              is-settings-badge
-              @input="inputTableAction"
+            <wt-action-bar
+              :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS]"
+              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
+              @click:refresh="loadDataList"
             >
+              <template #search-bar>
+                <dynamic-filter-search
+                  :filters-manager="filtersManager"
+                  single-search-name="search"
+                  @filter:add="addFilter"
+                  @filter:delete="deleteFilter"
+                  @filter:update="updateFilter"
+                />
+              </template>
+              <template #filters>
+                <wt-badge :hidden="!hasPanelFilters" />
+              </template>
+              <template #columns>
+                <wt-table-column-select
+                  :headers="headers"
+                  @change="updateShownHeaders"
+                />
+              </template>
+
               <wt-icon-btn
+                v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
                 :disabled="disableUserInput"
-                v-tooltip="$t('objects.ccenter.members.resetMembers.resetMembers')"
                 icon="member-reset"
                 icon-prefix="adm"
                 @click="openResetPopup"
@@ -83,7 +102,7 @@
 
               <wt-context-menu
                 :options="deleteOptions"
-                @click="$event.option.method.call()"
+                @click="$event.option.method()"
               >
                 <template #activator="{ toggle }">
                   <wt-icon-action
@@ -93,39 +112,42 @@
                   />
                 </template>
               </wt-context-menu>
-            </wt-table-actions>
+            </wt-action-bar>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-        ></wt-dummy>
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :disabled-primary-action="disableUserInput"
+            :image="imageEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :text="textEmpty"
+            @click:primary="create"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
             sortable
-            @sort="sort"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link :link="memberLink(item)">
                 {{ item.name }}
               </wt-item-link>
             </template>
             <template #createdAt="{ item }">
-              {{ prettifyDateTime(item.createdAt) }}
+              {{ asDate(item.createdAt) }}
             </template>
             <template #offeringAt="{ item }">
               <div v-if="item.minOfferingAt">
-                {{ prettifyDateTime(item.minOfferingAt) }}
+                {{ asDate(item.minOfferingAt) }}
               </div>
             </template>
             <template #priority="{ item }">
@@ -133,64 +155,62 @@
             </template>
             <template #endCause="{ item }">
               <div v-if="item.stopCause">
-                {{
-                  $te(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    ? $t(`objects.ccenter.members.endCause.${item.stopCause.toLowerCase()}`)
-                    : item.stopCause
-                }}
+                {{ endCauseText(item.stopCause) }}
               </div>
             </template>
             <template #destination="{ item }">
               <div
-                v-if="item.communications.length"
+                v-if="item.communications?.length"
                 class="members__destinations-wrapper"
               >
                 <span>{{ item.communications[0].destination }}</span>
                 <wt-chip
                   v-if="item.communications.length > 1"
                   class="members__destinations-num"
-                  @click.native="readDestinations(item)"
+                  @click="destinationsOnPopup = item.communications"
                 >+{{ item.communications.length - 1 }}</wt-chip>
               </div>
             </template>
-            <template #type="{ item }">
-              {{ item.type }}
+            <template #attempts="{ item }">
+              {{ item.attempts || 0 }}
             </template>
             <template #agent="{ item }">
-              <wt-item-link
+              <adm-item-link
                 v-if="item.agent"
-                :link="editAgentsLink(item.agent)"
+                :id="item.agent.id"
+                :route-name="RouteNames.AGENTS"
                 target="_blank"
               >
                 {{ item.agent.name }}
-              </wt-item-link>
+              </adm-item-link>
             </template>
 
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="disableUserInput"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="disableUserInput"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -198,332 +218,281 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+<script lang="ts" setup>
+import { QueueMembersAPI } from '@webitel/api-services/api';
+import type {
+	EngineMemberCommunication,
+	EngineMemberInQueue,
+} from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
-import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
-import { computed } from 'vue';
-import { mapActions, mapState, useStore } from 'vuex';
+import { storeToRefs } from 'pinia';
+import {
+	computed,
+	getCurrentInstance,
+	onMounted,
+	ref,
+	useTemplateRef,
+} from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
-import dummyPicLight from '../assets/adm-dummy-members-light.svg';
-import TheQueueMembersFilters from '../modules/filters/components/the-queue-members-filters.vue';
-import destinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import { useDeleteConfirmation } from '../../../composables/useDeleteConfirmation';
+import { useParentQueue } from '../composables/useParentQueue';
+import { useQueueMembersDatalistStore } from '../stores';
+import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
-import uploadPopup from './upload-members-popup.vue';
+import TheQueueMembersFilters from './the-queue-members-filters.vue';
+import UploadPopup from './upload-members-popup.vue';
 
-const namespace = 'ccenter/queues/members';
+const { t, te } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheQueueMembers',
-	components: {
-		FilterSearch,
-		uploadPopup,
-		destinationsPopup,
-		ResetPopup,
-		TheQueueMembersFilters,
-		DeleteConfirmationPopup,
-	},
-	mixins: [
-		tableComponentMixin,
-	],
+const { parentQueue, queueId, isInboundQueue } = useParentQueue();
 
-	setup() {
-		const store = useStore();
-		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-		const dummyPic = computed(() =>
-			darkMode.value ? dummyPicDark : dummyPicLight,
-		);
+const { disableUserInput: disableUserInputOnNoAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
 
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-			dummyPic,
-			dummyText: 'objects.ccenter.members.emptyWorkspace',
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+/** an inbound queue's members come from the flow, so they cannot be edited */
+const disableUserInput = computed(
+	() => disableUserInputOnNoAccess.value || isInboundQueue.value,
+);
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const tableStore = useQueueMembersDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	headers,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(tableStore);
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	updateShownHeaders,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = tableStore;
 
-		const parentQueue = computed(
-			() => getNamespacedState(store.state, namespace).parentQueue,
-		);
+const {
+	isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmation();
 
-		const filters = computed(
-			() => getNamespacedState(store.state, namespace).filters,
-		);
+const isFiltersPanelShown = ref(false);
+const isResetPopup = ref(false);
+const resetMembersQuantity = ref(0);
+const csvFile = ref<File | null>(null);
+const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
+const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
 
-		const selectedDateRage = computed(() => ({
-			from: filters.value.from.value
-				? formatDate(+filters.value.from.value, FormatDateMode.DATETIME_SHORT)
-				: undefined,
-			to: filters.value.to.value
-				? formatDate(+filters.value.to.value, FormatDateMode.DATETIME_SHORT)
-				: undefined,
-		}));
-
-		const { disableUserInput: disableUserInputOnNoAccess } =
-			useUserAccessControl({
-				useUpdateAccessAsAllMutableChecksSource: true,
-			});
-
-		// if is NOT -- member is immutable. NOT prevents actions load by default
-		const isNotInboundMember = computed(() => parentQueue.value.type !== 1);
-
-		const disableUserInput = computed(
-			() => disableUserInputOnNoAccess.value || !isNotInboundMember.value,
-		);
-
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			dummy,
-			disableUserInput,
-			selectedDateRage,
-		};
-	},
-
-	data: () => ({
-		namespace: 'ccenter/queues/members',
-		communicationsOnPopup: null,
-		isDestinationsPopup: false,
-		isResetPopup: false,
-		csvFile: null,
-		showActionsPanel: false,
-		resetMembersQuantity: 0,
-	}),
-
-	computed: {
-		...mapState({
-			parentQueue(state) {
-				return getNamespacedState(state, this.namespace).parentQueue;
-			},
-		}),
-		// ...mapGetters('appearance', {
-		//   darkMode: 'DARK_MODE',
-		// }),
-		parentId() {
-			return this.$route.params.queueId;
+const path = computed(() => {
+	const baseUrl = `/contact-center/queues/${parentQueue.value?.id}`;
+	return [
+		{
+			name: t('objects.ccenter.ccenter'),
 		},
-		path() {
-			const baseUrl = `/contact-center/queues/${this.parentQueue.id}`;
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.parentQueue.name,
-					route: baseUrl,
-				},
-				{
-					name: this.$t('objects.ccenter.members.members', 2),
-					route: `${baseUrl}/members`,
-				},
-			];
+		{
+			name: parentQueue.value?.name,
+			route: baseUrl,
 		},
-		filtersNamespace() {
-			return `${this.namespace}/filters`;
+		{
+			name: t('objects.ccenter.members.members', 2),
+			route: `${baseUrl}/members`,
 		},
-		deleteOptions() {
-			const loadListAfterDecorator =
-				(method) =>
-				async (...args) => {
-					try {
-						await method(...args);
-					} finally {
-						await this.loadList();
-					}
-				};
-			const all = {
-				text: this.$t('iconHints.deleteAll'),
-				method: loadListAfterDecorator(this.deleteAll),
-			};
-			const filtered = {
-				text: this.$t('iconHints.deleteFiltered'),
-				method: loadListAfterDecorator(this.deleteFiltered),
-			};
+	];
+});
 
-			const selectedCount = this.selectedRows.length;
-			const selected = {
-				text: this.$t('iconHints.deleteSelected', {
-					count: selectedCount,
-				}),
-				method: loadListAfterDecorator(
-					this.deleteSelected.bind(this, this.selectedRows),
-				),
-			};
+const hasPanelFilters = computed(() =>
+	filtersManager.value.getAllKeys().some((name) => name !== 'search'),
+);
 
-			const options = [
-				all,
-				filtered,
-			];
-			if (selectedCount) options.push(selected);
-			return options;
-		},
+const asDate = (value?: number | string) =>
+	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
 
-		saveOptions() {
-			const importCsv = {
-				text: this.$t('objects.integrations.importCsv.importCsv', 2),
-				callback: this.triggerFileInput,
-			};
-			return [
-				importCsv,
-			];
-		},
-	},
-
-	watch: {
-		'$route.query': {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
-
-	methods: {
-		prettifyDateTime(timestamp) {
-			return formatDate(+timestamp, FormatDateMode.DATETIME);
-		},
-
-		async openResetPopup() {
-			this.resetMembersQuantity = await this.getMembersQuantity();
-			this.isResetPopup = true;
-		},
-
-		closeResetPopup() {
-			this.isResetPopup = false;
-		},
-
-		readDestinations(item) {
-			this.communicationsOnPopup = item.communications;
-			this.isDestinationsPopup = true;
-		},
-
-		closeDestinationsPopup() {
-			this.communicationsOnPopup = null;
-			this.isDestinationsPopup = false;
-		},
-
-		processCSV(files) {
-			const file = files[0];
-			if (file) {
-				this.csvFile = file;
-			}
-		},
-
-		closeCSVPopup() {
-			this.csvFile = null;
-			this.loadList();
-		},
-
-		triggerFileInput() {
-			this.$refs['file-input'].click();
-		},
-
-		inputFileHandler(event) {
-			const { files } = event.target;
-			this.processCSV(files);
-			this.clearFileInput();
-		},
-
-		clearFileInput() {
-			this.$refs['file-input'].value = null;
-		},
-
-		create() {
-			this.$router.push({
-				name: `${RouteNames.MEMBERS}-card`,
-				params: {
-					queueId: this.parentId,
-					id: 'new',
-				},
-			});
-		},
-
-		editLink(item) {
-			return {
-				name: `${RouteNames.MEMBERS}-card`,
-				params: {
-					queueId: this.parentId,
-					id: item.id,
-				},
-			};
-		},
-
-		editAgentsLink(item) {
-			return {
-				name: `${RouteNames.AGENTS}-card`,
-				params: {
-					id: item.id,
-				},
-			};
-		},
-
-		close() {
-			this.$router.push({
-				name: RouteNames.QUEUES,
-			});
-			this.resetState(); // reset only after close() bcse at destroy() reset component resets itemId
-		},
-
-		inputTableAction(event) {
-			if (event === 'settings') {
-				this.showActionsPanel = !this.showActionsPanel;
-				return;
-			}
-			this.tableActionsHandler(event);
-		},
-
-		...mapActions({
-			setDestinationId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_DESTINATION_ID`, payload);
-			},
-			setParentId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_PARENT_ITEM_ID`, payload);
-			},
-			setId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-			loadParentQueue(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_PARENT_QUEUE`, payload);
-			},
-			resetState(dispatch, payload) {
-				return dispatch(`${this.namespace}/RESET_STATE`, payload);
-			},
-			resetMembers(dispatch, payload) {
-				return dispatch(`${this.namespace}/RESET_MEMBERS`, payload);
-			},
-			getMembersQuantity(dispatch, payload) {
-				return dispatch(`${this.namespace}/GET_MEMBERS_QUANTITY`, payload);
-			},
-			deleteSelected(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_BULK`, payload);
-			},
-			deleteFiltered(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_FILTERED`, payload);
-			},
-			deleteAll(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_ALL`, payload);
-			},
-		}),
-	},
+const endCauseText = (stopCause: string) => {
+	const key = `objects.ccenter.members.endCause.${stopCause.toLowerCase()}`;
+	return te(key) ? t(key) : stopCause;
 };
+
+/** the reset popup tells the user which window it is about to clear */
+const selectedDateRange = computed(() => {
+	const createdAt = filtersManager.value.getFilter('createdAt')?.value as
+		| {
+				from?: number;
+				to?: number;
+		  }
+		| undefined;
+	const asShortDate = (value?: number) =>
+		value ? formatDate(+value, FormatDateMode.DATETIME_SHORT) : undefined;
+
+	return {
+		from: asShortDate(createdAt?.from),
+		to: asShortDate(createdAt?.to),
+	};
+});
+
+const currentFilters = () => filtersManager.value.getAllValues();
+
+/** every bulk mutation leaves the list stale, so all of them reload it */
+const withReload =
+	<A extends unknown[]>(action: (...args: A) => Promise<unknown>) =>
+	async (...args: A) => {
+		try {
+			return await action(...args);
+		} finally {
+			await loadDataList();
+		}
+	};
+
+const resetMembers = withReload(() =>
+	QueueMembersAPI.resetMembers({
+		parentId: queueId.value,
+		filters: currentFilters(),
+	}),
+);
+
+const openResetPopup = async () => {
+	resetMembersQuantity.value = await QueueMembersAPI.getQuantity({
+		parentId: queueId.value,
+		filters: currentFilters(),
+	});
+	isResetPopup.value = true;
+};
+
+const deleteAll = withReload(() =>
+	QueueMembersAPI.deleteBulk({
+		parentId: queueId.value,
+		filters: {},
+	}),
+);
+
+const deleteFiltered = withReload(() =>
+	QueueMembersAPI.deleteBulk({
+		parentId: queueId.value,
+		filters: currentFilters(),
+	}),
+);
+
+/**
+ * One request for the whole selection. `deleteEls` would fire one per row,
+ * which is what the row-level delete icon wants but not this.
+ */
+const deleteSelected = withReload(() =>
+	QueueMembersAPI.deleteBulk({
+		parentId: queueId.value,
+		id: selected.value.map(({ id }) => id),
+	}),
+);
+
+const deleteOptions = computed(() => {
+	const options = [
+		{
+			text: t('iconHints.deleteAll'),
+			method: deleteAll,
+		},
+		{
+			text: t('iconHints.deleteFiltered'),
+			method: deleteFiltered,
+		},
+	];
+	if (selected.value.length) {
+		options.push({
+			text: t('iconHints.deleteSelected', {
+				count: selected.value.length,
+			}),
+			method: deleteSelected,
+		});
+	}
+	return options;
+});
+
+const triggerFileInput = () => fileInput.value?.click();
+
+const saveOptions = computed(() => [
+	{
+		text: t('objects.integrations.importCsv.importCsv', 2),
+		callback: triggerFileInput,
+	},
+]);
+
+const inputFileHandler = (event: Event) => {
+	const input = event.target as HTMLInputElement;
+	const file = input.files?.[0];
+	if (file) csvFile.value = file;
+	input.value = '';
+};
+
+const closeCsvPopup = () => {
+	csvFile.value = null;
+	return loadDataList();
+};
+
+const memberLink = (item: EngineMemberInQueue) => ({
+	name: `${RouteNames.MEMBERS}-card`,
+	params: {
+		queueId: queueId.value,
+		id: item.id,
+	},
+});
+
+const create = () =>
+	router.push({
+		name: `${RouteNames.MEMBERS}-card`,
+		params: {
+			queueId: queueId.value,
+			id: 'new',
+		},
+	});
+
+const edit = (item: EngineMemberInQueue) => router.push(memberLink(item));
+
+const close = () =>
+	router.push({
+		name: RouteNames.QUEUES,
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+
+// restoring persisted filters builds their configs, which reach for i18n
+const instance = getCurrentInstance();
+onMounted(() =>
+	instance?.appContext.app.runWithContext(() =>
+		initialize({
+			parentId: queueId.value,
+		}),
+	),
+);
 </script>
 
 <style
@@ -534,7 +503,7 @@ export default {
 
 .members__destinations-wrapper {
   display: flex;
-	gap: var(--spacing-xs);
+  gap: var(--spacing-xs);
 }
 
 .members__destinations-num {

@@ -1,86 +1,127 @@
 <template>
   <wt-popup
     v-bind="$attrs"
-    size="sm"
     :shown="!!communicationIndex"
+    overflow
+    size="sm"
     @close="close"
   >
     <template #title>
-      {{ $t('objects.lookups.communications.communications', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
-      <form class="object-input-grid object-input-grid__1-col">
+      <form
+        class="object-input-grid object-input-grid__1-col"
+        @submit.prevent="save"
+      >
         <wt-input-text
-          v-model:model-value="itemInstance.destination"
-          :label="$t('objects.ccenter.members.destination')"
-          :v="v$.itemInstance.destination"
+          v-model="draft.destination"
+          :label="t('objects.ccenter.members.destination')"
+          :regle-validation="r$.$fields.destination"
           required
         />
         <wt-single-select
-          v-model:model-value="itemInstance.type"
-          :show-clear="false"
-          :label="$t('objects.lookups.communications.communications', 1)"
-          :search-method="loadCommTypes"
-          :v="v$.itemInstance.type"
+          v-model="draft.type"
           :disabled="!hasCommunicationsReadAccess"
+          :label="t('objects.lookups.communications.communications', 1)"
+          :regle-validation="r$.$fields.type"
+          :search-method="loadCommunicationTypes"
+          :show-clear="false"
           required
         />
         <wt-single-select
-          v-model:model-value="itemInstance.resource"
-          :label="$t('objects.ccenter.res.res', 1)"
-          :search-method="loadResources"
+          v-model="draft.resource"
           :disabled="!hasResourcesReadAccess"
+          :label="t('objects.ccenter.res.res', 1)"
+          :search-method="loadResources"
         />
         <wt-input-text
-          v-model:model-value="itemInstance.display"
-          :label="$t('objects.ccenter.members.display')"
+          v-model="draft.display"
+          :label="t('objects.ccenter.members.display')"
         />
         <wt-input-text
-          v-model:model-value="itemInstance.dtmf"
-          :label="$t('objects.ccenter.members.dtmf')"
-          :v="v$.itemInstance.dtmf"
+          v-model="draft.dtmf"
+          :label="t('objects.ccenter.members.dtmf')"
+          :regle-validation="r$.$fields.dtmf"
         />
         <wt-input-number
-          v-model:model-value="itemInstance.priority"
-          :label="$t('objects.ccenter.members.priority')"
+          v-model="draft.priority"
+          :label="t('objects.ccenter.members.priority')"
         />
         <wt-textarea
-          v-model:model-value="itemInstance.description"
-          :label="$t('objects.description')"
+          v-model="draft.description"
+          :label="t('objects.description')"
         />
       </form>
     </template>
     <template #actions>
-      <wt-button
-        :disabled="computeDisabled"
-        @click="save"
-      >
-        {{ $t('objects.add') }}
+      <wt-button @click="save">
+        {{ t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import { useRegleSchema } from '@regle/schemas';
+import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
+import { memberCommunicationSchema } from '@webitel/api-services/validations';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import deepCopy from 'deep-copy';
-import { mapActions, mapState } from 'vuex';
+import { computed, ref, toRaw, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
-import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';
-import { digitsDtmfOnly } from '../../validation/dtmf';
+import QueuesRoutesName from '../../../../router/_internals/QueuesRoutesName.enum';
 
-const getDefaultItemInstance = () => ({
+/**
+ * Deliberately not `useNestedCardComponent`.
+ *
+ * That composable needs a card store whose api can `get`/`add`/`update` an
+ * entity by id, but a communication has no id and no endpoint — it is an entry
+ * in the member's unsaved draft, addressed by its index. So the popup keeps its
+ * own draft and validates it against the same Zod schema the member uses,
+ * handing the result back to the tab.
+ */
+const props = defineProps<{
+	communications: EngineMemberCommunication[];
+}>();
+
+const emit = defineEmits<{
+	save: [
+		{
+			index: number | null;
+			item: EngineMemberCommunication;
+		},
+	];
+}>();
+
+const { t } = useI18n();
+const route = useRoute();
+
+const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
+	WtObject.Communication,
+);
+const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
+	WtObject.Resource,
+);
+
+const communicationIndex = computed(
+	() => route.params.communicationIndex as string | undefined,
+);
+
+const isNew = computed(() => communicationIndex.value === 'new');
+
+const emptyCommunication = (): EngineMemberCommunication => ({
 	destination: '',
 	display: '',
 	priority: 0,
@@ -90,124 +131,49 @@ const getDefaultItemInstance = () => ({
 	dtmf: '',
 });
 
-export default {
-	name: 'OpenedAgentSkillsPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const draft = ref<EngineMemberCommunication>(emptyCommunication());
 
-	setup: () => {
-		const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
-			WtObject.Communication,
-		);
-		const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
-			WtObject.Resource,
-		);
+watch(
+	communicationIndex,
+	(index) => {
+		draft.value =
+			index && index !== 'new'
+				? structuredClone(toRaw(props.communications[Number(index)]))
+				: emptyCommunication();
+	},
+	{
+		immediate: true,
+	},
+);
 
-		return {
-			// Reasons for use $stopPropagation
-			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-			v$: useVuelidate({
-				$stopPropagation: true,
-			}),
-			hasCommunicationsReadAccess,
-			hasResourcesReadAccess,
-		};
+const { r$ } = useRegleSchema(draft, memberCommunicationSchema, {
+	autoDirty: true,
+	syncState: {
+		onValidate: true,
 	},
-	data: () => ({
-		namespace: 'ccenter/queues/members',
-		itemInstanceValue: getDefaultItemInstance(),
-	}),
-	validations: {
-		itemInstance: {
-			destination: {
-				required,
-			},
-			type: {
-				required,
-			},
-			dtmf: {
-				digitsDtmfOnly,
-			},
-		},
-	},
+});
 
-	computed: {
-		...mapState({
-			commList(state) {
-				return getNamespacedState(state, `${this.namespace}`).itemInstance
-					.communications;
-			},
-		}),
-		// override mixin map state
-		itemInstance: {
-			get() {
-				return this.itemInstanceValue;
-			},
-			set(value) {
-				console.log(value);
-				this.itemInstanceValue = value;
-			},
-		},
-		computeDisabled() {
-			return this.checkValidations();
-		},
-		communicationIndex() {
-			return this.$route.params.communicationIndex;
-		},
-	},
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.lookups.communications.communications', 1).toLowerCase()}`;
+});
 
-	methods: {
-		...mapActions({
-			addItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/ADD_MEMBER_COMMUNICATION`, payload);
-			},
-			updateItem(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/UPDATE_MEMBER_COMMUNICATION`,
-					payload,
-				);
-			},
-		}),
-		initEditedValue() {
-			if (this.communicationIndex !== 'new') {
-				this.itemInstance = deepCopy(this.commList[this.communicationIndex]);
-			}
-		},
-		save() {
-			if (this.communicationIndex !== 'new') {
-				this.updateItem({
-					index: this.communicationIndex,
-					item: this.itemInstance,
-				});
-			} else {
-				this.addItem(this.itemInstance);
-			}
-			this.close();
-		},
-		loadCommTypes(params) {
-			return CommunicationsAPI.getLookup(params);
-		},
-		loadResources(params) {
-			return ResourcesAPI.getLookup(params);
-		},
-		loadItem() {},
-		resetItemInstance() {
-			this.itemInstance = getDefaultItemInstance();
-		},
-		resetState() {
-			this.resetItemInstance();
-		},
-	},
-	watch: {
-		communicationIndex: {
-			handler(index) {
-				index ? this.initEditedValue() : this.resetState();
-			},
-			immediate: true,
-		},
-	},
+const { close } = useClose(QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE);
+
+const save = async () => {
+	const { valid } = await r$.$validate();
+	if (!valid) return;
+
+	emit('save', {
+		index: isNew.value ? null : Number(communicationIndex.value),
+		item: draft.value,
+	});
+	close();
 };
+
+const loadCommunicationTypes = (params: unknown) =>
+	CommunicationsAPI.getLookup(params);
+const loadResources = (params: unknown) => ResourcesAPI.getLookup(params);
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

@@ -2,7 +2,6 @@ import { getQueueDefaults, QueuesAPI } from '@webitel/api-services/api';
 import deepMerge from 'deepmerge';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import members from '../modules/members/store/queue-members';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -99,13 +98,6 @@ const actions = {
 	},
 	RESET_ITEM_STATE: async (context) => {
 		context.commit('RESET_ITEM_STATE');
-		context.dispatch(
-			'ccenter/queues/members/RESET_STATE',
-			{},
-			{
-				root: true,
-			},
-		);
 	},
 };
 
@@ -145,7 +137,6 @@ const queues = new ObjectStoreModule({
 	.attachAPIModule(QueuesAPI)
 	.generateAPIActions()
 	.setChildModules({
-		members,
 		permissions,
 	})
 	.getModule({

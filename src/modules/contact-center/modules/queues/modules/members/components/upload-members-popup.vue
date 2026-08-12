@@ -4,42 +4,48 @@
     v-model="mappingFields"
     :add-bulk-items="saveBulkData"
     :file="file"
-    @close="close"
+    @close="emit('close')"
   />
 </template>
 
-<script>
-import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
-import ImportCsvMemberMappings from '../../../../../../integrations/modules/import-csv/lookups/ImportCsvMemberMappings.lookup';
-import normalizeCsvMembers from '../mixins/normalizeCsvMembers';
+<script lang="ts" setup>
+import { ref, toRef } from 'vue';
 
-export default {
-	name: 'UploadMembersPopup',
-	mixins: [
-		uploadCSVWrapperComponentMixin,
-		normalizeCsvMembers,
-	],
-	props: {
-		parentId: {
-			type: [
-				Number,
-				String,
-			],
-			required: true,
-		},
-	},
-	data: () => ({
-		bulk: [],
-		allCommunications: null,
-		mappingFields: Object.entries(ImportCsvMemberMappings).map(
-			([name, mapping]) => ({
-				...mapping,
-				name,
-			}),
-		),
-	}),
-};
+import UploadCsvPopup from '../../../../../../_shared/upload-csv-popup/components/upload-csv-popup.vue';
+import ImportCsvMemberMappings from '../../../../../../integrations/modules/import-csv/lookups/ImportCsvMemberMappings.lookup';
+import { useNormalizeCsvMembers } from '../composables/useNormalizeCsvMembers';
+
+const props = defineProps<{
+	file: File | null;
+	parentId: string | number;
+}>();
+
+const emit = defineEmits<{
+	close: [];
+}>();
+
+/**
+ * `uploadCSVWrapperComponentMixin` was only a `file` prop and a `close` emit,
+ * both of which are declared here. The mixin file stays — other csv importers
+ * still use it.
+ */
+const mappingFields = ref<
+	{
+		name: string;
+		csv?: string | string[];
+	}[]
+>(
+	Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
+		...(mapping as object),
+		name,
+	})),
+);
+
+const { saveBulkData } = useNormalizeCsvMembers({
+	parentId: toRef(() => String(props.parentId)),
+	file: toRef(props, 'file'),
+	mappingFields,
+});
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
