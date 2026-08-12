@@ -22,7 +22,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
-            :regle-validation="getAcceptsRegleField(index, 'start')"
+            :regle-validation="accepts?.$each?.[index]?.start"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -34,7 +34,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
-            :regle-validation="getAcceptsRegleField(index, 'end')"
+            :regle-validation="accepts?.$each?.[index]?.end"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -69,16 +69,14 @@
 </template>
 
 <script setup lang="ts">
+import type { RegleSchemaCollectionStatus } from '@regle/schemas';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import {
-	getRegleEachField,
-	useRegleErrorsTranslation,
-} from '../../../../../app/composables/useRegleErrorsTranslation';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
-import type { CalendarCard } from '../stores';
+import type { CalendarAcceptOfDayUi, CalendarCard } from '../stores';
 
 const modelValue = defineModel<CalendarCard>({
 	required: true,
@@ -90,7 +88,17 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
-const { translateRegleErrors } = useRegleErrorsTranslation();
+
+/**
+ * `CardValidationFields` types every field as a plain field status until
+ * ui-datalist ships the inferred one, so the collection status is cast here.
+ */
+const accepts = computed(
+	() =>
+		props.validationFields?.accepts as unknown as
+			| RegleSchemaCollectionStatus<CalendarAcceptOfDayUi[]>
+			| undefined,
+);
 
 const {
 	dataList,
@@ -103,9 +111,4 @@ const {
 	minToSec,
 	secToMin,
 } = useWeekDaysData(modelValue, 'accepts');
-
-const getAcceptsRegleField = (index: number, prop: 'start' | 'end') =>
-	translateRegleErrors(
-		getRegleEachField(props.validationFields?.accepts, index, prop),
-	);
 </script>
