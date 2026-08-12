@@ -3,10 +3,8 @@ import deepMerge from 'deepmerge';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import agents from '../modules/agents/store/queue-agents';
-import buckets from '../modules/buckets/store/queue-buckets';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
-import resGroups from '../modules/res-groups/store/queue-res-groups';
 import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
 
@@ -119,20 +117,6 @@ const actions = {
 			},
 		);
 		context.dispatch(
-			'ccenter/queues/buckets/RESET_STATE',
-			{},
-			{
-				root: true,
-			},
-		);
-		context.dispatch(
-			'ccenter/queues/resGroups/RESET_STATE',
-			{},
-			{
-				root: true,
-			},
-		);
-		context.dispatch(
 			'ccenter/queues/members/RESET_STATE',
 			{},
 			{
@@ -180,8 +164,6 @@ const queues = new ObjectStoreModule({
 	.setChildModules({
 		agents,
 		skills,
-		buckets,
-		resGroups,
 		log,
 		members,
 		permissions,

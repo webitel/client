@@ -1,77 +1,115 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!resourceId" size="sm" min-width="480" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!resourceId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
-      {{ $t('objects.ccenter.resGroups.resGroups', 1) }}
+      {{ popupTitle }}
     </template>
     <template #main>
-      <form>
-        <wt-single-select :show-clear="false" :label="$t('objects.ccenter.resGroups.resGroups', 1)"
-          :search-method="loadResGroupsOptions" :v="v$.itemInstance.resourceGroup" :model-value="itemInstance.resourceGroup"
-          required @update:model-value="setItemProp({ prop: 'resourceGroup', value: $event })" />
+      <form @submit.prevent="save">
+        <wt-single-select
+          v-model="resourceGroup.resourceGroup"
+          :label="t('objects.ccenter.resGroups.resGroups', 1)"
+          :regle-validation="validationFields?.resourceGroup"
+          :search-method="loadResGroupsOptions"
+          :show-clear="false"
+          required
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.save') }}
+      <wt-button
+        :disabled="!hasSaveActionAccess || hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import type { EngineQueueResourceGroup } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
+import { useQueueResGroupsCardStore } from '../stores';
 
-export default {
-	name: 'OpenedQueueBucketsPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	data: () => ({
-		namespace: 'ccenter/queues/resGroups',
-	}),
-	computed: {
-		resourceId() {
-			return this.$route.params.resourceId;
-		},
-	},
-	validations: {
-		itemInstance: {
-			resourceGroup: {
-				required,
-			},
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	watch: {
-		resourceId: {
-			immediate: true,
-			handler(id) {
-				if (id) this.handleIdChange(id);
-			},
-		},
-	},
+const { hasSaveActionAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
 
-	methods: {
-		loadResGroupsOptions(params) {
-			return ResourceGroupsAPI.getLookup(params);
-		},
-	},
+const {
+	modelValue,
+	validationFields: rawValidationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineQueueResourceGroup>({
+	useCardStore: useQueueResGroupsCardStore,
+	routeParamName: 'resourceId',
+	parentId: route.params.id as string,
+});
+
+/**
+ * TODO(types): Regle infers an empty-object arm into the validationFields
+ * union; narrow to the named-fields arm so template access typechecks.
+ */
+const validationFields = computed(
+	() =>
+		rawValidationFields.value as Extract<
+			(typeof rawValidationFields)['value'],
+			{
+				resourceGroup: unknown;
+			}
+		>,
+);
+
+// read the draft through a local computed so the template can unwrap it
+const resourceGroup = computed(
+	() => modelValue.value as EngineQueueResourceGroup,
+);
+
+const resourceId = computed(() => route.params.resourceId);
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.ccenter.resGroups.resGroups', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(QueuesRoutesName.RESOURCES);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadResGroupsOptions = (params: unknown) =>
+	ResourceGroupsAPI.getLookup(params);
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>
