@@ -48,7 +48,7 @@ import { useUserAccessControl } from '../../../../../../../app/composables/useUs
 import openedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
 import { requiredArrayValue } from '../../../../../../../app/utils/validators';
-import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum.js';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
 import Communication from './communications/opened-queue-member-communication.vue';
 import General from './opened-queue-member-general.vue';
 import Variables from './opened-queue-member-variables.vue';

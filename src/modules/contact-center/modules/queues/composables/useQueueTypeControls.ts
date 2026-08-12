@@ -1,3 +1,7 @@
+import {
+	queueTypeRules,
+	sharedQueueRules,
+} from '@webitel/api-services/validations';
 import { computed, type MaybeRefOrGetter, toValue } from 'vue';
 
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
@@ -29,7 +33,25 @@ export const useQueueTypeControls = (
 		}, {});
 	});
 
+	/**
+	 * Whether this queue type requires `path` (dotted, e.g. `payload.maxAttempts`),
+	 * for the asterisk on a field's label.
+	 *
+	 * The old templates got this from `:required="v.itemInstance.calendar"` —
+	 * truthy only when that type's `validations()` branch had declared a rule for
+	 * the field. Reading the shared rule table says the same thing outright.
+	 */
+	const isFieldRequired = (path: string) => {
+		const queueType = toValue(type);
+		const required = [
+			...(sharedQueueRules.required ?? []),
+			...(queueType != null ? (queueTypeRules[queueType]?.required ?? []) : []),
+		];
+		return required.includes(path);
+	};
+
 	return {
 		specificControls,
+		isFieldRequired,
 	};
 };

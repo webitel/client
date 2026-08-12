@@ -2,298 +2,230 @@
   <section>
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
     <div class="object-input-grid">
       <wt-input-text
+        v-model="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
+        v-model="modelValue.calendar"
         :disabled="disableUserInput || !hasCalendarsReadAccess"
-        :label="$t('objects.lookups.calendars.calendars', 1)"
-        :search-method="loadDropdownOptionsCalendarList"
-        :v="v.itemInstance.calendar"
-        :model-value="itemInstance.calendar"
-        :required="v.itemInstance.calendar"
-        @update:model-value="setItemProp({ prop: 'calendar', value: $event })"
+        :label="t('objects.lookups.calendars.calendars', 1)"
+        :regle-validation="validationFields?.calendar"
+        :required="isFieldRequired('calendar')"
+        :search-method="loadCalendarOptions"
       />
       <wt-single-select
+        v-model="modelValue.dncList"
         :disabled="disableUserInput || !hasListsReadAccess"
-        :label="$t('objects.ccenter.queues.blacklist')"
-        :search-method="loadDropdownOptionsBlacklistList"
-        :model-value="itemInstance.dncList"
-        @update:model-value="setItemProp({ prop: 'dncList', value: $event })"
+        :label="t('objects.ccenter.queues.blacklist')"
+        :search-method="loadBlacklistOptions"
       />
       <wt-input-number
+        v-model="modelValue.priority"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.priority')"
-        :model-value="itemInstance.priority"
-        @update:model-value="setItemProp({ prop: 'priority', value: $event })"
+        :label="t('objects.ccenter.queues.priority')"
+        :regle-validation="validationFields?.priority"
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.strategy"
-        v-model:model-value="strategy"
-        :show-clear="false"
+        v-model="strategy"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.strategy')"
-        :options="dropdownOptionsStrategyList"
-        :v="v.itemInstance.strategy"
-        required
+        :label="t('objects.ccenter.queues.strategy')"
+        :options="strategyOptions"
+        :regle-validation="validationFields?.strategy"
+        :show-clear="false"
         data-key="value"
+        required
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.team"
+        v-model="modelValue.team"
         :disabled="disableUserInput || !hasTeamsReadAccess"
-        :label="$t('objects.team')"
-        :search-method="loadDropdownOptionsTeamList"
-        :v="v.itemInstance.team"
-        :model-value="itemInstance.team"
-        @update:model-value="setItemProp({ prop: 'team', value: $event })"
+        :label="t('objects.team')"
+        :regle-validation="validationFields?.team"
+        :search-method="loadTeamOptions"
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.ringtone"
+        v-model="modelValue.ringtone"
         :disabled="disableUserInput || !hasMediaReadAccess"
-        :label="$t('objects.ccenter.queues.ringtone')"
-        :search-method="loadDropdownOptionsMediaList"
-        :model-value="itemInstance.ringtone"
-        @update:model-value="setItemProp({ prop: 'ringtone', value: $event })"
+        :label="t('objects.ccenter.queues.ringtone')"
+        :search-method="loadMediaOptions"
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.schema"
+        v-model="modelValue.schema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
-        :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="hasFlowsReadAccess && loadDropdownOptionsSchemaList"
-        :v="v.itemInstance.schema"
-        :model-value="itemInstance.schema"
+        :label="t('objects.routing.flow.flow', 1)"
+        :regle-validation="validationFields?.schema"
+        :search-method="hasFlowsReadAccess && loadFlowOptions"
         required
-        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.doSchema"
+        v-model="modelValue.doSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
-        :label="$t('objects.ccenter.queues.preSchema')"
-        :search-method="hasFlowsReadAccess && loadDropdownOptionsServiceSchemaList"
-        :model-value="itemInstance.doSchema"
-        @update:model-value="setItemProp({ prop: 'doSchema', value: $event })"
+        :label="t('objects.ccenter.queues.preSchema')"
+        :search-method="hasFlowsReadAccess && loadServiceFlowOptions"
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.resourceStrategy"
-        v-model:model-value="itemInstance.payload.resourceStrategy"
+        v-model="modelValue.payload.resourceStrategy"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
-        :options="dropdownTypesResourceStrategy"
-        :v="v.itemInstance.payload.resourceStrategy"
-        option-value="value"
+        :label="t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
+        :options="resourceStrategyOptions"
+        :regle-validation="validationFields?.payload?.$fields?.resourceStrategy"
         data-key="value"
+        option-value="value"
         required
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.afterSchema"
+        v-model="modelValue.afterSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
-        :label="$t('objects.ccenter.queues.afterSchema')"
-        :search-method="hasFlowsReadAccess && loadDropdownOptionsServiceSchemaList"
-        :model-value="itemInstance.afterSchema"
-        @update:model-value="setItemProp({ prop: 'afterSchema', value: $event })"
+        :label="t('objects.ccenter.queues.afterSchema')"
+        :search-method="hasFlowsReadAccess && loadServiceFlowOptions"
       />
 
-      <!--      v-if-->
       <wt-single-select
         v-if="specificControls.grantee"
+        v-model="modelValue.grantee"
         :disabled="disableUserInput || !hasRolesReadAccess"
-        :label="$t('objects.permissions.object.grantee')"
-        :search-method="loadDropdownOptionsRoleList"
-        :model-value="itemInstance.grantee"
-        @update:model-value="setItemProp({ prop: 'grantee', value: $event })"
+        :label="t('objects.permissions.object.grantee')"
+        :search-method="loadRoleOptions"
       />
 
       <wt-multi-select
+        v-model="modelValue.tags"
         :disabled="disableUserInput"
-        :label="$t('vocabulary.tag', 2)"
+        :label="t('vocabulary.tag', 2)"
         :search-method="loadQueuesTagOptions"
-        :model-value="itemInstance.tags"
-        option-label="name"
-        chips-view
         allow-custom-values
+        chips-view
         data-key="name"
-        @update:model-value="setItemProp({ prop: 'tags', value: $event })"
+        option-label="name"
       />
 
       <wt-textarea
+        v-model="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { QueuesAPI } from '@webitel/api-services/api';
+import {
+	QueueStrategyList,
+	TypesResourceStrategy,
+} from '@webitel/api-services/enums';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import { mapActions } from 'vuex';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
 import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import MediaAPI from '../../../../lookups/modules/media/api/media';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import TeamsAPI from '../../teams/api/teams';
-import { TypesResourceStrategy } from '../enums/TypesResourceStrategy.enum';
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import { StrategyList } from '../store/_internals/enums/Strategy.enum';
+import { useQueueTypeControls } from '../composables/useQueueTypeControls';
+import type { Queue } from '../types/Queue';
 
-export default {
-	name: 'OpenedQueueGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
-			WtObject.Calendar,
-		);
-		const { hasReadAccess: hasListsReadAccess } = useUserAccessControl(
-			WtObject.Blacklist,
-		);
-		const { hasReadAccess: hasTeamsReadAccess } = useUserAccessControl(
-			WtObject.Team,
-		);
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
-		const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(
-			WtObject.Media,
-		);
-		const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
-			WtObject.Role,
-		);
-		return {
-			disableUserInput,
-			hasCalendarsReadAccess,
-			hasListsReadAccess,
-			hasTeamsReadAccess,
-			hasFlowsReadAccess,
-			hasMediaReadAccess,
-			hasRolesReadAccess,
-		};
+const modelValue = defineModel<Queue>({
+	required: true,
+});
+
+defineProps<{
+	// biome-ignore lint/suspicious/noExplicitAny: regle's field status shape
+	validationFields?: Record<string, any>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
+	WtObject.Calendar,
+);
+const { hasReadAccess: hasListsReadAccess } = useUserAccessControl(
+	WtObject.Blacklist,
+);
+const { hasReadAccess: hasTeamsReadAccess } = useUserAccessControl(
+	WtObject.Team,
+);
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
+const { hasReadAccess: hasMediaReadAccess } = useUserAccessControl(
+	WtObject.Media,
+);
+const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
+	WtObject.Role,
+);
+
+const { specificControls, isFieldRequired } = useQueueTypeControls(
+	() => modelValue.value?.type as number | undefined,
+);
+
+const strategyOptions = computed(() =>
+	QueueStrategyList.map(({ value }) => ({
+		value,
+		name: t(`objects.ccenter.queues.queueStrategy.${value}`),
+	})),
+);
+
+const resourceStrategyOptions = computed(() =>
+	Object.values(TypesResourceStrategy).map((value) => ({
+		value,
+		name: t(`objects.ccenter.queues.resourceStrategy.${kebabToCamel(value)}`),
+	})),
+);
+
+/** the select works in option objects while the queue stores the bare value */
+const strategy = computed({
+	get: () =>
+		strategyOptions.value.find(
+			(option) => option.value === modelValue.value?.strategy,
+		),
+	set: (option) => {
+		modelValue.value.strategy = option?.value;
 	},
+});
 
-	computed: {
-		strategy: {
-			get() {
-				return this.dropdownOptionsStrategyList.find(
-					(strategy) => strategy.value === this.itemInstance.strategy,
-				);
-			},
-			set(value) {
-				this.setItemProp({
-					prop: 'strategy',
-					value: value.value,
-				});
-			},
-		},
-		resourceStrategy: {
-			get() {
-				return this.dropdownTypesResourceStrategy.find(
-					(resourceStrategy) =>
-						resourceStrategy.value ===
-						this.itemInstance.payload.resourceStrategy,
-				);
-			},
-			set({ value }) {
-				this.setItemPayloadProp({
-					prop: 'resourceStrategy',
-					value,
-				});
-			},
-		},
-
-		dropdownOptionsStrategyList() {
-			return StrategyList.map((strategy) => ({
-				value: strategy.value,
-				name: this.$t(`objects.ccenter.queues.queueStrategy.${strategy.value}`),
-			}));
-		},
-		dropdownTypesResourceStrategy() {
-			return Object.values(TypesResourceStrategy).map((value) => {
-				return {
-					value,
-					name: this.$t(
-						`objects.ccenter.queues.resourceStrategy.${kebabToCamel(value)}`,
-					),
-				};
-			});
-		},
-		specificControls() {
-			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-				(controls, control) => {
-					controls[control] = true;
-					return controls;
-				},
-				{},
-			);
-		},
-	},
-
-	methods: {
-		...mapActions({
-			setItemPayloadProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
-			},
-		}),
-		loadDropdownOptionsCalendarList(params) {
-			return CalendarsAPI.getLookup(params);
-		},
-		loadDropdownOptionsBlacklistList(params) {
-			return BlacklistsAPI.getLookup(params);
-		},
-		loadDropdownOptionsTeamList(params) {
-			return TeamsAPI.getLookup(params);
-		},
-		loadDropdownOptionsSchemaList(params) {
-			return FlowsAPI.getLookup(params);
-		},
-		loadDropdownOptionsServiceSchemaList(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [
-					EngineRoutingSchemaType.Service,
-				],
-			});
-		},
-		loadDropdownOptionsMediaList(params) {
-			return MediaAPI.getLookup(params);
-		},
-		loadDropdownOptionsRoleList(params) {
-			return RolesAPI.getLookup(params);
-		},
-		loadQueuesTagOptions: QueuesAPI.getQueuesTags,
-	},
-};
+const loadCalendarOptions = (params: unknown) => CalendarsAPI.getLookup(params);
+const loadBlacklistOptions = (params: unknown) =>
+	BlacklistsAPI.getLookup(params);
+const loadTeamOptions = (params: unknown) => TeamsAPI.getLookup(params);
+const loadFlowOptions = (params: unknown) => FlowsAPI.getLookup(params);
+const loadServiceFlowOptions = (params: object) =>
+	FlowsAPI.getLookup({
+		...params,
+		type: [
+			EngineRoutingSchemaType.Service,
+		],
+	});
+const loadMediaOptions = (params: unknown) => MediaAPI.getLookup(params);
+const loadRoleOptions = (params: unknown) => RolesAPI.getLookup(params);
+const loadQueuesTagOptions = QueuesAPI.getQueuesTags;
 </script>
 
 <style

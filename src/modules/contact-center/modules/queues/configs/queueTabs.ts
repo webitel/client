@@ -17,6 +17,14 @@ export const QueueTabId = {
 
 export type QueueTabId = (typeof QueueTabId)[keyof typeof QueueTabId];
 
+export interface QueueTab {
+	text: string;
+	value: QueueTabId;
+	pathName: string;
+	/** a tab the user has no read access to is dropped, not shown greyed out */
+	disabled?: boolean;
+}
+
 /**
  * @description
  * The tabs that vary by queue type.

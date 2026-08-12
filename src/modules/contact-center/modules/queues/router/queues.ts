@@ -1,7 +1,8 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import QueuesRoutesName from './_internals/QueuesRoutesName.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import QueuesRoutesName from './_internals/QueuesRoutesName.enum';
 
 const Queues = () => import('../components/the-queues.vue');
 const OpenedQueue = () => import('../components/opened-queue.vue');
@@ -23,8 +24,6 @@ const Processing = () => import('../components/opened-queue-processing.vue');
 const Amd = () => import('../components/shared/amd/opened-queue-amd.vue');
 const Variables = () =>
 	import('../components/shared/variables/opened-queue-variables.vue');
-const Permissions = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const Members = () =>
 	import('../modules/members/components/the-queue-members.vue');
@@ -114,7 +113,7 @@ const QueuesRoutes = [
 			{
 				path: 'permissions/:permissionId?',
 				name: QueuesRoutesName.PERMISSIONS,
-				component: Permissions,
+				component: PermissionsTab,
 			},
 			{
 				path: 'logs',

@@ -2,7 +2,7 @@
   <section>
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.ccenter.queues.variables') }}
+        {{ t('objects.ccenter.queues.variables') }}
       </h3>
       <wt-icon-action
         v-if="!disableUserInput"
@@ -13,26 +13,24 @@
     <form class="object-input-grid">
       <div class="variables">
         <div
-          v-for="(variable, key) in itemInstance.variables"
-          :key="key"
+          v-for="(variable, index) in variables"
+          :key="index"
           class="value-pair"
         >
           <wt-input-text
+            v-model="variable.key"
             :disabled="disableUserInput"
-            :placeholder="$t('objects.ccenter.queues.varKey')"
-            :model-value="variable.key"
-            @update:model-value="setVariableProp({ index: key, prop: 'key', value: $event })"
+            :placeholder="t('objects.ccenter.queues.varKey')"
           />
           <wt-input-text
+            v-model="variable.value"
             :disabled="disableUserInput"
-            :placeholder="$t('objects.ccenter.queues.varVal')"
-            :model-value="variable.value"
-            @update:model-value="setVariableProp({ index: key, prop: 'value', value: $event })"
+            :placeholder="t('objects.ccenter.queues.varVal')"
           />
           <wt-icon-action
             v-if="!disableUserInput"
             action="delete"
-            @click="deleteVariable(key)"
+            @click="deleteVariable(index)"
           />
         </div>
       </div>
@@ -40,23 +38,39 @@
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import type { Queue, QueueVariablePair } from '../../../types/Queue';
 
-export default {
-	name: 'OpenedQueueVariables',
-	components: {},
+/**
+ * Variables are an editable pair list here and a map on the wire; `QueuesAPI`
+ * converts between the two. Rows are mutated in place so the card's
+ * "any field edited" watcher keeps seeing the same object identity.
+ */
+const modelValue = defineModel<Queue>({
+	required: true,
+});
 
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const variables = computed<QueueVariablePair[]>(() => {
+	if (!modelValue.value.variables) modelValue.value.variables = [];
+	return modelValue.value.variables;
+});
+
+const addVariable = () => {
+	variables.value.push({
+		key: '',
+		value: '',
+	});
+};
+
+const deleteVariable = (index: number) => {
+	variables.value.splice(index, 1);
 };
 </script>
 
