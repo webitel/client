@@ -2,7 +2,6 @@ import { getQueueDefaults, QueuesAPI } from '@webitel/api-services/api';
 import deepMerge from 'deepmerge';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
 import headers from './_internals/headers';
 
@@ -146,7 +145,6 @@ const queues = new ObjectStoreModule({
 	.attachAPIModule(QueuesAPI)
 	.generateAPIActions()
 	.setChildModules({
-		log,
 		members,
 		permissions,
 	})

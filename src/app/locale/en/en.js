@@ -1397,6 +1397,9 @@ export default {
 	webitelUI: {
 		filters: {
 			tags: 'Tags',
+			joinedAt: 'Joined at',
+			result: 'Result',
+			duration: 'Duration',
 		},
 	},
 

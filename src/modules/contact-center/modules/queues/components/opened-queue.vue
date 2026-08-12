@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     v-if="showQueuePage"
-    :actions-panel="isLogsTab"
+    :actions-panel="false"
   >
     <template #header>
       <wt-page-header
@@ -15,11 +15,6 @@
       </wt-page-header>
     </template>
 
-    <!-- the logs tab still keeps its filters in the page's panel; it moves
-         inside the tab when that tab is migrated -->
-    <template #actions-panel>
-      <logs-filters :namespace="`${LEGACY_QUEUES_VUEX_NAMESPACE}/log/filters`" />
-    </template>
 
     <template #main>
       <form
@@ -65,17 +60,13 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { provideEnsureQueueSaved } from '../composables/useEnsureQueueSaved';
-import {
-	LEGACY_QUEUES_VUEX_NAMESPACE,
-	useLegacyQueueVuexBridge,
-} from '../composables/useLegacyQueueVuexBridge';
+import { useLegacyQueueVuexBridge } from '../composables/useLegacyQueueVuexBridge';
 import {
 	type QueueTab,
 	QueueTabId,
 	QueueTypeSpecificTabs,
 } from '../configs/queueTabs';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
 import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum';
 import { useQueuesCardStore, useQueuesPermissionsStore } from '../stores';
 import type { Queue } from '../types/Queue';
@@ -144,8 +135,6 @@ const showQueuePage = computed(
 		queueType.value != null &&
 		hasQueueTypeDefaults(queueType.value),
 );
-
-const isLogsTab = computed(() => route.name === QueuesRoutesName.LOGS);
 
 const tabDescriptors = computed<Record<QueueTabId, QueueTab>>(() => ({
 	[QueueTabId.General]: {
