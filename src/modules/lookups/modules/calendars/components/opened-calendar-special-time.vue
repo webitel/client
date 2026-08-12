@@ -67,14 +67,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import {
-	defaultSpecials,
-	useWeekDaysData,
-} from '../composables/useWeekDaysData';
+import { useWeekDaysData } from '../composables/useWeekDaysData';
 import type { CalendarCard } from '../stores';
 
 const modelValue = defineModel<CalendarCard>({
@@ -99,15 +95,4 @@ const {
 	minToSec,
 	secToMin,
 } = useWeekDaysData(modelValue, 'specials');
-
-const initSpecials = () => {
-	if (!dataList.value.length) {
-		modelValue.value.specials = defaultSpecials();
-	}
-};
-
-watch(dataList, initSpecials, {
-	deep: true,
-});
-onMounted(initSpecials);
 </script>

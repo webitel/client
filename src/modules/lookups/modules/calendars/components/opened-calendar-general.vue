@@ -10,7 +10,7 @@
         v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
         :label="t('objects.name')"
-        :regle-validation="validationFields?.name"
+        :regle-validation="props.validationFields?.name"
         required
       />
       <wt-single-select
@@ -18,8 +18,8 @@
         :show-clear="false"
         :disabled="disableUserInput"
         :label="t('objects.lookups.calendars.timezone')"
-        :search-method="loadTimezones"
-        :regle-validation="validationFields?.timezone"
+        :search-method="CalendarsAPI.getTimezonesLookup"
+        :regle-validation="timezoneRegleValidation"
         required
       />
       <wt-textarea
@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { CalendarsAPI } from '@webitel/api-services/api';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -60,7 +61,7 @@ const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-defineProps<{
+const props = defineProps<{
 	validationFields?: {
 		[K in keyof CalendarCard]?: RegleSchemaFieldStatus<CalendarCard[K]>;
 	};
@@ -69,6 +70,15 @@ defineProps<{
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 
-const loadTimezones = (params: Record<string, unknown>) =>
-	CalendarsAPI.getTimezonesLookup(params);
+const timezoneRegleValidation = computed(() => {
+	const timezone = props.validationFields?.timezone as
+		| {
+				$fields?: {
+					id?: RegleSchemaFieldStatus<string>;
+				};
+		  }
+		| undefined;
+
+	return timezone?.$fields?.id;
+});
 </script>

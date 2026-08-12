@@ -115,6 +115,8 @@ export default {
 		cron: 'Некорректное cron-выражение',
 		hourRange: 'Часы должны быть от 00 до 23',
 		timerangeStartLessThanEnd: 'Время От не может быть больше чем До',
+		timerangeNotIntersect:
+			'Временные интервалы в один день не могут пересекаться',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файл содержит некорректные номера. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},

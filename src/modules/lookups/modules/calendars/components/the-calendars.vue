@@ -41,9 +41,9 @@
         </header>
 
         <delete-confirmation-popup
-          :shown="isDeleteConfirmationPopup"
-          :callback="deleteCallback"
-          :delete-count="deleteCount"
+          :shown="deletePopupShown"
+          :callback="deletePopupCallback"
+          :delete-count="deletePopupCount"
           @close="closeDelete"
         />
 
@@ -115,6 +115,7 @@
 </template>
 
 <script setup lang="ts">
+import type { EngineCalendar } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -172,6 +173,10 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
+const deletePopupShown = computed(() => isDeleteConfirmationPopup.value);
+const deletePopupCount = computed(() => deleteCount.value);
+const deletePopupCallback = computed(() => deleteCallback.value);
+
 const path = computed(() => [
 	{
 		name: t('objects.lookups.lookups'),
@@ -190,7 +195,7 @@ const add = () =>
 		},
 	});
 
-const edit = (item: { id: string | number }) =>
+const edit = (item: EngineCalendar) =>
 	router.push({
 		name: `${RouteNames.CALENDARS}-card`,
 		params: {

@@ -51,7 +51,7 @@
     </template>
     <template #actions>
       <wt-button
-        :disabled="!itemInstance.name"
+        :disabled="!canSave"
         @click="save"
       >
         {{ t('objects.save') }}
@@ -71,18 +71,19 @@ import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import type { CalendarCard, CalendarExceptUi } from '../stores';
-
-const modelValue = defineModel<CalendarCard>({
-	required: true,
-});
+import type { CalendarExceptUi } from '../stores';
+import { useCalendarsCardStore } from '../stores';
 
 const emit = defineEmits<{
 	close: [];
+	save: [
+		item: CalendarExceptUi,
+	];
 }>();
 
 const { t } = useI18n();
 const route = useRoute();
+const cardStore = useCalendarsCardStore();
 
 const shown = ref(false);
 
@@ -101,7 +102,7 @@ const holidayIndex = computed(
 	() => route.params.holidayIndex as string | undefined,
 );
 
-const holidayList = computed(() => modelValue.value.excepts ?? []);
+const holidayList = computed(() => cardStore.draftItemInstance?.excepts ?? []);
 
 const hourRangeValidators = computed(() => [
 	{
@@ -117,6 +118,19 @@ const fromValidators = computed(() => [
 		text: t('validation.timerangeStartLessThanEnd'),
 	},
 ]);
+
+const isWorkTimeValid = computed(() => {
+	if (!itemInstance.working) return true;
+
+	const { workStart, workStop } = itemInstance;
+	if (workStart == null || workStop == null) return false;
+
+	return workStart < workStop;
+});
+
+const canSave = computed(
+	() => Boolean(itemInstance.name) && isWorkTimeValid.value,
+);
 
 const resetItemInstance = () => {
 	Object.assign(itemInstance, emptyItem());
@@ -139,19 +153,11 @@ const close = () => {
 };
 
 const save = () => {
-	const excepts = [
-		...(modelValue.value.excepts ?? []),
-	];
-	if (holidayIndex.value !== 'new') {
-		excepts.splice(Number(holidayIndex.value), 1, {
-			...itemInstance,
-		});
-	} else {
-		excepts.push({
-			...itemInstance,
-		});
-	}
-	modelValue.value.excepts = excepts;
+	if (!isWorkTimeValid.value) return;
+
+	emit('save', {
+		...itemInstance,
+	});
 	close();
 };
 
@@ -162,7 +168,7 @@ const changeWorkingSwitcher = (event: boolean) => {
 };
 
 const updateWorkingTime = (event: number, prop: 'workStart' | 'workStop') => {
-	itemInstance[prop] = event ? event / 60 : null;
+	itemInstance[prop] = event != null ? event / 60 : null;
 };
 
 watch(
@@ -184,8 +190,6 @@ watch(
 		immediate: true,
 	},
 );
-
-watch(holidayList, initEditedValue);
 </script>
 
 <style lang="scss" scoped>

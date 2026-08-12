@@ -20,9 +20,9 @@
         </template>
         <template #start="{ item, index }">
           <wt-timepicker
-            :custom-validators="fromValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
+            :regle-validation="getAcceptsRegleField(index, 'start')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -32,9 +32,9 @@
         </template>
         <template #end="{ item, index }">
           <wt-timepicker
-            :custom-validators="hourRangeValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
+            :regle-validation="getAcceptsRegleField(index, 'end')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -73,6 +73,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import { useAcceptsRegleField } from '../composables/useAcceptsRegleField';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
 import type { CalendarCard } from '../stores';
 
@@ -80,7 +81,7 @@ const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-defineProps<{
+const props = defineProps<{
 	validationFields?: Record<string, unknown>;
 }>();
 
@@ -99,18 +100,7 @@ const {
 	secToMin,
 } = useWeekDaysData(modelValue, 'accepts');
 
-const hourRangeValidators = computed(() => [
-	{
-		name: 'hourRange',
-		text: t('validation.hourRange'),
-	},
-]);
-
-const fromValidators = computed(() => [
-	...hourRangeValidators.value,
-	{
-		name: 'timerangeStartLessThanEnd',
-		text: t('validation.timerangeStartLessThanEnd'),
-	},
-]);
+const { getAcceptsRegleField } = useAcceptsRegleField(
+	computed(() => props.validationFields),
+);
 </script>
