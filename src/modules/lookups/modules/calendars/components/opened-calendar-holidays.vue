@@ -5,9 +5,9 @@
       @close="closePopup"
     />
     <delete-confirmation-popup
-      :shown="isDeleteConfirmationPopup"
-      :delete-count="deleteCount"
-      :callback="deleteCallback"
+      :shown="deletePopupShown"
+      :delete-count="deletePopupCount"
+      :callback="deletePopupCallback"
       @close="closeDelete"
     />
 
@@ -138,6 +138,10 @@ const {
 	askDeleteConfirmation,
 	closeDelete,
 } = useDeleteConfirmationPopup();
+
+const deletePopupShown = computed(() => isDeleteConfirmationPopup.value);
+const deletePopupCount = computed(() => deleteCount.value);
+const deletePopupCallback = computed(() => deleteCallback.value);
 
 const headers = computed(() => [
 	{

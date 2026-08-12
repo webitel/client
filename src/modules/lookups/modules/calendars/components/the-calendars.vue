@@ -114,7 +114,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -190,7 +190,7 @@ const add = () =>
 		},
 	});
 
-const edit = (item: { id: string | number }) =>
+const edit = (item) =>
 	router.push({
 		name: `${RouteNames.CALENDARS}-card`,
 		params: {
