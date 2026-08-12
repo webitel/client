@@ -5,7 +5,6 @@ import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/St
 import agents from '../modules/agents/store/queue-agents';
 import log from '../modules/logs/store/queue-logs';
 import members from '../modules/members/store/queue-members';
-import skills from '../modules/skills/store/queue-skills';
 import headers from './_internals/headers';
 
 const resettableState = {
@@ -103,13 +102,6 @@ const actions = {
 	RESET_ITEM_STATE: async (context) => {
 		context.commit('RESET_ITEM_STATE');
 		context.dispatch(
-			'ccenter/queues/skills/RESET_STATE',
-			{},
-			{
-				root: true,
-			},
-		);
-		context.dispatch(
 			'ccenter/queues/agents/RESET_STATE',
 			{},
 			{
@@ -163,7 +155,6 @@ const queues = new ObjectStoreModule({
 	.generateAPIActions()
 	.setChildModules({
 		agents,
-		skills,
 		log,
 		members,
 		permissions,
