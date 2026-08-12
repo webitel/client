@@ -28,7 +28,7 @@
             :is="Component"
             v-model="modelValue"
             :validation-fields="validationFields"
-            v-bind="permissionsStoreData"
+            v-bind="isPermissionsTab ? permissionsStoreData : undefined"
           />
         </router-view>
         <input
@@ -129,6 +129,10 @@ const tabs = computed(() => {
 });
 
 const { currentTab, changeTab } = useCardTabs(tabs);
+
+const isPermissionsTab = computed(
+	() => route.name === CalendarRouteNames.PERMISSIONS,
+);
 
 const permissionsStoreData = computed(() => ({
 	store: useCalendarsPermissionsStore,

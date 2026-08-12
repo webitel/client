@@ -51,7 +51,7 @@
     </template>
     <template #actions>
       <wt-button
-        :disabled="!itemInstance.name"
+        :disabled="!canSave"
         @click="save"
       >
         {{ t('objects.save') }}
@@ -118,6 +118,19 @@ const fromValidators = computed(() => [
 	},
 ]);
 
+const isWorkTimeValid = computed(() => {
+	if (!itemInstance.working) return true;
+
+	const workStart = itemInstance.workStart ?? 0;
+	const workStop = itemInstance.workStop ?? 0;
+
+	return workStart < workStop;
+});
+
+const canSave = computed(
+	() => Boolean(itemInstance.name) && isWorkTimeValid.value,
+);
+
 const resetItemInstance = () => {
 	Object.assign(itemInstance, emptyItem());
 };
@@ -142,10 +155,18 @@ const save = () => {
 	const excepts = [
 		...(modelValue.value.excepts ?? []),
 	];
+	const index = Number(holidayIndex.value);
+
 	if (holidayIndex.value !== 'new') {
-		excepts.splice(Number(holidayIndex.value), 1, {
-			...itemInstance,
-		});
+		if (!Number.isInteger(index) || index < 0 || index >= excepts.length) {
+			excepts.push({
+				...itemInstance,
+			});
+		} else {
+			excepts.splice(index, 1, {
+				...itemInstance,
+			});
+		}
 	} else {
 		excepts.push({
 			...itemInstance,
@@ -162,7 +183,7 @@ const changeWorkingSwitcher = (event: boolean) => {
 };
 
 const updateWorkingTime = (event: number, prop: 'workStart' | 'workStop') => {
-	itemInstance[prop] = event ? event / 60 : null;
+	itemInstance[prop] = event != null ? event / 60 : null;
 };
 
 watch(
@@ -184,8 +205,6 @@ watch(
 		immediate: true,
 	},
 );
-
-watch(holidayList, initEditedValue);
 </script>
 
 <style lang="scss" scoped>

@@ -114,6 +114,10 @@ import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
 import type { CalendarCard, CalendarExceptUi } from '../stores';
 import HolidayPopup from './opened-calendar-holiday-popup.vue';
 
+type CalendarExceptRow = CalendarExceptUi & {
+	sourceIndex: number;
+};
+
 const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
@@ -128,8 +132,8 @@ const router = useRouter();
 const { disableUserInput } = useUserAccessControl();
 
 const search = ref('');
-const selectedRows = ref<CalendarExceptUi[]>([]);
-const filteredList = ref<CalendarExceptUi[]>([]);
+const selectedRows = ref<CalendarExceptRow[]>([]);
+const filteredList = ref<CalendarExceptRow[]>([]);
 
 const {
 	isVisible: isDeleteConfirmationPopup,
@@ -170,18 +174,23 @@ const holidayList = computed(() => modelValue.value.excepts ?? []);
 
 const loadList = () => {
 	const q = search.value.toLowerCase();
-	filteredList.value = holidayList.value.filter((holiday) =>
-		(holiday.name ?? '').toLowerCase().includes(q),
-	);
+	filteredList.value = holidayList.value
+		.map((holiday, sourceIndex) => ({
+			...holiday,
+			sourceIndex,
+		}))
+		.filter((holiday) => (holiday.name ?? '').toLowerCase().includes(q));
 };
 
 const setRepeatValue = (index: number, value: boolean) => {
 	const excepts = modelValue.value.excepts ?? [];
 	const item = filteredList.value[index];
-	const realIndex = excepts.findIndex(
-		(except) => except.name === item.name && except.date === item.date,
-	);
-	if (realIndex === -1) return;
+	const realIndex = item?.sourceIndex;
+
+	if (realIndex === undefined || realIndex < 0 || realIndex >= excepts.length) {
+		return;
+	}
+
 	excepts[realIndex] = {
 		...excepts[realIndex],
 		repeat: value,
@@ -192,17 +201,18 @@ const setRepeatValue = (index: number, value: boolean) => {
 	loadList();
 };
 
-const deleteData = (deleted: CalendarExceptUi | CalendarExceptUi[]) => {
+const deleteData = (deleted: CalendarExceptRow | CalendarExceptRow[]) => {
 	const items = Array.isArray(deleted)
 		? deleted
 		: [
 				deleted,
 			];
+	const indexes = new Set(
+		items.map((item) => item.sourceIndex).filter((index) => index >= 0),
+	);
+
 	modelValue.value.excepts = (modelValue.value.excepts ?? []).filter(
-		(except) =>
-			!items.some(
-				(item) => item.name === except.name && item.date === except.date,
-			),
+		(_, index) => !indexes.has(index),
 	);
 	selectedRows.value = [];
 	loadList();
@@ -224,14 +234,12 @@ const create = () => {
 
 const edit = (index: number) => {
 	const item = filteredList.value[index];
-	const realIndex = holidayList.value.findIndex(
-		(except) => except.name === item.name && except.date === item.date,
-	);
+
 	router.push({
 		name: CalendarRouteNames.HOLIDAYS,
 		params: {
 			...route.params,
-			holidayIndex: String(realIndex),
+			holidayIndex: String(item.sourceIndex),
 		},
 		query: route.query,
 	});

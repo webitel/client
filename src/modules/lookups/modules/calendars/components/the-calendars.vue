@@ -159,7 +159,9 @@ const {
 	updateSelected,
 } = tableStore;
 
-initialize();
+initialize().catch(() => {
+	// loadDataList already records the error in store state
+});
 
 const { t } = useI18n();
 const router = useRouter();
