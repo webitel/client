@@ -1336,6 +1336,7 @@ export default {
 						error: 'Lỗi',
 					},
 				},
+				recordCall: 'Ghi âm cuộc gọi',
 			},
 		},
 		system: {

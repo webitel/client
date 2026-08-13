@@ -1337,6 +1337,7 @@ export default {
 						error: 'Error',
 					},
 				},
+				recordCall: 'Record call',
 			},
 		},
 		system: {

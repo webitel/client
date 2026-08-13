@@ -1343,6 +1343,7 @@ export default {
 						error: 'Xato',
 					},
 				},
+				recordCall: "Qo'ng'iroqni yozib olish",
 			},
 		},
 		system: {
