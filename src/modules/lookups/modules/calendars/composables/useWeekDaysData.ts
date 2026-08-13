@@ -49,6 +49,11 @@ export function useWeekDaysData(
 		return modelValue.value[field];
 	}
 
+	/**
+	 * Written in place on purpose: regle builds a validation status per
+	 * collection item, so replacing the row object hands it a fresh, never-dirty
+	 * item on every keystroke and the range errors stay hidden until save.
+	 */
 	function setItemProp({
 		prop,
 		index,
@@ -58,12 +63,12 @@ export function useWeekDaysData(
 		index: number;
 		value: CalendarAcceptOfDayUi[keyof CalendarAcceptOfDayUi];
 	}) {
-		const items = list();
-		if (!items[index]) return;
-		items[index] = {
-			...items[index],
+		const item = list()[index];
+		if (!item) return;
+
+		Object.assign(item, {
 			[prop]: value,
-		};
+		});
 	}
 
 	function addRange(day: number) {

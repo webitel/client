@@ -56,17 +56,12 @@ export function useCalendarHolidays(
 		write(holidays.value.filter((_, index) => !indexes.has(index)));
 	}
 
+	/** in place, so regle keeps the item's validation status — see useWeekDaysData */
 	function setRepeat(row: CalendarHolidayRow, repeat: boolean) {
-		write(
-			holidays.value.map((holiday, index) =>
-				index === row.sourceIndex
-					? {
-							...holiday,
-							repeat,
-						}
-					: holiday,
-			),
-		);
+		const holiday = holidays.value[row.sourceIndex];
+		if (!holiday) return;
+
+		holiday.repeat = repeat;
 	}
 
 	return {
