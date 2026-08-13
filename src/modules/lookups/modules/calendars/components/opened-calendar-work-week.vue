@@ -22,7 +22,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
-            :regle-validation="accepts?.$each?.[index]?.start"
+            :regle-validation="issueFor(index, 'start')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -34,7 +34,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
-            :regle-validation="accepts?.$each?.[index]?.end"
+            :regle-validation="issueFor(index, 'end')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -69,36 +69,25 @@
 </template>
 
 <script setup lang="ts">
-import type { RegleSchemaCollectionStatus } from '@regle/schemas';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
-import type { CalendarAcceptOfDayUi, CalendarCard } from '../stores';
+import { useWeekDaysIssues } from '../composables/useWeekDaysIssues';
+import type { CalendarCard } from '../stores';
 
 const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-const props = defineProps<{
+/** declared, not used: the rows validate live, see useWeekDaysIssues */
+defineProps<{
 	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
 
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
-
-/**
- * `CardValidationFields` types every field as a plain field status until
- * ui-datalist ships the inferred one, so the collection status is cast here.
- */
-const accepts = computed(
-	() =>
-		props.validationFields?.accepts as unknown as
-			| RegleSchemaCollectionStatus<CalendarAcceptOfDayUi[]>
-			| undefined,
-);
 
 const {
 	dataList,
@@ -111,4 +100,6 @@ const {
 	minToSec,
 	secToMin,
 } = useWeekDaysData(modelValue, 'accepts');
+
+const { issueFor } = useWeekDaysIssues(dataList);
 </script>
