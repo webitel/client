@@ -1334,6 +1334,7 @@ export default {
 						error: 'Ақау',
 					},
 				},
+				recordCall: 'Қоңырауды жазу',
 			},
 		},
 		system: {

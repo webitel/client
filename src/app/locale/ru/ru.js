@@ -1354,6 +1354,7 @@ export default {
 						error: 'Ошибка',
 					},
 				},
+				recordCall: 'Запись звонка',
 			},
 		},
 		system: {

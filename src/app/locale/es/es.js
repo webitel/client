@@ -1349,6 +1349,7 @@ export default {
 						error: 'Error',
 					},
 				},
+				recordCall: 'Grabar llamada',
 			},
 		},
 		system: {

@@ -1348,6 +1348,7 @@ export default {
 						error: 'Помилка',
 					},
 				},
+				recordCall: 'Запис дзвінка',
 			},
 		},
 		system: {

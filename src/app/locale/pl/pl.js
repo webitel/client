@@ -1342,6 +1342,7 @@ export default {
 						error: 'Błąd',
 					},
 				},
+				recordCall: 'Nagraj połączenie',
 			},
 		},
 		system: {

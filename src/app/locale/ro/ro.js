@@ -1344,6 +1344,7 @@ export default {
 						error: 'Eroare',
 					},
 				},
+				recordCall: 'Înregistrează apelul',
 			},
 		},
 		system: {
