@@ -6,8 +6,6 @@ import {
 
 import FromToField from '../../../../../../../app/components/filters/from-to-filter-value-field.vue';
 import FromToPreview from '../../../../../../../app/components/filters/from-to-filter-value-preview.vue';
-import JoinedAtField from '../components/filters/joined-at-filter-value-field.vue';
-import JoinedAtPreview from '../components/filters/joined-at-filter-value-preview.vue';
 import ResultField from '../components/filters/result-filter-value-field.vue';
 import ResultPreview from '../components/filters/result-filter-value-preview.vue';
 
@@ -25,9 +23,7 @@ import ResultPreview from '../components/filters/result-filter-value-preview.vue
  */
 export const filtersOptions: FilterConfigDefinition[] = [
 	createFilterConfig({
-		name: 'joinedAt',
-		valueInputComponent: JoinedAtField,
-		valuePreviewComponent: JoinedAtPreview,
+		name: FilterOption.JoinedAt,
 		// the log is always bounded by a date range; there is no "all time" view
 		notDeletable: true,
 	}),
