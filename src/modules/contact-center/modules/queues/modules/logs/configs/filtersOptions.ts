@@ -16,8 +16,8 @@ import ResultPreview from '../components/filters/result-filter-value-preview.vue
  * The queue log's filters panel.
  *
  * Each name is the request param key — `QueueLogsAPI.getList` reads `joinedAt`,
- * `agent`, `result` and `duration`, and splits the two ranges into the
- * positional bounds the service takes.
+ * `agent`, `bucket`, `result`, `duration`, `leavingAt` and `offeringAt`, and
+ * splits the ranges into the positional bounds the service takes.
  *
  * `joinedAt` and `duration` were two flat filters each before; the panel holds a
  * range as one `{ from, to }` value, which is also what fixes `duration` — the
@@ -32,6 +32,9 @@ export const filtersOptions: FilterConfigDefinition[] = [
 		notDeletable: true,
 	}),
 	FilterOption.Agent,
+	FilterOption.Bucket,
+	FilterOption.LeavingAt,
+	FilterOption.OfferingAt,
 	createFilterConfig({
 		name: 'result',
 		valueInputComponent: ResultField,
