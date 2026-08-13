@@ -1,13 +1,15 @@
 <template>
   <section class="table-section">
     <holiday-popup
+      :shown="!!holidayIndex"
+      :item="editedHoliday"
       @close="closePopup"
       @save="saveHoliday"
     />
     <delete-confirmation-popup
-      :shown="deletePopupShown"
-      :delete-count="deletePopupCount"
-      :callback="deletePopupCallback"
+      :shown="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
       @close="closeDelete"
     />
 
@@ -16,11 +18,10 @@
         {{ t('objects.lookups.calendars.holidays', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
+        <!-- wt-search-bar is `value` + `input`, not v-model -->
         <wt-search-bar
-          v-model="search"
-          debounce
-          @enter="loadList"
-          @search="loadList"
+          :value="search"
+          @input="search = $event"
         />
         <delete-all-action
           v-if="!disableUserInput"
@@ -29,7 +30,7 @@
           @click="
             askDeleteConfirmation({
               deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
+              callback: () => deleteHolidays(selectedRows),
             })
           "
         />
@@ -43,16 +44,16 @@
     </header>
 
     <wt-empty
-      v-if="!filteredList.length"
+      v-if="!rows.length"
       :text="search ? t('objects.emptyResultSearch') : undefined"
     />
 
     <div
-      v-show="filteredList.length"
+      v-show="rows.length"
       class="table-section__table-wrapper"
     >
       <wt-table
-        :data="filteredList"
+        :data="rows"
         :headers="headers"
         :selected="selectedRows"
         @update:selected="selectedRows = $event"
@@ -70,18 +71,18 @@
             {{ ConvertDurationWithMinutes(item.workStop) }}
           </div>
         </template>
-        <template #repeat="{ item, index }">
+        <template #repeat="{ item }">
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="item.repeat"
-            @update:model-value="setRepeatValue(index, $event)"
+            @update:model-value="setRepeat(item, $event)"
           />
         </template>
-        <template #actions="{ item, index }">
+        <template #actions="{ item }">
           <wt-icon-action
             action="edit"
             :disabled="disableUserInput"
-            @click="edit(index)"
+            @click="edit(item)"
           />
           <wt-icon-action
             action="delete"
@@ -89,7 +90,7 @@
             @click="
               askDeleteConfirmation({
                 deleted: [item],
-                callback: () => deleteData([item]),
+                callback: () => deleteHolidays([item]),
               })
             "
           />
@@ -100,30 +101,32 @@
 </template>
 
 <script setup lang="ts">
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import { formatDate } from '@webitel/ui-sdk/utils';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import {
+	type CalendarHolidayRow,
+	useCalendarHolidays,
+} from '../composables/useCalendarHolidays';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
 import type { CalendarCard, CalendarExceptUi } from '../stores';
 import HolidayPopup from './opened-calendar-holiday-popup.vue';
-
-type CalendarExceptRow = CalendarExceptUi & {
-	sourceIndex: number;
-};
 
 const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
+/** declared, not used: the card binds it to every tab */
 defineProps<{
-	validationFields?: Record<string, unknown>;
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
 
 const { t } = useI18n();
@@ -132,8 +135,12 @@ const router = useRouter();
 const { disableUserInput } = useUserAccessControl();
 
 const search = ref('');
-const selectedRows = ref<CalendarExceptRow[]>([]);
-const filteredList = ref<CalendarExceptRow[]>([]);
+const selectedRows = ref<CalendarHolidayRow[]>([]);
+
+const { rows, upsert, remove, setRepeat } = useCalendarHolidays(
+	modelValue,
+	search,
+);
 
 const {
 	isVisible: isDeleteConfirmationPopup,
@@ -142,10 +149,6 @@ const {
 	askDeleteConfirmation,
 	closeDelete,
 } = useDeleteConfirmationPopup();
-
-const deletePopupShown = computed(() => isDeleteConfirmationPopup.value);
-const deletePopupCount = computed(() => deleteCount.value);
-const deletePopupCallback = computed(() => deleteCallback.value);
 
 const headers = computed(() => [
 	{
@@ -170,115 +173,45 @@ const headers = computed(() => [
 	},
 ]);
 
-const holidayList = computed(() => modelValue.value?.excepts ?? []);
+const holidayIndex = computed(
+	() => route.params.holidayIndex as string | undefined,
+);
 
-const loadList = () => {
-	const q = search.value.toLowerCase();
-	filteredList.value = holidayList.value
-		.map((holiday, sourceIndex) => ({
-			...holiday,
-			sourceIndex,
-		}))
-		.filter((holiday) => (holiday.name ?? '').toLowerCase().includes(q));
-};
+const editedHoliday = computed(() => {
+	const position = Number(holidayIndex.value);
 
-const setRepeatValue = (index: number, value: boolean) => {
-	const excepts = [
-		...(modelValue.value?.excepts ?? []),
-	];
-	const item = filteredList.value[index];
-	const realIndex = item?.sourceIndex;
+	return Number.isInteger(position)
+		? modelValue.value.excepts?.[position]
+		: undefined;
+});
 
-	if (realIndex === undefined || realIndex < 0 || realIndex >= excepts.length) {
-		return;
-	}
-
-	excepts[realIndex] = {
-		...excepts[realIndex],
-		repeat: value,
-	};
-	if (!modelValue.value) return;
-
-	modelValue.value.excepts = excepts;
-	loadList();
-};
-
-const deleteData = (deleted: CalendarExceptRow | CalendarExceptRow[]) => {
-	const items = Array.isArray(deleted)
-		? deleted
-		: [
-				deleted,
-			];
-	const indexes = new Set(
-		items.map((item) => item.sourceIndex).filter((index) => index >= 0),
-	);
-
-	if (!modelValue.value) return;
-
-	modelValue.value.excepts = (modelValue.value.excepts ?? []).filter(
-		(_, index) => !indexes.has(index),
-	);
+const deleteHolidays = (deleted: CalendarHolidayRow[]) => {
+	remove(deleted);
 	selectedRows.value = [];
-	loadList();
 };
 
 const saveHoliday = (item: CalendarExceptUi) => {
-	const excepts = [
-		...(modelValue.value?.excepts ?? []),
-	];
-	const holidayIndex = route.params.holidayIndex as string | undefined;
-	const index = Number(holidayIndex);
-
-	if (holidayIndex !== 'new') {
-		if (!Number.isInteger(index) || index < 0 || index >= excepts.length) {
-			excepts.push({
-				...item,
-			});
-		} else {
-			excepts.splice(index, 1, {
-				...item,
-			});
-		}
-	} else {
-		excepts.push({
-			...item,
-		});
-	}
-
-	if (!modelValue.value) return;
-
-	modelValue.value.excepts = excepts;
-	loadList();
+	upsert(holidayIndex.value, item);
 };
 
 const prettifyDate = (date: number | string | undefined) =>
 	formatDate(Number(date), FormatDateMode.DATE);
 
-const create = () => {
+const openPopup = (holidayIndex: string) =>
 	router.push({
 		name: CalendarRouteNames.HOLIDAYS,
 		params: {
 			id: route.params.id,
-			holidayIndex: 'new',
+			holidayIndex,
 		},
 		query: route.query,
 	});
-};
 
-const edit = (index: number) => {
-	const item = filteredList.value[index];
+const create = () => openPopup('new');
 
-	router.push({
-		name: CalendarRouteNames.HOLIDAYS,
-		params: {
-			id: route.params.id,
-			holidayIndex: String(item.sourceIndex),
-		},
-		query: route.query,
-	});
-};
+const edit = (item: CalendarHolidayRow) => openPopup(String(item.sourceIndex));
 
-const closePopup = () => {
+const closePopup = () =>
 	router.replace({
 		name: CalendarRouteNames.HOLIDAYS,
 		params: {
@@ -286,10 +219,4 @@ const closePopup = () => {
 		},
 		query: route.query,
 	});
-};
-
-watch(holidayList, loadList, {
-	immediate: true,
-	deep: true,
-});
 </script>

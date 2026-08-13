@@ -31,6 +31,7 @@
             <template #search-bar>
               <dynamic-filter-search
                 :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
                 single-search-name="search"
                 @filter:add="addFilter"
                 @filter:update="updateFilter"
@@ -41,9 +42,9 @@
         </header>
 
         <delete-confirmation-popup
-          :shown="deletePopupShown"
-          :callback="deletePopupCallback"
-          :delete-count="deletePopupCount"
+          :shown="isDeleteConfirmationPopup"
+          :callback="deleteCallback"
+          :delete-count="deleteCount"
           @close="closeDelete"
         />
 
@@ -75,10 +76,6 @@
               >
                 {{ item.name }}
               </adm-item-link>
-            </template>
-
-            <template #description="{ item }">
-              {{ item.description }}
             </template>
 
             <template #actions="{ item }">
@@ -145,6 +142,7 @@ const {
 	selected,
 	shownHeaders,
 	filtersManager,
+	isFiltersRestoring,
 } = storeToRefs(tableStore);
 
 const {
@@ -172,10 +170,6 @@ const {
 	askDeleteConfirmation,
 	closeDelete,
 } = useDeleteConfirmationPopup();
-
-const deletePopupShown = computed(() => isDeleteConfirmationPopup.value);
-const deletePopupCount = computed(() => deleteCount.value);
-const deletePopupCallback = computed(() => deleteCallback.value);
 
 const path = computed(() => [
 	{

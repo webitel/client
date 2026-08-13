@@ -3,29 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { defineComponent, ref } from 'vue';
 
 import type { CalendarCard } from '../../stores';
-import { defaultSpecials, useWeekDaysData } from '../useWeekDaysData';
-
-describe('defaultSpecials', () => {
-	it('returns seven disabled day slots with default work hours', () => {
-		const specials = defaultSpecials();
-
-		expect(specials).toHaveLength(7);
-		expect(specials.map(({ day }) => day)).toEqual([
-			0,
-			1,
-			2,
-			3,
-			4,
-			5,
-			6,
-		]);
-		for (const slot of specials) {
-			expect(slot.disabled).toBe(true);
-			expect(slot.start).toBe(9 * 60);
-			expect(slot.end).toBe(20 * 60);
-		}
-	});
-});
+import { useWeekDaysData } from '../useWeekDaysData';
 
 describe('useWeekDaysData', () => {
 	const mountWeekDays = (

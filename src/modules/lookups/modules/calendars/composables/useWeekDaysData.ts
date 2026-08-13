@@ -42,13 +42,18 @@ export function useWeekDaysData(
 		t('objects.lookups.calendars.sun'),
 	]);
 
-	function ensureList(): CalendarAcceptOfDayUi[] {
-		if (!modelValue.value[field]) {
-			modelValue.value[field] = [];
-		}
-		return modelValue.value[field] as CalendarAcceptOfDayUi[];
+	/** both collections come defaulted from the zod schema; guard anyway */
+	function list(): CalendarAcceptOfDayUi[] {
+		if (!modelValue.value[field]) modelValue.value[field] = [];
+
+		return modelValue.value[field];
 	}
 
+	/**
+	 * Written in place on purpose: regle builds a validation status per
+	 * collection item, so replacing the row object hands it a fresh, never-dirty
+	 * item on every keystroke and the range errors stay hidden until save.
+	 */
 	function setItemProp({
 		prop,
 		index,
@@ -58,17 +63,17 @@ export function useWeekDaysData(
 		index: number;
 		value: CalendarAcceptOfDayUi[keyof CalendarAcceptOfDayUi];
 	}) {
-		const list = ensureList();
-		if (!list[index]) return;
-		list[index] = {
-			...list[index],
+		const item = list()[index];
+		if (!item) return;
+
+		Object.assign(item, {
 			[prop]: value,
-		};
+		});
 	}
 
 	function addRange(day: number) {
-		const list = ensureList();
-		const dayIndex = list.findIndex((workday) => workday.day > day);
+		const items = list();
+		const dayIndex = items.findIndex((workday) => workday.day > day);
 		const dayItem: CalendarAcceptOfDayUi = {
 			day,
 			disabled: false,
@@ -76,14 +81,14 @@ export function useWeekDaysData(
 			end: 20 * 60,
 		};
 		if (dayIndex === -1) {
-			list.push(dayItem);
+			items.push(dayItem);
 		} else {
-			list.splice(dayIndex, 0, dayItem);
+			items.splice(dayIndex, 0, dayItem);
 		}
 	}
 
 	function removeRange(index: number) {
-		ensureList().splice(index, 1);
+		list().splice(index, 1);
 	}
 
 	function isDayStart(index: number) {
@@ -110,18 +115,4 @@ export function useWeekDaysData(
 		minToSec,
 		secToMin,
 	};
-}
-
-export function defaultSpecials(): CalendarAcceptOfDayUi[] {
-	return Array.from(
-		{
-			length: 7,
-		},
-		(_, day) => ({
-			day,
-			disabled: true,
-			start: 9 * 60,
-			end: 20 * 60,
-		}),
-	);
 }

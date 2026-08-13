@@ -10,7 +10,7 @@
         v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
         :label="t('objects.name')"
-        :regle-validation="props.validationFields?.name"
+        :regle-validation="validationFields?.name"
         required
       />
       <wt-single-select
@@ -19,7 +19,7 @@
         :disabled="disableUserInput"
         :label="t('objects.lookups.calendars.timezone')"
         :search-method="CalendarsAPI.getTimezonesLookup"
-        :regle-validation="timezoneRegleValidation"
+        :regle-validation="validationFields?.timezone"
         required
       />
       <wt-textarea
@@ -49,9 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { CalendarsAPI } from '@webitel/api-services/api';
-import { computed } from 'vue';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -61,24 +60,15 @@ const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-const props = defineProps<{
-	validationFields?: {
-		[K in keyof CalendarCard]?: RegleSchemaFieldStatus<CalendarCard[K]>;
-	};
+/**
+ * `timezone` is bound as a whole rather than through `$fields.id`: an empty
+ * lookup fails on the id when the value is `{}`, but on the field itself when
+ * it is missing, and the parent status covers both.
+ */
+defineProps<{
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
 
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
-
-const timezoneRegleValidation = computed(() => {
-	const timezone = props.validationFields?.timezone as
-		| {
-				$fields?: {
-					id?: RegleSchemaFieldStatus<string>;
-				};
-		  }
-		| undefined;
-
-	return timezone?.$fields?.id;
-});
 </script>
