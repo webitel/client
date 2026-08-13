@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -77,8 +78,9 @@ const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
+/** declared, not used: the card binds it to every tab */
 defineProps<{
-	validationFields?: Record<string, unknown>;
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
 
 const { t } = useI18n();

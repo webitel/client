@@ -149,15 +149,14 @@
 </template>
 
 <script>
+import { CalendarsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
-import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
 import MediaAPI from '../../../../lookups/modules/media/api/media';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import FlowsAPI from '../../../../routing/modules/flow/api/flow';

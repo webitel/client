@@ -35,9 +35,9 @@
 </template>
 
 <script>
+import { CalendarsAPI } from '@webitel/api-services/api';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CalendarsAPI from '../../calendars/api/calendars';
 
 export default {
 	name: 'OpenedRegionGeneral',
