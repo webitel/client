@@ -64,6 +64,7 @@
             :data="dataList"
             :selected="selected"
             :headers="shownHeaders"
+            fixed-actions
             sortable
             @sort="updateSort"
             @update:selected="updateSelected"
