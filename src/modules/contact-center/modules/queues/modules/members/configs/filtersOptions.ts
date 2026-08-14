@@ -1,11 +1,7 @@
 import {
-	createFilterConfig,
 	type FilterConfigDefinition,
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
-
-import BucketField from '../components/filters/bucket-filter-value-field.vue';
-import BucketPreview from '../components/filters/bucket-filter-value-preview.vue';
 
 /**
  * @description
@@ -22,11 +18,7 @@ import BucketPreview from '../components/filters/bucket-filter-value-preview.vue
 export const filtersOptions: FilterConfigDefinition[] = [
 	FilterOption.CreatedAt,
 	FilterOption.StopCause,
-	createFilterConfig({
-		name: 'bucket',
-		valueInputComponent: BucketField,
-		valuePreviewComponent: BucketPreview,
-	}),
+	FilterOption.Bucket,
 	FilterOption.Agent,
 	FilterOption.MemberPriority,
 ];
