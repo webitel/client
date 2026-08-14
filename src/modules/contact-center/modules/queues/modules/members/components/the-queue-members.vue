@@ -82,9 +82,6 @@
                   @filter:update="updateFilter"
                 />
               </template>
-              <template #filters>
-                <wt-badge :hidden="!hasPanelFilters" />
-              </template>
               <template #columns>
                 <wt-table-column-select
                   :headers="headers"
@@ -323,15 +320,14 @@ const path = computed(() => {
 	];
 });
 
-const hasPanelFilters = computed(() =>
-	filtersManager.value.getAllKeys().some((name) => name !== 'search'),
-);
-
 const asDate = (value?: number | string) =>
 	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
 
 const endCauseText = (stopCause: string) => {
-	const key = `objects.ccenter.members.endCause.${stopCause.toLowerCase()}`;
+	const localeKey = stopCause.replace(/_([a-z])/g, (_, char: string) =>
+		char.toUpperCase(),
+	);
+	const key = `objects.stopCause.${localeKey}`;
 	return te(key) ? t(key) : stopCause;
 };
 

@@ -4,12 +4,8 @@ import {
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
 
-import FromToField from '../../../../../../../app/components/filters/from-to-filter-value-field.vue';
-import FromToPreview from '../../../../../../../app/components/filters/from-to-filter-value-preview.vue';
 import BucketField from '../components/filters/bucket-filter-value-field.vue';
 import BucketPreview from '../components/filters/bucket-filter-value-preview.vue';
-import StopCauseField from '../components/filters/stop-cause-filter-value-field.vue';
-import StopCausePreview from '../components/filters/stop-cause-filter-value-preview.vue';
 
 /**
  * @description
@@ -25,20 +21,12 @@ import StopCausePreview from '../components/filters/stop-cause-filter-value-prev
  */
 export const filtersOptions: FilterConfigDefinition[] = [
 	FilterOption.CreatedAt,
-	createFilterConfig({
-		name: 'stopCause',
-		valueInputComponent: StopCauseField,
-		valuePreviewComponent: StopCausePreview,
-	}),
+	FilterOption.StopCause,
 	createFilterConfig({
 		name: 'bucket',
 		valueInputComponent: BucketField,
 		valuePreviewComponent: BucketPreview,
 	}),
 	FilterOption.Agent,
-	createFilterConfig({
-		name: 'memberPriority',
-		valueInputComponent: FromToField,
-		valuePreviewComponent: FromToPreview,
-	}),
+	FilterOption.MemberPriority,
 ];
