@@ -41,10 +41,14 @@ describe('filter names match the request params', () => {
 		// QueueMembersAPI.getList and mapResetMembersFilters read these
 		expect(namesOf(membersFilters)).toEqual([
 			'createdAt',
+			'offeringAt',
 			'stopCause',
 			'bucket',
 			'agent',
 			'memberPriority',
+			'attempts',
+			'name',
+			'destination',
 		]);
 	});
 });

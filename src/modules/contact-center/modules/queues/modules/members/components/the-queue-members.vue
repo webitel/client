@@ -82,6 +82,15 @@
                   @filter:update="updateFilter"
                 />
               </template>
+
+            <template #filters="{ action, onClick }">
+              <wt-badge :hidden="!filtersManager.hasFilters">
+                <wt-icon-action
+                  :action="action"
+                  @click="onClick"
+                />
+              </wt-badge>
+            </template>
               <template #columns>
                 <wt-table-column-select
                   :headers="headers"

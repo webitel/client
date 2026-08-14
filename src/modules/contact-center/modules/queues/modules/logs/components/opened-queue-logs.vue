@@ -10,6 +10,14 @@
           @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
           @click:refresh="loadDataList"
         >
+          <template #filters="{ action, onClick }">
+            <wt-badge :hidden="!filtersManager.hasFilters">
+              <wt-icon-action
+                :action="action"
+                @click="onClick"
+              />
+            </wt-badge>
+          </template>
           <template #search-bar>
             <dynamic-filter-search
               :filters-manager="filtersManager"

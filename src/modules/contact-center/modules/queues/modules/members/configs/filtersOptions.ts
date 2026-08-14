@@ -17,8 +17,12 @@ import {
  */
 export const filtersOptions: FilterConfigDefinition[] = [
 	FilterOption.CreatedAt,
+	FilterOption.OfferingAt,
 	FilterOption.StopCause,
 	FilterOption.Bucket,
 	FilterOption.Agent,
 	FilterOption.MemberPriority,
+	FilterOption.Attempts,
+	FilterOption.Name,
+	FilterOption.Destination,
 ];
