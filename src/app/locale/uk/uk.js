@@ -1115,19 +1115,27 @@ export default {
 					offeringAt: 'Розподілення',
 					joinedAt: 'Початок',
 					leavingAt: 'Кінець',
-					duration: 'Тривалість',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Номер',
-					result: 'Результат',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Спроба',
 					resultName: {
-						abandoned: 'Втрачений',
-						cancel: 'Скасований',
-						success: 'Успішний',
-						failed: 'Неуспішний',
-						missed: 'Пропущений',
-						timeout: 'Тайм-аут',
-						endless: 'Нескінченний',
-						transferred: 'Переведений',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1397,6 +1405,15 @@ export default {
 	filters: {
 		team: 'Команда',
 		queueType: 'Тип черги',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

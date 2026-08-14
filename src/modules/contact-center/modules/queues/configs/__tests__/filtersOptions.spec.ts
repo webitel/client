@@ -28,10 +28,13 @@ describe('filter names match the request params', () => {
 	});
 
 	it('queue logs', () => {
-		// QueueLogsAPI.getList reads joinedAt / agent / result / duration
+		// QueueLogsAPI.getList reads these
 		expect(namesOf(logsFilters)).toEqual([
 			'joinedAt',
 			'agent',
+			'bucket',
+			'leavingAt',
+			'offeringAt',
 			'result',
 			'duration',
 		]);
@@ -82,6 +85,12 @@ describe('every panel', () => {
 		const names = namesOf(membersFilters);
 		expect(names).not.toContain('cause');
 		expect(names).not.toContain('priority');
+	});
+
+	it('keeps queue tags off FilterOption.Tag', () => {
+		const names = namesOf(queuesFilters);
+		expect(names).toContain('tags');
+		expect(names).not.toContain('tag');
 	});
 
 	it('gives every app-defined filter both a field and a preview', () => {

@@ -1099,19 +1099,27 @@ export default {
 					offeringAt: 'Đặt lịch',
 					joinedAt: 'Bắt đầu',
 					leavingAt: 'Kết thúc',
-					duration: 'Thời gian',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Số lượt xem',
-					result: 'Kết quả',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Lần thử',
 					resultName: {
-						abandoned: 'Bỏ qua',
-						cancel: 'Hủy',
-						success: 'Thành công',
-						failed: 'Thất bại',
-						missed: 'Bỏ qua',
-						timeout: 'Hết thời gian',
-						endless: 'Vô hạn',
-						transferred: 'Chuyển đổi',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1385,6 +1393,15 @@ export default {
 	filters: {
 		team: 'Đội',
 		queueType: 'Loại hàng đợi',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

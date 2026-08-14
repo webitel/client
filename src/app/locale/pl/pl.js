@@ -1105,19 +1105,27 @@ export default {
 					offeringAt: 'Oferta',
 					joinedAt: 'Początek',
 					leavingAt: 'Koniec',
-					duration: 'Długość',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Numer widoku',
-					result: 'Wynik',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Próba',
 					resultName: {
-						abandoned: 'Porzucone',
-						cancel: 'Anulowane',
-						success: 'Sukces',
-						failed: 'Niepowodzenie',
-						missed: 'Przegapione',
-						timeout: 'Przekroczono czas',
-						endless: 'Nieskończony',
-						transferred: 'Przekazane',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1391,6 +1399,15 @@ export default {
 	filters: {
 		team: 'Zespół',
 		queueType: 'Typ kolejki',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

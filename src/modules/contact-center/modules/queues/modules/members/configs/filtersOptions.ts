@@ -22,7 +22,7 @@ export const filtersOptions: FilterConfigDefinition[] = [
 	FilterOption.Bucket,
 	FilterOption.Agent,
 	FilterOption.MemberPriority,
-	FilterOption.Attempts,
-	FilterOption.Name,
-	FilterOption.Destination,
+	FilterOption.MemberAttempts,
+	FilterOption.MemberName,
+	FilterOption.MemberDestination,
 ];

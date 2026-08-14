@@ -1102,19 +1102,27 @@ export default {
 					offeringAt: 'Offering',
 					joinedAt: 'Start',
 					leavingAt: 'End',
-					duration: 'Duration',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'View number',
-					result: 'Result',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Attempt',
 					resultName: {
-						abandoned: 'Abandoned',
-						cancel: 'Cancel',
-						success: 'Success',
-						failed: 'Failed',
-						missed: 'Missed',
-						timeout: 'Timeout',
-						endless: 'Endless',
-						transferred: 'Transferred',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1389,18 +1397,12 @@ export default {
 		queueType: 'Queue Type',
 	},
 
-	/**
-	 * Labels for filters this app defines itself. ui-datalist resolves a filter's
-	 * label from `webitelUI.filters.<filter name>`, and ui-sdk's own messages are
-	 * deep-merged over these at startup, so only names it does not ship belong
-	 * here. `fallbackLocale` is `en`, which covers the other locales.
-	 */
 	webitelUI: {
 		filters: {
-			tags: 'Tags',
-			joinedAt: 'Joined at',
-			result: 'Result',
-			duration: 'Duration',
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
 		},
 	},
 

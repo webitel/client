@@ -1108,19 +1108,27 @@ export default {
 					offeringAt: 'Ofrecido',
 					joinedAt: 'Inicio',
 					leavingAt: 'Fin',
-					duration: 'Duración',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Número de vista',
-					result: 'Resultado',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Intentos',
 					resultName: {
-						abandoned: 'Abandonado',
-						cancel: 'Cancelar',
-						success: 'Éxito',
-						failed: 'Fallido',
-						missed: 'Perdido',
-						timeout: 'Tiempo de espera',
-						endless: 'Sin fin',
-						transferred: 'Transferido',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1398,6 +1406,15 @@ export default {
 	filters: {
 		team: 'Equipo',
 		queueType: 'Tipo de cola',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

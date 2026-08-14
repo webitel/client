@@ -4,11 +4,6 @@ import {
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
 
-import FromToField from '../../../../../../../app/components/filters/from-to-filter-value-field.vue';
-import FromToPreview from '../../../../../../../app/components/filters/from-to-filter-value-preview.vue';
-import ResultField from '../components/filters/result-filter-value-field.vue';
-import ResultPreview from '../components/filters/result-filter-value-preview.vue';
-
 /**
  * @description
  * The queue log's filters panel.
@@ -31,14 +26,6 @@ export const filtersOptions: FilterConfigDefinition[] = [
 	FilterOption.Bucket,
 	FilterOption.LeavingAt,
 	FilterOption.OfferingAt,
-	createFilterConfig({
-		name: 'result',
-		valueInputComponent: ResultField,
-		valuePreviewComponent: ResultPreview,
-	}),
-	createFilterConfig({
-		name: 'duration',
-		valueInputComponent: FromToField,
-		valuePreviewComponent: FromToPreview,
-	}),
+	FilterOption.CallReportingResult,
+	FilterOption.AttemptDuration,
 ];
