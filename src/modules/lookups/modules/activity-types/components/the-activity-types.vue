@@ -85,19 +85,23 @@
             </template>
 
             <template #skills="{ item }">
-              <div
+              <wt-display-chip-items
                 v-if="item.skills?.length"
-                class="activity-types__skills"
+                :items="item?.skills"
               >
-                <wt-chip :color="ChipColor.ON_PRIMARY" constrained-by-width>
-                  {{ item.skills[0].name }}
-                </wt-chip>
-                <wt-chip
-                  v-if="item.skills.length > 1"
-                  class="table-row--skills-num"
-                >+{{ item.skills.length - 1 }}</wt-chip>
-              </div>
+                <template #first-item>
+                  <wt-chip color="secondary" constrained-by-width> {{ item.skills[0].name }} </wt-chip>
+                </template>
 
+                <template #items>
+                  <p
+                    v-for="skill of item.skills.slice(1)"
+                    :key="skill.id"
+                  >
+                    {{ skill.name }}
+                  </p>
+                </template>
+              </wt-display-chip-items>
             </template>
 
             <template #actions="{ item }">
@@ -230,10 +234,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style scoped>
-.activity-types__skills {
-  display: flex;
-  gap: var(--spacing-xs);
-}
-</style>
