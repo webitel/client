@@ -39,7 +39,7 @@ configureZod({
 
 setApiServicesConfig({
 	eventBus,
-	i18n
+	i18n,
 });
 
 const setTokenFromUrl = () => {
