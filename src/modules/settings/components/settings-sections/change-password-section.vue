@@ -12,10 +12,11 @@
         :label="t('auth.password')"
         @update:model-value="newPassword = $event"
       />
-      <wt-password
+      <wt-input-text
         v-model:model-value="confirmNewPassword"
         :label="t('auth.confirmPassword')"
         :v="v$.confirmNewPassword"
+				hide-input-value
       />
       <wt-button
         :disabled="v$.$invalid"
