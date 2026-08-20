@@ -19,13 +19,13 @@
         :label="t('objects.lookups.calendars.calendars', 1)"
         :regle-validation="validationFields?.calendar"
         :required="isFieldRequired('calendar')"
-        :search-method="loadCalendarOptions"
+        :search-method="CalendarsAPI.getLookup"
       />
       <wt-single-select
         v-model="modelValue.dncList"
         :disabled="disableUserInput || !hasListsReadAccess"
         :label="t('objects.ccenter.queues.blacklist')"
-        :search-method="loadBlacklistOptions"
+        :search-method="BlacklistsAPI.getLookup"
       />
       <wt-input-number
         v-model="modelValue.priority"
@@ -36,13 +36,14 @@
 
       <wt-single-select
         v-if="specificControls.strategy"
-        v-model="strategy"
+        v-model="modelValue.strategy"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.strategy')"
         :options="strategyOptions"
         :regle-validation="validationFields?.strategy"
         :show-clear="false"
         data-key="value"
+        option-value="value"
         required
       />
 
@@ -52,7 +53,7 @@
         :disabled="disableUserInput || !hasTeamsReadAccess"
         :label="t('objects.team')"
         :regle-validation="validationFields?.team"
-        :search-method="loadTeamOptions"
+        :search-method="TeamsAPI.getLookup"
       />
 
       <wt-single-select
@@ -60,7 +61,7 @@
         v-model="modelValue.ringtone"
         :disabled="disableUserInput || !hasMediaReadAccess"
         :label="t('objects.ccenter.queues.ringtone')"
-        :search-method="loadMediaOptions"
+        :search-method="MediaAPI.getLookup"
       />
 
       <wt-single-select
@@ -69,7 +70,7 @@
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="t('objects.routing.flow.flow', 1)"
         :regle-validation="validationFields?.schema"
-        :search-method="hasFlowsReadAccess && loadFlowOptions"
+        :search-method="hasFlowsReadAccess && FlowsAPI.getLookup"
         required
       />
 
@@ -106,14 +107,14 @@
         v-model="modelValue.grantee"
         :disabled="disableUserInput || !hasRolesReadAccess"
         :label="t('objects.permissions.object.grantee')"
-        :search-method="loadRoleOptions"
+        :search-method="RolesAPI.getLookup"
       />
 
       <wt-multi-select
         v-model="modelValue.tags"
         :disabled="disableUserInput"
         :label="t('vocabulary.tag', 2)"
-        :search-method="loadQueuesTagOptions"
+        :search-method="QueuesAPI.getQueuesTags"
         allow-custom-values
         chips-view
         data-key="name"
@@ -200,22 +201,6 @@ const resourceStrategyOptions = computed(() =>
 	})),
 );
 
-/** the select works in option objects while the queue stores the bare value */
-const strategy = computed({
-	get: () =>
-		strategyOptions.value.find(
-			(option) => option.value === modelValue.value?.strategy,
-		),
-	set: (option) => {
-		modelValue.value.strategy = option?.value;
-	},
-});
-
-const loadCalendarOptions = (params: unknown) => CalendarsAPI.getLookup(params);
-const loadBlacklistOptions = (params: unknown) =>
-	BlacklistsAPI.getLookup(params);
-const loadTeamOptions = (params: unknown) => TeamsAPI.getLookup(params);
-const loadFlowOptions = (params: unknown) => FlowsAPI.getLookup(params);
 const loadServiceFlowOptions = (params: object) =>
 	FlowsAPI.getLookup({
 		...params,
@@ -223,9 +208,6 @@ const loadServiceFlowOptions = (params: object) =>
 			EngineRoutingSchemaType.Service,
 		],
 	});
-const loadMediaOptions = (params: unknown) => MediaAPI.getLookup(params);
-const loadRoleOptions = (params: unknown) => RolesAPI.getLookup(params);
-const loadQueuesTagOptions = QueuesAPI.getQueuesTags;
 </script>
 
 <style

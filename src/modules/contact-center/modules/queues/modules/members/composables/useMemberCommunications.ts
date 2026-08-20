@@ -1,14 +1,6 @@
 import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
 import { computed, type Ref, toRaw } from 'vue';
 
-/**
- * A member's communications, edited in place on the card's draft.
- *
- * These were a vuex sub-collection with their own CRUD actions, but they are
- * never persisted on their own — they save with the member. Mutating the array
- * in place keeps the draft's object identity, which is what the card's
- * "any field edited" watcher compares.
- */
 export const useMemberCommunications = (
 	member: Ref<{
 		communications?: EngineMemberCommunication[];

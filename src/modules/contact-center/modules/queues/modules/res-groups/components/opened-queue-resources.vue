@@ -91,8 +91,6 @@ import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
 import { useQueueResGroupsDatalistStore } from '../stores';
 import ResourcePopup from './opened-queue-resources-popup.vue';
 
-// the card page still passes `namespace` and a vuelidate instance to every tab
-
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();

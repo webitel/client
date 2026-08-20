@@ -5,12 +5,6 @@ import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 /**
- * Shared across the members list and card so moving between them does not
- * refetch the queue.
- */
-const cache = new Map<string, EngineQueue>();
-
-/**
  * The queue these members belong to — its name for the breadcrumb, and its
  * type, which decides whether members can be edited at all.
  */
@@ -24,16 +18,9 @@ export const useParentQueue = () => {
 		queueId,
 		async (id) => {
 			if (!id) return;
-			const cached = cache.get(id);
-			if (cached) {
-				parentQueue.value = cached;
-				return;
-			}
-			const queue = await QueuesAPI.get({
+			parentQueue.value = await QueuesAPI.get({
 				itemId: id,
 			});
-			cache.set(id, queue);
-			parentQueue.value = queue;
 		},
 		{
 			immediate: true,

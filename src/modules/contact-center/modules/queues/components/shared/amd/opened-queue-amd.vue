@@ -96,7 +96,7 @@
           v-model="amd.playback"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.aiPlayback')"
-          :search-method="loadMediaOptions"
+          :search-method="MediaAPI.getLookup"
         />
       </div>
     </form>
@@ -132,8 +132,6 @@ const amd = computed<Record<string, unknown>>(() => {
 	if (!modelValue.value.payload.amd) modelValue.value.payload.amd = {};
 	return modelValue.value.payload.amd as Record<string, unknown>;
 });
-
-const loadMediaOptions = (params: unknown) => MediaAPI.getLookup(params);
 </script>
 
 <style

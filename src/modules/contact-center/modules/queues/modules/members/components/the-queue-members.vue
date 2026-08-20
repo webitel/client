@@ -249,6 +249,8 @@ import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
+import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
 import { useQueueMembersDatalistStore } from '../stores';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
@@ -482,12 +484,25 @@ const {
 	image: imageEmpty,
 	text: textEmpty,
 	primaryActionText: primaryActionTextEmpty,
-} = useTableEmpty({
-	dataList,
-	error,
-	filters: computed(() => filtersManager.value.getAllValues()),
-	isLoading,
-});
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
+	},
+	{
+		image: {
+			empty: {
+				dark: dummyPicDark,
+				light: dummyPicLight,
+			},
+		},
+		text: {
+			empty: t('objects.ccenter.members.emptyWorkspace'),
+		},
+	},
+);
 
 // restoring persisted filters builds their configs, which reach for i18n
 const instance = getCurrentInstance();

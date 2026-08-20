@@ -12,12 +12,13 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="event"
+          v-model="modelValue.event"
           :label="t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
           :regle-validation="validationFields?.event"
           :show-clear="false"
           data-key="value"
+          option-value="value"
           required
         />
         <wt-single-select
@@ -61,7 +62,7 @@ import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
-import HookEvent from '../enums/HookQueueEvent.enum';
+import { HookQueueEvent } from '../enums/HookQueueEvent.enum';
 import { useQueueHooksCardStore } from '../stores';
 
 const emit = defineEmits<{
@@ -93,22 +94,11 @@ const {
 const hookId = computed(() => route.params.hookId);
 
 const eventOptions = computed(() =>
-	Object.values(HookEvent).map((event) => ({
+	Object.values(HookQueueEvent).map((event) => ({
 		name: t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
 		value: event,
 	})),
 );
-
-/** the select works in option objects while the hook stores the bare value */
-const event = computed({
-	get: () =>
-		eventOptions.value.find(
-			(option) => option.value === modelValue.value?.event,
-		),
-	set: (option) => {
-		modelValue.value.event = option?.value;
-	},
-});
 
 const popupTitle = computed(() => {
 	const action = isNew.value ? t('reusable.add') : t('reusable.edit');

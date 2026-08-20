@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const HookQueueEvent = {
 	JOINED: 'joined',
 	ANSWERED: 'answered',
 	OFFERING: 'offering',
@@ -7,4 +7,7 @@ export default Object.freeze({
 	LEAVING: 'leaving',
 	PROCESSING: 'processing',
 	ACTIVE: 'active',
-});
+} as const;
+
+export type HookQueueEvent =
+	(typeof HookQueueEvent)[keyof typeof HookQueueEvent];

@@ -10,7 +10,6 @@ export const useQueueResGroupsDatalistStore =
 		`${QueueResGroupsNamespace}/datalist`,
 		{
 			apiModule: QueueResGroupsAPI,
-			// every tab on the queue card shares one url — see the hooks store
 			disablePersistence: true,
 			headers,
 		},

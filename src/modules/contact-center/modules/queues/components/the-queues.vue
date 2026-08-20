@@ -68,9 +68,15 @@
                   @filter:delete="deleteFilter"
                 />
               </template>
-              <template #filters>
-                <wt-badge :hidden="!hasPanelFilters" />
-              </template>
+              
+            <template #filters="{ action, onClick }">
+              <wt-badge :hidden="!hasAnyFilters">
+                <wt-icon-action
+                  :action="action"
+                  @click="onClick"
+                />
+              </wt-badge>
+            </template>
 
               <!-- https://webitel.atlassian.net/browse/WTEL-8681 -->
               <!-- <wt-icon-btn
@@ -217,7 +223,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, getCurrentInstance, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
@@ -268,6 +274,8 @@ const {
 	deleteFilter,
 } = tableStore;
 
+initialize();
+
 const isFiltersPanelShown = ref(false);
 const isQueueSelectPopup = ref(false);
 const isAttemptsResetPopup = ref(false);
@@ -305,9 +313,8 @@ const path = computed(() => [
 	},
 ]);
 
-/** the search bar is not part of the panel, so it must not light the badge */
-const hasPanelFilters = computed(() =>
-	filtersManager.value.getAllKeys().some((name) => name !== 'search'),
+const hasAnyFilters = computed(
+	() => filtersManager.value.getAllKeys().length > 0,
 );
 
 const queueTypeName = (type: number) => {
@@ -378,13 +385,6 @@ const {
 	filters: computed(() => filtersManager.value.getAllValues()),
 	isLoading,
 });
-
-/**
- * Restoring persisted filters builds their configs, which reach for the app's
- * i18n — so this has to run with the app context active.
- */
-const instance = getCurrentInstance();
-onMounted(() => instance?.appContext.app.runWithContext(() => initialize()));
 </script>
 
 <style

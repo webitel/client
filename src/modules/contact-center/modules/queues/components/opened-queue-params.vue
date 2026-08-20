@@ -77,12 +77,13 @@
       />
       <wt-single-select
         v-if="specificControls.statisticTime"
-        v-model="statisticTime"
+        v-model="payload.statisticTime"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.statisticTime')"
         :options="statisticTimeOptions"
         :show-clear="false"
         data-key="value"
+        option-value="value"
       />
       <wt-input-number
         v-if="specificControls.maxCalls"
@@ -298,7 +299,7 @@ import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useQueueTypeControls } from '../composables/useQueueTypeControls';
 import StatisticTimeList from '../lookups/StatisticTime.lookup';
-import ToneList from '../lookups/Tone.lookup';
+import { type Tone, ToneList, type ToneValue } from '../lookups/Tone.lookup';
 import type { Queue } from '../types/Queue';
 
 const modelValue = defineModel<Queue>({
@@ -335,16 +336,6 @@ const statisticTimeOptions = computed(() =>
 	})),
 );
 
-const statisticTime = computed({
-	get: () =>
-		statisticTimeOptions.value.find(
-			(option) => option.value === payload.value.statisticTime,
-		),
-	set: (option) => {
-		payload.value.statisticTime = option?.value;
-	},
-});
-
 /**
  * Inbound and the two auto-dialers fall back to the default alert tone when
  * none is stored. https://my.webitel.com/browse/WTEL-3268
@@ -355,9 +346,9 @@ const toneDefaultingTypes: number[] = [
 	QueueType.PREDICTIVE_DIALER,
 ];
 
-const autoAnswerTone = computed({
+const autoAnswerTone = computed<Tone | undefined>({
 	get: () => {
-		const stored = payload.value.autoAnswerTone;
+		const stored = payload.value.autoAnswerTone as ToneValue | undefined;
 		if (stored) return ToneList.find((tone) => tone.value === stored);
 		if (toneDefaultingTypes.includes(modelValue.value?.type as number)) {
 			return ToneList.find((tone) => tone.value === 'default');

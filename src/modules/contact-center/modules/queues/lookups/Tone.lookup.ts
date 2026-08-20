@@ -1,4 +1,4 @@
-export default Object.freeze([
+export const ToneList = [
 	{
 		name: 'None',
 		value: 'none',
@@ -43,4 +43,7 @@ export default Object.freeze([
 		name: 'US',
 		value: 'us',
 	},
-]);
+] as const;
+
+export type Tone = (typeof ToneList)[number];
+export type ToneValue = Tone['value'];

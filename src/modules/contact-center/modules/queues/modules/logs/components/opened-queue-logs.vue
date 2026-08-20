@@ -31,11 +31,6 @@
       </div>
     </header>
 
-    <!--
-      The panel lives in the tab rather than in the card's actions panel. The
-      card used to render it through a `currentTab.filters` component name,
-      which meant the page had to know about one tab's internals.
-    -->
     <the-queue-logs-filters
       v-show="isFiltersPanelShown"
       @hide="isFiltersPanelShown = false"

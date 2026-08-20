@@ -27,11 +27,6 @@ const { addFilter, updateFilter, deleteFilter } = tableStore;
 
 /**
  * Keeps the search bar's value — it is not part of this panel.
- *
- * The old panel also had to preserve a `?type=` query param here, because it
- * reset by rewriting the whole route query and did so on unmount, wiping the
- * param the create-queue popup had just set. The manager mutates itself and
- * persistence writes through its own key, so there is nothing to protect.
  */
 const resetFilters = () => {
 	filtersManager.value.reset({

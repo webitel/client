@@ -45,11 +45,6 @@ import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import type { Queue, QueueVariablePair } from '../../../types/Queue';
 
-/**
- * Variables are an editable pair list here and a map on the wire; `QueuesAPI`
- * converts between the two. Rows are mutated in place so the card's
- * "any field edited" watcher keeps seeing the same object identity.
- */
 const modelValue = defineModel<Queue>({
 	required: true,
 });
