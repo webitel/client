@@ -12,6 +12,7 @@
         :label="t('objects.ccenter.queues.originateTimeout')"
         :model-value="payload.originateTimeout"
         :regle-validation="payloadValidation?.originateTimeout"
+        :required="isFieldRequired('payload.originateTimeout')"
         no-max-hours
         @update:model-value="payload.originateTimeout = +$event"
       />
@@ -21,6 +22,7 @@
         :label="t('objects.ccenter.queues.maxWaitTime')"
         :model-value="payload.maxWaitTime"
         :regle-validation="payloadValidation?.maxWaitTime"
+        :required="isFieldRequired('payload.maxWaitTime')"
         no-max-hours
         @update:model-value="payload.maxWaitTime = +$event"
       />
@@ -63,6 +65,7 @@
         :label="t('objects.ccenter.queues.waitBetweenRetries')"
         :model-value="payload.waitBetweenRetries"
         :regle-validation="payloadValidation?.waitBetweenRetries"
+        :required="isFieldRequired('payload.waitBetweenRetries')"
         no-max-hours
         @update:model-value="payload.waitBetweenRetries = +$event"
       />
