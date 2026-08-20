@@ -81,6 +81,7 @@ import { useUserAccessControl } from '../../../../../../../../app/composables/us
 import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
 import ResourcesAPI from '../../../../../resources/api/resources';
 import QueuesRoutesName from '../../../../router/_internals/QueuesRoutesName.enum';
+import { emptyCommunication } from '../../composables/useMemberCommunications';
 
 /**
  * Deliberately not `useNestedCardComponent`.
@@ -119,16 +120,6 @@ const communicationIndex = computed(
 );
 
 const isNew = computed(() => communicationIndex.value === 'new');
-
-const emptyCommunication = (): EngineMemberCommunication => ({
-	destination: '',
-	display: '',
-	priority: 0,
-	type: {},
-	resource: {},
-	description: '',
-	dtmf: '',
-});
 
 const draft = ref<EngineMemberCommunication>(emptyCommunication());
 

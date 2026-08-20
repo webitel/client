@@ -1,6 +1,27 @@
 import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
 import { computed, type Ref, toRaw } from 'vue';
 
+/**
+ * A blank row for the popup.
+ *
+ * The two lookups are left `undefined` rather than `{}`: `memberCommunicationSchema`
+ * requires `type`, and for a field holding an empty object regle files the issue
+ * under an index of a collection nothing reads — the select shows no error,
+ * `r$.$error` stays false, and the popup's save then aborts on `$validate()`
+ * without a word.
+ *
+ * [WTEL-10140](https://webitel.atlassian.net/browse/WTEL-10140)
+ */
+export const emptyCommunication = (): EngineMemberCommunication => ({
+	destination: '',
+	display: '',
+	priority: 0,
+	type: undefined,
+	resource: undefined,
+	description: '',
+	dtmf: '',
+});
+
 export const useMemberCommunications = (
 	member: Ref<{
 		communications?: EngineMemberCommunication[];

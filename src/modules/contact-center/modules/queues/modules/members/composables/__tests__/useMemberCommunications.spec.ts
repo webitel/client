@@ -2,7 +2,10 @@ import type { EngineMemberInQueue } from '@webitel/api-services/gen/models';
 import { describe, expect, it } from 'vitest';
 import { ref, toRaw } from 'vue';
 
-import { useMemberCommunications } from '../useMemberCommunications';
+import {
+	emptyCommunication,
+	useMemberCommunications,
+} from '../useMemberCommunications';
 
 const communication = (destination: string, typeId = '1') => ({
 	destination,
@@ -118,5 +121,31 @@ describe('useMemberCommunications', () => {
 		update(0, communication('380002'));
 
 		expect(draft.value).toBe(original);
+	});
+});
+
+/**
+ * The popup's save aborts on `$validate()` without rendering anything when a
+ * required lookup holds `{}` — regle files the issue under a collection index
+ * nothing reads. `undefined` is what makes the select report it.
+ *
+ * [WTEL-10140](https://webitel.atlassian.net/browse/WTEL-10140)
+ */
+describe('emptyCommunication', () => {
+	it('leaves the lookups undefined rather than empty objects', () => {
+		const blank = emptyCommunication();
+
+		expect(blank.type).toBeUndefined();
+		expect(blank.resource).toBeUndefined();
+	});
+
+	it('still seeds the scalar fields the form binds to', () => {
+		expect(emptyCommunication()).toMatchObject({
+			destination: '',
+			display: '',
+			dtmf: '',
+			description: '',
+			priority: 0,
+		});
 	});
 });
