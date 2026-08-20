@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="modelValue.event"
+          v-model:model-value="modelValue.event"
           :label="t('objects.ccenter.queues.hooks.event')"
           :options="eventOptions"
           :regle-validation="validationFields?.event"
@@ -22,7 +22,7 @@
           required
         />
         <wt-single-select
-          v-model="modelValue.schema"
+          v-model:model-value="modelValue.schema"
           :disabled="!hasFlowsReadAccess"
           :label="t('objects.routing.flow.flow', 1)"
           :regle-validation="validationFields?.schema"

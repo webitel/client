@@ -7,37 +7,37 @@
     </header>
     <form class="object-input-grid">
       <wt-input-text
-        v-model="modelValue.name"
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
         :label="t('objects.name')"
         :regle-validation="validationFields?.name"
         required
       />
       <wt-input-number
-        v-model="modelValue.priority"
+        v-model:model-value="modelValue.priority"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.priority')"
       />
       <wt-datepicker
-        v-model="modelValue.expireAt"
+        v-model:model-value="modelValue.expireAt"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.expire')"
         show-time
       />
       <wt-single-select
-        v-model="modelValue.timezone"
+        v-model:model-value="modelValue.timezone"
         :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="t('objects.ccenter.queues.timezone')"
         :search-method="loadTimezoneOptions"
       />
       <wt-single-select
-        v-model="modelValue.bucket"
+        v-model:model-value="modelValue.bucket"
         :disabled="disableUserInput || !hasBucketsReadAccess"
         :label="t('objects.lookups.buckets.buckets', 1)"
         :search-method="loadBucketsOptions"
       />
       <wt-single-select
-        v-model="modelValue.agent"
+        v-model:model-value="modelValue.agent"
         :disabled="disableUserInput || !hasAgentsReadAccess"
         :label="t('objects.ccenter.agents.agents', 1)"
         :search-method="loadAgentsOptions"

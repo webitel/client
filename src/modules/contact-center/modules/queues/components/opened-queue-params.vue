@@ -77,7 +77,7 @@
       />
       <wt-single-select
         v-if="specificControls.statisticTime"
-        v-model="payload.statisticTime"
+        v-model:model-value="payload.statisticTime"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.statisticTime')"
         :options="statisticTimeOptions"
@@ -87,20 +87,20 @@
       />
       <wt-input-number
         v-if="specificControls.maxCalls"
-        v-model="payload.maxCalls"
+        v-model:model-value="payload.maxCalls"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxCalls')"
         :label-props="{ hint: t('objects.ccenter.queues.maxCallsHint') }"
       />
       <wt-input-number
         v-if="specificControls.minAttempts"
-        v-model="payload.minAttempts"
+        v-model:model-value="payload.minAttempts"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.minAttempts')"
       />
       <wt-input-number
         v-if="specificControls.maxAttempts"
-        v-model="payload.maxAttempts"
+        v-model:model-value="payload.maxAttempts"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxAttempts')"
         :regle-validation="payloadValidation?.maxAttempts"
@@ -108,37 +108,37 @@
       />
       <wt-input-number
         v-if="specificControls.maxAgentLine"
-        v-model="payload.maxAgentLine"
+        v-model:model-value="payload.maxAgentLine"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxAgentLine')"
       />
       <wt-input-number
         v-if="specificControls.dialingRate"
-        v-model="payload.dialingRate"
+        v-model:model-value="payload.dialingRate"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.dialingRate')"
       />
       <wt-input-number
         v-if="specificControls.maxAgentLose"
-        v-model="payload.maxAgentLose"
+        v-model:model-value="payload.maxAgentLose"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxAgentLose')"
       />
       <wt-input-number
         v-if="specificControls.playbackSilence"
-        v-model="payload.playbackSilence"
+        v-model:model-value="payload.playbackSilence"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.playbackSilence')"
       />
       <wt-input-number
         v-if="specificControls.abandonRateAdjustment"
-        v-model="payload.abandonRateAdjustment"
+        v-model:model-value="payload.abandonRateAdjustment"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.abandonRateAdjustment')"
       />
       <wt-single-select
         v-if="specificControls.autoAnswerTone"
-        v-model="autoAnswerTone"
+        v-model:model-value="autoAnswerTone"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.autoAnswerTone')"
         :options="ToneList"
@@ -146,38 +146,38 @@
       />
       <wt-input-number
         v-if="specificControls.maxWaitingSize"
-        v-model="payload.maxWaitingSize"
+        v-model:model-value="payload.maxWaitingSize"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxWaitingSize')"
       />
       <wt-input-number
         v-if="specificControls.targetAbandonedRate"
-        v-model="payload.targetAbandonedRate"
+        v-model:model-value="payload.targetAbandonedRate"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.targetAbandonedRate')"
       />
       <wt-input-number
         v-if="specificControls.minOnlineAgents"
-        v-model="payload.minOnlineAgents"
+        v-model:model-value="payload.minOnlineAgents"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.minOnlineAgents')"
         :regle-validation="payloadValidation?.minOnlineAgents"
       />
       <wt-input-number
         v-if="specificControls.maxAbandonedRate"
-        v-model="payload.maxAbandonedRate"
+        v-model:model-value="payload.maxAbandonedRate"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxAbandonedRate')"
       />
       <wt-input-number
         v-if="specificControls.maxMemberLimit"
-        v-model="payload.maxMemberLimit"
+        v-model:model-value="payload.maxMemberLimit"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxMemberLimit')"
       />
       <wt-input-number
         v-if="specificControls.progressiveCount"
-        v-model="payload.progressiveCount"
+        v-model:model-value="payload.progressiveCount"
         :disabled="disableUserInput"
         :label="t('objects.queue.progressiveCount')"
         :regle-validation="payloadValidation?.progressiveCount"
@@ -185,7 +185,7 @@
       />
       <wt-switcher
         v-if="specificControls.waitBetweenRetriesDesc"
-        v-model="payload.waitBetweenRetriesDesc"
+        v-model:model-value="payload.waitBetweenRetriesDesc"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.waitBetweenRetriesDesc')"
       />
@@ -200,7 +200,7 @@
             @update:model-value="payload.loadFactor = +$event"
           />
           <wt-input-number
-            v-model="payload.loadFactor"
+            v-model:model-value="payload.loadFactor"
             :max="100"
             :min="0"
           />
@@ -208,82 +208,82 @@
       </div>
       <wt-switcher
         v-if="specificControls.strictCircuit"
-        v-model="payload.strictCircuit"
+        v-model:model-value="payload.strictCircuit"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.strictCircuit')"
       />
       <wt-switcher
         v-if="specificControls.perNumbers"
-        v-model="payload.perNumbers"
+        v-model:model-value="payload.perNumbers"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.perNumbers')"
       />
       <wt-switcher
         v-if="specificControls.retryAbandoned"
-        v-model="payload.retryAbandoned"
+        v-model:model-value="payload.retryAbandoned"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.retryAbandoned')"
       />
       <wt-switcher
         v-if="specificControls.recordings && payload.recordings"
-        v-model="payload.recordAll"
+        v-model:model-value="payload.recordAll"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.recordAll')"
       />
       <wt-switcher
         v-if="specificControls.recordings"
-        v-model="payload.recordings"
+        v-model:model-value="payload.recordings"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.recordings')"
       />
       <wt-switcher
         v-if="specificControls.allowGreetingAgent"
-        v-model="payload.allowGreetingAgent"
+        v-model:model-value="payload.allowGreetingAgent"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.allowGreetingAgent')"
       />
       <wt-switcher
         v-if="specificControls.endless"
         v-show="!modelValue.processing"
-        v-model="payload.endless"
+        v-model:model-value="payload.endless"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.endless')"
       />
       <wt-switcher
         v-if="specificControls.stickyAgent"
-        v-model="modelValue.stickyAgent"
+        v-model:model-value="modelValue.stickyAgent"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.stickyAgent')"
       />
       <wt-input-number
         v-if="specificControls.stickyAgentSec"
         v-show="modelValue.stickyAgent"
-        v-model="payload.stickyAgentSec"
+        v-model:model-value="payload.stickyAgentSec"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.stickyAgentSec')"
       />
       <wt-switcher
         v-if="specificControls.stickyIgnoreStatus"
         v-show="modelValue.stickyAgent"
-        v-model="payload.stickyIgnoreStatus"
+        v-model:model-value="payload.stickyIgnoreStatus"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.stickyIgnoreStatus')"
       />
       <wt-switcher
         v-if="specificControls.ignoreCalendar"
-        v-model="payload.ignoreCalendar"
+        v-model:model-value="payload.ignoreCalendar"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.ignoreCalendar')"
       />
       <wt-switcher
         v-if="specificControls.manualDistribution"
-        v-model="payload.manualDistribution"
+        v-model:model-value="payload.manualDistribution"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.manualDistribution')"
       />
       <wt-switcher
         v-if="specificControls.lastMessageTimeout"
-        v-model="payload.lastMessageTimeout"
+        v-model:model-value="payload.lastMessageTimeout"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.lastMessageTimeout')"
       />

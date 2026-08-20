@@ -8,7 +8,7 @@
     <div class="object-input-area-grid">
       <wt-switcher
         v-if="specificControls['taskProcessing.enabled']"
-        v-model="taskProcessing.enabled"
+        v-model:model-value="taskProcessing.enabled"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.enabled')"
         class="object-input-area-grid__processing-enabled"
@@ -16,7 +16,7 @@
 
       <wt-single-select
         v-if="specificControls['taskProcessing.formSchema']"
-        v-model="taskProcessing.formSchema"
+        v-model:model-value="taskProcessing.formSchema"
         :disabled="disableFormSchemaInput"
         :label="t('objects.ccenter.queues.processing.formSchema')"
         :search-method="hasFlowsReadAccess && loadFormSchemaOptions"
@@ -26,7 +26,7 @@
       <wt-input-number
         v-if="specificControls['taskProcessing.sec']"
         v-show="isProcessingEnabled"
-        v-model="taskProcessing.sec"
+        v-model:model-value="taskProcessing.sec"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.sec')"
         class="object-input-area-grid__processing-sec"
@@ -35,7 +35,7 @@
       <wt-switcher
         v-if="specificControls['taskProcessing.prolongationOptions.enabled']"
         v-show="isProcessingEnabled"
-        v-model="prolongationOptions.enabled"
+        v-model:model-value="prolongationOptions.enabled"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.allowProlongation')"
         class="object-input-area-grid__processing-allow-prolongation"
@@ -46,7 +46,7 @@
       <wt-input-number
         v-if="specificControls['taskProcessing.prolongationOptions.renewalSec']"
         v-show="isProlongationEnabled"
-        v-model="taskProcessing.renewalSec"
+        v-model:model-value="taskProcessing.renewalSec"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.renewalSec')"
         class="object-input-area-grid__processing-renewal-sec"
@@ -55,7 +55,7 @@
       <wt-input-number
         v-if="specificControls['taskProcessing.prolongationOptions.repeatsNumber']"
         v-show="isProlongationEnabled"
-        v-model="prolongationOptions.repeatsNumber"
+        v-model:model-value="prolongationOptions.repeatsNumber"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.repeatsNumber')"
         :min="1"
@@ -65,7 +65,7 @@
       <wt-input-number
         v-if="specificControls['taskProcessing.prolongationOptions.prolongationTimeSec']"
         v-show="isProlongationEnabled"
-        v-model="prolongationOptions.prolongationTimeSec"
+        v-model:model-value="prolongationOptions.prolongationTimeSec"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.prolongationTimeSec')"
         :min="1"
@@ -75,7 +75,7 @@
       <wt-switcher
         v-if="specificControls['taskProcessing.prolongationOptions.isTimeoutRetry']"
         v-show="isProlongationEnabled"
-        v-model="prolongationOptions.isTimeoutRetry"
+        v-model:model-value="prolongationOptions.isTimeoutRetry"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.processing.isTimeoutRetry')"
         class="object-input-area-grid__processing-timeout-retry"

@@ -7,14 +7,14 @@
     </header>
     <div class="object-input-grid">
       <wt-input-text
-        v-model="modelValue.name"
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
         :label="t('objects.name')"
         :regle-validation="validationFields?.name"
         required
       />
       <wt-single-select
-        v-model="modelValue.calendar"
+        v-model:model-value="modelValue.calendar"
         :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="t('objects.lookups.calendars.calendars', 1)"
         :regle-validation="validationFields?.calendar"
@@ -22,13 +22,13 @@
         :search-method="CalendarsAPI.getLookup"
       />
       <wt-single-select
-        v-model="modelValue.dncList"
+        v-model:model-value="modelValue.dncList"
         :disabled="disableUserInput || !hasListsReadAccess"
         :label="t('objects.ccenter.queues.blacklist')"
         :search-method="BlacklistsAPI.getLookup"
       />
       <wt-input-number
-        v-model="modelValue.priority"
+        v-model:model-value="modelValue.priority"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.priority')"
         :regle-validation="validationFields?.priority"
@@ -36,7 +36,7 @@
 
       <wt-single-select
         v-if="specificControls.strategy"
-        v-model="modelValue.strategy"
+        v-model:model-value="modelValue.strategy"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.strategy')"
         :options="strategyOptions"
@@ -49,7 +49,7 @@
 
       <wt-single-select
         v-if="specificControls.team"
-        v-model="modelValue.team"
+        v-model:model-value="modelValue.team"
         :disabled="disableUserInput || !hasTeamsReadAccess"
         :label="t('objects.team')"
         :regle-validation="validationFields?.team"
@@ -58,7 +58,7 @@
 
       <wt-single-select
         v-if="specificControls.ringtone"
-        v-model="modelValue.ringtone"
+        v-model:model-value="modelValue.ringtone"
         :disabled="disableUserInput || !hasMediaReadAccess"
         :label="t('objects.ccenter.queues.ringtone')"
         :search-method="MediaAPI.getLookup"
@@ -66,7 +66,7 @@
 
       <wt-single-select
         v-if="specificControls.schema"
-        v-model="modelValue.schema"
+        v-model:model-value="modelValue.schema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="t('objects.routing.flow.flow', 1)"
         :regle-validation="validationFields?.schema"
@@ -76,7 +76,7 @@
 
       <wt-single-select
         v-if="specificControls.doSchema"
-        v-model="modelValue.doSchema"
+        v-model:model-value="modelValue.doSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="t('objects.ccenter.queues.preSchema')"
         :search-method="hasFlowsReadAccess && loadServiceFlowOptions"
@@ -84,7 +84,7 @@
 
       <wt-single-select
         v-if="specificControls.resourceStrategy"
-        v-model="modelValue.payload.resourceStrategy"
+        v-model:model-value="modelValue.payload.resourceStrategy"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.resourceStrategy.resourceStrategy')"
         :options="resourceStrategyOptions"
@@ -96,7 +96,7 @@
 
       <wt-single-select
         v-if="specificControls.afterSchema"
-        v-model="modelValue.afterSchema"
+        v-model:model-value="modelValue.afterSchema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="t('objects.ccenter.queues.afterSchema')"
         :search-method="hasFlowsReadAccess && loadServiceFlowOptions"
@@ -104,14 +104,14 @@
 
       <wt-single-select
         v-if="specificControls.grantee"
-        v-model="modelValue.grantee"
+        v-model:model-value="modelValue.grantee"
         :disabled="disableUserInput || !hasRolesReadAccess"
         :label="t('objects.permissions.object.grantee')"
         :search-method="RolesAPI.getLookup"
       />
 
       <wt-multi-select
-        v-model="modelValue.tags"
+        v-model:model-value="modelValue.tags"
         :disabled="disableUserInput"
         :label="t('vocabulary.tag', 2)"
         :search-method="QueuesAPI.getQueuesTags"
@@ -122,7 +122,7 @@
       />
 
       <wt-textarea
-        v-model="modelValue.description"
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
         :label="t('objects.description')"
       />

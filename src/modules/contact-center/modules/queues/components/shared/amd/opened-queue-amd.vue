@@ -7,13 +7,13 @@
     </header>
     <form class="object-input-grid">
       <wt-switcher
-        v-model="amd.enabled"
+        v-model:model-value="amd.enabled"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.enabled')"
       />
       <wt-switcher
         v-if="amd.enabled"
-        v-model="amd.ai"
+        v-model:model-value="amd.ai"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.ai')"
       />
@@ -22,59 +22,59 @@
         class="amd-content-block"
       >
         <wt-input-number
-          v-model="amd.maxNumberOfWords"
+          v-model:model-value="amd.maxNumberOfWords"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.maxNumberOfWords')"
         />
         <wt-input-number
-          v-model="amd.betweenWordsSilence"
+          v-model:model-value="amd.betweenWordsSilence"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.betweenWordsSilence')"
         />
         <wt-input-number
-          v-model="amd.maxWordLength"
+          v-model:model-value="amd.maxWordLength"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.maxWordLength')"
         />
         <wt-input-number
-          v-model="amd.minWordLength"
+          v-model:model-value="amd.minWordLength"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.minWordLength')"
         />
         <wt-input-number
-          v-model="amd.totalAnalysisTime"
+          v-model:model-value="amd.totalAnalysisTime"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.totalAnalysisTime')"
         />
         <wt-input-number
-          v-model="amd.silenceThreshold"
+          v-model:model-value="amd.silenceThreshold"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.silenceThreshold')"
         />
         <wt-input-number
-          v-model="amd.afterGreetingSilence"
+          v-model:model-value="amd.afterGreetingSilence"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.afterGreetingSilence')"
         />
         <wt-input-number
-          v-model="amd.greeting"
+          v-model:model-value="amd.greeting"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.greeting')"
         />
         <wt-input-number
-          v-model="amd.initialSilence"
+          v-model:model-value="amd.initialSilence"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.initialSilence')"
         />
         <div />
         <wt-switcher
-          v-model="amd.allowNotSure"
+          v-model:model-value="amd.allowNotSure"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.allowNotSure')"
         />
         <wt-switcher
           v-if="amd.allowNotSure"
-          v-model="amd.silenceNotSure"
+          v-model:model-value="amd.silenceNotSure"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.silenceNotSure')"
         />
@@ -84,7 +84,7 @@
         class="amd-content-block"
       >
         <wt-multi-select
-          v-model="amd.positive"
+          v-model:model-value="amd.positive"
           :data-key="null"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.positiveLabels')"
@@ -93,7 +93,7 @@
           chips-view
         />
         <wt-single-select
-          v-model="amd.playback"
+          v-model:model-value="amd.playback"
           :disabled="disableUserInput"
           :label="t('objects.ccenter.queues.aiPlayback')"
           :search-method="MediaAPI.getLookup"

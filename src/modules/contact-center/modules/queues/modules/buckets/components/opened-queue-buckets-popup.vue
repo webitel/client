@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="modelValue.bucket"
+          v-model:model-value="modelValue.bucket"
           :disabled="!hasBucketsReadAccess"
           :label="t('objects.lookups.buckets.buckets', 1)"
           :regle-validation="validationFields?.bucket"
@@ -20,7 +20,7 @@
           required
         />
         <wt-input-number
-          v-model="modelValue.priority"
+          v-model:model-value="modelValue.priority"
           :label="t('objects.ccenter.queues.bucketPriority')"
           :regle-validation="validationFields?.priority"
           required

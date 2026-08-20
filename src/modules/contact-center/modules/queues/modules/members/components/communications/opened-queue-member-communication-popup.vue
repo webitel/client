@@ -15,13 +15,13 @@
         @submit.prevent="save"
       >
         <wt-input-text
-          v-model="draft.destination"
+          v-model:model-value="draft.destination"
           :label="t('objects.ccenter.members.destination')"
           :regle-validation="r$.$fields.destination"
           required
         />
         <wt-single-select
-          v-model="draft.type"
+          v-model:model-value="draft.type"
           :disabled="!hasCommunicationsReadAccess"
           :label="t('objects.lookups.communications.communications', 1)"
           :regle-validation="r$.$fields.type"
@@ -30,26 +30,26 @@
           required
         />
         <wt-single-select
-          v-model="draft.resource"
+          v-model:model-value="draft.resource"
           :disabled="!hasResourcesReadAccess"
           :label="t('objects.ccenter.res.res', 1)"
           :search-method="loadResources"
         />
         <wt-input-text
-          v-model="draft.display"
+          v-model:model-value="draft.display"
           :label="t('objects.ccenter.members.display')"
         />
         <wt-input-text
-          v-model="draft.dtmf"
+          v-model:model-value="draft.dtmf"
           :label="t('objects.ccenter.members.dtmf')"
           :regle-validation="r$.$fields.dtmf"
         />
         <wt-input-number
-          v-model="draft.priority"
+          v-model:model-value="draft.priority"
           :label="t('objects.ccenter.members.priority')"
         />
         <wt-textarea
-          v-model="draft.description"
+          v-model:model-value="draft.description"
           :label="t('objects.description')"
         />
       </form>

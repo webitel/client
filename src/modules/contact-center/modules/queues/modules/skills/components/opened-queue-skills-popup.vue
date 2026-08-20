@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="modelValue.skill"
+          v-model:model-value="modelValue.skill"
           :disabled="!hasSkillsReadAccess"
           :label="t('objects.lookups.skills.skills', 1)"
           :regle-validation="validationFields?.skill"
@@ -21,24 +21,24 @@
           required
         />
         <wt-input-number
-          v-model="modelValue.lvl"
+          v-model:model-value="modelValue.lvl"
           :label="t('objects.lookups.skills.lvl')"
           :regle-validation="validationFields?.lvl"
         />
         <div class="input-row-wrap">
           <wt-input-number
-            v-model="modelValue.minCapacity"
+            v-model:model-value="modelValue.minCapacity"
             :label="t('objects.lookups.skills.minCapacity')"
             :regle-validation="validationFields?.minCapacity"
           />
           <wt-input-number
-            v-model="modelValue.maxCapacity"
+            v-model:model-value="modelValue.maxCapacity"
             :label="t('objects.lookups.skills.maxCapacity')"
             :regle-validation="validationFields?.maxCapacity"
           />
         </div>
         <wt-multi-select
-          v-model="modelValue.buckets"
+          v-model:model-value="modelValue.buckets"
           :disabled="!hasBucketsReadAccess"
           :label="t('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"

@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="modelValue.resourceGroup"
+          v-model:model-value="modelValue.resourceGroup"
           :label="t('objects.ccenter.resGroups.resGroups', 1)"
           :regle-validation="validationFields?.resourceGroup"
           :search-method="loadResGroupsOptions"

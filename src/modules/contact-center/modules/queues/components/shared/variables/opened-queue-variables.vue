@@ -18,12 +18,12 @@
           class="value-pair"
         >
           <wt-input-text
-            v-model="variable.key"
+            v-model:model-value="variable.key"
             :disabled="disableUserInput"
             :placeholder="t('objects.ccenter.queues.varKey')"
           />
           <wt-input-text
-            v-model="variable.value"
+            v-model:model-value="variable.value"
             :disabled="disableUserInput"
             :placeholder="t('objects.ccenter.queues.varVal')"
           />
