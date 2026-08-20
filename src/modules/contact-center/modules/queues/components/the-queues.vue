@@ -46,11 +46,7 @@
             {{ t('objects.ccenter.queues.allQueues') }}
           </h3>
           <div class="table-title__actions-wrap">
-            <queues-global-state-switcher
-              ref="globalStateSwitcher"
-              :disabled="!hasUpdateAccess"
-              @changed="loadDataList"
-            />
+            <queues-global-state-switcher :disabled="!hasUpdateAccess" />
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.DELETE]"
               :disabled:delete="!hasDeleteAccess || !selected.length"
@@ -220,13 +216,7 @@ import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import {
-	computed,
-	getCurrentInstance,
-	onMounted,
-	ref,
-	useTemplateRef,
-} from 'vue';
+import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
@@ -236,7 +226,7 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useDeleteConfirmation } from '../composables/useDeleteConfirmation';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import { useQueuesDatalistStore } from '../stores';
+import { useQueuesDatalistStore, useQueuesGlobalStateStore } from '../stores';
 import type { Queue } from '../types/Queue';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
@@ -250,6 +240,7 @@ const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 	useUserAccessControl();
 
 const tableStore = useQueuesDatalistStore();
+const { fetchGlobalState } = useQueuesGlobalStateStore();
 
 const {
 	dataList,
@@ -280,8 +271,6 @@ const {
 const isFiltersPanelShown = ref(false);
 const isQueueSelectPopup = ref(false);
 const isAttemptsResetPopup = ref(false);
-
-const globalStateSwitcher = useTemplateRef('globalStateSwitcher');
 
 /**
  * What `object-list-popup` accepts. The generated resource models are
@@ -370,7 +359,7 @@ const changeStateItem = async (index: number, value: boolean) => {
 		value,
 	});
 	// the global switcher reflects the whole filtered set, so it moves too
-	await globalStateSwitcher.value?.fetchGlobalState();
+	await fetchGlobalState();
 };
 
 const resetAttempts = async (resetAttemptsForm: unknown) => {
