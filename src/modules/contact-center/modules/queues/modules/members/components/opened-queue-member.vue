@@ -11,6 +11,7 @@
         <template #primary-action>
           <wt-button-select
             :color="disabledSave ? 'secondary' : 'primary'"
+            :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"

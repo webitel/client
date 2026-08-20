@@ -2,7 +2,6 @@
   <wt-popup
     v-bind="$attrs"
     :shown="!!communicationIndex"
-    overflow
     size="sm"
     @close="close"
   >

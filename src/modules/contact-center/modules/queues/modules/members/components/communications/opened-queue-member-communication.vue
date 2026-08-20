@@ -14,7 +14,7 @@
 
     <header class="table-title">
       <h3
-        :class="{ invalid: validationFields?.communications?.$error }"
+        :class="{ invalid: isMissingCommunication }"
         class="table-title__title"
       >
         {{ t('objects.lookups.communications.communications', 2) }}
@@ -97,7 +97,7 @@ const modelValue = defineModel<EngineMemberInQueue>({
 	required: true,
 });
 
-defineProps<{
+const { validationFields } = defineProps<{
 	// biome-ignore lint/suspicious/noExplicitAny: regle's field status shape
 	validationFields?: Record<string, any>;
 }>();
@@ -118,6 +118,17 @@ const {
 } = useMemberCommunications(modelValue);
 
 const selected = ref<EngineMemberCommunication[]>([]);
+
+/**
+ * The schema requires at least one communication, but the rule sits on the
+ * array — there is no input of its own to carry the message, and the save
+ * button is disabled before the user can press it and see regle's version.
+ * So the title reports it from the state directly.
+ */
+const isMissingCommunication = computed(
+	() =>
+		!communications.value.length || !!validationFields?.communications?.$error,
+);
 
 const {
 	isVisible: isDeleteConfirmationPopup,
@@ -172,4 +183,12 @@ const removeSelected = () => {
 <style
   lang="scss"
   scoped
-></style>
+>
+/**
+ * `communications` is required by the schema but has no input of its own to
+ * carry the message, so the section title is what reports it.
+ */
+.table-title__title.invalid {
+  color: var(--error-color);
+}
+</style>
