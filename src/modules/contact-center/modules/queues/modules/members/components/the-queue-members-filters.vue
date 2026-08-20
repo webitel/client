@@ -14,7 +14,10 @@
 import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-datalist/filters';
 import { storeToRefs } from 'pinia';
 
-import { filtersOptions } from '../configs/filtersOptions';
+import {
+	defaultMemberPriorityFilter,
+	filtersOptions,
+} from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores';
 
 const emit = defineEmits<{
@@ -25,12 +28,17 @@ const tableStore = useQueueMembersDatalistStore();
 const { filtersManager } = storeToRefs(tableStore);
 const { addFilter, updateFilter, deleteFilter } = tableStore;
 
+/** `priority` survives a reset, as its vuex `defaultValue` did */
 const resetFilters = () => {
+	const priority = defaultMemberPriorityFilter();
+
 	filtersManager.value.reset({
 		exclude: [
 			'search',
+			priority.name,
 		],
 	});
+	filtersManager.value.updateFilter(priority);
 };
 </script>
 

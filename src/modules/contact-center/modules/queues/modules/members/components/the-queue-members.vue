@@ -252,6 +252,7 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
+import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -297,6 +298,7 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+	hasFilter,
 } = tableStore;
 
 const {
@@ -479,6 +481,18 @@ const close = () =>
 		name: RouteNames.QUEUES,
 	});
 
+/**
+ * The seeded `priority` default is not a filter the user chose, so an empty
+ * queue keeps the "no members yet" state instead of flipping to
+ * "nothing matches your criteria".
+ */
+const userChosenFilters = computed(() => {
+	const { name } = defaultMemberPriorityFilter();
+	const { [name]: _seeded, ...rest } = filtersManager.value.getAllValues();
+
+	return rest;
+});
+
 const {
 	showEmpty,
 	image: imageEmpty,
@@ -488,7 +502,7 @@ const {
 	{
 		dataList,
 		error,
-		filters: computed(() => filtersManager.value.getAllValues()),
+		filters: userChosenFilters,
 		isLoading,
 	},
 	{
@@ -504,14 +518,28 @@ const {
 	},
 );
 
+/**
+ * Seeded here rather than in the filters panel: that component only mounts
+ * while the panel is open, and the default has to be in place for the very
+ * first request. Applied again after `initialize` for the one case the restore
+ * path clobbers it — a snapshot persisted before this default existed.
+ */
+const seedDefaultFilters = () => {
+	const priority = defaultMemberPriorityFilter();
+
+	if (!hasFilter(priority.name)) addFilter(priority);
+};
+
 // restoring persisted filters builds their configs, which reach for i18n
 const instance = getCurrentInstance();
 onMounted(() =>
-	instance?.appContext.app.runWithContext(() =>
-		initialize({
+	instance?.appContext.app.runWithContext(async () => {
+		seedDefaultFilters();
+		await initialize({
 			parentId: queueId.value,
-		}),
-	),
+		});
+		seedDefaultFilters();
+	}),
 );
 </script>
 
