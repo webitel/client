@@ -89,7 +89,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
-import { useQueueBucketsDatalistStore } from '../stores';
+import { useQueueBucketsDatalistStore } from '../stores/datalist/queueBucketsDatalistStore';
 import BucketPopup from './opened-queue-buckets-popup.vue';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab

@@ -232,7 +232,8 @@ import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import { useQueuesDatalistStore, useQueuesGlobalStateStore } from '../stores';
+import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
+import { useQueuesGlobalStateStore } from '../stores/globalState/queuesGlobalStateStore';
 import type { Queue } from '../types/Queue';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';

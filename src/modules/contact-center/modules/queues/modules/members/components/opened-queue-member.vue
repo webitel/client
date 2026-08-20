@@ -59,7 +59,7 @@ import { useUserAccessControl } from '../../../../../../../app/composables/useUs
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
 import { useParentQueue } from '../composables/useParentQueue';
-import { useQueueMembersCardStore } from '../stores';
+import { useQueueMembersCardStore } from '../stores/card/queueMembersCardStore';
 
 const { t } = useI18n();
 const route = useRoute();

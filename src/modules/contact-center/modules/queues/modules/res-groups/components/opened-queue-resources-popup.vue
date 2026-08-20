@@ -49,7 +49,7 @@ import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
-import { useQueueResGroupsCardStore } from '../stores';
+import { useQueueResGroupsCardStore } from '../stores/card/queueResGroupsCardStore';
 
 const emit = defineEmits<{
 	saved: [];

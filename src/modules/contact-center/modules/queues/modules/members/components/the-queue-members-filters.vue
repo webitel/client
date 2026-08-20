@@ -18,7 +18,7 @@ import {
 	defaultMemberPriorityFilter,
 	filtersOptions,
 } from '../configs/filtersOptions';
-import { useQueueMembersDatalistStore } from '../stores';
+import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 
 const emit = defineEmits<{
 	hide: [];

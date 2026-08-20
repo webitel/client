@@ -113,7 +113,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
-import { useQueueHooksDatalistStore } from '../stores';
+import { useQueueHooksDatalistStore } from '../stores/datalist/queueHooksDatalistStore';
 import HookPopup from './opened-queue-hooks-popup.vue';
 
 /**

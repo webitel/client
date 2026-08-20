@@ -15,7 +15,7 @@ import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-dat
 import { storeToRefs } from 'pinia';
 
 import { filtersOptions } from '../configs/filtersOptions';
-import { useQueuesDatalistStore } from '../stores';
+import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
 
 const emit = defineEmits<{
 	hide: [];

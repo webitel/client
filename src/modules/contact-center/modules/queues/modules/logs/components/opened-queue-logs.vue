@@ -112,7 +112,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import { useQueueLogsDatalistStore } from '../stores';
+import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 import TheQueueLogsFilters from './the-queue-logs-filters.vue';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab

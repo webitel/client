@@ -67,7 +67,8 @@ import {
 } from '../configs/queueTabs';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum';
-import { useQueuesCardStore, useQueuesPermissionsStore } from '../stores';
+import { useQueuesCardStore } from '../stores/card/queuesCardStore';
+import { useQueuesPermissionsStore } from '../stores/permissions/queuesPermissionsStore';
 import type { Queue } from '../types/Queue';
 
 const { t } = useI18n();

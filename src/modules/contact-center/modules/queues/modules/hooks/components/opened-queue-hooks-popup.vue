@@ -63,7 +63,7 @@ import { useUserAccessControl } from '../../../../../../../app/composables/useUs
 import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
 import { HookQueueEvent } from '../enums/HookQueueEvent.enum';
-import { useQueueHooksCardStore } from '../stores';
+import { useQueueHooksCardStore } from '../stores/card/queueHooksCardStore';
 
 const emit = defineEmits<{
 	saved: [];

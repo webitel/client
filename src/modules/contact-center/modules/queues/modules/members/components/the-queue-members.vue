@@ -253,7 +253,7 @@ import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
 import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
-import { useQueueMembersDatalistStore } from '../stores';
+import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import TheQueueMembersFilters from './the-queue-members-filters.vue';

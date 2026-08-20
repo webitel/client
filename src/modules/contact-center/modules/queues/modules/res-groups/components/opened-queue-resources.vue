@@ -88,7 +88,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
-import { useQueueResGroupsDatalistStore } from '../stores';
+import { useQueueResGroupsDatalistStore } from '../stores/datalist/queueResGroupsDatalistStore';
 import ResourcePopup from './opened-queue-resources-popup.vue';
 
 const { t } = useI18n();

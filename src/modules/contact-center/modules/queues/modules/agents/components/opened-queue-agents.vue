@@ -106,7 +106,7 @@ import ObjectListPopup from '../../../../../../../app/components/utils/object-li
 import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useAgentStatusIndicator } from '../../../../../composables/useAgentStatusIndicator';
-import { useQueueAgentsDatalistStore } from '../stores';
+import { useQueueAgentsDatalistStore } from '../stores/datalist/queueAgentsDatalistStore';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab
 

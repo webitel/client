@@ -114,7 +114,7 @@ import ObjectListPopup from '../../../../../../../app/components/utils/object-li
 import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
-import { useQueueSkillsDatalistStore } from '../stores';
+import { useQueueSkillsDatalistStore } from '../stores/datalist/queueSkillsDatalistStore';
 import SkillPopup from './opened-queue-skills-popup.vue';
 
 const { t } = useI18n();

@@ -24,7 +24,8 @@ import { onMounted, ref, watch } from 'vue';
 
 import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
 import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
-import { useQueuesDatalistStore, useQueuesGlobalStateStore } from '../stores';
+import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
+import { useQueuesGlobalStateStore } from '../stores/globalState/queuesGlobalStateStore';
 
 /**
  * Enables or disables every queue matching the table's current filters.

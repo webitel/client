@@ -11,12 +11,15 @@
 </template>
 
 <script lang="ts" setup>
-import { TableFiltersPanelComponent as TableFiltersPanel } from '@webitel/ui-datalist/filters';
+import {
+	FilterOption,
+	TableFiltersPanelComponent as TableFiltersPanel,
+} from '@webitel/ui-datalist/filters';
 import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
 
 import { filtersOptions } from '../configs/filtersOptions';
-import { useQueueLogsDatalistStore } from '../stores';
+import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 
 const emit = defineEmits<{
 	hide: [];
@@ -32,9 +35,9 @@ const todaysRange = () => ({
 });
 
 /** the log has always opened on today rather than on everything */
-if (!hasFilter('joinedAt')) {
+if (!hasFilter(FilterOption.JoinedAt)) {
 	addFilter({
-		name: 'joinedAt',
+		name: FilterOption.JoinedAt,
 		value: todaysRange(),
 	});
 }
@@ -43,11 +46,11 @@ const resetFilters = () => {
 	filtersManager.value.reset({
 		exclude: [
 			'search',
-			'joinedAt',
+			FilterOption.JoinedAt,
 		],
 	});
 	filtersManager.value.updateFilter({
-		name: 'joinedAt',
+		name: FilterOption.JoinedAt,
 		value: todaysRange(),
 	});
 };

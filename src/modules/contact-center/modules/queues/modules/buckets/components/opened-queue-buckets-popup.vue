@@ -56,7 +56,7 @@ import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
-import { useQueueBucketsCardStore } from '../stores';
+import { useQueueBucketsCardStore } from '../stores/card/queueBucketsCardStore';
 
 const emit = defineEmits<{
 	saved: [];
