@@ -90,19 +90,8 @@ const {
 	parentId: route.params.id as string,
 });
 
-/**
- * TODO(types): Regle infers an empty-object arm into the validationFields
- * union; narrow to the named-fields arm so template access typechecks.
- */
-const validationFields = computed(
-	() =>
-		rawValidationFields.value as Extract<
-			(typeof rawValidationFields)['value'],
-			{
-				event: unknown;
-			}
-		>,
-);
+/** cross-package ref, same as `modelValue` below — unwrapped for the template */
+const validationFields = computed(() => rawValidationFields.value);
 
 /**
  * Same cross-package ref problem as the delete-confirmation composable: the
