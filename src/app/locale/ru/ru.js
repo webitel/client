@@ -905,7 +905,7 @@ export default {
 				destination: 'Назначение',
 				display: 'Отображение номера',
 				dtmf: 'DTMF',
-				priority: 'Приоритет',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Попыток',
 				emptyWorkspace: 'Абоненты не найдены',
 				resetMembers: {
@@ -919,14 +919,15 @@ export default {
 					successResetCount: 'Успешно перезапущено {count} абонентов',
 				},
 				endCause: {
-					abandoned: 'Потерянный',
-					timeout: 'Тайм-аут',
-					cancel: 'Отменённый',
-					success: 'Успешный',
-					failed: 'Неудачный',
-					missed: 'Пропущенный',
-					expired: 'Истекший',
-					canceledByTimeout: 'Отменен по тайм-ауту',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Имя',
@@ -1016,7 +1017,7 @@ export default {
 				autoAnswerTone: 'Сигнал предупреждения автоответа',
 				varKey: 'Ключ',
 				varVal: 'Значение',
-				endCause: 'Причина прекращения',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Перезвонить в',
 				destination: 'Назначение | Назначения',
 				expire: 'Истекает',
@@ -1118,19 +1119,27 @@ export default {
 					offeringAt: 'Распределение',
 					joinedAt: 'Начало',
 					leavingAt: 'Конец',
-					duration: 'Длительность',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Номер',
-					result: 'Результат',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Попытка',
 					resultName: {
-						abandoned: 'Потерянный',
-						cancel: 'Отменённый',
-						success: 'Успешный',
-						failed: 'Неудачный',
-						missed: 'Пропущенный',
-						timeout: 'Тайм-аут',
-						endless: 'Бесконечный',
-						transferred: 'Переведен',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1404,6 +1413,15 @@ export default {
 	filters: {
 		queueType: 'Тип очереди',
 		team: 'Команда',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

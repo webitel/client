@@ -1,200 +1,127 @@
 <template>
   <wt-popup
     v-bind="$attrs"
-    size="sm"
     :shown="!!skillId"
     overflow
+    size="sm"
     @close="close"
   >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
+      <form @submit.prevent="save">
         <wt-single-select
-          :show-clear="false"
+          v-model:model-value="modelValue.skill"
           :disabled="!hasSkillsReadAccess"
-          :label="$t('objects.lookups.skills.skills', 1)"
+          :label="t('objects.lookups.skills.skills', 1)"
+          :regle-validation="validationFields?.skill"
           :search-method="loadSkillsOptions"
-          :v="v$.itemInstance.skill"
-          :model-value="itemInstance.skill"
+          :show-clear="false"
           required
-          @update:model-value="setItemProp({ prop: 'skill', value: $event })"
         />
         <wt-input-number
-          :label="$t('objects.lookups.skills.lvl')"
-          :v="v$.itemInstance.lvl"
-          :model-value="itemInstance.lvl"
-          @update:model-value="setItemProp({ prop: 'lvl', value: $event })"
+          v-model:model-value="modelValue.lvl"
+          :label="t('objects.lookups.skills.lvl')"
+          :regle-validation="validationFields?.lvl"
         />
         <div class="input-row-wrap">
           <wt-input-number
-            :custom-validators="minCapacityCustomValidator"
-            :label="$t('objects.lookups.skills.minCapacity')"
-            :v="v$.itemInstance.minCapacity"
-            :model-value="itemInstance.minCapacity"
-            @update:model-value="setItemProp({ prop: 'minCapacity', value: $event })"
+            v-model:model-value="modelValue.minCapacity"
+            :label="t('objects.lookups.skills.minCapacity')"
+            :regle-validation="validationFields?.minCapacity"
           />
           <wt-input-number
-            :custom-validators="maxCapacityCustomValidator"
-            :label="$t('objects.lookups.skills.maxCapacity')"
-            :v="v$.itemInstance.maxCapacity"
-            :model-value="itemInstance.maxCapacity"
-            @update:model-value="setItemProp({ prop: 'maxCapacity', value: $event })"
+            v-model:model-value="modelValue.maxCapacity"
+            :label="t('objects.lookups.skills.maxCapacity')"
+            :regle-validation="validationFields?.maxCapacity"
           />
         </div>
         <wt-multi-select
+          v-model:model-value="modelValue.buckets"
           :disabled="!hasBucketsReadAccess"
-          :label="$t('objects.lookups.buckets.buckets', 1)"
+          :label="t('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
-          :model-value="itemInstance.buckets"
-          @update:model-value="setItemProp({ prop: 'buckets', value: $event })"
         />
       </form>
     </template>
     <template #actions>
       <wt-button
+        :disabled="!hasSaveActionAccess || hasValidationErrors"
         @click="save"
       >
-        {{ $t('objects.save') }}
+        {{ t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import { BucketsAPI, SkillsAPI } from '@webitel/api-services/api';
+import type { EngineQueueSkill } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import {
-	lessOrEqualTo,
-	moreOrEqualTo,
-} from '../../../../../../../app/utils/validators';
-import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
+import { useQueueSkillsCardStore } from '../stores/card/queueSkillsCardStore';
 
-export default {
-	name: 'OpenedQueueSkillsPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	setup: () => {
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		const v$ = useVuelidate({
-			$stopPropagation: true,
-		});
-		const { hasReadAccess: hasSkillsReadAccess } = useUserAccessControl(
-			WtObject.Skill,
-		);
-		const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
-			WtObject.Bucket,
-		);
-		return {
-			v$,
-			hasSkillsReadAccess,
-			hasBucketsReadAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'ccenter/queues/skills',
-	}),
-	validations: {
-		itemInstance: {
-			skill: {
-				required,
-			},
-			lvl: {
-				required,
-				minValue: minValue(0),
-				maxValue: maxValue(1000),
-			},
-			minCapacity: {
-				minValue: minValue(0),
-				maxValue: maxValue(100),
-				lessOrEqualTo: lessOrEqualTo('maxCapacity'),
-			},
-			maxCapacity: {
-				minValue: minValue(0),
-				maxValue: maxValue(100),
-				moreOrEqualTo: moreOrEqualTo('minCapacity'),
-			},
-		},
-	},
-	computed: {
-		minCapacityCustomValidator() {
-			return [
-				{
-					name: 'lessOrEqualTo',
-					text: this.$t(
-						'objects.lookups.skills.minCapacityLessOrEqualToMaxCapacityValidator',
-					),
-				},
-			];
-		},
-		maxCapacityCustomValidator() {
-			return [
-				{
-					name: 'moreOrEqualTo',
-					text: this.$t(
-						'objects.lookups.skills.maxCapacityMoreOrEqualToMinCapacityValidator',
-					),
-				},
-			];
-		},
-		popupTitle() {
-			return this.id
-				? this.$t('objects.ccenter.queues.skills.editSkill')
-				: this.$t('objects.ccenter.queues.skills.addSkill');
-		},
-		skillId() {
-			return this.$route.params.skillId;
-		},
-	},
-	watch: {
-		skillId: {
-			handler(id) {
-				this.handleIdChange(id);
-			},
-			immediate: true,
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	methods: {
-		loadSkillsOptions(params) {
-			return SkillsAPI.getLookup(params);
-		},
+const { hasSaveActionAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+const { hasReadAccess: hasSkillsReadAccess } = useUserAccessControl(
+	WtObject.Skill,
+);
+const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
+	WtObject.Bucket,
+);
 
-		loadBucketsOptions(params) {
-			return BucketsAPI.getLookup(params);
-		},
-	},
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineQueueSkill>({
+	useCardStore: useQueueSkillsCardStore,
+	routeParamName: 'skillId',
+	parentId: route.params.id as string,
+});
+
+const skillId = computed(() => route.params.skillId);
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.lookups.skills.skills', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(QueuesRoutesName.SKILLS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadSkillsOptions = (params: unknown) => SkillsAPI.getLookup(params);
+const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.input-row-wrap {
-  display: flex;
-  margin-bottom: 10px;
-
-  .wt-input-number {
-    width: 50%;
-
-    &:first-child {
-      margin-right: 18px;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,12 +1,17 @@
 <template>
-  <wt-popup @close="close">
+  <wt-popup @close="emit('close')">
     <template #title>
-      {{ $t('objects.ccenter.queues.destination', 2) }}
+      {{ t('objects.ccenter.queues.destination', 2) }}
     </template>
     <template #main>
       <section class="destinations-popup">
-        <wt-table :data="communications" :grid-actions="false" :headers="headers" :selectable="false"
-          class="popup-table">
+        <wt-table
+          :data="communications"
+          :grid-actions="false"
+          :headers="headers"
+          :selectable="false"
+          class="popup-table"
+        >
           <template #destination="{ item }">
             {{ item.destination }}
           </template>
@@ -22,58 +27,49 @@
       </section>
     </template>
     <template #actions>
-      <wt-button @click="close">
-        {{ $t('objects.ok') }}
+      <wt-button @click="emit('close')">
+        {{ t('objects.ok') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        color="secondary"
+        @click="emit('close')"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import tableComponentMixin from '../../../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
+<script lang="ts" setup>
+import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-	name: 'OpenedQueueMemberDestinationsPopup',
-	mixins: [
-		tableComponentMixin,
-	],
-	props: {
-		communications: {
-			type: Array,
-			required: true,
-		},
-	},
+/** read-only list; it took a table mixin before and used nothing from it */
+defineProps<{
+	communications: EngineMemberCommunication[];
+}>();
 
-	data() {
-		return {
-			headers: [
-				{
-					value: 'destination',
-					text: this.$t('objects.ccenter.queues.destination', 1),
-				},
-				{
-					value: 'type',
-					text: this.$t('objects.ccenter.queues.type'),
-				},
-				{
-					value: 'priority',
-					text: this.$t('objects.ccenter.queues.priority'),
-				},
-			],
-		};
-	},
+const emit = defineEmits<{
+	close: [];
+}>();
 
-	methods: {
-		close() {
-			this.$emit('close');
-		},
+const { t } = useI18n();
+
+const headers = computed(() => [
+	{
+		value: 'destination',
+		text: t('objects.ccenter.queues.destination', 1),
 	},
-};
+	{
+		value: 'type',
+		text: t('objects.ccenter.queues.type'),
+	},
+	{
+		value: 'priority',
+		text: t('objects.ccenter.queues.priority'),
+	},
+]);
 </script>
 
-<style lang="scss" scoped>
-.destinations-popup {}
-</style>
+<style lang="scss" scoped></style>

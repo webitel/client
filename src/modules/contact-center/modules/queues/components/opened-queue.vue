@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     v-if="showQueuePage"
-    :actions-panel="!!currentTab.filters"
+    :actions-panel="false"
   >
     <template #header>
       <wt-page-header
@@ -15,12 +15,6 @@
       </wt-page-header>
     </template>
 
-    <template #actions-panel>
-      <component
-        :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
-      />
-    </template>
 
     <template #main>
       <form
@@ -32,11 +26,14 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
@@ -47,495 +44,296 @@
   <wt-loader v-else />
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, required } from '@vuelidate/validators';
-import { QueueType, WtObject } from '@webitel/ui-sdk/enums';
+<script lang="ts" setup>
+import {
+	getQueueDefaults,
+	hasQueueTypeDefaults,
+} from '@webitel/api-services/api';
+import { useCardComponent } from '@webitel/ui-datalist/card';
+import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import deepmerge from 'deepmerge';
+import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import { provideEnsureQueueSaved } from '../composables/useEnsureQueueSaved';
+import {
+	type QueueTab,
+	QueueTabId,
+	QueueTypeSpecificTabs,
+} from '../configs/queueTabs';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import Agents from '../modules/agents/components/opened-queue-agents.vue';
-import Buckets from '../modules/buckets/components/opened-queue-buckets.vue';
-import Hooks from '../modules/hooks/components/opened-queue-hooks.vue';
-import Logs from '../modules/logs/components/opened-queue-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/the-queue-logs-filters.vue';
-import Resources from '../modules/res-groups/components/opened-queue-resources.vue';
-import Skills from '../modules/skills/components/opened-queue-skills.vue';
-import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum.js';
-import General from './opened-queue-general.vue';
-import Params from './opened-queue-params.vue';
-import Processing from './opened-queue-processing.vue';
-import Amd from './shared/amd/opened-queue-amd.vue';
-import Variables from './shared/variables/opened-queue-variables.vue';
+import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum';
+import { useQueuesCardStore } from '../stores/card/queuesCardStore';
+import { useQueuesPermissionsStore } from '../stores/permissions/queuesPermissionsStore';
+import type { Queue } from '../types/Queue';
 
-export default {
-	name: 'OpenedQueue',
-	components: {
-		General,
-		Params,
-		Processing,
-		Agents,
-		Skills,
-		Resources,
-		Buckets,
-		Hooks,
-		Amd,
-		Variables,
-		Logs,
-		LogsFilters,
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
+const {
+	hasSaveActionAccess,
+	hasCreateAccess,
+	hasUpdateAccess,
+	hasReadAccess,
+	hasDeleteAccess,
+} = useUserAccessControl();
+const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
+const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(
+	WtObject.ChangeLog,
+);
+
+const cardStore = useQueuesCardStore();
+
+/**
+ * `manualSetup` because a new queue's shape depends on `?type=`, which
+ * `createCardStore` knows nothing about. Owning `initialize` here lets the
+ * type defaults be merged in before anything reads the draft. The cost is
+ * re-implementing three small things the composable would otherwise do:
+ * `initialize`, `$reset` on unmount, and the "replace `new` in the url once the
+ * server assigns an id" watcher — `useCardRouting` is not exported.
+ */
+const {
+	modelValue,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<Queue>({
+	useCardStore: useQueuesCardStore,
+	manualSetup: true,
+});
+
+const isInitialized = ref(false);
+
+const routeQueueType = computed(() =>
+	route.query.type != null ? Number(route.query.type) : undefined,
+);
+
+const queueType = computed<number | undefined>(
+	() =>
+		(modelValue.value?.type as number | undefined) ??
+		(originalItemInstance.value?.type as number | undefined) ??
+		routeQueueType.value,
+);
+
+/** nothing renders until the queue's type is known */
+const showQueuePage = computed(
+	() =>
+		isInitialized.value &&
+		queueType.value != null &&
+		hasQueueTypeDefaults(queueType.value),
+);
+
+const tabDescriptors = computed<Record<QueueTabId, QueueTab>>(() => ({
+	[QueueTabId.General]: {
+		text: t('objects.general'),
+		value: QueueTabId.General,
+		pathName: QueuesRoutesName.GENERAL,
 	},
-	mixins: [
-		openedObjectMixin,
-	],
-	setup: () => {
-		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
-		const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(
-			WtObject.ChangeLog,
-		);
-
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasAgentsReadAccess,
-			hasLogsReadAccess,
-		};
+	[QueueTabId.Params]: {
+		text: t('objects.ccenter.queues.params'),
+		value: QueueTabId.Params,
+		pathName: QueuesRoutesName.PARAMETERS,
 	},
+	[QueueTabId.Processing]: {
+		text: t('objects.ccenter.queues.processing.processing'),
+		value: QueueTabId.Processing,
+		pathName: QueuesRoutesName.PROCESSING,
+	},
+	[QueueTabId.Agents]: {
+		text: t('objects.ccenter.agents.agents', 2),
+		value: QueueTabId.Agents,
+		pathName: QueuesRoutesName.AGENTS,
+		disabled: !hasAgentsReadAccess.value,
+	},
+	[QueueTabId.Skills]: {
+		text: t('objects.lookups.skills.skills', 2),
+		value: QueueTabId.Skills,
+		pathName: QueuesRoutesName.SKILLS,
+	},
+	[QueueTabId.Resources]: {
+		text: t('objects.ccenter.res.res', 2),
+		value: QueueTabId.Resources,
+		pathName: QueuesRoutesName.RESOURCES,
+	},
+	[QueueTabId.Buckets]: {
+		text: t('objects.lookups.buckets.buckets', 2),
+		value: QueueTabId.Buckets,
+		pathName: QueuesRoutesName.BUCKETS,
+	},
+	[QueueTabId.Hooks]: {
+		text: t('objects.ccenter.queues.hooks.hooks', 2),
+		value: QueueTabId.Hooks,
+		pathName: QueuesRoutesName.HOOKS,
+	},
+	[QueueTabId.Amd]: {
+		text: t('objects.ccenter.queues.amd'),
+		value: QueueTabId.Amd,
+		pathName: QueuesRoutesName.AMD,
+	},
+	[QueueTabId.Variables]: {
+		text: t('objects.ccenter.queues.variables', 2),
+		value: QueueTabId.Variables,
+		pathName: QueuesRoutesName.VARIABLES,
+	},
+	[QueueTabId.Permissions]: {
+		text: t('objects.permissions.permissions', 2),
+		value: QueueTabId.Permissions,
+		pathName: QueuesRoutesName.PERMISSIONS,
+	},
+	[QueueTabId.Logs]: {
+		text: t('objects.ccenter.queues.logs.logs', 2),
+		value: QueueTabId.Logs,
+		pathName: QueuesRoutesName.LOGS,
+		disabled: !hasLogsReadAccess.value,
+	},
+}));
 
-	data: () => ({
-		namespace: 'ccenter/queues',
-		routeName: RouteNames.QUEUES,
-		permissionsTabPathName: QueuesRoutesName.PERMISSIONS,
-	}),
-	validations() {
-		const defaults = {
-			itemInstance: {
-				name: {
-					required,
-				},
-				priority: {
-					minValue: minValue(0),
-				},
-				payload: {
-					minOnlineAgents: {
-						minValue: minValue(0),
-					},
-				},
+const tabs = computed(() => {
+	const descriptors = tabDescriptors.value;
+	const specific = (
+		queueType.value != null
+			? (QueueTypeSpecificTabs[queueType.value] ?? [])
+			: []
+	)
+		.map((id) => descriptors[id])
+		// legacy semantics: a tab the user cannot read is hidden, not disabled
+		.filter((tab) => !tab.disabled);
+
+	const list = [
+		descriptors[QueueTabId.General],
+		descriptors[QueueTabId.Params],
+		...specific,
+		descriptors[QueueTabId.Hooks],
+		descriptors[QueueTabId.Variables],
+	];
+
+	if (!isNew.value) {
+		list.push(descriptors[QueueTabId.Permissions]);
+		if (!descriptors[QueueTabId.Logs].disabled) {
+			list.push(descriptors[QueueTabId.Logs]);
+		}
+	}
+
+	return list;
+});
+
+const { currentTab } = useCardTabs(tabs);
+
+/**
+ * `useCardTabs`' own `changeTab` drops the route query, which would lose
+ * `?type=` on the first tab switch of a queue that has not been saved yet.
+ */
+const changeTab = (tab: { pathName: string }) =>
+	router.push({
+		name: tab.pathName,
+		params: route.params,
+		query: route.query,
+		hash: route.hash,
+	});
+
+const { close } = useClose(RouteNames.QUEUES);
+
+const permissionsStoreData = computed(() => ({
+	store: useQueuesPermissionsStore,
+	access: {
+		create: hasCreateAccess.value,
+		read: hasReadAccess.value,
+		update: hasUpdateAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: route.params.id,
+}));
+
+const path = computed(() => {
+	const properties =
+		queueType.value != null ? QueueTypeProperties[queueType.value] : undefined;
+	const title = properties ? t(properties.locale) : '';
+	const name = isNew.value
+		? t('objects.new')
+		: (originalItemInstance.value?.name ?? '');
+
+	return [
+		{
+			name: t('objects.ccenter.ccenter'),
+		},
+		{
+			name: t('objects.ccenter.queues.queues', 2),
+			route: '/contact-center/queues',
+		},
+		{
+			name: `${name} (${title})`,
+			route: {
+				name: currentTab.value?.pathName,
+				query: route.query,
 			},
-		};
-		switch (+this.queueType) {
-			case QueueType.OFFLINE_QUEUE:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						payload: {
-							originateTimeout: {
-								required,
-								minValue: minValue(0),
-							},
-						},
-					},
-				});
-			case QueueType.INBOUND_QUEUE:
-				return deepmerge(defaults, {
-					itemInstance: {
-						payload: {
-							timeBaseScore: {
-								required,
-							},
-							maxWaitTime: {
-								required,
-								minValue: minValue(0),
-							},
-							discardAbandonedAfter: {
-								minValue: minValue(0),
-							},
-						},
-					},
-				});
-			case QueueType.OUTBOUND_IVR_QUEUE:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						schema: {
-							required,
-						},
-						payload: {
-							maxAttempts: {
-								required,
-							},
-							originateTimeout: {
-								required,
-								minValue: minValue(0),
-							},
-							waitBetweenRetries: {
-								required,
-								minValue: minValue(0),
-							},
-							minDuration: {
-								minValue: minValue(0),
-							},
-							resourceStrategy: {
-								required,
-							},
-						},
-					},
-				});
-			case QueueType.PREVIEW_DIALER:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						payload: {
-							maxAttempts: {
-								required,
-							},
-							originateTimeout: {
-								required,
-								minValue: minValue(0),
-							},
-							waitBetweenRetries: {
-								required,
-								minValue: minValue(0),
-							},
-							resourceStrategy: {
-								required,
-							},
-						},
-					},
-				});
-			case QueueType.PROGRESSIVE_DIALER:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						payload: {
-							maxAttempts: {
-								required,
-							},
-							originateTimeout: {
-								required,
-								minValue: minValue(0),
-							},
-							waitBetweenRetries: {
-								required,
-								minValue: minValue(0),
-							},
-							resourceStrategy: {
-								required,
-							},
-							progressiveCount: {
-								required,
-								minValue: minValue(1),
-							},
-						},
-					},
-				});
-			case QueueType.PREDICTIVE_DIALER:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						payload: {
-							maxAttempts: {
-								required,
-							},
-							originateTimeout: {
-								required,
-								minValue: minValue(0),
-							},
-							waitBetweenRetries: {
-								required,
-								minValue: minValue(0),
-							},
-							maxWaitTime: {
-								minValue: minValue(0),
-							},
-							resourceStrategy: {
-								required,
-							},
-							progressiveCount: {
-								required,
-								minValue: minValue(1),
-							},
-						},
-					},
-				});
-			case QueueType.CHAT_INBOUND_QUEUE:
-			case QueueType.IM_CHAT_QUEUE:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						payload: {
-							timeBaseScore: {
-								required,
-							},
-							maxWaitTime: {
-								required,
-								minValue: minValue(0),
-							},
-							discardAbandonedAfter: {
-								minValue: minValue(0),
-							},
-						},
-					},
-				});
-			case QueueType.INBOUND_JOB_QUEUE:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						payload: {
-							maxAttempts: {
-								required,
-							},
-							waitBetweenRetries: {
-								required,
-								minValue: minValue(0),
-							},
-						},
-					},
-				});
-			case QueueType.OUTBOUND_JOB_QUEUE:
-				return deepmerge(defaults, {
-					itemInstance: {
-						strategy: {
-							required,
-						},
-						calendar: {
-							required,
-						},
-						schema: {
-							required,
-						},
-						payload: {
-							maxAttempts: {
-								required,
-							},
-							originateTimeout: {
-								required,
-								minValue: minValue(0),
-							},
-							waitBetweenRetries: {
-								required,
-								minValue: minValue(0),
-							},
-							minDuration: {
-								minValue: minValue(0),
-							},
-						},
-					},
-				});
-			default:
-				return {};
+		},
+	];
+});
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
+
+/**
+ * Nested tabs can add their first record before the queue exists. Routed
+ * through the card's own validated `save`, so an invalid queue blocks the add
+ * and shows its errors rather than persisting half-filled.
+ */
+provideEnsureQueueSaved(async () => {
+	if (!isNew.value) return cardStore.itemId;
+	await save();
+	return cardStore.itemId;
+});
+
+onMounted(async () => {
+	await cardStore.initialize({
+		itemId: route.params.id as string,
+	});
+
+	if (!cardStore.itemId) {
+		// deepmerge rather than assign: zod defaults that did land must survive,
+		// and so must anything already typed if the card is re-entered
+		cardStore.draftItemInstance = deepmerge(
+			getQueueDefaults(routeQueueType.value),
+			toRaw(cardStore.draftItemInstance) ?? {},
+		);
+	}
+
+	isInitialized.value = true;
+});
+
+onUnmounted(() => cardStore.$reset());
+
+/** `useCardRouting` parity, plus the query preservation it does not do */
+const stopIdWatch = watch(
+	() => cardStore.itemId,
+	async (next, prev) => {
+		if (next && !prev) {
+			await router.replace({
+				params: {
+					...route.params,
+					id: String(next),
+				},
+				query: route.query,
+			});
+			stopIdWatch();
 		}
 	},
-
-	computed: {
-		showQueuePage() {
-			return this.itemInstance.type != null;
-		},
-		queueType() {
-			return this.itemInstance.type ?? this.$route.query.type;
-		},
-
-		tabs() {
-			const general = {
-				text: this.$t('objects.general'),
-				value: 'general',
-				pathName: QueuesRoutesName.GENERAL,
-			};
-			const params = {
-				text: this.$t('objects.ccenter.queues.params'),
-				value: 'params',
-				pathName: QueuesRoutesName.PARAMETERS,
-			};
-			const processing = {
-				text: this.$t('objects.ccenter.queues.processing.processing'),
-				value: 'processing',
-				pathName: QueuesRoutesName.PROCESSING,
-			};
-			const agents = {
-				text: this.$t('objects.ccenter.agents.agents', 2),
-				value: 'agents',
-				disabled: !this.hasAgentsReadAccess,
-				pathName: QueuesRoutesName.AGENTS,
-			};
-			const skills = {
-				text: this.$t('objects.lookups.skills.skills', 2),
-				value: 'skills',
-				pathName: QueuesRoutesName.SKILLS,
-			};
-			const resources = {
-				text: this.$t('objects.ccenter.res.res', 2),
-				value: 'resources',
-				pathName: QueuesRoutesName.RESOURCES,
-			};
-			const buckets = {
-				text: this.$t('objects.lookups.buckets.buckets', 2),
-				value: 'buckets',
-				pathName: QueuesRoutesName.BUCKETS,
-			};
-			const hooks = {
-				text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
-				value: 'hooks',
-				pathName: QueuesRoutesName.HOOKS,
-			};
-			const amd = {
-				text: this.$t('objects.ccenter.queues.amd'),
-				value: 'amd',
-				pathName: QueuesRoutesName.AMD,
-			};
-			const variables = {
-				text: this.$t('objects.ccenter.queues.variables', 2),
-				value: 'variables',
-				pathName: QueuesRoutesName.VARIABLES,
-			};
-			const logs = {
-				text: this.$t('objects.ccenter.queues.logs.logs', 2),
-				value: 'logs',
-				filters: 'logs-filters',
-				disabled: !this.hasLogsReadAccess,
-				filtersNamespace: `${this.namespace}/log/filters`,
-				pathName: QueuesRoutesName.LOGS,
-			};
-
-			const queueTabsMap = {
-				[QueueType.OFFLINE_QUEUE]: [
-					processing,
-					agents,
-					skills,
-					resources,
-					buckets,
-				],
-				[QueueType.INBOUND_QUEUE]: [
-					processing,
-					agents,
-					skills,
-				],
-				[QueueType.OUTBOUND_IVR_QUEUE]: [
-					resources,
-					buckets,
-					amd,
-				],
-				[QueueType.PREVIEW_DIALER]: [
-					processing,
-					agents,
-					skills,
-					resources,
-					buckets,
-				],
-				[QueueType.PROGRESSIVE_DIALER]: [
-					processing,
-					agents,
-					skills,
-					resources,
-					buckets,
-					amd,
-				],
-				[QueueType.PREDICTIVE_DIALER]: [
-					processing,
-					agents,
-					skills,
-					resources,
-					buckets,
-					amd,
-				],
-				[QueueType.CHAT_INBOUND_QUEUE]: [
-					processing,
-					agents,
-					skills,
-				],
-				[QueueType.IM_CHAT_QUEUE]: [
-					processing,
-					agents,
-					skills,
-				],
-				[QueueType.INBOUND_JOB_QUEUE]: [
-					processing,
-					agents,
-					skills,
-					buckets,
-				],
-				[QueueType.OUTBOUND_JOB_QUEUE]: [
-					buckets,
-				],
-			};
-			const tabs = [
-				general,
-				params,
-				// cannot destructure undefined, if queueType loading in progress
-				...(queueTabsMap[this.queueType] || []).filter((tab) => !tab.disabled),
-				hooks,
-				variables,
-			];
-
-			if (this.id) tabs.push(this.permissionsTab, logs);
-			return tabs;
-		},
-
-		path() {
-			const title = this.$t(QueueTypeProperties[this.queueType].locale);
-			const baseUrl = '/contact-center/queues';
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.$t('objects.ccenter.queues.queues', 2),
-					route: baseUrl,
-				},
-				{
-					name: `${this.id ? this.pathName : this.$t('objects.new')} (${title})`,
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
-	},
-	methods: {
-		async loadPageData() {
-			await this.setId(this.$route.params.id);
-			return this.loadItem(this.queueType);
-		},
-	},
-};
+);
 </script>
 
 <style
