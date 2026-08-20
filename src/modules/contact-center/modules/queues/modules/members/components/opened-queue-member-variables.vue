@@ -40,15 +40,11 @@
 
 <script lang="ts" setup>
 import type { EngineMemberInQueue } from '@webitel/api-services/gen/models';
+import type { VariablePair } from '@webitel/api-services/validations';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-
-interface VariablePair {
-	key: string;
-	value: string;
-}
 
 const modelValue = defineModel<EngineMemberInQueue>({
 	required: true,
