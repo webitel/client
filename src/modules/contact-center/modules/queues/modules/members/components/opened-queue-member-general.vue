@@ -7,37 +7,37 @@
     </header>
     <form class="object-input-grid">
       <wt-input-text
-        v-model="member.name"
+        v-model="modelValue.name"
         :disabled="disableUserInput"
         :label="t('objects.name')"
         :regle-validation="validationFields?.name"
         required
       />
       <wt-input-number
-        v-model="member.priority"
+        v-model="modelValue.priority"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.priority')"
       />
       <wt-datepicker
-        v-model="member.expireAt"
+        v-model="modelValue.expireAt"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.expire')"
         show-time
       />
       <wt-single-select
-        v-model="member.timezone"
+        v-model="modelValue.timezone"
         :disabled="disableUserInput || !hasCalendarsReadAccess"
         :label="t('objects.ccenter.queues.timezone')"
         :search-method="loadTimezoneOptions"
       />
       <wt-single-select
-        v-model="member.bucket"
+        v-model="modelValue.bucket"
         :disabled="disableUserInput || !hasBucketsReadAccess"
         :label="t('objects.lookups.buckets.buckets', 1)"
         :search-method="loadBucketsOptions"
       />
       <wt-single-select
-        v-model="member.agent"
+        v-model="modelValue.agent"
         :disabled="disableUserInput || !hasAgentsReadAccess"
         :label="t('objects.ccenter.agents.agents', 1)"
         :search-method="loadAgentsOptions"
@@ -49,7 +49,6 @@
 <script lang="ts" setup>
 import type { EngineMemberInQueue } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
@@ -80,8 +79,6 @@ const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
 const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
 	WtObject.Agent,
 );
-
-const member = computed(() => modelValue.value);
 
 const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 const loadTimezoneOptions = (params: unknown) =>

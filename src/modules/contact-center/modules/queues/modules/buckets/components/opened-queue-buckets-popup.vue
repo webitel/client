@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="queueBucket.bucket"
+          v-model="modelValue.bucket"
           :disabled="!hasBucketsReadAccess"
           :label="t('objects.lookups.buckets.buckets', 1)"
           :regle-validation="validationFields?.bucket"
@@ -20,7 +20,7 @@
           required
         />
         <wt-input-number
-          v-model="queueBucket.priority"
+          v-model="modelValue.priority"
           :label="t('objects.ccenter.queues.bucketPriority')"
           :regle-validation="validationFields?.priority"
           required
@@ -74,7 +74,7 @@ const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
 
 const {
 	modelValue,
-	validationFields: rawValidationFields,
+	validationFields,
 	isNew,
 	hasValidationErrors,
 	save: saveItem,
@@ -83,12 +83,6 @@ const {
 	routeParamName: 'bucketId',
 	parentId: route.params.id as string,
 });
-
-/** cross-package ref, same as `modelValue` below — unwrapped for the template */
-const validationFields = computed(() => rawValidationFields.value);
-
-// read the draft through a local computed so the template can unwrap it
-const queueBucket = computed(() => modelValue.value as EngineQueueBucket);
 
 const bucketId = computed(() => route.params.bucketId);
 

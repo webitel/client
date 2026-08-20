@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="queueSkill.skill"
+          v-model="modelValue.skill"
           :disabled="!hasSkillsReadAccess"
           :label="t('objects.lookups.skills.skills', 1)"
           :regle-validation="validationFields?.skill"
@@ -21,24 +21,24 @@
           required
         />
         <wt-input-number
-          v-model="queueSkill.lvl"
+          v-model="modelValue.lvl"
           :label="t('objects.lookups.skills.lvl')"
           :regle-validation="validationFields?.lvl"
         />
         <div class="input-row-wrap">
           <wt-input-number
-            v-model="queueSkill.minCapacity"
+            v-model="modelValue.minCapacity"
             :label="t('objects.lookups.skills.minCapacity')"
             :regle-validation="validationFields?.minCapacity"
           />
           <wt-input-number
-            v-model="queueSkill.maxCapacity"
+            v-model="modelValue.maxCapacity"
             :label="t('objects.lookups.skills.maxCapacity')"
             :regle-validation="validationFields?.maxCapacity"
           />
         </div>
         <wt-multi-select
-          v-model="queueSkill.buckets"
+          v-model="modelValue.buckets"
           :disabled="!hasBucketsReadAccess"
           :label="t('objects.lookups.buckets.buckets', 1)"
           :search-method="loadBucketsOptions"
@@ -95,7 +95,7 @@ const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
 
 const {
 	modelValue,
-	validationFields: rawValidationFields,
+	validationFields,
 	isNew,
 	hasValidationErrors,
 	save: saveItem,
@@ -104,12 +104,6 @@ const {
 	routeParamName: 'skillId',
 	parentId: route.params.id as string,
 });
-
-/** cross-package ref, same as `modelValue` below — unwrapped for the template */
-const validationFields = computed(() => rawValidationFields.value);
-
-// read the draft through a local computed so the template can unwrap it
-const queueSkill = computed(() => modelValue.value as EngineQueueSkill);
 
 const skillId = computed(() => route.params.skillId);
 

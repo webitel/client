@@ -12,7 +12,7 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-single-select
-          v-model="resourceGroup.resourceGroup"
+          v-model="modelValue.resourceGroup"
           :label="t('objects.ccenter.resGroups.resGroups', 1)"
           :regle-validation="validationFields?.resourceGroup"
           :search-method="loadResGroupsOptions"
@@ -64,7 +64,7 @@ const { hasSaveActionAccess } = useUserAccessControl({
 
 const {
 	modelValue,
-	validationFields: rawValidationFields,
+	validationFields,
 	isNew,
 	hasValidationErrors,
 	save: saveItem,
@@ -73,14 +73,6 @@ const {
 	routeParamName: 'resourceId',
 	parentId: route.params.id as string,
 });
-
-/** cross-package ref, same as `modelValue` below — unwrapped for the template */
-const validationFields = computed(() => rawValidationFields.value);
-
-// read the draft through a local computed so the template can unwrap it
-const resourceGroup = computed(
-	() => modelValue.value as EngineQueueResourceGroup,
-);
 
 const resourceId = computed(() => route.params.resourceId);
 
