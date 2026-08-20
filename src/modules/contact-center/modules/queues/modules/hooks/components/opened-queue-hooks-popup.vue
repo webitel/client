@@ -21,7 +21,7 @@
           required
         />
         <wt-single-select
-          v-model="hook.schema"
+          v-model="modelValue.schema"
           :disabled="!hasFlowsReadAccess"
           :label="t('objects.routing.flow.flow', 1)"
           :regle-validation="validationFields?.schema"
@@ -80,7 +80,7 @@ const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
 
 const {
 	modelValue,
-	validationFields: rawValidationFields,
+	validationFields,
 	isNew,
 	hasValidationErrors,
 	save: saveItem,
@@ -89,16 +89,6 @@ const {
 	routeParamName: 'hookId',
 	parentId: route.params.id as string,
 });
-
-/** cross-package ref, same as `modelValue` below — unwrapped for the template */
-const validationFields = computed(() => rawValidationFields.value);
-
-/**
- * Same cross-package ref problem as the delete-confirmation composable: the
- * card store's `modelValue` is created by ui-datalist's vue, so the template
- * will not unwrap it. Reading it through a local computed does.
- */
-const hook = computed(() => modelValue.value as EngineQueueHook);
 
 const hookId = computed(() => route.params.hookId);
 

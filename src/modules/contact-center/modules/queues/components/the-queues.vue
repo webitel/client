@@ -214,6 +214,7 @@ import { QueueMembersAPI } from '@webitel/api-services/api';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, getCurrentInstance, onMounted, ref } from 'vue';
@@ -224,7 +225,6 @@ import ObjectListPopup from '../../../../../app/components/utils/object-list-pop
 import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useDeleteConfirmation } from '../composables/useDeleteConfirmation';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { useQueuesDatalistStore, useQueuesGlobalStateStore } from '../stores';
 import type { Queue } from '../types/Queue';
@@ -288,12 +288,12 @@ const objectListPopupTitle = ref('');
 const objectListPopupItemRouteName = ref<string | null>(null);
 
 const {
-	isDeleteConfirmationPopup,
+	isVisible: isDeleteConfirmationPopup,
 	deleteCount,
 	deleteCallback,
 	askDeleteConfirmation,
 	closeDelete,
-} = useDeleteConfirmation();
+} = useDeleteConfirmationPopup();
 
 const path = computed(() => [
 	{

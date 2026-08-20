@@ -103,6 +103,7 @@
 import type { EngineQueueHook } from '@webitel/api-services/gen/models';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
@@ -111,7 +112,6 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import { useDeleteConfirmation } from '../../../composables/useDeleteConfirmation';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
 import { useQueueHooksDatalistStore } from '../stores';
 import HookPopup from './opened-queue-hooks-popup.vue';
@@ -171,12 +171,12 @@ watch(parentId, (id, previous) => {
 const ensureQueueSaved = useEnsureQueueSaved();
 
 const {
-	isDeleteConfirmationPopup,
+	isVisible: isDeleteConfirmationPopup,
 	deleteCount,
 	deleteCallback,
 	askDeleteConfirmation,
 	closeDelete,
-} = useDeleteConfirmation();
+} = useDeleteConfirmationPopup();
 
 const openPopup = (hookId: string) =>
 	router.push({

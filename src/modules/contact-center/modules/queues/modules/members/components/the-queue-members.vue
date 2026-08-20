@@ -233,6 +233,7 @@ import type {
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { storeToRefs } from 'pinia';
@@ -248,7 +249,6 @@ import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import { useDeleteConfirmation } from '../../../composables/useDeleteConfirmation';
 import { useParentQueue } from '../composables/useParentQueue';
 import { useQueueMembersDatalistStore } from '../stores';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
@@ -298,12 +298,12 @@ const {
 } = tableStore;
 
 const {
-	isDeleteConfirmationPopup,
+	isVisible: isDeleteConfirmationPopup,
 	deleteCount,
 	deleteCallback,
 	askDeleteConfirmation,
 	closeDelete,
-} = useDeleteConfirmation();
+} = useDeleteConfirmationPopup();
 
 const isFiltersPanelShown = ref(false);
 const isResetPopup = ref(false);

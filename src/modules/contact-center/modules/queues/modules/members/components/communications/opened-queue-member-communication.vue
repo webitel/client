@@ -80,12 +80,12 @@ import type {
 } from '@webitel/api-services/gen/models';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
+import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
-import { useDeleteConfirmation } from '../../../../composables/useDeleteConfirmation';
 import { useMemberCommunications } from '../../composables/useMemberCommunications';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
@@ -120,12 +120,12 @@ const {
 const selected = ref<EngineMemberCommunication[]>([]);
 
 const {
-	isDeleteConfirmationPopup,
+	isVisible: isDeleteConfirmationPopup,
 	deleteCount,
 	deleteCallback,
 	askDeleteConfirmation,
 	closeDelete,
-} = useDeleteConfirmation();
+} = useDeleteConfirmationPopup();
 
 const headers = computed(() => [
 	{
