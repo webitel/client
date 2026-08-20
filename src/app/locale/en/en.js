@@ -111,6 +111,7 @@ export default {
 		cron: 'Invalid cron expression',
 		hourRange: 'Hours must be from 00 to 23',
 		timerangeStartLessThanEnd: 'Time From cannot be greater than To',
+		timerangeNotIntersect: 'Time intervals on the same day cannot overlap',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`File contains invalid numbers. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -1345,6 +1346,7 @@ export default {
 						error: 'Error',
 					},
 				},
+				recordCall: 'Record call',
 			},
 		},
 		system: {

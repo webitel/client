@@ -113,6 +113,8 @@ export default {
 		cron: 'Nieprawidłowe wyrażenie cron',
 		hourRange: 'Godziny muszą być od 00 do 23',
 		timerangeStartLessThanEnd: 'Czas "Od" nie może być późniejszy niż "Do"',
+		timerangeNotIntersect:
+			'Interwały czasowe w tym samym dniu nie mogą się nakładać',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -1349,6 +1351,7 @@ export default {
 						error: 'Błąd',
 					},
 				},
+				recordCall: 'Nagraj połączenie',
 			},
 		},
 		system: {

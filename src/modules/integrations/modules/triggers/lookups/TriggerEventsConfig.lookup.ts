@@ -32,4 +32,7 @@ export const TriggerEventsByObjectConfig = {
 		EngineTriggerEventType.Create,
 		EngineTriggerEventType.Remove,
 	]),
+	[EngineTriggerObjectType.Call]: filterEventsByTypes([
+		EngineTriggerEventType.RecordCall,
+	]),
 } as const;

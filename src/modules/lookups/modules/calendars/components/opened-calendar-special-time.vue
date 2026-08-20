@@ -2,7 +2,7 @@
   <section class="opened-calendar-special-time table-section">
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.lookups.calendars.specialTime') }}
+        {{ t('objects.lookups.calendars.specialTime') }}
       </h3>
     </header>
 
@@ -24,7 +24,9 @@
             :model-value="minToSec(item.start)"
             format="hh:mm"
             no-label
-            @update:model-value="setItemProp({ prop: 'start', index, value: secToMin($event) })"
+            @update:model-value="
+              setItemProp({ prop: 'start', index, value: secToMin($event) })
+            "
           />
         </template>
         <template #end="{ item, index }">
@@ -33,14 +35,18 @@
             :model-value="minToSec(item.end)"
             format="hh:mm"
             no-label
-            @update:model-value="setItemProp({ prop: 'end', index, value: secToMin($event) })"
+            @update:model-value="
+              setItemProp({ prop: 'end', index, value: secToMin($event) })
+            "
           />
         </template>
         <template #state="{ item, index }">
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="!item.disabled"
-            @update:model-value="setItemProp({ prop: 'disabled', index, value: !$event })"
+            @update:model-value="
+              setItemProp({ prop: 'disabled', index, value: !$event })
+            "
           />
         </template>
         <template #actions="{ item, index }">
@@ -60,71 +66,35 @@
   </section>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { useWeekDaysData } from '../composables/useWeekDaysData.js';
+import { useWeekDaysData } from '../composables/useWeekDaysData';
+import type { CalendarCard } from '../stores';
 
-const namespace = 'lookups/calendars';
+const modelValue = defineModel<CalendarCard>({
+	required: true,
+});
 
-export default {
-	name: 'OpenedCalendarSpecialTime',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup() {
-		const { disableUserInput } = useUserAccessControl();
-		const dataName = 'specials';
-		const {
-			dataList,
-			headers,
-			weekDaysList,
-			setItemProp,
-			addRange,
-			removeRange,
-			isDayStart,
-			minToSec,
-			secToMin,
-		} = useWeekDaysData(namespace, dataName);
-		return {
-			disableUserInput,
-			dataList,
-			headers,
-			weekDaysList,
-			setItemProp,
-			addRange,
-			removeRange,
-			isDayStart,
-			minToSec,
-			secToMin,
-		};
-	},
+/** declared, not used: the card binds it to every tab */
+defineProps<{
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
+}>();
 
-	methods: {
-		...mapActions(namespace, {
-			initializeSpecials: 'INITIALIZE_SPECIALS',
-		}),
-		initSpecials() {
-			if (!this.dataList.length) this.initializeSpecials();
-		},
-	},
-	watch: {
-		dataList: {
-			handler() {
-				this.initSpecials();
-			},
-			deep: true,
-		},
-	},
-	mounted() {
-		this.initSpecials();
-	},
-};
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const {
+	dataList,
+	headers,
+	weekDaysList,
+	setItemProp,
+	addRange,
+	removeRange,
+	isDayStart,
+	minToSec,
+	secToMin,
+} = useWeekDaysData(modelValue, 'specials');
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

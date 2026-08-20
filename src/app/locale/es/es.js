@@ -112,6 +112,8 @@ export default {
 		hourRange: 'Las horas deben estar entre 00 y 23',
 		timerangeStartLessThanEnd:
 			'La hora "Desde" no puede ser posterior a "Hasta"',
+		timerangeNotIntersect:
+			'Los intervalos de tiempo del mismo día no pueden superponerse',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`El archivo contiene números incorrectos. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -1356,6 +1358,7 @@ export default {
 						error: 'Error',
 					},
 				},
+				recordCall: 'Grabar llamada',
 			},
 		},
 		system: {

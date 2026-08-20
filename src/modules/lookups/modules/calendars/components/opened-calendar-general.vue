@@ -2,83 +2,73 @@
   <section>
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
     <div class="object-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="modelValue.timezone"
         :show-clear="false"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.calendars.timezone')"
-        :search-method="loadTimezones"
-        :v="v.itemInstance.timezone"
-        :model-value="itemInstance.timezone"
+        :label="t('objects.lookups.calendars.timezone')"
+        :search-method="CalendarsAPI.getTimezonesLookup"
+        :regle-validation="validationFields?.timezone"
         required
-        @update:model-value="setItemProp({ prop: 'timezone', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
       <wt-switcher
+        v-model:model-value="modelValue.expires"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.calendars.fulltime')"
-        :model-value="itemInstance.expires"
-        @update:model-value="setItemProp({ prop: 'expires', value: $event })"
+        :label="t('objects.lookups.calendars.fulltime')"
       />
       <wt-datepicker
-        v-show="itemInstance.expires"
+        v-show="modelValue.expires"
+        v-model:model-value="modelValue.startAt"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.calendars.start')"
-        :model-value="itemInstance.startAt"
-        @update:model-value="setItemProp({ prop: 'startAt', value: $event })"
+        :label="t('objects.lookups.calendars.start')"
       />
       <wt-datepicker
-        v-show="itemInstance.expires"
+        v-show="modelValue.expires"
+        v-model:model-value="modelValue.endAt"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.calendars.end')"
-        :model-value="itemInstance.endAt"
-        @update:model-value="setItemProp({ prop: 'endAt', value: $event })"
+        :label="t('objects.lookups.calendars.end')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import { CalendarsAPI } from '@webitel/api-services/api';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CalendarsAPI from '../api/calendars';
+import type { CalendarCard } from '../stores';
 
-export default {
-	name: 'OpenedCalendarGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	methods: {
-		loadTimezones(params) {
-			return CalendarsAPI.getTimezonesLookup(params);
-		},
-	},
-};
+const modelValue = defineModel<CalendarCard>({
+	required: true,
+});
+
+/**
+ * `timezone` is bound as a whole rather than through `$fields.id`: an empty
+ * lookup fails on the id when the value is `{}`, but on the field itself when
+ * it is missing, and the parent status covers both.
+ */
+defineProps<{
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

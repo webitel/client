@@ -21,7 +21,7 @@ import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cau
 import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
 import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
 import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.js';
-import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars.js';
+import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
 import PauseTemplatesRoutes from '../../modules/lookups/modules/pause-templates/router/pauseTemplates.js';

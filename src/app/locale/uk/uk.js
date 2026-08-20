@@ -115,6 +115,7 @@ export default {
 		cron: 'Некоректний cron-вираз',
 		hourRange: 'Години мають бути від 00 до 23',
 		timerangeStartLessThanEnd: 'Час Від не може бути більший ніж До',
+		timerangeNotIntersect: 'Інтервали часу в один день не можуть перетинатися',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файл містить некоректні номери. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -1356,6 +1357,7 @@ export default {
 						error: 'Помилка',
 					},
 				},
+				recordCall: 'Запис дзвінка',
 			},
 		},
 		system: {

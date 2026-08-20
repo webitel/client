@@ -11,9 +11,10 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
-
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="main-container"
         @submit.prevent="save"
       >
@@ -22,164 +23,159 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            v-if="Component"
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+            v-bind="isPermissionsTab ? permissionsStoreData : undefined"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { helpers, required } from '@vuelidate/validators';
-import { mapState } from 'vuex';
+<script setup lang="ts">
+import { useCardComponent } from '@webitel/ui-datalist/card';
+import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
+import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
 import {
-	hourRange,
-	timerangeNotIntersect,
-	timerangeStartLessThanEnd,
-} from '../../../../../app/utils/validators';
-import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum.js';
-import General from './opened-calendar-general.vue';
-import Holidays from './opened-calendar-holidays.vue';
-import SpecialTime from './opened-calendar-special-time.vue';
-import WorkWeek from './opened-calendar-work-week.vue';
+	type CalendarCard,
+	useCalendarsCardStore,
+	useCalendarsPermissionsStore,
+} from '../stores';
 
-export default {
-	name: 'OpenedCalendar',
-	components: {
-		General,
-		WorkWeek,
-		Holidays,
-		SpecialTime,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'lookups/calendars',
-		routeName: RouteNames.CALENDARS,
-		permissionsTabPathName: CalendarRouteNames.PERMISSIONS,
-	}),
-	validations() {
-		const hourRangeWithMessage = helpers.withMessage(
-			this.$t('validation.hourRange'),
-			hourRange,
-		);
-		const timerangeStartLessThanEndWithMessage = helpers.withMessage(
-			this.$t('validation.timerangeStartLessThanEnd'),
-			timerangeStartLessThanEnd,
-		);
-		return {
-			itemInstance: {
-				name: {
-					required,
-				},
-				timezone: {
-					required,
-				},
-				accepts: {
-					timerangeNotIntersect,
-					$each: helpers.forEach({
-						start: {
-							hourRange: hourRangeWithMessage,
-							timerangeStartLessThanEnd: timerangeStartLessThanEndWithMessage,
-						},
-						end: {
-							hourRange: hourRangeWithMessage,
-						},
-					}),
-				},
-				// specials: {
-				//   timerangeNotIntersect,
-				//   $each: helpers.forEach({
-				//     timerangeStartLessThanEnd,
-				//   }),
-				// },
-			},
-		};
-	},
+const {
+	hasSaveActionAccess,
+	hasDeleteAccess,
+	hasCreateAccess,
+	hasReadAccess,
+	hasUpdateAccess,
+} = useUserAccessControl();
 
-	computed: {
-		...mapState('userinfo', {
-			license: (state) => state.license,
-		}),
-		hasLicenseOnWfm() {
-			return this.license?.some((item) => item.prod === 'WFM');
+const { hasLicense } = useUserinfoStore();
+const hasLicenseOnWfm = computed(() => hasLicense(WebitelLicense.WFM));
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<CalendarCard>({
+	useCardStore: useCalendarsCardStore,
+});
+
+const tabs = computed(() => {
+	const array: {
+		text: string;
+		value: string;
+		pathName: string;
+	}[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: CalendarRouteNames.GENERAL,
 		},
-		tabs() {
-			const tabs = [
-				{
-					value: 'general',
-					text: this.$t('objects.general'),
-					pathName: CalendarRouteNames.GENERAL,
-				},
-				{
-					value: 'work-week',
-					text: this.$t('objects.lookups.calendars.workWeek'),
-					pathName: CalendarRouteNames.WORKING_WEEK,
-				},
-				{
-					value: 'holidays',
-					text: this.$t('objects.lookups.calendars.holidays', 2),
-					pathName: CalendarRouteNames.HOLIDAYS,
-				},
-			];
-
-			const specialTime = {
-				value: 'special-time',
-				text: this.$t('objects.lookups.calendars.specialTime'),
-				pathName: CalendarRouteNames.SPECIAL_TIME,
-			};
-
-			if (this.hasLicenseOnWfm) tabs.push(specialTime);
-			if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
+		{
+			text: t('objects.lookups.calendars.workWeek'),
+			value: 'work-week',
+			pathName: CalendarRouteNames.WORKING_WEEK,
 		},
-
-		path() {
-			const baseUrl = '/lookups/calendars';
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.calendars.calendars', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+		{
+			text: t('objects.lookups.calendars.holidays', 2),
+			value: 'holidays',
+			pathName: CalendarRouteNames.HOLIDAYS,
 		},
-	},
+	];
+
+	if (hasLicenseOnWfm.value) {
+		array.push({
+			text: t('objects.lookups.calendars.specialTime'),
+			value: 'special-time',
+			pathName: CalendarRouteNames.SPECIAL_TIME,
+		});
+	}
+
+	if (!isNew.value) {
+		array.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: CalendarRouteNames.PERMISSIONS,
+		});
+	}
+
+	return array;
+});
+
+const { currentTab } = useCardTabs(tabs);
+
+const changeTab = (tab: { pathName?: string }) => {
+	if (!tab?.pathName) return;
+
+	return router.push({
+		name: tab.pathName,
+		params: route.params,
+		query: route.query,
+	});
 };
-</script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+const isPermissionsTab = computed(
+	() => route.name === CalendarRouteNames.PERMISSIONS,
+);
+
+const permissionsStoreData = computed(() => ({
+	store: useCalendarsPermissionsStore,
+	access: {
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		read: hasReadAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: route.params.id,
+}));
+
+const { close } = useClose(RouteNames.CALENDARS);
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
+	},
+	{
+		name: t('objects.lookups.calendars.calendars', 2),
+		route: '/lookups/calendars',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+	},
+]);
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
+</script>

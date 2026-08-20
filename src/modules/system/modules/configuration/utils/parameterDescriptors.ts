@@ -3,7 +3,9 @@ import { minValue } from '@vuelidate/validators';
 import { LabelsAPI } from '@webitel/api-services/api';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { LoginOptions, TypesExportedSettings } from '@webitel/ui-sdk/enums';
+import { RelativeDatetimeValue } from '@webitel/ui-sdk/src/enums/RelativeDatetimeValue/RelativeDatetimeValue';
 
+import { DefaultMembersFilterOptions } from '../enum/DefaultMembersFilterOptions.enum';
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
 import { PasswordCategories } from '../enum/PasswordCategories.enum';
 
@@ -23,6 +25,7 @@ export interface SelectOption {
 	name: string;
 	value: string;
 	id: string;
+	locale?: string;
 }
 
 export interface SelectConfig {
@@ -66,6 +69,16 @@ const passwordCategoriesOptions = Object.values(PasswordCategories).map(
 		category,
 	}),
 );
+
+// reuse RelativeDatetimeValue's translations for the matching DefaultMembersFilterOptions value
+const defaultMembersFilterToRelativeDatetime: Record<
+	DefaultMembersFilterOptions,
+	RelativeDatetimeValue
+> = {
+	[DefaultMembersFilterOptions.Today]: RelativeDatetimeValue.Today,
+	[DefaultMembersFilterOptions.ThisWeek]: RelativeDatetimeValue.ThisWeek,
+	[DefaultMembersFilterOptions.ThisMonth]: RelativeDatetimeValue.ThisMonth,
+};
 
 const parameterDescriptors: {
 	[key in EngineSystemSettingName]?: ParameterDescriptor;
@@ -165,6 +178,18 @@ const parameterDescriptors: {
 		listDisplay: {
 			keyProperty: 'id',
 			labelProperty: 'label',
+		},
+	},
+	[EngineSystemSettingName.DefaultMembersFilter]: {
+		type: ConfigurationValueType.Select,
+		select: {
+			options: Object.values(DefaultMembersFilterOptions).map((value) => ({
+				name: value,
+				value,
+				id: value,
+				locale: `webitelUI.filters.datetime.${defaultMembersFilterToRelativeDatetime[value]}`,
+			})),
+			labelKey: 'vocabulary.values',
 		},
 	},
 

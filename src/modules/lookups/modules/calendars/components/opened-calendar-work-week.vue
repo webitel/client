@@ -2,7 +2,7 @@
   <section class="opened-calendar-work-week table-section">
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.lookups.calendars.workWeek') }}
+        {{ t('objects.lookups.calendars.workWeek') }}
       </h3>
     </header>
 
@@ -20,31 +20,35 @@
         </template>
         <template #start="{ item, index }">
           <wt-timepicker
-            :custom-validators="fromValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
-            :v="getFieldValidation(index, 'start')"
+            :regle-validation="issueFor(index, 'start')"
             format="hh:mm"
             no-label
-            @update:model-value="setItemProp({ prop: 'start', index, value: secToMin($event) })"
+            @update:model-value="
+              setItemProp({ prop: 'start', index, value: secToMin($event) })
+            "
           />
         </template>
         <template #end="{ item, index }">
           <wt-timepicker
-            :custom-validators="hourRangeValidators"
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
-            :v="getFieldValidation(index, 'end')"
+            :regle-validation="issueFor(index, 'end')"
             format="hh:mm"
             no-label
-            @update:model-value="setItemProp({ prop: 'end', index, value: secToMin($event) })"
+            @update:model-value="
+              setItemProp({ prop: 'end', index, value: secToMin($event) })
+            "
           />
         </template>
         <template #state="{ item, index }">
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="!item.disabled"
-            @update:model-value="setItemProp({ prop: 'disabled', index, value: !$event })"
+            @update:model-value="
+              setItemProp({ prop: 'disabled', index, value: !$event })
+            "
           />
         </template>
         <template #actions="{ item, index }">
@@ -64,78 +68,38 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { getForEachHourRangeValidation } from '../../../../../app/utils/validators';
-import { useWeekDaysData } from '../composables/useWeekDaysData.js';
+import { useWeekDaysData } from '../composables/useWeekDaysData';
+import { useWeekDaysIssues } from '../composables/useWeekDaysIssues';
+import type { CalendarCard } from '../stores';
 
-const namespace = 'lookups/calendars';
-const dataName = 'accepts';
+const modelValue = defineModel<CalendarCard>({
+	required: true,
+});
 
-export default {
-	name: 'OpenedCalendarWorkWeek',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup() {
-		const { disableUserInput } = useUserAccessControl();
-		const {
-			dataList,
-			headers,
-			weekDaysList,
-			setItemProp,
-			addRange,
-			removeRange,
-			isDayStart,
-			minToSec,
-			secToMin,
-		} = useWeekDaysData(namespace, dataName);
-		return {
-			disableUserInput,
-			dataList,
-			headers,
-			weekDaysList,
-			setItemProp,
-			addRange,
-			removeRange,
-			isDayStart,
-			minToSec,
-			secToMin,
-		};
-	},
-	computed: {
-		hourRangeValidators() {
-			return [
-				{
-					name: 'hourRange',
-					text: this.$t('validation.hourRange'),
-				},
-			];
-		},
-		fromValidators() {
-			return [
-				...this.hourRangeValidators,
-				{
-					name: 'timerangeStartLessThanEnd',
-					text: this.$t('validation.timerangeStartLessThanEnd'),
-				},
-			];
-		},
-	},
-	methods: {
-		getFieldValidation(index, prop) {
-			return getForEachHourRangeValidation(
-				this.v.itemInstance.accepts.$each.$response,
-				index,
-				prop,
-			);
-		},
-	},
-};
+/** declared, not used: the rows validate live, see useWeekDaysIssues */
+defineProps<{
+	validationFields?: Partial<CardValidationFields<CalendarCard>>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const {
+	dataList,
+	headers,
+	weekDaysList,
+	setItemProp,
+	addRange,
+	removeRange,
+	isDayStart,
+	minToSec,
+	secToMin,
+} = useWeekDaysData(modelValue, 'accepts');
+
+const { issueFor } = useWeekDaysIssues(dataList);
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

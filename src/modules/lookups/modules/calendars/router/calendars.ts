@@ -1,7 +1,8 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CalendarRouteNames from './_internals/CalendarRouteNames.enum.js';
+import CalendarRouteNames from './_internals/CalendarRouteNames.enum';
 
 const Calendars = () => import('../components/the-calendars.vue');
 const OpenedCalendar = () => import('../components/opened-calendar.vue');
@@ -14,8 +15,6 @@ const OpenedCalendarWorkingWeek = () =>
 	import('../components/opened-calendar-work-week.vue');
 const OpenedCalendarSpecialTime = () =>
 	import('../components/opened-calendar-special-time.vue');
-const PermissionsTab = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const CalendarsRoutes = [
 	{

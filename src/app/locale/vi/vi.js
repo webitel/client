@@ -111,6 +111,8 @@ export default {
 		cron: 'Biểu thức cron không hợp lệ',
 		hourRange: 'Giờ phải từ 00 đến 23',
 		timerangeStartLessThanEnd: 'Thời gian "Từ" không được muộn hơn "Đến"',
+		timerangeNotIntersect:
+			'Các khoảng thời gian trong cùng một ngày không được chồng chéo',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -1343,6 +1345,7 @@ export default {
 						error: 'Lỗi',
 					},
 				},
+				recordCall: 'Ghi âm cuộc gọi',
 			},
 		},
 		system: {

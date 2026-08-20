@@ -112,6 +112,8 @@ export default {
 		hourRange: "Soatlar 00 dan 23 gacha bo'lishi kerak",
 		timerangeStartLessThanEnd:
 			'"Dan" vaqti "Gacha" vaqtidan kech bo\'lishi mumkin emas',
+		timerangeNotIntersect:
+			"Bir kundagi vaqt oralig'lari bir-biriga kesilib o'tmasligi kerak",
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Faylda noto'g'ri raqamlar mavjud. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -1350,6 +1352,7 @@ export default {
 						error: 'Xato',
 					},
 				},
+				recordCall: "Qo'ng'iroqni yozib olish",
 			},
 		},
 		system: {
