@@ -91,8 +91,7 @@ import CommunicationPopup from './opened-queue-member-communication-popup.vue';
 
 /**
  * Not a datalist: these rows only exist on the member's draft and are saved
- * with it, so there is nothing to page or fetch. That is also why the old
- * store module's communication CRUD actions are gone.
+ * with it, so there is nothing to page or fetch.
  */
 const modelValue = defineModel<EngineMemberInQueue>({
 	required: true,

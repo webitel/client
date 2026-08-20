@@ -22,16 +22,13 @@ const findCommunicationIdByCode = (
 	communications.find((communication) => communication.code === code)?.id;
 
 /**
- * @description
  * Turns parsed csv rows into queue members.
  *
  * A row carries its communications as parallel arrays — destinations, codes,
  * priorities and so on — which are zipped back together here. Rows with a
  * destination but no code (or the reverse) cannot form a communication, so the
  * shorter of the two decides how many are built.
- *
- * Ported from `normalizeCsvMembers`; behaviour, including which failures throw
- * and which are only logged, is unchanged.
+
  */
 export const useNormalizeCsvMembers = ({
 	parentId,

@@ -26,7 +26,6 @@ export interface QueueTab {
 }
 
 /**
- * @description
  * The tabs that vary by queue type.
  *
  * Every queue leads with General and Parameters and trails with Hooks and

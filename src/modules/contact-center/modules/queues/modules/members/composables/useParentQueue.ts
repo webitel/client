@@ -6,12 +6,11 @@ import { useRoute } from 'vue-router';
 
 /**
  * Shared across the members list and card so moving between them does not
- * refetch the queue, which is what the vuex `parentQueue` state gave us.
+ * refetch the queue.
  */
 const cache = new Map<string, EngineQueue>();
 
 /**
- * @description
  * The queue these members belong to — its name for the breadcrumb, and its
  * type, which decides whether members can be edited at all.
  */

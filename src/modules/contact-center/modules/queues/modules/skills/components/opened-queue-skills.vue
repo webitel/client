@@ -117,8 +117,6 @@ import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
 import { useQueueSkillsDatalistStore } from '../stores';
 import SkillPopup from './opened-queue-skills-popup.vue';
 
-// the card page still passes `namespace` and a vuelidate instance to every tab
-
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -190,10 +188,8 @@ const edit = (item: EngineQueueSkill) => openPopup(String(item.id));
 /**
  * The bucket list of one row, kept deep-linkable through `?bucket=<skill id>`.
  *
- * This used to be store state filled by a `GET_ITEM_BUCKETS` action, but the
- * action only ever searched `dataList` for the row — every row already carries
- * its own `buckets`. A computed says the same thing, and comparing as strings
- * fixes the old `parseInt` mismatch against string ids.
+ * Every row already carries its own `buckets`. Compared as strings, because
+ * the ids are not consistently numbers.
  */
 const bucketsRowId = computed(() => route.query.bucket as string | undefined);
 

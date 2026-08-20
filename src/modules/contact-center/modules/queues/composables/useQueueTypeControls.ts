@@ -9,12 +9,9 @@ import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 export type QueueSpecificControls = Record<string, boolean>;
 
 /**
- * @description
  * Which form controls a queue of this type shows.
  *
- * The General, Parameters and Processing tabs each used to build this same
- * boolean map in their own `specificControls` computed. Keys are control ids
- * from `QueueTypeProperties`, including dotted ones such as
+ * Keys are control ids from `QueueTypeProperties`, including dotted ones such as
  * `'taskProcessing.prolongationOptions.enabled'`, so the templates' `v-if`
  * expressions carry over unchanged.
  */
@@ -36,10 +33,6 @@ export const useQueueTypeControls = (
 	/**
 	 * Whether this queue type requires `path` (dotted, e.g. `payload.maxAttempts`),
 	 * for the asterisk on a field's label.
-	 *
-	 * The old templates got this from `:required="v.itemInstance.calendar"` —
-	 * truthy only when that type's `validations()` branch had declared a rule for
-	 * the field. Reading the shared rule table says the same thing outright.
 	 */
 	const isFieldRequired = (path: string) => {
 		const queueType = toValue(type);

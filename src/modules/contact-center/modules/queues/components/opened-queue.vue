@@ -125,7 +125,7 @@ const queueType = computed<number | undefined>(
 		routeQueueType.value,
 );
 
-/** legacy guard: the page rendered only once `itemInstance.type` was known */
+/** nothing renders until the queue's type is known */
 const showQueuePage = computed(
 	() =>
 		isInitialized.value &&

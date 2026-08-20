@@ -5,7 +5,6 @@ import { useQueuesDatalistStore } from '../datalist/queuesDatalistStore';
 import { QueuesNamespace } from '../namespace';
 
 /**
- * @description
  * The enabled/disabled state of *every* queue matching the table's current
  * filters, as opposed to the per-row `enabled` the datalist already holds.
  *

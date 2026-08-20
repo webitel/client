@@ -4,7 +4,6 @@ import {
 } from '@webitel/ui-datalist/filters';
 
 /**
- * @description
  * The members filters panel.
  *
  * Two filters are renamed from what the vuex store called them, because the

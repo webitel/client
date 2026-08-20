@@ -5,7 +5,6 @@ import {
 } from '@webitel/ui-datalist/filters';
 
 /**
- * @description
  * The queue log's filters panel.
  *
  * Each name is the request param key — `QueueLogsAPI.getList` reads `joinedAt`,

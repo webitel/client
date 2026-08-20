@@ -2,7 +2,6 @@ import type { EngineMemberCommunication } from '@webitel/api-services/gen/models
 import { computed, type Ref, toRaw } from 'vue';
 
 /**
- * @description
  * A member's communications, edited in place on the card's draft.
  *
  * These were a vuex sub-collection with their own CRUD actions, but they are

@@ -1,16 +1,18 @@
 <template>
-  <!-- :key forces a re-render so the switcher snaps back when the user cancels -->
+  <!--
+    The shared switcher keeps its own copy of the value and writes it before
+    asking, so a cancelled change has to be undone by remounting it.
+  -->
   <global-state-switcher
     :key="switcherKey"
     :disabled="disabled"
     :model-value="isAllEnabled"
     @update:model-value="askConfirmation"
-    @on-load-global-state="fetchGlobalState"
   />
   <global-state-confirmation-popup
     :affected-count="affectedCount"
-    :shown="isConfirmationPopup"
-    @close="closeConfirmation"
+    :shown="pendingValue !== null"
+    @close="cancelChange"
     @confirm="confirmChange"
   />
 </template>
@@ -25,19 +27,12 @@ import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confi
 import { useQueuesDatalistStore, useQueuesGlobalStateStore } from '../stores';
 
 /**
- * @description
  * Enables or disables every queue matching the table's current filters.
  *
- * The state itself belongs to `useQueuesGlobalStateStore`, because the table's
- * per-row toggle moves it too. What stays here is the lifecycle: fetch on
- * mount, refetch when the filters change. Keeping the watcher in the component
- * rather than the store means it stops when the page unmounts, instead of
- * refetching in the background for the rest of the session.
- *
- * The debounce is a real one now: the old page defined
- * `debouncedFetchGlobalState()` as a method that reassigned itself to a
- * debounced function on first call, so the first invocation only ever built the
- * debouncer and never fetched.
+ * The state itself lives in `useQueuesGlobalStateStore`, because the table's
+ * per-row toggle moves it too. Only the lifecycle stays here: a filters watcher
+ * in the store would keep refetching for the rest of the session, since the
+ * store outlives the page.
  */
 defineProps<{
 	disabled?: boolean;
@@ -50,19 +45,15 @@ const globalStateStore = useQueuesGlobalStateStore();
 const { affectedCount, isAllEnabled } = storeToRefs(globalStateStore);
 const { fetchGlobalState, setGlobalState } = globalStateStore;
 
-const switcherKey = ref(0);
-const isConfirmationPopup = ref(false);
+/** the value awaiting confirmation; non-null exactly while the popup is open */
 const pendingValue = ref<boolean | null>(null);
-
-const debouncedFetch = useDebounceFn(fetchGlobalState, 300);
+const switcherKey = ref(0);
 
 const askConfirmation = (value: boolean) => {
 	pendingValue.value = value;
-	isConfirmationPopup.value = true;
 };
 
-const closeConfirmation = () => {
-	isConfirmationPopup.value = false;
+const cancelChange = () => {
 	pendingValue.value = null;
 	switcherKey.value += 1;
 };
@@ -70,11 +61,11 @@ const closeConfirmation = () => {
 const confirmChange = async () => {
 	await setGlobalState(!!pendingValue.value);
 
-	isConfirmationPopup.value = false;
 	pendingValue.value = null;
 };
 
-// one deep watch replaces the legacy pair of `getFilters` + `search` watchers
+const debouncedFetch = useDebounceFn(fetchGlobalState, 300);
+
 watch(
 	() => filtersManager.value.getAllValues(),
 	() => debouncedFetch(),

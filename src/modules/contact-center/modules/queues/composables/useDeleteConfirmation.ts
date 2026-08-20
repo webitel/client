@@ -2,7 +2,6 @@ import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteCo
 import { computed } from 'vue';
 
 /**
- * @description
  * `useDeleteConfirmationPopup`, with its refs re-created here.
  *
  * The composable lives in ui-sdk, which resolves its own copy of vue while the

@@ -25,9 +25,8 @@ const emit = defineEmits<{
 }>();
 
 /**
- * `uploadCSVWrapperComponentMixin` was only a `file` prop and a `close` emit,
- * both of which are declared here. The mixin file stays — other csv importers
- * still use it.
+ * The csv importers' shared mixin was only a `file` prop and a `close` emit,
+ * both of which are declared here.
  */
 const mappingFields = ref<
 	{
