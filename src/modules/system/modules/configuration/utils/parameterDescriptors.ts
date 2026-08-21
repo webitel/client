@@ -222,6 +222,9 @@ const parameterDescriptors: {
 		type: ConfigurationValueType.Number,
 		defaultValue: 30,
 	},
+	[EngineSystemSettingName.SelfAssignedCallSoundNotification]: {
+		type: ConfigurationValueType.Boolean,
+	},
 
 	// Password settings
 	[EngineSystemSettingName.PasswordExpiryDays]: {

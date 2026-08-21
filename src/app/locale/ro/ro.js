@@ -73,6 +73,8 @@ export default {
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Sunet pentru mesaj nou',
 			[NotificationType.NewChatSound]: 'Sunet pentru chat nou',
+			[NotificationType.SelfAssignedCallSound]:
+				'Sunet pentru apel auto-asignat',
 			[NotificationType.ChatEndSound]: 'Sunet la sfârșitul chat-ului',
 			[NotificationType.CallEndSound]: 'Sunet la sfârșitul apelului',
 			[NotificationType.TaskEndSound]: 'Sunet la sfârșitul sarcinii',

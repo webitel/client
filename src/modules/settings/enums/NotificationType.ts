@@ -3,6 +3,8 @@ import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 export const NotificationType = {
 	NewMessageSound: EngineSystemSettingName.NewMessageSoundNotification,
 	NewChatSound: EngineSystemSettingName.NewChatSoundNotification,
+	SelfAssignedCallSound:
+		EngineSystemSettingName.SelfAssignedCallSoundNotification,
 	ChatEndSound: EngineSystemSettingName.ChatEndSoundNotification,
 	CallEndSound: EngineSystemSettingName.CallEndSoundNotification,
 	TaskEndSound: EngineSystemSettingName.TaskEndSoundNotification,

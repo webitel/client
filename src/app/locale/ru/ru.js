@@ -74,6 +74,8 @@ export default {
 			[NotificationType.NewMessageSound]:
 				'Звуковое уведомление о новом сообщении',
 			[NotificationType.NewChatSound]: 'Звуковое уведомление о новом чате',
+			[NotificationType.SelfAssignedCallSound]:
+				'Звук самостоятельно назначенного звонка',
 			[NotificationType.ChatEndSound]: 'Звуковое уведомление о завершении чата',
 			[NotificationType.CallEndSound]:
 				'Звуковое уведомление о завершении звонка',
