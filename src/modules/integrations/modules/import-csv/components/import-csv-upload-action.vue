@@ -22,11 +22,10 @@
 
 <script>
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/components/upload-csv-preview-popup.vue';
 import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
 import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
-import ImportCsvRouteNames from '../router/_internals/ImportCsvRouteNames.enum.js';
+import UploadCsvPreviewPopup from './upload-csv-preview-popup.vue';
 
 export default {
 	name: 'ImportCsvUploadAction',
@@ -49,6 +48,7 @@ export default {
 	},
 	data: () => ({
 		file: null,
+		allCommunications: null,
 	}),
 	computed: {
 		parentId() {

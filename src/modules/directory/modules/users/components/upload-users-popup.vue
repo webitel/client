@@ -1,24 +1,30 @@
 <template>
-  <upload-csv-popup
+  <wt-upload-csv-popup
+    v-bind="$attrs"
     :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
-    v-bind="$attrs"
     @close="close"
   />
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
+
 import UsersAPI from '../api/users';
 
 const baseLocale = 'objects.directory.users.csvMappingFields';
 
 export default {
 	name: 'UploadUsersPopup',
-	mixins: [
-		uploadCSVWrapperComponentMixin,
-	],
+	components: {
+		WtUploadCsvPopup,
+	},
+	props: {
+		file: {
+			required: true,
+		},
+	},
 	data: () => ({
 		mappingFields: [
 			{
@@ -48,6 +54,9 @@ export default {
 		],
 	}),
 	methods: {
+		close() {
+			this.$emit('close');
+		},
 		async saveBulkData(data) {
 			let processedChunkIndex = 1;
 			try {
