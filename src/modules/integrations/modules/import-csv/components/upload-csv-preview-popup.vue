@@ -32,13 +32,6 @@
           />
         </article>
       </section>
-
-      <article
-        v-show="!isParsingPreview && parseErrorStackTrace"
-        class="upload-csv-preview-popup__error-stack-trace typo-caption"
-      >
-        {{ parseErrorStackTrace }}
-      </article>
     </template>
 
     <template
@@ -97,7 +90,6 @@ const {
 	isReadingFile,
 	isParsingCSV,
 	isParsingPreview,
-	parseErrorStackTrace,
 	csvPreviewTableData,
 	filteredCsvPreviewTableHeaders,
 	allowSaveAction,
@@ -131,14 +123,6 @@ const {
   .upload-csv-preview-popup__file-preview .wt-table {
     overflow: auto;
     max-width: 60vw;
-  }
-
-  .upload-csv-preview-popup__error-stack-trace {
-    margin-top: var(--spacing-sm);
-    padding: var(--spacing-sm);
-    color: var(--error-color);
-    border-radius: var(--border-radius);
-    background: var(--secondary-color);
   }
 }
 </style>
