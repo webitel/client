@@ -50,13 +50,13 @@ export default {
 		close() {
 			this.$emit('close');
 		},
-		async uploadFile() {
+		async uploadFile({ separator }) {
 			const selectedColumn = this.mappingFields[0].csv;
 
 			const payload = {
 				parentId: this.parentId,
 				file: this.file,
-				delimiter: this.separator || ',',
+				delimiter: separator || ',',
 				map: selectedColumn,
 			};
 
