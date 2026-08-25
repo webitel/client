@@ -73,6 +73,7 @@ export default {
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Âm thanh tin nhắn mới',
 			[NotificationType.NewChatSound]: 'Âm thanh chat mới',
+			[NotificationType.SelfAssignedCallSound]: 'Âm thanh cuộc gọi tự nhận',
 			[NotificationType.ChatEndSound]: 'Âm thanh kết thúc chat',
 			[NotificationType.CallEndSound]: 'Âm thanh kết thúc cuộc gọi',
 			[NotificationType.TaskEndSound]: 'Âm thanh kết thúc nhiệm vụ',
