@@ -73,6 +73,8 @@ export default {
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Yangi xabar ovozi',
 			[NotificationType.NewChatSound]: 'Yangi chat ovozi',
+			[NotificationType.SelfAssignedCallSound]:
+				"O'z-o'ziga tayinlangan qo'ng'iroq ovozi",
 			[NotificationType.ChatEndSound]: 'Chat tugashi ovozi',
 			[NotificationType.CallEndSound]: "Qo'ng'iroq tugashi ovozi",
 			[NotificationType.TaskEndSound]: 'Vazifa tugashi ovozi',
