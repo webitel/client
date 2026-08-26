@@ -9,8 +9,10 @@ I think, this issue should go on migration to Vue 3, so I left it "as is".
 import './app/css/do-not-delete-me.scss';
 
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
+import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 import { createApp } from 'vue';
+import instance from './app/api/instance';
 import ActionComponents from './app/components/actions';
 import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
@@ -41,6 +43,9 @@ setApiServicesConfig({
 	eventBus,
 	i18n,
 });
+
+// generated api-services clients call through this app's instance
+setDefaultAxiosInstance(instance);
 
 const setTokenFromUrl = () => {
 	try {
