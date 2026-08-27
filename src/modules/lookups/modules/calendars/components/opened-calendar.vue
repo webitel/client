@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCardTabs, useCardComponent } from '@webitel/ui-datalist/card';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
 import { computed } from 'vue';

@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import type { EngineOnlineSkills } from '@webitel/api-services/gen/models';
-import { useCardTabs, useCardComponent } from '@webitel/ui-datalist/card';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
