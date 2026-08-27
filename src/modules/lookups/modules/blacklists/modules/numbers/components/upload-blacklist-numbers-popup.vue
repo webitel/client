@@ -1,5 +1,5 @@
 <template>
-  <upload-csv-popup
+  <wt-upload-csv-popup
     :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
@@ -8,17 +8,21 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
+
 import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 const baseLocale = 'objects.lookups.blacklist.csvMappingFields';
 
 export default {
-	name: 'UploadUsersPopup',
-	mixins: [
-		uploadCSVWrapperComponentMixin,
-	],
+	name: 'UploadBlacklistNumbersPopup',
+	components: {
+		WtUploadCsvPopup,
+	},
 	props: {
+		file: {
+			required: true,
+		},
 		parentId: {
 			type: [
 				Number,
@@ -51,6 +55,9 @@ export default {
 	}),
 
 	methods: {
+		close() {
+			this.$emit('close');
+		},
 		async saveBulkData(data) {
 			let processedChunkIndex = 1;
 			try {

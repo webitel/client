@@ -1,9 +1,9 @@
+import { getShallowFieldsToSendFromZodSchema } from '@webitel/api-services/gen/utils';
 import {
 	GetQueuesGlobalStateQueryParams,
 	getQueueService,
 	SetQueuesGlobalStateBody,
 } from '@webitel/api-services/gen-wire';
-import { getShallowFieldsToSendFromZodSchema } from '@webitel/api-services/gen/utils';
 import applyTransform, {
 	camelToSnake,
 	notify,
