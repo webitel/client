@@ -24,24 +24,3 @@ body {
     color: #000;
   }
 }
-
-$scrollbar-bg-color: #EAEAEA;
-$srollbar-border-radius: 4px;
-
-.scrollbar {
-  // scrollbar itself
-  &::-webkit-scrollbar {
-    width: 4px;
-    height: 6px;
-    cursor: pointer;
-    background-color: $scrollbar-bg-color;
-  }
-
-  // scrollable element
-  &::-webkit-scrollbar-thumb {
-    width: 4px;
-    height: 6px;
-    border-radius: $srollbar-border-radius;
-    background-color: $srollbar-thumb-color;
-  }
-}
