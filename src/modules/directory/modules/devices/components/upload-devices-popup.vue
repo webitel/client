@@ -1,5 +1,5 @@
 <template>
-  <upload-csv-popup
+  <wt-upload-csv-popup
     :add-bulk-items="saveBulkData"
     :file="file"
     :mapping-fields="mappingFields"
@@ -8,16 +8,22 @@
 </template>
 
 <script>
-import uploadCSVWrapperComponentMixin from '../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
+
 import DevicesAPI from '../api/devices';
 
 const baseLocale = 'objects.directory.devices.csvMappingFields';
 
 export default {
 	name: 'UploadDevicesPopup',
-	mixins: [
-		uploadCSVWrapperComponentMixin,
-	],
+	components: {
+		WtUploadCsvPopup,
+	},
+	props: {
+		file: {
+			required: true,
+		},
+	},
 	data() {
 		return {
 			mappingFields: [
@@ -69,6 +75,9 @@ export default {
 	},
 
 	methods: {
+		close() {
+			this.$emit('close');
+		},
 		async saveBulkData(data) {
 			let processedChunkIndex = 1;
 			try {

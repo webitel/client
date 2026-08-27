@@ -88,7 +88,7 @@ export default {
 			limit: {
 				required,
 				minValue: minValue(-1),
-				maxValue: maxValue(1000),
+				maxValue: maxValue(5000),
 			},
 			maxErrors: {
 				required,

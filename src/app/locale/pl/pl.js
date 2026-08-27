@@ -73,6 +73,8 @@ export default {
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Dźwięk nowej wiadomości',
 			[NotificationType.NewChatSound]: 'Dźwięk nowego czatu',
+			[NotificationType.SelfAssignedCallSound]:
+				'Dźwięk samodzielnie przypisanego połączenia',
 			[NotificationType.ChatEndSound]: 'Dźwięk końca czatu',
 			[NotificationType.CallEndSound]: 'Dźwięk końca połączenia',
 			[NotificationType.TaskEndSound]: 'Dźwięk końca zadania',

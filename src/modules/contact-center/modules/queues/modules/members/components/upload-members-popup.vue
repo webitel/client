@@ -1,17 +1,21 @@
 <template>
-  <upload-csv-popup
+  <wt-upload-csv-popup
     v-bind="$attrs"
-    v-model="mappingFields"
     :add-bulk-items="saveBulkData"
     :file="file"
+    :mapping-fields="mappingFields"
+    @change-mapping-fields="mappingFields = $event as CsvMappingField[]"
     @close="emit('close')"
   />
 </template>
 
 <script lang="ts" setup>
+import {
+	type CsvMappingField,
+	WtUploadCsvPopup,
+} from '@webitel/ui-sdk/modules/UploadCsvPopup';
 import { ref, toRef } from 'vue';
 
-import UploadCsvPopup from '../../../../../../_shared/upload-csv-popup/components/upload-csv-popup.vue';
 import ImportCsvMemberMappings from '../../../../../../integrations/modules/import-csv/lookups/ImportCsvMemberMappings.lookup';
 import { useNormalizeCsvMembers } from '../composables/useNormalizeCsvMembers';
 
@@ -28,13 +32,10 @@ const emit = defineEmits<{
  * The csv importers' shared mixin was only a `file` prop and a `close` emit,
  * both of which are declared here.
  */
-const mappingFields = ref<
-	{
-		name: string;
-		csv?: string | string[];
-	}[]
->(
+const mappingFields = ref<CsvMappingField[]>(
 	Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
+		// the popup fills this in as the user maps columns
+		csv: '',
 		...(mapping as object),
 		name,
 	})),

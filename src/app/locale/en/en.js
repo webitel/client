@@ -73,6 +73,7 @@ export default {
 		notifications: {
 			[NotificationType.NewMessageSound]: 'New message sound',
 			[NotificationType.NewChatSound]: 'New chat sound',
+			[NotificationType.SelfAssignedCallSound]: 'Self-assigned call sound',
 			[NotificationType.ChatEndSound]: 'Chat end sound',
 			[NotificationType.CallEndSound]: 'Call end sound',
 			[NotificationType.TaskEndSound]: 'Task end sound',

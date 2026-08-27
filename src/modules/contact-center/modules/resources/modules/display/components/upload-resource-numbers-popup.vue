@@ -1,5 +1,5 @@
 <template>
-  <upload-csv-popup
+  <wt-upload-csv-popup
     :file="file"
     :mapping-fields="mappingFields"
     :handling-mode="handlingMode"
@@ -9,16 +9,22 @@
 </template>
 
 <script>
-import HandlingCSVMode from '../../../../../../_shared/upload-csv-popup/enums/HandlingCSVMode.enum.js';
-import uploadCSVWrapperComponentMixin from '../../../../../../_shared/upload-csv-popup/mixins/uploadCSVWrapperComponentMixin';
+import {
+	HandlingCSVMode,
+	WtUploadCsvPopup,
+} from '@webitel/ui-sdk/modules/UploadCsvPopup';
+
 import resourceDisplayApi from '../api/resourceDisplay';
 
 export default {
 	name: 'UploadResourceNumbersPopup',
-	mixins: [
-		uploadCSVWrapperComponentMixin,
-	],
+	components: {
+		WtUploadCsvPopup,
+	},
 	props: {
+		file: {
+			required: true,
+		},
 		parentId: {
 			type: [
 				Number,
@@ -41,13 +47,16 @@ export default {
 	}),
 
 	methods: {
-		async uploadFile() {
+		close() {
+			this.$emit('close');
+		},
+		async uploadFile({ separator }) {
 			const selectedColumn = this.mappingFields[0].csv;
 
 			const payload = {
 				parentId: this.parentId,
 				file: this.file,
-				delimiter: this.separator || ',',
+				delimiter: separator || ',',
 				map: selectedColumn,
 			};
 

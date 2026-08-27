@@ -25,9 +25,9 @@ import { QueueMembersAPI } from '@webitel/api-services/api';
 import { computed, ref } from 'vue';
 
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import UploadCsvPreviewPopup from '../../../../_shared/upload-csv-popup/components/upload-csv-preview-popup.vue';
 import { useNormalizeCsvMembers } from '../../../../contact-center/modules/queues/modules/members/composables/useNormalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
+import UploadCsvPreviewPopup from './upload-csv-preview-popup.vue';
 
 const props = defineProps<{
 	// biome-ignore lint/suspicious/noExplicitAny: the import-csv entity shape

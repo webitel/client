@@ -73,6 +73,8 @@ export default {
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Жаңа хабарлама дыбысы',
 			[NotificationType.NewChatSound]: 'Жаңа чат дыбысы',
+			[NotificationType.SelfAssignedCallSound]:
+				'Өзіне тағайындалған қоңырау дыбысы',
 			[NotificationType.ChatEndSound]: 'Чат аяқталған дыбыс',
 			[NotificationType.CallEndSound]: 'Қоңырау аяқталған дыбыс',
 			[NotificationType.TaskEndSound]: 'Тапсырма аяқталған дыбыс',
