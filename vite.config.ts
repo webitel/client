@@ -30,10 +30,6 @@ export default ({ mode }) => {
 			alias: {
 				vue: '@vue/compat',
 				'@': resolve(__dirname, 'src'),
-				'@aliasedDeps/api-services/axios': resolve(
-					__dirname,
-					'src/app/api/instance',
-				),
 			},
 			dedupe: [
 				'vue',
