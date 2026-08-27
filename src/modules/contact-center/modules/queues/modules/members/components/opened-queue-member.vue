@@ -50,8 +50,8 @@
 
 <script lang="ts" setup>
 import type { EngineMemberInQueue } from '@webitel/api-services/gen/models';
-import { useNestedCardComponent } from '@webitel/ui-datalist/card';
-import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { useCardTabs, useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { computed, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';

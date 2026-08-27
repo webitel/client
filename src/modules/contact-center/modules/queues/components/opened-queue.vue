@@ -49,8 +49,8 @@ import {
 	getQueueDefaults,
 	hasQueueTypeDefaults,
 } from '@webitel/api-services/api';
-import { useCardComponent } from '@webitel/ui-datalist/card';
-import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import deepmerge from 'deepmerge';
 import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue';

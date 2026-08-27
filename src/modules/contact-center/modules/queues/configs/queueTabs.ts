@@ -1,3 +1,4 @@
+import type { CardTab } from '@webitel/ui-datalist/card';
 import { QueueType } from '@webitel/ui-sdk/enums';
 
 export const QueueTabId = {
@@ -17,7 +18,7 @@ export const QueueTabId = {
 
 export type QueueTabId = (typeof QueueTabId)[keyof typeof QueueTabId];
 
-export interface QueueTab {
+export interface QueueTab extends CardTab {
 	text: string;
 	value: QueueTabId;
 	pathName: string;
