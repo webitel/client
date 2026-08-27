@@ -41,8 +41,8 @@
 
 <script setup lang="ts">
 import type { EngineBucket } from '@webitel/api-services/gen/models';
-import { useCardComponent } from '@webitel/ui-datalist/card';
-import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { useCardTabs, useCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
