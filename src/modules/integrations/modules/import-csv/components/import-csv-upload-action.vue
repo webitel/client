@@ -1,18 +1,18 @@
 <template>
   <div class="import-csv-upload-action">
     <upload-file-icon-btn
-      accept=".csv"
       :disabled="disabled"
+      accept=".csv"
       @change="processCSV"
     />
     <upload-csv-preview-popup
-      :disabled="disabled"
-      :shown="file"
       :add-bulk-items="saveBulkData"
       :charset="item.parameters.charset.value"
+      :disabled="disabled"
       :file="file"
       :mapping-fields="mappingFields"
       :separator="item.parameters.separator"
+      :shown="file"
       :skip-headers="item.parameters.skipHeaders"
       @close="close"
       @save="handleSave"
@@ -20,69 +20,56 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { QueueMembersAPI } from '@webitel/api-services/api';
+import { computed, ref } from 'vue';
+
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
-import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
+import { useNormalizeCsvMembers } from '../../../../contact-center/modules/queues/modules/members/composables/useNormalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import UploadCsvPreviewPopup from './upload-csv-preview-popup.vue';
 
-export default {
-	name: 'ImportCsvUploadAction',
-	components: {
-		UploadFileIconBtn,
-		UploadCsvPreviewPopup,
-	},
-	mixins: [
-		normalizeCsvMembers,
-	],
-	props: {
-		item: {
-			type: Object,
-			required: true,
-		},
-		disabled: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data: () => ({
-		file: null,
-		allCommunications: null,
-	}),
-	computed: {
-		parentId() {
-			return this.item.source.id;
-		},
-		mappingFields() {
-			return Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
-				...mapping,
-				name,
-				csv: this.item.parameters.mappings[name],
-			}));
-		},
-	},
-	methods: {
-		processCSV(files) {
-			const file = files[0];
-			if (file) {
-				this.file = file;
-			}
-		},
-		close() {
-			this.file = null;
-		},
-		handleSave() {
-			if (this.item.parameters.clearMembers) {
-				QueueMembersAPI.deleteBulk(this.parentId, {
-					ids: [],
-				});
-			}
-		},
-	},
+const props = defineProps<{
+	// biome-ignore lint/suspicious/noExplicitAny: the import-csv entity shape
+	item: Record<string, any>;
+	disabled?: boolean;
+}>();
+
+const file = ref<File | null>(null);
+
+const parentId = computed(() => String(props.item.source.id));
+
+const mappingFields = computed(() =>
+	Object.entries(ImportCsvMemberMappings).map(([name, mapping]) => ({
+		...(mapping as object),
+		name,
+		csv: props.item.parameters.mappings[name],
+	})),
+);
+
+const { saveBulkData } = useNormalizeCsvMembers({
+	parentId,
+	file,
+	mappingFields,
+});
+
+const processCSV = (files: FileList) => {
+	const selected = files?.[0];
+	if (selected) file.value = selected;
+};
+
+const close = () => {
+	file.value = null;
+};
+
+const handleSave = () => {
+	if (props.item.parameters.clearMembers) {
+		QueueMembersAPI.deleteBulk({
+			parentId: parentId.value,
+			id: [],
+		});
+	}
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

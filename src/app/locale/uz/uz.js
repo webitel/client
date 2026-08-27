@@ -904,7 +904,7 @@ export default {
 				destination: "Ma'lumotnoma",
 				display: "Ko'rsatish raqami",
 				dtmf: 'DTMF',
-				priority: 'Prioritet',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Urinishlar',
 				emptyWorkspace: "A'zolchalar topilmadi",
 				resetMembers: {
@@ -918,14 +918,15 @@ export default {
 					successResetCount: "Muvaffaqiyatli {count} a'zolchalar tiklandi",
 				},
 				endCause: {
-					abandoned: 'Abandoned',
-					timeout: 'Vaqt',
-					cancel: 'Bekor qilish',
-					success: 'Muvaffaqiyatli',
-					failed: 'Yaroqsiz',
-					missed: 'Bekor qilindi',
-					expired: 'Yaroqli',
-					canceledByTimeout: 'Vaqt tugashi sababli bekor qilindi',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					timezoneId: ({ linked }) => linked('date.timezone'),
@@ -1014,7 +1015,7 @@ export default {
 				autoAnswerTone: 'Avtomatik javob xonasi',
 				varKey: 'Kalit',
 				varVal: 'Qiymat',
-				endCause: 'Tugatish sababi',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: "Ko'rsatish",
 				destination: "Ma'lumotnoma | Ma'lumotnomalar",
 				expire: 'Yaroqli',
@@ -1110,19 +1111,27 @@ export default {
 					offeringAt: "Ko'rsatish",
 					joinedAt: 'Boshlanish',
 					leavingAt: 'Tugash',
-					duration: 'Davomiyligi',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: "Ko'rish raqami",
-					result: 'Natija',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Urinishlar',
 					resultName: {
-						abandoned: 'Bekor qilindi',
-						cancel: 'Bekor qilindi',
-						success: 'Muvaffaqiyatli',
-						failed: 'Yaroqsiz',
-						missed: 'Bekor qilindi',
-						timeout: 'Vaqt',
-						endless: 'Cheksiz',
-						transferred: 'Uzatilgan',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1397,6 +1406,15 @@ export default {
 	filters: {
 		team: 'Jamoa',
 		queueType: "Qo'yuv turi",
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

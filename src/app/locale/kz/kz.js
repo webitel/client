@@ -897,7 +897,7 @@ export default {
 				destination: 'Мақсат',
 				display: 'Көрсету нөмірі',
 				dtmf: 'DTMF',
-				priority: 'Приоритет',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Сынамалар',
 				emptyWorkspace: 'Меншіктер табылмады',
 				resetMembers: {
@@ -911,14 +911,15 @@ export default {
 					successResetCount: 'Сәтті {count} меншіктерді қалпына келтірді',
 				},
 				endCause: {
-					abandoned: 'Абандондалды',
-					timeout: 'Таймақ',
-					cancel: 'Болдырмау',
-					success: 'Сәтті',
-					failed: 'Ақау',
-					missed: 'Жоқ',
-					expired: 'Төмендеді',
-					canceledByTimeout: 'Күту уақыты бойынша болдырылмады',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Атауы',
@@ -1006,7 +1007,7 @@ export default {
 				autoAnswerTone: 'Автоматты жауап күлік',
 				varKey: 'Кілт',
 				varVal: 'Мән',
-				endCause: 'Аяқталу себебі',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Қосу уақыты',
 				destination: 'Мақсат | Мақсаттар',
 				expire: 'Төмендеді',
@@ -1101,19 +1102,27 @@ export default {
 					offeringAt: 'Қосу',
 					joinedAt: 'Бастау',
 					leavingAt: 'Аяқтау',
-					duration: 'Ұзақтығы',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Көрсету нөмірі',
-					result: 'Нәтиже',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Сынама',
 					resultName: {
-						abandoned: 'Абандондалды',
-						cancel: 'Болдырмау',
-						success: 'Сәтті',
-						failed: 'Ақау',
-						missed: 'Жоқ',
-						timeout: 'Таймақ',
-						endless: 'Аяқсыз',
-						transferred: 'Ауыстырылды',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1387,6 +1396,15 @@ export default {
 	filters: {
 		team: 'Команда',
 		queueType: 'Қойма түрі',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

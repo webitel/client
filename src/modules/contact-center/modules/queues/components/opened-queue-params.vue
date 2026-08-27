@@ -2,412 +2,366 @@
   <section>
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.ccenter.queues.params') }}
+        {{ t('objects.ccenter.queues.params') }}
       </h3>
     </header>
     <div class="object-input-grid">
       <wt-timepicker
         v-if="specificControls.originateTimeout"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.originateTimeout')"
-        :v="v.itemInstance.payload.originateTimeout"
+        :label="t('objects.ccenter.queues.originateTimeout')"
+        :model-value="payload.originateTimeout"
+        :regle-validation="payloadValidation?.originateTimeout"
+        :required="isFieldRequired('payload.originateTimeout')"
         no-max-hours
-        :model-value="itemInstance.payload.originateTimeout"
-        @update:model-value="setItemPayloadProp({ prop: 'originateTimeout', value: +$event })"
+        @update:model-value="payload.originateTimeout = +$event"
       />
       <wt-timepicker
         v-if="specificControls.maxWaitTime"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxWaitTime')"
-        :v="v.itemInstance.payload.maxWaitTime"
+        :label="t('objects.ccenter.queues.maxWaitTime')"
+        :model-value="payload.maxWaitTime"
+        :regle-validation="payloadValidation?.maxWaitTime"
+        :required="isFieldRequired('payload.maxWaitTime')"
         no-max-hours
-        :model-value="itemInstance.payload.maxWaitTime"
-        @update:model-value="setItemPayloadProp({ prop: 'maxWaitTime', value: +$event })"
+        @update:model-value="payload.maxWaitTime = +$event"
       />
       <wt-timepicker
         v-if="specificControls.discardAbandonedAfter"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.discardAbandonedAfter')"
-        :v="v.itemInstance.payload.discardAbandonedAfter"
+        :label="t('objects.ccenter.queues.discardAbandonedAfter')"
+        :model-value="payload.discardAbandonedAfter"
+        :regle-validation="payloadValidation?.discardAbandonedAfter"
         no-max-hours
-        :model-value="itemInstance.payload.discardAbandonedAfter"
-        @update:model-value="setItemPayloadProp({ prop: 'discardAbandonedAfter', value: +$event })"
+        @update:model-value="payload.discardAbandonedAfter = +$event"
       />
       <wt-timepicker
         v-if="specificControls.maxIdleAgent"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxIdleAgent')"
-        :v="v.itemInstance.payload.maxIdleAgent"
+        :label="t('objects.ccenter.queues.maxIdleAgent')"
+        :model-value="payload.maxIdleAgent"
         no-max-hours
-        :model-value="itemInstance.payload.maxIdleAgent"
-        @update:model-value="setItemPayloadProp({ prop: 'maxIdleAgent', value: +$event })"
+        @update:model-value="payload.maxIdleAgent = +$event"
       />
       <wt-timepicker
         v-if="specificControls.maxIdleClient"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxIdleClient')"
-        :v="v.itemInstance.payload.maxIdleClient"
+        :label="t('objects.ccenter.queues.maxIdleClient')"
+        :model-value="payload.maxIdleClient"
         no-max-hours
-        :model-value="itemInstance.payload.maxIdleClient"
-        @update:model-value="setItemPayloadProp({ prop: 'maxIdleClient', value: +$event })"
+        @update:model-value="payload.maxIdleClient = +$event"
       />
       <wt-timepicker
         v-if="specificControls.maxIdleDialog"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxIdleDialog')"
-        :v="v.itemInstance.payload.maxIdleDialog"
+        :label="t('objects.ccenter.queues.maxIdleDialog')"
+        :model-value="payload.maxIdleDialog"
         no-max-hours
-        :model-value="itemInstance.payload.maxIdleDialog"
-        @update:model-value="setItemPayloadProp({ prop: 'maxIdleDialog', value: +$event })"
+        @update:model-value="payload.maxIdleDialog = +$event"
       />
       <wt-timepicker
         v-if="specificControls.waitBetweenRetries"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.waitBetweenRetries')"
-        :v="v.itemInstance.payload.waitBetweenRetries"
+        :label="t('objects.ccenter.queues.waitBetweenRetries')"
+        :model-value="payload.waitBetweenRetries"
+        :regle-validation="payloadValidation?.waitBetweenRetries"
+        :required="isFieldRequired('payload.waitBetweenRetries')"
         no-max-hours
-        :model-value="itemInstance.payload.waitBetweenRetries"
-        @update:model-value="setItemPayloadProp({ prop: 'waitBetweenRetries', value: +$event })"
+        @update:model-value="payload.waitBetweenRetries = +$event"
       />
       <wt-timepicker
         v-if="specificControls.minDuration"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.minDuration')"
-        :v="v.itemInstance.payload.minDuration"
+        :label="t('objects.ccenter.queues.minDuration')"
+        :model-value="payload.minDuration"
+        :regle-validation="payloadValidation?.minDuration"
         no-max-hours
-        :model-value="itemInstance.payload.minDuration"
-        @update:model-value="setItemPayloadProp({ prop: 'minDuration', value: +$event })"
+        @update:model-value="payload.minDuration = +$event"
       />
       <wt-single-select
         v-if="specificControls.statisticTime"
-        v-model:model-value="statisticTime"
-        :show-clear="false"
+        v-model:model-value="payload.statisticTime"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.statisticTime')"
-        :options="dropdownOptionsStatisticTimeList"
+        :label="t('objects.ccenter.queues.statisticTime')"
+        :options="statisticTimeOptions"
+        :show-clear="false"
         data-key="value"
+        option-value="value"
       />
       <wt-input-number
         v-if="specificControls.maxCalls"
+        v-model:model-value="payload.maxCalls"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxCalls')"
-        :label-props="{ hint: $t('objects.ccenter.queues.maxCallsHint') }"
-        :model-value="itemInstance.payload.maxCalls"
-        @update:model-value="setItemPayloadProp({ prop: 'maxCalls', value: $event })"
+        :label="t('objects.ccenter.queues.maxCalls')"
+        :label-props="{ hint: t('objects.ccenter.queues.maxCallsHint') }"
       />
       <wt-input-number
         v-if="specificControls.minAttempts"
+        v-model:model-value="payload.minAttempts"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.minAttempts')"
-        :model-value="itemInstance.payload.minAttempts"
-        @update:model-value="setItemPayloadProp({ prop: 'minAttempts', value: $event })"
+        :label="t('objects.ccenter.queues.minAttempts')"
       />
       <wt-input-number
         v-if="specificControls.maxAttempts"
+        v-model:model-value="payload.maxAttempts"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAttempts')"
-        :model-value="itemInstance.payload.maxAttempts"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAttempts', value: $event })"
+        :label="t('objects.ccenter.queues.maxAttempts')"
+        :regle-validation="payloadValidation?.maxAttempts"
+        :required="isFieldRequired('payload.maxAttempts')"
       />
       <wt-input-number
         v-if="specificControls.maxAgentLine"
+        v-model:model-value="payload.maxAgentLine"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAgentLine')"
-        :model-value="itemInstance.payload.maxAgentLine"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAgentLine', value: $event })"
+        :label="t('objects.ccenter.queues.maxAgentLine')"
       />
       <wt-input-number
         v-if="specificControls.dialingRate"
+        v-model:model-value="payload.dialingRate"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.dialingRate')"
-        :model-value="itemInstance.payload.dialingRate"
-        @update:model-value="setItemPayloadProp({ prop: 'dialingRate', value: $event })"
+        :label="t('objects.ccenter.queues.dialingRate')"
       />
       <wt-input-number
         v-if="specificControls.maxAgentLose"
+        v-model:model-value="payload.maxAgentLose"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAgentLose')"
-        :model-value="itemInstance.payload.maxAgentLose"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAgentLose', value: $event })"
+        :label="t('objects.ccenter.queues.maxAgentLose')"
       />
       <wt-input-number
         v-if="specificControls.playbackSilence"
+        v-model:model-value="payload.playbackSilence"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.playbackSilence')"
-        :model-value="itemInstance.payload.playbackSilence"
-        @update:model-value="setItemPayloadProp({ prop: 'playbackSilence', value: $event })"
+        :label="t('objects.ccenter.queues.playbackSilence')"
       />
       <wt-input-number
         v-if="specificControls.abandonRateAdjustment"
+        v-model:model-value="payload.abandonRateAdjustment"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.abandonRateAdjustment')"
-        :model-value="itemInstance.payload.abandonRateAdjustment"
-        @update:model-value="setItemPayloadProp({ prop: 'abandonRateAdjustment', value: $event })"
+        :label="t('objects.ccenter.queues.abandonRateAdjustment')"
       />
       <wt-single-select
         v-if="specificControls.autoAnswerTone"
         v-model:model-value="autoAnswerTone"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.autoAnswerTone')"
+        :label="t('objects.ccenter.queues.autoAnswerTone')"
         :options="ToneList"
         data-key="value"
       />
       <wt-input-number
         v-if="specificControls.maxWaitingSize"
+        v-model:model-value="payload.maxWaitingSize"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxWaitingSize')"
-        :model-value="itemInstance.payload.maxWaitingSize"
-        @update:model-value="setItemPayloadProp({ prop: 'maxWaitingSize', value: $event })"
+        :label="t('objects.ccenter.queues.maxWaitingSize')"
       />
       <wt-input-number
         v-if="specificControls.targetAbandonedRate"
+        v-model:model-value="payload.targetAbandonedRate"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.targetAbandonedRate')"
-        :model-value="itemInstance.payload.targetAbandonedRate"
-        @update:model-value="setItemPayloadProp({ prop: 'targetAbandonedRate', value: $event })"
+        :label="t('objects.ccenter.queues.targetAbandonedRate')"
       />
       <wt-input-number
         v-if="specificControls.minOnlineAgents"
+        v-model:model-value="payload.minOnlineAgents"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.minOnlineAgents')"
-        :v="v.itemInstance.payload.minOnlineAgents"
-        :model-value="itemInstance.payload.minOnlineAgents"
-        @update:model-value="setItemPayloadProp({ prop: 'minOnlineAgents', value: $event })"
+        :label="t('objects.ccenter.queues.minOnlineAgents')"
+        :regle-validation="payloadValidation?.minOnlineAgents"
       />
       <wt-input-number
         v-if="specificControls.maxAbandonedRate"
+        v-model:model-value="payload.maxAbandonedRate"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxAbandonedRate')"
-        :model-value="itemInstance.payload.maxAbandonedRate"
-        @update:model-value="setItemPayloadProp({ prop: 'maxAbandonedRate', value: $event })"
+        :label="t('objects.ccenter.queues.maxAbandonedRate')"
       />
       <wt-input-number
         v-if="specificControls.maxMemberLimit"
+        v-model:model-value="payload.maxMemberLimit"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.maxMemberLimit')"
-        :model-value="itemInstance.payload.maxMemberLimit"
-        @update:model-value="setItemPayloadProp({ prop: 'maxMemberLimit', value: $event })"
+        :label="t('objects.ccenter.queues.maxMemberLimit')"
       />
       <wt-input-number
         v-if="specificControls.progressiveCount"
+        v-model:model-value="payload.progressiveCount"
         :disabled="disableUserInput"
-        :label="$t('objects.queue.progressiveCount')"
-        :v="v.itemInstance.payload.progressiveCount"
-        :model-value="itemInstance.payload.progressiveCount"
+        :label="t('objects.queue.progressiveCount')"
+        :regle-validation="payloadValidation?.progressiveCount"
         required
-        @update:model-value="setItemPayloadProp({ prop: 'progressiveCount', value: $event })"
       />
       <wt-switcher
         v-if="specificControls.waitBetweenRetriesDesc"
+        v-model:model-value="payload.waitBetweenRetriesDesc"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.waitBetweenRetriesDesc')"
-        :model-value="itemInstance.payload.waitBetweenRetriesDesc"
-        @update:model-value="setItemPayloadProp({ prop: 'waitBetweenRetriesDesc', value: $event })"
+        :label="t('objects.ccenter.queues.waitBetweenRetriesDesc')"
       />
       <div v-if="specificControls.loadFactor">
-        <wt-label>{{ $t('objects.ccenter.queues.loadFactor') }}</wt-label>
+        <wt-label>{{ t('objects.ccenter.queues.loadFactor') }}</wt-label>
         <div class="load-factor">
           <wt-slider
             :max="100"
             :min="1"
+            :model-value="payload.loadFactor"
             :step="1"
-            :model-value="itemInstance.payload.loadFactor"
-            @update:model-value="setItemPayloadProp({ prop: 'loadFactor', value: +$event })"
+            @update:model-value="payload.loadFactor = +$event"
           />
           <wt-input-number
+            v-model:model-value="payload.loadFactor"
             :max="100"
             :min="0"
-            :model-value="itemInstance.payload.loadFactor"
-            @update:model-value="setItemPayloadProp({ prop: 'loadFactor', value: $event })"
           />
         </div>
       </div>
       <wt-switcher
         v-if="specificControls.strictCircuit"
+        v-model:model-value="payload.strictCircuit"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.strictCircuit')"
-        :model-value="itemInstance.payload.strictCircuit"
-        @update:model-value="setItemPayloadProp({ prop: 'strictCircuit', value: $event })"
+        :label="t('objects.ccenter.queues.strictCircuit')"
       />
       <wt-switcher
         v-if="specificControls.perNumbers"
+        v-model:model-value="payload.perNumbers"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.perNumbers')"
-        :model-value="itemInstance.payload.perNumbers"
-        @update:model-value="setItemPayloadProp({ prop: 'perNumbers', value: $event })"
+        :label="t('objects.ccenter.queues.perNumbers')"
       />
       <wt-switcher
         v-if="specificControls.retryAbandoned"
+        v-model:model-value="payload.retryAbandoned"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.retryAbandoned')"
-        :model-value="itemInstance.payload.retryAbandoned"
-        @update:model-value="setItemPayloadProp({ prop: 'retryAbandoned', value: $event })"
+        :label="t('objects.ccenter.queues.retryAbandoned')"
       />
       <wt-switcher
-        v-if="specificControls.recordings && itemInstance.payload.recordings"
+        v-if="specificControls.recordings && payload.recordings"
+        v-model:model-value="payload.recordAll"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.recordAll')"
-        :model-value="itemInstance.payload.recordAll"
-        @update:model-value="setItemPayloadProp({ prop: 'recordAll', value: $event })"
+        :label="t('objects.ccenter.queues.recordAll')"
       />
       <wt-switcher
         v-if="specificControls.recordings"
+        v-model:model-value="payload.recordings"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.recordings')"
-        :model-value="itemInstance.payload.recordings"
-        @update:model-value="setItemPayloadProp({ prop: 'recordings', value: $event })"
+        :label="t('objects.ccenter.queues.recordings')"
       />
       <wt-switcher
         v-if="specificControls.allowGreetingAgent"
+        v-model:model-value="payload.allowGreetingAgent"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.allowGreetingAgent')"
-        :model-value="itemInstance.payload.allowGreetingAgent"
-        @update:model-value="setItemPayloadProp({ prop: 'allowGreetingAgent', value: $event })"
+        :label="t('objects.ccenter.queues.allowGreetingAgent')"
       />
       <wt-switcher
         v-if="specificControls.endless"
-        v-show="!itemInstance.processing"
+        v-show="!modelValue.processing"
+        v-model:model-value="payload.endless"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.endless')"
-        :model-value="itemInstance.payload.endless"
-        @update:model-value="setItemPayloadProp({ prop: 'endless', value: $event })"
+        :label="t('objects.ccenter.queues.endless')"
       />
       <wt-switcher
         v-if="specificControls.stickyAgent"
+        v-model:model-value="modelValue.stickyAgent"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.stickyAgent')"
-        :model-value="itemInstance.stickyAgent"
-        @update:model-value="setItemProp({ prop: 'stickyAgent', value: $event })"
+        :label="t('objects.ccenter.queues.stickyAgent')"
       />
       <wt-input-number
         v-if="specificControls.stickyAgentSec"
-        v-show="itemInstance.stickyAgent"
+        v-show="modelValue.stickyAgent"
+        v-model:model-value="payload.stickyAgentSec"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.stickyAgentSec')"
-        :model-value="itemInstance.payload.stickyAgentSec"
-        @update:model-value="setItemPayloadProp({ prop: 'stickyAgentSec', value: $event })"
+        :label="t('objects.ccenter.queues.stickyAgentSec')"
       />
       <wt-switcher
         v-if="specificControls.stickyIgnoreStatus"
-        v-show="itemInstance.stickyAgent"
+        v-show="modelValue.stickyAgent"
+        v-model:model-value="payload.stickyIgnoreStatus"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.stickyIgnoreStatus')"
-        :model-value="itemInstance.payload.stickyIgnoreStatus"
-        @update:model-value="setItemPayloadProp({ prop: 'stickyIgnoreStatus', value: $event })"
+        :label="t('objects.ccenter.queues.stickyIgnoreStatus')"
       />
       <wt-switcher
         v-if="specificControls.ignoreCalendar"
+        v-model:model-value="payload.ignoreCalendar"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.ignoreCalendar')"
-        :model-value="itemInstance.payload.ignoreCalendar"
-        @update:model-value="setItemPayloadProp({ prop: 'ignoreCalendar', value: $event })"
+        :label="t('objects.ccenter.queues.ignoreCalendar')"
       />
       <wt-switcher
         v-if="specificControls.manualDistribution"
+        v-model:model-value="payload.manualDistribution"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.manualDistribution')"
-        :model-value="itemInstance.payload.manualDistribution"
-        @update:model-value="setItemPayloadProp({ prop: 'manualDistribution', value: $event })"
+        :label="t('objects.ccenter.queues.manualDistribution')"
       />
       <wt-switcher
         v-if="specificControls.lastMessageTimeout"
+        v-model:model-value="payload.lastMessageTimeout"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.lastMessageTimeout')"
-        :model-value="itemInstance.payload.lastMessageTimeout"
-        @update:model-value="setItemPayloadProp({ prop: 'lastMessageTimeout', value: $event })"
+        :label="t('objects.ccenter.queues.lastMessageTimeout')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { QueueType } from '@webitel/ui-sdk/enums';
-import { mapActions } from 'vuex';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import StatisticTimeList from '../store/_internals/lookups/StatisticTime.lookup';
-import ToneList from '../store/_internals/lookups/Tone.lookup';
+import { useQueueTypeControls } from '../composables/useQueueTypeControls';
+import StatisticTimeList from '../lookups/StatisticTime.lookup';
+import { type Tone, ToneList, type ToneValue } from '../lookups/Tone.lookup';
+import type { Queue } from '../types/Queue';
 
-export default {
-	name: 'OpenedQueueParams',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		ToneList,
-	}),
-	computed: {
-		autoAnswerTone: {
-			get() {
-				if (this.itemInstance.payload.autoAnswerTone) {
-					return this.ToneList.find(
-						(tone) => tone.value === this.itemInstance.payload.autoAnswerTone,
-					);
-				}
-				/* https://my.webitel.com/browse/WTEL-3268 */
-				/* For queues with types INBOUND_QUEUE, PROGRESSIVE_DIALER, */
-				/* PREDICTIVE_DIALER add a default alert tone if there is no value */
-				if (
-					this.itemInstance.type === QueueType.INBOUND_QUEUE ||
-					this.itemInstance.type === QueueType.PROGRESSIVE_DIALER ||
-					this.itemInstance.type === QueueType.PREDICTIVE_DIALER
-				) {
-					return this.ToneList.find((tone) => tone.value === 'default');
-				}
-			},
-			set(value) {
-				this.setItemPayloadProp({
-					prop: 'autoAnswerTone',
-					value: value.value,
-				});
-			},
-		},
-		statisticTime: {
-			get() {
-				return this.dropdownOptionsStatisticTimeList.find(
-					(time) => time.value === this.itemInstance.payload.statisticTime,
-				);
-			},
-			set(value) {
-				this.setItemPayloadProp({
-					prop: 'statisticTime',
-					value: value.value,
-				});
-			},
-		},
-		specificControls() {
-			return QueueTypeProperties[this.itemInstance.type].controls.reduce(
-				(controls, control) => {
-					controls[control] = true;
-					return controls;
-				},
-				{},
-			);
-		},
+const modelValue = defineModel<Queue>({
+	required: true,
+});
 
-		dropdownOptionsStatisticTimeList() {
-			return StatisticTimeList.map((time) => ({
-				value: time.value,
-				name: this.$t(`reusable.time.${time.name}`),
-			}));
-		},
+const props = defineProps<{
+	// biome-ignore lint/suspicious/noExplicitAny: regle's field status shape
+	validationFields?: Record<string, any>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const { specificControls, isFieldRequired } = useQueueTypeControls(
+	() => modelValue.value?.type as number | undefined,
+);
+
+/** every control on this tab writes into `payload` */
+const payload = computed<Record<string, unknown>>(() => {
+	if (!modelValue.value.payload) modelValue.value.payload = {};
+	return modelValue.value.payload as Record<string, unknown>;
+});
+
+/** regle nests: a field under `payload` lives in that group's `$fields` */
+const payloadValidation = computed(
+	() => props.validationFields?.payload?.$fields,
+);
+
+const statisticTimeOptions = computed(() =>
+	StatisticTimeList.map(({ name, value }) => ({
+		value,
+		name: t(`reusable.time.${name}`),
+	})),
+);
+
+/**
+ * Inbound and the two auto-dialers fall back to the default alert tone when
+ * none is stored. https://my.webitel.com/browse/WTEL-3268
+ */
+const toneDefaultingTypes: number[] = [
+	QueueType.INBOUND_QUEUE,
+	QueueType.PROGRESSIVE_DIALER,
+	QueueType.PREDICTIVE_DIALER,
+];
+
+const autoAnswerTone = computed<Tone | undefined>({
+	get: () => {
+		const stored = payload.value.autoAnswerTone as ToneValue | undefined;
+		if (stored) return ToneList.find((tone) => tone.value === stored);
+		if (toneDefaultingTypes.includes(modelValue.value?.type as number)) {
+			return ToneList.find((tone) => tone.value === 'default');
+		}
+		return undefined;
 	},
-	methods: {
-		...mapActions({
-			setItemPayloadProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PAYLOAD_PROPERTY`, payload);
-			},
-		}),
+	set: (option) => {
+		payload.value.autoAnswerTone = option?.value;
 	},
-};
+});
 </script>
 
 <style

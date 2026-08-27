@@ -25,6 +25,16 @@
 		// Map the deep paths straight to the bundled declarations (falling back to src).
 		// TODO(types): drop this once ui-sdk's exports map ships extensioned `types` targets.
 		"paths": {
+			// local linking gives the SDK its own copy of vue/pinia, so SDK files
+			// and app files end up with two incompatible `Ref` declarations and the
+			// template stops auto-unwrapping. vite already dedupes these at runtime;
+			// this does the same for type resolution.
+			"vue": [
+				"./node_modules/vue"
+			],
+			"pinia": [
+				"./node_modules/pinia"
+			],
 			"@webitel/ui-sdk/src/*": [
 				"./node_modules/@webitel/ui-sdk/types/*",
 				"./node_modules/@webitel/ui-sdk/src/*"

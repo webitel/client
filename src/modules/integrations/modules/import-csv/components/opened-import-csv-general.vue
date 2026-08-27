@@ -35,11 +35,10 @@
 </template>
 
 <script>
+import { QueuesAPI } from '@webitel/api-services/api';
 import { QueueType, WtObject } from '@webitel/ui-sdk/enums';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import QueuesAPI from '../../../../contact-center/modules/queues/api/queues';
 
 export default {
 	name: 'OpenedImportCsvGeneral',

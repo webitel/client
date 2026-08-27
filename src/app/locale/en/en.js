@@ -896,7 +896,7 @@ export default {
 				destination: 'Destination',
 				display: 'Display number',
 				dtmf: 'DTMF',
-				priority: 'Priority',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Attempts',
 				emptyWorkspace: 'No members were found',
 				resetMembers: {
@@ -910,14 +910,15 @@ export default {
 					successResetCount: 'Successfully reset {count} members',
 				},
 				endCause: {
-					abandoned: 'Abandoned',
-					timeout: 'Timeout',
-					cancel: 'Cancel',
-					success: 'Success',
-					failed: 'Failed',
-					missed: 'Missed',
-					expired: 'Expired',
-					canceledByTimeout: 'Canceled by timeout',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Name',
@@ -1007,7 +1008,7 @@ export default {
 				autoAnswerTone: 'Auto answer warning tone',
 				varKey: 'Key',
 				varVal: 'Value',
-				endCause: 'End cause',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Offering at',
 				destination: 'Destination | Destinations',
 				expire: 'Expire',
@@ -1103,19 +1104,27 @@ export default {
 					offeringAt: 'Offering',
 					joinedAt: 'Start',
 					leavingAt: 'End',
-					duration: 'Duration',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'View number',
-					result: 'Result',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Attempt',
 					resultName: {
-						abandoned: 'Abandoned',
-						cancel: 'Cancel',
-						success: 'Success',
-						failed: 'Failed',
-						missed: 'Missed',
-						timeout: 'Timeout',
-						endless: 'Endless',
-						transferred: 'Transferred',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1389,6 +1398,15 @@ export default {
 	filters: {
 		team: 'Team',
 		queueType: 'Queue Type',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {
