@@ -1,9 +1,8 @@
-import { QueuesAPI } from '@webitel/api-services/api';
+import { QueuesAPI, TeamsAPI } from '@webitel/api-services/api';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import TeamLookupApi from '../api/teamLookupApi';
 import QueueTypeOptions from './QueueTypeOptions';
 
 const state = {
@@ -15,7 +14,7 @@ const state = {
 		},
 	}),
 	team: new ApiFilterSchema({
-		API: TeamLookupApi,
+		API: TeamsAPI.getList,
 		locale: {
 			label: 'webitelUI.filters.team',
 		},

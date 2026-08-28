@@ -1,4 +1,4 @@
-import { EngineTriggerEventType } from 'webitel-sdk';
+import { EngineTriggerEventType } from '@webitel/api-services/gen/models';
 
 export interface TriggerEvent {
 	locale: string;

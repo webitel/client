@@ -114,10 +114,13 @@ import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
 
 import { CalendarsAPI, FlowsAPI } from '@webitel/api-services/api';
+import {
+	EngineRoutingSchemaType,
+	EngineTriggerType,
+} from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { isEmpty } from '@webitel/ui-sdk/scripts';
 import cronstrue from 'cronstrue';
-import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import { TriggerEvents } from '../lookups/TriggerEvents.lookup';

@@ -1,5 +1,5 @@
 import { EngineTriggerObjectType } from '@webitel/api-services/gen';
-import { EngineTriggerEventType } from 'webitel-sdk';
+import { EngineTriggerEventType } from '@webitel/api-services/gen/models';
 
 import { TriggerEvents } from './TriggerEvents.lookup';
 
