@@ -1,10 +1,9 @@
+import { AgentsAPI } from '@webitel/api-services/api';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { CallReportingStatus } from 'webitel-sdk';
-
-import AgentsAPI from '../../../../../../agents/api/agents';
 
 const state = {
 	search: new BaseFilterSchema(),

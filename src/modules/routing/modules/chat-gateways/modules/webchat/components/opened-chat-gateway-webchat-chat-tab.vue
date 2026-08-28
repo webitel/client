@@ -68,13 +68,11 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
-
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../../flow/api/flow';
-
 export default {
 	name: 'OpenedChatWebchatGeneralTab',
 	mixins: [

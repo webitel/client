@@ -91,13 +91,12 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 export default {

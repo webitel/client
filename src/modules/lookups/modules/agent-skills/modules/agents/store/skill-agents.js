@@ -1,5 +1,5 @@
+import { SkillAgentsAPI as AgentSkillAPI } from '@webitel/api-services/api';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import AgentSkillAPI from '../api/skillAgents';
 import headers from './_internals/headers';
 
 const resettableItemState = {

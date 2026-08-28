@@ -170,6 +170,7 @@
 </template>
 
 <script>
+import { MediaAPI } from '@webitel/api-services/api';
 import { WtPlayer } from '@webitel/ui-sdk/components';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
@@ -181,13 +182,11 @@ import { formatDate } from '@webitel/ui-sdk/utils';
 import { computed } from 'vue';
 import vueDropzone from 'vue2-dropzone';
 import { useStore } from 'vuex';
-
 import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import { download } from '../../../../../app/utils/download';
-import MediaAPI from '../api/media';
 import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
 import TableMediaFilePreviewAction from './table-media-file-preview-action.vue';
 

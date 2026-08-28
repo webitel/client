@@ -24,12 +24,10 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { AgentsAPI } from '@webitel/api-services/api';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapState } from 'vuex';
-
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import AgentsAPI from '../../../../agents/api/agents';
-
 export default {
 	name: 'OpenedTeamAgentsPopup',
 	mixins: [

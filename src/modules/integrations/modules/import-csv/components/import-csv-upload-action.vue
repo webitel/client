@@ -21,8 +21,8 @@
 </template>
 
 <script>
+import { QueueMembersAPI } from '@webitel/api-services/api';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import QueueMembersAPI from '../../../../contact-center/modules/queues/modules/members/api/queueMembers';
 import normalizeCsvMembers from '../../../../contact-center/modules/queues/modules/members/mixins/normalizeCsvMembers';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import UploadCsvPreviewPopup from './upload-csv-preview-popup.vue';

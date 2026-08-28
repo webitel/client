@@ -1,5 +1,5 @@
+import { QueueLogsAPI } from '@webitel/api-services/api';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import QueueLogsAPI from '../api/queueLog';
 import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
 

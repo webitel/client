@@ -46,10 +46,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-
+import { SkillsAPI } from '@webitel/api-services/api';
 import openedObjectValidationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-import SkillsAPI from '../../../api/agentSkills';
-
 export default {
 	name: 'OpenedSkillAgentChangePopup',
 	mixins: [

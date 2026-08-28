@@ -35,10 +35,9 @@
 </template>
 
 <script setup>
+import { StoragePoliciesAPI } from '@webitel/api-services/api';
 import { defineEmits, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import StoragePoliciesAPI from '../api/storagePolicies.js';
 
 const props = defineProps({
 	id: {

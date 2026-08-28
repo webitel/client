@@ -1,6 +1,8 @@
+import {
+	QueueMembersAPI as MembersAPI,
+	QueuesAPI,
+} from '@webitel/api-services/api';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import QueuesAPI from '../../../api/queues';
-import MembersAPI from '../api/queueMembers';
 import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
 

@@ -24,10 +24,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-
+import { OutboundResourceGroupsAPI as ResourceGroupsAPI } from '@webitel/api-services/api';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
-
 export default {
 	name: 'OpenedQueueBucketsPopup',
 	mixins: [

@@ -1,5 +1,5 @@
+import { DialplansAPI as DialplanAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import DialplanAPI from '../api/dialplan';
 import headers from './_internals/headers';
 
 const resettableState = {

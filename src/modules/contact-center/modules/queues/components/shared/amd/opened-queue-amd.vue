@@ -119,11 +119,10 @@
 </template>
 
 <script>
+import { MediaAPI } from '@webitel/api-services/api';
 import { mapActions } from 'vuex';
-
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import MediaAPI from '../../../../../../lookups/modules/media/api/media';
 import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
 
 export default {

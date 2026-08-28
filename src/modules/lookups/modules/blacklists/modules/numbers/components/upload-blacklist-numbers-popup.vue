@@ -8,9 +8,8 @@
 </template>
 
 <script>
+import { BlacklistNumbersAPI } from '@webitel/api-services/api';
 import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
-
-import BlacklistNumbersAPI from '../api/blacklistNumbers';
 
 const baseLocale = 'objects.lookups.blacklist.csvMappingFields';
 

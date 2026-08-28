@@ -1,9 +1,8 @@
+import { QueuesAPI } from '@webitel/api-services/api';
 import { QueueType } from '@webitel/ui-sdk/enums';
 import deepMerge from 'deepmerge';
-
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import QueuesAPI from '../api/queues';
 import agents from '../modules/agents/store/queue-agents';
 import buckets from '../modules/buckets/store/queue-buckets';
 import filters from '../modules/filters/store/filters';

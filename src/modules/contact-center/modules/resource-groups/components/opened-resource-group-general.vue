@@ -35,12 +35,10 @@
 </template>
 
 <script>
+import { CommunicationsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CommunicationsAPI from '../../../../lookups/modules/communications/api/communications';
-
 export default {
 	name: 'OpenedResourceGroupGeneral',
 	mixins: [

@@ -1,134 +1,63 @@
-import {
-	getDefaultGetListResponse,
-	getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults/index.js';
-import applyTransform, {
-	camelToSnake,
-	merge,
-	mergeEach,
-	notify,
-	snakeToCamel,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
-import { AgentServiceApiFactory } from 'webitel-sdk';
+import { AgentsAPI } from '@webitel/api-services/api';
 
-import instance from '../../../../../../../app/api/instance';
-import configuration from '../../../../../../../app/api/openAPIConfig';
-
-const agentService = new AgentServiceApiFactory(configuration, '', instance);
-
-const getTeamAgentsList = async (params) => {
-	const fields = [
-		'id',
-		'name',
-		'status',
-		'supervisor',
-		'skills',
-	];
-
-	const defaultObject = {
-		name: '',
-		status: '',
-		supervisor: {},
-		skills: [],
-	};
-
-	const {
-		parentId,
-		page = 1,
-		size = 10,
-		search,
-		sort,
-	} = applyTransform(params, [
-		merge(getDefaultGetParams()),
-	]);
-
-	try {
-		const response = await agentService.searchAgent(
-			page,
-			size,
-			search,
-			sort,
-			fields,
-			undefined,
-			undefined,
-			undefined,
-			parentId,
-		);
-		const { items, next } = applyTransform(response.data, [
-			snakeToCamel(),
-			merge(getDefaultGetListResponse()),
-		]);
-		return {
-			items: applyTransform(items, [
-				mergeEach(defaultObject),
-			]),
-			next,
-		};
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
+/**
+ * A team's agents are agents filtered by `team`, so add and remove are patches
+ * of the agent's own team.
+ */
+const defaultObject = {
+	name: '',
+	status: '',
+	supervisor: {},
+	skills: [],
 };
 
-const getTeamAgent = async ({ itemId: id }) => {
-	const responseHandler = (agent) => ({
-		agent,
+const getTeamAgentsList = async ({ parentId, ...params }) => {
+	const { items, next } = await AgentsAPI.getList({
+		...params,
+		fields: [
+			'id',
+			'name',
+			'status',
+			'supervisor',
+			'skills',
+		],
+		team: parentId,
 	});
 
-	try {
-		const response = await agentService.readAgent(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			responseHandler,
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
+	return {
+		items: items.map((item) => ({
+			...defaultObject,
+			...item,
+		})),
+		next,
+	};
 };
 
-const patchAgent = async ({ id, changes }) => {
-	const item = applyTransform(changes, [
-		camelToSnake(),
-	]);
-	try {
-		const response = await agentService.patchAgent(id, item);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
-};
+const getTeamAgent = async ({ itemId }) => ({
+	agent: await AgentsAPI.get({
+		itemId,
+	}),
+});
 
-const addTeamAgent = ({ parentId, itemInstance }) => {
-	const { id } = itemInstance.agent;
-	const changes = {
-		team: {
-			id: parentId,
+const addTeamAgent = ({ parentId, itemInstance }) =>
+	AgentsAPI.patch({
+		id: itemInstance.agent.id,
+		changes: {
+			team: {
+				id: parentId,
+			},
 		},
-	};
-	return patchAgent({
-		id,
-		changes,
 	});
-};
 
-const deleteTeamAgent = ({ id }) => {
-	const changes = {
-		team: {
-			id: null,
-		},
-	};
-	return patchAgent({
+const deleteTeamAgent = ({ id }) =>
+	AgentsAPI.patch({
 		id,
-		changes,
+		changes: {
+			team: {
+				id: null,
+			},
+		},
 	});
-};
 
 const updateTeamAgent = async ({ parentId, itemId, itemInstance }) => {
 	await addTeamAgent({

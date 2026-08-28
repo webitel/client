@@ -71,6 +71,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
+import { SkillsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -78,7 +79,6 @@ import {
 	lessOrEqualTo,
 	moreOrEqualTo,
 } from '../../../../../../../app/utils/validators';
-import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 
 export default {

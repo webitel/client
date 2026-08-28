@@ -1,6 +1,6 @@
+import { OutboundResourceGroupsAPI as ResGroupsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import ResGroupsAPI from '../api/resourceGroups';
 import res from '../modules/resources/store/res-in-group';
 import headers from './_internals/headers';
 

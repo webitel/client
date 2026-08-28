@@ -1,5 +1,5 @@
+import { QueueHooksAPI } from '@webitel/api-services/api';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import QueueHooksAPI from '../api/queueHooks';
 import headers from './_internals/headers';
 
 const resettableItemState = {

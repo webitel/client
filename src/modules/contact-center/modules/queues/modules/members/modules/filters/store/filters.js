@@ -1,11 +1,10 @@
+import { AgentsAPI } from '@webitel/api-services/api';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { MemberStopCause } from 'webitel-sdk/enums';
-
 import BucketsAPI from '../../../../../../../../lookups/modules/buckets/api/buckets';
-import AgentsAPI from '../../../../../../agents/api/agents';
 
 const state = {
 	search: new BaseFilterSchema(),

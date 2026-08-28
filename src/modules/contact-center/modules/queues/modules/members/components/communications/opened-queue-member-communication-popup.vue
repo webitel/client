@@ -70,14 +70,16 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import {
+	CommunicationsAPI,
+	OutboundResourcesAPI as ResourcesAPI,
+} from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import deepCopy from 'deep-copy';
 import { mapActions, mapState } from 'vuex';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
-import ResourcesAPI from '../../../../../resources/api/resources';
 import { digitsDtmfOnly } from '../../validation/dtmf';
 
 const getDefaultItemInstance = () => ({

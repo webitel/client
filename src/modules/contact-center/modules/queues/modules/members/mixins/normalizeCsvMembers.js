@@ -1,5 +1,4 @@
-import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
-import QueueMembersAPI from '../api/queueMembers';
+import { CommunicationsAPI, QueueMembersAPI } from '@webitel/api-services/api';
 import { digitsDtmfOnly } from '../validation/dtmf';
 
 const findCommunicationIdByCode = ({ communications, code }) =>

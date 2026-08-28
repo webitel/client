@@ -1,9 +1,8 @@
+import { QueuesAPI } from '@webitel/api-services/api';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-
-import QueuesAPI from '../../../api/queues';
 import TeamLookupApi from '../api/teamLookupApi';
 import QueueTypeOptions from './QueueTypeOptions';
 

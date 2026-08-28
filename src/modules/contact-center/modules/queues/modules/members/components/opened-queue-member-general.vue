@@ -53,13 +53,11 @@
 </template>
 
 <script>
-import { CalendarsAPI } from '@webitel/api-services/api';
+import { AgentsAPI, CalendarsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
-import AgentsAPI from '../../../../agents/api/agents';
-
 export default {
 	name: 'OpenedQueueMemberGeneral',
 	mixins: [

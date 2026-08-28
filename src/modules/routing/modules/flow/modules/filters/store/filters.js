@@ -1,9 +1,8 @@
+import { FlowsAPI } from '@webitel/api-services/api';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-
-import FlowsAPI from '../../../api/flow';
 
 const state = {
 	search: new BaseFilterSchema(),

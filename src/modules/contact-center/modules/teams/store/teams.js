@@ -1,6 +1,6 @@
+import { TeamsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import TeamsAPI from '../api/teams';
 import agents from '../modules/agents/store/team-agents';
 import flow from '../modules/flow/store/team-flows';
 import hooks from '../modules/hooks/store/team-hooks';

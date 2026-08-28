@@ -24,10 +24,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-
+import { AgentsAPI } from '@webitel/api-services/api';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import AgentsAPI from '../../../api/agents';
-
 export default {
 	name: 'OpenedAgentSubordinatesPopup',
 	mixins: [

@@ -38,12 +38,11 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
 import { FlowTypeApplications } from '@webitel/ui-sdk/modules/Flow';
-
 import CodeEditor from '../../../../../../../app/components/utils/code-editor.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../api/flow';
 import FlowAppAutocomplete from '../lookups/FlowAppAutocomplete.lookup';
 
 export default {
