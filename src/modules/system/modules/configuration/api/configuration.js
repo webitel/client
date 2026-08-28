@@ -1,3 +1,3 @@
-import { configurations } from '@webitel/ui-sdk/src/api/clients/index.js';
+import { ConfigurationsAPI } from '@webitel/api-services/api';
 
-export default configurations;
+export default ConfigurationsAPI;
