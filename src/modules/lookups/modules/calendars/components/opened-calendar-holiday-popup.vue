@@ -13,6 +13,7 @@
         <wt-input-text
           v-model:model-value="draft.name"
           :label="t('objects.name')"
+          :regle-validation="r$.$fields.name"
           required
         />
         <wt-datepicker
@@ -65,8 +66,10 @@
 </template>
 
 <script setup lang="ts">
+import { useRegleSchema } from '@regle/schemas';
+import { calendarExceptSchema } from '@webitel/api-services/validations';
 import { useCardAnyFieldEditedWatcher } from '@webitel/ui-datalist/card';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import type { CalendarExceptUi } from '../stores';
@@ -96,6 +99,13 @@ const emptyItem = (): CalendarExceptUi => ({
 });
 
 const draft = ref<CalendarExceptUi>(emptyItem());
+
+const { r$ } = useRegleSchema(draft, calendarExceptSchema, {
+	autoDirty: true,
+	syncState: {
+		onValidate: true,
+	},
+});
 
 const { isAnyFieldEdited } = useCardAnyFieldEditedWatcher({
 	value: draft,
@@ -140,13 +150,16 @@ const updateWorkingTime = (event: number, prop: 'workStart' | 'workStop') => {
 
 watch(
 	() => props.shown,
-	(shown) => {
+	async (shown) => {
 		if (!shown) return;
 
 		draft.value = {
 			...emptyItem(),
 			...props.item,
 		};
+
+		await nextTick();
+		r$.$fields.name.$touch();
 	},
 	{
 		immediate: true,
