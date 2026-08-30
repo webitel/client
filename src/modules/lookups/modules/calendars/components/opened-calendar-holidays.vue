@@ -43,9 +43,10 @@
       </div>
     </header>
 
-    <table-empty
-      :data-list="rows"
-      :filters="{ search }"
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
     />
 
     <div
@@ -105,13 +106,13 @@ import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
-import TableEmpty from '../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import {
 	type CalendarHolidayRow,
@@ -150,6 +151,17 @@ const {
 	askDeleteConfirmation,
 	closeDelete,
 } = useDeleteConfirmationPopup();
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: rows,
+	filters: computed(() => ({
+		search: search.value,
+	})),
+});
 
 const headers = computed(() => [
 	{
