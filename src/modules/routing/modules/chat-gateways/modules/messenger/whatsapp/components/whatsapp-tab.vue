@@ -34,8 +34,12 @@
       </wt-table-actions>
     </div>
     <wt-loader v-show="!isLoaded" />
+    <table-empty
+      :data-list="dataList"
+      :is-loading="!isLoaded"
+    />
     <div
-      v-show="isLoaded"
+      v-show="isLoaded && dataList.length"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -83,6 +87,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
 
+import TableEmpty from '../../../../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
@@ -92,6 +97,7 @@ export default {
 	name: 'OpenedChatGatewayWhatsappTab',
 	components: {
 		DeleteConfirmationPopup,
+		TableEmpty,
 	},
 	mixins: [
 		openedObjectTableTabMixin,

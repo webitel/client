@@ -35,7 +35,11 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <table-empty :data-list="communications" />
+    <div
+      v-show="communications.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="communications"
         :headers="headers"
@@ -85,6 +89,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
+import TableEmpty from '../../../../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import { useMemberCommunications } from '../../composables/useMemberCommunications';
 import CommunicationPopup from './opened-queue-member-communication-popup.vue';

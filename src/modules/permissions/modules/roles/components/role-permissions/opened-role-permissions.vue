@@ -33,7 +33,14 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <table-empty
+      :data-list="dataList"
+      :is-loading="!isLoaded"
+    />
+    <div
+      v-show="isLoaded && dataList.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :headers="headers"
@@ -69,6 +76,7 @@ import {
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions, mapState } from 'vuex';
+import TableEmpty from '../../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import PermissionsPopup from './opened-role-permissions-popup.vue';
@@ -78,6 +86,7 @@ export default {
 	components: {
 		PermissionsPopup,
 		DeleteConfirmationPopup,
+		TableEmpty,
 	},
 	mixins: [
 		openedObjectTableTabMixin,

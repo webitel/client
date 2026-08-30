@@ -7,8 +7,12 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
+    <table-empty
+      :data-list="dataList"
+      :is-loading="!isLoaded"
+    />
     <div
-      v-show="isLoaded"
+      v-show="isLoaded && dataList.length"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -47,11 +51,15 @@
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils';
 
+import TableEmpty from '../../../../../../../app/components/utils/table-empty.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
 export default {
 	name: 'OpenedTriggerLogs',
+	components: {
+		TableEmpty,
+	},
 	mixins: [
 		openedObjectTableTabMixin,
 	],

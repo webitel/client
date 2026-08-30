@@ -15,7 +15,11 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <table-empty :data-list="itemInstance.times" />
+    <div
+      v-show="itemInstance.times.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="itemInstance.times"
         :grid-actions="!disableUserInput"
@@ -65,11 +69,15 @@
 <script>
 import { mapActions } from 'vuex';
 
+import TableEmpty from '../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
 	name: 'OpenedShiftTemplateTimes',
+	components: {
+		TableEmpty,
+	},
 	mixins: [
 		openedTabComponentMixin,
 	],

@@ -15,7 +15,11 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <table-empty :data-list="itemInstance.causes" />
+    <div
+      v-show="itemInstance.causes.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="itemInstance.causes"
         :grid-actions="!disableUserInput"
@@ -53,12 +57,16 @@
 <script>
 import { mapActions } from 'vuex';
 
+import TableEmpty from '../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
 
 export default {
 	name: 'OpenedPauseTemplateCauses',
+	components: {
+		TableEmpty,
+	},
 	mixins: [
 		openedTabComponentMixin,
 	],

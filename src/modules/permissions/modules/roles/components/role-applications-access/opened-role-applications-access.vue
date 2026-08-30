@@ -11,7 +11,14 @@
       </h3>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <table-empty
+      :data-list="dataList"
+      :is-loading="!isLoaded"
+    />
+    <div
+      v-show="isLoaded && dataList.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :headers="headers"
@@ -43,6 +50,7 @@
 <script>
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
+import TableEmpty from '../../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
@@ -51,6 +59,7 @@ export default {
 	name: 'OpenedRoleApplicationsAccess',
 	components: {
 		ApplicationAccessPopup,
+		TableEmpty,
 	},
 	mixins: [
 		openedObjectTableTabMixin,

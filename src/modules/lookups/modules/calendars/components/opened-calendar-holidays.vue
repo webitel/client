@@ -43,9 +43,9 @@
       </div>
     </header>
 
-    <wt-empty
-      v-if="!rows.length"
-      :text="search ? t('objects.emptyResultSearch') : undefined"
+    <table-empty
+      :data-list="rows"
+      :filters="{ search }"
     />
 
     <div
@@ -111,6 +111,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
+import TableEmpty from '../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import {
 	type CalendarHolidayRow,
