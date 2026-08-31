@@ -902,7 +902,7 @@ export default {
 				destination: 'Destinație',
 				display: 'Număr de afișare',
 				dtmf: 'DTMF',
-				priority: 'Prioritate',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Încercări',
 				emptyWorkspace: 'Nu au fost găsiți membri',
 				resetMembers: {
@@ -916,14 +916,15 @@ export default {
 					successResetCount: 'Succes la reseta {count} membri',
 				},
 				endCause: {
-					abandoned: 'Abandonat',
-					timeout: 'Timp de așteptare',
-					cancel: 'Anulat',
-					success: 'Succes',
-					failed: 'Eșuat',
-					missed: 'Pierdut',
-					expired: 'Expirat',
-					canceledByTimeout: 'Anulat din cauza timpului expirat',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Nume',
@@ -1013,7 +1014,7 @@ export default {
 				autoAnswerTone: 'Tone de avertizare auto-răspuns',
 				varKey: 'Cheie',
 				varVal: 'Valoare',
-				endCause: 'Motiv sfârșit',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Ofertat la',
 				destination: 'Destinație | Destinații',
 				expire: 'Expiră',
@@ -1109,19 +1110,27 @@ export default {
 					offeringAt: 'Ofertat',
 					joinedAt: 'Începe',
 					leavingAt: 'Se termină',
-					duration: 'Durata',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Număr de vizualizare',
-					result: 'Rezultat',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Încercare',
 					resultName: {
-						abandoned: 'Abandonat',
-						cancel: 'Anulat',
-						success: 'Succes',
-						failed: 'Eșuat',
-						missed: 'Pierdut',
-						timeout: 'Timp de așteptare',
-						endless: 'Nelimitat',
-						transferred: 'Transferat',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1397,6 +1406,15 @@ export default {
 	filters: {
 		team: 'Echipă',
 		queueType: 'Tip coadă',
+	},
+
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
 	},
 
 	utils: {

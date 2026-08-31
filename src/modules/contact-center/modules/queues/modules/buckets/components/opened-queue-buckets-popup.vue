@@ -2,120 +2,104 @@
   <wt-popup
     v-bind="$attrs"
     :shown="!!bucketId"
-    size="sm"
-    min-width="480"
     overflow
+    size="sm"
     @close="close"
   >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
+      <form @submit.prevent="save">
         <wt-single-select
+          v-model:model-value="modelValue.bucket"
           :disabled="!hasBucketsReadAccess"
-          :label="$t('objects.lookups.buckets.buckets', 1)"
+          :label="t('objects.lookups.buckets.buckets', 1)"
+          :regle-validation="validationFields?.bucket"
           :search-method="loadBucketsOptions"
-          :v="v$.itemInstance.bucket"
-          :model-value="itemInstance.bucket"
           required
-          @update:model-value="setItemProp({ prop: 'bucket', value: $event })"
         />
         <wt-input-number
-          :label="$t('objects.ccenter.queues.bucketPriority')"
-          :v="v$.itemInstance.priority"
-          :model-value="itemInstance.priority"
+          v-model:model-value="modelValue.priority"
+          :label="t('objects.ccenter.queues.bucketPriority')"
+          :regle-validation="validationFields?.priority"
           required
-          @update:model-value="setItemProp({ prop: 'priority', value: $event })"
         />
       </form>
     </template>
     <template #actions>
       <wt-button
-        :disabled="disabledSave"
+        :disabled="!hasSaveActionAccess || hasValidationErrors"
         @click="save"
       >
-        {{ $t('objects.save') }}
+        {{ t('objects.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, numeric, required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import { BucketsAPI } from '@webitel/api-services/api';
+import type { EngineQueueBucket } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
+import { useQueueBucketsCardStore } from '../stores/card/queueBucketsCardStore';
 
-export default {
-	name: 'OpenedQueueBucketsPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	setup: () => {
-		const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
-			WtObject.Bucket,
-		);
-		return {
-			// Reasons for use $stopPropagation
-			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-			v$: useVuelidate({
-				$stopPropagation: true,
-			}),
-			hasBucketsReadAccess,
-		};
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	data: () => ({
-		namespace: 'ccenter/queues/buckets',
-	}),
-	validations: {
-		itemInstance: {
-			bucket: {
-				required,
-			},
-			priority: {
-				numeric,
-				minValue: minValue(0),
-				required,
-			},
-		},
-	},
-	computed: {
-		popupTitle() {
-			return this.id
-				? this.$t('objects.ccenter.queues.buckets.editBucket')
-				: this.$t('objects.ccenter.queues.buckets.addBucket');
-		},
-		bucketId() {
-			return this.$route.params.bucketId;
-		},
-	},
+const { hasSaveActionAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
+	WtObject.Bucket,
+);
 
-	watch: {
-		bucketId: {
-			immediate: true,
-			handler(id) {
-				if (id) this.handleIdChange(id);
-			},
-		},
-	},
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineQueueBucket>({
+	useCardStore: useQueueBucketsCardStore,
+	routeParamName: 'bucketId',
+	parentId: route.params.id as string,
+});
 
-	methods: {
-		loadBucketsOptions(params) {
-			return BucketsAPI.getLookup(params);
-		},
-	},
+const bucketId = computed(() => route.params.bucketId);
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.lookups.buckets.buckets', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(QueuesRoutesName.BUCKETS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

@@ -62,12 +62,12 @@
           {{ prettifyDate(item.date) }}
         </template>
         <template #workStart="{ item }">
-          <div v-if="item.workStart">
+          <div v-if="item.workStart != null">
             {{ ConvertDurationWithMinutes(item.workStart) }}
           </div>
         </template>
         <template #workStop="{ item }">
-          <div v-if="item.workStop">
+          <div v-if="item.workStop != null">
             {{ ConvertDurationWithMinutes(item.workStop) }}
           </div>
         </template>

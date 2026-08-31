@@ -39,6 +39,7 @@ import { QueuesAPI } from '@webitel/api-services/api';
 import { QueueType, WtObject } from '@webitel/ui-sdk/enums';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+
 export default {
 	name: 'OpenedImportCsvGeneral',
 	mixins: [

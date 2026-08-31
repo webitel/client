@@ -13,6 +13,7 @@
         <wt-input-text
           v-model:model-value="draft.name"
           :label="t('objects.name')"
+          :regle-validation="r$.$fields.name"
           required
         />
         <wt-datepicker
@@ -65,7 +66,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { useRegleSchema } from '@regle/schemas';
+import { calendarExceptSchema } from '@webitel/api-services/validations';
+import { useCardAnyFieldEditedWatcher } from '@webitel/ui-datalist/card';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import type { CalendarExceptUi } from '../stores';
@@ -94,18 +98,34 @@ const emptyItem = (): CalendarExceptUi => ({
 	workStop: null,
 });
 
-const draft = reactive<CalendarExceptUi>(emptyItem());
+const draft = ref<CalendarExceptUi>(emptyItem());
+
+const { r$ } = useRegleSchema(draft, calendarExceptSchema, {
+	autoDirty: true,
+	syncState: {
+		onValidate: true,
+	},
+});
+
+const { isAnyFieldEdited } = useCardAnyFieldEditedWatcher({
+	value: draft,
+});
 
 const isWorkTimeValid = computed(() => {
-	if (!draft.working) return true;
+	if (!draft.value.working) return true;
 
-	const { workStart, workStop } = draft;
+	const { workStart, workStop } = draft.value;
 	if (workStart == null || workStop == null) return false;
 
 	return workStart < workStop;
 });
 
-const canSave = computed(() => Boolean(draft.name) && isWorkTimeValid.value);
+const canSave = computed(
+	() =>
+		Boolean(draft.value.name) &&
+		isWorkTimeValid.value &&
+		isAnyFieldEdited.value,
+);
 
 const close = () => emit('close');
 
@@ -113,28 +133,33 @@ const save = () => {
 	if (!canSave.value) return;
 
 	emit('save', {
-		...draft,
+		...draft.value,
 	});
 	close();
 };
 
 const changeWorkingSwitcher = (working: boolean) => {
-	draft.working = working;
-	draft.workStart = working ? 9 * 60 : null;
-	draft.workStop = working ? 20 * 60 : null;
+	draft.value.working = working;
+	draft.value.workStart = working ? 9 * 60 : null;
+	draft.value.workStop = working ? 20 * 60 : null;
 };
 
 const updateWorkingTime = (event: number, prop: 'workStart' | 'workStop') => {
-	draft[prop] = event != null ? event / 60 : null;
+	draft.value[prop] = event != null ? event / 60 : null;
 };
 
-/** each opening starts from the edited holiday, or from a blank one */
 watch(
 	() => props.shown,
-	(shown) => {
+	async (shown) => {
 		if (!shown) return;
 
-		Object.assign(draft, emptyItem(), props.item);
+		draft.value = {
+			...emptyItem(),
+			...props.item,
+		};
+
+		await nextTick();
+		r$.$fields.name.$touch();
 	},
 	{
 		immediate: true,

@@ -2,158 +2,136 @@
   <section>
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
-        {{ $t('objects.ccenter.queues.amd') }}
+        {{ t('objects.ccenter.queues.amd') }}
       </h3>
     </header>
     <form class="object-input-grid">
       <wt-switcher
+        v-model:model-value="amd.enabled"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.enabled')"
-        :model-value="itemInstance.payload.amd.enabled"
-        @update:model-value="setAmdItemProp({ prop: 'enabled', value: $event })"
+        :label="t('objects.ccenter.queues.enabled')"
       />
       <wt-switcher
-        v-if="itemInstance.payload.amd.enabled"
+        v-if="amd.enabled"
+        v-model:model-value="amd.ai"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.ai')"
-        :model-value="itemInstance.payload.amd.ai"
-        @update:model-value="setAmdItemProp({ prop: 'ai', value: $event })"
+        :label="t('objects.ccenter.queues.ai')"
       />
       <div
-        v-if="!itemInstance.payload.amd.ai && itemInstance.payload.amd.enabled"
+        v-if="!amd.ai && amd.enabled"
         class="amd-content-block"
       >
         <wt-input-number
+          v-model:model-value="amd.maxNumberOfWords"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.maxNumberOfWords')"
-          :model-value="itemInstance.payload.amd.maxNumberOfWords"
-          @update:model-value="setAmdItemProp({ prop: 'maxNumberOfWords', value: $event })"
+          :label="t('objects.ccenter.queues.maxNumberOfWords')"
         />
         <wt-input-number
+          v-model:model-value="amd.betweenWordsSilence"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.betweenWordsSilence')"
-          :model-value="itemInstance.payload.amd.betweenWordsSilence"
-          @update:model-value="setAmdItemProp({ prop: 'betweenWordsSilence', value: $event })"
+          :label="t('objects.ccenter.queues.betweenWordsSilence')"
         />
         <wt-input-number
+          v-model:model-value="amd.maxWordLength"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.maxWordLength')"
-          :model-value="itemInstance.payload.amd.maxWordLength"
-          @update:model-value="setAmdItemProp({ prop: 'maxWordLength', value: $event })"
+          :label="t('objects.ccenter.queues.maxWordLength')"
         />
         <wt-input-number
+          v-model:model-value="amd.minWordLength"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.minWordLength')"
-          :model-value="itemInstance.payload.amd.minWordLength"
-          @update:model-value="setAmdItemProp({ prop: 'minWordLength', value: $event })"
+          :label="t('objects.ccenter.queues.minWordLength')"
         />
         <wt-input-number
+          v-model:model-value="amd.totalAnalysisTime"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.totalAnalysisTime')"
-          :model-value="itemInstance.payload.amd.totalAnalysisTime"
-          @update:model-value="setAmdItemProp({ prop: 'totalAnalysisTime', value: $event })"
+          :label="t('objects.ccenter.queues.totalAnalysisTime')"
         />
         <wt-input-number
+          v-model:model-value="amd.silenceThreshold"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.silenceThreshold')"
-          :model-value="itemInstance.payload.amd.silenceThreshold"
-          @update:model-value="setAmdItemProp({ prop: 'silenceThreshold', value: $event })"
+          :label="t('objects.ccenter.queues.silenceThreshold')"
         />
         <wt-input-number
+          v-model:model-value="amd.afterGreetingSilence"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.afterGreetingSilence')"
-          :model-value="itemInstance.payload.amd.afterGreetingSilence"
-          @update:model-value="setAmdItemProp({ prop: 'afterGreetingSilence', value: $event })"
+          :label="t('objects.ccenter.queues.afterGreetingSilence')"
         />
         <wt-input-number
+          v-model:model-value="amd.greeting"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.greeting')"
-          :model-value="itemInstance.payload.amd.greeting"
-          @update:model-value="setAmdItemProp({ prop: 'greeting', value: $event })"
+          :label="t('objects.ccenter.queues.greeting')"
         />
         <wt-input-number
+          v-model:model-value="amd.initialSilence"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.initialSilence')"
-          :model-value="itemInstance.payload.amd.initialSilence"
-          @update:model-value="setAmdItemProp({ prop: 'initialSilence', value: $event })"
+          :label="t('objects.ccenter.queues.initialSilence')"
         />
         <div />
         <wt-switcher
+          v-model:model-value="amd.allowNotSure"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.allowNotSure')"
-          :model-value="itemInstance.payload.amd.allowNotSure"
-          @update:model-value="setAmdItemProp({ prop: 'allowNotSure', value: $event })"
+          :label="t('objects.ccenter.queues.allowNotSure')"
         />
         <wt-switcher
-          v-if="itemInstance.payload.amd.allowNotSure"
+          v-if="amd.allowNotSure"
+          v-model:model-value="amd.silenceNotSure"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.silenceNotSure')"
-          :model-value="itemInstance.payload.amd.silenceNotSure"
-          @update:model-value="setAmdItemProp({ prop: 'silenceNotSure', value: $event })"
+          :label="t('objects.ccenter.queues.silenceNotSure')"
         />
       </div>
       <div
-        v-else-if="itemInstance.payload.amd.enabled"
+        v-else-if="amd.enabled"
         class="amd-content-block"
       >
         <wt-multi-select
-          :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.positiveLabels')"
-          :options="AmdAiLabels"
-          :model-value="itemInstance.payload.amd.positive"
+          v-model:model-value="amd.positive"
           :data-key="null"
-          chips-view
+          :disabled="disableUserInput"
+          :label="t('objects.ccenter.queues.positiveLabels')"
+          :options="amdAiLabels"
           allow-custom-values
-          @update:model-value="setAmdItemProp({ prop: 'positive', value: $event })"
+          chips-view
         />
         <wt-single-select
+          v-model:model-value="amd.playback"
           :disabled="disableUserInput"
-          :label="$t('objects.ccenter.queues.aiPlayback')"
-          :search-method="loadDropdownOptionsMediaList"
-          :model-value="itemInstance.payload.amd.playback"
-          @update:model-value="setAmdItemProp({ prop: 'playback', value: $event })"
+          :label="t('objects.ccenter.queues.aiPlayback')"
+          :search-method="MediaAPI.getLookup"
         />
       </div>
     </form>
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { MediaAPI } from '@webitel/api-services/api';
-import { mapActions } from 'vuex';
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-	name: 'OpenedQueueAmd',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	data() {
-		return {
-			AmdAiLabels: [
-				...AmdAiLabels,
-			],
-		};
-	},
-	methods: {
-		...mapActions({
-			setAmdItemProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_AMD_ITEM_PROPERTY`, payload);
-			},
-		}),
-		loadDropdownOptionsMediaList(params) {
-			return MediaAPI.getLookup(params);
-		},
-	},
-};
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
+import type { Queue } from '../../../types/Queue';
+
+const modelValue = defineModel<Queue>({
+	required: true,
+});
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const amdAiLabels = [
+	...AmdAiLabels,
+];
+
+/**
+ * Only the three queue types that show this tab seed `payload.amd`, so the
+ * container is created on demand rather than assumed.
+ */
+const amd = computed<Record<string, unknown>>(() => {
+	if (!modelValue.value.payload) modelValue.value.payload = {};
+	if (!modelValue.value.payload.amd) modelValue.value.payload.amd = {};
+	return modelValue.value.payload.amd as Record<string, unknown>;
+});
 </script>
 
 <style

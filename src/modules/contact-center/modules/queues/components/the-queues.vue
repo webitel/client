@@ -1,5 +1,8 @@
 <template>
-  <wt-page-wrapper class="table-page">
+  <wt-page-wrapper
+    :actions-panel="isFiltersPanelShown"
+    class="the-queues table-page"
+  >
     <template #header>
       <wt-page-header
         :hide-primary="!hasCreateAccess"
@@ -8,8 +11,9 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
+
     <template #actions-panel>
-      <the-queues-filters :namespace="filtersNamespace" />
+      <queues-filters-panel @hide="isFiltersPanelShown = false" />
     </template>
 
     <template #main>
@@ -28,100 +32,95 @@
         :delete-count="deleteCount"
         @close="closeDelete"
       />
-
       <object-list-popup
         v-show="objectListPopupData"
         :data-list="objectListPopupData"
-        :title="objectListPopupTitle"
         :route-name="objectListPopupItemRouteName"
+        :title="objectListPopupTitle"
         @close="closeObjectListPopup"
-      />
-
-      <global-state-confirmation-popup
-        :shown="isGlobalStateConfirmationPopup"
-        :affected-count="affectedQueuesCount"
-        @confirm="confirmGlobalStateChange"
-        @close="closeGlobalStateConfirmation"
       />
 
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.ccenter.queues.allQueues') }}
+            {{ t('objects.ccenter.queues.allQueues') }}
           </h3>
           <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <!-- NOTE: :key forces component re-render when reverting state after user cancels confirmation -->
-            <global-state-switcher
-              :key="globalStateSwitcherKey"
-              :disabled="!hasUpdateAccess"
-              :model-value="globalState"
-              @update:model-value="changeGlobalState"
-              @on-load-global-state="fetchGlobalState"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
+            <queues-global-state-switcher :disabled="!hasUpdateAccess" />
+            <wt-action-bar
+              :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.DELETE]"
+              :disabled:delete="!hasDeleteAccess || !selected.length"
+              @click:refresh="loadDataList"
+              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
+              @click:delete="
+                askDeleteConfirmation({
+                  deleted: selected,
+                  callback: () => deleteEls(selected),
+                })
+              "
             >
-              <delete-all-action
-                v-show="!anySelected"
-                :disabled="!hasDeleteAccess"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
-              />
+              <template #search-bar>
+                <dynamic-filter-search
+                  :filters-manager="filtersManager"
+                  single-search-name="search"
+                  @filter:add="addFilter"
+                  @filter:update="updateFilter"
+                  @filter:delete="deleteFilter"
+                />
+              </template>
+              
+            <template #filters="{ action, onClick }">
+              <wt-badge :hidden="!hasAnyFilters">
+                <wt-icon-action
+                  :action="action"
+                  @click="onClick"
+                />
+              </wt-badge>
+            </template>
 
               <!-- https://webitel.atlassian.net/browse/WTEL-8681 -->
               <!-- <wt-icon-btn
                 v-if="isResetActiveAttemptsAllow"
-                v-tooltip="$t('objects.ccenter.queues.attemptsReset.resetActiveAttempts')"
+                v-tooltip="t('objects.ccenter.queues.attemptsReset.resetActiveAttempts')"
                 icon="update-calls"
                 @click="isAttemptsResetPopup = true"
               /> -->
-
-            </wt-table-actions>
+            </wt-action-bar>
           </div>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :dark-mode="darkMode"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            :image="imageEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :text="textEmpty"
+            @click:primary="create"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
             sortable
-            @sort="sort"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
               <adm-item-link
                 :id="item.id"
-                :route-name="routeName"
+                :route-name="RouteNames.QUEUES"
               >
                 {{ item.name }}
               </adm-item-link>
             </template>
 
             <template #type="{ item }">
-              {{ $t(QueueTypeProperties[item.type].locale) }}
+              {{ queueTypeName(item.type) }}
             </template>
             <template #activeCalls="{ item }">
               {{ item.active }}
@@ -159,7 +158,7 @@
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
-                @update:model-value="changeStateItem($event, index, item)"
+                @update:model-value="changeStateItem(index, $event)"
               />
             </template>
             <template #resourceGroups="{ item }">
@@ -180,35 +179,35 @@
             </template>
             <template #actions="{ item }">
               <wt-icon-btn
-                v-tooltip="$t('iconHints.members')"
+                v-tooltip="t('iconHints.members')"
                 icon="queue-member"
                 @click="openMembers(item)"
               />
-
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -216,222 +215,177 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { QueueMembersAPI } from '@webitel/api-services/api';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import debounce from '@webitel/ui-sdk/src/scripts/debounce';
-import GlobalStateSwitcher from '../../../../../app/components/global-state-switcher.vue';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+
 import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
-import TheQueuesFilters from '../modules/filters/components/the-queues-filters.vue';
-import QueueStateAPI from '../modules/state/api/queueState';
+import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
+import { useQueuesGlobalStateStore } from '../stores/globalState/queuesGlobalStateStore';
+import type { Queue } from '../types/Queue';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
+import QueuesFiltersPanel from './queues-filters-panel.vue';
+import QueuesGlobalStateSwitcher from './queues-global-state-switcher.vue';
 
-const namespace = 'ccenter/queues';
+const { t } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheQueues',
-	components: {
-		ObjectListPopup,
-		OnePlusMany,
-		AttemptsResetPopup,
-		TheQueuesFilters,
-		QueuePopup,
-		DeleteConfirmationPopup,
-		GlobalStateSwitcher,
-		GlobalStateConfirmationPopup,
-	},
-	mixins: [
-		tableComponentMixin,
-	],
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const tableStore = useQueuesDatalistStore();
+const { fetchGlobalState } = useQueuesGlobalStateStore();
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(tableStore);
 
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	deleteEls,
+	patchItemProperty,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = tableStore;
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+initialize();
 
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
-	},
+const isFiltersPanelShown = ref(false);
+const isQueueSelectPopup = ref(false);
+const isAttemptsResetPopup = ref(false);
 
-	data: () => ({
-		objectListPopupData: null,
-		objectListPopupTitle: '',
-		objectListPopupItemRouteName: null,
-		namespace,
-		isQueueSelectPopup: false,
-		isAttemptsResetPopup: false,
-		QueueTypeProperties,
-		routeName: RouteNames.QUEUES,
-		globalState: false,
-		isGlobalStateConfirmationPopup: false,
-		pendingGlobalStateValue: null,
-		affectedQueuesCount: 0,
-		globalStateSwitcherKey: 0,
-	}),
-
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.$t('objects.ccenter.queues.queues', 2),
-					route: '/contact-center/queues',
-				},
-			];
-		},
-		filtersNamespace() {
-			return `${this.namespace}/filters`;
-		},
-		isResetActiveAttemptsAllow() {
-			return this.$store.getters[`userinfo/IS_RESET_ACTIVE_ATTEMPTS_ALLOW`];
-		},
-		getFilters() {
-			return this.$store.getters[`${this.filtersNamespace}/GET_FILTERS`];
-		},
-	},
-	watch: {
-		'$route.query': {
-			async handler() {
-				await this.loadList();
-			},
-		},
-		getFilters: {
-			deep: true,
-			async handler() {
-				await this.fetchGlobalState();
-			},
-		},
-		search: {
-			handler() {
-				this.debouncedFetchGlobalState();
-			},
-		},
-	},
-
-	async mounted() {
-		// Load global state for all items in table
-		await this.fetchGlobalState();
-	},
-
-	methods: {
-		closeObjectListPopup() {
-			this.objectListPopupData = null;
-			this.objectListPopupTitle = '';
-		},
-		openResourcesPopup(item) {
-			this.objectListPopupData = item.resources;
-			this.objectListPopupTitle = this.$t(
-				'objects.ccenter.queues.resources',
-				2,
-			);
-			this.objectListPopupItemRouteName = RouteNames.RESOURCES;
-		},
-		openResourceGroupsPopup(item) {
-			this.objectListPopupData = item.resourceGroups;
-			this.objectListPopupTitle = this.$t(
-				'objects.ccenter.queues.resourceGroups',
-				2,
-			);
-			this.objectListPopupItemRouteName = RouteNames.RESOURCE_GROUPS;
-		},
-		async fetchGlobalState() {
-			const state = await QueueStateAPI.getQueuesGlobalState({
-				...this.getFilters,
-				search: this.search,
-			});
-			this.globalState = !!state?.isAllEnabled;
-			this.affectedQueuesCount = state?.potentialRows || 0;
-		},
-		debouncedFetchGlobalState() {
-			this.debouncedFetchGlobalState = debounce(async () => {
-				await this.fetchGlobalState();
-			});
-		},
-		changeGlobalState(value) {
-			this.pendingGlobalStateValue = value;
-			this.isGlobalStateConfirmationPopup = true;
-		},
-		resetConfirmationState() {
-			this.isGlobalStateConfirmationPopup = false;
-			this.pendingGlobalStateValue = null;
-		},
-		async confirmGlobalStateChange() {
-			await QueueStateAPI.setQueuesGlobalState({
-				enabled: this.pendingGlobalStateValue,
-				params: {
-					...this.getFilters,
-					search: this.search,
-				},
-			});
-			this.globalState = this.pendingGlobalStateValue;
-			this.resetConfirmationState();
-			await this.loadDataList();
-			await this.fetchGlobalState();
-		},
-		closeGlobalStateConfirmation() {
-			this.resetConfirmationState();
-		},
-		openMembers(item) {
-			return this.$router.push({
-				...this.$route,
-				name: `${RouteNames.MEMBERS}`,
-				params: {
-					queueId: item.id,
-				},
-			});
-		},
-		async resetAttempts(resetAttemptsForm) {
-			await QueueMembersAPI.resetActiveAttempts(resetAttemptsForm);
-			this.isAttemptsResetPopup = false;
-		},
-		create() {
-			this.isQueueSelectPopup = true;
-		},
-		async changeStateItem(value, index, item) {
-			await this.patchItem({
-				item,
-				index,
-				prop: 'enabled',
-				value,
-			});
-			// Update global state after individual queue state change
-			await this.fetchGlobalState();
-		},
-	},
+/**
+ * What `object-list-popup` accepts. The generated resource models are
+ * interfaces without an index signature, so TS will not widen them to this
+ * shape on its own — hence the casts at each assignment below.
+ */
+type ObjectListItem = {
+	id?: string | number;
+	name?: string;
+	[key: string]: unknown;
 };
+
+const objectListPopupData = ref<ObjectListItem[] | null>(null);
+const objectListPopupTitle = ref('');
+const objectListPopupItemRouteName = ref<string | null>(null);
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.ccenter.ccenter'),
+	},
+	{
+		name: t('objects.ccenter.queues.queues', 2),
+		route: '/contact-center/queues',
+	},
+]);
+
+const hasAnyFilters = computed(
+	() => filtersManager.value.getAllKeys().length > 0,
+);
+
+const queueTypeName = (type: number) => {
+	const properties = QueueTypeProperties[type];
+	return properties ? t(properties.locale) : '';
+};
+
+const create = () => {
+	isQueueSelectPopup.value = true;
+};
+
+const edit = (item: Queue) =>
+	router.push({
+		name: `${RouteNames.QUEUES}-card`,
+		params: {
+			id: item.id,
+		},
+	});
+
+const openMembers = (item: Queue) =>
+	router.push({
+		name: RouteNames.MEMBERS,
+		params: {
+			queueId: item.id,
+		},
+	});
+
+const openResourcesPopup = (item: Queue) => {
+	objectListPopupData.value = item.resources as ObjectListItem[];
+	objectListPopupTitle.value = t('objects.ccenter.queues.resources', 2);
+	objectListPopupItemRouteName.value = RouteNames.RESOURCES;
+};
+
+const openResourceGroupsPopup = (item: Queue) => {
+	objectListPopupData.value = item.resourceGroups as ObjectListItem[];
+	objectListPopupTitle.value = t('objects.ccenter.queues.resourceGroups', 2);
+	objectListPopupItemRouteName.value = RouteNames.RESOURCE_GROUPS;
+};
+
+const closeObjectListPopup = () => {
+	objectListPopupData.value = null;
+	objectListPopupTitle.value = '';
+};
+
+const changeStateItem = async (index: number, value: boolean) => {
+	await patchItemProperty({
+		index,
+		path: 'enabled',
+		value,
+	});
+	// the global switcher reflects the whole filtered set, so it moves too
+	await fetchGlobalState();
+};
+
+const resetAttempts = async (resetAttemptsForm: unknown) => {
+	await QueueMembersAPI.resetActiveAttempts(resetAttemptsForm);
+	isAttemptsResetPopup.value = false;
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
 <style
