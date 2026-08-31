@@ -104,11 +104,11 @@
 </template>
 
 <script lang="ts" setup>
+import { MediaAPI } from '@webitel/api-services/api';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import MediaAPI from '../../../../../../lookups/modules/media/api/media';
 import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
 import type { Queue } from '../../../types/Queue';
 

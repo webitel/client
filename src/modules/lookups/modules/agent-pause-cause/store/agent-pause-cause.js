@@ -1,5 +1,5 @@
+import { AgentPauseCausesAPI as PauseCauseAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PauseCauseAPI from '../api/agentPauseCause';
 import headers from './_internals/headers';
 
 const resettableState = {

@@ -1,7 +1,5 @@
-import { QueueMembersAPI } from '@webitel/api-services/api';
+import { CommunicationsAPI, QueueMembersAPI } from '@webitel/api-services/api';
 import type { Ref } from 'vue';
-
-import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 /** carried over verbatim; see memberCommunicationSchema for the same pattern */
 const dtmfPattern = /^[\d|w|W]*$/;

@@ -1,7 +1,7 @@
+import { EngineTriggerJobState } from '@webitel/api-services/gen/models';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-import { EngineTriggerJobState } from 'webitel-sdk';
 
 const state = {
 	startedAtFrom: new BaseFilterSchema({

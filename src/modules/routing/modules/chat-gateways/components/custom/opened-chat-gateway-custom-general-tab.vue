@@ -55,13 +55,12 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
-
 import GenerateValueInput from '../../../../../../app/components/utils/generate-value-input.vue';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../flow/api/flow';
 import uriCopyMixin from '../../mixins/uriCopyMixin';
 
 export default {

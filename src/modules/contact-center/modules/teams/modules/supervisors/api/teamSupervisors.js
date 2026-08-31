@@ -1,164 +1,60 @@
-import {
-	getDefaultGetListResponse,
-	getDefaultGetParams,
-} from '@webitel/ui-sdk/src/api/defaults/index.js';
-import applyTransform, {
-	camelToSnake,
-	merge,
-	notify,
-	snakeToCamel,
-	starToSearch,
-} from '@webitel/ui-sdk/src/api/transformers/index.js';
-import { AgentServiceApiFactory } from 'webitel-sdk';
+import { AgentsAPI } from '@webitel/api-services/api';
 
-import instance from '../../../../../../../app/api/instance';
-import configuration from '../../../../../../../app/api/openAPIConfig';
-
-const teamSupervisorService = new AgentServiceApiFactory(
-	configuration,
-	'',
-	instance,
-);
-
-const getTeamSupervisorsList = async (params) => {
-	const isSupervisor = true;
-	const fields = [
-		'id',
-		'name',
-	];
-
-	const { page, size, search, parentId, sort } = applyTransform(params, [
-		merge(getDefaultGetParams()),
-	]);
-
-	try {
-		const response = await teamSupervisorService.searchAgent(
-			page,
-			size,
-			search,
-			sort,
-			fields,
-			undefined,
-			undefined,
-			undefined,
-			parentId,
-			undefined,
-			undefined,
-			isSupervisor,
-		);
-		const { items, next } = applyTransform(response.data, [
-			snakeToCamel(),
-			merge(getDefaultGetListResponse()),
-		]);
-		return {
-			items,
-			next,
-		};
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
-};
-
-const getTeamSupervisor = async ({ itemId: id }) => {
-	const responseHandler = (agent) => ({
-		agent,
+/**
+ * A team's supervisors are agents filtered by `team` + `isSupervisor`, so add
+ * and remove are patches of the agent's own team.
+ */
+const getTeamSupervisorsList = ({ parentId, ...params }) =>
+	AgentsAPI.getList({
+		...params,
+		fields: [
+			'id',
+			'name',
+		],
+		team: parentId,
+		isSupervisor: true,
 	});
 
-	try {
-		const response = await teamSupervisorService.readAgent(id);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-			responseHandler,
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
-};
+const getTeamSupervisor = async ({ itemId }) => ({
+	agent: await AgentsAPI.get({
+		itemId,
+	}),
+});
 
-const patchAgent = async ({ id, changes }) => {
-	const item = applyTransform(changes, [
-		camelToSnake(),
-	]);
-	try {
-		const response = await teamSupervisorService.patchAgent(id, item);
-		return applyTransform(response.data, [
-			snakeToCamel(),
-		]);
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
-};
+const getTeamSupervisorSubordinatesList = ({
+	supervisorId,
+	teamId,
+	...params
+}) =>
+	AgentsAPI.getList({
+		...params,
+		fields: [
+			'id',
+			'user',
+		],
+		supervisorId,
+		team: teamId,
+	});
 
-const getTeamSupervisorSubordinatesList = async (params) => {
-	const fields = [
-		'id',
-		'user',
-	];
-
-	const { page, size, search, supervisorId, teamId } = applyTransform(params, [
-		merge(getDefaultGetParams()),
-		starToSearch('search'),
-	]);
-
-	try {
-		const response = await teamSupervisorService.searchAgent(
-			page,
-			size,
-			search,
-			undefined,
-			fields,
-			undefined,
-			undefined,
-			supervisorId,
-			teamId,
-			undefined,
-			undefined,
-		);
-		const { items, next } = applyTransform(response.data, [
-			snakeToCamel(),
-			merge(getDefaultGetListResponse()),
-		]);
-		return {
-			items,
-			next,
-		};
-	} catch (err) {
-		throw applyTransform(err, [
-			notify,
-		]);
-	}
-};
-
-const addTeamSupervisor = ({ parentId, itemInstance }) => {
-	const { id } = itemInstance.agent;
-	const changes = {
-		team: {
-			id: parentId,
+const addTeamSupervisor = ({ parentId, itemInstance }) =>
+	AgentsAPI.patch({
+		id: itemInstance.agent.id,
+		changes: {
+			team: {
+				id: parentId,
+			},
 		},
-	};
-	return patchAgent({
-		id,
-		changes,
 	});
-};
 
-const deleteTeamSupervisor = ({ id }) => {
-	const changes = {
-		team: {
-			id: null,
-		},
-	};
-	return patchAgent({
+const deleteTeamSupervisor = ({ id }) =>
+	AgentsAPI.patch({
 		id,
-		changes,
+		changes: {
+			team: {
+				id: null,
+			},
+		},
 	});
-};
 
 const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
 	await addTeamSupervisor({

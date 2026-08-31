@@ -47,8 +47,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { minValue, numeric, required, requiredIf } from '@vuelidate/validators';
+import { EngineTriggerType } from '@webitel/api-services/gen/models';
 import { isValidCron } from 'cron-validator';
-import { EngineTriggerType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';

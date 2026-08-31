@@ -1,7 +1,7 @@
+import { AgentsAPI } from '@webitel/api-services/api';
 import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import AgentsAPI from '../api/agents';
 import queues from '../modules/queues/store/agent-queues';
 import skills from '../modules/skills/store/agent-skills';
 import subordinates from '../modules/subordinates/store/agent-subordinates';

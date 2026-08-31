@@ -162,19 +162,18 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
 import { formatDate } from '@webitel/ui-sdk/utils';
-
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { downloadAsJSON } from '../../../../../app/utils/download';
-import FlowsAPI from '../api/flow';
 import FlowEditor from '../enums/FlowEditor.enum';
 import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
 import CreateFlowPopup from './create-flow-popup.vue';

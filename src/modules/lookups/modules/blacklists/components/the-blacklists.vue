@@ -118,19 +118,18 @@
 </template>
 
 <script>
+import { BlacklistNumbersAPI } from '@webitel/api-services/api';
 import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import dummyPicDark from '../assets/adm-dummy-blacklist-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-blacklist-light.svg';
-import BlacklistNumbersAPI from '../modules/numbers/api/blacklistNumbers';
 
 const namespace = 'lookups/blacklists';
 

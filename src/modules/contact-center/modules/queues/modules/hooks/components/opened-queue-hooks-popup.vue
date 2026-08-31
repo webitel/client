@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts" setup>
+import { FlowsAPI } from '@webitel/api-services/api';
 import type { EngineQueueHook } from '@webitel/api-services/gen/models';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
@@ -60,7 +61,6 @@ import { useRoute } from 'vue-router';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
 import { HookQueueEvent } from '../enums/HookQueueEvent.enum';
 import { useQueueHooksCardStore } from '../stores/card/queueHooksCardStore';

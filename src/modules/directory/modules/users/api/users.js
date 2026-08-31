@@ -1,3 +1,3 @@
-import users from '@webitel/ui-sdk/src/api/clients/users/users.js';
+import { UsersAPI as users } from '@webitel/api-services/api';
 
 export default users;

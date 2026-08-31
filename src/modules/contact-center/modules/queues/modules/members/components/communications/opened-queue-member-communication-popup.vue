@@ -68,6 +68,10 @@
 </template>
 
 <script lang="ts" setup>
+import {
+	CommunicationsAPI,
+	OutboundResourcesAPI as ResourcesAPI,
+} from '@webitel/api-services/api';
 import { useRegleSchema } from '@regle/schemas';
 import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
 import { memberCommunicationSchema } from '@webitel/api-services/validations';
@@ -78,8 +82,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
-import CommunicationsAPI from '../../../../../../../lookups/modules/communications/api/communications';
-import ResourcesAPI from '../../../../../resources/api/resources';
 import QueuesRoutesName from '../../../../router/_internals/QueuesRoutesName.enum';
 import { emptyCommunication } from '../../composables/useMemberCommunications';
 

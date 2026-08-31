@@ -99,12 +99,11 @@
 </template>
 
 <script>
-import { QueuesAPI } from '@webitel/api-services/api';
+import { CommunicationsAPI, QueuesAPI } from '@webitel/api-services/api';
 import { mapActions } from 'vuex';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import StatisticTimeList from '../../../../../../contact-center/modules/queues/lookups/StatisticTime.lookup';
-import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
 
 export default {
 	name: 'OpenedChatGatewayWebchatAppointmentTab',

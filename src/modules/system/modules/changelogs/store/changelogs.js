@@ -1,5 +1,5 @@
+import { ChangelogsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import ChangelogsAPI from '../api/changelogs';
 import logs from '../modules/logs/store/logs';
 import headers from './_internals/headers';
 

@@ -39,6 +39,7 @@
 </template>
 
 <script lang="ts" setup>
+import { OutboundResourceGroupsAPI as ResourceGroupsAPI } from '@webitel/api-services/api';
 import type { EngineQueueResourceGroup } from '@webitel/api-services/gen/models';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
@@ -47,7 +48,6 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import ResourceGroupsAPI from '../../../../resource-groups/api/resourceGroups';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
 import { useQueueResGroupsCardStore } from '../stores/card/queueResGroupsCardStore';
 
