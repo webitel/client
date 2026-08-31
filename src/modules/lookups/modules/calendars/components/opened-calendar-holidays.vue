@@ -44,8 +44,9 @@
     </header>
 
     <wt-empty
-      v-if="!rows.length"
-      :text="search ? t('objects.emptyResultSearch') : undefined"
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
     />
 
     <div
@@ -105,6 +106,7 @@ import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import ConvertDurationWithMinutes from '@webitel/ui-sdk/src/scripts/convertDurationWithMinutes.js';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { computed, ref } from 'vue';
@@ -141,6 +143,17 @@ const { rows, upsert, remove, setRepeat } = useCalendarHolidays(
 	modelValue,
 	search,
 );
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: rows,
+	filters: computed(() => ({
+		search: search.value,
+	})),
+});
 
 const {
 	isVisible: isDeleteConfirmationPopup,
