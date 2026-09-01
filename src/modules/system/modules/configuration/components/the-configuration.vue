@@ -92,7 +92,7 @@
                 </wt-chip>
               </div>
               <div v-else>
-                {{ item.value }}
+                {{ getScalarValueLabel(item.name, item.value) }}
               </div>
             </template>
             <template #actions="{ item }">
@@ -222,6 +222,11 @@ export default {
 		},
 		isMultiselectValue(value) {
 			return Array.isArray(value) && value.length;
+		},
+		getScalarValueLabel(settingName, value) {
+			const { select } = getParameterDescriptor(settingName);
+			const option = select?.options?.find((opt) => opt.value === value);
+			return option?.locale ? this.$t(option.locale) : value;
 		},
 		getChipKey(settingName, chip, index) {
 			const { listDisplay } = getParameterDescriptor(settingName);
