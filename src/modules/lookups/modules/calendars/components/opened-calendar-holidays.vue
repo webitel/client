@@ -163,17 +163,6 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
-const {
-	showEmpty,
-	image: imageEmpty,
-	text: textEmpty,
-} = useTableEmpty({
-	dataList: rows,
-	filters: computed(() => ({
-		search: search.value,
-	})),
-});
-
 const headers = computed(() => [
 	{
 		value: 'name',

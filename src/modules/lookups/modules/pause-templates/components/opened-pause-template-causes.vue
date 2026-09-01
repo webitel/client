@@ -59,9 +59,9 @@
 </template>
 
 <script>
+import { AgentPauseCausesAPI as AgentPauseCauseAPI } from '@webitel/api-services/api';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed, getCurrentInstance } from 'vue';
-import { AgentPauseCausesAPI as AgentPauseCauseAPI } from '@webitel/api-services/api';
 import { mapActions } from 'vuex';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';

@@ -68,9 +68,8 @@
 </template>
 
 <script>
-import path from 'path';
-
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import path from 'path';
 import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
