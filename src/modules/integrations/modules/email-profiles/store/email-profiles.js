@@ -1,9 +1,8 @@
-import { EngineEmailAuthType } from 'webitel-sdk';
-
-import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 // import PermissionsStoreModule
 //   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import EmailProfilesAPI from '../api/emailProfiles';
+import { EmailProfilesAPI } from '@webitel/api-services/api';
+import { EngineEmailAuthType } from 'webitel-sdk';
+import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import headers from './_internals/headers';
 
 const resettableState = {

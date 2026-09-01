@@ -34,13 +34,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { FlowsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
-
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
 import HookEvent from '../enum/HookTeamEvent.enum';
 
 export default {

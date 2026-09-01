@@ -1,5 +1,5 @@
+import { StoragePoliciesAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import StoragePoliciesAPI from '../api/storagePolicies.js';
 import headers from './_internals/headers';
 
 const resettableState = {

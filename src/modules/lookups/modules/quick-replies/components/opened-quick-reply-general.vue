@@ -41,10 +41,9 @@
 </template>
 
 <script>
-import { QueuesAPI } from '@webitel/api-services/api';
+import { QueuesAPI, TeamsAPI } from '@webitel/api-services/api';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import TeamsAPI from '../../../../contact-center/modules/teams/api/teams.js';
 
 export default {
 	name: 'OpenedBucketGeneral',

@@ -5,19 +5,13 @@ const getList = vi.fn();
 const addBulk = vi.fn();
 
 vi.mock('@webitel/api-services/api', () => ({
+	CommunicationsAPI: {
+		getList: (...args: unknown[]) => getList(...args),
+	},
 	QueueMembersAPI: {
 		addBulk: (...args: unknown[]) => addBulk(...args),
 	},
 }));
-
-vi.mock(
-	'../../../../../../../lookups/modules/communications/api/communications',
-	() => ({
-		default: {
-			getList: (...args: unknown[]) => getList(...args),
-		},
-	}),
-);
 
 const { useNormalizeCsvMembers } = await import('../useNormalizeCsvMembers');
 

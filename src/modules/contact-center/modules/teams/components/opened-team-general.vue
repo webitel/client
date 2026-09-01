@@ -53,12 +53,11 @@
 </template>
 
 <script>
+import { AgentsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import AgentsAPI from '../../agents/api/agents';
 import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
 
 export default {

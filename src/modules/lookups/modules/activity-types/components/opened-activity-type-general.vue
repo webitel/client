@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { RegleSchemaFieldStatus } from '@regle/schemas';
+import { SkillsAPI } from '@webitel/api-services/api';
 import type { EngineOnlineSkills } from '@webitel/api-services/gen/models';
 import {
 	WtInputText,
@@ -36,7 +37,6 @@ import {
 	WtTextarea,
 } from '@webitel/ui-sdk/components';
 import { useI18n } from 'vue-i18n';
-import SkillsAPI from '../../agent-skills/api/agentSkills';
 
 const modelValue = defineModel<EngineOnlineSkills>();
 

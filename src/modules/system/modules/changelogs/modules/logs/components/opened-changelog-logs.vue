@@ -82,14 +82,13 @@
 </template>
 
 <script>
+import { ConfigLogsAPI as LogsAPI } from '@webitel/api-services/api';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { formatDate } from '@webitel/ui-sdk/utils';
-
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import LogsAPI from '../api/logs';
 import RecordLink from './changelog-logs-record-link.vue';
 
 const namespace = 'system/changelogs';

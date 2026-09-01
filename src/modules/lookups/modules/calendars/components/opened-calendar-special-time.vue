@@ -22,6 +22,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
+            :regle-validation="issueFor(index, 'start')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -33,6 +34,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
+            :regle-validation="issueFor(index, 'end')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -72,13 +74,14 @@ import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
+import { useWeekDaysIssues } from '../composables/useWeekDaysIssues';
 import type { CalendarCard } from '../stores';
 
 const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-/** declared, not used: the card binds it to every tab */
+/** declared, not used: the rows validate live, see useWeekDaysIssues */
 defineProps<{
 	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
@@ -97,4 +100,6 @@ const {
 	minToSec,
 	secToMin,
 } = useWeekDaysData(modelValue, 'specials');
+
+const { issueFor } = useWeekDaysIssues(dataList);
 </script>

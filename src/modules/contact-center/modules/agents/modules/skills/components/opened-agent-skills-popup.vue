@@ -37,10 +37,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
-
+import { SkillsAPI } from '@webitel/api-services/api';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import SkillsAPI from '../../../../../../lookups/modules/agent-skills/api/agentSkills';
-
 export default {
 	name: 'OpenedAgentSkillsPopup',
 	mixins: [

@@ -145,6 +145,17 @@ const { rows, upsert, remove, setRepeat } = useCalendarHolidays(
 );
 
 const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: rows,
+	filters: computed(() => ({
+		search: search.value,
+	})),
+});
+
+const {
 	isVisible: isDeleteConfirmationPopup,
 	deleteCount,
 	deleteCallback,

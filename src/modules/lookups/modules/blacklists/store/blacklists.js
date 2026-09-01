@@ -1,6 +1,6 @@
+import { BlacklistsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import BlacklistsAPI from '../api/blacklists';
 import numbers from '../modules/numbers/store/blacklistNumbers';
 import headers from './_internals/headers';
 

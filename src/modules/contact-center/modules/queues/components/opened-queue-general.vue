@@ -131,7 +131,14 @@
 </template>
 
 <script lang="ts" setup>
-import { CalendarsAPI, QueuesAPI } from '@webitel/api-services/api';
+import {
+	BlacklistsAPI,
+	CalendarsAPI,
+	FlowsAPI,
+	MediaAPI,
+	QueuesAPI,
+	TeamsAPI,
+} from '@webitel/api-services/api';
 import {
 	QueueStrategyList,
 	TypesResourceStrategy,
@@ -142,11 +149,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import BlacklistsAPI from '../../../../lookups/modules/blacklists/api/blacklists';
-import MediaAPI from '../../../../lookups/modules/media/api/media';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
-import FlowsAPI from '../../../../routing/modules/flow/api/flow';
-import TeamsAPI from '../../teams/api/teams';
 import { useQueueTypeControls } from '../composables/useQueueTypeControls';
 import type { Queue } from '../types/Queue';
 

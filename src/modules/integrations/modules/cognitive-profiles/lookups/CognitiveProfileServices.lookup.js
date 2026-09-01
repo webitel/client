@@ -1,13 +1,13 @@
-import { StorageServiceType } from 'webitel-sdk';
+import { StorageServiceType } from '@webitel/api-services/gen/models';
 
 const CognitiveProfileServices = Object.freeze([
 	{
 		locale: 'objects.tts',
-		value: StorageServiceType.TTS,
+		value: StorageServiceType.Tts,
 	},
 	{
 		locale: 'objects.stt',
-		value: StorageServiceType.STT,
+		value: StorageServiceType.Stt,
 	},
 ]);
 
