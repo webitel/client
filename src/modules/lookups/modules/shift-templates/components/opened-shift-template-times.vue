@@ -15,7 +15,11 @@
       </div>
     </header>
 
-    <table-empty :data-list="itemInstance.times" />
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
     <div
       v-show="itemInstance.times.length"
       class="table-section__table-wrapper"
@@ -67,24 +71,34 @@
 </template>
 
 <script>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
-import TableEmpty from '../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
 export default {
 	name: 'OpenedShiftTemplateTimes',
-	components: {
-		TableEmpty,
-	},
 	mixins: [
 		openedTabComponentMixin,
 	],
-	setup: () => {
+	setup() {
+		const vm = getCurrentInstance().proxy;
 		const { disableUserInput } = useUserAccessControl();
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.itemInstance.times),
+		});
+
 		return {
 			disableUserInput,
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	computed: {

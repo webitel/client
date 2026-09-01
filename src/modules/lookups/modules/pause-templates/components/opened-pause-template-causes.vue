@@ -15,7 +15,11 @@
       </div>
     </header>
 
-    <table-empty :data-list="itemInstance.causes" />
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
     <div
       v-show="itemInstance.causes.length"
       class="table-section__table-wrapper"
@@ -55,25 +59,35 @@
 </template>
 
 <script>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
-import TableEmpty from '../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
 
 export default {
 	name: 'OpenedPauseTemplateCauses',
-	components: {
-		TableEmpty,
-	},
 	mixins: [
 		openedTabComponentMixin,
 	],
-	setup: () => {
+	setup() {
+		const vm = getCurrentInstance().proxy;
 		const { disableUserInput } = useUserAccessControl();
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.itemInstance.causes),
+		});
+
 		return {
 			disableUserInput,
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	computed: {

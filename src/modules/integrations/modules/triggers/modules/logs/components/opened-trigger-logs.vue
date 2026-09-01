@@ -7,9 +7,10 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <table-empty
-      :data-list="dataList"
-      :is-loading="!isLoaded"
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
     />
     <div
       v-show="isLoaded && dataList.length"
@@ -49,20 +50,35 @@
 
 <script>
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { computed, getCurrentInstance } from 'vue';
 
-import TableEmpty from '../../../../../../../app/components/utils/table-empty.vue';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
 
 export default {
 	name: 'OpenedTriggerLogs',
-	components: {
-		TableEmpty,
-	},
 	mixins: [
 		openedObjectTableTabMixin,
 	],
+	setup() {
+		const vm = getCurrentInstance().proxy;
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
+		return {
+			showEmpty,
+			imageEmpty,
+			textEmpty,
+		};
+	},
 	data: () => ({
 		subNamespace: 'log',
 	}),

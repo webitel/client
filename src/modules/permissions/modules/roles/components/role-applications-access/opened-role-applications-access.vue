@@ -11,9 +11,10 @@
       </h3>
     </header>
 
-    <table-empty
-      :data-list="dataList"
-      :is-loading="!isLoaded"
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
     />
     <div
       v-show="isLoaded && dataList.length"
@@ -48,9 +49,10 @@
 </template>
 
 <script>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions, mapState } from 'vuex';
-import TableEmpty from '../../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import ApplicationAccessPopup from './opened-role-applications-access-popup.vue';
@@ -59,7 +61,6 @@ export default {
 	name: 'OpenedRoleApplicationsAccess',
 	components: {
 		ApplicationAccessPopup,
-		TableEmpty,
 	},
 	mixins: [
 		openedObjectTableTabMixin,
@@ -68,10 +69,23 @@ export default {
 		dataListValue: [],
 		searchValue: '',
 	}),
-	setup: () => {
+	setup() {
+		const vm = getCurrentInstance().proxy;
 		const { disableUserInput } = useUserAccessControl();
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
 		return {
 			disableUserInput,
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	watch: {

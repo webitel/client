@@ -33,9 +33,10 @@
       </div>
     </header>
 
-    <table-empty
-      :data-list="dataList"
-      :is-loading="!isLoaded"
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
     />
     <div
       v-show="isLoaded && dataList.length"
@@ -75,8 +76,9 @@ import {
 } from '@webitel/ui-sdk/modules/Userinfo';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions, mapState } from 'vuex';
-import TableEmpty from '../../../../../../app/components/utils/table-empty.vue';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import PermissionsPopup from './opened-role-permissions-popup.vue';
@@ -86,12 +88,12 @@ export default {
 	components: {
 		PermissionsPopup,
 		DeleteConfirmationPopup,
-		TableEmpty,
 	},
 	mixins: [
 		openedObjectTableTabMixin,
 	],
 	setup() {
+		const vm = getCurrentInstance().proxy;
 		const {
 			isVisible: isDeleteConfirmationPopup,
 			deleteCount,
@@ -103,6 +105,15 @@ export default {
 
 		const { disableUserInput } = useUserAccessControl();
 
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
 		return {
 			isDeleteConfirmationPopup,
 			deleteCount,
@@ -111,6 +122,10 @@ export default {
 			askDeleteConfirmation,
 			closeDelete,
 			disableUserInput,
+
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	data: () => ({

@@ -40,9 +40,10 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
-    <table-empty
-      :data-list="dataList"
-      :is-loading="!isLoaded"
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
     />
     <div
       v-show="isLoaded && dataList.length"
@@ -78,24 +79,40 @@
 
 <script>
 import path from 'path';
+
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
-import TableEmpty from '../../../../../../../../app/components/utils/table-empty.vue';
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import getChatOriginUrl from '../../../../scripts/getChatOriginUrl';
 import openMessengerWindow from '../../_shared/scripts/openMessengerWindow';
 
 export default {
 	name: 'OpenedChatGatewayInstagramTab',
-	components: {
-		TableEmpty,
-	},
 	mixins: [
 		openedObjectTableTabMixin,
 	],
 	inject: [
 		'$eventBus',
 	],
+	setup() {
+		const vm = getCurrentInstance().proxy;
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
+		return {
+			showEmpty,
+			imageEmpty,
+			textEmpty,
+		};
+	},
 	data: () => ({
 		subNamespace: 'instagram',
 		accountsOnPopup: null,
