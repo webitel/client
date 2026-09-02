@@ -908,6 +908,7 @@ export default {
 				allMembers: 'Всі абоненти',
 				addMember: 'Додати абонента',
 				destination: 'Призначення',
+				communications: 'Комунікації',
 				display: 'Відображення номера',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),

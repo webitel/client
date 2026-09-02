@@ -21,14 +21,12 @@ const tables = {
 };
 
 describe.each(Object.entries(tables))('%s headers', (_name, headers) => {
-	/**
-	 * `shownHeaders` is `headers.filter(h => h.show)` and `fields` is derived
-	 * from it, so a header without `show` is not merely hidden — its field is
-	 * never requested, and the column can never be switched back on.
-	 */
-	it('marks every column shown', () => {
+	/** an omitted `show` drops the column and its request field; `false` only sets the first-visit default */
+	it('declares show on every column', () => {
 		for (const header of headers) {
-			expect(header.show, `${header.value} is not shown`).toBe(true);
+			expect(typeof header.show, `${header.value} does not declare show`).toBe(
+				'boolean',
+			);
 		}
 	});
 

@@ -895,6 +895,7 @@ export default {
 				allMembers: 'Tất cả thành viên',
 				addMember: 'Thêm thành viên',
 				destination: 'Đích',
+				communications: 'Liên lạc',
 				display: 'Số hiển thị',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),

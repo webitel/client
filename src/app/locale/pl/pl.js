@@ -898,6 +898,7 @@ export default {
 				allMembers: 'Wszystkie członkowie',
 				addMember: 'Dodaj członka',
 				destination: 'Miejsce docelowe',
+				communications: 'Komunikacja',
 				display: 'Numer wyświetlany',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),

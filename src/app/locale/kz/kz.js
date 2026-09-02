@@ -895,6 +895,7 @@ export default {
 				allMembers: 'Барлық меншіктер',
 				addMember: 'Меншікті қосу',
 				destination: 'Мақсат',
+				communications: 'Коммуникациялар',
 				display: 'Көрсету нөмірі',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
