@@ -216,7 +216,7 @@ export default {
     'region chatCount'
     'auditor extraChatCount'
     'supervisor taskCount'
-    'screenControl isSupervisor'
+    'isSupervisor screenControl'
   ;
   grid-template-columns: 1fr 1fr;
 
