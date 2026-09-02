@@ -905,6 +905,7 @@ export default {
 				allMembers: 'Все абоненты',
 				addMember: 'добавить абонента',
 				destination: 'Назначение',
+				communications: 'Коммуникации',
 				display: 'Отображение номера',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),

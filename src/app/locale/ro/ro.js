@@ -900,6 +900,7 @@ export default {
 				allMembers: 'Toți membrii',
 				addMember: 'Adaugă membru',
 				destination: 'Destinație',
+				communications: 'Comunicații',
 				display: 'Număr de afișare',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),

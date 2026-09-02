@@ -34,10 +34,10 @@
     </template>
 
     <template #main>
-      <destinations-popup
-        v-if="destinationsOnPopup"
-        :communications="destinationsOnPopup"
-        @close="destinationsOnPopup = null"
+      <communications-popup
+        v-if="communicationsOnPopup"
+        :communications="communicationsOnPopup"
+        @close="communicationsOnPopup = null"
       />
 
       <upload-popup
@@ -165,17 +165,10 @@
               </div>
             </template>
             <template #destination="{ item }">
-              <div
-                v-if="item.communications?.length"
-                class="members__destinations-wrapper"
-              >
-                <span>{{ item.communications[0].destination }}</span>
-                <wt-chip
-                  v-if="item.communications.length > 1"
-                  class="members__destinations-num"
-                  @click="destinationsOnPopup = item.communications"
-                >+{{ item.communications.length - 1 }}</wt-chip>
-              </div>
+              <one-plus-many
+                :collection="communicationValues(item.communications)"
+                @input="communicationsOnPopup = item.communications"
+              />
             </template>
             <template #attempts="{ item }">
               {{ item.attempts || 0 }}
@@ -189,6 +182,15 @@
               >
                 {{ item.agent.name }}
               </adm-item-link>
+            </template>
+            <template #bucket="{ item }">
+              {{ item.bucket?.name }}
+            </template>
+            <template #expireAt="{ item }">
+              {{ asDate(item.expireAt) }}
+            </template>
+            <template #timezone="{ item }">
+              {{ item.timezone?.name }}
             </template>
 
             <template #actions="{ item }">
@@ -247,6 +249,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
@@ -254,7 +257,7 @@ import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
 import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
-import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import CommunicationsPopup from './communications/queue-member-communications-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import TheQueueMembersFilters from './the-queue-members-filters.vue';
 import UploadPopup from './upload-members-popup.vue';
@@ -313,7 +316,7 @@ const isFiltersPanelShown = ref(false);
 const isResetPopup = ref(false);
 const resetMembersQuantity = ref(0);
 const csvFile = ref<File | null>(null);
-const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
+const communicationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
 
 const path = computed(() => {
@@ -332,6 +335,12 @@ const path = computed(() => {
 		},
 	];
 });
+
+/** `one-plus-many` renders `name`; a communication has only `destination` */
+const communicationValues = (communications?: EngineMemberCommunication[]) =>
+	(communications ?? []).map(({ destination }) => ({
+		name: destination,
+	}));
 
 const asDate = (value?: number | string) =>
 	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
@@ -548,15 +557,6 @@ onMounted(() =>
   scoped
 >
 @use '@webitel/ui-sdk/src/css/main' as *;
-
-.members__destinations-wrapper {
-  display: flex;
-  gap: var(--spacing-xs);
-}
-
-.members__destinations-num {
-  cursor: pointer;
-}
 
 .upload-file-input {
   position: absolute;

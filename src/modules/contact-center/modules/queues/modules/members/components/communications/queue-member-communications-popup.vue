@@ -1,10 +1,10 @@
 <template>
   <wt-popup @close="emit('close')">
     <template #title>
-      {{ t('objects.ccenter.queues.destination', 2) }}
+      {{ t('objects.ccenter.members.communications') }}
     </template>
     <template #main>
-      <section class="destinations-popup">
+      <section class="communications-popup">
         <wt-table
           :data="communications"
           :grid-actions="false"
@@ -27,9 +27,6 @@
       </section>
     </template>
     <template #actions>
-      <wt-button @click="emit('close')">
-        {{ t('objects.ok') }}
-      </wt-button>
       <wt-button
         color="secondary"
         @click="emit('close')"
@@ -45,8 +42,10 @@ import type { EngineMemberCommunication } from '@webitel/api-services/gen/models
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** read-only list; it took a table mixin before and used nothing from it */
-defineProps<{
+/** read-only. No sorting: there is no request here to carry a `sort` — engine
+ * exposes no endpoint returning a member's communications as a list. */
+
+const { communications } = defineProps<{
 	communications: EngineMemberCommunication[];
 }>();
 
@@ -59,14 +58,17 @@ const { t } = useI18n();
 const headers = computed(() => [
 	{
 		value: 'destination',
-		text: t('objects.ccenter.queues.destination', 1),
+		field: 'destination',
+		text: t('objects.name'),
 	},
 	{
 		value: 'type',
+		field: 'type',
 		text: t('objects.ccenter.queues.type'),
 	},
 	{
 		value: 'priority',
+		field: 'priority',
 		text: t('objects.ccenter.queues.priority'),
 	},
 ]);

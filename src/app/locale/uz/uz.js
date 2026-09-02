@@ -902,6 +902,7 @@ export default {
 				allMembers: "Barcha a'zolchalar",
 				addMember: "A'zolchaga qo'shish",
 				destination: "Ma'lumotnoma",
+				communications: 'Aloqalar',
 				display: "Ko'rsatish raqami",
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
