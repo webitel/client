@@ -1,6 +1,7 @@
 <template>
   <section class="table-section">
     <communication-popup
+      v-model:communication-index="editingIndex"
       :communications="communications"
       @save="applyCommunication"
     />
@@ -83,7 +84,6 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import { useMemberCommunications } from '../../composables/useMemberCommunications';
@@ -103,8 +103,6 @@ const { validationFields } = defineProps<{
 }>();
 
 const { t } = useI18n();
-const route = useRoute();
-const router = useRouter();
 
 const { disableUserInput } = useUserAccessControl({
 	useUpdateAccessAsAllMutableChecksSource: true,
@@ -153,18 +151,14 @@ const headers = computed(() => [
 	},
 ]);
 
-const openPopup = (communicationIndex: string) =>
-	router.push({
-		name: route.name,
-		params: {
-			...route.params,
-			communicationIndex,
-		},
-		query: route.query,
-	});
+const editingIndex = ref<string | null>(null);
 
-const add = () => openPopup('new');
-const edit = (index: number) => openPopup(String(index));
+const add = () => {
+	editingIndex.value = 'new';
+};
+const edit = (index: number) => {
+	editingIndex.value = String(index);
+};
 
 const applyCommunication = ({
 	index,
