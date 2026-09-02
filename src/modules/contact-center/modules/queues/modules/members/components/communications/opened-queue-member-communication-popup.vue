@@ -68,11 +68,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useRegleSchema } from '@regle/schemas';
 import {
 	CommunicationsAPI,
 	OutboundResourcesAPI as ResourcesAPI,
 } from '@webitel/api-services/api';
-import { useRegleSchema } from '@regle/schemas';
 import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
 import { memberCommunicationSchema } from '@webitel/api-services/validations';
 import { useClose } from '@webitel/ui-sdk/composables';
