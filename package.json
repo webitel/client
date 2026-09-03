@@ -65,7 +65,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.6",
 		"@tsconfig/node22": "^22.0.5",
-		"@types/node": "^22.10.10",
+		"@types/node": "^26.4.0",
 		"@vitejs/plugin-vue": "^6.x",
 		"@vitest/coverage-v8": "^4.1.10",
 		"@vue/test-utils": "^2.4.11",
