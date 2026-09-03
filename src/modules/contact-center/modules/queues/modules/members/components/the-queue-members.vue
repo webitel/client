@@ -69,7 +69,7 @@
           </h3>
           <div class="table-title__actions-wrap">
             <wt-action-bar
-              :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS, IconAction.RESET, IconAction.DELETE]"
+              :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS, IconAction.RESET_MEMBERS, IconAction.DELETE]"
               @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
               @click:refresh="loadDataList"
             >
@@ -98,7 +98,7 @@
                 />
               </template>
 
-              <template #reset>
+              <template #reset-members>
                 <wt-icon-btn
                   v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
                   :disabled="disableUserInput"
