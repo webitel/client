@@ -15,7 +15,15 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+    <div
+      v-show="itemInstance.times.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="itemInstance.times"
         :grid-actions="!disableUserInput"
@@ -63,6 +71,8 @@
 </template>
 
 <script>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -73,10 +83,22 @@ export default {
 	mixins: [
 		openedTabComponentMixin,
 	],
-	setup: () => {
+	setup() {
+		const vm = getCurrentInstance().proxy;
 		const { disableUserInput } = useUserAccessControl();
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.itemInstance.times),
+		});
+
 		return {
 			disableUserInput,
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	computed: {

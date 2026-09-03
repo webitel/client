@@ -7,8 +7,13 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
     <div
-      v-show="isLoaded"
+      v-show="isLoaded && dataList.length"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -45,7 +50,9 @@
 
 <script>
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { computed, getCurrentInstance } from 'vue';
 
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import convertDurationWithMilliseconds from '../scripts/convertDurationWithMilliseconds';
@@ -55,6 +62,23 @@ export default {
 	mixins: [
 		openedObjectTableTabMixin,
 	],
+	setup() {
+		const vm = getCurrentInstance().proxy;
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
+		return {
+			showEmpty,
+			imageEmpty,
+			textEmpty,
+		};
+	},
 	data: () => ({
 		subNamespace: 'log',
 	}),

@@ -40,8 +40,13 @@
     </header>
 
     <wt-loader v-show="!isLoaded" />
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
     <div
-      v-show="isLoaded"
+      v-show="isLoaded && dataList.length"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -73,7 +78,9 @@
 </template>
 
 <script>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import path from 'path';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
 import openedObjectTableTabMixin from '../../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -88,6 +95,23 @@ export default {
 	inject: [
 		'$eventBus',
 	],
+	setup() {
+		const vm = getCurrentInstance().proxy;
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
+		return {
+			showEmpty,
+			imageEmpty,
+			textEmpty,
+		};
+	},
 	data: () => ({
 		subNamespace: 'instagram',
 		accountsOnPopup: null,

@@ -11,7 +11,15 @@
       </h3>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+    <div
+      v-show="isLoaded && dataList.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="dataList"
         :headers="headers"
@@ -41,7 +49,9 @@
 </template>
 
 <script>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions, mapState } from 'vuex';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
@@ -59,10 +69,23 @@ export default {
 		dataListValue: [],
 		searchValue: '',
 	}),
-	setup: () => {
+	setup() {
+		const vm = getCurrentInstance().proxy;
 		const { disableUserInput } = useUserAccessControl();
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
 		return {
 			disableUserInput,
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	watch: {

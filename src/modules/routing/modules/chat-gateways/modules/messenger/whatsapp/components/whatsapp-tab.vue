@@ -34,8 +34,13 @@
       </wt-table-actions>
     </div>
     <wt-loader v-show="!isLoaded" />
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
     <div
-      v-show="isLoaded"
+      v-show="isLoaded && dataList.length"
       class="table-section__table-wrapper"
     >
       <wt-table
@@ -81,6 +86,8 @@
 <script>
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { computed, getCurrentInstance } from 'vue';
 import { mapActions } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
@@ -100,6 +107,7 @@ export default {
 		'$eventBus',
 	],
 	setup() {
+		const vm = getCurrentInstance().proxy;
 		const {
 			isVisible: isDeleteConfirmationPopup,
 			deleteCount,
@@ -110,6 +118,15 @@ export default {
 		} = useDeleteConfirmationPopup();
 		const { hasUpdateAccess } = useUserAccessControl();
 
+		const {
+			showEmpty,
+			image: imageEmpty,
+			text: textEmpty,
+		} = useTableEmpty({
+			dataList: computed(() => vm.dataList),
+			isLoading: computed(() => !vm.isLoaded),
+		});
+
 		return {
 			isDeleteConfirmationPopup,
 			deleteCount,
@@ -118,6 +135,10 @@ export default {
 
 			askDeleteConfirmation,
 			closeDelete,
+
+			showEmpty,
+			imageEmpty,
+			textEmpty,
 		};
 	},
 	data: () => ({
