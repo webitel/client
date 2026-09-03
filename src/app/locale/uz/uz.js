@@ -917,6 +917,9 @@ export default {
 					reset: 'Tiklash',
 					successResetCount: "Muvaffaqiyatli {count} a'zolchalar tiklandi",
 				},
+				exportMembers: {
+					exportMembers: "A'zolarni eksport qilish",
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),

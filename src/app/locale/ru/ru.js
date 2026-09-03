@@ -920,6 +920,9 @@ export default {
 					reset: 'Перезапустить',
 					successResetCount: 'Успешно перезапущено {count} абонентов',
 				},
+				exportMembers: {
+					exportMembers: 'Экспорт абонентов',
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),

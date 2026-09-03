@@ -918,6 +918,9 @@ export default {
 					reset: 'Restablecer',
 					successResetCount: 'Se restablecieron con éxito {count} miembros',
 				},
+				exportMembers: {
+					exportMembers: 'Exportar miembros',
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
