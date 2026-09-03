@@ -69,7 +69,7 @@
           </h3>
           <div class="table-title__actions-wrap">
             <wt-action-bar
-              :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS]"
+              :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS, IconAction.RESET, IconAction.DELETE]"
               @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
               @click:refresh="loadDataList"
             >
@@ -98,26 +98,30 @@
                 />
               </template>
 
-              <wt-icon-btn
-                v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
-                :disabled="disableUserInput"
-                icon="member-reset"
-                icon-prefix="adm"
-                @click="openResetPopup"
-              />
+              <template #reset>
+                <wt-icon-btn
+                  v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
+                  :disabled="disableUserInput"
+                  icon="member-reset"
+                  icon-prefix="adm"
+                  @click="openResetPopup"
+                />
+              </template>
 
-              <wt-context-menu
-                :options="deleteOptions"
-                @click="$event.option.method()"
-              >
-                <template #activator="{ toggle }">
-                  <wt-icon-action
-                    :disabled="disableUserInput"
-                    action="delete"
-                    @click="toggle"
-                  />
-                </template>
-              </wt-context-menu>
+              <template #delete>
+                <wt-context-menu
+                  :options="deleteOptions"
+                  @click="$event.option.method()"
+                >
+                  <template #activator="{ toggle }">
+                    <wt-icon-action
+                      :disabled="disableUserInput"
+                      action="delete"
+                      @click="toggle"
+                    />
+                  </template>
+                </wt-context-menu>
+              </template>
             </wt-action-bar>
           </div>
         </header>
