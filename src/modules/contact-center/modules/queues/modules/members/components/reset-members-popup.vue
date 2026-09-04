@@ -11,7 +11,7 @@
     <template #main>
       <div class="reset-members-popup--description">
         <p
-          v-if="!!quantity"
+          v-if="quantity && (dateRange.from || dateRange.to)"
           class="reset-members-popup--description-main"
         >
           {{ $t('objects.ccenter.members.resetMembers.description', {
