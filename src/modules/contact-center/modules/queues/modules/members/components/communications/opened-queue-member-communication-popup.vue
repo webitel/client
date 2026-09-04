@@ -58,7 +58,7 @@
         :disabled="r$.$invalid"
         @click="save"
       >
-        {{ t('objects.add') }}
+        {{ isNew ? t('reusable.add') : t('reusable.edit') }}
       </wt-button>
       <wt-button
         color="secondary"
