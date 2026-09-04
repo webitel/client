@@ -1,48 +1,55 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
-        {{ t('objects.generalInfo') }}
-      </h3>
-    </header>
-    <form class="object-input-grid">
-      <wt-input-text
-        v-model:model-value="modelValue.name"
-        :disabled="disableUserInput"
-        :label="t('objects.name')"
-        :regle-validation="validationFields?.name"
-        required
-      />
-      <wt-input-number
-        v-model:model-value="modelValue.priority"
-        :disabled="disableUserInput"
-        :label="t('objects.ccenter.queues.priority')"
-      />
-      <wt-datepicker
-        v-model:model-value="modelValue.expireAt"
-        :disabled="disableUserInput"
-        :label="t('objects.ccenter.queues.expire')"
-        show-time
-      />
-      <wt-single-select
-        v-model:model-value="modelValue.timezone"
-        :disabled="disableUserInput || !hasCalendarsReadAccess"
-        :label="t('objects.ccenter.queues.timezone')"
-        :search-method="loadTimezoneOptions"
-      />
-      <wt-single-select
-        v-model:model-value="modelValue.bucket"
-        :disabled="disableUserInput || !hasBucketsReadAccess"
-        :label="t('objects.lookups.buckets.buckets', 1)"
-        :search-method="loadBucketsOptions"
-      />
-      <wt-single-select
-        v-model:model-value="modelValue.agent"
-        :disabled="disableUserInput || !hasAgentsReadAccess"
-        :label="t('objects.ccenter.agents.agents', 1)"
-        :search-method="loadAgentsOptions"
-      />
-    </form>
+  <section class="member-general">
+    <div class="member-general__info">
+      <header class="content-header">
+        <h3 class="content-title typo-heading-4">
+          {{ t('objects.generalInfo') }}
+        </h3>
+      </header>
+      <form class="object-input-grid">
+        <wt-input-text
+          v-model:model-value="modelValue.name"
+          :disabled="disableUserInput"
+          :label="t('objects.name')"
+          :regle-validation="validationFields?.name"
+          required
+        />
+        <wt-input-number
+          v-model:model-value="modelValue.priority"
+          :disabled="disableUserInput"
+          :label="t('objects.ccenter.queues.priority')"
+        />
+        <wt-datepicker
+          v-model:model-value="modelValue.expireAt"
+          :disabled="disableUserInput"
+          :label="t('objects.ccenter.queues.expire')"
+          show-time
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.timezone"
+          :disabled="disableUserInput || !hasCalendarsReadAccess"
+          :label="t('objects.ccenter.queues.timezone')"
+          :search-method="loadTimezoneOptions"
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.bucket"
+          :disabled="disableUserInput || !hasBucketsReadAccess"
+          :label="t('objects.lookups.buckets.buckets', 1)"
+          :search-method="loadBucketsOptions"
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.agent"
+          :disabled="disableUserInput || !hasAgentsReadAccess"
+          :label="t('objects.ccenter.agents.agents', 1)"
+          :search-method="loadAgentsOptions"
+        />
+      </form>
+    </div>
+
+    <opened-queue-member-communication
+      v-model:model-value="modelValue"
+      :validation-fields="validationFields"
+    />
   </section>
 </template>
 
@@ -53,6 +60,7 @@ import { WtObject } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
+import OpenedQueueMemberCommunication from './communications/opened-queue-member-communication.vue';
 
 const modelValue = defineModel<EngineMemberInQueue>({
 	required: true,
@@ -87,4 +95,10 @@ const loadAgentsOptions = (params: unknown) => AgentsAPI.getLookup(params);
 <style
   lang="scss"
   scoped
-></style>
+>
+.member-general {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+</style>

@@ -29,10 +29,6 @@ const Members = () =>
 	import('../modules/members/components/the-queue-members.vue');
 const OpenedMember = () =>
 	import('../modules/members/components/opened-queue-member.vue');
-const Communication = () =>
-	import(
-		'../modules/members/components/communications/opened-queue-member-communication.vue'
-	);
 const MembersGeneral = () =>
 	import('../modules/members/components/opened-queue-member-general.vue');
 const MembersVariables = () =>
@@ -147,11 +143,6 @@ const QueuesRoutes = [
 				path: 'general',
 				name: QueuesRoutesName.MEMBERS_GENERAL,
 				component: MembersGeneral,
-			},
-			{
-				path: 'communication-type',
-				name: QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE,
-				component: Communication,
 			},
 			{
 				path: 'variables',
