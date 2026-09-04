@@ -21,7 +21,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -52,6 +63,7 @@ import {
 } from '../../../../../app/utils/validators';
 import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
 import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
+import { useResourceGroupsPermissionsStore } from '../stores/permissions/resourceGroupsPermissionsStore';
 import General from './opened-resource-group-general.vue';
 import Timerange from './opened-resource-group-timerange.vue';
 
@@ -68,7 +80,13 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
 
 		const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
 			WtObject.Resource,
@@ -77,6 +95,10 @@ export default {
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 			hasResourcesReadAccess,
 		};
 	},
@@ -120,6 +142,23 @@ export default {
 		};
 	},
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === ResourcesGroupsRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useResourceGroupsPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const general = {
 				text: this.$t('objects.general'),
