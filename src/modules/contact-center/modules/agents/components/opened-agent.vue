@@ -21,7 +21,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -46,6 +57,7 @@ import Queues from '../modules/queues/components/opened-agent-queues.vue';
 import Skills from '../modules/skills/components/opened-agent-skills.vue';
 import Subordinates from '../modules/subordinates/components/opened-agent-subordinates.vue';
 import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum.js';
+import { useAgentsPermissionsStore } from '../stores/permissions/agentsPermissionsStore';
 import General from './opened-agent-general.vue';
 
 export default {
@@ -61,10 +73,21 @@ export default {
 	],
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 		};
 	},
 
@@ -147,6 +170,23 @@ export default {
 					},
 				},
 			];
+		},
+
+		isPermissionsTab() {
+			return this.$route.name === AgentsRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useAgentsPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
 		},
 	},
 	methods: {
