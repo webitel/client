@@ -50,7 +50,7 @@
 		"path": "^0.12.7",
 		"pinia": "^3.0.4",
 		"qrcode.vue": "^3.10.0",
-		"qs-esm": "^7.0.2",
+		"qs-esm": "^8.0.1",
 		"query-string": "^9.4.1",
 		"sortablejs": "^1.15.7",
 		"vidstack": "^1.15.6",
