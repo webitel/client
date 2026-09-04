@@ -54,8 +54,11 @@
       </form>
     </template>
     <template #actions>
-      <wt-button @click="save">
-        {{ t('objects.save') }}
+      <wt-button
+        :disabled="r$.$invalid"
+        @click="save"
+      >
+        {{ t('objects.add') }}
       </wt-button>
       <wt-button
         color="secondary"
@@ -75,14 +78,11 @@ import {
 } from '@webitel/api-services/api';
 import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
 import { memberCommunicationSchema } from '@webitel/api-services/validations';
-import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
-import QueuesRoutesName from '../../../../router/_internals/QueuesRoutesName.enum';
 import { emptyCommunication } from '../../composables/useMemberCommunications';
 
 /**
@@ -108,7 +108,6 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-const route = useRoute();
 
 const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
 	WtObject.Communication,
@@ -117,9 +116,9 @@ const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
 	WtObject.Resource,
 );
 
-const communicationIndex = computed(
-	() => route.params.communicationIndex as string | undefined,
-);
+const communicationIndex = defineModel<string | null>('communicationIndex', {
+	default: null,
+});
 
 const isNew = computed(() => communicationIndex.value === 'new');
 
@@ -150,7 +149,9 @@ const popupTitle = computed(() => {
 	return `${action} ${t('objects.lookups.communications.communications', 1).toLowerCase()}`;
 });
 
-const { close } = useClose(QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE);
+const close = () => {
+	communicationIndex.value = null;
+};
 
 const save = async () => {
 	const { valid } = await r$.$validate();

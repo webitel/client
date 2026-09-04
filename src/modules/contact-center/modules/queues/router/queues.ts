@@ -149,7 +149,7 @@ const QueuesRoutes = [
 				component: MembersGeneral,
 			},
 			{
-				path: 'communication-type/:communicationIndex?',
+				path: 'communication-type',
 				name: QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE,
 				component: Communication,
 			},
