@@ -915,6 +915,9 @@ export default {
 					reset: 'Resetează',
 					successResetCount: 'Succes la reseta {count} membri',
 				},
+				exportMembers: {
+					exportMembers: 'Exportă membri',
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
