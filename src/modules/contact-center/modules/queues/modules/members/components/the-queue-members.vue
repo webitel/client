@@ -115,8 +115,7 @@
                 <wt-icon-btn
                   v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
                   :disabled="disableUserInput"
-                  icon="member-reset"
-                  icon-prefix="adm"
+                  icon="reset-members"
                   @click="openResetPopup"
                 />
               </template>
