@@ -2,7 +2,6 @@ import deepMerge from 'deepmerge';
 import { StorageProviderType } from 'webitel-sdk';
 
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import CognitiveProfilesAPI from '../api/cognitiveProfiles';
 import defaultCognitiveProfile from '../schemas/defaultCognitiveProfile';
 import elevenLabsCognitiveProfile from '../schemas/elevenLabsCognitiveProfile';
@@ -45,20 +44,12 @@ const actions = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/storage/cognitive_profiles';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const skills = new ObjectStoreModule({
 	resettableState,
 	headers,
 })
 	.attachAPIModule(CognitiveProfilesAPI)
 	.generateAPIActions()
-	.setChildModules({
-		permissions,
-	})
 	.getModule({
 		actions,
 	});

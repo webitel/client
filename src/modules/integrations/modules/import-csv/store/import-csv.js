@@ -1,7 +1,6 @@
 import { ImportTemplatesAPI as ImportCsvAPI } from '@webitel/api-services/api';
 import { StorageImportSourceType } from 'webitel-sdk';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import headers from './_internals/headers';
 
@@ -43,20 +42,12 @@ const actions = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/storage/import_templates';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const importCsv = new ObjectStoreModule({
 	resettableState,
 	headers,
 })
 	.attachAPIModule(ImportCsvAPI)
 	.generateAPIActions()
-	.setChildModules({
-		permissions,
-	})
 	.getModule({
 		actions,
 	});

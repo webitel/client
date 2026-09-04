@@ -1,6 +1,5 @@
 import { BlacklistsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import numbers from '../modules/numbers/store/blacklistNumbers';
 import headers from './_internals/headers';
 
@@ -24,11 +23,6 @@ const actions = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/call_center/list';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const blacklists = new ObjectStoreModule({
 	resettableState,
 	headers,
@@ -37,7 +31,6 @@ const blacklists = new ObjectStoreModule({
 	.generateAPIActions()
 	.setChildModules({
 		numbers,
-		permissions,
 	})
 	.getModule({
 		actions,

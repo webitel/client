@@ -1,7 +1,6 @@
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import UsersAPI from '../api/users';
 import Users2faAPI from '../api/users-2fa.js';
@@ -119,11 +118,6 @@ const mutations = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/users';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const users = new ObjectStoreModule({
 	resettableState,
 	headers,
@@ -133,7 +127,6 @@ const users = new ObjectStoreModule({
 	.setChildModules({
 		tokens,
 		logs,
-		permissions,
 	})
 	.getModule({
 		getters,
