@@ -909,6 +909,9 @@ export default {
 					reset: 'Reset',
 					successResetCount: 'Successfully reset {count} members',
 				},
+				exportMembers: {
+					exportMembers: 'Export members',
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),

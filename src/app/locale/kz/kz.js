@@ -910,6 +910,9 @@ export default {
 					reset: 'Қалпына келтіру',
 					successResetCount: 'Сәтті {count} меншіктерді қалпына келтірді',
 				},
+				exportMembers: {
+					exportMembers: 'Мүшелерді экспорттау',
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),

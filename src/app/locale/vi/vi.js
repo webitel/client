@@ -910,6 +910,9 @@ export default {
 					reset: 'Đặt lại',
 					successResetCount: 'Đặt lại thành công {count} thành viên',
 				},
+				exportMembers: {
+					exportMembers: 'Xuất thành viên',
+				},
 				endCause: {
 					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
 					timeout: ({ linked }) => linked('objects.stopCause.timeout'),

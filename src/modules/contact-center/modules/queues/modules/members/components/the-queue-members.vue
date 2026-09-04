@@ -17,6 +17,12 @@
           >
             {{ t('objects.add') }}
           </wt-button-select>
+          <wt-button
+            color="secondary"
+            @click="isExportPopup = true"
+          >
+            {{ t('reusable.export') }}
+          </wt-button>
           <input
             ref="fileInput"
             accept=".csv"
@@ -60,6 +66,13 @@
         :quantity="resetMembersQuantity"
         :shown="!disableUserInput && isResetPopup"
         @close="isResetPopup = false"
+      />
+
+      <export-popup
+        v-if="isExportPopup"
+        :parent-id="queueId"
+        :filters="currentFilters()"
+        @close="isExportPopup = false"
       />
 
       <section class="table-section">
@@ -255,6 +268,7 @@ import { useParentQueue } from '../composables/useParentQueue';
 import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import ExportPopup from './export-members-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
 import TheQueueMembersFilters from './the-queue-members-filters.vue';
 import UploadPopup from './upload-members-popup.vue';
@@ -311,6 +325,7 @@ const {
 
 const isFiltersPanelShown = ref(false);
 const isResetPopup = ref(false);
+const isExportPopup = ref(false);
 const resetMembersQuantity = ref(0);
 const csvFile = ref<File | null>(null);
 const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
