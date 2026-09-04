@@ -1461,6 +1461,10 @@ export default {
 		deleteAll: 'Eliminar todos los elementos',
 		deleteSelected: 'Eliminar {count} elementos seleccionados',
 		deleteFiltered: 'Eliminar todos los elementos filtrados',
+		resetAll: 'Restablecer todos los miembros',
+		resetSelected:
+			'Restablecer {count} miembro seleccionado | Restablecer {count} miembros seleccionados',
+		resetFiltered: 'Restablecer todos los miembros filtrados',
 		generate: 'Generar',
 		add: 'Añadir',
 		history: 'Historial',

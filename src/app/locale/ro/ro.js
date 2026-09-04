@@ -1456,6 +1456,10 @@ export default {
 		deleteAll: 'Șterge toate elementele',
 		deleteSelected: 'Șterge {count} elemente selectate',
 		deleteFiltered: 'Șterge toate elementele filtrate',
+		resetAll: 'Resetează toți membrii',
+		resetSelected:
+			'Resetează {count} membru selectat | Resetează {count} membri selectați',
+		resetFiltered: 'Resetează toți membrii filtrați',
 		generate: 'Generează',
 		add: 'Adaugă',
 		history: 'Istoric',

@@ -1448,6 +1448,10 @@ export default {
 		deleteAll: 'Delete all items',
 		deleteSelected: 'Delete {count} selected items',
 		deleteFiltered: 'Delete all filtered items',
+		resetAll: 'Reset all members',
+		resetSelected:
+			'Reset {count} selected member | Reset {count} selected members',
+		resetFiltered: 'Reset all filtered members',
 		generate: 'Generate',
 		add: 'Add',
 		history: 'History',

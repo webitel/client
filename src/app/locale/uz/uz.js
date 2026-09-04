@@ -1456,6 +1456,10 @@ export default {
 		deleteAll: "Barcha ma'lumotlarni o'chirish",
 		deleteSelected: "Tanlangan {count} ma'lumotni o'chirish",
 		deleteFiltered: "Barcha filtrlangan ma'lumotlarni o'chirish",
+		resetAll: "Barcha a'zolchalarni tiklash",
+		resetSelected:
+			"Tanlangan {count} a'zolchalarni tiklash | Tanlangan {count} a'zolchalarni tiklash",
+		resetFiltered: "Barcha filtrlangan a'zolchalarni tiklash",
 		generate: 'Yaratish',
 		add: "Qo'shish",
 		history: 'Tarix',
