@@ -8,9 +8,8 @@
 </template>
 
 <script>
+import { DevicesAPI } from '@webitel/api-services/api';
 import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
-
-import DevicesAPI from '../api/devices';
 
 const baseLocale = 'objects.directory.devices.csvMappingFields';
 

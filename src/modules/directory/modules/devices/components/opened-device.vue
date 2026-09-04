@@ -22,7 +22,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -46,6 +57,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import { ipValidator, macValidator } from '../../../../../app/utils/validators';
 import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
+import { useDevicesPermissionsStore } from '../stores/permissions/devicesPermissionsStore';
 import General from './opened-device-general.vue';
 import PhoneInfo from './opened-device-phone-info.vue';
 import HotdeskGeneral from './opened-hotdesk-device-general.vue';
@@ -67,10 +79,21 @@ export default {
 	],
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 		};
 	},
 	data: () => ({
@@ -110,6 +133,23 @@ export default {
 	},
 
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === this.permissionsTabPathName;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useDevicesPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		isHotdesk() {
 			return this.$route.query.type === 'hotdesk' || this.itemInstance.hotdesk;
 		},

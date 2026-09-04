@@ -1,9 +1,8 @@
+import { DevicesAPI } from '@webitel/api-services/api';
 import deepMerge from 'deepmerge';
 
 import HistoryStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/HistoryStoreModule/HistoryStoreModule';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-import DevicesAPI from '../api/devices';
 import defaultDevice from './_internals/deviceSchema/defaults/defaultDevice';
 import hotdeskDevice from './_internals/deviceSchema/hotdeskDevice';
 import headers from './_internals/headers';
@@ -36,11 +35,6 @@ const actions = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/devices';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const history = new HistoryStoreModule()
 	.generateGetListAction(DevicesAPI.getDeviceHistory)
 	.getModule();
@@ -53,7 +47,6 @@ const devices = new ObjectStoreModule({
 	.generateAPIActions()
 	.setChildModules({
 		history,
-		permissions,
 	})
 	.getModule({
 		actions,
