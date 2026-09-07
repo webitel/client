@@ -21,7 +21,17 @@
           @click:add="add"
           @click:refresh="loadDataList"
           @click:delete="deleteEls(selected)"
-        />
+        >
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              single-search-name="search"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
@@ -103,6 +113,7 @@
 
 <script lang="ts" setup>
 import type { EngineQueueSkill } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
@@ -149,6 +160,9 @@ const {
 	updateSelected,
 	deleteEls,
 	patchItemProperty,
+	addFilter,
+	updateFilter,
+	deleteFilter,
 } = tableStore;
 
 if (!isNewQueue.value)
