@@ -905,8 +905,11 @@ export default {
 				emptyWorkspace: 'Nie znaleziono członków',
 				resetMembers: {
 					resetMembers: 'Resetuj członków',
-					description:
-						'Czy na pewno chcesz zresetować nieudane próby z okresu\n{dateFrom} do {dateTo}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?',
+					descriptionQuestion: 'Czy na pewno chcesz zresetować nieudane próby',
+					description: ({ named, linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} z okresu\n${named('dateFrom')} do ${named('dateTo')}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?`,
+					descriptionSelected: ({ linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')}?`,
 					descriptionCount: 'Zostanie przetworzonych rekordów: {count}',
 					emptyDescription:
 						'Żadne nieudane próby nie pasują do bieżących filtrów. Nie ma nic do zresetowania.',

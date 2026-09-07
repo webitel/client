@@ -911,6 +911,8 @@ export default {
 					resetMembers: 'Urinishlarini tiklash',
 					description:
 						'Siz \n{dateFrom} dan {dateTo} gacha\nboʻlgan davrdagi muvaffaqiyatsiz urinishlarni qoʻllanilgan filtrlar va qidiruv natijalariga asoslanib qayta tiklashni xohlaysizmi?',
+					descriptionSelected:
+						'Muvaffaqiyatsiz urinishlarni qayta tiklashni xohlaysizmi?',
 					descriptionCount: '{count} ta yozuvga taʼsir qiladi.',
 					emptyDescription:
 						'Joriy filtrlarga mos keluvchi muvaffaqiyatsiz urinishlar yoʻq. Qayta tiklaydigan hech narsa yoʻq.',

@@ -901,8 +901,12 @@ export default {
 				emptyWorkspace: 'No members were found',
 				resetMembers: {
 					resetMembers: 'Reset members',
-					description:
-						'Are you sure you want to reset the failed attempts from\n{dateFrom} to {dateTo}\n based on the applied filters and search results?',
+					descriptionQuestion:
+						'Are you sure you want to reset the failed attempts',
+					description: ({ named, linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} from\n${named('dateFrom')} to ${named('dateTo')}\n based on the applied filters and search results?`,
+					descriptionSelected: ({ linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')}?`,
 					descriptionCount: '{count} records will be affected.',
 					emptyDescription:
 						'No failed attempts match the current filters. There is nothing to reset.',

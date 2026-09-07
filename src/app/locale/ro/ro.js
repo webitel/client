@@ -907,8 +907,12 @@ export default {
 				emptyWorkspace: 'Nu au fost găsiți membri',
 				resetMembers: {
 					resetMembers: 'Resetează membri',
-					description:
-						'Sunteți sigur că doriți să resetați încercările eșuate din perioada\n{dateFrom} până la {dateTo}\nținând cont de filtrele aplicate și de rezultatele căutării?',
+					descriptionQuestion:
+						'Sunteți sigur că doriți să resetați încercările eșuate',
+					description: ({ named, linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} din perioada\n${named('dateFrom')} până la ${named('dateTo')}\nținând cont de filtrele aplicate și de rezultatele căutării?`,
+					descriptionSelected: ({ linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')}?`,
 					descriptionCount: 'Vor fi afectate {count} înregistrări.',
 					emptyDescription:
 						'Nu există încercări eșuate care să corespundă filtrelor curente. Nu este nimic de resetat.',

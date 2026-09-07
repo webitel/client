@@ -902,8 +902,12 @@ export default {
 				emptyWorkspace: 'Không tìm thấy thành viên nào',
 				resetMembers: {
 					resetMembers: 'Đặt lại thử',
-					description:
-						'Bạn có chắc chắn muốn đặt lại các lần thử không thành công từ\n{dateFrom} đến {dateTo}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?',
+					descriptionQuestion:
+						'Bạn có chắc chắn muốn đặt lại các lần thử không thành công',
+					description: ({ named, linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} từ\n${named('dateFrom')} đến ${named('dateTo')}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?`,
+					descriptionSelected: ({ linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} không?`,
 					descriptionCount: '{count} bản ghi sẽ bị ảnh hưởng.',
 					emptyDescription:
 						'Không có lần thử không thành công nào khớp với bộ lọc hiện tại. Không có gì để đặt lại.',
