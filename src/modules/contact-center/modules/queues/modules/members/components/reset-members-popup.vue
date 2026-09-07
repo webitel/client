@@ -76,13 +76,10 @@ export default {
 					'objects.ccenter.members.resetMembers.descriptionSelected',
 				);
 			}
-			if (this.dateRange.from || this.dateRange.to) {
-				return this.$t('objects.ccenter.members.resetMembers.description', {
-					dateFrom: this.dateRange.from,
-					dateTo: this.dateRange.to,
-				});
-			}
-			return '';
+			return this.$t('objects.ccenter.members.resetMembers.description', {
+				dateFrom: this.dateRange.from,
+				dateTo: this.dateRange.to,
+			});
 		},
 		descriptionCountText() {
 			return this.$t(
