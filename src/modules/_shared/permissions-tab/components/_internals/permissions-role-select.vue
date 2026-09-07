@@ -1,9 +1,9 @@
 <template>
+  <!-- attrs and listeners reach the select through vue 3's automatic
+       inheritance; $listeners no longer exists with INSTANCE_LISTENERS off -->
   <wt-single-select
     class="permissions-role-select"
     option-label="name"
-    v-bind="$attrs"
-    v-on="$listeners"
   >
     <template #value="{ value, getOptionLabel }">
       <span class="multiselect__single-label permissions-tab-role-popup__select-option">

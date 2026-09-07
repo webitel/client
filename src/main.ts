@@ -18,6 +18,7 @@ import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
 import i18n from './app/locale/i18n';
 import BreakpointPlugin from './app/plugins/breakpoint';
+import { configureVueCompat } from './app/plugins/vue-compat';
 import {
 	plugin as WebitelUi,
 	options as WebitelUiOptions,
@@ -34,6 +35,8 @@ const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
 	return response.json();
 };
+
+configureVueCompat();
 
 configureZod({
 	t: i18n.global.t,
