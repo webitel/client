@@ -448,7 +448,7 @@ const resetOptions = computed(() => {
 			method: () =>
 				openResetPopup(
 					{
-						id: selected.value.map(({ id }) => id),
+						ids: selected.value.map(({ id }) => id),
 					},
 					ActionOptions.SELECTED,
 				),
