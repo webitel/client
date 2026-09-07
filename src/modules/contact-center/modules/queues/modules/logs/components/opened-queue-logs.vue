@@ -6,7 +6,7 @@
       </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
-          :include="[IconAction.REFRESH, IconAction.FILTERS]"
+          :include="[IconAction.REFRESH, IconAction.COLUMNS, IconAction.FILTERS]"
           @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
           @click:refresh="loadDataList"
         >
@@ -27,6 +27,13 @@
               @filter:update="updateFilter"
             />
           </template>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            enable-search
+            @change="updateShownHeaders"
+          />
+        </template>
         </wt-action-bar>
       </div>
     </header>
@@ -51,8 +58,12 @@
         :grid-actions="false"
         :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
         @sort="updateSort"
+        @column-resize="columnResize"
+        @column-reorder="columnReorder"
       >
         <template #destination="{ item }">
           <div v-if="item.destination">
@@ -134,6 +145,7 @@ const {
 	size,
 	next,
 	shownHeaders,
+  headers,
 	filtersManager,
 } = storeToRefs(tableStore);
 const {
@@ -145,6 +157,9 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+  updateShownHeaders,
+  columnResize,
+  columnReorder,
 } = tableStore;
 
 if (!isNewQueue.value)
