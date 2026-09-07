@@ -64,6 +64,7 @@
         :callback="resetCallback"
         :date-range="selectedDateRange"
         :quantity="resetMembersQuantity"
+        :scope="resetScope"
         :shown="!disableUserInput && isResetPopup"
         @close="closeReset"
       />
@@ -278,6 +279,7 @@ import { useParentQueue } from '../composables/useParentQueue';
 import { useResetConfirmationPopup } from '../composables/useResetConfirmationPopup';
 import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
+import { ActionOptions } from '../types/ActionOptions';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ExportPopup from './export-members-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -338,6 +340,7 @@ const {
 	isVisible: isResetPopup,
 	resetQuantity: resetMembersQuantity,
 	resetCallback,
+	resetScope,
 	askResetConfirmation,
 	closeReset,
 } = useResetConfirmationPopup();
@@ -406,13 +409,17 @@ const withReload =
 		}
 	};
 
-const openResetPopup = async (filters: Record<string, unknown>) => {
+const openResetPopup = async (
+	filters: Record<string, unknown>,
+	scope: ActionOptions,
+) => {
 	const quantity = await QueueMembersAPI.getQuantity({
 		parentId: queueId.value,
 		filters,
 	});
 	askResetConfirmation({
 		quantity,
+		scope,
 		callback: withReload(() =>
 			QueueMembersAPI.resetMembers({
 				parentId: queueId.value,
@@ -426,11 +433,11 @@ const resetOptions = computed(() => {
 	const options = [
 		{
 			text: t('iconHints.resetAll'),
-			method: () => openResetPopup({}),
+			method: () => openResetPopup({}, ActionOptions.ALL),
 		},
 		{
 			text: t('iconHints.resetFiltered'),
-			method: () => openResetPopup(currentFilters()),
+			method: () => openResetPopup(currentFilters(), ActionOptions.FILTERED),
 		},
 	];
 	if (selected.value.length) {
@@ -439,9 +446,12 @@ const resetOptions = computed(() => {
 				count: selected.value.length,
 			}),
 			method: () =>
-				openResetPopup({
-					id: selected.value.map(({ id }) => id),
-				}),
+				openResetPopup(
+					{
+						id: selected.value.map(({ id }) => id),
+					},
+					ActionOptions.SELECTED,
+				),
 		});
 	}
 	return options;
