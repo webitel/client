@@ -145,7 +145,7 @@ const {
 	size,
 	next,
 	shownHeaders,
-  headers,
+	headers,
 	filtersManager,
 } = storeToRefs(tableStore);
 const {
@@ -157,9 +157,9 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
-  updateShownHeaders,
-  columnResize,
-  columnReorder,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 if (!isNewQueue.value)

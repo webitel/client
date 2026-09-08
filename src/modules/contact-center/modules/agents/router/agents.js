@@ -1,5 +1,5 @@
-import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
+import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import AgentsRouteNames from './_internals/AgentsRouteNames.enum.js';
