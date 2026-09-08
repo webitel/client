@@ -8,6 +8,19 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template
+          v-if="id"
+          #primary-action
+        >
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
+            {{ saveText }}
+          </wt-button-select>
+        </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
@@ -42,6 +55,12 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
+
+      <save-copy-popup
+        :shown="isSaveCopyPopupShown"
+        @close="closeSaveCopyPopup"
+        @save="saveCopy"
+      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -49,7 +68,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
+import { TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -72,6 +93,7 @@ export default {
 		Parameters,
 		Hooks,
 		Flows,
+		SaveCopyPopup,
 	},
 	mixins: [
 		openedObjectMixin,
@@ -114,6 +136,7 @@ export default {
 		namespace: 'ccenter/teams',
 		routeName: RouteNames.TEAMS,
 		permissionsTabPathName: TeamsRouteNames.PERMISSIONS,
+		isSaveCopyPopupShown: false,
 	}),
 	validations: {
 		itemInstance: {
@@ -165,6 +188,15 @@ export default {
 				},
 				parentId: this.$route.params.id,
 			};
+		},
+
+		saveOptions() {
+			return [
+				{
+					text: this.$t('webitelUI.saveCopyPopup.title'),
+					callback: this.openSaveCopyPopup,
+				},
+			];
 		},
 
 		tabs() {
@@ -230,6 +262,25 @@ export default {
 					},
 				},
 			];
+		},
+	},
+
+	methods: {
+		openSaveCopyPopup() {
+			this.isSaveCopyPopupShown = true;
+		},
+		closeSaveCopyPopup() {
+			this.isSaveCopyPopupShown = false;
+		},
+		async saveCopy(name) {
+			await TeamsAPI.add({
+				itemInstance: {
+					...this.itemInstance,
+					id: undefined,
+					name,
+				},
+			});
+			this.closeSaveCopyPopup();
 		},
 	},
 };
