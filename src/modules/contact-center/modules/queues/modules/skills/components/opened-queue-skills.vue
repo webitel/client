@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <skill-popup @saved="loadDataList" />
+    <skill-popup
+      :key="parentId"
+      @saved="loadDataList"
+    />
 
     <object-list-popup
       v-show="!!bucketsRowId"
@@ -179,22 +182,25 @@ watch(parentId, (id, previous) => {
 
 const ensureQueueSaved = useEnsureQueueSaved();
 
-const openPopup = (skillId: string) =>
+const openPopup = (skillId: string, id: string = parentId.value) =>
 	router.push({
 		name: route.name,
 		params: {
 			...route.params,
+			id,
 			skillId,
 		},
 		query: route.query,
 	});
 
 const add = async () => {
-	if (isNewQueue.value) {
-		const savedId = await ensureQueueSaved();
-		if (!savedId) return;
-	}
-	return openPopup('new');
+	if (!isNewQueue.value) return openPopup('new');
+
+	const savedId = await ensureQueueSaved();
+	if (!savedId) return;
+
+	// the queue's id landed in the route only now, so pass it explicitly
+	return openPopup('new', String(savedId));
 };
 
 const edit = (item: EngineQueueSkill) => openPopup(String(item.id));

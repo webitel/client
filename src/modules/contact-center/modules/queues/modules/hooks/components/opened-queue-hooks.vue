@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <hook-popup @saved="loadDataList" />
+    <hook-popup
+      :key="parentId"
+      @saved="loadDataList"
+    />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :callback="deleteCallback"
@@ -178,11 +181,12 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
-const openPopup = (hookId: string) =>
+const openPopup = (hookId: string, id: string = parentId.value) =>
 	router.push({
 		name: route.name,
 		params: {
 			...route.params,
+			id,
 			hookId,
 		},
 		query: route.query,
@@ -194,11 +198,13 @@ const openPopup = (hookId: string) =>
  * invalid queue leaves us here with its errors shown instead.
  */
 const add = async () => {
-	if (isNewQueue.value) {
-		const savedId = await ensureQueueSaved();
-		if (!savedId) return;
-	}
-	return openPopup('new');
+	if (!isNewQueue.value) return openPopup('new');
+
+	const savedId = await ensureQueueSaved();
+	if (!savedId) return;
+
+	// the queue's id landed in the route only now, so pass it explicitly
+	return openPopup('new', String(savedId));
 };
 
 const edit = (item: EngineQueueHook) => openPopup(String(item.id));
