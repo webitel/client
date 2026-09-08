@@ -62,7 +62,7 @@ export default {
 		},
 		scope: {
 			type: String,
-			default: ActionOptions.ALL,
+			default: ActionOptions.All,
 		},
 	},
 	data: () => ({
@@ -71,7 +71,7 @@ export default {
 	computed: {
 		descriptionMainText() {
 			if (!this.quantity) return '';
-			if (this.scope === ActionOptions.SELECTED) {
+			if (this.scope === ActionOptions.Selected) {
 				return this.$t(
 					'objects.ccenter.members.resetMembers.descriptionSelected',
 				);

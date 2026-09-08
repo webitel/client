@@ -432,11 +432,11 @@ const openResetPopup = async (
 const resetOptions = computed(() => [
 	{
 		text: t('iconHints.resetAll'),
-		method: () => openResetPopup({}, ActionOptions.ALL),
+		method: () => openResetPopup({}, ActionOptions.All),
 	},
 	{
 		text: t('iconHints.resetFiltered'),
-		method: () => openResetPopup(currentFilters(), ActionOptions.FILTERED),
+		method: () => openResetPopup(currentFilters(), ActionOptions.Filtered),
 	},
 	...(selected.value.length
 		? [
@@ -449,7 +449,7 @@ const resetOptions = computed(() => [
 							{
 								ids: selected.value.map(({ id }) => id),
 							},
-							ActionOptions.SELECTED,
+							ActionOptions.Selected,
 						),
 				},
 			]

@@ -7,7 +7,7 @@ export const useResetConfirmationPopup = () => {
 	const isVisible = ref(false);
 	const resetQuantity = ref(0);
 	const resetCallback = ref<() => unknown>(() => {});
-	const resetScope = ref<ActionOptions>(ActionOptions.ALL);
+	const resetScope = ref<ActionOptions>(ActionOptions.All);
 
 	function askResetConfirmation({
 		quantity,
@@ -22,7 +22,7 @@ export const useResetConfirmationPopup = () => {
 
 	function closeReset() {
 		isVisible.value = false;
-		resetScope.value = ActionOptions.ALL;
+		resetScope.value = ActionOptions.All;
 	}
 
 	return {

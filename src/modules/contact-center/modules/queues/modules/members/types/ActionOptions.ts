@@ -1,7 +1,7 @@
 export const ActionOptions = {
-	ALL: 'all',
-	FILTERED: 'filtered',
-	SELECTED: 'selected',
+	All: 'all',
+	Filtered: 'filtered',
+	Selected: 'selected',
 } as const;
 
 export type ActionOptions = (typeof ActionOptions)[keyof typeof ActionOptions];
