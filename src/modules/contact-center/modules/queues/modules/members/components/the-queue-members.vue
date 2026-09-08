@@ -429,33 +429,32 @@ const openResetPopup = async (
 	});
 };
 
-const resetOptions = computed(() => {
-	const options = [
-		{
-			text: t('iconHints.resetAll'),
-			method: () => openResetPopup({}, ActionOptions.ALL),
-		},
-		{
-			text: t('iconHints.resetFiltered'),
-			method: () => openResetPopup(currentFilters(), ActionOptions.FILTERED),
-		},
-	];
-	if (selected.value.length) {
-		options.push({
-			text: t('iconHints.resetSelected', {
-				count: selected.value.length,
-			}),
-			method: () =>
-				openResetPopup(
-					{
-						ids: selected.value.map(({ id }) => id),
-					},
-					ActionOptions.SELECTED,
-				),
-		});
-	}
-	return options;
-});
+const resetOptions = computed(() => [
+	{
+		text: t('iconHints.resetAll'),
+		method: () => openResetPopup({}, ActionOptions.ALL),
+	},
+	{
+		text: t('iconHints.resetFiltered'),
+		method: () => openResetPopup(currentFilters(), ActionOptions.FILTERED),
+	},
+	...(selected.value.length
+		? [
+				{
+					text: t('iconHints.resetSelected', {
+						count: selected.value.length,
+					}),
+					method: () =>
+						openResetPopup(
+							{
+								ids: selected.value.map(({ id }) => id),
+							},
+							ActionOptions.SELECTED,
+						),
+				},
+			]
+		: []),
+]);
 
 const deleteAll = withReload(() =>
 	QueueMembersAPI.deleteBulk({
