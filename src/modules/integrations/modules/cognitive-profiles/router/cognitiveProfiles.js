@@ -1,3 +1,4 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -14,8 +15,6 @@ const Microsoft = () =>
 	import('../components/microsoft/opened-cognitive-profile-microsoft.vue');
 const ElevenLabs = () =>
 	import('../components/eleven-labs/opened-cognitive-profile-eleven-labs.vue');
-const Permissions = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const CognitiveProfilesRoutes = [
 	{
@@ -57,7 +56,7 @@ const CognitiveProfilesRoutes = [
 			{
 				path: 'permissions/:permissionId?',
 				name: CognitiveProfilesRouteNames.PERMISSIONS,
-				component: Permissions,
+				component: PermissionsTab,
 			},
 		],
 	},

@@ -1,3 +1,4 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -12,8 +13,6 @@ const Queues = () =>
 	import('../modules/queues/components/opened-agent-queues.vue');
 const Subordinates = () =>
 	import('../modules/subordinates/components/opened-agent-subordinates.vue');
-const Permissions = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const AgentRoutes = [
 	{
@@ -67,7 +66,7 @@ const AgentRoutes = [
 			{
 				path: 'permissions/:permissionId?',
 				name: AgentsRouteNames.PERMISSIONS,
-				component: Permissions,
+				component: PermissionsTab,
 			},
 		],
 	},

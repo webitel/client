@@ -1,3 +1,4 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -10,8 +11,6 @@ const Timerange = () =>
 	import('../components/opened-resource-group-timerange.vue');
 const Resources = () =>
 	import('../modules/resources/components/opened-resource-group-resources.vue');
-const PermissionsTab = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const ResourceGroupRoutes = [
 	{

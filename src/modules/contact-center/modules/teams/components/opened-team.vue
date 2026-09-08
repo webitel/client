@@ -21,7 +21,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -48,6 +59,7 @@ import Flows from '../modules/flow/components/opened-team-flows.vue';
 import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
 import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
 import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum.js';
+import { useTeamsPermissionsStore } from '../stores/permissions/teamsPermissionsStore';
 import General from './opened-team-general.vue';
 import Parameters from './opened-team-parameters.vue';
 
@@ -67,7 +79,13 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
 
 		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
 			WtObject.Agent,
@@ -82,6 +100,10 @@ export default {
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 			hasAgentsReadAccess,
 			hasSupervisorsReadAccess,
 			hasFlowsReadAccess,
@@ -128,6 +150,23 @@ export default {
 		},
 	},
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === TeamsRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useTeamsPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const general = {
 				text: this.$t('objects.general'),

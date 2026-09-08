@@ -22,7 +22,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -46,6 +57,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
 import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.js';
+import { useBlacklistsPermissionsStore } from '../stores/permissions/blacklistsPermissionsStore';
 import General from './opened-blacklist-general.vue';
 
 export default {
@@ -60,13 +72,23 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
 		const { hasReadAccess: hasReadListNumberAccess } = useUserAccessControl(
 			WtObject.ListNumber,
 		);
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 			hasReadListNumberAccess,
 		};
 	},
@@ -84,6 +106,23 @@ export default {
 	},
 
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === BlacklistRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useBlacklistsPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const tabs = [
 				{

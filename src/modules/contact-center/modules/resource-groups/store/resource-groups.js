@@ -1,6 +1,5 @@
 import { OutboundResourceGroupsAPI as ResGroupsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import res from '../modules/resources/store/res-in-group';
 import headers from './_internals/headers';
 
@@ -77,11 +76,6 @@ const mutations = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/call_center/resource_group';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const resGroups = new ObjectStoreModule({
 	resettableState,
 	headers,
@@ -90,7 +84,6 @@ const resGroups = new ObjectStoreModule({
 	.generateAPIActions()
 	.setChildModules({
 		res,
-		permissions,
 	})
 	.getModule({
 		actions,
