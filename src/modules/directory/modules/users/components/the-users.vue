@@ -143,7 +143,7 @@
 
 <script>
 import { UsersAPI } from '@webitel/api-services/api';
-import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { ref } from 'vue';
