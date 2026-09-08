@@ -46,7 +46,6 @@
             {{ t('objects.ccenter.queues.allQueues') }}
           </h3>
           <div class="table-title__actions-wrap">
-            <queues-global-state-switcher :disabled="!hasUpdateAccess" />
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.DELETE]"
               :disabled:delete="!hasDeleteAccess || !selected.length"
@@ -67,6 +66,10 @@
                   @filter:update="updateFilter"
                   @filter:delete="deleteFilter"
                 />
+              </template>
+
+              <template #switcher>
+                <queues-global-state-switcher :disabled="!hasUpdateAccess" />
               </template>
               
             <template #filters="{ action, onClick }">
