@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <bucket-popup @saved="loadDataList" />
+    <bucket-popup
+      :key="parentId"
+      @saved="loadDataList"
+    />
 
     <header class="table-title">
       <h3 class="table-title__title">
@@ -156,22 +159,25 @@ watch(parentId, (id, previous) => {
 
 const ensureQueueSaved = useEnsureQueueSaved();
 
-const openPopup = (bucketId: string) =>
+const openPopup = (bucketId: string, id: string = parentId.value) =>
 	router.push({
 		name: route.name,
 		params: {
 			...route.params,
+			id,
 			bucketId,
 		},
 		query: route.query,
 	});
 
 const add = async () => {
-	if (isNewQueue.value) {
-		const savedId = await ensureQueueSaved();
-		if (!savedId) return;
-	}
-	return openPopup('new');
+	if (!isNewQueue.value) return openPopup('new');
+
+	const savedId = await ensureQueueSaved();
+	if (!savedId) return;
+
+	// the queue's id landed in the route only now, so pass it explicitly
+	return openPopup('new', String(savedId));
 };
 
 const edit = (item: EngineQueueBucket) => openPopup(String(item.id));
