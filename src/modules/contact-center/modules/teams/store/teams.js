@@ -1,6 +1,5 @@
 import { TeamsAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PermissionsStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
 import agents from '../modules/agents/store/team-agents';
 import flow from '../modules/flow/store/team-flows';
 import hooks from '../modules/hooks/store/team-hooks';
@@ -57,11 +56,6 @@ const actions = {
 	},
 };
 
-const PERMISSIONS_API_URL = '/call_center/teams';
-const permissions = new PermissionsStoreModule()
-	.generateAPIActions(PERMISSIONS_API_URL)
-	.getModule();
-
 const teams = new ObjectStoreModule({
 	resettableState,
 	headers,
@@ -73,7 +67,6 @@ const teams = new ObjectStoreModule({
 		agents,
 		hooks,
 		flow,
-		permissions,
 	})
 	.getModule({
 		actions,

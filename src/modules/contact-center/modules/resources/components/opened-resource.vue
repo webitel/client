@@ -21,7 +21,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -44,6 +55,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Numbers from '../modules/display/components/opened-resource-numbers.vue';
 import ResourcesRouteNames from '../router/_internals/ResourcesRouteNames.enum.js';
+import { useResourcesPermissionsStore } from '../stores/permissions/resourcesPermissionsStore';
 import Failure from './opened-resource-failure.vue';
 import General from './opened-resource-general.vue';
 
@@ -60,10 +72,21 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 		};
 	},
 
@@ -100,6 +123,23 @@ export default {
 	},
 
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === ResourcesRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useResourcesPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const tabs = [
 				{

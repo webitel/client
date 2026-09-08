@@ -1,6 +1,5 @@
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
-import Permissions from '../../../../modules/_shared/permissions-tab/components/permissions-tab.vue';
 import { ErrorRedirectMap } from '../../../../modules/error-pages/enems/ErrorRedirectMap.enum';
 import baseObjectMixin from '../../baseMixins/baseObjectMixin/baseObjectMixin';
 import breadcrumbMixin from '../../baseMixins/breadcrumbMixin/breadcrumbMixin';
@@ -17,10 +16,6 @@ export default {
 		breadcrumbMixin,
 		baseObjectMixin,
 	],
-	components: {
-		Permissions,
-	},
-
 	async created() {
 		try {
 			await this.loadPageData();

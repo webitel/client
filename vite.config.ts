@@ -30,6 +30,7 @@ export default ({ mode }) => {
 			alias: {
 				vue: '@vue/compat',
 				'@': resolve(__dirname, 'src'),
+				'lodash': 'lodash-es',
 			},
 			dedupe: [
 				'vue',

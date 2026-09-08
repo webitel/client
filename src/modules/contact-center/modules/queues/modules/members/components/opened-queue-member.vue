@@ -106,11 +106,6 @@ const tabs = computed(() => [
 		pathName: QueuesRoutesName.MEMBERS_GENERAL,
 	},
 	{
-		text: t('objects.lookups.communications.communications', 1),
-		value: 'communication',
-		pathName: QueuesRoutesName.MEMBERS_COMMUNICATION_TYPE,
-	},
-	{
 		text: t('objects.ccenter.queues.variables', 2),
 		value: 'variables',
 		pathName: QueuesRoutesName.MEMBERS_VARIABLES,

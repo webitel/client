@@ -29,7 +29,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -61,6 +72,7 @@ import LogsFilters from '../modules/logs/modules/filters/components/opened-user-
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
+import { useUsersPermissionsStore } from '../stores/permissions/usersPermissionsStore';
 import Communications from './opened-user-communications.vue';
 import General from './opened-user-general.vue';
 import Variables from './opened-user-variables.vue';
@@ -136,8 +148,10 @@ export default {
 		);
 
 		const {
+			hasReadAccess,
 			hasCreateAccess,
 			hasUpdateAccess,
+			hasDeleteAccess,
 			hasSaveActionAccess,
 			disableUserInput,
 		} = useUserAccessControl();
@@ -150,8 +164,10 @@ export default {
 		return {
 			v$,
 
+			hasReadAccess,
 			hasCreateAccess,
 			hasUpdateAccess,
+			hasDeleteAccess,
 			hasSaveActionAccess,
 			disableUserInput,
 			hasUserTokensReadAccess,
@@ -166,6 +182,23 @@ export default {
 	}),
 
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === this.permissionsTabPathName;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useUsersPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		path() {
 			const baseUrl = '/directory/users';
 			return [

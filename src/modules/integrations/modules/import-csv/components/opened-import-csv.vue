@@ -10,7 +10,10 @@
     <template #main>
       <form class="main-container" @submit.prevent="save">
         <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" :namespace="namespace" :v="v$" />
+        <router-view v-if="isPermissionsTab" v-slot="{ Component }">
+          <component v-if="Component" :is="Component" v-bind="permissionsStoreData" />
+        </router-view>
+        <component v-else :is="currentTab.value" :namespace="namespace" :v="v$" />
         <input hidden type="submit"> <!--  submit form on Enter  -->
       </form>
     </template>
@@ -26,6 +29,7 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import ImportCsvRouteName from '../router/_internals/ImportCsvRouteNames.enum.js';
+import { useImportCsvPermissionsStore } from '../stores/permissions/importCsvPermissionsStore';
 import General from './opened-import-csv-general.vue';
 import Settings from './opened-import-csv-settings.vue';
 
@@ -40,10 +44,21 @@ export default {
 	],
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 		};
 	},
 	data: () => ({
@@ -86,6 +101,23 @@ export default {
 		};
 	},
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === ImportCsvRouteName.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useImportCsvPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const tabs = [
 				{

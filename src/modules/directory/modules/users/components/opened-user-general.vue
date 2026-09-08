@@ -170,10 +170,10 @@
 </template>
 
 <script>
+import { DevicesAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { mapGetters } from 'vuex';
-
 import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import ItemLinkMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/itemLinkMixin.js';
@@ -181,7 +181,6 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
-import DevicesAPI from '../../devices/api/devices';
 import LicenseAPI from '../../license/api/license';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 

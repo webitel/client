@@ -1,3 +1,4 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -16,8 +17,6 @@ const OpenedTeamHooks = () =>
 	import('../modules/hooks/components/opened-team-hooks.vue');
 const OpenedTeamFlows = () =>
 	import('../modules/flow/components/opened-team-flows.vue');
-const PermissionsTab = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const TeamsRoutes = [
 	{

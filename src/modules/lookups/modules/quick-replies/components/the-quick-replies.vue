@@ -138,8 +138,7 @@
 
 <script>
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
-import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';
