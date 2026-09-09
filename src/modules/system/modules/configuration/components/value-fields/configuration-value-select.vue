@@ -4,7 +4,7 @@
     :label="t(descriptor.select?.labelKey || 'vocabulary.values')"
     :options="descriptor.select?.options"
     option-value="id"
-    :v="v"
+    :regle-validation="regleValidation"
     :model-value="modelValue"
     required
     @update:model-value="emit('update:modelValue', $event)"
@@ -12,16 +12,17 @@
 </template>
 
 <script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { useI18n } from 'vue-i18n';
 
 import type {
 	ParameterDescriptor,
 	SelectOption,
-} from '../../utils/parameterDescriptors';
+} from '../../types/configuration.types';
 
 defineProps<{
 	modelValue?: string;
-	v?: object;
+	regleValidation?: RegleSchemaFieldStatus<SelectOption['id']>;
 	descriptor: ParameterDescriptor;
 }>();
 
