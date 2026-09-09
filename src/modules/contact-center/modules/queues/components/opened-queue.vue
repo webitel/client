@@ -73,6 +73,7 @@ import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
+import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
 import deepmerge from 'deepmerge';
 import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -309,33 +310,16 @@ const disabledSave = computed(
 		hasValidationErrors.value,
 );
 
-const saveOptions = computed(() => [
-	{
-		text: t('webitelUI.saveCopyPopup.title'),
-		callback: openSaveCopyPopup,
-	},
-]);
-
-const isSaveCopyPopupShown = ref(false);
-
-function openSaveCopyPopup() {
-	isSaveCopyPopupShown.value = true;
-}
-
-function closeSaveCopyPopup() {
-	isSaveCopyPopupShown.value = false;
-}
-
-async function saveCopy(name: string) {
-	await QueuesAPI.add({
-		itemInstance: {
-			...toRaw(modelValue.value),
-			id: undefined,
-			name,
-		},
-	});
-	closeSaveCopyPopup();
-}
+const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
+	useSaveCopyPopup((name) =>
+		QueuesAPI.add({
+			itemInstance: {
+				...toRaw(modelValue.value),
+				id: undefined,
+				name,
+			},
+		}),
+	);
 
 /**
  * Nested tabs can add their first record before the queue exists. Routed

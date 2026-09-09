@@ -58,6 +58,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
+import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
+import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -83,15 +85,27 @@ export default {
 	setup: () => {
 		const v$ = useVuelidate();
 		const { hasSaveActionAccess } = useUserAccessControl();
+
+		const instance = getCurrentInstance();
+		const saveCopyPopup = useSaveCopyPopup((name) =>
+			RolesAPI.add({
+				itemInstance: {
+					...instance.proxy.itemInstance,
+					id: undefined,
+					name,
+				},
+			}),
+		);
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			...saveCopyPopup,
 		};
 	},
 	data: () => ({
 		namespace: 'permissions/roles',
 		routeName: RouteNames.ROLES,
-		isSaveCopyPopupShown: false,
 	}),
 	validations: {
 		itemInstance: {
@@ -102,15 +116,6 @@ export default {
 	},
 
 	computed: {
-		saveOptions() {
-			return [
-				{
-					text: this.$t('webitelUI.saveCopyPopup.title'),
-					callback: this.openSaveCopyPopup,
-				},
-			];
-		},
-
 		tabs() {
 			const tabs = [
 				{
@@ -152,25 +157,6 @@ export default {
 					},
 				},
 			];
-		},
-	},
-
-	methods: {
-		openSaveCopyPopup() {
-			this.isSaveCopyPopupShown = true;
-		},
-		closeSaveCopyPopup() {
-			this.isSaveCopyPopupShown = false;
-		},
-		async saveCopy(name) {
-			await RolesAPI.add({
-				itemInstance: {
-					...this.itemInstance,
-					id: undefined,
-					name,
-				},
-			});
-			this.closeSaveCopyPopup();
 		},
 	},
 };

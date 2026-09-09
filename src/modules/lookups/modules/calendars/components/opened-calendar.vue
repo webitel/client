@@ -66,7 +66,8 @@ import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
 import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
-import { computed, ref } from 'vue';
+import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -200,31 +201,14 @@ const disabledSave = computed(
 		hasValidationErrors.value,
 );
 
-const saveOptions = computed(() => [
-	{
-		text: t('webitelUI.saveCopyPopup.title'),
-		callback: openSaveCopyPopup,
-	},
-]);
-
-const isSaveCopyPopupShown = ref(false);
-
-function openSaveCopyPopup() {
-	isSaveCopyPopupShown.value = true;
-}
-
-function closeSaveCopyPopup() {
-	isSaveCopyPopupShown.value = false;
-}
-
-async function saveCopy(name: string) {
-	await CalendarsAPI.add({
-		itemInstance: {
-			...modelValue.value,
-			id: undefined,
-			name,
-		},
-	});
-	closeSaveCopyPopup();
-}
+const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
+	useSaveCopyPopup((name) =>
+		CalendarsAPI.add({
+			itemInstance: {
+				...modelValue.value,
+				id: undefined,
+				name,
+			},
+		}),
+	);
 </script>

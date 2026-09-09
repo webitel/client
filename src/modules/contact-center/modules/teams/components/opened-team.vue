@@ -71,6 +71,8 @@ import { numeric, required } from '@vuelidate/validators';
 import { TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
+import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
+import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -119,6 +121,17 @@ export default {
 			WtObject.Flow,
 		);
 
+		const instance = getCurrentInstance();
+		const saveCopyPopup = useSaveCopyPopup((name) =>
+			TeamsAPI.add({
+				itemInstance: {
+					...instance.proxy.itemInstance,
+					id: undefined,
+					name,
+				},
+			}),
+		);
+
 		return {
 			v$,
 			hasSaveActionAccess,
@@ -129,6 +142,7 @@ export default {
 			hasAgentsReadAccess,
 			hasSupervisorsReadAccess,
 			hasFlowsReadAccess,
+			...saveCopyPopup,
 		};
 	},
 
@@ -136,7 +150,6 @@ export default {
 		namespace: 'ccenter/teams',
 		routeName: RouteNames.TEAMS,
 		permissionsTabPathName: TeamsRouteNames.PERMISSIONS,
-		isSaveCopyPopupShown: false,
 	}),
 	validations: {
 		itemInstance: {
@@ -188,15 +201,6 @@ export default {
 				},
 				parentId: this.$route.params.id,
 			};
-		},
-
-		saveOptions() {
-			return [
-				{
-					text: this.$t('webitelUI.saveCopyPopup.title'),
-					callback: this.openSaveCopyPopup,
-				},
-			];
 		},
 
 		tabs() {
@@ -262,25 +266,6 @@ export default {
 					},
 				},
 			];
-		},
-	},
-
-	methods: {
-		openSaveCopyPopup() {
-			this.isSaveCopyPopupShown = true;
-		},
-		closeSaveCopyPopup() {
-			this.isSaveCopyPopupShown = false;
-		},
-		async saveCopy(name) {
-			await TeamsAPI.add({
-				itemInstance: {
-					...this.itemInstance,
-					id: undefined,
-					name,
-				},
-			});
-			this.closeSaveCopyPopup();
 		},
 	},
 };
