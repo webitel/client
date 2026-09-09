@@ -573,6 +573,7 @@ onMounted(() =>
 
 .members__destinations-wrapper {
   display: flex;
+  align-items: center;
   gap: var(--spacing-xs);
 }
 
