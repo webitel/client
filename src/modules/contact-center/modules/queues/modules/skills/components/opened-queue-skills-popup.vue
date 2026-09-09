@@ -10,7 +10,10 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form @submit.prevent="save">
+      <form 
+      class="object-input-grid object-input-grid__1-col"
+      @submit.prevent="save" 
+      >
         <wt-single-select
           v-model:model-value="modelValue.skill"
           :disabled="!hasSkillsReadAccess"
