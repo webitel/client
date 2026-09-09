@@ -24,6 +24,7 @@
           v-model:model-value="modelValue.lvl"
           :label="t('objects.lookups.skills.lvl')"
           :regle-validation="validationFields?.lvl"
+          required
         />
         <div class="input-row-wrap">
           <wt-input-number
