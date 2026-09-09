@@ -112,8 +112,7 @@ const {
 const skillId = computed(() => route.params.skillId);
 
 const popupTitle = computed(() => {
-	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
-	return `${action} ${t('objects.lookups.skills.skills', 1).toLowerCase()}`;
+	return isNew.value ? t('objects.ccenter.agents.addSkill') : t('objects.ccenter.agents.editSkill');
 });
 
 const { close } = useClose(QueuesRoutesName.SKILLS);

@@ -1180,6 +1180,7 @@ export default {
 				allResGroups: 'Tất cả nhóm tài nguyên',
 				searchPlaceholder: 'tên nhóm tài nguyên..',
 				addResGroup: 'Thêm nhóm tài nguyên',
+				editResGroup: 'Sửa nhóm tài nguyên',
 				strategy: 'Chiến lược',
 				timerange: 'Khoảng thời gian',
 				timerangeFrom: 'Từ',

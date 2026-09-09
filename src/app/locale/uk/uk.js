@@ -1196,6 +1196,7 @@ export default {
 				allResGroups: 'Всі групи ресурсів',
 				searchPlaceholder: 'назва групи ресурсів..',
 				addResGroup: 'Додати групу ресурсів',
+				editResGroup: 'Редагувати групу ресурсів',
 				strategy: 'Стратегія',
 				timerange: 'Інтервал',
 				timerangeFrom: 'Від',

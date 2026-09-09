@@ -1188,6 +1188,7 @@ export default {
 				allResGroups: 'Toate grupurile de resurse',
 				searchPlaceholder: 'nume grup resurse..',
 				addResGroup: 'Adaugă grup de resurse',
+				editResGroup: 'Editează grup de resurse',
 				strategy: 'Strategie',
 				timerange: 'Interval de timp',
 				timerangeFrom: 'De la',

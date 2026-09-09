@@ -77,8 +77,7 @@ const {
 const resourceId = computed(() => route.params.resourceId);
 
 const popupTitle = computed(() => {
-	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
-	return `${action} ${t('objects.ccenter.resGroups.resGroups', 1).toLowerCase()}`;
+	return isNew.value ? t('objects.ccenter.resGroups.addResGroup') : t('objects.ccenter.resGroups.editResGroup');
 });
 
 const { close } = useClose(QueuesRoutesName.RESOURCES);
