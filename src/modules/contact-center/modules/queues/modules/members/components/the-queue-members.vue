@@ -61,11 +61,12 @@
 
       <reset-popup
         v-if="isResetPopup"
-        :callback="resetMembers"
+        :callback="resetCallback"
         :date-range="selectedDateRange"
         :quantity="resetMembersQuantity"
+        :scope="resetScope"
         :shown="!disableUserInput && isResetPopup"
-        @close="isResetPopup = false"
+        @close="closeReset"
       />
 
       <export-popup
@@ -112,12 +113,19 @@
               </template>
 
               <template #reset-members>
-                <wt-icon-btn
-                  v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
-                  :disabled="disableUserInput"
-                  icon="reset-members"
-                  @click="openResetPopup"
-                />
+                <wt-context-menu
+                  :options="resetOptions"
+                  @click="$event.option.method()"
+                >
+                  <template #activator="{ toggle }">
+                    <wt-icon-btn
+                      v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
+                      :disabled="disableUserInput"
+                      icon="reset-members"
+                      @click="toggle"
+                    />
+                  </template>
+                </wt-context-menu>
               </template>
 
               <template #delete>
@@ -268,8 +276,10 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
+import { useResetConfirmationPopup } from '../composables/useResetConfirmationPopup';
 import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
+import { ActionOptions } from '../types/ActionOptions';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ExportPopup from './export-members-popup.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -326,10 +336,17 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
+const {
+	isVisible: isResetPopup,
+	resetQuantity: resetMembersQuantity,
+	resetCallback,
+	resetScope,
+	askResetConfirmation,
+	closeReset,
+} = useResetConfirmationPopup();
+
 const isFiltersPanelShown = ref(false);
-const isResetPopup = ref(false);
 const isExportPopup = ref(false);
-const resetMembersQuantity = ref(0);
 const csvFile = ref<File | null>(null);
 const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
@@ -392,20 +409,52 @@ const withReload =
 		}
 	};
 
-const resetMembers = withReload(() =>
-	QueueMembersAPI.resetMembers({
+const openResetPopup = async (
+	filters: Record<string, unknown>,
+	scope: ActionOptions,
+) => {
+	const quantity = await QueueMembersAPI.getQuantity({
 		parentId: queueId.value,
-		filters: currentFilters(),
-	}),
-);
-
-const openResetPopup = async () => {
-	resetMembersQuantity.value = await QueueMembersAPI.getQuantity({
-		parentId: queueId.value,
-		filters: currentFilters(),
+		filters,
 	});
-	isResetPopup.value = true;
+	askResetConfirmation({
+		quantity,
+		scope,
+		callback: withReload(() =>
+			QueueMembersAPI.resetMembers({
+				parentId: queueId.value,
+				filters,
+			}),
+		),
+	});
 };
+
+const resetOptions = computed(() => [
+	{
+		text: t('iconHints.resetAll'),
+		method: () => openResetPopup({}, ActionOptions.All),
+	},
+	{
+		text: t('iconHints.resetFiltered'),
+		method: () => openResetPopup(currentFilters(), ActionOptions.Filtered),
+	},
+	...(selected.value.length
+		? [
+				{
+					text: t('iconHints.resetSelected', {
+						count: selected.value.length,
+					}),
+					method: () =>
+						openResetPopup(
+							{
+								ids: selected.value.map(({ id }) => id),
+							},
+							ActionOptions.Selected,
+						),
+				},
+			]
+		: []),
+]);
 
 const deleteAll = withReload(() =>
 	QueueMembersAPI.deleteBulk({

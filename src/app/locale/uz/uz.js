@@ -911,6 +911,8 @@ export default {
 					resetMembers: 'Urinishlarini tiklash',
 					description:
 						'Siz \n{dateFrom} dan {dateTo} gacha\nboʻlgan davrdagi muvaffaqiyatsiz urinishlarni qoʻllanilgan filtrlar va qidiruv natijalariga asoslanib qayta tiklashni xohlaysizmi?',
+					descriptionSelected:
+						'Muvaffaqiyatsiz urinishlarni qayta tiklashni xohlaysizmi?',
 					descriptionCount: '{count} ta yozuvga taʼsir qiladi.',
 					emptyDescription:
 						'Joriy filtrlarga mos keluvchi muvaffaqiyatsiz urinishlar yoʻq. Qayta tiklaydigan hech narsa yoʻq.',
@@ -1456,6 +1458,10 @@ export default {
 		deleteAll: "Barcha ma'lumotlarni o'chirish",
 		deleteSelected: "Tanlangan {count} ma'lumotni o'chirish",
 		deleteFiltered: "Barcha filtrlangan ma'lumotlarni o'chirish",
+		resetAll: "Barcha a'zolchalarni tiklash",
+		resetSelected:
+			"Tanlangan {count} a'zolchalarni tiklash | Tanlangan {count} a'zolchalarni tiklash",
+		resetFiltered: "Barcha filtrlangan a'zolchalarni tiklash",
 		generate: 'Yaratish',
 		add: "Qo'shish",
 		history: 'Tarix',

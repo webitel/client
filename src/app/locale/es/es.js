@@ -910,8 +910,12 @@ export default {
 				emptyWorkspace: 'No se encontraron miembros',
 				resetMembers: {
 					resetMembers: 'Restablecer miembros',
-					description:
-						'¿Está seguro de que desea reiniciar los intentos fallidos desde\n{dateFrom} hasta {dateTo}\nsegún los filtros aplicados y los resultados de la búsqueda?',
+					descriptionQuestion:
+						'¿Está seguro de que desea reiniciar los intentos fallidos',
+					description: ({ named, linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} desde\n${named('dateFrom')} hasta ${named('dateTo')}\nsegún los filtros aplicados y los resultados de la búsqueda?`,
+					descriptionSelected: ({ linked }) =>
+						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')}?`,
 					descriptionCount: 'Se verán afectados {count} registros.',
 					emptyDescription:
 						'No hay intentos fallidos que coincidan con los filtros actuales. No hay nada que reiniciar.',
@@ -1461,6 +1465,10 @@ export default {
 		deleteAll: 'Eliminar todos los elementos',
 		deleteSelected: 'Eliminar {count} elementos seleccionados',
 		deleteFiltered: 'Eliminar todos los elementos filtrados',
+		resetAll: 'Restablecer todos los miembros',
+		resetSelected:
+			'Restablecer {count} miembro seleccionado | Restablecer {count} miembros seleccionados',
+		resetFiltered: 'Restablecer todos los miembros filtrados',
 		generate: 'Generar',
 		add: 'Añadir',
 		history: 'Historial',
