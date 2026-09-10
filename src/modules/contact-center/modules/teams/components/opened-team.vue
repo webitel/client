@@ -70,8 +70,10 @@ import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
 import { TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
-import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';

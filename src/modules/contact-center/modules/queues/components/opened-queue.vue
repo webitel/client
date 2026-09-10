@@ -72,8 +72,10 @@ import {
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
-import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import deepmerge from 'deepmerge';
 import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

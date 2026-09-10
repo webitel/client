@@ -64,9 +64,11 @@
 import { CalendarsAPI } from '@webitel/api-services/api';
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
-import SaveCopyPopup from '@webitel/ui-sdk/src/modules/SaveCopyPopup/components/save-copy-popup.vue';
-import { useSaveCopyPopup } from '@webitel/ui-sdk/src/modules/SaveCopyPopup/composables/useSaveCopyPopup';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
