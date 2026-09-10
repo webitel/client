@@ -11,6 +11,19 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template
+          v-if="!isNew"
+          #primary-action
+        >
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
+            {{ saveText }}
+          </wt-button-select>
+        </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
@@ -39,6 +52,12 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
+
+      <save-copy-popup
+        :shown="isSaveCopyPopupShown"
+        @close="closeSaveCopyPopup"
+        @save="saveCopy"
+      />
     </template>
   </wt-page-wrapper>
   <wt-loader v-else />
@@ -48,10 +67,15 @@
 import {
 	getQueueDefaults,
 	hasQueueTypeDefaults,
+	QueuesAPI,
 } from '@webitel/api-services/api';
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import deepmerge from 'deepmerge';
 import {
 	computed,
@@ -296,6 +320,15 @@ const disabledSave = computed(
 		hasValidationErrors.value,
 );
 
+const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
+	useSaveCopyPopup((name) =>
+		QueuesAPI.add({
+			itemInstance: {
+				...toRaw(modelValue.value),
+				name,
+			},
+		}),
+	);
 /** `useCardRouting` parity, plus the query preservation it does not do */
 let idRedirect: Promise<unknown> = Promise.resolve();
 

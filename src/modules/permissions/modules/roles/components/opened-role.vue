@@ -8,6 +8,19 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template
+          v-if="id"
+          #primary-action
+        >
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
+            {{ saveText }}
+          </wt-button-select>
+        </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
@@ -31,6 +44,12 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
+
+      <save-copy-popup
+        :shown="isSaveCopyPopupShown"
+        @close="closeSaveCopyPopup"
+        @save="saveCopy"
+      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -38,10 +57,16 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
+import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RolesAPI from '../api/roles';
 import RolesRouteNames from '../router/_internals/RolesRouteNames.enum.js';
 import General from './opened-role-general.vue';
 import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
@@ -53,6 +78,7 @@ export default {
 		General,
 		Permissions,
 		ApplicationsAccess,
+		SaveCopyPopup,
 	},
 	mixins: [
 		openedObjectMixin,
@@ -61,9 +87,21 @@ export default {
 	setup: () => {
 		const v$ = useVuelidate();
 		const { hasSaveActionAccess } = useUserAccessControl();
+
+		const instance = getCurrentInstance();
+		const saveCopyPopup = useSaveCopyPopup((name) =>
+			RolesAPI.add({
+				itemInstance: {
+					...instance.proxy.itemInstance,
+					name,
+				},
+			}),
+		);
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			...saveCopyPopup,
 		};
 	},
 	data: () => ({

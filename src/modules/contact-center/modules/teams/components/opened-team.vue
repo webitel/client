@@ -8,6 +8,19 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template
+          v-if="id"
+          #primary-action
+        >
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
+            {{ saveText }}
+          </wt-button-select>
+        </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
@@ -42,6 +55,12 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
+
+      <save-copy-popup
+        :shown="isSaveCopyPopupShown"
+        @close="closeSaveCopyPopup"
+        @save="saveCopy"
+      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -49,7 +68,13 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
+import { TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
+import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
@@ -72,6 +97,7 @@ export default {
 		Parameters,
 		Hooks,
 		Flows,
+		SaveCopyPopup,
 	},
 	mixins: [
 		openedObjectMixin,
@@ -97,6 +123,16 @@ export default {
 			WtObject.Flow,
 		);
 
+		const instance = getCurrentInstance();
+		const saveCopyPopup = useSaveCopyPopup((name) =>
+			TeamsAPI.add({
+				itemInstance: {
+					...instance.proxy.itemInstance,
+					name,
+				},
+			}),
+		);
+
 		return {
 			v$,
 			hasSaveActionAccess,
@@ -107,6 +143,7 @@ export default {
 			hasAgentsReadAccess,
 			hasSupervisorsReadAccess,
 			hasFlowsReadAccess,
+			...saveCopyPopup,
 		};
 	},
 
