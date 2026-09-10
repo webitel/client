@@ -10,7 +10,16 @@
         @click="addVariable"
       />
     </header>
-    <form class="object-input-grid">
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+
+    <form
+      v-show="variables.length"
+      class="object-input-grid"
+    >
       <div class="variables">
         <div
           v-for="(variable, index) in variables"
@@ -40,6 +49,7 @@
 
 <script lang="ts" setup>
 import type { VariablePair } from '@webitel/api-services/validations';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -56,6 +66,14 @@ const { disableUserInput } = useUserAccessControl();
 const variables = computed<VariablePair[]>(() => {
 	if (!modelValue.value.variables) modelValue.value.variables = [];
 	return modelValue.value.variables;
+});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: variables,
 });
 
 const addVariable = () => {
