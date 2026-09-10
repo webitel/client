@@ -1187,6 +1187,7 @@ export default {
 				allResGroups: 'Wszystkie grupy zasobów',
 				searchPlaceholder: 'nazwa grupy zasobów..',
 				addResGroup: 'Dodaj grupę zasobów',
+				editResGroup: 'Edytuj grupę zasobów',
 				strategy: 'Strategia',
 				timerange: 'Zakres czasu',
 				timerangeFrom: 'Od',

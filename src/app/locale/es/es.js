@@ -1190,6 +1190,7 @@ export default {
 				allResGroups: 'Todos los grupos de recursos',
 				searchPlaceholder: 'nombre de grupo de recursos..',
 				addResGroup: 'Añadir grupo de recursos',
+				editResGroup: 'Editar grupo de recursos',
 				strategy: 'Estrategia',
 				timerange: 'Rango de tiempo',
 				timerangeFrom: 'Desde',

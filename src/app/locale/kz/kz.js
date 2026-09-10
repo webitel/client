@@ -1180,6 +1180,7 @@ export default {
 				allResGroups: 'Барлық қор топтары',
 				searchPlaceholder: 'қор топ аты..',
 				addResGroup: 'Қор топын қосу',
+				editResGroup: 'Қор топын өзгерту',
 				strategy: 'Стратегия',
 				timerange: 'Уақыт аралығы',
 				timerangeFrom: 'Қайдан',

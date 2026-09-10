@@ -88,9 +88,7 @@
           {{ asDuration(item) }}
         </template>
         <template #viewNumber="{ item }">
-          <div v-if="item.destination">
-            {{ item.destination.description }}
-          </div>
+          {{ item.display }}
         </template>
         <template #attempts="{ item }">
           {{ item.attempts || 0 }}

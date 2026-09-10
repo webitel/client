@@ -85,7 +85,7 @@
 		"vite-plugin-vue-devtools": "^7.6.4",
 		"vite-plugin-vue-docgen": "^0.3.4",
 		"vitepress": "^1.4.3",
-		"vitest": "^4.1.8",
+		"vitest": "^4.1.11",
 		"vue-color": "^2.8.1",
 		"vue-tsc": "^2.2.0"
 	},

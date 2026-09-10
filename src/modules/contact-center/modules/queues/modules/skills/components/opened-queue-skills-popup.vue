@@ -10,7 +10,10 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form @submit.prevent="save">
+      <form 
+      class="object-input-grid object-input-grid__1-col"
+      @submit.prevent="save" 
+      >
         <wt-single-select
           v-model:model-value="modelValue.skill"
           :disabled="!hasSkillsReadAccess"
@@ -24,6 +27,7 @@
           v-model:model-value="modelValue.lvl"
           :label="t('objects.lookups.skills.lvl')"
           :regle-validation="validationFields?.lvl"
+          required
         />
         <div class="input-row-wrap">
           <wt-input-number
@@ -108,8 +112,9 @@ const {
 const skillId = computed(() => route.params.skillId);
 
 const popupTitle = computed(() => {
-	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
-	return `${action} ${t('objects.lookups.skills.skills', 1).toLowerCase()}`;
+	return isNew.value
+		? t('objects.ccenter.agents.addSkill')
+		: t('objects.ccenter.agents.editSkill');
 });
 
 const { close } = useClose(QueuesRoutesName.SKILLS);

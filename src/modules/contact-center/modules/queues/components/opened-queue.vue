@@ -77,7 +77,15 @@ import {
 	useSaveCopyPopup,
 } from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import deepmerge from 'deepmerge';
-import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
+import {
+	computed,
+	nextTick,
+	onMounted,
+	onUnmounted,
+	ref,
+	toRaw,
+	watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -321,6 +329,24 @@ const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
 			},
 		}),
 	);
+/** `useCardRouting` parity, plus the query preservation it does not do */
+let idRedirect: Promise<unknown> = Promise.resolve();
+
+const stopIdWatch = watch(
+	() => cardStore.itemId,
+	(next, prev) => {
+		if (next && !prev) {
+			idRedirect = router.replace({
+				params: {
+					...route.params,
+					id: String(next),
+				},
+				query: route.query,
+			});
+			stopIdWatch();
+		}
+	},
+);
 
 /**
  * Nested tabs can add their first record before the queue exists. Routed
@@ -329,7 +355,15 @@ const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
  */
 provideEnsureQueueSaved(async () => {
 	if (!isNew.value) return cardStore.itemId;
+
 	await save();
+	if (!cardStore.itemId) return null;
+
+	// the watcher above owns the `id` redirect: let it fire and settle before
+	// the tab pushes its own popup route, or the two navigations cancel out
+	await nextTick();
+	await idRedirect;
+
 	return cardStore.itemId;
 });
 
@@ -351,23 +385,6 @@ onMounted(async () => {
 });
 
 onUnmounted(() => cardStore.$reset());
-
-/** `useCardRouting` parity, plus the query preservation it does not do */
-const stopIdWatch = watch(
-	() => cardStore.itemId,
-	async (next, prev) => {
-		if (next && !prev) {
-			await router.replace({
-				params: {
-					...route.params,
-					id: String(next),
-				},
-				query: route.query,
-			});
-			stopIdWatch();
-		}
-	},
-);
 </script>
 
 <style

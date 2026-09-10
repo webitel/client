@@ -1189,6 +1189,7 @@ export default {
 				allResGroups: 'Barcha resurs guruhlari',
 				searchPlaceholder: 'res guruhi nomi..',
 				addResGroup: "Resurs guruhi qo'shish",
+				editResGroup: 'Resurs guruhi tahrirlash',
 				strategy: 'Strategiya',
 				timerange: "Vaqt oralig'i",
 				timerangeFrom: 'Dan',

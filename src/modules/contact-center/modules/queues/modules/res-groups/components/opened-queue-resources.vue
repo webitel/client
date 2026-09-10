@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <resource-popup @saved="loadDataList" />
+    <resource-popup
+      :key="parentId"
+      @saved="loadDataList"
+    />
 
     <header class="table-title">
       <h3 class="table-title__title">
@@ -88,11 +91,12 @@
 
 <script lang="ts" setup>
 import type { EngineQueueResourceGroup } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -113,7 +117,9 @@ const { disableUserInput } = useUserAccessControl({
 const parentId = computed(() => route.params.id as string);
 const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
 
-const tableStore = useQueueResGroupsDatalistStore();
+const tableStore = useNestedTableList({
+	useTableStore: useQueueResGroupsDatalistStore,
+});
 const {
 	dataList,
 	error,
@@ -126,7 +132,6 @@ const {
 	filtersManager,
 } = storeToRefs(tableStore);
 const {
-	initialize,
 	loadDataList,
 	updatePage,
 	updateSize,
@@ -138,36 +143,27 @@ const {
 	deleteFilter,
 } = tableStore;
 
-if (!isNewQueue.value)
-	initialize({
-		parentId: parentId.value,
-	});
-
-watch(parentId, (id, previous) => {
-	if (id && id !== 'new' && previous === 'new')
-		initialize({
-			parentId: id,
-		});
-});
-
 const ensureQueueSaved = useEnsureQueueSaved();
 
-const openPopup = (resourceId: string) =>
+const openPopup = (resourceId: string, id: string = parentId.value) =>
 	router.push({
 		name: route.name,
 		params: {
 			...route.params,
+			id,
 			resourceId,
 		},
 		query: route.query,
 	});
 
 const add = async () => {
-	if (isNewQueue.value) {
-		const savedId = await ensureQueueSaved();
-		if (!savedId) return;
-	}
-	return openPopup('new');
+	if (!isNewQueue.value) return openPopup('new');
+
+	const savedId = await ensureQueueSaved();
+	if (!savedId) return;
+
+	// the queue's id landed in the route only now, so pass it explicitly
+	return openPopup('new', String(savedId));
 };
 
 const edit = (item: EngineQueueResourceGroup) => openPopup(String(item.id));

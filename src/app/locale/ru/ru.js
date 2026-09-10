@@ -1199,6 +1199,7 @@ export default {
 				allResGroups: 'Все группы ресурсов',
 				searchPlaceholder: 'название группы ресурсов..',
 				addResGroup: 'Добавить группу ресурсов',
+				editResGroup: 'Редактировать группу ресурсов',
 				strategy: 'Стратегия',
 				timerange: 'Интервал',
 				timerangeFrom: 'ОТ',
