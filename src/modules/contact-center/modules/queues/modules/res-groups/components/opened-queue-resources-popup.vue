@@ -77,7 +77,9 @@ const {
 const resourceId = computed(() => route.params.resourceId);
 
 const popupTitle = computed(() => {
-	return isNew.value ? t('objects.ccenter.resGroups.addResGroup') : t('objects.ccenter.resGroups.editResGroup');
+	return isNew.value
+		? t('objects.ccenter.resGroups.addResGroup')
+		: t('objects.ccenter.resGroups.editResGroup');
 });
 
 const { close } = useClose(QueuesRoutesName.RESOURCES);

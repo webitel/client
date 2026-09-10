@@ -112,7 +112,9 @@ const {
 const skillId = computed(() => route.params.skillId);
 
 const popupTitle = computed(() => {
-	return isNew.value ? t('objects.ccenter.agents.addSkill') : t('objects.ccenter.agents.editSkill');
+	return isNew.value
+		? t('objects.ccenter.agents.addSkill')
+		: t('objects.ccenter.agents.editSkill');
 });
 
 const { close } = useClose(QueuesRoutesName.SKILLS);

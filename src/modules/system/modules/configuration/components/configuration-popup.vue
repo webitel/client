@@ -1,36 +1,36 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
     :shown="!!configurationId"
-    size="sm"
+    :size="ComponentSize.SM"
     overflow
     @close="close"
   >
     <template #title>
-      {{ id ? $t('reusable.edit') : $t('reusable.new') }}
-      {{ $t('objects.system.configuration.parameter').toLowerCase() }}
+      {{ popupTitle }}
     </template>
     <template #main>
-      <form class="configuration-popup__form">
+      <form
+        class="configuration-popup__form"
+        @submit.prevent="save"
+      >
         <wt-single-select
           :show-clear="false"
-          :disabled="id"
-          :label="$t('objects.system.configuration.parameter')"
+          :disabled="!isNew"
+          :label="t('objects.system.configuration.parameter')"
           :options="parameterList"
           data-key="name"
           option-value="name"
-          :v="v$.itemInstance.name"
-          :model-value="itemInstance.name"
+          :regle-validation="validationFields?.name"
+          :model-value="modelValue.name"
           required
           @update:model-value="setParameterName"
         />
         <component
           :is="valueComponent"
-          v-if="itemInstance.name"
+          v-if="modelValue.name"
+          v-model:model-value="modelValue.value"
           :descriptor="descriptor"
-          :v="v$.itemInstance.value"
-          :model-value="itemInstance.value"
-          @update:model-value="setItemProp({ prop: 'value', value: $event })"
+          :regle-validation="validationFields?.value"
         />
       </form>
     </template>
@@ -39,29 +39,32 @@
         :disabled="disabledSave"
         @click="save"
       >
-        {{ $t('reusable.save') }}
+        {{ t('reusable.save') }}
       </wt-button>
       <wt-button
         color="secondary"
         @click="close"
       >
-        {{ $t('reusable.cancel') }}
+        {{ t('reusable.cancel') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, required } from '@vuelidate/validators';
-import { TypesExportedSettings } from '@webitel/ui-sdk/enums';
-import deepmerge from 'deepmerge';
+<script setup lang="ts">
+import { ConfigurationsAPI } from '@webitel/api-services/api';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { ComponentSize } from '@webitel/ui-sdk/enums';
+import type { Component } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import ConfigurationAPI from '../api/configuration';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import { ConfigurationValueType } from '../enum/ConfigurationValueType.enum';
+import { useConfigurationCardStore } from '../stores/card/configurationCardStore';
+import type { ConfigurationParameter } from '../types/configuration.types';
 import {
-	ConfigurationValueType,
 	getParameterDefaultValue,
 	getParameterDescriptor,
 } from '../utils/parameterDescriptors';
@@ -72,7 +75,7 @@ import ConfigurationValueNumber from './value-fields/configuration-value-number.
 import ConfigurationValueSelect from './value-fields/configuration-value-select.vue';
 import ConfigurationValueString from './value-fields/configuration-value-string.vue';
 
-const valueComponentByType = {
+const valueComponentByType: Record<ConfigurationValueType, Component> = {
 	[ConfigurationValueType.Boolean]: ConfigurationValueBoolean,
 	[ConfigurationValueType.Number]: ConfigurationValueNumber,
 	[ConfigurationValueType.String]: ConfigurationValueString,
@@ -81,148 +84,91 @@ const valueComponentByType = {
 	[ConfigurationValueType.ExportSettings]: ConfigurationValueExportSettings,
 };
 
-export default {
-	name: 'ConfigurationPopup',
-	mixins: [
-		openedObjectMixin,
-		openedTabComponentMixin,
-	],
-	props: {
-		namespace: {
-			type: String,
-		},
-	},
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	validations() {
-		const defaults = {
-			itemInstance: {
-				name: {
-					required,
-				},
-			},
-		};
+const emit = defineEmits<{
+	close: [];
+	saved: [];
+}>();
 
-		const requiredValueConfig = {
-			itemInstance: {
-				value: {
-					required,
-				},
-			},
-		};
+const { t } = useI18n();
+const route = useRoute();
 
-		const configByType = {
-			[ConfigurationValueType.Number]: {
-				itemInstance: {
-					value: {
-						required,
-						minValue: minValue(0),
-					},
-				},
-			},
-			[ConfigurationValueType.ExportSettings]: {
-				itemInstance: {
-					value: {
-						format: {
-							required,
-						},
-						...(this.itemInstance?.value?.format ===
-							TypesExportedSettings.CSV && {
-							separator: {
-								required,
-							},
-						}),
-					},
-				},
-			},
-		};
+const { hasSaveActionAccess } = useUserAccessControl();
 
-		return deepmerge.all([
-			defaults,
-			configByType[this.descriptor.type] || requiredValueConfig,
-			{
-				itemInstance: {
-					value: this.descriptor.validators || {},
-				},
-			},
-		]);
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	save: saveItem,
+} = useNestedCardComponent<ConfigurationParameter>({
+	useCardStore: useConfigurationCardStore,
+	routeParamName: 'id',
+});
+
+const configurationId = computed(() => route.params.id as string | undefined);
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.new') : t('reusable.edit');
+	return `${action} ${t('objects.system.configuration.parameter').toLowerCase()}`;
+});
+
+const descriptor = computed(() =>
+	getParameterDescriptor(modelValue.value.name),
+);
+const valueComponent = computed(
+	() => valueComponentByType[descriptor.value.type],
+);
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
+
+const parameterList = ref<
+	{
+		name: string;
+		value: string;
+	}[]
+>([]);
+
+const loadParameterList = async () => {
+	const { items } = await ConfigurationsAPI.getObjectsList({
+		size: 5000,
+	});
+	parameterList.value = items
+		.filter((item) => !getParameterDescriptor(item.name).hidden)
+		.map((item) => ({
+			name: item.name,
+			value: item.name,
+		}));
+};
+
+watch(
+	configurationId,
+	(id) => {
+		if (id === 'new') loadParameterList();
 	},
-	data() {
-		return {
-			parameterList: [],
-		};
+	{
+		immediate: true,
 	},
-	computed: {
-		configurationId() {
-			return this.$route.params.id;
-		},
-		descriptor() {
-			return getParameterDescriptor(this.itemInstance.name);
-		},
-		valueComponent() {
-			return valueComponentByType[this.descriptor.type];
-		},
-	},
-	methods: {
-		async save() {
-			if (!this.disabledSave) {
-				if (!this.new) {
-					await this.updateItem();
-				} else {
-					await this.addItem();
-				}
-				this.close();
-			}
-		},
-		async loadPopupData(id) {
-			await this.setId(id);
-			if (this.new) await this.loadParameterList();
-			return this.loadItem();
-		},
-		close() {
-			this.$emit('close');
-		},
-		async loadParameterList(params) {
-			const { items } = await ConfigurationAPI.getObjectsList({
-				...params,
-				size: 5000,
-			});
-			this.parameterList = items
-				.filter((item) => !getParameterDescriptor(item.name).hidden)
-				.map((item) => ({
-					name: item.name,
-					value: item.name,
-				}));
-		},
-		setParameterName(name) {
-			this.setItemProp({
-				prop: 'name',
-				value: name,
-			});
-			this.setItemProp({
-				prop: 'value',
-				value: getParameterDefaultValue(name),
-			});
-		},
-		loadPageData() {},
-	},
-	watch: {
-		configurationId: {
-			async handler(id) {
-				if (id) {
-					await this.loadPopupData(id);
-				} else {
-					this.resetState();
-				}
-			},
-			immediate: true,
-		},
-	},
+);
+
+const setParameterName = (name: string) => {
+	modelValue.value.name = name;
+	modelValue.value.value = getParameterDefaultValue(name);
+};
+
+const close = () => emit('close');
+
+const save = async () => {
+	if (disabledSave.value) return;
+
+	await saveItem();
+	emit('saved');
+	close();
 };
 </script>
 
