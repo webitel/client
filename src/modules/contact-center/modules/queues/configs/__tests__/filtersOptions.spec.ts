@@ -93,6 +93,19 @@ describe('every panel', () => {
 		expect(names).not.toContain('tag');
 	});
 
+	/**
+	 * The logs panel renders in static mode – WTEL-10353. Every filter is on
+	 * screen at once there, so a filter left on the shared default would label
+	 * itself "Values" and be indistinguishable from its neighbours.
+	 */
+	it('names every logs filter, since they are all shown at once', () => {
+		for (const option of logsFilters) {
+			expect(typeof option, String(option)).not.toBe('string');
+			if (typeof option === 'string') continue;
+			expect(option.showFilterName, String(option.name)).toBe(true);
+		}
+	});
+
 	it('gives every app-defined filter both a field and a preview', () => {
 		for (const [panel, options] of Object.entries(panels)) {
 			for (const option of options) {
