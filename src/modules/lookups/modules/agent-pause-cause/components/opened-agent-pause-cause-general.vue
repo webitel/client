@@ -46,11 +46,21 @@
           @update:selected="setItemProp({ prop: 'allowAgent', value: $event })"
         />
       </div>
+      <wt-multi-select
+        :disabled="disableUserInput"
+        :label="$t('objects.team')"
+        :search-method="loadDropdownOptionsTeamList"
+        :model-value="itemInstance.teams"
+        chips-view
+        @update:model-value="setItemProp({ prop: 'teams', value: $event })"
+      />
     </div>
   </section>
 </template>
 
 <script>
+import { TeamsAPI } from '@webitel/api-services/api';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
@@ -64,6 +74,11 @@ export default {
 		return {
 			disableUserInput,
 		};
+	},
+	methods: {
+		loadDropdownOptionsTeamList(params) {
+			return TeamsAPI.getLookup(params);
+		},
 	},
 };
 </script>

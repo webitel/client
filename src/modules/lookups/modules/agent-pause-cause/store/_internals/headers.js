@@ -14,6 +14,12 @@ export default [
 		sort: SortSymbols.NONE,
 	},
 	{
+		value: 'teams',
+		locale: 'objects.team',
+		field: 'teams',
+		sort: SortSymbols.NONE,
+	},
+	{
 		value: 'allowAdmin',
 		locale: 'objects.lookups.pauseCause.allowAdmin',
 		field: 'allow_admin',
