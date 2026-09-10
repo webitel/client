@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="opened-queue-variables">
     <header class="content-header">
       <h3 class="content-title typo-heading-4">
         {{ t('objects.ccenter.queues.variables') }}
@@ -89,6 +89,13 @@ const deleteVariable = (index: number) => {
 </script>
 
 <style
-  lang="scss"
   scoped
-></style>
+>
+.opened-queue-variables {
+  height: 100%;
+
+  .wt-empty {
+    height: 100%;
+  }
+}
+</style>
