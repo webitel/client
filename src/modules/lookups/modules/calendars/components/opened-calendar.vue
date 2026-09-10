@@ -208,7 +208,6 @@ const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
 		CalendarsAPI.add({
 			itemInstance: {
 				...modelValue.value,
-				id: undefined,
 				name,
 			},
 		}),

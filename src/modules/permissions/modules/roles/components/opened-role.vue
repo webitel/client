@@ -93,7 +93,6 @@ export default {
 			RolesAPI.add({
 				itemInstance: {
 					...instance.proxy.itemInstance,
-					id: undefined,
 					name,
 				},
 			}),

@@ -128,7 +128,6 @@ export default {
 			TeamsAPI.add({
 				itemInstance: {
 					...instance.proxy.itemInstance,
-					id: undefined,
 					name,
 				},
 			}),

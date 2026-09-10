@@ -317,7 +317,6 @@ const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
 		QueuesAPI.add({
 			itemInstance: {
 				...toRaw(modelValue.value),
-				id: undefined,
 				name,
 			},
 		}),
