@@ -81,6 +81,12 @@
             <template #limit="{ item }">
               {{ prettifyPauseCauseLimit(item.limitMin) }}
             </template>
+            <template #teams="{ item }">
+              <one-plus-many
+                :collection="item.teams"
+                :route-name="teamsRouteName"
+              />
+            </template>
             <template #allowAdmin="{ item, index }">
               <wt-checkbox
                 :disabled="!hasUpdateAccess"
@@ -139,6 +145,7 @@ import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmat
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
 
+import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
@@ -150,6 +157,7 @@ export default {
 	name: 'TheAgentPauseCause',
 	components: {
 		DeleteConfirmationPopup,
+		OnePlusMany,
 	},
 	mixins: [
 		tableComponentMixin,
@@ -189,6 +197,7 @@ export default {
 	data: () => ({
 		namespace,
 		routeName: RouteNames.PAUSE_CAUSE,
+		teamsRouteName: RouteNames.TEAMS,
 	}),
 	computed: {
 		path() {
