@@ -10,6 +10,7 @@ const resettableState = {
 		allowSupervisor: true,
 		allowAgent: true,
 		description: '',
+		teams: [],
 	},
 };
 
