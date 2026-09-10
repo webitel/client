@@ -36,7 +36,16 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+
+    <div
+      v-show="communications.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="communications"
         :headers="headers"
@@ -82,6 +91,7 @@ import type {
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -116,6 +126,14 @@ const {
 } = useMemberCommunications(modelValue);
 
 const selected = ref<EngineMemberCommunication[]>([]);
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: communications,
+});
 
 /**
  * The schema requires at least one communication, but the rule sits on the
