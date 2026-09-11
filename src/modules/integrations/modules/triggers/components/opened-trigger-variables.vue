@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('vocabulary.variables', 2) }}
       </h3>
       <wt-icon-action
@@ -10,7 +10,7 @@
         @click="addVariable"
       />
     </header>
-    <form class="object-input-grid">
+    <form class="opened-card-input-grid">
       <div class="variables">
         <div
           v-for="(variable, key) in itemInstance.variables"
@@ -63,4 +63,12 @@ export default {
 <style
   lang="scss"
   scoped
-></style>
+>
+.value-pair {
+  display: grid;
+  align-items: center;
+  margin-bottom: 20px;
+  grid-template-columns: 1fr 1fr 24px;
+  grid-gap: 20px;
+}
+</style>

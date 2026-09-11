@@ -31,7 +31,7 @@
 
     <template #main>
       <form
-        class="tabs-page-wrapper"
+        class="opened-card-tabs"
         @submit.prevent="save"
       >
         <wt-tabs

@@ -11,7 +11,7 @@
     </template>
     <template #main>
       <form 
-      class="object-input-grid object-input-grid__1-col"
+      class="opened-card-input-grid opened-card-input-grid--1-col"
       @submit.prevent="save" 
       >
         <wt-single-select
@@ -129,4 +129,13 @@ const loadSkillsOptions = (params: unknown) => SkillsAPI.getLookup(params);
 const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.input-row-wrap {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.input-row-wrap > * {
+  flex: 1;
+}
+</style>

@@ -1,8 +1,8 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{
           $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
         }}
@@ -13,7 +13,7 @@
         <header class="webchat-alternative-channels-section-header typo-heading-3">
           {{ $t('objects.routing.chatGateways.webchat.alternativeChannels.title') }}
         </header>
-        <div class="object-input-grid object-input-grid__1-col">
+        <div class="opened-card-input-grid opened-card-input-grid--1-col">
           <div
             v-for="(channel) of alternativeChannels"
             :key="channel"
@@ -49,7 +49,7 @@
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })"
           />
         </div>
-        <div class=" object-input-grid object-input-grid__1-col">
+        <div class="opened-card-input-grid opened-card-input-grid--1-col">
           <wt-input-text
             :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.chatGateways.webchat.call.url')"

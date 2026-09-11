@@ -10,7 +10,7 @@
     </template>
     <template #main>
       <form
-        class="object-input-grid object-input-grid__1-col"
+        class="opened-card-input-grid opened-card-input-grid--1-col"
         @submit.prevent="save"
       >
         <wt-input-text
