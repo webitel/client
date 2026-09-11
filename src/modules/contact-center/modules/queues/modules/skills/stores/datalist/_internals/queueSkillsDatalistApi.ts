@@ -6,11 +6,7 @@ interface GetListParams {
 	[key: string]: unknown;
 }
 
-/**
- * The capacity column renders "min - max", but a header carries a single api
- * field — `max_capacity`, which the column also sorts on. Left alone,
- * `min_capacity` is never requested, so every row reads "0 - max".
- */
+/** the capacity column sorts on `max_capacity`, so nothing asked for the min — WTEL-10299 */
 const withMinCapacityField = (fields: string[] = []) =>
 	fields.includes('max_capacity') && !fields.includes('min_capacity')
 		? [
@@ -19,17 +15,14 @@ const withMinCapacityField = (fields: string[] = []) =>
 			]
 		: fields;
 
-/**
- * The wire drops either capacity at its proto3 default, so a real 0 arrives as
- * an absent field. Filled here rather than in the template, which would
- * otherwise render a blank on one side of the dash.
- */
+/** the wire omits a capacity at its proto3 default; 0 beats a blank side of the dash */
 const withCapacityDefaults = (item: EngineQueueSkill): EngineQueueSkill => ({
 	minCapacity: 0,
 	maxCapacity: 0,
 	...item,
 });
 
+/** `fields` is derived from the shown headers, one per header — one short of "min - max" */
 export const QueueSkillsDatalistAPI = {
 	...QueueSkillsAPI,
 	getList: async (params: GetListParams) => {

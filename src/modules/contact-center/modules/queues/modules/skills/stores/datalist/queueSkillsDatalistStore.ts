@@ -8,7 +8,7 @@ import { QueueSkillsDatalistAPI } from './_internals/queueSkillsDatalistApi';
 export const useQueueSkillsDatalistStore = createTableStore<EngineQueueSkill>(
 	`${QueueSkillsNamespace}/datalist`,
 	{
-		// wraps the api to also ask for `min_capacity` — see the module
+		// wrapped: asks for `min_capacity` too, which no header carries
 		apiModule: QueueSkillsDatalistAPI,
 		// every tab on the queue card shares one url — see the hooks store
 		disablePersistence: true,
