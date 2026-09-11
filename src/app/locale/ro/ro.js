@@ -620,6 +620,7 @@ export default {
 				pattern: 'Număr de destinație',
 				dialplanRule: 'Regulă dialplan',
 				position: 'Poziție',
+				allowTransfer: 'Permite transferul',
 			},
 
 			chatplan: {

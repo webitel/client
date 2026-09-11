@@ -618,6 +618,7 @@ export default {
 				pattern: 'Numer docelowy',
 				dialplanRule: 'Reguła dialplanu',
 				position: 'Pozycja',
+				allowTransfer: 'Zezwól na przekazanie',
 			},
 
 			chatplan: {

@@ -622,6 +622,7 @@ export default {
 				pattern: 'Número de destino',
 				dialplanRule: 'Regla de dialplan',
 				position: 'Posición',
+				allowTransfer: 'Permitir transferencia',
 			},
 
 			chatplan: {

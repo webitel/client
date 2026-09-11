@@ -615,6 +615,7 @@ export default {
 				pattern: 'Мақсатты нөмір',
 				dialplanRule: 'Дайындық ережесі',
 				position: 'Орын',
+				allowTransfer: 'Ауыстыруға рұқсат беру',
 			},
 
 			chatplan: {
