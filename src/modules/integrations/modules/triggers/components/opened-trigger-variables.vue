@@ -63,4 +63,12 @@ export default {
 <style
   lang="scss"
   scoped
-></style>
+>
+.value-pair {
+  display: grid;
+  align-items: center;
+  margin-bottom: 20px;
+  grid-template-columns: 1fr 1fr 24px;
+  grid-gap: 20px;
+}
+</style>
