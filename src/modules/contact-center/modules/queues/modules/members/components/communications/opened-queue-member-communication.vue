@@ -15,10 +15,17 @@
 
     <header class="table-title">
       <h3
-        :class="{ invalid: isMissingCommunication }"
         class="table-title__title"
       >
         {{ t('objects.lookups.communications.communications', 2) }}
+        
+
+        <wt-icon
+          v-if="isMissingCommunication"
+          v-tooltip="t('objects.lookups.communications.missingCommunication')"
+          icon="attention"
+          color="error"
+        />
       </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
@@ -196,11 +203,9 @@ const removeSelected = () => {
   lang="scss"
   scoped
 >
-/**
- * `communications` is required by the schema but has no input of its own to
- * carry the message, so the section title is what reports it.
- */
-.table-title__title.invalid {
-  color: var(--error-color);
+.table-title__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
 }
 </style>

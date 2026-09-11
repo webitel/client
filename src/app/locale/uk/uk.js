@@ -549,6 +549,7 @@ export default {
 				communications: "Тип зв'язку | Типи зв'язку",
 				allCommunications: "Всі типи зв'язку",
 				addCommunication: "Додати тип зв'язку",
+				missingCommunication: 'Будь ласка, додайте тип звʼязку',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',

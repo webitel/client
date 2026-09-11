@@ -544,6 +544,7 @@ export default {
 				communications: 'Kommunikatsiya turi | Kommunikatsiya turlari',
 				allCommunications: 'Barcha kommunikatsiya turlari',
 				addCommunication: "Kommunikatsiya qo'shish",
+				missingCommunication: "Iltimos, kommunikatsiya turini qo'shing",
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',

@@ -539,6 +539,7 @@ export default {
 				communications: 'Коммуникация түрі | Коммуникация түрлері',
 				allCommunications: 'Барлық коммуникация түрлері',
 				addCommunication: 'Коммуникация қосу',
+				missingCommunication: 'Коммуникация түрін қосыңыз',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',

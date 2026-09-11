@@ -540,6 +540,7 @@ export default {
 				communications: 'Loại liên lạc',
 				allCommunications: 'Tất cả loại liên lạc',
 				addCommunication: 'Thêm liên lạc',
+				missingCommunication: 'Vui lòng thêm loại liên lạc',
 				code: 'Mã',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Điện thoại',

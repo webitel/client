@@ -544,6 +544,7 @@ export default {
 				communications: 'Tip de comunicare | Tipuri de comunicare',
 				allCommunications: 'Toate tipurile de comunicare',
 				addCommunication: 'Adaugă comunicare',
+				missingCommunication: 'Vă rugăm să adăugați un tip de comunicare',
 				code: 'Cod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',

@@ -546,6 +546,7 @@ export default {
 				communications: 'Tipo de comunicación | Tipos de comunicación',
 				allCommunications: 'Todos los tipos de comunicación',
 				addCommunication: 'Añadir comunicación',
+				missingCommunication: 'Por favor, añada un tipo de comunicación',
 				code: 'Código',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Teléfono',

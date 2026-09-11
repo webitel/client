@@ -541,6 +541,7 @@ export default {
 				communications: 'Communication type | Communication types',
 				allCommunications: 'All communication types',
 				addCommunication: 'Add communication',
+				missingCommunication: 'Please add communication',
 				code: 'Code',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Phone',
