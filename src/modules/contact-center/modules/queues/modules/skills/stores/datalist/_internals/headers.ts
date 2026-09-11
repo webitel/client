@@ -10,7 +10,7 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
-		/** renders "min - max"; sorts on max, as it always has */
+		/** renders "min - max", sorts on max; the api wrapper asks for the min */
 		value: 'capacity',
 		locale: 'objects.lookups.skills.capacity',
 		field: 'max_capacity',
