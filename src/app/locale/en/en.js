@@ -616,6 +616,7 @@ export default {
 				pattern: 'Destination number',
 				dialplanRule: 'Dialplan rule',
 				position: 'Position',
+				allowTransfer: 'Allow transfer',
 			},
 
 			chatplan: {
