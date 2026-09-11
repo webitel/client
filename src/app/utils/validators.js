@@ -1,4 +1,5 @@
 import { helpers } from '@vuelidate/validators';
+import { phoneNumberPattern } from '@webitel/api-services/validations';
 
 export const macValidator = (value) => {
 	if (typeof value === 'undefined' || value === null || value === '') {
@@ -46,7 +47,7 @@ export const phoneNumberSymbolsValidator = (value) => {
 	if (typeof value === 'undefined' || value === null || value === '') {
 		return true;
 	}
-	return /^\+?[A-Za-z0-9\-_.!~*'()]+$/.test(value);
+	return phoneNumberPattern.test(value);
 };
 
 export const sipPasswordSymbolsValidator = (value) => {
