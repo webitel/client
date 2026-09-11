@@ -77,7 +77,11 @@ import {
 	OutboundResourcesAPI as ResourcesAPI,
 } from '@webitel/api-services/api';
 import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
-import { memberCommunicationSchema } from '@webitel/api-services/validations';
+import { EngineCommunicationChannels } from '@webitel/api-services/gen/models';
+import {
+	memberCommunicationSchema,
+	phoneMemberCommunicationSchema,
+} from '@webitel/api-services/validations';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -137,7 +141,17 @@ watch(
 	},
 );
 
-const { r$ } = useRegleSchema(draft, memberCommunicationSchema, {
+const channels = ref<Record<string, EngineCommunicationChannels>>({});
+
+const schema = computed(() => {
+	const typeId = draft.value.type?.id;
+
+	return typeId && channels.value[typeId] === EngineCommunicationChannels.Phone
+		? phoneMemberCommunicationSchema
+		: memberCommunicationSchema;
+});
+
+const { r$ } = useRegleSchema(draft, schema, {
 	autoDirty: true,
 	syncState: {
 		onValidate: true,
@@ -164,8 +178,22 @@ const save = async () => {
 	close();
 };
 
-const loadCommunicationTypes = (params: unknown) =>
-	CommunicationsAPI.getLookup(params);
+const loadCommunicationTypes = async (params: Record<string, unknown>) => {
+	const response = await CommunicationsAPI.getLookup({
+		...params,
+		fields: [
+			'id',
+			'name',
+			'channel',
+		],
+	});
+
+	for (const { id, channel } of response.items) {
+		if (id && channel) channels.value[id] = channel;
+	}
+
+	return response;
+};
 const loadResources = (params: unknown) => ResourcesAPI.getLookup(params);
 </script>
 
