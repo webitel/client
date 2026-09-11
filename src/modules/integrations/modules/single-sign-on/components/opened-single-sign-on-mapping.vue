@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ t('objects.integrations.singleSignOn.mapping') }}
       </h3>
       <wt-icon-action
@@ -11,7 +11,7 @@
       />
     </header>
 
-    <form class="object-input-grid">
+    <form class="opened-card-input-grid">
       <div class="variables">
         <div
           v-for="(pair, index) in modelValue?.claims"

@@ -140,7 +140,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content-header__form-wrap {
+.opened-card-header__form-wrap {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);

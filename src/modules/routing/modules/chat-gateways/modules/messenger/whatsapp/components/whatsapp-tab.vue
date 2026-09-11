@@ -12,7 +12,7 @@
         {{ $t('objects.routing.chatGateways.messenger.whatsapp.whatsapp') }}
       </h3>
     </header>
-    <div class="object-input-grid object-input-grid__w50">
+    <div class="opened-card-input-grid opened-card-input-grid--w50">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.routing.chatGateways.messenger.whatsapp.token')"

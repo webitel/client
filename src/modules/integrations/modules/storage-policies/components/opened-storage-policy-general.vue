@@ -11,12 +11,12 @@
       @close="closeEncryptionAlert"
       @confirm="confirmEncryptionChange"
     />
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid opened-storage-policy-general__grid-2col">
+    <div class="opened-card-input-grid opened-storage-policy-general__grid-2col">
       <div class="grid-column">
         <wt-input-text
           :disabled="disableUserInput"
