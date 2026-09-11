@@ -56,7 +56,6 @@
 
         <wt-dummy
           v-if="dummy && isLoaded"
-          class="dummy-wrapper"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           :dark-mode="darkMode"

@@ -68,4 +68,11 @@ export default {
 .value-pair__delete-button {
   margin-bottom: 20px;
 }
+.value-pair {
+  display: grid;
+  align-items: center;
+  margin-bottom: 20px;
+  grid-template-columns: 1fr 1fr 24px;
+  grid-gap: 20px;
+}
 </style>
