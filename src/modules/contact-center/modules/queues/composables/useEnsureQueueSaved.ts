@@ -26,3 +26,40 @@ export const provideEnsureQueueSaved = (ensure: EnsureQueueSaved) => {
  */
 export const useEnsureQueueSaved = (): EnsureQueueSaved =>
 	inject(EnsureQueueSavedKey, async () => null);
+
+/** the card page owns every one of these; kept out of it to stay testable */
+interface EnsureQueueSavedDeps {
+	isNew: () => boolean;
+	itemId: () => QueueId;
+	save: () => Promise<unknown>;
+	hasValidationErrors: () => boolean;
+	/** the blocking field errors render on a tab the nested one hides */
+	notifyValidationBlocked: () => void;
+	/** lets the card's own `id` redirect land before the tab routes anywhere */
+	settleIdRedirect: () => Promise<unknown>;
+}
+
+export const createEnsureQueueSaved =
+	({
+		isNew,
+		itemId,
+		save,
+		hasValidationErrors,
+		notifyValidationBlocked,
+		settleIdRedirect,
+	}: EnsureQueueSavedDeps): EnsureQueueSaved =>
+	async () => {
+		if (!isNew()) return itemId();
+
+		await save();
+
+		if (!itemId()) {
+			// a rejected save already notified; silent validation did not — WTEL-10406
+			if (hasValidationErrors()) notifyValidationBlocked();
+			return null;
+		}
+
+		await settleIdRedirect();
+
+		return itemId();
+	};

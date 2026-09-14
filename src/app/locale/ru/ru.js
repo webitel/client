@@ -974,6 +974,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Новая очередь',
+				saveBeforeAddingRecords:
+					'Заполните обязательные поля очереди, прежде чем добавлять записи',
 				newQueueDescription: 'Типы очередей',
 				outboundIVRQueue: 'Исходящая IVR-очередь',
 				outboundIVR: 'Исходящий IVR',

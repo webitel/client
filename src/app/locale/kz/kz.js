@@ -960,6 +960,8 @@ export default {
 				teams: 'Команда | Командалар',
 				tags: 'Тақтар',
 				newQueue: 'Жаңа қойма',
+				saveBeforeAddingRecords:
+					'Жазбаларды қоспас бұрын кезектің міндетті өрістерін толтырыңыз',
 				blacklist: 'Стоп тізімі',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>

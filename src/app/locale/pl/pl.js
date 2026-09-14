@@ -964,6 +964,8 @@ export default {
 				teams: 'Zespół | Zespoły',
 				tags: 'Tagi',
 				newQueue: 'Nowa kolejka',
+				saveBeforeAddingRecords:
+					'Wypełnij wymagane pola kolejki przed dodaniem rekordów',
 				blacklist: 'Lista zatrzymana',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>

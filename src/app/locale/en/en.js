@@ -959,6 +959,8 @@ export default {
 				teams: 'Team | Teams',
 				tags: 'Tags',
 				newQueue: 'New queue',
+				saveBeforeAddingRecords:
+					'Fill in the required queue fields before adding records',
 				blacklist: 'Stop list',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
