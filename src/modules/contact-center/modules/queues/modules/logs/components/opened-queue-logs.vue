@@ -11,7 +11,7 @@
           @click:refresh="loadDataList"
         >
           <template #filters="{ action, onClick }">
-            <wt-badge :hidden="!filtersManager.hasFilters">
+            <wt-badge :hidden="!hasPanelFilters">
               <wt-icon-action
                 :action="action"
                 @click="onClick"
@@ -121,6 +121,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
+import { filtersOptions } from '../configs/filtersOptions';
 import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 import TheQueueLogsFilters from './the-queue-logs-filters.vue';
 
@@ -171,6 +172,24 @@ watch(parentId, (id, previous) => {
 			parentId: id,
 		});
 });
+
+/*
+the searchbar's own filter lives outside the panel, so the indicator tracks only
+what the panel offers. Unlike the panel's internal `hasAnyFilters` this counts
+`notDeletable` filters too: the seeded date range is a filter the user is looking
+at, so the badge stays lit while it is applied
+ */
+const panelFilterNames = new Set(
+	filtersOptions.map((filter) =>
+		typeof filter === 'string' ? filter : filter.name,
+	),
+);
+
+const hasPanelFilters = computed(() =>
+	filtersManager.value
+		.getAllKeys()
+		.some((name) => panelFilterNames.has(name as string)),
+);
 
 const asDate = (value?: number | string) =>
 	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
