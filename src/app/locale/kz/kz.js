@@ -1245,8 +1245,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'пошта',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'экранды жазу',
 				},
 				encryptFile: 'Жаңа файлдарды шифрлеу',

@@ -1247,8 +1247,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'screen recordings',
 				},

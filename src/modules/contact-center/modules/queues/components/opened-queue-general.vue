@@ -143,11 +143,11 @@ import {
 	QueueStrategyList,
 	TypesResourceStrategy,
 } from '@webitel/api-services/enums';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import { useQueueTypeControls } from '../composables/useQueueTypeControls';

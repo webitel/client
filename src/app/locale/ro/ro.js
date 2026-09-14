@@ -1253,8 +1253,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'înregistrări ecran',
 				},

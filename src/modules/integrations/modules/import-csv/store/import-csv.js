@@ -1,5 +1,5 @@
 import { ImportTemplatesAPI as ImportCsvAPI } from '@webitel/api-services/api';
-import { StorageImportSourceType } from 'webitel-sdk';
+import { StorageImportSourceType } from '@webitel/api-services/gen/models';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
 import headers from './_internals/headers';

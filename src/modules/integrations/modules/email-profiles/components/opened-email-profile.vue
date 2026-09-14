@@ -43,7 +43,7 @@ import {
 	required,
 	requiredIf,
 } from '@vuelidate/validators';
-import { EngineEmailAuthType } from 'webitel-sdk';
+import { EngineEmailAuthType } from '@webitel/api-services/gen/models';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';

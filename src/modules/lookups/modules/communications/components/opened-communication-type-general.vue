@@ -42,8 +42,7 @@
 </template>
 
 <script>
-import { EngineCommunicationChannels } from 'webitel-sdk';
-
+import { EngineCommunicationChannels } from '@webitel/api-services/gen/models';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
