@@ -73,9 +73,9 @@
 
 <script>
 import { FlowsAPI } from '@webitel/api-services/api';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';

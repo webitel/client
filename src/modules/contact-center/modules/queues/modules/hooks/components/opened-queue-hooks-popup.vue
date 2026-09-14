@@ -52,13 +52,13 @@
 <script lang="ts" setup>
 import { FlowsAPI } from '@webitel/api-services/api';
 import type { EngineQueueHook } from '@webitel/api-services/gen/models';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';

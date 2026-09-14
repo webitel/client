@@ -1256,8 +1256,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'medio',
 					[StorageUploadFileChannel.MailChannel]: 'correo',
 					[StorageUploadFileChannel.LogChannel]: 'registro',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'grabaciones de pantalla',
 				},

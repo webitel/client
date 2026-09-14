@@ -116,8 +116,8 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { MediaAPI } from '@webitel/api-services/api';
+import { StorageServiceType } from '@webitel/api-services/gen/models';
 import { WtPlayer } from '@webitel/ui-sdk/components';
-import { StorageServiceType } from 'webitel-sdk';
 import { MicrosoftLanguage as TtsMicrosoftLanguage } from 'webitel-sdk/enums';
 import validationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
 import CognitiveProfilesAPI from '../../../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
@@ -276,7 +276,7 @@ export default {
 				'name',
 				'provider',
 			];
-			const service = StorageServiceType.TTS;
+			const service = StorageServiceType.Tts;
 			return CognitiveProfilesAPI.getLookup({
 				...params,
 				fields,
