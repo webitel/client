@@ -13,7 +13,9 @@
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -22,219 +24,172 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <router-view
-          v-if="isPermissionsTab"
-          v-slot="{ Component }"
-        >
+        <router-view v-slot="{ Component }">
           <component
-            v-if="Component"
             :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
             v-bind="permissionsStoreData"
           />
         </router-view>
-        <component
-          v-else
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, requiredUnless } from '@vuelidate/validators';
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import type { ApiDevice } from '@webitel/api-services/gen/models';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import { ipValidator, macValidator } from '../../../../../app/utils/validators';
-import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
-import { useDevicesPermissionsStore } from '../stores/permissions/devicesPermissionsStore';
-import General from './opened-device-general.vue';
-import PhoneInfo from './opened-device-phone-info.vue';
-import HotdeskGeneral from './opened-hotdesk-device-general.vue';
-import HotdeskHotdesking from './opened-hotdesk-device-hotdesking.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum';
+import { generateHotdeskAccount } from '../scripts/generateHotdeskAccount';
+import { useDevicesCardStore, useDevicesPermissionsStore } from '../stores';
 
-const hotDeskNameValidator = (array) =>
-	!array.some((hotdesk) => !/\w+/.test(hotdesk.name || hotdesk.text));
+const { t } = useI18n();
+const route = useRoute();
 
-export default {
-	name: 'OpenedDevice',
-	components: {
-		General,
-		PhoneInfo,
-		HotdeskGeneral,
-		HotdeskHotdesking,
-	},
-	mixins: [
-		openedObjectMixin,
+const {
+	hasSaveActionAccess,
+	hasDeleteAccess,
+	hasCreateAccess,
+	hasReadAccess,
+	hasUpdateAccess,
+} = useUserAccessControl();
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<ApiDevice>({
+	useCardStore: useDevicesCardStore,
+});
+
+const isHotdesk = computed(
+	() => route.query.type === 'hotdesk' || !!modelValue.value?.hotdesk,
+);
+
+watch(
+	[
+		isNew,
+		debouncedIsLoading,
+		isHotdesk,
 	],
-	setup: () => {
-		const v$ = useVuelidate();
-		const {
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		} = useUserAccessControl();
-
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'directory/devices',
-		permissionsTabPathName: `${DevicesRouteNames.PERMISSIONS}-card`,
-		routeName: RouteNames.DEVICES,
-	}),
-	validations() {
-		let itemInstance = {
-			name: {
-				required,
-			},
-			password: {
-				required: requiredUnless('id'),
-			},
-			account: {
-				required,
-			},
-			ip: {
-				ipValidator,
-			},
-			mac: {
-				macValidator,
-			},
-		};
-		if (this.itemInstance.hotdesk) {
-			itemInstance = {
-				...itemInstance,
-				hotdesks: {
-					hotDeskNameValidator,
-				},
-			};
+	() => {
+		if (
+			!isNew.value ||
+			debouncedIsLoading.value ||
+			route.query.type !== 'hotdesk' ||
+			modelValue.value?.hotdesk
+		) {
+			return;
 		}
-		return {
-			itemInstance,
-		};
+
+		modelValue.value.hotdesk = true;
+		modelValue.value.account = generateHotdeskAccount();
+		modelValue.value.hotdesks = [];
 	},
-
-	computed: {
-		isPermissionsTab() {
-			return this.$route.name === this.permissionsTabPathName;
-		},
-
-		permissionsStoreData() {
-			return {
-				store: useDevicesPermissionsStore,
-				access: {
-					read: this.hasReadAccess,
-					create: this.hasCreateAccess,
-					update: this.hasUpdateAccess,
-					delete: this.hasDeleteAccess,
-				},
-				parentId: this.$route.params.id,
-			};
-		},
-
-		isHotdesk() {
-			return this.$route.query.type === 'hotdesk' || this.itemInstance.hotdesk;
-		},
-
-		tabs() {
-			const defaultTabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: DevicesRouteNames.GENERAL,
-				},
-				{
-					text: this.$t('objects.directory.devices.phoneInfo'),
-					value: 'phone-info',
-					pathName: DevicesRouteNames.PHONE_INFO,
-				},
-			];
-
-			const hotdeskTabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'hotdesk-general',
-					pathName: DevicesRouteNames.GENERAL,
-				},
-				{
-					text: this.$t('objects.directory.devices.hotdesk'),
-					value: 'hotdesk-hotdesking',
-					pathName: DevicesRouteNames.HOTDESKING,
-				},
-				{
-					text: this.$t('objects.directory.devices.phoneInfo'),
-					value: 'phone-info',
-					pathName: DevicesRouteNames.PHONE_INFO,
-				},
-			];
-			if (this.isHotdesk) return hotdeskTabs;
-
-			if (this.id) defaultTabs.push(this.permissionsTab);
-			return defaultTabs;
-		},
-
-		path() {
-			const baseUrl = '/directory/devices';
-			return [
-				{
-					name: this.$t('objects.directory.directory'),
-				},
-				{
-					name: this.$t('objects.directory.devices.devices', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
+	{
+		immediate: true,
 	},
+);
 
-	methods: {
-		...mapActions({
-			loadTypedItem(dispatch, payload) {
-				return dispatch(`${this.namespace}/LOAD_ITEM`, payload);
+const tabs = computed(() => {
+	if (isHotdesk.value) {
+		return [
+			{
+				text: t('objects.general'),
+				value: 'general',
+				pathName: DevicesRouteNames.GENERAL,
 			},
-		}),
-		async loadPageData() {
-			if (!this.new) await this.setId(this.$route.params.id);
-			return this.loadItem();
-		},
-		loadItem() {
-			return this.loadTypedItem(this.isHotdesk);
-		},
-		close() {
-			this.$router.push({
-				name: RouteNames.DEVICES,
-			});
-		},
-	},
-};
-</script>
+			{
+				text: t('objects.directory.devices.hotdesk'),
+				value: 'hotdesking',
+				pathName: DevicesRouteNames.HOTDESKING,
+			},
+			{
+				text: t('objects.directory.devices.phoneInfo'),
+				value: 'phone-info',
+				pathName: DevicesRouteNames.PHONE_INFO,
+			},
+		];
+	}
 
-<style
-  lang="scss"
-  scoped
-></style>
+	const defaultTabs: {
+		text: string;
+		value: string;
+		pathName: string;
+	}[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: DevicesRouteNames.GENERAL,
+		},
+		{
+			text: t('objects.directory.devices.phoneInfo'),
+			value: 'phone-info',
+			pathName: DevicesRouteNames.PHONE_INFO,
+		},
+	];
+
+	if (!isNew.value) {
+		defaultTabs.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: DevicesRouteNames.PERMISSIONS,
+		});
+	}
+
+	return defaultTabs;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() => ({
+	store: useDevicesPermissionsStore,
+	access: {
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		read: hasReadAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: route.params.id,
+}));
+
+const { close } = useClose(RouteNames.DEVICES);
+
+const path = computed(() => [
+	{
+		name: t('objects.directory.directory'),
+	},
+	{
+		name: t('objects.directory.devices.devices', 2),
+		route: '/directory/devices',
+	},
+	{
+		name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
+	},
+]);
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
+</script>
