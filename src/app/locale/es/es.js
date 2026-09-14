@@ -968,6 +968,8 @@ export default {
 				teams: 'Equipo | Equipos',
 				tags: 'Etiquetas',
 				newQueue: 'Nueva cola',
+				saveBeforeAddingRecords:
+					'Complete los campos obligatorios de la cola antes de agregar registros',
 				blacklist: 'Lista de parada',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>

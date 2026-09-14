@@ -960,6 +960,8 @@ export default {
 				teams: 'Đội',
 				tags: 'Thẻ',
 				newQueue: 'Hàng đợi mới',
+				saveBeforeAddingRecords:
+					'Điền các trường bắt buộc của hàng đợi trước khi thêm bản ghi',
 				blacklist: 'Danh sách dừng',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>

@@ -966,6 +966,8 @@ export default {
 				teams: 'Echipă | Echipe',
 				tags: 'Etichete',
 				newQueue: 'Coadă nouă',
+				saveBeforeAddingRecords:
+					'Completați câmpurile obligatorii ale cozii înainte de a adăuga înregistrări',
 				blacklist: 'Listă de oprire',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>

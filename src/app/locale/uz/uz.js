@@ -967,6 +967,8 @@ export default {
 				teams: 'Jamoa | Jamoalar',
 				tags: 'Teglar',
 				newQueue: "Yangi qo'yuv",
+				saveBeforeAddingRecords:
+					"Yozuvlarni qo'shishdan oldin navbatning majburiy maydonlarini to'ldiring",
 				blacklist: "To'xtash ro'yxati",
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
