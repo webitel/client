@@ -1,6 +1,6 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
+    :shown="shown"
     size="sm"
     @close="close"
   >

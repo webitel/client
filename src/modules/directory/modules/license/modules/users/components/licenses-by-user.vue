@@ -191,6 +191,8 @@ const {
 	isLoading,
 });
 
+const instance = getCurrentInstance();
+
 onMounted(async () => {
 	const { items: licenses } = await LicenseAPI.getList({
 		size: 100,
@@ -204,7 +206,6 @@ onMounted(async () => {
 
 	updateShownHeaders(buildLicenseByUserHeaders(licenses));
 
-	const instance = getCurrentInstance();
 	instance?.appContext.app.runWithContext(() => initialize());
 });
 </script>
