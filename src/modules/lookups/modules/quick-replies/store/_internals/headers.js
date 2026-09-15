@@ -17,13 +17,11 @@ export default [
 		value: 'teams',
 		locale: 'objects.team',
 		field: 'teams',
-		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'queues',
 		locale: 'objects.ccenter.queues.queues',
 		field: 'queues',
-		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'createdAt',
