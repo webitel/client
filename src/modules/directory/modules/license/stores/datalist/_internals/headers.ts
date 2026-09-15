@@ -7,12 +7,14 @@ export const headers: DatalistTableHeader[] = [
 		locale: 'objects.directory.license.licenseId',
 		width: '50px',
 		field: 'id',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'product',
 		locale: 'objects.directory.license.product',
 		field: 'product',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
@@ -20,30 +22,35 @@ export const headers: DatalistTableHeader[] = [
 		locale: 'objects.directory.license.validFrom',
 		width: '150px',
 		field: 'not_before',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'valid-till',
 		locale: 'objects.directory.license.validTill',
 		field: 'not_after',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'used',
 		locale: 'objects.directory.license.used',
 		field: 'used',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'limit',
 		locale: 'objects.directory.license.limit',
 		field: 'limit',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'competitive',
 		locale: 'objects.directory.license.competitive',
 		field: 'competitive',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 	{
@@ -51,6 +58,7 @@ export const headers: DatalistTableHeader[] = [
 		locale: 'objects.directory.license.status',
 		width: '120px',
 		field: 'not_after',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 ];

@@ -198,4 +198,8 @@ watch(
 .table-section__table-wrapper {
   max-height: 60vh;
 }
+
+.table-title {
+  justify-content: right;
+}
 </style>
