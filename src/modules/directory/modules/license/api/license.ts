@@ -5,7 +5,6 @@ import {
 import applyTransform, {
 	camelToSnake,
 	generateUrl,
-	log,
 	merge,
 	mergeEach,
 	notify,
@@ -19,7 +18,7 @@ import instance from '../../../../../app/api/instance';
 const LICENSE_URL = '/license';
 const CUSTOMER_URL = '/customer';
 
-const getLicenseList = async (params) => {
+const getLicenseList = async (params: Record<string, unknown>) => {
 	const fieldsToSend = [
 		'page',
 		'size',
@@ -37,9 +36,11 @@ const getLicenseList = async (params) => {
 	const url = applyTransform(params, [
 		merge(getDefaultGetParams()),
 		starToSearch('search'),
-		(params) => ({
+		starToSearch('q'),
+		(params: Record<string, unknown>) => ({
 			...params,
-			q: params.search,
+			// filtersManager may pass `q` (Path A) or legacy `search`
+			q: params.q ?? params.search,
 		}),
 		sanitize(fieldsToSend),
 		camelToSnake(),
@@ -54,7 +55,6 @@ const getLicenseList = async (params) => {
 		return {
 			items: applyTransform(items, [
 				mergeEach(defaultObject),
-				log,
 			]),
 			next,
 		};
@@ -64,7 +64,8 @@ const getLicenseList = async (params) => {
 		]);
 	}
 };
-const updateLicense = async (data) => {
+
+const updateLicense = async (data: { certificate: string }) => {
 	try {
 		const response = await instance.put(CUSTOMER_URL, data);
 		return applyTransform(response.data, []);
@@ -75,9 +76,9 @@ const updateLicense = async (data) => {
 	}
 };
 
-const licenseAPI = {
+export const LicenseAPI = {
 	getList: getLicenseList,
 	update: updateLicense,
 };
 
-export default licenseAPI;
+export default LicenseAPI;

@@ -1,4 +1,4 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default Object.freeze({
 	ALL: `${RouteNames.LICENSE}-all`,

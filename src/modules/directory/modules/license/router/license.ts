@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import LicencesRouteNames from './_internals/LicencesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import LicencesRouteNames from './_internals/LicencesRouteNames.enum';
 
 const License = () => import('../components/the-license.vue');
 const AllLicenses = () => import('../components/all-licenses/all-licenses.vue');

@@ -181,7 +181,7 @@ import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins
 import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
-import LicenseAPI from '../../license/api/license';
+import { LicenseAPI } from '../../license/api/license';
 import Qrcode from './_internals/qrcode-two-factor-auth.vue';
 
 export default {

@@ -5,7 +5,6 @@ import {
 import applyTransform, {
 	camelToSnake,
 	generateUrl,
-	log,
 	merge,
 	mergeEach,
 	notify,
@@ -19,7 +18,12 @@ import instance from '../../../../../../../app/api/instance';
 const baseUrl = '/products';
 const nestedUrl = 'users';
 
-const getList = async ({ parentId, ...rest }) => {
+const getList = async ({
+	parentId,
+	...rest
+}: Record<string, unknown> & {
+	parentId?: string;
+}) => {
 	const fieldsToSend = [
 		'page',
 		'size',
@@ -34,12 +38,12 @@ const getList = async ({ parentId, ...rest }) => {
 	};
 
 	const url = applyTransform(rest, [
-		log,
 		merge(getDefaultGetParams()),
 		starToSearch('search'),
-		(params) => ({
+		starToSearch('q'),
+		(params: Record<string, unknown>) => ({
 			...params,
-			q: params.search,
+			q: params.q ?? params.search,
 		}),
 		sanitize(fieldsToSend),
 		camelToSnake(),
@@ -64,7 +68,7 @@ const getList = async ({ parentId, ...rest }) => {
 	}
 };
 
-const LicenseUsersAPI = {
+export const LicenseUsersAPI = {
 	getList,
 };
 

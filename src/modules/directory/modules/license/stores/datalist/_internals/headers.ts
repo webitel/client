@@ -1,6 +1,7 @@
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
-export default [
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'id',
 		locale: 'objects.directory.license.licenseId',
