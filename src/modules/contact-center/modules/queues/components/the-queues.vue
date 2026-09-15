@@ -95,7 +95,6 @@
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
-            :active-filters="activeFilters"
             sortable
             @sort="updateSort"
             @update:selected="updateSelected"
@@ -323,8 +322,6 @@ const path = computed(() => [
 		route: '/contact-center/queues',
 	},
 ]);
-
-const activeFilters = computed(() => filtersManager.value.getAllKeys());
 
 const resetFilters = () => {
 	filtersManager.value.reset({
