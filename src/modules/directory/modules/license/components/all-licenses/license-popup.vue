@@ -10,15 +10,16 @@
     <template #main>
       <form @submit.prevent="save">
         <wt-input-text
-          v-model:model-value="certificate"
+          v-model:model-value="draft.certificate"
           :label="t('objects.directory.license.licenseKey')"
+          :regle-validation="r$.$fields.certificate"
           required
         />
       </form>
     </template>
     <template #actions>
       <wt-button
-        :disabled="invalid"
+        :disabled="r$.$invalid"
         @click="save"
       >
         {{ t('objects.add') }}
@@ -34,11 +35,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { useRegleSchema } from '@regle/schemas';
+import { LicenseAPI } from '@webitel/api-services/api';
+import { licenseImportSchema } from '@webitel/api-services/validations';
+import { nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { LicenseAPI } from '../../api/license';
 import { useLicenseDatalistStore } from '../../stores';
+
+const props = defineProps<{
+	shown?: boolean;
+}>();
 
 const emit = defineEmits<{
 	close: [];
@@ -47,19 +54,43 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const { loadDataList } = useLicenseDatalistStore();
 
-const certificate = ref('');
+const draft = ref({
+	certificate: '',
+});
 
-const invalid = computed(() => !certificate.value.trim());
+const { r$ } = useRegleSchema(draft, licenseImportSchema, {
+	autoDirty: true,
+	syncState: {
+		onValidate: true,
+	},
+});
 
 const close = () => emit('close');
 
 const save = async () => {
-	if (invalid.value) return;
+	const { valid } = await r$.$validate();
+	if (!valid) return;
 
 	await LicenseAPI.update({
-		certificate: certificate.value,
+		certificate: draft.value.certificate,
 	});
 	await loadDataList();
 	close();
 };
+
+watch(
+	() => props.shown,
+	async (shown) => {
+		if (!shown) return;
+
+		draft.value = {
+			certificate: '',
+		};
+		await nextTick();
+		r$.$fields.certificate.$touch();
+	},
+	{
+		immediate: true,
+	},
+);
 </script>

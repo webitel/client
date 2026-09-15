@@ -17,7 +17,10 @@
     <template #main>
       <section class="table-section">
         <header class="table-title">
-          <wt-action-bar :include="[IconAction.REFRESH]" @click:refresh="loadDataList">
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.COLUMNS]"
+            @click:refresh="loadDataList"
+          >
             <template #search-bar>
               <dynamic-filter-search
                 :filters-manager="filtersManager"
@@ -26,6 +29,13 @@
                 @filter:add="addFilter"
                 @filter:update="updateFilter"
                 @filter:delete="deleteFilter"
+              />
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                enable-search
+                @change="updateShownHeaders"
               />
             </template>
           </wt-action-bar>
@@ -41,7 +51,11 @@
             :grid-actions="false"
             :headers="shownHeaders"
             :selectable="false"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
           >
             <template #domain="{ item }">
@@ -118,6 +132,7 @@ const {
 	page,
 	size,
 	next,
+	headers,
 	shownHeaders,
 	filtersManager,
 	isFiltersRestoring,
@@ -132,6 +147,9 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 const licenseId = computed(() => route.params.id as string | undefined);

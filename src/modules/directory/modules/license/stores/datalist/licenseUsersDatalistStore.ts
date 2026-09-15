@@ -1,6 +1,6 @@
+import { LicenseUsersAPI } from '@webitel/api-services/api';
 import { createTableStore } from '@webitel/ui-datalist';
 
-import { LicenseUsersAPI } from '../../modules/license-users/api/licenseUsers';
 import { LicenseNamespace } from '../namespace';
 import { licenseUsersHeaders } from './_internals/licenseUsersHeaders';
 

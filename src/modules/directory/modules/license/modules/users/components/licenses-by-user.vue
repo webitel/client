@@ -20,6 +20,7 @@
           <wt-table-column-select
             :headers="headers"
             :static-headers="staticHeaderValues"
+            enable-search
             @change="updateShownHeaders"
           />
         </template>
@@ -41,7 +42,11 @@
         :grid-actions="false"
         :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
         @sort="updateSort"
       >
         <template #name="{ item }">
@@ -82,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { UsersAPI } from '@webitel/api-services/api';
+import { LicenseAPI, UsersAPI } from '@webitel/api-services/api';
 import type { ApiLicenseUser } from '@webitel/api-services/gen/models';
 import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
@@ -93,7 +98,6 @@ import { computed, getCurrentInstance, onMounted } from 'vue';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import { LicenseAPI } from '../../../api/license';
 import { buildLicenseByUserHeaders } from '../../../scripts/buildLicenseByUserHeaders';
 import {
 	type LicenseByUserRow,
@@ -129,6 +133,8 @@ const {
 	updateFilter,
 	deleteFilter,
 	updateShownHeaders,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 const staticHeaderValues = [

@@ -12,7 +12,7 @@
     <header class="table-title">
       <h3 class="table-title__title" />
       <wt-action-bar
-        :include="[IconAction.REFRESH, IconAction.ADD]"
+        :include="[IconAction.REFRESH, IconAction.ADD, IconAction.COLUMNS]"
         :disabled:add="!hasCreateAccess"
         @click:refresh="loadDataList"
         @click:add="openLicensePopup"
@@ -25,6 +25,13 @@
             @filter:add="addFilter"
             @filter:update="updateFilter"
             @filter:delete="deleteFilter"
+          />
+        </template>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            enable-search
+            @change="updateShownHeaders"
           />
         </template>
       </wt-action-bar>
@@ -45,7 +52,11 @@
         :grid-actions="false"
         :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
         @sort="updateSort"
       >
         <template #id="{ item }">
@@ -141,6 +152,7 @@ const {
 	page,
 	size,
 	next,
+	headers,
 	shownHeaders,
 	filtersManager,
 	isFiltersRestoring,
@@ -155,6 +167,9 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 initialize();
