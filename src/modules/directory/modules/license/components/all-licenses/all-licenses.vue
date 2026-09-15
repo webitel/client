@@ -6,54 +6,58 @@
     />
     <license-users-popup
       v-if="isLicenseUsersPopup"
-      :namespace="namespace"
       @close="closeLicenseUsersPopup"
     />
+
     <header class="table-title">
-      <h3 class="table-title__title">
-        <!--        {{ $t('objects.directory.license.allLicenses') }}-->
-      </h3>
-      <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        >
-          <adm-item-link
-            v-if="hasCreateAccess"
-            id="new"
-            :route-name="LicencesRouteNames.ALL"
-          >
-            <wt-icon-action action="add" />
-          </adm-item-link>
-        </wt-table-actions>
-      </div>
+      <h3 class="table-title__title" />
+      <wt-action-bar
+        :include="[IconAction.REFRESH, IconAction.ADD, IconAction.COLUMNS]"
+        :disabled:add="!hasCreateAccess"
+        @click:refresh="loadDataList"
+        @click:add="openLicensePopup"
+      >
+        <template #search-bar>
+          <dynamic-filter-search
+            :filters-manager="filtersManager"
+            :is-filters-restoring="isFiltersRestoring"
+            single-search-name="q"
+            @filter:add="addFilter"
+            @filter:update="updateFilter"
+            @filter:delete="deleteFilter"
+          />
+        </template>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            enable-search
+            @change="updateShownHeaders"
+          />
+        </template>
+      </wt-action-bar>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
         :grid-actions="false"
-        :headers="headers"
+        :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
       >
         <template #id="{ item }">
           <wt-copy-action :value="item.id" />
@@ -77,20 +81,22 @@
         </template>
 
         <template #used="{ item }">
-          <adm-item-link
-            :id="item.id"
-            :route-name="LicencesRouteNames.ALL"
+          <wt-item-link
+            :link="{
+              name: `${LicencesRouteNames.ALL}-card`,
+              params: { id: item.id },
+            }"
           >
             <wt-icon
               icon="license-users"
               icon-prefix="adm"
             />
-            {{ item.limit - item.remain }}
-          </adm-item-link>
+            {{ (item.limit ?? 0) - (item.remain ?? 0) }}
+          </wt-item-link>
         </template>
 
         <template #competitive="{ item }">
-          {{ item.competitive ? $t('reusable.true') : '' }}
+          {{ item.competitive ? t('reusable.true') : '' }}
         </template>
 
         <template #status="{ item }">
@@ -102,123 +108,140 @@
           </wt-chip>
         </template>
       </wt-table>
+
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+<script setup lang="ts">
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
-import LicencesRouteNames from '../../router/_internals/LicencesRouteNames.enum.js';
+import LicencesRouteNames from '../../router/_internals/LicencesRouteNames.enum';
+import { useLicenseDatalistStore } from '../../stores';
 import LicensePopup from './license-popup.vue';
 
-const namespace = 'directory/license';
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const { hasCreateAccess } = useUserAccessControl();
 
-export default {
-	name: 'AllLicenses',
-	components: {
-		LicensePopup,
-		LicenseUsersPopup,
-	},
-	mixins: [
-		tableComponentMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-		});
-		const { hasCreateAccess } = useUserAccessControl();
-		return {
-			dummy,
-			hasCreateAccess,
-		};
-	},
-	data: () => ({
-		namespace,
-		isLicensePopup: false,
-		isLicenseUsersPopup: false,
-		LicencesRouteNames,
-		routeName: RouteNames.LICENSE,
-	}),
-	computed: {
-		licenseId() {
-			return this.$route.params.id;
-		},
-	},
-	watch: {
-		licenseId: {
-			async handler(value) {
-				if (value === 'new') {
-					this.openLicensePopup();
-				} else if (value) {
-					this.openLicenseUsersPopup();
-				}
-			},
-			immediate: true,
-		},
-	},
-	methods: {
-		openLicensePopup() {
-			this.isLicensePopup = true;
-		},
-		closeLicensePopup() {
-			this.$router.go(-1); // remove license id
-			this.isLicensePopup = false;
-		},
-		openLicenseUsersPopup() {
-			this.isLicenseUsersPopup = true;
-		},
-		closeLicenseUsersPopup() {
-			this.$router.go(-1);
-			this.isLicenseUsersPopup = false;
-		},
+const tableStore = useLicenseDatalistStore();
 
-		prettifyDate(date) {
-			return formatDate(+date, FormatDateMode.DATE);
-		},
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(tableStore);
 
-		statusText(endDate) {
-			const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-			if (daysLeft <= 0)
-				return this.$t('objects.directory.license.daysToExpire.0');
-			if (daysLeft < 30)
-				return this.$t('objects.directory.license.daysToExpire.30');
-			if (daysLeft < 90)
-				return this.$t('objects.directory.license.daysToExpire.90');
-			return daysLeft + this.$t('objects.directory.license.daysToExpire.days');
-		},
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+} = tableStore;
 
-		statusColor(endDate) {
-			const daysLeft = Math.ceil((endDate - Date.now()) / 1000 / 60 / 60 / 24);
-			if (daysLeft <= 0) return 'error';
-			if (daysLeft < 30) return 'warning';
-			if (daysLeft < 90) return 'success';
-			return 'success';
+initialize();
+
+const licenseId = computed(() => route.params.id as string | undefined);
+
+const isLicensePopup = computed(() => licenseId.value === 'new');
+const isLicenseUsersPopup = computed(
+	() => !!licenseId.value && licenseId.value !== 'new',
+);
+
+const openLicensePopup = () =>
+	router.push({
+		name: `${LicencesRouteNames.ALL}-card`,
+		params: {
+			id: 'new',
 		},
-	},
+		query: route.query,
+	});
+
+const closeLicensePopup = () => {
+	router.push({
+		name: `${LicencesRouteNames.ALL}-card`,
+		query: route.query,
+	});
 };
+
+const closeLicenseUsersPopup = () => {
+	router.push({
+		name: `${LicencesRouteNames.ALL}-card`,
+		query: route.query,
+	});
+};
+
+const prettifyDate = (date?: string | number) => {
+	if (!date) return '';
+	return formatDate(+date, FormatDateMode.DATE);
+};
+
+const daysLeft = (endDate?: string | number) => {
+	if (!endDate) return 0;
+	return Math.ceil((+endDate - Date.now()) / 1000 / 60 / 60 / 24);
+};
+
+const statusText = (endDate?: string | number) => {
+	const left = daysLeft(endDate);
+	if (left <= 0) return t('objects.directory.license.daysToExpire.0');
+	if (left < 30) return t('objects.directory.license.daysToExpire.30');
+	if (left < 90) return t('objects.directory.license.daysToExpire.90');
+	return left + t('objects.directory.license.daysToExpire.days');
+};
+
+const statusColor = (endDate?: string | number) => {
+	const left = daysLeft(endDate);
+	if (left <= 0) return 'error';
+	if (left < 30) return 'warning';
+	return 'success';
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style lang="scss" scoped>
 .all-licenses__product-cell {
   display: flex;
   align-items: center;
