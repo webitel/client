@@ -8,21 +8,34 @@
       {{ t('objects.directory.devices.deviceHistory') }}
     </template>
     <template #main>
-      <section class="history-popup">
-        <div class="history-popup__filters">
-          <wt-datepicker
-            :label="t('objects.from')"
-            :model-value="from"
-            show-time
-            @update:model-value="selectFrom"
-          />
-          <wt-datepicker
-            :label="t('objects.to')"
-            :model-value="to"
-            show-time
-            @update:model-value="selectTo"
-          />
-        </div>
+      <section class="history-popup table-section">
+        <header class="table-title">
+          <div class="table-title__actions-wrap">
+            <wt-action-bar
+              :include="[IconAction.REFRESH, IconAction.COLUMNS]"
+              @click:refresh="loadDataList"
+            >
+              <template #columns>
+                <wt-table-column-select
+                  :headers="headers"
+                  enable-search
+                  @change="updateShownHeaders"
+                />
+              </template>
+            </wt-action-bar>
+          </div>
+        </header>
+
+        <table-filters-panel
+          :filter-options="historyFiltersOptions"
+          :filters-manager="filtersManager"
+          static-mode
+          @filter:add="addFilter"
+          @filter:delete="deleteFilter"
+          @filter:reset-all="resetFilters"
+          @filter:update="updateFilter"
+        />
+
         <div class="table-section__table-wrapper">
           <wt-loader v-show="isLoading" />
           <wt-table
@@ -31,6 +44,10 @@
             :grid-actions="false"
             :headers="shownHeaders"
             :selectable="false"
+            reorderable-columns
+            resizable-columns
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
           >
             <template #loggedIn="{ item }">
               {{ prettifyTime(item.loggedIn) }}
@@ -71,13 +88,19 @@
 </template>
 
 <script setup lang="ts">
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import {
+	FilterOption,
+	TableFiltersPanelComponent as TableFiltersPanel,
+} from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
+import { historyFiltersOptions } from '../configs/historyFiltersOptions';
 import { useDevicesHistoryDatalistStore } from '../stores';
 
 const emit = defineEmits<{
@@ -86,85 +109,59 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 const route = useRoute();
-const router = useRouter();
 
 const historyStore = useDevicesHistoryDatalistStore();
 
-const { dataList, isLoading, page, size, next, shownHeaders, filtersManager } =
-	storeToRefs(historyStore);
+const {
+	dataList,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(historyStore);
 
-const { initialize, updatePage, updateSize, addFilter, updateFilter } =
-	historyStore;
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	hasFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+} = historyStore;
 
 const historyId = computed(() => route.params.historyId as string | undefined);
 
-const from = computed(
-	() =>
-		(filtersManager.value.getFilter('from')?.value as number | undefined) ??
-		new Date().setHours(0, 0, 0, 0),
-);
-const to = computed(
-	() =>
-		(filtersManager.value.getFilter('to')?.value as number | undefined) ??
-		Date.now(),
-);
+const todaysRange = () => ({
+	from: startOfToday().getTime(),
+	to: endOfToday().getTime(),
+});
 
-const ensurePeriodFilters = () => {
-	const defaults = {
-		from: new Date().setHours(0, 0, 0, 0),
-		to: Date.now(),
-	};
+const ensureCreatedAtFilter = () => {
+	if (hasFilter(FilterOption.CreatedAt)) return;
 
-	for (const [name, value] of Object.entries(defaults)) {
-		if (filtersManager.value.hasFilter(name)) {
-			updateFilter({
-				name,
-				value: filtersManager.value.getFilter(name)?.value ?? value,
-			});
-		} else {
-			addFilter({
-				name,
-				value,
-			});
-		}
-	}
-};
-
-const setPeriodFilter = (name: 'from' | 'to', value: number) => {
-	if (filtersManager.value.hasFilter(name)) {
-		updateFilter({
-			name,
-			value,
-		});
-	} else {
-		addFilter({
-			name,
-			value,
-		});
-	}
-};
-
-const selectFrom = (value: number) => {
-	setPeriodFilter('from', value);
-	router.push({
-		...route,
-		query: {
-			...route.query,
-			from: String(value),
-			to: String(to.value),
-		},
+	addFilter({
+		name: FilterOption.CreatedAt,
+		value: todaysRange(),
 	});
 };
 
-const selectTo = (value: number) => {
-	setPeriodFilter('to', value);
-	router.push({
-		...route,
-		query: {
-			...route.query,
-			to: String(value),
-			from: String(from.value),
-		},
+const resetFilters = () => {
+	filtersManager.value.reset({
+		exclude: [
+			FilterOption.CreatedAt,
+		],
+	});
+	filtersManager.value.updateFilter({
+		name: FilterOption.CreatedAt,
+		value: todaysRange(),
 	});
 };
 
@@ -180,20 +177,19 @@ watch(
 	(id) => {
 		if (!id) return;
 
+		ensureCreatedAtFilter();
 		initialize({
 			parentId: id,
 		});
-		ensurePeriodFilters();
-
-		const fromQuery = route.query.from;
-		const toQuery = route.query.to;
-		if (fromQuery && toQuery) {
-			setPeriodFilter('from', Number(fromQuery));
-			setPeriodFilter('to', Number(toQuery));
-		}
 	},
 	{
 		immediate: true,
 	},
 );
 </script>
+
+<style lang="scss" scoped>
+.table-title {
+  justify-content: flex-end;
+}
+</style>

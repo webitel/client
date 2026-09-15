@@ -1,4 +1,5 @@
 import { DevicesAPI } from '@webitel/api-services/api';
+import { normalizeDatetimeRange } from '@webitel/api-services/scripts';
 import { createTableStore } from '@webitel/ui-datalist';
 
 import { DevicesNamespace } from '../namespace';
@@ -9,7 +10,14 @@ export const useDevicesHistoryDatalistStore = createTableStore(
 	`${DevicesNamespace}/history/datalist`,
 	{
 		apiModule: {
-			getList: DevicesAPI.getDeviceHistory,
+			getList: ({ createdAt, ...params }) => {
+				const range = normalizeDatetimeRange(createdAt);
+				return DevicesAPI.getDeviceHistory({
+					...params,
+					from: range?.from,
+					to: range?.to,
+				});
+			},
 		},
 		headers: historyHeaders,
 		disablePersistence: true,

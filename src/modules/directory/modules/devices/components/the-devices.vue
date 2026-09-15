@@ -36,7 +36,12 @@
             {{ t('objects.directory.devices.allDevices') }}
           </h3>
           <wt-action-bar
-            :include="[IconAction.REFRESH, IconAction.DELETE, IconAction.UPLOAD]"
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.UPLOAD,
+              IconAction.COLUMNS,
+            ]"
             :disabled:delete="!hasDeleteAccess || !selected.length"
             @click:refresh="loadDataList"
             @click:delete="
@@ -64,6 +69,13 @@
                 @change="processCSV"
               />
             </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                enable-search
+                @change="updateShownHeaders"
+              />
+            </template>
           </wt-action-bar>
         </header>
 
@@ -84,7 +96,11 @@
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -196,6 +212,7 @@ const {
 	page,
 	size,
 	next,
+	headers,
 	shownHeaders,
 	filtersManager,
 	isFiltersRestoring,
@@ -212,6 +229,9 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 initialize();
