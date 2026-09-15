@@ -6,7 +6,7 @@ import QueuesRoutes from '../../modules/contact-center/modules/queues/router/que
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
 import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
 import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams.js';
-import DevicesRoutes from '../../modules/directory/modules/devices/router/devices.js';
+import DevicesRoutes from '../../modules/directory/modules/devices/router/devices';
 import LicenseRoutes from '../../modules/directory/modules/license/router/license.js';
 import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js';
 import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';

@@ -1,8 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import DevicesRouteNames from './_internals/DevicesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DevicesRouteNames from './_internals/DevicesRouteNames.enum';
 
 const Devices = () => import('../components/the-devices.vue');
 const OpenedDevice = () => import('../components/opened-device.vue');
@@ -10,8 +10,6 @@ const OpenedDeviceGeneral = () =>
 	import('../components/opened-device-general.vue');
 const OpenedDevicePhoneInfo = () =>
 	import('../components/opened-device-phone-info.vue');
-const OpenedHotdeskDeviceGeneral = () =>
-	import('../components/opened-hotdesk-device-general.vue');
 const OpenedHotdeskDeviceHotdesking = () =>
 	import('../components/opened-hotdesk-device-hotdesking.vue');
 
@@ -55,18 +53,13 @@ const DevicesRoutes = [
 				component: OpenedDevicePhoneInfo,
 			},
 			{
-				path: 'general',
-				name: DevicesRouteNames.GENERAL,
-				component: OpenedHotdeskDeviceGeneral,
-			},
-			{
 				path: 'hotdesking',
 				name: DevicesRouteNames.HOTDESKING,
 				component: OpenedHotdeskDeviceHotdesking,
 			},
 			{
 				path: 'permissions/:permissionId?',
-				name: `${DevicesRouteNames.PERMISSIONS}-card`,
+				name: DevicesRouteNames.PERMISSIONS,
 				component: PermissionsTab,
 			},
 		],
