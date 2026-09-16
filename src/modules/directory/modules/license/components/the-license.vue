@@ -10,74 +10,67 @@
     </template>
     <template #main>
       <div class="table-page-tabs-group-wrapper">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <component :is="currentTab.value" />
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <router-view />
       </div>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import LicensesByUser from '../modules/users/components/licenses-by-user.vue';
-import LicencesRouteNames from '../router/_internals/LicencesRouteNames.enum.js';
-import AllLicenses from './all-licenses/all-licenses.vue';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
-export default {
-	name: 'TheLicense',
-	components: {
-		AllLicenses,
-		LicensesByUser,
+import LicencesRouteNames from '../router/_internals/LicencesRouteNames.enum';
+
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
+const path = computed(() => [
+	{
+		name: t('objects.directory.directory'),
 	},
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.directory.directory'),
-				},
-				{
-					name: this.$t('objects.directory.license.license', 2),
-					route: '/directory/license',
-				},
-			];
-		},
-		tabs() {
-			const allLicenses = {
-				value: 'all-licenses',
-				text: this.$t('objects.directory.license.allLicenses'),
-				pathName: `${LicencesRouteNames.ALL}-card`,
-			};
-			const licensesByUser = {
-				value: 'licenses-by-user',
-				text: this.$t('objects.user', 2),
-				pathName: LicencesRouteNames.BY_USER,
-			};
-			return [
-				allLicenses,
-				licensesByUser,
-			];
-		},
-		currentTab() {
-			return (
-				this.tabs.find(({ pathName }) => this.$route.name === pathName) ||
-				this.tabs[0]
-			);
-			//   undefined currentTab
-		},
+	{
+		name: t('objects.directory.license.license', 2),
+		route: '/directory/license',
 	},
-	methods: {
-		changeTab(tab) {
-			this.$router.push({
-				name: tab.pathName,
-			});
-		},
+]);
+
+const tabs = computed(() => [
+	{
+		value: 'all-licenses',
+		text: t('objects.directory.license.allLicenses'),
+		pathName: `${LicencesRouteNames.ALL}-card`,
 	},
+	{
+		value: 'licenses-by-user',
+		text: t('objects.user', 2),
+		pathName: LicencesRouteNames.BY_USER,
+	},
+]);
+
+const currentTab = computed(
+	() =>
+		tabs.value.find(({ pathName }) => pathName === route.name) || tabs.value[0],
+);
+
+const changeTab = (tab: { pathName: string }) => {
+	router.push({
+		name: tab.pathName,
+	});
 };
 </script>
 
 <style lang="scss" scoped>
-  .table-page-tabs-group-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%; 
-  }
+.table-page-tabs-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 </style>

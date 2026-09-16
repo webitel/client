@@ -1,16 +1,16 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon
         icon="web-chat"
         icon-prefix="messenger"
         size="sm"
       />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.chatGateways.webchat.recaptcha.recaptcha') }}
       </h3>
     </header>
-    <div class="object-input-grid object-input-grid__w50 object-input-grid__1-col">
+    <div class="opened-card-input-grid opened-card-input-grid--w50 opened-card-input-grid--1-col">
       <wt-switcher
         :disabled="disableUserInput"
         :label="$t('objects.enabled')"

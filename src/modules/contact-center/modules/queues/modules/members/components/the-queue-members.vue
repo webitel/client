@@ -186,11 +186,15 @@
                 class="members__destinations-wrapper"
               >
                 <span>{{ item.communications[0].destination }}</span>
-                <wt-chip
+                <div
                   v-if="item.communications.length > 1"
                   class="members__destinations-num"
-                  @click="destinationsOnPopup = item.communications"
-                >+{{ item.communications.length - 1 }}</wt-chip>
+                  tabindex="0"
+                  @click.prevent="destinationsOnPopup = item.communications"
+                  @keydown.enter.prevent="destinationsOnPopup = item.communications"
+                >
+                  <wt-chip>+{{ item.communications.length - 1 }}</wt-chip>
+                </div>
               </div>
             </template>
             <template #attempts="{ item }">
@@ -569,11 +573,15 @@ onMounted(() =>
 
 .members__destinations-wrapper {
   display: flex;
+  align-items: flex-start;
   gap: var(--spacing-xs);
 }
 
 .members__destinations-num {
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  user-select: none;
 }
 
 .upload-file-input {

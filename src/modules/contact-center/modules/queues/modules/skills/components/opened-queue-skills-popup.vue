@@ -10,7 +10,10 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form @submit.prevent="save">
+      <form 
+      class="opened-card-input-grid opened-card-input-grid--1-col"
+      @submit.prevent="save" 
+      >
         <wt-single-select
           v-model:model-value="modelValue.skill"
           :disabled="!hasSkillsReadAccess"
@@ -24,6 +27,7 @@
           v-model:model-value="modelValue.lvl"
           :label="t('objects.lookups.skills.lvl')"
           :regle-validation="validationFields?.lvl"
+          required
         />
         <div class="input-row-wrap">
           <wt-input-number
@@ -108,8 +112,9 @@ const {
 const skillId = computed(() => route.params.skillId);
 
 const popupTitle = computed(() => {
-	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
-	return `${action} ${t('objects.lookups.skills.skills', 1).toLowerCase()}`;
+	return isNew.value
+		? t('objects.ccenter.agents.addSkill')
+		: t('objects.ccenter.agents.editSkill');
 });
 
 const { close } = useClose(QueuesRoutesName.SKILLS);
@@ -124,4 +129,13 @@ const loadSkillsOptions = (params: unknown) => SkillsAPI.getLookup(params);
 const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.input-row-wrap {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.input-row-wrap > * {
+  flex: 1;
+}
+</style>

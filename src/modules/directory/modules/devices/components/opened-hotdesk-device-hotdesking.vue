@@ -1,57 +1,53 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
-        {{ $t('objects.directory.devices.hotdesk') }}
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.directory.devices.hotdesk') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-multi-select
+        v-model:model-value="modelValue.hotdesks"
         :custom-validators="hotDeskNameValidator"
         :disabled="disableUserInput"
-        :label="$t('objects.directory.devices.hostName')"
-        :label-props="{ hint: $t('objects.directory.devices.hotdeskInputHint') }"
-        :v="v.itemInstance.hotdesks"
-        :model-value="itemInstance.hotdesks"
-        :options="itemInstance.hotdesks"
+        :label="t('objects.directory.devices.hostName')"
+        :label-props="{ hint: t('objects.directory.devices.hotdeskInputHint') }"
+        :options="modelValue.hotdesks"
+        :regle-validation="validationFields?.hotdesks"
         :data-key="null"
         chips-view
         allow-custom-values
-        @update:model-value="setItemProp({ prop: 'hotdesks', value: $event })"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import type { ApiDevice } from '@webitel/api-services/gen/models';
+import { WtMultiSelect } from '@webitel/ui-sdk/components';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedDeviceHotdesking',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
+const modelValue = defineModel<ApiDevice>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: {
+		[K in keyof ApiDevice]?: RegleSchemaFieldStatus<ApiDevice[K]>;
+	};
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const hotDeskNameValidator = computed(() => [
+	{
+		name: 'hotDeskNameValidator',
+		text: t('objects.directory.devices.hotdeskIncorrectInput'),
 	},
-	computed: {
-		hotDeskNameValidator() {
-			return [
-				{
-					name: 'hotDeskNameValidator',
-					text: this.$t('objects.directory.devices.hotdeskIncorrectInput'),
-				},
-			];
-		},
-	},
-};
+]);
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

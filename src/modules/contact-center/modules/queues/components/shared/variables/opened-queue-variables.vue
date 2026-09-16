@@ -1,7 +1,7 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+  <section class="opened-queue-variables">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ t('objects.ccenter.queues.variables') }}
       </h3>
       <wt-icon-action
@@ -10,7 +10,16 @@
         @click="addVariable"
       />
     </header>
-    <form class="object-input-grid">
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+
+    <form
+      v-show="variables.length"
+      class="opened-card-input-grid"
+    >
       <div class="variables">
         <div
           v-for="(variable, index) in variables"
@@ -40,6 +49,7 @@
 
 <script lang="ts" setup>
 import type { VariablePair } from '@webitel/api-services/validations';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -58,6 +68,14 @@ const variables = computed<VariablePair[]>(() => {
 	return modelValue.value.variables;
 });
 
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: variables,
+});
+
 const addVariable = () => {
 	variables.value.push({
 		key: '',
@@ -71,6 +89,20 @@ const deleteVariable = (index: number) => {
 </script>
 
 <style
-  lang="scss"
   scoped
-></style>
+>
+.opened-queue-variables {
+  height: 100%;
+
+  .wt-empty {
+    height: 100%;
+  }
+}
+.value-pair {
+  display: grid;
+  align-items: center;
+  margin-bottom: 20px;
+  grid-template-columns: 1fr 1fr 24px;
+  grid-gap: 20px;
+}
+</style>

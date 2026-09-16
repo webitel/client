@@ -57,7 +57,6 @@
           :src="dummy.src"
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
           @create="create"
         />
         <div
@@ -80,6 +79,12 @@
             </template>
             <template #limit="{ item }">
               {{ prettifyPauseCauseLimit(item.limitMin) }}
+            </template>
+            <template #teams="{ item }">
+              <wt-display-chip-items
+                v-if="item?.teams"
+                :items="item?.teams"
+              />
             </template>
             <template #allowAdmin="{ item, index }">
               <wt-checkbox
@@ -135,6 +140,7 @@
 </template>
 
 <script>
+import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { mapActions } from 'vuex';
@@ -150,6 +156,7 @@ export default {
 	name: 'TheAgentPauseCause',
 	components: {
 		DeleteConfirmationPopup,
+		WtDisplayChipItems,
 	},
 	mixins: [
 		tableComponentMixin,

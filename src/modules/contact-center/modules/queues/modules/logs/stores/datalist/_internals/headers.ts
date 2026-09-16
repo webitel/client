@@ -49,9 +49,10 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
+		/** the number the client sees: the resource's own, not the client's */
 		value: 'viewNumber',
 		locale: 'objects.ccenter.queues.logs.viewNumber',
-		field: 'destination',
+		field: 'display',
 		show: true,
 		sort: SortSymbols.NONE,
 	},

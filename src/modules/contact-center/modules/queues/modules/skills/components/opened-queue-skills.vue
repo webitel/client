@@ -116,11 +116,12 @@
 
 <script lang="ts" setup>
 import type { EngineQueueSkill } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -142,7 +143,9 @@ const { disableUserInput } = useUserAccessControl({
 const parentId = computed(() => route.params.id as string);
 const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
 
-const tableStore = useQueueSkillsDatalistStore();
+const tableStore = useNestedTableList({
+	useTableStore: useQueueSkillsDatalistStore,
+});
 const {
 	dataList,
 	error,
@@ -155,7 +158,6 @@ const {
 	filtersManager,
 } = storeToRefs(tableStore);
 const {
-	initialize,
 	loadDataList,
 	updatePage,
 	updateSize,
@@ -167,18 +169,6 @@ const {
 	updateFilter,
 	deleteFilter,
 } = tableStore;
-
-if (!isNewQueue.value)
-	initialize({
-		parentId: parentId.value,
-	});
-
-watch(parentId, (id, previous) => {
-	if (id && id !== 'new' && previous === 'new')
-		initialize({
-			parentId: id,
-		});
-});
 
 const ensureQueueSaved = useEnsureQueueSaved();
 

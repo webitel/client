@@ -15,10 +15,17 @@
 
     <header class="table-title">
       <h3
-        :class="{ invalid: isMissingCommunication }"
         class="table-title__title"
       >
         {{ t('objects.lookups.communications.communications', 2) }}
+        
+
+        <wt-icon
+          v-if="isMissingCommunication"
+          v-tooltip="t('objects.lookups.communications.missingCommunication')"
+          icon="attention"
+          color="error"
+        />
       </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
@@ -36,7 +43,16 @@
       </div>
     </header>
 
-    <div class="table-section__table-wrapper">
+    <wt-empty
+      v-show="showEmpty"
+      :image="imageEmpty"
+      :text="textEmpty"
+    />
+
+    <div
+      v-show="communications.length"
+      class="table-section__table-wrapper"
+    >
       <wt-table
         :data="communications"
         :headers="headers"
@@ -82,6 +98,7 @@ import type {
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -116,6 +133,14 @@ const {
 } = useMemberCommunications(modelValue);
 
 const selected = ref<EngineMemberCommunication[]>([]);
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList: communications,
+});
 
 /**
  * The schema requires at least one communication, but the rule sits on the
@@ -178,11 +203,9 @@ const removeSelected = () => {
   lang="scss"
   scoped
 >
-/**
- * `communications` is required by the schema but has no input of its own to
- * carry the message, so the section title is what reports it.
- */
-.table-title__title.invalid {
-  color: var(--error-color);
+.table-title__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
 }
 </style>

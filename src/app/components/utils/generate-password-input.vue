@@ -8,6 +8,7 @@
       :placeholder="$t('objects.password')"
       :required="required"
       :v="v"
+      :regle-validation="regleValidation"
       :model-value="passwordRepresentation"
       @update:model-value="input"
     >
@@ -43,6 +44,9 @@ export default {
 			default: '',
 		},
 		v: {
+			type: Object,
+		},
+		regleValidation: {
 			type: Object,
 		},
 		required: {

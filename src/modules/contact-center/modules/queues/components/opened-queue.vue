@@ -11,6 +11,19 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template
+          v-if="!isNew"
+          #primary-action
+        >
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
+            {{ saveText }}
+          </wt-button-select>
+        </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
@@ -18,7 +31,7 @@
 
     <template #main>
       <form
-        class="tabs-page-wrapper"
+        class="opened-card-tabs"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -39,6 +52,12 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
+
+      <save-copy-popup
+        :shown="isSaveCopyPopupShown"
+        @close="closeSaveCopyPopup"
+        @save="saveCopy"
+      />
     </template>
   </wt-page-wrapper>
   <wt-loader v-else />
@@ -48,10 +67,15 @@
 import {
 	getQueueDefaults,
 	hasQueueTypeDefaults,
+	QueuesAPI,
 } from '@webitel/api-services/api';
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
-import { useClose } from '@webitel/ui-sdk/composables';
+import { useClose, useEventBus } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import deepmerge from 'deepmerge';
 import {
 	computed,
@@ -67,7 +91,10 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import { provideEnsureQueueSaved } from '../composables/useEnsureQueueSaved';
+import {
+	createEnsureQueueSaved,
+	provideEnsureQueueSaved,
+} from '../composables/useEnsureQueueSaved';
 import {
 	type QueueTab,
 	QueueTabId,
@@ -82,6 +109,7 @@ import type { Queue } from '../types/Queue';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const $eventBus = useEventBus();
 
 const {
 	hasSaveActionAccess,
@@ -296,6 +324,15 @@ const disabledSave = computed(
 		hasValidationErrors.value,
 );
 
+const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
+	useSaveCopyPopup((name) =>
+		QueuesAPI.add({
+			itemInstance: {
+				...toRaw(modelValue.value),
+				name,
+			},
+		}),
+	);
 /** `useCardRouting` parity, plus the query preservation it does not do */
 let idRedirect: Promise<unknown> = Promise.resolve();
 
@@ -320,19 +357,25 @@ const stopIdWatch = watch(
  * through the card's own validated `save`, so an invalid queue blocks the add
  * and shows its errors rather than persisting half-filled.
  */
-provideEnsureQueueSaved(async () => {
-	if (!isNew.value) return cardStore.itemId;
-
-	await save();
-	if (!cardStore.itemId) return null;
-
-	// the watcher above owns the `id` redirect: let it fire and settle before
-	// the tab pushes its own popup route, or the two navigations cancel out
-	await nextTick();
-	await idRedirect;
-
-	return cardStore.itemId;
-});
+provideEnsureQueueSaved(
+	createEnsureQueueSaved({
+		isNew: () => isNew.value,
+		itemId: () => cardStore.itemId,
+		save,
+		hasValidationErrors: () => hasValidationErrors.value,
+		notifyValidationBlocked: () =>
+			$eventBus?.$emit('notification', {
+				type: 'error',
+				text: t('objects.ccenter.queues.saveBeforeAddingRecords'),
+			}),
+		// the watcher above owns the `id` redirect: let it fire and settle
+		// before the tab routes, or the two navigations cancel out
+		settleIdRedirect: async () => {
+			await nextTick();
+			await idRedirect;
+		},
+	}),
+);
 
 onMounted(async () => {
 	await cardStore.initialize({
