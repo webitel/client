@@ -15,7 +15,7 @@ import { ColumnFilterComponent as ColumnFilter } from '@webitel/ui-datalist/filt
 import type { WtTableHeader } from '@webitel/ui-sdk/src/components/wt-table/types/WtTable';
 import { storeToRefs } from 'pinia';
 
-import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
+import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 
 defineProps<{
 	header: WtTableHeader;
@@ -23,7 +23,7 @@ defineProps<{
 	hide?: () => void;
 }>();
 
-const tableStore = useQueuesDatalistStore();
+const tableStore = useQueueLogsDatalistStore();
 const { filtersManager } = storeToRefs(tableStore);
 
 const { addFilter, updateFilter, deleteFilter } = tableStore;
