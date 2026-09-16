@@ -233,7 +233,9 @@ const defaultValueByType: Record<ConfigurationValueType, unknown> = {
 	[ConfigurationValueType.Multiselect]: [],
 	[ConfigurationValueType.String]: '',
 	[ConfigurationValueType.Select]: '',
-	[ConfigurationValueType.ExportSettings]: '',
+	[ConfigurationValueType.ExportSettings]: {
+		format: '',
+	},
 };
 
 export const getParameterDefaultValue = (
