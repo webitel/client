@@ -55,11 +55,11 @@
 import { ConfigurationsAPI } from '@webitel/api-services/api';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { ComponentSize } from '@webitel/ui-sdk/enums';
+import { storeToRefs } from 'pinia';
 import type { Component } from 'vue';
 import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { ConfigurationValueType } from '../enum/ConfigurationValueType.enum';
 import { useConfigurationCardStore } from '../stores/card/configurationCardStore';
@@ -74,7 +74,6 @@ import ConfigurationValueMultiselect from './value-fields/configuration-value-mu
 import ConfigurationValueNumber from './value-fields/configuration-value-number.vue';
 import ConfigurationValueSelect from './value-fields/configuration-value-select.vue';
 import ConfigurationValueString from './value-fields/configuration-value-string.vue';
-import { storeToRefs } from 'pinia';
 
 const valueComponentByType: Record<ConfigurationValueType, Component> = {
 	[ConfigurationValueType.Boolean]: ConfigurationValueBoolean,
