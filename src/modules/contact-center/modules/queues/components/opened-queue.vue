@@ -31,7 +31,7 @@
 
     <template #main>
       <form
-        class="tabs-page-wrapper"
+        class="opened-card-tabs"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -70,7 +70,7 @@ import {
 	QueuesAPI,
 } from '@webitel/api-services/api';
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
-import { useClose } from '@webitel/ui-sdk/composables';
+import { useClose, useEventBus } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import {
 	SaveCopyPopup,
@@ -91,7 +91,10 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import { provideEnsureQueueSaved } from '../composables/useEnsureQueueSaved';
+import {
+	createEnsureQueueSaved,
+	provideEnsureQueueSaved,
+} from '../composables/useEnsureQueueSaved';
 import {
 	type QueueTab,
 	QueueTabId,
@@ -106,6 +109,7 @@ import type { Queue } from '../types/Queue';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const $eventBus = useEventBus();
 
 const {
 	hasSaveActionAccess,
@@ -353,19 +357,25 @@ const stopIdWatch = watch(
  * through the card's own validated `save`, so an invalid queue blocks the add
  * and shows its errors rather than persisting half-filled.
  */
-provideEnsureQueueSaved(async () => {
-	if (!isNew.value) return cardStore.itemId;
-
-	await save();
-	if (!cardStore.itemId) return null;
-
-	// the watcher above owns the `id` redirect: let it fire and settle before
-	// the tab pushes its own popup route, or the two navigations cancel out
-	await nextTick();
-	await idRedirect;
-
-	return cardStore.itemId;
-});
+provideEnsureQueueSaved(
+	createEnsureQueueSaved({
+		isNew: () => isNew.value,
+		itemId: () => cardStore.itemId,
+		save,
+		hasValidationErrors: () => hasValidationErrors.value,
+		notifyValidationBlocked: () =>
+			$eventBus?.$emit('notification', {
+				type: 'error',
+				text: t('objects.ccenter.queues.saveBeforeAddingRecords'),
+			}),
+		// the watcher above owns the `id` redirect: let it fire and settle
+		// before the tab routes, or the two navigations cancel out
+		settleIdRedirect: async () => {
+			await nextTick();
+			await idRedirect;
+		},
+	}),
+);
 
 onMounted(async () => {
 	await cardStore.initialize({

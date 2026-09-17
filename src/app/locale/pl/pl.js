@@ -543,6 +543,7 @@ export default {
 				communications: 'Typ komunikacji | Typy komunikacji',
 				allCommunications: 'Wszystkie typy komunikacji',
 				addCommunication: 'Dodaj komunikację',
+				missingCommunication: 'Proszę dodać typ komunikacji',
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -963,6 +964,8 @@ export default {
 				teams: 'Zespół | Zespoły',
 				tags: 'Tagi',
 				newQueue: 'Nowa kolejka',
+				saveBeforeAddingRecords:
+					'Wypełnij wymagane pola kolejki przed dodaniem rekordów',
 				blacklist: 'Lista zatrzymana',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1249,9 +1252,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]:
-						'udostępnianie ekranu',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'nagrania ekranu',
 				},
 				encryptFile: 'Szyfruj nowe pliki',

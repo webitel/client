@@ -541,6 +541,7 @@ export default {
 				communications: 'Communication type | Communication types',
 				allCommunications: 'All communication types',
 				addCommunication: 'Add communication',
+				missingCommunication: 'Please add communication',
 				code: 'Code',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Phone',
@@ -958,6 +959,8 @@ export default {
 				teams: 'Team | Teams',
 				tags: 'Tags',
 				newQueue: 'New queue',
+				saveBeforeAddingRecords:
+					'Fill in the required queue fields before adding records',
 				blacklist: 'Stop list',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1244,8 +1247,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'screen recordings',
 				},

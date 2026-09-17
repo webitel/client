@@ -544,6 +544,7 @@ export default {
 				communications: 'Tip de comunicare | Tipuri de comunicare',
 				allCommunications: 'Toate tipurile de comunicare',
 				addCommunication: 'Adaugă comunicare',
+				missingCommunication: 'Vă rugăm să adăugați un tip de comunicare',
 				code: 'Cod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -965,6 +966,8 @@ export default {
 				teams: 'Echipă | Echipe',
 				tags: 'Etichete',
 				newQueue: 'Coadă nouă',
+				saveBeforeAddingRecords:
+					'Completați câmpurile obligatorii ale cozii înainte de a adăuga înregistrări',
 				blacklist: 'Listă de oprire',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1250,8 +1253,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'înregistrări ecran',
 				},

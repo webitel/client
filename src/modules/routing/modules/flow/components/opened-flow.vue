@@ -36,7 +36,7 @@
         @close-popup="hideSaveFailedPopup"
       />
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="saveCode"
       >
         <wt-tabs

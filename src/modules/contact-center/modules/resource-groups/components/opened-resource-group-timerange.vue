@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.ccenter.resGroups.timerange') }}
       </h3>
       <wt-icon-action
@@ -10,7 +10,7 @@
         @click="addVariable"
       />
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <div>
         <div
           v-for="(range, key) in itemInstance.time"

@@ -550,6 +550,7 @@ export default {
 				communications: 'Тип связи| Типы связи',
 				allCommunications: 'Все типы связи',
 				addCommunication: 'Добавить связь',
+				missingCommunication: 'Пожалуйста, добавьте тип связи',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -973,6 +974,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Новая очередь',
+				saveBeforeAddingRecords:
+					'Заполните обязательные поля очереди, прежде чем добавлять записи',
 				newQueueDescription: 'Типы очередей',
 				outboundIVRQueue: 'Исходящая IVR-очередь',
 				outboundIVR: 'Исходящий IVR',
@@ -1260,8 +1263,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'письмо',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'запись экрана',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'снимок экрана',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'запись экрана',
 				},
 				encryptFile: 'Шифровать новые файлы',

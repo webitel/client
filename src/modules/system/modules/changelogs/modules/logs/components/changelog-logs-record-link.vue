@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
+import { LoggerAvailableSystemObjects } from '@webitel/api-services/gen/models';
 import { computed } from 'vue';
-import { LoggerAvailableSystemObjects } from 'webitel-sdk';
 
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 

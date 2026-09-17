@@ -1,12 +1,12 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon
         icon="web-chat"
         icon-prefix="messenger"
         size="sm"
       />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.chatGateways.webchat.view.view') }}
       </h3>
     </header>
@@ -18,7 +18,7 @@
         </section>
       </section>
       <section class="chat-config-section">
-        <div class="object-input-grid object-input-grid__1-col">
+        <div class="opened-card-input-grid opened-card-input-grid--1-col">
           <wt-single-select
             v-model:model-value="selectedLanguage"
             :show-clear="false"

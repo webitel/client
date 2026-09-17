@@ -8,7 +8,7 @@
     </template>
 
     <template #main>
-      <form class="main-container" @submit.prevent="save">
+      <form class="opened-card-form" @submit.prevent="save">
         <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
         <router-view v-if="isPermissionsTab" v-slot="{ Component }">
           <component v-if="Component" :is="Component" v-bind="permissionsStoreData" />

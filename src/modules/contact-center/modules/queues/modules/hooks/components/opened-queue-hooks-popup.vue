@@ -10,7 +10,7 @@
       {{ popupTitle }}
     </template>
     <template #main>
-      <form class="object-input-grid object-input-grid__1-col" @submit.prevent="save">
+      <form class="opened-card-input-grid opened-card-input-grid--1-col" @submit.prevent="save">
         <wt-single-select
           v-model:model-value="modelValue.event"
           :label="t('objects.ccenter.queues.hooks.event')"
@@ -52,13 +52,13 @@
 <script lang="ts" setup>
 import { FlowsAPI } from '@webitel/api-services/api';
 import type { EngineQueueHook } from '@webitel/api-services/gen/models';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';

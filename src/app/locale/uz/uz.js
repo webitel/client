@@ -544,6 +544,7 @@ export default {
 				communications: 'Kommunikatsiya turi | Kommunikatsiya turlari',
 				allCommunications: 'Barcha kommunikatsiya turlari',
 				addCommunication: "Kommunikatsiya qo'shish",
+				missingCommunication: "Iltimos, kommunikatsiya turini qo'shing",
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -966,6 +967,8 @@ export default {
 				teams: 'Jamoa | Jamoalar',
 				tags: 'Teglar',
 				newQueue: "Yangi qo'yuv",
+				saveBeforeAddingRecords:
+					"Yozuvlarni qo'shishdan oldin navbatning majburiy maydonlarini to'ldiring",
 				blacklist: "To'xtash ro'yxati",
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1251,8 +1254,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'elektron pochta',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ekran yozuvlari',
 				},
 				encryptFile: 'Yangi fayllarni shifrlash',
