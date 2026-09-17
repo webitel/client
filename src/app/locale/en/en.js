@@ -550,7 +550,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent statuses',
+				pauseCause: 'Pause causes',
 				allPauseCause: 'All agent pause causes',
 				limit: 'Limit (min)',
 				min: 'min',

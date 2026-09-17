@@ -553,7 +553,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent holatlari',
+				pauseCause: 'Tanaffus sabablari',
 				allPauseCause: "Barcha agent to'xtash sabablari",
 				limit: 'Limit (min)',
 				min: 'min',

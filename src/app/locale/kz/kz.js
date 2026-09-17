@@ -548,7 +548,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Агент күйлері',
+				pauseCause: 'Пауза себептері',
 				allPauseCause: 'Барлық агент демалыс себептері',
 				limit: 'Шектеу (мин)',
 				min: 'мин',

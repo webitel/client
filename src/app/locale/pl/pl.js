@@ -552,7 +552,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Statusy agenta',
+				pauseCause: 'Powody pauzy',
 				allPauseCause: 'Wszystkie przyczyny zawieszenia agenta',
 				limit: 'Limit (min)',
 				min: 'min',

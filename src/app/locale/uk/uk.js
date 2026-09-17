@@ -558,7 +558,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статуси оператора',
+				pauseCause: 'Причини паузи',
 				allPauseCause: 'Всі причини паузи оператора',
 				limit: 'Ліміт (хв)',
 				min: 'хвилин',

@@ -553,7 +553,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Stări agent',
+				pauseCause: 'Motive de pauză',
 				allPauseCause: 'Toate cauzele de pauză a agentului',
 				limit: 'Limită (min)',
 				min: 'min',
