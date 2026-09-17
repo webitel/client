@@ -20,10 +20,12 @@ const communicationTypes = [
 	{
 		id: '10',
 		code: 'phone',
+		channel: 'Phone',
 	},
 	{
 		id: '20',
 		code: 'email',
+		channel: 'Email',
 	},
 ];
 
@@ -156,6 +158,57 @@ describe('useNormalizeCsvMembers', () => {
 				}),
 			]),
 		).rejects.toThrow(RangeError);
+	});
+
+	it('rejects a dialed destination holding symbols a number cannot use', async () => {
+		const { normalizeData } = setup();
+
+		await expect(
+			normalizeData([
+				row({
+					destination: [
+						'380 00 1',
+					],
+					code: [
+						'phone',
+					],
+				}),
+			]),
+		).rejects.toThrow(SyntaxError);
+	});
+
+	it('accepts a dialed destination made of the allowed symbols', async () => {
+		const { normalizeData } = setup();
+
+		const [member] = await normalizeData([
+			row({
+				destination: [
+					"+38(000)-1_2.3!4~5*6'7",
+				],
+				code: [
+					'phone',
+				],
+			}),
+		]);
+
+		expect(member.communications[0].destination).toBe("+38(000)-1_2.3!4~5*6'7");
+	});
+
+	it('leaves a destination on a channel that is not dialed alone', async () => {
+		const { normalizeData } = setup();
+
+		const [member] = await normalizeData([
+			row({
+				destination: [
+					'joe@example.dev',
+				],
+				code: [
+					'email',
+				],
+			}),
+		]);
+
+		expect(member.communications[0].destination).toBe('joe@example.dev');
 	});
 
 	it('rejects dtmf that is not digits or w', async () => {

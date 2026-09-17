@@ -559,7 +559,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статусы оператора',
+				pauseCause: 'Причины паузы',
 				allPauseCause: 'Все причины паузы оператора',
 				limit: 'Лимит (мин)',
 				min: 'Минут',

@@ -549,7 +549,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Trạng thái của đại lý',
+				pauseCause: 'Lý do tạm dừng',
 				allPauseCause: 'Tất cả nguyên nhân tạm dừng đại lý',
 				limit: 'Giới hạn (phút)',
 				min: 'phút',
