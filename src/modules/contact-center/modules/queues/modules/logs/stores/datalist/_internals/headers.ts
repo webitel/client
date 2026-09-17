@@ -2,7 +2,7 @@ import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
-import { joinedAtFilterConfig } from '../../../configs/filtersOptions';
+import { filterConfigs } from '../../../configs/filtersOptions';
 
 export const headers: DatalistTableHeader[] = [
 	{
@@ -21,7 +21,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'agent',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: FilterOption.Agent,
+		filter: filterConfigs[FilterOption.Agent],
 	},
 	{
 		value: 'bucket',
@@ -32,7 +32,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'bucket',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: FilterOption.Bucket,
+		filter: filterConfigs[FilterOption.Bucket],
 	},
 	{
 		value: 'joinedAt',
@@ -40,7 +40,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'joined_at',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: joinedAtFilterConfig,
+		filter: filterConfigs[FilterOption.JoinedAt],
 	},
 	{
 		value: 'leavingAt',
@@ -48,7 +48,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'leaving_at',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: FilterOption.LeavingAt,
+		filter: filterConfigs[FilterOption.LeavingAt],
 	},
 	{
 		value: 'offeringAt',
@@ -56,7 +56,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'offering_at',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: FilterOption.OfferingAt,
+		filter: filterConfigs[FilterOption.OfferingAt],
 	},
 	{
 		/** derived from the joined/leaving pair, so it sorts on `joined_at` */
@@ -65,7 +65,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'joined_at',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: FilterOption.AttemptDuration,
+		filter: filterConfigs[FilterOption.AttemptDuration],
 	},
 	{
 		/** the number the client sees: the resource's own, not the client's */
@@ -88,6 +88,6 @@ export const headers: DatalistTableHeader[] = [
 		field: 'result',
 		show: true,
 		sort: SortSymbols.NONE,
-		filter: FilterOption.CallReportingResult,
+		filter: filterConfigs[FilterOption.CallReportingResult],
 	},
 ];
