@@ -1,5 +1,5 @@
 import { helpers } from '@vuelidate/validators';
-import { phoneNumberPattern } from '@webitel/api-services/validations';
+import { phoneNumberSchema } from '@webitel/api-services/validations';
 
 export const macValidator = (value) => {
 	if (typeof value === 'undefined' || value === null || value === '') {
@@ -47,7 +47,7 @@ export const phoneNumberSymbolsValidator = (value) => {
 	if (typeof value === 'undefined' || value === null || value === '') {
 		return true;
 	}
-	return phoneNumberPattern.test(value);
+	return phoneNumberSchema.safeParse(value).success;
 };
 
 export const sipPasswordSymbolsValidator = (value) => {
