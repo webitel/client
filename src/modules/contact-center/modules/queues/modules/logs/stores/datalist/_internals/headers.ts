@@ -1,5 +1,8 @@
 import type { DatalistTableHeader } from '@webitel/ui-datalist';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+
+import { filterConfigs } from '../../../configs/filtersOptions';
 
 export const headers: DatalistTableHeader[] = [
 	{
@@ -18,6 +21,18 @@ export const headers: DatalistTableHeader[] = [
 		field: 'agent',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.Agent],
+	},
+	{
+		value: 'bucket',
+		locale: [
+			'objects.lookups.buckets.buckets',
+			1,
+		],
+		field: 'bucket',
+		show: true,
+		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.Bucket],
 	},
 	{
 		value: 'joinedAt',
@@ -25,6 +40,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'joined_at',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.JoinedAt],
 	},
 	{
 		value: 'leavingAt',
@@ -32,6 +48,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'leaving_at',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.LeavingAt],
 	},
 	{
 		value: 'offeringAt',
@@ -39,6 +56,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'offering_at',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.OfferingAt],
 	},
 	{
 		/** derived from the joined/leaving pair, so it sorts on `joined_at` */
@@ -47,6 +65,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'joined_at',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.AttemptDuration],
 	},
 	{
 		/** the number the client sees: the resource's own, not the client's */
@@ -69,5 +88,6 @@ export const headers: DatalistTableHeader[] = [
 		field: 'result',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.CallReportingResult],
 	},
 ];

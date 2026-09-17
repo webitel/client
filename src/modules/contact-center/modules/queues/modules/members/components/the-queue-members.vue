@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper
-    :actions-panel="isFiltersPanelShown"
+    :actions-panel="false"
     class="table-page"
   >
     <template #header>
@@ -33,10 +33,6 @@
         </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
-    </template>
-
-    <template #actions-panel>
-      <the-queue-members-filters @hide="isFiltersPanelShown = false" />
     </template>
 
     <template #main>
@@ -83,9 +79,17 @@
           <div class="table-title__actions-wrap">
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS, IconAction.RESET_MEMBERS, IconAction.DELETE]"
-              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
               @click:refresh="loadDataList"
             >
+              <!-- no filters panel here: reset (and presets, if any) live in the icon's menu -->
+              <template #filters>
+                <filters-actions-menu
+                  :filters-manager="filtersManager"
+                  :filter-options="filtersOptions"
+                  @filter:reset-all="resetFilters"
+                />
+              </template>
+
               <template #search-bar>
                 <dynamic-filter-search
                   :filters-manager="filtersManager"
@@ -95,15 +99,6 @@
                   @filter:update="updateFilter"
                 />
               </template>
-
-            <template #filters="{ action, onClick }">
-              <wt-badge :hidden="!filtersManager.hasFilters">
-                <wt-icon-action
-                  :action="action"
-                  @click="onClick"
-                />
-              </wt-badge>
-            </template>
               <template #columns>
                 <wt-table-column-select
                   :headers="headers"
@@ -139,19 +134,10 @@
         </header>
 
         <div class="table-section__table-wrapper">
-          <wt-empty
-            v-show="showEmpty"
-            :disabled-primary-action="disableUserInput"
-            :image="imageEmpty"
-            :primary-action-text="primaryActionTextEmpty"
-            :text="textEmpty"
-            @click:primary="create"
-          />
-
           <wt-loader v-show="isLoading" />
 
           <wt-table
-            v-show="dataList.length && !isLoading"
+            v-show="!isLoading"
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
@@ -210,6 +196,23 @@
                 {{ item.agent.name }}
               </adm-item-link>
             </template>
+            <template #bucket="{ item }">
+              {{ item.bucket?.name }}
+            </template>
+
+            <template #column-filter="scope">
+              <queue-members-column-filter v-bind="scope" />
+            </template>
+
+            <template #empty>
+              <wt-empty
+                :disabled-primary-action="disableUserInput"
+                :image="imageEmpty"
+                :primary-action-text="primaryActionTextEmpty"
+                :text="textEmpty"
+                @click:primary="create"
+              />
+            </template>
 
             <template #actions="{ item }">
               <wt-icon-action
@@ -229,7 +232,9 @@
               />
             </template>
           </wt-table>
+
           <wt-pagination
+            v-show="dataList.length"
             :next="next"
             :prev="page > 1"
             :size="size"
@@ -250,7 +255,10 @@ import type {
 	EngineMemberCommunication,
 	EngineMemberInQueue,
 } from '@webitel/api-services/gen/models';
-import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import {
+	DynamicFilterSearchComponent as DynamicFilterSearch,
+	FiltersActionsMenuComponent as FiltersActionsMenu,
+} from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -272,12 +280,15 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
-import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
+import {
+	defaultMemberPriorityFilter,
+	filtersOptions,
+} from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ExportPopup from './export-members-popup.vue';
+import QueueMembersColumnFilter from './queue-members-column-filter.vue';
 import ResetPopup from './reset-members-popup.vue';
-import TheQueueMembersFilters from './the-queue-members-filters.vue';
 import UploadPopup from './upload-members-popup.vue';
 
 const { t, te } = useI18n();
@@ -330,7 +341,6 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
-const isFiltersPanelShown = ref(false);
 const isResetPopup = ref(false);
 const isExportPopup = ref(false);
 const resetMembersQuantity = ref(0);
@@ -384,6 +394,19 @@ const selectedDateRange = computed(() => {
 });
 
 const currentFilters = () => filtersManager.value.getAllValues();
+
+/** `priority` survives a reset, as its vuex `defaultValue` did */
+const resetFilters = () => {
+	const priority = defaultMemberPriorityFilter();
+
+	filtersManager.value.reset({
+		exclude: [
+			'search',
+			priority.name,
+		],
+	});
+	filtersManager.value.updateFilter(priority);
+};
 
 /** every bulk mutation leaves the list stale, so all of them reload it */
 const withReload =
@@ -516,7 +539,6 @@ const userChosenFilters = computed(() => {
 });
 
 const {
-	showEmpty,
 	image: imageEmpty,
 	text: textEmpty,
 	primaryActionText: primaryActionTextEmpty,
