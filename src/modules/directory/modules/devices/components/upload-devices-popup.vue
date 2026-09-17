@@ -13,7 +13,7 @@ import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
 import { useI18n } from 'vue-i18n';
 
 defineProps<{
-	file: File;
+	file: File | null;
 }>();
 
 const emit = defineEmits<{

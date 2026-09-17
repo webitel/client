@@ -16,7 +16,6 @@
       <history-popup @close="closeHistoryPopup" />
 
       <upload-popup
-        v-if="csvFile"
         :file="csvFile"
         @close="closeCSVPopup"
       />
