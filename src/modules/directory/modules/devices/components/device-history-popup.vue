@@ -9,6 +9,17 @@
     </template>
     <template #main>
       <section class="history-popup table-section">
+        <table-filters-panel
+          class="history-popup__filters-panel"
+          :filter-options="historyFiltersOptions"
+          :filters-manager="filtersManager"
+          static-mode
+          @filter:add="addFilter"
+          @filter:delete="deleteFilter"
+          @filter:reset-all="resetFilters"
+          @filter:update="updateFilter"
+        />
+
         <header class="table-title">
           <div class="table-title__actions-wrap">
             <wt-action-bar
@@ -25,16 +36,6 @@
             </wt-action-bar>
           </div>
         </header>
-
-        <table-filters-panel
-          :filter-options="historyFiltersOptions"
-          :filters-manager="filtersManager"
-          static-mode
-          @filter:add="addFilter"
-          @filter:delete="deleteFilter"
-          @filter:reset-all="resetFilters"
-          @filter:update="updateFilter"
-        />
 
         <div class="table-section__table-wrapper">
           <wt-loader v-show="isLoading" />
@@ -191,5 +192,13 @@ watch(
 <style lang="scss" scoped>
 .table-title {
   justify-content: flex-end;
+}
+
+.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper) {
+  align-items: end;
+}
+
+.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper__filters) {
+  grid-template-columns: repeat(2, 1fr);
 }
 </style>
