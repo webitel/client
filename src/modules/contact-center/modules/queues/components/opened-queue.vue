@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     v-if="showQueuePage"
-    :actions-panel="false"
+    :actions-panel="isLogsTab"
   >
     <template #header>
       <wt-page-header
@@ -28,6 +28,9 @@
       </wt-page-header>
     </template>
 
+    <template #actions-panel>
+      <queue-logs-filters-panel />
+    </template>
 
     <template #main>
       <form
@@ -101,6 +104,7 @@ import {
 	QueueTypeSpecificTabs,
 } from '../configs/queueTabs';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import QueueLogsFiltersPanel from '../modules/logs/components/queue-logs-filters-panel.vue';
 import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum';
 import { useQueuesCardStore } from '../stores/card/queuesCardStore';
 import { useQueuesPermissionsStore } from '../stores/permissions/queuesPermissionsStore';
@@ -265,6 +269,8 @@ const tabs = computed(() => {
 });
 
 const { currentTab } = useCardTabs(tabs);
+
+const isLogsTab = computed(() => currentTab.value?.value === QueueTabId.Logs);
 
 /**
  * `useCardTabs`' own `changeTab` drops the route query, which would lose
