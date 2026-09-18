@@ -40,14 +40,12 @@ const resetFilters = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-.queue-logs-filters-panel {
-  :deep(.dynamic-filter-panel-wrapper__filters) {
-    grid-template-columns: repeat(6, 1fr);
-  }
+<style scoped>
+.queue-logs-filters-panel :deep(.dynamic-filter-panel-wrapper__filters) {
+  grid-template-columns: repeat(6, 1fr);
+}
 
-  :deep(.static-filter-field:last-child) {
-    grid-column: span 2;
-  }
+.queue-logs-filters-panel :deep(.static-filter-field:last-child) {
+  grid-column: span 2;
 }
 </style>
