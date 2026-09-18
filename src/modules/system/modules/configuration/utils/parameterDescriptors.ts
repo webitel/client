@@ -3,13 +3,15 @@ import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import {
 	LoginOptions,
 	PasswordCategories,
-	RelativeDatetimeValue,
 	TypesExportedSettings,
 } from '@webitel/ui-sdk/enums';
 import { z } from 'zod';
 
 import { ConfigurationValueType } from '../enum/ConfigurationValueType.enum';
-import { DefaultMembersFilterOptions } from '../enum/DefaultMembersFilterOptions.enum';
+import {
+	DefaultMembersFilterOptions,
+	defaultMembersFilterToRelativeDatetime,
+} from '../enum/DefaultMembersFilterOptions.enum';
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
 import type {
 	ParameterDescriptor,
@@ -28,16 +30,6 @@ const passwordCategoriesOptions = Object.values(PasswordCategories).map(
 		category,
 	}),
 );
-
-// reuse RelativeDatetimeValue's translations for the matching DefaultMembersFilterOptions value
-const defaultMembersFilterToRelativeDatetime: Record<
-	DefaultMembersFilterOptions,
-	RelativeDatetimeValue
-> = {
-	[DefaultMembersFilterOptions.Today]: RelativeDatetimeValue.Today,
-	[DefaultMembersFilterOptions.ThisWeek]: RelativeDatetimeValue.ThisWeek,
-	[DefaultMembersFilterOptions.ThisMonth]: RelativeDatetimeValue.ThisMonth,
-};
 
 const parameterDescriptors: {
 	[key in EngineSystemSettingName]?: ParameterDescriptor;

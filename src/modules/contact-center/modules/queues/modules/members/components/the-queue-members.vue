@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper
-    :actions-panel="false"
+    :actions-panel="isFiltersPanelShown"
     class="table-page"
   >
     <template #header>
@@ -33,6 +33,18 @@
         </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
+    </template>
+
+    <template #actions-panel>
+      <table-filters-panel
+        :filter-options="filtersOptions"
+        :filters-manager="filtersManager"
+        static-mode
+        @filter:add="addFilter"
+        @filter:update="updateFilter"
+        @filter:delete="deleteFilter"
+        @filter:reset-all="resetFilters"
+      />
     </template>
 
     <template #main>
@@ -80,14 +92,15 @@
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS, IconAction.RESET_MEMBERS, IconAction.DELETE]"
               @click:refresh="loadDataList"
+              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
             >
-              <!-- no filters panel here: reset (and presets, if any) live in the icon's menu -->
-              <template #filters>
-                <filters-actions-menu
-                  :filters-manager="filtersManager"
-                  :filter-options="filtersOptions"
-                  @filter:reset-all="resetFilters"
-                />
+              <template #filters="{ action, onClick }">
+                <wt-badge :hidden="!hasPanelFilters">
+                  <wt-icon-action
+                    :action="action"
+                    @click="onClick"
+                  />
+                </wt-badge>
               </template>
 
               <template #search-bar>
@@ -196,9 +209,6 @@
                 {{ item.agent.name }}
               </adm-item-link>
             </template>
-            <template #bucket="{ item }">
-              {{ item.bucket?.name }}
-            </template>
 
             <template #column-filter="scope">
               <queue-members-column-filter v-bind="scope" />
@@ -206,9 +216,8 @@
 
             <template #empty>
               <wt-empty
-                :disabled-primary-action="disableUserInput"
                 :image="imageEmpty"
-                :primary-action-text="primaryActionTextEmpty"
+                :primary-action-text="emptyPrimaryActionText"
                 :text="textEmpty"
                 @click:primary="create"
               />
@@ -257,7 +266,7 @@ import type {
 } from '@webitel/api-services/gen/models';
 import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
-	FiltersActionsMenuComponent as FiltersActionsMenu,
+	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -281,9 +290,11 @@ import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
 import {
-	defaultMemberPriorityFilter,
-	filtersOptions,
-} from '../configs/filtersOptions';
+	type DateRange,
+	defaultCreatedAtFilter,
+	resolveDefaultCreatedAtFilter,
+} from '../configs/defaultFilters';
+import { filtersOptions } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ExportPopup from './export-members-popup.vue';
@@ -341,6 +352,8 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
+const isFiltersPanelShown = ref(false);
+
 const isResetPopup = ref(false);
 const isExportPopup = ref(false);
 const resetMembersQuantity = ref(0);
@@ -379,10 +392,7 @@ const endCauseText = (stopCause: string) => {
 /** the reset popup tells the user which window it is about to clear */
 const selectedDateRange = computed(() => {
 	const createdAt = filtersManager.value.getFilter('createdAt')?.value as
-		| {
-				from?: number;
-				to?: number;
-		  }
+		| Partial<DateRange>
 		| undefined;
 	const asShortDate = (value?: number) =>
 		value ? formatDate(+value, FormatDateMode.DATETIME_SHORT) : undefined;
@@ -395,18 +405,25 @@ const selectedDateRange = computed(() => {
 
 const currentFilters = () => filtersManager.value.getAllValues();
 
-/** `priority` survives a reset, as its vuex `defaultValue` did */
-const resetFilters = () => {
-	const priority = defaultMemberPriorityFilter();
+let defaultCreatedAt = defaultCreatedAtFilter();
 
+const resetFilters = () => {
 	filtersManager.value.reset({
 		exclude: [
 			'search',
-			priority.name,
+			defaultCreatedAt.name,
 		],
 	});
-	filtersManager.value.updateFilter(priority);
+	filtersManager.value.updateFilter(defaultCreatedAt);
 };
+
+const hasPanelFilters = computed(() =>
+	filtersOptions.some((filter) =>
+		typeof filter === 'string'
+			? hasFilter(filter)
+			: !filter.notDeletable && hasFilter(filter.name),
+	),
+);
 
 /** every bulk mutation leaves the list stale, so all of them reload it */
 const withReload =
@@ -526,17 +543,13 @@ const close = () =>
 		name: RouteNames.QUEUES,
 	});
 
-/**
- * The seeded `priority` default is not a filter the user chose, so an empty
- * queue keeps the "no members yet" state instead of flipping to
- * "nothing matches your criteria".
- */
-const userChosenFilters = computed(() => {
-	const { name } = defaultMemberPriorityFilter();
-	const { [name]: _seeded, ...rest } = filtersManager.value.getAllValues();
-
-	return rest;
-});
+const userChosenFilters = computed(() =>
+	filtersManager.value.getAllValues({
+		exclude: [
+			defaultCreatedAt.name,
+		],
+	}),
+);
 
 const {
 	image: imageEmpty,
@@ -562,6 +575,10 @@ const {
 	},
 );
 
+const emptyPrimaryActionText = computed(() =>
+	disableUserInput.value ? '' : primaryActionTextEmpty.value,
+);
+
 /**
  * Seeded here rather than in the filters panel: that component only mounts
  * while the panel is open, and the default has to be in place for the very
@@ -569,15 +586,14 @@ const {
  * path clobbers it — a snapshot persisted before this default existed.
  */
 const seedDefaultFilters = () => {
-	const priority = defaultMemberPriorityFilter();
-
-	if (!hasFilter(priority.name)) addFilter(priority);
+	if (!hasFilter(defaultCreatedAt.name)) addFilter(defaultCreatedAt);
 };
 
 // restoring persisted filters builds their configs, which reach for i18n
 const instance = getCurrentInstance();
 onMounted(() =>
 	instance?.appContext.app.runWithContext(async () => {
+		defaultCreatedAt = await resolveDefaultCreatedAtFilter();
 		seedDefaultFilters();
 		await initialize({
 			parentId: queueId.value,

@@ -1,6 +1,6 @@
 <template>
   <wt-page-wrapper
-    :actions-panel="false"
+    :actions-panel="isFiltersPanelShown"
     class="the-queues table-page"
   >
     <template #header>
@@ -10,6 +10,18 @@
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
+    </template>
+
+    <template #actions-panel>
+      <table-filters-panel
+        :filter-options="filtersOptions"
+        :filters-manager="filtersManager"
+        static-mode
+        @filter:add="addFilter"
+        @filter:update="updateFilter"
+        @filter:delete="deleteFilter"
+        @filter:reset-all="resetFilters"
+      />
     </template>
 
     <template #main>
@@ -46,6 +58,7 @@
               :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.DELETE]"
               :disabled:delete="!hasDeleteAccess || !selected.length"
               @click:refresh="loadDataList"
+              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
               @click:delete="
                 askDeleteConfirmation({
                   deleted: selected,
@@ -53,13 +66,13 @@
                 })
               "
             >
-              <!-- no filters panel here: reset (and presets, if any) live in the icon's menu -->
-              <template #filters>
-                <filters-actions-menu
-                  :filters-manager="filtersManager"
-                  :filter-options="filtersOptions"
-                  @filter:reset-all="resetFilters"
-                />
+              <template #filters="{ action, onClick }">
+                <wt-badge :hidden="!hasPanelFilters">
+                  <wt-icon-action
+                    :action="action"
+                    @click="onClick"
+                  />
+                </wt-badge>
               </template>
 
               <template #search-bar>
@@ -166,7 +179,6 @@
                 @input="openResourcesPopup(item)"
               />
             </template>
-            <!-- filters live in the column headers only, there is no filters panel on this page -->
             <template #column-filter="scope">
               <queues-column-filter v-bind="scope" />
             </template>
@@ -225,7 +237,7 @@
 import { QueueMembersAPI } from '@webitel/api-services/api';
 import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
-	FiltersActionsMenuComponent as FiltersActionsMenu,
+	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -280,12 +292,23 @@ const {
 	updateSelected,
 	deleteEls,
 	patchItemProperty,
+	hasFilter,
 	addFilter,
 	updateFilter,
 	deleteFilter,
 } = tableStore;
 
 initialize();
+
+const isFiltersPanelShown = ref(false);
+
+const hasPanelFilters = computed(() =>
+	filtersOptions.some((filter) =>
+		typeof filter === 'string'
+			? hasFilter(filter)
+			: !filter.notDeletable && hasFilter(filter.name),
+	),
+);
 
 const isQueueSelectPopup = ref(false);
 const isAttemptsResetPopup = ref(false);

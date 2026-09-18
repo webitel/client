@@ -6,16 +6,9 @@
       </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
-          :include="[IconAction.REFRESH, IconAction.COLUMNS, IconAction.FILTERS]"
+          :include="[IconAction.REFRESH, IconAction.COLUMNS]"
           @click:refresh="loadDataList"
         >
-          <template #filters>
-            <filters-actions-menu
-              :filters-manager="filtersManager"
-              :filter-options="filtersOptions"
-              @filter:reset-all="resetFilters"
-            />
-          </template>
           <template #search-bar>
             <dynamic-filter-search
               :filters-manager="filtersManager"
@@ -116,19 +109,17 @@
 import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
 	FilterOption,
-	FiltersActionsMenuComponent as FiltersActionsMenu,
 } from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
-import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
-import { filtersOptions } from '../configs/filtersOptions';
+import { defaultJoinedAtFilter } from '../configs/filtersOptions';
 import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 import QueueLogsColumnFilter from './queue-logs-column-filter.vue';
 
@@ -167,30 +158,9 @@ const {
 	hasFilter,
 } = tableStore;
 
-const todaysRange = () => ({
-	from: startOfToday().getTime(),
-	to: endOfToday().getTime(),
-});
-
 if (!hasFilter(FilterOption.JoinedAt)) {
-	addFilter({
-		name: FilterOption.JoinedAt,
-		value: todaysRange(),
-	});
+	addFilter(defaultJoinedAtFilter());
 }
-
-const resetFilters = () => {
-	filtersManager.value.reset({
-		exclude: [
-			'search',
-			FilterOption.JoinedAt,
-		],
-	});
-	filtersManager.value.updateFilter({
-		name: FilterOption.JoinedAt,
-		value: todaysRange(),
-	});
-};
 
 if (!isNewQueue.value)
 	initialize({
