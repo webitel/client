@@ -14,6 +14,7 @@
         >
           <wt-button-select
             :color="disabledSave ? 'secondary' : 'primary'"
+            :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"
@@ -55,12 +56,6 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
-
-      <save-copy-popup
-        :shown="isSaveCopyPopupShown"
-        @close="closeSaveCopyPopup"
-        @save="saveCopy"
-      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -70,10 +65,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { numeric, required } from '@vuelidate/validators';
 import { TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import {
-	SaveCopyPopup,
-	useSaveCopyPopup,
-} from '@webitel/ui-sdk/modules/SaveCopyPopup';
+import { useSaveCopy } from '@webitel/ui-sdk/modules/SaveCopy';
 import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -97,7 +89,6 @@ export default {
 		Parameters,
 		Hooks,
 		Flows,
-		SaveCopyPopup,
 	},
 	mixins: [
 		openedObjectMixin,
@@ -124,12 +115,9 @@ export default {
 		);
 
 		const instance = getCurrentInstance();
-		const saveCopyPopup = useSaveCopyPopup((name) =>
+		const { saveOptions } = useSaveCopy(() =>
 			TeamsAPI.add({
-				itemInstance: {
-					...instance.proxy.itemInstance,
-					name,
-				},
+				itemInstance: instance.proxy.itemInstance,
 			}),
 		);
 
@@ -143,7 +131,7 @@ export default {
 			hasAgentsReadAccess,
 			hasSupervisorsReadAccess,
 			hasFlowsReadAccess,
-			...saveCopyPopup,
+			saveOptions,
 		};
 	},
 

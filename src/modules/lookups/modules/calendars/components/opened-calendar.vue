@@ -14,6 +14,7 @@
         >
           <wt-button-select
             :color="disabledSave ? 'secondary' : 'primary'"
+            :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"
@@ -50,12 +51,6 @@
           type="submit"
         >
       </form>
-
-      <save-copy-popup
-        :shown="isSaveCopyPopupShown"
-        @close="closeSaveCopyPopup"
-        @save="saveCopy"
-      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -64,10 +59,7 @@
 import { CalendarsAPI } from '@webitel/api-services/api';
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
-import {
-	SaveCopyPopup,
-	useSaveCopyPopup,
-} from '@webitel/ui-sdk/modules/SaveCopyPopup';
+import { useSaveCopy } from '@webitel/ui-sdk/modules/SaveCopy';
 import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -203,13 +195,9 @@ const disabledSave = computed(
 		hasValidationErrors.value,
 );
 
-const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
-	useSaveCopyPopup((name) =>
-		CalendarsAPI.add({
-			itemInstance: {
-				...modelValue.value,
-				name,
-			},
-		}),
-	);
+const { saveOptions } = useSaveCopy(() =>
+	CalendarsAPI.add({
+		itemInstance: modelValue.value,
+	}),
+);
 </script>
