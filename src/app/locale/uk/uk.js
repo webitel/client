@@ -916,8 +916,15 @@ export default {
 				emptyWorkspace: 'Абонентів не знайдено',
 				resetMembers: {
 					resetMembers: 'Перезапустити абонентів',
-					description:
-						'Ви впевнені, що хочете перезапустити неуспішні спроби за період з \n{dateFrom} по {dateTo}\nз урахуванням встановлених фільтрів та результатів пошуку? ',
+					description: {
+						question: 'Ви впевнені, що хочете перезапустити неуспішні спроби',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за увесь час?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за період з \n${named('dateFrom')} по ${named('dateTo')}\nз урахуванням встановлених фільтрів та результатів пошуку? `,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Буде оброблено записів: {count}',
 					emptyDescription:
 						'За поточними фільтрами немає невдалих спроб. Скидати немає чого.',
@@ -1461,6 +1468,10 @@ export default {
 		deleteAll: "Видалити всі об'єкти",
 		deleteSelected: "Видалити {count} обраних об'єктів",
 		deleteFiltered: "Видалити всі відфільтровані об'єкти",
+		resetAll: 'Перезапустити всіх абонентів',
+		resetSelected:
+			'Перезапустити {count} обраного абонента | Перезапустити {count} обраних абонентів',
+		resetFiltered: 'Перезапустити всіх відфільтрованих абонентів',
 		generate: 'Створити',
 		add: 'Додати',
 		history: 'Історія',

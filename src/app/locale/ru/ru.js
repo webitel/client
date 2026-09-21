@@ -913,8 +913,15 @@ export default {
 				emptyWorkspace: 'Абоненты не найдены',
 				resetMembers: {
 					resetMembers: 'Перезапустить абонентов',
-					description:
-						'Вы уверены, что хотите перезапустить неуспешные попытки за период c\n{dateFrom} по {dateTo}\n с учётом установленных фильтров и результатов поиска?',
+					description: {
+						question: 'Вы уверены, что хотите перезапустить неуспешные попытки',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за все время?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за период c\n${named('dateFrom')} по ${named('dateTo')}\n с учётом установленных фильтров и результатов поиска?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Будет обработано записей: {count}',
 					emptyDescription:
 						'По текущим фильтрам нет неуспешных попыток. Сбрасывать нечего.',
@@ -1467,6 +1474,10 @@ export default {
 		deleteAll: 'Удалить все объекты',
 		deleteSelected: 'Удалить {count} выбранных объектов',
 		deleteFiltered: 'Удалить все отфильтрованные объекты',
+		resetAll: 'Перезапустить всех абонентов',
+		resetSelected:
+			'Перезапустить {count} выбранного абонента | Перезапустить {count} выбранных абонентов',
+		resetFiltered: 'Перезапустить всех отфильтрованных абонентов',
 		generate: 'Создать',
 		add: 'Добавить',
 		history: 'История',

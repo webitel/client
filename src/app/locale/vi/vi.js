@@ -903,8 +903,16 @@ export default {
 				emptyWorkspace: 'Không tìm thấy thành viên nào',
 				resetMembers: {
 					resetMembers: 'Đặt lại thử',
-					description:
-						'Bạn có chắc chắn muốn đặt lại các lần thử không thành công từ\n{dateFrom} đến {dateTo}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?',
+					description: {
+						question:
+							'Bạn có chắc chắn muốn đặt lại các lần thử không thành công',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} mà không có giới hạn ngày nào không?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} từ\n${named('dateFrom')} đến ${named('dateTo')}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} không?`,
+					},
 					descriptionCount: '{count} bản ghi sẽ bị ảnh hưởng.',
 					emptyDescription:
 						'Không có lần thử không thành công nào khớp với bộ lọc hiện tại. Không có gì để đặt lại.',
@@ -1449,6 +1457,9 @@ export default {
 		deleteAll: 'Xóa tất cả các mục',
 		deleteSelected: 'Xóa {count} mục được chọn',
 		deleteFiltered: 'Xóa tất cả các mục được lọc',
+		resetAll: 'Đặt lại tất cả thành viên',
+		resetSelected: 'Đặt lại {count} thành viên đã chọn',
+		resetFiltered: 'Đặt lại tất cả thành viên đã lọc',
 		generate: 'Tạo',
 		add: 'Thêm',
 		history: 'Lịch sử',
