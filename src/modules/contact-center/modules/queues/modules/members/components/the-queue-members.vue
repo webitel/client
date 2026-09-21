@@ -297,13 +297,13 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
+import { useResetConfirmationPopup } from '../composables/useResetConfirmationPopup';
 import {
 	type DateRange,
 	defaultCreatedAtFilter,
 	resolveDefaultCreatedAtFilter,
 } from '../configs/defaultFilters';
 import { filtersOptions } from '../configs/filtersOptions';
-import { useResetConfirmationPopup } from '../composables/useResetConfirmationPopup';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import { ActionOptions } from '../types/ActionOptions';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
