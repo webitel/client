@@ -13,9 +13,9 @@
 </template>
 
 <script setup>
+import { StorageProviderType } from '@webitel/api-services/gen/models';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { StorageProviderType } from 'webitel-sdk';
 
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';

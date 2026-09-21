@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid object-input-grid__1-col object-input-grid__w50">
+    <div class="opened-card-input-grid opened-card-input-grid--1-col opened-card-input-grid--w50">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -42,8 +42,7 @@
 </template>
 
 <script>
-import { EngineCommunicationChannels } from 'webitel-sdk';
-
+import { EngineCommunicationChannels } from '@webitel/api-services/gen/models';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 

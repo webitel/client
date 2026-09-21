@@ -1,13 +1,6 @@
 // dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
 import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import './app/assets/icons/sprite/_index';
-/*
-Don't know why, but without this empty file import styles just breaking :/
-I suppose, it's a problem with webpack or sass/sass loader.
-I think, this issue should go on migration to Vue 3, so I left it "as is".
- */
-import './app/css/do-not-delete-me.scss';
-
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
 import { eventBus } from '@webitel/ui-sdk/scripts';

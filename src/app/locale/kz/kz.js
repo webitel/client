@@ -539,6 +539,7 @@ export default {
 				communications: 'Коммуникация түрі | Коммуникация түрлері',
 				allCommunications: 'Барлық коммуникация түрлері',
 				addCommunication: 'Коммуникация қосу',
+				missingCommunication: 'Коммуникация түрін қосыңыз',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -547,7 +548,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Агент күйлері',
+				pauseCause: 'Пауза себептері',
 				allPauseCause: 'Барлық агент демалыс себептері',
 				limit: 'Шектеу (мин)',
 				min: 'мин',
@@ -961,6 +962,8 @@ export default {
 				teams: 'Команда | Командалар',
 				tags: 'Тақтар',
 				newQueue: 'Жаңа қойма',
+				saveBeforeAddingRecords:
+					'Жазбаларды қоспас бұрын кезектің міндетті өрістерін толтырыңыз',
 				blacklist: 'Стоп тізімі',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1182,6 +1185,7 @@ export default {
 				allResGroups: 'Барлық қор топтары',
 				searchPlaceholder: 'қор топ аты..',
 				addResGroup: 'Қор топын қосу',
+				editResGroup: 'Қор топын өзгерту',
 				strategy: 'Стратегия',
 				timerange: 'Уақыт аралығы',
 				timerangeFrom: 'Қайдан',
@@ -1243,8 +1247,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'пошта',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'экранды жазу',
 				},
 				encryptFile: 'Жаңа файлдарды шифрлеу',

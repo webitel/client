@@ -11,11 +11,10 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
+import { ConfigurationsAPI } from '@webitel/api-services/api';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { computed, ref, useAttrs, watch } from 'vue';
 import { useRoute } from 'vue-router';
-
-import ConfigurationAPI from '../../../modules/system/modules/configuration/api/configuration.js';
 import GeneratePasswordInput from './generate-password-input.vue';
 
 const model = defineModel({
@@ -73,7 +72,7 @@ const v$ = useVuelidate(
 );
 
 const loadV = async () => {
-	const configurations = await ConfigurationAPI.getList({
+	const configurations = await ConfigurationsAPI.getList({
 		name: [
 			EngineSystemSettingName.PasswordRegExp,
 			EngineSystemSettingName.PasswordValidationText,

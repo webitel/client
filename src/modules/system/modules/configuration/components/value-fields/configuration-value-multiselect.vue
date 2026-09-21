@@ -1,7 +1,7 @@
 <template>
   <wt-multi-select
     :label="t('vocabulary.values', 2)"
-    :v="v"
+    :regle-validation="regleValidation"
     :model-value="modelValue"
     :search-method="descriptor.multiselect?.searchMethod"
     :options="descriptor.multiselect?.options"
@@ -13,13 +13,14 @@
 </template>
 
 <script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { useI18n } from 'vue-i18n';
 
-import type { ParameterDescriptor } from '../../utils/parameterDescriptors';
+import type { ParameterDescriptor } from '../../types/configuration.types';
 
 defineProps<{
 	modelValue?: unknown[];
-	v?: object;
+	regleValidation?: RegleSchemaFieldStatus<unknown[]>;
 	descriptor: ParameterDescriptor;
 }>();
 

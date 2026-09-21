@@ -93,12 +93,13 @@
 
 <script lang="ts" setup>
 import type { EngineAgent } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -116,10 +117,9 @@ const router = useRouter();
 
 const { statusIndicatorColor, statusIndicatorText } = useAgentStatusIndicator();
 
-const parentId = computed(() => route.params.id as string);
-const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
-
-const tableStore = useQueueAgentsDatalistStore();
+const tableStore = useNestedTableList({
+	useTableStore: useQueueAgentsDatalistStore,
+});
 const {
 	dataList,
 	error,
@@ -131,7 +131,6 @@ const {
 	filtersManager,
 } = storeToRefs(tableStore);
 const {
-	initialize,
 	loadDataList,
 	updatePage,
 	updateSize,
@@ -140,18 +139,6 @@ const {
 	updateFilter,
 	deleteFilter,
 } = tableStore;
-
-if (!isNewQueue.value)
-	initialize({
-		parentId: parentId.value,
-	});
-
-watch(parentId, (id, previous) => {
-	if (id && id !== 'new' && previous === 'new')
-		initialize({
-			parentId: id,
-		});
-});
 
 /**
  * Both list popups are deep-linkable through a query param naming the row.

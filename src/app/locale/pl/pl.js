@@ -543,6 +543,7 @@ export default {
 				communications: 'Typ komunikacji | Typy komunikacji',
 				allCommunications: 'Wszystkie typy komunikacji',
 				addCommunication: 'Dodaj komunikację',
+				missingCommunication: 'Proszę dodać typ komunikacji',
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -551,7 +552,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Statusy agenta',
+				pauseCause: 'Powody pauzy',
 				allPauseCause: 'Wszystkie przyczyny zawieszenia agenta',
 				limit: 'Limit (min)',
 				min: 'min',
@@ -966,6 +967,8 @@ export default {
 				teams: 'Zespół | Zespoły',
 				tags: 'Tagi',
 				newQueue: 'Nowa kolejka',
+				saveBeforeAddingRecords:
+					'Wypełnij wymagane pola kolejki przed dodaniem rekordów',
 				blacklist: 'Lista zatrzymana',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1190,6 +1193,7 @@ export default {
 				allResGroups: 'Wszystkie grupy zasobów',
 				searchPlaceholder: 'nazwa grupy zasobów..',
 				addResGroup: 'Dodaj grupę zasobów',
+				editResGroup: 'Edytuj grupę zasobów',
 				strategy: 'Strategia',
 				timerange: 'Zakres czasu',
 				timerangeFrom: 'Od',
@@ -1251,9 +1255,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]:
-						'udostępnianie ekranu',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'nagrania ekranu',
 				},
 				encryptFile: 'Szyfruj nowe pliki',

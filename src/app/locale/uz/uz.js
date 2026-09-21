@@ -544,6 +544,7 @@ export default {
 				communications: 'Kommunikatsiya turi | Kommunikatsiya turlari',
 				allCommunications: 'Barcha kommunikatsiya turlari',
 				addCommunication: "Kommunikatsiya qo'shish",
+				missingCommunication: "Iltimos, kommunikatsiya turini qo'shing",
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -552,7 +553,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent holatlari',
+				pauseCause: 'Tanaffus sabablari',
 				allPauseCause: "Barcha agent to'xtash sabablari",
 				limit: 'Limit (min)',
 				min: 'min',
@@ -968,6 +969,8 @@ export default {
 				teams: 'Jamoa | Jamoalar',
 				tags: 'Teglar',
 				newQueue: "Yangi qo'yuv",
+				saveBeforeAddingRecords:
+					"Yozuvlarni qo'shishdan oldin navbatning majburiy maydonlarini to'ldiring",
 				blacklist: "To'xtash ro'yxati",
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1191,6 +1194,7 @@ export default {
 				allResGroups: 'Barcha resurs guruhlari',
 				searchPlaceholder: 'res guruhi nomi..',
 				addResGroup: "Resurs guruhi qo'shish",
+				editResGroup: 'Resurs guruhi tahrirlash',
 				strategy: 'Strategiya',
 				timerange: "Vaqt oralig'i",
 				timerangeFrom: 'Dan',
@@ -1252,8 +1256,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'elektron pochta',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ekran yozuvlari',
 				},
 				encryptFile: 'Yangi fayllarni shifrlash',

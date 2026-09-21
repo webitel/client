@@ -1,5 +1,8 @@
 import type { DatalistTableHeader } from '@webitel/ui-datalist';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+
+import { filterConfigs } from '../../../configs/filtersOptions';
 
 export const headers: DatalistTableHeader[] = [
 	{
@@ -15,6 +18,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'type',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.QueueType],
 	},
 	{
 		value: 'activeCalls',
@@ -46,6 +50,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'team',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.Team],
 	},
 	{
 		value: 'tags',
@@ -56,6 +61,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'tags',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.QueueTags],
 	},
 	{
 		value: 'state',

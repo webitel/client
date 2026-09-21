@@ -1,19 +1,35 @@
 import {
+	createDateRangeFilterConfig,
 	createFilterConfig,
 	type FilterConfigDefinition,
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
+import { RelativeDatetimeValue } from '@webitel/ui-sdk/enums';
 
-export const filtersOptions: FilterConfigDefinition[] = [
-	createFilterConfig({
+export const filterConfigs = {
+	[FilterOption.JoinedAt]: createDateRangeFilterConfig({
 		name: FilterOption.JoinedAt,
-		// the log is always bounded by a date range; there is no "all time" view
 		notDeletable: true,
+		showFilterName: true,
 	}),
-	FilterOption.Agent,
-	FilterOption.Bucket,
-	FilterOption.LeavingAt,
-	FilterOption.OfferingAt,
-	FilterOption.CallReportingResult,
-	FilterOption.AttemptDuration,
-];
+	[FilterOption.CallReportingResult]: createFilterConfig({
+		name: FilterOption.CallReportingResult,
+		showFilterName: true,
+	}),
+	[FilterOption.Agent]: createFilterConfig({
+		name: FilterOption.Agent,
+		showFilterName: true,
+	}),
+	[FilterOption.AttemptDuration]: createFilterConfig({
+		name: FilterOption.AttemptDuration,
+		showFilterName: true,
+	}),
+} satisfies Record<string, FilterConfigDefinition>;
+
+export const filtersOptions: FilterConfigDefinition[] =
+	Object.values(filterConfigs);
+
+export const defaultJoinedAtFilter = () => ({
+	name: FilterOption.JoinedAt,
+	value: RelativeDatetimeValue.Today,
+});

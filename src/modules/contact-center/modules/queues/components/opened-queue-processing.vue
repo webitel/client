@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ t('objects.ccenter.queues.processing.processing') }}
       </h3>
     </header>
@@ -86,10 +86,10 @@
 
 <script lang="ts" setup>
 import { FlowsAPI } from '@webitel/api-services/api';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useQueueTypeControls } from '../composables/useQueueTypeControls';
@@ -165,6 +165,8 @@ const loadFormSchemaOptions = (params: object) =>
 >
 .object-input-area-grid {
   display: grid;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
   grid-template-areas:
     'processingEnabled formSchema'
     'sec .'

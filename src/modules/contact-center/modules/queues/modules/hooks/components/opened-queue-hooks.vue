@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <hook-popup @saved="loadDataList" />
+    <hook-popup
+      :key="parentId"
+      @saved="loadDataList"
+    />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :callback="deleteCallback"
@@ -101,12 +104,13 @@
 
 <script lang="ts" setup>
 import type { EngineQueueHook } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -132,7 +136,9 @@ const { disableUserInput, hasUpdateAccess } = useUserAccessControl({
 const parentId = computed(() => route.params.id as string);
 const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
 
-const tableStore = useQueueHooksDatalistStore();
+const tableStore = useNestedTableList({
+	useTableStore: useQueueHooksDatalistStore,
+});
 const {
 	dataList,
 	error,
@@ -145,7 +151,6 @@ const {
 	filtersManager,
 } = storeToRefs(tableStore);
 const {
-	initialize,
 	loadDataList,
 	updatePage,
 	updateSize,
@@ -154,19 +159,6 @@ const {
 	deleteEls,
 	patchItemProperty,
 } = tableStore;
-
-if (!isNewQueue.value)
-	initialize({
-		parentId: parentId.value,
-	});
-
-// a queue saved from this tab gets its id late; load the list once it exists
-watch(parentId, (id, previous) => {
-	if (id && id !== 'new' && previous === 'new')
-		initialize({
-			parentId: id,
-		});
-});
 
 const ensureQueueSaved = useEnsureQueueSaved();
 
@@ -178,11 +170,12 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
-const openPopup = (hookId: string) =>
+const openPopup = (hookId: string, id: string = parentId.value) =>
 	router.push({
 		name: route.name,
 		params: {
 			...route.params,
+			id,
 			hookId,
 		},
 		query: route.query,
@@ -194,11 +187,13 @@ const openPopup = (hookId: string) =>
  * invalid queue leaves us here with its errors shown instead.
  */
 const add = async () => {
-	if (isNewQueue.value) {
-		const savedId = await ensureQueueSaved();
-		if (!savedId) return;
-	}
-	return openPopup('new');
+	if (!isNewQueue.value) return openPopup('new');
+
+	const savedId = await ensureQueueSaved();
+	if (!savedId) return;
+
+	// the queue's id landed in the route only now, so pass it explicitly
+	return openPopup('new', String(savedId));
 };
 
 const edit = (item: EngineQueueHook) => openPopup(String(item.id));

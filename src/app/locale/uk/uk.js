@@ -549,6 +549,7 @@ export default {
 				communications: "Тип зв'язку | Типи зв'язку",
 				allCommunications: "Всі типи зв'язку",
 				addCommunication: "Додати тип зв'язку",
+				missingCommunication: 'Будь ласка, додайте тип звʼязку',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -557,7 +558,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статуси оператора',
+				pauseCause: 'Причини паузи',
 				allPauseCause: 'Всі причини паузи оператора',
 				limit: 'Ліміт (хв)',
 				min: 'хвилин',
@@ -980,6 +981,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Нова черга',
+				saveBeforeAddingRecords:
+					'Заповніть обов’язкові поля черги, перш ніж додавати записи',
 				newQueueDescription: 'Типи черг',
 				outboundIVRQueue: 'Вихідна IVR-черга',
 				outboundIVR: 'Вихідний IVR',
@@ -1200,6 +1203,7 @@ export default {
 				allResGroups: 'Всі групи ресурсів',
 				searchPlaceholder: 'назва групи ресурсів..',
 				addResGroup: 'Додати групу ресурсів',
+				editResGroup: 'Редагувати групу ресурсів',
 				strategy: 'Стратегія',
 				timerange: 'Інтервал',
 				timerangeFrom: 'Від',
@@ -1261,8 +1265,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медіа',
 					[StorageUploadFileChannel.MailChannel]: 'лист',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'запис екрана',
 				},
 				encryptFile: 'Шифрувати нові файли',

@@ -6,18 +6,9 @@
       </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
-          :include="[IconAction.REFRESH, IconAction.COLUMNS, IconAction.FILTERS]"
-          @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
+          :include="[IconAction.REFRESH, IconAction.COLUMNS]"
           @click:refresh="loadDataList"
         >
-          <template #filters="{ action, onClick }">
-            <wt-badge :hidden="!filtersManager.hasFilters">
-              <wt-icon-action
-                :action="action"
-                @click="onClick"
-              />
-            </wt-badge>
-          </template>
           <template #search-bar>
             <dynamic-filter-search
               :filters-manager="filtersManager"
@@ -38,22 +29,11 @@
       </div>
     </header>
 
-    <the-queue-logs-filters
-      v-show="isFiltersPanelShown"
-      @hide="isFiltersPanelShown = false"
-    />
-
     <div class="table-section__table-wrapper">
-      <wt-empty
-        v-show="showEmpty"
-        :image="imageEmpty"
-        :text="textEmpty"
-      />
-
       <wt-loader v-show="isLoading" />
 
       <wt-table
-        v-show="dataList.length && !isLoading"
+        v-show="!isLoading"
         :data="dataList"
         :grid-actions="false"
         :headers="shownHeaders"
@@ -75,6 +55,9 @@
             {{ item.agent.name }}
           </div>
         </template>
+        <template #bucket="{ item }">
+          {{ item.bucket?.name }}
+        </template>
         <template #joinedAt="{ item }">
           {{ asDate(item.joinedAt) }}
         </template>
@@ -88,9 +71,7 @@
           {{ asDuration(item) }}
         </template>
         <template #viewNumber="{ item }">
-          <div v-if="item.destination">
-            {{ item.destination.description }}
-          </div>
+          {{ item.display }}
         </template>
         <template #attempts="{ item }">
           {{ item.attempts || 0 }}
@@ -98,8 +79,20 @@
         <template #result="{ item }">
           {{ t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
         </template>
+
+        <template #column-filter="scope">
+          <queue-logs-column-filter v-bind="scope" />
+        </template>
+
+        <template #empty>
+          <wt-empty
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
+        </template>
       </wt-table>
       <wt-pagination
+        v-show="dataList.length"
         :next="next"
         :prev="page > 1"
         :size="size"
@@ -113,25 +106,27 @@
 </template>
 
 <script lang="ts" setup>
-import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import {
+	DynamicFilterSearchComponent as DynamicFilterSearch,
+	FilterOption,
+} from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { storeToRefs } from 'pinia';
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
+import { defaultJoinedAtFilter } from '../configs/filtersOptions';
 import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
-import TheQueueLogsFilters from './the-queue-logs-filters.vue';
+import QueueLogsColumnFilter from './queue-logs-column-filter.vue';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab
 
 const { t } = useI18n();
 const route = useRoute();
-
-const isFiltersPanelShown = ref(false);
 
 const parentId = computed(() => route.params.id as string);
 const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
@@ -160,7 +155,12 @@ const {
 	updateShownHeaders,
 	columnResize,
 	columnReorder,
+	hasFilter,
 } = tableStore;
+
+if (!hasFilter(FilterOption.JoinedAt)) {
+	addFilter(defaultJoinedAtFilter());
+}
 
 if (!isNewQueue.value)
 	initialize({
@@ -180,11 +180,7 @@ const asDate = (value?: number | string) =>
 const asDuration = (item: { joinedAt?: number; leavingAt?: number }) =>
 	convertDuration(((item.leavingAt ?? 0) - (item.joinedAt ?? 0)) / 1000);
 
-const {
-	showEmpty,
-	image: imageEmpty,
-	text: textEmpty,
-} = useTableEmpty({
+const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 	dataList,
 	error,
 	filters: computed(() => filtersManager.value.getAllValues()),

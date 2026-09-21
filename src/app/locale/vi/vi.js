@@ -540,6 +540,7 @@ export default {
 				communications: 'Loại liên lạc',
 				allCommunications: 'Tất cả loại liên lạc',
 				addCommunication: 'Thêm liên lạc',
+				missingCommunication: 'Vui lòng thêm loại liên lạc',
 				code: 'Mã',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Điện thoại',
@@ -548,7 +549,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Trạng thái của đại lý',
+				pauseCause: 'Lý do tạm dừng',
 				allPauseCause: 'Tất cả nguyên nhân tạm dừng đại lý',
 				limit: 'Giới hạn (phút)',
 				min: 'phút',
@@ -963,6 +964,8 @@ export default {
 				teams: 'Đội',
 				tags: 'Thẻ',
 				newQueue: 'Hàng đợi mới',
+				saveBeforeAddingRecords:
+					'Điền các trường bắt buộc của hàng đợi trước khi thêm bản ghi',
 				blacklist: 'Danh sách dừng',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1184,6 +1187,7 @@ export default {
 				allResGroups: 'Tất cả nhóm tài nguyên',
 				searchPlaceholder: 'tên nhóm tài nguyên..',
 				addResGroup: 'Thêm nhóm tài nguyên',
+				editResGroup: 'Sửa nhóm tài nguyên',
 				strategy: 'Chiến lược',
 				timerange: 'Khoảng thời gian',
 				timerangeFrom: 'Từ',
@@ -1245,8 +1249,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'phương tiện',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ghi màn hình',
 				},
 				encryptFile: 'Mã hóa tệp mới',

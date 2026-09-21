@@ -13,7 +13,15 @@
     </template>
 
     <template #actions-panel>
-      <queues-filters-panel @hide="isFiltersPanelShown = false" />
+      <table-filters-panel
+        :filter-options="filtersOptions"
+        :filters-manager="filtersManager"
+        static-mode
+        @filter:add="addFilter"
+        @filter:update="updateFilter"
+        @filter:delete="deleteFilter"
+        @filter:reset-all="resetFilters"
+      />
     </template>
 
     <template #main>
@@ -58,6 +66,15 @@
                 })
               "
             >
+              <template #filters="{ action, onClick }">
+                <wt-badge :hidden="!hasPanelFilters">
+                  <wt-icon-action
+                    :action="action"
+                    @click="onClick"
+                  />
+                </wt-badge>
+              </template>
+
               <template #search-bar>
                 <dynamic-filter-search
                   :filters-manager="filtersManager"
@@ -71,15 +88,6 @@
               <template #switcher>
                 <queues-global-state-switcher :disabled="!hasUpdateAccess" />
               </template>
-              
-            <template #filters="{ action, onClick }">
-              <wt-badge :hidden="!hasAnyFilters">
-                <wt-icon-action
-                  :action="action"
-                  @click="onClick"
-                />
-              </wt-badge>
-            </template>
 
               <!-- https://webitel.atlassian.net/browse/WTEL-8681 -->
               <!-- <wt-icon-btn
@@ -93,19 +101,10 @@
         </header>
 
         <div class="table-section__table-wrapper">
-          <wt-empty
-            v-show="showEmpty"
-            :disabled-primary-action="!hasCreateAccess"
-            :image="imageEmpty"
-            :primary-action-text="primaryActionTextEmpty"
-            :text="textEmpty"
-            @click:primary="create"
-          />
-
           <wt-loader v-show="isLoading" />
 
           <wt-table
-            v-show="dataList.length && !isLoading"
+            v-show="!isLoading"
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
@@ -180,6 +179,20 @@
                 @input="openResourcesPopup(item)"
               />
             </template>
+            <template #column-filter="scope">
+              <queues-column-filter v-bind="scope" />
+            </template>
+
+            <template #empty>
+              <wt-empty
+                :disabled-primary-action="!hasCreateAccess"
+                :image="imageEmpty"
+                :primary-action-text="primaryActionTextEmpty"
+                :text="textEmpty"
+                @click:primary="create"
+              />
+            </template>
+
             <template #actions="{ item }">
               <wt-icon-btn
                 v-tooltip="t('iconHints.members')"
@@ -203,7 +216,9 @@
               />
             </template>
           </wt-table>
+
           <wt-pagination
+            v-show="dataList.length"
             :next="next"
             :prev="page > 1"
             :size="size"
@@ -220,7 +235,10 @@
 
 <script lang="ts" setup>
 import { QueueMembersAPI } from '@webitel/api-services/api';
-import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import {
+	DynamicFilterSearchComponent as DynamicFilterSearch,
+	TableFiltersPanelComponent as TableFiltersPanel,
+} from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -234,13 +252,14 @@ import ObjectListPopup from '../../../../../app/components/utils/object-list-pop
 import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { filtersOptions } from '../configs/filtersOptions';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
 import { useQueuesGlobalStateStore } from '../stores/globalState/queuesGlobalStateStore';
 import type { Queue } from '../types/Queue';
 import AttemptsResetPopup from './attempts-reset-popup.vue';
 import QueuePopup from './create-queue-popup.vue';
-import QueuesFiltersPanel from './queues-filters-panel.vue';
+import QueuesColumnFilter from './queues-column-filter.vue';
 import QueuesGlobalStateSwitcher from './queues-global-state-switcher.vue';
 
 const { t } = useI18n();
@@ -273,6 +292,7 @@ const {
 	updateSelected,
 	deleteEls,
 	patchItemProperty,
+	hasFilter,
 	addFilter,
 	updateFilter,
 	deleteFilter,
@@ -281,6 +301,15 @@ const {
 initialize();
 
 const isFiltersPanelShown = ref(false);
+
+const hasPanelFilters = computed(() =>
+	filtersOptions.some((filter) =>
+		typeof filter === 'string'
+			? hasFilter(filter)
+			: !filter.notDeletable && hasFilter(filter.name),
+	),
+);
+
 const isQueueSelectPopup = ref(false);
 const isAttemptsResetPopup = ref(false);
 
@@ -317,9 +346,13 @@ const path = computed(() => [
 	},
 ]);
 
-const hasAnyFilters = computed(
-	() => filtersManager.value.getAllKeys().length > 0,
-);
+const resetFilters = () => {
+	filtersManager.value.reset({
+		exclude: [
+			'search',
+		],
+	});
+};
 
 const queueTypeName = (type: number) => {
 	const properties = QueueTypeProperties[type];
@@ -379,7 +412,6 @@ const resetAttempts = async (resetAttemptsForm: unknown) => {
 };
 
 const {
-	showEmpty,
 	image: imageEmpty,
 	text: textEmpty,
 	primaryActionText: primaryActionTextEmpty,

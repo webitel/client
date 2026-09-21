@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     v-if="showQueuePage"
-    :actions-panel="false"
+    :actions-panel="isLogsTab"
   >
     <template #header>
       <wt-page-header
@@ -11,14 +11,30 @@
         :primary-text="saveText"
         :secondary-action="close"
       >
+        <template
+          v-if="!isNew"
+          #primary-action
+        >
+          <wt-button-select
+            :color="disabledSave ? 'secondary' : 'primary'"
+            :options="saveOptions"
+            @click="save"
+            @click:option="({ callback }) => callback()"
+          >
+            {{ saveText }}
+          </wt-button-select>
+        </template>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
+    <template #actions-panel>
+      <queue-logs-filters-panel />
+    </template>
 
     <template #main>
       <form
-        class="tabs-page-wrapper"
+        class="opened-card-tabs"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -39,6 +55,12 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
+
+      <save-copy-popup
+        :shown="isSaveCopyPopupShown"
+        @close="closeSaveCopyPopup"
+        @save="saveCopy"
+      />
     </template>
   </wt-page-wrapper>
   <wt-loader v-else />
@@ -48,24 +70,41 @@
 import {
 	getQueueDefaults,
 	hasQueueTypeDefaults,
+	QueuesAPI,
 } from '@webitel/api-services/api';
 import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
-import { useClose } from '@webitel/ui-sdk/composables';
+import { useClose, useEventBus } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import {
+	SaveCopyPopup,
+	useSaveCopyPopup,
+} from '@webitel/ui-sdk/modules/SaveCopyPopup';
 import deepmerge from 'deepmerge';
-import { computed, onMounted, onUnmounted, ref, toRaw, watch } from 'vue';
+import {
+	computed,
+	nextTick,
+	onMounted,
+	onUnmounted,
+	ref,
+	toRaw,
+	watch,
+} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import { provideEnsureQueueSaved } from '../composables/useEnsureQueueSaved';
+import {
+	createEnsureQueueSaved,
+	provideEnsureQueueSaved,
+} from '../composables/useEnsureQueueSaved';
 import {
 	type QueueTab,
 	QueueTabId,
 	QueueTypeSpecificTabs,
 } from '../configs/queueTabs';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
+import QueueLogsFiltersPanel from '../modules/logs/components/queue-logs-filters-panel.vue';
 import QueuesRoutesName from '../router/_internals/QueuesRoutesName.enum';
 import { useQueuesCardStore } from '../stores/card/queuesCardStore';
 import { useQueuesPermissionsStore } from '../stores/permissions/queuesPermissionsStore';
@@ -74,6 +113,7 @@ import type { Queue } from '../types/Queue';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const $eventBus = useEventBus();
 
 const {
 	hasSaveActionAccess,
@@ -230,6 +270,8 @@ const tabs = computed(() => {
 
 const { currentTab } = useCardTabs(tabs);
 
+const isLogsTab = computed(() => currentTab.value?.value === QueueTabId.Logs);
+
 /**
  * `useCardTabs`' own `changeTab` drops the route query, which would lose
  * `?type=` on the first tab switch of a queue that has not been saved yet.
@@ -288,16 +330,58 @@ const disabledSave = computed(
 		hasValidationErrors.value,
 );
 
+const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
+	useSaveCopyPopup((name) =>
+		QueuesAPI.add({
+			itemInstance: {
+				...toRaw(modelValue.value),
+				name,
+			},
+		}),
+	);
+/** `useCardRouting` parity, plus the query preservation it does not do */
+let idRedirect: Promise<unknown> = Promise.resolve();
+
+const stopIdWatch = watch(
+	() => cardStore.itemId,
+	(next, prev) => {
+		if (next && !prev) {
+			idRedirect = router.replace({
+				params: {
+					...route.params,
+					id: String(next),
+				},
+				query: route.query,
+			});
+			stopIdWatch();
+		}
+	},
+);
+
 /**
  * Nested tabs can add their first record before the queue exists. Routed
  * through the card's own validated `save`, so an invalid queue blocks the add
  * and shows its errors rather than persisting half-filled.
  */
-provideEnsureQueueSaved(async () => {
-	if (!isNew.value) return cardStore.itemId;
-	await save();
-	return cardStore.itemId;
-});
+provideEnsureQueueSaved(
+	createEnsureQueueSaved({
+		isNew: () => isNew.value,
+		itemId: () => cardStore.itemId,
+		save,
+		hasValidationErrors: () => hasValidationErrors.value,
+		notifyValidationBlocked: () =>
+			$eventBus?.$emit('notification', {
+				type: 'error',
+				text: t('objects.ccenter.queues.saveBeforeAddingRecords'),
+			}),
+		// the watcher above owns the `id` redirect: let it fire and settle
+		// before the tab routes, or the two navigations cancel out
+		settleIdRedirect: async () => {
+			await nextTick();
+			await idRedirect;
+		},
+	}),
+);
 
 onMounted(async () => {
 	await cardStore.initialize({
@@ -317,23 +401,6 @@ onMounted(async () => {
 });
 
 onUnmounted(() => cardStore.$reset());
-
-/** `useCardRouting` parity, plus the query preservation it does not do */
-const stopIdWatch = watch(
-	() => cardStore.itemId,
-	async (next, prev) => {
-		if (next && !prev) {
-			await router.replace({
-				params: {
-					...route.params,
-					id: String(next),
-				},
-				query: route.query,
-			});
-			stopIdWatch();
-		}
-	},
-);
 </script>
 
 <style

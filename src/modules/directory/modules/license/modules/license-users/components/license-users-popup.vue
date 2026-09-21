@@ -1,6 +1,6 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
+    :shown="!!licenseId"
     size="md"
     @close="close"
   >
@@ -11,32 +11,52 @@
           icon-prefix="adm"
           size="lg"
         />
-        {{ license.product }}
+        {{ license?.product }}
       </h3>
     </template>
     <template #main>
       <section class="table-section">
-        <wt-search-bar
-          :value="search"
-          debounce
-          full-width
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
+        <header class="table-title">
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.COLUMNS]"
+            @click:refresh="loadDataList"
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
+                single-search-name="q"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
+              />
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                enable-search
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
+        </header>
 
-        <wt-loader v-show="!isLoaded" />
+        <wt-loader v-show="isLoading" />
         <div
-          v-show="isLoaded"
+          v-show="!isLoading"
           class="table-section__table-wrapper"
         >
           <wt-table
             :data="dataList"
             :grid-actions="false"
-            :headers="headers"
+            :headers="shownHeaders"
             :selectable="false"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
           >
             <template #domain="{ item }">
               <div v-if="item.domain">
@@ -44,13 +64,15 @@
               </div>
             </template>
             <template #name="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.user"
-                :id="item.user.id"
-                :route-name="RouteNames.USERS"
+                :link="{
+                  name: `${RouteNames.USERS}-card`,
+                  params: { id: item.user.id },
+                }"
               >
                 {{ item.user.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #used="{ item }">
               <user-logout-control
@@ -60,14 +82,13 @@
             </template>
           </wt-table>
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -75,71 +96,95 @@
   </wt-popup>
 </template>
 
-<script>
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapActions, mapState } from 'vuex';
+<script setup lang="ts">
+import { UsersAPI } from '@webitel/api-services/api';
+import type {
+	ApiObjectId,
+	ApiProductUser,
+} from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { storeToRefs } from 'pinia';
+import { computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-import resetOnDestroyMixin from '../../../../../../../app/mixins/baseMixins/resetOnDestroyMixin/resetOnDestroyMixin';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import {
+	useLicenseDatalistStore,
+	useLicenseUsersDatalistStore,
+} from '../../../stores';
 import UserLogoutControl from './user-logout-control.vue';
 
-export default {
-	name: 'LicenseUsersPopup',
-	components: {
-		UserLogoutControl,
-	},
-	mixins: [
-		resetOnDestroyMixin,
-		openedObjectTableTabMixin,
-	],
-	data: () => ({
-		subNamespace: 'licenseUsers',
-	}),
-	computed: {
-		...mapState({
-			license(state) {
-				return (
-					getNamespacedState(state, this.namespace).dataList.find(
-						({ id }) => id === this.parentId,
-					) || {}
-				);
-			},
-		}),
-	},
-	methods: {
-		...mapActions({
-			setId(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_ID`, payload);
-			},
-			logoutUser(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/${this.subNamespace}/LOGOUT_USER`,
-					payload,
-				);
-			},
-			resetState(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/${this.subNamespace}/RESET_STATE`,
-					payload,
-				);
-			},
-		}),
-		async initTableView() {
-			await this.setId(this.$route.params.id);
-			if (this.setParentId) this.setParentId(this.parentId);
-			this.loadList();
-		},
-		close() {
-			this.$emit('close');
-		},
-	},
+const emit = defineEmits<{
+	close: [];
+}>();
+
+const route = useRoute();
+
+const licenseStore = useLicenseDatalistStore();
+const { dataList: licenses } = storeToRefs(licenseStore);
+
+const tableStore = useLicenseUsersDatalistStore();
+
+const {
+	dataList,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(tableStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+} = tableStore;
+
+const licenseId = computed(() => route.params.id as string | undefined);
+
+const license = computed(
+	() => licenses.value.find(({ id }) => id === licenseId.value) ?? null,
+);
+
+const close = () => emit('close');
+
+const logoutUser = async (user: ApiObjectId) => {
+	await UsersAPI.logoutUser({
+		id: user.id as string,
+	});
+	const row = dataList.value.find(
+		(item: ApiProductUser) => item.user === user || item.user?.id === user.id,
+	);
+	if (row) row.sessions = 0;
 };
+
+watch(
+	licenseId,
+	(id) => {
+		if (!id || id === 'new') return;
+		initialize({
+			parentId: id,
+		});
+	},
+	{
+		immediate: true,
+	},
+);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style lang="scss" scoped>
 .license-users-popup__title {
   display: flex;
   align-items: center;
@@ -150,11 +195,11 @@ export default {
   }
 }
 
-.wt-search-bar {
-  margin: var(--spacing-sm) 0;
-}
-
 .table-section__table-wrapper {
   max-height: 60vh;
+}
+
+.table-title {
+  justify-content: right;
 }
 </style>

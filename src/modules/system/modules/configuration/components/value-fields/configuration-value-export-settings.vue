@@ -5,7 +5,7 @@
       :label="t('vocabulary.format')"
       :options="descriptor.select?.options"
       option-value="id"
-      :v="v?.format"
+      :regle-validation="regleValidation?.$fields?.format"
       :model-value="value?.format"
       required
       @update:model-value="setFormat"
@@ -13,7 +13,7 @@
     <wt-input-text
       v-if="isCSV"
       :label="t('objects.CSV.separator')"
-      :v="v?.separator"
+      :regle-validation="regleValidation?.$fields?.separator"
       :model-value="value?.separator"
       required
       @update:model-value="setSeparator"
@@ -22,24 +22,19 @@
 </template>
 
 <script setup lang="ts">
+import type { RegleSchemaStatus } from '@regle/schemas';
 import { TypesExportedSettings } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import type { ParameterDescriptor } from '../../utils/parameterDescriptors';
-
-interface ExportSettingsValue {
-	format: string;
-	separator?: string;
-}
+import type {
+	ExportSettingsValue,
+	ParameterDescriptor,
+} from '../../types/configuration.types';
 
 const props = defineProps<{
 	// empty string until the format is first selected (new parameter default)
 	modelValue?: ExportSettingsValue | string;
-	v?: {
-		format?: object;
-		separator?: object;
-	};
+	regleValidation?: RegleSchemaStatus<ExportSettingsValue>;
 	descriptor: ParameterDescriptor;
 }>();
 
