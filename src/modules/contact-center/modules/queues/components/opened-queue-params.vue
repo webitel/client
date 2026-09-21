@@ -114,6 +114,7 @@
         v-model:model-value="payload.maxAgentLine"
         :disabled="disableUserInput"
         :label="t('objects.ccenter.queues.maxAgentLine')"
+        :min="1"
         :regle-validation="payloadValidation?.maxAgentLine"
         :required="isFieldRequired('payload.maxAgentLine')"
       />
