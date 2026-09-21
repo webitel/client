@@ -11,7 +11,7 @@
     <template #main>
       <div class="reset-members-popup--description">
         <p
-          v-if="descriptionMainText"
+          v-if="quantity"
           class="reset-members-popup--description-main"
         >
           {{ descriptionMainText }}
@@ -70,16 +70,13 @@ export default {
 	}),
 	computed: {
 		descriptionMainText() {
-			if (!this.quantity) return '';
-			if (this.scope === ActionOptions.Selected) {
-				return this.$t(
-					'objects.ccenter.members.resetMembers.descriptionSelected',
-				);
-			}
-			return this.$t('objects.ccenter.members.resetMembers.description', {
-				dateFrom: this.dateRange.from,
-				dateTo: this.dateRange.to,
-			});
+			return this.$t(
+				`objects.ccenter.members.resetMembers.description.${this.scope}`,
+				{
+					dateFrom: this.dateRange?.from,
+					dateTo: this.dateRange?.to,
+				},
+			);
 		},
 		descriptionCountText() {
 			return this.$t(
