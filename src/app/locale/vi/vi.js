@@ -903,12 +903,16 @@ export default {
 				emptyWorkspace: 'Không tìm thấy thành viên nào',
 				resetMembers: {
 					resetMembers: 'Đặt lại thử',
-					descriptionQuestion:
-						'Bạn có chắc chắn muốn đặt lại các lần thử không thành công',
-					description: ({ named, linked }) =>
-						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} từ\n${named('dateFrom')} đến ${named('dateTo')}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?`,
-					descriptionSelected: ({ linked }) =>
-						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} không?`,
+					description: {
+						question:
+							'Bạn có chắc chắn muốn đặt lại các lần thử không thành công',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} mà không có giới hạn ngày nào không?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} từ\n${named('dateFrom')} đến ${named('dateTo')}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} không?`,
+					},
 					descriptionCount: '{count} bản ghi sẽ bị ảnh hưởng.',
 					emptyDescription:
 						'Không có lần thử không thành công nào khớp với bộ lọc hiện tại. Không có gì để đặt lại.',

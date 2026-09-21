@@ -913,12 +913,15 @@ export default {
 				emptyWorkspace: 'Абоненты не найдены',
 				resetMembers: {
 					resetMembers: 'Перезапустить абонентов',
-					descriptionQuestion:
-						'Вы уверены, что хотите перезапустить неуспешные попытки',
-					description: ({ named, linked }) =>
-						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')} за период c\n${named('dateFrom')} по ${named('dateTo')}\n с учётом установленных фильтров и результатов поиска?`,
-					descriptionSelected: ({ linked }) =>
-						`${linked('objects.ccenter.members.resetMembers.descriptionQuestion')}?`,
+					description: {
+						question: 'Вы уверены, что хотите перезапустить неуспешные попытки',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за все время?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за период c\n${named('dateFrom')} по ${named('dateTo')}\n с учётом установленных фильтров и результатов поиска?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Будет обработано записей: {count}',
 					emptyDescription:
 						'По текущим фильтрам нет неуспешных попыток. Сбрасывать нечего.',
