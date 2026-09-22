@@ -38,6 +38,12 @@
         :model-value="itemInstance.description"
         @update:model-value="setItemProp({ prop: 'description', value: $event })"
       />
+      <wt-switcher
+        :disabled="disableUserInput"
+        :label="$t('objects.routing.dialplan.allowTransfer')"
+        :model-value="itemInstance.allowTransfer"
+        @update:model-value="setItemProp({ prop: 'allowTransfer', value: $event })"
+      />
     </div>
   </section>
 </template>
