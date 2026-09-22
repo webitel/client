@@ -17,7 +17,6 @@ export default [
 		value: 'teams',
 		locale: 'objects.team',
 		field: 'teams',
-		sort: SortSymbols.NONE,
 	},
 	{
 		value: 'allowAdmin',

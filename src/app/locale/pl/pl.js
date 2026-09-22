@@ -543,6 +543,7 @@ export default {
 				communications: 'Typ komunikacji | Typy komunikacji',
 				allCommunications: 'Wszystkie typy komunikacji',
 				addCommunication: 'Dodaj komunikację',
+				missingCommunication: 'Proszę dodać typ komunikacji',
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -551,7 +552,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Statusy agenta',
+				pauseCause: 'Powody pauzy',
 				allPauseCause: 'Wszystkie przyczyny zawieszenia agenta',
 				limit: 'Limit (min)',
 				min: 'min',
@@ -906,8 +907,15 @@ export default {
 				emptyWorkspace: 'Nie znaleziono członków',
 				resetMembers: {
 					resetMembers: 'Resetuj członków',
-					description:
-						'Czy na pewno chcesz zresetować nieudane próby z okresu\n{dateFrom} do {dateTo}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?',
+					description: {
+						question: 'Czy na pewno chcesz zresetować nieudane próby',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} bez żadnych ograniczeń czasowych?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} z okresu\n${named('dateFrom')} do ${named('dateTo')}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Zostanie przetworzonych rekordów: {count}',
 					emptyDescription:
 						'Żadne nieudane próby nie pasują do bieżących filtrów. Nie ma nic do zresetowania.',
@@ -964,6 +972,8 @@ export default {
 				teams: 'Zespół | Zespoły',
 				tags: 'Tagi',
 				newQueue: 'Nowa kolejka',
+				saveBeforeAddingRecords:
+					'Wypełnij wymagane pola kolejki przed dodaniem rekordów',
 				blacklist: 'Lista zatrzymana',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1250,9 +1260,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]:
-						'udostępnianie ekranu',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'nagrania ekranu',
 				},
 				encryptFile: 'Szyfruj nowe pliki',
@@ -1456,6 +1463,10 @@ export default {
 		deleteAll: 'Usuń wszystkie elementy',
 		deleteSelected: 'Usuń {count} wybranych elementów',
 		deleteFiltered: 'Usuń wszystkie filtrowane elementy',
+		resetAll: 'Zresetuj wszystkich członków',
+		resetSelected:
+			'Zresetuj {count} wybranego członka | Zresetuj {count} wybranych członków',
+		resetFiltered: 'Zresetuj wszystkich filtrowanych członków',
 		generate: 'Generuj',
 		add: 'Dodaj',
 		history: 'Historia',

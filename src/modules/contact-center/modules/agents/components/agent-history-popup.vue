@@ -28,7 +28,6 @@
           v-if="dummy && isLoaded"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
         />
         <div
           v-show="dataList.length && isLoaded"

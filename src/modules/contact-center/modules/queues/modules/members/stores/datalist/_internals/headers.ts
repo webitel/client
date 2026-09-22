@@ -1,5 +1,8 @@
 import type { DatalistTableHeader } from '@webitel/ui-datalist';
+import { FilterOption } from '@webitel/ui-datalist/filters';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
+
+import { filterConfigs } from '../../../configs/filtersOptions';
 
 export const headers: DatalistTableHeader[] = [
 	{
@@ -15,6 +18,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'created_at',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.CreatedAt],
 	},
 	{
 		value: 'offeringAt',
@@ -39,6 +43,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'priority',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.MemberPriority],
 	},
 	{
 		value: 'endCause',
@@ -46,6 +51,7 @@ export const headers: DatalistTableHeader[] = [
 		field: 'stop_cause',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.StopCause],
 	},
 	{
 		value: 'attempts',
@@ -63,5 +69,6 @@ export const headers: DatalistTableHeader[] = [
 		field: 'agent',
 		show: true,
 		sort: SortSymbols.NONE,
+		filter: filterConfigs[FilterOption.Agent],
 	},
 ];

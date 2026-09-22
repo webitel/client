@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
@@ -143,11 +143,11 @@ import {
 	QueueStrategyList,
 	TypesResourceStrategy,
 } from '@webitel/api-services/enums';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import { useQueueTypeControls } from '../composables/useQueueTypeControls';

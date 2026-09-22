@@ -541,6 +541,7 @@ export default {
 				communications: 'Communication type | Communication types',
 				allCommunications: 'All communication types',
 				addCommunication: 'Add communication',
+				missingCommunication: 'Please add communication',
 				code: 'Code',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Phone',
@@ -549,7 +550,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent statuses',
+				pauseCause: 'Pause causes',
 				allPauseCause: 'All agent pause causes',
 				limit: 'Limit (min)',
 				min: 'min',
@@ -902,8 +903,15 @@ export default {
 				emptyWorkspace: 'No members were found',
 				resetMembers: {
 					resetMembers: 'Reset members',
-					description:
-						'Are you sure you want to reset the failed attempts from\n{dateFrom} to {dateTo}\n based on the applied filters and search results?',
+					description: {
+						question: 'Are you sure you want to reset the failed attempts',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} without any date limits?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} from\n${named('dateFrom')} to ${named('dateTo')}\n based on the applied filters and search results?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: '{count} records will be affected.',
 					emptyDescription:
 						'No failed attempts match the current filters. There is nothing to reset.',
@@ -959,6 +967,8 @@ export default {
 				teams: 'Team | Teams',
 				tags: 'Tags',
 				newQueue: 'New queue',
+				saveBeforeAddingRecords:
+					'Fill in the required queue fields before adding records',
 				blacklist: 'Stop list',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1245,8 +1255,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'screen recordings',
 				},
@@ -1450,6 +1458,10 @@ export default {
 		deleteAll: 'Delete all items',
 		deleteSelected: 'Delete {count} selected items',
 		deleteFiltered: 'Delete all filtered items',
+		resetAll: 'Reset all members',
+		resetSelected:
+			'Reset {count} selected member | Reset {count} selected members',
+		resetFiltered: 'Reset all filtered members',
 		generate: 'Generate',
 		add: 'Add',
 		history: 'History',

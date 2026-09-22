@@ -67,7 +67,6 @@
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           :show-action="dummy.showAction"
-          class="dummy-wrapper"
           @create="create"
         ></wt-dummy>
 

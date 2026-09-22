@@ -36,7 +36,15 @@
     </template>
 
     <template #actions-panel>
-      <the-queue-members-filters @hide="isFiltersPanelShown = false" />
+      <table-filters-panel
+        :filter-options="filtersOptions"
+        :filters-manager="filtersManager"
+        static-mode
+        @filter:add="addFilter"
+        @filter:update="updateFilter"
+        @filter:delete="deleteFilter"
+        @filter:reset-all="resetFilters"
+      />
     </template>
 
     <template #main>
@@ -61,11 +69,12 @@
 
       <reset-popup
         v-if="isResetPopup"
-        :callback="resetMembers"
+        :callback="resetCallback"
         :date-range="selectedDateRange"
         :quantity="resetMembersQuantity"
+        :scope="resetScope"
         :shown="!disableUserInput && isResetPopup"
-        @close="isResetPopup = false"
+        @close="closeReset"
       />
 
       <export-popup
@@ -83,9 +92,18 @@
           <div class="table-title__actions-wrap">
             <wt-action-bar
               :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS, IconAction.RESET_MEMBERS, IconAction.DELETE]"
-              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
               @click:refresh="loadDataList"
+              @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
             >
+              <template #filters="{ action, onClick }">
+                <wt-badge :hidden="!hasPanelFilters">
+                  <wt-icon-action
+                    :action="action"
+                    @click="onClick"
+                  />
+                </wt-badge>
+              </template>
+
               <template #search-bar>
                 <dynamic-filter-search
                   :filters-manager="filtersManager"
@@ -95,15 +113,6 @@
                   @filter:update="updateFilter"
                 />
               </template>
-
-            <template #filters="{ action, onClick }">
-              <wt-badge :hidden="!filtersManager.hasFilters">
-                <wt-icon-action
-                  :action="action"
-                  @click="onClick"
-                />
-              </wt-badge>
-            </template>
               <template #columns>
                 <wt-table-column-select
                   :headers="headers"
@@ -112,12 +121,19 @@
               </template>
 
               <template #reset-members>
-                <wt-icon-btn
-                  v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
-                  :disabled="disableUserInput"
-                  icon="reset-members"
-                  @click="openResetPopup"
-                />
+                <wt-context-menu
+                  :options="resetOptions"
+                  @click="$event.option.method()"
+                >
+                  <template #activator="{ toggle }">
+                    <wt-icon-btn
+                      v-tooltip="t('objects.ccenter.members.resetMembers.resetMembers')"
+                      :disabled="disableUserInput"
+                      icon="reset-members"
+                      @click="toggle"
+                    />
+                  </template>
+                </wt-context-menu>
               </template>
 
               <template #delete>
@@ -139,19 +155,10 @@
         </header>
 
         <div class="table-section__table-wrapper">
-          <wt-empty
-            v-show="showEmpty"
-            :disabled-primary-action="disableUserInput"
-            :image="imageEmpty"
-            :primary-action-text="primaryActionTextEmpty"
-            :text="textEmpty"
-            @click:primary="create"
-          />
-
           <wt-loader v-show="isLoading" />
 
           <wt-table
-            v-show="dataList.length && !isLoading"
+            v-show="!isLoading"
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
@@ -211,6 +218,19 @@
               </adm-item-link>
             </template>
 
+            <template #column-filter="scope">
+              <queue-members-column-filter v-bind="scope" />
+            </template>
+
+            <template #empty>
+              <wt-empty
+                :image="imageEmpty"
+                :primary-action-text="emptyPrimaryActionText"
+                :text="textEmpty"
+                @click:primary="create"
+              />
+            </template>
+
             <template #actions="{ item }">
               <wt-icon-action
                 :disabled="disableUserInput"
@@ -229,7 +249,9 @@
               />
             </template>
           </wt-table>
+
           <wt-pagination
+            v-show="dataList.length"
             :next="next"
             :prev="page > 1"
             :size="size"
@@ -250,7 +272,10 @@ import type {
 	EngineMemberCommunication,
 	EngineMemberInQueue,
 } from '@webitel/api-services/gen/models';
-import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import {
+	DynamicFilterSearchComponent as DynamicFilterSearch,
+	TableFiltersPanelComponent as TableFiltersPanel,
+} from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -272,12 +297,19 @@ import RouteNames from '../../../../../../../app/router/_internals/RouteNames.en
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
-import { defaultMemberPriorityFilter } from '../configs/filtersOptions';
+import { useResetConfirmationPopup } from '../composables/useResetConfirmationPopup';
+import {
+	type DateRange,
+	defaultCreatedAtFilter,
+	resolveDefaultCreatedAtFilter,
+} from '../configs/defaultFilters';
+import { filtersOptions } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
+import { ActionOptions } from '../types/ActionOptions';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
 import ExportPopup from './export-members-popup.vue';
+import QueueMembersColumnFilter from './queue-members-column-filter.vue';
 import ResetPopup from './reset-members-popup.vue';
-import TheQueueMembersFilters from './the-queue-members-filters.vue';
 import UploadPopup from './upload-members-popup.vue';
 
 const { t, te } = useI18n();
@@ -330,10 +362,17 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
+const {
+	isVisible: isResetPopup,
+	resetQuantity: resetMembersQuantity,
+	resetCallback,
+	resetScope,
+	askResetConfirmation,
+	closeReset,
+} = useResetConfirmationPopup();
+
 const isFiltersPanelShown = ref(false);
-const isResetPopup = ref(false);
 const isExportPopup = ref(false);
-const resetMembersQuantity = ref(0);
 const csvFile = ref<File | null>(null);
 const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
@@ -369,10 +408,7 @@ const endCauseText = (stopCause: string) => {
 /** the reset popup tells the user which window it is about to clear */
 const selectedDateRange = computed(() => {
 	const createdAt = filtersManager.value.getFilter('createdAt')?.value as
-		| {
-				from?: number;
-				to?: number;
-		  }
+		| Partial<DateRange>
 		| undefined;
 	const asShortDate = (value?: number) =>
 		value ? formatDate(+value, FormatDateMode.DATETIME_SHORT) : undefined;
@@ -385,6 +421,26 @@ const selectedDateRange = computed(() => {
 
 const currentFilters = () => filtersManager.value.getAllValues();
 
+let defaultCreatedAt = defaultCreatedAtFilter();
+
+const resetFilters = () => {
+	filtersManager.value.reset({
+		exclude: [
+			'search',
+			defaultCreatedAt.name,
+		],
+	});
+	filtersManager.value.updateFilter(defaultCreatedAt);
+};
+
+const hasPanelFilters = computed(() =>
+	filtersOptions.some((filter) =>
+		typeof filter === 'string'
+			? hasFilter(filter)
+			: !filter.notDeletable && hasFilter(filter.name),
+	),
+);
+
 /** every bulk mutation leaves the list stale, so all of them reload it */
 const withReload =
 	<A extends unknown[]>(action: (...args: A) => Promise<unknown>) =>
@@ -396,20 +452,52 @@ const withReload =
 		}
 	};
 
-const resetMembers = withReload(() =>
-	QueueMembersAPI.resetMembers({
+const openResetPopup = async (
+	filters: Record<string, unknown>,
+	scope: ActionOptions,
+) => {
+	const quantity = await QueueMembersAPI.getQuantity({
 		parentId: queueId.value,
-		filters: currentFilters(),
-	}),
-);
-
-const openResetPopup = async () => {
-	resetMembersQuantity.value = await QueueMembersAPI.getQuantity({
-		parentId: queueId.value,
-		filters: currentFilters(),
+		filters,
 	});
-	isResetPopup.value = true;
+	askResetConfirmation({
+		quantity,
+		scope,
+		callback: withReload(() =>
+			QueueMembersAPI.resetMembers({
+				parentId: queueId.value,
+				filters,
+			}),
+		),
+	});
 };
+
+const resetOptions = computed(() => [
+	{
+		text: t('iconHints.resetAll'),
+		method: () => openResetPopup({}, ActionOptions.All),
+	},
+	{
+		text: t('iconHints.resetFiltered'),
+		method: () => openResetPopup(currentFilters(), ActionOptions.Filtered),
+	},
+	...(selected.value.length
+		? [
+				{
+					text: t('iconHints.resetSelected', {
+						count: selected.value.length,
+					}),
+					method: () =>
+						openResetPopup(
+							{
+								ids: selected.value.map(({ id }) => id),
+							},
+							ActionOptions.Selected,
+						),
+				},
+			]
+		: []),
+]);
 
 const deleteAll = withReload(() =>
 	QueueMembersAPI.deleteBulk({
@@ -503,20 +591,15 @@ const close = () =>
 		name: RouteNames.QUEUES,
 	});
 
-/**
- * The seeded `priority` default is not a filter the user chose, so an empty
- * queue keeps the "no members yet" state instead of flipping to
- * "nothing matches your criteria".
- */
-const userChosenFilters = computed(() => {
-	const { name } = defaultMemberPriorityFilter();
-	const { [name]: _seeded, ...rest } = filtersManager.value.getAllValues();
-
-	return rest;
-});
+const userChosenFilters = computed(() =>
+	filtersManager.value.getAllValues({
+		exclude: [
+			defaultCreatedAt.name,
+		],
+	}),
+);
 
 const {
-	showEmpty,
 	image: imageEmpty,
 	text: textEmpty,
 	primaryActionText: primaryActionTextEmpty,
@@ -540,6 +623,10 @@ const {
 	},
 );
 
+const emptyPrimaryActionText = computed(() =>
+	disableUserInput.value ? '' : primaryActionTextEmpty.value,
+);
+
 /**
  * Seeded here rather than in the filters panel: that component only mounts
  * while the panel is open, and the default has to be in place for the very
@@ -547,15 +634,14 @@ const {
  * path clobbers it — a snapshot persisted before this default existed.
  */
 const seedDefaultFilters = () => {
-	const priority = defaultMemberPriorityFilter();
-
-	if (!hasFilter(priority.name)) addFilter(priority);
+	if (!hasFilter(defaultCreatedAt.name)) addFilter(defaultCreatedAt);
 };
 
 // restoring persisted filters builds their configs, which reach for i18n
 const instance = getCurrentInstance();
 onMounted(() =>
 	instance?.appContext.app.runWithContext(async () => {
+		defaultCreatedAt = await resolveDefaultCreatedAtFilter();
 		seedDefaultFilters();
 		await initialize({
 			parentId: queueId.value,

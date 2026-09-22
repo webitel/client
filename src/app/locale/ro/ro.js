@@ -544,6 +544,7 @@ export default {
 				communications: 'Tip de comunicare | Tipuri de comunicare',
 				allCommunications: 'Toate tipurile de comunicare',
 				addCommunication: 'Adaugă comunicare',
+				missingCommunication: 'Vă rugăm să adăugați un tip de comunicare',
 				code: 'Cod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -552,7 +553,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Stări agent',
+				pauseCause: 'Motive de pauză',
 				allPauseCause: 'Toate cauzele de pauză a agentului',
 				limit: 'Limită (min)',
 				min: 'min',
@@ -908,8 +909,15 @@ export default {
 				emptyWorkspace: 'Nu au fost găsiți membri',
 				resetMembers: {
 					resetMembers: 'Resetează membri',
-					description:
-						'Sunteți sigur că doriți să resetați încercările eșuate din perioada\n{dateFrom} până la {dateTo}\nținând cont de filtrele aplicate și de rezultatele căutării?',
+					description: {
+						question: 'Sunteți sigur că doriți să resetați încercările eșuate',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} fără nicio limită de dată?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} din perioada\n${named('dateFrom')} până la ${named('dateTo')}\nținând cont de filtrele aplicate și de rezultatele căutării?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Vor fi afectate {count} înregistrări.',
 					emptyDescription:
 						'Nu există încercări eșuate care să corespundă filtrelor curente. Nu este nimic de resetat.',
@@ -966,6 +974,8 @@ export default {
 				teams: 'Echipă | Echipe',
 				tags: 'Etichete',
 				newQueue: 'Coadă nouă',
+				saveBeforeAddingRecords:
+					'Completați câmpurile obligatorii ale cozii înainte de a adăuga înregistrări',
 				blacklist: 'Listă de oprire',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1251,8 +1261,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'înregistrări ecran',
 				},
@@ -1458,6 +1466,10 @@ export default {
 		deleteAll: 'Șterge toate elementele',
 		deleteSelected: 'Șterge {count} elemente selectate',
 		deleteFiltered: 'Șterge toate elementele filtrate',
+		resetAll: 'Resetează toți membrii',
+		resetSelected:
+			'Resetează {count} membru selectat | Resetează {count} membri selectați',
+		resetFiltered: 'Resetează toți membrii filtrați',
 		generate: 'Generează',
 		add: 'Adaugă',
 		history: 'Istoric',

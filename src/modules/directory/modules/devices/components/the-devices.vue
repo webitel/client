@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="devices table-page"
   >
     <template #header>
       <wt-page-header
@@ -16,6 +16,7 @@
       <history-popup @close="closeHistoryPopup" />
 
       <upload-popup
+        v-if="csvFile"
         :file="csvFile"
         @close="closeCSVPopup"
       />
@@ -32,66 +33,86 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.directory.devices.allDevices') }}
+            {{ t('objects.directory.devices.allDevices') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.UPLOAD,
+              IconAction.COLUMNS,
+            ]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
+                single-search-name="q"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
+            </template>
+            <template #upload>
               <upload-file-icon-btn
                 v-if="hasCreateAccess"
                 accept=".csv"
                 class="icon-action"
                 @change="processCSV"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                enable-search
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="create"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.DEVICES"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.DEVICES}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #account="{ item }">
@@ -99,16 +120,17 @@
             </template>
 
             <template #user="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.user"
-                :id="item.user.id"
-                :route-name="RouteNames.USERS"
+                :link="{
+                  name: `${RouteNames.USERS}-card`,
+                  params: { id: item.user.id },
+                }"
               >
                 {{ item.user.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
-            <!--state classes are specified in table-status component-->
             <template #state="{ item }">
               <wt-indicator
                 :color="stateClass(item.reged ? 1 : 0)"
@@ -122,29 +144,31 @@
                 @click="openHistory(item.id)"
               />
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -152,152 +176,159 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { ApiDevice } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum.js';
+import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum';
+import { useDevicesDatalistStore } from '../stores';
 import DevicePopup from './create-device-popup.vue';
 import HistoryPopup from './device-history-popup.vue';
 import UploadPopup from './upload-devices-popup.vue';
 
-const namespace = 'directory/devices';
+const { t } = useI18n();
+const router = useRouter();
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-export default {
-	name: 'TheDevices',
-	components: {
-		HistoryPopup,
-		UploadPopup,
-		DevicePopup,
-		UploadFileIconBtn,
-		DeleteConfirmationPopup,
+const tableStore = useDevicesDatalistStore();
+
+const {
+	dataList,
+	selected,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(tableStore);
+
+const {
+	initialize,
+	loadDataList,
+	updateSelected,
+	updatePage,
+	updateSize,
+	updateSort,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+} = tableStore;
+
+initialize();
+
+const csvFile = ref<File | null>(null);
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.directory.directory'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.directory.devices.devices', 2),
+		route: '/directory/devices',
 	},
-	data: () => ({
-		namespace,
-		csvFile: null,
-		routeName: RouteNames.DEVICES,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.directory.directory'),
-				},
-				{
-					name: this.$t('objects.directory.devices.devices', 2),
-					route: '/directory/devices',
-				},
-			];
+const create = () =>
+	router.push({
+		...router.currentRoute.value,
+		query: {
+			new: 'true',
 		},
-	},
+	});
 
-	methods: {
-		create() {
-			this.$router.push({
-				...this.$route,
-				query: {
-					new: true,
-				},
-			});
+const edit = (item: ApiDevice) =>
+	router.push({
+		name: `${RouteNames.DEVICES}-card`,
+		params: {
+			id: item.id,
 		},
-		closeDeviceSelectPopup() {
-			this.$router.go(-1);
-		},
+	});
 
-		processCSV(files) {
-			const file = files[0];
-			if (file) {
-				this.csvFile = file;
-			}
-		},
-		openHistory(id) {
-			return this.$router.push({
-				...this.$route,
-				name: DevicesRouteNames.HISTORY,
-				params: {
-					historyId: id,
-				},
-			});
-		},
-		closeHistoryPopup() {
-			return this.$router.push({
-				name: this.routeName,
-			});
-		},
-		closeCSVPopup() {
-			this.csvFile = null;
-			this.loadList();
-		},
+const closeDeviceSelectPopup = () => router.go(-1);
 
-		stateClass(state) {
-			switch (state) {
-				case 0:
-					return 'disabled';
-				case 1:
-					return 'success';
-				default:
-					return '';
-			}
-		},
-
-		stateText(state) {
-			switch (state) {
-				case 0:
-					return this.$t('objects.directory.devices.state.nonreg');
-				case 1:
-					return this.$t('objects.directory.devices.state.reged');
-				// case 2:
-				//   return this.$t('objects.directory.devices.state.ringing');
-				// case 3:
-				//   return this.$t('objects.directory.devices.state.dialing');
-				// case 4:
-				//   return this.$t('objects.directory.devices.state.dialog');
-				// case 5:
-				//   return this.$t('objects.directory.devices.state.onhold');
-				default:
-					return 'unknown';
-			}
-		},
-	},
+const processCSV = (files: FileList | File[]) => {
+	const file = files[0];
+	if (file) csvFile.value = file;
 };
+
+const openHistory = (id: string) =>
+	router.push({
+		name: DevicesRouteNames.HISTORY,
+		params: {
+			historyId: id,
+		},
+		query: router.currentRoute.value.query,
+	});
+
+const closeHistoryPopup = () =>
+	router.push({
+		name: RouteNames.DEVICES,
+	});
+
+const closeCSVPopup = () => {
+	csvFile.value = null;
+	loadDataList();
+};
+
+const stateClass = (state: number) => {
+	switch (state) {
+		case 0:
+			return 'disabled';
+		case 1:
+			return 'success';
+		default:
+			return '';
+	}
+};
+
+const stateText = (state: number) => {
+	switch (state) {
+		case 0:
+			return t('objects.directory.devices.state.nonreg');
+		case 1:
+			return t('objects.directory.devices.state.reged');
+		default:
+			return 'unknown';
+	}
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>

@@ -539,6 +539,7 @@ export default {
 				communications: 'Коммуникация түрі | Коммуникация түрлері',
 				allCommunications: 'Барлық коммуникация түрлері',
 				addCommunication: 'Коммуникация қосу',
+				missingCommunication: 'Коммуникация түрін қосыңыз',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -547,7 +548,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Агент күйлері',
+				pauseCause: 'Пауза себептері',
 				allPauseCause: 'Барлық агент демалыс себептері',
 				limit: 'Шектеу (мин)',
 				min: 'мин',
@@ -903,8 +904,13 @@ export default {
 				emptyWorkspace: 'Меншіктер табылмады',
 				resetMembers: {
 					resetMembers: 'Меншіктерді қалпына келтіру',
-					description:
-						'Сіз \n{dateFrom} мен {dateTo} аралығындағы\nсәтсіз әрекеттерді қолданылған сүзгілер мен іздеу нәтижелері бойынша қалпына келтіргіңіз келетініне сенімдісіз бе?',
+					description: {
+						all: 'Күнді шектеместен сәтсіз әрекеттерді қалпына келтіргіңіз келетініне сенімдісіз бе?',
+						filtered:
+							'Сіз \n{dateFrom} мен {dateTo} аралығындағы\nсәтсіз әрекеттерді қолданылған сүзгілер мен іздеу нәтижелері бойынша қалпына келтіргіңіз келетініне сенімдісіз бе?',
+						selected:
+							'Сіз сәтсіз әрекеттерді қалпына келтіргіңіз келетініне сенімдісіз бе?',
+					},
 					descriptionCount: '{count} жазба әсер етеді.',
 					emptyDescription:
 						'Ағымдағы сүзгілер бойынша сәтсіз әрекеттер табылған жоқ. Қалпына келтіретін ешнәрсе жоқ.',
@@ -960,6 +966,8 @@ export default {
 				teams: 'Команда | Командалар',
 				tags: 'Тақтар',
 				newQueue: 'Жаңа қойма',
+				saveBeforeAddingRecords:
+					'Жазбаларды қоспас бұрын кезектің міндетті өрістерін толтырыңыз',
 				blacklist: 'Стоп тізімі',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1243,8 +1251,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'пошта',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'экранды жазу',
 				},
 				encryptFile: 'Жаңа файлдарды шифрлеу',
@@ -1448,6 +1454,10 @@ export default {
 		deleteAll: 'Барлық элементтерді өшіру',
 		deleteSelected: 'Өшіру {count} таңдалған элементтер',
 		deleteFiltered: 'Фильтрлеуден кейінгі барлық элементтерді өшіру',
+		resetAll: 'Барлық меншіктерді қалпына келтіру',
+		resetSelected:
+			'Таңдалған {count} меншікті қалпына келтіру | Таңдалған {count} меншікті қалпына келтіру',
+		resetFiltered: 'Фильтрленген барлық меншіктерді қалпына келтіру',
 		generate: 'Құру',
 		add: 'Қосу',
 		history: 'Тарих',

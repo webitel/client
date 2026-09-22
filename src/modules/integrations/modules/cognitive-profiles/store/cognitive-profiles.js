@@ -1,5 +1,5 @@
+import { StorageProviderType } from '@webitel/api-services/gen/models';
 import deepMerge from 'deepmerge';
-import { StorageProviderType } from 'webitel-sdk';
 
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import CognitiveProfilesAPI from '../api/cognitiveProfiles';

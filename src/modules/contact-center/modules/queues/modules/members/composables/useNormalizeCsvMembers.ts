@@ -1,8 +1,15 @@
 import { CommunicationsAPI, QueueMembersAPI } from '@webitel/api-services/api';
+import { EngineCommunicationChannels } from '@webitel/api-services/gen/models';
+import {
+	memberCommunicationSchema,
+	phoneNumberSchema,
+} from '@webitel/api-services/validations';
 import type { Ref } from 'vue';
 
-/** carried over verbatim; see memberCommunicationSchema for the same pattern */
-const dtmfPattern = /^[\d|w|W]*$/;
+const { dtmf: dtmfSchema } = memberCommunicationSchema.shape;
+const destinationSchemaByChannel = {
+	[EngineCommunicationChannels.Phone]: phoneNumberSchema,
+} as const;
 
 interface MappingField {
 	name: string;
@@ -13,11 +20,8 @@ interface MappingField {
 // biome-ignore lint/suspicious/noExplicitAny: rows come from a user-supplied csv
 type CsvRow = Record<string, any>;
 
-const findCommunicationIdByCode = (
-	communications: CsvRow[],
-	code: string,
-): string | undefined =>
-	communications.find((communication) => communication.code === code)?.id;
+const findCommunicationByCode = (communications: CsvRow[], code: string) =>
+	communications.find((communication) => communication.code === code);
 
 /**
  * Turns parsed csv rows into queue members.
@@ -40,6 +44,12 @@ export const useNormalizeCsvMembers = ({
 	const normalizeData = async (data: CsvRow[]) => {
 		const { items: allCommunications } = await CommunicationsAPI.getList({
 			size: 5000,
+			// `channel` decides which rule a destination is held to
+			fields: [
+				'id',
+				'code',
+				'channel',
+			],
 		});
 
 		return data.map((item) => {
@@ -93,19 +103,33 @@ export const useNormalizeCsvMembers = ({
 			);
 
 			for (let index = 0; index < communicationCount; index += 1) {
-				const id = findCommunicationIdByCode(
+				const type = findCommunicationByCode(
 					allCommunications,
 					normalized.code[index],
 				);
 
-				if (!id) {
+				if (!type) {
 					console.error(`cannot find communication: ${normalized.code[index]}`);
 				}
+				const id = type?.id;
+				const destination = normalized.destination[index];
+
 				// a communication needs both a type and somewhere to reach
-				if (!id || !normalized.destination[index]) continue;
+				if (!id || !destination) continue;
+
+				const destinationSchema =
+					destinationSchemaByChannel[
+						type.channel as keyof typeof destinationSchemaByChannel
+					];
+				const checked = destinationSchema?.safeParse(destination);
+
+				if (checked && !checked.success) {
+					// already localized: `configureZod` installs a global error map
+					throw new SyntaxError(checked.error.issues[0].message);
+				}
 
 				const communication: CsvRow = {
-					destination: normalized.destination[index],
+					destination,
 					type: {
 						id,
 					},
@@ -118,7 +142,7 @@ export const useNormalizeCsvMembers = ({
 					communication.description = normalized.description[index];
 				}
 				if (normalized.dtmf?.[index]) {
-					if (!dtmfPattern.test(normalized.dtmf[index])) {
+					if (!dtmfSchema.safeParse(normalized.dtmf[index]).success) {
 						throw new SyntaxError('No valid DTMF were passed!');
 					}
 					communication.dtmf = normalized.dtmf[index];

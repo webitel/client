@@ -1,16 +1,16 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon
         icon="telegram"
         icon-prefix="messenger"
         size="sm"
       />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.chatGateways.telegramApp.telegramApp') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -116,7 +116,7 @@ export default {
 >
 @use '../../css/chat-gateways';
 
-.object-input-grid .telegram-app-button {
+.opened-card-input-grid .telegram-app-button {
   margin: auto;
 }
 </style>

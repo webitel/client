@@ -549,6 +549,7 @@ export default {
 				communications: "Тип зв'язку | Типи зв'язку",
 				allCommunications: "Всі типи зв'язку",
 				addCommunication: "Додати тип зв'язку",
+				missingCommunication: 'Будь ласка, додайте тип звʼязку',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -557,7 +558,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статуси оператора',
+				pauseCause: 'Причини паузи',
 				allPauseCause: 'Всі причини паузи оператора',
 				limit: 'Ліміт (хв)',
 				min: 'хвилин',
@@ -916,8 +917,15 @@ export default {
 				emptyWorkspace: 'Абонентів не знайдено',
 				resetMembers: {
 					resetMembers: 'Перезапустити абонентів',
-					description:
-						'Ви впевнені, що хочете перезапустити неуспішні спроби за період з \n{dateFrom} по {dateTo}\nз урахуванням встановлених фільтрів та результатів пошуку? ',
+					description: {
+						question: 'Ви впевнені, що хочете перезапустити неуспішні спроби',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за увесь час?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за період з \n${named('dateFrom')} по ${named('dateTo')}\nз урахуванням встановлених фільтрів та результатів пошуку? `,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Буде оброблено записів: {count}',
 					emptyDescription:
 						'За поточними фільтрами немає невдалих спроб. Скидати немає чого.',
@@ -977,6 +985,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Нова черга',
+				saveBeforeAddingRecords:
+					'Заповніть обов’язкові поля черги, перш ніж додавати записи',
 				newQueueDescription: 'Типи черг',
 				outboundIVRQueue: 'Вихідна IVR-черга',
 				outboundIVR: 'Вихідний IVR',
@@ -1259,8 +1269,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медіа',
 					[StorageUploadFileChannel.MailChannel]: 'лист',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'запис екрана',
 				},
 				encryptFile: 'Шифрувати нові файли',
@@ -1461,6 +1469,10 @@ export default {
 		deleteAll: "Видалити всі об'єкти",
 		deleteSelected: "Видалити {count} обраних об'єктів",
 		deleteFiltered: "Видалити всі відфільтровані об'єкти",
+		resetAll: 'Перезапустити всіх абонентів',
+		resetSelected:
+			'Перезапустити {count} обраного абонента | Перезапустити {count} обраних абонентів',
+		resetFiltered: 'Перезапустити всіх відфільтрованих абонентів',
 		generate: 'Створити',
 		add: 'Додати',
 		history: 'Історія',

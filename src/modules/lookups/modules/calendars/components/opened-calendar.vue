@@ -28,7 +28,7 @@
       <wt-loader v-if="debouncedIsLoading" />
       <form
         v-else
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs

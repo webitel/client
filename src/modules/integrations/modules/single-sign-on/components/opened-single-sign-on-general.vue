@@ -1,11 +1,11 @@
 <template>
   <section class="opened-single-sign-on-general">
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="t('objects.name')"
@@ -39,7 +39,7 @@
 
 
     </div>
-    <div class="object-input-grid opened-single-sign-on-general__token-grid">
+    <div class="opened-card-input-grid opened-single-sign-on-general__token-grid">
       <single-sign-on-token :disabled="!modelValue.id" />
 
       <wt-multi-select

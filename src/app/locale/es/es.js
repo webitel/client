@@ -546,6 +546,7 @@ export default {
 				communications: 'Tipo de comunicación | Tipos de comunicación',
 				allCommunications: 'Todos los tipos de comunicación',
 				addCommunication: 'Añadir comunicación',
+				missingCommunication: 'Por favor, añada un tipo de comunicación',
 				code: 'Código',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Teléfono',
@@ -554,7 +555,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Estados de agente',
+				pauseCause: 'Causas de pausa',
 				allPauseCause: 'Todos los motivos de pausa de agente',
 				limit: 'Límite (min)',
 				min: 'min',
@@ -911,8 +912,16 @@ export default {
 				emptyWorkspace: 'No se encontraron miembros',
 				resetMembers: {
 					resetMembers: 'Restablecer miembros',
-					description:
-						'¿Está seguro de que desea reiniciar los intentos fallidos desde\n{dateFrom} hasta {dateTo}\nsegún los filtros aplicados y los resultados de la búsqueda?',
+					description: {
+						question:
+							'¿Está seguro de que desea reiniciar los intentos fallidos',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} sin ningún límite de fecha?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} desde\n${named('dateFrom')} hasta ${named('dateTo')}\nsegún los filtros aplicados y los resultados de la búsqueda?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Se verán afectados {count} registros.',
 					emptyDescription:
 						'No hay intentos fallidos que coincidan con los filtros actuales. No hay nada que reiniciar.',
@@ -968,6 +977,8 @@ export default {
 				teams: 'Equipo | Equipos',
 				tags: 'Etiquetas',
 				newQueue: 'Nueva cola',
+				saveBeforeAddingRecords:
+					'Complete los campos obligatorios de la cola antes de agregar registros',
 				blacklist: 'Lista de parada',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1254,8 +1265,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'medio',
 					[StorageUploadFileChannel.MailChannel]: 'correo',
 					[StorageUploadFileChannel.LogChannel]: 'registro',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'grabaciones de pantalla',
 				},
@@ -1463,6 +1472,10 @@ export default {
 		deleteAll: 'Eliminar todos los elementos',
 		deleteSelected: 'Eliminar {count} elementos seleccionados',
 		deleteFiltered: 'Eliminar todos los elementos filtrados',
+		resetAll: 'Restablecer todos los miembros',
+		resetSelected:
+			'Restablecer {count} miembro seleccionado | Restablecer {count} miembros seleccionados',
+		resetFiltered: 'Restablecer todos los miembros filtrados',
 		generate: 'Generar',
 		add: 'Añadir',
 		history: 'Historial',

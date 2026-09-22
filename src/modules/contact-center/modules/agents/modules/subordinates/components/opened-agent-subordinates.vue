@@ -23,7 +23,7 @@
 
     <wt-loader v-show="!isLoaded" />
     <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper" />
+      />
     <div
       v-show="dataList.length && isLoaded"
       class="table-section__table-wrapper"
