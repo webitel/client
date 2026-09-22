@@ -204,6 +204,10 @@ export default {
 		updatedAt: 'Изменено',
 		emptyWorkspace: 'Записи в разделе еще не созданы',
 		emptyResultSearch: 'Поиск не дал результатов',
+		selection: {
+			selected: 'Выбрано: {count}',
+			clear: 'Очистить выбор',
+		},
 
 		deleteConfirmation: {
 			title: 'Подтвердите удаление',

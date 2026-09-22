@@ -202,6 +202,10 @@ export default {
 		updatedAt: 'Zmodyfikowano',
 		emptyWorkspace: 'Jeszcze nie ma rekordów',
 		emptyResultSearch: 'Twoje wyszukiwanie nie dało wyników',
+		selection: {
+			selected: 'Zaznaczono: {count}',
+			clear: 'Wyczyść zaznaczenie',
+		},
 
 		deleteConfirmation: {
 			title: 'Potwierdzenie usunięcia',

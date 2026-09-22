@@ -201,6 +201,10 @@ export default {
 		updatedAt: 'Modificado',
 		emptyWorkspace: 'Aún no hay registros',
 		emptyResultSearch: 'Su búsqueda no produjo resultados',
+		selection: {
+			selected: 'Seleccionados: {count}',
+			clear: 'Borrar selección',
+		},
 
 		deleteConfirmation: {
 			title: 'Confirmación de eliminación',

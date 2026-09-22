@@ -201,6 +201,10 @@ export default {
 		updatedAt: 'Өзгертілді',
 		emptyWorkspace: 'Енді құжаттар жоқ',
 		emptyResultSearch: 'Іздеу сіздің қажетіңізге сәйкес келмеді',
+		selection: {
+			selected: 'Таңдалды: {count}',
+			clear: 'Таңдауды тазалау',
+		},
 
 		deleteConfirmation: {
 			title: 'Өшіруді растау',

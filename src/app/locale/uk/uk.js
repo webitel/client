@@ -203,6 +203,10 @@ export default {
 		updatedAt: 'Змінено',
 		emptyWorkspace: 'Записи у розділі ще не створені',
 		emptyResultSearch: 'Пошук не дав результатів',
+		selection: {
+			selected: 'Вибрано: {count}',
+			clear: 'Очистити вибір',
+		},
 
 		deleteConfirmation: {
 			title: 'Підтвердіть видалення',

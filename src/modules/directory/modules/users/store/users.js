@@ -6,7 +6,6 @@ import UsersAPI from '../api/users';
 import Users2faAPI from '../api/users-2fa.js';
 import logs from '../modules/logs/store/logs';
 import tokens from '../modules/tokens/store/usersTokens';
-import headers from './_internals/headers';
 
 const resettableState = {
 	itemInstance: {
@@ -74,20 +73,6 @@ const actions = {
 			value: true,
 		});
 	},
-	SET_USER_DND: async (context, { item, value }) => {
-		const dnd = value ? 'dnd' : '';
-		const changes = {
-			status: dnd,
-		};
-		try {
-			await UsersAPI.patchUserPresence({
-				id: item.id,
-				changes,
-			});
-		} finally {
-			await context.dispatch('LOAD_DATA_LIST');
-		}
-	},
 	RESET_ITEM_STATE: (context) => {
 		context.commit('RESET_ITEM_STATE');
 		context.dispatch(
@@ -120,7 +105,6 @@ const mutations = {
 
 const users = new ObjectStoreModule({
 	resettableState,
-	headers,
 })
 	.attachAPIModule(UsersAPI)
 	.generateAPIActions()

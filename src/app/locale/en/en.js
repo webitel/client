@@ -198,6 +198,10 @@ export default {
 		updatedAt: 'Modified',
 		emptyWorkspace: 'There are no records yet',
 		emptyResultSearch: 'Your search yielded no results',
+		selection: {
+			selected: 'Selected: {count}',
+			clear: 'Clear selection',
+		},
 
 		deleteConfirmation: {
 			title: 'Confirm deletion',

@@ -202,6 +202,10 @@ export default {
 		updatedAt: 'Modificat',
 		emptyWorkspace: 'Nu există încă înregistrări',
 		emptyResultSearch: 'Căutarea ta nu a dat rezultate',
+		selection: {
+			selected: 'Selectate: {count}',
+			clear: 'Șterge selecția',
+		},
 
 		deleteConfirmation: {
 			title: 'Confirmare ștergere',

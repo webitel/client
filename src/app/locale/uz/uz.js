@@ -203,6 +203,10 @@ export default {
 		updatedAt: "O'zgartirilgan",
 		emptyWorkspace: "Hozircha ma'lumotlar yo'q",
 		emptyResultSearch: "Qidiruvingiz natijalari yo'q",
+		selection: {
+			selected: 'Tanlangan: {count}',
+			clear: 'Tanlovni tozalash',
+		},
 
 		deleteConfirmation: {
 			title: "O'chirishni tasdiqlash",

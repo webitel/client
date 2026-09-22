@@ -201,6 +201,10 @@ export default {
 		updatedAt: 'Đã sửa',
 		emptyWorkspace: 'Chưa có bản ghi nào',
 		emptyResultSearch: 'Tìm kiếm của bạn không cho kết quả',
+		selection: {
+			selected: 'Đã chọn: {count}',
+			clear: 'Xóa lựa chọn',
+		},
 
 		deleteConfirmation: {
 			title: 'Xác nhận xóa',
