@@ -1,64 +1,57 @@
 <template>
-  <section>
+  <section class="opened-user-communications">
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.directory.users.communications') }}
+        {{ t('objects.directory.users.communications') }}
       </h3>
     </header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.email"
         :disabled="disableUserInput"
-        :label="$t('objects.email')"
-        :model-value="itemInstance.email"
-        @update:model-value="setItemProp({ prop: 'email', value: $event })"
+        :label="t('objects.email')"
+        :regle-validation="validationFields?.email"
       />
 
       <wt-single-select
+        v-model:model-value="modelValue.contact"
         :disabled="disableUserInput || !hasContactsReadAccess"
-        :label="$t('vocabulary.contact', 1)"
-        :search-method="loadContactsOptions"
-        :data-key="'name'"
-        :model-value="itemInstance.contact"
-        @update:model-value="setItemProp({ prop: 'contact', value: $event })"
+        :label="t('vocabulary.contact', 1)"
+        :search-method="ContactsAPI.getLookup"
+        data-key="name"
       />
 
       <wt-input-text
+        v-model:model-value="modelValue.chatName"
         :disabled="disableUserInput"
-        :label="$t('objects.directory.users.chatName')"
-        :model-value="itemInstance.chatName"
-        @update:model-value="setItemProp({ prop: 'chatName', value: $event })"
+        :label="t('objects.directory.users.chatName')"
+        :regle-validation="validationFields?.chatName"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ContactsAPI } from '@webitel/api-services/api';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import type { User } from '../types/User';
 
-export default {
-	name: 'OpenedUserCommunications',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl(WtObject.User);
-		const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
-			WtObject.Contact,
-		);
+const modelValue = defineModel<User>({
+	required: true,
+});
 
-		return {
-			disableUserInput,
-			hasContactsReadAccess,
-		};
-	},
-	methods: {
-		loadContactsOptions(params) {
-			return ContactsAPI.getLookup(params);
-		},
-	},
-};
+defineProps<{
+	validationFields?: CardValidationFields<User>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl(WtObject.User);
+const { hasReadAccess: hasContactsReadAccess } = useUserAccessControl(
+	WtObject.Contact,
+);
 </script>

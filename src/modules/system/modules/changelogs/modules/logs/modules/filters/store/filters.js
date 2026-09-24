@@ -1,10 +1,9 @@
+import { UsersAPI } from '@webitel/api-services/api';
 import { LoggerAction } from '@webitel/api-services/gen/models';
 import ApiFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/ApiFilterSchema';
 import BaseFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/BaseFilterSchema';
 import EnumFilterSchema from '@webitel/ui-sdk/src/modules/QueryFilters/classes/EnumFilterSchema';
 import QueryFiltersStoreModule from '@webitel/ui-sdk/src/modules/QueryFilters/store/QueryFiltersStoreModule';
-
-import UsersAPI from '../../../../../../../../directory/modules/users/api/users';
 
 const state = {
 	search: new BaseFilterSchema(),

@@ -104,10 +104,12 @@ import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { useUsersCardStore } from '../../../stores/card/usersCardStore';
 import { useHasUserTokensAccess } from '../composables/hasUserTokensAccess';
 import TokenCreatedPopup from './opened-user-token-created-popup.vue';
 import TokenPopup from './opened-user-token-popup.vue';
@@ -144,8 +146,12 @@ export default {
 		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 			useHasUserTokensAccess();
 
+		const usersCardStore = useUsersCardStore();
+		const { itemId: userId } = storeToRefs(usersCardStore);
+
 		return {
 			dummy,
+			userId,
 			isDeleteConfirmationPopup,
 			deleteCount,
 			deleteCallback,
@@ -166,6 +172,9 @@ export default {
 	}),
 
 	computed: {
+		parentId() {
+			return this.userId;
+		},
 		tokenId() {
 			return this.$route.params.tokenId;
 		},
@@ -179,6 +188,10 @@ export default {
 			},
 			immediate: true,
 		},
+	},
+
+	unmounted() {
+		this.$store.dispatch(`${namespace}/${subNamespace}/RESET_STATE`);
 	},
 
 	methods: {

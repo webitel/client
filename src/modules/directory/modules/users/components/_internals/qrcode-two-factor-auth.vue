@@ -7,11 +7,11 @@
     >
 
       <template #title>
-        {{ $t('reusable.warning') }}
+        {{ t('reusable.warning') }}
       </template>
 
       <template #main>
-        {{ $t('objects.directory.users.askingAlert') }}
+        {{ t('objects.directory.users.askingAlert') }}
       </template>
 
       <template #actions>
@@ -19,14 +19,14 @@
           color="secondary"
           @click="closeConfirmationPopup"
         >
-          {{ $t('vocabulary.no') }}
+          {{ t('vocabulary.no') }}
         </wt-button>
 
         <wt-button
           color="error"
           @click="regenerateUrl"
         >
-          {{ $t('vocabulary.yes') }}
+          {{ t('vocabulary.yes') }}
         </wt-button>
       </template>
     </wt-popup>
@@ -36,8 +36,7 @@
       class="qrcode-two-factor-auth__canvas"
     >
       <qrcode-vue
-        ref="qrcode"
-        :value="props.url"
+        :value="url"
         level="H"
       />
     </div>
@@ -49,7 +48,7 @@
         wide
       >
         <wt-icon icon="download" />
-        {{ $t('objects.directory.users.download') }}
+        {{ t('objects.directory.users.download') }}
       </wt-button>
 
       <wt-button
@@ -58,72 +57,80 @@
         wide
       >
         <wt-icon icon="refresh" />
-        {{ $t('objects.directory.users.regenerate') }}
+        {{ t('objects.directory.users.regenerate') }}
       </wt-button>
     </div>
 
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { UsersAPI } from '@webitel/api-services/api';
+import { storeToRefs } from 'pinia';
 import QrcodeVue from 'qrcode.vue';
 import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 
-const props = defineProps({
-	namespace: {
-		type: String,
-	},
-	url: {
-		type: String,
-		required: true,
-	},
-});
+import { useUsersCardStore } from '../../stores/card/usersCardStore';
 
-const store = useStore();
+defineProps<{
+	url: string;
+}>();
 
-const qrcodeContainer = ref();
+const { t } = useI18n();
+
+const cardStore = useUsersCardStore();
+const { itemId } = storeToRefs(cardStore);
+const { initialize } = cardStore;
+
+const qrcodeContainer = ref<HTMLElement>();
 const isConfirmationPopup = ref(false);
 
-function download() {
-	const canvas = qrcodeContainer.value.querySelector('canvas');
+const download = () => {
+	const canvas = qrcodeContainer.value?.querySelector('canvas');
+	if (!canvas) return;
 	const link = document.createElement('a');
 	link.download = 'qr-code.png';
 	link.href = canvas.toDataURL('image/png');
 	link.click();
-}
+};
 
-async function regenerateUrl() {
-	await store.dispatch(`${props.namespace}/REGENERATE_2FA_URL`);
-	closeConfirmationPopup();
-}
-
-function openConfirmationPopup() {
+const openConfirmationPopup = () => {
 	isConfirmationPopup.value = true;
-}
+};
 
-function closeConfirmationPopup() {
+const closeConfirmationPopup = () => {
 	isConfirmationPopup.value = false;
-}
+};
+
+const regenerateUrl = async () => {
+	await UsersAPI.generateTotpUrl({
+		id: itemId.value,
+	});
+	await initialize({
+		itemId: itemId.value,
+	});
+	closeConfirmationPopup();
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .qrcode-two-factor-auth {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
+}
 
-  &__wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
+.qrcode-two-factor-auth__wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
 
-  &__canvas {
-    display: flex;
-    box-shadow: var(--elevation-5);
-  }
+.qrcode-two-factor-auth__canvas {
+  display: flex;
+  box-shadow: var(--elevation-5);
 }
 </style>

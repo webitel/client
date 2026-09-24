@@ -48,6 +48,7 @@
 
 <script setup lang="ts">
 import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import { UsersAPI } from '@webitel/api-services/api';
 import type { ApiDevice } from '@webitel/api-services/gen/models';
 import { WtInputText, WtSingleSelect } from '@webitel/ui-sdk/components';
 import { useI18n } from 'vue-i18n';
@@ -55,7 +56,6 @@ import { useI18n } from 'vue-i18n';
 import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import UsersAPI from '../../users/api/users';
 
 const modelValue = defineModel<ApiDevice>({
 	required: true,

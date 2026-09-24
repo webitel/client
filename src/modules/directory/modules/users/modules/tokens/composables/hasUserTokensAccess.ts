@@ -1,19 +1,15 @@
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
+import { useUsersCardStore } from '../../../stores/card/usersCardStore';
 
 export const useHasUserTokensAccess = () => {
-	const store = useStore();
-
 	const userinfoStore = useUserinfoStore();
 	const { userId } = storeToRefs(userinfoStore);
 
-	const itemInstance = computed(
-		() => getNamespacedState(store.state, 'directory/users').itemInstance,
-	);
+	const usersCardStore = useUsersCardStore();
+	const { itemId } = storeToRefs(usersCardStore);
 
 	const {
 		hasReadAccess: hasGlobalReadAccess,
@@ -26,7 +22,7 @@ export const useHasUserTokensAccess = () => {
 	});
 
 	const isMe = computed(() => {
-		return userId.value === itemInstance.value.id;
+		return userId.value === itemId.value;
 	});
 
 	const hasReadAccess = computed(() => {

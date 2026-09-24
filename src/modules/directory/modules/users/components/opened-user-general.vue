@@ -2,43 +2,41 @@
   <section class="opened-user-general">
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
     <div class="opened-user-general__grid">
       <wt-card>
         <div class="opened-user-general__card-content">
           <wt-input-text
+            v-model:model-value="modelValue.name"
             :disabled="disableUserInput"
-            :label="$t('objects.name')"
-            :model-value="itemInstance.name"
-            :v="v.itemInstance.name"
+            :label="t('objects.name')"
+            :regle-validation="validationFields?.name"
             required
-            @update:model-value="setItemProp({ prop: 'name', value: $event })"
           />
 
           <wt-input-text
+            v-model:model-value="modelValue.username"
             :disabled="disableUserInput"
-            :label="$t('objects.directory.users.login')"
-            :model-value="itemInstance.username"
-            :v="v.itemInstance.username"
+            :label="t('objects.directory.users.login')"
+            :regle-validation="validationFields?.username"
             required
-            @update:model-value="setItemProp({ prop: 'username', value: $event })"
           />
 
-          <user-password-input
+          <generate-password-input
             :disabled="disableUserInput"
-            :model-value="itemInstance.password"
+            :regle-validation="validationFields?.password"
+            :value="modelValue.password"
             required
-            @update:model-value="setItemProp({ prop: 'password', value: $event })"
+            @input="modelValue.password = $event"
           />
 
           <wt-input-text
+            v-model:model-value="modelValue.extension"
             :disabled="disableUserInput"
-            :label="$t('objects.directory.users.extensions')"
-            :model-value="itemInstance.extension"
-            :v="v.itemInstance.extension"
-            @update:model-value="setItemProp({ prop: 'extension', value: $event })"
+            :label="t('objects.directory.users.extensions')"
+            :regle-validation="validationFields?.extension"
           />
         </div>
       </wt-card>
@@ -46,50 +44,49 @@
       <wt-card>
         <div class="opened-user-general__card-content">
           <wt-multi-select
+            v-model:model-value="modelValue.roles"
             :disabled="disableUserInput || !hasRolesReadAccess"
-            :label="$t('objects.permissions.permissionsRole')"
+            :label="t('objects.permissions.permissionsRole')"
             :search-method="loadRolesOptions"
-            :model-value="itemInstance.roles"
-            @update:model-value="setItemProp({ prop: 'roles', value: $event })"
           />
 
           <wt-multi-select
+            v-model:model-value="modelValue.license"
             :disabled="disableUserInput"
-            :label="$t('objects.directory.license.license', 1)"
+            :label="t('objects.directory.license.license', 1)"
             :search-method="loadLicenseOptions"
-            :model-value="itemInstance.license"
-            @update:model-value="setItemProp({ prop: 'license', value: $event })"
           />
 
           <div>
             <wt-multi-select
-              :disabled="disableUserInput || itemInstance.generateDevice || !hasDevicesReadAccess"
-              :label="$t('objects.directory.devices.devices', 2)"
+              :disabled="disableUserInput || modelValue.generateDevice || !hasDevicesReadAccess"
+              :label="t('objects.directory.devices.devices', 2)"
+              :model-value="modelValue.devices"
               :search-method="loadDevicesOptions"
-              :model-value="itemInstance.devices"
-              @update:model-value="onDevicesChange"
+              @update:model-value="setUserDevices(modelValue, $event)"
             />
-            <div class="hint-link typo-body-2">
-              <span>{{ $t('objects.directory.users.deviceNotFound') }} </span>
-              <adm-item-link
+            <div class="opened-user-general__hint-link typo-body-2">
+              <span>{{ t('objects.directory.users.deviceNotFound') }} </span>
+              <wt-item-link
                 v-if="hasDevicesCreateAccess"
-                id="new"
-                class="hint-link__link typo-subtitle-2"
-                :route-name="RouteNames.DEVICES"
+                :link="{
+                  name: `${RouteNames.DEVICES}-card`,
+                  params: { id: 'new' },
+                }"
+                class="opened-user-general__hint-link-link typo-subtitle-2"
               >
-                {{ $t('objects.directory.users.createNewDevice') }}
-              </adm-item-link>
+                {{ t('objects.directory.users.createNewDevice') }}
+              </wt-item-link>
             </div>
           </div>
 
           <wt-single-select
-            :disabled="disableUserInput || itemInstance.generateDevice || !hasDevicesReadAccess"
-            :label="$t('objects.directory.users.defaultDevice')"
-            :options="itemInstance.devices"
-            :model-value="itemInstance.device"
+            v-model:model-value="modelValue.device"
+            :disabled="disableUserInput || modelValue.generateDevice || !hasDevicesReadAccess"
+            :label="t('objects.directory.users.defaultDevice')"
+            :options="modelValue.devices"
             data-key="id"
-            @update:model-value="setItemProp({ prop: 'device', value: $event })"
-            @reset="setItemProp({ prop: 'device', value: {} })"
+            @reset="modelValue.device = {}"
           />
         </div>
       </wt-card>
@@ -99,22 +96,22 @@
           <div class="opened-user-general__card-content">
             <header class="opened-user-general__card-header">
               <wt-icon
-                icon="generate"
                 color="info"
+                icon="generate"
               />
               <wt-label>
-                {{ $t('objects.directory.users.deviceGenerationTitle') }}
+                {{ t('objects.directory.users.deviceGenerationTitle') }}
               </wt-label>
             </header>
             <p class="opened-user-general__card-description typo-subtitle-2">
-              {{ $t('objects.directory.users.deviceGeneration') }}
+              {{ t('objects.directory.users.deviceGeneration') }}
             </p>
             <wt-switcher
-              controlled
               :disabled="disableUserInput"
-              :label="$t('objects.directory.users.generateDevice')"
-              :model-value="itemInstance.generateDevice"
-              @update:model-value="onToggleGenerateDevice"
+              :label="t('objects.directory.users.generateDevice')"
+              :model-value="modelValue.generateDevice"
+              controlled
+              @update:model-value="toggleGenerateDevice"
             />
           </div>
         </wt-card>
@@ -123,35 +120,31 @@
           <div class="opened-user-general__card-content">
             <header class="opened-user-general__card-header">
               <wt-icon
-                icon="shield-check"
                 color="info"
+                icon="shield-check"
               />
               <wt-label>
-                {{ $t('objects.directory.users.authorizationSecurity') }}
+                {{ t('objects.directory.users.authorizationSecurity') }}
               </wt-label>
             </header>
             <p class="opened-user-general__card-description typo-subtitle-2">
-              {{ $t('objects.directory.users.mustChangePassword') }}
+              {{ t('objects.directory.users.mustChangePassword') }}
             </p>
             <wt-switcher
+              v-model:model-value="modelValue.forcePasswordChange"
               :disabled="disableUserInput"
-              :label="$t('objects.directory.users.temporaryPassword')"
-              :model-value="itemInstance.forcePasswordChange"
-              @update:model-value="setItemProp({ prop: 'forcePasswordChange', value: $event })"
+              :label="t('objects.directory.users.temporaryPassword')"
             />
           </div>
         </wt-card>
 
         <wt-card v-if="isDisplayQRCode">
-          <qrcode
-            :namespace="namespace"
-            :url="itemInstance.totpUrl"
-          />
+          <qrcode-two-factor-auth :url="modelValue.totpUrl" />
         </wt-card>
 
         <wt-card>
           <logout-action
-            :id="itemInstance.id"
+            :id="modelValue.id"
             :disabled="!isActiveLogout"
             wide
           />
@@ -160,178 +153,138 @@
     </div>
 
     <global-state-confirmation-popup
+      :description="t('objects.directory.users.generateDeviceConfirmation')"
       :shown="isReplaceConfirmShown"
-      :title="$t('objects.directory.users.deviceGenerationConfirmTitle')"
-      :description="$t('objects.directory.users.generateDeviceConfirmation')"
-      @confirm="onConfirmReplaceDevices"
-      @close="onCancelReplaceDevices"
+      :title="t('objects.directory.users.deviceGenerationConfirmTitle')"
+      @close="isReplaceConfirmShown = false"
+      @confirm="confirmReplaceDevices"
     />
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { DevicesAPI, LicenseAPI } from '@webitel/api-services/api';
+import type { ApiLicenseV1 } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { computed } from 'vue';
-import { mapGetters } from 'vuex';
-import UserPasswordInput from '../../../../../app/components/utils/user-password-input.vue';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import GeneratePasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import ItemLinkMixin from '../../../../../app/mixins/baseMixins/baseTableMixin/itemLinkMixin.js';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
 import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
-import Qrcode from './_internals/qrcode-two-factor-auth.vue';
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
+import {
+	hasAssignedDevices,
+	replaceUserDevicesWithGenerated,
+	setUserDevices,
+} from '../scripts/userDevices';
+import type { User } from '../types/User';
+import QrcodeTwoFactorAuth from './_internals/qrcode-two-factor-auth.vue';
 
-export default {
-	name: 'OpenedUserGeneral',
-	components: {
-		UserPasswordInput,
-		Qrcode,
-		LogoutAction,
-		GlobalStateConfirmationPopup,
-	},
-	mixins: [
-		openedTabComponentMixin,
-		ItemLinkMixin,
-	],
-	setup: () => {
-		const {
-			disableUserInput,
-			hasCreateAccess,
-			hasDeleteAccess,
-			hasUpdateAccess,
-		} = useUserAccessControl(WtObject.User);
+const modelValue = defineModel<User>({
+	required: true,
+});
 
-		const { hasReadAccess: hasDevicesReadAccess } = useUserAccessControl(
-			WtObject.Device,
-		);
-		const { hasCreateAccess: hasDevicesCreateAccess } = useUserAccessControl(
-			WtObject.Device,
-		);
-		const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
-			WtObject.Role,
-		);
+defineProps<{
+	validationFields?: CardValidationFields<User>;
+}>();
 
-		const hasUserAccess = computed(
-			() =>
-				hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value,
-		);
+const { t } = useI18n();
 
+const userinfoStore = useUserinfoStore();
+const { hasSpecialGlobalActionAccess } = userinfoStore;
+
+const { disableUserInput, hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl(WtObject.User);
+const {
+	hasReadAccess: hasDevicesReadAccess,
+	hasCreateAccess: hasDevicesCreateAccess,
+} = useUserAccessControl(WtObject.Device);
+const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
+	WtObject.Role,
+);
+
+const isReplaceConfirmShown = ref(false);
+
+const isDisplayQRCode = computed(
+	() =>
+		hasSpecialGlobalActionAccess(SpecialGlobalAction.ChangeUserPassword) &&
+		!!modelValue.value.totpUrl,
+);
+
+const isActiveLogout = computed(
+	() =>
+		!!modelValue.value.id &&
+		(hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value),
+);
+
+const loadRolesOptions = (params: Record<string, unknown>) => {
+	if (!hasRolesReadAccess.value) {
 		return {
-			hasUserAccess,
-			disableUserInput,
-			hasDevicesReadAccess,
-			hasDevicesCreateAccess,
-			hasRolesReadAccess,
+			items: [],
 		};
-	},
-	data: () => ({
-		isReplaceConfirmShown: false,
-	}),
-	computed: {
-		...mapGetters('directory/users', {
-			isDisplayQRCode: 'IS_DISPLAY_QR_CODE',
-		}),
-		isActiveLogout() {
-			return this.itemInstance.id && this.hasUserAccess;
-		},
-	},
-	methods: {
-		loadRolesOptions(params) {
-			if (!this.hasRolesReadAccess) {
-				return {
-					items: [],
-				};
-			}
+	}
 
-			return RolesAPI.getLookup(params);
-		},
-		async loadLicenseOptions(params) {
-			const fields = [
-				'product',
-				'id',
-			];
-			const response = await LicenseAPI.getList({
-				...params,
-				fields,
-			});
-			response.items = response.items.map(({ name, product, id }) => ({
-				name: name || product,
-				id,
-			}));
-			return response;
-		},
-		async loadDevicesOptions(params) {
-			if (!this.hasDevicesReadAccess) {
-				return {
-					items: [],
-				};
-			}
+	return RolesAPI.getLookup(params);
+};
 
-			const fields = [
-				'id',
-				'name',
-				'hotdesk',
-			];
-			const response = await DevicesAPI.getLookup({
-				...params,
-				fields,
-			});
-			response.items = response.items.filter((item) => !item.hotdesk);
-			return response;
-		},
-		onDevicesChange(value) {
-			this.setItemProp({
-				prop: 'devices',
-				value,
-			});
-			const currentId = this.itemInstance.device?.id;
-			if (currentId && !value.some((device) => device.id === currentId)) {
-				this.setItemProp({
-					prop: 'device',
-					value: {},
-				});
-			}
-		},
-		onToggleGenerateDevice(value) {
-			if (!value) {
-				this.setItemProp({
-					prop: 'generateDevice',
-					value: false,
-				});
-				return;
-			}
-			const hasDevice = !!this.itemInstance.device?.id;
-			const hasDevices = this.itemInstance.devices?.length > 0;
-			if (hasDevice || hasDevices) {
-				this.isReplaceConfirmShown = true;
-			} else {
-				this.setItemProp({
-					prop: 'generateDevice',
-					value: true,
-				});
-			}
-		},
-		onConfirmReplaceDevices() {
-			this.setItemProp({
-				prop: 'device',
-				value: {},
-			});
-			this.setItemProp({
-				prop: 'devices',
-				value: [],
-			});
-			this.setItemProp({
-				prop: 'generateDevice',
-				value: true,
-			});
-			this.isReplaceConfirmShown = false;
-		},
-		onCancelReplaceDevices() {
-			this.isReplaceConfirmShown = false;
-		},
-	},
+const loadLicenseOptions = async (params: Record<string, unknown>) => {
+	const response = await LicenseAPI.getList({
+		...params,
+		fields: [
+			'product',
+			'id',
+		],
+	});
+	return {
+		...response,
+		items: response.items.map(({ name, product, id }: ApiLicenseV1) => ({
+			name: name || product,
+			id,
+		})),
+	};
+};
+
+const loadDevicesOptions = async (params: Record<string, unknown>) => {
+	if (!hasDevicesReadAccess.value) {
+		return {
+			items: [],
+		};
+	}
+
+	const response = await DevicesAPI.getLookup({
+		...params,
+		fields: [
+			'id',
+			'name',
+			'hotdesk',
+		],
+	});
+	return {
+		...response,
+		items: response.items.filter(
+			(item: { hotdesk?: boolean }) => !item.hotdesk,
+		),
+	};
+};
+
+const toggleGenerateDevice = (value: boolean) => {
+	if (value && hasAssignedDevices(modelValue.value)) {
+		isReplaceConfirmShown.value = true;
+		return;
+	}
+
+	modelValue.value.generateDevice = value;
+};
+
+const confirmReplaceDevices = () => {
+	replaceUserDevicesWithGenerated(modelValue.value);
+	isReplaceConfirmShown.value = false;
 };
 </script>
 
@@ -393,14 +346,14 @@ export default {
   }
 }
 
-.hint-link {
+.opened-user-general__hint-link {
   display: flex;
   align-items: center;
   gap: var(--spacing-2xs);
-	padding: var(--spacing-2xs) var(--spacing-xs);
+  padding: var(--spacing-2xs) var(--spacing-xs);
+}
 
-  &__link {
-    --wt-item-link-text-color: var(--info-color);
-  }
+.opened-user-general__hint-link-link {
+  --wt-item-link-text-color: var(--info-color);
 }
 </style>

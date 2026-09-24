@@ -1,8 +1,8 @@
 <template>
-  <section>
+  <section class="opened-user-variables">
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.directory.users.variables') }}
+        {{ t('objects.directory.users.variables') }}
       </h3>
       <wt-icon-action
         v-if="!disableUserInput"
@@ -11,31 +11,29 @@
       />
     </header>
     <div class="opened-card-input-grid">
-      <div class="variables">
+      <div class="opened-user-variables__list">
         <div
-          v-for="(variable, key) in itemInstance.variables"
-          :key="key"
-          class="value-pair"
+          v-for="(variable, index) in variables"
+          :key="index"
+          class="opened-user-variables__pair"
         >
           <wt-input-text
+            v-model:model-value="variable.key"
             :disabled="disableUserInput"
-            :placeholder="$t('objects.directory.users.varKey')"
-            :v="v.itemInstance.variables.$each.$response.$data[key].key"
-            :model-value="variable.key"
-            @update:model-value="setVariableProp({ index: key, prop: 'key', value: $event })"
+            :placeholder="t('objects.directory.users.varKey')"
+            :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.key"
           />
           <wt-input-text
+            v-model:model-value="variable.value"
             :disabled="disableUserInput"
-            :placeholder="$t('objects.directory.users.varVal')"
-            :v="v.itemInstance.variables.$each.$response.$data[key].value"
-            :model-value="variable.value"
-            @update:model-value="setVariableProp({ index: key, prop: 'value', value: $event })"
+            :placeholder="t('objects.directory.users.varVal')"
+            :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.value"
           />
           <wt-icon-action
             v-if="!disableUserInput"
             action="delete"
-            class="value-pair__delete-button"
-            @click="deleteVariable(key)"
+            class="opened-user-variables__delete-button"
+            @click="deleteVariable(index)"
           />
         </div>
       </div>
@@ -43,36 +41,53 @@
   </section>
 </template>
 
-<script>
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+<script setup lang="ts">
+import type { VariablePair } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-export default {
-	name: 'OpenedUserVariables',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import type { User } from '../types/User';
+
+const modelValue = defineModel<User>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<User>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const variables = computed<VariablePair[]>(() => {
+	if (!modelValue.value.variables) modelValue.value.variables = [];
+	return modelValue.value.variables;
+});
+
+const addVariable = () => {
+	variables.value.push({
+		key: '',
+		value: '',
+	});
+};
+
+const deleteVariable = (index: number) => {
+	variables.value.splice(index, 1);
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.value-pair__delete-button {
-  margin-bottom: 20px;
-}
-.value-pair {
+<style scoped>
+.opened-user-variables__pair {
   display: grid;
   align-items: center;
   margin-bottom: 20px;
   grid-template-columns: 1fr 1fr 24px;
   grid-gap: 20px;
+}
+
+.opened-user-variables__delete-button {
+  margin-bottom: 20px;
 }
 </style>

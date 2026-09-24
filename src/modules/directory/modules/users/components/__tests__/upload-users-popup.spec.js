@@ -6,7 +6,12 @@ describe('UploadUsersPopup', () => {
 	it('renders a component', () => {
 		const wrapper = shallowMount(UploadUsersPopup, {
 			props: {
-				file: {},
+				file: new File(
+					[
+						'',
+					],
+					'users.csv',
+				),
 			},
 		});
 
@@ -20,7 +25,12 @@ describe('UploadUsersPopup', () => {
 	it('renders the sdk popup', () => {
 		const wrapper = shallowMount(UploadUsersPopup, {
 			props: {
-				file: {},
+				file: new File(
+					[
+						'',
+					],
+					'users.csv',
+				),
 			},
 		});
 

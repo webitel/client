@@ -23,36 +23,23 @@
   </div>
 </template>
 
-<script>
-export default {
-	name: 'UserStatusChips',
-	props: {
-		presence: {
-			type: Object,
-			default: () => ({}),
-		},
-	},
-	computed: {
-		status() {
-			return this.presence.status || '';
-		},
-		isSip() {
-			return this.status.includes('sip');
-		},
-		isWeb() {
-			return this.status.includes('web');
-		},
-		isDnd() {
-			return this.status.includes('dnd');
-		},
-		isDlg() {
-			return this.status.includes('dlg');
-		},
-	},
-};
+<script setup lang="ts">
+import type { ApiUserPresence } from '@webitel/api-services/gen/models';
+import { computed } from 'vue';
+
+const props = defineProps<{
+	presence?: ApiUserPresence;
+}>();
+
+const status = computed(() => props.presence?.status ?? '');
+
+const isSip = computed(() => status.value.includes('sip'));
+const isWeb = computed(() => status.value.includes('web'));
+const isDnd = computed(() => status.value.includes('dnd'));
+const isDlg = computed(() => status.value.includes('dlg'));
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .user-status-chips {
   display: grid;
   grid-template-columns: repeat(4, 70px);
