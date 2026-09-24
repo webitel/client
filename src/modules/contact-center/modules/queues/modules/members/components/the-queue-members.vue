@@ -303,7 +303,7 @@ import {
 	defaultCreatedAtFilter,
 	resolveDefaultCreatedAtFilter,
 } from '../configs/defaultFilters';
-import { filtersOptions } from '../configs/filtersOptions';
+import { filterConfigs, filtersOptions } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import { ActionOptions } from '../types/ActionOptions';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
@@ -434,11 +434,7 @@ const resetFilters = () => {
 };
 
 const hasPanelFilters = computed(() =>
-	filtersOptions.some((filter) =>
-		typeof filter === 'string'
-			? hasFilter(filter)
-			: !filter.notDeletable && hasFilter(filter.name),
-	),
+	Object.keys(filterConfigs).some((name) => hasFilter(name)),
 );
 
 /** every bulk mutation leaves the list stale, so all of them reload it */
