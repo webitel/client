@@ -6,9 +6,18 @@
       </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
-          :include="[IconAction.REFRESH, IconAction.COLUMNS]"
+          :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS]"
           @click:refresh="loadDataList"
+          @click:filters="emit('click:filters')"
         >
+          <template #filters="{ action, onClick }">
+            <wt-badge :hidden="!hasPanelFilters">
+              <wt-icon-action
+                :action="action"
+                @click="onClick"
+              />
+            </wt-badge>
+          </template>
           <template #search-bar>
             <dynamic-filter-search
               :filters-manager="filtersManager"
@@ -118,8 +127,10 @@ import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-
-import { defaultJoinedAtFilter } from '../configs/filtersOptions';
+import {
+	defaultJoinedAtFilter,
+	filterConfigs,
+} from '../configs/filtersOptions';
 import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 import QueueLogsColumnFilter from './queue-logs-column-filter.vue';
 
@@ -157,6 +168,14 @@ const {
 	columnReorder,
 	hasFilter,
 } = tableStore;
+
+const emit = defineEmits<{
+	'click:filters': [];
+}>();
+
+const hasPanelFilters = computed(() =>
+	Object.keys(filterConfigs).some((name) => hasFilter(name)),
+);
 
 if (!hasFilter(FilterOption.JoinedAt)) {
 	addFilter(defaultJoinedAtFilter());
