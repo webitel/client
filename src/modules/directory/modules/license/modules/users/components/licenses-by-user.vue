@@ -204,7 +204,7 @@ onMounted(async () => {
 		],
 	});
 
-	updateShownHeaders(buildLicenseByUserHeaders(licenses));
+	updateShownHeaders(buildLicenseByUserHeaders(licenses, headers.value));
 
 	instance?.appContext.app.runWithContext(() => initialize());
 });
