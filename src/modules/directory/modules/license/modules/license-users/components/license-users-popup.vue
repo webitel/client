@@ -1,7 +1,7 @@
 <template>
   <wt-popup
     :shown="!!licenseId"
-    size="md"
+    :size="ComponentSize.LG"
     @close="close"
   >
     <template #header>
@@ -103,7 +103,7 @@ import type {
 	ApiProductUser,
 } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -193,10 +193,6 @@ watch(
   .wt-icon {
     margin-right: var(--spacing-sm);
   }
-}
-
-.table-section__table-wrapper {
-  max-height: 60vh;
 }
 
 .table-title {
