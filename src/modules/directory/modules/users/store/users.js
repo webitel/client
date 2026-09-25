@@ -4,7 +4,6 @@ import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreMo
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import UsersAPI from '../api/users';
 import Users2faAPI from '../api/users-2fa.js';
-import logs from '../modules/logs/store/logs';
 import tokens from '../modules/tokens/store/usersTokens';
 import headers from './_internals/headers';
 
@@ -126,7 +125,6 @@ const users = new ObjectStoreModule({
 	.generateAPIActions()
 	.setChildModules({
 		tokens,
-		logs,
 	})
 	.getModule({
 		getters,

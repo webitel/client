@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="!!currentTab.filters">
+  <wt-page-wrapper :actions-panel="isLogsTab && isLogsFiltersPanelShown">
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
@@ -13,10 +13,7 @@
     </template>
 
     <template #actions-panel>
-      <component
-        :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
-      />
+      <user-logs-filters-panel />
     </template>
 
     <template #main>
@@ -44,6 +41,7 @@
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
+          @click:filters="isLogsFiltersPanelShown = !isLogsFiltersPanelShown"
         />
         <input
           hidden
@@ -68,7 +66,7 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import Logs from '../modules/logs/components/opened-user-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
+import UserLogsFiltersPanel from '../modules/logs/components/user-logs-filters-panel.vue';
 import Tokens from '../modules/tokens/components/opened-user-token.vue';
 import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum.js';
@@ -87,7 +85,7 @@ export default {
 		Variables,
 		Tokens,
 		Logs,
-		LogsFilters,
+		UserLogsFiltersPanel,
 	},
 	mixins: [
 		openedObjectMixin,
@@ -179,11 +177,16 @@ export default {
 		permissionsTabPathName: `${UsersRouteNames.PERMISSIONS}-card`,
 		passwordRegExp: '',
 		validationText: '',
+		isLogsFiltersPanelShown: false,
 	}),
 
 	computed: {
 		isPermissionsTab() {
 			return this.$route.name === this.permissionsTabPathName;
+		},
+
+		isLogsTab() {
+			return this.currentTab.value === 'logs';
 		},
 
 		permissionsStoreData() {
@@ -238,8 +241,6 @@ export default {
 			const logs = {
 				text: this.$t('objects.system.changelogs.changelogs', 2),
 				value: 'logs',
-				filters: 'logs-filters',
-				filtersNamespace: `${this.namespace}/logs/filters`,
 				pathName: UsersRouteNames.LOGS,
 			};
 			const tokens = {
