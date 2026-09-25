@@ -7,7 +7,9 @@ import { headers } from './_internals/headers';
 export const useLicenseDatalistStore = createTableStore(
 	`${LicenseNamespace}/datalist`,
 	{
-		apiModule: LicenseAPI,
+		apiModule: {
+			getList: LicenseAPI.getList,
+		},
 		headers,
 	},
 );

@@ -43,7 +43,12 @@ export const useLicenseByUserDatalistStore = createTableStore(
 	`${LicenseNamespace}/byUser/datalist`,
 	{
 		apiModule: {
-			getList: async (params: Record<string, unknown>) => {
+			getList: async (
+				params: Record<string, unknown>,
+			): Promise<{
+				items: LicenseByUserRow[];
+				next: boolean;
+			}> => {
 				// Force the fields the Users list endpoint expects; header `field`
 				// values are `license.<id>` for column identity, not API fields.
 				const { items, next } = await UsersAPI.getList({
