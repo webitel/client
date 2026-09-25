@@ -50,8 +50,23 @@ const actions = {
 	},
 };
 
+// HistoryStoreModule keeps its own flat from/to in state (bound to the popup's
+// datepickers), but getAgentHistory expects them nested under `joinedAt`, so
+// the two get bridged here rather than reshaping the shared base module.
+// TODO: delete this wrapper (and HistoryStoreModule/agent-history-popup.vue's
+// legacy Vuex plumbing) once this table is migrated to createTableStore +
+// ui-datalist filters, which send joinedAt in this shape natively.
+const getAgentHistory = ({ from, to, ...state }) =>
+	AgentsAPI.getAgentHistory({
+		...state,
+		joinedAt: {
+			from,
+			to,
+		},
+	});
+
 const history = new HistoryStoreModule()
-	.generateGetListAction(AgentsAPI.getAgentHistory)
+	.generateGetListAction(getAgentHistory)
 	.getModule();
 
 const agents = new ObjectStoreModule({
