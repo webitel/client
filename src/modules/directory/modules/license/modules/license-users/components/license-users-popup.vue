@@ -28,12 +28,15 @@
           />
         </header>
 
-        <wt-loader v-show="isLoading" />
-        <div
-          v-show="!isLoading"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper license-users-popup__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
+          <wt-loader v-show="isLoading" />
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
             :grid-actions="false"
             :headers="shownHeaders"
@@ -91,6 +94,7 @@ import type {
 } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { ComponentSize } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -115,6 +119,7 @@ const tableStore = useLicenseUsersDatalistStore();
 
 const {
 	dataList,
+	error,
 	isLoading,
 	page,
 	size,
@@ -135,6 +140,17 @@ const {
 	columnResize,
 	columnReorder,
 } = tableStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 
 const licenseId = computed(() => route.params.id as string | undefined);
 
@@ -177,5 +193,9 @@ watch(
   .wt-icon {
     margin-right: var(--spacing-sm);
   }
+}
+
+.license-users-popup__table-wrapper {
+  flex: 0 0 440px;
 }
 </style>
