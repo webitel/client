@@ -24,25 +24,27 @@
         required
         @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
-      <wt-input-text
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.dialplan.pattern')"
-        :v="v.itemInstance.pattern"
-        :model-value="itemInstance.pattern"
-        required
-        @update:model-value="setItemProp({ prop: 'pattern', value: $event })"
-      />
+      <div class="destination-wrapper">
+        <wt-input-text
+          :disabled="disableUserInput"
+          :label="$t('objects.routing.dialplan.pattern')"
+          :v="v.itemInstance.pattern"
+          :model-value="itemInstance.pattern"
+          required
+          @update:model-value="setItemProp({ prop: 'pattern', value: $event })"
+        />
+        <wt-switcher
+          :disabled="disableUserInput"
+          :label="$t('objects.routing.dialplan.allowTransfer')"
+          :model-value="itemInstance.allowTransfer"
+          @update:model-value="setItemProp({ prop: 'allowTransfer', value: $event })"
+        />
+      </div>
       <wt-textarea
         :disabled="disableUserInput"
         :label="$t('objects.description')"
         :model-value="itemInstance.description"
         @update:model-value="setItemProp({ prop: 'description', value: $event })"
-      />
-      <wt-switcher
-        :disabled="disableUserInput"
-        :label="$t('objects.routing.dialplan.allowTransfer')"
-        :model-value="itemInstance.allowTransfer"
-        @update:model-value="setItemProp({ prop: 'allowTransfer', value: $event })"
       />
     </div>
   </section>
@@ -76,4 +78,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.destination-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+</style>
