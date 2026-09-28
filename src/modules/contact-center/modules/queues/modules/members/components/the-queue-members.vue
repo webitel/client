@@ -39,6 +39,7 @@
       <table-filters-panel
         :filter-options="filtersOptions"
         :filters-manager="filtersManager"
+        :has-read-access="userinfoStore.hasReadAccess"
         static-mode
         @filter:add="addFilter"
         @filter:update="updateFilter"
@@ -294,6 +295,7 @@ import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
 import { useParentQueue } from '../composables/useParentQueue';
@@ -303,7 +305,7 @@ import {
 	defaultCreatedAtFilter,
 	resolveDefaultCreatedAtFilter,
 } from '../configs/defaultFilters';
-import { filtersOptions } from '../configs/filtersOptions';
+import { filterConfigs, filtersOptions } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import { ActionOptions } from '../types/ActionOptions';
 import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
@@ -313,6 +315,7 @@ import ResetPopup from './reset-members-popup.vue';
 import UploadPopup from './upload-members-popup.vue';
 
 const { t, te } = useI18n();
+const userinfoStore = useUserinfoStore();
 const router = useRouter();
 
 const { parentQueue, queueId, isInboundQueue } = useParentQueue();
@@ -434,11 +437,7 @@ const resetFilters = () => {
 };
 
 const hasPanelFilters = computed(() =>
-	filtersOptions.some((filter) =>
-		typeof filter === 'string'
-			? hasFilter(filter)
-			: !filter.notDeletable && hasFilter(filter.name),
-	),
+	Object.keys(filterConfigs).some((name) => hasFilter(name)),
 );
 
 /** every bulk mutation leaves the list stale, so all of them reload it */

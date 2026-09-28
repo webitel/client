@@ -16,6 +16,7 @@
       <table-filters-panel
         :filter-options="filtersOptions"
         :filters-manager="filtersManager"
+        :has-read-access="userinfoStore.hasReadAccess"
         static-mode
         @filter:add="addFilter"
         @filter:update="updateFilter"
@@ -252,6 +253,7 @@ import ObjectListPopup from '../../../../../app/components/utils/object-list-pop
 import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import { filtersOptions } from '../configs/filtersOptions';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 import { useQueuesDatalistStore } from '../stores/datalist/queuesDatalistStore';
@@ -263,6 +265,7 @@ import QueuesColumnFilter from './queues-column-filter.vue';
 import QueuesGlobalStateSwitcher from './queues-global-state-switcher.vue';
 
 const { t } = useI18n();
+const userinfoStore = useUserinfoStore();
 const router = useRouter();
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =

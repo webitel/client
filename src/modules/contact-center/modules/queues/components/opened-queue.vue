@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     v-if="showQueuePage"
-    :actions-panel="isLogsTab"
+    :actions-panel="isLogsTab && isLogsFiltersPanelShown"
   >
     <template #header>
       <wt-page-header
@@ -48,6 +48,7 @@
             v-model="modelValue"
             :validation-fields="validationFields"
             v-bind="permissionsStoreData"
+            @click:filters="isLogsFiltersPanelShown = !isLogsFiltersPanelShown"
           />
         </router-view>
         <input
@@ -271,6 +272,8 @@ const tabs = computed(() => {
 const { currentTab } = useCardTabs(tabs);
 
 const isLogsTab = computed(() => currentTab.value?.value === QueueTabId.Logs);
+
+const isLogsFiltersPanelShown = ref(false);
 
 /**
  * `useCardTabs`' own `changeTab` drops the route query, which would lose

@@ -37,13 +37,18 @@ const transformUsersForLicenseColumns = (
 /**
  * Licenses-by-user matrix. Headers are dynamic (one column per product) —
  * seeded with the static name column, then replaced via `updateShownHeaders`
- * before `initialize()`. Persistence off so stale license field ids do not linger.
+ * before `initialize()`. Restored columns of removed licenses are dropped after it.
  */
 export const useLicenseByUserDatalistStore = createTableStore(
 	`${LicenseNamespace}/byUser/datalist`,
 	{
 		apiModule: {
-			getList: async (params: Record<string, unknown>) => {
+			getList: async (
+				params: Record<string, unknown>,
+			): Promise<{
+				items: LicenseByUserRow[];
+				next: boolean;
+			}> => {
 				// Force the fields the Users list endpoint expects; header `field`
 				// values are `license.<id>` for column identity, not API fields.
 				const { items, next } = await UsersAPI.getList({
@@ -66,6 +71,5 @@ export const useLicenseByUserDatalistStore = createTableStore(
 			},
 		},
 		headers: byUserStaticHeaders,
-		disablePersistence: true,
 	},
 );

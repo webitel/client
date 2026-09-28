@@ -29,9 +29,10 @@
     >
       <wt-table
         :data="dataList"
-        :grid-actions="false"
+        :grid-actions="isSchemaObject"
         :headers="headers"
         :selectable="false"
+        fixed-actions
         sortable
         @sort="sort"
       >
@@ -65,6 +66,12 @@
         <template #record="{ item }">
           <record-link :item="item" />
         </template>
+        <template #actions="{ item }">
+          <wt-icon-action
+            action="download"
+            @click="downloadNewState(item)"
+          />
+        </template>
       </wt-table>
       <wt-pagination
         :next="isNext"
@@ -82,12 +89,14 @@
 
 <script>
 import { ConfigLogsAPI as LogsAPI } from '@webitel/api-services/api';
+import { LoggerAvailableSystemObjects } from '@webitel/api-services/gen/models';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { downloadAsJSON } from '../../../../../../../app/utils/download';
 import RecordLink from './changelog-logs-record-link.vue';
 
 const namespace = 'system/changelogs';
@@ -122,6 +131,11 @@ export default {
 		usersRouteName: RouteNames.USERS,
 	}),
 	computed: {
+		isSchemaObject() {
+			return (
+				this.itemInstance.object.name === LoggerAvailableSystemObjects.Schema
+			);
+		},
 		getFilters() {
 			return this.$store.getters[
 				`${namespace}/${subNamespace}/filters/GET_FILTERS`
@@ -141,6 +155,15 @@ export default {
 		});
 	},
 	methods: {
+		async downloadNewState({ id, object, record }) {
+			const { newState } = await LogsAPI.get({
+				itemId: id,
+			});
+			downloadAsJSON(
+				JSON.parse(newState),
+				`${object.name}-${record.id}-new-state-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
+			);
+		},
 		async getDataForCSVExport(params) {
 			const filters = this.getFilters;
 			const { items, next } = await LogsAPI.getList({

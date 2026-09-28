@@ -20,23 +20,6 @@
           @filter:update="updateFilter"
         />
 
-        <header class="table-title">
-          <div class="table-title__actions-wrap">
-            <wt-action-bar
-              :include="[IconAction.REFRESH, IconAction.COLUMNS]"
-              @click:refresh="loadDataList"
-            >
-              <template #columns>
-                <wt-table-column-select
-                  :headers="headers"
-                  enable-search
-                  @change="updateShownHeaders"
-                />
-              </template>
-            </wt-action-bar>
-          </div>
-        </header>
-
         <div class="table-section__table-wrapper">
           <wt-loader v-show="isLoading" />
           <wt-table
@@ -93,7 +76,7 @@ import {
 	FilterOption,
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
@@ -113,27 +96,17 @@ const route = useRoute();
 
 const historyStore = useDevicesHistoryDatalistStore();
 
-const {
-	dataList,
-	isLoading,
-	page,
-	size,
-	next,
-	headers,
-	shownHeaders,
-	filtersManager,
-} = storeToRefs(historyStore);
+const { dataList, isLoading, page, size, next, shownHeaders, filtersManager } =
+	storeToRefs(historyStore);
 
 const {
 	initialize,
-	loadDataList,
 	updatePage,
 	updateSize,
 	addFilter,
 	updateFilter,
 	deleteFilter,
 	hasFilter,
-	updateShownHeaders,
 	columnResize,
 	columnReorder,
 } = historyStore;
@@ -190,8 +163,12 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.table-title {
-  justify-content: flex-end;
+.history-popup__filters-panel {
+  margin-bottom: var(--spacing-sm);
+}
+
+.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper__actions) {
+  padding-bottom: var(--spacing-xs);
 }
 
 .history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper) {
