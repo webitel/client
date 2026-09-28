@@ -9,7 +9,11 @@
 
 <script setup lang="ts">
 import { DevicesAPI } from '@webitel/api-services/api';
-import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
+import {
+	type CsvMappingField,
+	WtUploadCsvPopup,
+} from '@webitel/ui-sdk/modules/UploadCsvPopup';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineProps<{
@@ -24,7 +28,7 @@ const { t } = useI18n();
 
 const baseLocale = 'objects.directory.devices.csvMappingFields';
 
-const mappingFields = [
+const mappingFields = ref<CsvMappingField[]>([
 	{
 		name: 'account',
 		required: true,
@@ -68,7 +72,7 @@ const mappingFields = [
 		csv: '',
 		tooltip: t('objects.directory.devices.passwordSetFromAccount'),
 	},
-];
+]);
 
 const close = () => emit('close');
 
