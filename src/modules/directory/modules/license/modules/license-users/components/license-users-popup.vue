@@ -17,28 +17,15 @@
     <template #main>
       <section class="table-section">
         <header class="table-title">
-          <wt-action-bar
-            :include="[IconAction.REFRESH, IconAction.COLUMNS]"
-            @click:refresh="loadDataList"
-          >
-            <template #search-bar>
-              <dynamic-filter-search
-                :filters-manager="filtersManager"
-                :is-filters-restoring="isFiltersRestoring"
-                single-search-name="q"
-                @filter:add="addFilter"
-                @filter:update="updateFilter"
-                @filter:delete="deleteFilter"
-              />
-            </template>
-            <template #columns>
-              <wt-table-column-select
-                :headers="headers"
-                enable-search
-                @change="updateShownHeaders"
-              />
-            </template>
-          </wt-action-bar>
+          <dynamic-filter-search
+            :filters-manager="filtersManager"
+            :is-filters-restoring="isFiltersRestoring"
+            full-width
+            single-search-name="q"
+            @filter:add="addFilter"
+            @filter:update="updateFilter"
+            @filter:delete="deleteFilter"
+          />
         </header>
 
         <wt-loader v-show="isLoading" />
@@ -103,7 +90,7 @@ import type {
 	ApiProductUser,
 } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
+import { ComponentSize } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -132,7 +119,6 @@ const {
 	page,
 	size,
 	next,
-	headers,
 	shownHeaders,
 	filtersManager,
 	isFiltersRestoring,
@@ -140,14 +126,12 @@ const {
 
 const {
 	initialize,
-	loadDataList,
 	updatePage,
 	updateSize,
 	updateSort,
 	addFilter,
 	updateFilter,
 	deleteFilter,
-	updateShownHeaders,
 	columnResize,
 	columnReorder,
 } = tableStore;
@@ -193,9 +177,5 @@ watch(
   .wt-icon {
     margin-right: var(--spacing-sm);
   }
-}
-
-.table-title {
-  justify-content: right;
 }
 </style>
