@@ -206,7 +206,12 @@ onMounted(async () => {
 
 	updateShownHeaders(buildLicenseByUserHeaders(licenses, headers.value));
 
-	instance?.appContext.app.runWithContext(() => initialize());
+	await instance?.appContext.app.runWithContext(() => initialize());
+
+	const actualHeaders = buildLicenseByUserHeaders(licenses, headers.value);
+	if (actualHeaders.length !== headers.value.length) {
+		updateShownHeaders(actualHeaders);
+	}
 });
 </script>
 

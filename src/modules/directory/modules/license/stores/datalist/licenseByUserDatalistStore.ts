@@ -37,7 +37,7 @@ const transformUsersForLicenseColumns = (
 /**
  * Licenses-by-user matrix. Headers are dynamic (one column per product) —
  * seeded with the static name column, then replaced via `updateShownHeaders`
- * before `initialize()`. Persistence off so stale license field ids do not linger.
+ * before `initialize()`. Restored columns of removed licenses are dropped after it.
  */
 export const useLicenseByUserDatalistStore = createTableStore(
 	`${LicenseNamespace}/byUser/datalist`,
@@ -71,6 +71,5 @@ export const useLicenseByUserDatalistStore = createTableStore(
 			},
 		},
 		headers: byUserStaticHeaders,
-		disablePersistence: true,
 	},
 );
