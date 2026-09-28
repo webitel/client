@@ -1,13 +1,21 @@
-import { UsersAPI } from '@webitel/api-services/api';
-import { buildUserSchema } from '@webitel/api-services/validations';
+import { ConfigurationsAPI, UsersAPI } from '@webitel/api-services/api';
+import {
+	buildUserSchema,
+	type UserCard,
+	type UserPasswordRules,
+} from '@webitel/api-services/validations';
 import { createCardStore } from '@webitel/ui-datalist/card';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
-import type { User } from '../../types/User';
-import { userPasswordRules } from '../_internals/userPasswordRules';
 import { UsersNamespace } from '../namespace';
 
-export const useUsersCardStore = createCardStore<User>({
+const userPasswordRules = ref<UserPasswordRules>({});
+
+export const loadUserPasswordRules = async () => {
+	userPasswordRules.value = await ConfigurationsAPI.getPasswordRules();
+};
+
+export const useUsersCardStore = createCardStore<UserCard>({
 	namespace: `${UsersNamespace}/card`,
 	apiModule: UsersAPI,
 	standardValidationSchema: computed(() =>

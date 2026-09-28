@@ -33,19 +33,19 @@
 
 <script setup lang="ts">
 import { ContactsAPI } from '@webitel/api-services/api';
+import type { UserCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import type { User } from '../types/User';
 
-const modelValue = defineModel<User>({
+const modelValue = defineModel<UserCard>({
 	required: true,
 });
 
 defineProps<{
-	validationFields?: CardValidationFields<User>;
+	validationFields?: CardValidationFields<UserCard>;
 }>();
 
 const { t } = useI18n();

@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import type { UserCard } from '@webitel/api-services/validations';
 import {
 	type CardTab,
 	useCardComponent,
@@ -66,10 +67,11 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
 import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum';
-import { loadUserPasswordRules } from '../stores/_internals/userPasswordRules';
-import { useUsersCardStore } from '../stores/card/usersCardStore';
+import {
+	loadUserPasswordRules,
+	useUsersCardStore,
+} from '../stores/card/usersCardStore';
 import { useUsersPermissionsStore } from '../stores/permissions/usersPermissionsStore';
-import type { User } from '../types/User';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -99,7 +101,7 @@ const {
 	isAnyFieldEdited,
 	validationFields,
 	save,
-} = useCardComponent<User>({
+} = useCardComponent<UserCard>({
 	useCardStore: useUsersCardStore,
 });
 

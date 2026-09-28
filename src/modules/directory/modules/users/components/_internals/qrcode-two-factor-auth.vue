@@ -16,14 +16,14 @@
 
       <template #actions>
         <wt-button
-          color="secondary"
+          :color="ButtonColor.SECONDARY"
           @click="closeConfirmationPopup"
         >
           {{ t('vocabulary.no') }}
         </wt-button>
 
         <wt-button
-          color="error"
+          :color="ButtonColor.ERROR"
           @click="regenerateUrl"
         >
           {{ t('vocabulary.yes') }}
@@ -43,7 +43,7 @@
 
     <div class="qrcode-two-factor-auth__wrapper">
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="download"
         wide
       >
@@ -52,7 +52,7 @@
       </wt-button>
 
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="openConfirmationPopup"
         wide
       >
@@ -66,6 +66,7 @@
 
 <script setup lang="ts">
 import { UsersAPI } from '@webitel/api-services/api';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import QrcodeVue from 'qrcode.vue';
 import { ref } from 'vue';

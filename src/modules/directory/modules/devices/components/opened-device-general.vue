@@ -32,9 +32,8 @@
       <password-input
         :disabled="disableUserInput"
         :regle-validation="validationFields?.password"
-        :value="modelValue.password"
+        v-model:model-value="modelValue.password"
         required
-        @input="modelValue.password = $event"
       />
       <wt-single-select
         v-model:model-value="modelValue.user"

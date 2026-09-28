@@ -42,20 +42,19 @@
 </template>
 
 <script setup lang="ts">
-import type { VariablePair } from '@webitel/api-services/validations';
+import type { UserCard, VariablePair } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import type { User } from '../types/User';
 
-const modelValue = defineModel<User>({
+const modelValue = defineModel<UserCard>({
 	required: true,
 });
 
 defineProps<{
-	validationFields?: CardValidationFields<User>;
+	validationFields?: CardValidationFields<UserCard>;
 }>();
 
 const { t } = useI18n();

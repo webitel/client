@@ -148,8 +148,8 @@
           v-if="isPlainAuthType"
           :disabled="disableUserInput"
           :v="v.itemInstance.password"
-          :value="itemInstance.password"
-          @input="setItemProp({ prop: 'password', value: $event })"
+          :model-value="itemInstance.password"
+          @update:model-value="setItemProp({ prop: 'password', value: $event })"
         />
       </div>
 

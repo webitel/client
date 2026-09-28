@@ -27,9 +27,8 @@
           <generate-password-input
             :disabled="disableUserInput"
             :regle-validation="validationFields?.password"
-            :value="modelValue.password"
+            v-model:model-value="modelValue.password"
             required
-            @input="modelValue.password = $event"
           />
 
           <wt-input-text
@@ -59,11 +58,11 @@
 
           <div>
             <wt-multi-select
-              :disabled="disableUserInput || modelValue.generateDevice || !hasDevicesReadAccess"
+              :disabled="isDevicesInputDisabled"
               :label="t('objects.directory.devices.devices', 2)"
               :model-value="modelValue.devices"
               :search-method="loadDevicesOptions"
-              @update:model-value="setUserDevices(modelValue, $event)"
+              @update:model-value="setUserDevices"
             />
             <div class="opened-user-general__hint-link typo-body-2">
               <span>{{ t('objects.directory.users.deviceNotFound') }} </span>
@@ -82,7 +81,7 @@
 
           <wt-single-select
             v-model:model-value="modelValue.device"
-            :disabled="disableUserInput || modelValue.generateDevice || !hasDevicesReadAccess"
+            :disabled="isDevicesInputDisabled"
             :label="t('objects.directory.users.defaultDevice')"
             :options="modelValue.devices"
             data-key="id"
@@ -96,7 +95,7 @@
           <div class="opened-user-general__card-content">
             <header class="opened-user-general__card-header">
               <wt-icon
-                color="info"
+                :color="IconColor.INFO"
                 icon="generate"
               />
               <wt-label>
@@ -120,7 +119,7 @@
           <div class="opened-user-general__card-content">
             <header class="opened-user-general__card-header">
               <wt-icon
-                color="info"
+                :color="IconColor.INFO"
                 icon="shield-check"
               />
               <wt-label>
@@ -165,8 +164,9 @@
 <script setup lang="ts">
 import { DevicesAPI, LicenseAPI } from '@webitel/api-services/api';
 import type { ApiLicenseV1 } from '@webitel/api-services/gen/models';
+import type { UserCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
-import { WtObject } from '@webitel/ui-sdk/enums';
+import { IconColor, WtObject } from '@webitel/ui-sdk/enums';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -178,20 +178,14 @@ import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confi
 import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
-import {
-	hasAssignedDevices,
-	replaceUserDevicesWithGenerated,
-	setUserDevices,
-} from '../scripts/userDevices';
-import type { User } from '../types/User';
 import QrcodeTwoFactorAuth from './_internals/qrcode-two-factor-auth.vue';
 
-const modelValue = defineModel<User>({
+const modelValue = defineModel<UserCard>({
 	required: true,
 });
 
 defineProps<{
-	validationFields?: CardValidationFields<User>;
+	validationFields?: CardValidationFields<UserCard>;
 }>();
 
 const { t } = useI18n();
@@ -221,6 +215,13 @@ const isActiveLogout = computed(
 	() =>
 		!!modelValue.value.id &&
 		(hasCreateAccess.value || hasUpdateAccess.value || hasDeleteAccess.value),
+);
+
+const isDevicesInputDisabled = computed(
+	() =>
+		disableUserInput.value ||
+		!!modelValue.value.generateDevice ||
+		!hasDevicesReadAccess.value,
 );
 
 const loadRolesOptions = (params: Record<string, unknown>) => {
@@ -273,8 +274,24 @@ const loadDevicesOptions = async (params: Record<string, unknown>) => {
 	};
 };
 
+const hasAssignedDevices = computed(
+	() => !!modelValue.value.device?.id || !!modelValue.value.devices?.length,
+);
+
+const setUserDevices = (devices: UserCard['devices']) => {
+	modelValue.value.devices = devices;
+
+	const defaultDeviceId = modelValue.value.device?.id;
+	if (
+		defaultDeviceId &&
+		!devices?.some((device) => device.id === defaultDeviceId)
+	) {
+		modelValue.value.device = {};
+	}
+};
+
 const toggleGenerateDevice = (value: boolean) => {
-	if (value && hasAssignedDevices(modelValue.value)) {
+	if (value && hasAssignedDevices.value) {
 		isReplaceConfirmShown.value = true;
 		return;
 	}
@@ -283,7 +300,9 @@ const toggleGenerateDevice = (value: boolean) => {
 };
 
 const confirmReplaceDevices = () => {
-	replaceUserDevicesWithGenerated(modelValue.value);
+	modelValue.value.device = {};
+	modelValue.value.devices = [];
+	modelValue.value.generateDevice = true;
 	isReplaceConfirmShown.value = false;
 };
 </script>

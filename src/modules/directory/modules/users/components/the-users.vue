@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="users table-page"
+    class="table-page"
   >
     <template #header>
       <wt-page-header
@@ -63,7 +63,6 @@
               <dynamic-filter-search
                 :filters-manager="filtersManager"
                 :is-filters-restoring="isFiltersRestoring"
-                single-search-name="q"
                 @filter:add="addFilter"
                 @filter:update="updateFilter"
                 @filter:delete="deleteFilter"
@@ -97,7 +96,11 @@
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -213,6 +216,8 @@ const {
 	updatePage,
 	updateSize,
 	updateSort,
+	columnResize,
+	columnReorder,
 	deleteEls,
 	addFilter,
 	updateFilter,

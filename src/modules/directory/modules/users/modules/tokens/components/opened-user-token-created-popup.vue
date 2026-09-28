@@ -23,7 +23,7 @@
       </wt-button>
       <wt-button
         class="button-save"
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="saveTxt"
       >
         {{ $t('objects.directory.users.tokenPopupSave') }}
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import clipboardCopy from 'clipboard-copy';
 import { storeToRefs } from 'pinia';
 import { mapState } from 'vuex';
@@ -49,6 +50,7 @@ export default {
 
 		return {
 			originalItemInstance,
+			ButtonColor,
 		};
 	},
 
