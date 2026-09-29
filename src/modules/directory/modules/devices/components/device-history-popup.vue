@@ -167,14 +167,6 @@ watch(
   margin-bottom: var(--spacing-sm);
 }
 
-.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper__actions) {
-  padding-bottom: var(--spacing-xs);
-}
-
-.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper) {
-  align-items: end;
-}
-
 .history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper__filters) {
   grid-template-columns: repeat(2, 1fr);
 }
