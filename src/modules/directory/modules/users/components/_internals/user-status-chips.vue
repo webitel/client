@@ -1,24 +1,12 @@
 <template>
   <div class="user-status-chips">
     <wt-chip
-      :color="isWeb ? 'main' : 'secondary'"
-      class="user-status-chips__chips"
-    >Web
-    </wt-chip>
-    <wt-chip
-      :color="isSip ? 'main' : 'secondary'"
-      class="user-status-chips__chips"
-    >SIP
-    </wt-chip>
-    <wt-chip
-      :color="isDlg ? 'main' : 'secondary'"
-      class="user-status-chips__chips"
-    >Dlg
-    </wt-chip>
-    <wt-chip
-      :color="isDnd ? 'main' : 'secondary'"
-      class="user-status-chips__chips"
-    >DnD
+      v-for="chip in chips"
+      :key="chip.status"
+      :color="chip.color"
+      class="user-status-chips__chip"
+    >
+      {{ chip.label }}
     </wt-chip>
   </div>
 </template>
@@ -26,18 +14,42 @@
 <script setup lang="ts">
 import { UserPresenceStatus } from '@webitel/api-services/enums';
 import type { ApiUserPresence } from '@webitel/api-services/gen/models';
+import { ChipColor } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 
 const props = defineProps<{
 	presence?: ApiUserPresence;
 }>();
 
-const status = computed(() => props.presence?.status ?? '');
+const statusLabels = [
+	{
+		status: UserPresenceStatus.WEB,
+		label: 'Web',
+	},
+	{
+		status: UserPresenceStatus.SIP,
+		label: 'SIP',
+	},
+	{
+		status: UserPresenceStatus.DLG,
+		label: 'Dlg',
+	},
+	{
+		status: UserPresenceStatus.DND,
+		label: 'DnD',
+	},
+];
 
-const isSip = computed(() => status.value.includes(UserPresenceStatus.SIP));
-const isWeb = computed(() => status.value.includes(UserPresenceStatus.WEB));
-const isDnd = computed(() => status.value.includes(UserPresenceStatus.DND));
-const isDlg = computed(() => status.value.includes(UserPresenceStatus.DLG));
+const chips = computed(() => {
+	const presenceStatus = props.presence?.status ?? '';
+	return statusLabels.map(({ status, label }) => ({
+		status,
+		label,
+		color: presenceStatus.includes(status)
+			? ChipColor.MAIN
+			: ChipColor.SECONDARY,
+	}));
+});
 </script>
 
 <style scoped>
@@ -47,7 +59,7 @@ const isDlg = computed(() => status.value.includes(UserPresenceStatus.DLG));
   grid-gap: var(--spacing-sm);
 }
 
-.user-status-chips__chips {
+.user-status-chips__chip {
   justify-content: center;
 }
 </style>
