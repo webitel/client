@@ -622,6 +622,7 @@ export default {
 				pattern: "Ma'lumotnoma raqami",
 				dialplanRule: 'Dialplan qoidasi',
 				position: "O'rnatish",
+				allowTransfer: "O'tkazishga ruxsat berish",
 			},
 
 			chatplan: {

@@ -616,6 +616,7 @@ export default {
 				pattern: 'Số điện thoại đích',
 				dialplanRule: 'Quy tắc lịch sử cuộc gọi',
 				position: 'Vị trí',
+				allowTransfer: 'Cho phép chuyển tiếp',
 			},
 
 			chatplan: {
