@@ -166,6 +166,7 @@
 
 <script setup lang="ts">
 import { UsersAPI } from '@webitel/api-services/api';
+import { UserPresenceStatus } from '@webitel/api-services/enums';
 import type { ApiUser } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
@@ -268,7 +269,8 @@ const edit = (item: ApiUser) =>
 		},
 	});
 
-const isDnd = (item: ApiUser) => !!item.presence?.status?.includes('dnd');
+const isDnd = (item: ApiUser) =>
+	!!item.presence?.status?.includes(UserPresenceStatus.DND);
 
 const setDnd = async (item: ApiUser, value: boolean) => {
 	try {

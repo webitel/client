@@ -81,12 +81,12 @@ const deleteVariable = (index: number) => {
 .opened-user-variables__pair {
   display: grid;
   align-items: center;
-  margin-bottom: 20px;
-  grid-template-columns: 1fr 1fr 24px;
-  grid-gap: 20px;
+  margin-bottom: var(--spacing-sm);
+  grid-template-columns: 1fr 1fr var(--spacing-md);
+  grid-gap: var(--spacing-sm);
 }
 
 .opened-user-variables__delete-button {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-sm);
 }
 </style>

@@ -24,6 +24,7 @@
 </template>
 
 <script setup lang="ts">
+import { UserPresenceStatus } from '@webitel/api-services/enums';
 import type { ApiUserPresence } from '@webitel/api-services/gen/models';
 import { computed } from 'vue';
 
@@ -33,17 +34,17 @@ const props = defineProps<{
 
 const status = computed(() => props.presence?.status ?? '');
 
-const isSip = computed(() => status.value.includes('sip'));
-const isWeb = computed(() => status.value.includes('web'));
-const isDnd = computed(() => status.value.includes('dnd'));
-const isDlg = computed(() => status.value.includes('dlg'));
+const isSip = computed(() => status.value.includes(UserPresenceStatus.SIP));
+const isWeb = computed(() => status.value.includes(UserPresenceStatus.WEB));
+const isDnd = computed(() => status.value.includes(UserPresenceStatus.DND));
+const isDlg = computed(() => status.value.includes(UserPresenceStatus.DLG));
 </script>
 
 <style scoped>
 .user-status-chips {
   display: grid;
   grid-template-columns: repeat(4, 70px);
-  grid-gap: 10px;
+  grid-gap: var(--spacing-sm);
 }
 
 .user-status-chips__chips {
