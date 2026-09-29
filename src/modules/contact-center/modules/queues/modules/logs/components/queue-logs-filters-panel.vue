@@ -3,6 +3,7 @@
     class="queue-logs-filters-panel"
     :filter-options="filtersOptions"
     :filters-manager="filtersManager"
+    :has-read-access="userinfoStore.hasReadAccess"
     static-mode
     @filter:add="addFilter"
     @filter:update="updateFilter"
@@ -18,12 +19,14 @@ import {
 } from '@webitel/ui-datalist/filters';
 import { storeToRefs } from 'pinia';
 
+import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
 import {
 	defaultJoinedAtFilter,
 	filtersOptions,
 } from '../configs/filtersOptions';
 import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
 
+const userinfoStore = useUserinfoStore();
 const tableStore = useQueueLogsDatalistStore();
 const { filtersManager } = storeToRefs(tableStore);
 

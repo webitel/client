@@ -20,10 +20,15 @@
           @filter:update="updateFilter"
         />
 
-        <div class="table-section__table-wrapper">
+        <div class="table-section__table-wrapper history-popup__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
           <wt-loader v-show="isLoading" />
           <wt-table
-            v-show="!isLoading"
+            v-show="dataList.length && !isLoading"
             :data="dataList"
             :grid-actions="false"
             :headers="shownHeaders"
@@ -77,6 +82,7 @@ import {
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
@@ -96,8 +102,16 @@ const route = useRoute();
 
 const historyStore = useDevicesHistoryDatalistStore();
 
-const { dataList, isLoading, page, size, next, shownHeaders, filtersManager } =
-	storeToRefs(historyStore);
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(historyStore);
 
 const {
 	initialize,
@@ -110,6 +124,17 @@ const {
 	columnResize,
 	columnReorder,
 } = historyStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 
 const historyId = computed(() => route.params.historyId as string | undefined);
 
@@ -163,16 +188,12 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+.history-popup__table-wrapper {
+  flex: 0 0 440px;
+}
+
 .history-popup__filters-panel {
   margin-bottom: var(--spacing-sm);
-}
-
-.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper__actions) {
-  padding-bottom: var(--spacing-xs);
-}
-
-.history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper) {
-  align-items: end;
 }
 
 .history-popup__filters-panel :deep(.dynamic-filter-panel-wrapper__filters) {

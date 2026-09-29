@@ -1,7 +1,7 @@
 <template>
   <wt-popup
     :shown="!!licenseId"
-    size="md"
+    :size="ComponentSize.LG"
     @close="close"
   >
     <template #header>
@@ -17,36 +17,26 @@
     <template #main>
       <section class="table-section">
         <header class="table-title">
-          <wt-action-bar
-            :include="[IconAction.REFRESH, IconAction.COLUMNS]"
-            @click:refresh="loadDataList"
-          >
-            <template #search-bar>
-              <dynamic-filter-search
-                :filters-manager="filtersManager"
-                :is-filters-restoring="isFiltersRestoring"
-                single-search-name="q"
-                @filter:add="addFilter"
-                @filter:update="updateFilter"
-                @filter:delete="deleteFilter"
-              />
-            </template>
-            <template #columns>
-              <wt-table-column-select
-                :headers="headers"
-                enable-search
-                @change="updateShownHeaders"
-              />
-            </template>
-          </wt-action-bar>
+          <dynamic-filter-search
+            :filters-manager="filtersManager"
+            :is-filters-restoring="isFiltersRestoring"
+            full-width
+            single-search-name="q"
+            @filter:add="addFilter"
+            @filter:update="updateFilter"
+            @filter:delete="deleteFilter"
+          />
         </header>
 
-        <wt-loader v-show="isLoading" />
-        <div
-          v-show="!isLoading"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper license-users-popup__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
+          <wt-loader v-show="isLoading" />
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
             :grid-actions="false"
             :headers="shownHeaders"
@@ -103,7 +93,8 @@ import type {
 	ApiProductUser,
 } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { ComponentSize } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -128,11 +119,11 @@ const tableStore = useLicenseUsersDatalistStore();
 
 const {
 	dataList,
+	error,
 	isLoading,
 	page,
 	size,
 	next,
-	headers,
 	shownHeaders,
 	filtersManager,
 	isFiltersRestoring,
@@ -140,17 +131,26 @@ const {
 
 const {
 	initialize,
-	loadDataList,
 	updatePage,
 	updateSize,
 	updateSort,
 	addFilter,
 	updateFilter,
 	deleteFilter,
-	updateShownHeaders,
 	columnResize,
 	columnReorder,
 } = tableStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 
 const licenseId = computed(() => route.params.id as string | undefined);
 
@@ -195,11 +195,7 @@ watch(
   }
 }
 
-.table-section__table-wrapper {
-  max-height: 60vh;
-}
-
-.table-title {
-  justify-content: right;
+.license-users-popup__table-wrapper {
+  flex: 0 0 440px;
 }
 </style>

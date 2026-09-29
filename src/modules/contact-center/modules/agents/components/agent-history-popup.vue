@@ -47,17 +47,6 @@
                 {{ $t(`channel.type.${item.channel}`) }}
               </span>
             </template>
-            <template #from="{ item }">
-              {{ prettifyTime(item.joinedAt) }}
-            </template>
-            <template #to="{ item }">
-              <div v-if="item.duration">
-                {{ calcStatusTo(item) }}
-              </div>
-            </template>
-            <template #duration="{ item }">
-              {{ convertDuration(item.duration) }}
-            </template>
           </wt-table>
           <wt-pagination
             :next="isNext"
@@ -87,9 +76,6 @@
 </template>
 
 <script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
-import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
-import { formatDate } from '@webitel/ui-sdk/utils';
 import { mapGetters } from 'vuex';
 
 import historyPopupMixin from '../../../../../app/mixins/objectPagesMixins/historyPopupMixin/historyPopupMixin';
@@ -141,16 +127,6 @@ export default {
 					src: this.darkMode ? dummyPicDark : dummyPicLight,
 					text: 'objects.ccenter.agents.emptyPopup',
 				}
-			);
-		},
-	},
-
-	methods: {
-		convertDuration,
-		calcStatusTo(item) {
-			return formatDate(
-				+item.joinedAt + item.duration * 1000,
-				FormatDateMode.DATETIME,
 			);
 		},
 	},
