@@ -21,7 +21,7 @@
         {{ $t('objects.add') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="close"
       >
         {{ $t('objects.close') }}
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
 
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
@@ -42,6 +43,7 @@ export default {
 	],
 	data: () => ({
 		namespace: 'directory/users/tokens',
+		ButtonColor,
 	}),
 
 	methods: {

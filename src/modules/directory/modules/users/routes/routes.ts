@@ -1,8 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import UsersRouteNames from './_internals/UsersRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import UsersRouteNames from './_internals/UsersRouteNames.enum';
 
 const Users = () => import('../components/the-users.vue');
 const OpenedUser = () => import('../components/opened-user.vue');
@@ -65,7 +65,7 @@ const UsersRoutes = [
 			},
 			{
 				path: 'permissions/:permissionId?',
-				name: `${UsersRouteNames.PERMISSIONS}-card`,
+				name: UsersRouteNames.PERMISSIONS,
 				component: PermissionsTab,
 			},
 		],

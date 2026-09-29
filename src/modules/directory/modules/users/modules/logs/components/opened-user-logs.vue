@@ -75,10 +75,12 @@ import { UserLogsAPI as LogsAPI } from '@webitel/api-services/api';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
 import { useDummy } from '../../../../../../../app/composables/useDummy';
 import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
+import { useUsersCardStore } from '../../../stores/card/usersCardStore';
 
 const namespace = 'directory/users';
 const subNamespace = 'logs';
@@ -98,8 +100,14 @@ export default {
 			namespace: `${namespace}/${subNamespace}`,
 			hiddenText: true,
 		});
+		const usersCardStore = useUsersCardStore();
+		const { itemId: userId, originalItemInstance: user } =
+			storeToRefs(usersCardStore);
+
 		return {
 			dummy,
+			userId,
+			user,
 
 			// re-export from imports to template
 			FormatDateMode,
@@ -113,6 +121,12 @@ export default {
 	}),
 
 	computed: {
+		parentId() {
+			return this.userId;
+		},
+		itemInstance() {
+			return this.user;
+		},
 		getFilters() {
 			return this.$store.getters[
 				`${namespace}/${subNamespace}/filters/GET_FILTERS`

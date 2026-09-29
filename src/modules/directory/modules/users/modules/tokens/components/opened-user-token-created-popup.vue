@@ -23,7 +23,7 @@
       </wt-button>
       <wt-button
         class="button-save"
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="saveTxt"
       >
         {{ $t('objects.directory.users.tokenPopupSave') }}
@@ -33,18 +33,31 @@
 </template>
 
 <script>
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import clipboardCopy from 'clipboard-copy';
+import { storeToRefs } from 'pinia';
 import { mapState } from 'vuex';
 
 import { downloadAsTXT } from '../../../../../../../app/utils/download';
+import { useUsersCardStore } from '../../../stores/card/usersCardStore';
 
 export default {
 	name: 'OpenedUserTokenCreatedPopup',
 
+	setup() {
+		const usersCardStore = useUsersCardStore();
+		const { originalItemInstance } = storeToRefs(usersCardStore);
+
+		return {
+			originalItemInstance,
+			ButtonColor,
+		};
+	},
+
 	computed: {
-		...mapState('directory/users', {
-			userName: (state) => state.itemInstance.name,
-		}),
+		userName() {
+			return this.originalItemInstance.name;
+		},
 		...mapState('directory/users/tokens', {
 			token: (state) => state.itemInstance.token,
 		}),

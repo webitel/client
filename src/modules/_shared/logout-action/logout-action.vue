@@ -29,10 +29,10 @@
 </template>
 
 <script setup lang="ts">
+import { UsersAPI } from '@webitel/api-services/api';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import UsersAPI from '../../directory/modules/users/api/users';
 import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
 import LogoutConfirmationPopup from './logout-confirmation-popup.vue';
 

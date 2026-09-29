@@ -29,9 +29,9 @@
       <password-input
         :disabled="disableUserInput"
         :v="v.itemInstance.password"
-        :value="itemInstance.password"
+        :model-value="itemInstance.password"
         required
-        @input="setItemProp({ prop: 'password', value: $event })"
+        @update:model-value="setItemProp({ prop: 'password', value: $event })"
       />
       <wt-single-select
         :disabled="disableUserInput || !hasFlowsReadAccess"
