@@ -626,7 +626,6 @@ export default {
 				pattern: 'Номер назначения',
 				dialplanRule: 'Правило исходящей маршрутизации',
 				position: 'Позиция',
-				allowTransfer: 'Разрешить перевод',
 			},
 
 			chatplan: {

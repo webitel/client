@@ -626,7 +626,6 @@ export default {
 				pattern: 'Номер призначення',
 				dialplanRule: 'Правило вихідного набору',
 				position: 'Позиція',
-				allowTransfer: 'Дозволити перевід',
 			},
 
 			chatplan: {
