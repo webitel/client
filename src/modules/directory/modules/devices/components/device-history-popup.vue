@@ -21,9 +21,14 @@
         />
 
         <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
           <wt-loader v-show="isLoading" />
           <wt-table
-            v-show="!isLoading"
+            v-show="dataList.length && !isLoading"
             :data="dataList"
             :grid-actions="false"
             :headers="shownHeaders"
@@ -46,6 +51,7 @@
             </template>
           </wt-table>
           <wt-pagination
+            v-show="dataList.length"
             :next="next"
             :prev="page > 1"
             :size="size"
@@ -77,6 +83,7 @@ import {
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
 import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
@@ -96,8 +103,16 @@ const route = useRoute();
 
 const historyStore = useDevicesHistoryDatalistStore();
 
-const { dataList, isLoading, page, size, next, shownHeaders, filtersManager } =
-	storeToRefs(historyStore);
+const {
+	dataList,
+	isLoading,
+	error,
+	page,
+	size,
+	next,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(historyStore);
 
 const {
 	initialize,
@@ -138,6 +153,17 @@ const resetFilters = () => {
 		value: todaysRange(),
 	});
 };
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 
 const prettifyTime = (time?: string | number) => {
 	if (!time) return 'none';
