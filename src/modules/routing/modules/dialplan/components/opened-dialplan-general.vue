@@ -24,7 +24,7 @@
         required
         @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
-      <div class="destination-wrapper">
+      <div class="opened-dialplan-general__destination-wrapper">
         <wt-input-text
           :disabled="disableUserInput"
           :label="$t('objects.routing.dialplan.pattern')"
@@ -79,7 +79,7 @@ export default {
 </script>
 
 <style scoped>
-.destination-wrapper {
+.opened-dialplan-general__destination-wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
