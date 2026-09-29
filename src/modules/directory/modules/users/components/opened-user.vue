@@ -63,7 +63,7 @@ import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UserLogsFiltersPanel from '../modules/logs/components/user-logs-filters-panel.vue';
-import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
+import { useUserTokensAccess } from '../modules/tokens/composables/useUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum';
 import {
 	loadUserPasswordRules,
@@ -81,7 +81,7 @@ const {
 	hasDeleteAccess,
 	hasSaveActionAccess,
 } = useUserAccessControl();
-const { hasReadAccess: hasUserTokensReadAccess } = useHasUserTokensAccess();
+const { hasReadAccess: hasUserTokensReadAccess } = useUserTokensAccess();
 const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(
 	WtObject.ChangeLog,
 );
