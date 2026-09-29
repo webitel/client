@@ -20,7 +20,7 @@
           @filter:update="updateFilter"
         />
 
-        <div class="table-section__table-wrapper">
+        <div class="table-section__table-wrapper history-popup__table-wrapper">
           <wt-empty
             v-show="showEmpty"
             :image="imageEmpty"
@@ -51,7 +51,6 @@
             </template>
           </wt-table>
           <wt-pagination
-            v-show="dataList.length"
             :next="next"
             :prev="page > 1"
             :size="size"
@@ -105,8 +104,8 @@ const historyStore = useDevicesHistoryDatalistStore();
 
 const {
 	dataList,
-	isLoading,
 	error,
+	isLoading,
 	page,
 	size,
 	next,
@@ -125,6 +124,17 @@ const {
 	columnResize,
 	columnReorder,
 } = historyStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 
 const historyId = computed(() => route.params.historyId as string | undefined);
 
@@ -154,17 +164,6 @@ const resetFilters = () => {
 	});
 };
 
-const {
-	showEmpty,
-	image: imageEmpty,
-	text: textEmpty,
-} = useTableEmpty({
-	dataList,
-	error,
-	filters: computed(() => filtersManager.value.getAllValues()),
-	isLoading,
-});
-
 const prettifyTime = (time?: string | number) => {
 	if (!time) return 'none';
 	return formatDate(+time, FormatDateMode.DATETIME);
@@ -189,6 +188,10 @@ watch(
 </script>
 
 <style lang="scss" scoped>
+.history-popup__table-wrapper {
+  flex: 0 0 440px;
+}
+
 .history-popup__filters-panel {
   margin-bottom: var(--spacing-sm);
 }
