@@ -1,8 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import AgentsRouteNames from './_internals/AgentsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import AgentsRouteNames from './_internals/AgentsRouteNames.enum';
 
 const Agents = () => import('../components/the-agents.vue');
 const Agent = () => import('../components/opened-agent.vue');
