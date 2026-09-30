@@ -175,7 +175,7 @@ const closeTokenCreatedPopup = () => {
 };
 
 const formatDateTime = (value?: number | string) =>
-	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
+	formatDate(value, FormatDateMode.DATETIME);
 
 const {
 	showEmpty,
