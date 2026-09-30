@@ -194,7 +194,7 @@ watch(parentId, (id, previous) => {
 });
 
 const asDate = (value?: number | string) =>
-	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
+	formatDate(value, FormatDateMode.DATETIME);
 
 const asDuration = (item: { joinedAt?: number; leavingAt?: number }) =>
 	convertDuration(((item.leavingAt ?? 0) - (item.joinedAt ?? 0)) / 1000);

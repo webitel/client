@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="isLogsTab">
+  <wt-page-wrapper :actions-panel="isLogsTab && isLogsFiltersPanelShown">
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
@@ -13,10 +13,7 @@
     </template>
 
     <template #actions-panel>
-      <logs-filters
-        v-if="isLogsTab"
-        :namespace="logsFiltersNamespace"
-      />
+      <user-logs-filters-panel v-if="isLogsTab" />
     </template>
 
     <template #main>
@@ -37,6 +34,7 @@
             v-model="modelValue"
             :validation-fields="validationFields"
             v-bind="permissionsStoreData"
+            @click:filters="isLogsFiltersPanelShown = !isLogsFiltersPanelShown"
           />
         </router-view>
         <input
@@ -58,14 +56,14 @@ import {
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import LogsFilters from '../modules/logs/modules/filters/components/opened-user-logs-filters.vue';
-import { useHasUserTokensAccess } from '../modules/tokens/composables/hasUserTokensAccess';
+import UserLogsFiltersPanel from '../modules/logs/components/user-logs-filters-panel.vue';
+import { useUserTokensAccess } from '../modules/tokens/composables/useUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum';
 import {
 	loadUserPasswordRules,
@@ -83,7 +81,7 @@ const {
 	hasDeleteAccess,
 	hasSaveActionAccess,
 } = useUserAccessControl();
-const { hasReadAccess: hasUserTokensReadAccess } = useHasUserTokensAccess();
+const { hasReadAccess: hasUserTokensReadAccess } = useUserTokensAccess();
 const { hasReadAccess: hasLogsReadAccess } = useUserAccessControl(
 	WtObject.ChangeLog,
 );
@@ -106,8 +104,6 @@ const {
 });
 
 loadUserPasswordRules();
-
-const logsFiltersNamespace = 'directory/users/logs/filters';
 
 const tabs = computed(() => {
 	const tabs: CardTab[] = [
@@ -158,6 +154,7 @@ const tabs = computed(() => {
 const { currentTab, changeTab } = useCardTabs(tabs);
 
 const isLogsTab = computed(() => currentTab.value?.value === 'logs');
+const isLogsFiltersPanelShown = ref(false);
 
 const permissionsStoreData = computed(() => ({
 	store: useUsersPermissionsStore,
