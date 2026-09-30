@@ -13,100 +13,96 @@
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { EngineAgentPauseCause } from '@webitel/api-services/gen/models';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import AgentPauseCauseRouteNames from '../router/_internals/AgentPauseCauseRouteNames.enum.js';
-import General from './opened-agent-pause-cause-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import AgentPauseCauseRouteNames from '../router/_internals/AgentPauseCauseRouteNames.enum';
+import { useAgentPauseCauseCardStore } from '../stores/card/agentPauseCauseCardStore';
 
-export default {
-	name: 'OpenedAgentPauseCause',
-	components: {
-		General,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<EngineAgentPauseCause>({
+	useCardStore: useAgentPauseCauseCardStore,
+});
+
+const tabs = computed(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: AgentPauseCauseRouteNames.GENERAL,
 	},
-	data: () => ({
-		namespace: 'lookups/pauseCause',
-		routeName: RouteNames.PAUSE_CAUSE,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+const { close } = useClose(RouteNames.PAUSE_CAUSE);
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
+	},
+	{
+		name: t('objects.lookups.pauseCause.pauseCause'),
+		route: '/lookups/pause-cause',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
+]);
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: AgentPauseCauseRouteNames.GENERAL,
-				},
-			];
-			return tabs;
-		},
-
-		path() {
-			const baseUrl = '/lookups/pause-cause';
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.pauseCause.pauseCause'),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
-	},
-};
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
 </script>
-
-<style scoped></style>
