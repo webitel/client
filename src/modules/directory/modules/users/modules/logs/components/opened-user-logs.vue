@@ -171,7 +171,7 @@ const hasPanelFilters = computed(() =>
 );
 
 const formatDateTime = (value?: number | string) =>
-	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
+	formatDate(value, FormatDateMode.DATETIME);
 
 const { initCSVExport, exportCSV } = useCSVExport({
 	selected: ref([]),

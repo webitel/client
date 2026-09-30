@@ -398,7 +398,7 @@ const path = computed(() => {
 });
 
 const asDate = (value?: number | string) =>
-	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
+	formatDate(value, FormatDateMode.DATETIME);
 
 const endCauseText = (stopCause: string) => {
 	const localeKey = stopCause.replace(/_([a-z])/g, (_, char: string) =>

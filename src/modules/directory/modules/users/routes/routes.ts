@@ -11,8 +11,8 @@ const OpenedUserCommunications = () =>
 	import('../components/opened-user-communications.vue');
 const OpenedUserVariables = () =>
 	import('../components/opened-user-variables.vue');
-const OpenedUserToken = () =>
-	import('../modules/tokens/components/opened-user-token.vue');
+const OpenedUserTokens = () =>
+	import('../modules/tokens/components/opened-user-tokens.vue');
 const OpenedUserLogs = () =>
 	import('../modules/logs/components/opened-user-logs.vue');
 
@@ -56,7 +56,7 @@ const UsersRoutes = [
 			{
 				path: 'tokens/:tokenId?',
 				name: UsersRouteNames.TOKENS,
-				component: OpenedUserToken,
+				component: OpenedUserTokens,
 			},
 			{
 				path: 'logs',
