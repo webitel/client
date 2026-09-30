@@ -56,10 +56,9 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
-		/** derived from the joined/leaving pair, so it sorts on `joined_at` */
 		value: 'duration',
 		locale: 'objects.ccenter.queues.logs.duration',
-		field: 'joined_at',
+		field: 'duration',
 		show: true,
 		sort: SortSymbols.NONE,
 		filter: filterConfigs[FilterOption.AttemptDuration],
