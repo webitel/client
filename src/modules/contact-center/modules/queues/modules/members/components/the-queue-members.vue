@@ -5,12 +5,12 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="disableUserInput"
         :primary-action="create"
         :secondary-action="close"
       >
         <template #primary-action>
           <wt-button-select
+            :disabled="disableUserInput"
             :options="saveOptions"
             @click="create"
             @click:option="({ callback }) => callback()"

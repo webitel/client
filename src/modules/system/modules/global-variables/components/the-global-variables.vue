@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="!hasCreateAccess"
+        :primary-disabled="!hasCreateAccess"
         :primary-action="addItem"
       >
         <wt-breadcrumb :path="path" />
