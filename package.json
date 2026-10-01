@@ -34,7 +34,7 @@
 		"@webitel/styleguide": "~26.8",
 		"@webitel/ui-datalist": "~26.8",
 		"@webitel/ui-sdk": "~26.8",
-		"axios": "^1.18.1",
+		"axios": "^1.20.0",
 		"clipboard-copy": "^4.0.1",
 		"cron-validator": "^1.4.0",
 		"cronstrue": "^2.13.0",
