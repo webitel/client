@@ -196,8 +196,8 @@ watch(parentId, (id, previous) => {
 const asDate = (value?: number | string) =>
 	formatDate(value, FormatDateMode.DATETIME);
 
-const asDuration = (item: { joinedAt?: number; leavingAt?: number }) =>
-	convertDuration(((item.leavingAt ?? 0) - (item.joinedAt ?? 0)) / 1000);
+const asDuration = (item: { duration?: string }) =>
+	convertDuration(+(item.duration ?? 0));
 
 const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 	dataList,
