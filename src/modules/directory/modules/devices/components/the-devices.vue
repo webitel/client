@@ -72,7 +72,6 @@
             <template #columns>
               <wt-table-column-select
                 :headers="headers"
-                enable-search
                 @change="updateShownHeaders"
               />
             </template>
