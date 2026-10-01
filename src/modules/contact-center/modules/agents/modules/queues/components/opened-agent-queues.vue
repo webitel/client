@@ -87,7 +87,7 @@ import { useAgentQueuesDatalistStore } from '../stores/datalist/agentQueuesDatal
 
 const { t } = useI18n();
 
-const tableStore = useNestedTableList({
+const agentQueuesDatalistStore = useNestedTableList({
 	useTableStore: useAgentQueuesDatalistStore,
 });
 const {
@@ -99,7 +99,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentQueuesDatalistStore);
 const {
 	loadDataList,
 	updatePage,
@@ -107,7 +107,7 @@ const {
 	updateSort,
 	columnResize,
 	columnReorder,
-} = tableStore;
+} = agentQueuesDatalistStore;
 
 const queueLink = (item: EngineAgentInQueue) => ({
 	name: `${RouteNames.QUEUES}-card`,

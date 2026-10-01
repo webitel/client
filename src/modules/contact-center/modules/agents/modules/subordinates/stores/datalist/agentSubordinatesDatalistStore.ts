@@ -1,6 +1,6 @@
-import { AgentSubordinatesAPI } from '@webitel/api-services/api';
 import { createTableStore } from '@webitel/ui-datalist';
 
+import { AgentSubordinatesAPI } from '../../api/agentSubordinates';
 import { AgentSubordinatesNamespace } from '../namespace';
 import { headers } from './_internals/headers';
 

@@ -126,7 +126,7 @@ const { disableUserInput } = useUserAccessControl({
 const agentsCardStore = useAgentsCardStore();
 const { itemId: agentId } = storeToRefs(agentsCardStore);
 
-const tableStore = useNestedTableList({
+const agentSkillsDatalistStore = useNestedTableList({
 	useTableStore: useAgentSkillsDatalistStore,
 });
 const {
@@ -139,7 +139,7 @@ const {
 	selected,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentSkillsDatalistStore);
 const {
 	loadDataList,
 	updatePage,
@@ -153,7 +153,7 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
-} = tableStore;
+} = agentSkillsDatalistStore;
 
 const { open } = useCardListNavigation({
 	routeParamName: 'skillId',

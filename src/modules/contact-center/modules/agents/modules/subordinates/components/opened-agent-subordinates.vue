@@ -143,7 +143,7 @@ const { disableUserInput } = useUserAccessControl({
 const agentsCardStore = useAgentsCardStore();
 const { itemId: agentId } = storeToRefs(agentsCardStore);
 
-const tableStore = useNestedTableList({
+const agentSubordinatesDatalistStore = useNestedTableList({
 	useTableStore: useAgentSubordinatesDatalistStore,
 });
 const {
@@ -156,7 +156,7 @@ const {
 	selected,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(agentSubordinatesDatalistStore);
 const {
 	loadDataList,
 	updatePage,
@@ -169,7 +169,7 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
-} = tableStore;
+} = agentSubordinatesDatalistStore;
 
 const { open } = useCardListNavigation({
 	routeParamName: 'subordinateId',
