@@ -99,7 +99,7 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const route = useRoute();
 
-const historyStore = useAgentHistoryDatalistStore();
+const agentHistoryDatalistStore = useAgentHistoryDatalistStore();
 
 const {
 	dataList,
@@ -110,7 +110,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(historyStore);
+} = storeToRefs(agentHistoryDatalistStore);
 
 const {
 	initialize,
@@ -122,7 +122,7 @@ const {
 	hasFilter,
 	columnResize,
 	columnReorder,
-} = historyStore;
+} = agentHistoryDatalistStore;
 
 const {
 	showEmpty,
