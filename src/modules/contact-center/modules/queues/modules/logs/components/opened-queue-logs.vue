@@ -197,7 +197,7 @@ const asDate = (value?: number | string) =>
 	value ? formatDate(+value, FormatDateMode.DATETIME) : '';
 
 const asDuration = (item: { duration?: string }) =>
-	convertDuration(item.duration);
+	convertDuration(+(item.duration ?? 0));
 
 const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 	dataList,
