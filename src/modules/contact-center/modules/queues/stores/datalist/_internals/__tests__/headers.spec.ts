@@ -69,9 +69,8 @@ describe('field names that do not match their column', () => {
 		expect(fieldOf(hooksHeaders, 'state')).toBe('enabled');
 	});
 
-	/** duration is derived from the joined/leaving pair, so it sorts on joined */
-	it('sorts the log duration column by `joined_at`', () => {
-		expect(fieldOf(logsHeaders, 'duration')).toBe('joined_at');
+	it('sorts the log duration column by `duration`', () => {
+		expect(fieldOf(logsHeaders, 'duration')).toBe('duration');
 	});
 
 	it('sorts the skill capacity column by `max_capacity`', () => {
