@@ -219,6 +219,15 @@
                 {{ item.agent.name }}
               </adm-item-link>
             </template>
+            <template #bucket="{ item }">
+              {{ item.bucket?.name }}
+            </template>
+            <template #expireAt="{ item }">
+              {{ asDate(item.expireAt) }}
+            </template>
+            <template #timezone="{ item }">
+              {{ item.timezone?.name }}
+            </template>
 
             <template #column-filter="scope">
               <queue-members-column-filter v-bind="scope" />
