@@ -2,7 +2,7 @@
   <wt-page-wrapper class="table-page">
     <template #header>
       <wt-page-header
-        :hide-primary="!hasCreateAccess"
+        :primary-disabled="!hasCreateAccess"
         :primary-action="create"
       >
         <wt-breadcrumb :path="path" />

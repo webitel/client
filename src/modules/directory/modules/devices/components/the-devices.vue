@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="!hasCreateAccess"
+        :primary-disabled="!hasCreateAccess"
         :primary-action="create"
       >
         <wt-breadcrumb :path="path" />
@@ -72,7 +72,6 @@
             <template #columns>
               <wt-table-column-select
                 :headers="headers"
-                enable-search
                 @change="updateShownHeaders"
               />
             </template>
