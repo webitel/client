@@ -1,58 +1,65 @@
 <template>
   <section class="table-section">
-    <supervisor-popup @close="closePopup" />
+    <supervisor-popup
+      :parent-id="teamId"
+      @saved="loadDataList"
+    />
     <supervisor-subordinates-popup
-      :shown="isSupervisorSubordinatesPopup"
-      :item-id="supervisorId"
+      :shown="!!subordinatesSupervisorId"
+      :supervisor-id="subordinatesSupervisorId"
+      :team-id="teamId"
       @close="closeSubordinates"
     />
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.agents.supervisors', 2) }}
+        {{ t('objects.ccenter.agents.supervisors', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.REFRESH]"
+          :disabled:add="!hasSupervisorsUpdateAccess || !teamId"
+          @click:add="open"
+          @click:refresh="loadDataList"
         >
-          <wt-icon-btn
-            :disabled="!hasSupervisorsUpdateAccess"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
-        </wt-table-actions>
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
-        :headers="headers"
+        :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
       >
         <template #name="{ item }">
           <wt-item-link
-            :link="editLink(item)"
+            :link="{
+              name: `${RouteNames.AGENTS}-card`,
+              params: { id: item.id },
+            }"
             target="_blank"
           >
             {{ item.name }}
@@ -61,102 +68,98 @@
 
         <template #actions="{ item }">
           <wt-icon-btn
-            v-tooltip="$t('objects.ccenter.agents.subordinates', 2)"
+            v-tooltip="t('objects.ccenter.agents.subordinates', 2)"
             icon="queue-member"
-            @click="openSubordinates(item)"
+            @click="openSubordinates(item.id)"
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { WtObject } from '@webitel/ui-sdk/enums';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+<script lang="ts" setup>
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { useCardListNavigation } from '@webitel/ui-datalist/card';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction, WtObject } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { useTeamsCardStore } from '../../../stores/card/teamsCardStore';
+import { useTeamSupervisorsDatalistStore } from '../stores/datalist/teamSupervisorsDatalistStore';
 import SupervisorSubordinatesPopup from './opened-team-supervisor-subordinates-popup.vue';
 import SupervisorPopup from './opened-team-supervisors-popup.vue';
 
-const namespace = 'ccenter/teams';
-const subNamespace = 'supervisors';
+const { t } = useI18n();
 
-export default {
-	name: 'OpenedTeamSupervisors',
-	components: {
-		SupervisorPopup,
-		SupervisorSubordinatesPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
+const { hasUpdateAccess: hasSupervisorsUpdateAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
+const teamsCardStore = useTeamsCardStore();
+const { itemId: teamId } = storeToRefs(teamsCardStore);
 
-		const { hasUpdateAccess: hasSupervisorsUpdateAccess } =
-			useUserAccessControl(WtObject.Agent);
+const teamSupervisorsDatalistStore = useNestedTableList({
+	useTableStore: useTeamSupervisorsDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(teamSupervisorsDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = teamSupervisorsDatalistStore;
 
-		return {
-			dummy,
+const { open } = useCardListNavigation({
+	routeParamName: 'supervisorId',
+});
 
-			hasSupervisorsUpdateAccess,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-		supervisorId: null,
-		isSupervisorSubordinatesPopup: false,
-	}),
+const subordinatesSupervisorId = ref<string | null>(null);
 
-	methods: {
-		openSubordinates({ id }) {
-			this.supervisorId = id;
-			this.openSubordinatesPopup();
-		},
-		closeSubordinates() {
-			this.supervisorId = null;
-			this.closeSubordinatesPopup();
-		},
-		addItem() {
-			return this.$router.push({
-				...this.route,
-				params: {
-					supervisorId: 'new',
-				},
-			});
-		},
-		closePopup() {
-			this.$router.go(-1);
-		},
-		openSubordinatesPopup() {
-			this.isSupervisorSubordinatesPopup = true;
-		},
-		closeSubordinatesPopup() {
-			this.isSupervisorSubordinatesPopup = false;
-		},
-	},
+const openSubordinates = (id: string) => {
+	subordinatesSupervisorId.value = id;
 };
-</script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+const closeSubordinates = () => {
+	subordinatesSupervisorId.value = null;
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+</script>

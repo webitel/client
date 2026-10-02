@@ -1,129 +1,133 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" :shown="!!hookId" overflow @close="close">
+  <wt-popup
+    :shown="!!hookId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
-      {{ $t('objects.ccenter.queues.hooks.hooks', 1) }}
+      {{ t('objects.ccenter.queues.hooks.hooks', 1) }}
     </template>
     <template #main>
-      <form>
-        <wt-single-select :model-value="event" :show-clear="false" :label="$t('objects.ccenter.queues.hooks.event')"
-          :options="eventOptions" :v="v$.itemInstance.event" required data-key="value"
-          @update:model-value="setItemProp({ prop: 'event', value: $event.value })" />
+      <form
+        class="opened-team-hooks-popup__form"
+        @submit.prevent="save"
+      >
         <wt-single-select
-          :disabled="!hasFlowsReadAccess"
+          v-model:model-value="modelValue.event"
+          :label="t('objects.ccenter.queues.hooks.event')"
+          :options="eventOptions"
+          :regle-validation="validationFields?.event"
           :show-clear="false"
-          :label="$t('objects.routing.flow.flow', 1)"
-          :search-method="hasFlowsReadAccess && loadFlowOptions"
-          :v="v$.itemInstance.schema"
-          :model-value="itemInstance.schema"
+          data-key="value"
+          option-value="value"
           required
-          @update:model-value="setItemProp({ prop: 'schema', value: $event })"
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.schema"
+          :disabled="!hasFlowsReadAccess"
+          :label="t('objects.routing.flow.flow', 1)"
+          :regle-validation="validationFields?.schema"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
+          :show-clear="false"
+          required
         />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.save') }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        :color="ButtonColor.SECONDARY"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
 import { FlowsAPI } from '@webitel/api-services/api';
-import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
-import { WtObject } from '@webitel/ui-sdk/enums';
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import {
+	EngineRoutingSchemaType,
+	type EngineTeamHook,
+	EngineTeamHookEvent,
+} from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor, WtObject } from '@webitel/ui-sdk/enums';
+import { snakeToCamel } from '@webitel/ui-sdk/scripts';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import HookEvent from '../enum/HookTeamEvent.enum';
+import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum';
+import { useTeamHooksCardStore } from '../stores/card/teamHooksCardStore';
 
-export default {
-	name: 'OpenedTeamHooksPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const props = defineProps<{
+	parentId?: string | number | null;
+}>();
 
-	setup: () => {
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
-		return {
-			// Reasons for use $stopPropagation
-			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-			v$: useVuelidate({
-				$stopPropagation: true,
-			}),
-			hasFlowsReadAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'ccenter/teams/hooks',
-	}),
-	validations: {
-		itemInstance: {
-			event: {
-				required,
-			},
-			schema: {
-				required,
-			},
-		},
-	},
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	computed: {
-		eventOptions() {
-			return Object.values(HookEvent).map((event) => ({
-				name: this.$t(
-					`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`,
-				),
-				value: event,
-			}));
-		},
-		event() {
-			const { event } = this.itemInstance;
-			return event
-				? {
-						name: this.$t(
-							`objects.ccenter.teams.hooks.eventTypes.${this.snakeToCamel(event)}`,
-						),
-						value: event,
-					}
-				: {};
-		},
-		hookId() {
-			return this.$route.params.hookId;
-		},
-	},
-	watch: {
-		hookId: {
-			handler(id) {
-				if (id === 'new') this.resetState();
-				if (id) {
-					this.setId(id);
-					this.loadItem();
-				}
-			},
-			immediate: true,
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	methods: {
-		loadFlowOptions(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [
-					EngineRoutingSchemaType.Service,
-				],
-			});
-		},
-		snakeToCamel,
-	},
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
+
+const {
+	modelValue,
+	validationFields,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineTeamHook>({
+	useCardStore: useTeamHooksCardStore,
+	routeParamName: 'hookId',
+	parentId: () => props.parentId,
+});
+
+const hookId = computed(() => route.params.hookId);
+
+const eventOptions = computed(() =>
+	[
+		EngineTeamHookEvent.AgentStatus,
+	].map((event) => ({
+		name: t(`objects.ccenter.teams.hooks.eventTypes.${snakeToCamel(event)}`),
+		value: event,
+	})),
+);
+
+const { close } = useClose(TeamsRouteNames.HOOKS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadFlowOptions = (params: object) =>
+	FlowsAPI.getLookup({
+		...params,
+		type: [
+			EngineRoutingSchemaType.Service,
+		],
+	});
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.opened-team-hooks-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+</style>

@@ -9,7 +9,7 @@
         :secondary-action="close"
       >
         <template
-          v-if="id"
+          v-if="!isNew"
           #primary-action
         >
           <wt-button-select
@@ -25,7 +25,9 @@
       </wt-page-header>
     </template>
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -34,26 +36,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <router-view
-          v-if="isPermissionsTab"
-          v-slot="{ Component }"
-        >
+        <router-view v-slot="{ Component }">
           <component
-            v-if="Component"
             :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
             v-bind="permissionsStoreData"
           />
         </router-view>
-        <component
-          v-else
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
 
       <save-copy-popup
@@ -65,214 +59,164 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { numeric, required } from '@vuelidate/validators';
+<script setup lang="ts">
 import { TeamsAPI } from '@webitel/api-services/api';
+import type { EngineAgentTeam } from '@webitel/api-services/gen/models';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import {
 	SaveCopyPopup,
 	useSaveCopyPopup,
 } from '@webitel/ui-sdk/modules/SaveCopyPopup';
-import { getCurrentInstance } from 'vue';
+import { storeToRefs } from 'pinia';
+import { computed, toRaw } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import Agents from '../modules/agents/components/opened-team-agents.vue';
-import Flows from '../modules/flow/components/opened-team-flows.vue';
-import Hooks from '../modules/hooks/components/opened-team-hooks.vue';
-import Supervisors from '../modules/supervisors/components/opened-team-supervisors.vue';
-import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum';
+import { useTeamsCardStore } from '../stores/card/teamsCardStore';
 import { useTeamsPermissionsStore } from '../stores/permissions/teamsPermissionsStore';
-import General from './opened-team-general.vue';
-import Parameters from './opened-team-parameters.vue';
 
-export default {
-	name: 'OpenedTeam',
-	components: {
-		General,
-		Supervisors,
-		Agents,
-		Parameters,
-		Hooks,
-		Flows,
-		SaveCopyPopup,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const route = useRoute();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const {
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		} = useUserAccessControl();
+const {
+	hasSaveActionAccess,
+	hasReadAccess,
+	hasCreateAccess,
+	hasUpdateAccess,
+	hasDeleteAccess,
+} = useUserAccessControl();
+const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
 
-		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
-		const { hasReadAccess: hasSupervisorsReadAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
+const teamsCardStore = useTeamsCardStore();
+const { itemId } = storeToRefs(teamsCardStore);
 
-		const instance = getCurrentInstance();
-		const saveCopyPopup = useSaveCopyPopup((name) =>
-			TeamsAPI.add({
-				itemInstance: {
-					...instance.proxy.itemInstance,
-					name,
-				},
-			}),
-		);
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<EngineAgentTeam>({
+	useCardStore: useTeamsCardStore,
+});
 
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-			hasAgentsReadAccess,
-			hasSupervisorsReadAccess,
-			hasFlowsReadAccess,
-			...saveCopyPopup,
-		};
-	},
-
-	data: () => ({
-		namespace: 'ccenter/teams',
-		routeName: RouteNames.TEAMS,
-		permissionsTabPathName: TeamsRouteNames.PERMISSIONS,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			strategy: {
-				required,
-			},
-			maxNoAnswer: {
-				numeric,
-				required,
-			},
-			wrapUpTime: {
-				numeric,
-				required,
-			},
-			noAnswerDelayTime: {
-				numeric,
-				required,
-			},
-			taskAcceptTimeout: {
-				numeric,
-				required,
-			},
-			callTimeout: {
-				numeric,
-				required,
-			},
-			inviteChatTimeout: {
-				numeric,
-				required,
-			},
+const tabs = computed(() => {
+	const tabs: CardTab[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: TeamsRouteNames.GENERAL,
 		},
-	},
-	computed: {
-		isPermissionsTab() {
-			return this.$route.name === TeamsRouteNames.PERMISSIONS;
+		{
+			text: t('objects.ccenter.teams.parameters'),
+			value: 'parameters',
+			pathName: TeamsRouteNames.PARAMETERS,
 		},
-
-		permissionsStoreData() {
-			return {
-				store: useTeamsPermissionsStore,
-				access: {
-					read: this.hasReadAccess,
-					create: this.hasCreateAccess,
-					update: this.hasUpdateAccess,
-					delete: this.hasDeleteAccess,
-				},
-				parentId: this.$route.params.id,
-			};
+		{
+			text: t('objects.ccenter.queues.hooks.hooks', 2),
+			value: 'hooks',
+			pathName: TeamsRouteNames.HOOKS,
 		},
+	];
 
-		tabs() {
-			const general = {
-				text: this.$t('objects.general'),
-				value: 'general',
-				pathName: TeamsRouteNames.GENERAL,
-			};
-			const parameters = {
-				text: this.$t('objects.ccenter.teams.parameters'),
-				value: 'parameters',
-				pathName: TeamsRouteNames.PARAMETERS,
-			};
-			const supervisors = {
-				text: this.$t('objects.ccenter.agents.supervisors', 2),
-				value: 'supervisors',
-				pathName: TeamsRouteNames.SUPERVISORS,
-			};
-			const agents = {
-				text: this.$t('objects.ccenter.agents.agents', 2),
+	if (hasAgentsReadAccess.value) {
+		tabs.push(
+			{
+				text: t('objects.ccenter.agents.agents', 2),
 				value: 'agents',
 				pathName: TeamsRouteNames.AGENTS,
-			};
-			const hooks = {
-				text: this.$t('objects.ccenter.queues.hooks.hooks', 2),
-				value: 'hooks',
-				pathName: TeamsRouteNames.HOOKS,
-			};
-			const flows = {
-				text: this.$t('objects.routing.flow.flow', 2),
-				value: 'flows',
-				pathName: TeamsRouteNames.FLOWS,
-			};
-			const tabs = [
-				general,
-				parameters,
-				hooks,
-			];
+			},
+			{
+				text: t('objects.ccenter.agents.supervisors', 2),
+				value: 'supervisors',
+				pathName: TeamsRouteNames.SUPERVISORS,
+			},
+		);
+	}
 
-			if (this.hasAgentsReadAccess) tabs.push(agents);
-			if (this.hasSupervisorsReadAccess) tabs.push(supervisors);
-			if (this.hasFlowsReadAccess) tabs.push(flows);
+	if (hasFlowsReadAccess.value) {
+		tabs.push({
+			text: t('objects.routing.flow.flow', 2),
+			value: 'flows',
+			pathName: TeamsRouteNames.FLOWS,
+		});
+	}
 
-			if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
-		},
+	if (!isNew.value) {
+		tabs.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: TeamsRouteNames.PERMISSIONS,
+		});
+	}
 
-		path() {
-			const baseUrl = '/contact-center/teams';
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.$t('objects.team', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+	return tabs;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() => ({
+	store: useTeamsPermissionsStore,
+	access: {
+		read: hasReadAccess.value,
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: itemId.value,
+}));
+
+const { close } = useClose(RouteNames.TEAMS);
+
+const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
+	useSaveCopyPopup((name) =>
+		TeamsAPI.add({
+			itemInstance: {
+				...toRaw(modelValue.value),
+				name,
+			},
+		}),
+	);
+
+const path = computed(() => [
+	{
+		name: t('objects.ccenter.ccenter'),
+	},
+	{
+		name: t('objects.team', 2),
+		route: '/contact-center/teams',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-};
-</script>
+]);
 
-<style
-  lang="scss"
-  scoped
-></style>
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
+</script>

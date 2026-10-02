@@ -1,13 +1,22 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" @close="close">
+  <wt-popup
+    :shown="shown"
+    size="sm"
+    @close="emit('close')"
+  >
     <template #title>
-      {{ $t('objects.ccenter.agents.subordinates', 2) }}
+      {{ t('objects.ccenter.agents.subordinates', 2) }}
     </template>
     <template #main>
       <section>
-        <wt-table :data="dataList" :grid-actions="false" :headers="headers" :selectable="false">
+        <wt-table
+          :data="dataList"
+          :grid-actions="false"
+          :headers="headers"
+          :selectable="false"
+        >
           <template #subordinate="{ item }">
-            {{ item.user.name }}
+            {{ item.user?.name }}
           </template>
         </wt-table>
       </section>
@@ -15,58 +24,48 @@
   </wt-popup>
 </template>
 
-<script>
-import { mapState } from 'vuex';
+<script lang="ts" setup>
+import type { EngineAgent } from '@webitel/api-services/gen/models';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum.js';
-import TeamsAPI from '../api/teamSupervisors';
+import { TeamSupervisorsAPI } from '../api/teamSupervisors';
 
-export default {
-	name: 'OpenedTeamSupervisorSubordinatesPopup',
-	props: {
-		itemId: {
-			required: true,
-		},
+const props = defineProps<{
+	shown: boolean;
+	supervisorId: string | null;
+	teamId: string | number | null;
+}>();
+
+const emit = defineEmits<{
+	close: [];
+}>();
+
+const { t } = useI18n();
+
+const dataList = ref<EngineAgent[]>([]);
+
+const headers = computed(() => [
+	{
+		value: 'subordinate',
+		text: t('objects.ccenter.agents.subordinates', 1),
 	},
-	data: () => ({
-		dataList: [],
-	}),
-	watch: {
-		itemId: {
-			handler(id) {
-				if (id) this.loadDataList();
-			},
-		},
-	},
-	computed: {
-		...mapState('ccenter/teams/supervisors', {
-			parentId: (state) => state.parentId,
-		}),
-		headers() {
-			return [
-				{
-					value: 'subordinate',
-					text: this.$t('objects.ccenter.agents.subordinates', 1),
-				},
-			];
-		},
-	},
-	methods: {
-		async loadDataList() {
-			const params = {
-				page: 1,
-				size: 100,
-				supervisorId: this.itemId,
-				teamId: this.parentId,
-			};
-			const response = await TeamsAPI.getTeamSupervisorSubordinatesList(params);
-			this.dataList = response.items;
-		},
-		close() {
-			this.$emit('close');
-		},
-	},
+]);
+
+const loadDataList = async () => {
+	const { items } = await TeamSupervisorsAPI.getTeamSupervisorSubordinatesList({
+		page: 1,
+		size: 100,
+		supervisorId: props.supervisorId,
+		teamId: props.teamId,
+	});
+	dataList.value = items;
 };
-</script>
 
-<style lang="scss" scoped></style>
+watch(
+	() => props.supervisorId,
+	(id) => {
+		if (id) loadDataList();
+	},
+);
+</script>

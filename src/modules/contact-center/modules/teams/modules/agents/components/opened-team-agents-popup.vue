@@ -1,12 +1,12 @@
 <template>
   <wt-popup
-    :shown="!!supervisorId"
+    :shown="!!agentId"
     overflow
     size="sm"
     @close="close"
   >
     <template #title>
-      {{ popupTitle }}
+      {{ t('objects.ccenter.teams.agents.addAgent') }}
     </template>
     <template #main>
       <form @submit.prevent="save">
@@ -14,7 +14,7 @@
           v-model:model-value="modelValue.agent"
           :label="t('objects.ccenter.agents.agents', 1)"
           :regle-validation="validationFields?.agent"
-          :search-method="loadSupervisorOptions"
+          :search-method="AgentsAPI.getLookup"
           :show-clear="false"
           required
         />
@@ -38,6 +38,7 @@
 </template>
 
 <script lang="ts" setup>
+import { AgentsAPI } from '@webitel/api-services/api';
 import type { EngineLookup } from '@webitel/api-services/gen/models';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
@@ -47,8 +48,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum';
-import { TeamSupervisorsAPI } from '../api/teamSupervisors';
-import { useTeamSupervisorsCardStore } from '../stores/card/teamSupervisorsCardStore';
+import { useTeamAgentsCardStore } from '../stores/card/teamAgentsCardStore';
 
 const props = defineProps<{
 	parentId?: string | number | null;
@@ -64,32 +64,19 @@ const route = useRoute();
 const {
 	modelValue,
 	validationFields,
-	isNew,
 	hasValidationErrors,
 	save: saveItem,
 } = useNestedCardComponent<{
 	agent?: EngineLookup;
 }>({
-	useCardStore: useTeamSupervisorsCardStore,
-	routeParamName: 'supervisorId',
+	useCardStore: useTeamAgentsCardStore,
+	routeParamName: 'agentId',
 	parentId: () => props.parentId,
 });
 
-const supervisorId = computed(() => route.params.supervisorId);
+const agentId = computed(() => route.params.agentId);
 
-const popupTitle = computed(() =>
-	isNew.value
-		? t('objects.ccenter.teams.supervisors.addSupervisor')
-		: t('objects.ccenter.teams.supervisors.editSupervisor'),
-);
-
-const loadSupervisorOptions = (params: object) =>
-	TeamSupervisorsAPI.getTeamSupervisorOptions({
-		...params,
-		teamId: props.parentId,
-	});
-
-const { close } = useClose(TeamsRouteNames.SUPERVISORS);
+const { close } = useClose(TeamsRouteNames.AGENTS);
 
 const save = async () => {
 	await saveItem();
