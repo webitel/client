@@ -5,7 +5,6 @@ import { createTableStore } from '@webitel/ui-datalist';
 import { QueueMembersNamespace } from '../namespace';
 import { communicationsHeaders } from './_internals/communicationsHeaders';
 
-/** `parentId` is the member; the queue comes as a `queueId` filter, as in crm timeline */
 export const getMemberCommunicationsList = ({
 	parentId,
 	queueId,
@@ -17,7 +16,6 @@ export const getMemberCommunicationsList = ({
 		memberId: parentId as string,
 	});
 
-/** one member's communications popup; no URL/localStorage persistence */
 export const useQueueMemberCommunicationsDatalistStore =
 	createTableStore<EngineMemberCommunication>(
 		`${QueueMembersNamespace}/communications/datalist`,
@@ -27,7 +25,6 @@ export const useQueueMemberCommunicationsDatalistStore =
 			},
 			headers: communicationsHeaders,
 			disablePersistence: true,
-			// `lazy` table: a next page is appended, not swapped in
 			isAppendDataList: true,
 		},
 	);

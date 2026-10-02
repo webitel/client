@@ -4,7 +4,6 @@ import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
 import { filterConfigs } from '../../../configs/filtersOptions';
 
-/** `show: false` hides by default; bucket/timezone have no `sort`, engine 500s */
 export const headers: DatalistTableHeader[] = [
 	{
 		value: 'name',
@@ -29,7 +28,6 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
-		/** the api field stays `communications`; only the column label changed */
 		value: 'destination',
 		locale: 'objects.ccenter.members.communications',
 		field: 'communications',

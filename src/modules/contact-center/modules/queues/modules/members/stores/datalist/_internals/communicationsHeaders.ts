@@ -1,7 +1,6 @@
 import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
-/** `field` is also the engine sort key: `destination`, `type`, `priority` */
 export const communicationsHeaders: DatalistTableHeader[] = [
 	{
 		value: 'destination',

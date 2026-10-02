@@ -20,7 +20,6 @@
     <div
       v-if="props.collection.length > 1"
       class="one-plus-many-table-cell__chip"
-      role="button"
       tabindex="0"
       @click.prevent="inputHandler"
       @keydown.enter.prevent="inputHandler"

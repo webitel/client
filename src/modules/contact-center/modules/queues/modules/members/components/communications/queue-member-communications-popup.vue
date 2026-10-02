@@ -4,32 +4,40 @@
       {{ t('objects.ccenter.members.communications') }}
     </template>
     <template #main>
-      <section class="communications-popup">
-        <wt-loader v-if="!dataList.length && isLoading" />
-        <wt-table
-          v-else
-          :data="dataList"
-          :grid-actions="false"
-          :headers="shownHeaders"
-          :lazy="true"
-          :on-loading="loadNextPage"
-          :selectable="false"
-          class="popup-table"
-          sortable
-          @sort="updateSort"
+      <section class="queue-member-communications-popup table-section">
+        <div
+          class="table-section__table-wrapper queue-member-communications-popup__table-wrapper"
         >
-          <template #destination="{ item }">
-            {{ item.destination }}
-          </template>
-          <template #type="{ item }">
-            <div v-if="item.type">
-              {{ item.type.name }}
-            </div>
-          </template>
-          <template #priority="{ item }">
-            {{ item.priority }}
-          </template>
-        </wt-table>
+          <wt-loader v-if="!dataList.length && isLoading" />
+          <wt-empty
+            v-else-if="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
+          <wt-table
+            v-else
+            :data="dataList"
+            :grid-actions="false"
+            :headers="shownHeaders"
+            :lazy="true"
+            :on-loading="loadNextPage"
+            :selectable="false"
+            sortable
+            @sort="updateSort"
+          >
+            <template #destination="{ item }">
+              {{ item.destination }}
+            </template>
+            <template #type="{ item }">
+              <div v-if="item.type">
+                {{ item.type.name }}
+              </div>
+            </template>
+            <template #priority="{ item }">
+              {{ item.priority }}
+            </template>
+          </wt-table>
+        </div>
       </section>
     </template>
     <template #actions>
@@ -44,6 +52,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
 import { onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -61,8 +70,11 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const store = useQueueMemberCommunicationsDatalistStore();
-const { dataList, isLoading, next, shownHeaders } = storeToRefs(store);
+const queueMemberCommunicationsDatalistStore =
+	useQueueMemberCommunicationsDatalistStore();
+const { dataList, error, isLoading, next, shownHeaders } = storeToRefs(
+	queueMemberCommunicationsDatalistStore,
+);
 const {
 	initialize,
 	appendToDataList,
@@ -71,7 +83,17 @@ const {
 	addFilter,
 	updateFilter,
 	$reset,
-} = store;
+} = queueMemberCommunicationsDatalistStore;
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	isLoading,
+});
 
 const loadNextPage = () => {
 	if (!next.value || isLoading.value) return;
@@ -89,13 +111,11 @@ initialize({
 	parentId: memberId,
 });
 
-// the store outlives the popup; the next member must not see these rows
 onUnmounted($reset);
 </script>
 
 <style lang="scss" scoped>
-/** `lazy` scroller has `contain: strict`, so it needs a fixed height */
-.communications-popup {
-  height: 35vh;
+.queue-member-communications-popup__table-wrapper {
+  flex: 0 0 440px;
 }
 </style>

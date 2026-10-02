@@ -193,7 +193,7 @@
             <template #destination="{ item }">
               <one-plus-many
                 :collection="communicationValues(item.communications)"
-                class="members__communications"
+                class="the-queue-members__communications"
                 @input="communicationsMemberId = item.id"
               />
             </template>
@@ -399,7 +399,6 @@ const path = computed(() => {
 	];
 });
 
-/** `one-plus-many` renders `name`; a communication has only `destination` */
 const communicationValues = (communications?: EngineMemberCommunication[]) =>
 	(communications ?? []).map(({ destination }) => ({
 		name: destination,
@@ -664,8 +663,7 @@ onMounted(() =>
 >
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-/** a wrapped destination keeps the chip on its first line (WTEL-10331) */
-.members__communications {
+.the-queue-members__communications {
   align-items: flex-start;
 }
 
