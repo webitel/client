@@ -190,21 +190,11 @@
               </div>
             </template>
             <template #destination="{ item }">
-              <div
-                v-if="item.communications?.length"
-                class="members__destinations-wrapper"
-              >
-                <span>{{ item.communications[0].destination }}</span>
-                <div
-                  v-if="item.communications.length > 1"
-                  class="members__destinations-num"
-                  tabindex="0"
-                  @click.prevent="communicationsOnPopup = item.communications"
-                  @keydown.enter.prevent="communicationsOnPopup = item.communications"
-                >
-                  <wt-chip>+{{ item.communications.length - 1 }}</wt-chip>
-                </div>
-              </div>
+              <one-plus-many
+                :collection="communicationValues(item.communications)"
+                class="members__communications"
+                @input="communicationsOnPopup = item.communications"
+              />
             </template>
             <template #attempts="{ item }">
               {{ item.attempts || 0 }}
@@ -303,6 +293,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
@@ -406,6 +397,12 @@ const path = computed(() => {
 		},
 	];
 });
+
+/** `one-plus-many` renders `name`; a communication has only `destination` */
+const communicationValues = (communications?: EngineMemberCommunication[]) =>
+	(communications ?? []).map(({ destination }) => ({
+		name: destination,
+	}));
 
 const asDate = (value?: number | string) =>
 	formatDate(value, FormatDateMode.DATETIME);
@@ -666,17 +663,9 @@ onMounted(() =>
 >
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-.members__destinations-wrapper {
-  display: flex;
+/** a wrapped destination keeps the chip on its first line (WTEL-10331) */
+.members__communications {
   align-items: flex-start;
-  gap: var(--spacing-xs);
-}
-
-.members__destinations-num {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
 }
 
 .upload-file-input {
