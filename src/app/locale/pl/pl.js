@@ -829,6 +829,7 @@ export default {
 				state: 'Status',
 				isSupervisor: 'Nadzorca',
 				stateTime: 'Czas statusu',
+				statusType: 'Typ statusu',
 				addSkill: 'Dodaj umiejętność',
 				editSkill: 'Edytuj umiejętność',
 				statusHistory: 'Historia statusu',

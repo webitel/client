@@ -833,6 +833,7 @@ export default {
 				state: 'Holat',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Holat vaqti',
+				statusType: 'Holat turi',
 				addSkill: "Xususiyat qo'shish",
 				editSkill: 'Xususiyatni tahrirlash',
 				statusHistory: 'Holat tarixi',

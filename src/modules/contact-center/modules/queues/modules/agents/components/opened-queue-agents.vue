@@ -71,6 +71,9 @@
             :text="statusIndicatorText[snakeToCamel(item.status)]"
           />
         </template>
+        <template #statusType="{ item }">
+          {{ formatStatusType(item) }}
+        </template>
         <template #skills="{ item }">
           <one-plus-many
             :collection="item.skills"
@@ -95,7 +98,7 @@
 import type { EngineAgent } from '@webitel/api-services/gen/models';
 import { useNestedTableList } from '@webitel/ui-datalist';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { AgentStatus, IconAction } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
@@ -116,6 +119,11 @@ const route = useRoute();
 const router = useRouter();
 
 const { statusIndicatorColor, statusIndicatorText } = useAgentStatusIndicator();
+
+const formatStatusType = (item: EngineAgent) => {
+	if (item.statusType) return item.statusType;
+	return item.status === AgentStatus.ONLINE ? '' : '—';
+};
 
 const tableStore = useNestedTableList({
 	useTableStore: useQueueAgentsDatalistStore,
