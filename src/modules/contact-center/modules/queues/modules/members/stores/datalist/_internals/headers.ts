@@ -29,11 +29,9 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
+		/** the api field stays `communications`; only the column label changed */
 		value: 'destination',
-		locale: [
-			'objects.ccenter.queues.destination',
-			2,
-		],
+		locale: 'objects.ccenter.members.communications',
 		field: 'communications',
 		show: true,
 		sort: SortSymbols.NONE,

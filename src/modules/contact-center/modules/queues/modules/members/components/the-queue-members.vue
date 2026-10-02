@@ -49,10 +49,10 @@
     </template>
 
     <template #main>
-      <destinations-popup
-        v-if="destinationsOnPopup"
-        :communications="destinationsOnPopup"
-        @close="destinationsOnPopup = null"
+      <communications-popup
+        v-if="communicationsOnPopup"
+        :communications="communicationsOnPopup"
+        @close="communicationsOnPopup = null"
       />
 
       <upload-popup
@@ -199,8 +199,8 @@
                   v-if="item.communications.length > 1"
                   class="members__destinations-num"
                   tabindex="0"
-                  @click.prevent="destinationsOnPopup = item.communications"
-                  @keydown.enter.prevent="destinationsOnPopup = item.communications"
+                  @click.prevent="communicationsOnPopup = item.communications"
+                  @keydown.enter.prevent="communicationsOnPopup = item.communications"
                 >
                   <wt-chip>+{{ item.communications.length - 1 }}</wt-chip>
                 </div>
@@ -318,7 +318,7 @@ import {
 import { filterConfigs, filtersOptions } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import { ActionOptions } from '../types/ActionOptions';
-import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import CommunicationsPopup from './communications/queue-member-communications-popup.vue';
 import ExportPopup from './export-members-popup.vue';
 import QueueMembersColumnFilter from './queue-members-column-filter.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -387,7 +387,7 @@ const {
 const isFiltersPanelShown = ref(false);
 const isExportPopup = ref(false);
 const csvFile = ref<File | null>(null);
-const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
+const communicationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
 
 const path = computed(() => {

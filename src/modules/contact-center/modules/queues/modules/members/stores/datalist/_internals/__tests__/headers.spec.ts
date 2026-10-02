@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import en from '../../../../../../../../../../app/locale/en/en.js';
 import { headers } from '../headers';
 
 const byValue = (value: string) => {
@@ -16,6 +17,15 @@ const notSortable = [
 
 const shownValues = () =>
 	headers.filter((h) => h.show).map((h) => h.value as string);
+
+/** walks a dotted i18n path; every key used here holds a plain string */
+const localeText = (path: string) =>
+	path
+		.split('.')
+		.reduce<unknown>(
+			(node, key) => (node as Record<string, unknown> | undefined)?.[key],
+			en,
+		);
 
 describe('queue members table headers', () => {
 	/** both the set and the order matter, so the whole list is asserted */
@@ -47,6 +57,14 @@ describe('queue members table headers', () => {
 			'expireAt',
 			'timezone',
 		]);
+	});
+
+	/** the column is labelled Communications while the api field stays as it was */
+	it('labels the communications column Communications', () => {
+		const header = byValue('destination');
+
+		expect(header.locale).toBe('objects.ccenter.members.communications');
+		expect(localeText(header.locale as string)).toBe('Communications');
 	});
 
 	it('asks the api for the fields the new columns render from', () => {

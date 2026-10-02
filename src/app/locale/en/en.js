@@ -896,6 +896,7 @@ export default {
 				allMembers: 'All members',
 				addMember: 'Add member',
 				destination: 'Destination',
+				communications: 'Communications',
 				display: 'Display number',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
