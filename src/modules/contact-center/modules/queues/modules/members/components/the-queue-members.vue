@@ -50,9 +50,10 @@
 
     <template #main>
       <communications-popup
-        v-if="communicationsOnPopup"
-        :communications="communicationsOnPopup"
-        @close="communicationsOnPopup = null"
+        v-if="communicationsMemberId"
+        :member-id="communicationsMemberId"
+        :queue-id="queueId"
+        @close="communicationsMemberId = null"
       />
 
       <upload-popup
@@ -193,7 +194,7 @@
               <one-plus-many
                 :collection="communicationValues(item.communications)"
                 class="members__communications"
-                @input="communicationsOnPopup = item.communications"
+                @input="communicationsMemberId = item.id"
               />
             </template>
             <template #attempts="{ item }">
@@ -378,7 +379,7 @@ const {
 const isFiltersPanelShown = ref(false);
 const isExportPopup = ref(false);
 const csvFile = ref<File | null>(null);
-const communicationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
+const communicationsMemberId = ref<string | null>(null);
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
 
 const path = computed(() => {

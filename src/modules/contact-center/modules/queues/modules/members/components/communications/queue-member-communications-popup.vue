@@ -5,12 +5,18 @@
     </template>
     <template #main>
       <section class="communications-popup">
+        <wt-loader v-if="!dataList.length && isLoading" />
         <wt-table
-          :data="communications"
+          v-else
+          :data="dataList"
           :grid-actions="false"
-          :headers="headers"
+          :headers="shownHeaders"
+          :lazy="true"
+          :on-loading="loadNextPage"
           :selectable="false"
           class="popup-table"
+          sortable
+          @sort="updateSort"
         >
           <template #destination="{ item }">
             {{ item.destination }}
@@ -38,15 +44,15 @@
 </template>
 
 <script lang="ts" setup>
-import type { EngineMemberCommunication } from '@webitel/api-services/gen/models';
-import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** read-only. No sorting: there is no request here to carry a `sort` — engine
- * exposes no endpoint returning a member's communications as a list. */
+import { useQueueMemberCommunicationsDatalistStore } from '../../stores/datalist/queueMemberCommunicationsDatalistStore';
 
-const { communications } = defineProps<{
-	communications: EngineMemberCommunication[];
+const { queueId, memberId } = defineProps<{
+	queueId: string | number;
+	memberId: string;
 }>();
 
 const emit = defineEmits<{
@@ -55,23 +61,41 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const headers = computed(() => [
-	{
-		value: 'destination',
-		field: 'destination',
-		text: t('objects.name'),
-	},
-	{
-		value: 'type',
-		field: 'type',
-		text: t('objects.ccenter.queues.type'),
-	},
-	{
-		value: 'priority',
-		field: 'priority',
-		text: t('objects.ccenter.queues.priority'),
-	},
-]);
+const store = useQueueMemberCommunicationsDatalistStore();
+const { dataList, isLoading, next, shownHeaders } = storeToRefs(store);
+const {
+	initialize,
+	appendToDataList,
+	updateSort,
+	hasFilter,
+	addFilter,
+	updateFilter,
+	$reset,
+} = store;
+
+const loadNextPage = () => {
+	if (!next.value || isLoading.value) return;
+	return appendToDataList();
+};
+
+const queueFilter = {
+	name: 'queueId',
+	value: queueId,
+};
+if (hasFilter(queueFilter.name)) updateFilter(queueFilter);
+else addFilter(queueFilter);
+
+initialize({
+	parentId: memberId,
+});
+
+// the store outlives the popup; the next member must not see these rows
+onUnmounted($reset);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/** `lazy` scroller has `contain: strict`, so it needs a fixed height */
+.communications-popup {
+  height: 35vh;
+}
+</style>
