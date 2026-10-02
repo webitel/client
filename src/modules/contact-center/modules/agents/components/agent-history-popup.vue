@@ -74,13 +74,14 @@
 </template>
 
 <script setup lang="ts">
+import { RelativeDatetimeValue } from '@webitel/api-services/enums';
+import { normalizeDatetimeRange } from '@webitel/api-services/scripts';
 import {
 	FilterOption,
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
-import { endOfToday, startOfToday } from 'date-fns';
 import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -150,10 +151,7 @@ const {
 
 const historyId = computed(() => route.params.historyId as string | undefined);
 
-const todaysRange = () => ({
-	from: startOfToday().getTime(),
-	to: endOfToday().getTime(),
-});
+const todaysRange = () => normalizeDatetimeRange(RelativeDatetimeValue.Today);
 
 const ensureJoinedAtFilter = () => {
 	if (hasFilter(FilterOption.JoinedAt)) return;
