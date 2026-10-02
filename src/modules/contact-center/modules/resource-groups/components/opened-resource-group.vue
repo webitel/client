@@ -12,7 +12,9 @@
       </wt-page-header>
     </template>
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -21,193 +23,147 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <router-view
-          v-if="isPermissionsTab"
-          v-slot="{ Component }"
-        >
+        <router-view v-slot="{ Component }">
           <component
-            v-if="Component"
             :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
             v-bind="permissionsStoreData"
           />
         </router-view>
-        <component
-          v-else
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { helpers, required } from '@vuelidate/validators';
+<script setup lang="ts">
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum';
 import {
-	hourRange,
-	requiredArrayValue,
-	timerangeNotIntersect,
-	timerangeStartLessThanEnd,
-} from '../../../../../app/utils/validators';
-import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
-import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
+	type ResourceGroupCard,
+	useResourceGroupsCardStore,
+} from '../stores/card/resourceGroupsCardStore';
 import { useResourceGroupsPermissionsStore } from '../stores/permissions/resourceGroupsPermissionsStore';
-import General from './opened-resource-group-general.vue';
-import Timerange from './opened-resource-group-timerange.vue';
 
-export default {
-	name: 'OpenedResourceGroup',
-	components: {
-		General,
-		Resources,
-		Timerange,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const route = useRoute();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const {
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		} = useUserAccessControl();
+const {
+	hasSaveActionAccess,
+	hasReadAccess,
+	hasCreateAccess,
+	hasUpdateAccess,
+	hasDeleteAccess,
+} = useUserAccessControl();
 
-		const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
-			WtObject.Resource,
-		);
+const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
+	WtObject.Resource,
+);
 
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-			hasResourcesReadAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'ccenter/resGroups',
-		routeName: RouteNames.RESOURCE_GROUPS,
-		permissionsTabPathName: ResourcesGroupsRouteNames.PERMISSIONS,
-	}),
-	// by vuelidate
-	validations() {
-		const hourRangeWithMessage = helpers.withMessage(
-			this.$t('validation.hourRange'),
-			hourRange,
-		);
-		const timerangeStartLessThanEndWithMessage = helpers.withMessage(
-			this.$t('validation.timerangeStartLessThanEnd'),
-			timerangeStartLessThanEnd,
-		);
-		return {
-			itemInstance: {
-				name: {
-					required,
-				},
-				communication: {
-					required,
-				},
-				time: {
-					requiredArrayValue,
-					timerangeNotIntersect,
-					$each: helpers.forEach({
-						start: {
-							hourRange: hourRangeWithMessage,
-							timerangeStartLessThanEnd: timerangeStartLessThanEndWithMessage,
-						},
-						end: {
-							hourRange: hourRangeWithMessage,
-						},
-					}),
-				},
-			},
-		};
-	},
-	computed: {
-		isPermissionsTab() {
-			return this.$route.name === ResourcesGroupsRouteNames.PERMISSIONS;
+const resourceGroupsCardStore = useResourceGroupsCardStore();
+const { itemId } = storeToRefs(resourceGroupsCardStore);
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	hasValidationErrors,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<ResourceGroupCard>({
+	useCardStore: useResourceGroupsCardStore,
+});
+
+const tabs = computed(() => {
+	const tabs: CardTab[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: ResourcesGroupsRouteNames.GENERAL,
 		},
+	];
 
-		permissionsStoreData() {
-			return {
-				store: useResourceGroupsPermissionsStore,
-				access: {
-					read: this.hasReadAccess,
-					create: this.hasCreateAccess,
-					update: this.hasUpdateAccess,
-					delete: this.hasDeleteAccess,
-				},
-				parentId: this.$route.params.id,
-			};
-		},
+	if (hasResourcesReadAccess.value) {
+		tabs.push({
+			text: t('objects.ccenter.res.res', 2),
+			value: 'resources',
+			pathName: ResourcesGroupsRouteNames.RESOURCES,
+		});
+	}
 
-		tabs() {
-			const general = {
-				text: this.$t('objects.general'),
-				value: 'general',
-				pathName: ResourcesGroupsRouteNames.GENERAL,
-			};
-			const resources = {
-				text: this.$t('objects.ccenter.res.res', 2),
-				value: 'resources',
-				pathName: ResourcesGroupsRouteNames.RESOURCES,
-			};
-			const timerange = {
-				text: this.$t('objects.ccenter.resGroups.timerange'),
-				value: 'timerange',
-				pathName: ResourcesGroupsRouteNames.TIME_RANGE,
-			};
-			const tabs = [
-				general,
-			];
-			if (this.hasResourcesReadAccess) tabs.push(resources);
-			tabs.push(timerange);
-			if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
-		},
+	tabs.push({
+		text: t('objects.ccenter.resGroups.timerange'),
+		value: 'timerange',
+		pathName: ResourcesGroupsRouteNames.TIME_RANGE,
+	});
 
-		path() {
-			const baseUrl = '/contact-center/resource-groups';
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.$t('objects.ccenter.resGroups.resGroups', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+	if (!isNew.value) {
+		tabs.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: ResourcesGroupsRouteNames.PERMISSIONS,
+		});
+	}
+
+	return tabs;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() => ({
+	store: useResourceGroupsPermissionsStore,
+	access: {
+		read: hasReadAccess.value,
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: itemId.value,
+}));
+
+const { close } = useClose(RouteNames.RESOURCE_GROUPS);
+
+const path = computed(() => [
+	{
+		name: t('objects.ccenter.ccenter'),
+	},
+	{
+		name: t('objects.ccenter.resGroups.resGroups', 2),
+		route: '/contact-center/resource-groups',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-};
+]);
+
+const disabledSave = computed(
+	() =>
+		!hasSaveActionAccess.value ||
+		!isAnyFieldEdited.value ||
+		hasValidationErrors.value,
+);
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

@@ -69,19 +69,23 @@
 </template>
 
 <script setup lang="ts">
-import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { minToSec, secToMin } from '@webitel/api-services/scripts';
+import { getCalendarDayRangeIssues } from '@webitel/api-services/validations';
+import {
+	type CardValidationFields,
+	useTimeRangeIssues,
+} from '@webitel/ui-datalist/card';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useWeekDaysData } from '../composables/useWeekDaysData';
-import { useWeekDaysIssues } from '../composables/useWeekDaysIssues';
 import type { CalendarCard } from '../stores';
 
 const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-/** declared, not used: the rows validate live, see useWeekDaysIssues */
+/** declared, not used: the rows validate live, see useTimeRangeIssues */
 defineProps<{
 	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
@@ -97,9 +101,7 @@ const {
 	addRange,
 	removeRange,
 	isDayStart,
-	minToSec,
-	secToMin,
 } = useWeekDaysData(modelValue, 'specials');
 
-const { issueFor } = useWeekDaysIssues(dataList);
+const { issueFor } = useTimeRangeIssues(dataList, getCalendarDayRangeIssues);
 </script>
