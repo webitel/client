@@ -834,6 +834,7 @@ export default {
 				state: 'Estado',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Tiempo de estado',
+				statusType: 'Tipo de estado',
 				addSkill: 'Añadir habilidad',
 				editSkill: 'Editar habilidad',
 				statusHistory: 'Historial de estado',
