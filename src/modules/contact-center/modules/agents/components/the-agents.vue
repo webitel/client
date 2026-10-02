@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="agents table-page"
   >
     <template #header>
       <wt-page-header
@@ -25,59 +25,75 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.ccenter.agents.allAgents') }}
+            {{ t('objects.ccenter.agents.allAgents') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.COLUMNS,
+            ]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          :dark-mode="darkMode"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="create()"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="routeName"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.AGENTS}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #state="{ item }">
               <wt-indicator
@@ -89,14 +105,16 @@
               {{ item.statusDuration }}
             </template>
             <template #team="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.team"
-                :id="item.team.id"
-                :route-name="RouteNames.TEAMS"
+                :link="{
+                  name: `${RouteNames.TEAMS}-card`,
+                  params: { id: item.team.id },
+                }"
                 target="_blank"
               >
                 {{ item.team.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #actions="{ item }">
               <wt-icon-action
@@ -104,29 +122,31 @@
                 @click="openHistory(item.id)"
               />
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -134,103 +154,125 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { EngineAgent } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import agentStatusMixin from '../../../mixins/agentStatusMixin';
-import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum.js';
+import { useAgentStatusIndicator } from '../../../composables/useAgentStatusIndicator';
+import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum';
+import { useAgentsDatalistStore } from '../stores/datalist/agentsDatalistStore';
 import HistoryPopup from './agent-history-popup.vue';
 
-const namespace = 'ccenter/agents';
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
+const { statusIndicatorColor, statusIndicatorText } = useAgentStatusIndicator();
 
-export default {
-	name: 'TheAgents',
-	components: {
-		HistoryPopup,
-		DeleteConfirmationPopup,
+const tableStore = useAgentsDatalistStore();
+
+const {
+	dataList,
+	selected,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(tableStore);
+
+const {
+	initialize,
+	loadDataList,
+	updateSelected,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	updateShownHeaders,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = tableStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.ccenter.ccenter'),
 	},
-	mixins: [
-		tableComponentMixin,
-		agentStatusMixin,
-	],
-
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.ccenter.agents.agents', 2),
+		route: '/contact-center/agents',
 	},
+]);
 
-	data: () => ({
-		namespace,
-		routeName: RouteNames.AGENTS,
-	}),
-
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.$t('objects.ccenter.agents.agents', 2),
-					route: '/contact-center/agents',
-				},
-			];
+const create = () =>
+	router.push({
+		name: `${RouteNames.AGENTS}-card`,
+		params: {
+			id: 'new',
 		},
-	},
+	});
 
-	methods: {
-		openHistory(id) {
-			return this.$router.push({
-				...this.$route,
-				name: AgentsRouteNames.HISTORY,
-				params: {
-					historyId: id,
-				},
-			});
+const edit = (item: EngineAgent) =>
+	router.push({
+		name: `${RouteNames.AGENTS}-card`,
+		params: {
+			id: item.id,
 		},
-		closeHistoryPopup() {
-			return this.$router.push({
-				name: this.routeName,
-			});
+	});
+
+const openHistory = (id: string) =>
+	router.push({
+		name: AgentsRouteNames.HISTORY,
+		params: {
+			historyId: id,
 		},
-		snakeToCamel,
-	},
-};
+		query: route.query,
+	});
+
+const closeHistoryPopup = () =>
+	router.push({
+		name: RouteNames.AGENTS,
+		query: route.query,
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

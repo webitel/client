@@ -1,7 +1,7 @@
 import { WtApplication } from '@webitel/ui-sdk/enums';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents.js';
+import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup.js';
 import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';

@@ -1,114 +1,114 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" :shown="!!skillId" overflow @close="close">
+  <wt-popup
+    :shown="!!skillId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form class="opened-skill-agent-popup__form">
+      <form
+        class="opened-agent-skills-popup__form"
+        @submit.prevent="save"
+      >
         <wt-single-select
+          v-model:model-value="modelValue.skill"
+          :disabled="!hasSkillsReadAccess"
+          :label="t('objects.lookups.skills.skills', 1)"
+          :regle-validation="validationFields?.skill"
+          :search-method="SkillsAPI.getLookup"
           :show-clear="false"
-          :label="$t('objects.lookups.skills.skills', 1)"
-          :search-method="loadDropdownOptionsList"
-          :v="v$.itemInstance.skill"
-          :model-value="itemInstance.skill"
           required
-          @update:model-value="setItemProp({ prop: 'skill', value: $event })"
         />
         <wt-input-number
-          :label="$t('objects.lookups.skills.capacity')"
-          :v="v$.itemInstance.capacity"
-          :model-value="itemInstance.capacity"
+          v-model:model-value="modelValue.capacity"
+          :label="t('objects.lookups.skills.capacity')"
+          :regle-validation="validationFields?.capacity"
           required
-          @update:model-value="setItemProp({ prop: 'capacity', value: $event })"
         />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ saveActionText }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ isNew ? t('objects.add') : t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        :color="ButtonColor.SECONDARY"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { maxValue, minValue, numeric, required } from '@vuelidate/validators';
+<script lang="ts" setup>
 import { SkillsAPI } from '@webitel/api-services/api';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-export default {
-	name: 'OpenedAgentSkillsPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+import type { EngineAgentSkill } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor, WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	data: () => ({
-		namespace: 'ccenter/agents/skills',
-	}),
-	validations: {
-		itemInstance: {
-			skill: {
-				required,
-			},
-			capacity: {
-				numeric,
-				minValue: minValue(0),
-				maxValue: maxValue(100),
-				required,
-			},
-		},
-	},
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import AgentsRouteNames from '../../../router/_internals/AgentsRouteNames.enum';
+import { useAgentSkillsCardStore } from '../stores/card/agentSkillsCardStore';
 
-	computed: {
-		skillId() {
-			return this.$route.params.skillId;
-		},
-		popupTitle() {
-			return this.skillId === 'new'
-				? this.$t('objects.ccenter.agents.addSkill')
-				: this.$t('objects.ccenter.agents.editSkill');
-		},
-		saveActionText() {
-			return this.skillId === 'new'
-				? this.$t('objects.add')
-				: this.$t('objects.save');
-		},
-	},
+const props = defineProps<{
+	parentId: string | number | null;
+}>();
 
-	watch: {
-		skillId: {
-			handler(id) {
-				if (id) {
-					this.setId(id);
-					this.loadItem();
-				}
-			},
-			immediate: true,
-		},
-	},
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	methods: {
-		loadDropdownOptionsList(params) {
-			return SkillsAPI.getLookup(params);
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
+
+const { hasReadAccess: hasSkillsReadAccess } = useUserAccessControl(
+	WtObject.Skill,
+);
+
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineAgentSkill>({
+	useCardStore: useAgentSkillsCardStore,
+	routeParamName: 'skillId',
+	parentId: () => props.parentId,
+});
+
+const skillId = computed(() => route.params.skillId);
+
+const popupTitle = computed(() =>
+	isNew.value
+		? t('objects.ccenter.agents.addSkill')
+		: t('objects.ccenter.agents.editSkill'),
+);
+
+const { close } = useClose(AgentsRouteNames.SKILLS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
 </script>
 
 <style scoped>
-.opened-skill-agent-popup__form{
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-xs);
+.opened-agent-skills-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
 }
 </style>
