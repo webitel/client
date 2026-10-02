@@ -2,46 +2,49 @@
   <section class="table-section">
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.queues.queues', 2) }}
+        {{ t('objects.ccenter.queues.queues', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[IconAction.REFRESH]"
+          @click:refresh="loadDataList"
         />
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
         :grid-actions="false"
-        :headers="headers"
+        :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
       >
         <template #name="{ item }">
           <wt-item-link
             v-if="item.queue"
-            :link="editLink(item)"
+            :link="queueLink(item)"
           >
             {{ item.queue.name }}
           </wt-item-link>
         </template>
 
         <template #type="{ item }">
-          {{ $t(QueueTypeProperties[item.type].locale) }}
+          {{ t(QueueTypeProperties[item.type].locale) }}
         </template>
 
         <template #count="{ item }">
@@ -57,55 +60,71 @@
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
+<script lang="ts" setup>
+import type { EngineAgentInQueue } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
+import { useAgentQueuesDatalistStore } from '../stores/datalist/agentQueuesDatalistStore';
 
-const namespace = 'ccenter/agents/queues';
+const { t } = useI18n();
 
-export default {
-	name: 'OpenedAgentQueues',
-	mixins: [
-		openedObjectTableTabMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			hiddenText: true,
-		});
-		return {
-			dummy,
-		};
+const agentQueuesDatalistStore = useNestedTableList({
+	useTableStore: useAgentQueuesDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(agentQueuesDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+} = agentQueuesDatalistStore;
+
+const queueLink = (item: EngineAgentInQueue) => ({
+	name: `${RouteNames.QUEUES}-card`,
+	params: {
+		id: item.queue?.id,
+		type: QueueTypeProperties[item.type].subpath,
 	},
-	data: () => ({
-		subNamespace: 'queues',
-		QueueTypeProperties,
-	}),
-	methods: {
-		editLink(item) {
-			return {
-				name: `${RouteNames.QUEUES}-card`,
-				params: {
-					id: item.queue.id,
-					type: QueueTypeProperties[item.type].subpath,
-				},
-			};
-		},
-	},
-};
+});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
