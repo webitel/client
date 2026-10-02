@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="teams table-page"
   >
     <template #header>
       <wt-page-header
@@ -14,7 +14,7 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
+        :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
         :callback="deleteCallback"
         @close="closeDelete"
@@ -23,85 +23,106 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.ccenter.teams.allTeams') }}
+            {{ t('objects.ccenter.teams.allTeams') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.COLUMNS,
+            ]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="create()"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.TEAMS}-card`,
+                  params: { id: item.id },
+                }"
+              >
                 {{ item.name }}
               </wt-item-link>
             </template>
             <template #strategy="{ item }">
-              {{ computeStrategyDisplay(item.strategy) }}
+              {{ getStrategyText(item.strategy) }}
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -109,85 +130,110 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { EngineAgentTeam } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { kebabToCamel } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useTeamsDatalistStore } from '../stores/datalist/teamsDatalistStore';
 
-const namespace = 'ccenter/teams';
+const { t } = useI18n();
+const router = useRouter();
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-export default {
-	name: 'TheTeams',
-	components: {
-		DeleteConfirmationPopup,
+const teamsDatalistStore = useTeamsDatalistStore();
+
+const {
+	dataList,
+	selected,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(teamsDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updateSelected,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	updateShownHeaders,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = teamsDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.ccenter.ccenter'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.team', 2),
+		route: '/contact-center/teams',
 	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.TEAMS,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.ccenter.ccenter'),
-				},
-				{
-					name: this.$t('objects.team', 2),
-					route: '/contact-center/teams',
-				},
-			];
+const getStrategyText = (strategy?: string) =>
+	strategy
+		? t(`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`)
+		: '';
+
+const create = () =>
+	router.push({
+		name: `${RouteNames.TEAMS}-card`,
+		params: {
+			id: 'new',
 		},
-	},
+	});
 
-	methods: {
-		computeStrategyDisplay(name) {
-			return this.$t(`objects.ccenter.teams.strategies.${kebabToCamel(name)}`);
+const edit = (item: EngineAgentTeam) =>
+	router.push({
+		name: `${RouteNames.TEAMS}-card`,
+		params: {
+			id: item.id,
 		},
-	},
-};
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

@@ -1,11 +1,11 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import OpenedTeam from '../components/opened-team.vue';
-import Teams from '../components/the-teams.vue';
-import TeamsRouteNames from './_internals/TeamsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TeamsRouteNames from './_internals/TeamsRouteNames.enum';
 
+const Teams = () => import('../components/the-teams.vue');
+const OpenedTeam = () => import('../components/opened-team.vue');
 const OpenedTeamGeneral = () => import('../components/opened-team-general.vue');
 const OpenedTeamParameters = () =>
 	import('../components/opened-team-parameters.vue');
@@ -31,6 +31,9 @@ const TeamsRoutes = [
 	{
 		path: '/contact-center/teams/:id',
 		name: `${RouteNames.TEAMS}-card`,
+		redirect: {
+			name: TeamsRouteNames.GENERAL,
+		},
 		component: OpenedTeam,
 		meta: {
 			WtObject: WtObject.Team,

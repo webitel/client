@@ -2,81 +2,72 @@
   <section>
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.ccenter.teams.parameters') }}
+        {{ t('objects.ccenter.teams.parameters') }}
       </h3>
     </header>
     <div class="opened-card-input-grid">
       <wt-input-number
+        v-model:model-value="modelValue.maxNoAnswer"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.maxNoAnswer')"
-        :v="v.itemInstance.maxNoAnswer"
-        :model-value="itemInstance.maxNoAnswer"
+        :label="t('objects.ccenter.teams.maxNoAnswer')"
+        :regle-validation="validationFields?.maxNoAnswer"
         required
-        @update:model-value="setItemProp({ prop: 'maxNoAnswer', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.noAnswerDelayTime"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.noAnswerDelayTime')"
-        :v="v.itemInstance.noAnswerDelayTime"
-        :model-value="itemInstance.noAnswerDelayTime"
+        :label="t('objects.ccenter.teams.noAnswerDelayTime')"
+        :regle-validation="validationFields?.noAnswerDelayTime"
         required
-        @update:model-value="setItemProp({ prop: 'noAnswerDelayTime', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.taskAcceptTimeout"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.taskAcceptTimeout')"
-        :v="v.itemInstance.taskAcceptTimeout"
-        :model-value="itemInstance.taskAcceptTimeout"
+        :label="t('objects.ccenter.teams.taskAcceptTimeout')"
+        :regle-validation="validationFields?.taskAcceptTimeout"
         required
-        @update:model-value="setItemProp({ prop: 'taskAcceptTimeout', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.callTimeout"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.callTimeout')"
-        :v="v.itemInstance.callTimeout"
-        :model-value="itemInstance.callTimeout"
+        :label="t('objects.ccenter.teams.callTimeout')"
+        :regle-validation="validationFields?.callTimeout"
         required
-        @update:model-value="setItemProp({ prop: 'callTimeout', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.inviteChatTimeout"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.inviteChatTimeout')"
-        :v="v.itemInstance.inviteChatTimeout"
-        :model-value="itemInstance.inviteChatTimeout"
+        :label="t('objects.ccenter.teams.inviteChatTimeout')"
+        :regle-validation="validationFields?.inviteChatTimeout"
         required
-        @update:model-value="setItemProp({ prop: 'inviteChatTimeout', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.wrapUpTime"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.wrapUpTime')"
-        :v="v.itemInstance.wrapUpTime"
-        :model-value="itemInstance.wrapUpTime"
+        :label="t('objects.ccenter.teams.wrapUpTime')"
+        :regle-validation="validationFields?.wrapUpTime"
         required
-        @update:model-value="setItemProp({ prop: 'wrapUpTime', value: $event })"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { EngineAgentTeam } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedTeamParameters',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-};
+const modelValue = defineModel<EngineAgentTeam>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<EngineAgentTeam>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
