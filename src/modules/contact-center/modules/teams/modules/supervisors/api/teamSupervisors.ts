@@ -1,8 +1,8 @@
 import { AgentsAPI } from '@webitel/api-services/api';
 
 /**
- * A team's supervisors are agents filtered by `team` + `isSupervisor`, so add
- * and remove are patches of the agent's own team.
+ * A team's supervisors are agents filtered by `team` + `isSupervisor`, so adding
+ * one is a patch of the agent's own team.
  */
 const getTeamSupervisorsList = ({ parentId, ...params }) =>
 	AgentsAPI.getList({
@@ -36,6 +36,16 @@ const getTeamSupervisorSubordinatesList = ({
 		team: teamId,
 	});
 
+const getTeamSupervisorOptions = ({ teamId, ...params }) =>
+	AgentsAPI.getSupervisorOptions({
+		...params,
+		fields: [
+			'id',
+			'name',
+		],
+		notTeamId: teamId,
+	});
+
 const addTeamSupervisor = ({ parentId, itemInstance }) =>
 	AgentsAPI.patch({
 		id: itemInstance.agent.id,
@@ -46,33 +56,11 @@ const addTeamSupervisor = ({ parentId, itemInstance }) =>
 		},
 	});
 
-const deleteTeamSupervisor = ({ id }) =>
-	AgentsAPI.patch({
-		id,
-		changes: {
-			team: {
-				id: null,
-			},
-		},
-	});
-
-const updateTeamSupervisor = async ({ parentId, itemId, itemInstance }) => {
-	await addTeamSupervisor({
-		parentId,
-		itemInstance,
-	});
-	await deleteTeamSupervisor({
-		id: itemId,
-	});
-};
-
-const TeamSupervisorsAPI = {
+export const TeamSupervisorsAPI = {
 	getList: getTeamSupervisorsList,
 	get: getTeamSupervisor,
 	add: addTeamSupervisor,
-	update: updateTeamSupervisor,
-	delete: deleteTeamSupervisor,
+	update: addTeamSupervisor,
 	getTeamSupervisorSubordinatesList,
+	getTeamSupervisorOptions,
 };
-
-export default TeamSupervisorsAPI;
