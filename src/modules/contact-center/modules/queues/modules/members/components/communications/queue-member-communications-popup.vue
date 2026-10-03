@@ -1,10 +1,13 @@
 <template>
-  <wt-popup @close="emit('close')">
+  <wt-popup
+    class="queue-member-communications-popup"
+    @close="emit('close')"
+  >
     <template #title>
       {{ t('objects.ccenter.members.communications') }}
     </template>
     <template #main>
-      <section class="queue-member-communications-popup table-section">
+      <section class="queue-member-communications-popup__wrapper table-section">
         <div
           class="table-section__table-wrapper queue-member-communications-popup__table-wrapper"
         >
