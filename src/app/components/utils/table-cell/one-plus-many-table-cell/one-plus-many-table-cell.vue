@@ -1,9 +1,9 @@
 <template>
-  <div
-    v-if="props.collection?.length"
-    class="one-plus-many-table-cell"
-  >
-    <span class="one-plus-many-table-cell__value">
+  <div class="one-plus-many-table-cell">
+    <span
+      v-if="props.collection?.length"
+      tabindex="0"
+    >
       <adm-item-link
         v-if="collection[0].id && routeName"
         :id="collection[0].id"
@@ -18,13 +18,11 @@
     </span>
 
     <div
-      v-if="props.collection.length > 1"
       class="one-plus-many-table-cell__chip"
-      tabindex="0"
       @click.prevent="inputHandler"
       @keydown.enter.prevent="inputHandler"
     >
-      <wt-chip>
+      <wt-chip v-if="props.collection?.length > 1">
         +{{ props.collection.length - 1 }}
       </wt-chip>
     </div>

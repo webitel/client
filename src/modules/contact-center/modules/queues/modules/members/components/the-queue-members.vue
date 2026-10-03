@@ -191,11 +191,21 @@
               </div>
             </template>
             <template #destination="{ item }">
-              <one-plus-many
-                :collection="communicationValues(item.communications)"
-                class="the-queue-members__communications"
-                @input="communicationsMemberId = item.id"
-              />
+              <wt-display-chip-items
+                :items="communicationValues(item.communications)"
+              >
+                <template #activator>
+                  <div
+                    v-if="item.communications?.length > 1"
+                    class="the-queue-members__communications-counter"
+                    tabindex="0"
+                    @click="communicationsMemberId = item.id"
+                    @keydown.enter="communicationsMemberId = item.id"
+                  >
+                    <wt-chip>+{{ item.communications.length - 1 }}</wt-chip>
+                  </div>
+                </template>
+              </wt-display-chip-items>
             </template>
             <template #attempts="{ item }">
               {{ item.attempts || 0 }}
@@ -278,6 +288,7 @@ import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
+import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -294,7 +305,6 @@ import {
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
@@ -663,8 +673,8 @@ onMounted(() =>
 >
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-.the-queue-members__communications {
-  align-items: flex-start;
+.the-queue-members__communications-counter {
+  cursor: pointer;
 }
 
 .upload-file-input {
