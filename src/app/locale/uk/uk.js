@@ -839,6 +839,7 @@ export default {
 				extraChatCount: 'Додаткова кількість чатів',
 				isSupervisor: 'Супервізор',
 				stateTime: 'Тривалість',
+				statusType: 'Тип статусу',
 				addSkill: 'Додати навичку',
 				editSkill: 'Редагувати навичку',
 				addSubordinate: 'Додати підлеглого оператора',

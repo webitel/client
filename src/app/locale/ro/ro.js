@@ -831,6 +831,7 @@ export default {
 				state: 'Stare',
 				isSupervisor: 'Supraveghetor',
 				stateTime: 'Timp stare',
+				statusType: 'Tip stare',
 				addSkill: 'Adaugă competență',
 				editSkill: 'Editează competență',
 				statusHistory: 'Istoric stare',

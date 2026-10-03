@@ -826,6 +826,7 @@ export default {
 				state: 'Trạng thái',
 				isSupervisor: 'Giám sát',
 				stateTime: 'Thời gian trạng thái',
+				statusType: 'Loại trạng thái',
 				addSkill: 'Thêm kỹ năng',
 				editSkill: 'Sửa kỹ năng',
 				statusHistory: 'Lịch sử trạng thái',

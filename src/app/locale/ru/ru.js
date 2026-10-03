@@ -836,6 +836,7 @@ export default {
 				extraChatCount: 'Дополнительное количество чатов',
 				isSupervisor: 'Супервизор',
 				stateTime: 'Длительность',
+				statusType: 'Тип статуса',
 				addSkill: 'Добавить навык',
 				editSkill: 'Редактировать навык',
 				addSubordinate: 'Добавить подчинённого оператора',

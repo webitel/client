@@ -2,145 +2,80 @@
   <section>
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-area-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        class="object-input-area-grid__name"
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
-        v-model:model-value="strategy"
+        v-model:model-value="modelValue.strategy"
         :show-clear="false"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.teams.strategy')"
+        :label="t('objects.ccenter.teams.strategy')"
         :options="strategyOptions"
-        :v="v.itemInstance.strategy"
+        :regle-validation="validationFields?.strategy"
         required
-        class="object-input-area-grid__strategy"
         data-key="value"
+        option-value="value"
       />
       <wt-multi-select
+        v-model:model-value="modelValue.admin"
         :disabled="disableUserInput || !hasAdminsReadAccess"
-        :label="$t('objects.ccenter.agents.admins', 1)"
-        :search-method="fetchAdmins"
-        :model-value="itemInstance.admin"
-        class="object-input-area-grid__admins"
-        @update:model-value="setItemProp({ prop: 'admin', value: $event })"
+        :label="t('objects.ccenter.agents.admins', 1)"
+        :search-method="AgentsAPI.getList"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        class="object-input-area-grid__description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
       <wt-switcher
+        v-model:model-value="modelValue.screenControl"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.agents.agentScreenControl')"
-        :model-value="itemInstance.screenControl"
-        class="object-input-area-grid__screen-control"
-        @update:model-value="setItemProp({ prop: 'screenControl', value: $event })"
+        :label="t('objects.ccenter.agents.agentScreenControl')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { AgentsAPI } from '@webitel/api-services/api';
+import type { EngineAgentTeam } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { kebabToCamel } from '@webitel/ui-sdk/scripts';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import TeamStrategy from '../store/_internals/enums/TeamStrategy.enum';
+import { TeamStrategy } from '../enums/TeamStrategy.enum';
 
-export default {
-	name: 'OpenedTeamGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasAdminsReadAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
-		return {
-			disableUserInput,
-			hasAdminsReadAccess,
-		};
-	},
+const modelValue = defineModel<EngineAgentTeam>({
+	required: true,
+});
 
-	computed: {
-		strategy: {
-			get() {
-				return this.strategyOptions.find(
-					(strategy) => strategy.value === this.itemInstance.strategy,
-				);
-			},
-			set(value) {
-				this.setItemProp({
-					prop: 'strategy',
-					value: value.value,
-				});
-			},
-		},
-		strategyOptions() {
-			return Object.values(TeamStrategy).map((strategy) => ({
-				name: this.$t(
-					`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`,
-				),
-				value: strategy,
-			}));
-		},
-	},
-	methods: {
-		fetchAdmins(params) {
-			return AgentsAPI.getList(params);
-		},
-	},
-};
+defineProps<{
+	validationFields?: CardValidationFields<EngineAgentTeam>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasAdminsReadAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
+
+const strategyOptions = computed(() =>
+	Object.values(TeamStrategy).map((strategy) => ({
+		name: t(`objects.ccenter.teams.strategies.${kebabToCamel(strategy)}`),
+		value: strategy,
+	})),
+);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.object-input-area-grid {
-  display: grid;
-  align-items: flex-start;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-sm);
-  grid-template-areas:
-    'name strategy'
-    'admins description'
-    '. screenControl';
-  ;
-
-  &__name {
-    grid-area: name;
-  }
-
-  &__strategy {
-    grid-area: strategy;
-  }
-
-  &__admins {
-    grid-area: admins;
-  }
-
-  &__description {
-    grid-area: description;
-  }
-
-  &__screen-control {
-    grid-area: screenControl;
-    align-self: center;
-  }
-}
-</style>
