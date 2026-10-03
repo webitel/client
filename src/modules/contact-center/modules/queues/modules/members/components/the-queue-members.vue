@@ -49,10 +49,11 @@
     </template>
 
     <template #main>
-      <destinations-popup
-        v-if="destinationsOnPopup"
-        :communications="destinationsOnPopup"
-        @close="destinationsOnPopup = null"
+      <communications-popup
+        v-if="communicationsMemberId"
+        :member-id="communicationsMemberId"
+        :queue-id="queueId"
+        @close="communicationsMemberId = null"
       />
 
       <upload-popup
@@ -190,21 +191,21 @@
               </div>
             </template>
             <template #destination="{ item }">
-              <div
-                v-if="item.communications?.length"
-                class="members__destinations-wrapper"
+              <wt-display-chip-items
+                :items="communicationValues(item.communications)"
               >
-                <span>{{ item.communications[0].destination }}</span>
-                <div
-                  v-if="item.communications.length > 1"
-                  class="members__destinations-num"
-                  tabindex="0"
-                  @click.prevent="destinationsOnPopup = item.communications"
-                  @keydown.enter.prevent="destinationsOnPopup = item.communications"
-                >
-                  <wt-chip>+{{ item.communications.length - 1 }}</wt-chip>
-                </div>
-              </div>
+                <template #activator>
+                  <div
+                    v-if="item.communications?.length > 1"
+                    class="the-queue-members__communications-counter"
+                    tabindex="0"
+                    @click="communicationsMemberId = item.id"
+                    @keydown.enter="communicationsMemberId = item.id"
+                  >
+                    <wt-chip>+{{ item.communications.length - 1 }}</wt-chip>
+                  </div>
+                </template>
+              </wt-display-chip-items>
             </template>
             <template #attempts="{ item }">
               {{ item.attempts || 0 }}
@@ -218,6 +219,15 @@
               >
                 {{ item.agent.name }}
               </adm-item-link>
+            </template>
+            <template #bucket="{ item }">
+              {{ item.bucket?.name }}
+            </template>
+            <template #expireAt="{ item }">
+              {{ asDate(item.expireAt) }}
+            </template>
+            <template #timezone="{ item }">
+              {{ item.timezone?.name }}
             </template>
 
             <template #column-filter="scope">
@@ -278,6 +288,7 @@ import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
+import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -309,7 +320,7 @@ import {
 import { filterConfigs, filtersOptions } from '../configs/filtersOptions';
 import { useQueueMembersDatalistStore } from '../stores/datalist/queueMembersDatalistStore';
 import { ActionOptions } from '../types/ActionOptions';
-import DestinationsPopup from './communications/opened-queue-member-destinations-popup.vue';
+import CommunicationsPopup from './communications/queue-member-communications-popup.vue';
 import ExportPopup from './export-members-popup.vue';
 import QueueMembersColumnFilter from './queue-members-column-filter.vue';
 import ResetPopup from './reset-members-popup.vue';
@@ -378,7 +389,7 @@ const {
 const isFiltersPanelShown = ref(false);
 const isExportPopup = ref(false);
 const csvFile = ref<File | null>(null);
-const destinationsOnPopup = ref<EngineMemberCommunication[] | null>(null);
+const communicationsMemberId = ref<string | null>(null);
 const fileInput = useTemplateRef<HTMLInputElement>('fileInput');
 
 const path = computed(() => {
@@ -397,6 +408,11 @@ const path = computed(() => {
 		},
 	];
 });
+
+const communicationValues = (communications?: EngineMemberCommunication[]) =>
+	(communications ?? []).map(({ destination }) => ({
+		name: destination,
+	}));
 
 const asDate = (value?: number | string) =>
 	formatDate(value, FormatDateMode.DATETIME);
@@ -657,17 +673,8 @@ onMounted(() =>
 >
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-.members__destinations-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-xs);
-}
-
-.members__destinations-num {
-  display: flex;
-  align-items: center;
+.the-queue-members__communications-counter {
   cursor: pointer;
-  user-select: none;
 }
 
 .upload-file-input {
