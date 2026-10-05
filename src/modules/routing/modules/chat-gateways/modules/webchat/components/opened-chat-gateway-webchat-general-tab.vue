@@ -1,16 +1,16 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon
         icon="web-chat"
         icon-prefix="messenger"
         size="sm"
       />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.general') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"

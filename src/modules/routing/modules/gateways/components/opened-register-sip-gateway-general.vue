@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -29,14 +29,14 @@
       <password-input
         :disabled="disableUserInput"
         :v="v.itemInstance.password"
-        :value="itemInstance.password"
+        :model-value="itemInstance.password"
         required
-        @input="setItemProp({ prop: 'password', value: $event })"
+        @update:model-value="setItemProp({ prop: 'password', value: $event })"
       />
       <wt-single-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.schema')"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :model-value="itemInstance.schema"
         @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
@@ -67,11 +67,11 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-
 export default {
 	name: 'OpenedSipGatewayRegisterGeneral',
 	components: {
@@ -82,8 +82,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	methods: {

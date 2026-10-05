@@ -70,12 +70,10 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'Use WebPhone',
 		useStun: 'Use STUN',
-		volumeLeveling: 'Volume leveling',
-		echoCancellation: 'Echo cancellation',
-		noiseReduction: 'Noise reduction',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'New message sound',
 			[NotificationType.NewChatSound]: 'New chat sound',
+			[NotificationType.SelfAssignedCallSound]: 'Self-assigned call sound',
 			[NotificationType.ChatEndSound]: 'Chat end sound',
 			[NotificationType.CallEndSound]: 'Call end sound',
 			[NotificationType.TaskEndSound]: 'Task end sound',
@@ -108,12 +106,13 @@ export default {
 		gatewayHostValidator: 'Should look like IPv4 or FQDN',
 		ipValidator: 'Should look like IPv4',
 		macValidator: 'Should look like MAC',
-		minValue: 'Value should be at least',
-		maxValue: 'Value should be not much',
 		numeric: 'Should be numeric',
 		requiredArrayValue: 'Array should not be empty',
 		isPositiveValue: 'Value should be positive number',
 		cron: 'Invalid cron expression',
+		hourRange: 'Hours must be from 00 to 23',
+		timerangeStartLessThanEnd: 'Time From cannot be greater than To',
+		timerangeNotIntersect: 'Time intervals on the same day cannot overlap',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`File contains invalid numbers. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -542,6 +541,7 @@ export default {
 				communications: 'Communication type | Communication types',
 				allCommunications: 'All communication types',
 				addCommunication: 'Add communication',
+				missingCommunication: 'Please add communication',
 				code: 'Code',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Phone',
@@ -550,7 +550,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent statuses',
+				pauseCause: 'Pause causes',
 				allPauseCause: 'All agent pause causes',
 				limit: 'Limit (min)',
 				min: 'min',
@@ -579,6 +579,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Quick reply | Quick replies',
+			},
+			activityTypes: {
+				activityTypes: 'Activity type | Activity types',
 			},
 		},
 		routing: {
@@ -613,6 +616,7 @@ export default {
 				pattern: 'Destination number',
 				dialplanRule: 'Dialplan rule',
 				position: 'Position',
+				allowTransfer: 'Allow transfer',
 			},
 
 			chatplan: {
@@ -646,6 +650,10 @@ export default {
 				SIPregistrationsDescription: 'SIP registration description',
 				SIPtrunking: 'SIP Trunking',
 				SIPtrunkingDescription: 'SIP trunking description',
+				errors: {
+					passwordInvalid:
+						"Password contains forbidden characters. Reserved URI symbols, whitespace, and special characters like (! * ' ( ) & $) are not allowed.",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -812,10 +820,14 @@ export default {
 				allAgents: 'All agents',
 				chatCount: 'Chat count',
 				taskCount: 'Task count',
+				progressiveCountValidator: 'Value should be greater than 1 or empty',
+				extraChatCount: 'Extra chat count',
 				state: 'Status',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Status time',
+				statusType: 'Status type',
 				addSkill: 'Add skill',
+				editSkill: 'Edit skill',
 				statusHistory: 'State history',
 				historyState: 'State',
 				payload: 'Cause',
@@ -885,26 +897,42 @@ export default {
 				allMembers: 'All members',
 				addMember: 'Add member',
 				destination: 'Destination',
+				communications: 'Communications',
 				display: 'Display number',
 				dtmf: 'DTMF',
-				priority: 'Priority',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Attempts',
 				emptyWorkspace: 'No members were found',
 				resetMembers: {
 					resetMembers: 'Reset members',
-					description:
-						'Are you sure you want to reset attempts of unsuccessful members?',
+					description: {
+						question: 'Are you sure you want to reset the failed attempts',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} without any date limits?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} from\n${named('dateFrom')} to ${named('dateTo')}\n based on the applied filters and search results?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
+					descriptionCount: '{count} records will be affected.',
+					emptyDescription:
+						'No failed attempts match the current filters. There is nothing to reset.',
 					reset: 'Reset',
 					successResetCount: 'Successfully reset {count} members',
 				},
+				exportMembers: {
+					exportMembers: 'Export members',
+				},
 				endCause: {
-					abandoned: 'Abandoned',
-					timeout: 'Timeout',
-					cancel: 'Cancel',
-					success: 'Success',
-					failed: 'Failed',
-					missed: 'Missed',
-					expired: 'Expired',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Name',
@@ -941,6 +969,8 @@ export default {
 				teams: 'Team | Teams',
 				tags: 'Tags',
 				newQueue: 'New queue',
+				saveBeforeAddingRecords:
+					'Fill in the required queue fields before adding records',
 				blacklist: 'Stop list',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -994,7 +1024,7 @@ export default {
 				autoAnswerTone: 'Auto answer warning tone',
 				varKey: 'Key',
 				varVal: 'Value',
-				endCause: 'End cause',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Offering at',
 				destination: 'Destination | Destinations',
 				expire: 'Expire',
@@ -1091,19 +1121,27 @@ export default {
 					offeringAt: 'Offering',
 					joinedAt: 'Start',
 					leavingAt: 'End',
-					duration: 'Duration',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'View number',
-					result: 'Result',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Attempt',
 					resultName: {
-						abandoned: 'Abandoned',
-						cancel: 'Cancel',
-						success: 'Success',
-						failed: 'Failed',
-						missed: 'Missed',
-						timeout: 'Timeout',
-						endless: 'Endless',
-						transferred: 'Transferred',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1158,6 +1196,7 @@ export default {
 				allResGroups: 'All resource groups',
 				searchPlaceholder: 'res group name..',
 				addResGroup: 'Add resource group',
+				editResGroup: 'Edit resource group',
 				strategy: 'Strategy',
 				timerange: 'Time range',
 				timerangeFrom: 'From',
@@ -1219,8 +1258,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'screen recording',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'screenshot',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'screen recordings',
 				},
@@ -1310,6 +1347,7 @@ export default {
 				caseFiles: 'Case files',
 				caseComments: 'Case comments',
 				caseLinks: 'Case links',
+				call: 'Call',
 				relatedCases: 'Related cases',
 				expression: 'Expression',
 				timeout: 'Timeout',
@@ -1325,6 +1363,7 @@ export default {
 						error: 'Error',
 					},
 				},
+				recordCall: 'Record call',
 			},
 		},
 		system: {
@@ -1377,6 +1416,15 @@ export default {
 		queueType: 'Queue Type',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Download files',
@@ -1413,6 +1461,10 @@ export default {
 		deleteAll: 'Delete all items',
 		deleteSelected: 'Delete {count} selected items',
 		deleteFiltered: 'Delete all filtered items',
+		resetAll: 'Reset all members',
+		resetSelected:
+			'Reset {count} selected member | Reset {count} selected members',
+		resetFiltered: 'Reset all filtered members',
 		generate: 'Generate',
 		add: 'Add',
 		history: 'History',

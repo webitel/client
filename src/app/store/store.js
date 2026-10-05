@@ -3,7 +3,6 @@ import { createStore } from 'vuex';
 
 import appearance from '../../modules/appearance/store/appearance';
 import ccenter from '../../modules/contact-center/store/ccenter';
-import directory from '../../modules/directory/store/directory';
 import integrations from '../../modules/integrations/store/integrations';
 import lookups from '../../modules/lookups/store/lookups';
 import permissions from '../../modules/permissions/store/permissions';
@@ -21,7 +20,6 @@ const store = createStore({
 		},
 	},
 	modules: {
-		directory,
 		routing,
 		lookups,
 		ccenter,

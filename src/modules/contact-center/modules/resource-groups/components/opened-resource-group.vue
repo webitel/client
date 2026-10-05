@@ -13,7 +13,7 @@
     </template>
     <template #main>
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -21,7 +21,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -45,12 +56,14 @@ import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/opene
 import RouteNamesEnum from '../../../../../app/router/_internals/RouteNames.enum.js';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import {
+	hourRange,
 	requiredArrayValue,
 	timerangeNotIntersect,
 	timerangeStartLessThanEnd,
 } from '../../../../../app/utils/validators';
 import Resources from '../modules/resources/components/opened-resource-group-resources.vue';
 import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum.js';
+import { useResourceGroupsPermissionsStore } from '../stores/permissions/resourceGroupsPermissionsStore';
 import General from './opened-resource-group-general.vue';
 import Timerange from './opened-resource-group-timerange.vue';
 
@@ -67,7 +80,13 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
 
 		const { hasReadAccess: hasResourcesReadAccess } = useUserAccessControl(
 			WtObject.Resource,
@@ -76,6 +95,10 @@ export default {
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 			hasResourcesReadAccess,
 		};
 	},
@@ -85,24 +108,57 @@ export default {
 		permissionsTabPathName: ResourcesGroupsRouteNames.PERMISSIONS,
 	}),
 	// by vuelidate
-	validations: {
-		itemInstance: {
-			name: {
-				required,
+	validations() {
+		const hourRangeWithMessage = helpers.withMessage(
+			this.$t('validation.hourRange'),
+			hourRange,
+		);
+		const timerangeStartLessThanEndWithMessage = helpers.withMessage(
+			this.$t('validation.timerangeStartLessThanEnd'),
+			timerangeStartLessThanEnd,
+		);
+		return {
+			itemInstance: {
+				name: {
+					required,
+				},
+				communication: {
+					required,
+				},
+				time: {
+					requiredArrayValue,
+					timerangeNotIntersect,
+					$each: helpers.forEach({
+						start: {
+							hourRange: hourRangeWithMessage,
+							timerangeStartLessThanEnd: timerangeStartLessThanEndWithMessage,
+						},
+						end: {
+							hourRange: hourRangeWithMessage,
+						},
+					}),
+				},
 			},
-			communication: {
-				required,
-			},
-			time: {
-				requiredArrayValue,
-				timerangeNotIntersect,
-				$each: helpers.forEach({
-					timerangeStartLessThanEnd,
-				}),
-			},
-		},
+		};
 	},
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === ResourcesGroupsRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useResourceGroupsPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const general = {
 				text: this.$t('objects.general'),

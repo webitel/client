@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.ccenter.resGroups.timerange') }}
       </h3>
       <wt-icon-action
@@ -10,25 +10,27 @@
         @click="addVariable"
       />
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <div>
         <div
           v-for="(range, key) in itemInstance.time"
           class="range"
         >
           <wt-timepicker
+            :custom-validators="fromValidators"
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeFrom')"
-            :v="v.itemInstance.range"
+            :v="getFieldValidation(key, 'start')"
             :model-value="range.start * 60"
             format="hh:mm"
             required
             @update:model-value="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
           />
           <wt-timepicker
+            :custom-validators="hourRangeValidators"
             :disabled="disableUserInput"
             :label="$t('objects.ccenter.resGroups.timerangeTo')"
-            :v="v.itemInstance.range"
+            :v="getFieldValidation(key, 'end')"
             :model-value="range.end * 60"
             format="hh:mm"
             required
@@ -49,6 +51,7 @@
 <script>
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { getForEachHourRangeValidation } from '../../../../../app/utils/validators';
 
 export default {
 	name: 'OpenedResourceGroupTimerange',
@@ -61,6 +64,34 @@ export default {
 			disableUserInput,
 		};
 	},
+	computed: {
+		hourRangeValidators() {
+			return [
+				{
+					name: 'hourRange',
+					text: this.$t('validation.hourRange'),
+				},
+			];
+		},
+		fromValidators() {
+			return [
+				...this.hourRangeValidators,
+				{
+					name: 'timerangeStartLessThanEnd',
+					text: this.$t('validation.timerangeStartLessThanEnd'),
+				},
+			];
+		},
+	},
+	methods: {
+		getFieldValidation(index, prop) {
+			return getForEachHourRangeValidation(
+				this.v.itemInstance.time.$each.$response,
+				index,
+				prop,
+			);
+		},
+	},
 };
 </script>
 
@@ -70,7 +101,7 @@ export default {
 >
 .range {
   display: flex;
-  align-items: center;
+  align-items: start;
   margin-top: 18px;
 
   .wt-timepicker {

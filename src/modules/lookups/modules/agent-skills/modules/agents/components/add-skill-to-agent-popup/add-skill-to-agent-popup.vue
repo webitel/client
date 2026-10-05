@@ -16,10 +16,9 @@
 </template>
 
 <script setup>
+import { SkillAgentsAPI as AgentSkillsAPI } from '@webitel/api-services/api';
 import { computed, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-
-import AgentSkillsAPI from '../../api/skillAgents';
 import ConfigAgentSkillPopup from './config-agent-skill-popup.vue';
 import SelectAgentsPopup from './select-agents-popup.vue';
 

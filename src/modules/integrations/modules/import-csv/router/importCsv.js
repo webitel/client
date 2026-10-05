@@ -1,3 +1,4 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -8,8 +9,6 @@ const OpenedImportCsv = () => import('../components/opened-import-csv.vue');
 
 const General = () => import('../components/opened-import-csv-general.vue');
 const Settings = () => import('../components/opened-import-csv-settings.vue');
-const Permissions = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const ImportCsvRoutes = [
 	{
@@ -46,7 +45,7 @@ const ImportCsvRoutes = [
 			{
 				path: 'permissions/:permissionId?',
 				name: ImportCsvRouteNames.PERMISSIONS,
-				component: Permissions,
+				component: PermissionsTab,
 			},
 		],
 	},

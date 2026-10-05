@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -27,7 +27,7 @@
       <wt-single-select
         :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.integrations.triggers.schema')"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :v="v.itemInstance.schema"
         :model-value="itemInstance.schema"
         required
@@ -113,15 +113,16 @@ import 'cronstrue/locales/en.min';
 import 'cronstrue/locales/ru.min';
 import 'cronstrue/locales/uk.min';
 
+import { CalendarsAPI, FlowsAPI } from '@webitel/api-services/api';
+import {
+	EngineRoutingSchemaType,
+	EngineTriggerType,
+} from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { isEmpty } from '@webitel/ui-sdk/scripts';
 import cronstrue from 'cronstrue';
-import { EngineRoutingSchemaType, EngineTriggerType } from 'webitel-sdk';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CalendarsAPI from '../../../../lookups/modules/calendars/api/calendars';
-import FlowsAPI from '../../../../routing/modules/flow/api/flow';
 import { TriggerEvents } from '../lookups/TriggerEvents.lookup';
 import { TriggerEventsByObjectConfig } from '../lookups/TriggerEventsConfig.lookup';
 import { TriggerObjects } from '../lookups/TriggerObjects.lookup';

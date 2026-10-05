@@ -3,7 +3,7 @@
     <p class="typo-body-2">
       {{ t('objects.integrations.singleSignOn.inspectDescription') }}
     </p>
-    <wt-button @click="getTokenData">
+    <wt-button @click="getTokenData" :disabled="disabled">
       {{ t('objects.integrations.singleSignOn.inspect') }}
     </wt-button>
 
@@ -38,10 +38,14 @@
 
 <script setup lang="ts">
 import { isEmpty } from '@webitel/ui-sdk/scripts';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useInspectSingleSignOnToken } from '../composables/useInspectSingleSignOnToken';
+
+defineProps<{
+	disabled?: boolean;
+}>();
 
 const { t } = useI18n();
 const route = useRoute();
@@ -55,13 +59,11 @@ const handleShownPopup = () => {
 };
 
 const setTokenData = (data) => {
-	tokenData.value = JSON.stringify(data, null, 2);
+	tokenData.value = data ? JSON.stringify(data, null, 2) : '';
 };
 
 const setInitialTokenData = () => {
-	const currentToken = getTokenDataFromStorage();
-	if (!currentToken) return;
-
+	const currentToken = getTokenDataFromStorage(route.params.id as string);
 	setTokenData(currentToken);
 };
 
@@ -69,8 +71,10 @@ onMounted(() => {
 	setInitialTokenData();
 });
 
+watch(() => route.params.id, setInitialTokenData);
+
 const getTokenData = () => {
-	inspectToken(route.params.id, (data) => {
+	inspectToken(route.params.id as string, (data) => {
 		if (!data) return;
 
 		setTokenData(data);

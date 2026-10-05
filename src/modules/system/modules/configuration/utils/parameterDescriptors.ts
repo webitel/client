@@ -1,58 +1,22 @@
-import type { ValidationArgs } from '@vuelidate/core';
-import { minValue } from '@vuelidate/validators';
 import { LabelsAPI } from '@webitel/api-services/api';
 import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
-import { LoginOptions, TypesExportedSettings } from '@webitel/ui-sdk/enums';
+import {
+	LoginOptions,
+	PasswordCategories,
+	TypesExportedSettings,
+} from '@webitel/ui-sdk/enums';
+import { z } from 'zod';
 
+import { ConfigurationValueType } from '../enum/ConfigurationValueType.enum';
+import {
+	DefaultMembersFilterOptions,
+	defaultMembersFilterToRelativeDatetime,
+} from '../enum/DefaultMembersFilterOptions.enum';
 import { DefaultWorkspaceTabOptions } from '../enum/DefaultWorkspaceTabOptions.enum';
-import { PasswordCategories } from '../enum/PasswordCategories.enum';
-
-export const ConfigurationValueType = {
-	Boolean: 'boolean',
-	Number: 'number',
-	String: 'string',
-	Select: 'select',
-	Multiselect: 'multiselect',
-	ExportSettings: 'export-settings',
-} as const;
-
-export type ConfigurationValueType =
-	(typeof ConfigurationValueType)[keyof typeof ConfigurationValueType];
-
-export interface SelectOption {
-	name: string;
-	value: string;
-	id: string;
-}
-
-export interface SelectConfig {
-	options: SelectOption[];
-	labelKey?: string;
-}
-
-export interface MultiselectConfig {
-	searchMethod: ((params: unknown) => Promise<unknown>) | null;
-	options: unknown[];
-	optionLabel: string;
-	trackBy: string;
-}
-
-export interface ParameterDescriptor {
-	type: ConfigurationValueType;
-	// value assigned on parameter creation; falls back to the type default
-	defaultValue?: unknown;
-	// vuelidate rules merged into the popup's `value` rules on top of the type defaults
-	validators?: ValidationArgs;
-	select?: SelectConfig;
-	multiselect?: MultiselectConfig;
-	// how to render array values in the configurations table
-	listDisplay?: {
-		keyProperty: string;
-		labelProperty: string;
-	};
-	// excluded from the "add parameter" list
-	hidden?: boolean;
-}
+import type {
+	ParameterDescriptor,
+	SelectOption,
+} from '../types/configuration.types';
 
 const toSelectOptions = (values: Record<string, string>): SelectOption[] =>
 	Object.values(values).map((value) => ({
@@ -112,9 +76,7 @@ const parameterDescriptors: {
 	},
 	[EngineSystemSettingName.PeriodToPlaybackRecords]: {
 		type: ConfigurationValueType.Number,
-		validators: {
-			minValue: minValue(1),
-		},
+		valueSchema: z.number().min(1),
 	},
 	[EngineSystemSettingName.ScreenshotInterval]: {
 		type: ConfigurationValueType.Number,
@@ -167,6 +129,18 @@ const parameterDescriptors: {
 			labelProperty: 'label',
 		},
 	},
+	[EngineSystemSettingName.DefaultMembersFilter]: {
+		type: ConfigurationValueType.Select,
+		select: {
+			options: Object.values(DefaultMembersFilterOptions).map((value) => ({
+				name: value,
+				value,
+				id: value,
+				locale: `webitelUI.filters.datetime.${defaultMembersFilterToRelativeDatetime[value]}`,
+			})),
+			labelKey: 'vocabulary.values',
+		},
+	},
 
 	// Notification
 	[EngineSystemSettingName.CallEndSoundNotification]: {
@@ -197,10 +171,15 @@ const parameterDescriptors: {
 		type: ConfigurationValueType.Number,
 		defaultValue: 30,
 	},
+	[EngineSystemSettingName.SelfAssignedCallSoundNotification]: {
+		type: ConfigurationValueType.Boolean,
+	},
 
 	// Password settings
 	[EngineSystemSettingName.PasswordExpiryDays]: {
 		type: ConfigurationValueType.Number,
+		defaultValue: 120,
+		valueSchema: z.number().min(1),
 	},
 	[EngineSystemSettingName.PasswordMinLength]: {
 		type: ConfigurationValueType.Number,
@@ -223,10 +202,10 @@ const parameterDescriptors: {
 		type: ConfigurationValueType.Boolean,
 		defaultValue: false,
 	},
-	// https://webitel.atlassian.net/browse/WTEL-8146
 	[EngineSystemSettingName.PasswordWarningDays]: {
 		type: ConfigurationValueType.Number,
-		hidden: true,
+		defaultValue: 30,
+		valueSchema: z.number().min(1),
 	},
 };
 
@@ -246,7 +225,9 @@ const defaultValueByType: Record<ConfigurationValueType, unknown> = {
 	[ConfigurationValueType.Multiselect]: [],
 	[ConfigurationValueType.String]: '',
 	[ConfigurationValueType.Select]: '',
-	[ConfigurationValueType.ExportSettings]: '',
+	[ConfigurationValueType.ExportSettings]: {
+		format: '',
+	},
 };
 
 export const getParameterDefaultValue = (

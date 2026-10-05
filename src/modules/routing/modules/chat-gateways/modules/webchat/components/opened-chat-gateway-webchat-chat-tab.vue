@@ -1,16 +1,16 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon
         icon="web-chat"
         icon-prefix="messenger"
         size="sm"
       />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.chatGateways.webchat.chat.chat') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-switcher
         :label="$t('objects.enabled')"
         :model-value="itemInstance.metadata.chat.enabled"
@@ -25,9 +25,9 @@
         @update:model-value="setItemMetadata({ prop: 'readTimeout', value: $event })"
       />
       <wt-single-select
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="loadDropdownOptionsList"
+        :search-method="hasFlowsReadAccess && loadDropdownOptionsList"
         :v="v.itemInstance.flow"
         :model-value="itemInstance.flow"
         @update:model-value="setFlow"
@@ -68,12 +68,11 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
-
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../../flow/api/flow';
-
 export default {
 	name: 'OpenedChatWebchatGeneralTab',
 	mixins: [
@@ -81,8 +80,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	computed: {

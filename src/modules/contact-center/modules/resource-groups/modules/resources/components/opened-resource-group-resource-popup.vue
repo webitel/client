@@ -54,10 +54,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-
+import { OutboundResourcesAPI as ResourcesAPI } from '@webitel/api-services/api';
 import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import ResourcesAPI from '../../../../resources/api/resources';
-
 export default {
 	name: 'OpenedResNumbersPopup',
 	mixins: [

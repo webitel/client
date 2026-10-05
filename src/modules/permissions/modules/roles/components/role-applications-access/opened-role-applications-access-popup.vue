@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { AdjunctTypesAPI as CustomTypesAPI } from '@webitel/api-services/api';
-import { WebitelProtoDataStruct } from '@webitel/api-services/gen/models';
+import { ProtoDataStruct } from '@webitel/api-services/gen/models';
 import { WtCheckbox } from '@webitel/ui-sdk/components';
 import { WtApplication } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
@@ -50,7 +50,7 @@ export default {
 		},
 	},
 	data: () => ({
-		customTypes: [] as WebitelProtoDataStruct[], // aka "adjunct types", in crm app
+		customTypes: [] as ProtoDataStruct[], // aka "adjunct types", in crm app
 	}),
 	computed: {
 		...mapState({

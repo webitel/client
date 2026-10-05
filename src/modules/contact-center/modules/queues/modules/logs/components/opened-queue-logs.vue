@@ -2,36 +2,56 @@
   <section class="table-section">
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.queues.logs.logs', 1) }}
+        {{ t('objects.ccenter.queues.logs.logs', 1) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <filter-search :namespace="filtersNamespace" />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        />
+        <wt-action-bar
+          :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS]"
+          @click:refresh="loadDataList"
+          @click:filters="emit('click:filters')"
+        >
+          <template #filters="{ action, onClick }">
+            <wt-badge :hidden="!hasPanelFilters">
+              <wt-icon-action
+                :action="action"
+                @click="onClick"
+              />
+            </wt-badge>
+          </template>
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              single-search-name="search"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        <template #columns>
+          <wt-table-column-select
+            :headers="headers"
+            @change="updateShownHeaders"
+          />
+        </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    ></wt-dummy>
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="!isLoading"
         :data="dataList"
         :grid-actions="false"
-        :headers="headers"
+        :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @sort="updateSort"
+        @column-resize="columnResize"
+        @column-reorder="columnReorder"
       >
         <template #destination="{ item }">
           <div v-if="item.destination">
@@ -43,101 +63,147 @@
             {{ item.agent.name }}
           </div>
         </template>
+        <template #bucket="{ item }">
+          {{ item.bucket?.name }}
+        </template>
         <template #joinedAt="{ item }">
-          {{ formatDate(item.joinedAt) }}
+          {{ asDate(item.joinedAt) }}
         </template>
         <template #leavingAt="{ item }">
-          {{ formatDate(item.leavingAt) }}
+          {{ asDate(item.leavingAt) }}
         </template>
         <template #offeringAt="{ item }">
-          {{ formatDate(item.offeringAt) }}
+          {{ asDate(item.offeringAt) }}
         </template>
         <template #duration="{ item }">
-          {{ calcDuration(item) }}
+          {{ asDuration(item) }}
         </template>
         <template #viewNumber="{ item }">
-          <div v-if="item.destination">
-            {{ item.destination.description }}
-          </div>
+          {{ item.display }}
         </template>
         <template #attempts="{ item }">
           {{ item.attempts || 0 }}
         </template>
         <template #result="{ item }">
-          {{ $t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
+          {{ t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
+        </template>
+
+        <template #column-filter="scope">
+          <queue-logs-column-filter v-bind="scope" />
+        </template>
+
+        <template #empty>
+          <wt-empty
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        v-show="dataList.length"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+<script lang="ts" setup>
+import {
+	DynamicFilterSearchComponent as DynamicFilterSearch,
+	FilterOption,
+} from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import convertDuration from '@webitel/ui-sdk/src/scripts/convertDuration';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
+import { computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import {
+	defaultJoinedAtFilter,
+	filterConfigs,
+} from '../configs/filtersOptions';
+import { useQueueLogsDatalistStore } from '../stores/datalist/queueLogsDatalistStore';
+import QueueLogsColumnFilter from './queue-logs-column-filter.vue';
 
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+// the card page still passes `namespace` and a vuelidate instance to every tab
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'log';
+const { t } = useI18n();
+const route = useRoute();
 
-export default {
-	name: 'OpenedQueueLogs',
-	components: {
-		FilterSearch,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
+const parentId = computed(() => route.params.id as string);
+const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
+const tableStore = useQueueLogsDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	shownHeaders,
+	headers,
+	filtersManager,
+} = storeToRefs(tableStore);
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateShownHeaders,
+	columnResize,
+	columnReorder,
+	hasFilter,
+} = tableStore;
+
+const emit = defineEmits<{
+	'click:filters': [];
+}>();
+
+const hasPanelFilters = computed(() =>
+	Object.keys(filterConfigs).some((name) => hasFilter(name)),
+);
+
+if (!hasFilter(FilterOption.JoinedAt)) {
+	addFilter(defaultJoinedAtFilter());
+}
+
+if (!isNewQueue.value)
+	initialize({
+		parentId: parentId.value,
+	});
+
+watch(parentId, (id, previous) => {
+	if (id && id !== 'new' && previous === 'new')
+		initialize({
+			parentId: id,
 		});
-		return {
-			dummy,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-	}),
-	computed: {
-		filtersNamespace() {
-			return `${this.namespace}/${this.subNamespace}/filters`;
-		},
-	},
-	watch: {
-		'$route.query': {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
-	methods: {
-		formatDate(value) {
-			if (!value) return '';
-			return formatDate(+value, FormatDateMode.DATETIME);
-		},
+});
 
-		calcDuration(item) {
-			return convertDuration((item.leavingAt - item.joinedAt) / 1000);
-		},
-	},
-};
+const asDate = (value?: number | string) =>
+	formatDate(value, FormatDateMode.DATETIME);
+
+const asDuration = (item: { duration?: string }) =>
+	convertDuration(+(item.duration ?? 0));
+
+const { image: imageEmpty, text: textEmpty } = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
 <style

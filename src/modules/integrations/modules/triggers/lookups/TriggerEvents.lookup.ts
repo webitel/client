@@ -1,4 +1,4 @@
-import { EngineTriggerEventType } from 'webitel-sdk';
+import { EngineTriggerEventType } from '@webitel/api-services/gen/models';
 
 export interface TriggerEvent {
 	locale: string;
@@ -21,5 +21,9 @@ export const TriggerEvents: TriggerEvent[] = [
 	{
 		locale: 'objects.integrations.triggers.resolutionTime',
 		value: EngineTriggerEventType.ResolutionTime,
+	},
+	{
+		locale: 'objects.integrations.triggers.recordCall',
+		value: EngineTriggerEventType.RecordCall,
 	},
 ] as const;

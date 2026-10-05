@@ -102,7 +102,10 @@ const apps = computed(() => {
 		href: import.meta.env.VITE_CRM_URL,
 	};
 
-	const allApps = [
+	const allApps: {
+		name: WtApplication;
+		href: string;
+	}[] = [
 		admin,
 		supervisor,
 		agent,

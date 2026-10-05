@@ -26,4 +26,8 @@ export const TriggerObjects: TriggerObject[] = [
 		locale: 'objects.integrations.triggers.relatedCases',
 		value: EngineTriggerObjectType.RelatedCases,
 	},
+	{
+		locale: 'objects.integrations.triggers.call',
+		value: EngineTriggerObjectType.Call,
+	},
 ] as const;

@@ -70,12 +70,11 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'Usar WebPhone',
 		useStun: 'Usar STUN',
-		volumeLeveling: 'Nivelación de volumen',
-		echoCancellation: 'Cancelación de eco',
-		noiseReduction: 'Reducción de ruido',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Sonido de nuevo mensaje',
 			[NotificationType.NewChatSound]: 'Sonido de nuevo chat',
+			[NotificationType.SelfAssignedCallSound]:
+				'Sonido de llamada autoasignada',
 			[NotificationType.ChatEndSound]: 'Sonido de fin de chat',
 			[NotificationType.CallEndSound]: 'Sonido de fin de llamada',
 			[NotificationType.TaskEndSound]: 'Sonido de fin de tarea',
@@ -108,12 +107,15 @@ export default {
 		gatewayHostValidator: 'Debe parecer una dirección IPv4 o FQDN',
 		ipValidator: 'Debe parecer una dirección IPv4',
 		macValidator: 'Debe parecer una dirección MAC',
-		minValue: 'El valor debe ser al menos',
-		maxValue: 'El valor no debe ser demasiado',
 		numeric: 'Debe ser numérico',
 		requiredArrayValue: 'El array no debe estar vacío',
 		isPositiveValue: 'El valor debe ser un número positivo',
 		cron: 'Expresión cron inválida',
+		hourRange: 'Las horas deben estar entre 00 y 23',
+		timerangeStartLessThanEnd:
+			'La hora "Desde" no puede ser posterior a "Hasta"',
+		timerangeNotIntersect:
+			'Los intervalos de tiempo del mismo día no pueden superponerse',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`El archivo contiene números incorrectos. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -544,6 +546,7 @@ export default {
 				communications: 'Tipo de comunicación | Tipos de comunicación',
 				allCommunications: 'Todos los tipos de comunicación',
 				addCommunication: 'Añadir comunicación',
+				missingCommunication: 'Por favor, añada un tipo de comunicación',
 				code: 'Código',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Teléfono',
@@ -552,7 +555,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Estados de agente',
+				pauseCause: 'Causas de pausa',
 				allPauseCause: 'Todos los motivos de pausa de agente',
 				limit: 'Límite (min)',
 				min: 'min',
@@ -581,6 +584,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Respuesta rápida | Respuestas rápidas',
+			},
+			activityTypes: {
+				activityTypes: 'Tipo de actividad | Tipos de actividad',
 			},
 		},
 		routing: {
@@ -617,6 +623,7 @@ export default {
 				pattern: 'Número de destino',
 				dialplanRule: 'Regla de dialplan',
 				position: 'Posición',
+				allowTransfer: 'Permitir transferencia',
 			},
 
 			chatplan: {
@@ -651,6 +658,10 @@ export default {
 				SIPregistrationsDescription: 'Descripción del registro SIP',
 				SIPtrunking: 'Troncalización SIP',
 				SIPtrunkingDescription: 'Descripción de la troncalización SIP',
+				errors: {
+					passwordInvalid:
+						"La contraseña contiene caracteres no permitidos. No se permiten símbolos reservados de URI, espacios en blanco ni caracteres especiales como (! * ' ( ) & $).",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -817,10 +828,15 @@ export default {
 				allAgents: 'Todos los agentes',
 				chatCount: 'Contador de chats',
 				taskCount: 'Contador de tareas',
+				progressiveCountValidator:
+					'El valor debe ser mayor que 1 o estar vacío',
+				extraChatCount: 'Recuento de chats adicionales',
 				state: 'Estado',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Tiempo de estado',
+				statusType: 'Tipo de estado',
 				addSkill: 'Añadir habilidad',
+				editSkill: 'Editar habilidad',
 				statusHistory: 'Historial de estado',
 				historyState: 'Estado',
 				payload: 'Causa',
@@ -890,26 +906,43 @@ export default {
 				allMembers: 'Todos los miembros',
 				addMember: 'Añadir miembro',
 				destination: 'Destino',
+				communications: 'Comunicaciones',
 				display: 'Número de visualización',
 				dtmf: 'DTMF',
-				priority: 'Prioridad',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Intentos',
 				emptyWorkspace: 'No se encontraron miembros',
 				resetMembers: {
 					resetMembers: 'Restablecer miembros',
-					description:
-						'¿Está seguro de que desea restablecer los intentos de miembros no exitosos?',
+					description: {
+						question:
+							'¿Está seguro de que desea reiniciar los intentos fallidos',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} sin ningún límite de fecha?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} desde\n${named('dateFrom')} hasta ${named('dateTo')}\nsegún los filtros aplicados y los resultados de la búsqueda?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
+					descriptionCount: 'Se verán afectados {count} registros.',
+					emptyDescription:
+						'No hay intentos fallidos que coincidan con los filtros actuales. No hay nada que reiniciar.',
 					reset: 'Restablecer',
 					successResetCount: 'Se restablecieron con éxito {count} miembros',
 				},
+				exportMembers: {
+					exportMembers: 'Exportar miembros',
+				},
 				endCause: {
-					abandoned: 'Abandonado',
-					timeout: 'Tiempo de espera',
-					cancel: 'Cancelar',
-					success: 'Éxito',
-					failed: 'Fallido',
-					missed: 'Perdido',
-					expired: 'Expirado',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Nombre',
@@ -946,6 +979,8 @@ export default {
 				teams: 'Equipo | Equipos',
 				tags: 'Etiquetas',
 				newQueue: 'Nueva cola',
+				saveBeforeAddingRecords:
+					'Complete los campos obligatorios de la cola antes de agregar registros',
 				blacklist: 'Lista de parada',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -997,7 +1032,7 @@ export default {
 				autoAnswerTone: 'Tono de advertencia de respuesta automática',
 				varKey: 'Clave',
 				varVal: 'Valor',
-				endCause: 'Causa de finalización',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Ofrecido en',
 				destination: 'Destino | Destinos',
 				expire: 'Expirar',
@@ -1095,19 +1130,27 @@ export default {
 					offeringAt: 'Ofrecido',
 					joinedAt: 'Inicio',
 					leavingAt: 'Fin',
-					duration: 'Duración',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Número de vista',
-					result: 'Resultado',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Intentos',
 					resultName: {
-						abandoned: 'Abandonado',
-						cancel: 'Cancelar',
-						success: 'Éxito',
-						failed: 'Fallido',
-						missed: 'Perdido',
-						timeout: 'Tiempo de espera',
-						endless: 'Sin fin',
-						transferred: 'Transferido',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1162,6 +1205,7 @@ export default {
 				allResGroups: 'Todos los grupos de recursos',
 				searchPlaceholder: 'nombre de grupo de recursos..',
 				addResGroup: 'Añadir grupo de recursos',
+				editResGroup: 'Editar grupo de recursos',
 				strategy: 'Estrategia',
 				timerange: 'Rango de tiempo',
 				timerangeFrom: 'Desde',
@@ -1224,8 +1268,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'medio',
 					[StorageUploadFileChannel.MailChannel]: 'correo',
 					[StorageUploadFileChannel.LogChannel]: 'registro',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'grabaciones de pantalla',
 				},
@@ -1319,6 +1361,7 @@ export default {
 				caseFiles: 'Archivos de caso',
 				caseComments: 'Comentarios de caso',
 				caseLinks: 'Enlaces de caso',
+				call: 'Llamada',
 				relatedCases: 'Casos relacionados',
 				expression: 'Expresión',
 				timeout: 'Tiempo de espera',
@@ -1334,6 +1377,7 @@ export default {
 						error: 'Error',
 					},
 				},
+				recordCall: 'Grabar llamada',
 			},
 		},
 		system: {
@@ -1386,6 +1430,15 @@ export default {
 		queueType: 'Tipo de cola',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Descargar archivos',
@@ -1422,6 +1475,10 @@ export default {
 		deleteAll: 'Eliminar todos los elementos',
 		deleteSelected: 'Eliminar {count} elementos seleccionados',
 		deleteFiltered: 'Eliminar todos los elementos filtrados',
+		resetAll: 'Restablecer todos los miembros',
+		resetSelected:
+			'Restablecer {count} miembro seleccionado | Restablecer {count} miembros seleccionados',
+		resetFiltered: 'Restablecer todos los miembros filtrados',
 		generate: 'Generar',
 		add: 'Añadir',
 		history: 'Historial',

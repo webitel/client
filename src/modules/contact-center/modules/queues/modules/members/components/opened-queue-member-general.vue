@@ -1,107 +1,104 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
-    <form class="object-input-grid">
-      <wt-input-text
-        :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
-        required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
-      />
-      <wt-input-number
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.priority')"
-        :model-value="itemInstance.priority"
-        @update:model-value="setItemProp({ prop: 'priority', value: $event })"
-      />
-      <wt-datepicker
-        :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.expire')"
-        :model-value="itemInstance.expireAt"
-        show-time
-        @update:model-value="setItemProp({ prop: 'expireAt', value: $event })"
-      />
-      <wt-single-select
-        :disabled="disableUserInput || !hasCalendarsReadAccess"
-        :label="$t('objects.ccenter.queues.timezone')"
-        :search-method="loadDropdownOptionsTimezoneList"
-        :model-value="itemInstance.timezone"
-        @update:model-value="setItemProp({ prop: 'timezone', value: $event })"
-      />
-      <wt-single-select
-        :disabled="disableUserInput || !hasBucketsReadAccess"
-        :label="$t('objects.lookups.buckets.buckets', 1)"
-        :search-method="loadDropdownOptionsBucketsList"
-        :model-value="itemInstance.bucket"
-        @update:model-value="setItemProp({ prop: 'bucket', value: $event })"
-      />
-      <wt-single-select
-        :disabled="disableUserInput || !hasAgentsReadAccess"
-        :label="$t('objects.ccenter.agents.agents', 1)"
-        :search-method="loadDropdownOptionsAgentsList"
-        :model-value="itemInstance.agent"
-        @update:model-value="setItemProp({ prop: 'agent', value: $event })"
-      />
-    </form>
+  <section class="member-general">
+    <div class="member-general__info">
+      <header class="opened-card-header">
+        <h3 class="opened-card-header__title">
+          {{ t('objects.generalInfo') }}
+        </h3>
+      </header>
+      <form class="opened-card-input-grid">
+        <wt-input-text
+          v-model:model-value="modelValue.name"
+          :disabled="disableUserInput"
+          :label="t('objects.name')"
+          :regle-validation="validationFields?.name"
+          required
+        />
+        <wt-input-number
+          v-model:model-value="modelValue.priority"
+          :disabled="disableUserInput"
+          :label="t('objects.ccenter.queues.priority')"
+        />
+        <wt-datepicker
+          v-model:model-value="modelValue.expireAt"
+          :disabled="disableUserInput"
+          :label="t('objects.ccenter.queues.expire')"
+          show-time
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.timezone"
+          :disabled="disableUserInput || !hasCalendarsReadAccess"
+          :label="t('objects.ccenter.queues.timezone')"
+          :search-method="loadTimezoneOptions"
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.bucket"
+          :disabled="disableUserInput || !hasBucketsReadAccess"
+          :label="t('objects.lookups.buckets.buckets', 1)"
+          :search-method="loadBucketsOptions"
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.agent"
+          :disabled="disableUserInput || !hasAgentsReadAccess"
+          :label="t('objects.ccenter.agents.agents', 1)"
+          :search-method="loadAgentsOptions"
+        />
+      </form>
+    </div>
+
+    <opened-queue-member-communication
+      v-model:model-value="modelValue"
+      :validation-fields="validationFields"
+    />
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { AgentsAPI, CalendarsAPI } from '@webitel/api-services/api';
+import type { EngineMemberInQueue } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
-
+import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
-import CalendarsAPI from '../../../../../../lookups/modules/calendars/api/calendars';
-import AgentsAPI from '../../../../agents/api/agents';
+import OpenedQueueMemberCommunication from './communications/opened-queue-member-communication.vue';
 
-export default {
-	name: 'OpenedQueueMemberGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl({
-			useUpdateAccessAsAllMutableChecksSource: true,
-		});
-		const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
-			WtObject.Bucket,
-		);
-		const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
-			WtObject.Calendar,
-		);
-		const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
-		return {
-			disableUserInput,
-			hasBucketsReadAccess,
-			hasCalendarsReadAccess,
-			hasAgentsReadAccess,
-		};
-	},
+const modelValue = defineModel<EngineMemberInQueue>({
+	required: true,
+});
 
-	methods: {
-		loadDropdownOptionsBucketsList(params) {
-			return BucketsAPI.getLookup(params);
-		},
-		loadDropdownOptionsTimezoneList(params) {
-			return CalendarsAPI.getTimezonesLookup(params);
-		},
-		loadDropdownOptionsAgentsList(params) {
-			return AgentsAPI.getLookup(params);
-		},
-	},
-};
+defineProps<{
+	// biome-ignore lint/suspicious/noExplicitAny: regle's field status shape
+	validationFields?: Record<string, any>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+const { hasReadAccess: hasBucketsReadAccess } = useUserAccessControl(
+	WtObject.Bucket,
+);
+const { hasReadAccess: hasCalendarsReadAccess } = useUserAccessControl(
+	WtObject.Calendar,
+);
+const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
+
+const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
+const loadTimezoneOptions = (params: unknown) =>
+	CalendarsAPI.getTimezonesLookup(params);
+const loadAgentsOptions = (params: unknown) => AgentsAPI.getLookup(params);
 </script>
 
 <style
   lang="scss"
   scoped
-></style>
+>
+.member-general {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+</style>

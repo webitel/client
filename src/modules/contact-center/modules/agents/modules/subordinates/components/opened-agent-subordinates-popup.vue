@@ -1,90 +1,86 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" :shown="!!subordinateId" overflow @close="close">
+  <wt-popup
+    :shown="!!subordinateId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
-      {{ $t('objects.ccenter.agents.addSubordinate') }}
+      {{ t('objects.ccenter.agents.addSubordinate') }}
     </template>
     <template #main>
-      <form>
-        <wt-single-select :show-clear="false" :label="$t('objects.ccenter.agents.subordinates', 1)"
-          :search-method="loadDropdownOptionsList" :v="v$.itemInstance.agent" :model-value="itemInstance.agent" required
-          @update:model-value="setItemProp({ prop: 'agent', value: $event })" />
+      <form @submit.prevent="save">
+        <wt-single-select
+          v-model:model-value="modelValue.agent"
+          :label="t('objects.ccenter.agents.subordinates', 1)"
+          :regle-validation="validationFields?.agent"
+          :search-method="AgentsAPI.getRegularAgentsOptions"
+          :show-clear="false"
+          required
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.add') }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        :color="ButtonColor.SECONDARY"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import { AgentsAPI } from '@webitel/api-services/api';
+import type { EngineLookup } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import AgentsAPI from '../../../api/agents';
+import AgentsRouteNames from '../../../router/_internals/AgentsRouteNames.enum';
+import { useAgentSubordinatesCardStore } from '../stores/card/agentSubordinatesCardStore';
 
-export default {
-	name: 'OpenedAgentSubordinatesPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const props = defineProps<{
+	parentId: string | number | null;
+}>();
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	data: () => ({
-		namespace: 'ccenter/agents/subordinates',
-	}),
-	validations: {
-		itemInstance: {
-			agent: {
-				required,
-			},
-		},
-	},
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	computed: {
-		subordinateId() {
-			return this.$route.params.subordinateId;
-		},
-	},
-	watch: {
-		subordinateId: {
-			handler(id) {
-				this.handleIdChange(id);
-			},
-			immediate: true,
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	methods: {
-		async loadDropdownOptionsList(params) {
-			const fields = [
-				'id',
-				'name',
-				'supervisor',
-			];
-			const response = await AgentsAPI.getRegularAgentsOptions({
-				...params,
-				fields,
-			});
-			response.items = response.items.map((item) => ({
-				...item,
-				supervisor: item.supervisor || [],
-			}));
-			return response;
-		},
-	},
+const {
+	modelValue,
+	validationFields,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<{
+	agent?: EngineLookup;
+}>({
+	useCardStore: useAgentSubordinatesCardStore,
+	routeParamName: 'subordinateId',
+	parentId: () => props.parentId,
+});
+
+const subordinateId = computed(() => route.params.subordinateId);
+
+const { close } = useClose(AgentsRouteNames.SUBORDINATES);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
 </script>
-
-<style scoped></style>

@@ -70,12 +70,11 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'Użyj WebPhone',
 		useStun: 'Użyj STUN',
-		volumeLeveling: 'Wyrównywanie głośności',
-		echoCancellation: 'Usuwanie echa',
-		noiseReduction: 'Redukcja szumów',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Dźwięk nowej wiadomości',
 			[NotificationType.NewChatSound]: 'Dźwięk nowego czatu',
+			[NotificationType.SelfAssignedCallSound]:
+				'Dźwięk samodzielnie przypisanego połączenia',
 			[NotificationType.ChatEndSound]: 'Dźwięk końca czatu',
 			[NotificationType.CallEndSound]: 'Dźwięk końca połączenia',
 			[NotificationType.TaskEndSound]: 'Dźwięk końca zadania',
@@ -110,12 +109,14 @@ export default {
 		gatewayHostValidator: 'Powinien wyglądać jak IPv4 lub FQDN',
 		ipValidator: 'Powinien wyglądać jak IPv4',
 		macValidator: 'Powinien wyglądać jak MAC',
-		minValue: 'Wartość powinna być co najmniej',
-		maxValue: 'Wartość powinna być nieco mniejsza',
 		numeric: 'Powinna być liczba',
 		requiredArrayValue: 'Tablica nie może być pusta',
 		isPositiveValue: 'Wartość powinna być liczbą dodatnią',
 		cron: 'Nieprawidłowe wyrażenie cron',
+		hourRange: 'Godziny muszą być od 00 do 23',
+		timerangeStartLessThanEnd: 'Czas "Od" nie może być późniejszy niż "Do"',
+		timerangeNotIntersect:
+			'Interwały czasowe w tym samym dniu nie mogą się nakładać',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -542,6 +543,7 @@ export default {
 				communications: 'Typ komunikacji | Typy komunikacji',
 				allCommunications: 'Wszystkie typy komunikacji',
 				addCommunication: 'Dodaj komunikację',
+				missingCommunication: 'Proszę dodać typ komunikacji',
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -550,7 +552,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Statusy agenta',
+				pauseCause: 'Powody pauzy',
 				allPauseCause: 'Wszystkie przyczyny zawieszenia agenta',
 				limit: 'Limit (min)',
 				min: 'min',
@@ -579,6 +581,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Szybka odpowiedź | Szybkie odpowiedzi',
+			},
+			activityTypes: {
+				activityTypes: 'Typ aktywności | Typy aktywności',
 			},
 		},
 		routing: {
@@ -614,6 +619,7 @@ export default {
 				pattern: 'Numer docelowy',
 				dialplanRule: 'Reguła dialplanu',
 				position: 'Pozycja',
+				allowTransfer: 'Zezwól na przekazanie',
 			},
 
 			chatplan: {
@@ -647,6 +653,10 @@ export default {
 				SIPregistrationsDescription: 'Opis rejestracji SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Opis trunkingu SIP',
+				errors: {
+					passwordInvalid:
+						"Hasło zawiera niedozwolone znaki. Zarezerwowane symbole URI, spacje oraz znaki specjalne takie jak (! * ' ( ) & $) są niedozwolone.",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -813,10 +823,15 @@ export default {
 				allAgents: 'Wszystkie agentzy',
 				chatCount: 'Liczba czatów',
 				taskCount: 'Liczba zadań',
+				progressiveCountValidator:
+					'Wartość powinna być większa niż 1 lub pusta',
+				extraChatCount: 'Dodatkowa liczba czatów',
 				state: 'Status',
 				isSupervisor: 'Nadzorca',
 				stateTime: 'Czas statusu',
+				statusType: 'Typ statusu',
 				addSkill: 'Dodaj umiejętność',
+				editSkill: 'Edytuj umiejętność',
 				statusHistory: 'Historia statusu',
 				historyState: 'Stan',
 				payload: 'Przyczyna',
@@ -886,26 +901,42 @@ export default {
 				allMembers: 'Wszystkie członkowie',
 				addMember: 'Dodaj członka',
 				destination: 'Miejsce docelowe',
+				communications: 'Komunikacja',
 				display: 'Numer wyświetlany',
 				dtmf: 'DTMF',
-				priority: 'Priorytet',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Próby',
 				emptyWorkspace: 'Nie znaleziono członków',
 				resetMembers: {
 					resetMembers: 'Resetuj członków',
-					description:
-						'Czy na pewno chcesz zresetować próby nieudanych członków?',
+					description: {
+						question: 'Czy na pewno chcesz zresetować nieudane próby',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} bez żadnych ograniczeń czasowych?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} z okresu\n${named('dateFrom')} do ${named('dateTo')}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
+					descriptionCount: 'Zostanie przetworzonych rekordów: {count}',
+					emptyDescription:
+						'Żadne nieudane próby nie pasują do bieżących filtrów. Nie ma nic do zresetowania.',
 					reset: 'Resetuj',
 					successResetCount: 'Pomyślnie zresetowano {count} członków',
 				},
+				exportMembers: {
+					exportMembers: 'Eksportuj członków',
+				},
 				endCause: {
-					abandoned: 'Porzucone',
-					timeout: 'Przekroczono czas',
-					cancel: 'Anulowane',
-					success: 'Sukces',
-					failed: 'Niepowodzenie',
-					missed: 'Przegapione',
-					expired: 'Wygasło',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Nazwa',
@@ -943,6 +974,8 @@ export default {
 				teams: 'Zespół | Zespoły',
 				tags: 'Tagi',
 				newQueue: 'Nowa kolejka',
+				saveBeforeAddingRecords:
+					'Wypełnij wymagane pola kolejki przed dodaniem rekordów',
 				blacklist: 'Lista zatrzymana',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -995,7 +1028,7 @@ export default {
 				autoAnswerTone: 'Ostrzeżenie o automatycznym odpowiedzi',
 				varKey: 'Klucz',
 				varVal: 'Wartość',
-				endCause: 'Przyczyna zakończenia',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Oferta w',
 				destination: 'Miejsce docelowe | Miejsca docelowe',
 				expire: 'Wygasa',
@@ -1093,19 +1126,27 @@ export default {
 					offeringAt: 'Oferta',
 					joinedAt: 'Początek',
 					leavingAt: 'Koniec',
-					duration: 'Długość',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Numer widoku',
-					result: 'Wynik',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Próba',
 					resultName: {
-						abandoned: 'Porzucone',
-						cancel: 'Anulowane',
-						success: 'Sukces',
-						failed: 'Niepowodzenie',
-						missed: 'Przegapione',
-						timeout: 'Przekroczono czas',
-						endless: 'Nieskończony',
-						transferred: 'Przekazane',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1160,6 +1201,7 @@ export default {
 				allResGroups: 'Wszystkie grupy zasobów',
 				searchPlaceholder: 'nazwa grupy zasobów..',
 				addResGroup: 'Dodaj grupę zasobów',
+				editResGroup: 'Edytuj grupę zasobów',
 				strategy: 'Strategia',
 				timerange: 'Zakres czasu',
 				timerangeFrom: 'Od',
@@ -1221,9 +1263,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]:
-						'udostępnianie ekranu',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'nagrania ekranu',
 				},
 				encryptFile: 'Szyfruj nowe pliki',
@@ -1313,6 +1352,7 @@ export default {
 				caseFiles: 'Pliki przypadków',
 				caseComments: 'Komentarze do przypadków',
 				caseLinks: 'Linki do przypadków',
+				call: 'Połączenie',
 				relatedCases: 'Powiązane przypadki',
 				expression: 'Wyrażenie',
 				timeout: 'Czas oczekiwania',
@@ -1328,6 +1368,7 @@ export default {
 						error: 'Błąd',
 					},
 				},
+				recordCall: 'Nagraj połączenie',
 			},
 		},
 		system: {
@@ -1380,6 +1421,15 @@ export default {
 		queueType: 'Typ kolejki',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Pobierz pliki',
@@ -1416,6 +1466,10 @@ export default {
 		deleteAll: 'Usuń wszystkie elementy',
 		deleteSelected: 'Usuń {count} wybranych elementów',
 		deleteFiltered: 'Usuń wszystkie filtrowane elementy',
+		resetAll: 'Zresetuj wszystkich członków',
+		resetSelected:
+			'Zresetuj {count} wybranego członka | Zresetuj {count} wybranych członków',
+		resetFiltered: 'Zresetuj wszystkich filtrowanych członków',
 		generate: 'Generuj',
 		add: 'Dodaj',
 		history: 'Historia',

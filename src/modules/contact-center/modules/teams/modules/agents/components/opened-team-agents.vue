@@ -1,70 +1,73 @@
 <template>
   <section class="table-section">
-    <agent-popup @close="closeAgentPopup" />
-    <object-list-popup
-      :shown="!!supervisorsId"
-      :data-list="openedItemSupervisors"
-      :headers="openedItemSupervisorHeaders"
-      :title="$t('objects.ccenter.agents.supervisors', 2)"
-      @close="closeSupervisorsAndSkillsPopup"
+    <agent-popup
+      :parent-id="teamId"
+      @saved="loadDataList"
     />
     <object-list-popup
-      :shown="!!skillsId"
-      :data-list="openedItemSkills"
-      :headers="openedItemSkillsHeaders"
-      :title="$t('objects.lookups.skills.skills', 2)"
-      @close="closeSupervisorsAndSkillsPopup"
+      :data-list="shownSupervisors"
+      :shown="!!supervisorsRowId"
+      :title="t('objects.ccenter.agents.supervisors', 2)"
+      @close="closeListPopup"
+    />
+    <object-list-popup
+      :data-list="shownSkills"
+      :shown="!!skillsRowId"
+      :title="t('objects.lookups.skills.skills', 2)"
+      @close="closeListPopup"
     />
 
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.agents.agents', 2) }}
+        {{ t('objects.ccenter.agents.agents', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.REFRESH]"
+          :disabled:add="!hasAgentsUpdateAccess || !teamId"
+          @click:add="open"
+          @click:refresh="loadDataList"
         >
-          <wt-icon-btn
-            :disabled="!hasAgentsUpdateAccess"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
-        </wt-table-actions>
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
-        :grid-actions="!disableUserInput"
-        :headers="headers"
+        :grid-actions="false"
+        :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
       >
         <template #name="{ item }">
           <wt-item-link
-            :link="editLink(item)"
+            :link="{
+              name: `${RouteNames.AGENTS}-card`,
+              params: { id: item.id },
+            }"
             target="_blank"
           >
             {{ item.name }}
@@ -78,108 +81,140 @@
         </template>
         <template #supervisor="{ item }">
           <one-plus-many
-            :collection="item.supervisor"
-            @input="setSupervisorQuery(item)"
+            :collection="item.supervisor ?? []"
+            @input="openListPopup('supervisor', item)"
           />
         </template>
         <template #skills="{ item }">
           <one-plus-many
-            :collection="item.skills"
-            @input="setSkillsQuery(item)"
+            :collection="item.skills ?? []"
+            @input="openListPopup('skills', item)"
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { WtObject } from '@webitel/ui-sdk/enums';
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+<script lang="ts" setup>
+import type { EngineAgent } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { useCardListNavigation } from '@webitel/ui-datalist/card';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction, WtObject } from '@webitel/ui-sdk/enums';
+import { snakeToCamel } from '@webitel/ui-sdk/scripts';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import agentStatusMixin from '../../../../../mixins/agentStatusMixin';
-import agentSupervisorsAndSkillsPopupMixin from '../../../../../mixins/agentSupervisorsAndSkillsPopupMixin';
-import AgentPopup from './create-team-agent-popup.vue';
+import { useAgentStatusIndicator } from '../../../../../composables/useAgentStatusIndicator';
+import { useTeamsCardStore } from '../../../stores/card/teamsCardStore';
+import { useTeamAgentsDatalistStore } from '../stores/datalist/teamAgentsDatalistStore';
+import AgentPopup from './opened-team-agents-popup.vue';
 
-const namespace = 'ccenter/teams';
-const subNamespace = 'agents';
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
-export default {
-	name: 'OpenedTeamAgents',
-	components: {
-		AgentPopup,
-		ObjectListPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-		agentSupervisorsAndSkillsPopupMixin,
-		agentStatusMixin,
-	],
+const { hasUpdateAccess: hasAgentsUpdateAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
+const { statusIndicatorColor, statusIndicatorText } = useAgentStatusIndicator();
 
-	setup() {
-		const { hasUpdateAccess: hasAgentsUpdateAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
+const teamsCardStore = useTeamsCardStore();
+const { itemId: teamId } = storeToRefs(teamsCardStore);
 
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
+const teamAgentsDatalistStore = useNestedTableList({
+	useTableStore: useTeamAgentsDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(teamAgentsDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = teamAgentsDatalistStore;
 
-		return {
-			dummy,
-			hasAgentsUpdateAccess,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-	}),
-	watch: {
-		dataList(data) {
-			if (data && this.skillsId) {
-				this.setOpenedItemId(this.skillsId);
-			}
+const { open } = useCardListNavigation({
+	routeParamName: 'agentId',
+});
 
-			if (data && this.supervisorsId) {
-				this.setOpenedItemId(this.supervisorsId);
-			}
+const supervisorsRowId = computed(
+	() => route.query.supervisor as string | undefined,
+);
+const skillsRowId = computed(() => route.query.skills as string | undefined);
+
+const rowById = (id?: string) =>
+	dataList.value.find((item) => String(item.id) === String(id));
+
+const shownSupervisors = computed(
+	() => rowById(supervisorsRowId.value)?.supervisor ?? [],
+);
+const shownSkills = computed(() => rowById(skillsRowId.value)?.skills ?? []);
+
+const openListPopup = (
+	queryParam: 'supervisor' | 'skills',
+	item: EngineAgent,
+) =>
+	router.push({
+		name: route.name,
+		params: route.params,
+		query: {
+			...route.query,
+			[queryParam]: String(item.id),
 		},
-	},
+	});
 
-	methods: {
-		addItem() {
-			return this.$router.push({
-				...this.route,
-				params: {
-					agentId: 'new',
-				},
-			});
-		},
-		closeAgentPopup() {
-			return this.$router.go(-1);
-		},
-		snakeToCamel,
-	},
+const closeListPopup = () => {
+	const query = {
+		...route.query,
+	};
+	delete query.supervisor;
+	delete query.skills;
+	return router.push({
+		name: route.name,
+		params: route.params,
+		query,
+	});
 };
-</script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+</script>

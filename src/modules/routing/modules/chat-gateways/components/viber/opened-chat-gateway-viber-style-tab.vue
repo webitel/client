@@ -1,16 +1,16 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon
         icon="viber"
         icon-prefix="messenger"
         size="sm"
       />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.chatGateways.viber.style.style') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <div class="opened-chat-gateway-viber-color-picker">
         <wt-label>{{ $t('objects.routing.chatGateways.viber.style.btnBackColor') }}</wt-label>
         <color-picker

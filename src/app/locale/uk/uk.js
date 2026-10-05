@@ -70,13 +70,12 @@ export default {
 		webPhone: 'Web-телефон',
 		useWebPhone: 'Використовувати Web-телефон',
 		useStun: 'Використовувати STUN',
-		volumeLeveling: 'Вирівнювання гучності',
-		echoCancellation: 'Усунення відлуння',
-		noiseReduction: 'Приглушення шумів',
 		notifications: {
 			[NotificationType.NewMessageSound]:
 				'Звукове сповіщення про нове повідомлення',
 			[NotificationType.NewChatSound]: 'Звукове сповіщення про новий чат',
+			[NotificationType.SelfAssignedCallSound]:
+				'Звук самостійно призначеного дзвінка',
 			[NotificationType.ChatEndSound]: 'Звукове сповіщення про завершення чату',
 			[NotificationType.CallEndSound]:
 				'Звукове сповіщення про завершення дзвінка',
@@ -112,12 +111,13 @@ export default {
 		gatewayHostValidator: 'Має виглядати як IPv4 або FQDN',
 		ipValidator: 'Має виглядати як IPv4',
 		macValidator: 'Має виглядати як MAC',
-		minValue: 'Значення має бути не менше',
-		maxValue: 'Значення має бути не надто великим',
 		numeric: 'Мають бути цифри',
 		requiredArrayValue: 'Поле не може бути пустим',
 		isPositiveValue: 'Значення має бути додатнім числом',
 		cron: 'Некоректний cron-вираз',
+		hourRange: 'Години мають бути від 00 до 23',
+		timerangeStartLessThanEnd: 'Час Від не може бути більший ніж До',
+		timerangeNotIntersect: 'Інтервали часу в один день не можуть перетинатися',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файл містить некоректні номери. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -549,6 +549,7 @@ export default {
 				communications: "Тип зв'язку | Типи зв'язку",
 				allCommunications: "Всі типи зв'язку",
 				addCommunication: "Додати тип зв'язку",
+				missingCommunication: 'Будь ласка, додайте тип звʼязку',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -557,7 +558,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статуси оператора',
+				pauseCause: 'Причини паузи',
 				allPauseCause: 'Всі причини паузи оператора',
 				limit: 'Ліміт (хв)',
 				min: 'хвилин',
@@ -586,6 +587,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Швидка відповідь | Швидкі відповіді',
+			},
+			activityTypes: {
+				activityTypes: 'Тип активності | Типи активності',
 			},
 		},
 		routing: {
@@ -622,6 +626,7 @@ export default {
 				pattern: 'Номер призначення',
 				dialplanRule: 'Правило вихідного набору',
 				position: 'Позиція',
+				allowTransfer: 'Дозволити перевід',
 			},
 
 			chatplan: {
@@ -656,6 +661,10 @@ export default {
 				SIPregistrationsDescription: 'Опис SIP-реєстрації',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Опис SIP-транків',
+				errors: {
+					passwordInvalid:
+						"Пароль містить заборонені символи. Зарезервовані символи URI, пробіли, спецсимволи !*'()&$ не підтримуються.",
+				},
 			},
 
 			chatGateways: {
@@ -825,9 +834,14 @@ export default {
 				state: 'Статус',
 				chatCount: 'Кількість одночасних чатів',
 				taskCount: 'Кількість одночасних задач',
+				progressiveCountValidator:
+					'Значення повинно бути більше 1 або порожнім',
+				extraChatCount: 'Додаткова кількість чатів',
 				isSupervisor: 'Супервізор',
 				stateTime: 'Тривалість',
+				statusType: 'Тип статусу',
 				addSkill: 'Додати навичку',
+				editSkill: 'Редагувати навичку',
 				addSubordinate: 'Додати підлеглого оператора',
 				statusHistory: 'Історія станів',
 				historyState: 'Стан',
@@ -897,26 +911,42 @@ export default {
 				allMembers: 'Всі абоненти',
 				addMember: 'Додати абонента',
 				destination: 'Призначення',
+				communications: 'Комунікації',
 				display: 'Відображення номера',
 				dtmf: 'DTMF',
-				priority: 'Пріоритет',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Спроб',
 				emptyWorkspace: 'Абонентів не знайдено',
 				resetMembers: {
 					resetMembers: 'Перезапустити абонентів',
-					description:
-						'Ви впевнені, що бажаєте перезапустити усі неуспішні спроби повторно?',
+					description: {
+						question: 'Ви впевнені, що хочете перезапустити неуспішні спроби',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за увесь час?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за період з \n${named('dateFrom')} по ${named('dateTo')}\nз урахуванням встановлених фільтрів та результатів пошуку? `,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
+					descriptionCount: 'Буде оброблено записів: {count}',
+					emptyDescription:
+						'За поточними фільтрами немає невдалих спроб. Скидати немає чого.',
 					reset: 'Перезапустити',
 					successResetCount: 'Успішно перезапущено {count} абонентів',
 				},
+				exportMembers: {
+					exportMembers: 'Експорт абонентів',
+				},
 				endCause: {
-					abandoned: 'Втрачений',
-					timeout: 'Тайм-аут',
-					cancel: 'Скасований',
-					success: 'Успішний',
-					failed: 'Неуспішний',
-					missed: 'Пропущений',
-					expired: 'Час вийшов',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Імʼя',
@@ -957,6 +987,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Нова черга',
+				saveBeforeAddingRecords:
+					'Заповніть обов’язкові поля черги, перш ніж додавати записи',
 				newQueueDescription: 'Типи черг',
 				outboundIVRQueue: 'Вихідна IVR-черга',
 				outboundIVR: 'Вихідний IVR',
@@ -1004,7 +1036,7 @@ export default {
 				autoAnswerTone: 'Попереджувальний сигнал автоматичної відповіді',
 				varKey: 'Ключ',
 				varVal: 'Значення',
-				endCause: 'Причина припинення',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Передзвонити в',
 				destination: 'Призначення | Призначення',
 				expire: 'Закінчується',
@@ -1103,19 +1135,27 @@ export default {
 					offeringAt: 'Розподілення',
 					joinedAt: 'Початок',
 					leavingAt: 'Кінець',
-					duration: 'Тривалість',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Номер',
-					result: 'Результат',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Спроба',
 					resultName: {
-						abandoned: 'Втрачений',
-						cancel: 'Скасований',
-						success: 'Успішний',
-						failed: 'Неуспішний',
-						missed: 'Пропущений',
-						timeout: 'Тайм-аут',
-						endless: 'Нескінченний',
-						transferred: 'Переведений',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1170,6 +1210,7 @@ export default {
 				allResGroups: 'Всі групи ресурсів',
 				searchPlaceholder: 'назва групи ресурсів..',
 				addResGroup: 'Додати групу ресурсів',
+				editResGroup: 'Редагувати групу ресурсів',
 				strategy: 'Стратегія',
 				timerange: 'Інтервал',
 				timerangeFrom: 'Від',
@@ -1231,8 +1272,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медіа',
 					[StorageUploadFileChannel.MailChannel]: 'лист',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'запис екрана',
 				},
 				encryptFile: 'Шифрувати нові файли',
@@ -1320,6 +1359,7 @@ export default {
 				caseFiles: 'Файли звернення',
 				caseComments: 'Коментарі звернення',
 				caseLinks: 'Посилання звернення',
+				call: 'Дзвінок',
 				relatedCases: "Зв'язані звернення",
 				expression: 'Вираз',
 				timeout: 'Час очікування',
@@ -1335,6 +1375,7 @@ export default {
 						error: 'Помилка',
 					},
 				},
+				recordCall: 'Запис дзвінка',
 			},
 		},
 		system: {
@@ -1386,6 +1427,15 @@ export default {
 		queueType: 'Тип черги',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Скачати файли',
@@ -1422,6 +1472,10 @@ export default {
 		deleteAll: "Видалити всі об'єкти",
 		deleteSelected: "Видалити {count} обраних об'єктів",
 		deleteFiltered: "Видалити всі відфільтровані об'єкти",
+		resetAll: 'Перезапустити всіх абонентів',
+		resetSelected:
+			'Перезапустити {count} обраного абонента | Перезапустити {count} обраних абонентів',
+		resetFiltered: 'Перезапустити всіх відфільтрованих абонентів',
 		generate: 'Створити',
 		add: 'Додати',
 		history: 'Історія',

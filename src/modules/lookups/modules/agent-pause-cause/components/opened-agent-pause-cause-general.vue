@@ -1,78 +1,85 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
-        {{ $t('objects.generalInfo') }}
+  <section class="opened-agent-pause-cause-general">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.limitMin"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.pauseCause.limit')"
-        :model-value="itemInstance.limitMin"
-        @update:model-value="setItemProp({ prop: 'limitMin', value: $event })"
+        :label="t('objects.lookups.pauseCause.limit')"
+        :regle-validation="validationFields?.limitMin"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
-      <div class="form-checkbox-wrapper">
+      <div class="opened-agent-pause-cause-general__checkboxes">
         <wt-checkbox
+          v-model:selected="modelValue.allowAdmin"
           :disabled="disableUserInput"
-          :label="$t('objects.lookups.pauseCause.allowAdmin')"
-          :selected="itemInstance.allowAdmin"
-          @update:selected="setItemProp({ prop: 'allowAdmin', value: $event })"
+          :label="t('objects.lookups.pauseCause.allowAdmin')"
         />
         <wt-checkbox
+          v-model:selected="modelValue.allowSupervisor"
           :disabled="disableUserInput"
-          :label="$t('objects.lookups.pauseCause.allowSupervisor')"
-          :selected="itemInstance.allowSupervisor"
-          @update:selected="setItemProp({ prop: 'allowSupervisor', value: $event })"
+          :label="t('objects.lookups.pauseCause.allowSupervisor')"
         />
         <wt-checkbox
+          v-model:selected="modelValue.allowAgent"
           :disabled="disableUserInput"
-          :label="$t('objects.lookups.pauseCause.allowAgent')"
-          :selected="itemInstance.allowAgent"
-          @update:selected="setItemProp({ prop: 'allowAgent', value: $event })"
+          :label="t('objects.lookups.pauseCause.allowAgent')"
         />
       </div>
+      <wt-multi-select
+        v-model:model-value="modelValue.teams"
+        :disabled="disableUserInput"
+        :label="t('objects.team')"
+        :search-method="TeamsAPI.getLookup"
+        chips-view
+      />
     </div>
   </section>
 </template>
 
-<script>
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import { TeamsAPI } from '@webitel/api-services/api';
+import type { EngineAgentPauseCause } from '@webitel/api-services/gen/models';
+import { useI18n } from 'vue-i18n';
 
-export default {
-	name: 'OpenedAgentPauseCauseGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-};
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+
+const modelValue = defineModel<EngineAgentPauseCause>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: {
+		[K in keyof EngineAgentPauseCause]?: RegleSchemaFieldStatus<
+			EngineAgentPauseCause[K]
+		>;
+	};
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.form-checkbox-wrapper .wt-checkbox:not(:last-child) {
-  margin-bottom: var(--spacing-sm);
+<style scoped>
+.opened-agent-pause-cause-general__checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 </style>

@@ -44,8 +44,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 
-import FlowsAPI from '../api/flow';
-
+import { FlowsAPI } from '@webitel/api-services/api';
 export default {
 	name: 'UploadFlowPopup',
 	props: {

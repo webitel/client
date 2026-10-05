@@ -1,3 +1,4 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
@@ -9,8 +10,6 @@ const OpenedBlacklistGeneral = () =>
 	import('../components/opened-blacklist-general.vue');
 const OpenedBlacklistNumbers = () =>
 	import('../modules/numbers/components/opened-blacklist-numbers.vue');
-const PermissionsTab = () =>
-	import('../../../../_shared/permissions-tab/components/permissions-tab.vue');
 
 const BlacklistsRoutes = [
 	{

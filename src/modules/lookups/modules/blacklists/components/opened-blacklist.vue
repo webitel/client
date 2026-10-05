@@ -14,7 +14,7 @@
 
     <template #main>
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -22,7 +22,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -39,12 +50,14 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { WtObject } from '@webitel/ui-sdk/enums';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
 import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.js';
+import { useBlacklistsPermissionsStore } from '../stores/permissions/blacklistsPermissionsStore';
 import General from './opened-blacklist-general.vue';
 
 export default {
@@ -59,10 +72,24 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
+		const { hasReadAccess: hasReadListNumberAccess } = useUserAccessControl(
+			WtObject.ListNumber,
+		);
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+			hasReadListNumberAccess,
 		};
 	},
 
@@ -79,6 +106,23 @@ export default {
 	},
 
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === BlacklistRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useBlacklistsPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		tabs() {
 			const tabs = [
 				{
@@ -86,12 +130,13 @@ export default {
 					value: 'general',
 					pathName: BlacklistRouteNames.GENERAL,
 				},
-				{
-					text: this.$t('objects.lookups.blacklist.number', 2),
-					value: 'numbers',
-					pathName: BlacklistRouteNames.NUMBERS,
-				},
 			];
+
+			const numbers = {
+				text: this.$t('objects.lookups.blacklist.number', 2),
+				value: 'numbers',
+				pathName: BlacklistRouteNames.NUMBERS,
+			};
 
 			const permissions = {
 				text: this.$t('objects.permissions.permissions', 2),
@@ -99,6 +144,7 @@ export default {
 				pathName: BlacklistRouteNames.PERMISSIONS,
 			};
 
+			if (this.hasReadListNumberAccess) tabs.push(numbers);
 			if (this.id) tabs.push(permissions);
 			return tabs;
 		},

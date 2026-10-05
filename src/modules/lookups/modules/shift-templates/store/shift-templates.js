@@ -1,5 +1,5 @@
+import { ShiftTemplatesAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import ShiftTemplatesAPI from '../api/shiftTemplates.js';
 import headers from './_internals/headers';
 
 const resettableState = {

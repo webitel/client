@@ -1,5 +1,5 @@
 import { EngineTriggerObjectType } from '@webitel/api-services/gen';
-import { EngineTriggerEventType } from 'webitel-sdk';
+import { EngineTriggerEventType } from '@webitel/api-services/gen/models';
 
 import { TriggerEvents } from './TriggerEvents.lookup';
 
@@ -31,5 +31,8 @@ export const TriggerEventsByObjectConfig = {
 	[EngineTriggerObjectType.RelatedCases]: filterEventsByTypes([
 		EngineTriggerEventType.Create,
 		EngineTriggerEventType.Remove,
+	]),
+	[EngineTriggerObjectType.Call]: filterEventsByTypes([
+		EngineTriggerEventType.RecordCall,
 	]),
 } as const;

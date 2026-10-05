@@ -188,7 +188,12 @@ const apps = computed(() => {
 		pic: picCrm,
 	};
 
-	const allApps = [
+	const allApps: {
+		name: WtApplication;
+		title: string;
+		href: string;
+		pic: typeof picAgent;
+	}[] = [
 		agentApp,
 		supervisorApp,
 		historyApp,

@@ -1,12 +1,12 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.chatGateways.webchat.appointment.appointment') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-switcher
         :label="$t('objects.enabled')"
         :model-value="itemInstance.metadata.appointment.enabled"
@@ -99,13 +99,11 @@
 </template>
 
 <script>
+import { CommunicationsAPI, QueuesAPI } from '@webitel/api-services/api';
 import { mapActions } from 'vuex';
-
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import QueuesAPI from '../../../../../../contact-center/modules/queues/api/queues';
-import StatisticTimeList from '../../../../../../contact-center/modules/queues/store/_internals/lookups/StatisticTime.lookup';
-import CommunicationsAPI from '../../../../../../lookups/modules/communications/api/communications';
+import StatisticTimeList from '../../../../../../contact-center/modules/queues/lookups/StatisticTime.lookup';
 
 export default {
 	name: 'OpenedChatGatewayWebchatAppointmentTab',

@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="!hasCreateAccess"
+        :primary-disabled="!hasCreateAccess"
         :primary-action="create"
       >
         <wt-breadcrumb :path="path" />
@@ -56,7 +56,6 @@
           :src="dummy.src"
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
-          class="dummy-wrapper"
           @create="create"
         />
         <div
@@ -138,8 +137,7 @@
 
 <script>
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
-import IconAction from '@webitel/ui-sdk/src/enums/IconAction/IconAction.enum.js';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { formatDate } from '@webitel/ui-sdk/utils';

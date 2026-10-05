@@ -11,8 +11,8 @@
       <wt-button
         v-tooltip="t('objects.directory.users.logout.tooltip')"
         :disabled="disabled"
+        :wide="wide"
         color="error"
-        wide
         @click="openPopup"
       >
         {{ buttonText }}
@@ -29,10 +29,10 @@
 </template>
 
 <script setup lang="ts">
+import { UsersAPI } from '@webitel/api-services/api';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import UsersAPI from '../../directory/modules/users/api/users';
 import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
 import LogoutConfirmationPopup from './logout-confirmation-popup.vue';
 
@@ -41,10 +41,12 @@ const props = withDefaults(
 		id: string;
 		mySessions?: boolean;
 		disabled?: boolean;
+		wide?: boolean;
 	}>(),
 	{
 		mySessions: false,
 		disabled: false,
+		wide: false,
 	},
 );
 

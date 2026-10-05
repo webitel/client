@@ -1,8 +1,8 @@
 <template>
   <section>
-    <header class="content-header">
+    <header class="opened-card-header">
       <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
-      <h3 class="content-title typo-heading-4">
+      <h3 class="opened-card-header__title">
         {{
           $t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
         }}
@@ -13,7 +13,7 @@
         <header class="webchat-alternative-channels-section-header typo-heading-3">
           {{ $t('objects.routing.chatGateways.webchat.alternativeChannels.title') }}
         </header>
-        <div class="object-input-grid object-input-grid__1-col">
+        <div class="opened-card-input-grid opened-card-input-grid--1-col">
           <div
             v-for="(channel) of alternativeChannels"
             :key="channel"
@@ -49,7 +49,7 @@
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.enabled', value: $event })"
           />
         </div>
-        <div class=" object-input-grid object-input-grid__1-col">
+        <div class="opened-card-input-grid opened-card-input-grid--1-col">
           <wt-input-text
             :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
             :label="$t('objects.routing.chatGateways.webchat.call.url')"
@@ -58,9 +58,9 @@
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.url', value: $event })"
           />
           <wt-single-select
-            :disabled="disableUserInput || !itemInstance.metadata.call.enabled"
+            :disabled="disableCallFlowInput"
             :label="$t('objects.routing.flow.flow', 1)"
-            :search-method="loadCallFlows"
+            :search-method="hasFlowsReadAccess && loadCallFlows"
             :v="v.itemInstance.metadata.call.flow"
             :model-value="itemInstance.metadata.call.flow"
             @update:model-value="setWebchatMetadata({ path: 'metadata.call.flow', value: $event })"
@@ -72,12 +72,12 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { mapActions } from 'vuex';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
-
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../../../flow/api/flow';
 import WebchatAlternativeChannel from '../../../enum/WebchatAlternativeChannel.enum';
 import uriCopyMixin from '../../../mixins/uriCopyMixin';
 
@@ -89,9 +89,22 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
+	},
+	computed: {
+		disableCallFlowInput() {
+			return (
+				this.disableUserInput ||
+				!this.hasFlowsReadAccess ||
+				!this.itemInstance.metadata.call.enabled
+			);
+		},
 	},
 	data: () => ({
 		alternativeChannels: Object.values(WebchatAlternativeChannel),
@@ -136,14 +149,15 @@ export default {
 				return dispatch(`${this.namespace}/SET_WEBCHAT_ITEM_METADATA`, payload);
 			},
 		}),
-		loadCallFlows: (params) =>
-			FlowsAPI.getLookup({
+		loadCallFlows(params) {
+			return FlowsAPI.getLookup({
 				...params,
 				type: [
 					EngineRoutingSchemaType.Voice,
 					EngineRoutingSchemaType.Default,
 				],
-			}),
+			});
+		},
 		handleUrlInput({ channel, value }) {
 			this.setAltChannelValue({
 				channel,

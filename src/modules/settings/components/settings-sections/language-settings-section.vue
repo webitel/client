@@ -33,7 +33,7 @@ import { useI18n } from 'vue-i18n';
 
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
 
-const { t, locale, fallbackLocale } = useI18n();
+const { t, locale } = useI18n();
 
 const languageOptions = computed(() =>
 	Object.values(TranslationLocale).map((locale) => ({

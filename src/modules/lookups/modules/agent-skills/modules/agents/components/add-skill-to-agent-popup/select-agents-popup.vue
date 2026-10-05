@@ -99,6 +99,7 @@
 </template>
 
 <script setup>
+import { AgentsAPI, SkillsAPI, TeamsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import {
@@ -108,9 +109,6 @@ import {
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
-import AgentsAPI from '../../../../../../../contact-center/modules/agents/api/agents';
-import TeamsAPI from '../../../../../../../contact-center/modules/teams/api/teams';
-import SkillsAPI from '../../../../api/agentSkills';
 
 const props = defineProps({
 	skillId: {

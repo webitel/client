@@ -23,7 +23,12 @@ export const useNavStore = defineStore('nav', () => {
 	const { t } = useI18n();
 	const router = useRouter();
 
-	const { routeAccessGuard } = useUserinfoStore();
+	// TODO(types): ui-sdk types routeAccessGuard as a vue-router NavigationGuard
+	// (to, from, next), but it is actually a synchronous predicate `(route) => boolean`.
+	// Assert its real shape here so the single-arg calls below type-check.
+	const routeAccessGuard = useUserinfoStore().routeAccessGuard as unknown as (
+		route: ReturnType<typeof router.resolve>,
+	) => boolean;
 
 	const isInitialized = ref(false);
 

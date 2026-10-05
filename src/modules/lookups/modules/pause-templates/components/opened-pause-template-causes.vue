@@ -51,12 +51,10 @@
 </template>
 
 <script>
+import { AgentPauseCausesAPI as AgentPauseCauseAPI } from '@webitel/api-services/api';
 import { mapActions } from 'vuex';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import AgentPauseCauseAPI from '../../agent-pause-cause/api/agentPauseCause.js';
-
 export default {
 	name: 'OpenedPauseTemplateCauses',
 	mixins: [

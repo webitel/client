@@ -1,5 +1,5 @@
+import { SchemaVariablesAPI as GlobalVariablesAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import GlobalVariablesAPI from '../api/global-variables';
 import headers from './_internals/headers';
 
 const actions = {

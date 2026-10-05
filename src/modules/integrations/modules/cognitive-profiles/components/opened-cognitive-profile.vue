@@ -17,7 +17,7 @@
 
     <template #main>
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -25,7 +25,18 @@
           :tabs="tabs"
           @change="changeTab"
         />
+        <router-view
+          v-if="isPermissionsTab"
+          v-slot="{ Component }"
+        >
+          <component
+            v-if="Component"
+            :is="Component"
+            v-bind="permissionsStoreData"
+          />
+        </router-view>
         <component
+          v-else
           :is="currentTab && currentTab.value"
           :namespace="namespace"
           :v="v$"
@@ -42,13 +53,14 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf, requiredUnless } from '@vuelidate/validators';
+import { StorageProviderType } from '@webitel/api-services/gen/models';
 import deepmerge from 'deepmerge';
-import { StorageProviderType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
 import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
+import { useCognitiveProfilesPermissionsStore } from '../stores/permissions/cognitiveProfilesPermissionsStore';
 import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
 import Google from './google/opened-cognitive-profile-google.vue';
 import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
@@ -66,10 +78,21 @@ export default {
 
 	setup: () => {
 		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
+		const {
+			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
+		} = useUserAccessControl();
+
 		return {
 			v$,
 			hasSaveActionAccess,
+			hasReadAccess,
+			hasCreateAccess,
+			hasUpdateAccess,
+			hasDeleteAccess,
 		};
 	},
 	data: () => ({
@@ -133,6 +156,23 @@ export default {
 	},
 
 	computed: {
+		isPermissionsTab() {
+			return this.$route.name === CognitiveProfilesRouteNames.PERMISSIONS;
+		},
+
+		permissionsStoreData() {
+			return {
+				store: useCognitiveProfilesPermissionsStore,
+				access: {
+					read: this.hasReadAccess,
+					create: this.hasCreateAccess,
+					update: this.hasUpdateAccess,
+					delete: this.hasDeleteAccess,
+				},
+				parentId: this.$route.params.id,
+			};
+		},
+
 		showPage() {
 			return this.provider !== null;
 		},

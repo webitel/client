@@ -1,122 +1,125 @@
 <template>
-  <wt-popup v-bind="$attrs" size="sm" :shown="!!hookId" overflow @close="close">
+  <wt-popup
+    v-bind="$attrs"
+    :shown="!!hookId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
-        <wt-single-select v-model:model-value="event" :show-clear="false" :label="$t('objects.ccenter.queues.hooks.event')"
-          :options="eventOptions" :v="v$.itemInstance.event" required data-key="value" />
-        <wt-single-select :show-clear="false" :label="$t('objects.routing.flow.flow', 1)" :search-method="loadFlowOptions"
-          :v="v$.itemInstance.schema" :model-value="itemInstance.schema" required
-          @update:model-value="setItemProp({ prop: 'schema', value: $event })" />
+      <form class="opened-card-input-grid opened-card-input-grid--1-col" @submit.prevent="save">
+        <wt-single-select
+          v-model:model-value="modelValue.event"
+          :label="t('objects.ccenter.queues.hooks.event')"
+          :options="eventOptions"
+          :regle-validation="validationFields?.event"
+          :show-clear="false"
+          data-key="value"
+          option-value="value"
+          required
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.schema"
+          :disabled="!hasFlowsReadAccess"
+          :label="t('objects.routing.flow.flow', 1)"
+          :regle-validation="validationFields?.schema"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
+          :show-clear="false"
+          required
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.save') }}
+      <wt-button
+        :disabled="!hasSaveActionAccess || hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        color="secondary"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
+<script lang="ts" setup>
+import { FlowsAPI } from '@webitel/api-services/api';
+import type { EngineQueueHook } from '@webitel/api-services/gen/models';
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import FlowsAPI from '../../../../../../routing/modules/flow/api/flow';
-import HookEvent from '../enum/HookQueueEvent.enum';
+import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
+import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
+import { HookQueueEvent } from '../enums/HookQueueEvent.enum';
+import { useQueueHooksCardStore } from '../stores/card/queueHooksCardStore';
 
-export default {
-	name: 'OpenedQueueHooksPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	data: () => ({
-		namespace: 'ccenter/queues/hooks',
-	}),
-	validations: {
-		itemInstance: {
-			event: {
-				required,
-			},
-			schema: {
-				required,
-			},
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	computed: {
-		eventOptions() {
-			return Object.values(HookEvent).map((event) => ({
-				name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-				value: event,
-			}));
-		},
-		event: {
-			get() {
-				const { event } = this.itemInstance;
-				return event
-					? {
-							name: this.$t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
-							value: event,
-						}
-					: {};
-			},
-			set(value) {
-				this.setItemProp({
-					prop: 'event',
-					value: value.value,
-				});
-			},
-		},
-		popupTitle() {
-			const action = this.id
-				? this.$t('reusable.edit')
-				: this.$t('reusable.add');
-			return (
-				action +
-				' ' +
-				this.$t('objects.ccenter.queues.hooks.hooks', 1).toLowerCase()
-			);
-		},
-		hookId() {
-			return this.$route.params.hookId;
-		},
-	},
-	watch: {
-		hookId: {
-			handler(id) {
-				this.handleIdChange(id);
-			},
-			immediate: true,
-		},
-	},
+const { hasSaveActionAccess } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
 
-	methods: {
-		loadFlowOptions(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [
-					EngineRoutingSchemaType.Service,
-				],
-			});
-		},
-	},
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineQueueHook>({
+	useCardStore: useQueueHooksCardStore,
+	routeParamName: 'hookId',
+	parentId: route.params.id as string,
+});
+
+const hookId = computed(() => route.params.hookId);
+
+const eventOptions = computed(() =>
+	Object.values(HookQueueEvent).map((event) => ({
+		name: t(`objects.ccenter.queues.hooks.eventTypes.${event}`),
+		value: event,
+	})),
+);
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.ccenter.queues.hooks.hooks', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(QueuesRoutesName.HOOKS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadFlowOptions = (params: object) =>
+	FlowsAPI.getLookup({
+		...params,
+		type: [
+			EngineRoutingSchemaType.Service,
+		],
+	});
 </script>
 
 <style lang="scss" scoped></style>

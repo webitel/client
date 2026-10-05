@@ -1,108 +1,99 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!supervisorId" size="sm" overflow @close="close">
+  <wt-popup
+    :shown="!!supervisorId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
-        <wt-single-select :show-clear="false" :label="$t('objects.ccenter.agents.agents', 1)" :search-method="loadAgentsOptions"
-          :v="v$.itemInstance.agent" :model-value="itemInstance.agent" required
-          @update:model-value="setItemProp({ prop: 'agent', value: $event })" />
+      <form @submit.prevent="save">
+        <wt-single-select
+          v-model:model-value="modelValue.agent"
+          :label="t('objects.ccenter.agents.agents', 1)"
+          :regle-validation="validationFields?.agent"
+          :search-method="loadSupervisorOptions"
+          :show-clear="false"
+          required
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.add') }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.add') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        :color="ButtonColor.SECONDARY"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { mapState } from 'vuex';
+<script lang="ts" setup>
+import type { EngineLookup } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-import AgentsAPI from '../../../../agents/api/agents';
+import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum';
+import { TeamSupervisorsAPI } from '../api/teamSupervisors';
+import { useTeamSupervisorsCardStore } from '../stores/card/teamSupervisorsCardStore';
 
-export default {
-	name: 'OpenedTeamAgentsPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const props = defineProps<{
+	parentId?: string | number | null;
+}>();
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
+const emit = defineEmits<{
+	saved: [];
+}>();
 
-	data: () => ({
-		namespace: 'ccenter/teams/supervisors',
-	}),
-	validations: {
-		itemInstance: {
-			agent: {
-				required,
-			},
-		},
-	},
+const { t } = useI18n();
+const route = useRoute();
 
-	computed: {
-		...mapState({
-			parentId(state) {
-				return getNamespacedState(state, this.namespace).parentId;
-			},
-		}),
-		popupTitle() {
-			return this.id
-				? this.$t('objects.ccenter.teams.supervisors.editSupervisor')
-				: this.$t('objects.ccenter.teams.supervisors.addSupervisor');
-		},
-		supervisorId() {
-			return this.$route.params.supervisorId;
-		},
-	},
-	watch: {
-		supervisorId: {
-			handler(id) {
-				if (id === 'new') {
-					this.resetState();
-				} else if (id) {
-					this.setId(id);
-					this.loadItem();
-				}
-			},
-			immediate: true,
-		},
-	},
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<{
+	agent?: EngineLookup;
+}>({
+	useCardStore: useTeamSupervisorsCardStore,
+	routeParamName: 'supervisorId',
+	parentId: () => props.parentId,
+});
 
-	methods: {
-		async loadAgentsOptions(params) {
-			const fields = [
-				'id',
-				'user',
-			];
-			const response = await AgentsAPI.getSupervisorOptions({
-				...params,
-				fields,
-				notTeamId: this.parentId,
-			});
-			response.items = response.items.map(({ user, id }) => ({
-				name: user.name,
-				id,
-			}));
-			return response;
-		},
-	},
+const supervisorId = computed(() => route.params.supervisorId);
+
+const popupTitle = computed(() =>
+	isNew.value
+		? t('objects.ccenter.teams.supervisors.addSupervisor')
+		: t('objects.ccenter.teams.supervisors.editSupervisor'),
+);
+
+const loadSupervisorOptions = (params: object) =>
+	TeamSupervisorsAPI.getTeamSupervisorOptions({
+		...params,
+		teamId: props.parentId,
+	});
+
+const { close } = useClose(TeamsRouteNames.SUPERVISORS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
 </script>
-
-<style lang="scss" scoped></style>

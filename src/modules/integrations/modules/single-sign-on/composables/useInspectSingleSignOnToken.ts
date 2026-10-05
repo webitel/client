@@ -3,7 +3,7 @@ const INTERVAL = 300;
 const STORAGE_KEY = 'ssoInspectToken';
 
 export const useInspectSingleSignOnToken = () => {
-	const getUrl = (id: number) => `/api/login/${id}/inspect`;
+	const getUrl = (id: string) => `/api/login/${id}/inspect`;
 
 	const parseTokenData = (tab) => {
 		const bodyText = tab.document.body?.textContent?.trim();
@@ -12,16 +12,24 @@ export const useInspectSingleSignOnToken = () => {
 		return JSON.parse(bodyText);
 	};
 
-	const getTokenDataFromStorage = () => {
-		const tokenData = localStorage.getItem(STORAGE_KEY);
-		return tokenData ? JSON.parse(tokenData) : null;
+	const getToken = () => {
+		const token = localStorage.getItem(STORAGE_KEY);
+		return token ? JSON.parse(token) : {};
 	};
 
-	const setTokenDataToStorage = (data) => {
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+	const getTokenDataFromStorage = (id: string) => getToken()[id] ?? null;
+
+	const setTokenDataToStorage = (id: string, data) => {
+		const allTokens = getToken();
+		allTokens[id] = data;
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(allTokens));
 	};
 
-	const watchSsoTab = (tab: Window, onResult: (data: any) => void) => {
+	const watchSsoTab = (
+		id: string,
+		tab: Window,
+		onResult: (data: any) => void,
+	) => {
 		const startTime = Date.now();
 		let intervalId: ReturnType<typeof setInterval>;
 		let finished = false;
@@ -48,7 +56,7 @@ export const useInspectSingleSignOnToken = () => {
 			}
 			if (!data) return;
 
-			setTokenDataToStorage(data);
+			setTokenDataToStorage(id, data);
 			finish(data);
 		};
 
@@ -56,14 +64,14 @@ export const useInspectSingleSignOnToken = () => {
 		if (!finished) intervalId = setInterval(check, INTERVAL);
 	};
 
-	const inspectToken = (id: number, onResult: (data: any) => void) => {
+	const inspectToken = (id: string, onResult: (data: any) => void) => {
 		const tab = window.open(getUrl(id), '_blank');
 		if (!tab) {
 			onResult(null);
 			return;
 		}
 
-		watchSsoTab(tab, onResult);
+		watchSsoTab(id, tab, onResult);
 	};
 
 	return {

@@ -17,11 +17,16 @@
 import { CalendarsAPI } from '@webitel/api-services/api';
 import UserSettingsAPI from '@webitel/ui-sdk/src/modules/Userinfo/api/UserSettingsAPI';
 import { TIMEZONE_STORAGE_KEY } from '@webitel/ui-sdk/src/modules/Userinfo/constants/UserSettingsConstants';
-import type { Timezone } from '@webitel/ui-sdk/src/modules/Userinfo/types/UserSettings';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import SettingsSectionWrapper from './utils/settings-section-wrapper.vue';
+
+// TODO(types): ui-sdk does not ship a Userinfo/UserSettings module; getTimezonesLookup
+// returns `items: any`. Minimal shape covering the only field used here.
+interface Timezone {
+	name: string;
+}
 
 const { t } = useI18n();
 

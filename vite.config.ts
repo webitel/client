@@ -11,7 +11,7 @@ import { vite as vidstack } from 'vidstack/plugins';
 // https://vitejs.dev/config/
 export default ({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
-	const isStagingEnv = !!env.VITE_STAGING_ENV;
+	const isStagingEnv = env.VITE_STAGING_ENV === 'true';
 
 	return defineConfig({
 		build: {
@@ -21,6 +21,7 @@ export default ({ mode }) => {
 		optimizeDeps: {
 			include: [
 				'deep-equal',
+				'webitel-sdk',
 			],
 		},
 		server: {
@@ -30,13 +31,11 @@ export default ({ mode }) => {
 			alias: {
 				vue: '@vue/compat',
 				'@': resolve(__dirname, 'src'),
-				'@aliasedDeps/api-services/axios': resolve(
-					__dirname,
-					'src/app/api/instance',
-				),
+				lodash: 'lodash-es',
 			},
 			dedupe: [
 				'vue',
+				'zod',
 				'@vue/compat',
 				'vidstack',
 			],

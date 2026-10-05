@@ -41,10 +41,10 @@ import { useI18n } from 'vue-i18n';
 
 interface Props {
 	title?: string;
+	// no index signature: the rows are generated api models, which have none
 	dataList?: Array<{
 		id?: string | number;
 		name?: string;
-		[key: string]: unknown;
 	}>;
 	headers?: Array<{
 		value: string;

@@ -70,12 +70,10 @@ export default {
 		webPhone: 'Điện thoại Web',
 		useWebPhone: 'Sử dụng điện thoại Web',
 		useStun: 'Sử dụng STUN',
-		volumeLeveling: 'Cân bằng âm lượng',
-		echoCancellation: 'Khử tiếng vọng',
-		noiseReduction: 'Giảm tiếng ồn',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Âm thanh tin nhắn mới',
 			[NotificationType.NewChatSound]: 'Âm thanh chat mới',
+			[NotificationType.SelfAssignedCallSound]: 'Âm thanh cuộc gọi tự nhận',
 			[NotificationType.ChatEndSound]: 'Âm thanh kết thúc chat',
 			[NotificationType.CallEndSound]: 'Âm thanh kết thúc cuộc gọi',
 			[NotificationType.TaskEndSound]: 'Âm thanh kết thúc nhiệm vụ',
@@ -108,12 +106,14 @@ export default {
 		gatewayHostValidator: 'Phải giống IPv4 hoặc FQDN',
 		ipValidator: 'Phải giống IPv4',
 		macValidator: 'Phải giống MAC',
-		minValue: 'Giá trị phải ít nhất là',
-		maxValue: 'Giá trị không được lớn hơn',
 		numeric: 'Phải là số',
 		requiredArrayValue: 'Mảng không được rỗng',
 		isPositiveValue: 'Giá trị phải là số dương',
 		cron: 'Biểu thức cron không hợp lệ',
+		hourRange: 'Giờ phải từ 00 đến 23',
+		timerangeStartLessThanEnd: 'Thời gian "Từ" không được muộn hơn "Đến"',
+		timerangeNotIntersect:
+			'Các khoảng thời gian trong cùng một ngày không được chồng chéo',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -540,6 +540,7 @@ export default {
 				communications: 'Loại liên lạc',
 				allCommunications: 'Tất cả loại liên lạc',
 				addCommunication: 'Thêm liên lạc',
+				missingCommunication: 'Vui lòng thêm loại liên lạc',
 				code: 'Mã',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Điện thoại',
@@ -548,7 +549,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Trạng thái của đại lý',
+				pauseCause: 'Lý do tạm dừng',
 				allPauseCause: 'Tất cả nguyên nhân tạm dừng đại lý',
 				limit: 'Giới hạn (phút)',
 				min: 'phút',
@@ -577,6 +578,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Trả lời nhanh',
+			},
+			activityTypes: {
+				activityTypes: 'Loại hoạt động | Loại hoạt động',
 			},
 		},
 		routing: {
@@ -612,6 +616,7 @@ export default {
 				pattern: 'Số điện thoại đích',
 				dialplanRule: 'Quy tắc lịch sử cuộc gọi',
 				position: 'Vị trí',
+				allowTransfer: 'Cho phép chuyển tiếp',
 			},
 
 			chatplan: {
@@ -645,6 +650,10 @@ export default {
 				SIPregistrationsDescription: 'Mô tả đăng ký SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Mô tả trunking SIP',
+				errors: {
+					passwordInvalid:
+						"Mật khẩu chứa ký tự không hợp lệ. Không được phép dùng các ký hiệu URI dành riêng, khoảng trắng và ký tự đặc biệt như (! * ' ( ) & $).",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -812,10 +821,14 @@ export default {
 				allAgents: 'Tất cả đại lý',
 				chatCount: 'Số cuộc trò chuyện',
 				taskCount: 'Số nhiệm vụ',
+				progressiveCountValidator: 'Giá trị phải lớn hơn 1 hoặc để trống',
+				extraChatCount: 'Số cuộc trò chuyện bổ sung',
 				state: 'Trạng thái',
 				isSupervisor: 'Giám sát',
 				stateTime: 'Thời gian trạng thái',
+				statusType: 'Loại trạng thái',
 				addSkill: 'Thêm kỹ năng',
+				editSkill: 'Sửa kỹ năng',
 				statusHistory: 'Lịch sử trạng thái',
 				historyState: 'Trạng thái',
 				payload: 'Nguyên nhân',
@@ -885,26 +898,43 @@ export default {
 				allMembers: 'Tất cả thành viên',
 				addMember: 'Thêm thành viên',
 				destination: 'Đích',
+				communications: 'Liên lạc',
 				display: 'Số hiển thị',
 				dtmf: 'DTMF',
-				priority: 'Ưu tiên',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Lần thử',
 				emptyWorkspace: 'Không tìm thấy thành viên nào',
 				resetMembers: {
 					resetMembers: 'Đặt lại thử',
-					description:
-						'Bạn có chắc chắn muốn đặt lại thử của thành viên thất bại?',
+					description: {
+						question:
+							'Bạn có chắc chắn muốn đặt lại các lần thử không thành công',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} mà không có giới hạn ngày nào không?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} từ\n${named('dateFrom')} đến ${named('dateTo')}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} không?`,
+					},
+					descriptionCount: '{count} bản ghi sẽ bị ảnh hưởng.',
+					emptyDescription:
+						'Không có lần thử không thành công nào khớp với bộ lọc hiện tại. Không có gì để đặt lại.',
 					reset: 'Đặt lại',
 					successResetCount: 'Đặt lại thành công {count} thành viên',
 				},
+				exportMembers: {
+					exportMembers: 'Xuất thành viên',
+				},
 				endCause: {
-					abandoned: 'Bỏ qua',
-					timeout: 'Hết thời gian',
-					cancel: 'Hủy',
-					success: 'Thành công',
-					failed: 'Thất bại',
-					missed: 'Bỏ qua',
-					expired: 'Hết hạn',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					timezoneId: ({ linked }) => linked('date.timezone'),
@@ -941,6 +971,8 @@ export default {
 				teams: 'Đội',
 				tags: 'Thẻ',
 				newQueue: 'Hàng đợi mới',
+				saveBeforeAddingRecords:
+					'Điền các trường bắt buộc của hàng đợi trước khi thêm bản ghi',
 				blacklist: 'Danh sách dừng',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -992,7 +1024,7 @@ export default {
 				autoAnswerTone: 'Âm thanh cảnh báo tự động',
 				varKey: 'Khóa',
 				varVal: 'Giá trị',
-				endCause: 'Nguyên nhân kết thúc',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Đặt lịch tại',
 				destination: 'Đích',
 				expire: 'Hạn',
@@ -1088,19 +1120,27 @@ export default {
 					offeringAt: 'Đặt lịch',
 					joinedAt: 'Bắt đầu',
 					leavingAt: 'Kết thúc',
-					duration: 'Thời gian',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Số lượt xem',
-					result: 'Kết quả',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Lần thử',
 					resultName: {
-						abandoned: 'Bỏ qua',
-						cancel: 'Hủy',
-						success: 'Thành công',
-						failed: 'Thất bại',
-						missed: 'Bỏ qua',
-						timeout: 'Hết thời gian',
-						endless: 'Vô hạn',
-						transferred: 'Chuyển đổi',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1155,6 +1195,7 @@ export default {
 				allResGroups: 'Tất cả nhóm tài nguyên',
 				searchPlaceholder: 'tên nhóm tài nguyên..',
 				addResGroup: 'Thêm nhóm tài nguyên',
+				editResGroup: 'Sửa nhóm tài nguyên',
 				strategy: 'Chiến lược',
 				timerange: 'Khoảng thời gian',
 				timerangeFrom: 'Từ',
@@ -1216,8 +1257,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'phương tiện',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ghi màn hình',
 				},
 				encryptFile: 'Mã hóa tệp mới',
@@ -1308,6 +1347,7 @@ export default {
 				caseFiles: 'Tệp trường hợp',
 				caseComments: 'Bình luận trường hợp',
 				caseLinks: 'Liên kết trường hợp',
+				call: 'Cuộc gọi',
 				relatedCases: 'Trường hợp liên quan',
 				expression: 'Biểu thức',
 				timeout: 'Hết thời gian',
@@ -1323,6 +1363,7 @@ export default {
 						error: 'Lỗi',
 					},
 				},
+				recordCall: 'Ghi âm cuộc gọi',
 			},
 		},
 		system: {
@@ -1375,6 +1416,15 @@ export default {
 		queueType: 'Loại hàng đợi',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Tải xuống tệp',
@@ -1411,6 +1461,9 @@ export default {
 		deleteAll: 'Xóa tất cả các mục',
 		deleteSelected: 'Xóa {count} mục được chọn',
 		deleteFiltered: 'Xóa tất cả các mục được lọc',
+		resetAll: 'Đặt lại tất cả thành viên',
+		resetSelected: 'Đặt lại {count} thành viên đã chọn',
+		resetFiltered: 'Đặt lại tất cả thành viên đã lọc',
 		generate: 'Tạo',
 		add: 'Thêm',
 		history: 'Lịch sử',

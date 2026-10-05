@@ -1,5 +1,5 @@
+import { ChatplansAPI as ChatplanAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import ChatplanAPI from '../api/chatplan';
 import headers from './_internals/headers';
 
 const resettableState = {

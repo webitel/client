@@ -1,85 +1,64 @@
 <template>
   <wt-popup
     class="token-created-popup"
-    v-bind="$attrs"
-    @close="close"
+    shown
+    @close="emit('close')"
   >
     <template #title>
-      {{ $t('objects.directory.users.tokenPopupHeader') }}
+      {{ t('objects.directory.users.tokenPopupHeader') }}
     </template>
     <template #main>
-      <div class="token-created-popup__token__wrapper">
-        <div class="token-created-popup__token__token typo-subtitle-2">
-          {{ token }}
-        </div>
+      <div class="token-created-popup__token typo-subtitle-2">
+        {{ token }}
       </div>
       <h4 class="token-created-popup__text typo-body-1">
-        {{ $t('objects.directory.users.tokenPopupText') }}
+        {{ t('objects.directory.users.tokenPopupText') }}
       </h4>
     </template>
     <template #actions>
       <wt-button @click="copy">
-        {{ $t('objects.directory.users.tokenPopupCopy') }}
+        {{ t('objects.directory.users.tokenPopupCopy') }}
       </wt-button>
       <wt-button
-        class="button-save"
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="saveTxt"
       >
-        {{ $t('objects.directory.users.tokenPopupSave') }}
+        {{ t('objects.directory.users.tokenPopupSave') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import clipboardCopy from 'clipboard-copy';
-import { mapState } from 'vuex';
+import { useI18n } from 'vue-i18n';
 
 import { downloadAsTXT } from '../../../../../../../app/utils/download';
 
-export default {
-	name: 'OpenedUserTokenCreatedPopup',
+const props = defineProps<{
+	token: string;
+	userName?: string;
+}>();
 
-	computed: {
-		...mapState('directory/users', {
-			userName: (state) => state.itemInstance.name,
-		}),
-		...mapState('directory/users/tokens', {
-			token: (state) => state.itemInstance.token,
-		}),
-	},
+const emit = defineEmits<{
+	close: [];
+}>();
 
-	methods: {
-		copy() {
-			clipboardCopy(this.token);
-		},
+const { t } = useI18n();
 
-		async saveTxt() {
-			const filename = `${this.userName}-token`;
-			downloadAsTXT(this.token, filename);
-		},
+const copy = () => clipboardCopy(props.token);
 
-		close() {
-			this.$emit('close');
-		},
-	},
-};
+const saveTxt = () => downloadAsTXT(props.token, `${props.userName}-token`);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.token-created-popup__token__wrapper {
-  width: 75%;
-  margin: 10px auto 30px;
-  padding: 20px;
-  border: 2px solid var(--false-color);
-  border-radius: 10px;
-}
-
-.token-created-popup__token__token {
+<style scoped>
+.token-created-popup__token {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border: 2px solid var(--error-color);
+  border-radius: var(--border-radius--md);
   text-align: center;
+  word-break: break-all;
 }
 </style>

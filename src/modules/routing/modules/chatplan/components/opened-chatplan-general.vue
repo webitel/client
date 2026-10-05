@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -16,9 +16,9 @@
       />
       <wt-single-select
         :show-clear="false"
-        :disabled="disableUserInput"
+        :disabled="disableUserInput || !hasFlowsReadAccess"
         :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="loadFlows"
+        :search-method="hasFlowsReadAccess && loadFlows"
         :v="v.itemInstance.schema"
         :model-value="itemInstance.schema"
         required
@@ -35,10 +35,10 @@
 </template>
 
 <script>
+import { FlowsAPI } from '@webitel/api-services/api';
+import { WtObject } from '@webitel/ui-sdk/enums';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import FlowsAPI from '../../flow/api/flow';
-
 export default {
 	name: 'OpenedChatplan',
 	mixins: [
@@ -46,8 +46,12 @@ export default {
 	],
 	setup: () => {
 		const { disableUserInput } = useUserAccessControl();
+		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+			WtObject.Flow,
+		);
 		return {
 			disableUserInput,
+			hasFlowsReadAccess,
 		};
 	},
 	methods: {

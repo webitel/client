@@ -5,7 +5,7 @@
   >
     <template #header>
       <wt-page-header
-        :hide-primary="!hasCreateAccess"
+        :primary-disabled="!hasCreateAccess"
         :primary-action="create"
       >
         <wt-breadcrumb :path="path" />
@@ -56,7 +56,6 @@
 
         <wt-dummy
           v-if="dummy && isLoaded"
-          class="dummy-wrapper"
           :src="dummy.src"
           :text="dummy.text && $t(dummy.text)"
           :dark-mode="darkMode"

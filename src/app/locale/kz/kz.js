@@ -70,12 +70,11 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'WebPhone пайдалану',
 		useStun: 'STUN пайдалану',
-		volumeLeveling: 'Дыбысты теңестіру',
-		echoCancellation: 'Жаңғырықты жою',
-		noiseReduction: 'Шуды азайту',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Жаңа хабарлама дыбысы',
 			[NotificationType.NewChatSound]: 'Жаңа чат дыбысы',
+			[NotificationType.SelfAssignedCallSound]:
+				'Өзіне тағайындалған қоңырау дыбысы',
 			[NotificationType.ChatEndSound]: 'Чат аяқталған дыбыс',
 			[NotificationType.CallEndSound]: 'Қоңырау аяқталған дыбыс',
 			[NotificationType.TaskEndSound]: 'Тапсырма аяқталған дыбыс',
@@ -108,12 +107,15 @@ export default {
 		gatewayHostValidator: 'IPv4 немесе FQDN тәрізді болуы керек',
 		ipValidator: 'IPv4 тәрізді болуы керек',
 		macValidator: 'MAC тәрізді болуы керек',
-		minValue: 'Мән ең кем дегенде болуы керек',
-		maxValue: 'Мән ең көп емес болуы керек',
 		numeric: 'Сан болуы керек',
 		requiredArrayValue: 'Массив бос болмауы керек',
 		isPositiveValue: 'Мән оң сан болуы керек',
 		cron: 'Крон өрнегі қате',
+		hourRange: 'Сағат 00-ден 23-ке дейін болуы керек',
+		timerangeStartLessThanEnd:
+			'"Бастап" уақыты "Дейін" уақытынан кеш болмауы керек',
+		timerangeNotIntersect:
+			'Бір күннің уақыт аралықтары бір-бірімен қиыспауы керек',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Файлда қате нөмірлер бар. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -537,6 +539,7 @@ export default {
 				communications: 'Коммуникация түрі | Коммуникация түрлері',
 				allCommunications: 'Барлық коммуникация түрлері',
 				addCommunication: 'Коммуникация қосу',
+				missingCommunication: 'Коммуникация түрін қосыңыз',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -545,7 +548,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Агент күйлері',
+				pauseCause: 'Пауза себептері',
 				allPauseCause: 'Барлық агент демалыс себептері',
 				limit: 'Шектеу (мин)',
 				min: 'мин',
@@ -574,6 +577,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Тез жауап | Тез жауаптар',
+			},
+			activityTypes: {
+				activityTypes: 'Әрекет түрі | Әрекет түрлері',
 			},
 		},
 		routing: {
@@ -610,6 +616,7 @@ export default {
 				pattern: 'Мақсатты нөмір',
 				dialplanRule: 'Дайындық ережесі',
 				position: 'Орын',
+				allowTransfer: 'Ауыстыруға рұқсат беру',
 			},
 
 			chatplan: {
@@ -643,6 +650,10 @@ export default {
 				SIPregistrationsDescription: 'SIP тіркеу сипаттамасы',
 				SIPtrunking: 'SIP транкинг',
 				SIPtrunkingDescription: 'SIP транкинг сипаттамасы',
+				errors: {
+					passwordInvalid:
+						"Құпия сөзде рұқсат етілмеген таңбалар бар. Резервтелген URI таңбалары, бос орындар және (! * ' ( ) & $) сияқты арнайы таңбаларды пайдалануға болмайды.",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -809,10 +820,15 @@ export default {
 				allAgents: 'Барлық агенттер',
 				chatCount: 'Чат саны',
 				taskCount: 'Тапсырма саны',
+				progressiveCountValidator:
+					'Мән 1-ден үлкен болуы немесе бос болуы керек',
+				extraChatCount: 'Қосымша чаттар саны',
 				state: 'Күй',
 				isSupervisor: 'Бақылаушы',
 				stateTime: 'Күй уақыты',
+				statusType: 'Күй түрі',
 				addSkill: 'Қабілет қосу',
+				editSkill: 'Қабілетті өзгерту',
 				statusHistory: 'Күй тізімі',
 				historyState: 'Күй',
 				payload: 'Себеп',
@@ -882,25 +898,40 @@ export default {
 				allMembers: 'Барлық меншіктер',
 				addMember: 'Меншікті қосу',
 				destination: 'Мақсат',
+				communications: 'Коммуникациялар',
 				display: 'Көрсету нөмірі',
 				dtmf: 'DTMF',
-				priority: 'Приоритет',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Сынамалар',
 				emptyWorkspace: 'Меншіктер табылмады',
 				resetMembers: {
 					resetMembers: 'Меншіктерді қалпына келтіру',
-					description: 'Сіз қателенген меншіктердің сынамаларын қалаймыз ба?',
+					description: {
+						all: 'Күнді шектеместен сәтсіз әрекеттерді қалпына келтіргіңіз келетініне сенімдісіз бе?',
+						filtered:
+							'Сіз \n{dateFrom} мен {dateTo} аралығындағы\nсәтсіз әрекеттерді қолданылған сүзгілер мен іздеу нәтижелері бойынша қалпына келтіргіңіз келетініне сенімдісіз бе?',
+						selected:
+							'Сіз сәтсіз әрекеттерді қалпына келтіргіңіз келетініне сенімдісіз бе?',
+					},
+					descriptionCount: '{count} жазба әсер етеді.',
+					emptyDescription:
+						'Ағымдағы сүзгілер бойынша сәтсіз әрекеттер табылған жоқ. Қалпына келтіретін ешнәрсе жоқ.',
 					reset: 'Қалпына келтіру',
 					successResetCount: 'Сәтті {count} меншіктерді қалпына келтірді',
 				},
+				exportMembers: {
+					exportMembers: 'Мүшелерді экспорттау',
+				},
 				endCause: {
-					abandoned: 'Абандондалды',
-					timeout: 'Таймақ',
-					cancel: 'Болдырмау',
-					success: 'Сәтті',
-					failed: 'Ақау',
-					missed: 'Жоқ',
-					expired: 'Төмендеді',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Атауы',
@@ -937,6 +968,8 @@ export default {
 				teams: 'Команда | Командалар',
 				tags: 'Тақтар',
 				newQueue: 'Жаңа қойма',
+				saveBeforeAddingRecords:
+					'Жазбаларды қоспас бұрын кезектің міндетті өрістерін толтырыңыз',
 				blacklist: 'Стоп тізімі',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -988,7 +1021,7 @@ export default {
 				autoAnswerTone: 'Автоматты жауап күлік',
 				varKey: 'Кілт',
 				varVal: 'Мән',
-				endCause: 'Аяқталу себебі',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Қосу уақыты',
 				destination: 'Мақсат | Мақсаттар',
 				expire: 'Төмендеді',
@@ -1084,19 +1117,27 @@ export default {
 					offeringAt: 'Қосу',
 					joinedAt: 'Бастау',
 					leavingAt: 'Аяқтау',
-					duration: 'Ұзақтығы',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Көрсету нөмірі',
-					result: 'Нәтиже',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Сынама',
 					resultName: {
-						abandoned: 'Абандондалды',
-						cancel: 'Болдырмау',
-						success: 'Сәтті',
-						failed: 'Ақау',
-						missed: 'Жоқ',
-						timeout: 'Таймақ',
-						endless: 'Аяқсыз',
-						transferred: 'Ауыстырылды',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1151,6 +1192,7 @@ export default {
 				allResGroups: 'Барлық қор топтары',
 				searchPlaceholder: 'қор топ аты..',
 				addResGroup: 'Қор топын қосу',
+				editResGroup: 'Қор топын өзгерту',
 				strategy: 'Стратегия',
 				timerange: 'Уақыт аралығы',
 				timerangeFrom: 'Қайдан',
@@ -1212,8 +1254,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'пошта',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'экранды жазу',
 				},
 				encryptFile: 'Жаңа файлдарды шифрлеу',
@@ -1303,6 +1343,7 @@ export default {
 				caseFiles: 'Кейінірек файлдары',
 				caseComments: 'Кейінірек комментарийлер',
 				caseLinks: 'Кейінірек байланыстар',
+				call: 'Қоңырау',
 				relatedCases: 'Байланыстырылған кейініректер',
 				expression: 'Өрнек',
 				timeout: 'Таймақ',
@@ -1318,6 +1359,7 @@ export default {
 						error: 'Ақау',
 					},
 				},
+				recordCall: 'Қоңырауды жазу',
 			},
 		},
 		system: {
@@ -1370,6 +1412,15 @@ export default {
 		queueType: 'Қойма түрі',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Файлдарды жүктеу',
@@ -1406,6 +1457,10 @@ export default {
 		deleteAll: 'Барлық элементтерді өшіру',
 		deleteSelected: 'Өшіру {count} таңдалған элементтер',
 		deleteFiltered: 'Фильтрлеуден кейінгі барлық элементтерді өшіру',
+		resetAll: 'Барлық меншіктерді қалпына келтіру',
+		resetSelected:
+			'Таңдалған {count} меншікті қалпына келтіру | Таңдалған {count} меншікті қалпына келтіру',
+		resetFiltered: 'Фильтрленген барлық меншіктерді қалпына келтіру',
 		generate: 'Құру',
 		add: 'Қосу',
 		history: 'Тарих',

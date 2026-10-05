@@ -1,5 +1,5 @@
+import { PauseTemplatesAPI } from '@webitel/api-services/api';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
-import PauseTemplatesAPI from '../api/pauseTemplates.js';
 import headers from './_internals/headers';
 
 const resettableState = {

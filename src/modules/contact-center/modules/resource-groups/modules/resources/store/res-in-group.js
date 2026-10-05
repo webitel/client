@@ -1,5 +1,5 @@
+import { ResourcesInGroupAPI as ResInGroupAPI } from '@webitel/api-services/api';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import ResInGroupAPI from '../api/resInGroup';
 import headers from './_internals/headers';
 
 const resettableItemState = {

@@ -122,6 +122,11 @@ const nav = Object.freeze([
 				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.QuickReplies}`,
 				route: 'quick-replies',
 			},
+			{
+				value: AdminSections.ActivityTypes,
+				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.ActivityTypes}`,
+				route: 'activity-types',
+			},
 		],
 	},
 	{

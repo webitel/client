@@ -127,10 +127,6 @@ const actions = {
 			prop: '_btnCodeDirty',
 			value: false,
 		});
-		context.commit('SET_ITEM_PROPERTY', {
-			prop: '_dirty',
-			value: true,
-		});
 	},
 };
 

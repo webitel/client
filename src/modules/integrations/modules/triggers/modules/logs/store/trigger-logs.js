@@ -1,5 +1,5 @@
+import { TriggerJobsAPI as TriggersLogAPI } from '@webitel/api-services/api';
 import NestedObjectStoreModule from '../../../../../../../app/store/BaseStoreModules/StoreModules/NestedObjectStoreModule';
-import TriggersLogAPI from '../api/triggersLogs';
 import filters from '../modules/filters/store/filters';
 import headers from './_internals/headers';
 

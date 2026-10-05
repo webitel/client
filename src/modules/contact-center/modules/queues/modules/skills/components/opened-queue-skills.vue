@@ -1,62 +1,61 @@
 <template>
   <section class="table-section">
-    <skill-buckets-popup
-      :shown="!!agentBucketsId"
-      @close="closeBucketsPopup"
+    <skill-popup
+      :key="parentId"
+      @saved="loadDataList"
     />
 
-    <skill-popup @close="closePopup" />
+    <object-list-popup
+      v-show="!!bucketsRowId"
+      :data-list="shownBuckets"
+      :title="t('objects.lookups.buckets.buckets', 2)"
+      @close="closeBuckets"
+    />
 
     <header class="table-title">
-      <h3 class="table-title__title typo-heading-3">
-        {{ $t('objects.lookups.skills.skills', 2) }}
+      <h3 class="table-title__title">
+        {{ t('objects.lookups.skills.skills', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.REFRESH, IconAction.DELETE]"
+          :disabled:add="disableUserInput"
+          :disabled:delete="disableUserInput || !selected.length"
+          @click:add="add"
+          @click:refresh="loadDataList"
+          @click:delete="deleteEls(selected)"
         >
-          <delete-all-action
-            v-show="!anySelected"
-            :disabled="disableUserInput"
-            :selected-count="selectedRows.length"
-            @click="deleteData(selectedRows)"
-          />
-          <wt-icon-btn
-            :disabled="disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
-        </wt-table-actions>
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              single-search-name="search"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
         :grid-actions="!disableUserInput"
-        :headers="headers"
+        :headers="shownHeaders"
+        :selected="selected"
         sortable
-        @sort="sort"
+        @sort="updateSort"
+        @update:selected="updateSelected"
       >
         <template #name="{ item }">
           <div v-if="item.skill">
@@ -73,123 +72,180 @@
         </template>
 
         <template #buckets="{ item }">
-          <div>
-            {{ getFirstBucket(item.buckets) }}
-            <span
-              v-if="item.buckets.length > 1"
-              class="hidden-num typo-body-2"
-              @click="setBucketQuery(item)"
-            >+{{
-              item.buckets.length - 1 }}</span>
-          </div>
+          <one-plus-many
+            v-if="item.buckets"
+            :collection="item.buckets"
+            @input="openBuckets(item)"
+          />
         </template>
+
         <template #state="{ item, index }">
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="item.enabled"
-            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
+            @update:model-value="
+              patchItemProperty({ index, path: 'enabled', value: $event })
+            "
           />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
-            action="edit"
             :disabled="disableUserInput"
-            @click="editItem(item)"
+            action="edit"
+            @click="edit(item)"
           />
           <wt-icon-action
-            action="delete"
             :disabled="disableUserInput"
-            @click="deleteData(item)"
+            action="delete"
+            @click="deleteEls([item])"
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { useDummy } from '../../../../../../../app/composables/useDummy';
+<script lang="ts" setup>
+import type { EngineQueueSkill } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+
+import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
+import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import bucketsPopupMixin from '../mixins/bucketsPopupMixin.js';
-import SkillBucketsPopup from './opened-queue-skills-buckets-popup.vue';
+import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
+import { useQueueSkillsDatalistStore } from '../stores/datalist/queueSkillsDatalistStore';
 import SkillPopup from './opened-queue-skills-popup.vue';
 
-const namespace = 'ccenter/queues';
-const subNamespace = 'skills';
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
-export default {
-	name: 'OpenedQueueSkills',
-	components: {
-		SkillPopup,
-		SkillBucketsPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-		bucketsPopupMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const { disableUserInput } = useUserAccessControl({
-			useUpdateAccessAsAllMutableChecksSource: true,
-		});
-		return {
-			dummy,
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		isSkillBucketsPopup: null,
-		isDeleteConfirmation: false,
-	}),
-	methods: {
-		addItem() {
-			this.$router.push({
-				...this.$route,
-				params: {
-					skillId: 'new',
-				},
-			});
+const { disableUserInput } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+
+const parentId = computed(() => route.params.id as string);
+const isNewQueue = computed(() => !parentId.value || parentId.value === 'new');
+
+const tableStore = useNestedTableList({
+	useTableStore: useQueueSkillsDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(tableStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	deleteEls,
+	patchItemProperty,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = tableStore;
+
+const ensureQueueSaved = useEnsureQueueSaved();
+
+const openPopup = (skillId: string, id: string = parentId.value) =>
+	router.push({
+		name: route.name,
+		params: {
+			...route.params,
+			id,
+			skillId,
 		},
-		editItem(item) {
-			this.$router.push({
-				...this.$route,
-				params: {
-					skillId: item.id,
-				},
-			});
-		},
-		closePopup() {
-			this.$router.go(-1);
-		},
-	},
+		query: route.query,
+	});
+
+const add = async () => {
+	if (!isNewQueue.value) return openPopup('new');
+
+	const savedId = await ensureQueueSaved();
+	if (!savedId) return;
+
+	// the queue's id landed in the route only now, so pass it explicitly
+	return openPopup('new', String(savedId));
 };
+
+const edit = (item: EngineQueueSkill) => openPopup(String(item.id));
+
+/**
+ * The bucket list of one row, kept deep-linkable through `?bucket=<skill id>`.
+ *
+ * Every row already carries its own `buckets`. Compared as strings, because
+ * the ids are not consistently numbers.
+ */
+const bucketsRowId = computed(() => route.query.bucket as string | undefined);
+
+const shownBuckets = computed(
+	() =>
+		dataList.value.find(
+			(item) => String(item.id) === String(bucketsRowId.value),
+		)?.buckets ?? [],
+);
+
+const openBuckets = (item: EngineQueueSkill) =>
+	router.push({
+		name: route.name,
+		params: route.params,
+		query: {
+			...route.query,
+			bucket: String(item.id),
+		},
+	});
+
+const closeBuckets = () => {
+	const query = {
+		...route.query,
+	};
+	delete query.bucket;
+	// strip the param rather than go(-1), which broke when the url was opened cold
+	return router.push({
+		name: route.name,
+		params: route.params,
+		query,
+	});
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
 <style
   lang="scss"
   scoped
->
-@use '@webitel/ui-sdk/src/css/main' as *;
-
-.hidden-num {
-  margin-left: 33px;
-  cursor: pointer;
-  text-decoration: underline;
-}
-</style>
+></style>

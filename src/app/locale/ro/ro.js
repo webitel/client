@@ -70,12 +70,11 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'Folosește WebPhone',
 		useStun: 'Folosește STUN',
-		volumeLeveling: 'Nivelare volum',
-		echoCancellation: 'Anulare ecou',
-		noiseReduction: 'Reducere zgomot',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Sunet pentru mesaj nou',
 			[NotificationType.NewChatSound]: 'Sunet pentru chat nou',
+			[NotificationType.SelfAssignedCallSound]:
+				'Sunet pentru apel auto-asignat',
 			[NotificationType.ChatEndSound]: 'Sunet la sfârșitul chat-ului',
 			[NotificationType.CallEndSound]: 'Sunet la sfârșitul apelului',
 			[NotificationType.TaskEndSound]: 'Sunet la sfârșitul sarcinii',
@@ -108,12 +107,15 @@ export default {
 		gatewayHostValidator: 'Ar trebui să arate ca un IPv4 sau FQDN',
 		ipValidator: 'Ar trebui să arate ca un IPv4',
 		macValidator: 'Ar trebui să arate ca un MAC',
-		minValue: 'Valoarea ar trebui să fie cel puțin',
-		maxValue: 'Valoarea ar trebui să nu fie prea mare',
 		numeric: 'Ar trebui să fie numeric',
 		requiredArrayValue: 'Matricea nu ar trebui să fie goală',
 		isPositiveValue: 'Valoarea ar trebui să fie un număr pozitiv',
 		cron: 'Expresie cron invalidă',
+		hourRange: 'Orele trebuie să fie între 00 și 23',
+		timerangeStartLessThanEnd:
+			'Ora "De la" nu poate fi mai târzie decât "Până la"',
+		timerangeNotIntersect:
+			'Intervalele de timp din aceeași zi nu se pot suprapune',
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Fișierul conține numere incorecte. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -542,6 +544,7 @@ export default {
 				communications: 'Tip de comunicare | Tipuri de comunicare',
 				allCommunications: 'Toate tipurile de comunicare',
 				addCommunication: 'Adaugă comunicare',
+				missingCommunication: 'Vă rugăm să adăugați un tip de comunicare',
 				code: 'Cod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -550,7 +553,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Stări agent',
+				pauseCause: 'Motive de pauză',
 				allPauseCause: 'Toate cauzele de pauză a agentului',
 				limit: 'Limită (min)',
 				min: 'min',
@@ -579,6 +582,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Răspuns rapid | Răspunsuri rapide',
+			},
+			activityTypes: {
+				activityTypes: 'Tip de activitate | Tipuri de activitate',
 			},
 		},
 		routing: {
@@ -615,6 +621,7 @@ export default {
 				pattern: 'Număr de destinație',
 				dialplanRule: 'Regulă dialplan',
 				position: 'Poziție',
+				allowTransfer: 'Permite transferul',
 			},
 
 			chatplan: {
@@ -648,6 +655,10 @@ export default {
 				SIPregistrationsDescription: 'Descriere înregistrare SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Descriere trunking SIP',
+				errors: {
+					passwordInvalid:
+						"Parola conține caractere interzise. Simbolurile URI rezervate, spațiile și caracterele speciale precum (! * ' ( ) & $) nu sunt permise.",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -814,10 +825,15 @@ export default {
 				allAgents: 'Toți agenții',
 				chatCount: 'Număr mesaje chat',
 				taskCount: 'Număr sarcini',
+				progressiveCountValidator:
+					'Valoarea trebuie să fie mai mare decât 1 sau goală',
+				extraChatCount: 'Număr suplimentar de chat-uri',
 				state: 'Stare',
 				isSupervisor: 'Supraveghetor',
 				stateTime: 'Timp stare',
+				statusType: 'Tip stare',
 				addSkill: 'Adaugă competență',
+				editSkill: 'Editează competență',
 				statusHistory: 'Istoric stare',
 				historyState: 'Stare',
 				payload: 'Motiv',
@@ -887,26 +903,42 @@ export default {
 				allMembers: 'Toți membrii',
 				addMember: 'Adaugă membru',
 				destination: 'Destinație',
+				communications: 'Comunicații',
 				display: 'Număr de afișare',
 				dtmf: 'DTMF',
-				priority: 'Prioritate',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Încercări',
 				emptyWorkspace: 'Nu au fost găsiți membri',
 				resetMembers: {
 					resetMembers: 'Resetează membri',
-					description:
-						'Sigur vrei să resetezi încercările membrilor cu succes nereușite?',
+					description: {
+						question: 'Sunteți sigur că doriți să resetați încercările eșuate',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} fără nicio limită de dată?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} din perioada\n${named('dateFrom')} până la ${named('dateTo')}\nținând cont de filtrele aplicate și de rezultatele căutării?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
+					descriptionCount: 'Vor fi afectate {count} înregistrări.',
+					emptyDescription:
+						'Nu există încercări eșuate care să corespundă filtrelor curente. Nu este nimic de resetat.',
 					reset: 'Resetează',
 					successResetCount: 'Succes la reseta {count} membri',
 				},
+				exportMembers: {
+					exportMembers: 'Exportă membri',
+				},
 				endCause: {
-					abandoned: 'Abandonat',
-					timeout: 'Timp de așteptare',
-					cancel: 'Anulat',
-					success: 'Succes',
-					failed: 'Eșuat',
-					missed: 'Pierdut',
-					expired: 'Expirat',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					name: 'Nume',
@@ -944,6 +976,8 @@ export default {
 				teams: 'Echipă | Echipe',
 				tags: 'Etichete',
 				newQueue: 'Coadă nouă',
+				saveBeforeAddingRecords:
+					'Completați câmpurile obligatorii ale cozii înainte de a adăuga înregistrări',
 				blacklist: 'Listă de oprire',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -996,7 +1030,7 @@ export default {
 				autoAnswerTone: 'Tone de avertizare auto-răspuns',
 				varKey: 'Cheie',
 				varVal: 'Valoare',
-				endCause: 'Motiv sfârșit',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: 'Ofertat la',
 				destination: 'Destinație | Destinații',
 				expire: 'Expiră',
@@ -1093,19 +1127,27 @@ export default {
 					offeringAt: 'Ofertat',
 					joinedAt: 'Începe',
 					leavingAt: 'Se termină',
-					duration: 'Durata',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: 'Număr de vizualizare',
-					result: 'Rezultat',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Încercare',
 					resultName: {
-						abandoned: 'Abandonat',
-						cancel: 'Anulat',
-						success: 'Succes',
-						failed: 'Eșuat',
-						missed: 'Pierdut',
-						timeout: 'Timp de așteptare',
-						endless: 'Nelimitat',
-						transferred: 'Transferat',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1160,6 +1202,7 @@ export default {
 				allResGroups: 'Toate grupurile de resurse',
 				searchPlaceholder: 'nume grup resurse..',
 				addResGroup: 'Adaugă grup de resurse',
+				editResGroup: 'Editează grup de resurse',
 				strategy: 'Strategie',
 				timerange: 'Interval de timp',
 				timerangeFrom: 'De la',
@@ -1221,8 +1264,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'înregistrări ecran',
 				},
@@ -1314,6 +1355,7 @@ export default {
 				caseFiles: 'Fișiere caz',
 				caseComments: 'Comentarii caz',
 				caseLinks: 'Legături caz',
+				call: 'Apel',
 				relatedCases: 'Cazuri legate',
 				expression: 'Expresie',
 				timeout: 'Timp de așteptare',
@@ -1329,6 +1371,7 @@ export default {
 						error: 'Eroare',
 					},
 				},
+				recordCall: 'Înregistrează apelul',
 			},
 		},
 		system: {
@@ -1381,6 +1424,15 @@ export default {
 		queueType: 'Tip coadă',
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Descarcă fișiere',
@@ -1417,6 +1469,10 @@ export default {
 		deleteAll: 'Șterge toate elementele',
 		deleteSelected: 'Șterge {count} elemente selectate',
 		deleteFiltered: 'Șterge toate elementele filtrate',
+		resetAll: 'Resetează toți membrii',
+		resetSelected:
+			'Resetează {count} membru selectat | Resetează {count} membri selectați',
+		resetFiltered: 'Resetează toți membrii filtrați',
 		generate: 'Generează',
 		add: 'Adaugă',
 		history: 'Istoric',

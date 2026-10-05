@@ -1,5 +1,4 @@
-import { StorageProviderType } from 'webitel-sdk';
-
+import { StorageProviderType } from '@webitel/api-services/gen/models';
 import defaultCognitiveProfile from './defaultCognitiveProfile';
 
 const elevenLabsCognitiveProfile = () => ({

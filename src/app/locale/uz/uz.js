@@ -70,12 +70,11 @@ export default {
 		webPhone: 'WebPhone',
 		useWebPhone: 'WebPhone ishlatish',
 		useStun: 'STUN ishlatish',
-		volumeLeveling: 'Ovoz balandligini tekislash',
-		echoCancellation: 'Aks-sadoni bartaraf etish',
-		noiseReduction: 'Shovqinni kamaytirish',
 		notifications: {
 			[NotificationType.NewMessageSound]: 'Yangi xabar ovozi',
 			[NotificationType.NewChatSound]: 'Yangi chat ovozi',
+			[NotificationType.SelfAssignedCallSound]:
+				"O'z-o'ziga tayinlangan qo'ng'iroq ovozi",
 			[NotificationType.ChatEndSound]: 'Chat tugashi ovozi',
 			[NotificationType.CallEndSound]: "Qo'ng'iroq tugashi ovozi",
 			[NotificationType.TaskEndSound]: 'Vazifa tugashi ovozi',
@@ -108,12 +107,15 @@ export default {
 		gatewayHostValidator: "IPv4 yoki FQDN shaklida bo'lishi kerak",
 		ipValidator: "IPv4 shaklida bo'lishi kerak",
 		macValidator: "MAC shaklida bo'lishi kerak",
-		minValue: 'Qiymat kamida',
-		maxValue: 'Qiymat kamida emas',
 		numeric: "Raqam bo'lishi kerak",
 		requiredArrayValue: "Massiv bo'sh bo'lmasligi kerak",
 		isPositiveValue: "Qiymat musbat son bo'lishi kerak",
 		cron: 'Nogiron cron ifoda',
+		hourRange: "Soatlar 00 dan 23 gacha bo'lishi kerak",
+		timerangeStartLessThanEnd:
+			'"Dan" vaqti "Gacha" vaqtidan kech bo\'lishi mumkin emas',
+		timerangeNotIntersect:
+			"Bir kundagi vaqt oralig'lari bir-biriga kesilib o'tmasligi kerak",
 		phoneNumbersFileUploadValidator: ({ linked }) =>
 			`Faylda noto'g'ri raqamlar mavjud. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
@@ -542,6 +544,7 @@ export default {
 				communications: 'Kommunikatsiya turi | Kommunikatsiya turlari',
 				allCommunications: 'Barcha kommunikatsiya turlari',
 				addCommunication: "Kommunikatsiya qo'shish",
+				missingCommunication: "Iltimos, kommunikatsiya turini qo'shing",
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -550,7 +553,7 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent holatlari',
+				pauseCause: 'Tanaffus sabablari',
 				allPauseCause: "Barcha agent to'xtash sabablari",
 				limit: 'Limit (min)',
 				min: 'min',
@@ -579,6 +582,9 @@ export default {
 			},
 			quickReplies: {
 				quickReplies: 'Tez javob | Tez javoblar',
+			},
+			activityTypes: {
+				activityTypes: 'Faoliyat turi | Faoliyat turlari',
 			},
 		},
 		routing: {
@@ -616,6 +622,7 @@ export default {
 				pattern: "Ma'lumotnoma raqami",
 				dialplanRule: 'Dialplan qoidasi',
 				position: "O'rnatish",
+				allowTransfer: "O'tkazishga ruxsat berish",
 			},
 
 			chatplan: {
@@ -649,6 +656,10 @@ export default {
 				SIPregistrationsDescription: "SIP ro'yxat tavsifi",
 				SIPtrunking: 'SIP trunking',
 				SIPtrunkingDescription: 'SIP trunking tavsifi',
+				errors: {
+					passwordInvalid:
+						"Parolda ruxsat etilmagan belgilar mavjud. Rezervlangan URI belgilari, bo'sh joylar va (! * ' ( ) & $) kabi maxsus belgilardan foydalanish mumkin emas.",
+				},
 			},
 			chatGateways: {
 				templates: {
@@ -816,10 +827,15 @@ export default {
 				allAgents: 'Barcha agentlar',
 				chatCount: 'Chat soni',
 				taskCount: 'Vazifa soni',
+				progressiveCountValidator:
+					'Qiymat 1 dan katta yoki boʻsh boʻlishi kerak',
+				extraChatCount: 'Qoshimcha chatlar soni',
 				state: 'Holat',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Holat vaqti',
+				statusType: 'Holat turi',
 				addSkill: "Xususiyat qo'shish",
+				editSkill: 'Xususiyatni tahrirlash',
 				statusHistory: 'Holat tarixi',
 				historyState: 'Holat',
 				payload: 'Sabab',
@@ -889,26 +905,40 @@ export default {
 				allMembers: "Barcha a'zolchalar",
 				addMember: "A'zolchaga qo'shish",
 				destination: "Ma'lumotnoma",
+				communications: 'Aloqalar',
 				display: "Ko'rsatish raqami",
 				dtmf: 'DTMF',
-				priority: 'Prioritet',
+				priority: ({ linked }) => linked('objects.memberPriority'),
 				attempts: 'Urinishlar',
 				emptyWorkspace: "A'zolchalar topilmadi",
 				resetMembers: {
 					resetMembers: 'Urinishlarini tiklash',
-					description:
-						"Siz a'zolchalar urinishlarini muvaffaqiyatsiz a'zolchalar uchun tiklashni xohlaysizmi?",
+					description: {
+						all: 'Sanani cheklamasdan muvaffaqiyatsiz urinishlarni qayta tiklashni xohlaysizmi?',
+						filtered:
+							'Siz \n{dateFrom} dan {dateTo} gacha\nboʻlgan davrdagi muvaffaqiyatsiz urinishlarni qoʻllanilgan filtrlar va qidiruv natijalariga asoslanib qayta tiklashni xohlaysizmi?',
+						selected:
+							'Muvaffaqiyatsiz urinishlarni qayta tiklashni xohlaysizmi?',
+					},
+					descriptionCount: '{count} ta yozuvga taʼsir qiladi.',
+					emptyDescription:
+						'Joriy filtrlarga mos keluvchi muvaffaqiyatsiz urinishlar yoʻq. Qayta tiklaydigan hech narsa yoʻq.',
 					reset: 'Tiklash',
 					successResetCount: "Muvaffaqiyatli {count} a'zolchalar tiklandi",
 				},
+				exportMembers: {
+					exportMembers: "A'zolarni eksport qilish",
+				},
 				endCause: {
-					abandoned: 'Abandoned',
-					timeout: 'Vaqt',
-					cancel: 'Bekor qilish',
-					success: 'Muvaffaqiyatli',
-					failed: 'Yaroqsiz',
-					missed: 'Bekor qilindi',
-					expired: 'Yaroqli',
+					abandoned: ({ linked }) => linked('objects.stopCause.abandoned'),
+					timeout: ({ linked }) => linked('objects.stopCause.timeout'),
+					cancel: ({ linked }) => linked('objects.stopCause.cancel'),
+					success: ({ linked }) => linked('objects.stopCause.success'),
+					failed: ({ linked }) => linked('objects.stopCause.failed'),
+					missed: ({ linked }) => linked('objects.stopCause.missed'),
+					expired: ({ linked }) => linked('objects.stopCause.expired'),
+					canceledByTimeout: ({ linked }) =>
+						linked('objects.stopCause.canceledByTimeout'),
 				},
 				csvMappingFields: {
 					timezoneId: ({ linked }) => linked('date.timezone'),
@@ -945,6 +975,8 @@ export default {
 				teams: 'Jamoa | Jamoalar',
 				tags: 'Teglar',
 				newQueue: "Yangi qo'yuv",
+				saveBeforeAddingRecords:
+					"Yozuvlarni qo'shishdan oldin navbatning majburiy maydonlarini to'ldiring",
 				blacklist: "To'xtash ro'yxati",
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -997,7 +1029,7 @@ export default {
 				autoAnswerTone: 'Avtomatik javob xonasi',
 				varKey: 'Kalit',
 				varVal: 'Qiymat',
-				endCause: 'Tugatish sababi',
+				endCause: ({ linked }) => linked('objects.stopCause.stopCause'),
 				offeringAt: "Ko'rsatish",
 				destination: "Ma'lumotnoma | Ma'lumotnomalar",
 				expire: 'Yaroqli',
@@ -1094,19 +1126,27 @@ export default {
 					offeringAt: "Ko'rsatish",
 					joinedAt: 'Boshlanish',
 					leavingAt: 'Tugash',
-					duration: 'Davomiyligi',
+					duration: ({ linked }) => linked('vocabulary.duration'),
 					viewNumber: "Ko'rish raqami",
-					result: 'Natija',
+					result: ({ linked }) => linked('objects.callReportingResult.result'),
 					attempts: 'Urinishlar',
 					resultName: {
-						abandoned: 'Bekor qilindi',
-						cancel: 'Bekor qilindi',
-						success: 'Muvaffaqiyatli',
-						failed: 'Yaroqsiz',
-						missed: 'Bekor qilindi',
-						timeout: 'Vaqt',
-						endless: 'Cheksiz',
-						transferred: 'Uzatilgan',
+						abandoned: ({ linked }) =>
+							linked('objects.callReportingResult.abandoned'),
+						cancel: ({ linked }) =>
+							linked('objects.callReportingResult.cancel'),
+						success: ({ linked }) =>
+							linked('objects.callReportingResult.success'),
+						failed: ({ linked }) =>
+							linked('objects.callReportingResult.failed'),
+						missed: ({ linked }) =>
+							linked('objects.callReportingResult.missed'),
+						timeout: ({ linked }) =>
+							linked('objects.callReportingResult.timeout'),
+						endless: ({ linked }) =>
+							linked('objects.callReportingResult.endless'),
+						transferred: ({ linked }) =>
+							linked('objects.callReportingResult.transferred'),
 					},
 				},
 				hooks: {
@@ -1161,6 +1201,7 @@ export default {
 				allResGroups: 'Barcha resurs guruhlari',
 				searchPlaceholder: 'res guruhi nomi..',
 				addResGroup: "Resurs guruhi qo'shish",
+				editResGroup: 'Resurs guruhi tahrirlash',
 				strategy: 'Strategiya',
 				timerange: "Vaqt oralig'i",
 				timerangeFrom: 'Dan',
@@ -1222,8 +1263,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'elektron pochta',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ekran yozuvlari',
 				},
 				encryptFile: 'Yangi fayllarni shifrlash',
@@ -1313,6 +1352,7 @@ export default {
 				caseFiles: 'Hollar fayllari',
 				caseComments: 'Hollar izohlari',
 				caseLinks: 'Hollar boglanishlar',
+				call: "Qo'ng'iroq",
 				relatedCases: "Bog'lanishli hollar",
 				expression: 'Ifoda',
 				timeout: 'Vaqt',
@@ -1328,6 +1368,7 @@ export default {
 						error: 'Xato',
 					},
 				},
+				recordCall: "Qo'ng'iroqni yozib olish",
 			},
 		},
 		system: {
@@ -1381,6 +1422,15 @@ export default {
 		queueType: "Qo'yuv turi",
 	},
 
+	webitelUI: {
+		filters: {
+			tags: ({ linked }) => linked('vocabulary.tag'),
+			joinedAt: ({ linked }) => linked('objects.joinedAt'),
+			result: ({ linked }) => linked('objects.callReportingResult.result'),
+			duration: ({ linked }) => linked('vocabulary.duration'),
+		},
+	},
+
 	utils: {
 		downloadFilesBtn: {
 			downloadFiles: 'Fayllarni yuklash',
@@ -1417,6 +1467,10 @@ export default {
 		deleteAll: "Barcha ma'lumotlarni o'chirish",
 		deleteSelected: "Tanlangan {count} ma'lumotni o'chirish",
 		deleteFiltered: "Barcha filtrlangan ma'lumotlarni o'chirish",
+		resetAll: "Barcha a'zolchalarni tiklash",
+		resetSelected:
+			"Tanlangan {count} a'zolchalarni tiklash | Tanlangan {count} a'zolchalarni tiklash",
+		resetFiltered: "Barcha filtrlangan a'zolchalarni tiklash",
 		generate: 'Yaratish',
 		add: "Qo'shish",
 		history: 'Tarix',

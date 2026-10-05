@@ -11,12 +11,12 @@
       @close="closeEncryptionAlert"
       @confirm="confirmEncryptionChange"
     />
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid opened-storage-policy-general__grid-2col">
+    <div class="opened-card-input-grid opened-storage-policy-general__grid-2col">
       <div class="grid-column">
         <wt-input-text
           :disabled="disableUserInput"
@@ -79,7 +79,7 @@
           chips-view
           allow-custom-values
           required
-          :options="MimeTypes"
+          :options="mimeTypeOptions"
           :data-key="null"
           @update:model-value="setItemProp({ prop: 'mimeTypes', value: $event })"
         />
@@ -143,10 +143,12 @@ export default {
 		};
 	},
 	data: () => ({
-		MimeTypes: Object.values(MimeTypes),
 		isPopupOpened: false,
 		isEncryptionAlertOpened: false,
 		pendingEncryptValue: false,
+		mimeTypeOptions: [
+			...Object.values(MimeTypes),
+		],
 	}),
 	computed: {
 		encryptionAlertMessage() {
@@ -215,6 +217,21 @@ export default {
 		closeEncryptionAlert() {
 			this.isEncryptionAlertOpened = false;
 			this.pendingEncryptValue = false;
+		},
+	},
+	watch: {
+		'itemInstance.mimeTypes': {
+			handler(newValue) {
+				if (newValue.length) {
+					this.mimeTypeOptions = [
+						...new Set([
+							...this.mimeTypeOptions,
+							...newValue,
+						]),
+					];
+				}
+			},
+			once: true,
 		},
 	},
 };

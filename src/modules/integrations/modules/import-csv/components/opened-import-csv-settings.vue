@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.integrations.importCsv.settings') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-single-select
         :show-clear="false"
         :label="$t('objects.CSV.charSet')"
@@ -33,9 +33,9 @@
         :model-value="itemInstance.parameters.clearMembers"
         @update:model-value="setItemParamsProp({ prop: 'clearMembers', value: $event })"
       />
-      <header class="content-header">
+      <header class="opened-card-header">
         <div>
-          <h3 class="content-title typo-heading-4">
+          <h3 class="opened-card-header__title">
             {{ $t('objects.integrations.importCsv.mappings') }}
           </h3>
           <p>{{ $t('objects.integrations.importCsv.mappingsHint') }}</p>

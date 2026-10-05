@@ -9,9 +9,17 @@
       {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
     </template>
     <template #main>
-      <p>
-        {{ $t('objects.ccenter.members.resetMembers.description') }}
-      </p>
+      <div class="reset-members-popup--description">
+        <p
+          v-if="quantity"
+          class="reset-members-popup--description-main"
+        >
+          {{ descriptionMainText }}
+        </p>
+        <p class="reset-members-popup--description-count">
+          {{ descriptionCountText }}
+        </p>
+      </div>
     </template>
     <template #actions>
       <wt-button
@@ -19,9 +27,10 @@
         color="secondary"
         @click="cancel"
       >
-        {{ $t('reusable.cancel') }}
+        {{ $t(!!quantity ? 'reusable.cancel' : 'objects.ok') }}
       </wt-button>
       <wt-button
+        v-if="!!quantity"
         :loading="isResetting"
         color="error"
         @click="confirm"
@@ -33,6 +42,8 @@
 </template>
 
 <script>
+import { ActionOptions } from '../types/ActionOptions';
+
 export default {
 	name: 'ResetMembersPopup',
 	inject: [
@@ -43,11 +54,39 @@ export default {
 			type: Function,
 			required: true,
 		},
+		dateRange: {
+			type: Object,
+		},
+		quantity: {
+			type: Number,
+		},
+		scope: {
+			type: String,
+			default: ActionOptions.All,
+		},
 	},
 	data: () => ({
 		isResetting: false,
 	}),
-	computed: {},
+	computed: {
+		descriptionMainText() {
+			return this.$t(
+				`objects.ccenter.members.resetMembers.description.${this.scope}`,
+				{
+					dateFrom: this.dateRange?.from,
+					dateTo: this.dateRange?.to,
+				},
+			);
+		},
+		descriptionCountText() {
+			return this.$t(
+				`objects.ccenter.members.resetMembers.${this.quantity ? 'descriptionCount' : 'emptyDescription'}`,
+				{
+					count: this.quantity,
+				},
+			);
+		},
+	},
 	methods: {
 		close() {
 			this.$emit('close');
@@ -80,5 +119,12 @@ export default {
 </script>
 
 <style scoped>
-
+.reset-members-popup--description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: var(--spacing-md) 0;
+  white-space: pre-line;
+  text-align: center;
+}
 </style>

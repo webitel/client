@@ -16,7 +16,7 @@
       <wt-loader v-if="debouncedIsLoading" />
       <form
         v-else
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -43,8 +43,8 @@
 
 <script setup lang="ts">
 import type { ApiOAuthService } from '@webitel/api-services/gen/models';
-import { useCardComponent } from '@webitel/ui-datalist/card';
-import { useCardTabs, useClose } from '@webitel/ui-sdk/composables';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -83,7 +83,11 @@ const {
 });
 
 const tabs = computed(() => {
-	const array = [
+	const array: {
+		text: string;
+		value: string;
+		pathName: string;
+	}[] = [
 		{
 			text: t('objects.general'),
 			value: 'general',

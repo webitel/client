@@ -1,11 +1,11 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="$t('objects.name')"
@@ -35,9 +35,9 @@
 </template>
 
 <script>
+import { CalendarsAPI } from '@webitel/api-services/api';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import CalendarsAPI from '../../calendars/api/calendars';
 
 export default {
 	name: 'OpenedRegionGeneral',

@@ -1,11 +1,11 @@
 <template>
   <section class="opened-single-sign-on-general">
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ t('objects.generalInfo') }}
       </h3>
     </header>
-    <div class="object-input-grid">
+    <div class="opened-card-input-grid">
       <wt-input-text
         :disabled="disableUserInput"
         :label="t('objects.name')"
@@ -13,12 +13,12 @@
         v-model:model-value="modelValue.name"
         required
       />
-      <wt-password
+      <wt-input-text
         :disabled="disableUserInput"
         :label="t('objects.integrations.singleSignOn.clientSecret')"
         :regle-validation="validationFields?.clientSecret"
+        hide-input-value
         v-model:model-value="modelValue.clientSecret"
-        autocomplete="new-password"
         required
       />
       <wt-input-text
@@ -39,8 +39,8 @@
 
 
     </div>
-    <div class="object-input-grid opened-single-sign-on-general__token-grid">
-      <single-sign-on-token v-if="modelValue.id" />
+    <div class="opened-card-input-grid opened-single-sign-on-general__token-grid">
+      <single-sign-on-token :disabled="!modelValue.id" />
 
       <wt-multi-select
         v-model:model-value="modelValue.scopes"
