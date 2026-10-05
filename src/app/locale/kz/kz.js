@@ -116,8 +116,6 @@ export default {
 			'"Бастап" уақыты "Дейін" уақытынан кеш болмауы керек',
 		timerangeNotIntersect:
 			'Бір күннің уақыт аралықтары бір-бірімен қиыспауы керек',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Файлда қате нөмірлер бар. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {

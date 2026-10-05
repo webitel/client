@@ -1,6 +1,7 @@
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
 import { SortSymbols } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 
-export default [
+export const headers: DatalistTableHeader[] = [
 	{
 		value: 'name',
 		locale: [
@@ -8,6 +9,7 @@ export default [
 			2,
 		],
 		field: 'display',
+		show: true,
 		sort: SortSymbols.NONE,
 	},
 ];

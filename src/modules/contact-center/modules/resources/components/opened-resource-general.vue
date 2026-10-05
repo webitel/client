@@ -1,123 +1,106 @@
 <template>
-  <section>
+  <section class="opened-resource-general">
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="modelValue.gateway"
         :disabled="disableUserInput || !hasGatewaysReadAccess"
-        :label="$t('objects.routing.gateways.gateways', 1)"
-        :search-method="loadDropdownOptionsList"
-        :v="v.itemInstance.gateway"
-        :model-value="itemInstance.gateway"
+        :label="t('objects.routing.gateways.gateways', 1)"
+        :search-method="GatewaysAPI.getLookup"
+        :regle-validation="validationFields?.gateway"
         required
-        @update:model-value="setItemProp({ prop: 'gateway', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.rps"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.cps')"
-        :v="v.itemInstance.cps"
-        :model-value="itemInstance.cps"
+        :label="t('objects.ccenter.res.cps')"
+        :regle-validation="validationFields?.rps"
         required
-        @update:model-value="setItemProp({ prop: 'cps', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.limit"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.limit')"
-        :v="v.itemInstance.limit"
-        :model-value="itemInstance.limit"
+        :label="t('objects.ccenter.res.limit')"
+        :regle-validation="validationFields?.limit"
         required
-        @update:model-value="setItemProp({ prop: 'limit', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="parameters.cidType"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.cidType')"
-        :options="CidTypeList"
+        :label="t('objects.ccenter.res.cidType')"
+        :options="Object.values(ResourceCidType)"
         :data-key="null"
-        :model-value="itemInstance.parameters.cidType"
-        @update:model-value="setItemParameterProp({ prop: 'cidType', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="parameters.ignoreEarlyMedia"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.ignoreEarlyMedia')"
-        :options="EarlyMediaList"
+        :label="t('objects.ccenter.res.ignoreEarlyMedia')"
+        :options="Object.values(ResourceIgnoreEarlyMedia)"
         :data-key="null"
-        :model-value="itemInstance.parameters.ignoreEarlyMedia"
-        @update:model-value="setItemParameterProp({ prop: 'ignoreEarlyMedia', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
       <wt-multi-select
+        v-model:model-value="modelValue.patterns"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.patterns')"
-        :model-value="itemInstance.patterns"
-        :options="itemInstance.patterns"
+        :label="t('objects.ccenter.res.patterns')"
+        :options="modelValue.patterns"
         :data-key="null"
         chips-view
         allow-custom-values
-        @update:model-value="setItemProp({ prop: 'patterns', value: $event })"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import {
+	ResourceCidType,
+	ResourceIgnoreEarlyMedia,
+} from '@webitel/api-services/enums';
+import type {
+	EngineOutboundResource,
+	EngineOutboundResourceParameters,
+} from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import { mapActions } from 'vuex';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import GatewaysAPI from '../../../../routing/modules/gateways/api/gateways';
-import CidTypeList from '../lookups/CidType.lookup';
-import EarlyMediaList from '../lookups/EarlyMedia.lookup';
 
-export default {
-	name: 'OpenedResourceGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasGatewaysReadAccess } = useUserAccessControl(
-			WtObject.Gateway,
-		);
-		return {
-			disableUserInput,
-			hasGatewaysReadAccess,
-		};
-	},
-	data() {
-		return {
-			CidTypeList,
-			EarlyMediaList,
-		};
-	},
-	methods: {
-		...mapActions({
-			setItemParameterProp(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/SET_ITEM_PARAMETERS_PROPERTY`,
-					payload,
-				);
-			},
-		}),
-		loadDropdownOptionsList(params) {
-			return GatewaysAPI.getLookup(params);
-		},
-	},
-};
+const modelValue = defineModel<EngineOutboundResource>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<EngineOutboundResource>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasGatewaysReadAccess } = useUserAccessControl(
+	WtObject.Gateway,
+);
+
+const parameters = computed<EngineOutboundResourceParameters>(() => {
+	if (!modelValue.value.parameters) modelValue.value.parameters = {};
+	return modelValue.value.parameters;
+});
 </script>
