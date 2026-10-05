@@ -22,7 +22,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.start)"
-            :regle-validation="issueFor(index, 'start')"
+            :regle-validation="getRangeValidation(index, 'start')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -34,7 +34,7 @@
           <wt-timepicker
             :disabled="disableUserInput"
             :model-value="minToSec(item.end)"
-            :regle-validation="issueFor(index, 'end')"
+            :regle-validation="getRangeValidation(index, 'end')"
             format="hh:mm"
             no-label
             @update:model-value="
@@ -70,10 +70,10 @@
 
 <script setup lang="ts">
 import { minToSec, secToMin } from '@webitel/api-services/scripts';
-import { getCalendarDayRangeIssues } from '@webitel/api-services/validations';
+import { getCalendarDayRangeErrors } from '@webitel/api-services/validations';
 import {
 	type CardValidationFields,
-	useTimeRangeIssues,
+	useTimeRangesValidation,
 } from '@webitel/ui-datalist/card';
 import { useI18n } from 'vue-i18n';
 
@@ -85,7 +85,7 @@ const modelValue = defineModel<CalendarCard>({
 	required: true,
 });
 
-/** declared, not used: the rows validate live, see useTimeRangeIssues */
+/** [Claude] declared, not used: the rows validate live, see useTimeRangesValidation */
 defineProps<{
 	validationFields?: Partial<CardValidationFields<CalendarCard>>;
 }>();
@@ -103,5 +103,8 @@ const {
 	isDayStart,
 } = useWeekDaysData(modelValue, 'accepts');
 
-const { issueFor } = useTimeRangeIssues(dataList, getCalendarDayRangeIssues);
+const { getRangeValidation } = useTimeRangesValidation(
+	dataList,
+	getCalendarDayRangeErrors,
+);
 </script>

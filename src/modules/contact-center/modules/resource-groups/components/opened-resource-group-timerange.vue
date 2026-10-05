@@ -21,7 +21,7 @@
             :disabled="disableUserInput"
             :label="t('objects.ccenter.resGroups.timerangeFrom')"
             :model-value="minToSec(range.start)"
-            :regle-validation="issueFor(index, 'start')"
+            :regle-validation="getRangeValidation(index, 'start')"
             format="hh:mm"
             required
             @update:model-value="range.start = secToMin($event)"
@@ -30,7 +30,7 @@
             :disabled="disableUserInput"
             :label="t('objects.ccenter.resGroups.timerangeTo')"
             :model-value="minToSec(range.end)"
-            :regle-validation="issueFor(index, 'end')"
+            :regle-validation="getRangeValidation(index, 'end')"
             format="hh:mm"
             required
             @update:model-value="range.end = secToMin($event)"
@@ -52,11 +52,11 @@
 import { minToSec, secToMin } from '@webitel/api-services/scripts';
 import {
 	getDefaultResourceGroupTimeRange,
-	getResourceGroupTimeRangeIssues,
+	getResourceGroupTimeRangeErrors,
 } from '@webitel/api-services/validations';
 import {
 	type CardValidationFields,
-	useTimeRangeIssues,
+	useTimeRangesValidation,
 } from '@webitel/ui-datalist/card';
 import { useI18n } from 'vue-i18n';
 
@@ -74,9 +74,9 @@ defineProps<{
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 
-const { issueFor } = useTimeRangeIssues(
+const { getRangeValidation } = useTimeRangesValidation(
 	() => modelValue.value.time,
-	getResourceGroupTimeRangeIssues,
+	getResourceGroupTimeRangeErrors,
 );
 
 const addRange = () => {
