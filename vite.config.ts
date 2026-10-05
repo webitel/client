@@ -21,6 +21,7 @@ export default ({ mode }) => {
 		optimizeDeps: {
 			include: [
 				'deep-equal',
+				'webitel-sdk',
 			],
 		},
 		server: {
