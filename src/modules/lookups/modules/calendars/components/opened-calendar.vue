@@ -104,12 +104,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<CalendarCard>({
 	useCardStore: useCalendarsCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 });
 
 const tabs = computed(() => {
@@ -195,13 +195,6 @@ const path = computed(() => [
 		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
 	},
 ]);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 
 const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
 	useSaveCopyPopup((name) =>

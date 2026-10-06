@@ -85,12 +85,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<ApiDevice>({
 	useCardStore: useDevicesCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 	manualSetup: true,
 });
 
@@ -185,13 +185,6 @@ const path = computed(() => [
 		name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
 	},
 ]);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 
 /** `useCardRouting` parity, plus query preservation (`?type=hotdesk`) */
 const stopIdWatch = watch(

@@ -95,12 +95,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<UserCard>({
 	useCardStore: useUsersCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 });
 
 loadUserPasswordRules();
@@ -185,11 +185,4 @@ const path = computed(() => [
 		},
 	},
 ]);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 </script>

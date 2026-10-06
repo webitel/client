@@ -79,12 +79,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<EngineAgent>({
 	useCardStore: useAgentsCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 });
 
 const tabs = computed(() => {
@@ -158,11 +158,4 @@ const path = computed(() => [
 		},
 	},
 ]);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 </script>
