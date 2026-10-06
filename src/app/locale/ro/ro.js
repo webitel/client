@@ -116,8 +116,6 @@ export default {
 			'Ora "De la" nu poate fi mai târzie decât "Până la"',
 		timerangeNotIntersect:
 			'Intervalele de timp din aceeași zi nu se pot suprapune',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Fișierul conține numere incorecte. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {

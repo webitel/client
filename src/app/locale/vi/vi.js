@@ -114,8 +114,6 @@ export default {
 		timerangeStartLessThanEnd: 'Thời gian "Từ" không được muộn hơn "Đến"',
 		timerangeNotIntersect:
 			'Các khoảng thời gian trong cùng một ngày không được chồng chéo',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {

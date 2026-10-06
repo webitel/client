@@ -1,19 +1,15 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ResourcesRouteNames from './_internals/ResourcesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ResourcesRouteNames from './_internals/ResourcesRouteNames.enum';
 
 const TheResources = () => import('../components/the-resources.vue');
 const OpenedResource = () => import('../components/opened-resource.vue');
-const OpenedRegionGeneral = () =>
-	import(
-		'../../../../lookups/modules/regions/components/opened-region-general.vue'
-	);
-const OpenedResourceFailure = () =>
-	import('../components/opened-resource-failure.vue');
-const OpenedResourceNumbers = () =>
-	import('../modules/display/components/opened-resource-numbers.vue');
+const General = () => import('../components/opened-resource-general.vue');
+const Failure = () => import('../components/opened-resource-failure.vue');
+const Numbers = () =>
+	import('../modules/numbers/components/opened-resource-numbers.vue');
 
 const ResourcesRoutes = [
 	{
@@ -40,17 +36,17 @@ const ResourcesRoutes = [
 			{
 				path: 'general',
 				name: ResourcesRouteNames.GENERAL,
-				component: OpenedRegionGeneral,
+				component: General,
 			},
 			{
 				path: 'numbers/:numberId?',
 				name: ResourcesRouteNames.NUMBERS,
-				component: OpenedResourceNumbers,
+				component: Numbers,
 			},
 			{
 				path: 'failure',
 				name: ResourcesRouteNames.FAILURE,
-				component: OpenedResourceFailure,
+				component: Failure,
 			},
 			{
 				path: 'permissions/:permissionId?',

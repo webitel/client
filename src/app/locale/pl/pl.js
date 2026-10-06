@@ -117,8 +117,6 @@ export default {
 		timerangeStartLessThanEnd: 'Czas "Od" nie może być późniejszy niż "Do"',
 		timerangeNotIntersect:
 			'Interwały czasowe w tym samym dniu nie mogą się nakładać',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {

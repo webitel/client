@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AgentRoutes from '../../modules/contact-center/modules/agents/router/agents';
 import QueuesRoutes from '../../modules/contact-center/modules/queues/router/queues';
 import ResourcesGroupRoutes from '../../modules/contact-center/modules/resource-groups/router/resourceGroup';
-import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources.js';
+import ResourcesRoutes from '../../modules/contact-center/modules/resources/router/resources';
 import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams';
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices';
 import LicenseRoutes from '../../modules/directory/modules/license/router/license';

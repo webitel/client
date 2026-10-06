@@ -169,7 +169,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useAgentStatusIndicator } from '../../../composables/useAgentStatusIndicator';
+import { useAgentStatusIndicator } from '../composables/useAgentStatusIndicator';
 import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum';
 import { useAgentsDatalistStore } from '../stores/datalist/agentsDatalistStore';
 import HistoryPopup from './agent-history-popup.vue';
