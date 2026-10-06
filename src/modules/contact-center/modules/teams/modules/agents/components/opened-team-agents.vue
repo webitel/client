@@ -122,7 +122,7 @@ import ObjectListPopup from '../../../../../../../app/components/utils/object-li
 import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import { useAgentStatusIndicator } from '../../../../../composables/useAgentStatusIndicator';
+import { useAgentStatusIndicator } from '../../../../agents/composables/useAgentStatusIndicator';
 import { useTeamsCardStore } from '../../../stores/card/teamsCardStore';
 import { useTeamAgentsDatalistStore } from '../stores/datalist/teamAgentsDatalistStore';
 import AgentPopup from './opened-team-agents-popup.vue';
