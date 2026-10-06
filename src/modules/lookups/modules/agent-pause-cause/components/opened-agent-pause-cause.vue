@@ -63,12 +63,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<EngineAgentPauseCause>({
 	useCardStore: useAgentPauseCauseCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 });
 
 const tabs = computed(() => [
@@ -98,11 +98,4 @@ const path = computed(() => [
 		},
 	},
 ]);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 </script>

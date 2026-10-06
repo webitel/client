@@ -60,12 +60,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<EngineOnlineSkills>({
 	useCardStore: useActivityTypesCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 });
 
 const tabs = computed(() => [
@@ -91,11 +91,4 @@ const path = computed(() => [
 		name: isNew.value ? t('reusable.new') : originalItemInstance.value?.name,
 	},
 ]);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 </script>

@@ -146,11 +146,12 @@ const {
 	isNew,
 	saveText,
 	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useCardComponent<Queue>({
 	useCardStore: useQueuesCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 	manualSetup: true,
 });
 
@@ -325,13 +326,6 @@ const path = computed(() => {
 		},
 	];
 });
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 
 const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
 	useSaveCopyPopup((name) =>

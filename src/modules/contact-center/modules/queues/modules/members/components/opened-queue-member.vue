@@ -82,12 +82,12 @@ const {
 	originalItemInstance,
 	isNew,
 	saveText,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	validationFields,
 	save,
 } = useNestedCardComponent<EngineMemberInQueue>({
 	useCardStore: useQueueMembersCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 	routeParamName: 'id',
 	parentId: queueId.value,
 });
@@ -136,13 +136,6 @@ const path = computed(() => {
 		},
 	];
 });
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
-);
 
 const saveOptions = computed(() => [
 	{

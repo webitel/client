@@ -98,11 +98,11 @@ const {
 	modelValue,
 	validationFields,
 	isNew,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	save: saveItem,
 } = useNestedCardComponent<ConfigurationParameter>({
 	useCardStore: useConfigurationCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 	routeParamName: 'id',
 });
 
@@ -118,13 +118,6 @@ const descriptor = computed(() =>
 );
 const valueComponent = computed(
 	() => valueComponentByType[descriptor.value.type],
-);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
 );
 
 const parameterList = ref<
