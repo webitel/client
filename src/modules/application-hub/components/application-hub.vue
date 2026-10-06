@@ -66,6 +66,7 @@ import auditPic from '../assets/img/pictures/audit.svg';
 import crmPic from '../assets/img/pictures/crm.svg';
 import historyPic from '../assets/img/pictures/history.svg';
 import supervisorPic from '../assets/img/pictures/supervisor.svg';
+import wfmPic from '../assets/img/pictures/wfm.svg';
 import agentPic from '../assets/img/pictures/workspace.svg';
 import admTitleMd from '../assets/img/titles/admin-md.svg';
 import admTitleSm from '../assets/img/titles/admin-sm.svg';
@@ -81,6 +82,8 @@ import historyTitleMd from '../assets/img/titles/history-md.svg';
 import historyTitleSm from '../assets/img/titles/history-sm.svg';
 import supervisorTitleMd from '../assets/img/titles/supervisor-md.svg';
 import supervisorTitleSm from '../assets/img/titles/supervisor-sm.svg';
+import wfmTitleMd from '../assets/img/titles/wfm-md.svg';
+import wfmTitleSm from '../assets/img/titles/wfm-sm.svg';
 
 const picAdmin = {
 	img: admPic,
@@ -129,6 +132,14 @@ const picCrm = {
 	title: {
 		md: crmTitleMd,
 		sm: crmTitleSm,
+	},
+};
+
+const picWfm = {
+	img: wfmPic,
+	title: {
+		md: wfmTitleMd,
+		sm: wfmTitleSm,
 	},
 };
 
@@ -188,6 +199,13 @@ const apps = computed(() => {
 		pic: picCrm,
 	};
 
+	const wfmApp = {
+		name: WtApplication.Wfm,
+		title: t(`WtApplication.${WtApplication.Wfm}.name`),
+		href: import.meta.env.VITE_WFM_URL,
+		pic: picWfm,
+	};
+
 	const allApps: {
 		name: WtApplication;
 		title: string;
@@ -202,6 +220,7 @@ const apps = computed(() => {
 		crmApp,
 	];
 	if (config?.ON_SITE) allApps.push(grafanaApp);
+	allApps.push(wfmApp);
 	return allApps.filter(({ name }) => hasApplicationVisibility(name));
 });
 </script>
