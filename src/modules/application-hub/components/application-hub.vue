@@ -218,9 +218,13 @@ const apps = computed(() => {
 		adminApp,
 		auditApp,
 		crmApp,
+		...(config?.ON_SITE
+			? [
+					grafanaApp,
+				]
+			: []),
+		wfmApp,
 	];
-	if (config?.ON_SITE) allApps.push(grafanaApp);
-	allApps.push(wfmApp);
 	return allApps.filter(({ name }) => hasApplicationVisibility(name));
 });
 </script>
