@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { minToSec, secToMin } from '@webitel/api-services/scripts';
 import { mapActions } from 'vuex';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -111,12 +112,8 @@ export default {
 			},
 		}),
 
-		minToSec(min) {
-			return min * 60;
-		},
-		secToMin(sec) {
-			return sec / 60;
-		},
+		minToSec,
+		secToMin,
 		setStartTime({ index, value }) {
 			this.setTime({
 				prop: 'start',

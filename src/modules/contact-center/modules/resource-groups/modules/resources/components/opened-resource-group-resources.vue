@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <res-popup @close="closePopup" />
+    <resource-popup
+      :parent-id="resourceGroupId"
+      @saved="loadDataList"
+    />
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"
@@ -10,183 +13,174 @@
 
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.res.res', 2) }}
+        {{ t('objects.ccenter.res.res', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.REFRESH, IconAction.DELETE]"
+          :disabled:add="disableUserInput || !resourceGroupId"
+          :disabled:delete="disableUserInput || !selected.length"
+          @click:add="open"
+          @click:refresh="loadDataList"
+          @click:delete="
+            askDeleteConfirmation({
+              deleted: selected,
+              callback: () => deleteEls(selected),
+            })
+          "
         >
-          <delete-all-action
-            v-show="!anySelected"
-            :disabled="disableUserInput"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
-          />
-          <wt-icon-btn
-            :disabled="disableUserInput"
-            class="icon-action"
-            icon="plus"
-            @click="create"
-          />
-        </wt-table-actions>
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
-        :headers="headers"
+        :headers="shownHeaders"
+        :selected="selected"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
+        @update:selected="updateSelected"
       >
         <template #name="{ item }">
-          <div v-if="item.resource">
+          <span v-if="item.resource">
             {{ item.resource.name }}
-          </div>
+          </span>
         </template>
-
         <template #priority="{ item }">
-          <div v-if="item.priority">
-            {{ item.priority }}
-          </div>
+          {{ item.priority }}
         </template>
-
         <template #reserveResource="{ item }">
-          <div v-if="item.reserveResource">
+          <span v-if="item.reserveResource">
             {{ item.reserveResource.name }}
-          </div>
+          </span>
         </template>
-
         <template #actions="{ item }">
           <wt-icon-action
-            action="edit"
             :disabled="disableUserInput"
-            @click="editItem(item)"
+            action="edit"
+            @click="open(item.id)"
           />
           <wt-icon-action
-            action="delete"
             :disabled="disableUserInput"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            action="delete"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteEls([item]),
+              })
+            "
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { useCardListNavigation } from '@webitel/ui-datalist/card';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import ResPopup from './opened-resource-group-resource-popup.vue';
+import { useResourceGroupsCardStore } from '../../../stores/card/resourceGroupsCardStore';
+import { useResourceGroupResourcesDatalistStore } from '../stores/datalist/resourceGroupResourcesDatalistStore';
+import ResourcePopup from './opened-resource-group-resource-popup.vue';
 
-const namespace = 'ccenter/resGroups';
-const subNamespace = 'res';
+const { t } = useI18n();
 
-export default {
-	name: 'OpenedResourceGroupResources',
-	components: {
-		ResPopup,
-		DeleteConfirmationPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
-	setup() {
-		const { disableUserInput } = useUserAccessControl({
-			useUpdateAccessAsAllMutableChecksSource: true,
-		});
+const { disableUserInput } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
 
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const resourceGroupsCardStore = useResourceGroupsCardStore();
+const { itemId: resourceGroupId } = storeToRefs(resourceGroupsCardStore);
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const resourceGroupResourcesDatalistStore = useNestedTableList({
+	useTableStore: useResourceGroupResourcesDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(resourceGroupResourcesDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	columnResize,
+	columnReorder,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = resourceGroupResourcesDatalistStore;
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
 
-			askDeleteConfirmation,
-			closeDelete,
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-	}),
-	methods: {
-		addItem() {
-			this.$router.push({
-				...this.$route,
-				params: {
-					resourceId: 'new',
-				},
-			});
-		},
-		editItem(item) {
-			this.$router.push({
-				...this.$route,
-				params: {
-					resourceId: item.id,
-				},
-			});
-		},
-		closePopup() {
-			this.$router.go(-1);
-		},
-	},
-};
+const { open } = useCardListNavigation({
+	routeParamName: 'resourceId',
+});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

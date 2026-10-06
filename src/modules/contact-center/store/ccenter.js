@@ -1,8 +1,4 @@
-import resGroups from '../modules/resource-groups/store/resource-groups';
-
-const modules = {
-	resGroups,
-};
+const modules = {};
 
 export default {
 	namespaced: true,
