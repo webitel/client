@@ -29,10 +29,7 @@ export const headers: DatalistTableHeader[] = [
 	},
 	{
 		value: 'destination',
-		locale: [
-			'objects.ccenter.queues.destination',
-			2,
-		],
+		locale: 'objects.ccenter.members.communications',
 		field: 'communications',
 		show: true,
 		sort: SortSymbols.NONE,
@@ -61,6 +58,15 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
+		value: 'bucket',
+		locale: [
+			'objects.lookups.buckets.buckets',
+			1,
+		],
+		field: 'bucket',
+		show: true,
+	},
+	{
 		value: 'agent',
 		locale: [
 			'objects.ccenter.agents.agents',
@@ -70,5 +76,18 @@ export const headers: DatalistTableHeader[] = [
 		show: true,
 		sort: SortSymbols.NONE,
 		filter: filterConfigs[FilterOption.Agent],
+	},
+	{
+		value: 'expireAt',
+		locale: 'objects.ccenter.queues.expire',
+		field: 'expire_at',
+		show: false,
+		sort: SortSymbols.NONE,
+	},
+	{
+		value: 'timezone',
+		locale: 'objects.ccenter.queues.timezone',
+		field: 'timezone',
+		show: false,
 	},
 ];
