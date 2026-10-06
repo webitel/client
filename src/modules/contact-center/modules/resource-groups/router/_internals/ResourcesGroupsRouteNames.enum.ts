@@ -1,4 +1,4 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
 export default Object.freeze({
 	GENERAL: `${RouteNames.RESOURCE_GROUPS}-general`,
 	RESOURCES: `${RouteNames.RESOURCE_GROUPS}-resources`,

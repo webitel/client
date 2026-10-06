@@ -96,14 +96,6 @@ export function useWeekDaysData(
 		return dataList.value[index].day !== dataList.value[index - 1].day;
 	}
 
-	function minToSec(min: number) {
-		return min * 60;
-	}
-
-	function secToMin(sec: number) {
-		return sec / 60;
-	}
-
 	return {
 		dataList,
 		headers,
@@ -112,7 +104,5 @@ export function useWeekDaysData(
 		addRange,
 		removeRange,
 		isDayStart,
-		minToSec,
-		secToMin,
 	};
 }

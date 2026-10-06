@@ -150,11 +150,4 @@ describe('useWeekDaysData', () => {
 		expect(isDayStart(1)).toBe(false);
 		expect(isDayStart(2)).toBe(true);
 	});
-
-	it('converts minutes and seconds for timepicker bindings', () => {
-		const { minToSec, secToMin } = mountWeekDays();
-
-		expect(minToSec(90)).toBe(5400);
-		expect(secToMin(5400)).toBe(90);
-	});
 });

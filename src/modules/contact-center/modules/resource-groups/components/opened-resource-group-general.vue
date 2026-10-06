@@ -1,63 +1,57 @@
 <template>
-  <section>
+  <section class="opened-resource-group-general">
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
+        {{ t('objects.generalInfo') }}
       </h3>
     </header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="modelValue.communication"
         :show-clear="false"
         :disabled="disableUserInput || !hasCommunicationsReadAccess"
-        :label="$t('objects.lookups.communications.communications', 1)"
-        :search-method="loadDropdownOptionsList"
-        :v="v.itemInstance.communication"
-        :model-value="itemInstance.communication"
+        :label="t('objects.lookups.communications.communications', 1)"
+        :search-method="CommunicationsAPI.getLookup"
+        :regle-validation="validationFields?.communication"
         required
-        @update:model-value="setItemProp({ prop: 'communication', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { CommunicationsAPI } from '@webitel/api-services/api';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-export default {
-	name: 'OpenedResourceGroupGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
-			WtObject.Communication,
-		);
-		return {
-			disableUserInput,
-			hasCommunicationsReadAccess,
-		};
-	},
-	methods: {
-		loadDropdownOptionsList(params) {
-			return CommunicationsAPI.getLookup(params);
-		},
-	},
-};
+import type { ResourceGroupCard } from '../stores/card/resourceGroupsCardStore';
+
+const modelValue = defineModel<ResourceGroupCard>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<ResourceGroupCard>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasCommunicationsReadAccess } = useUserAccessControl(
+	WtObject.Communication,
+);
 </script>

@@ -1,46 +1,46 @@
 <template>
-  <section>
+  <section class="opened-resource-group-timerange">
     <header class="opened-card-header">
       <h3 class="opened-card-header__title">
-        {{ $t('objects.ccenter.resGroups.timerange') }}
+        {{ t('objects.ccenter.resGroups.timerange') }}
       </h3>
       <wt-icon-action
         v-if="!disableUserInput"
         action="add"
-        @click="addVariable"
+        @click="addRange"
       />
     </header>
     <div class="opened-card-input-grid">
       <div>
         <div
-          v-for="(range, key) in itemInstance.time"
-          class="range"
+          v-for="(range, index) in modelValue.time"
+          :key="index"
+          class="opened-resource-group-timerange__range"
         >
           <wt-timepicker
-            :custom-validators="fromValidators"
             :disabled="disableUserInput"
-            :label="$t('objects.ccenter.resGroups.timerangeFrom')"
-            :v="getFieldValidation(key, 'start')"
-            :model-value="range.start * 60"
+            :label="t('objects.ccenter.resGroups.timerangeFrom')"
+            :model-value="minToSec(range.start)"
+            :regle-validation="getRangeValidation(index, 'start')"
             format="hh:mm"
             required
-            @update:model-value="setVariableProp({index: key, prop: 'start', value: $event / 60 })"
+            @update:model-value="range.start = secToMin($event)"
           />
           <wt-timepicker
-            :custom-validators="hourRangeValidators"
             :disabled="disableUserInput"
-            :label="$t('objects.ccenter.resGroups.timerangeTo')"
-            :v="getFieldValidation(key, 'end')"
-            :model-value="range.end * 60"
+            :label="t('objects.ccenter.resGroups.timerangeTo')"
+            :model-value="minToSec(range.end)"
+            :regle-validation="getRangeValidation(index, 'end')"
             format="hh:mm"
             required
-            @update:model-value="setVariableProp({index: key, prop: 'end', value: $event / 60 })"
+            @update:model-value="range.end = secToMin($event)"
           />
           <wt-icon-action
-            v-if="key !== 0"
+            v-if="index !== 0"
             :disabled="disableUserInput"
             action="delete"
-            @click="deleteVariable(key)"
+            class="opened-resource-group-timerange__delete"
+            @click="removeRange(index)"
           />
         </div>
       </div>
@@ -48,68 +48,55 @@
   </section>
 </template>
 
-<script>
-import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import { getForEachHourRangeValidation } from '../../../../../app/utils/validators';
+<script setup lang="ts">
+import { minToSec, secToMin } from '@webitel/api-services/scripts';
+import {
+	getDefaultResourceGroupTimeRange,
+	getResourceGroupTimeRangeErrors,
+} from '@webitel/api-services/validations';
+import {
+	type CardValidationFields,
+	useTimeRangesValidation,
+} from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
 
-export default {
-	name: 'OpenedResourceGroupTimerange',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	computed: {
-		hourRangeValidators() {
-			return [
-				{
-					name: 'hourRange',
-					text: this.$t('validation.hourRange'),
-				},
-			];
-		},
-		fromValidators() {
-			return [
-				...this.hourRangeValidators,
-				{
-					name: 'timerangeStartLessThanEnd',
-					text: this.$t('validation.timerangeStartLessThanEnd'),
-				},
-			];
-		},
-	},
-	methods: {
-		getFieldValidation(index, prop) {
-			return getForEachHourRangeValidation(
-				this.v.itemInstance.time.$each.$response,
-				index,
-				prop,
-			);
-		},
-	},
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import type { ResourceGroupCard } from '../stores/card/resourceGroupsCardStore';
+
+const modelValue = defineModel<ResourceGroupCard>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<ResourceGroupCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const { getRangeValidation } = useTimeRangesValidation(
+	() => modelValue.value.time,
+	getResourceGroupTimeRangeErrors,
+);
+
+const addRange = () => {
+	modelValue.value.time?.push(getDefaultResourceGroupTimeRange());
+};
+
+const removeRange = (index: number) => {
+	modelValue.value.time?.splice(index, 1);
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.range {
+<style scoped>
+.opened-resource-group-timerange__range {
   display: flex;
   align-items: start;
-  margin-top: 18px;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
 
-  .wt-timepicker {
-    margin-right: 18px;
-  }
-
-  .wt-icon-btn {
-    margin-top: 26px; // timepicker label height
-  }
+.opened-resource-group-timerange__delete {
+  margin-top: var(--spacing-md);
 }
 </style>

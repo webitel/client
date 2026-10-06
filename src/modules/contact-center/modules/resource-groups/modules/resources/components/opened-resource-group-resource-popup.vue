@@ -1,114 +1,112 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
     :shown="!!resourceId"
-    size="sm"
     overflow
+    size="sm"
     @close="close"
   >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
+      <form
+        class="opened-resource-group-resource-popup__form"
+        @submit.prevent="save"
+      >
         <wt-single-select
+          v-model:model-value="modelValue.resource"
+          :label="t('objects.ccenter.res.res', 1)"
+          :regle-validation="validationFields?.resource"
+          :search-method="OutboundResourcesAPI.getLookup"
           :show-clear="false"
-          :label="$t('objects.ccenter.res.res', 1)"
-          :search-method="loadDropdownOptionsList"
-          :v="v$.itemInstance.resource"
-          :model-value="itemInstance.resource"
           required
-          @update:model-value="setItemProp({ prop: 'resource', value: $event })"
         />
         <wt-input-number
-          :label="$t('objects.ccenter.res.priority')"
-          :model-value="itemInstance.priority"
-          @update:model-value="setItemProp({ prop: 'priority', value: $event })"
+          v-model:model-value="modelValue.priority"
+          :label="t('objects.ccenter.res.priority')"
+          :regle-validation="validationFields?.priority"
         />
         <wt-single-select
-          :label="$t('objects.ccenter.res.reserveResource', 1)"
-          :search-method="loadDropdownOptionsList"
-          :v="v$.itemInstance.reserveResource"
-          :model-value="itemInstance.reserveResource"
-          @update:model-value="setItemProp({ prop: 'reserveResource', value: $event })"
+          v-model:model-value="modelValue.reserveResource"
+          :label="t('objects.ccenter.res.reserveResource', 1)"
+          :regle-validation="validationFields?.reserveResource"
+          :search-method="OutboundResourcesAPI.getLookup"
         />
       </form>
     </template>
     <template #actions>
       <wt-button
-        :disabled="disabledSave"
+        :disabled="hasValidationErrors"
         @click="save"
       >
-        {{ $t('objects.add') }}
+        {{ isNew ? t('objects.add') : t('objects.save') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="close"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { OutboundResourcesAPI as ResourcesAPI } from '@webitel/api-services/api';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-export default {
-	name: 'OpenedResNumbersPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+<script lang="ts" setup>
+import { OutboundResourcesAPI } from '@webitel/api-services/api';
+import type { EngineOutboundResourceInGroup } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	data: () => ({
-		namespace: 'ccenter/resGroups/res',
-	}),
-	validations: {
-		itemInstance: {
-			resource: {
-				required,
-			},
-		},
-	},
-	computed: {
-		popupTitle() {
-			const action = this.id
-				? this.$t('reusable.edit')
-				: this.$t('reusable.add');
-			return `${action} ${this.$t('objects.ccenter.res.res', 1).toLowerCase()}`;
-		},
-		resourceId() {
-			return this.$route.params.resourceId;
-		},
-	},
-	watch: {
-		resourceId: {
-			handler(id) {
-				if (id === 'new') this.resetState();
-				else {
-					this.setId(id);
-					this.loadItem();
-				}
-			},
-			immediate: true,
-		},
-	},
+import ResourcesGroupsRouteNames from '../../../router/_internals/ResourcesGroupsRouteNames.enum';
+import { useResourceGroupResourcesCardStore } from '../stores/card/resourceGroupResourcesCardStore';
 
-	methods: {
-		loadDropdownOptionsList(params) {
-			return ResourcesAPI.getLookup(params);
-		},
-	},
+const props = defineProps<{
+	parentId: string | number | null;
+}>();
+
+const emit = defineEmits<{
+	saved: [];
+}>();
+
+const { t } = useI18n();
+const route = useRoute();
+
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineOutboundResourceInGroup>({
+	useCardStore: useResourceGroupResourcesCardStore,
+	routeParamName: 'resourceId',
+	parentId: () => props.parentId,
+});
+
+const resourceId = computed(() => route.params.resourceId);
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.ccenter.res.res', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(ResourcesGroupsRouteNames.RESOURCES);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.opened-resource-group-resource-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+</style>
