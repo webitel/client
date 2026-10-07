@@ -561,9 +561,6 @@ export default {
 			},
 			pauseTemplates: {
 				pauseTemplates: 'Mẫu tạm dừng',
-				notSelected: 'Chưa chọn',
-				pauseReason: 'Lý do tạm dừng',
-				duration: 'Thời gian (phút)',
 			},
 			workingConditions: {
 				workingConditions: 'Điều kiện làm việc',

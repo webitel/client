@@ -565,9 +565,6 @@ export default {
 			},
 			pauseTemplates: {
 				pauseTemplates: 'Șablon de pauză | Șabloane de pauză',
-				notSelected: 'Neales',
-				pauseReason: 'Motiv de pauză',
-				duration: 'Durata (mm)',
 			},
 			workingConditions: {
 				workingConditions: 'Condiții de lucru',
