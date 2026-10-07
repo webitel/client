@@ -100,23 +100,6 @@ const nav = Object.freeze([
 				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.Media}`,
 				route: 'media',
 			},
-			/// TODO Hidden this route before be ready WFM
-			// https://webitel.atlassian.net/browse/WTEL-8690
-			// {
-			//   value: AdminSections.ShiftTemplates,
-			//   locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.ShiftTemplates}`,
-			//   route: 'shift-templates',
-			// },
-			// {
-			//   value: AdminSections.PauseTemplates,
-			//   locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.PauseTemplates}`,
-			//   route: 'pause-templates',
-			// },
-			// {
-			//   value: AdminSections.WorkingConditions,
-			//   locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.WorkingConditions}`,
-			//   route: 'working-conditions',
-			// },
 			{
 				value: AdminSections.QuickReplies,
 				locale: `WtApplication.${WtApplication.Admin}.sections.${AdminSections.QuickReplies}`,

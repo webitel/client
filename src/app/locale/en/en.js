@@ -562,9 +562,6 @@ export default {
 			},
 			pauseTemplates: {
 				pauseTemplates: 'Pause template | Pause templates',
-				notSelected: 'Not selected',
-				pauseReason: 'Pause reason',
-				duration: 'Duration (mm)',
 			},
 			workingConditions: {
 				workingConditions: 'Working conditions',

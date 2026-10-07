@@ -24,7 +24,6 @@ import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
-import PauseTemplatesRoutes from '../../modules/lookups/modules/pause-templates/router/pauseTemplates.js';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
 import ShiftTemplatesRoutes from '../../modules/lookups/modules/shift-templates/router/shiftTemplates.js';
@@ -131,7 +130,6 @@ export const initRouter = async ({
 					...AgentPauseCauseRoutes,
 					...ActivityTypeRoutes,
 					...ShiftTemplatesRoutes,
-					...PauseTemplatesRoutes,
 					...WorkingConditionsRoutes,
 					...QuickRepliesRoutes,
 					// ----------LOOKUPS END------------

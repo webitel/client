@@ -570,9 +570,6 @@ export default {
 			},
 			pauseTemplates: {
 				pauseTemplates: 'Шаблон пауз | Шаблони пауз',
-				notSelected: 'Не вибрано',
-				pauseReason: 'Причина паузи',
-				duration: 'Тривалість (хх)',
 			},
 			workingConditions: {
 				workingConditions: 'Умови роботи',

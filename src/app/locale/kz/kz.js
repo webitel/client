@@ -560,9 +560,6 @@ export default {
 			},
 			pauseTemplates: {
 				pauseTemplates: 'Демалыс шаблоны | Демалыс шаблондары',
-				notSelected: 'Таңдалмаған',
-				pauseReason: 'Демалыс себебі',
-				duration: 'Ұзақтығы (мин)',
 			},
 			workingConditions: {
 				workingConditions: 'Жұмыс шарттары',
