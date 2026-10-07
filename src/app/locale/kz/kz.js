@@ -558,18 +558,6 @@ export default {
 				shiftTemplates: 'Смена шаблоны | Смена шаблондары',
 				duration: 'Ұзақтығы (сағ:мин)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Демалыс шаблоны | Демалыс шаблондары',
-			},
-			workingConditions: {
-				workingConditions: 'Жұмыс шарттары',
-				workdayDuration: 'Жұмыс күні ұзақтығы (сағ)',
-				workdaysPerMonth: 'Айдағы жұмыс күндері',
-				vacationDaysPerYear: 'Жылына демалыс күндері',
-				sickLeavesPerYear: 'Жылына ауру күндері',
-				daysOffPerYear: 'Жылына демалыс күндері',
-				pauseDuration: 'Демалыс ұзақтығы (мин)',
-			},
 			quickReplies: {
 				quickReplies: 'Тез жауап | Тез жауаптар',
 			},

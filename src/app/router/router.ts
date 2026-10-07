@@ -27,7 +27,6 @@ import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
 import ShiftTemplatesRoutes from '../../modules/lookups/modules/shift-templates/router/shiftTemplates.js';
-import WorkingConditionsRoutes from '../../modules/lookups/modules/working-conditions/router/workingConditions.js';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
@@ -130,7 +129,6 @@ export const initRouter = async ({
 					...AgentPauseCauseRoutes,
 					...ActivityTypeRoutes,
 					...ShiftTemplatesRoutes,
-					...WorkingConditionsRoutes,
 					...QuickRepliesRoutes,
 					// ----------LOOKUPS END------------
 

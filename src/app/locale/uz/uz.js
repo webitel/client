@@ -563,18 +563,6 @@ export default {
 				shiftTemplates: "O'tish shablonlari | O'tish shablonlari",
 				duration: 'Davomiyligi (soat:daqiqa)',
 			},
-			pauseTemplates: {
-				pauseTemplates: "To'xtash shablonlari | To'xtash shablonlari",
-			},
-			workingConditions: {
-				workingConditions: 'Ish shartlari',
-				workdayDuration: 'Ish kuni davomiyligi (soat)',
-				workdaysPerMonth: 'Ish kunlari yiliga',
-				vacationDaysPerYear: 'Ish kunlari yiliga',
-				sickLeavesPerYear: 'Ish kunlari yiliga',
-				daysOffPerYear: 'Kunlar-off yiliga',
-				pauseDuration: "To'xtash davomiyligi (daqiqa)",
-			},
 			quickReplies: {
 				quickReplies: 'Tez javob | Tez javoblar',
 			},

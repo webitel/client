@@ -565,18 +565,6 @@ export default {
 				shiftTemplates: 'Plantilla de turno | Plantillas de turnos',
 				duration: 'Duración (hh:mm)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Plantilla de pausa | Plantillas de pausa',
-			},
-			workingConditions: {
-				workingConditions: 'Condiciones de trabajo',
-				workdayDuration: 'Duración del día laboral (hrs)',
-				workdaysPerMonth: 'Días laborables al mes',
-				vacationDaysPerYear: 'Días de vacaciones al año',
-				sickLeavesPerYear: 'Días de enfermedad al año',
-				daysOffPerYear: 'Días de vacaciones al año',
-				pauseDuration: 'Duración de la pausa (min)',
-			},
 			quickReplies: {
 				quickReplies: 'Respuesta rápida | Respuestas rápidas',
 			},
