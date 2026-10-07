@@ -62,25 +62,20 @@ export default {
 		coreTypeSectionsAccess() {
 			if (!this.editedApp) return [];
 
-			const HiddenSections = [
-				// TODO Hidden before WFM will be ready
-				// https://webitel.atlassian.net/browse/WTEL-8690
-				'pause-templates',
-				'shift-templates',
-				'working-conditions',
-			];
-
-			return Object.keys(this.access[this.editedApp])
-				.filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
-				.filter((section) => !this.access[this.editedApp][section]._custom) // custom types are handled in a separate computed
-				.filter((section) => !HiddenSections.includes(section))
-				.map((section) => ({
-					name: section,
-					displayName: this.$t(
-						`${this.access[this.editedApp][section]._locale}`,
-					),
-					enabled: this.access[this.editedApp][section]._enabled,
-				}));
+			return (
+				Object.keys(this.access[this.editedApp])
+					.filter((section) => section.slice(0, 1) !== '_') // "functional" properties start with _
+					.filter((section) => !this.access[this.editedApp][section]._custom) // custom types are handled in a separate computed
+					// [Claude] a section moved to another app (admin "pause-templates" → WFM) stays in roles saved earlier, but has no schema `_locale` anymore
+					.filter((section) => !!this.access[this.editedApp][section]._locale)
+					.map((section) => ({
+						name: section,
+						displayName: this.$t(
+							`${this.access[this.editedApp][section]._locale}`,
+						),
+						enabled: this.access[this.editedApp][section]._enabled,
+					}))
+			);
 		},
 		customTypeSectionsAccess() {
 			if (this.editedApp !== WtApplication.Crm) return [];

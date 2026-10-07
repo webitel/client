@@ -564,9 +564,6 @@ export default {
 			},
 			pauseTemplates: {
 				pauseTemplates: 'Szablon zawieszenia | Szablony zawieszenia',
-				notSelected: 'Nie wybrano',
-				pauseReason: 'Przyczyna zawieszenia',
-				duration: 'Długość (mm)',
 			},
 			workingConditions: {
 				workingConditions: 'Warunki pracy',
