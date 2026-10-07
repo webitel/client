@@ -562,18 +562,6 @@ export default {
 				shiftTemplates: 'Szablon przesunięcia | Szablony przesunięć',
 				duration: 'Długość (hh:mm)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Szablon zawieszenia | Szablony zawieszenia',
-			},
-			workingConditions: {
-				workingConditions: 'Warunki pracy',
-				workdayDuration: 'Długość dnia pracy (godz)',
-				workdaysPerMonth: 'Dni pracy w miesiącu',
-				vacationDaysPerYear: 'Dni urlopu w roku',
-				sickLeavesPerYear: 'Dni chorobowe w roku',
-				daysOffPerYear: 'Dni wolne w roku',
-				pauseDuration: 'Długość przerwy (min)',
-			},
 			quickReplies: {
 				quickReplies: 'Szybka odpowiedź | Szybkie odpowiedzi',
 			},

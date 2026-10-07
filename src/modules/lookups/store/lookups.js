@@ -5,7 +5,6 @@ import media from '../modules/media/store/media';
 import quickReplies from '../modules/quick-replies/store/quick-replies.js';
 import regions from '../modules/regions/store/regions';
 import shiftTemplates from '../modules/shift-templates/store/shift-templates.js';
-import workingConditions from '../modules/working-conditions/store/working-conditions.js';
 
 const modules = {
 	skills,
@@ -14,7 +13,6 @@ const modules = {
 	communications,
 	media,
 	shiftTemplates,
-	workingConditions,
 	quickReplies,
 };
 

@@ -560,18 +560,6 @@ export default {
 				shiftTemplates: 'Shift template | Shift templates',
 				duration: 'Duration (hh:mm)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Pause template | Pause templates',
-			},
-			workingConditions: {
-				workingConditions: 'Working conditions',
-				workdayDuration: 'Workday duration (hrs)',
-				workdaysPerMonth: 'Workdays per month',
-				vacationDaysPerYear: 'Vacation days per year',
-				sickLeavesPerYear: 'Sick leaves per year',
-				daysOffPerYear: 'Days-off per year',
-				pauseDuration: 'Pause duration (min)',
-			},
 			quickReplies: {
 				quickReplies: 'Quick reply | Quick replies',
 			},

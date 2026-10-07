@@ -563,18 +563,6 @@ export default {
 				shiftTemplates: 'Șablon de schimb | Șabloane de schimb',
 				duration: 'Durata (hh:mm)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Șablon de pauză | Șabloane de pauză',
-			},
-			workingConditions: {
-				workingConditions: 'Condiții de lucru',
-				workdayDuration: 'Durata zilei de lucru (ore)',
-				workdaysPerMonth: 'Zile de lucru pe lună',
-				vacationDaysPerYear: 'Zile de concediu pe an',
-				sickLeavesPerYear: 'Zile de concediu pentru boală pe an',
-				daysOffPerYear: 'Zile de concediu pe an',
-				pauseDuration: 'Durata pauzei (min)',
-			},
 			quickReplies: {
 				quickReplies: 'Răspuns rapid | Răspunsuri rapide',
 			},

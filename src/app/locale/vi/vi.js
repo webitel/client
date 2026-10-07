@@ -559,18 +559,6 @@ export default {
 				shiftTemplates: 'Mẫu lịch trình',
 				duration: 'Thời gian (giờ:phút)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Mẫu tạm dừng',
-			},
-			workingConditions: {
-				workingConditions: 'Điều kiện làm việc',
-				workdayDuration: 'Thời gian làm việc trong ngày (giờ)',
-				workdaysPerMonth: 'Số ngày làm việc trong tháng',
-				vacationDaysPerYear: 'Số ngày nghỉ phép trong năm',
-				sickLeavesPerYear: 'Số ngày nghỉ ốm trong năm',
-				daysOffPerYear: 'Số ngày nghỉ trong năm',
-				pauseDuration: 'Thời gian tạm dừng (phút)',
-			},
 			quickReplies: {
 				quickReplies: 'Trả lời nhanh',
 			},

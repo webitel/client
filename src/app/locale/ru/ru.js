@@ -569,18 +569,6 @@ export default {
 				shiftTemplates: 'Шаблон смен | Шаблоны смен',
 				duration: 'Длительность (чч:мм)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Шаблон пауз | Шаблоны пауз',
-			},
-			workingConditions: {
-				workingConditions: 'Условия работы',
-				workdayDuration: 'Длительность рабочего дня (час.)',
-				workdaysPerMonth: 'Количество рабочих дней в месяц',
-				vacationDaysPerYear: 'Количество дней отпуска в год',
-				sickLeavesPerYear: 'Количество дней больничного в год',
-				daysOffPerYear: 'Количество выходных дней в год',
-				pauseDuration: 'Длительность перерыва (мин)',
-			},
 			quickReplies: {
 				quickReplies: 'Быстрый ответ | Быстрые ответы',
 			},

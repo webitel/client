@@ -568,18 +568,6 @@ export default {
 				shiftTemplates: 'Шаблон змін | Шаблони змін',
 				duration: 'Тривалість (гг:хх)',
 			},
-			pauseTemplates: {
-				pauseTemplates: 'Шаблон пауз | Шаблони пауз',
-			},
-			workingConditions: {
-				workingConditions: 'Умови роботи',
-				workdayDuration: 'Тривалість робочого дня (год.)',
-				workdaysPerMonth: 'Кількість робочих днів на місяць',
-				vacationDaysPerYear: 'Кількість днів відпустки на рік',
-				sickLeavesPerYear: 'Кількість днів лікарняного на рік',
-				daysOffPerYear: 'Кількість вихідних днів на рік',
-				pauseDuration: 'Тривалість перерви (хв)',
-			},
 			quickReplies: {
 				quickReplies: 'Швидка відповідь | Швидкі відповіді',
 			},
