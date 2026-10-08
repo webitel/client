@@ -14,6 +14,7 @@
         >
           <wt-button-select
             :color="disabledSave ? 'secondary' : 'primary'"
+            :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"
@@ -44,12 +45,6 @@
           type="submit"
         > <!--  submit form on Enter  -->
       </form>
-
-      <save-copy-popup
-        :shown="isSaveCopyPopupShown"
-        @close="closeSaveCopyPopup"
-        @save="saveCopy"
-      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -57,10 +52,7 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import {
-	SaveCopyPopup,
-	useSaveCopyPopup,
-} from '@webitel/ui-sdk/modules/SaveCopyPopup';
+import { useSaveCopy } from '@webitel/ui-sdk/modules/SaveCopy';
 import { getCurrentInstance } from 'vue';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -78,7 +70,6 @@ export default {
 		General,
 		Permissions,
 		ApplicationsAccess,
-		SaveCopyPopup,
 	},
 	mixins: [
 		openedObjectMixin,
@@ -89,19 +80,16 @@ export default {
 		const { hasSaveActionAccess } = useUserAccessControl();
 
 		const instance = getCurrentInstance();
-		const saveCopyPopup = useSaveCopyPopup((name) =>
+		const { saveOptions } = useSaveCopy(() =>
 			RolesAPI.add({
-				itemInstance: {
-					...instance.proxy.itemInstance,
-					name,
-				},
+				itemInstance: instance.proxy.itemInstance,
 			}),
 		);
 
 		return {
 			v$,
 			hasSaveActionAccess,
-			...saveCopyPopup,
+			saveOptions,
 		};
 	},
 	data: () => ({
