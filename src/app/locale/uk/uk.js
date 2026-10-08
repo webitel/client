@@ -564,10 +564,6 @@ export default {
 				allowSupervisor: 'Супервізор може змінювати статус',
 				allowAgent: 'Оператор може змінювати статус',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Шаблон змін | Шаблони змін',
-				duration: 'Тривалість (гг:хх)',
-			},
 			quickReplies: {
 				quickReplies: 'Швидка відповідь | Швидкі відповіді',
 			},

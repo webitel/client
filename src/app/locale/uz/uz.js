@@ -559,10 +559,6 @@ export default {
 				allowSupervisor: "Supervisor bu holatni o'zgartirishi mumkin",
 				allowAgent: "Agent bu holatni o'zgartirishi mumkin",
 			},
-			shiftTemplates: {
-				shiftTemplates: "O'tish shablonlari | O'tish shablonlari",
-				duration: 'Davomiyligi (soat:daqiqa)',
-			},
 			quickReplies: {
 				quickReplies: 'Tez javob | Tez javoblar',
 			},

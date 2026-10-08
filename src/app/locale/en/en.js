@@ -556,10 +556,6 @@ export default {
 				allowSupervisor: 'Supervisor can change this status',
 				allowAgent: 'Agent can change this status',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Shift template | Shift templates',
-				duration: 'Duration (hh:mm)',
-			},
 			quickReplies: {
 				quickReplies: 'Quick reply | Quick replies',
 			},

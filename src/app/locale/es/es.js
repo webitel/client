@@ -561,10 +561,6 @@ export default {
 				allowSupervisor: 'El supervisor puede cambiar este estado',
 				allowAgent: 'El agente puede cambiar este estado',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Plantilla de turno | Plantillas de turnos',
-				duration: 'Duración (hh:mm)',
-			},
 			quickReplies: {
 				quickReplies: 'Respuesta rápida | Respuestas rápidas',
 			},
