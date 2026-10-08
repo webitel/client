@@ -119,8 +119,6 @@ export default {
 		timerangeStartLessThanEnd: 'Время От не может быть больше чем До',
 		timerangeNotIntersect:
 			'Временные интервалы в один день не могут пересекаться',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Файл содержит некорректные номера. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -550,6 +548,7 @@ export default {
 				communications: 'Тип связи| Типы связи',
 				allCommunications: 'Все типы связи',
 				addCommunication: 'Добавить связь',
+				missingCommunication: 'Пожалуйста, добавьте тип связи',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -558,32 +557,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статусы оператора',
+				pauseCause: 'Причины паузы',
 				allPauseCause: 'Все причины паузы оператора',
 				limit: 'Лимит (мин)',
 				min: 'Минут',
 				allowAdmin: 'Администратор может изменять этот статус',
 				allowSupervisor: 'Супервизор может изменять этот статус',
 				allowAgent: 'Оператор может изменять этот статус',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Шаблон смен | Шаблоны смен',
-				duration: 'Длительность (чч:мм)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Шаблон пауз | Шаблоны пауз',
-				notSelected: 'Не выбрано',
-				pauseReason: 'Причина паузы',
-				duration: 'Длительность (мм)',
-			},
-			workingConditions: {
-				workingConditions: 'Условия работы',
-				workdayDuration: 'Длительность рабочего дня (час.)',
-				workdaysPerMonth: 'Количество рабочих дней в месяц',
-				vacationDaysPerYear: 'Количество дней отпуска в год',
-				sickLeavesPerYear: 'Количество дней больничного в год',
-				daysOffPerYear: 'Количество выходных дней в год',
-				pauseDuration: 'Длительность перерыва (мин)',
 			},
 			quickReplies: {
 				quickReplies: 'Быстрый ответ | Быстрые ответы',
@@ -625,6 +605,7 @@ export default {
 				pattern: 'Номер назначения',
 				dialplanRule: 'Правило исходящей маршрутизации',
 				position: 'Позиция',
+				allowTransfer: 'Разрешить перевод',
 			},
 
 			chatplan: {
@@ -834,6 +815,7 @@ export default {
 				extraChatCount: 'Дополнительное количество чатов',
 				isSupervisor: 'Супервизор',
 				stateTime: 'Длительность',
+				statusType: 'Тип статуса',
 				addSkill: 'Добавить навык',
 				editSkill: 'Редактировать навык',
 				addSubordinate: 'Добавить подчинённого оператора',
@@ -905,6 +887,7 @@ export default {
 				allMembers: 'Все абоненты',
 				addMember: 'добавить абонента',
 				destination: 'Назначение',
+				communications: 'Коммуникации',
 				display: 'Отображение номера',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -912,8 +895,15 @@ export default {
 				emptyWorkspace: 'Абоненты не найдены',
 				resetMembers: {
 					resetMembers: 'Перезапустить абонентов',
-					description:
-						'Вы уверены, что хотите перезапустить неуспешные попытки за период c\n{dateFrom} по {dateTo}\n с учётом установленных фильтров и результатов поиска?',
+					description: {
+						question: 'Вы уверены, что хотите перезапустить неуспешные попытки',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за все время?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за период c\n${named('dateFrom')} по ${named('dateTo')}\n с учётом установленных фильтров и результатов поиска?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Будет обработано записей: {count}',
 					emptyDescription:
 						'По текущим фильтрам нет неуспешных попыток. Сбрасывать нечего.',
@@ -973,6 +963,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Новая очередь',
+				saveBeforeAddingRecords:
+					'Заполните обязательные поля очереди, прежде чем добавлять записи',
 				newQueueDescription: 'Типы очередей',
 				outboundIVRQueue: 'Исходящая IVR-очередь',
 				outboundIVR: 'Исходящий IVR',
@@ -1260,8 +1252,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'письмо',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'запись экрана',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'снимок экрана',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'запись экрана',
 				},
 				encryptFile: 'Шифровать новые файлы',
@@ -1466,6 +1456,10 @@ export default {
 		deleteAll: 'Удалить все объекты',
 		deleteSelected: 'Удалить {count} выбранных объектов',
 		deleteFiltered: 'Удалить все отфильтрованные объекты',
+		resetAll: 'Перезапустить всех абонентов',
+		resetSelected:
+			'Перезапустить {count} выбранного абонента | Перезапустить {count} выбранных абонентов',
+		resetFiltered: 'Перезапустить всех отфильтрованных абонентов',
 		generate: 'Создать',
 		add: 'Добавить',
 		history: 'История',

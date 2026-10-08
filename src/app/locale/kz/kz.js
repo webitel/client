@@ -116,8 +116,6 @@ export default {
 			'"Бастап" уақыты "Дейін" уақытынан кеш болмауы керек',
 		timerangeNotIntersect:
 			'Бір күннің уақыт аралықтары бір-бірімен қиыспауы керек',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Файлда қате нөмірлер бар. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -539,6 +537,7 @@ export default {
 				communications: 'Коммуникация түрі | Коммуникация түрлері',
 				allCommunications: 'Барлық коммуникация түрлері',
 				addCommunication: 'Коммуникация қосу',
+				missingCommunication: 'Коммуникация түрін қосыңыз',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -547,32 +546,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Агент күйлері',
+				pauseCause: 'Пауза себептері',
 				allPauseCause: 'Барлық агент демалыс себептері',
 				limit: 'Шектеу (мин)',
 				min: 'мин',
 				allowAdmin: 'Админ демалыс күйін өзгертуге рұқсат',
 				allowSupervisor: 'Бақылаушы демалыс күйін өзгертуге рұқсат',
 				allowAgent: 'Агент демалыс күйін өзгертуге рұқсат',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Смена шаблоны | Смена шаблондары',
-				duration: 'Ұзақтығы (сағ:мин)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Демалыс шаблоны | Демалыс шаблондары',
-				notSelected: 'Таңдалмаған',
-				pauseReason: 'Демалыс себебі',
-				duration: 'Ұзақтығы (мин)',
-			},
-			workingConditions: {
-				workingConditions: 'Жұмыс шарттары',
-				workdayDuration: 'Жұмыс күні ұзақтығы (сағ)',
-				workdaysPerMonth: 'Айдағы жұмыс күндері',
-				vacationDaysPerYear: 'Жылына демалыс күндері',
-				sickLeavesPerYear: 'Жылына ауру күндері',
-				daysOffPerYear: 'Жылына демалыс күндері',
-				pauseDuration: 'Демалыс ұзақтығы (мин)',
 			},
 			quickReplies: {
 				quickReplies: 'Тез жауап | Тез жауаптар',
@@ -615,6 +595,7 @@ export default {
 				pattern: 'Мақсатты нөмір',
 				dialplanRule: 'Дайындық ережесі',
 				position: 'Орын',
+				allowTransfer: 'Ауыстыруға рұқсат беру',
 			},
 
 			chatplan: {
@@ -824,6 +805,7 @@ export default {
 				state: 'Күй',
 				isSupervisor: 'Бақылаушы',
 				stateTime: 'Күй уақыты',
+				statusType: 'Күй түрі',
 				addSkill: 'Қабілет қосу',
 				editSkill: 'Қабілетті өзгерту',
 				statusHistory: 'Күй тізімі',
@@ -895,6 +877,7 @@ export default {
 				allMembers: 'Барлық меншіктер',
 				addMember: 'Меншікті қосу',
 				destination: 'Мақсат',
+				communications: 'Коммуникациялар',
 				display: 'Көрсету нөмірі',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -902,8 +885,13 @@ export default {
 				emptyWorkspace: 'Меншіктер табылмады',
 				resetMembers: {
 					resetMembers: 'Меншіктерді қалпына келтіру',
-					description:
-						'Сіз \n{dateFrom} мен {dateTo} аралығындағы\nсәтсіз әрекеттерді қолданылған сүзгілер мен іздеу нәтижелері бойынша қалпына келтіргіңіз келетініне сенімдісіз бе?',
+					description: {
+						all: 'Күнді шектеместен сәтсіз әрекеттерді қалпына келтіргіңіз келетініне сенімдісіз бе?',
+						filtered:
+							'Сіз \n{dateFrom} мен {dateTo} аралығындағы\nсәтсіз әрекеттерді қолданылған сүзгілер мен іздеу нәтижелері бойынша қалпына келтіргіңіз келетініне сенімдісіз бе?',
+						selected:
+							'Сіз сәтсіз әрекеттерді қалпына келтіргіңіз келетініне сенімдісіз бе?',
+					},
 					descriptionCount: '{count} жазба әсер етеді.',
 					emptyDescription:
 						'Ағымдағы сүзгілер бойынша сәтсіз әрекеттер табылған жоқ. Қалпына келтіретін ешнәрсе жоқ.',
@@ -959,6 +947,8 @@ export default {
 				teams: 'Команда | Командалар',
 				tags: 'Тақтар',
 				newQueue: 'Жаңа қойма',
+				saveBeforeAddingRecords:
+					'Жазбаларды қоспас бұрын кезектің міндетті өрістерін толтырыңыз',
 				blacklist: 'Стоп тізімі',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1242,8 +1232,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медиа',
 					[StorageUploadFileChannel.MailChannel]: 'пошта',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'экранды бөлісу',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'скриншоттар',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'экранды жазу',
 				},
 				encryptFile: 'Жаңа файлдарды шифрлеу',
@@ -1447,6 +1435,10 @@ export default {
 		deleteAll: 'Барлық элементтерді өшіру',
 		deleteSelected: 'Өшіру {count} таңдалған элементтер',
 		deleteFiltered: 'Фильтрлеуден кейінгі барлық элементтерді өшіру',
+		resetAll: 'Барлық меншіктерді қалпына келтіру',
+		resetSelected:
+			'Таңдалған {count} меншікті қалпына келтіру | Таңдалған {count} меншікті қалпына келтіру',
+		resetFiltered: 'Фильтрленген барлық меншіктерді қалпына келтіру',
 		generate: 'Құру',
 		add: 'Қосу',
 		history: 'Тарих',

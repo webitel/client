@@ -26,8 +26,8 @@
 </template>
 
 <script>
+import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { mapActions, mapState } from 'vuex';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
 
 import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';

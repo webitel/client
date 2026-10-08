@@ -71,6 +71,9 @@
             :text="statusIndicatorText[snakeToCamel(item.status)]"
           />
         </template>
+        <template #statusType="{ item }">
+          {{ formatStatusType(item) }}
+        </template>
         <template #skills="{ item }">
           <one-plus-many
             :collection="item.skills"
@@ -95,7 +98,7 @@
 import type { EngineAgent } from '@webitel/api-services/gen/models';
 import { useNestedTableList } from '@webitel/ui-datalist';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { AgentStatus, IconAction } from '@webitel/ui-sdk/enums';
 import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { storeToRefs } from 'pinia';
@@ -106,7 +109,7 @@ import { useRoute, useRouter } from 'vue-router';
 import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
 import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import { useAgentStatusIndicator } from '../../../../../composables/useAgentStatusIndicator';
+import { useAgentStatusIndicator } from '../../../../agents/composables/useAgentStatusIndicator';
 import { useQueueAgentsDatalistStore } from '../stores/datalist/queueAgentsDatalistStore';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab
@@ -116,6 +119,11 @@ const route = useRoute();
 const router = useRouter();
 
 const { statusIndicatorColor, statusIndicatorText } = useAgentStatusIndicator();
+
+const formatStatusType = (item: EngineAgent) => {
+	if (item.statusType) return item.statusType;
+	return item.status === AgentStatus.ONLINE ? '' : '—';
+};
 
 const tableStore = useNestedTableList({
 	useTableStore: useQueueAgentsDatalistStore,

@@ -2,7 +2,7 @@
   <wt-page-wrapper class="table-page">
     <template #header>
       <wt-page-header
-        :hide-primary="!hasCreateAccess"
+        :primary-disabled="!hasCreateAccess"
         :primary-action="create"
       >
         <wt-breadcrumb :path="path" />
@@ -67,7 +67,6 @@
           :dark-mode="darkMode"
           :text="dummy.text && $t(dummy.text)"
           :show-action="dummy.showAction"
-          class="dummy-wrapper"
           @create="create"
         ></wt-dummy>
 

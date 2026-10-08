@@ -116,8 +116,6 @@ export default {
 			'La hora "Desde" no puede ser posterior a "Hasta"',
 		timerangeNotIntersect:
 			'Los intervalos de tiempo del mismo día no pueden superponerse',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`El archivo contiene números incorrectos. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -546,6 +544,7 @@ export default {
 				communications: 'Tipo de comunicación | Tipos de comunicación',
 				allCommunications: 'Todos los tipos de comunicación',
 				addCommunication: 'Añadir comunicación',
+				missingCommunication: 'Por favor, añada un tipo de comunicación',
 				code: 'Código',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Teléfono',
@@ -554,32 +553,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Estados de agente',
+				pauseCause: 'Causas de pausa',
 				allPauseCause: 'Todos los motivos de pausa de agente',
 				limit: 'Límite (min)',
 				min: 'min',
 				allowAdmin: 'El administrador puede cambiar este estado',
 				allowSupervisor: 'El supervisor puede cambiar este estado',
 				allowAgent: 'El agente puede cambiar este estado',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Plantilla de turno | Plantillas de turnos',
-				duration: 'Duración (hh:mm)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Plantilla de pausa | Plantillas de pausa',
-				notSelected: 'No seleccionado',
-				pauseReason: 'Motivo de pausa',
-				duration: 'Duración (mm)',
-			},
-			workingConditions: {
-				workingConditions: 'Condiciones de trabajo',
-				workdayDuration: 'Duración del día laboral (hrs)',
-				workdaysPerMonth: 'Días laborables al mes',
-				vacationDaysPerYear: 'Días de vacaciones al año',
-				sickLeavesPerYear: 'Días de enfermedad al año',
-				daysOffPerYear: 'Días de vacaciones al año',
-				pauseDuration: 'Duración de la pausa (min)',
 			},
 			quickReplies: {
 				quickReplies: 'Respuesta rápida | Respuestas rápidas',
@@ -622,6 +602,7 @@ export default {
 				pattern: 'Número de destino',
 				dialplanRule: 'Regla de dialplan',
 				position: 'Posición',
+				allowTransfer: 'Permitir transferencia',
 			},
 
 			chatplan: {
@@ -832,6 +813,7 @@ export default {
 				state: 'Estado',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Tiempo de estado',
+				statusType: 'Tipo de estado',
 				addSkill: 'Añadir habilidad',
 				editSkill: 'Editar habilidad',
 				statusHistory: 'Historial de estado',
@@ -903,6 +885,7 @@ export default {
 				allMembers: 'Todos los miembros',
 				addMember: 'Añadir miembro',
 				destination: 'Destino',
+				communications: 'Comunicaciones',
 				display: 'Número de visualización',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -910,8 +893,16 @@ export default {
 				emptyWorkspace: 'No se encontraron miembros',
 				resetMembers: {
 					resetMembers: 'Restablecer miembros',
-					description:
-						'¿Está seguro de que desea reiniciar los intentos fallidos desde\n{dateFrom} hasta {dateTo}\nsegún los filtros aplicados y los resultados de la búsqueda?',
+					description: {
+						question:
+							'¿Está seguro de que desea reiniciar los intentos fallidos',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} sin ningún límite de fecha?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} desde\n${named('dateFrom')} hasta ${named('dateTo')}\nsegún los filtros aplicados y los resultados de la búsqueda?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Se verán afectados {count} registros.',
 					emptyDescription:
 						'No hay intentos fallidos que coincidan con los filtros actuales. No hay nada que reiniciar.',
@@ -967,6 +958,8 @@ export default {
 				teams: 'Equipo | Equipos',
 				tags: 'Etiquetas',
 				newQueue: 'Nueva cola',
+				saveBeforeAddingRecords:
+					'Complete los campos obligatorios de la cola antes de agregar registros',
 				blacklist: 'Lista de parada',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1253,8 +1246,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'medio',
 					[StorageUploadFileChannel.MailChannel]: 'correo',
 					[StorageUploadFileChannel.LogChannel]: 'registro',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'compartir pantalla',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturas de pantalla',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'grabaciones de pantalla',
 				},
@@ -1462,6 +1453,10 @@ export default {
 		deleteAll: 'Eliminar todos los elementos',
 		deleteSelected: 'Eliminar {count} elementos seleccionados',
 		deleteFiltered: 'Eliminar todos los elementos filtrados',
+		resetAll: 'Restablecer todos los miembros',
+		resetSelected:
+			'Restablecer {count} miembro seleccionado | Restablecer {count} miembros seleccionados',
+		resetFiltered: 'Restablecer todos los miembros filtrados',
 		generate: 'Generar',
 		add: 'Añadir',
 		history: 'Historial',

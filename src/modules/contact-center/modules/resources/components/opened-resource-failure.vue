@@ -1,61 +1,54 @@
 <template>
-  <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
-        {{ $t('objects.ccenter.res.failure') }}
+  <section class="opened-resource-failure">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.ccenter.res.failure') }}
       </h3>
     </header>
-    <div class="object-input-grid grid-w50">
+    <div class="opened-card-input-grid">
       <wt-input-number
+        v-model:model-value="modelValue.maxSuccessivelyErrors"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.maxErrors')"
-        :model-value="itemInstance.maxErrors"
-        @update:model-value="setItemProp({ prop: 'maxErrors', value: $event })"
+        :label="t('objects.ccenter.res.maxErrors')"
+        :regle-validation="validationFields?.maxSuccessivelyErrors"
+        required
       />
       <wt-multi-select
+        v-model:model-value="modelValue.errorIds"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.errorCodes')"
-        :options="errorIdsAutocomplete"
-        :model-value="itemInstance.errorIds"
+        :label="t('objects.ccenter.res.errorCodes')"
+        :options="Object.values(ResourceErrorId)"
+        :data-key="null"
         chips-view
         allow-custom-values
-        :data-key="null"
-        @update:model-value="setItemProp({ prop: 'errorIds', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.failureDialDelay"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.res.failureDialDelay')"
-        :model-value="itemInstance.failureDialDelay"
-        @update:model-value="setItemProp({ prop: 'failureDialDelay', value: $event })"
+        :label="t('objects.ccenter.res.failureDialDelay')"
+        :regle-validation="validationFields?.failureDialDelay"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { EngineOutboundResource } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
+import { ResourceErrorId } from '../enums/ResourceErrorId.enum';
 
-export default {
-	name: 'OpenedResourceFailure',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
+const modelValue = defineModel<EngineOutboundResource>({
+	required: true,
+});
 
-	data: () => ({
-		errorIdsAutocomplete: [
-			'1xx',
-			'2xx',
-			'3xx',
-			'4xx',
-			'5xx',
-		],
-	}),
-};
+defineProps<{
+	validationFields?: CardValidationFields<EngineOutboundResource>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
 </script>

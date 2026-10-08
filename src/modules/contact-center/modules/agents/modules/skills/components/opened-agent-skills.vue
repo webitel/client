@@ -1,65 +1,67 @@
 <template>
   <section class="table-section">
-    <skill-popup @close="closePopup" />
+    <skill-popup
+      :parent-id="agentId"
+      @saved="loadDataList"
+    />
 
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.lookups.skills.skills', 2) }}
+        {{ t('objects.lookups.skills.skills', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.REFRESH, IconAction.DELETE]"
+          :disabled:add="disableUserInput || !agentId"
+          :disabled:delete="disableUserInput || !selected.length"
+          @click:add="open"
+          @click:refresh="loadDataList"
+          @click:delete="deleteEls(selected)"
         >
-          <delete-all-action
-            v-show="!anySelected"
-            :disabled="disableUserInput"
-            :selected-count="selectedRows.length"
-            @click="deleteData(selectedRows)"
-          />
-          <wt-icon-btn
-            class="icon-action"
-            icon="plus"
-            :disabled="disableUserInput"
-            @click="create"
-          />
-        </wt-table-actions>
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-      class="dummy-wrapper"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
-        :headers="headers"
+        :headers="shownHeaders"
+        :selected="selected"
+        reorderable-columns
+        resizable-columns
         sortable
-        @sort="sort"
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
+        @update:selected="updateSelected"
       >
         <template #name="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.skill"
-            :id="item.skill.id"
-            :route-name="skillsRoute"
+            :link="{
+              name: `${RouteNames.SKILLS}-card`,
+              params: { id: item.skill.id },
+            }"
           >
             {{ item.skill.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #capacity="{ item }">
           {{ item.capacity }}
@@ -68,108 +70,103 @@
           <wt-switcher
             :disabled="disableUserInput"
             :model-value="item.enabled"
-            @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
+            @update:model-value="
+              patchItemProperty({ index, path: 'enabled', value: $event })
+            "
           />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
-            action="edit"
             :disabled="disableUserInput"
-            @click="editItem(item)"
+            action="edit"
+            @click="open(item.id)"
           />
           <wt-icon-action
-            action="delete"
             :disabled="disableUserInput"
-            @click="deleteData(item)"
+            action="delete"
+            @click="deleteEls([item])"
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
+<script lang="ts" setup>
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { useCardListNavigation } from '@webitel/ui-datalist/card';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { useAgentsCardStore } from '../../../stores/card/agentsCardStore';
+import { useAgentSkillsDatalistStore } from '../stores/datalist/agentSkillsDatalistStore';
 import SkillPopup from './opened-agent-skills-popup.vue';
 
-const namespace = 'ccenter/agents';
-const subNamespace = 'skills';
+const { t } = useI18n();
 
-export default {
-	name: 'OpenedAgentSkills',
-	components: {
-		SkillPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const { disableUserInput } = useUserAccessControl({
-			useUpdateAccessAsAllMutableChecksSource: true,
-		});
-		return {
-			dummy,
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		isSkillPopup: false,
-		isDeleteConfirmation: false,
-		skillsRoute: RouteNames.SKILLS,
-	}),
-	methods: {
-		...mapActions({
-			patchItem(dispatch, payload) {
-				return dispatch(
-					`${this.namespace}/${this.subNamespace}/PATCH_ITEM_PROPERTY`,
-					payload,
-				);
-			},
-		}),
-		addItem() {
-			return this.$router.push({
-				params: {
-					skillId: 'new',
-				},
-			});
-		},
-		editItem(item) {
-			return this.$router.push({
-				params: {
-					skillId: item.id,
-				},
-			});
-		},
-		closePopup() {
-			this.resetItemState();
-			this.$router.go(-1);
-		},
-	},
-};
+const { disableUserInput } = useUserAccessControl({
+	useUpdateAccessAsAllMutableChecksSource: true,
+});
+
+const agentsCardStore = useAgentsCardStore();
+const { itemId: agentId } = storeToRefs(agentsCardStore);
+
+const agentSkillsDatalistStore = useNestedTableList({
+	useTableStore: useAgentSkillsDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(agentSkillsDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	columnResize,
+	columnReorder,
+	deleteEls,
+	patchItemProperty,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = agentSkillsDatalistStore;
+
+const { open } = useCardListNavigation({
+	routeParamName: 'skillId',
+});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

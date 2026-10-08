@@ -1,64 +1,87 @@
 <template>
   <wt-popup
+    :shown="tokenId === 'new'"
     size="sm"
-    v-bind="$attrs"
     @close="close"
   >
     <template #title>
-      {{ $t('objects.directory.users.token', 2) }}
+      {{ t('objects.directory.users.token', 2) }}
     </template>
     <template #main>
       <form @submit.prevent="save">
         <wt-input-text
-          :label="$t('objects.name')"
-          :model-value="itemInstance.usage"
-          @update:model-value="setItemProp({ prop: 'usage', value: $event })"
+          v-model:model-value="modelValue.usage"
+          :label="t('objects.name')"
+          :regle-validation="validationFields?.usage"
         />
       </form>
     </template>
     <template #actions>
-      <wt-button @click="save">
-        {{ $t('objects.add') }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.add') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="close"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import type { ApiUserAccessToken } from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import UsersRouteNames from '../../../routes/_internals/UsersRouteNames.enum';
+import { useUserTokenCardStore } from '../stores/card/userTokenCardStore';
 
-export default {
-	name: 'OpenedUserTokensPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
-	data: () => ({
-		namespace: 'directory/users/tokens',
-	}),
+const props = defineProps<{
+	parentId: string | number;
+}>();
 
-	methods: {
-		...mapActions({
-			addToken(dispatch, payload) {
-				return dispatch(`${this.namespace}/ADD_TOKEN`, payload);
-			},
-		}),
-		async save() {
-			try {
-				await this.addToken();
-				this.$emit('token-created');
-			} catch {}
-		},
-		resetState() {},
-	},
+const emit = defineEmits<{
+	created: [
+		token: string,
+	];
+}>();
+
+const { t } = useI18n();
+const route = useRoute();
+
+const userTokenCardStore = useUserTokenCardStore();
+const { originalItemInstance } = storeToRefs(userTokenCardStore);
+
+const {
+	modelValue,
+	validationFields,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<ApiUserAccessToken>({
+	useCardStore: useUserTokenCardStore,
+	routeParamName: 'tokenId',
+	parentId: () => props.parentId,
+});
+
+const tokenId = computed(() => route.params.tokenId);
+
+const { close } = useClose(UsersRouteNames.TOKENS);
+
+const save = async () => {
+	await saveItem();
+	const token = originalItemInstance.value?.token;
+	if (!token) return;
+	close();
+	emit('created', token);
 };
 </script>
-
-<style lang="scss" scoped></style>

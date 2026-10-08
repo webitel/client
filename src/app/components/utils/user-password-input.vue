@@ -1,10 +1,9 @@
 <template>
   <generate-password-input
     :v="v$.model"
-    :value="model"
+    v-model:model-value="model"
     class="user-password-input"
     v-bind="attrs"
-    @input="model = $event"
   />
 </template>
 
@@ -12,7 +11,6 @@
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import { ConfigurationsAPI } from '@webitel/api-services/api';
-import { EngineSystemSettingName } from '@webitel/api-services/gen/models';
 import { computed, ref, useAttrs, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import GeneratePasswordInput from './generate-password-input.vue';
@@ -72,25 +70,13 @@ const v$ = useVuelidate(
 );
 
 const loadV = async () => {
-	const configurations = await ConfigurationsAPI.getList({
-		name: [
-			EngineSystemSettingName.PasswordRegExp,
-			EngineSystemSettingName.PasswordValidationText,
-		],
-	});
+	const { passwordRegExp, passwordValidationText } =
+		await ConfigurationsAPI.getPasswordRules();
 
-	const regex = configurations.items.find(
-		({ name }) => name === EngineSystemSettingName.PasswordRegExp,
-	)?.value;
+	if (!passwordRegExp) return;
 
-	if (!regex) return;
-
-	const errorText = configurations.items.find(
-		({ name }) => name === EngineSystemSettingName.PasswordValidationText,
-	)?.value;
-
-	vRegex.value = regex;
-	vErrorText.value = errorText;
+	vRegex.value = passwordRegExp;
+	vErrorText.value = passwordValidationText;
 };
 
 loadV();

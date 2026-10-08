@@ -1,7 +1,7 @@
 <template>
   <section>
-    <header class="content-header">
-      <h3 class="content-title typo-heading-4">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
         {{ $t('objects.routing.gateways.trunkingACLTitle') }}
       </h3>
       <wt-icon-action
@@ -10,7 +10,7 @@
         @click="addVariable"
       />
     </header>
-    <div class="object-input-grid grid-w50">
+    <div class="opened-card-input-grid">
       <div class="variables">
         <div
           v-for="(acl, key) in itemInstance.ipacl"
@@ -87,5 +87,12 @@ export default {
   .wt-tooltip {
     margin-top: 34px; // MAGIC NUMBER TO VISUALLY ALIGN ICON AT VERTICAL CENTER
   }
+}
+.value-pair {
+  display: grid;
+  align-items: center;
+  margin-bottom: 20px;
+  grid-template-columns: 1fr 1fr 24px;
+  grid-gap: 20px;
 }
 </style>

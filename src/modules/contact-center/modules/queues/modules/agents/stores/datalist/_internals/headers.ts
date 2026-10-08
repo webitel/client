@@ -27,6 +27,13 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
+		value: 'statusType',
+		locale: 'objects.ccenter.agents.statusType',
+		field: 'status_type',
+		show: true,
+		sort: SortSymbols.NONE,
+	},
+	{
 		value: 'skills',
 		locale: [
 			'objects.lookups.skills.skills',

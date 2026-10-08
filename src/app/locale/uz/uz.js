@@ -116,8 +116,6 @@ export default {
 			'"Dan" vaqti "Gacha" vaqtidan kech bo\'lishi mumkin emas',
 		timerangeNotIntersect:
 			"Bir kundagi vaqt oralig'lari bir-biriga kesilib o'tmasligi kerak",
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Faylda noto'g'ri raqamlar mavjud. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -544,6 +542,7 @@ export default {
 				communications: 'Kommunikatsiya turi | Kommunikatsiya turlari',
 				allCommunications: 'Barcha kommunikatsiya turlari',
 				addCommunication: "Kommunikatsiya qo'shish",
+				missingCommunication: "Iltimos, kommunikatsiya turini qo'shing",
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -552,32 +551,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Agent holatlari',
+				pauseCause: 'Tanaffus sabablari',
 				allPauseCause: "Barcha agent to'xtash sabablari",
 				limit: 'Limit (min)',
 				min: 'min',
 				allowAdmin: "Admin bu holatni o'zgartirishi mumkin",
 				allowSupervisor: "Supervisor bu holatni o'zgartirishi mumkin",
 				allowAgent: "Agent bu holatni o'zgartirishi mumkin",
-			},
-			shiftTemplates: {
-				shiftTemplates: "O'tish shablonlari | O'tish shablonlari",
-				duration: 'Davomiyligi (soat:daqiqa)',
-			},
-			pauseTemplates: {
-				pauseTemplates: "To'xtash shablonlari | To'xtash shablonlari",
-				notSelected: 'Tanlanmagan',
-				pauseReason: "To'xtash sababi",
-				duration: 'Davomiyligi (daqiqa)',
-			},
-			workingConditions: {
-				workingConditions: 'Ish shartlari',
-				workdayDuration: 'Ish kuni davomiyligi (soat)',
-				workdaysPerMonth: 'Ish kunlari yiliga',
-				vacationDaysPerYear: 'Ish kunlari yiliga',
-				sickLeavesPerYear: 'Ish kunlari yiliga',
-				daysOffPerYear: 'Kunlar-off yiliga',
-				pauseDuration: "To'xtash davomiyligi (daqiqa)",
 			},
 			quickReplies: {
 				quickReplies: 'Tez javob | Tez javoblar',
@@ -621,6 +601,7 @@ export default {
 				pattern: "Ma'lumotnoma raqami",
 				dialplanRule: 'Dialplan qoidasi',
 				position: "O'rnatish",
+				allowTransfer: "O'tkazishga ruxsat berish",
 			},
 
 			chatplan: {
@@ -831,6 +812,7 @@ export default {
 				state: 'Holat',
 				isSupervisor: 'Supervisor',
 				stateTime: 'Holat vaqti',
+				statusType: 'Holat turi',
 				addSkill: "Xususiyat qo'shish",
 				editSkill: 'Xususiyatni tahrirlash',
 				statusHistory: 'Holat tarixi',
@@ -902,6 +884,7 @@ export default {
 				allMembers: "Barcha a'zolchalar",
 				addMember: "A'zolchaga qo'shish",
 				destination: "Ma'lumotnoma",
+				communications: 'Aloqalar',
 				display: "Ko'rsatish raqami",
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -909,8 +892,13 @@ export default {
 				emptyWorkspace: "A'zolchalar topilmadi",
 				resetMembers: {
 					resetMembers: 'Urinishlarini tiklash',
-					description:
-						'Siz \n{dateFrom} dan {dateTo} gacha\nboʻlgan davrdagi muvaffaqiyatsiz urinishlarni qoʻllanilgan filtrlar va qidiruv natijalariga asoslanib qayta tiklashni xohlaysizmi?',
+					description: {
+						all: 'Sanani cheklamasdan muvaffaqiyatsiz urinishlarni qayta tiklashni xohlaysizmi?',
+						filtered:
+							'Siz \n{dateFrom} dan {dateTo} gacha\nboʻlgan davrdagi muvaffaqiyatsiz urinishlarni qoʻllanilgan filtrlar va qidiruv natijalariga asoslanib qayta tiklashni xohlaysizmi?',
+						selected:
+							'Muvaffaqiyatsiz urinishlarni qayta tiklashni xohlaysizmi?',
+					},
 					descriptionCount: '{count} ta yozuvga taʼsir qiladi.',
 					emptyDescription:
 						'Joriy filtrlarga mos keluvchi muvaffaqiyatsiz urinishlar yoʻq. Qayta tiklaydigan hech narsa yoʻq.',
@@ -966,6 +954,8 @@ export default {
 				teams: 'Jamoa | Jamoalar',
 				tags: 'Teglar',
 				newQueue: "Yangi qo'yuv",
+				saveBeforeAddingRecords:
+					"Yozuvlarni qo'shishdan oldin navbatning majburiy maydonlarini to'ldiring",
 				blacklist: "To'xtash ro'yxati",
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1251,8 +1241,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'elektron pochta',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'ekranni ulashish',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'skrinshotlar',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ekran yozuvlari',
 				},
 				encryptFile: 'Yangi fayllarni shifrlash',
@@ -1457,6 +1445,10 @@ export default {
 		deleteAll: "Barcha ma'lumotlarni o'chirish",
 		deleteSelected: "Tanlangan {count} ma'lumotni o'chirish",
 		deleteFiltered: "Barcha filtrlangan ma'lumotlarni o'chirish",
+		resetAll: "Barcha a'zolchalarni tiklash",
+		resetSelected:
+			"Tanlangan {count} a'zolchalarni tiklash | Tanlangan {count} a'zolchalarni tiklash",
+		resetFiltered: "Barcha filtrlangan a'zolchalarni tiklash",
 		generate: 'Yaratish',
 		add: "Qo'shish",
 		history: 'Tarix',

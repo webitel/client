@@ -1,9 +1,17 @@
 import type { FilterConfigDefinition } from '@webitel/ui-datalist/filters';
 import { describe, expect, it } from 'vitest';
-
 import { filtersOptions as logsFilters } from '../../modules/logs/configs/filtersOptions';
+import { headers as logsHeaders } from '../../modules/logs/stores/datalist/_internals/headers';
 import { filtersOptions as membersFilters } from '../../modules/members/configs/filtersOptions';
+import { headers as membersHeaders } from '../../modules/members/stores/datalist/_internals/headers';
+import { headers as queuesHeaders } from '../../stores/datalist/_internals/headers';
 import { filtersOptions as queuesFilters } from '../filtersOptions';
+
+const headersOf = {
+	queues: queuesHeaders,
+	logs: logsHeaders,
+	members: membersHeaders,
+};
 
 /** a definition is either a shared `FilterOption` string or a config object */
 const namesOf = (options: FilterConfigDefinition[]) =>
@@ -31,11 +39,8 @@ describe('filter names match the request params', () => {
 		// QueueLogsAPI.getList reads these
 		expect(namesOf(logsFilters)).toEqual([
 			'joinedAt',
-			'agent',
-			'bucket',
-			'leavingAt',
-			'offeringAt',
 			'result',
+			'agent',
 			'duration',
 		]);
 	});
@@ -44,14 +49,10 @@ describe('filter names match the request params', () => {
 		// QueueMembersAPI.getList and mapResetMembersFilters read these
 		expect(namesOf(membersFilters)).toEqual([
 			'createdAt',
-			'offeringAt',
 			'stopCause',
 			'bucket',
 			'agent',
 			'memberPriority',
-			'attempts',
-			'name',
-			'destination',
 		]);
 	});
 });
@@ -92,6 +93,45 @@ describe('every panel', () => {
 		expect(names).toContain('tags');
 		expect(names).not.toContain('tag');
 	});
+
+	it.each(Object.entries(panels))(
+		'offers every %s column filter on the panel too',
+		(panel, options) => {
+			const columnFilters = headersOf[panel as keyof typeof panels]
+				.map((header) => header.filter)
+				.filter(Boolean)
+				.map((filter) =>
+					typeof filter === 'string'
+						? filter
+						: (
+								filter as {
+									name: string;
+								}
+							).name,
+				);
+
+			expect(namesOf(options)).toEqual(expect.arrayContaining(columnFilters));
+		},
+	);
+
+	/**
+	 * A column filter built from a bare `FilterOption` gets the shared default
+	 * config, not the panel's — so the same filter would render with different
+	 * options depending on where it was opened. Headers take the very object
+	 * the panel lists.
+	 */
+	it.each(Object.entries(panels))(
+		'builds every %s column filter from the panel config',
+		(panel, options) => {
+			const columnFilters = headersOf[panel as keyof typeof panels]
+				.map((header) => header.filter)
+				.filter(Boolean);
+
+			for (const filter of columnFilters) {
+				expect(options).toContain(filter);
+			}
+		},
+	);
 
 	it('gives every app-defined filter both a field and a preview', () => {
 		for (const [panel, options] of Object.entries(panels)) {

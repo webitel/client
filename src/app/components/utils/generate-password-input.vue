@@ -3,13 +3,14 @@
     <wt-input-text
       v-bind="$attrs"
       :disabled="disabled"
-      :label="$t('objects.password')"
-      :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-      :placeholder="$t('objects.password')"
+      :label="t('objects.password')"
+      :label-props="{ hint: t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+      :placeholder="t('objects.password')"
       :required="required"
       :v="v"
+      :regle-validation="regleValidation"
       :model-value="passwordRepresentation"
-      @update:model-value="input"
+      @update:model-value="model = $event"
     >
       <template
         v-if="!disabled"
@@ -17,11 +18,11 @@
       >
         <wt-copy-action
           v-show="passwordRepresentation"
-          :value="value"
+          :value="model"
         />
 
         <wt-icon-btn
-          v-tooltip="$t('iconHints.generate')"
+          v-tooltip="t('iconHints.generate')"
           icon="generate"
           :class="{'generate-password-input__icon-btn' : passwordRepresentation}"
           class="generate-password-input__icon-btn--generate"
@@ -32,61 +33,42 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import type { BaseValidation } from '@vuelidate/core';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 const MIN_HASH_SIZE = 59;
+const GENERATED_PASSWORD_LENGTH = 12;
+const GENERATED_PASSWORD_CHARSET =
+	'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-export default {
-	name: 'GeneratePasswordInput',
-	props: {
-		value: {
-			type: String,
-			default: '',
-		},
-		v: {
-			type: Object,
-		},
-		required: {
-			type: Boolean,
-			default: false,
-		},
-		disabled: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data() {
-		return {
-			isCopied: false,
-			isMounted: false,
-		};
-	},
+const model = defineModel<string>({
+	default: '',
+});
 
-	computed: {
-		passwordRepresentation() {
-			return this.value.length <= MIN_HASH_SIZE ? this.value : '';
-		},
-	},
+defineProps<{
+	v?: BaseValidation;
+	regleValidation?: RegleSchemaFieldStatus<string>;
+	required?: boolean;
+	disabled?: boolean;
+}>();
 
-	mounted() {
-		this.isMounted = true;
-	},
+const { t } = useI18n();
 
-	methods: {
-		generatePassword() {
-			const length = 12;
-			const charset =
-				'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-			let value = '';
-			for (let i = 0; i < length; i += 1) {
-				value += charset.charAt(Math.floor(Math.random() * charset.length));
-			}
-			this.input(value);
-		},
+const passwordRepresentation = computed(() =>
+	model.value.length <= MIN_HASH_SIZE ? model.value : '',
+);
 
-		input(value) {
-			this.$emit('input', value);
-		},
-	},
+const generatePassword = () => {
+	let value = '';
+	for (let i = 0; i < GENERATED_PASSWORD_LENGTH; i += 1) {
+		value += GENERATED_PASSWORD_CHARSET.charAt(
+			Math.floor(Math.random() * GENERATED_PASSWORD_CHARSET.length),
+		);
+	}
+	model.value = value;
 };
 </script>
 

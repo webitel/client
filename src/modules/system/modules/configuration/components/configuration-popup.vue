@@ -55,11 +55,11 @@
 import { ConfigurationsAPI } from '@webitel/api-services/api';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { ComponentSize } from '@webitel/ui-sdk/enums';
+import { storeToRefs } from 'pinia';
 import type { Component } from 'vue';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { ConfigurationValueType } from '../enum/ConfigurationValueType.enum';
 import { useConfigurationCardStore } from '../stores/card/configurationCardStore';
@@ -98,11 +98,11 @@ const {
 	modelValue,
 	validationFields,
 	isNew,
-	hasValidationErrors,
-	isAnyFieldEdited,
+	disabledSave,
 	save: saveItem,
 } = useNestedCardComponent<ConfigurationParameter>({
 	useCardStore: useConfigurationCardStore,
+	hasSaveAccess: hasSaveActionAccess,
 	routeParamName: 'id',
 });
 
@@ -118,13 +118,6 @@ const descriptor = computed(() =>
 );
 const valueComponent = computed(
 	() => valueComponentByType[descriptor.value.type],
-);
-
-const disabledSave = computed(
-	() =>
-		!hasSaveActionAccess.value ||
-		!isAnyFieldEdited.value ||
-		hasValidationErrors.value,
 );
 
 const parameterList = ref<
@@ -156,9 +149,15 @@ watch(
 	},
 );
 
-const setParameterName = (name: string) => {
+const configurationCardStore = useConfigurationCardStore();
+const { validationSchema } = storeToRefs(configurationCardStore);
+
+const setParameterName = async (name: string) => {
 	modelValue.value.name = name;
 	modelValue.value.value = getParameterDefaultValue(name);
+
+	await nextTick();
+	validationSchema.value?.r$.$validate();
 };
 
 const close = () => emit('close');

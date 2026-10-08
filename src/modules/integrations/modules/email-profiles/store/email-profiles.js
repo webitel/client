@@ -1,7 +1,8 @@
 // import PermissionsStoreModule
 //   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
+
 import { EmailProfilesAPI } from '@webitel/api-services/api';
-import { EngineEmailAuthType } from 'webitel-sdk';
+import { EngineEmailAuthType } from '@webitel/api-services/gen/models';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
 import headers from './_internals/headers';
 

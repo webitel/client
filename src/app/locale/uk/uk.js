@@ -118,8 +118,6 @@ export default {
 		hourRange: 'Години мають бути від 00 до 23',
 		timerangeStartLessThanEnd: 'Час Від не може бути більший ніж До',
 		timerangeNotIntersect: 'Інтервали часу в один день не можуть перетинатися',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Файл містить некоректні номери. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -549,6 +547,7 @@ export default {
 				communications: "Тип зв'язку | Типи зв'язку",
 				allCommunications: "Всі типи зв'язку",
 				addCommunication: "Додати тип зв'язку",
+				missingCommunication: 'Будь ласка, додайте тип звʼязку',
 				code: 'Код',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Телефон',
@@ -557,32 +556,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Статуси оператора',
+				pauseCause: 'Причини паузи',
 				allPauseCause: 'Всі причини паузи оператора',
 				limit: 'Ліміт (хв)',
 				min: 'хвилин',
 				allowAdmin: 'Адміністратор може змінювати статус',
 				allowSupervisor: 'Супервізор може змінювати статус',
 				allowAgent: 'Оператор може змінювати статус',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Шаблон змін | Шаблони змін',
-				duration: 'Тривалість (гг:хх)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Шаблон пауз | Шаблони пауз',
-				notSelected: 'Не вибрано',
-				pauseReason: 'Причина паузи',
-				duration: 'Тривалість (хх)',
-			},
-			workingConditions: {
-				workingConditions: 'Умови роботи',
-				workdayDuration: 'Тривалість робочого дня (год.)',
-				workdaysPerMonth: 'Кількість робочих днів на місяць',
-				vacationDaysPerYear: 'Кількість днів відпустки на рік',
-				sickLeavesPerYear: 'Кількість днів лікарняного на рік',
-				daysOffPerYear: 'Кількість вихідних днів на рік',
-				pauseDuration: 'Тривалість перерви (хв)',
 			},
 			quickReplies: {
 				quickReplies: 'Швидка відповідь | Швидкі відповіді',
@@ -625,6 +605,7 @@ export default {
 				pattern: 'Номер призначення',
 				dialplanRule: 'Правило вихідного набору',
 				position: 'Позиція',
+				allowTransfer: 'Дозволити перевід',
 			},
 
 			chatplan: {
@@ -837,6 +818,7 @@ export default {
 				extraChatCount: 'Додаткова кількість чатів',
 				isSupervisor: 'Супервізор',
 				stateTime: 'Тривалість',
+				statusType: 'Тип статусу',
 				addSkill: 'Додати навичку',
 				editSkill: 'Редагувати навичку',
 				addSubordinate: 'Додати підлеглого оператора',
@@ -908,6 +890,7 @@ export default {
 				allMembers: 'Всі абоненти',
 				addMember: 'Додати абонента',
 				destination: 'Призначення',
+				communications: 'Комунікації',
 				display: 'Відображення номера',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -915,8 +898,15 @@ export default {
 				emptyWorkspace: 'Абонентів не знайдено',
 				resetMembers: {
 					resetMembers: 'Перезапустити абонентів',
-					description:
-						'Ви впевнені, що хочете перезапустити неуспішні спроби за період з \n{dateFrom} по {dateTo}\nз урахуванням встановлених фільтрів та результатів пошуку? ',
+					description: {
+						question: 'Ви впевнені, що хочете перезапустити неуспішні спроби',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за увесь час?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} за період з \n${named('dateFrom')} по ${named('dateTo')}\nз урахуванням встановлених фільтрів та результатів пошуку? `,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Буде оброблено записів: {count}',
 					emptyDescription:
 						'За поточними фільтрами немає невдалих спроб. Скидати немає чого.',
@@ -976,6 +966,8 @@ export default {
 				resourceGroups: ({ linked }) =>
 					linked('objects.ccenter.resGroups.resGroups'),
 				newQueue: 'Нова черга',
+				saveBeforeAddingRecords:
+					'Заповніть обов’язкові поля черги, перш ніж додавати записи',
 				newQueueDescription: 'Типи черг',
 				outboundIVRQueue: 'Вихідна IVR-черга',
 				outboundIVR: 'Вихідний IVR',
@@ -1258,8 +1250,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'медіа',
 					[StorageUploadFileChannel.MailChannel]: 'лист',
 					[StorageUploadFileChannel.LogChannel]: 'лог',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'запис екрану',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'знімок екрану',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'запис екрана',
 				},
 				encryptFile: 'Шифрувати нові файли',
@@ -1460,6 +1450,10 @@ export default {
 		deleteAll: "Видалити всі об'єкти",
 		deleteSelected: "Видалити {count} обраних об'єктів",
 		deleteFiltered: "Видалити всі відфільтровані об'єкти",
+		resetAll: 'Перезапустити всіх абонентів',
+		resetSelected:
+			'Перезапустити {count} обраного абонента | Перезапустити {count} обраних абонентів',
+		resetFiltered: 'Перезапустити всіх відфільтрованих абонентів',
 		generate: 'Створити',
 		add: 'Додати',
 		history: 'Історія',

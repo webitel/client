@@ -117,8 +117,6 @@ export default {
 		timerangeStartLessThanEnd: 'Czas "Od" nie może być późniejszy niż "Do"',
 		timerangeNotIntersect:
 			'Interwały czasowe w tym samym dniu nie mogą się nakładać',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Plik zawiera nieprawidłowe numery. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -543,6 +541,7 @@ export default {
 				communications: 'Typ komunikacji | Typy komunikacji',
 				allCommunications: 'Wszystkie typy komunikacji',
 				addCommunication: 'Dodaj komunikację',
+				missingCommunication: 'Proszę dodać typ komunikacji',
 				code: 'Kod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -551,32 +550,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Statusy agenta',
+				pauseCause: 'Powody pauzy',
 				allPauseCause: 'Wszystkie przyczyny zawieszenia agenta',
 				limit: 'Limit (min)',
 				min: 'min',
 				allowAdmin: 'Administrator może zmienić ten status',
 				allowSupervisor: 'Nadzorca może zmienić ten status',
 				allowAgent: 'Agent może zmienić ten status',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Szablon przesunięcia | Szablony przesunięć',
-				duration: 'Długość (hh:mm)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Szablon zawieszenia | Szablony zawieszenia',
-				notSelected: 'Nie wybrano',
-				pauseReason: 'Przyczyna zawieszenia',
-				duration: 'Długość (mm)',
-			},
-			workingConditions: {
-				workingConditions: 'Warunki pracy',
-				workdayDuration: 'Długość dnia pracy (godz)',
-				workdaysPerMonth: 'Dni pracy w miesiącu',
-				vacationDaysPerYear: 'Dni urlopu w roku',
-				sickLeavesPerYear: 'Dni chorobowe w roku',
-				daysOffPerYear: 'Dni wolne w roku',
-				pauseDuration: 'Długość przerwy (min)',
 			},
 			quickReplies: {
 				quickReplies: 'Szybka odpowiedź | Szybkie odpowiedzi',
@@ -618,6 +598,7 @@ export default {
 				pattern: 'Numer docelowy',
 				dialplanRule: 'Reguła dialplanu',
 				position: 'Pozycja',
+				allowTransfer: 'Zezwól na przekazanie',
 			},
 
 			chatplan: {
@@ -827,6 +808,7 @@ export default {
 				state: 'Status',
 				isSupervisor: 'Nadzorca',
 				stateTime: 'Czas statusu',
+				statusType: 'Typ statusu',
 				addSkill: 'Dodaj umiejętność',
 				editSkill: 'Edytuj umiejętność',
 				statusHistory: 'Historia statusu',
@@ -898,6 +880,7 @@ export default {
 				allMembers: 'Wszystkie członkowie',
 				addMember: 'Dodaj członka',
 				destination: 'Miejsce docelowe',
+				communications: 'Komunikacja',
 				display: 'Numer wyświetlany',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -905,8 +888,15 @@ export default {
 				emptyWorkspace: 'Nie znaleziono członków',
 				resetMembers: {
 					resetMembers: 'Resetuj członków',
-					description:
-						'Czy na pewno chcesz zresetować nieudane próby z okresu\n{dateFrom} do {dateTo}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?',
+					description: {
+						question: 'Czy na pewno chcesz zresetować nieudane próby',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} bez żadnych ograniczeń czasowych?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} z okresu\n${named('dateFrom')} do ${named('dateTo')}\nz uwzględnieniem zastosowanych filtrów i wyników wyszukiwania?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Zostanie przetworzonych rekordów: {count}',
 					emptyDescription:
 						'Żadne nieudane próby nie pasują do bieżących filtrów. Nie ma nic do zresetowania.',
@@ -963,6 +953,8 @@ export default {
 				teams: 'Zespół | Zespoły',
 				tags: 'Tagi',
 				newQueue: 'Nowa kolejka',
+				saveBeforeAddingRecords:
+					'Wypełnij wymagane pola kolejki przed dodaniem rekordów',
 				blacklist: 'Lista zatrzymana',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1249,9 +1241,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]:
-						'udostępnianie ekranu',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'zrzuty ekranu',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'nagrania ekranu',
 				},
 				encryptFile: 'Szyfruj nowe pliki',
@@ -1455,6 +1444,10 @@ export default {
 		deleteAll: 'Usuń wszystkie elementy',
 		deleteSelected: 'Usuń {count} wybranych elementów',
 		deleteFiltered: 'Usuń wszystkie filtrowane elementy',
+		resetAll: 'Zresetuj wszystkich członków',
+		resetSelected:
+			'Zresetuj {count} wybranego członka | Zresetuj {count} wybranych członków',
+		resetFiltered: 'Zresetuj wszystkich filtrowanych członków',
 		generate: 'Generuj',
 		add: 'Dodaj',
 		history: 'Historia',

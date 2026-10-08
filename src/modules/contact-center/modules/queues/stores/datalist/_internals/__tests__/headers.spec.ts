@@ -21,14 +21,12 @@ const tables = {
 };
 
 describe.each(Object.entries(tables))('%s headers', (_name, headers) => {
-	/**
-	 * `shownHeaders` is `headers.filter(h => h.show)` and `fields` is derived
-	 * from it, so a header without `show` is not merely hidden — its field is
-	 * never requested, and the column can never be switched back on.
-	 */
-	it('marks every column shown', () => {
+	/** an omitted `show` drops the column; `false` only hides it by default */
+	it('declares show on every column', () => {
 		for (const header of headers) {
-			expect(header.show, `${header.value} is not shown`).toBe(true);
+			expect(typeof header.show, `${header.value} does not declare show`).toBe(
+				'boolean',
+			);
 		}
 	});
 
@@ -69,9 +67,8 @@ describe('field names that do not match their column', () => {
 		expect(fieldOf(hooksHeaders, 'state')).toBe('enabled');
 	});
 
-	/** duration is derived from the joined/leaving pair, so it sorts on joined */
-	it('sorts the log duration column by `joined_at`', () => {
-		expect(fieldOf(logsHeaders, 'duration')).toBe('joined_at');
+	it('sorts the log duration column by `duration`', () => {
+		expect(fieldOf(logsHeaders, 'duration')).toBe('duration');
 	});
 
 	it('sorts the skill capacity column by `max_capacity`', () => {

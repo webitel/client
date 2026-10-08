@@ -116,8 +116,6 @@ export default {
 			'Ora "De la" nu poate fi mai târzie decât "Până la"',
 		timerangeNotIntersect:
 			'Intervalele de timp din aceeași zi nu se pot suprapune',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Fișierul conține numere incorecte. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -544,6 +542,7 @@ export default {
 				communications: 'Tip de comunicare | Tipuri de comunicare',
 				allCommunications: 'Toate tipurile de comunicare',
 				addCommunication: 'Adaugă comunicare',
+				missingCommunication: 'Vă rugăm să adăugați un tip de comunicare',
 				code: 'Cod',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Telefon',
@@ -552,32 +551,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Stări agent',
+				pauseCause: 'Motive de pauză',
 				allPauseCause: 'Toate cauzele de pauză a agentului',
 				limit: 'Limită (min)',
 				min: 'min',
 				allowAdmin: 'Admin poate schimba această stare',
 				allowSupervisor: 'Supraveghetor poate schimba această stare',
 				allowAgent: 'Agent poate schimba această stare',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Șablon de schimb | Șabloane de schimb',
-				duration: 'Durata (hh:mm)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Șablon de pauză | Șabloane de pauză',
-				notSelected: 'Neales',
-				pauseReason: 'Motiv de pauză',
-				duration: 'Durata (mm)',
-			},
-			workingConditions: {
-				workingConditions: 'Condiții de lucru',
-				workdayDuration: 'Durata zilei de lucru (ore)',
-				workdaysPerMonth: 'Zile de lucru pe lună',
-				vacationDaysPerYear: 'Zile de concediu pe an',
-				sickLeavesPerYear: 'Zile de concediu pentru boală pe an',
-				daysOffPerYear: 'Zile de concediu pe an',
-				pauseDuration: 'Durata pauzei (min)',
 			},
 			quickReplies: {
 				quickReplies: 'Răspuns rapid | Răspunsuri rapide',
@@ -620,6 +600,7 @@ export default {
 				pattern: 'Număr de destinație',
 				dialplanRule: 'Regulă dialplan',
 				position: 'Poziție',
+				allowTransfer: 'Permite transferul',
 			},
 
 			chatplan: {
@@ -829,6 +810,7 @@ export default {
 				state: 'Stare',
 				isSupervisor: 'Supraveghetor',
 				stateTime: 'Timp stare',
+				statusType: 'Tip stare',
 				addSkill: 'Adaugă competență',
 				editSkill: 'Editează competență',
 				statusHistory: 'Istoric stare',
@@ -900,6 +882,7 @@ export default {
 				allMembers: 'Toți membrii',
 				addMember: 'Adaugă membru',
 				destination: 'Destinație',
+				communications: 'Comunicații',
 				display: 'Număr de afișare',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -907,8 +890,15 @@ export default {
 				emptyWorkspace: 'Nu au fost găsiți membri',
 				resetMembers: {
 					resetMembers: 'Resetează membri',
-					description:
-						'Sunteți sigur că doriți să resetați încercările eșuate din perioada\n{dateFrom} până la {dateTo}\nținând cont de filtrele aplicate și de rezultatele căutării?',
+					description: {
+						question: 'Sunteți sigur că doriți să resetați încercările eșuate',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} fără nicio limită de dată?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} din perioada\n${named('dateFrom')} până la ${named('dateTo')}\nținând cont de filtrele aplicate și de rezultatele căutării?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')}?`,
+					},
 					descriptionCount: 'Vor fi afectate {count} înregistrări.',
 					emptyDescription:
 						'Nu există încercări eșuate care să corespundă filtrelor curente. Nu este nimic de resetat.',
@@ -965,6 +955,8 @@ export default {
 				teams: 'Echipă | Echipe',
 				tags: 'Etichete',
 				newQueue: 'Coadă nouă',
+				saveBeforeAddingRecords:
+					'Completați câmpurile obligatorii ale cozii înainte de a adăuga înregistrări',
 				blacklist: 'Listă de oprire',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1250,8 +1242,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'media',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'partajare ecran',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'capturi de ecran',
 					[StorageUploadFileChannel.ScreenRecordingChannel]:
 						'înregistrări ecran',
 				},
@@ -1457,6 +1447,10 @@ export default {
 		deleteAll: 'Șterge toate elementele',
 		deleteSelected: 'Șterge {count} elemente selectate',
 		deleteFiltered: 'Șterge toate elementele filtrate',
+		resetAll: 'Resetează toți membrii',
+		resetSelected:
+			'Resetează {count} membru selectat | Resetează {count} membri selectați',
+		resetFiltered: 'Resetează toți membrii filtrați',
 		generate: 'Generează',
 		add: 'Adaugă',
 		history: 'Istoric',

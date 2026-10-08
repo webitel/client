@@ -42,13 +42,6 @@ export const sipAccountValidator = (value) => {
 	);
 };
 
-export const phoneNumberSymbolsValidator = (value) => {
-	if (typeof value === 'undefined' || value === null || value === '') {
-		return true;
-	}
-	return /^\+?[A-Za-z0-9\-_.!~*'()]+$/.test(value);
-};
-
 export const sipPasswordSymbolsValidator = (value) => {
 	if (typeof value === 'undefined' || value === null || value === '') {
 		return true;
@@ -57,73 +50,6 @@ export const sipPasswordSymbolsValidator = (value) => {
 };
 
 export const requiredArrayValue = (array) => array.some((value) => value);
-
-export const hourRange = (value) => value >= 0 && value < 1440;
-
-// forEach's per-field validators are called as (value, collectionItem, index),
-// so `range` here is the whole { start, end } row, letting start/end be compared.
-export const timerangeStartLessThanEnd = (value, range) =>
-	range.start < range.end;
-
-// @author HlukhovYe
-// helpers.forEach only exposes raw per-rule booleans on $data (no
-// $invalid/$message per rule). Rebuild a real { $invalid } object here so
-// a wt-timepicker's :custom-validators can read it for this exact row/field.
-export const getForEachHourRangeValidation = (eachResponse, index, prop) => {
-	const {
-		$invalid,
-		$error,
-		hourRange: isHourRangeValid,
-		timerangeStartLessThanEnd: isStartLessThanEndValid,
-	} = eachResponse.$data[index][prop];
-	return {
-		$invalid,
-		$error,
-		hourRange: {
-			$invalid: isHourRangeValid === false,
-		},
-		timerangeStartLessThanEnd: {
-			$invalid: isStartLessThanEndValid === false,
-		},
-	};
-};
-
-export const timerangeNotIntersect = (array) => {
-	let isIntersecting = false;
-	let ranges = [
-		{
-			start: array[0].start,
-			end: array[0].end,
-		},
-	];
-	array.reduce((prev, curr) => {
-		if (prev.day !== curr.day) {
-			ranges = [
-				{
-					start: curr.start,
-					end: curr.end,
-				},
-			];
-			return curr;
-		}
-		ranges.forEach((range) => {
-			if (
-				(curr.start >= range.start && curr.end <= range.end) || // if [..{--}..]
-				(curr.start <= range.start && curr.end >= range.start) || // or {--[--}....]
-				(curr.start <= range.end && curr.end >= range.end)
-			) {
-				// or [....{--]-}
-				isIntersecting = true;
-			}
-		});
-		ranges.push({
-			start: curr.start,
-			end: curr.end,
-		});
-		return curr;
-	});
-	return !isIntersecting;
-};
 
 export const lessOrEqualTo = (comparedProp) => (value, vm) =>
 	value <= vm[comparedProp];

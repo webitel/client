@@ -11,13 +11,10 @@
     <template #main>
       <div class="reset-members-popup--description">
         <p
-          v-if="!!quantity"
+          v-if="quantity"
           class="reset-members-popup--description-main"
         >
-          {{ $t('objects.ccenter.members.resetMembers.description', {
-            dateFrom: dateRange.from,
-            dateTo: dateRange.to
-          }) }}
+          {{ descriptionMainText }}
         </p>
         <p class="reset-members-popup--description-count">
           {{ descriptionCountText }}
@@ -45,6 +42,8 @@
 </template>
 
 <script>
+import { ActionOptions } from '../types/ActionOptions';
+
 export default {
 	name: 'ResetMembersPopup',
 	inject: [
@@ -61,11 +60,24 @@ export default {
 		quantity: {
 			type: Number,
 		},
+		scope: {
+			type: String,
+			default: ActionOptions.All,
+		},
 	},
 	data: () => ({
 		isResetting: false,
 	}),
 	computed: {
+		descriptionMainText() {
+			return this.$t(
+				`objects.ccenter.members.resetMembers.description.${this.scope}`,
+				{
+					dateFrom: this.dateRange?.from,
+					dateTo: this.dateRange?.to,
+				},
+			);
+		},
 		descriptionCountText() {
 			return this.$t(
 				`objects.ccenter.members.resetMembers.${this.quantity ? 'descriptionCount' : 'emptyDescription'}`,

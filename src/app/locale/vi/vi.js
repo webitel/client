@@ -114,8 +114,6 @@ export default {
 		timerangeStartLessThanEnd: 'Thời gian "Từ" không được muộn hơn "Đến"',
 		timerangeNotIntersect:
 			'Các khoảng thời gian trong cùng một ngày không được chồng chéo',
-		phoneNumbersFileUploadValidator: ({ linked }) =>
-			`Tệp chứa số không hợp lệ. ${linked('validation.phoneNumberSymbolsValidator')}`,
 	},
 
 	nav: {
@@ -540,6 +538,7 @@ export default {
 				communications: 'Loại liên lạc',
 				allCommunications: 'Tất cả loại liên lạc',
 				addCommunication: 'Thêm liên lạc',
+				missingCommunication: 'Vui lòng thêm loại liên lạc',
 				code: 'Mã',
 				channels: {
 					[EngineCommunicationChannels.Phone]: 'Điện thoại',
@@ -548,32 +547,13 @@ export default {
 				},
 			},
 			pauseCause: {
-				pauseCause: 'Trạng thái của đại lý',
+				pauseCause: 'Lý do tạm dừng',
 				allPauseCause: 'Tất cả nguyên nhân tạm dừng đại lý',
 				limit: 'Giới hạn (phút)',
 				min: 'phút',
 				allowAdmin: 'Quản trị viên có thể thay đổi trạng thái này',
 				allowSupervisor: 'Giám sát có thể thay đổi trạng thái này',
 				allowAgent: 'Đại lý có thể thay đổi trạng thái này',
-			},
-			shiftTemplates: {
-				shiftTemplates: 'Mẫu lịch trình',
-				duration: 'Thời gian (giờ:phút)',
-			},
-			pauseTemplates: {
-				pauseTemplates: 'Mẫu tạm dừng',
-				notSelected: 'Chưa chọn',
-				pauseReason: 'Lý do tạm dừng',
-				duration: 'Thời gian (phút)',
-			},
-			workingConditions: {
-				workingConditions: 'Điều kiện làm việc',
-				workdayDuration: 'Thời gian làm việc trong ngày (giờ)',
-				workdaysPerMonth: 'Số ngày làm việc trong tháng',
-				vacationDaysPerYear: 'Số ngày nghỉ phép trong năm',
-				sickLeavesPerYear: 'Số ngày nghỉ ốm trong năm',
-				daysOffPerYear: 'Số ngày nghỉ trong năm',
-				pauseDuration: 'Thời gian tạm dừng (phút)',
 			},
 			quickReplies: {
 				quickReplies: 'Trả lời nhanh',
@@ -615,6 +595,7 @@ export default {
 				pattern: 'Số điện thoại đích',
 				dialplanRule: 'Quy tắc lịch sử cuộc gọi',
 				position: 'Vị trí',
+				allowTransfer: 'Cho phép chuyển tiếp',
 			},
 
 			chatplan: {
@@ -824,6 +805,7 @@ export default {
 				state: 'Trạng thái',
 				isSupervisor: 'Giám sát',
 				stateTime: 'Thời gian trạng thái',
+				statusType: 'Loại trạng thái',
 				addSkill: 'Thêm kỹ năng',
 				editSkill: 'Sửa kỹ năng',
 				statusHistory: 'Lịch sử trạng thái',
@@ -895,6 +877,7 @@ export default {
 				allMembers: 'Tất cả thành viên',
 				addMember: 'Thêm thành viên',
 				destination: 'Đích',
+				communications: 'Liên lạc',
 				display: 'Số hiển thị',
 				dtmf: 'DTMF',
 				priority: ({ linked }) => linked('objects.memberPriority'),
@@ -902,8 +885,16 @@ export default {
 				emptyWorkspace: 'Không tìm thấy thành viên nào',
 				resetMembers: {
 					resetMembers: 'Đặt lại thử',
-					description:
-						'Bạn có chắc chắn muốn đặt lại các lần thử không thành công từ\n{dateFrom} đến {dateTo}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?',
+					description: {
+						question:
+							'Bạn có chắc chắn muốn đặt lại các lần thử không thành công',
+						all: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} mà không có giới hạn ngày nào không?`,
+						filtered: ({ named, linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} từ\n${named('dateFrom')} đến ${named('dateTo')}\ndựa trên các bộ lọc đã áp dụng và kết quả tìm kiếm không?`,
+						selected: ({ linked }) =>
+							`${linked('objects.ccenter.members.resetMembers.description.question')} không?`,
+					},
 					descriptionCount: '{count} bản ghi sẽ bị ảnh hưởng.',
 					emptyDescription:
 						'Không có lần thử không thành công nào khớp với bộ lọc hiện tại. Không có gì để đặt lại.',
@@ -959,6 +950,8 @@ export default {
 				teams: 'Đội',
 				tags: 'Thẻ',
 				newQueue: 'Hàng đợi mới',
+				saveBeforeAddingRecords:
+					'Điền các trường bắt buộc của hàng đợi trước khi thêm bản ghi',
 				blacklist: 'Danh sách dừng',
 				resources: ({ linked }) => linked('objects.ccenter.res.res'),
 				resourceGroups: ({ linked }) =>
@@ -1242,8 +1235,6 @@ export default {
 					[StorageUploadFileChannel.MediaChannel]: 'phương tiện',
 					[StorageUploadFileChannel.MailChannel]: 'email',
 					[StorageUploadFileChannel.LogChannel]: 'log',
-					[StorageUploadFileChannel.ScreenSharingChannel]: 'chia sẻ màn hình',
-					[StorageUploadFileChannel.ScreenshotChannel]: 'ảnh chụp màn hình',
 					[StorageUploadFileChannel.ScreenRecordingChannel]: 'ghi màn hình',
 				},
 				encryptFile: 'Mã hóa tệp mới',
@@ -1448,6 +1439,9 @@ export default {
 		deleteAll: 'Xóa tất cả các mục',
 		deleteSelected: 'Xóa {count} mục được chọn',
 		deleteFiltered: 'Xóa tất cả các mục được lọc',
+		resetAll: 'Đặt lại tất cả thành viên',
+		resetSelected: 'Đặt lại {count} thành viên đã chọn',
+		resetFiltered: 'Đặt lại tất cả thành viên đã lọc',
 		generate: 'Tạo',
 		add: 'Thêm',
 		history: 'Lịch sử',

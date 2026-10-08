@@ -17,7 +17,7 @@
 
     <template #main>
       <form
-        class="main-container"
+        class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
@@ -53,8 +53,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf, requiredUnless } from '@vuelidate/validators';
+import { StorageProviderType } from '@webitel/api-services/gen/models';
 import deepmerge from 'deepmerge';
-import { StorageProviderType } from 'webitel-sdk';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';

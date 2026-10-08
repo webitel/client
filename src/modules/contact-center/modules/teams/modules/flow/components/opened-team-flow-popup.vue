@@ -1,109 +1,125 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!flowId" size="sm" overflow @close="close">
+  <wt-popup
+    :shown="!!flowId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form>
-        <wt-input-text :label="$t('objects.title')" :v="v$.itemInstance.name" :model-value="itemInstance.name" required
-          @update:model-value="setItemProp({ prop: 'name', value: $event })" />
-        <wt-single-select
-          :disabled="!hasFlowsReadAccess"
-          :show-clear="false"
-          :label="$t('objects.routing.flow.flow', 1)"
-          :search-method="hasFlowsReadAccess && loadFlowOptions"
-          :v="v$.itemInstance.schema"
-          :model-value="itemInstance.schema"
+      <form
+        class="opened-team-flow-popup__form"
+        @submit.prevent="save"
+      >
+        <wt-input-text
+          v-model:model-value="modelValue.name"
+          :label="t('objects.title')"
+          :regle-validation="validationFields?.name"
           required
-          @update:model-value="setItemProp({ prop: 'schema', value: $event })"
+        />
+        <wt-single-select
+          v-model:model-value="modelValue.schema"
+          :disabled="!hasFlowsReadAccess"
+          :label="t('objects.routing.flow.flow', 1)"
+          :regle-validation="validationFields?.schema"
+          :search-method="hasFlowsReadAccess && loadFlowOptions"
+          :show-clear="false"
+          required
         />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.save') }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        :color="ButtonColor.SECONDARY"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
 import { FlowsAPI } from '@webitel/api-services/api';
-import { WtObject } from '@webitel/ui-sdk/enums';
-import { EngineRoutingSchemaType } from 'webitel-sdk';
+import {
+	EngineRoutingSchemaType,
+	type EngineTeamTrigger,
+} from '@webitel/api-services/gen/models';
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor, WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
-export default {
-	name: 'OpenedTeamFlowPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+import TeamsRouteNames from '../../../router/_internals/TeamsRouteNames.enum';
+import { useTeamFlowsCardStore } from '../stores/card/teamFlowsCardStore';
 
-	setup: () => {
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
-		return {
-			// Reasons for use $stopPropagation
-			// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-			v$: useVuelidate({
-				$stopPropagation: true,
-			}),
-			hasFlowsReadAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'ccenter/teams/flow',
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			schema: {
-				required,
-			},
-		},
-	},
-	computed: {
-		popupTitle() {
-			return this.itemInstance.id
-				? this.$t('objects.ccenter.teams.flows.editFlowSchema')
-				: this.$t('objects.ccenter.teams.flows.addFlowSchema');
-		},
-		flowId() {
-			return this.$route.params.flowId;
-		},
-	},
-	watch: {
-		flowId: {
-			handler(id) {
-				if (id === 'new') this.resetState();
-				else {
-					this.setId(id);
-					this.loadItem();
-				}
-			},
-			immediate: true,
-		},
-	},
+const props = defineProps<{
+	parentId?: string | number | null;
+}>();
 
-	methods: {
-		loadFlowOptions(params) {
-			return FlowsAPI.getLookup({
-				...params,
-				type: [
-					EngineRoutingSchemaType.Service,
-				],
-			});
-		},
-	},
+const emit = defineEmits<{
+	saved: [];
+}>();
+
+const { t } = useI18n();
+const route = useRoute();
+
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
+
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<EngineTeamTrigger>({
+	useCardStore: useTeamFlowsCardStore,
+	routeParamName: 'flowId',
+	parentId: () => props.parentId,
+});
+
+const flowId = computed(() => route.params.flowId);
+
+const popupTitle = computed(() =>
+	isNew.value
+		? t('objects.ccenter.teams.flows.addFlowSchema')
+		: t('objects.ccenter.teams.flows.editFlowSchema'),
+);
+
+const { close } = useClose(TeamsRouteNames.FLOWS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
+
+const loadFlowOptions = (params: object) =>
+	FlowsAPI.getLookup({
+		...params,
+		type: [
+			EngineRoutingSchemaType.Service,
+		],
+	});
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.opened-team-flow-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+</style>
