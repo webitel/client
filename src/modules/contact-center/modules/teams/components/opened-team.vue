@@ -94,11 +94,11 @@ const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
 );
 
 const { saveOptions } = useSaveCopy(() =>
-  TeamsAPI.add({
-    itemInstance: {
-      ...toRaw(modelValue.value),
-    },
-  }),
+	TeamsAPI.add({
+		itemInstance: {
+			...toRaw(modelValue.value),
+		},
+	}),
 );
 
 const teamsCardStore = useTeamsCardStore();
