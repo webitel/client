@@ -828,6 +828,9 @@ export default {
 					pause: 'Pauză',
 					breakOut: 'Ieșire din pauză',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Condiții de lucru',
+				pauseTemplate: 'Șablon de pauză',
 				agentScreenControl: 'Control ecran agent',
 				agentScreenControlHint:
 					'Nu poate fi dezactivat cât timp setarea pentru echipă este activată.',

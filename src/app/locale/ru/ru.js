@@ -833,6 +833,9 @@ export default {
 					pause: 'Пауза',
 					breakOut: 'Принудительный перерыв',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Условия работы',
+				pauseTemplate: 'Шаблон пауз',
 				agentScreenControl: 'Следить за экраном оператора',
 				agentScreenControlHint:
 					'Невозможно выключить, пока настройка для команды включена',

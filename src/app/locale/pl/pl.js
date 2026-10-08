@@ -826,6 +826,9 @@ export default {
 					pause: 'Zawieszenie',
 					breakOut: 'Przerwa',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Warunki pracy',
+				pauseTemplate: 'Szablon zawieszenia',
 				agentScreenControl: 'Sterowanie ekranem agenta',
 				agentScreenControlHint:
 					'Nie można wyłączyć, gdy ustawienie dla zespołu jest włączone',

@@ -830,6 +830,9 @@ export default {
 					pause: "To'xtash",
 					breakOut: 'Chiqib ketish',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Ish shartlari',
+				pauseTemplate: "To'xtash shabloni",
 				agentScreenControl: 'Agent ekranini boshqarish',
 				agentScreenControlHint:
 					'Jamoa uchun sozlama yoqilgan vaqtda o‘chirib bo‘lmaydi',
