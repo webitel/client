@@ -559,10 +559,6 @@ export default {
 				allowSupervisor: 'Supraveghetor poate schimba această stare',
 				allowAgent: 'Agent poate schimba această stare',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Șablon de schimb | Șabloane de schimb',
-				duration: 'Durata (hh:mm)',
-			},
 			quickReplies: {
 				quickReplies: 'Răspuns rapid | Răspunsuri rapide',
 			},

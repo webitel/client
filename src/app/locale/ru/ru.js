@@ -565,10 +565,6 @@ export default {
 				allowSupervisor: 'Супервизор может изменять этот статус',
 				allowAgent: 'Оператор может изменять этот статус',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Шаблон смен | Шаблоны смен',
-				duration: 'Длительность (чч:мм)',
-			},
 			quickReplies: {
 				quickReplies: 'Быстрый ответ | Быстрые ответы',
 			},

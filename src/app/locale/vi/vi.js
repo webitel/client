@@ -555,10 +555,6 @@ export default {
 				allowSupervisor: 'Giám sát có thể thay đổi trạng thái này',
 				allowAgent: 'Đại lý có thể thay đổi trạng thái này',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Mẫu lịch trình',
-				duration: 'Thời gian (giờ:phút)',
-			},
 			quickReplies: {
 				quickReplies: 'Trả lời nhanh',
 			},

@@ -558,10 +558,6 @@ export default {
 				allowSupervisor: 'Nadzorca może zmienić ten status',
 				allowAgent: 'Agent może zmienić ten status',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Szablon przesunięcia | Szablony przesunięć',
-				duration: 'Długość (hh:mm)',
-			},
 			quickReplies: {
 				quickReplies: 'Szybka odpowiedź | Szybkie odpowiedzi',
 			},

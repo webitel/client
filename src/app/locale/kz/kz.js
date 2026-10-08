@@ -554,10 +554,6 @@ export default {
 				allowSupervisor: 'Бақылаушы демалыс күйін өзгертуге рұқсат',
 				allowAgent: 'Агент демалыс күйін өзгертуге рұқсат',
 			},
-			shiftTemplates: {
-				shiftTemplates: 'Смена шаблоны | Смена шаблондары',
-				duration: 'Ұзақтығы (сағ:мин)',
-			},
 			quickReplies: {
 				quickReplies: 'Тез жауап | Тез жауаптар',
 			},
