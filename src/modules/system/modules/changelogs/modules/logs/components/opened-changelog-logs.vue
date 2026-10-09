@@ -155,13 +155,13 @@ export default {
 		});
 	},
 	methods: {
-		async downloadNewState({ id, object, record }) {
+		async downloadNewState({ id, date, record }) {
 			const { newState } = await LogsAPI.get({
 				itemId: id,
 			});
 			downloadAsJSON(
 				JSON.parse(newState),
-				`${object.name}-${record.id}-new-state-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
+				`${record.name}-${record.id}-new-state-${formatDate(+date, FormatDateMode.DATETIME)}`,
 			);
 		},
 		async getDataForCSVExport(params) {
