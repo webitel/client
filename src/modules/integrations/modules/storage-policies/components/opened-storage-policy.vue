@@ -17,10 +17,6 @@
         class="opened-card-form"
         @submit.prevent="save"
       >
-        <wt-tabs
-          v-model="currentTab"
-          :tabs="tabs"
-        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
