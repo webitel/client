@@ -836,6 +836,9 @@ export default {
 					pause: 'Пауза',
 					breakOut: 'Примусова пауза',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Умови роботи',
+				pauseTemplate: 'Шаблон пауз',
 				agentScreenControl: 'Слідкувати за екраном оператора',
 				agentScreenControlHint:
 					'Неможливо вимкнути, поки налаштування для команди увімкнене',

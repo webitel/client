@@ -41,13 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import type { EngineAgent } from '@webitel/api-services/gen/models';
 import {
 	type CardTab,
 	useCardComponent,
 	useCardTabs,
 } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
+import { WebitelLicense } from '@webitel/ui-sdk/modules/Userinfo';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -55,8 +55,12 @@ import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum';
-import { useAgentsCardStore } from '../stores/card/agentsCardStore';
+import {
+	type AgentCard,
+	useAgentsCardStore,
+} from '../stores/card/agentsCardStore';
 import { useAgentsPermissionsStore } from '../stores/permissions/agentsPermissionsStore';
 
 const { t } = useI18n();
@@ -70,6 +74,9 @@ const {
 	hasDeleteAccess,
 } = useUserAccessControl();
 
+const { hasLicense } = useUserinfoStore();
+const hasLicenseOnWfm = computed(() => hasLicense(WebitelLicense.WFM));
+
 const cardStore = useAgentsCardStore();
 const { itemId } = storeToRefs(cardStore);
 
@@ -82,7 +89,7 @@ const {
 	disabledSave,
 	validationFields,
 	save,
-} = useCardComponent<EngineAgent>({
+} = useCardComponent<AgentCard>({
 	useCardStore: useAgentsCardStore,
 	hasSaveAccess: hasSaveActionAccess,
 });
@@ -111,6 +118,14 @@ const tabs = computed(() => {
 			text: t('objects.ccenter.agents.agents', 2),
 			value: 'subordinates',
 			pathName: AgentsRouteNames.SUBORDINATES,
+		});
+	}
+
+	if (hasLicenseOnWfm.value) {
+		tabs.push({
+			text: t('objects.ccenter.agents.wfm'),
+			value: 'wfm',
+			pathName: AgentsRouteNames.WFM,
 		});
 	}
 

@@ -822,6 +822,9 @@ export default {
 					pause: 'Pause',
 					breakOut: 'Break Out',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Working conditions',
+				pauseTemplate: 'Pause template',
 				agentScreenControl: 'Agent screen control',
 				agentScreenControlHint:
 					'Cannot be disabled while the setting for the team is enabled',

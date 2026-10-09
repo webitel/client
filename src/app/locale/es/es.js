@@ -831,6 +831,9 @@ export default {
 					pause: 'Pausa',
 					breakOut: 'Salida de pausa',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Condiciones de trabajo',
+				pauseTemplate: 'Plantilla de pausa',
 				agentScreenControl: 'Control de pantalla del agente',
 				agentScreenControlHint:
 					'No se puede desactivar mientras la configuración del equipo esté activada.',

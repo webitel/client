@@ -13,6 +13,7 @@ const Queues = () =>
 	import('../modules/queues/components/opened-agent-queues.vue');
 const Subordinates = () =>
 	import('../modules/subordinates/components/opened-agent-subordinates.vue');
+const Wfm = () => import('../components/opened-agent-wfm.vue');
 
 const AgentRoutes = [
 	{
@@ -62,6 +63,11 @@ const AgentRoutes = [
 				path: 'subordinates/:subordinateId?',
 				name: AgentsRouteNames.SUBORDINATES,
 				component: Subordinates,
+			},
+			{
+				path: 'wfm',
+				name: AgentsRouteNames.WFM,
+				component: Wfm,
 			},
 			{
 				path: 'permissions/:permissionId?',

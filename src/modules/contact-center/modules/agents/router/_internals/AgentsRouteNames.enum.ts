@@ -6,5 +6,6 @@ export default Object.freeze({
 	QUEUES: `${RouteNames.AGENTS}-queues`,
 	PERMISSIONS: `${RouteNames.AGENTS}-permissions`,
 	SUBORDINATES: `${RouteNames.AGENTS}-subordinates`,
+	WFM: `${RouteNames.AGENTS}-wfm`,
 	HISTORY: `${RouteNames.AGENTS}-history`,
 });

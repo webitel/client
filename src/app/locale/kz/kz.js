@@ -823,6 +823,9 @@ export default {
 					pause: 'Демалыс',
 					breakOut: 'Шығу',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Жұмыс шарттары',
+				pauseTemplate: 'Демалыс шаблоны',
 				agentScreenControl: 'Агент экранын басқару',
 				agentScreenControlHint:
 					'Топ параметрі қосылған кезде өшіру мүмкін емес',

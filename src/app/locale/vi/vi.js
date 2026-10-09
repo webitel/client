@@ -823,6 +823,9 @@ export default {
 					pause: 'Tạm dừng',
 					breakOut: 'Thời gian ngoại tuyến',
 				},
+				wfm: 'WFM',
+				workingConditions: 'Điều kiện làm việc',
+				pauseTemplate: 'Mẫu tạm dừng',
 				agentScreenControl: 'Kiểm soát màn hình đại lý',
 				agentScreenControlHint:
 					'Không thể tắt tính năng này khi cài đặt cho đội đang được bật',
