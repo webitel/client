@@ -14,6 +14,7 @@
         >
           <wt-button-select
             :color="disabledSave ? 'secondary' : 'primary'"
+            :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
             @click:option="({ callback }) => callback()"
@@ -49,12 +50,6 @@
           type="submit"
         >
       </form>
-
-      <save-copy-popup
-        :shown="isSaveCopyPopupShown"
-        @close="closeSaveCopyPopup"
-        @save="saveCopy"
-      />
     </template>
   </wt-page-wrapper>
 </template>
@@ -69,10 +64,7 @@ import {
 } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
-import {
-	SaveCopyPopup,
-	useSaveCopyPopup,
-} from '@webitel/ui-sdk/modules/SaveCopyPopup';
+import { useSaveCopy } from '@webitel/ui-sdk/modules/SaveCopy';
 import { storeToRefs } from 'pinia';
 import { computed, toRaw } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -99,6 +91,14 @@ const { hasReadAccess: hasAgentsReadAccess } = useUserAccessControl(
 );
 const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
 	WtObject.Flow,
+);
+
+const { saveOptions } = useSaveCopy(() =>
+	TeamsAPI.add({
+		itemInstance: {
+			...toRaw(modelValue.value),
+		},
+	}),
 );
 
 const teamsCardStore = useTeamsCardStore();
@@ -185,16 +185,6 @@ const permissionsStoreData = computed(() => ({
 }));
 
 const { close } = useClose(RouteNames.TEAMS);
-
-const { isSaveCopyPopupShown, saveOptions, closeSaveCopyPopup, saveCopy } =
-	useSaveCopyPopup((name) =>
-		TeamsAPI.add({
-			itemInstance: {
-				...toRaw(modelValue.value),
-				name,
-			},
-		}),
-	);
 
 const path = computed(() => [
 	{

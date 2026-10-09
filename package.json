@@ -73,7 +73,7 @@
 		"globals": "^16.0.0",
 		"happy-dom": "^20.11.1",
 		"husky": "^9.1.7",
-		"lint-staged": "^15.5.0",
+		"lint-staged": "^17.6.0",
 		"prismjs": "^1.29.0",
 		"sass": "^1.102.0",
 		"tslib": "^2.8.1",
@@ -81,7 +81,6 @@
 		"vite": "npm:rolldown-vite@^7.3.1",
 		"vite-plugin-checker": "^0.14.5",
 		"vite-plugin-node-polyfills": "^0.x",
-		"vite-plugin-static-copy": "^3.1.4",
 		"vite-plugin-vue-devtools": "^7.6.4",
 		"vite-plugin-vue-docgen": "^0.3.4",
 		"vitepress": "^1.4.3",
@@ -96,6 +95,10 @@
 	"overrides": {
 		"vue-tsc": "^2.2.0",
 		"vite": "npm:rolldown-vite@^7.3.1",
-		"brace-expansion": "^2.1.4"
+		"brace-expansion": "^2.1.4",
+		"dompurify": "^3.4.16",
+		"webitel-sdk": {
+			"query-string": "^9.5.1"
+		}
 	}
 }
