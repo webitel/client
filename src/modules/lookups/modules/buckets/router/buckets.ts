@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import BucketsRouteNamesEnum from './_internals/BucketsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import BucketsRouteNamesEnum from './_internals/BucketsRouteNames.enum';
 
 const Buckets = () => import('../components/the-buckets.vue');
 const OpenedBucket = () => import('../components/opened-bucket.vue');

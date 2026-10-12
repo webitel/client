@@ -18,7 +18,11 @@
             {{ t('objects.lookups.buckets.allBuckets') }}
           </h3>
           <wt-action-bar
-            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.COLUMNS,
+            ]"
             :disabled:delete="!hasDeleteAccess || !selected.length"
             @click:refresh="loadDataList"
             @click:delete="
@@ -35,6 +39,12 @@
                 @filter:add="addFilter"
                 @filter:update="updateFilter"
                 @filter:delete="deleteFilter"
+              />
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
               />
             </template>
           </wt-action-bar>
@@ -54,7 +64,7 @@
             :text="textEmpty"
             :primary-action-text="primaryActionTextEmpty"
             :disabled-primary-action="!hasCreateAccess"
-            @click:primary="add"
+            @click:primary="add()"
           />
 
           <wt-loader v-show="isLoading" />
@@ -64,17 +74,23 @@
             :data="dataList"
             :selected="selected"
             :headers="shownHeaders"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.BUCKETS"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.BUCKETS}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #description="{ item }">
@@ -114,7 +130,8 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { EngineBucket } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -127,12 +144,12 @@ import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { useBucketsDatalistStore } from '../stores';
+import { useBucketsDatalistStore } from '../stores/datalist/bucketsDatalistStore';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 	useUserAccessControl();
 
-const tableStore = useBucketsDatalistStore();
+const bucketsDatalistStore = useBucketsDatalistStore();
 
 const {
 	dataList,
@@ -142,9 +159,10 @@ const {
 	size,
 	next,
 	selected,
+	headers,
 	shownHeaders,
 	filtersManager,
-} = storeToRefs(tableStore);
+} = storeToRefs(bucketsDatalistStore);
 
 const {
 	initialize,
@@ -152,12 +170,15 @@ const {
 	updatePage,
 	updateSize,
 	updateSort,
+	columnResize,
+	columnReorder,
+	updateShownHeaders,
 	deleteEls,
 	addFilter,
 	updateFilter,
 	deleteFilter,
 	updateSelected,
-} = tableStore;
+} = bucketsDatalistStore;
 
 initialize();
 
@@ -190,7 +211,7 @@ const add = () =>
 		},
 	});
 
-const edit = (item) =>
+const edit = (item: EngineBucket) =>
 	router.push({
 		name: `${RouteNames.BUCKETS}-card`,
 		params: {
