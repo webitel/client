@@ -842,6 +842,7 @@ export default {
 				teams: 'Zespół | Zespoły',
 				allTeams: 'Wszystkie zespoły',
 				strategy: 'Strategia',
+				forecastCalculation: 'Obliczanie prognozy',
 				parameters: 'Parametry',
 				maxNoAnswer: 'Maksymalna liczba nieodpowiedzi',
 				callTimeout: 'Czas oczekiwania na połączenie',
