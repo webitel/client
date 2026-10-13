@@ -1,23 +1,29 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="the-media table-page"
   >
     <template #header>
       <wt-page-header hide-primary>
         <wt-breadcrumb :path="path" />
         <template #actions>
-          <download-files-btn
-            :files-download-progress="filesDownloadProgress.count"
-            :files-zipping-progress="filesZippingProgress.percent"
-            :is-files-loading="isFilesLoading"
-            @export-files="exportFiles"
+          <media-download-files-action
+            :loading="isFilesLoading"
+            :downloaded-count="filesDownloadProgress.count"
+            :zipping-percent="filesZippingProgress.percent"
+            @click="exportFiles"
           />
         </template>
       </wt-page-header>
     </template>
 
     <template #main>
+      <text-to-speech-popup
+        v-if="isTextToSpeechOpened"
+        @close="closeTextToSpeech"
+        @saved="loadDataList"
+      />
+
       <delete-confirmation-popup
         :shown="isDeleteConfirmationPopup"
         :delete-count="deleteCount"
@@ -28,380 +34,341 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.lookups.media.allMediaFiles') }}
+            {{ t('objects.lookups.media.allMediaFiles') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
-              />
-              <text-to-speech-popup
-                :disabled="!hasCreateAccess"
-                @opened="closePlayer"
-              />
-            </wt-table-actions>
-          </div>
-        </header>
-        <vue-dropzone
-          v-if="hasCreateAccess"
-          id="dropzone"
-          :destroy-dropzone="false"
-          :options="dropzoneOptions"
-          duplicate-check
-          use-custom-slot
-          @vdropzone-files-added="onFilesAdded"
-          @vdropzone-success="onFileSuccess"
-          @vdropzone-error="onFileError"
-          @vdropzone-queue-complete="onComplete"
-        >
-          <div v-show="isLoadingFiles">
-            <div class="progress-count">
-              <wt-loader size="sm" />
-              <p>{{ loadedCount }}/{{ allLoadingCount }}</p>
-            </div>
-          </div>
-          <div
-            v-show="!isLoadingFiles"
-            :title="$t('iconHints.upload')"
-            class="dz-custom-message"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.COLUMNS,
+            ]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
           >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
+              />
+            </template>
+            <wt-icon-btn
+              v-tooltip="t('objects.lookups.media.tts.hint')"
+              :disabled="!hasCreateAccess"
+              icon="tts-download"
+              @click="openTextToSpeech"
+            />
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
+        </header>
+
+        <div
+          v-if="hasCreateAccess"
+          ref="dropZone"
+          :class="{ 'the-media__dropzone--over': isOverDropZone }"
+          :title="t('iconHints.upload')"
+          class="the-media__dropzone"
+          @click="openFileDialog"
+        >
+          <wt-loader
+            v-if="isUploading"
+            size="sm"
+          />
+          <template v-else>
             <wt-icon
               color="primary"
               icon="upload"
             />
-            <div class="dz-message-text">
-              <span class="dz-message-text__accent">
-                {{ $t('objects.lookups.media.dragPlaceholder') }}
+            <span>
+              <span class="the-media__dropzone-accent">
+                {{ t('objects.lookups.media.dragPlaceholder') }}
               </span>
-              {{ $t('objects.lookups.media.dragPlaceholderHere') }}
-            </div>
-          </div>
-        </vue-dropzone>
+              {{ t('objects.lookups.media.dragPlaceholderHere') }}
+            </span>
+          </template>
+        </div>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
               {{ item.name }}
             </template>
             <template #createdAt="{ item }">
-              {{ prettifyDate(item.createdAt) }}
+              {{ formatDate(Number(item.createdAt), FormatDateMode.DATE) }}
             </template>
             <template #format="{ item }">
-              {{ displayFormatFile(item) }}
+              {{ getMediaFileFormat(item) }}
             </template>
             <template #size="{ item }">
               {{ prettifyFileSize(item.size) }}
             </template>
-            <template #actions="{ item, index }">
-              <table-media-file-preview-action
-                :playing="index === playingIndex && currentlyPlaying"
-                :type="item.mimeType"
-                @open="openFile(item)"
-                @play="play(index)"
+            <template #actions="{ item }">
+              <media-play-action
+                v-if="item.mimeType?.includes('audio')"
+                :playing="isPlaying(item)"
+                @play="play(item)"
+              />
+              <wt-icon-btn
+                v-else
+                :icon="getFileTypeIcon(item.mimeType, { fallback: 'docs' })"
+                @click="openFile(item)"
               />
               <wt-icon-action
                 action="download"
-                @click="downloadFile(item)"
+                @click="
+                  downloadStorageFile({
+                    url: getMediaDownloadUrl(item.id),
+                    name: item.name,
+                  })
+                "
               />
               <wt-icon-action
-                v-if="hasDeleteAccess"
+                :disabled="!hasDeleteAccess"
                 action="delete"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
 
         <wt-player
-          v-if="audioPreviewSrc"
-          :src="audioPreviewSrc"
+          v-if="playerSrc"
+          :src="playerSrc"
           @close="closePlayer"
-          @pause="currentlyPlaying = false"
-          @play="currentlyPlaying = true"
+          @pause="isPaused = true"
+          @play="isPaused = false"
         />
       </section>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { MediaAPI } from '@webitel/api-services/api';
+<script setup lang="ts">
+import {
+	getMediaDownloadUrl,
+	getMediaStreamUrl,
+	MediaAPI,
+} from '@webitel/api-services/api';
+import type { StorageMediaFile } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtPlayer } from '@webitel/ui-sdk/components';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
+import {
+	downloadStorageFile,
+	getFileTypeIcon,
+} from '@webitel/ui-sdk/scripts/file';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import vueDropzone from 'vue2-dropzone';
-import { useStore } from 'vuex';
-import DownloadFilesBtn from '../../../../../app/components/utils/download-files-btn.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
-import { download } from '../../../../../app/utils/download';
-import TextToSpeechPopup from '../modules/text-to-speech/components/text-to-speech-popup.vue';
-import TableMediaFilePreviewAction from './table-media-file-preview-action.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useMediaPlayer } from '../composables/useMediaPlayer';
+import { useMediaUpload } from '../composables/useMediaUpload';
+import { useMediaDatalistStore } from '../stores/datalist/mediaDatalistStore';
+import MediaDownloadFilesAction from './media-download-files-action.vue';
+import MediaPlayAction from './media-play-action.vue';
+import TextToSpeechPopup from './text-to-speech-popup.vue';
 
-const token = localStorage.getItem('access-token');
-const API_URL = import.meta.env.VITE_API_URL;
-const namespace = 'lookups/media';
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const { hasCreateAccess, hasDeleteAccess } = useUserAccessControl();
 
-export default {
-	name: 'TheMedia',
-	components: {
-		DownloadFilesBtn,
-		vueDropzone,
-		TextToSpeechPopup,
-		TableMediaFilePreviewAction,
-		DeleteConfirmationPopup,
-		WtPlayer,
-	},
-	mixins: [
-		tableComponentMixin,
-	],
-	inject: [
-		'$eventBus',
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const mediaDatalistStore = useMediaDatalistStore();
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const {
+	dataList,
+	selected,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(mediaDatalistStore);
 
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
+const {
+	initialize,
+	loadDataList,
+	updateSelected,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	updateShownHeaders,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = mediaDatalistStore;
 
-		const store = useStore();
-		const dataList = computed(
-			() => getNamespacedState(store.state, namespace).dataList,
-		);
-		const selected = computed(() =>
-			dataList.value.filter((item) => item._isSelected),
-		);
+initialize();
 
-		const {
-			exportFiles,
-			isLoading: isFilesLoading,
-			downloadStatus: filesDownloadProgress,
-			zippingStatus: filesZippingProgress,
-		} = useFilesExport({
-			getFileURL: (item) =>
-				`${API_URL}/storage/media/${item.id}/download?access_token=${token}`,
-			fetch: (params) => {
-				if (selected.value.length)
-					return {
-						items: selected.value,
-					};
-				return MediaAPI.getList(params);
-			},
-			filename: 'media',
-			skipFilesWithError: true,
-		});
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-
-			exportFiles,
-			isFilesLoading,
-			filesDownloadProgress,
-			filesZippingProgress,
-		};
-	},
-	data() {
-		return {
-			namespace,
-
-			isLoadingFiles: false,
-			loadedCount: 0,
-			allLoadingCount: 0,
-			audioPreviewSrc: null,
-			playingIndex: null,
-			currentlyPlaying: true,
-
-			dropzoneOptions: {
-				url: `${API_URL}/storage/media?access_token=${token}`,
-				thumbnailWidth: 150,
-				// maxFilesize: 0.5,
-				// acceptedFiles: '.mp3, .wav, .mpeg',
-				uploadMultiple: true,
-			},
-		};
-	},
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.media.mediaFiles', 2),
-					route: '/lookups/media',
-				},
-			];
-		},
-	},
-
-	methods: {
-		openFile({ id }) {
-			const url = `${API_URL}/storage/media/${id}/stream?access_token=${token}`;
-			window.open(url, '_blank');
-		},
-		async downloadFile({ id, name }) {
-			const url = `${API_URL}/storage/media/${id}/download?access_token=${token}`;
-			download(url, name);
-		},
-
-		getSelectedFiles() {
-			const selected = this.dataList.filter((item) => item._isSelected);
-			return selected.length ? selected : null;
-		},
-
-		// dropzone event on loading start
-		// used for computing files number for UI and animation start
-		onFilesAdded(files) {
-			this.isLoadingFiles = true;
-			this.loadedCount = 0;
-			this.allLoadingCount = files.length;
-		},
-
-		// dropzone event firing on ech file loaded successfully
-		// used for updating loaded files number on UI
-
-		onFileSuccess(file, res) {
-			this.loadedCount += 1;
-		},
-
-		// dropzone event firing on ech file load
-		// used for updating loaded files number on UI
-		onFileError(file, message) {
-			this.loadedCount += 1;
-			this.$eventBus.$emit('notification', {
-				type: 'error',
-				text: message.message || message,
-			});
-		},
-
-		// dropzone event firing on all files loaded and sent
-		// used for animation end and list update
-		onComplete() {
-			this.isLoadingFiles = false;
-			this.loadList();
-		},
-
-		play(rowId) {
-			const { id, mimeType } = this.dataList[rowId];
-			this.playingIndex = rowId;
-			this.audioPreviewSrc = {
-				src: `${API_URL}/storage/media/${id}/stream?access_token=${token}`,
-				type: mimeType,
+const {
+	exportFiles,
+	isLoading: isFilesLoading,
+	downloadStatus: filesDownloadProgress,
+	zippingStatus: filesZippingProgress,
+} = useFilesExport({
+	getFileURL: (item) => getMediaDownloadUrl(String(item.id)),
+	fetch: async (params) => {
+		if (selected.value.length)
+			return {
+				items: selected.value,
+				next: false,
 			};
-		},
-
-		closePlayer() {
-			this.playingIndex = null;
-			this.audioPreviewSrc = null;
-		},
-		getMediaList: MediaAPI.getList,
-		prettifyDate(date) {
-			return formatDate(+date, FormatDateMode.DATE);
-		},
-		prettifyFormat(format) {
-			return format.split('/').pop();
-		},
-		prettifyFileSize,
-		displayFormatFile(item) {
-			const array = item.name.split('.');
-			const format = array.length > 1 ? array.at(-1) : null;
-			return format || this.prettifyFormat(item.mimeType) || 'N/A';
-		},
+		return MediaAPI.getList(params);
 	},
+	filename: 'media',
+	skipFilesWithError: true,
+});
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
+	},
+	{
+		name: t('objects.lookups.media.mediaFiles', 2),
+		route: '/lookups/media',
+	},
+]);
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+
+const { dropZone, isOverDropZone, isUploading, openFileDialog } =
+	useMediaUpload({
+		onUploaded: loadDataList,
+	});
+
+const { playerSrc, isPaused, play, closePlayer, isPlaying } = useMediaPlayer();
+
+/** [Claude] the popup lives on `/lookups/media/new`, so it survives a reload and can be linked */
+const isTextToSpeechOpened = computed(() => route.params.mediaId === 'new');
+
+const openTextToSpeech = () => {
+	closePlayer();
+	router.push({
+		name: RouteNames.MEDIA,
+		params: {
+			mediaId: 'new',
+		},
+		query: route.query,
+	});
+};
+
+const closeTextToSpeech = () =>
+	router.replace({
+		name: RouteNames.MEDIA,
+		query: route.query,
+	});
+
+const getMediaFileFormat = ({ name = '', mimeType = '' }: StorageMediaFile) => {
+	const parts = name.split('.');
+	const format = parts.length > 1 ? parts.at(-1) : null;
+	return format || mimeType.split('/').pop() || 'N/A';
+};
+
+const openFile = ({ id = '' }: StorageMediaFile) => {
+	window.open(getMediaStreamUrl(id), '_blank');
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.progress-count {
+<style scoped>
+.the-media__dropzone {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .wt-loader {
-    display: inline-block;
-    margin-right: var(--spacing-xs);
-    margin-bottom: 3px;
-  }
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--border-radius);
+  background: var(--content-wrapper-color);
+  cursor: pointer;
 }
 
-#dropzone {
-  background: var(--content-wrapper-color);
-  align-items: center;
-  display: flex;
-  justify-content: center;
+.the-media__dropzone--over {
+  border-style: solid;
+}
+
+.the-media__dropzone-accent {
+  color: var(--primary-color);
 }
 </style>
