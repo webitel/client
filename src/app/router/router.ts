@@ -19,7 +19,7 @@ import TriggersRoutes from '../../modules/integrations/modules/triggers/router/t
 import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause';
 import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
-import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
+import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists';
 import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.js';
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';

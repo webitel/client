@@ -1,165 +1,222 @@
 <template>
   <section class="table-section">
-    <number-popup @close="closePopup" />
-    <upload-popup :file="csvFile" :parent-id="parentId" @close="closeCSVPopup" />
-    <delete-confirmation-popup :shown="isDeleteConfirmationPopup" :delete-count="deleteCount" :callback="deleteCallback"
-      @close="closeDelete" />
+    <number-popup
+      :parent-id="blacklistId"
+      @saved="loadDataList"
+    />
+    <upload-popup
+      v-if="csvFile && blacklistId"
+      :file="csvFile"
+      :parent-id="blacklistId"
+      @close="closeCsvPopup"
+    />
+    <delete-confirmation-popup
+      :shown="isDeleteConfirmationPopup"
+      :delete-count="deleteCount"
+      :callback="deleteCallback"
+      @close="closeDelete"
+    />
 
     <header class="table-title">
-      <h3 class="table-title__title">
-        {{ $t('objects.lookups.blacklist.number', 2) }}
-      </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar :value="search" debounce @enter="loadList" @input="setSearch" @search="loadList" />
-        <wt-table-actions :icons="['refresh']" @input="tableActionsHandler">
-          <delete-all-action v-show="!anySelected" :disabled="!hasDeleteAccess"
-            :selected-count="selectedRows.length" @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })" />
-          <upload-file-icon-btn :disabled="!hasCreateAccess" accept=".csv" class="icon-action" @change="processCSV" />
-          <wt-icon-btn :disabled="!hasCreateAccess" class="icon-action" icon="plus" @click="create" />
-        </wt-table-actions>
+        <wt-action-bar
+          :include="[
+            IconAction.ADD,
+            IconAction.UPLOAD,
+            IconAction.REFRESH,
+            IconAction.DELETE,
+            IconAction.COLUMNS,
+          ]"
+          :disabled:add="!hasCreateAccess || !blacklistId"
+          :disabled:delete="!hasDeleteAccess || !selected.length"
+          @click:add="open"
+          @click:refresh="loadDataList"
+          @click:delete="
+            askDeleteConfirmation({
+              deleted: selected,
+              callback: () => deleteEls(selected),
+            })
+          "
+        >
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              @filter:add="addFilter"
+              @filter:delete="deleteFilter"
+              @filter:update="updateFilter"
+            />
+          </template>
+          <template #upload>
+            <upload-file-icon-btn
+              :disabled="!hasCreateAccess || !blacklistId"
+              accept=".csv"
+              class="icon-action"
+              @change="processCsv"
+            />
+          </template>
+          <template #columns>
+            <wt-table-column-select
+              :headers="headers"
+              @change="updateShownHeaders"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy v-if="dummy && isLoaded" :src="dummy.src" :dark-mode="darkMode" :text="dummy.text && $t(dummy.text)"
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
       />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
-      <wt-table :data="dataList" :headers="headers" sortable @sort="sort">
+
+      <wt-loader v-show="isLoading" />
+
+      <wt-table
+        v-show="dataList.length && !isLoading"
+        :data="dataList"
+        :headers="shownHeaders"
+        :selected="selected"
+        reorderable-columns
+        resizable-columns
+        sortable
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
+        @sort="updateSort"
+        @update:selected="updateSelected"
+      >
         <template #number="{ item }">
           {{ item.number }}
         </template>
-
         <template #description="{ item }">
           {{ item.description }}
         </template>
-
         <template #expireAt="{ item }">
           {{ prettifyDate(item.expireAt) }}
         </template>
-
         <template #actions="{ item }">
-          <wt-icon-action :disabled="!hasUpdateAccess" action="edit" @click="editItem(item)" />
-          <wt-icon-action :disabled="!hasDeleteAccess" action="delete" @click="askDeleteConfirmation({
-            deleted: [item],
-            callback: () => deleteData(item),
-          })" />
+          <wt-icon-action
+            :disabled="!hasUpdateAccess"
+            action="edit"
+            @click="open(item.id)"
+          />
+          <wt-icon-action
+            :disabled="!hasDeleteAccess"
+            action="delete"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteEls([item]),
+              })
+            "
+          />
         </template>
       </wt-table>
-      <wt-pagination :next="isNext" :prev="page > 1" :size="size" debounce @change="loadList" @input="setSize"
-        @next="nextPage" @prev="prevPage" />
+      <wt-pagination
+        :next="next"
+        :prev="page > 1"
+        :size="size"
+        debounce
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
+      />
     </div>
   </section>
 </template>
 
-<script>
-import { FormatDateMode, WtObject } from '@webitel/ui-sdk/enums';
+<script lang="ts" setup>
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { useCardListNavigation } from '@webitel/ui-datalist/card';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction, WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
 
 import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import numberPopup from './opened-blacklist-number-popup.vue';
-import uploadPopup from './upload-blacklist-numbers-popup.vue';
+import { useBlacklistsCardStore } from '../../../stores/card/blacklistsCardStore';
+import { useBlacklistNumbersDatalistStore } from '../stores/datalist/blacklistNumbersDatalistStore';
+import NumberPopup from './opened-blacklist-number-popup.vue';
+import UploadPopup from './upload-blacklist-numbers-popup.vue';
 
-const namespace = 'lookups/blacklists';
-const subNamespace = 'numbers';
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl(WtObject.ListNumber);
 
-export default {
-	name: 'OpenedBlacklistNumbers',
-	components: {
-		numberPopup,
-		uploadPopup,
-		UploadFileIconBtn,
-		DeleteConfirmationPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
+const blacklistsCardStore = useBlacklistsCardStore();
+const { itemId: blacklistId } = storeToRefs(blacklistsCardStore);
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const blacklistNumbersDatalistStore = useNestedTableList({
+	useTableStore: useBlacklistNumbersDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	headers,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(blacklistNumbersDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	columnResize,
+	columnReorder,
+	updateShownHeaders,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = blacklistNumbersDatalistStore;
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
 
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl(WtObject.ListNumber);
+const { open } = useCardListNavigation({
+	routeParamName: 'numberId',
+});
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const csvFile = ref<File | null>(null);
 
-			askDeleteConfirmation,
-			closeDelete,
-
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
-	},
-	data() {
-		return {
-			namespace,
-			subNamespace,
-			csvFile: null,
-		};
-	},
-
-	methods: {
-		addItem() {
-			this.$router.push({
-				...this.$route,
-				params: {
-					numberId: 'new',
-				},
-			});
-		},
-		processCSV(files) {
-			const file = files[0];
-			if (file) {
-				this.csvFile = file;
-			}
-		},
-		closeCSVPopup() {
-			this.csvFile = null;
-			this.loadDataList();
-		},
-		closePopup() {
-			this.resetItemState();
-			this.$router.go(-1);
-		},
-		editItem(item) {
-			this.$router.push({
-				...this.$route,
-				params: {
-					numberId: item.id,
-				},
-			});
-		},
-		prettifyDate(date) {
-			if (date) return formatDate(+date, FormatDateMode.DATE);
-		},
-	},
+const processCsv = (files: FileList | File[]) => {
+	const file = files[0];
+	if (file) csvFile.value = file;
 };
-</script>
 
-<style lang="scss" scoped></style>
+const closeCsvPopup = () => {
+	csvFile.value = null;
+	loadDataList();
+};
+
+const prettifyDate = (date?: string | number) => {
+	if (Number(date)) return formatDate(+date, FormatDateMode.DATE);
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+</script>
