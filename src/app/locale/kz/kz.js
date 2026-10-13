@@ -839,6 +839,7 @@ export default {
 				teams: 'Команда | Командалар',
 				allTeams: 'Барлық командалар',
 				strategy: 'Стратегия',
+				forecastCalculation: 'Болжамды есептеу',
 				parameters: 'Параметрлер',
 				maxNoAnswer: 'Максимальды әрекеттер саны',
 				callTimeout: 'Қоңырау қабылдау таймақ',
