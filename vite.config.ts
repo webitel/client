@@ -2,11 +2,11 @@
 
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
+import { vite as vidstack } from 'vidstack/plugins';
 import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import vueDevTools from 'vite-plugin-vue-devtools';
-import { vite as vidstack } from 'vidstack/plugins';
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -35,6 +35,7 @@ export default ({ mode }) => {
 			},
 			dedupe: [
 				'vue',
+				'pinia',
 				'zod',
 				'@vue/compat',
 				'vidstack',

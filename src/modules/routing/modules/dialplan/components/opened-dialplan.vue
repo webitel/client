@@ -11,109 +11,84 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
-
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { DialplanCard } from '@webitel/api-services/validations';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import { regExpValidator } from '../../../../../app/utils/validators';
-import DialplanRouteNames from '../router/_internals/DialplanRouteNames.enum.js';
-import General from './opened-dialplan-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DialplanRouteNames from '../router/_internals/DialplanRouteNames.enum';
+import { useDialplanCardStore } from '../stores';
 
-export default {
-	name: 'OpenedDialplan',
-	components: {
-		General,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'routing/dialplan',
-		routeName: RouteNames.DIALPLAN,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			schema: {
-				required,
-			},
-			pattern: {
-				required,
-				regExpValidator,
-			},
-		},
-	},
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<DialplanCard>({
+	useCardStore: useDialplanCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: DialplanRouteNames.GENERAL,
-				},
-			];
-			return tabs;
-		},
-		path() {
-			const baseUrl = '/routing/dialplan';
-			return [
-				{
-					name: this.$t('objects.routing.routing'),
-				},
-				{
-					name: this.$t('objects.routing.dialplan.dialplan'),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
+const tabs = computed(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: DialplanRouteNames.GENERAL,
 	},
-};
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+const { close } = useClose(RouteNames.DIALPLAN);
+
+const path = computed(() => [
+	{
+		name: t('objects.routing.routing'),
+	},
+	{
+		name: t('objects.routing.dialplan.dialplan'),
+		route: '/routing/dialplan',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+	},
+]);
 </script>
-
-<style scoped></style>

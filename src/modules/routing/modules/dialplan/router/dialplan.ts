@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import DialplanRouteNames from './_internals/DialplanRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import DialplanRouteNames from './_internals/DialplanRouteNames.enum';
 
 const Dialplan = () => import('../components/the-dialplan.vue');
 const OpenedDialplan = () => import('../components/opened-dialplan.vue');

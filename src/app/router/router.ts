@@ -30,7 +30,7 @@ import ObjectsRoutes from '../../modules/permissions/modules/objects/router/obje
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
 import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan.js';
-import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan.js';
+import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan';
 import FlowRoutes from '../../modules/routing/modules/flow/router/flow.js';
 import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways.js';
 import SettingsRoutes from '../../modules/settings/routes/routes.js';
