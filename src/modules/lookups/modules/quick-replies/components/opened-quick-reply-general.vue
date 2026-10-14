@@ -1,70 +1,54 @@
 <template>
-  <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
+  <section class="opened-quick-reply-general">
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-multi-select
+        v-model:model-value="modelValue.teams"
         :disabled="disableUserInput"
-        :label="$t('objects.team')"
-        :search-method="loadDropdownOptionsTeamList"
-        :model-value="itemInstance.teams"
-        @update:model-value="setItemProp({ prop: 'teams', value: $event })"
+        :label="t('objects.team')"
+        :search-method="TeamsAPI.getLookup"
       />
       <wt-textarea
+        v-model:model-value="modelValue.text"
         :disabled="disableUserInput"
-        :label="$t('vocabulary.text')"
-        :model-value="itemInstance.text"
-        :v="v.itemInstance.text"
+        :label="t('vocabulary.text')"
+        :regle-validation="validationFields?.text"
         required
-        @update:model-value="setItemProp({ prop: 'text', value: $event })"
       />
       <wt-multi-select
+        v-model:model-value="modelValue.queues"
         :disabled="disableUserInput"
-        :label="$t('objects.ccenter.queues.queues', 1)"
-        :search-method="loadDropdownOptionsQueueList"
-        :model-value="itemInstance.queues"
-        @update:model-value="setItemProp({ prop: 'queues', value: $event })"
+        :label="t('objects.ccenter.queues.queues', 1)"
+        :search-method="QueuesAPI.getLookup"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { QueuesAPI, TeamsAPI } from '@webitel/api-services/api';
+import type { EngineQuickReply } from '@webitel/api-services/gen/models';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedBucketGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	methods: {
-		loadDropdownOptionsTeamList(params) {
-			return TeamsAPI.getLookup(params);
-		},
-		loadDropdownOptionsQueueList(params) {
-			return QueuesAPI.getLookup(params);
-		},
-	},
-};
+const modelValue = defineModel<EngineQuickReply>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: {
+		[K in keyof EngineQuickReply]?: RegleSchemaFieldStatus<EngineQuickReply[K]>;
+	};
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style scoped></style>
