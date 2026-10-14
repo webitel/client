@@ -2,7 +2,14 @@
 // biome-ignore-all lint/suspicious/noThenProperty: "then" is a flow IF-app keyword, not a thenable
 import { FlowApp } from '@webitel/ui-sdk/modules/Flow';
 
-const FlowAppAutocomplete = Object.freeze({
+/** [Claude] a code-editor completion: `insertText` is stringified into the inserted JSON snippet */
+export type FlowAppAutocompleteItem = {
+	label: FlowApp;
+	documentation: string;
+	insertText: Record<string, unknown>;
+};
+
+export const flowAppAutocomplete = {
 	[FlowApp.CALENDAR]: {
 		label: FlowApp.CALENDAR,
 		documentation: FlowApp.CALENDAR,
@@ -843,6 +850,4 @@ const FlowAppAutocomplete = Object.freeze({
 			},
 		},
 	},
-});
-
-export default FlowAppAutocomplete;
+} satisfies Partial<Record<FlowApp, FlowAppAutocompleteItem>>;

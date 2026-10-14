@@ -1,12 +1,6 @@
 <template>
-  <diagram
-    v-if="isDiagram"
-    :namespace="namespace"
-    @close="close"
-    @save="saveDiagram"
-  />
   <wt-page-wrapper
-    v-else
+    v-if="!isDiagram"
     :actions-panel="false"
   >
     <template #header>
@@ -15,17 +9,17 @@
         :primary-action="saveCode"
         :primary-disabled="disabledSave"
         :primary-text="saveText"
-        :secondary-action="handleConfirmationUnsavedChangesPopup"
+        :secondary-action="handleClose"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
-      <confirmation-unsaved-changes-popup
-        v-if="isConfirmationUnsavedChangesPopup"
-        :name="itemInstance.name"
-        @close-page="closePage"
-        @close-popup="toggleIsConfirmationUnsavedChangesPopup"
-        @save="saveCode"
-      ></confirmation-unsaved-changes-popup>
+      <unsaved-changes-flow-popup
+        v-if="isUnsavedChangesPopup"
+        :name="modelValue.name"
+        @save="saveAndClose"
+        @discard="close"
+        @cancel="isUnsavedChangesPopup = false"
+      />
     </template>
 
     <template #main>
@@ -33,204 +27,184 @@
         v-if="isSaveFailedPopup"
         @download="download"
         @save="saveCode"
-        @close-popup="hideSaveFailedPopup"
+        @close-popup="isSaveFailedPopup = false"
       />
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="saveCode"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import { useEventListener } from '@vueuse/core';
+import type { FlowCard } from '@webitel/api-services/validations';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { saveAsJSON } from '@webitel/ui-sdk/scripts';
 import WtSaveFailedPopup from '@webitel/ui-sdk/src/components/on-demand/wt-save-failed-popup/wt-save-failed-popup.vue';
-import saveAsJSON from '@webitel/ui-sdk/src/scripts/saveAsJSON';
-import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
-import { computed } from 'vue';
-import { mapActions, useStore } from 'vuex';
-
-import { useCheckingUnsavedChanges } from '../../../../../app/composables/useCheckingUnsavedChanges';
+import { storeToRefs } from 'pinia';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import JsonSchema from '../modules/code/components/opened-flow-code.vue';
-import Diagram from '../modules/diagram/components/opened-flow-diagram.vue';
-import FlowRoutesName from '../router/_internals/FlowRouteNames.enum.js';
-import ConfirmationUnsavedChangesPopup from './confirmation-unsaved-changes-popup.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { FlowEditor } from '../enums/FlowEditor.enum';
+import FlowRouteNames from '../router/_internals/FlowRouteNames.enum';
+import { useFlowCardStore } from '../stores';
+import UnsavedChangesFlowPopup from './utils/unsaved-changes-flow-popup.vue';
 
-const namespace = 'routing/flow';
-export default {
-	name: 'OpenedFlow',
-	components: {
-		Diagram,
-		JsonSchema,
-		WtSaveFailedPopup,
-		ConfirmationUnsavedChangesPopup,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	setup() {
-		const v$ = useVuelidate();
-		const store = useStore();
-		const itemInstance = computed(
-			() => getNamespacedState(store.state, namespace).itemInstance,
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	isAnyFieldEdited,
+	validationFields,
+	save,
+} = useCardComponent<FlowCard>({
+	useCardStore: useFlowCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const isDiagram = computed(
+	() =>
+		route.query.editor === FlowEditor.Diagram ||
+		!!originalItemInstance.value?.editor,
+);
+
+// [https://webitel.atlassian.net/browse/WTEL-4509]
+// Temporary solution - a diagram flow is edited in the external flow diagram app
+watch(
+	isDiagram,
+	(diagram) => {
+		if (!diagram) return;
+		const id = route.params.id || 'new';
+		const type = route.query.type || '';
+		window.location.replace(
+			`${import.meta.env.VITE_FLOW_DIAGRAM_URL}/${id}/${type}`,
 		);
-
-		const {
-			isConfirmationUnsavedChangesPopup,
-			displayConfirmationPopup,
-			addCheckingUnsavedChanges,
-			removeCheckingUnsavedChanges,
-			toggleIsConfirmationUnsavedChangesPopup,
-		} = useCheckingUnsavedChanges(itemInstance);
-
-		const { hasSaveActionAccess } = useUserAccessControl();
-
-		return {
-			v$,
-			isConfirmationUnsavedChangesPopup,
-			displayConfirmationPopup,
-			addCheckingUnsavedChanges,
-			removeCheckingUnsavedChanges,
-			toggleIsConfirmationUnsavedChangesPopup,
-			hasSaveActionAccess,
-		};
 	},
-	data: () => ({
-		namespace,
-		isSaveFailedPopup: false,
-		routeName: RouteNames.FLOW,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			schema: {
-				required,
-			},
-		},
+	{
+		immediate: true,
 	},
+);
 
-	computed: {
-		isDiagram() {
-			return this.$route.query.editor === 'diagram' || this.itemInstance.editor;
-		},
-		type() {
-			return this.$route.query.type || this.itemInstance.type;
-		},
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'json-schema',
-					pathName: FlowRoutesName.GENERAL,
-				},
-			];
-			return tabs;
-		},
+const type = computed(
+	() => (route.query.type as string) || modelValue.value?.type,
+);
 
-		path() {
-			const baseUrl = '/routing/flow';
-			return [
-				{
-					name: this.$t('objects.routing.routing'),
-				},
-				{
-					name: this.$t('objects.routing.flow.flow', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id
-						? `${this.pathName} (${this.$t(`objects.flow.type.${this.type}`)})`
-						: `${this.$t('objects.new')} (${this.$t(`objects.flow.type.${this.type}`)})`,
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
+/**
+ * [Claude] a new flow takes its type from `?type=` (set by the create popup).
+ * The whole draft is replaced, not mutated, so the card doesn't count it as an edit
+ */
+const flowCardStore = useFlowCardStore();
+const { draftItemInstance } = storeToRefs(flowCardStore);
+watch(
+	draftItemInstance,
+	(draft) => {
+		if (isNew.value && !draft.type && route.query.type) {
+			draftItemInstance.value = {
+				...draft,
+				type: route.query.type as FlowCard['type'],
+			};
+		}
 	},
-	methods: {
-		...mapActions({
-			setItemProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PROPERTY`, payload);
-			},
-		}),
-		async saveDiagram({ resolve, reject }) {
-			try {
-				await this.save();
-				resolve();
-			} catch (err) {
-				reject(err);
-			}
-		},
-		async saveCode() {
-			try {
-				await this.save();
-				this.hideSaveFailedPopup();
-				this.removeCheckingUnsavedChanges();
-			} catch (err) {
-				// Required to prevent an open popup when the error is related to "already existed name"
-				this.isSaveFailedPopup =
-					err.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
-				throw err;
-			}
-		},
-		saveAsJSON,
-		download() {
-			// _dirty is not needed inside JSON file
-			const { _dirty, ...content } = this.itemInstance;
-			this.saveAsJSON(content.name, content);
-		},
-		hideSaveFailedPopup() {
-			this.isSaveFailedPopup = false;
-		},
-		initType() {
-			if (!this.itemInstance.type && this.type)
-				this.setItemProp({
-					prop: 'type',
-					value: this.type,
-				});
-		},
-		closePage() {
-			this.removeCheckingUnsavedChanges();
-			this.close();
-		},
-		handleConfirmationUnsavedChangesPopup() {
-			this.itemInstance._dirty
-				? this.toggleIsConfirmationUnsavedChangesPopup()
-				: this.closePage();
-		},
+	{
+		immediate: true,
 	},
-	mounted() {
-		this.initType();
-		if (!this.isDiagram) this.addCheckingUnsavedChanges();
+);
+
+const tabs = computed(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: FlowRouteNames.GENERAL,
 	},
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+const { close } = useClose(RouteNames.FLOW);
+
+const path = computed(() => [
+	{
+		name: t('objects.routing.routing'),
+	},
+	{
+		name: t('objects.routing.flow.flow', 2),
+		route: '/routing/flow',
+	},
+	{
+		name: `${isNew.value ? t('objects.new') : originalItemInstance.value?.name} (${t(`objects.flow.type.${type.value}`)})`,
+	},
+]);
+
+// [Claude] reload / tab close with unsaved edits asks the browser to confirm;
+// in-app navigation doesn't fire `beforeunload`, the popup below covers it
+useEventListener(window, 'beforeunload', (event) => {
+	if (!isAnyFieldEdited.value) return;
+	event.preventDefault();
+	event.returnValue = '';
+});
+
+const isUnsavedChangesPopup = ref(false);
+
+const isSaveFailedPopup = ref(false);
+
+const saveCode = async () => {
+	try {
+		await save();
+		isSaveFailedPopup.value = false;
+	} catch (err) {
+		// a taken name is reported by the api itself, so no "save failed" popup for it
+		isSaveFailedPopup.value =
+			err?.response?.data?.id !== 'store.sql_routing_schema.save.valid.name';
+		throw err;
+	}
+};
+
+const download = () => {
+	saveAsJSON(modelValue.value.name, modelValue.value);
+};
+
+/**
+ * [Claude] close only once the save went through: an invalid form saves nothing
+ * without throwing, so "no edits left" is what tells a save happened
+ */
+const saveAndClose = async () => {
+	isUnsavedChangesPopup.value = false;
+	await saveCode();
+	if (!isAnyFieldEdited.value) close();
+};
+
+const handleClose = () => {
+	if (isAnyFieldEdited.value) isUnsavedChangesPopup.value = true;
+	else close();
 };
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
