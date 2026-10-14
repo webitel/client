@@ -1,5 +1,5 @@
 <template>
-  <div class="media-play-action">
+  <div class="play-media-action">
     <wt-icon-btn
       v-show="!playing"
       v-tooltip="t('iconHints.play')"
@@ -9,7 +9,7 @@
 
     <iframe
       v-show="playing"
-      class="media-play-action__equalizer"
+      class="play-media-action__equalizer"
       :src="`${baseUrl}animations/equalizer/eq.html`"
     />
   </div>
@@ -37,7 +37,7 @@ const baseUrl = import.meta.env.BASE_URL; // to resolve iframe equalizer path af
 </script>
 
 <style scoped>
-.media-play-action {
+.play-media-action {
   overflow: hidden;
   width: var(--icon-md-size);
   height: var(--icon-md-size);
@@ -48,7 +48,7 @@ const baseUrl = import.meta.env.BASE_URL; // to resolve iframe equalizer path af
   Vidstack player rewrites iframe`s width and height in vidstack/player/styles/base.css.
   So here we need to write sizes explicitly.
 **/
-.media-play-action__equalizer {
+.play-media-action__equalizer {
   width: inherit;
   height: inherit;
 }

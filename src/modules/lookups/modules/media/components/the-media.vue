@@ -7,7 +7,7 @@
       <wt-page-header hide-primary>
         <wt-breadcrumb :path="path" />
         <template #actions>
-          <media-download-files-action
+          <download-media-files-action
             :loading="isFilesLoading"
             :downloaded-count="filesDownloadProgress.count"
             :zipping-percent="filesZippingProgress.percent"
@@ -37,11 +37,7 @@
             {{ t('objects.lookups.media.allMediaFiles') }}
           </h3>
           <wt-action-bar
-            :include="[
-              IconAction.REFRESH,
-              IconAction.DELETE,
-              IconAction.COLUMNS,
-            ]"
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
             :disabled:delete="!hasDeleteAccess || !selected.length"
             @click:refresh="loadDataList"
             @click:delete="
@@ -66,12 +62,6 @@
               icon="tts-download"
               @click="openTextToSpeech"
             />
-            <template #columns>
-              <wt-table-column-select
-                :headers="headers"
-                @change="updateShownHeaders"
-              />
-            </template>
           </wt-action-bar>
         </header>
 
@@ -113,13 +103,9 @@
           <wt-table
             v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="shownHeaders"
+            :headers="headers"
             :selected="selected"
-            reorderable-columns
-            resizable-columns
             sortable
-            @column-reorder="columnReorder"
-            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -136,7 +122,7 @@
               {{ prettifyFileSize(item.size) }}
             </template>
             <template #actions="{ item }">
-              <media-play-action
+              <play-media-action
                 v-if="item.mimeType?.includes('audio')"
                 :playing="isPlaying(item)"
                 @play="play(item)"
@@ -221,8 +207,8 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useMediaPlayer } from '../composables/useMediaPlayer';
 import { useMediaUpload } from '../composables/useMediaUpload';
 import { useMediaDatalistStore } from '../stores/datalist/mediaDatalistStore';
-import MediaDownloadFilesAction from './media-download-files-action.vue';
-import MediaPlayAction from './media-play-action.vue';
+import DownloadMediaFilesAction from './download-media-files-action.vue';
+import PlayMediaAction from './play-media-action.vue';
 import TextToSpeechPopup from './text-to-speech-popup.vue';
 
 const { t } = useI18n();
@@ -241,7 +227,6 @@ const {
 	size,
 	next,
 	headers,
-	shownHeaders,
 	filtersManager,
 	isFiltersRestoring,
 } = storeToRefs(mediaDatalistStore);
@@ -253,9 +238,6 @@ const {
 	updatePage,
 	updateSize,
 	updateSort,
-	columnResize,
-	columnReorder,
-	updateShownHeaders,
 	deleteEls,
 	addFilter,
 	updateFilter,

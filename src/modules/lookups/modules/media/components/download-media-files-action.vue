@@ -1,5 +1,5 @@
 <template>
-  <div class="media-download-files-action">
+  <div class="download-media-files-action">
     <wt-button
       :loading="loading"
       @click="emit('click')"
@@ -8,7 +8,7 @@
     </wt-button>
     <div
       v-show="loading"
-      class="media-download-files-action__progress typo-caption"
+      class="download-media-files-action__progress typo-caption"
     >
       <p>{{ t('utils.downloadFilesBtn.filesLoaded') }} {{ downloadedCount }}</p>
       <p v-show="zippingPercent">
@@ -35,11 +35,11 @@ const { t } = useI18n();
 </script>
 
 <style scoped>
-.media-download-files-action {
+.download-media-files-action {
   position: relative;
 }
 
-.media-download-files-action__progress {
+.download-media-files-action__progress {
   position: absolute;
   top: 100%;
   right: 0;

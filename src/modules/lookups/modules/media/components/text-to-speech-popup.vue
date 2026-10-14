@@ -15,6 +15,7 @@
           v-model:model-value="draft.name"
           :label="t('reusable.name')"
           :regle-validation="r$.$fields.name"
+          required
         />
         <wt-single-select
           v-model:model-value="draft.profile"
@@ -22,6 +23,7 @@
           :label="t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 1)"
           :search-method="searchProfiles"
           :regle-validation="r$.$fields.profile"
+          required
         />
         <wt-single-select
           v-model:model-value="draft.textType"
@@ -56,6 +58,7 @@
           v-model:model-value="draft.text"
           :label="t('vocabulary.text')"
           :regle-validation="r$.$fields.text"
+          required
         />
       </form>
     </template>
@@ -120,7 +123,7 @@ import {
 import { textToSpeechSchema } from '@webitel/api-services/validations';
 import { WtPlayer } from '@webitel/ui-sdk/components';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MicrosoftLanguage } from 'webitel-sdk/enums';
 
@@ -146,7 +149,7 @@ const textTypeOptions = [
 
 type TextToSpeechDraft = {
 	name: string;
-	profile: {
+	profile?: {
 		id?: string;
 		name?: string;
 		provider?: string;
@@ -160,7 +163,8 @@ type TextToSpeechDraft = {
 
 const draft = ref<TextToSpeechDraft>({
 	name: '',
-	profile: {},
+	// [Claude] `undefined`, not `{}`: for an empty object regle files the error under `id`, which the select doesn't read
+	profile: undefined,
 	textType: TtsTextType.Text,
 	language: MicrosoftLanguage['en-US'],
 	voice: TtsMicrosoftVoice.Male,
@@ -173,6 +177,11 @@ const isSaving = ref(false);
 
 const { r$ } = useRegleSchema(draft, textToSpeechSchema, {
 	autoDirty: true,
+});
+
+onMounted(async () => {
+	await nextTick();
+	r$.$touch();
 });
 
 const voiceOptions = computed<TextToSpeechDraft['voice'][]>(() => {
@@ -193,7 +202,7 @@ const generate = async () => {
 		isGenerating.value = true;
 		const { profile, textType, language, voice, format, text } = draft.value;
 		audio.value = await MediaAPI.generateTts({
-			profileId: profile.id ?? '',
+			profileId: profile?.id ?? '',
 			textType,
 			language,
 			voice,
