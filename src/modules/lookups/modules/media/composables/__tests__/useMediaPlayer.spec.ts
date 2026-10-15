@@ -25,15 +25,6 @@ describe('useMediaPlayer', () => {
 		expect(player.isPlaying(first)).toBe(false);
 	});
 
-	it('does not mark a paused file as playing', () => {
-		const player = useMediaPlayer();
-
-		player.play(first);
-		player.isPaused.value = true;
-
-		expect(player.isPlaying(first)).toBe(false);
-	});
-
 	it('forgets the file on close', () => {
 		const player = useMediaPlayer();
 

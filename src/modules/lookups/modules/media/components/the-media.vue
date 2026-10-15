@@ -105,7 +105,11 @@
             :data="dataList"
             :headers="headers"
             :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -122,10 +126,10 @@
               {{ prettifyFileSize(item.size) }}
             </template>
             <template #actions="{ item }">
-              <play-media-action
+              <wt-icon-btn
                 v-if="item.mimeType?.includes('audio')"
-                :playing="isPlaying(item)"
-                @play="play(item)"
+                v-tooltip="getPlayAction(item).hint"
+                v-bind="getPlayAction(item).attrs"
               />
               <wt-icon-btn
                 v-else
@@ -136,7 +140,7 @@
                 action="download"
                 @click="
                   downloadStorageFile({
-                    url: getMediaDownloadUrl(item.id),
+                    url: getDownloadUrl(item),
                     name: item.name,
                   })
                 "
@@ -169,8 +173,6 @@
           v-if="playerSrc"
           :src="playerSrc"
           @close="closePlayer"
-          @pause="isPaused = true"
-          @play="isPaused = false"
         />
       </section>
     </template>
@@ -188,6 +190,7 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import { WtPlayer } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
+import { getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import {
 	downloadStorageFile,
 	getFileTypeIcon,
@@ -201,14 +204,12 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useMediaPlayer } from '../composables/useMediaPlayer';
 import { useMediaUpload } from '../composables/useMediaUpload';
 import { useMediaDatalistStore } from '../stores/datalist/mediaDatalistStore';
 import DownloadMediaFilesAction from './download-media-files-action.vue';
-import PlayMediaAction from './play-media-action.vue';
 import TextToSpeechPopup from './text-to-speech-popup.vue';
 
 const { t } = useI18n();
@@ -238,6 +239,8 @@ const {
 	updatePage,
 	updateSize,
 	updateSort,
+	columnResize,
+	columnReorder,
 	deleteEls,
 	addFilter,
 	updateFilter,
@@ -254,13 +257,17 @@ const {
 	closeDelete,
 } = useDeleteConfirmationPopup();
 
+/** [Claude] for both the row download and the zip export: the table row and the export item both carry `id` */
+const getDownloadUrl = ({ id }: { id?: unknown }) =>
+	getMediaDownloadUrl(String(id), getMediaUrlAuth());
+
 const {
 	exportFiles,
 	isLoading: isFilesLoading,
 	downloadStatus: filesDownloadProgress,
 	zippingStatus: filesZippingProgress,
 } = useFilesExport({
-	getFileURL: (item) => getMediaDownloadUrl(String(item.id)),
+	getFileURL: getDownloadUrl,
 	fetch: async (params) => {
 		if (selected.value.length)
 			return {
@@ -299,7 +306,19 @@ const { dropZone, isOverDropZone, isUploading, openFileDialog } =
 		onUploaded: loadDataList,
 	});
 
-const { playerSrc, isPaused, play, closePlayer, isPlaying } = useMediaPlayer();
+const { playerSrc, play, closePlayer, isPlaying } = useMediaPlayer();
+
+/** [Claude] play/stop toggle of an audio row: a playing file shows stop, which closes the player */
+const getPlayAction = computed(() => (item: StorageMediaFile) => {
+	const playing = isPlaying(item);
+	return {
+		hint: t(playing ? 'iconHints.stop' : 'iconHints.play'),
+		attrs: {
+			icon: playing ? 'stop' : 'play',
+			onClick: () => (playing ? closePlayer() : play(item)),
+		},
+	};
+});
 
 /** [Claude] the popup lives on `/lookups/media/new`, so it survives a reload and can be linked */
 const isTextToSpeechOpened = computed(() => route.params.mediaId === 'new');
@@ -328,7 +347,7 @@ const getMediaFileFormat = ({ name = '', mimeType = '' }: StorageMediaFile) => {
 };
 
 const openFile = ({ id = '' }: StorageMediaFile) => {
-	window.open(getMediaStreamUrl(id), '_blank');
+	window.open(getMediaStreamUrl(id, getMediaUrlAuth()), '_blank');
 };
 </script>
 
