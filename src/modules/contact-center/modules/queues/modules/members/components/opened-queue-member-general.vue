@@ -54,12 +54,11 @@
 </template>
 
 <script lang="ts" setup>
-import { AgentsAPI, CalendarsAPI } from '@webitel/api-services/api';
+import { AgentsAPI, BucketsAPI, CalendarsAPI } from '@webitel/api-services/api';
 import type { EngineMemberInQueue } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import BucketsAPI from '../../../../../../lookups/modules/buckets/api/buckets';
 import OpenedQueueMemberCommunication from './communications/opened-queue-member-communication.vue';
 
 const modelValue = defineModel<EngineMemberInQueue>({
