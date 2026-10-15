@@ -1,7 +1,7 @@
 import './app/assets/icons/sprite/_index';
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
-import { eventBus } from '@webitel/ui-sdk/scripts';
+import { eventBus, reloadOnStaleChunk } from '@webitel/ui-sdk/scripts';
 import { createApp } from 'vue';
 import instance from './app/api/instance';
 import ActionComponents from './app/components/actions';
@@ -25,6 +25,8 @@ const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
 	return response.json();
 };
+
+reloadOnStaleChunk();
 
 configureZod({
 	t: i18n.global.t,

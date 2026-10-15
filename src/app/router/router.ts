@@ -189,19 +189,6 @@ export const initRouter = async ({
 		router.beforeEach(guard);
 	});
 
-	// @author @stanislav-kozak
-	// https://webitel.atlassian.net/browse/WTEL-8339
-	// That fix should on failed to fetch dynamically imported do reload page
-	router.onError((err) => {
-		const msg = String(err?.message || err);
-		if (
-			msg.includes('Failed to fetch dynamically imported module') ||
-			msg.includes('ChunkLoadError')
-		) {
-			window.location.reload();
-		}
-	});
-
 	window.router = router;
 
 	return router;
