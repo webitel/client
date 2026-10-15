@@ -6,7 +6,7 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="isCreateFlowPopup = true"
+        :primary-action="() => (isCreateFlowPopup = true)"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -39,7 +39,11 @@
             {{ t('objects.routing.flow.allFlowSchemas') }}
           </h3>
           <wt-action-bar
-            :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.DELETE]"
+            :include="[
+              IconAction.REFRESH,
+              IconAction.FILTERS,
+              IconAction.DELETE,
+            ]"
             :disabled:delete="!hasDeleteAccess || !selected.length"
             @click:refresh="loadDataList"
             @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
@@ -93,7 +97,11 @@
             :data="dataList"
             :selected="selected"
             :headers="shownHeaders"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -171,8 +179,9 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { FlowsAPI } from '@webitel/api-services/api';
+import type { EngineRoutingSchema } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { saveAsJSON } from '@webitel/ui-sdk/scripts';
@@ -191,8 +200,8 @@ import { filtersOptions } from '../configs/filtersOptions';
 import { FlowEditor } from '../enums/FlowEditor.enum';
 import { useFlowDatalistStore } from '../stores';
 import FlowFiltersPanel from './flow-filters-panel.vue';
-import CreateFlowPopup from './utils/create-flow-popup.vue';
-import UploadFlowPopup from './utils/upload-flow-popup.vue';
+import CreateFlowPopup from './shared/create-flow-popup.vue';
+import UploadFlowPopup from './shared/upload-flow-popup.vue';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
 	useUserAccessControl();
@@ -217,6 +226,8 @@ const {
 	updatePage,
 	updateSize,
 	updateSort,
+	columnResize,
+	columnReorder,
 	deleteEls,
 	addFilter,
 	updateFilter,
@@ -230,7 +241,9 @@ initialize();
 const isFiltersPanelShown = ref(false);
 
 const hasPanelFilters = computed(() =>
-	filtersOptions.some((filter) => hasFilter(filter.name)),
+	filtersOptions.some((filter) =>
+		hasFilter(typeof filter === 'string' ? filter : filter.name),
+	),
 );
 
 const { t } = useI18n();
@@ -256,7 +269,7 @@ const path = computed(() => [
 
 const isCreateFlowPopup = ref(false);
 
-const editLink = ({ id, editor }) => ({
+const editLink = ({ id, editor }: EngineRoutingSchema) => ({
 	name: `${RouteNames.FLOW}-card`,
 	params: {
 		id,
@@ -267,21 +280,21 @@ const editLink = ({ id, editor }) => ({
 });
 
 /** [Claude] a diagram opens the external editor, so it gets a tab of its own */
-const edit = (item) => {
+const edit = (item: EngineRoutingSchema) => {
 	const link = editLink(item);
 	if (item.editor) window.open(router.resolve(link).href, '_blank');
 	else router.push(link);
 };
 
-const download = async ({ id, name }) => {
+const download = async ({ id, name }: EngineRoutingSchema) => {
 	const flow = await FlowsAPI.get({
 		itemId: id,
 	});
 	saveAsJSON(`${name}-schema`, flow);
 };
 
-const jsonFile = ref(null);
-const processJSON = (files) => {
+const jsonFile = ref<File | null>(null);
+const processJSON = (files: File[]) => {
 	const [file] = files;
 	if (file) jsonFile.value = file;
 };

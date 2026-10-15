@@ -9,9 +9,8 @@
         ref="container"
         class="code-editor__editor"
       />
-      <wt-icon-btn
-        v-tooltip="t(isFullscreen ? 'iconHints.collapse' : 'iconHints.expand')"
-        :icon="isFullscreen ? 'collapse' : 'expand'"
+      <wt-icon-action
+        :action="isFullscreen ? IconAction.COLLAPSE : IconAction.EXPAND"
         :size="isFullscreen ? 'xl' : 'md'"
         class="code-editor__fullscreen-btn"
         @click="toggleFullscreen"
@@ -21,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import { IconAction } from '@webitel/ui-sdk/enums';
 import { editor, type IDisposable, languages } from 'monaco-editor';
 import { storeToRefs } from 'pinia';
 import {
@@ -32,7 +32,6 @@ import {
 	watch,
 	watchEffect,
 } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 import { useAppearanceStore } from '../../../../../appearance/store/appearanceStore';
 import type { FlowAppAutocompleteItem } from '../../configs/flowAppAutocomplete';
@@ -51,8 +50,6 @@ const props = withDefaults(
 		disabled: false,
 	},
 );
-
-const { t } = useI18n();
 
 const appearanceStore = useAppearanceStore();
 const { darkMode } = storeToRefs(appearanceStore);
@@ -132,9 +129,16 @@ const toggleFullscreen = () => {
 </script>
 
 <style scoped>
+/* [Claude] the editor takes the rest of the page height */
+.code-editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
 .code-editor__wrapper {
   position: relative;
-  height: 480px;
+  flex: 1;
 }
 
 .code-editor__wrapper--fullscreen {
@@ -144,8 +148,10 @@ const toggleFullscreen = () => {
   height: auto;
 }
 
+/* [Claude] absolute, so monaco's own px height can't grow the wrapper */
 .code-editor__editor {
-  height: 100%;
+  position: absolute;
+  inset: 0;
   border: 1px solid var(--secondary-color-50);
   border-radius: var(--border-radius);
 }

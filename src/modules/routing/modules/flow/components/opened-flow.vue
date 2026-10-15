@@ -72,7 +72,7 @@ import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { FlowEditor } from '../enums/FlowEditor.enum';
 import FlowRouteNames from '../router/_internals/FlowRouteNames.enum';
 import { useFlowCardStore } from '../stores';
-import UnsavedChangesFlowPopup from './utils/unsaved-changes-flow-popup.vue';
+import UnsavedChangesFlowPopup from './shared/unsaved-changes-flow-popup.vue';
 
 const { t } = useI18n();
 const route = useRoute();

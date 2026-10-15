@@ -69,3 +69,12 @@ const autocomplete = computed<FlowAppAutocompleteItem[]>(() => {
 	return apps.flatMap((app) => autocompleteByApp[app] ?? []);
 });
 </script>
+
+<style scoped>
+/* [Claude] stretch to the form height, so the code editor fills the page */
+.opened-flow-code {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+</style>

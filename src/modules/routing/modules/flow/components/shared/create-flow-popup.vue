@@ -57,7 +57,7 @@
   </wt-popup>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
@@ -72,9 +72,9 @@ import DiagramSectionDark from '../../assets/diagram-section-dark.svg';
 import DiagramSectionLight from '../../assets/diagram-section-light.svg';
 import { FlowEditor } from '../../enums/FlowEditor.enum';
 
-const emit = defineEmits([
-	'close',
-]);
+const emit = defineEmits<{
+	close: [];
+}>();
 
 const { t } = useI18n();
 const router = useRouter();

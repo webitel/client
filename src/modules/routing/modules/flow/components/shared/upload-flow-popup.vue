@@ -39,28 +39,26 @@
   </wt-popup>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRegleSchema } from '@regle/schemas';
 import { FlowsAPI } from '@webitel/api-services/api';
-import { flowSchema } from '@webitel/api-services/validations';
+import { type FlowCard, flowSchema } from '@webitel/api-services/validations';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps({
-	file: {
-		required: true,
-	},
-});
+const props = defineProps<{
+	file: File | null;
+}>();
 
-const emit = defineEmits([
-	'close',
-]);
+const emit = defineEmits<{
+	close: [];
+}>();
 
 const { t } = useI18n();
 
 const create = ref(true);
-const flow = ref({
+const flow = ref<Partial<FlowCard>>({
 	name: '',
 });
 
