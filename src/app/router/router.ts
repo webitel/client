@@ -29,7 +29,7 @@ import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
-import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan.js';
+import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan';
 import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan.js';
 import FlowRoutes from '../../modules/routing/modules/flow/router/flow.js';
 import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways.js';
