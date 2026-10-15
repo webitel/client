@@ -1,98 +1,135 @@
 <template>
-  <wt-popup v-bind="$attrs" :shown="!!numberId" size="sm" overflow @close="close">
+  <wt-popup
+    :shown="!!numberId"
+    overflow
+    size="sm"
+    @close="close"
+  >
     <template #title>
       {{ popupTitle }}
     </template>
     <template #main>
-      <form class="opened-blacklist-number-popup__wrapper">
-        <wt-input-text :label="$t('objects.lookups.blacklist.number', 1)" :v="v$.itemInstance.number"
-          :model-value="itemInstance.number" required @update:model-value="setItemProp({ prop: 'number', value: $event })" />
-        <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
-        <wt-switcher v-model:model-value="showExpireDate" :label="$t('objects.lookups.blacklist.temporary')" />
-        <wt-datepicker v-if="showExpireDate" :label="$t('objects.lookups.blacklist.expireAt')"
-          :model-value="itemInstance.expireAt" show-time @update:model-value="setItemProp({ prop: 'expireAt', value: $event })" />
-        <wt-textarea :label="$t('objects.description')" :model-value="itemInstance.description"
-          @update:model-value="setItemProp({ prop: 'description', value: $event })" />
+      <form
+        class="opened-blacklist-number-popup__form"
+        @submit.prevent="save"
+      >
+        <wt-input-text
+          v-model:model-value="modelValue.number"
+          :label="t('objects.lookups.blacklist.number', 1)"
+          :regle-validation="validationFields?.number"
+          required
+        />
+        <wt-switcher
+          :model-value="isTemporary"
+          :label="t('objects.lookups.blacklist.temporary')"
+          @update:model-value="toggleTemporary"
+        />
+        <wt-datepicker
+          v-if="isTemporary"
+          v-model:model-value="modelValue.expireAt"
+          :label="t('objects.lookups.blacklist.expireAt')"
+          show-time
+        />
+        <wt-textarea
+          v-model:model-value="modelValue.description"
+          :label="t('objects.description')"
+        />
       </form>
     </template>
     <template #actions>
-      <wt-button :disabled="disabledSave" @click="save">
-        {{ $t('objects.add') }}
+      <wt-button
+        :disabled="hasValidationErrors"
+        @click="save"
+      >
+        {{ isNew ? t('objects.add') : t('objects.save') }}
       </wt-button>
-      <wt-button color="secondary" @click="close">
-        {{ $t('objects.close') }}
+      <wt-button
+        :color="ButtonColor.SECONDARY"
+        @click="close"
+      >
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import { useNestedCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-import nestedObjectMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectMixin/nestedObjectMixin';
+import BlacklistRouteNames from '../../../router/_internals/BlacklistRouteNames.enum';
+import {
+	type BlacklistNumberCard,
+	useBlacklistNumbersCardStore,
+} from '../stores/card/blacklistNumbersCardStore';
 
-export default {
-	name: 'OpenedBlacklistNumberPopup',
-	mixins: [
-		nestedObjectMixin,
-	],
+const props = defineProps<{
+	parentId: string | number | null;
+}>();
 
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
-	}),
-	data: () => ({
-		namespace: 'lookups/blacklists/numbers',
-		showExpireDate: false,
-	}),
-	validations: {
-		itemInstance: {
-			number: {
-				required,
-			},
-		},
+const emit = defineEmits<{
+	saved: [];
+}>();
+
+const { t } = useI18n();
+const route = useRoute();
+
+const {
+	modelValue,
+	validationFields,
+	isNew,
+	hasValidationErrors,
+	save: saveItem,
+} = useNestedCardComponent<BlacklistNumberCard>({
+	useCardStore: useBlacklistNumbersCardStore,
+	routeParamName: 'numberId',
+	parentId: () => props.parentId,
+});
+
+const numberId = computed(() => route.params.numberId);
+
+/* [Claude] switcher is UI-only: a number is temporary when it has an expiration date, 0 means permanent */
+const isTemporary = ref(false);
+
+watch(
+	() => modelValue.value?.expireAt,
+	(expireAt) => {
+		if (Number(expireAt)) isTemporary.value = true;
 	},
-	computed: {
-		popupTitle() {
-			const action = this.id
-				? this.$t('reusable.edit')
-				: this.$t('reusable.add');
-			return `${action} ${this.$t('objects.ccenter.res.numbers', 1).toLowerCase()}`;
-		},
-		numberId() {
-			return this.$route.params.numberId;
-		},
+	{
+		immediate: true,
 	},
-	watch: {
-		showExpireDate() {
-			if (this.itemInstance.expireAt && this.showExpireDate) return;
-			this.setItemProp({
-				prop: 'expireAt',
-				value: this.showExpireDate ? Date.now() : 0,
-			});
-		},
-		'itemInstance.id': {
-			handler() {
-				if (this.itemInstance.expireAt) this.showExpireDate = true;
-			},
-		},
-		numberId: {
-			async handler(id) {
-				this.handleIdChange(id);
-				if (!id) this.showExpireDate = false;
-			},
-			immediate: true,
-		},
-	},
+);
+
+watch(numberId, (id) => {
+	if (!id) isTemporary.value = false;
+});
+
+const toggleTemporary = (value: boolean) => {
+	isTemporary.value = value;
+	modelValue.value.expireAt = value ? Date.now() : 0;
+};
+
+const popupTitle = computed(() => {
+	const action = isNew.value ? t('reusable.add') : t('reusable.edit');
+	return `${action} ${t('objects.ccenter.res.numbers', 1).toLowerCase()}`;
+});
+
+const { close } = useClose(BlacklistRouteNames.NUMBERS);
+
+const save = async () => {
+	await saveItem();
+	close();
+	emit('saved');
 };
 </script>
 
-<style lang="scss" scoped>
-.opened-blacklist-number-popup__wrapper {
+<style scoped>
+.opened-blacklist-number-popup__form {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);

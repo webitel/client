@@ -11,9 +11,10 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
-
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -22,157 +23,132 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <router-view
-          v-if="isPermissionsTab"
-          v-slot="{ Component }"
-        >
+        <router-view v-slot="{ Component }">
           <component
-            v-if="Component"
             :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
             v-bind="permissionsStoreData"
           />
         </router-view>
-        <component
-          v-else
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { EngineList } from '@webitel/api-services/gen/models';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import Numbers from '../modules/numbers/components/opened-blacklist-numbers.vue';
-import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum';
+import { useBlacklistsCardStore } from '../stores/card/blacklistsCardStore';
 import { useBlacklistsPermissionsStore } from '../stores/permissions/blacklistsPermissionsStore';
-import General from './opened-blacklist-general.vue';
 
-export default {
-	name: 'OpenedBlacklist',
-	components: {
-		General,
-		Numbers,
+const { t } = useI18n();
+const route = useRoute();
+
+const {
+	hasSaveActionAccess,
+	hasReadAccess,
+	hasCreateAccess,
+	hasUpdateAccess,
+	hasDeleteAccess,
+} = useUserAccessControl();
+
+const { hasReadAccess: hasListNumbersReadAccess } = useUserAccessControl(
+	WtObject.ListNumber,
+);
+
+const blacklistsCardStore = useBlacklistsCardStore();
+const { itemId } = storeToRefs(blacklistsCardStore);
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<EngineList>({
+	useCardStore: useBlacklistsCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed(() => {
+	const tabs: CardTab[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: BlacklistRouteNames.GENERAL,
+		},
+	];
+
+	if (hasListNumbersReadAccess.value) {
+		tabs.push({
+			text: t('objects.lookups.blacklist.number', 2),
+			value: 'numbers',
+			pathName: BlacklistRouteNames.NUMBERS,
+		});
+	}
+
+	if (!isNew.value) {
+		tabs.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: BlacklistRouteNames.PERMISSIONS,
+		});
+	}
+
+	return tabs;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() => ({
+	store: useBlacklistsPermissionsStore,
+	access: {
+		read: hasReadAccess.value,
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		delete: hasDeleteAccess.value,
 	},
-	mixins: [
-		openedObjectMixin,
-	],
+	parentId: itemId.value,
+}));
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const {
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		} = useUserAccessControl();
-		const { hasReadAccess: hasReadListNumberAccess } = useUserAccessControl(
-			WtObject.ListNumber,
-		);
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-			hasReadListNumberAccess,
-		};
+const { close } = useClose(RouteNames.BLACKLIST);
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
 	},
-
-	data: () => ({
-		namespace: 'lookups/blacklists',
-		routeName: RouteNames.BLACKLIST,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-		},
+	{
+		name: t('objects.lookups.blacklist.blacklist', 2),
+		route: '/lookups/blacklist',
 	},
-
-	computed: {
-		isPermissionsTab() {
-			return this.$route.name === BlacklistRouteNames.PERMISSIONS;
-		},
-
-		permissionsStoreData() {
-			return {
-				store: useBlacklistsPermissionsStore,
-				access: {
-					read: this.hasReadAccess,
-					create: this.hasCreateAccess,
-					update: this.hasUpdateAccess,
-					delete: this.hasDeleteAccess,
-				},
-				parentId: this.$route.params.id,
-			};
-		},
-
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: BlacklistRouteNames.GENERAL,
-				},
-			];
-
-			const numbers = {
-				text: this.$t('objects.lookups.blacklist.number', 2),
-				value: 'numbers',
-				pathName: BlacklistRouteNames.NUMBERS,
-			};
-
-			const permissions = {
-				text: this.$t('objects.permissions.permissions', 2),
-				value: 'permissions',
-				pathName: BlacklistRouteNames.PERMISSIONS,
-			};
-
-			if (this.hasReadListNumberAccess) tabs.push(numbers);
-			if (this.id) tabs.push(permissions);
-			return tabs;
-		},
-
-		path() {
-			const baseUrl = '/lookups/blacklist';
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.blacklist.blacklist', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-};
+]);
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
