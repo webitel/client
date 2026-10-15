@@ -8,13 +8,6 @@ describe('UploadFlowPopup', () => {
 			props: {
 				file: new File([], '321'),
 			},
-			global: {
-				mocks: {
-					v$: {
-						$touch: vi.fn(),
-					},
-				},
-			},
 		});
 		expect(wrapper.isVisible()).toBe(true);
 	});
