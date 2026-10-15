@@ -1,110 +1,68 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
     <div class="opened-card-input-grid opened-card-input-grid--1-col opened-card-input-grid--w50">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
-        v-model:model-value="channel"
-        :disabled="savedChannel || disableUserInput"
-        :label="$t('vocabulary.channel')"
+        v-model:model-value="modelValue.channel"
+        :disabled="!!modelValue.id || disableUserInput"
+        :label="t('vocabulary.channel')"
         :options="channelOptions"
-        :v="v.itemInstance.channel"
+        :regle-validation="validationFields?.channel"
         required
         data-key="value"
+        option-value="value"
       />
       <wt-input-text
+        v-model:model-value="modelValue.code"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.communications.code')"
-        :v="v.itemInstance.code"
-        :model-value="itemInstance.code"
+        :label="t('objects.lookups.communications.code')"
+        :regle-validation="validationFields?.code"
         required
-        @update:model-value="setItemProp({ prop: 'code', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { EngineCommunicationChannels } from '@webitel/api-services/gen/models';
+<script setup lang="ts">
+import {
+	EngineCommunicationChannels,
+	type EngineCommunicationType,
+} from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedCommunicationsType',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		savedChannel: '',
-	}),
-	computed: {
-		channel: {
-			get() {
-				return this.channelOptions.find(
-					(channel) => channel.value === this.itemInstance.channel,
-				);
-			},
-			set(value) {
-				this.setItemProp({
-					prop: 'channel',
-					value: value.value,
-				});
-			},
-		},
-		channelOptions() {
-			return Object.values(EngineCommunicationChannels)
-				.filter((channel) => channel !== EngineCommunicationChannels.Undefined)
-				.map((channel) => ({
-					name: this.$t(`objects.lookups.communications.channels.${channel}`),
-					value: channel,
-				}));
-		},
-	},
-	watch: {
-		'itemInstance._dirty': {
-			handler(value) {
-				if (!value) {
-					if (!this.itemInstance.id) return;
-					this.setSavedChannel();
-				}
-			},
-		},
-	},
-	mounted() {
-		const unwatch = this.$watch('itemInstance', () => {
-			this.setSavedChannel();
-			unwatch();
-		});
-	},
-	methods: {
-		setSavedChannel() {
-			this.savedChannel = this.itemInstance.channel;
-		},
-	},
-};
+const modelValue = defineModel<EngineCommunicationType>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<EngineCommunicationType>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
+
+const channelOptions = computed(() =>
+	Object.values(EngineCommunicationChannels)
+		.filter((channel) => channel !== EngineCommunicationChannels.Undefined)
+		.map((channel) => ({
+			name: t(`objects.lookups.communications.channels.${channel}`),
+			value: channel,
+		})),
+);
 </script>
-
-<style scoped></style>
