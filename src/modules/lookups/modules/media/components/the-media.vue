@@ -190,7 +190,6 @@ import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui
 import { WtPlayer } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
-import { getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import {
 	downloadStorageFile,
 	getFileTypeIcon,
@@ -208,6 +207,7 @@ import { useUserAccessControl } from '../../../../../app/composables/useUserAcce
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useMediaPlayer } from '../composables/useMediaPlayer';
 import { useMediaUpload } from '../composables/useMediaUpload';
+import { getMediaUrlAuth } from '../scripts/getMediaUrlAuth';
 import { useMediaDatalistStore } from '../stores/datalist/mediaDatalistStore';
 import DownloadMediaFilesAction from './download-media-files-action.vue';
 import TextToSpeechPopup from './text-to-speech-popup.vue';
@@ -259,7 +259,9 @@ const {
 
 /** [Claude] for both the row download and the zip export: the table row and the export item both carry `id` */
 const getDownloadUrl = ({ id }: { id?: unknown }) =>
-	getMediaDownloadUrl(String(id), getMediaUrlAuth());
+	getMediaDownloadUrl(String(id), {
+		auth: getMediaUrlAuth(),
+	});
 
 const {
 	exportFiles,
@@ -347,7 +349,12 @@ const getMediaFileFormat = ({ name = '', mimeType = '' }: StorageMediaFile) => {
 };
 
 const openFile = ({ id = '' }: StorageMediaFile) => {
-	window.open(getMediaStreamUrl(id, getMediaUrlAuth()), '_blank');
+	window.open(
+		getMediaStreamUrl(id, {
+			auth: getMediaUrlAuth(),
+		}),
+		'_blank',
+	);
 };
 </script>
 

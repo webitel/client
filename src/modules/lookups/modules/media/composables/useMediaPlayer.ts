@@ -1,7 +1,7 @@
 import { getMediaStreamUrl } from '@webitel/api-services/api';
 import type { StorageMediaFile } from '@webitel/api-services/gen/models';
-import { getMediaUrlAuth } from '@webitel/ui-sdk/scripts';
 import { computed, ref } from 'vue';
+import { getMediaUrlAuth } from '../scripts/getMediaUrlAuth';
 
 /** [Claude] the bottom player: which file it plays */
 export function useMediaPlayer() {
@@ -10,7 +10,9 @@ export function useMediaPlayer() {
 	const playerSrc = computed(
 		() =>
 			playingFile.value && {
-				src: getMediaStreamUrl(playingFile.value.id ?? '', getMediaUrlAuth()),
+				src: getMediaStreamUrl(playingFile.value.id ?? '', {
+					auth: getMediaUrlAuth(),
+				}),
 				type: playingFile.value.mimeType ?? '',
 			},
 	);
