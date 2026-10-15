@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import AgentSkillsRouteNames from './_internals/AgentSkillsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import AgentSkillsRouteNames from './_internals/AgentSkillsRouteNames.enum';
 
 const AgentSkills = () => import('../components/the-agent-skills.vue');
 const OpenedAgentSkill = () => import('../components/opened-agent-skill.vue');
