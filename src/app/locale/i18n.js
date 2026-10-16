@@ -1,3 +1,4 @@
+import { messages as apiServicesMessages } from '@webitel/api-services/locale';
 import { createI18n } from 'vue-i18n';
 
 import en from './en/en';
@@ -22,10 +23,17 @@ const messages = {
 	vi,
 };
 
-export default createI18n({
+const i18n = createI18n({
 	legacy: false,
 	locale: 'en',
 	fallbackLocale: 'en',
 	allowComposition: true,
 	messages,
 });
+
+// [Claude] api-services translates backend errors (`backendErrors.*`) through the app's i18n
+Object.entries(apiServicesMessages).forEach(([locale, localeMessages]) => {
+	i18n.global.mergeLocaleMessage(locale, localeMessages);
+});
+
+export default i18n;

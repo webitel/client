@@ -618,7 +618,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'wyszukaj bramę...',
 				host: 'Host',
-				trunkingACLTitle: 'Kontrola dostępu',
 				trunkingACL: 'Lista kontroli dostępu trunkingowego',
 				hostnameTrunking: 'Hostname serwera/Bramy lub IP',
 				hostnameRegister: 'Hostname rejestratora/serwera/Bramy lub IP',
@@ -632,10 +631,6 @@ export default {
 				SIPregistrationsDescription: 'Opis rejestracji SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Opis trunkingu SIP',
-				errors: {
-					passwordInvalid:
-						"Hasło zawiera niedozwolone znaki. Zarezerwowane symbole URI, spacje oraz znaki specjalne takie jak (! * ' ( ) & $) są niedozwolone.",
-				},
 			},
 			chatGateways: {
 				templates: {

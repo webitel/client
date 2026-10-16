@@ -615,7 +615,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'tìm kiếm cổng...',
 				host: 'Host',
-				trunkingACLTitle: 'Kiểm soát truy cập',
 				trunkingACL: 'Danh sách kiểm soát truy cập trunking',
 				hostnameTrunking: 'Tên Host/Cổng/IP của Server/Cổng',
 				hostnameRegister: 'Tên Host/Server/Cổng/IP của Đăng ký/Server/Cổng',
@@ -629,10 +628,6 @@ export default {
 				SIPregistrationsDescription: 'Mô tả đăng ký SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Mô tả trunking SIP',
-				errors: {
-					passwordInvalid:
-						"Mật khẩu chứa ký tự không hợp lệ. Không được phép dùng các ký hiệu URI dành riêng, khoảng trắng và ký tự đặc biệt như (! * ' ( ) & $).",
-				},
 			},
 			chatGateways: {
 				templates: {

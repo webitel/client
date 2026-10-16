@@ -615,7 +615,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'gateway search...',
 				host: 'Host',
-				trunkingACLTitle: 'Access Control',
 				trunkingACL: 'Trunking access control list',
 				hostnameTrunking: 'Server/Gateway Hostname or IP',
 				hostnameRegister: 'Registrar/Server/Gateway Hostname or IP',
@@ -629,10 +628,6 @@ export default {
 				SIPregistrationsDescription: 'SIP registration description',
 				SIPtrunking: 'SIP Trunking',
 				SIPtrunkingDescription: 'SIP trunking description',
-				errors: {
-					passwordInvalid:
-						"Password contains forbidden characters. Reserved URI symbols, whitespace, and special characters like (! * ' ( ) & $) are not allowed.",
-				},
 			},
 			chatGateways: {
 				templates: {

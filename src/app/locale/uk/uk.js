@@ -626,7 +626,6 @@ export default {
 				proxy: 'Проксі',
 				searchPlaceholder: 'пошук шлюзу...',
 				host: 'Хост',
-				trunkingACLTitle: 'Контроль доступу',
 				trunkingACL: 'Багатоканальний список доступу',
 				hostnameTrunking: 'Сервер/Хост шлюзу чи IP',
 				hostnameRegister: 'Реєстратор/Сервер/Хост шлюзу чи IP',
@@ -640,10 +639,6 @@ export default {
 				SIPregistrationsDescription: 'Опис SIP-реєстрації',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Опис SIP-транків',
-				errors: {
-					passwordInvalid:
-						"Пароль містить заборонені символи. Зарезервовані символи URI, пробіли, спецсимволи !*'()&$ не підтримуються.",
-				},
 			},
 
 			chatGateways: {
