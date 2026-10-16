@@ -6,7 +6,7 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="isCreatePopup = true"
+        :primary-action="() => (isCreatePopup = true)"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -219,28 +219,26 @@ const edit = (item: GatewayCard) =>
 
 /** [Claude] states between Registered and NoReg (unregister … expired) count as failed, the rest as not registered */
 const getStatus = (state?: number) => {
-	const isRegistered = state === GatewayRegisterState.Registered;
-	const isFailed =
-		!!state &&
-		state > GatewayRegisterState.Registered &&
-		state < GatewayRegisterState.NoReg;
-
-	if (isRegistered) {
-		return {
-			color: 'success',
-			text: t('objects.routing.gateways.stateSuccess'),
-		};
+	switch (state) {
+		case GatewayRegisterState.Registered:
+			return {
+				color: 'success',
+				text: t('objects.routing.gateways.stateSuccess'),
+			};
+		case GatewayRegisterState.Unregister:
+		case GatewayRegisterState.Failed:
+		case GatewayRegisterState.FailWait:
+		case GatewayRegisterState.Expired:
+			return {
+				color: 'error',
+				text: t('objects.routing.gateways.stateFailed'),
+			};
+		default:
+			return {
+				color: 'disabled',
+				text: t('objects.routing.gateways.stateNonreg'),
+			};
 	}
-	if (isFailed) {
-		return {
-			color: 'error',
-			text: t('objects.routing.gateways.stateFailed'),
-		};
-	}
-	return {
-		color: 'disabled',
-		text: t('objects.routing.gateways.stateNonreg'),
-	};
 };
 
 const {

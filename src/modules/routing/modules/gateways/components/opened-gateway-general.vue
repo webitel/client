@@ -29,11 +29,7 @@
       <wt-input-text
         v-model:model-value="modelValue.proxy"
         :disabled="disableUserInput"
-        :label="
-          modelValue.register
-            ? t('objects.routing.gateways.outboundProxy')
-            : t('objects.routing.gateways.proxy')
-        "
+        :label="proxyLabel"
         :regle-validation="validationFields?.proxy"
         required
       />
@@ -73,6 +69,7 @@ import { FlowsAPI } from '@webitel/api-services/api';
 import type { GatewayCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
@@ -90,5 +87,11 @@ const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
 	WtObject.Flow,
+);
+
+const proxyLabel = computed(() =>
+	modelValue.value.register
+		? t('objects.routing.gateways.outboundProxy')
+		: t('objects.routing.gateways.proxy'),
 );
 </script>
