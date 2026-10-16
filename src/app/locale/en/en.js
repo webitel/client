@@ -716,7 +716,6 @@ export default {
 						square: 'Square',
 						right: 'Right',
 						left: 'Left',
-						static: 'Static',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -743,7 +742,7 @@ export default {
 							'Show default heading and subheading on result page',
 					},
 					alternativeChannels: {
-						alternativeChannels: 'Alternative Channels',
+						alternativeChannels: 'Alternative сhannels',
 						title: 'Messaging channels',
 						email: 'Email',
 						whatsapp: 'WhatsApp',
@@ -768,18 +767,13 @@ export default {
 				newChatGateway: 'New chat gateway',
 				metadata: {
 					apiKey: 'Api Key',
-					number: 'Number',
 					baseUrl: 'Base URL',
-					sendApi: 'Send API',
 					allowOrigin: 'Allow Origin',
 					readTimeout: 'Read Timeout (sec)',
 					writeTimeout: 'Write Timeout (sec)',
 					handshakeTimeout: 'Handshake Timeout (sec)',
-					messageSize: 'Message Size max (bytes)',
 					botName: 'Bot Name',
-					eventTypes: 'Event Types',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
