@@ -482,6 +482,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					"Import qilingan raqamlar: {imported}. O'tkazib yuborilgan dublikatlar: {skipped}.",
 			},
 			media: {
 				mediaFiles: 'Media fayl | Media fayllar',

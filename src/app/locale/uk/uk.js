@@ -487,6 +487,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Імпортовано номерів: {imported}. Пропущено дублікатів: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медіафайл| Медіафайли',

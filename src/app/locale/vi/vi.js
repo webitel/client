@@ -478,6 +478,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Đã nhập {imported} số. Đã bỏ qua {skipped} số trùng lặp.',
 			},
 			media: {
 				mediaFiles: 'Tệp phương tiện',
