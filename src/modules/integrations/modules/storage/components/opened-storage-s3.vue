@@ -1,157 +1,130 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.integrations.storage.s3') }}
-      </h3>
-    </header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="properties.keyId"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.s3Key')"
-        :v="v.itemInstance.properties.keyId"
-        :model-value="itemInstance.properties.keyId"
+        :label="t('objects.integrations.storage.s3Key')"
+        :regle-validation="propertiesFields?.keyId"
         required
-        @update:model-value="setItemProp({ prop: 'keyId', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="properties.accessKey"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.s3Access')"
-        :label-props="{ hint: $t('objects.directory.passwordInfo'), hintPosition: 'right' }"
-        :v="v.itemInstance.properties.accessKey"
-        :model-value="itemInstance.properties.accessKey"
+        :label="t('objects.integrations.storage.s3Access')"
+        :label-props="{ hint: t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+        :regle-validation="propertiesFields?.accessKey"
         required
-        @update:model-value="setItemProp({ prop: 'accessKey', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="properties.bucketName"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.bucket')"
-        :v="v.itemInstance.properties.bucketName"
-        :model-value="itemInstance.properties.bucketName"
+        :label="t('objects.integrations.storage.bucket')"
+        :regle-validation="propertiesFields?.bucketName"
         required
-        @update:model-value="setItemProp({ prop: 'bucketName', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="properties.pathPattern"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.pathPattern')"
-        :model-value="itemInstance.properties.pathPattern"
-        @update:model-value="setItemProp({ prop: 'pathPattern', value: $event })"
+        :label="t('objects.integrations.storage.pathPattern')"
       />
       <wt-single-select
-        :disabled="disableService"
-        :label="$t('objects.service')"
-        :options="serviceOptions"
+        :disabled="disableUserInput || !!modelValue.id"
+        :label="t('objects.service')"
         :model-value="service"
+        :options="serviceOptions"
+        option-label="name"
         data-key="value"
         @update:model-value="setService"
       />
       <wt-single-select
         v-if="!isCustom"
-        :show-clear="false"
+        v-model:model-value="properties.region"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.region')"
+        :label="t('objects.integrations.storage.region')"
         :options="regionOptions"
-        :v="v.itemInstance.properties.region"
-        :model-value="itemInstance.properties.region"
-        required
+        :regle-validation="propertiesFields?.region"
+        :show-clear="false"
+        option-label="name"
+        option-value="value"
         data-key="value"
-        @update:model-value="setItemProp({ prop: 'region', value: $event })"
+        required
       />
       <wt-input-text
         v-if="isCustom"
+        v-model:model-value="properties.endpoint"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.s3Endpoint')"
-        :v="v.itemInstance.properties.endpoint"
-        :model-value="itemInstance.properties.endpoint"
+        :label="t('objects.integrations.storage.s3Endpoint')"
+        :regle-validation="propertiesFields?.endpoint"
         required
-        @update:model-value="setItemProp({ prop: 'endpoint', value: $event })"
       />
       <wt-input-text
         v-if="isCustom"
+        v-model:model-value="properties.region"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.region')"
-        :v="v.itemInstance.properties.region"
-        :model-value="itemInstance.properties.region"
+        :label="t('objects.integrations.storage.region')"
+        :regle-validation="propertiesFields?.region"
         required
-        @update:model-value="setItemProp({ prop: 'region', value: $event })"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { mapActions, mapState } from 'vuex';
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import type { StorageBackendProfile } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import storageMixin from '../mixins/storageMixin';
-import AWSRegions from '../store/_internals/lookups/AWSRegions.lookup';
-import DigitalOceanRegions from '../store/_internals/lookups/DigitalOceanRegions.lookup';
-import Service from '../store/_internals/lookups/Service.lookup';
+import AWSRegions from '../lookups/AWSRegions.lookup';
+import DigitalOceanRegions from '../lookups/DigitalOceanRegions.lookup';
+import StorageService, {
+	getStorageService,
+} from '../lookups/StorageService.lookup';
 
-export default {
-	name: 'OpenedStorageAws',
-	mixins: [
-		openedTabComponentMixin,
-		storageMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	computed: {
-		...mapState('integrations/storage', {
-			id: (state) => state.itemId,
-		}),
+type StorageServiceOption =
+	(typeof StorageService)[keyof typeof StorageService];
 
-		serviceOptions() {
-			return Object.values(Service);
-		},
+const modelValue = defineModel<StorageBackendProfile>({
+	required: true,
+});
 
-		isCustom() {
-			return !(
-				this.endpoint === Service.AWS.endpoint ||
-				this.endpoint === Service.DO.endpoint
-			);
-		},
+const props = defineProps<{
+	validationFields?: CardValidationFields<StorageBackendProfile>;
+}>();
 
-		regionOptions() {
-			if (this.endpoint.includes(Service.AWS.endpoint)) {
-				return AWSRegions;
-			}
-			if (this.endpoint.includes(Service.DO.endpoint)) {
-				return DigitalOceanRegions;
-			}
-			return [];
-		},
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 
-		disableService() {
-			return this.disableUserInput || !!this.id;
-		},
-	},
+const properties = computed(
+	() => modelValue.value.properties as Record<string, string>,
+);
 
-	methods: {
-		...mapActions('integrations/storage', {
-			setItemProp: 'SET_ITEM_PROPERTIES_PROPERTY',
-		}),
+/** [Claude] `properties` is a loose map in the model, so regle can't infer its field names */
+const propertiesFields = computed(
+	() =>
+		props.validationFields?.properties?.$fields as
+			| Record<string, RegleSchemaFieldStatus>
+			| undefined,
+);
 
-		setService({ endpoint }) {
-			this.setItemProp({
-				prop: 'endpoint',
-				value: endpoint,
-			});
-			this.setItemProp({
-				prop: 'region',
-				value: '',
-			});
-		},
-	},
+const serviceOptions = Object.values(StorageService);
+
+const service = computed(() => getStorageService(properties.value.endpoint));
+
+const isCustom = computed(() => service.value === StorageService.CUSTOM);
+
+const regionOptions = computed(() => {
+	if (service.value === StorageService.AWS) return AWSRegions;
+	if (service.value === StorageService.DO) return DigitalOceanRegions;
+	return [];
+});
+
+/** [Claude] a region belongs to its service, so it is picked again */
+const setService = ({ endpoint }: StorageServiceOption) => {
+	properties.value.endpoint = endpoint;
+	properties.value.region = '';
 };
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

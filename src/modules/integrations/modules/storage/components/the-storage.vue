@@ -6,80 +6,81 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #main>
-      <delete-confirmation-popup
-        :shown="isDeleteConfirmationPopup"
-        :callback="deleteCallback"
-        :delete-count="deleteCount"
-        @close="closeDelete"
-      />
-
-      <storage-popup
-        v-if="isStorageSelectPopup"
-        @close="closeStorageSelectPopup"
-      />
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.integrations.storage.allStorages') }}
+            {{ t('objects.integrations.storage.allStorages') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :dark-mode="darkMode"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
+        <delete-confirmation-popup
+          :shown="isDeleteConfirmationPopup"
+          :callback="deleteCallback"
+          :delete-count="deleteCount"
+          @close="closeDelete"
         />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :selected="selected"
+            :headers="shownHeaders"
             sortable
-            @sort="sort"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.STORAGE}-card`,
+                  params: { id: item.id },
+                }"
+              >
                 {{ item.name }}
               </wt-item-link>
             </template>
             <template #type="{ item }">
-              {{ prettifyType(item.type) }}
+              {{ typeText(item.type) }}
             </template>
             <template #maxSize="{ item }">
               {{ item.maxSize }}
@@ -91,34 +92,36 @@
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="!item.disabled"
-                @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
+                @update:model-value="patchItemProperty({ index, path: 'disabled', value: !$event })"
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -126,137 +129,124 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import { StorageType } from '@webitel/api-services/enums';
+import type { StorageBackendProfile } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { mapActions, useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicDark from '../assets/adm-dummy-storage-dark.svg';
-import dummyPicLight from '../assets/adm-dummy-storage-light.svg';
-import Storage from '../store/_internals/enums/Storage.enum';
-import StoragePopup from './_unused/create-storage-popup.vue';
+import emptyPicDark from '../assets/adm-empty-storage-dark.svg';
+import emptyPicLight from '../assets/adm-empty-storage-light.svg';
+import { useStorageDatalistStore } from '../stores/datalist/storageDatalistStore';
 
-const namespace = 'integrations/storage';
+const { t } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheStorage',
-	components: {
-		StoragePopup,
-		DeleteConfirmationPopup,
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
+
+const storageDatalistStore = useStorageDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(storageDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+} = storageDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const store = useStore();
-		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-		const dummyPic = computed(() =>
-			darkMode.value ? dummyPicDark : dummyPicLight,
-		);
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-			dummyPic,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.integrations.storage.storage'),
+		route: '/integrations/storage',
 	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.STORAGE,
-		isStorageSelectPopup: false,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t('objects.integrations.storage.storage'),
-					route: '/integrations/storage',
-				},
-			];
-		},
-	},
-
-	methods: {
-		...mapActions({
-			patchProperty(dispatch, payload) {
-				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-			},
-		}),
-		create() {
-			this.$router.push({
-				name: `${RouteNames.STORAGE}-card`,
-				params: {
-					type: Storage.S3,
-					id: 'new',
-				},
-			});
-		},
-		editLink({ type, id }) {
-			return {
-				name: `${RouteNames.STORAGE}-card`,
-				params: {
-					type,
-					id,
-				},
-			};
-		},
-		closeStorageSelectPopup() {
-			this.isStorageSelectPopup = false;
-		},
-		prettifyType(type) {
-			switch (type) {
-				case Storage.LOCAL:
-					return 'Local';
-				case Storage.S3:
-					return 'S3 Bucket';
-				case Storage.BACKBLAZE:
-					return 'Backblaze';
-				case Storage.DROPBOX:
-					return 'Dropbox';
-				case Storage.DRIVE:
-					return 'Google Drive';
-				default:
-					return '';
-			}
-		},
-	},
+const typeLocale: Record<string, string> = {
+	[StorageType.Local]: 'objects.integrations.storage.local',
+	[StorageType.S3]: 'objects.integrations.storage.s3',
+	[StorageType.Backblaze]: 'objects.integrations.storage.backblaze',
+	[StorageType.Dropbox]: 'objects.integrations.storage.dropbox',
+	[StorageType.Drive]: 'objects.integrations.storage.drive',
 };
-</script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+const typeText = (type?: string) =>
+	type && typeLocale[type] ? t(typeLocale[type]) : '';
+
+const edit = ({ id }: StorageBackendProfile) =>
+	router.push({
+		name: `${RouteNames.STORAGE}-card`,
+		params: {
+			id,
+		},
+	});
+
+const add = () =>
+	router.push({
+		name: `${RouteNames.STORAGE}-card`,
+		params: {
+			id: 'new',
+		},
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
+	},
+	{
+		image: {
+			empty: {
+				dark: emptyPicDark,
+				light: emptyPicLight,
+			},
+		},
+	},
+);
+</script>
