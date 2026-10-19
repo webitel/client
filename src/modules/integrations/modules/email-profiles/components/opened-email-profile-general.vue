@@ -1,313 +1,282 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="modelValue.mailbox"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.mailbox')"
-        :v="v.itemInstance.mailbox"
-        :model-value="itemInstance.mailbox"
+        :label="t('objects.integrations.emailProfiles.mailbox')"
+        :regle-validation="validationFields?.mailbox"
         required
-        @update:model-value="setItemProp({ prop: 'mailbox', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="modelValue.imapHost"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.imapHost')"
-        :v="v.itemInstance.imapHost"
-        :model-value="itemInstance.imapHost"
+        :label="t('objects.integrations.emailProfiles.imapHost')"
+        :regle-validation="validationFields?.imapHost"
         required
-        @update:model-value="setItemProp({ prop: 'imapHost', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.imapPort"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.imapPort')"
-        :max="65535"
+        :label="t('objects.integrations.emailProfiles.imapPort')"
+        :max="EMAIL_PROFILE_MAX_PORT"
         :min="0"
-        :v="v.itemInstance.imapPort"
-        :model-value="itemInstance.imapPort"
+        :regle-validation="validationFields?.imapPort"
         required
-        @update:model-value="setItemProp({ prop: 'imapPort', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="modelValue.smtpHost"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.smtpHost')"
-        :v="v.itemInstance.smtpHost"
-        :model-value="itemInstance.smtpHost"
+        :label="t('objects.integrations.emailProfiles.smtpHost')"
+        :regle-validation="validationFields?.smtpHost"
         required
-        @update:model-value="setItemProp({ prop: 'smtpHost', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.smtpPort"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.smtpPort')"
-        :max="65535"
+        :label="t('objects.integrations.emailProfiles.smtpPort')"
+        :max="EMAIL_PROFILE_MAX_PORT"
         :min="0"
-        :v="v.itemInstance.smtpPort"
-        :model-value="itemInstance.smtpPort"
+        :regle-validation="validationFields?.smtpPort"
         required
-        @update:model-value="setItemProp({ prop: 'smtpPort', value: $event })"
       />
       <wt-single-select
-        :show-clear="false"
+        v-model:model-value="modelValue.schema"
         :disabled="disableUserInput || !hasFlowsReadAccess"
-        :label="$t('objects.routing.flow.flow', 1)"
-        :search-method="hasFlowsReadAccess && loadFlows"
-        :v="v.itemInstance.schema"
-        :model-value="itemInstance.schema"
+        :label="t('objects.routing.flow.flow', 1)"
+        :regle-validation="validationFields?.schema"
+        :search-method="hasFlowsReadAccess && FlowsAPI.getLookup"
+        :show-clear="false"
         required
-        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
       <wt-timepicker
+        v-model:model-value="modelValue.fetchInterval"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.emailProfiles.fetchInterval')"
-        :v="v.itemInstance.fetchInterval"
-        :value="itemInstance.fetchInterval"
-        @input="setItemProp({ prop: 'fetchInterval', value: +$event })"
+        :label="t('objects.integrations.emailProfiles.fetchInterval')"
+        :regle-validation="validationFields?.fetchInterval"
       />
       <div>
         <wt-textarea
+          v-model:model-value="modelValue.description"
           :disabled="disableUserInput"
-          :label="$t('objects.description')"
-          :model-value="itemInstance.description"
+          :label="t('objects.description')"
           class="opened-email-profile-general__description"
-          @update:model-value="setItemProp({ prop: 'description', value: $event })"
         />
         <wt-switcher
-          :label="$t('objects.integrations.emailProfiles.listen')"
-          :model-value="itemInstance.listen"
-          @update:model-value="setItemProp({ prop: 'listen', value: $event })"
+          v-model:model-value="modelValue.listen"
+          :label="t('objects.integrations.emailProfiles.listen')"
         />
       </div>
       <div>
         <wt-single-select
-          :disabled="disableUserInput || isDisabledAuthParams"
-          :label="$t('objects.integrations.emailProfiles.authType')"
-          :options="authTypesList"
+          :disabled="disableUserInput || isAuthParamsLocked"
+          :label="t('objects.integrations.emailProfiles.authType')"
+          :model-value="modelValue.authType"
+          :options="authTypeOptions"
           :data-key="null"
-          :v="v.itemInstance.authType"
-          :model-value="itemInstance.authType"
+          :regle-validation="validationFields?.authType"
           required
-          @update:model-value="changeAuthType"
+          @update:model-value="setAuthType"
         />
-        <div v-if="!isPlainAuthType">
+        <template v-if="!isPlainAuth && oauth2">
           <wt-input-text
-            :disabled="disableUserInput || isDisabledAuthParams"
-            :label="$t('objects.integrations.singleSignOn.clientId')"
-            :v="v.itemInstance.params?.oauth2?.clientId"
-            :model-value="itemInstance.params?.oauth2?.clientId"
+            v-model:model-value="oauth2.clientId"
+            :disabled="disableUserInput || isAuthParamsLocked"
+            :label="t('objects.integrations.singleSignOn.clientId')"
+            :regle-validation="oauth2Fields?.clientId"
             required
-            @update:model-value="setItemProp({ path: 'params.oauth2.clientId', value: $event })"
           />
           <wt-input-text
-            :disabled="disableUserInput || isDisabledAuthParams"
-            :label="$t('objects.integrations.singleSignOn.clientSecret')"
-            :v="v.itemInstance.params?.oauth2?.clientSecret"
-            :model-value="itemInstance.params?.oauth2?.clientSecret"
+            v-model:model-value="oauth2.clientSecret"
+            :disabled="disableUserInput || isAuthParamsLocked"
+            :label="t('objects.integrations.singleSignOn.clientSecret')"
+            :regle-validation="oauth2Fields?.clientSecret"
             required
-            @update:model-value="setItemProp({ path: 'params.oauth2.clientSecret', value: $event })"
           />
           <wt-input-text
-            :disabled="disableUserInput || isDisabledAuthParams"
-            :label="$t('objects.integrations.singleSignOn.discoveryUrl')"
-            :v="v.itemInstance.params?.oauth2?.redirectUrl"
-            :model-value="itemInstance.params?.oauth2?.redirectUrl"
+            v-model:model-value="oauth2.redirectUrl"
+            :disabled="disableUserInput || isAuthParamsLocked"
+            :label="t('objects.integrations.singleSignOn.discoveryUrl')"
+            :regle-validation="oauth2Fields?.redirectUrl"
             required
-            @update:model-value="setItemProp({ path: 'params.oauth2.redirectUrl', value: $event })"
           />
-        </div>
-        <div class="opened-email-profile-general__login-wrapper">
+        </template>
+        <div class="opened-email-profile-general__login">
           <wt-input-text
-            :disabled="disableUserInput || itemInstance.logged"
-            :label="authLabelText"
-            :v="v.itemInstance.login"
-            :model-value="itemInstance.login"
+            v-model:model-value="modelValue.login"
+            :disabled="disableUserInput || modelValue.logged"
+            :label="modelValue.logged ? t('objects.integrations.emailProfiles.authenticatedAs') : t('vocabulary.login')"
+            :regle-validation="validationFields?.login"
             required
-            @update:model-value="setItemProp({ prop: 'login', value: $event })"
           />
           <wt-button
-            v-if="isDisplayAuthBtn"
-            :disabled="isUnavailableAuth"
-            color="secondary"
+            v-if="modelValue.id && !isPlainAuth"
+            :color="ButtonColor.SECONDARY"
+            :disabled="!canAuth"
             @click="auth"
-          >{{
-            authBtnText }}
+          >
+            {{ modelValue.logged ? t('vocabulary.logout') : t('vocabulary.login') }}
           </wt-button>
         </div>
         <password-input
-          v-if="isPlainAuthType"
+          v-if="isPlainAuth"
+          v-model="modelValue.password"
           :disabled="disableUserInput"
-          :v="v.itemInstance.password"
-          :model-value="itemInstance.password"
-          @update:model-value="setItemProp({ prop: 'password', value: $event })"
+          :regle-validation="passwordField"
         />
       </div>
-
     </div>
   </section>
 </template>
 
-<script>
-import { FlowsAPI } from '@webitel/api-services/api';
-import { EngineEmailAuthType } from '@webitel/api-services/gen/models';
-import { WtObject } from '@webitel/ui-sdk/enums';
-import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import type { RegleSchemaFieldStatus } from '@regle/schemas';
+import { EmailProfilesAPI, FlowsAPI } from '@webitel/api-services/api';
+import {
+	EngineEmailAuthType,
+	type EngineEmailProfile,
+	type EngineEmailProfileParamsOAuth2,
+} from '@webitel/api-services/gen/models';
+import { EMAIL_PROFILE_MAX_PORT } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { ButtonColor, WtObject } from '@webitel/ui-sdk/enums';
+import { isEqual } from 'lodash-es';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-export default {
-	name: 'OpenedEmailProfileGeneral',
-	components: {
-		PasswordInput,
-	},
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
-		return {
-			disableUserInput,
-			hasFlowsReadAccess,
-		};
-	},
-	data: () => ({
-		EngineEmailAuthType,
-		isChangeOauth2Params: false,
-	}),
-	computed: {
-		isPlainAuthType() {
-			return (
-				this.itemInstance.authType === EngineEmailAuthType.Plain ||
-				!this.itemInstance.authType
-			);
-		},
-		authTypesList() {
-			return Object.values(EngineEmailAuthType).filter(
-				(type) => type !== EngineEmailAuthType.EmailAuthTypeUndefined,
-			);
-		},
-		isDisplayAuthBtn() {
-			return this.itemInstance.id && !this.isPlainAuthType;
-		},
-		isUnavailableAuth() {
-			if (isEmpty(this.itemInstance.params)) return true;
-			return (
-				Object.values(this.itemInstance?.params?.oauth2).some(
-					(item) => !item,
-				) || this.isChangeOauth2Params
-			);
-		},
-		authBtnText() {
-			return this.itemInstance.logged
-				? this.$t('vocabulary.logout')
-				: this.$t('vocabulary.login');
-		},
-		authLabelText() {
-			return this.itemInstance.logged
-				? this.$t('objects.integrations.emailProfiles.authenticatedAs')
-				: this.$t('vocabulary.login');
-		},
-		isDisabledAuthParams() {
-			return !this.isPlainAuthType && this.itemInstance.logged;
-		},
-	},
-	methods: {
-		...mapActions({
-			// [https://webitel.atlassian.net/browse/WTEL-3114]
-			// Authorization Microsoft Outlook service
+import { useEmailProfileCardStore } from '../stores/card/emailProfileCardStore';
 
-			auth(dispatch, payload) {
-				return dispatch(`${this.namespace}/AUTH`, payload);
-			},
-		}),
-		loadFlows(params) {
-			return FlowsAPI.getLookup(params);
+const modelValue = defineModel<EngineEmailProfile>({
+	required: true,
+});
+
+const props = defineProps<{
+	validationFields?: CardValidationFields<EngineEmailProfile>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
+
+const emailProfileCardStore = useEmailProfileCardStore();
+const { originalItemInstance } = storeToRefs(emailProfileCardStore);
+
+const authTypeOptions = Object.values(EngineEmailAuthType).filter(
+	(type) => type !== EngineEmailAuthType.EmailAuthTypeUndefined,
+);
+
+const isPlainAuth = computed(
+	() =>
+		!modelValue.value.authType ||
+		modelValue.value.authType === EngineEmailAuthType.Plain,
+);
+
+/** [Claude] a signed-in oauth2 profile keeps its auth settings until it signs out */
+const isAuthParamsLocked = computed(
+	() => !isPlainAuth.value && !!modelValue.value.logged,
+);
+
+const oauth2 = computed(
+	() => modelValue.value.params?.oauth2 as EngineEmailProfileParamsOAuth2,
+);
+
+/**
+ * [Claude] `params.oauth2` is nested two levels down, where regle's inferred
+ * status types stop; the same goes for the password input, typed for a plain string
+ */
+type FieldsStatus = {
+	$fields?: Record<string, RegleSchemaFieldStatus>;
+};
+
+const oauth2Fields = computed(
+	() =>
+		(
+			(props.validationFields?.params as FieldsStatus | undefined)?.$fields
+				?.oauth2 as FieldsStatus | undefined
+		)?.$fields,
+);
+
+const passwordField = computed(
+	() =>
+		props.validationFields?.password as
+			| RegleSchemaFieldStatus<string>
+			| undefined,
+);
+
+/** [Claude] the sign-in uses the saved settings, so it waits for all of them to be filled and saved */
+const canAuth = computed(() => {
+	const saved = originalItemInstance.value;
+	const hasAllParams =
+		!!oauth2.value && Object.values(oauth2.value).every(Boolean);
+	return (
+		hasAllParams &&
+		modelValue.value.login === saved.login &&
+		isEqual(modelValue.value.params, saved.params)
+	);
+});
+
+/** [Claude] each auth type keeps only its own credentials */
+const setAuthType = (authType: EngineEmailAuthType) => {
+	const isPlain = authType === EngineEmailAuthType.Plain;
+	modelValue.value.authType = authType;
+	modelValue.value.params = {
+		...modelValue.value.params,
+		oauth2: {
+			clientId: '',
+			clientSecret: '',
+			redirectUrl: '',
+			...(isPlain ? {} : modelValue.value.params?.oauth2),
 		},
-		changeAuthType(type) {
-			this.setItemProp({
-				prop: 'authType',
-				value: type,
-			});
-			if (this.isPlainAuthType) {
-				if (this.itemInstance?.params?.oauth2?.clientId)
-					this.setItemProp({
-						path: 'params.oauth2.clientId',
-						value: '',
-					});
-				if (this.itemInstance?.params?.oauth2?.clientSecret)
-					this.setItemProp({
-						path: 'params.oauth2.clientSecret',
-						value: '',
-					});
-				if (this.itemInstance?.params?.oauth2?.redirectUrl)
-					this.setItemProp({
-						path: 'params.oauth2.redirectUrl',
-						value: '',
-					});
-			} else {
-				if (this.itemInstance?.password)
-					this.setItemProp({
-						prop: 'password',
-						value: '',
-					});
-			}
-		},
-		updateIsChangeOauth2Params() {
-			if (this.itemInstance._dirty) this.isChangeOauth2Params = true;
-		},
-	},
-	watch: {
-		'itemInstance.login': {
-			handler() {
-				this.updateIsChangeOauth2Params();
-			},
-		},
-		'itemInstance.params.oauth2': {
-			handler() {
-				this.updateIsChangeOauth2Params();
-			},
-			deep: true,
-		},
-		'itemInstance._dirty': {
-			handler(value) {
-				if (!value) this.isChangeOauth2Params = false;
-			},
-		},
-	},
+	};
+	if (!isPlain) modelValue.value.password = '';
+};
+
+/**
+ * [Claude] Microsoft Outlook sign-in ([WTEL-3114](https://webitel.atlassian.net/browse/WTEL-3114)):
+ * login leaves for the provider's page, logout reloads the profile to show it signed out.
+ */
+const auth = async () => {
+	const { id } = modelValue.value;
+	if (modelValue.value.logged) {
+		await EmailProfilesAPI.logout({
+			id,
+		});
+		await emailProfileCardStore.initialize({
+			itemId: id,
+		});
+		return;
+	}
+	const { redirect_url: redirectUrl } = await EmailProfilesAPI.login({
+		id,
+	});
+	if (redirectUrl) window.parent.location.replace(redirectUrl);
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.opened-email-profile-general {
-  &__description {
-    margin-bottom: var(--spacing-sm);
-  }
+<style scoped>
+.opened-email-profile-general__description {
+  margin-bottom: var(--spacing-sm);
+}
 
-  &__login-wrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
+.opened-email-profile-general__login {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
 
-    .wt-input-text {
-      width: 100%;
-    }
-  }
+.opened-email-profile-general__login .wt-input-text {
+  width: 100%;
 }
 </style>

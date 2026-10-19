@@ -1,9 +1,9 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import EmailProfilesRouteNames from './_internals/EmailProfilesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import EmailProfilesRouteNames from './_internals/EmailProfilesRouteNames.enum';
 
-const EmailProfiles = () => import('../components/the-email-profiles.vue');
+const TheEmailProfiles = () => import('../components/the-email-profiles.vue');
 const OpenedEmailProfile = () =>
 	import('../components/opened-email-profile.vue');
 
@@ -13,7 +13,7 @@ const EmailProfilesRoutes = [
 	{
 		path: '/integrations/email-profiles',
 		name: RouteNames.EMAIL_PROFILES,
-		component: EmailProfiles,
+		component: TheEmailProfiles,
 		meta: {
 			WtObject: WtObject.EmailProfile,
 			UiSection: AdminSections.EmailProfiles,
