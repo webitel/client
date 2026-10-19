@@ -479,6 +479,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'{imported} numbers imported. {skipped} duplicates skipped.',
 			},
 			media: {
 				mediaFiles: 'Media file | Media files',
