@@ -717,7 +717,6 @@ export default {
 						square: 'Hình vuông',
 						right: 'Phải',
 						left: 'Trái',
-						static: 'Tĩnh',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -769,18 +768,13 @@ export default {
 				newChatGateway: 'Cổng trò chuyện mới',
 				metadata: {
 					apiKey: 'Mã API',
-					number: 'Số',
 					baseUrl: 'URL cơ sở',
-					sendApi: 'API gửi',
 					allowOrigin: 'Cho phép nguồn',
 					readTimeout: 'Thời gian đọc (giây)',
 					writeTimeout: 'Thời gian ghi (giây)',
 					handshakeTimeout: 'Thời gian bắt tay (giây)',
-					messageSize: 'Kích thước tin nhắn tối đa (bytes)',
 					botName: 'Tên bot',
-					eventTypes: 'Loại sự kiện',
 					telegramToken: 'Mã API BOT Telegram',
-					messengerApiUrl: 'URL API Messenger',
 				},
 			},
 

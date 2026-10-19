@@ -723,7 +723,6 @@ export default {
 						square: "To'rtburchak",
 						right: "O'ng",
 						left: 'Chap',
-						static: 'Statik',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -775,18 +774,13 @@ export default {
 				newChatGateway: 'Yangi chat gateway',
 				metadata: {
 					apiKey: 'Api Kaliti',
-					number: 'Raqam',
 					baseUrl: 'Asosiy URL',
-					sendApi: 'Yuborish API',
 					allowOrigin: 'Ruxsat manzili',
 					readTimeout: "O'qish vaqt (sek)",
 					writeTimeout: 'Yozish vaqt (sek)',
 					handshakeTimeout: "Qo'zg'alish vaqt (sek)",
-					messageSize: "Xabar o'lchami max (bayt)",
 					botName: 'Bot nomi',
-					eventTypes: 'Hodisa turlari',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
