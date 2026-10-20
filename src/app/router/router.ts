@@ -36,7 +36,7 @@ import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gatewa
 import SettingsRoutes from '../../modules/settings/routes/routes.js';
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration';
-import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
+import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables';
 import RouteNames from './_internals/RouteNames.enum.js';
 import RoutePaths from './_internals/RoutePaths';
 import { createAuthGuard } from './authGuard';
