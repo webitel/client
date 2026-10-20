@@ -64,6 +64,9 @@ const parameterDescriptors: {
 	[EngineSystemSettingName.BlockAllMemberNumbersFromList]: {
 		type: ConfigurationValueType.Boolean,
 	},
+	[EngineSystemSettingName.RecordAllCalls]: {
+		type: ConfigurationValueType.Boolean,
+	},
 
 	[EngineSystemSettingName.MemberChunkSize]: {
 		type: ConfigurationValueType.Number,
