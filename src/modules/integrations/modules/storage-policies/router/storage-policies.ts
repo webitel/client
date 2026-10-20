@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import StoragePoliciesRouteNames from './_internals/StoragePoliciesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import StoragePoliciesRouteNames from './_internals/StoragePoliciesRouteNames.enum';
 
 const StoragePolicies = () => import('../components/the-storage-policies.vue');
 const OpenedStoragePolicy = () =>

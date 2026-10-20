@@ -13,7 +13,7 @@
         <wt-icon
           class="encryption-alert-popup__icon"
           icon="attention"
-          color="error"
+          :color="IconColor.ERROR"
           size="md"
         />
         <span class="encryption-alert-popup__message">
@@ -28,7 +28,7 @@
         {{ $t('objects.ok') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="close"
       >
         {{ $t('objects.close') }}
@@ -38,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { ButtonColor, IconColor } from '@webitel/ui-sdk/enums';
+
 interface Props {
 	shown?: boolean;
 	message?: string;
