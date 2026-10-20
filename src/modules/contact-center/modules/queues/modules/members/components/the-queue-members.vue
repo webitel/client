@@ -175,7 +175,7 @@
               </wt-item-link>
             </template>
             <template #createdAt="{ item }">
-              {{ asDate(item.createdAt) }}
+              <wt-time-tooltip :text="asDate(item.createdAt)" />
             </template>
             <template #offeringAt="{ item }">
               <div v-if="item.minOfferingAt">
@@ -289,6 +289,7 @@ import {
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
+import { WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
