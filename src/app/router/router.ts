@@ -15,7 +15,7 @@ import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/route
 import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
-import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
+import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers';
 import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause';
 import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';

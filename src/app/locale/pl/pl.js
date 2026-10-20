@@ -1345,12 +1345,6 @@ export default {
 					logs: 'Historia uruchomienia',
 					startedAt: 'Początek',
 					result: 'Wynik',
-					resultName: {
-						idle: 'Bezczynny',
-						active: 'Aktywny',
-						done: 'Wykonane',
-						error: 'Błąd',
-					},
 				},
 				recordCall: 'Nagraj połączenie',
 			},

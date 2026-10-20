@@ -1,9 +1,6 @@
 <template>
   <section class="table-section">
-    <header class="table-title">
-      <h3 class="table-title__title">
-        {{ t('objects.system.changelogs.logs.logs', 2) }}
-      </h3>
+    <header class="table-title opened-user-logs__header">
       <div class="table-title__actions-wrap">
         <wt-action-bar
           :include="[IconAction.REFRESH, IconAction.DOWNLOAD, IconAction.FILTERS, IconAction.COLUMNS]"
@@ -206,3 +203,10 @@ const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 	isLoading,
 });
 </script>
+
+<style scoped>
+/* [Claude] the actions are the header's only child, so they are pushed to the right */
+.opened-user-logs__header {
+  justify-content: flex-end;
+}
+</style>

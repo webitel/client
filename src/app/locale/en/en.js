@@ -1340,12 +1340,6 @@ export default {
 					logs: 'Running history',
 					startedAt: 'Start',
 					result: 'Result',
-					resultName: {
-						idle: 'Idle',
-						active: 'Active',
-						done: 'Done',
-						error: 'Error',
-					},
 				},
 				recordCall: 'Record call',
 			},
