@@ -1,192 +1,227 @@
 <template>
   <section class="table-section">
-    <header class="table-title">
-      <h3 class="table-title__title">
-        {{ $t('objects.system.changelogs.logs.logs', 2) }}
-      </h3>
+    <header class="table-title opened-changelog-logs__header">
       <div class="table-title__actions-wrap">
-        <wt-icon-action
-          action="download"
-          @click="exportCSV({ parentId })"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
-        />
+        <wt-action-bar
+          :include="[IconAction.REFRESH, IconAction.DOWNLOAD, IconAction.FILTERS]"
+          @click:refresh="loadDataList"
+          @click:download="downloadCSV"
+          @click:filters="emit('click:filters')"
+        >
+          <template #filters="{ action, onClick }">
+            <wt-badge :hidden="!hasPanelFilters">
+              <wt-icon-action
+                :action="action"
+                @click="onClick"
+              />
+            </wt-badge>
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-    ></wt-dummy>
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+    <div class="table-section__table-wrapper">
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="!isLoading"
         :data="dataList"
         :grid-actions="isSchemaObject"
-        :headers="headers"
+        :headers="shownHeaders"
         :selectable="false"
         fixed-actions
         sortable
-        @sort="sort"
+        @sort="updateSort"
       >
         <template #action="{ item }">
-          {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
+          {{ t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
         <template #date="{ item }">
-          {{ formatDate(+item.date, FormatDateMode.DATETIME) }}
+          {{ formatDateTime(item.date) }}
         </template>
         <template #user="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.user"
-            :id="item.user.id"
-            :route-name="usersRouteName"
+            :link="userLink(item.user.id)"
           >
             {{ item.user.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #userId="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.user"
-            :id="item.user.id"
-            :route-name="usersRouteName"
+            :link="userLink(item.user.id)"
           >
             {{ item.user.id }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #object="{ item }">
-          {{ item.object.name }}
+          {{ item.object?.name }}
         </template>
         <template #record="{ item }">
-          <record-link :item="item" />
+          <changelog-logs-record-link :item="item" />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
-            action="download"
+            :action="IconAction.DOWNLOAD"
             @click="downloadNewState(item)"
+          />
+        </template>
+
+        <template #empty>
+          <wt-empty
+            :image="imageEmpty"
+            :text="textEmpty"
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        v-show="dataList.length"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { ConfigLogsAPI as LogsAPI } from '@webitel/api-services/api';
-import { LoggerAvailableSystemObjects } from '@webitel/api-services/gen/models';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
-import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+<script lang="ts" setup>
+import { ConfigLogsAPI } from '@webitel/api-services/api';
+import {
+	LoggerAvailableSystemObjects,
+	type LoggerLog,
+} from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { FilterOption } from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
-import { useDummy } from '../../../../../../../app/composables/useDummy';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { downloadAsJSON } from '../../../../../../../app/utils/download';
-import RecordLink from './changelog-logs-record-link.vue';
+import { useChangelogsCardStore } from '../../../stores/card/changelogsCardStore';
+import { defaultDateFilter } from '../configs/filtersOptions';
+import { useChangelogLogsDatalistStore } from '../stores/datalist/changelogLogsDatalistStore';
+import ChangelogLogsRecordLink from './changelog-logs-record-link.vue';
 
-const namespace = 'system/changelogs';
-const subNamespace = 'logs';
+const emit = defineEmits<{
+	'click:filters': [];
+}>();
 
-export default {
-	name: 'OpenedChangelogLogs',
-	components: {
-		RecordLink,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-		ExportCSVMixin,
-	],
+const { t } = useI18n();
 
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
-		return {
-			dummy,
+const changelogsCardStore = useChangelogsCardStore();
+const { itemId: changelogId, originalItemInstance: changelog } =
+	storeToRefs(changelogsCardStore);
 
-			// re-export from imports to template
-			FormatDateMode,
-			formatDate,
-		};
-	},
-	data: () => ({
-		namespace,
-		subNamespace,
-		usersRouteName: RouteNames.USERS,
-	}),
-	computed: {
-		isSchemaObject() {
-			return (
-				this.itemInstance.object.name === LoggerAvailableSystemObjects.Schema
-			);
-		},
-		getFilters() {
-			return this.$store.getters[
-				`${namespace}/${subNamespace}/filters/GET_FILTERS`
-			];
-		},
-	},
-	watch: {
-		'$route.query': {
-			async handler() {
-				await this.loadList();
-			},
-		},
-	},
-	created() {
-		this.initCSVExport(this.getDataForCSVExport, {
-			filename: `${this.itemInstance.object.name}-logs-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
-		});
-	},
-	methods: {
-		async downloadNewState({ id, date, record }) {
-			const { newState } = await LogsAPI.get({
-				itemId: id,
-			});
-			downloadAsJSON(
-				JSON.parse(newState),
-				`${record.name}-${record.id}-new-state-${formatDate(+date, FormatDateMode.DATETIME)}`,
-			);
-		},
-		async getDataForCSVExport(params) {
-			const filters = this.getFilters;
-			const { items, next } = await LogsAPI.getList({
-				...filters,
-				...params,
-				parentId: this.parentId,
-			});
+const changelogLogsDatalistStore = useChangelogLogsDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(changelogLogsDatalistStore);
 
-			const transformedItems = items.map((item) => ({
-				...item,
-				date: formatDate(+item.date, FormatDateMode.DATETIME),
-			}));
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	hasFilter,
+	addFilter,
+} = changelogLogsDatalistStore;
 
-			return {
-				items: transformedItems,
-				next,
-			};
-		},
+if (!hasFilter(FilterOption.Date)) {
+	addFilter(defaultDateFilter());
+}
+
+useNestedTableList({
+	useTableStore: useChangelogLogsDatalistStore,
+});
+
+const hasPanelFilters = computed(() =>
+	[
+		FilterOption.Action,
+		FilterOption.User,
+	].some((name) => hasFilter(name)),
+);
+
+/** [Claude] only a flow keeps a state worth downloading */
+const isSchemaObject = computed(
+	() => changelog.value?.object?.name === LoggerAvailableSystemObjects.Schema,
+);
+
+const userLink = (id?: string | number) => ({
+	name: `${RouteNames.USERS}-card`,
+	params: {
+		id,
 	},
+});
+
+/** [Claude] a log's timestamp, or the current moment when none is given */
+const formatDateTime = (date?: string | number) =>
+	formatDate(date ? +date : new Date(), FormatDateMode.DATETIME);
+
+const downloadNewState = async ({ id, date, record }: LoggerLog) => {
+	const { newState } = await ConfigLogsAPI.get({
+		itemId: id,
+	});
+	downloadAsJSON(
+		JSON.parse(newState),
+		`${record?.name}-${record?.id}-new-state-${formatDateTime(date)}`,
+	);
 };
+
+const { initCSVExport, exportCSV } = useCSVExport({
+	selected: ref([]),
+});
+
+/** [Claude] the export writes objects by name, the date is a timestamp it would leave as is */
+const getDataForCSVExport = async (params: Record<string, unknown>) => {
+	const { items, next } = await ConfigLogsAPI.getList(params);
+
+	return {
+		items: items.map((item: LoggerLog) => ({
+			...item,
+			date: formatDateTime(item.date),
+		})),
+		next,
+	};
+};
+
+const downloadCSV = () => {
+	initCSVExport(getDataForCSVExport, {
+		filename: `${changelog.value?.object?.name}-logs-at-${formatDateTime()}`,
+	});
+	return exportCSV({
+		...filtersManager.value.getAllValues(),
+		parentId: changelogId.value,
+	});
+};
+
+const { image: imageEmpty, text: textEmpty } = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+<style scoped>
+/* [Claude] no title on the tab, so the actions sit on the right */
+.opened-changelog-logs__header {
+  justify-content: flex-end;
+}
+</style>
