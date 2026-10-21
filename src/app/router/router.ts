@@ -26,7 +26,7 @@ import CommunicationsRoutes from '../../modules/lookups/modules/communications/r
 import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
-import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
+import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
 import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan.js';
