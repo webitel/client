@@ -1,6 +1,3 @@
-// import PermissionsStoreModule
-//   from '../../../../../app/store/BaseStoreModules/StoreModules/PermissionsStoreModule/PermissionsStoreModule';
-
 import { EmailProfilesAPI } from '@webitel/api-services/api';
 import { EngineEmailAuthType } from '@webitel/api-services/gen/models';
 import ObjectStoreModule from '../../../../../app/store/BaseStoreModules/StoreModules/ObjectStoreModule';
@@ -51,18 +48,12 @@ const actions = {
 	},
 };
 
-// const PERMISSIONS_API_URL = '/storage/email_profiles';
-// const permissions = new PermissionsStoreModule()
-// .generateAPIActions(PERMISSIONS_API_URL)
-// .getModule();
-
 const skills = new ObjectStoreModule({
 	resettableState,
 	headers,
 })
 	.attachAPIModule(EmailProfilesAPI)
 	.generateAPIActions()
-	// .setChildModules({ permissions })
 	.getModule({
 		actions,
 	});
