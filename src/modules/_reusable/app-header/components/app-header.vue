@@ -10,7 +10,7 @@
       :dark-mode="darkMode"
       :logo-href="startPageHref"
     />
-    <wt-dark-mode-switcher />
+    <wt-dark-mode-switcher @changed-mode="setTheme" />
     <wt-app-navigator
       :apps="apps"
       :current-app="currentApp"
@@ -65,6 +65,8 @@ navStore.initializeNav();
 const { nav } = storeToRefs(navStore);
 
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+const setTheme = (theme: string) =>
+	store.dispatch('appearance/SET_THEME', theme);
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
 const buildInfo = {
