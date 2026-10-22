@@ -25,7 +25,7 @@ import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/cale
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
-import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
+import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
