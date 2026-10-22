@@ -723,7 +723,6 @@ export default {
 						square: 'Pătrat',
 						right: 'Dreapta',
 						left: 'Stânga',
-						static: 'Static',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -775,18 +774,13 @@ export default {
 				newChatGateway: 'Gateway chat nou',
 				metadata: {
 					apiKey: 'Cheie API',
-					number: 'Număr',
 					baseUrl: 'URL bază',
-					sendApi: 'API trimitere',
 					allowOrigin: 'Permite Origină',
 					readTimeout: 'Timp citire (sec)',
 					writeTimeout: 'Timp scriere (sec)',
 					handshakeTimeout: 'Timp handshake (sec)',
-					messageSize: 'Mărime maximă mesaj (bytes)',
 					botName: 'Nume bot',
-					eventTypes: 'Tipuri evenimente',
 					telegramToken: 'Token API BOT Telegram',
-					messengerApiUrl: 'URL API Messenger',
 				},
 			},
 

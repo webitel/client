@@ -721,7 +721,6 @@ export default {
 						square: 'Kwadratowy',
 						right: 'Prawo',
 						left: 'Lewo',
-						static: 'Statyczny',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -773,18 +772,13 @@ export default {
 				newChatGateway: 'Nowa brama czatu',
 				metadata: {
 					apiKey: 'Klucz API',
-					number: 'Numer',
 					baseUrl: 'Adres bazowy',
-					sendApi: 'API wysyłania',
 					allowOrigin: 'Dozwolone źródło',
 					readTimeout: 'Czas odczytu (sek)',
 					writeTimeout: 'Czas zapisu (sek)',
 					handshakeTimeout: 'Czas ustanowienia połączenia (sek)',
-					messageSize: 'Maksymalny rozmiar wiadomości (bajty)',
 					botName: 'Nazwa botka',
-					eventTypes: 'Typy zdarzeń',
 					telegramToken: 'Token API BOT Telegram',
-					messengerApiUrl: 'URL API Messenger',
 				},
 			},
 

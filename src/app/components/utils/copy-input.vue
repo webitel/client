@@ -1,61 +1,42 @@
 <template>
   <div class="copy-input">
     <wt-input-text
-      :model-value="value"
-      v-bind="{ ...$attrs }"
-      @update:model-value="input"
+      v-model:model-value="model"
+      v-bind="$attrs"
     >
       <template #suffix>
-        <wt-copy-action
-          :value="copyValue"
-        />
+        <wt-copy-action :value="copyValue" />
       </template>
     </wt-input-text>
   </div>
 </template>
 
-<script>
-export default {
-	name: 'CopyInput',
-	props: {
-		value: {
-			type: String,
-		},
-		copyModifier: {
-			type: Function,
-		},
-	},
-	data() {
-		return {
-			isCopied: false,
-			isMounted: false,
-		};
-	},
-	computed: {
-		copyValue() {
-			let copyValue;
-			if (this.copyModifier) {
-				copyValue = this.copyModifier(this.value);
-			} else {
-				copyValue = this.value;
-			}
-			return copyValue;
-		},
-	},
+<script setup lang="ts">
+import { computed } from 'vue';
 
-	mounted() {
-		this.isMounted = true;
+/** [Claude] used with v-model, which the compat build would turn into `value`/`input` that `defineModel` never reads */
+defineOptions({
+	inheritAttrs: false,
+	compatConfig: {
+		COMPONENT_V_MODEL: false,
 	},
+});
 
-	methods: {
-		input(value) {
-			this.$emit('input', value);
-		},
-	},
-};
+const model = defineModel<string>({
+	default: '',
+});
+
+const props = defineProps<{
+	/** [Claude] what gets copied, when it differs from the shown value (e.g. a full url for a path) */
+	copyModifier?: (value: string) => string;
+}>();
+
+const copyValue = computed(() =>
+	props.copyModifier ? props.copyModifier(model.value) : model.value,
+);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .copy-input {
   z-index: 1;
 }

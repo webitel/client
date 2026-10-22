@@ -28,7 +28,7 @@ import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/rout
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
-import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
+import ChatGatewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGateways';
 import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan.js';
 import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan.js';
 import FlowRoutes from '../../modules/routing/modules/flow/router/flow.js';
@@ -112,7 +112,7 @@ export const initRouter = async ({
 
 					// ----------ROUTING------------
 					...FlowRoutes,
-					...ChatGetewaysRoutes,
+					...ChatGatewaysRoutes,
 					...DialplanRoutes,
 					...GatewaysRoutes,
 					...ChatplanRoutes,

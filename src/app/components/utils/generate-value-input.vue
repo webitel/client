@@ -6,7 +6,7 @@
       :label-props="labelProps"
       :placeholder="placeholder"
       :required="required"
-      :v="v"
+      :regle-validation="regleValidation"
       :model-value="valueRepresentation"
       @update:model-value="input"
     >
@@ -41,7 +41,7 @@ export default {
 			type: String,
 			default: '',
 		},
-		v: {
+		regleValidation: {
 			type: Object,
 		},
 		required: {
