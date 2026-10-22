@@ -1,45 +1,37 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
     <div class="opened-card-input-grid opened-card-input-grid--1-col opened-card-input-grid--w50">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { RoleCard } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedRoleGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-};
+const modelValue = defineModel<RoleCard>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<RoleCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style scoped></style>

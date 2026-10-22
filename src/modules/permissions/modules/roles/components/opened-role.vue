@@ -9,11 +9,11 @@
         :secondary-action="close"
       >
         <template
-          v-if="id"
+          v-if="!isNew"
           #primary-action
         >
           <wt-button-select
-            :color="disabledSave ? 'secondary' : 'primary'"
+            :color="disabledSave ? ButtonColor.SECONDARY : ButtonColor.PRIMARY"
             :disabled="disabledSave"
             :options="saveOptions"
             @click="save"
@@ -25,8 +25,11 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
+
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -35,11 +38,13 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
@@ -49,109 +54,88 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import { RolesAPI } from '@webitel/api-services/api';
+import type { RoleCard } from '@webitel/api-services/validations';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { useSaveCopy } from '@webitel/ui-sdk/modules/SaveCopy';
-import { getCurrentInstance } from 'vue';
-
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import RolesAPI from '../api/roles';
-import RolesRouteNames from '../router/_internals/RolesRouteNames.enum.js';
-import General from './opened-role-general.vue';
-import ApplicationsAccess from './role-applications-access/opened-role-applications-access.vue';
-import Permissions from './role-permissions/opened-role-permissions.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import RolesRouteNames from '../router/_internals/RolesRouteNames.enum';
+import { useRolesCardStore } from '../stores/card/rolesCardStore';
 
-export default {
-	name: 'OpenedRole',
-	components: {
-		General,
-		Permissions,
-		ApplicationsAccess,
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<RoleCard>({
+	useCardStore: useRolesCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed<CardTab[]>(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: RolesRouteNames.GENERAL,
 	},
-	mixins: [
-		openedObjectMixin,
-	],
-
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-
-		const instance = getCurrentInstance();
-		const { saveOptions } = useSaveCopy(() =>
-			RolesAPI.add({
-				itemInstance: instance.proxy.itemInstance,
-			}),
-		);
-
-		return {
-			v$,
-			hasSaveActionAccess,
-			saveOptions,
-		};
+	{
+		text: t('objects.permissions.roles.permissions.permissions', 2),
+		value: 'permissions',
+		pathName: RolesRouteNames.ROLE_PERMISSIONS,
 	},
-	data: () => ({
-		namespace: 'permissions/roles',
-		routeName: RouteNames.ROLES,
+	{
+		text: t(
+			'objects.permissions.roles.applicationsAccess.applicationsAccess',
+			2,
+		),
+		value: 'applications-access',
+		pathName: RolesRouteNames.APPLICATIONS_ACCESS,
+	},
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const { close } = useClose(RouteNames.ROLES);
+
+const path = computed(() => [
+	{
+		name: t('objects.permissions.permissions'),
+	},
+	{
+		name: t('objects.permissions.permissionsRole', 2),
+		route: '/permissions/roles',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
+		},
+	},
+]);
+
+const { saveOptions } = useSaveCopy(() =>
+	RolesAPI.add({
+		itemInstance: modelValue.value,
 	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-		},
-	},
-
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: RolesRouteNames.GENERAL,
-				},
-				{
-					text: this.$t('objects.permissions.roles.permissions.permissions', 2),
-					value: 'permissions',
-					pathName: RolesRouteNames.ROLE_PERMISSIONS,
-				},
-				{
-					text: this.$t(
-						'objects.permissions.roles.applicationsAccess.applicationsAccess',
-						2,
-					),
-					value: 'applications-access',
-					pathName: RolesRouteNames.APPLICATIONS_ACCESS,
-				},
-			];
-			return tabs;
-		},
-		path() {
-			const baseUrl = '/permissions/roles';
-			return [
-				{
-					name: this.$t('objects.permissions.permissions'),
-				},
-				{
-					name: this.$t('objects.permissions.permissionsRole', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
-	},
-};
+);
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
