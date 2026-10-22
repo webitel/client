@@ -478,6 +478,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Đã nhập {imported} số. Đã bỏ qua {skipped} số trùng lặp.',
 			},
 			media: {
 				mediaFiles: 'Tệp phương tiện',
@@ -1123,6 +1125,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

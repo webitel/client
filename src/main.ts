@@ -22,6 +22,7 @@ import App from './the-app.vue';
 
 import './app/css/main.scss';
 import { configureZod } from '@webitel/ui-sdk/validations';
+import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
 
 const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
@@ -41,27 +42,6 @@ setApiServicesConfig({
 
 // generated api-services clients call through this app's instance
 setDefaultAxiosInstance(instance);
-
-const setTokenFromUrl = () => {
-	try {
-		const queryMap: {
-			accessToken?: string;
-		} = window.location.search
-			.slice(1)
-			.split('&')
-			.reduce((obj, query) => {
-				const [key, value] = query.split('=');
-				obj[key] = value;
-				return obj;
-			}, {});
-
-		if (queryMap.accessToken) {
-			localStorage.setItem('access-token', queryMap.accessToken);
-		}
-	} catch (err) {
-		console.error('Error restoring token from url', err);
-	}
-};
 
 const createVueInstance = async () => {
 	const app = createApp(App)

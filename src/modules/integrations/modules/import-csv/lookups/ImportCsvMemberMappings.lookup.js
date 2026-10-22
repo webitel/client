@@ -51,7 +51,7 @@ const ImportCsvMemberMappings = {
 	},
 	code: {
 		locale: `${baseLocale}.code`,
-		required: true,
+		required: false,
 		multiple: true,
 		csv: [],
 	},

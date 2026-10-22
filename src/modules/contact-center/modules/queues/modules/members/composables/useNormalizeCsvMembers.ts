@@ -27,9 +27,10 @@ const findCommunicationByCode = (communications: CsvRow[], code: string) =>
  * Turns parsed csv rows into queue members.
  *
  * A row carries its communications as parallel arrays — destinations, codes,
- * priorities and so on — which are zipped back together here. Rows with a
- * destination but no code (or the reverse) cannot form a communication, so the
- * shorter of the two decides how many are built.
+ * priorities and so on — which are zipped back together here. [Claude] Every
+ * destination forms a communication; one without a code is sent without a
+ * type, so the backend assigns the default communication type.
+ * [WTEL-10252](https://webitel.atlassian.net/browse/WTEL-10252)
 
  */
 export const useNormalizeCsvMembers = ({
@@ -97,29 +98,19 @@ export const useNormalizeCsvMembers = ({
 
 			normalized.communications = [];
 
-			const communicationCount = Math.min(
-				normalized.destination.length,
-				normalized.code.length,
-			);
-
-			for (let index = 0; index < communicationCount; index += 1) {
-				const type = findCommunicationByCode(
-					allCommunications,
-					normalized.code[index],
-				);
-
-				if (!type) {
-					console.error(`cannot find communication: ${normalized.code[index]}`);
-				}
-				const id = type?.id;
+			for (let index = 0; index < normalized.destination.length; index += 1) {
+				const code = normalized.code?.[index];
 				const destination = normalized.destination[index];
+				const type = code && findCommunicationByCode(allCommunications, code);
 
-				// a communication needs both a type and somewhere to reach
-				if (!id || !destination) continue;
+				if (code && !type) {
+					console.error(`cannot find communication: ${code}`);
+				}
+				if (!destination || (code && !type)) continue;
 
 				const destinationSchema =
 					destinationSchemaByChannel[
-						type.channel as keyof typeof destinationSchemaByChannel
+						type?.channel as keyof typeof destinationSchemaByChannel
 					];
 				const checked = destinationSchema?.safeParse(destination);
 
@@ -130,9 +121,13 @@ export const useNormalizeCsvMembers = ({
 
 				const communication: CsvRow = {
 					destination,
-					type: {
-						id,
-					},
+					// [Claude] no type → the backend assigns the default one
+					// [WTEL-10252](https://webitel.atlassian.net/browse/WTEL-10252)
+					...(type && {
+						type: {
+							id: type.id,
+						},
+					}),
 				};
 
 				if (normalized.commPriority?.[index]) {

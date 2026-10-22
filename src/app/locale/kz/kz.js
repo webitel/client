@@ -477,6 +477,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Импортталған нөмірлер: {imported}. Өткізіп жіберілген қайталанулар: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медиа файл | Медиа файлдар',
@@ -1120,6 +1122,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

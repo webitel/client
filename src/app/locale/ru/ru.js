@@ -488,6 +488,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Импортировано номеров: {imported}. Пропущено дубликатов: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медиафайл| Медиафайлы',
@@ -1141,6 +1143,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
