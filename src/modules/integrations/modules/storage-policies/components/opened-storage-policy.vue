@@ -13,99 +13,75 @@
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
-          type="submit"
           hidden
+          type="submit"
         > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { StoragePolicyCard } from '@webitel/api-services/validations';
+import { useCardComponent } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import General from './opened-storage-policy-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import StoragePoliciesRouteNames from '../router/_internals/StoragePoliciesRouteNames.enum';
+import { useStoragePolicyCardStore } from '../stores/card/storagePolicyCardStore';
 
-export default {
-	name: 'OpenedStoragePolicy',
-	components: {
-		General,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<StoragePolicyCard>({
+	useCardStore: useStoragePolicyCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const { close } = useClose(RouteNames.STORAGE_POLICIES);
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	data: () => ({
-		namespace: 'integrations/storagePolicies',
-		routeName: RouteNames.STORAGE_POLICIES,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			channels: {
-				required,
-			},
-			mimeTypes: {
-				required,
-			},
+	{
+		name: t('objects.integrations.storagePolicies.storagePolicies', 2),
+		route: '/integrations/storage-policies',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: StoragePoliciesRouteNames.GENERAL,
+			query: route.query,
 		},
 	},
-
-	computed: {
-		tabs() {
-			return [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-				},
-			];
-		},
-
-		path() {
-			const baseUrl = '/integrations/storage-policies';
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t(
-						'objects.integrations.storagePolicies.storagePolicies',
-						2,
-					),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: this.id ? `${baseUrl}/${this.id}` : `${baseUrl}/new`,
-				},
-			];
-		},
-	},
-};
+]);
 </script>
-
-<style scoped></style>

@@ -1,284 +1,201 @@
 <template>
   <section class="opened-storage-policy-general">
     <apply-to-files-popup
-      :id="itemInstance.id"
-      :shown="isPopupOpened"
-      @close="closePopup"
+      :id="modelValue.id"
+      :shown="isApplyPopupOpened"
+      @close="isApplyPopupOpened = false"
     />
     <encryption-alert-popup
       :shown="isEncryptionAlertOpened"
       :message="encryptionAlertMessage"
-      @close="closeEncryptionAlert"
+      @close="isEncryptionAlertOpened = false"
       @confirm="confirmEncryptionChange"
     />
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
-    <div class="opened-card-input-grid opened-storage-policy-general__grid-2col">
-      <div class="grid-column">
+    <div class="opened-card-input-grid opened-storage-policy-general__grid">
+      <div class="opened-storage-policy-general__column">
         <wt-input-text
+          v-model:model-value="modelValue.name"
           :disabled="disableUserInput"
-          :label="$t('objects.name')"
-          :v="v.itemInstance.name"
-          :model-value="itemInstance.name"
+          :label="t('objects.name')"
+          :regle-validation="validationFields?.name"
           required
-          @update:model-value="setItemProp({ prop: 'name', value: $event })"
         />
         <wt-textarea
+          v-model:model-value="modelValue.description"
           :disabled="disableUserInput"
-          :label="$t('objects.description')"
-          :model-value="itemInstance.description"
-          @update:model-value="setItemProp({ prop: 'description', value: $event })"
+          :label="t('objects.description')"
         />
         <wt-switcher
+          v-model:model-value="modelValue.enabled"
           :disabled="disableUserInput"
-          :label="$t('reusable.state')"
-          :model-value="itemInstance.enabled"
-          @update:model-value="setItemProp({ prop: 'enabled', value: $event })"
+          :label="t('reusable.state')"
         />
-        <div class="opened-storage-policy-general-encrypt">
+        <div class="opened-storage-policy-general__encrypt">
           <wt-switcher
             :disabled="disableUserInput"
-            :label="$t('objects.integrations.storagePolicies.encryptFile')"
-            :model-value="itemInstance.encrypt"
-            @update:model-value="handleEncryptChange"
+            :label="t('objects.integrations.storagePolicies.encryptFile')"
+            :model-value="modelValue.encrypt"
+            @update:model-value="isEncryptionAlertOpened = true"
           />
-          <span class="opened-storage-policy-general-encrypt__hint typo-body-2">
-            {{ $t('objects.integrations.storagePolicies.encryptFileHint') }}
+          <span class="typo-body-2">
+            {{ t('objects.integrations.storagePolicies.encryptFileHint') }}
           </span>
         </div>
-        <div class="opened-storage-policy-general-button-area">
-          <div class="opened-storage-policy-general-button-area__content">
-            <span>
-              {{ $t('objects.integrations.storagePolicies.applyToFiles') }}
-            </span>
-            <wt-button @click="openPopup">
-              {{ $t('vocabulary.apply') }}
-            </wt-button>
-          </div>
+        <div class="opened-storage-policy-general__apply">
+          <span>
+            {{ t('objects.integrations.storagePolicies.applyToFiles') }}
+          </span>
+          <wt-button @click="isApplyPopupOpened = true">
+            {{ t('vocabulary.apply') }}
+          </wt-button>
         </div>
       </div>
-      <div class="grid-column">
+      <div class="opened-storage-policy-general__column">
         <wt-multi-select
+          v-model:model-value="modelValue.channels"
           :disabled="disableUserInput"
-          :label="$t('vocabulary.channel', 2)"
-          :v="v.itemInstance.channels"
-          :model-value="channels"
-          :options="channelsOptions"
+          :label="t('vocabulary.channel', 2)"
+          :options="channelOptions"
+          :regle-validation="validationFields?.channels"
           data-key="value"
+          option-value="value"
           required
-          @update:model-value="setItemProp({ prop: 'channels', value: $event });"
         />
         <wt-multi-select
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.storagePolicies.mimeTypes')"
-          :model-value="itemInstance.mimeTypes"
-          :v="v.itemInstance.mimeTypes"
-          chips-view
-          allow-custom-values
-          required
-          :options="mimeTypeOptions"
+          v-model:model-value="modelValue.mimeTypes"
           :data-key="null"
-          @update:model-value="setItemProp({ prop: 'mimeTypes', value: $event })"
+          :disabled="disableUserInput"
+          :label="t('objects.integrations.storagePolicies.mimeTypes')"
+          :options="mimeTypeOptions"
+          :regle-validation="validationFields?.mimeTypes"
+          allow-custom-values
+          chips-view
+          required
         />
         <wt-input-number
+          v-for="{ prop, locale } of numberFields"
+          :key="prop"
           :disabled="disableUserInput"
-          :label="$t('objects.integrations.storagePolicies.retentionDays')"
+          :label="t(locale)"
           :min="0"
-          :model-value="itemInstance.retentionDays"
-          @update:model-value="setItemProp({ prop: 'retentionDays', value: Math.abs($event) })"
-        />
-        <wt-input-number
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.storagePolicies.maxDownloadSpeed')"
-          :min="0"
-          :model-value="itemInstance.speedDownload"
-          @update:model-value="setItemProp({ prop: 'speedDownload', value: Math.abs($event) })"
-        />
-        <wt-input-number
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.storagePolicies.maxUploadSpeed')"
-          :min="0"
-          :model-value="itemInstance.speedUpload"
-          @update:model-value="setItemProp({ prop: 'speedUpload', value: Math.abs($event) })"
-        />
-        <wt-input-number
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.storagePolicies.maxUploadSize')"
-          :min="0"
-          :model-value="itemInstance.maxUploadSize"
-          @update:model-value="setItemProp({ prop: 'maxUploadSize', value: Math.abs($event) })"
+          :model-value="modelValue[prop]"
+          @update:model-value="modelValue[prop] = Math.abs($event)"
         />
       </div>
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { StorageUploadFileChannel } from '@webitel/api-services/gen/models';
+import type { StoragePolicyCard } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { MimeTypes } from '@webitel/ui-sdk/enums';
-import { snakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters.js';
-import deepCopy from 'deep-copy';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 import ApplyToFilesPopup from './apply-to-files-popup.vue';
 import EncryptionAlertPopup from './encryption-alert-popup.vue';
 
-export default {
-	name: 'OpenedStoragePolicyGeneral',
-	components: {
-		ApplyToFilesPopup,
-		EncryptionAlertPopup,
-	},
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		isPopupOpened: false,
-		isEncryptionAlertOpened: false,
-		pendingEncryptValue: false,
-		mimeTypeOptions: [
-			...Object.values(MimeTypes),
-		],
-	}),
-	computed: {
-		encryptionAlertMessage() {
-			if (this.pendingEncryptValue) {
-				return this.$t(
-					'objects.integrations.storagePolicies.encryptionEnableMessage',
-				);
-			}
-			return this.$t(
-				'objects.integrations.storagePolicies.encryptionDisableMessage',
-			);
-		},
-		channels() {
-			const copy = deepCopy(this.itemInstance.channels);
+const modelValue = defineModel<StoragePolicyCard>({
+	required: true,
+});
 
-			return copy.length
-				? copy.map((item) => {
-						const channel = this.snakeToCamel(item.value || item);
-						return {
-							name: this.$t(
-								`objects.integrations.storagePolicies.channels.${channel}`,
-							),
-							value: channel,
-						};
-					})
-				: [];
-		},
-		channelsOptions() {
-			return Object.values(StorageUploadFileChannel)
-				.filter(
-					(channel) =>
-						channel !== StorageUploadFileChannel.UnknownChannel &&
-						channel !== StorageUploadFileChannel.KnowledgebaseChannel &&
-						channel !== StorageUploadFileChannel.CasesChannel,
-				)
-				.map((channel) => ({
-					name: this.$t(
-						`objects.integrations.storagePolicies.channels.${this.snakeToCamel(channel)}`,
-					),
-					value: this.snakeToCamel(channel),
-				}));
-		},
+defineProps<{
+	validationFields?: CardValidationFields<StoragePolicyCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+/** [Claude] these channels have no files a policy could apply to */
+const hiddenChannels: string[] = [
+	StorageUploadFileChannel.UnknownChannel,
+	StorageUploadFileChannel.KnowledgebaseChannel,
+	StorageUploadFileChannel.CasesChannel,
+];
+
+const channelOptions = computed(() =>
+	Object.values(StorageUploadFileChannel)
+		.filter((channel) => !hiddenChannels.includes(channel))
+		.map((channel) => ({
+			value: channel,
+			label: t(`objects.integrations.storagePolicies.channels.${channel}`),
+		})),
+);
+
+/** [Claude] the known mime types, plus the custom ones the policy already has */
+const mimeTypeOptions = computed(() => [
+	...new Set([
+		...Object.values(MimeTypes),
+		...(modelValue.value.mimeTypes ?? []),
+	]),
+]);
+
+/** [Claude] the limits share one input, the api takes no negatives */
+const numberFields = [
+	{
+		prop: 'retentionDays',
+		locale: 'objects.integrations.storagePolicies.retentionDays',
 	},
-	methods: {
-		snakeToCamel,
-		openPopup() {
-			this.isPopupOpened = true;
-		},
-		closePopup() {
-			this.isPopupOpened = false;
-		},
-		apply() {
-			this.closePopup();
-		},
-		handleEncryptChange(value) {
-			this.pendingEncryptValue = value;
-			this.isEncryptionAlertOpened = true;
-		},
-		confirmEncryptionChange() {
-			this.setItemProp({
-				prop: 'encrypt',
-				value: this.pendingEncryptValue,
-			});
-			this.closeEncryptionAlert();
-		},
-		closeEncryptionAlert() {
-			this.isEncryptionAlertOpened = false;
-			this.pendingEncryptValue = false;
-		},
+	{
+		prop: 'speedDownload',
+		locale: 'objects.integrations.storagePolicies.maxDownloadSpeed',
 	},
-	watch: {
-		'itemInstance.mimeTypes': {
-			handler(newValue) {
-				if (newValue.length) {
-					this.mimeTypeOptions = [
-						...new Set([
-							...this.mimeTypeOptions,
-							...newValue,
-						]),
-					];
-				}
-			},
-			once: true,
-		},
+	{
+		prop: 'speedUpload',
+		locale: 'objects.integrations.storagePolicies.maxUploadSpeed',
 	},
+	{
+		prop: 'maxUploadSize',
+		locale: 'objects.integrations.storagePolicies.maxUploadSize',
+	},
+] as const;
+
+const isApplyPopupOpened = ref(false);
+
+const isEncryptionAlertOpened = ref(false);
+
+/** [Claude] the switch only asks; encryption flips once the alert is confirmed */
+const encryptionAlertMessage = computed(() =>
+	modelValue.value.encrypt
+		? t('objects.integrations.storagePolicies.encryptionDisableMessage')
+		: t('objects.integrations.storagePolicies.encryptionEnableMessage'),
+);
+
+const confirmEncryptionChange = () => {
+	modelValue.value.encrypt = !modelValue.value.encrypt;
+	isEncryptionAlertOpened.value = false;
 };
 </script>
 
-<style
-  scoped
-  lang="scss"
->
-@use '@webitel/ui-sdk/src/css/main' as *;
+<style scoped>
+.opened-storage-policy-general__grid {
+  align-items: stretch;
+}
 
-.opened-storage-policy-general {
-  &__grid-2col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 20px;
-    align-items: stretch;
+.opened-storage-policy-general__column,
+.opened-storage-policy-general__encrypt,
+.opened-storage-policy-general__apply {
+  display: flex;
+  flex-direction: column;
+}
 
-    .grid-column {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-md);
-    }
+.opened-storage-policy-general__column {
+  gap: var(--spacing-md);
+}
 
-  }
+.opened-storage-policy-general__encrypt {
+  gap: var(--spacing-2xs);
+}
 
-  &-encrypt {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-2xs);
-
-  }
-
-  &-button-area {
-    grid-row-start: span 3;
-    height: -webkit-fill-available;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--secondary-color);
-    border-radius: var(--border-radius);
-
-    &__content {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-sm);
-    }
-  }
+.opened-storage-policy-general__apply {
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  border: 1px solid var(--secondary-color);
+  border-radius: var(--border-radius);
 }
 </style>

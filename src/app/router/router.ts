@@ -14,7 +14,7 @@ import EmailProfilesRoutes from '../../modules/integrations/modules/email-profil
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
 import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
-import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
+import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
 import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause';
