@@ -1336,12 +1336,6 @@ export default {
 					logs: 'Жүргізілген тізім',
 					startedAt: 'Бастау',
 					result: 'Нәтиже',
-					resultName: {
-						idle: 'Қалған',
-						active: 'Активті',
-						done: 'Аяқталды',
-						error: 'Ақау',
-					},
 				},
 				recordCall: 'Қоңырауды жазу',
 			},

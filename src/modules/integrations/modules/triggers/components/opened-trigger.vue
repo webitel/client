@@ -1,5 +1,5 @@
 <template>
-  <wt-page-wrapper :actions-panel="!!currentTab?.filters">
+  <wt-page-wrapper :actions-panel="isLogsTab && isLogsFiltersPanelShown">
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
@@ -13,14 +13,13 @@
     </template>
 
     <template #actions-panel>
-      <component
-        :is="currentTab.filters"
-        :namespace="currentTab.filtersNamespace"
-      />
+      <trigger-logs-filters-panel />
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -29,152 +28,106 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+            @click:filters="isLogsFiltersPanelShown = !isLogsFiltersPanelShown"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        />
-        <!--  submit form on Enter  -->
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, numeric, required, requiredIf } from '@vuelidate/validators';
-import { EngineTriggerType } from '@webitel/api-services/gen/models';
-import { isValidCron } from 'cron-validator';
+<script setup lang="ts">
+import type { TriggerCard } from '@webitel/api-services/validations';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import Logs from '../modules/logs/components/opened-trigger-logs.vue';
-import LogsFilters from '../modules/logs/modules/filters/components/the-triggers-logs-filters.vue';
-import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum.js';
-import General from './opened-trigger-general.vue';
-import Variables from './opened-trigger-variables.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TriggerLogsFiltersPanel from '../modules/logs/components/trigger-logs-filters-panel.vue';
+import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum';
+import { useTriggerCardStore } from '../stores/card/triggerCardStore';
 
-const requiredIfType = (type) =>
-	requiredIf(function () {
-		return this.itemInstance?.type?.value === type;
-	});
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-export default {
-	name: 'OpenedTrigger',
-	components: {
-		General,
-		Variables,
-		Logs,
-		LogsFilters,
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<TriggerCard>({
+	useCardStore: useTriggerCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed(() => {
+	const array: CardTab[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: TriggersRouteNames.GENERAL,
+		},
+		{
+			text: t('vocabulary.variables', 2),
+			value: 'variables',
+			pathName: TriggersRouteNames.VARIABLES,
+		},
+	];
+
+	// [Claude] a trigger has a running history once it is saved
+	if (!isNew.value) {
+		array.push({
+			text: t('objects.integrations.triggers.logs.logs'),
+			value: 'logs',
+			pathName: TriggersRouteNames.RUNNING_HISTORY,
+		});
+	}
+
+	return array;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const isLogsTab = computed(() => currentTab.value?.value === 'logs');
+const isLogsFiltersPanelShown = ref(false);
+
+const { close } = useClose(RouteNames.TRIGGERS);
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	mixins: [
-		openedObjectMixin,
-	],
-
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
+	{
+		name: t('objects.integrations.triggers.triggers', 2),
+		route: '/integrations/triggers',
 	},
-	data: () => ({
-		namespace: 'integrations/triggers',
-		routeName: RouteNames.TRIGGERS,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			type: {
-				required,
-			},
-			schema: {
-				required,
-			},
-			timezone: {
-				required: requiredIfType(EngineTriggerType.Cron),
-			},
-			object: {
-				required: requiredIfType(EngineTriggerType.Event),
-			},
-			event: {
-				required: requiredIfType(EngineTriggerType.Event),
-			},
-			timeout: {
-				numeric,
-				minValue: minValue(0),
-			},
-			expression: {
-				required: requiredIfType(EngineTriggerType.Cron),
-				cron(value) {
-					if (requiredIfType(EngineTriggerType.Cron)) {
-						return true;
-					}
-					return isValidCron(value, {
-						seconds: true,
-					});
-				},
-			},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-
-	computed: {
-		tabs() {
-			const general = {
-				text: this.$t('objects.general'),
-				value: 'general',
-				pathName: TriggersRouteNames.GENERAL,
-			};
-			const variables = {
-				text: this.$t('vocabulary.variables', 2),
-				value: 'variables',
-				pathName: TriggersRouteNames.VARIABLES,
-			};
-			const logs = {
-				text: this.$t('objects.integrations.triggers.logs.logs'),
-				value: 'logs',
-				filters: 'logs-filters',
-				filtersNamespace: `${this.namespace}/log/filters`,
-				pathName: TriggersRouteNames.RUNNING_HISTORY,
-			};
-
-			const tabs = [
-				general,
-				variables,
-			];
-			if (this.id) tabs.push(logs);
-			return tabs;
-		},
-
-		path() {
-			const baseUrl = '/integrations/triggers';
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t('objects.integrations.triggers.triggers', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
-	},
-};
+]);
 </script>
-
-<style scoped></style>

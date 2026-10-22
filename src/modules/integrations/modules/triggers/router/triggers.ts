@@ -1,9 +1,9 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import TriggersRouteNames from './_internals/TriggersRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import TriggersRouteNames from './_internals/TriggersRouteNames.enum';
 
-const Triggers = () => import('../components/the-triggers.vue');
+const TheTriggers = () => import('../components/the-triggers.vue');
 const OpenedTrigger = () => import('../components/opened-trigger.vue');
 
 const Logs = () => import('../modules/logs/components/opened-trigger-logs.vue');
@@ -14,7 +14,7 @@ const TriggersRoutes = [
 	{
 		path: '/integrations/triggers',
 		name: RouteNames.TRIGGERS,
-		component: Triggers,
+		component: TheTriggers,
 		meta: {
 			WtObject: WtObject.Trigger,
 			UiSection: AdminSections.Triggers,

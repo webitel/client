@@ -1,74 +1,57 @@
 <template>
-  <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('vocabulary.variables', 2) }}
-      </h3>
-      <wt-icon-action
-        v-if="!disableUserInput"
-        action="add"
-        @click="addVariable"
+  <wt-editable-list
+    v-model="modelValue.variables"
+    :create-row="createVariable"
+    :disabled="disableUserInput"
+    :headers="headers"
+  >
+    <template #key="{ item }">
+      <wt-input-text
+        v-model:model-value="item.key"
+        :disabled="disableUserInput"
+        :placeholder="t('vocabulary.keys', 1)"
       />
-    </header>
-    <form class="opened-card-input-grid">
-      <div class="variables">
-        <div
-          v-for="(variable, key) in itemInstance.variables"
-          :key="key"
-          class="value-pair"
-        >
-          <wt-input-text
-            :disabled="disableUserInput"
-            :placeholder="$t('vocabulary.keys', 1)"
-            :model-value="variable.key"
-            @update:model-value="setVariableProp({ index: key, prop: 'key', value: $event })"
-          />
-          <wt-input-text
-            :disabled="disableUserInput"
-            :placeholder="$t('vocabulary.values', 1)"
-            :model-value="variable.value"
-            @update:model-value="setVariableProp({ index: key, prop: 'value', value: $event })"
-          />
-          <wt-icon-action
-            v-if="!disableUserInput"
-            action="delete"
-            @click="deleteVariable(key)"
-          />
-        </div>
-      </div>
-    </form>
-  </section>
+    </template>
+    <template #value="{ item }">
+      <wt-input-text
+        v-model:model-value="item.value"
+        :disabled="disableUserInput"
+        :placeholder="t('vocabulary.values', 1)"
+      />
+    </template>
+  </wt-editable-list>
 </template>
 
-<script>
+<script setup lang="ts">
+import type {
+	TriggerCard,
+	VariablePair,
+} from '@webitel/api-services/validations';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedTriggerVariables',
-	components: {},
+const modelValue = defineModel<TriggerCard>({
+	required: true,
+});
 
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+
+const headers = computed(() => [
+	{
+		value: 'key',
+		text: t('vocabulary.keys', 1),
 	},
-};
-</script>
+	{
+		value: 'value',
+		text: t('vocabulary.values', 1),
+	},
+]);
 
-<style
-  lang="scss"
-  scoped
->
-.value-pair {
-  display: grid;
-  align-items: center;
-  margin-bottom: 20px;
-  grid-template-columns: 1fr 1fr 24px;
-  grid-gap: 20px;
-}
-</style>
+const createVariable = (): VariablePair => ({
+	key: '',
+	value: '',
+});
+</script>
