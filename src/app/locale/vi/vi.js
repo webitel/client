@@ -1080,6 +1080,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Cuộc gọi',
+					attemptsCount: 'Lượt thử',
 				},
 				processing: {
 					processing: 'Đang xử lý',

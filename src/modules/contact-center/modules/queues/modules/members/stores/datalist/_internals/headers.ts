@@ -52,7 +52,7 @@ export const headers: DatalistTableHeader[] = [
 	},
 	{
 		value: 'attempts',
-		locale: 'objects.ccenter.members.attempts',
+		locale: 'objects.ccenter.queues.attemptsReset.attemptsCount',
 		field: 'attempts',
 		show: true,
 		sort: SortSymbols.NONE,
