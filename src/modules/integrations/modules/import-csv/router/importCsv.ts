@@ -1,8 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ImportCsvRouteNames from './_internals/ImportCsvRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ImportCsvRouteNames from './_internals/ImportCsvRouteNames.enum';
 
 const ImportCsv = () => import('../components/the-import-csv.vue');
 const OpenedImportCsv = () => import('../components/opened-import-csv.vue');

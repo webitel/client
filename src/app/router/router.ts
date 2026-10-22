@@ -11,7 +11,7 @@ import LicenseRoutes from '../../modules/directory/modules/license/router/licens
 import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js';
 import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
-import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
+import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv';
 import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
 import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';

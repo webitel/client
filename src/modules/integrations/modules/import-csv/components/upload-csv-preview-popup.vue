@@ -1,8 +1,8 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
+    :shown="shown"
+    :size="ComponentSize.MD"
     class="upload-csv-preview-popup"
-    min-width="680"
     @close="close"
   >
     <template #title>
@@ -46,7 +46,7 @@
         {{ t('reusable.save') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="close"
       >
         {{ t('reusable.close') }}
@@ -56,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import { ButtonColor, ComponentSize } from '@webitel/ui-sdk/enums';
 import {
 	HandlingCSVMode,
 	type UseUploadCsvProps,
@@ -65,13 +66,13 @@ import { toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface Props extends UseUploadCsvProps {
+	shown?: boolean;
 	skipHeaders?: boolean;
 	separator?: string;
-	/** dead until WTEL defect #2 is fixed: processFile always reads utf-8 */
-	charset?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
+	shown: false,
 	skipHeaders: true,
 	separator: ',',
 	charset: 'utf-8',
@@ -103,26 +104,23 @@ const {
 });
 </script>
 
-<style lang="scss" scoped>
-.upload-csv-preview-popup {
-  :deep(.wt-popup__popup) {
-    min-height: 40vh; // to place loader in the center, till file is parsed
-  }
+<style scoped>
+/* [Claude] the popup keeps its height while the file is read, so the loader sits in its middle */
+.upload-csv-preview-popup :deep(.wt-popup__popup) {
+  min-height: 40vh;
+}
 
-  .upload-csv-preview-popup__reading-file-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+.upload-csv-preview-popup :deep(.wt-popup__main) {
+  display: flex;
+  flex-direction: column;
+}
 
-  .upload-csv-preview-popup__parsing-preview-loader {
-    margin: auto;
-  }
+.upload-csv-preview-popup__reading-file-loader,
+.upload-csv-preview-popup__parsing-preview-loader {
+  margin: auto;
+}
 
-  .upload-csv-preview-popup__file-preview .wt-table {
-    overflow: auto;
-    max-width: 60vw;
-  }
+.upload-csv-preview-popup__file-preview .wt-table {
+  overflow: auto;
 }
 </style>
