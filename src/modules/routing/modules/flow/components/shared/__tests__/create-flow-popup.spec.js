@@ -1,21 +1,17 @@
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
+import { createPinia, setActivePinia } from 'pinia';
 
-import appearance from '../../../../../appearance/store/appearance';
 import CreateFlowPopup from '../create-flow-popup.vue';
 
 describe('CreateFlowPopup', () => {
-	const store = createStore({
-		modules: {
-			appearance,
-		},
-	});
+	const pinia = createPinia();
+	setActivePinia(pinia);
 
 	it('renders a component', () => {
 		const wrapper = shallowMount(CreateFlowPopup, {
 			global: {
 				plugins: [
-					store,
+					pinia,
 				],
 			},
 		});
