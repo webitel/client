@@ -288,8 +288,7 @@ import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
-import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
-import { WtTimeTooltip } from '@webitel/ui-sdk/components';
+import { WtDisplayChipItems, WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
