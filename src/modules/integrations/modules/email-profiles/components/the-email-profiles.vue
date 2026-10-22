@@ -6,7 +6,7 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -23,113 +23,115 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{
-              $t(
-                'objects.all',
-                { entity: $t('objects.integrations.emailProfiles.emailProfiles', 2) },
-              )
-            }}
+            {{ t('objects.all', { entity: t('objects.integrations.emailProfiles.emailProfiles', 2) }) }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :dark-mode="darkMode"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :selected="selected"
+            :headers="shownHeaders"
             sortable
-            @sort="sort"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="routeName"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.EMAIL_PROFILES}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #flow="{ item }">
-              <adm-item-link
-                :id="item.schema.id"
-                :route-name="RouteNames.FLOW"
+              <wt-item-link
+                v-if="item.schema"
+                :link="{
+                  name: `${RouteNames.FLOW}-card`,
+                  params: { id: item.schema.id },
+                }"
                 target="_blank"
               >
                 {{ item.schema.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #listen="{ item, index }">
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="item.listen"
-                @update:model-value="patchItem({ item, index, prop: 'listen', value: $event })"
+                @update:model-value="patchItemProperty({ index, path: 'listen', value: $event })"
               />
             </template>
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
-                @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
+                @update:model-value="patchItemProperty({ index, path: 'enabled', value: $event })"
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -137,86 +139,115 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { EngineEmailProfile } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicDark from '../assets/adm-dummy-email-profile-dark.svg';
-import dummyPicLight from '../assets/adm-dummy-email-profile-light.svg';
+import emptyPicDark from '../assets/adm-empty-email-profile-dark.svg';
+import emptyPicLight from '../assets/adm-empty-email-profile-light.svg';
+import { useEmailProfilesDatalistStore } from '../stores/datalist/emailProfilesDatalistStore';
 
-const namespace = 'integrations/emailProfiles';
+const { t } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheEmailProfiles',
-	components: {
-		DeleteConfirmationPopup,
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
+
+const emailProfilesDatalistStore = useEmailProfilesDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(emailProfilesDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+} = emailProfilesDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const store = useStore();
-		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-		const dummyPic = computed(() =>
-			darkMode.value ? dummyPicDark : dummyPicLight,
-		);
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-			dummyPic,
-			dummyText: 'objects.integrations.emptyWorkspace',
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.integrations.emailProfiles.emailProfiles', 2),
+		route: '/integrations/email-profiles',
 	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.EMAIL_PROFILES,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t('objects.integrations.emailProfiles.emailProfiles', 2),
-					route: '/integrations/email-profiles',
-				},
-			];
+const add = () =>
+	router.push({
+		name: `${RouteNames.EMAIL_PROFILES}-card`,
+		params: {
+			id: 'new',
 		},
-	},
-};
-</script>
+	});
 
-<style scoped></style>
+const edit = ({ id }: EngineEmailProfile) =>
+	router.push({
+		name: `${RouteNames.EMAIL_PROFILES}-card`,
+		params: {
+			id,
+		},
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
+	},
+	() => ({
+		image: {
+			empty: {
+				dark: emptyPicDark,
+				light: emptyPicLight,
+			},
+		},
+		text: {
+			empty: t('objects.integrations.emptyWorkspace'),
+		},
+	}),
+);
+</script>
