@@ -849,6 +849,7 @@ export default {
 				teams: 'Equipo | Equipos',
 				allTeams: 'Todos los equipos',
 				strategy: 'Estrategia',
+				forecastCalculation: 'Cálculo del pronóstico',
 				parameters: 'Parámetros',
 				maxNoAnswer: 'Máximo de actividades perdidas',
 				callTimeout: 'Tiempo de aceptación de llamada',

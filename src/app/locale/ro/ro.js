@@ -846,6 +846,7 @@ export default {
 				teams: 'Echipă | Echipe',
 				allTeams: 'Toate echipele',
 				strategy: 'Strategie',
+				forecastCalculation: 'Calculul prognozei',
 				parameters: 'Parametri',
 				maxNoAnswer: 'Număr maxim de activități pierdute',
 				callTimeout: 'Timp de acceptare apel',

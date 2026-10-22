@@ -840,6 +840,7 @@ export default {
 				teams: 'Team | Teams',
 				allTeams: 'All teams',
 				strategy: 'Strategy',
+				forecastCalculation: 'Forecast calculation',
 				parameters: 'Parameters',
 				maxNoAnswer: 'Max count of missed activities',
 				callTimeout: 'Call accept timeout',

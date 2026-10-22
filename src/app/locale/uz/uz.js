@@ -848,6 +848,7 @@ export default {
 				teams: 'Jamoa | Jamoalar',
 				allTeams: 'Barcha jamoalar',
 				strategy: 'Strategiya',
+				forecastCalculation: 'Prognozni hisoblash',
 				parameters: 'Parametrlar',
 				maxNoAnswer: 'Max noaktivliklar soni',
 				callTimeout: 'Zvonk qabul qilish vaqt',
