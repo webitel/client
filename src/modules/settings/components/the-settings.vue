@@ -1,18 +1,21 @@
 <template>
-  <wt-page-wrapper :actions-panel="false">
+  <wt-page-wrapper
+    :actions-panel="false"
+    class="the-settings"
+  >
     <template #header>
       <wt-page-header hide-primary>
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
     <template #main>
-      <section class="settings-section">
+      <section class="the-settings__content">
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
           @change="changeTab"
         />
-        <section class="settings-wrapper">
+        <section class="opened-card-input-grid">
           <component :is="currentTab.component" />
         </section>
       </section>
@@ -24,10 +27,9 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-
+import SettingsGeneral from '../modules/general/components/settings-general.vue';
+import SettingsNotifications from '../modules/notifications/components/settings-notifications.vue';
 import SettingsRouteNames from '../routes/_internals/SettingsRouteNames.enum';
-import GeneralSettings from './general-settings.vue';
-import NotificationSettings from './notification-settings.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -43,13 +45,13 @@ const tabs = computed(() => [
 	{
 		text: t('objects.general'),
 		value: 'general',
-		component: GeneralSettings,
+		component: SettingsGeneral,
 		pathName: SettingsRouteNames.GENERAL,
 	},
 	{
 		text: t('vocabulary.notification', 2),
 		value: 'notifications',
-		component: NotificationSettings,
+		component: SettingsNotifications,
 		pathName: SettingsRouteNames.NOTIFICATIONS,
 	},
 ]);
@@ -68,16 +70,9 @@ function changeTab(tab: { pathName: string }) {
 <style lang="scss" scoped>
 @use '@webitel/ui-sdk/src/css/main' as *;
 
-.settings-section {
+.the-settings__content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  width: 100%;
-}
-
-.settings-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-sm);
   width: 100%;
 }
