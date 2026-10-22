@@ -1,26 +1,21 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions-page';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CognitiveProfilesRouteNames from './_internals/CognitiveProfilesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CognitiveProfilesRouteNames from './_internals/CognitiveProfilesRouteNames.enum';
 
-const CognitiveProfiles = () =>
+const TheCognitiveProfiles = () =>
 	import('../components/the-cognitive-profiles.vue');
 const OpenedCognitiveProfile = () =>
 	import('../components/opened-cognitive-profile.vue');
-
-const Google = () =>
-	import('../components/google/opened-cognitive-profile-google.vue');
-const Microsoft = () =>
-	import('../components/microsoft/opened-cognitive-profile-microsoft.vue');
-const ElevenLabs = () =>
-	import('../components/eleven-labs/opened-cognitive-profile-eleven-labs.vue');
+const General = () =>
+	import('../components/opened-cognitive-profile-general.vue');
 
 const CognitiveProfilesRoutes = [
 	{
 		path: '/integrations/cognitive-profiles',
 		name: RouteNames.COGNITIVE_PROFILES,
-		component: CognitiveProfiles,
+		component: TheCognitiveProfiles,
 		meta: {
 			WtObject: WtObject.CognitiveProfile,
 			UiSection: AdminSections.CognitiveProfiles,
@@ -41,17 +36,7 @@ const CognitiveProfilesRoutes = [
 			{
 				path: 'general',
 				name: CognitiveProfilesRouteNames.GENERAL,
-				component: Google,
-			},
-			{
-				path: 'general',
-				name: CognitiveProfilesRouteNames.GENERAL,
-				component: Microsoft,
-			},
-			{
-				path: 'general',
-				name: CognitiveProfilesRouteNames.GENERAL,
-				component: ElevenLabs,
+				component: General,
 			},
 			{
 				path: 'permissions/:permissionId?',

@@ -6,7 +6,7 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -14,72 +14,72 @@
 
     <template #main>
       <create-cognitive-profile-popup
-        :shown="isCognitiveProfilePopup"
-        @close="isCognitiveProfilePopup = false"
+        :shown="isCreatePopup"
+        @close="isCreatePopup = false"
       />
       <delete-confirmation-popup
         :shown="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
         @close="closeDelete"
       />
 
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{
-              $t(
-                'objects.all',
-                { entity: $t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2) },
-              )
-            }}
+            {{ t('objects.all', { entity: t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2) }) }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-show="!anySelected"
-                :disabled="!hasDeleteAccess"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :selected="selected"
+            :headers="shownHeaders"
             sortable
-            @sort="sort"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.COGNITIVE_PROFILES}-card`,
+                  params: { id: item.id },
+                }"
+              >
                 {{ item.name }}
               </wt-item-link>
             </template>
@@ -87,48 +87,50 @@
               {{ item.provider }}
             </template>
             <template #service="{ item }">
-              {{ $t(`objects.${item.service.toLowerCase()}`) }}
+              {{ t(`objects.${item.service.toLowerCase()}`) }}
             </template>
             <template #default="{ item, index }">
               <wt-radio
                 :disabled="!hasUpdateAccess || !item.enabled"
                 :selected="item.default"
                 :value="true"
-                @update:selected="changeDefaultProfile({ item, index, value: $event })"
+                @update:selected="setDefault({ index, value: $event })"
               />
             </template>
             <template #state="{ item, index }">
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
-                @update:model-value="changeState({ item, index, value: $event })"
+                @update:model-value="setEnabled({ item, index, value: $event })"
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -136,127 +138,153 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { CognitiveProfileCard } from '@webitel/api-services/validations';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import dummyPicDark from '../assets/adm-dummy-congnitive-profiles-dark.svg';
-import dummyPicLight from '../assets/adm-dummy-congnitive-profiles-light.svg';
-import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
+import emptyPicDark from '../assets/adm-empty-cognitive-profiles-dark.svg';
+import emptyPicLight from '../assets/adm-empty-cognitive-profiles-light.svg';
+import { useCognitiveProfilesDatalistStore } from '../stores/datalist/cognitiveProfilesDatalistStore';
 import CreateCognitiveProfilePopup from './create-cognitive-profile-popup.vue';
 
-const namespace = 'integrations/cognitiveProfiles';
+const { t } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheCognitiveProfiles',
-	components: {
-		CreateCognitiveProfilePopup,
-		DeleteConfirmationPopup,
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
+
+const cognitiveProfilesDatalistStore = useCognitiveProfilesDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(cognitiveProfilesDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+} = cognitiveProfilesDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const isCreatePopup = ref(false);
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const store = useStore();
-		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-		const dummyPic = computed(() =>
-			darkMode.value ? dummyPicDark : dummyPicLight,
-		);
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-			dummyPic,
-			dummyText: 'objects.integrations.emptyWorkspace',
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
+		route: '/integrations/cognitive-profiles',
 	},
-	data: () => ({
-		namespace,
-		isCognitiveProfilePopup: false,
-		routeName: RouteNames.COGNITIVE_PROFILES,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t(
-						'objects.integrations.cognitiveProfiles.cognitiveProfiles',
-						2,
-					),
-					route: '/integrations/cognitive-profiles',
-				},
-			];
-		},
-	},
-
-	methods: {
-		create() {
-			this.isCognitiveProfilePopup = true;
-		},
-		async changeDefaultProfile({ index, item, value }) {
-			try {
-				await this.patchItem({
-					index,
-					item,
-					prop: 'default',
-					value,
-				});
-				if (value) this.loadList();
-			} catch {
-				this.loadList();
-			}
-		},
-		async changeState({ item, index, value }) {
-			await this.patchItem({
-				item,
-				index,
-				prop: 'enabled',
-				value,
-			});
-			if (item.default && !value) {
-				await this.changeDefaultProfile({
-					item,
-					index,
-					value: false,
-				});
-			}
-		},
-	},
+/** [Claude] a new default unsets the previous one on the backend, so the list is reloaded to show it */
+const setDefault = async ({
+	index,
+	value,
+}: {
+	index: number;
+	value: boolean;
+}) => {
+	await patchItemProperty({
+		index,
+		path: 'default',
+		value,
+	});
+	if (value) await loadDataList();
 };
-</script>
 
-<style scoped></style>
+/** [Claude] a disabled profile can't stay the default one */
+const setEnabled = async ({
+	item,
+	index,
+	value,
+}: {
+	item: CognitiveProfileCard;
+	index: number;
+	value: boolean;
+}) => {
+	await patchItemProperty({
+		index,
+		path: 'enabled',
+		value,
+	});
+	if (item.default && !value) {
+		await setDefault({
+			index,
+			value: false,
+		});
+	}
+};
+
+const add = () => {
+	isCreatePopup.value = true;
+};
+
+const edit = ({ id }: CognitiveProfileCard) =>
+	router.push({
+		name: `${RouteNames.COGNITIVE_PROFILES}-card`,
+		params: {
+			id,
+		},
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
+	},
+	() => ({
+		image: {
+			empty: {
+				dark: emptyPicDark,
+				light: emptyPicLight,
+			},
+		},
+		text: {
+			empty: t('objects.integrations.emptyWorkspace'),
+		},
+	}),
+);
+</script>
