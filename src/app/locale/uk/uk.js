@@ -1094,6 +1094,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Дзвінки',
+					attemptsCount: 'Спроби',
 				},
 				processing: {
 					processing: 'Обробка',

@@ -1087,6 +1087,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Apeluri',
+					attemptsCount: 'Încercări',
 				},
 				processing: {
 					processing: 'Procesare',
