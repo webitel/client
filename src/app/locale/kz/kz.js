@@ -617,7 +617,6 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'қабылдаушы іздеу...',
 				host: 'Қабылдаушы',
-				trunkingACLTitle: 'Кіру бақылауы',
 				trunkingACL: 'Транкинг кіру бақылауы тізімі',
 				hostnameTrunking: 'Сервер/Қабылдаушы атауы немесе IP',
 				hostnameRegister: 'Тіркеуші/Сервер/Қабылдаушы атауы немесе IP',
@@ -631,10 +630,6 @@ export default {
 				SIPregistrationsDescription: 'SIP тіркеу сипаттамасы',
 				SIPtrunking: 'SIP транкинг',
 				SIPtrunkingDescription: 'SIP транкинг сипаттамасы',
-				errors: {
-					passwordInvalid:
-						"Құпия сөзде рұқсат етілмеген таңбалар бар. Резервтелген URI таңбалары, бос орындар және (! * ' ( ) & $) сияқты арнайы таңбаларды пайдалануға болмайды.",
-				},
 			},
 			chatGateways: {
 				templates: {

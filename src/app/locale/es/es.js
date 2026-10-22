@@ -624,7 +624,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'búsqueda de puerta de enlace...',
 				host: 'Host',
-				trunkingACLTitle: 'Control de acceso',
 				trunkingACL: 'Lista de control de acceso de troncalización',
 				hostnameTrunking: 'Nombre de host/Puerta de enlace del servidor o IP',
 				hostnameRegister:
@@ -639,10 +638,6 @@ export default {
 				SIPregistrationsDescription: 'Descripción del registro SIP',
 				SIPtrunking: 'Troncalización SIP',
 				SIPtrunkingDescription: 'Descripción de la troncalización SIP',
-				errors: {
-					passwordInvalid:
-						"La contraseña contiene caracteres no permitidos. No se permiten símbolos reservados de URI, espacios en blanco ni caracteres especiales como (! * ' ( ) & $).",
-				},
 			},
 			chatGateways: {
 				templates: {
