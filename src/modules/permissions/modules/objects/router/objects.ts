@@ -1,23 +1,19 @@
+import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ObjectsRouteNames from './_internals/ObjectsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ObjectsRouteNames from './_internals/ObjectsRouteNames.enum';
 
-const TheObjectsPermissions = () =>
-	import('../components/the-objects-permissions.vue');
-const OpenedObjectPermissions = () =>
-	import('../components/opened-object-permissions.vue');
+const TheObjects = () => import('../components/the-objects.vue');
+const OpenedObject = () => import('../components/opened-object.vue');
 
-const Obac = () =>
-	import('../modules/obac/components/opened-object-permissions-obac.vue');
-const Rbac = () =>
-	import('../modules/rbac/components/opened-object-permissions-rbac.vue');
+const Rbac = () => import('../modules/rbac/components/opened-object-rbac.vue');
 
 const ObjectsRoutes = [
 	{
 		path: '/permissions/objects',
 		name: RouteNames.OBJECTS,
-		component: TheObjectsPermissions,
+		component: TheObjects,
 		meta: {
 			WtObject: WtObject.Object,
 			UiSection: AdminSections.Objects,
@@ -29,7 +25,7 @@ const ObjectsRoutes = [
 		redirect: {
 			name: ObjectsRouteNames.OBAC,
 		},
-		component: OpenedObjectPermissions,
+		component: OpenedObject,
 		meta: {
 			WtObject: WtObject.Object,
 			UiSection: AdminSections.Objects,
@@ -38,7 +34,7 @@ const ObjectsRoutes = [
 			{
 				path: 'obac/:permissionId?',
 				name: ObjectsRouteNames.OBAC,
-				component: Obac,
+				component: PermissionsTab,
 			},
 			{
 				path: 'rbac/:permissionId?',
