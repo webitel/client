@@ -16,4 +16,10 @@ const StorageServiceOptions = Object.freeze({
 	},
 });
 
+/** [Claude] the service of an s3 storage, told by its endpoint */
+export const getStorageService = (endpoint?: string) =>
+	Object.values(StorageServiceOptions).find(
+		(service) => service.endpoint && service.endpoint === endpoint,
+	) ?? StorageServiceOptions.CUSTOM;
+
 export default StorageServiceOptions;
