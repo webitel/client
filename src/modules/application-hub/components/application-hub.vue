@@ -223,10 +223,12 @@ const apps = computed(() => {
 					grafanaApp,
 				]
 			: []),
-		// [Claude] WTEL-10755: WFM is not part of the 26.10 release, hidden from the application hub
-		// wfmApp,
+		wfmApp,
 	];
-	return allApps.filter(({ name }) => hasApplicationVisibility(name));
+	// [Claude] WTEL-10755: WFM is not part of the 26.10 release, hidden from the list
+	return allApps.filter(
+		({ name }) => name !== WtApplication.Wfm && hasApplicationVisibility(name),
+	);
 });
 </script>
 
