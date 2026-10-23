@@ -5,6 +5,16 @@ const getList = vi.fn();
 const addBulk = vi.fn();
 
 vi.mock('@webitel/api-services/api', () => ({
+	CalendarsAPI: {
+		getTimezonesLookup: async () => ({
+			items: [
+				{
+					id: '1',
+					name: 'Europe/Kyiv',
+				},
+			],
+		}),
+	},
 	CommunicationsAPI: {
 		getList: (...args: unknown[]) => getList(...args),
 	},
