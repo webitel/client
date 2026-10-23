@@ -1,4 +1,8 @@
-import { CommunicationsAPI, QueueMembersAPI } from '@webitel/api-services/api';
+import {
+	CalendarsAPI,
+	CommunicationsAPI,
+	QueueMembersAPI,
+} from '@webitel/api-services/api';
 import { EngineCommunicationChannels } from '@webitel/api-services/gen/models';
 import {
 	memberCommunicationSchema,
@@ -22,6 +26,17 @@ type CsvRow = Record<string, any>;
 
 const findCommunicationByCode = (communications: CsvRow[], code: string) =>
 	communications.find((communication) => communication.code === code);
+
+const loadTimezones = async () => {
+	const { items } = await CalendarsAPI.getTimezonesLookup({
+		size: 5000,
+		fields: [
+			'id',
+			'name',
+		],
+	});
+	return items;
+};
 
 /**
  * Turns parsed csv rows into queue members.
@@ -53,16 +68,31 @@ export const useNormalizeCsvMembers = ({
 			],
 		});
 
+		const allTimezones = data.some((item) => item.timezoneId)
+			? await loadTimezones()
+			: [];
+
 		return data.map((item) => {
 			const normalized: CsvRow = {
 				...item,
 			};
 
+			if (normalized.timezoneId) {
+				const timezone = allTimezones.find(
+					({ id, name }) =>
+						name === normalized.timezoneId || id === normalized.timezoneId,
+				);
+
+				if (!timezone) {
+					throw new RangeError(`Timezone not found: ${normalized.timezoneId}`);
+				}
+				normalized.timezone = {
+					id: timezone.id,
+				};
+				delete normalized.timezoneId;
+			}
+
 			for (const [key, target] of [
-				[
-					'timezoneId',
-					'timezone',
-				],
 				[
 					'bucketId',
 					'bucket',
