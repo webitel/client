@@ -18,7 +18,6 @@
         :disabled="disableUserInput || !hasContactsReadAccess"
         :label="t('vocabulary.contact', 1)"
         :search-method="ContactsAPI.getLookup"
-        data-key="name"
       />
 
       <wt-input-text
