@@ -37,7 +37,7 @@
               </div>
             </template>
             <template #priority="{ item }">
-              {{ item.priority }}
+              {{ item.priority ?? 0 }}
             </template>
           </wt-table>
         </div>
