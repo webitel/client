@@ -71,7 +71,7 @@
 		"@vue/test-utils": "^2.4.11",
 		"@vue/tsconfig": "^0.9.1",
 		"globals": "^16.0.0",
-		"happy-dom": "^20.11.1",
+		"happy-dom": "^21.0.4",
 		"husky": "^9.1.7",
 		"lint-staged": "^17.6.0",
 		"prismjs": "^1.29.0",
