@@ -22,12 +22,14 @@
             :disabled="disableUserInput"
             :placeholder="t('objects.directory.users.varKey')"
             :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.key"
+            @update:model-value="touchVariable(index)"
           />
           <wt-input-text
             v-model:model-value="variable.value"
             :disabled="disableUserInput"
             :placeholder="t('objects.directory.users.varVal')"
             :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.value"
+            @update:model-value="touchVariable(index)"
           />
           <wt-icon-action
             v-if="!disableUserInput"
@@ -53,7 +55,7 @@ const modelValue = defineModel<UserCard>({
 	required: true,
 });
 
-defineProps<{
+const props = defineProps<{
 	validationFields?: CardValidationFields<UserCard>;
 }>();
 
@@ -70,6 +72,12 @@ const addVariable = () => {
 		key: '',
 		value: '',
 	});
+};
+
+// [Claude] key and value are required only together, and regle shows an error
+// only on a dirty field — so editing one half dirties the whole pair
+const touchVariable = (index: number) => {
+	props.validationFields?.variables?.$each?.[index]?.$touch();
 };
 
 const deleteVariable = (index: number) => {
