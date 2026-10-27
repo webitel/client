@@ -66,6 +66,9 @@
         <template #createdAt="{ item }">
           {{ formatDateTime(item.createdAt) }}
         </template>
+        <template #expiresAt="{ item }">
+          {{ formatDate(item.expiresAt, FormatDateMode.DATE) }}
+        </template>
         <template #actions="{ item }">
           <wt-icon-action
             :disabled="!hasDeleteAccess"

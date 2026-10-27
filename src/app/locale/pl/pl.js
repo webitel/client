@@ -234,6 +234,8 @@ export default {
 				roles: 'Role',
 				tokens: 'Tokeny',
 				usage: 'Użycie',
+				expiryDays: 'Dni ważności',
+				expiryDate: 'Data wygaśnięcia',
 				roleAdmin: 'Administrator',
 				license: 'Licencja',
 				devices: 'Urządzenia',

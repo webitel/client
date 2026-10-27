@@ -5,7 +5,15 @@ import { createCardStore } from '@webitel/ui-datalist/card';
 
 import { UserTokensNamespace } from '../namespace';
 
-export const useUserTokenCardStore = createCardStore<ApiUserAccessToken>({
+/**
+ * [Claude] Token card = token itself + expiryDays, which is a create-only
+ * query param (server derives expiresAt from it).
+ */
+export type UserTokenCard = ApiUserAccessToken & {
+	expiryDays?: number | null;
+};
+
+export const useUserTokenCardStore = createCardStore<UserTokenCard>({
 	namespace: `${UserTokensNamespace}/card`,
 	apiModule: UserTokensAPI,
 	standardValidationSchema,

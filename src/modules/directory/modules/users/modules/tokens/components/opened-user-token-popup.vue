@@ -8,17 +8,32 @@
       {{ t('objects.directory.users.token', 2) }}
     </template>
     <template #main>
-      <form @submit.prevent="save">
+      <form
+        class="opened-user-token-popup__form"
+        @submit.prevent="save"
+      >
         <wt-input-text
           v-model:model-value="modelValue.usage"
           :label="t('objects.name')"
           :regle-validation="validationFields?.usage"
+          required
+        />
+        <wt-input-number
+          v-model:model-value="modelValue.expiryDays"
+          :label="t('objects.directory.users.expiryDays')"
+          :min="0"
+          :regle-validation="validationFields?.expiryDays"
+        />
+        <wt-multi-select
+          v-model:model-value="modelValue.notifyUsers"
+          :label="t('objects.directory.users.users', 2)"
+          :search-method="UsersAPI.getLookup"
         />
       </form>
     </template>
     <template #actions>
       <wt-button
-        :disabled="hasValidationErrors"
+        :disabled="hasValidationErrors || !modelValue.usage"
         @click="save"
       >
         {{ t('objects.add') }}
@@ -34,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ApiUserAccessToken } from '@webitel/api-services/gen/models';
+import { UsersAPI } from '@webitel/api-services/api';
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
@@ -44,7 +59,10 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import UsersRouteNames from '../../../routes/_internals/UsersRouteNames.enum';
-import { useUserTokenCardStore } from '../stores/card/userTokenCardStore';
+import {
+	type UserTokenCard,
+	useUserTokenCardStore,
+} from '../stores/card/userTokenCardStore';
 
 const props = defineProps<{
 	parentId: string | number;
@@ -67,7 +85,7 @@ const {
 	validationFields,
 	hasValidationErrors,
 	save: saveItem,
-} = useNestedCardComponent<ApiUserAccessToken>({
+} = useNestedCardComponent<UserTokenCard>({
 	useCardStore: useUserTokenCardStore,
 	routeParamName: 'tokenId',
 	parentId: () => props.parentId,
@@ -85,3 +103,11 @@ const save = async () => {
 	emit('created', token);
 };
 </script>
+
+<style scoped>
+.opened-user-token-popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+</style>

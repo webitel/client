@@ -235,6 +235,8 @@ export default {
 				roles: 'Ролі',
 				tokens: 'Токени',
 				usage: 'Використання',
+				expiryDays: 'Термін дії',
+				expiryDate: 'Термін дії',
 				roleAdmin: 'Адміністратор',
 				license: 'Ліцензія',
 				devices: 'Пристрій',

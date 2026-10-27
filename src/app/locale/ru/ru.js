@@ -236,6 +236,8 @@ export default {
 				roles: 'Роли',
 				tokens: 'Токены',
 				usage: 'Использование',
+				expiryDays: 'Срок действия',
+				expiryDate: 'Срок действия',
 				roleAdmin: 'Администратор',
 				license: 'Лицензия',
 				devices: 'Устройство',
