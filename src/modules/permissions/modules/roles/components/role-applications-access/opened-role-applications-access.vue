@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { WtApplication } from '@webitel/ui-sdk/enums';
 import getNamespacedState from '@webitel/ui-sdk/src/store/helpers/getNamespacedState';
 import { mapActions, mapState } from 'vuex';
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
@@ -116,6 +117,8 @@ export default {
 		}),
 		loadList() {
 			this.dataList = Object.keys(this.access)
+				// [Claude] WFM is not part of the 26.10 release, so it is not offered in role settings
+				.filter((app) => app !== WtApplication.Wfm)
 				.filter((app) => app.includes(this.search))
 				.map((app) => ({
 					name: app,
