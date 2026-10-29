@@ -88,13 +88,17 @@ const deleteVariable = (index: number) => {
 <style scoped>
 .opened-user-variables__pair {
   display: grid;
-  align-items: center;
-  margin-bottom: var(--spacing-sm);
+  align-items: start;
+  margin-bottom: var(--spacing-lg);
   grid-template-columns: 1fr 1fr var(--spacing-md);
   grid-gap: var(--spacing-sm);
 }
 
+.opened-user-variables__pair:has(.p-message) {
+  margin-bottom: 0;
+}
+
 .opened-user-variables__delete-button {
-  margin-bottom: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
 }
 </style>
