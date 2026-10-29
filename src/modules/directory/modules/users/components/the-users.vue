@@ -281,7 +281,9 @@ const setDnd = async (item: ApiUser, value: boolean) => {
 			},
 		});
 	} finally {
-		await loadDataList();
+		await loadDataList({
+			withLoading: false,
+		});
 	}
 };
 
