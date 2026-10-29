@@ -233,6 +233,8 @@ export default {
 				roles: 'Рұқсаттар',
 				tokens: 'Токендер',
 				usage: 'Пайдалану',
+				expiryDays: 'Жарамдылық мерзімі',
+				expiryDate: 'Жарамдылық мерзімі',
 				roleAdmin: 'Админ',
 				license: 'Лицензия',
 				devices: 'Құрылғылар',

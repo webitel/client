@@ -230,6 +230,8 @@ export default {
 				roles: 'Roles',
 				tokens: 'Tokens',
 				usage: 'Usage',
+				expiryDays: 'Expiry days',
+				expiryDate: 'Expiry date',
 				roleAdmin: 'Admin',
 				license: 'License',
 				devices: 'Devices',
