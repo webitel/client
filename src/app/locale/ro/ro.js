@@ -234,6 +234,8 @@ export default {
 				roles: 'Roluri',
 				tokens: 'Tokenuri',
 				usage: 'Utilizare',
+				expiryDays: 'Zile de valabilitate',
+				expiryDate: 'Data expirării',
 				roleAdmin: 'Admin',
 				license: 'Licență',
 				devices: 'Dispozitive',

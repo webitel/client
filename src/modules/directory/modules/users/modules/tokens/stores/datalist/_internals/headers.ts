@@ -17,6 +17,13 @@ export const headers: DatalistTableHeader[] = [
 		sort: SortSymbols.NONE,
 	},
 	{
+		value: 'expiresAt',
+		locale: 'objects.directory.users.expiryDate',
+		field: 'expires_at',
+		show: true,
+		sort: SortSymbols.NONE,
+	},
+	{
 		value: 'createdBy',
 		locale: 'objects.createdBy',
 		field: 'created_by',

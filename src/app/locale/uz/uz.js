@@ -235,6 +235,8 @@ export default {
 				roles: 'Ruxsatlar',
 				tokens: 'Tokens',
 				usage: 'Ishlatish',
+				expiryDays: 'Amal qilish muddati',
+				expiryDate: 'Amal qilish muddati',
 				roleAdmin: 'Admin',
 				license: 'Litsenziya',
 				devices: 'Quvurlar',

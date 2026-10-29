@@ -233,6 +233,8 @@ export default {
 				roles: 'Vai trò',
 				tokens: 'Mã thông báo',
 				usage: 'Sử dụng',
+				expiryDays: 'Số ngày hiệu lực',
+				expiryDate: 'Ngày hết hạn',
 				roleAdmin: 'Quản trị viên',
 				license: 'Giấy phép',
 				devices: 'Thiết bị',
