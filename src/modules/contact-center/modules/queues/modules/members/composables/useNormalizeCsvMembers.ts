@@ -27,6 +27,8 @@ type CsvRow = Record<string, any>;
 const findCommunicationByCode = (communications: CsvRow[], code: string) =>
 	communications.find((communication) => communication.code === code);
 
+const extractTimezoneName = (name: string) => name.trim().split(/\s+/)[0];
+
 const loadTimezones = async () => {
 	const { items } = await CalendarsAPI.getTimezonesLookup({
 		size: 5000,
@@ -78,9 +80,11 @@ export const useNormalizeCsvMembers = ({
 			};
 
 			if (normalized.timezoneId) {
+				const timezoneName = extractTimezoneName(normalized.timezoneId);
 				const timezone = allTimezones.find(
 					({ id, name }) =>
-						name === normalized.timezoneId || id === normalized.timezoneId,
+						extractTimezoneName(name) === timezoneName ||
+						id === normalized.timezoneId,
 				);
 
 				if (!timezone) {
