@@ -62,11 +62,11 @@ describe('useQueueTypeControls', () => {
 		const type = ref<number>(QueueType.OFFLINE_QUEUE);
 		const { specificControls } = useQueueTypeControls(type);
 
-		expect(specificControls.value.strategy).toBe(true);
+		expect(specificControls.value.doSchema).toBe(true);
 
 		type.value = QueueType.INBOUND_QUEUE;
-		// inbound has no strategy control, but does have maxWaitTime
-		expect(specificControls.value.strategy).toBeUndefined();
+		// inbound has no doSchema control, but does have maxWaitTime
+		expect(specificControls.value.doSchema).toBeUndefined();
 		expect(specificControls.value.maxWaitTime).toBe(true);
 	});
 });
@@ -105,6 +105,6 @@ describe('isFieldRequired', () => {
 		const { isFieldRequired } = useQueueTypeControls(() => undefined);
 		// `name` is shared, so it holds even without a type
 		expect(isFieldRequired('name')).toBe(true);
-		expect(isFieldRequired('strategy')).toBe(false);
+		expect(isFieldRequired('calendar')).toBe(false);
 	});
 });

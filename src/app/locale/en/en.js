@@ -1097,11 +1097,6 @@ export default {
 					prolongationTimeSec: 'Time for prolongation (sec)',
 					isTimeoutRetry: 'Retry to timeout',
 				},
-				queueStrategy: {
-					fifo: 'FIFO (First In First Out)',
-					lifo: 'LIFO (Last In First Out)',
-					strict_fifo: 'Strict FIFO (First In First Out)',
-				},
 				logs: {
 					logs: 'Log | Logs',
 					destination: 'Destination',

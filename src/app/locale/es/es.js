@@ -1106,11 +1106,6 @@ export default {
 					prolongationTimeSec: 'Tiempo para prolongación (seg)',
 					isTimeoutRetry: 'Reintentar hasta tiempo de espera',
 				},
-				queueStrategy: {
-					fifo: 'FIFO (Primero en entrar, primero en salir)',
-					lifo: 'LIFO (Último en entrar, primero en salir)',
-					strict_fifo: 'FIFO estricto (Primero en entrar, primero en salir)',
-				},
 				logs: {
 					logs: 'Registro | Registros',
 					destination: 'Destino',
