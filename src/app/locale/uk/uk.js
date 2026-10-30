@@ -856,6 +856,7 @@ export default {
 				teams: 'Команда | Команди',
 				allTeams: 'Всі команди',
 				strategy: 'Стратегія',
+				forecastCalculation: 'Розрахунок прогнозу',
 				parameters: 'Параметри',
 				maxNoAnswer: 'Максимальна кількість пропущених активностей',
 				callTimeout: 'Час на прийняття дзвінка',

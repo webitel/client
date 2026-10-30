@@ -843,6 +843,7 @@ export default {
 				teams: 'Đội',
 				allTeams: 'Tất cả đội',
 				strategy: 'Chiến lược',
+				forecastCalculation: 'Tính toán dự báo',
 				parameters: 'Tham số',
 				maxNoAnswer: 'Số lượng hoạt động bỏ qua tối đa',
 				callTimeout: 'Thời gian chấp nhận cuộc gọi',
