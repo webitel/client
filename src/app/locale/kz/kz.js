@@ -1093,6 +1093,11 @@ export default {
 					prolongationTimeSec: 'Ұзарту уақыты (сек)',
 					isTimeoutRetry: 'Уақыт бітуге дейін қайталау',
 				},
+				queueStrategy: {
+					fifo: 'FIFO (Бірінші кіріп, бірінші шығу)',
+					lifo: 'LIFO (Соңынан кіріп, бірінші шығу)',
+					strict_fifo: 'Теріс FIFO (Бірінші кіріп, бірінші шығу)',
+				},
 				logs: {
 					logs: 'Лог | Логтар',
 					destination: 'Мақсат',

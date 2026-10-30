@@ -20,6 +20,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'offline-queue',
 			controls: [
 				// general specific
+				'strategy',
 				'team',
 				'doSchema',
 				'afterSchema',
@@ -87,6 +88,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'outbound-ivr-queue',
 			controls: [
 				// general specific
+				'strategy',
 				'schema',
 				'doSchema',
 				'afterSchema',
@@ -111,6 +113,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'preview-dialer',
 			controls: [
 				// general specific
+				'strategy',
 				'team',
 				'doSchema',
 				'afterSchema',
@@ -150,6 +153,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'progressive-dialer',
 			controls: [
 				// general specific
+				'strategy',
 				'team',
 				'doSchema',
 				'afterSchema',
@@ -192,6 +196,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'predictive-dialer',
 			controls: [
 				// general specific
+				'strategy',
 				'team',
 				'ringtone',
 				'doSchema',
@@ -283,6 +288,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 						subpath: 'im-chat-queue',
 						controls: [
 							// general specific
+							'strategy',
 							'team',
 							// params specific
 							'maxWaitTime',
@@ -318,6 +324,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'inbound-job-queue',
 			controls: [
 				// general specific
+				'strategy',
 				'team',
 				'doSchema',
 				'afterSchema',
@@ -348,6 +355,7 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'outbound-job-queue',
 			controls: [
 				// general specific
+				'strategy',
 				'schema',
 				'doSchema',
 				'afterSchema',
