@@ -35,19 +35,6 @@
       />
 
       <wt-single-select
-        v-if="specificControls.strategy"
-        v-model:model-value="modelValue.strategy"
-        :disabled="disableUserInput"
-        :label="t('objects.ccenter.queues.strategy')"
-        :options="strategyOptions"
-        :regle-validation="validationFields?.strategy"
-        :show-clear="false"
-        data-key="value"
-        option-value="value"
-        required
-      />
-
-      <wt-single-select
         v-if="specificControls.team"
         v-model:model-value="modelValue.team"
         :disabled="disableUserInput || !hasTeamsReadAccess"
@@ -139,10 +126,7 @@ import {
 	QueuesAPI,
 	TeamsAPI,
 } from '@webitel/api-services/api';
-import {
-	QueueStrategyList,
-	TypesResourceStrategy,
-} from '@webitel/api-services/enums';
+import { TypesResourceStrategy } from '@webitel/api-services/enums';
 import { EngineRoutingSchemaType } from '@webitel/api-services/gen/models';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
@@ -186,13 +170,6 @@ const { hasReadAccess: hasRolesReadAccess } = useUserAccessControl(
 
 const { specificControls, isFieldRequired } = useQueueTypeControls(
 	() => modelValue.value?.type as number | undefined,
-);
-
-const strategyOptions = computed(() =>
-	QueueStrategyList.map(({ value }) => ({
-		value,
-		name: t(`objects.ccenter.queues.queueStrategy.${value}`),
-	})),
 );
 
 const resourceStrategyOptions = computed(() =>

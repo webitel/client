@@ -1102,11 +1102,6 @@ export default {
 					prolongationTimeSec: 'Uzaytirish vaqti (sek)',
 					isTimeoutRetry: 'Vaqt tugagunga qadar qayta urinish',
 				},
-				queueStrategy: {
-					fifo: 'FIFO (Birinchi kirish, birinchi chiqish)',
-					lifo: 'LIFO (Oxirgi kirish, birinchi chiqish)',
-					strict_fifo: 'Qattiq FIFO (Birinchi kirish, birinchi chiqish)',
-				},
 				logs: {
 					logs: 'Log | Loglar',
 					destination: "Ma'lumotnoma",

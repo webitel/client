@@ -1096,11 +1096,6 @@ export default {
 					prolongationTimeSec: 'Thời gian kéo dài (giây)',
 					isTimeoutRetry: 'Thử lại cho đến hết thời gian chờ',
 				},
-				queueStrategy: {
-					fifo: 'FIFO (First In First Out)',
-					lifo: 'LIFO (Last In First Out)',
-					strict_fifo: 'Strict FIFO (First In First Out)',
-				},
 				logs: {
 					logs: 'Nhật ký',
 					destination: 'Đích',

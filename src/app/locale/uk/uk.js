@@ -1111,11 +1111,6 @@ export default {
 					prolongationTimeSec: 'Час для продовження (сек)',
 					isTimeoutRetry: 'Повтор до таймауту',
 				},
-				queueStrategy: {
-					fifo: 'FIFO (Першим зайшов, першим вийшов)',
-					lifo: 'LIFO (Останнім зайшов, першим вийшов)',
-					strict_fifo: 'Strict FIFO (Першим зайшов, першим вийшов)',
-				},
 				logs: {
 					logs: 'Лог | Логи',
 					destination: 'Призначення',
