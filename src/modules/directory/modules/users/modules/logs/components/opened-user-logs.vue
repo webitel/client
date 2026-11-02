@@ -112,7 +112,7 @@ import { useI18n } from 'vue-i18n';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
 import { useUsersCardStore } from '../../../stores/card/usersCardStore';
-import { defaultDateFilter } from '../configs/filtersOptions';
+import { defaultDateFilter, filterConfigs } from '../configs/filtersOptions';
 import { useUserLogsDatalistStore } from '../stores/datalist/userLogsDatalistStore';
 
 const emit = defineEmits<{
@@ -161,10 +161,7 @@ useNestedTableList({
 });
 
 const hasPanelFilters = computed(() =>
-	[
-		FilterOption.Action,
-		FilterOption.Object,
-	].some((name) => hasFilter(name)),
+	Object.keys(filterConfigs).some((name) => hasFilter(name)),
 );
 
 const formatDateTime = (value?: number | string) =>

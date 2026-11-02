@@ -1,66 +1,53 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-input-number
+        v-model:model-value="modelValue.maxSize"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.maxSize')"
+        :label="t('objects.integrations.storage.maxSize')"
         :min="0"
-        :v="v.itemInstance.maxSize"
-        :model-value="itemInstance.maxSize"
-        @update:model-value="setItemProp({ prop: 'maxSize', value: $event })"
+        :regle-validation="validationFields?.maxSize"
       />
       <wt-input-number
+        v-model:model-value="modelValue.expireDays"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.expireDays')"
+        :label="t('objects.integrations.storage.expireDays')"
         :min="0"
-        :v="v.itemInstance.expireDays"
-        :model-value="itemInstance.expireDays"
-        @update:model-value="setItemProp({ prop: 'expireDays', value: $event })"
+        :regle-validation="validationFields?.expireDays"
       />
       <wt-input-number
+        v-model:model-value="modelValue.priority"
         :disabled="disableUserInput"
-        :label="$t('objects.integrations.storage.priority')"
+        :label="t('objects.integrations.storage.priority')"
         :min="0"
-        :v="v.itemInstance.priority"
-        :model-value="itemInstance.priority"
-        @update:model-value="setItemProp({ prop: 'priority', value: $event })"
+        :regle-validation="validationFields?.priority"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { StorageBackendProfile } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedStorageGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-};
+const modelValue = defineModel<StorageBackendProfile>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<StorageBackendProfile>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

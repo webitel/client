@@ -1,16 +1,17 @@
 <template>
-  <section class="table-section">
+   <section class="skill-agents table-section">
     <add-skill-to-agent-popup
-      :skill-id="parentId"
-      @close="closeAddSkillToAgentPopup"
+      v-if="isAssignAgentsPopup && skillId"
+      :skill-id="skillId"
+      @close="isAssignAgentsPopup = false"
       @saved="loadDataList"
     />
 
-    <change-skill-popup
-      :shown="agentSkillPopup"
-      :selected-agents="selectedRows"
-      @change="change"
-      @close="closeAgentSkillPopup"
+    <replace-agent-skill-popup
+      :shown="isReplaceSkillPopup"
+      :selected-agents="selected"
+      @change="replaceSkill"
+      @close="isReplaceSkillPopup = false"
     />
 
     <delete-confirmation-popup
@@ -20,279 +21,239 @@
       @close="closeDelete"
     />
 
-    <global-state-confirmation-popup
-      :shown="showGlobalStateConfirmationPopup"
-      :affected-count="aggs?.potentialRows"
-      @confirm="changeStateForAll(!aggs.enabled)"
-      @close="closeGlobalStateConfirmation"
-    />
-
     <header class="table-title">
       <h3 class="table-title__title">
-        {{ $t('objects.ccenter.agents.allAgents') }}
+        {{ t('objects.ccenter.agents.allAgents') }}
       </h3>
       <div class="table-title__actions-wrap">
-        <wt-search-bar
-          :value="search"
-          debounce
-          @enter="loadList"
-          @input="setSearch"
-          @search="loadList"
-        />
-        <wt-table-actions
-          :icons="['refresh']"
-          @input="tableActionsHandler"
+        <wt-action-bar
+          :include="[
+            IconAction.ADD,
+            IconAction.REFRESH,
+            IconAction.DELETE,
+          ]"
+          :disabled:add="!hasAgentUpdateAccess"
+          :disabled:delete="!hasAgentUpdateAccess || !selected.length"
+          @click:add="isAssignAgentsPopup = true"
+          @click:refresh="loadDataList"
+          @click:delete="
+            askDeleteConfirmation({
+              deleted: selected,
+              callback: () => deleteEls(selected),
+            })
+          "
         >
-          <global-state-switcher
-            :model-value="aggs.enabled"
-            :disabled="!hasAgentUpdateAccess"
-            @update:model-value="showGlobalStateConfirmation"
-          />
+          <template #search-bar>
+            <dynamic-filter-search
+              :filters-manager="filtersManager"
+              @filter:add="addFilter"
+              @filter:update="updateFilter"
+              @filter:delete="deleteFilter"
+            />
+          </template>
+          <skill-agents-global-state-switcher :disabled="!hasAgentUpdateAccess" />
           <wt-icon-btn
-            v-show="!anySelected"
-            :disabled="!hasAgentUpdateAccess"
+            :disabled="!hasAgentUpdateAccess || !selected.length"
             class="icon-action"
             icon="arrow-mix"
-            @click="openAgentSkillPopup"
+            @click="isReplaceSkillPopup = true"
           />
-          <delete-all-action
-            v-show="!anySelected"
-            :disabled="!hasAgentUpdateAccess"
-            :selected-count="selectedRows.length"
-            @click="askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })"
-          />
-          <wt-icon-btn
-            :disabled="!hasAgentUpdateAccess"
-            class="icon-action"
-            icon="plus"
-            @click="openAddSkillToAgentPopup"
-          />
-        </wt-table-actions>
+        </wt-action-bar>
       </div>
     </header>
-    <wt-loader v-show="!isLoaded" />
-    <wt-dummy
-      v-if="dummy && isLoaded"
-      :src="dummy.src"
-      :dark-mode="darkMode"
-      :text="dummy.text && $t(dummy.text)"
-    />
-    <div
-      v-show="dataList.length && isLoaded"
-      class="table-section__table-wrapper"
-    >
+
+    <div class="table-section__table-wrapper">
+      <wt-empty
+        v-show="showEmpty"
+        :image="imageEmpty"
+        :text="textEmpty"
+      />
+
+      <wt-loader v-show="isLoading" />
+
       <wt-table
+        v-show="dataList.length && !isLoading"
         :data="dataList"
-        :headers="headers"
+        :headers="shownHeaders"
+        :selected="selected"
         sortable
-        @sort="sort"
+        @sort="updateSort"
+        @update:selected="updateSelected"
       >
         <template #name="{ item }">
-          <adm-item-link
-            :id="item.agent.id"
-            :route-name="RouteNames.AGENTS"
+          <wt-item-link
+            :link="{
+              name: `${RouteNames.AGENTS}-card`,
+              params: { id: item.agent.id },
+            }"
           >
             {{ item.agent.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #team="{ item }">
-          <adm-item-link
-            v-if="item.team"
-            :id="item.team.id"
-            :route-name="RouteNames.TEAMS"
+          <wt-item-link
+            v-if="item.team?.id"
+            :link="{
+              name: `${RouteNames.TEAMS}-card`,
+              params: { id: item.team.id },
+            }"
           >
             {{ item.team.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #capacity="{ item, index }">
           <wt-input-number
             :disabled="!hasAgentUpdateAccess"
             :model-value="item.capacity"
-            @update:model-value="handlePatchInput({item, index, prop:'capacity', value:$event})"
+            @update:model-value="patchCapacity(index, $event)"
           />
         </template>
         <template #state="{ item, index }">
           <wt-switcher
             :disabled="!hasAgentUpdateAccess"
             :model-value="item.enabled"
-            @update:model-value="handlePatchEnabled({ item, index, prop: 'enabled', value: $event })"
+            @update:model-value="patchEnabled(index, $event)"
           />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
-            action="delete"
             :disabled="!hasAgentUpdateAccess"
-            @click="askDeleteConfirmation({
-              deleted: [item],
-              callback: () => deleteData(item),
-            })"
+            action="delete"
+            @click="
+              askDeleteConfirmation({
+                deleted: [item],
+                callback: () => deleteEls([item]),
+              })
+            "
           />
         </template>
       </wt-table>
       <wt-pagination
-        :next="isNext"
+        :next="next"
         :prev="page > 1"
         :size="size"
         debounce
-        @change="loadList"
-        @input="setSize"
-        @next="nextPage"
-        @prev="prevPage"
+        @change="updateSize"
+        @next="updatePage(page + 1)"
+        @prev="updatePage(page - 1)"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { SkillAgentsAPI as AgentSkillsAPI } from '@webitel/api-services/api';
-import { WtObject } from '@webitel/ui-sdk/enums';
+<script lang="ts" setup>
+import { useDebounceFn } from '@vueuse/core';
+import { SkillAgentsAPI } from '@webitel/api-services/api';
+import type { EngineLookup } from '@webitel/api-services/gen/models';
+import { useNestedTableList } from '@webitel/ui-datalist';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction, WtObject } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import debounce from '@webitel/ui-sdk/src/scripts/debounce';
-import GlobalStateSwitcher from '../../../../../../../app/components/global-state-switcher.vue';
-import { useDummy } from '../../../../../../../app/composables/useDummy.js';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import GlobalStateConfirmationPopup from '../../../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
-import addSkillToAgentPopupMixin from '../../../mixins/addSkillToAgentPopupMixin.js';
+import { useSkillsCardStore } from '../../../stores/card/skillsCardStore';
+import { useSkillAgentsDatalistStore } from '../stores/datalist/skillAgentsDatalistStore';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
-import ChangeSkillPopup from './replace-agent-skill-popup.vue';
+import ReplaceAgentSkillPopup from './replace-agent-skill-popup.vue';
+import SkillAgentsGlobalStateSwitcher from './skill-agents-global-state-switcher.vue';
 
-const namespace = 'lookups/skills';
-const subNamespace = 'agents';
+const { t } = useI18n();
 
-export default {
-	name: 'OpenedSkillAgents',
-	components: {
-		GlobalStateConfirmationPopup,
-		GlobalStateSwitcher,
-		AddSkillToAgentPopup,
-		ChangeSkillPopup,
-		DeleteConfirmationPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-		addSkillToAgentPopupMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace: `${namespace}/${subNamespace}`,
-			hiddenText: true,
-		});
+const { hasUpdateAccess: hasAgentUpdateAccess } = useUserAccessControl(
+	WtObject.Agent,
+);
 
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const skillsCardStore = useSkillsCardStore();
+const { itemId: skillId } = storeToRefs(skillsCardStore);
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const skillAgentsDatalistStore = useNestedTableList({
+	useTableStore: useSkillAgentsDatalistStore,
+});
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(skillAgentsDatalistStore);
+const {
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	updateSelected,
+	deleteEls,
+	patchItemProperty,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = skillAgentsDatalistStore;
 
-		const { hasUpdateAccess: hasAgentUpdateAccess } = useUserAccessControl(
-			WtObject.Agent,
-		);
+const isAssignAgentsPopup = ref(false);
+const isReplaceSkillPopup = ref(false);
 
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
 
-			askDeleteConfirmation,
-			closeDelete,
-			hasAgentUpdateAccess,
-		};
-	},
+const patchCapacity = useDebounceFn(
+	(index: number, value: number) =>
+		patchItemProperty({
+			index,
+			path: 'capacity',
+			value,
+		}),
+	1000,
+);
 
-	data: () => ({
-		namespace,
-		subNamespace,
-		tableObjectRouteName: RouteNames.AGENTS, // this.editLink() computing
-		agentSkillPopup: false,
-		showGlobalStateConfirmationPopup: false,
-		affectedAgentSkillCount: 0,
-	}),
-	mounted() {
-		this.handlePatchInput = debounce(this.handlePatchInput);
-	},
-	methods: {
-		openAgentSkillPopup() {
-			this.agentSkillPopup = true;
-		},
-		closeAgentSkillPopup() {
-			this.agentSkillPopup = false;
-		},
-		async changeStateForAll(enabled) {
-			const { parentId } = this;
-			const changes = {
-				enabled,
-			};
-			try {
-				if (this.search) {
-					changes.q = this.search;
-				}
-
-				await AgentSkillsAPI.patch({
-					parentId,
-					changes,
-				});
-			} catch (e) {
-				console.error(e);
-			} finally {
-				await this.loadDataList();
-				this.closeGlobalStateConfirmation();
-			}
-		},
-		showGlobalStateConfirmation() {
-			this.showGlobalStateConfirmationPopup = true;
-		},
-		closeGlobalStateConfirmation() {
-			this.showGlobalStateConfirmationPopup = false;
-		},
-		async change({ changes, id }) {
-			const { parentId } = this;
-			try {
-				await AgentSkillsAPI.patch({
-					parentId,
-					changes,
-					id,
-				});
-			} catch (e) {
-				console.error(e);
-			} finally {
-				await this.loadDataList();
-			}
-		},
-		handlePatchInput(payload) {
-			const modifiedIdPayload = this.payloadIdModifier(payload);
-			this.patchItem(modifiedIdPayload);
-		},
-		async handlePatchEnabled(payload) {
-			const modifiedIdPayload = this.payloadIdModifier(payload);
-			try {
-				await this.patchItem(modifiedIdPayload);
-			} catch (e) {
-				console.error(e);
-			} finally {
-				await this.loadDataList();
-			}
-		},
-		payloadIdModifier(payload) {
-			return {
-				...payload,
-				item: {
-					...payload.item,
-					id: [
-						payload.item.id,
-					],
-				},
-			};
-		},
-	},
+const patchEnabled = async (index: number, value: boolean) => {
+	await patchItemProperty({
+		index,
+		path: 'enabled',
+		value,
+	});
+	await loadDataList({
+		withLoading: false,
+	});
 };
+
+const replaceSkill = async (changes: {
+	skill: EngineLookup;
+	enabled: boolean;
+}) => {
+	try {
+		await SkillAgentsAPI.patch({
+			parentId: String(skillId.value),
+			changes,
+			id: selected.value.map(({ id }) => id),
+		});
+	} finally {
+		await loadDataList();
+	}
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
