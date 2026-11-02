@@ -1103,6 +1103,11 @@ export default {
 					prolongationTimeSec: 'Timp pentru prelungire (sec)',
 					isTimeoutRetry: 'Reîncearcă până la timeout',
 				},
+				queueStrategy: {
+					fifo: 'FIFO (Primul intrat, Primul ieșit)',
+					lifo: 'LIFO (Ultimul intrat, Primul ieșit)',
+					strict_fifo: 'FIFO strict (Primul intrat, Primul ieșit)',
+				},
 				logs: {
 					logs: 'Log | Logs',
 					destination: 'Destinație',

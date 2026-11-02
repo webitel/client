@@ -1102,6 +1102,11 @@ export default {
 					prolongationTimeSec: 'Czas przedłużenia (sek)',
 					isTimeoutRetry: 'Ponawiaj do przekroczenia czasu',
 				},
+				queueStrategy: {
+					fifo: 'FIFO (First In First Out)',
+					lifo: 'LIFO (Last In First Out)',
+					strict_fifo: 'Ścisłe FIFO (First In First Out)',
+				},
 				logs: {
 					logs: 'Log | Logi',
 					destination: 'Miejsce docelowe',
