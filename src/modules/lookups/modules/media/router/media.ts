@@ -1,6 +1,6 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const Media = () => import('../components/the-media.vue');
 
@@ -15,4 +15,5 @@ const MediaRoutes = [
 		},
 	},
 ];
+
 export default MediaRoutes;

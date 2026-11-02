@@ -23,7 +23,7 @@ import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/bl
 import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets';
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications';
-import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
+import MediaRoutes from '../../modules/lookups/modules/media/router/media';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';

@@ -1,5 +1,3 @@
-// dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import './app/assets/icons/sprite/_index';
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
