@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ChatplanRouteNames from './_internals/ChatplanRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ChatplanRouteNames from './_internals/ChatplanRouteNames.enum';
 
 const Chatplan = () => import('../components/the-chatplan.vue');
 const OpenedChatplan = () => import('../components/opened-chatplan.vue');
