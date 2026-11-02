@@ -4,7 +4,7 @@ import {
 	StorageUploadFileChannel,
 } from '@webitel/api-services/gen/models';
 import { RingtoneType } from '@webitel/ui-sdk/enums';
-import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { NotificationType } from '../../../modules/settings/modules/notifications/enums/NotificationType';
 
 export default {
 	auth: {
@@ -179,7 +179,6 @@ export default {
 		copied: 'Скопировано!',
 		createdAt: 'Создано',
 		createdBy: 'Кем создан',
-		importCSV: 'Импортировать CSV',
 		online: 'Онлайн',
 		offline: 'Оффлайн',
 		on: 'On',
@@ -210,14 +209,6 @@ export default {
 			undoneActionAlert: 'Это действие не может быть отменено.',
 			deleteAll: 'ВСЕ',
 		},
-		CSV: {
-			skipHeaders: 'Свернуть заголовки',
-			charSet: 'Char set',
-			separator: 'Разделитель',
-			CSVColumn: 'CSV поле',
-			fieldName: 'Название поля',
-			clearMember: 'Очистить абонента',
-		},
 		generalInfo: 'Общая информация',
 		objectHeader: {},
 		directory: {
@@ -236,6 +227,8 @@ export default {
 				roles: 'Роли',
 				tokens: 'Токены',
 				usage: 'Использование',
+				expiryDays: 'Срок действия',
+				expiryDate: 'Срок действия',
 				roleAdmin: 'Администратор',
 				license: 'Лицензия',
 				devices: 'Устройство',
@@ -628,7 +621,6 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'поиск шлюза...',
 				host: 'Хост',
-				trunkingACLTitle: 'Контроль доступа',
 				trunkingACL: 'Многоканальный список доступа',
 				hostnameTrunking: 'Сервер/Хост шлюза или IP',
 				hostnameRegister: 'Регистратор/Сервер/Хост шлюза или IP',
@@ -642,10 +634,6 @@ export default {
 				SIPregistrationsDescription: 'Описание SIP-регистрации',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Описание SIP-транков',
-				errors: {
-					passwordInvalid:
-						"Пароль содержит запрещенные символы. Зарезервированные символы URI, пробелы, спецсимволы !*'()&$ не поддерживаются.",
-				},
 			},
 
 			chatGateways: {
@@ -731,7 +719,6 @@ export default {
 						square: 'Квадратная',
 						right: 'Справа',
 						left: 'Слева',
-						static: 'Статическая',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -783,18 +770,13 @@ export default {
 				newChatGateway: 'Новый текстовый шлюз',
 				metadata: {
 					apiKey: 'Api Key',
-					number: 'Number',
 					baseUrl: 'Base URL',
-					sendApi: 'Send API',
 					allowOrigin: 'Allow Origin',
 					readTimeout: 'Read Timeout (sec)',
 					writeTimeout: 'Write Timeout (sec)',
 					handshakeTimeout: 'Handshake Timeout (sec)',
-					messageSize: 'Message Size max (bytes)',
 					botName: 'Bot Name',
-					eventTypes: 'Event Types',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
@@ -1097,6 +1079,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Звонки',
+					attemptsCount: 'Попытки',
 				},
 				processing: {
 					processing: 'Обработка',
@@ -1143,6 +1126,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1358,12 +1343,6 @@ export default {
 					logs: 'История запуска',
 					startedAt: 'Начало',
 					result: 'Результат',
-					resultName: {
-						idle: 'Неактивний',
-						active: 'Активний',
-						done: 'Завершенный',
-						error: 'Ошибка',
-					},
 				},
 				recordCall: 'Запись звонка',
 			},

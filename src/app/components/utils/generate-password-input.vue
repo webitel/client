@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import type { RegleSchemaFieldStatus } from '@regle/schemas';
-import type { BaseValidation } from '@vuelidate/core';
+import type { BaseValidation, ValidationRuleCollection } from '@vuelidate/core';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -49,7 +49,8 @@ const model = defineModel<string>({
 });
 
 defineProps<{
-	v?: BaseValidation;
+	/** [Claude] a field of a useVuelidate result; its rules are typed, so the bare BaseValidation (no rules) rejects it */
+	v?: BaseValidation<unknown, ValidationRuleCollection<unknown>>;
 	regleValidation?: RegleSchemaFieldStatus<string>;
 	required?: boolean;
 	disabled?: boolean;

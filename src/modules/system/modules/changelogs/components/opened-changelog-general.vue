@@ -1,109 +1,90 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
     <div class="opened-card-input-grid">
       <wt-single-select
+        v-model:model-value="modelValue.object"
+        :disabled="!isNew || disableUserInput"
+        :label="t('objects.system.changelogs.objects', 1)"
+        :regle-validation="validationFields?.object"
+        :search-method="ChangelogsAPI.getObjectsList"
         :show-clear="false"
-        :disabled="itemInstance.id || disableUserInput"
-        :label="$t('objects.system.changelogs.objects', 1)"
-        :search-method="getObjectsList"
-        :v="v.itemInstance.object"
-        :model-value="itemInstance.object"
         required
-        @update:model-value="setItemProp({ prop: 'object', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="modelValue.storage"
         :disabled="disableUserInput || !hasStorageReadAccess"
-        :label="$t('objects.system.changelogs.storage')"
-        :search-method="getStorageList"
-        :v="v.itemInstance.storage"
-        :model-value="itemInstance.storage"
-        @update:model-value="setItemProp({ prop: 'storage', value: $event })"
+        :label="t('objects.system.changelogs.storage')"
+        :search-method="BackendProfilesAPI.getLookup"
       />
       <wt-input-number
+        v-model:model-value="modelValue.daysToStore"
         :disabled="disableUserInput"
-        :label="$t('objects.system.changelogs.daysToStore')"
-        :v="v.itemInstance.daysToStore"
-        :model-value="itemInstance.daysToStore"
+        :label="t('objects.system.changelogs.daysToStore')"
+        :regle-validation="validationFields?.daysToStore"
         required
-        @update:model-value="setItemProp({ prop: 'daysToStore', value: $event })"
       />
       <wt-single-select
-        :show-clear="false"
+        v-model:model-value="modelValue.period"
         :disabled="disableUserInput"
-        :label="$t('objects.system.changelogs.period.period')"
+        :label="t('objects.system.changelogs.period.period')"
         :options="periodOptions"
-        :model-value="currentPeriod"
-        @update:model-value="setItemProp({ prop: 'period', value: $event.id })"
+        :show-clear="false"
+        data-key="value"
+        option-value="value"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
-import { ChangelogsAPI } from '@webitel/api-services/api';
+<script setup lang="ts">
+import { BackendProfilesAPI, ChangelogsAPI } from '@webitel/api-services/api';
+import type { ChangelogCard } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import storage from '../../../../integrations/modules/storage/api/storage';
 
-export default {
-	name: 'OpenedChangelogGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasStorageReadAccess } = useUserAccessControl(
-			WtObject.Storage,
-		);
-		return {
-			disableUserInput,
-			hasStorageReadAccess,
-		};
+const modelValue = defineModel<ChangelogCard>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<ChangelogCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasStorageReadAccess } = useUserAccessControl(
+	WtObject.Storage,
+);
+
+/** [Claude] the logged object is fixed once the changelog is saved */
+const isNew = computed(() => !modelValue.value.id);
+
+/** [Claude] how often the logs are moved to the storage, in days */
+const periodOptions = [
+	{
+		value: 1,
+		locale: 'objects.system.changelogs.period.options.daily',
 	},
-	computed: {
-		currentPeriod() {
-			return this.periodOptions.find(
-				(period) => period.id === this.itemInstance.period,
-			);
-		},
-		periodOptions() {
-			return [
-				{
-					name: this.$t('objects.system.changelogs.period.options.daily'),
-					id: 1,
-				},
-				{
-					name: this.$t('objects.system.changelogs.period.options.weekly'),
-					id: 7,
-				},
-				{
-					name: this.$t('objects.system.changelogs.period.options.fortnightly'),
-					id: 14,
-				},
-				{
-					name: this.$t('objects.system.changelogs.period.options.monthly'),
-					id: 30,
-				},
-			];
-		},
+	{
+		value: 7,
+		locale: 'objects.system.changelogs.period.options.weekly',
 	},
-	methods: {
-		getObjectsList: ChangelogsAPI.getObjectsList,
-		getStorageList: storage.getLookup,
+	{
+		value: 14,
+		locale: 'objects.system.changelogs.period.options.fortnightly',
 	},
-};
+	{
+		value: 30,
+		locale: 'objects.system.changelogs.period.options.monthly',
+	},
+];
 </script>
-
-<style scoped></style>

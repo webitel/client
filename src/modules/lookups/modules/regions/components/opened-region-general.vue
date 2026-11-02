@@ -1,64 +1,48 @@
 <template>
-  <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
+  <section class="opened-region-general">
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="modelValue.timezone"
         :show-clear="false"
         :disabled="disableUserInput"
-        :label="$t('objects.lookups.timezone.timezone', 1)"
-        :search-method="loadTimezones"
-        :v="v.itemInstance.timezone"
-        :model-value="itemInstance.timezone"
+        :label="t('objects.lookups.timezone.timezone', 1)"
+        :search-method="CalendarsAPI.getTimezonesLookup"
+        :regle-validation="validationFields?.timezone"
         required
-        @update:model-value="setItemProp({ prop: 'timezone', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { CalendarsAPI } from '@webitel/api-services/api';
+import type { EngineRegion } from '@webitel/api-services/gen/models';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedRegionGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	methods: {
-		loadTimezones(params) {
-			return CalendarsAPI.getTimezonesLookup(params);
-		},
-	},
-};
+const modelValue = defineModel<EngineRegion>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<EngineRegion>;
+}>();
+
+const { t } = useI18n();
+
+const { disableUserInput } = useUserAccessControl();
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
