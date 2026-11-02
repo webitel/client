@@ -17,6 +17,11 @@
         class="opened-card-form"
         @submit.prevent="save"
       >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
         <component
           :is="currentTab.value"
           :namespace="namespace"
@@ -38,6 +43,7 @@ import { required } from '@vuelidate/validators';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import StoragePoliciesRouteNames from '../router/_internals/StoragePoliciesRouteNames.enum.js';
 import General from './opened-storage-policy-general.vue';
 
 export default {
@@ -81,6 +87,7 @@ export default {
 				{
 					text: this.$t('objects.general'),
 					value: 'general',
+					pathName: StoragePoliciesRouteNames.GENERAL,
 				},
 			];
 		},

@@ -9,7 +9,11 @@
 
 <script setup lang="ts">
 import { UsersAPI } from '@webitel/api-services/api';
-import { WtUploadCsvPopup } from '@webitel/ui-sdk/modules/UploadCsvPopup';
+import {
+	type CsvMappingField,
+	WtUploadCsvPopup,
+} from '@webitel/ui-sdk/modules/UploadCsvPopup';
+import { ref } from 'vue';
 
 defineProps<{
 	file: File;
@@ -21,7 +25,7 @@ const emit = defineEmits<{
 
 const baseLocale = 'objects.directory.users.csvMappingFields';
 
-const mappingFields = [
+const mappingFields = ref<CsvMappingField[]>([
 	{
 		name: 'username',
 		required: true,
@@ -46,7 +50,7 @@ const mappingFields = [
 		locale: `${baseLocale}.email`,
 		csv: '',
 	},
-];
+]);
 
 const close = () => emit('close');
 

@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CommunicationsRouteNamesEnum from './_internals/CommunicationsRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CommunicationsRouteNamesEnum from './_internals/CommunicationsRouteNames.enum';
 
 const CommunicationTypes = () =>
 	import('../components/the-communication-types.vue');

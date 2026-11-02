@@ -101,7 +101,7 @@ const tabs = computed(() => {
 		},
 	];
 
-	if (hasListNumbersReadAccess.value) {
+	if (hasListNumbersReadAccess.value && !isNew.value) {
 		tabs.push({
 			text: t('objects.lookups.blacklist.number', 2),
 			value: 'numbers',

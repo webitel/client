@@ -235,6 +235,8 @@ export default {
 				roles: 'Ролі',
 				tokens: 'Токени',
 				usage: 'Використання',
+				expiryDays: 'Термін дії',
+				expiryDate: 'Термін дії',
 				roleAdmin: 'Адміністратор',
 				license: 'Ліцензія',
 				devices: 'Пристрій',
@@ -487,6 +489,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Імпортовано номерів: {imported}. Пропущено дублікатів: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медіафайл| Медіафайли',
@@ -1092,6 +1096,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Дзвінки',
+					attemptsCount: 'Спроби',
 				},
 				processing: {
 					processing: 'Обробка',
@@ -1101,6 +1106,7 @@ export default {
 					renewalSec:
 						'Запропонувати продовжити постобробку, коли залишилось (сек)',
 					allowProlongation: 'Дозволити продовження постобробки',
+					autosave: 'Дозволити автозбереження обробки',
 					repeatsNumber: 'Кількість повторів',
 					prolongationTimeSec: 'Час для продовження (сек)',
 					isTimeoutRetry: 'Повтор до таймауту',
@@ -1137,6 +1143,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
