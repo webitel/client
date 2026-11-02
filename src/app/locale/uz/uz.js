@@ -1339,12 +1339,6 @@ export default {
 					logs: 'Ish tarixi',
 					startedAt: 'Boshlanish',
 					result: 'Natija',
-					resultName: {
-						idle: 'Uzilgan',
-						active: 'Aktiv',
-						done: 'Bajarildi',
-						error: 'Xato',
-					},
 				},
 				recordCall: "Qo'ng'iroqni yozib olish",
 			},

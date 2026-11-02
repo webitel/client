@@ -1348,12 +1348,6 @@ export default {
 					logs: 'Historial de ejecución',
 					startedAt: 'Inicio',
 					result: 'Resultado',
-					resultName: {
-						idle: 'Inactivo',
-						active: 'Activo',
-						done: 'Hecho',
-						error: 'Error',
-					},
 				},
 				recordCall: 'Grabar llamada',
 			},

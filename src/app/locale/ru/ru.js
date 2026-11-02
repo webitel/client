@@ -1352,12 +1352,6 @@ export default {
 					logs: 'История запуска',
 					startedAt: 'Начало',
 					result: 'Результат',
-					resultName: {
-						idle: 'Неактивний',
-						active: 'Активний',
-						done: 'Завершенный',
-						error: 'Ошибка',
-					},
 				},
 				recordCall: 'Запись звонка',
 			},

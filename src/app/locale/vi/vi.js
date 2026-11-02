@@ -1334,12 +1334,6 @@ export default {
 					logs: 'Lịch sử chạy',
 					startedAt: 'Bắt đầu',
 					result: 'Kết quả',
-					resultName: {
-						idle: 'Nghỉ',
-						active: 'Hoạt động',
-						done: 'Hoàn thành',
-						error: 'Lỗi',
-					},
 				},
 				recordCall: 'Ghi âm cuộc gọi',
 			},

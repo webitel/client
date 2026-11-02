@@ -1342,12 +1342,6 @@ export default {
 					logs: 'Istoric rulare',
 					startedAt: 'Începe',
 					result: 'Rezultat',
-					resultName: {
-						idle: 'Inactiv',
-						active: 'Activ',
-						done: 'Finalizat',
-						error: 'Eroare',
-					},
 				},
 				recordCall: 'Înregistrează apelul',
 			},
