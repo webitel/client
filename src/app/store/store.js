@@ -2,7 +2,6 @@ import { createPinia } from 'pinia';
 import { createStore } from 'vuex';
 
 import appearance from '../../modules/appearance/store/appearance';
-import integrations from '../../modules/integrations/store/integrations';
 import permissions from '../../modules/permissions/store/permissions';
 import system from '../../modules/system/store/system';
 
@@ -17,7 +16,6 @@ const store = createStore({
 		},
 	},
 	modules: {
-		integrations,
 		permissions,
 		system,
 		appearance,

@@ -1,161 +1,149 @@
 <template>
   <wt-page-wrapper :actions-panel="false">
     <template #header>
-      <wt-page-header :hide-primary="!hasSaveActionAccess" :primary-action="save" :primary-disabled="disabledSave"
-        :primary-text="saveText" :secondary-action="close">
+      <wt-page-header
+        :hide-primary="!hasSaveActionAccess"
+        :primary-action="save"
+        :primary-disabled="disabledSave"
+        :primary-text="saveText"
+        :secondary-action="close"
+      >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #main>
-      <form class="opened-card-form" @submit.prevent="save">
-        <wt-tabs :current="currentTab" :tabs="tabs" @change="changeTab" />
-        <router-view v-if="isPermissionsTab" v-slot="{ Component }">
-          <component v-if="Component" :is="Component" v-bind="permissionsStoreData" />
+      <wt-loader v-if="debouncedIsLoading" />
+      <form
+        v-else
+        class="opened-card-form"
+        @submit.prevent="save"
+      >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
+        <router-view v-slot="{ Component }">
+          <component
+            v-if="Component"
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+            v-bind="isPermissionsTab ? permissionsStoreData : undefined"
+          />
         </router-view>
-        <component v-else :is="currentTab.value" :namespace="namespace" :v="v$" />
-        <input hidden type="submit"> <!--  submit form on Enter  -->
+        <input
+          hidden
+          type="submit"
+        > <!--  submit form on Enter  -->
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { ImportTemplateCard } from '@webitel/api-services/validations';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
-import ImportCsvRouteName from '../router/_internals/ImportCsvRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ImportCsvRouteNames from '../router/_internals/ImportCsvRouteNames.enum';
+import { useImportCsvCardStore } from '../stores/card/importCsvCardStore';
 import { useImportCsvPermissionsStore } from '../stores/permissions/importCsvPermissionsStore';
-import General from './opened-import-csv-general.vue';
-import Settings from './opened-import-csv-settings.vue';
 
-export default {
-	name: 'OpenedImportCsv',
-	components: {
-		General,
-		Settings,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
-	setup: () => {
-		const v$ = useVuelidate();
-		const {
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		} = useUserAccessControl();
+const { t } = useI18n();
+const route = useRoute();
 
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'integrations/importCsv',
-		routeName: RouteNames.IMPORT_CSV,
-		permissionsTabPathName: ImportCsvRouteName.PERMISSIONS,
-	}),
-	validations() {
-		return {
-			itemInstance: {
-				name: {
-					required,
-				},
-				source: {
-					required,
-				},
-				parameters: {
-					charset: {
-						required,
-					},
-					separator: {
-						required,
-					},
-					skipHeaders: {
-						required,
-					},
-					mappings: Object.entries(ImportCsvMemberMappings).reduce(
-						(mappings, [name, { required: reqField }]) => {
-							if (reqField) {
-								mappings[name] = {
-									required,
-								};
-							}
-							return mappings;
-						},
-						{},
-					),
-				},
-			},
-		};
-	},
-	computed: {
-		isPermissionsTab() {
-			return this.$route.name === ImportCsvRouteName.PERMISSIONS;
+const {
+	hasSaveActionAccess,
+	hasReadAccess,
+	hasCreateAccess,
+	hasUpdateAccess,
+	hasDeleteAccess,
+} = useUserAccessControl();
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<ImportTemplateCard>({
+	useCardStore: useImportCsvCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed(() => {
+	const array: CardTab[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: ImportCsvRouteNames.GENERAL,
 		},
-
-		permissionsStoreData() {
-			return {
-				store: useImportCsvPermissionsStore,
-				access: {
-					read: this.hasReadAccess,
-					create: this.hasCreateAccess,
-					update: this.hasUpdateAccess,
-					delete: this.hasDeleteAccess,
-				},
-				parentId: this.$route.params.id,
-			};
+		{
+			text: t('objects.integrations.importCsv.settings'),
+			value: 'settings',
+			pathName: ImportCsvRouteNames.SETTINGS,
 		},
+	];
 
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: ImportCsvRouteName.GENERAL,
-				},
-				{
-					text: this.$t('objects.integrations.importCsv.settings'),
-					value: 'settings',
-					pathName: ImportCsvRouteName.SETTINGS,
-				},
-			];
-			if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
-		},
+	// [Claude] permissions are granted on a saved template
+	if (!isNew.value) {
+		array.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: ImportCsvRouteNames.PERMISSIONS,
+		});
+	}
 
-		path() {
-			const baseUrl = '/integrations/import-csv';
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t('objects.integrations.importCsv.importCsv'),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+	return array;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const isPermissionsTab = computed(
+	() => route.name === ImportCsvRouteNames.PERMISSIONS,
+);
+
+const permissionsStoreData = computed(() => ({
+	store: useImportCsvPermissionsStore,
+	access: {
+		read: hasReadAccess.value,
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		delete: hasDeleteAccess.value,
+	},
+	parentId: route.params.id,
+}));
+
+const { close } = useClose(RouteNames.IMPORT_CSV);
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
+	},
+	{
+		name: t('objects.integrations.importCsv.importCsv'),
+		route: '/integrations/import-csv',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-};
+]);
 </script>
-
-<style scoped></style>
