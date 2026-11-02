@@ -1,134 +1,125 @@
 <template>
-  <selection-popup v-bind="$attrs" :options="options" :selected="selected"
-    :title="$t('objects.routing.chatGateways.newChatGateway')" @change="selectOption" @close="close"
-    @select="createGateway">
+  <wt-selection-popup
+    v-bind="$attrs"
+    :options="options"
+    :selected="selected"
+    :title="t('objects.routing.chatGateways.newChatGateway')"
+    @change="selected = $event"
+    @close="emit('close')"
+    @add="create"
+  >
     <template #option="{ option }">
-      <wt-icon v-if="option.icon && !Array.isArray(option.icon)" :icon="option.icon" size="sm" />
-      <div v-if="Array.isArray(option.icon)" class="popup-options__icons-wrap">
-        <wt-icon v-for="(icon, key) of option.icon" :key="key" :icon="icon" size="sm" />
+      <div class="create-chat-gateway-popup__icons">
+        <wt-icon
+          v-for="icon of option.icons"
+          :key="icon"
+          :icon="icon"
+          size="sm"
+        />
       </div>
-      <h4 class="popup-options__item-header typo-subtitle-2">
+      <h4 class="typo-subtitle-2">
         {{ option.title }}
       </h4>
     </template>
-  </selection-popup>
+  </wt-selection-popup>
 </template>
 
-<script>
-import ChatGatewayProvider from '@webitel/ui-sdk/src/enums/ChatGatewayProvider/ChatGatewayProvider.enum';
+<script setup lang="ts">
+import { ChatGatewayProvider } from '@webitel/api-services/enums';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
-export default {
-	name: 'CreateChatGatewayPopup',
-	components: {
-		SelectionPopup,
-	},
+interface ChatGatewayProviderOption {
+	value: ChatGatewayProvider;
+	title: string;
+	icons: string[];
+}
 
-	data: () => ({
-		selected: {},
-	}),
-	computed: {
-		options() {
-			const telegramBot = {
-				value: ChatGatewayProvider.TELEGRAM_BOT,
-				title: this.$t('objects.routing.chatGateways.telegramBot.telegramBot'),
-				icon: 'messenger-telegram',
-			};
-			const telegramApp = {
-				value: ChatGatewayProvider.TELEGRAM_APP,
-				title: this.$t('objects.routing.chatGateways.telegramApp.telegramApp'),
-				icon: 'messenger-telegram',
-			};
-			const infobip = {
-				value: ChatGatewayProvider.INFOBIP,
-				title: this.$t('objects.routing.chatGateways.infobip.infobip'),
-				icon: [
-					'messenger-infobip',
-					'send-arrow',
-					'messenger-whatsapp',
-				],
-			};
-			const messenger = {
-				value: ChatGatewayProvider.MESSENGER,
-				title: this.$t('objects.routing.chatGateways.messenger.meta'),
-				icon: [
-					'meta',
-					'send-arrow',
-					'messenger-facebook',
-					'instagram',
-					'messenger-whatsapp',
-				],
-			};
-			const viber = {
-				value: ChatGatewayProvider.VIBER,
-				title: this.$t('objects.routing.chatGateways.viber.viber'),
-				icon: 'messenger-viber',
-			};
-			const webchat = {
-				value: ChatGatewayProvider.WEBCHAT,
-				title: this.$t('objects.routing.chatGateways.webchat.webchat'),
-				icon: 'messenger-web-chat',
-			};
-			const custom = {
-				value: ChatGatewayProvider.CUSTOM,
-				title: this.$t(
-					'objects.routing.chatGateways.customChat.customChatGateway',
-				),
-				icon: 'custom-chat-gateway',
-			};
-			return [
-				telegramBot,
-				telegramApp,
-				infobip,
-				messenger,
-				viber,
-				webchat,
-				custom,
-			];
-		},
-	},
+const emit = defineEmits<{
+	close: [];
+}>();
 
-	created() {
-		this.selectOption(this.options[0]);
+const { t } = useI18n();
+const router = useRouter();
+
+const options = computed<ChatGatewayProviderOption[]>(() => [
+	{
+		value: ChatGatewayProvider.TELEGRAM_BOT,
+		title: t('objects.routing.chatGateways.telegramBot.telegramBot'),
+		icons: [
+			'messenger-telegram',
+		],
 	},
-	methods: {
-		selectOption(option) {
-			this.selected = option;
-		},
-		createGateway() {
-			this.$router.push({
-				name: `${RouteNames.CHAT_GATEWAYS}-card`,
-				params: {
-					id: 'new',
-				},
-				query: {
-					type: this.selected.value,
-				},
-			});
-		},
-		close() {
-			this.$emit('close');
-		},
+	{
+		value: ChatGatewayProvider.TELEGRAM_APP,
+		title: t('objects.routing.chatGateways.telegramApp.telegramApp'),
+		icons: [
+			'messenger-telegram',
+		],
 	},
-};
+	{
+		value: ChatGatewayProvider.INFOBIP,
+		title: t('objects.routing.chatGateways.infobip.infobip'),
+		icons: [
+			'messenger-infobip',
+			'send-arrow',
+			'messenger-whatsapp',
+		],
+	},
+	{
+		value: ChatGatewayProvider.MESSENGER,
+		title: t('objects.routing.chatGateways.messenger.meta'),
+		icons: [
+			'meta',
+			'send-arrow',
+			'messenger-facebook',
+			'instagram',
+			'messenger-whatsapp',
+		],
+	},
+	{
+		value: ChatGatewayProvider.VIBER,
+		title: t('objects.routing.chatGateways.viber.viber'),
+		icons: [
+			'messenger-viber',
+		],
+	},
+	{
+		value: ChatGatewayProvider.WEBCHAT,
+		title: t('objects.routing.chatGateways.webchat.webchat'),
+		icons: [
+			'messenger-web-chat',
+		],
+	},
+	{
+		value: ChatGatewayProvider.CUSTOM,
+		title: t('objects.routing.chatGateways.customChat.customChatGateway'),
+		icons: [
+			'custom-chat-gateway',
+		],
+	},
+]);
+
+const selected = ref<ChatGatewayProviderOption>(options.value[0]);
+
+const create = () =>
+	router.push({
+		name: `${RouteNames.CHAT_GATEWAYS}-card`,
+		params: {
+			id: 'new',
+		},
+		query: {
+			type: selected.value.value,
+		},
+	});
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
-.selection-popup {
-  .popup-options__item-wrap {
-    .wt-icon {
-      margin-right: var(--spacing-xs);
-    }
-  }
-
-
-  .popup-options__icons-wrap {
-    display: flex;
-  }
-
+<style scoped>
+.create-chat-gateway-popup__icons {
+  display: flex;
+  margin-right: var(--spacing-xs);
 }
 </style>

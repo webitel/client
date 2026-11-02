@@ -235,6 +235,8 @@ export default {
 				roles: 'Ruxsatlar',
 				tokens: 'Tokens',
 				usage: 'Ishlatish',
+				expiryDays: 'Amal qilish muddati',
+				expiryDate: 'Amal qilish muddati',
 				roleAdmin: 'Admin',
 				license: 'Litsenziya',
 				devices: 'Quvurlar',
@@ -623,7 +625,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'gateway qidiruvi...',
 				host: 'Host',
-				trunkingACLTitle: 'Kirish kontrol',
 				trunkingACL: "Trunking kirish kontrol ro'yxati",
 				hostnameTrunking: 'Server/Gateway nomi yoki IP',
 				hostnameRegister: 'Registrator/Server/Gateway nomi yoki IP',
@@ -637,10 +638,6 @@ export default {
 				SIPregistrationsDescription: "SIP ro'yxat tavsifi",
 				SIPtrunking: 'SIP trunking',
 				SIPtrunkingDescription: 'SIP trunking tavsifi',
-				errors: {
-					passwordInvalid:
-						"Parolda ruxsat etilmagan belgilar mavjud. Rezervlangan URI belgilari, bo'sh joylar va (! * ' ( ) & $) kabi maxsus belgilardan foydalanish mumkin emas.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -725,7 +722,6 @@ export default {
 						square: "To'rtburchak",
 						right: "O'ng",
 						left: 'Chap',
-						static: 'Statik',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -777,18 +773,13 @@ export default {
 				newChatGateway: 'Yangi chat gateway',
 				metadata: {
 					apiKey: 'Api Kaliti',
-					number: 'Raqam',
 					baseUrl: 'Asosiy URL',
-					sendApi: 'Yuborish API',
 					allowOrigin: 'Ruxsat manzili',
 					readTimeout: "O'qish vaqt (sek)",
 					writeTimeout: 'Yozish vaqt (sek)',
 					handshakeTimeout: "Qo'zg'alish vaqt (sek)",
-					messageSize: "Xabar o'lchami max (bayt)",
 					botName: 'Bot nomi',
-					eventTypes: 'Hodisa turlari',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
@@ -1085,6 +1076,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Zvonkalar',
+					attemptsCount: 'Urinishlar',
 				},
 				processing: {
 					processing: 'Bajarilmoqda',
@@ -1131,6 +1123,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

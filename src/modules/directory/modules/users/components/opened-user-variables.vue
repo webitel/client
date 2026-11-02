@@ -22,12 +22,14 @@
             :disabled="disableUserInput"
             :placeholder="t('objects.directory.users.varKey')"
             :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.key"
+            @update:model-value="touchVariable(index)"
           />
           <wt-input-text
             v-model:model-value="variable.value"
             :disabled="disableUserInput"
             :placeholder="t('objects.directory.users.varVal')"
             :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.value"
+            @update:model-value="touchVariable(index)"
           />
           <wt-icon-action
             v-if="!disableUserInput"
@@ -53,7 +55,7 @@ const modelValue = defineModel<UserCard>({
 	required: true,
 });
 
-defineProps<{
+const props = defineProps<{
 	validationFields?: CardValidationFields<UserCard>;
 }>();
 
@@ -72,6 +74,12 @@ const addVariable = () => {
 	});
 };
 
+// [Claude] key and value are required only together, and regle shows an error
+// only on a dirty field — so editing one half dirties the whole pair
+const touchVariable = (index: number) => {
+	props.validationFields?.variables?.$each?.[index]?.$touch();
+};
+
 const deleteVariable = (index: number) => {
 	variables.value.splice(index, 1);
 };
@@ -80,13 +88,17 @@ const deleteVariable = (index: number) => {
 <style scoped>
 .opened-user-variables__pair {
   display: grid;
-  align-items: center;
-  margin-bottom: var(--spacing-sm);
+  align-items: start;
+  margin-bottom: var(--spacing-lg);
   grid-template-columns: 1fr 1fr var(--spacing-md);
   grid-gap: var(--spacing-sm);
 }
 
+.opened-user-variables__pair:has(.p-message) {
+  margin-bottom: 0;
+}
+
 .opened-user-variables__delete-button {
-  margin-bottom: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
 }
 </style>

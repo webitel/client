@@ -236,6 +236,8 @@ export default {
 				roles: 'Роли',
 				tokens: 'Токены',
 				usage: 'Использование',
+				expiryDays: 'Срок действия',
+				expiryDate: 'Срок действия',
 				roleAdmin: 'Администратор',
 				license: 'Лицензия',
 				devices: 'Устройство',
@@ -628,7 +630,6 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'поиск шлюза...',
 				host: 'Хост',
-				trunkingACLTitle: 'Контроль доступа',
 				trunkingACL: 'Многоканальный список доступа',
 				hostnameTrunking: 'Сервер/Хост шлюза или IP',
 				hostnameRegister: 'Регистратор/Сервер/Хост шлюза или IP',
@@ -642,10 +643,6 @@ export default {
 				SIPregistrationsDescription: 'Описание SIP-регистрации',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Описание SIP-транков',
-				errors: {
-					passwordInvalid:
-						"Пароль содержит запрещенные символы. Зарезервированные символы URI, пробелы, спецсимволы !*'()&$ не поддерживаются.",
-				},
 			},
 
 			chatGateways: {
@@ -731,7 +728,6 @@ export default {
 						square: 'Квадратная',
 						right: 'Справа',
 						left: 'Слева',
-						static: 'Статическая',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -783,18 +779,13 @@ export default {
 				newChatGateway: 'Новый текстовый шлюз',
 				metadata: {
 					apiKey: 'Api Key',
-					number: 'Number',
 					baseUrl: 'Base URL',
-					sendApi: 'Send API',
 					allowOrigin: 'Allow Origin',
 					readTimeout: 'Read Timeout (sec)',
 					writeTimeout: 'Write Timeout (sec)',
 					handshakeTimeout: 'Handshake Timeout (sec)',
-					messageSize: 'Message Size max (bytes)',
 					botName: 'Bot Name',
-					eventTypes: 'Event Types',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
@@ -1097,6 +1088,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Звонки',
+					attemptsCount: 'Попытки',
 				},
 				processing: {
 					processing: 'Обработка',
@@ -1143,6 +1135,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

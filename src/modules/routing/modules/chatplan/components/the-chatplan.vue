@@ -1,12 +1,12 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="chatplan table-page"
   >
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -23,62 +23,59 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.routing.chatplan.allChatplans') }}
+            {{ t('objects.routing.chatplan.allChatplans') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :selected="selected"
+            :headers="shownHeaders"
             sortable
-            @sort="sort"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
               <adm-item-link
                 :id="item.id"
-                :route-name="routeName"
+                :route-name="RouteNames.CHATPLAN"
               >
                 {{ item.name }}
               </adm-item-link>
-            </template>
-            <template #pattern="{ item }">
-              {{ item.pattern }}
             </template>
             <template #schema="{ item }">
               <adm-item-link
@@ -94,34 +91,37 @@
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
-                @update:model-value="patchProperty({ index, prop: 'enabled', value: $event })"
+                @update:model-value="
+                  patchItemProperty({ index, path: 'enabled', value: $event })
+                "
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -129,84 +129,100 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup>
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { mapActions } from 'vuex';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useChatplanDatalistStore } from '../stores';
 
-const namespace = 'routing/chatplan';
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-export default {
-	name: 'TheChatplan',
-	components: {
-		DeleteConfirmationPopup,
+const chatplanDatalistStore = useChatplanDatalistStore();
+
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(chatplanDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+	patchItemProperty,
+} = chatplanDatalistStore;
+
+initialize();
+
+const { t } = useI18n();
+const router = useRouter();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.routing.routing'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.routing.chatplan.chatplan', 2),
+		route: '/routing/chatplan',
 	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.CHATPLAN,
-	}),
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.routing.routing'),
-				},
-				{
-					name: this.$t('objects.routing.chatplan.chatplan', 2),
-					route: '/routing/chatplan',
-				},
-			];
+]);
+
+const add = () =>
+	router.push({
+		name: `${RouteNames.CHATPLAN}-card`,
+		params: {
+			id: 'new',
 		},
-	},
-	methods: {
-		...mapActions({
-			patchProperty(dispatch, payload) {
-				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-			},
-		}),
-	},
-};
-</script>
+	});
 
-<style
-  lang="scss"
-  scoped
-></style>
+const edit = (item) =>
+	router.push({
+		name: `${RouteNames.CHATPLAN}-card`,
+		params: {
+			id: item.id,
+		},
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+</script>
