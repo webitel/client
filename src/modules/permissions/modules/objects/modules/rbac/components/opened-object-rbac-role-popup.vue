@@ -42,12 +42,11 @@
 </template>
 
 <script setup lang="ts">
+import { RolesAPI } from '@webitel/api-services/api';
 import {
 	type PermissionGrantee,
 	PermissionsRoleSelect,
 } from '@webitel/ui-datalist/permissions';
-// [Claude] TODO: remove after the roles refactor (WTEL-10721) — import { RolesAPI } from '@webitel/api-services/api' instead
-import RolesAPI from '@webitel/ui-sdk/api/clients/roles/roles';
 import { ButtonColor, ComponentSize } from '@webitel/ui-sdk/enums';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
