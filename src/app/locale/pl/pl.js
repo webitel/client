@@ -234,6 +234,8 @@ export default {
 				roles: 'Role',
 				tokens: 'Tokeny',
 				usage: 'Użycie',
+				expiryDays: 'Dni ważności',
+				expiryDate: 'Data wygaśnięcia',
 				roleAdmin: 'Administrator',
 				license: 'Licencja',
 				devices: 'Urządzenia',
@@ -481,6 +483,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Zaimportowane numery: {imported}. Pominięte duplikaty: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Plik multimedialny | Pliki multimedialne',
@@ -1083,6 +1087,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Połączenia',
+					attemptsCount: 'Próby',
 				},
 				processing: {
 					processing: 'Przetwarzanie',
@@ -1129,6 +1134,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

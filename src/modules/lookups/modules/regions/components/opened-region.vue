@@ -11,104 +11,96 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
-
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { EngineRegion } from '@webitel/api-services/gen/models';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import RegionRouteNames from '../router/_internals/RegionRouteNames.enum.js';
-import General from './opened-region-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import RegionRouteNames from '../router/_internals/RegionRouteNames.enum';
+import { useRegionsCardStore } from '../stores/card/regionsCardStore';
 
-export default {
-	name: 'OpenedRegion',
-	components: {
-		General,
+const { t } = useI18n();
+const route = useRoute();
+
+const { hasSaveActionAccess } = useUserAccessControl();
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<EngineRegion>({
+	useCardStore: useRegionsCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed<CardTab[]>(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: RegionRouteNames.GENERAL,
 	},
-	mixins: [
-		openedObjectMixin,
-	],
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const { close } = useClose(RouteNames.REGIONS);
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
 	},
-	data: () => ({
-		namespace: 'lookups/regions',
-		routeName: RouteNames.REGIONS,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			timezone: {
-				required,
-			},
+	{
+		name: t('objects.lookups.regions.regions', 2),
+		route: '/lookups/regions',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: RegionRouteNames.GENERAL,
-				},
-			];
-			return tabs;
-		},
-
-		path() {
-			const baseUrl = '/lookups/regions';
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.regions.regions', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
-	},
-};
+]);
 </script>
-
-<style scoped></style>

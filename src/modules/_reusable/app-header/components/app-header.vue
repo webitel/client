@@ -10,7 +10,7 @@
       :dark-mode="darkMode"
       :logo-href="startPageHref"
     />
-    <wt-dark-mode-switcher />
+    <wt-dark-mode-switcher @changed-mode="setTheme" />
     <wt-app-navigator
       :apps="apps"
       :current-app="currentApp"
@@ -65,6 +65,8 @@ navStore.initializeNav();
 const { nav } = storeToRefs(navStore);
 
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+const setTheme = (theme: string) =>
+	store.dispatch('appearance/SET_THEME', theme);
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
 const buildInfo = {
@@ -119,7 +121,10 @@ const apps = computed(() => {
 		wfm,
 	];
 	if (config?.ON_SITE) allApps.push(grafana);
-	return allApps.filter(({ name }) => hasApplicationVisibility(name));
+	// [Claude] WTEL-10755: WFM is not part of the 26.10 release, hidden from the list
+	return allApps.filter(
+		({ name }) => name !== WtApplication.Wfm && hasApplicationVisibility(name),
+	);
 });
 
 function settings() {
