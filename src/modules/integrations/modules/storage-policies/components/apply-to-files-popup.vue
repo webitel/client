@@ -25,7 +25,7 @@
         {{ t('objects.ok') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="$emit('close')"
       >
         {{ t('reusable.cancel') }}
@@ -36,6 +36,7 @@
 
 <script setup>
 import { StoragePoliciesAPI } from '@webitel/api-services/api';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { defineEmits, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 

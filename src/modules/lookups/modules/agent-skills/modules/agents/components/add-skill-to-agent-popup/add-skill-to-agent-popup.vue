@@ -1,114 +1,66 @@
 <template>
-  <div v-show="shown">
-    <select-agents-popup
-      v-if="isSelectAgentsPopup"
-      :skill-id="skillId"
-      @cancel="cancel"
-      @select="handleSelectAgents"
-    />
-    <config-agent-skill-popup
-      v-if="isAgentConfigSkillPopup"
-      @back="handlePopupClose"
-      @cancel="cancel"
-      @select="handleSkillConfigSelect"
-    />
-  </div>
+  <select-agents-popup
+    v-if="selectedAgents === null"
+    :skill-id="skillId"
+    @cancel="emit('close')"
+    @select="selectAgents"
+  />
+  <config-agent-skill-popup
+    v-else
+    @back="selectedAgents = null"
+    @cancel="emit('close')"
+    @select="assignSkill"
+  />
 </template>
 
-<script setup>
-import { SkillAgentsAPI as AgentSkillsAPI } from '@webitel/api-services/api';
-import { computed, reactive, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+<script lang="ts" setup>
+import { SkillAgentsAPI } from '@webitel/api-services/api';
+import type { EngineAgent } from '@webitel/api-services/gen/models';
+import { ref } from 'vue';
+
 import ConfigAgentSkillPopup from './config-agent-skill-popup.vue';
 import SelectAgentsPopup from './select-agents-popup.vue';
 
-const route = useRoute();
+const props = defineProps<{
+	skillId: string | number | Array<string | number>;
+}>();
 
-const props = defineProps({
-	skillId: {
-		type: [
-			String,
-			Array,
-		],
-		required: true,
-	},
-});
+const emit = defineEmits<{
+	saved: [];
+	close: [];
+}>();
 
-const emit = defineEmits([
-	'saved',
-	'close',
-]);
+const selectedAgents = ref<EngineAgent[] | null>(null);
 
-const isSelectAgentsPopup = ref(true);
-const isAgentConfigSkillPopup = ref(false);
-const shown = ref(false);
+const selectAgents = (agents: EngineAgent[]) => {
+	selectedAgents.value = agents;
+};
 
-const itemInstance = reactive({
-	agent: [],
-	capacity: 1,
-	enabled: false,
-});
+const assignSkill = async ({
+	capacity,
+	enabled,
+}: {
+	capacity: number;
+	enabled: boolean;
+}) => {
+	const skillIds = [
+		props.skillId,
+	].flat();
 
-const isAssign = computed(() => route.query.assign); //For popup tooling
-
-function cancel() {
-	handlePopupClose();
-	emit('close');
-}
-
-function addSkillToAgent(skillId, itemInstance) {
-	return AgentSkillsAPI.add({
-		parentId: skillId,
-		itemInstance,
-	});
-}
-
-function handleSave(item = itemInstance) {
-	const parentIds = Array.isArray(props.skillId)
-		? props.skillId
-		: [
-				props.skillId,
-			];
-	return Promise.allSettled(
-		parentIds.map((parentId) => addSkillToAgent(parentId, item)),
+	await Promise.allSettled(
+		skillIds.map((parentId) =>
+			SkillAgentsAPI.add({
+				parentId,
+				itemInstance: {
+					agent: selectedAgents.value,
+					capacity,
+					enabled,
+				},
+			}),
+		),
 	);
-}
 
-function handleSelectAgents(agentIds) {
-	itemInstance.agent = agentIds;
-	isSelectAgentsPopup.value = false;
-	isAgentConfigSkillPopup.value = true;
-}
-
-function handlePopupClose() {
-	itemInstance.agent = [];
-	isAgentConfigSkillPopup.value = false;
-	isSelectAgentsPopup.value = true;
-}
-
-async function handleSkillConfigSelect({ capacity, enabled }) {
-	itemInstance.capacity = capacity;
-	itemInstance.enabled = enabled;
-	await handleSave(itemInstance);
-	handlePopupClose(); // It because we don`t use v-if on this popup in parent component
 	emit('saved');
 	emit('close');
-}
-watch(
-	isAssign,
-	(query) => {
-		/**
-   I made a popup toggle through a query, because this popup opens on different segments of the route
-   (skills and skills/id/agents). Accordingly, the params id new does not work
-   **/
-		shown.value = !!query;
-	},
-	{
-		immediate: true,
-	},
-);
+};
 </script>
-
-<style lang="scss" scoped>
-
-</style>

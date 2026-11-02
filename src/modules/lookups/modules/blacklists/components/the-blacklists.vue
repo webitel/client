@@ -1,7 +1,7 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="blacklists table-page"
   >
     <template #header>
       <wt-page-header
@@ -23,59 +23,75 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.lookups.blacklist.allBlacklists') }}
+            {{ t('objects.lookups.blacklist.allBlacklists') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.DELETE,
+              IconAction.COLUMNS,
+            ]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+            <template #columns>
+              <wt-table-column-select
+                :headers="headers"
+                @change="updateShownHeaders"
+              />
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="create()"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :headers="shownHeaders"
+            :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="routeName"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.BLACKLIST}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #numbers="{ item }">
               {{ item.count }}
@@ -86,29 +102,31 @@
                 @click="download(item)"
               />
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -116,109 +134,136 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
 import { BlacklistNumbersAPI } from '@webitel/api-services/api';
-import exportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
+import type { EngineList } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-import { useDummy } from '../../../../../app/composables/useDummy';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import dummyPicDark from '../assets/adm-dummy-blacklist-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-blacklist-light.svg';
+import { useBlacklistsDatalistStore } from '../stores/datalist/blacklistsDatalistStore';
 
-const namespace = 'lookups/blacklists';
+const { t } = useI18n();
+const router = useRouter();
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-export default {
-	name: 'TheBlacklists',
-	components: {
-		DeleteConfirmationPopup,
+const blacklistsDatalistStore = useBlacklistsDatalistStore();
+
+const {
+	dataList,
+	selected,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	headers,
+	shownHeaders,
+	filtersManager,
+	isFiltersRestoring,
+} = storeToRefs(blacklistsDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updateSelected,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	updateShownHeaders,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+} = blacklistsDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+/* [Claude] exports numbers of one blacklist, so table selection (blacklist ids) must not leak into the request */
+const { initCSVExport, exportCSV } = useCSVExport({
+	selected: ref([]),
+});
+
+initCSVExport(BlacklistNumbersAPI.getList, {
+	filename: 'numbers',
+});
+
+const download = ({ id }: EngineList) =>
+	exportCSV({
+		parentId: id,
+		fields: [
+			'number',
+			'description',
+		],
+	});
+
+const path = computed(() => [
+	{
+		name: t('objects.lookups.lookups'),
 	},
-	mixins: [
-		exportCSVMixin,
-		tableComponentMixin,
-	],
-
-	setup() {
-		const store = useStore();
-		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-		const dummyPic = computed(() =>
-			darkMode.value ? dummyPicDark : dummyPicLight,
-		);
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-			dummyPic,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.lookups.blacklist.blacklist', 2),
+		route: '/lookups/blacklist',
 	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.BLACKLIST,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.lookups.lookups'),
-				},
-				{
-					name: this.$t('objects.lookups.blacklist.blacklist', 2),
-					route: '/lookups/blacklist',
-				},
-			];
+const create = () =>
+	router.push({
+		name: `${RouteNames.BLACKLIST}-card`,
+		params: {
+			id: 'new',
+		},
+	});
+
+const edit = (item: EngineList) =>
+	router.push({
+		name: `${RouteNames.BLACKLIST}-card`,
+		params: {
+			id: item.id,
+		},
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty(
+	{
+		dataList,
+		error,
+		filters: computed(() => filtersManager.value.getAllValues()),
+		isLoading,
+	},
+	{
+		image: {
+			empty: {
+				dark: dummyPicDark,
+				light: dummyPicLight,
+			},
 		},
 	},
-
-	created() {
-		this.initCSVExport(this.getBlacklistNumbersList, {
-			filename: 'numbers',
-		});
-	},
-
-	methods: {
-		async download({ id }) {
-			return this.exportCSV({
-				parentId: id,
-				fields: [
-					'number',
-					'description',
-				],
-			});
-		},
-		getBlacklistNumbersList: BlacklistNumbersAPI.getList,
-	},
-};
+);
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
