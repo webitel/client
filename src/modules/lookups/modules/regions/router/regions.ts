@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import RegionRouteNames from './_internals/RegionRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import RegionRouteNames from './_internals/RegionRouteNames.enum';
 
 const Regions = () => import('../components/the-regions.vue');
 const OpenedRegion = () => import('../components/opened-region.vue');
@@ -38,4 +38,5 @@ const RegionsRoutes = [
 		],
 	},
 ];
+
 export default RegionsRoutes;
