@@ -235,6 +235,8 @@ export default {
 				roles: 'Ruxsatlar',
 				tokens: 'Tokens',
 				usage: 'Ishlatish',
+				expiryDays: 'Amal qilish muddati',
+				expiryDate: 'Amal qilish muddati',
 				roleAdmin: 'Admin',
 				license: 'Litsenziya',
 				devices: 'Quvurlar',
@@ -482,6 +484,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					"Import qilingan raqamlar: {imported}. O'tkazib yuborilgan dublikatlar: {skipped}.",
 			},
 			media: {
 				mediaFiles: 'Media fayl | Media fayllar',
@@ -1083,6 +1087,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Zvonkalar',
+					attemptsCount: 'Urinishlar',
 				},
 				processing: {
 					processing: 'Bajarilmoqda',
@@ -1092,6 +1097,7 @@ export default {
 					renewalSec:
 						"Qolgan (sek) bo'lganda posttizimni uzaytirishni taklif qilish",
 					allowProlongation: 'Posttizimni uzaytirishga ruxsat berish',
+					autosave: 'Posttizimni avtomatik saqlashga ruxsat berish',
 					repeatsNumber: 'Takrorlashlar soni',
 					prolongationTimeSec: 'Uzaytirish vaqti (sek)',
 					isTimeoutRetry: 'Vaqt tugagunga qadar qayta urinish',
@@ -1128,6 +1134,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

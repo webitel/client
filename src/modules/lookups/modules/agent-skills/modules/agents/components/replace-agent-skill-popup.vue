@@ -1,120 +1,100 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
+    :shown="shown"
     size="sm"
     overflow
     @close="close"
   >
     <template #title>
-      {{ $t('objects.lookups.skills.changeAgentsSkill') }}
+      {{ t('objects.lookups.skills.changeAgentsSkill') }}
     </template>
     <template #main>
-      <div class="skill-select-wrapper">
+      <div class="replace-agent-skill-popup__skill">
         <wt-single-select
-          v-model:model-value="itemInstance.skill"
+          v-model:model-value="draft.skill"
           :show-clear="false"
-          :label="$t('objects.lookups.skills.changeSkillTo')"
-          :search-method="loadDropdownOptionsList"
-          :v="v$.itemInstance.skill"
+          :label="t('objects.lookups.skills.changeSkillTo')"
+          :search-method="SkillsAPI.getLookup"
+          :regle-validation="r$.$fields.skill"
           required
         />
       </div>
-      <!-- temporary usage v-model:model-value instead of v-model because of vue 2 compat -->
       <wt-switcher
-        v-model:model-value="skillState"
-        :label="$t('objects.lookups.skills.state')"
+        v-model:model-value="draft.enabled"
+        :label="t('objects.lookups.skills.state')"
         label-left
       />
     </template>
     <template #actions>
       <wt-button
-        :disabled="computeDisabled"
+        :disabled="r$.$invalid"
         @click="change"
       >
-        {{ $t('objects.change') }}
+        {{ t('objects.change') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="close"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script lang="ts" setup>
+import { useRegleSchema } from '@regle/schemas';
 import { SkillsAPI } from '@webitel/api-services/api';
-import openedObjectValidationMixin from '../../../../../../../app/mixins/baseMixins/openedObjectValidationMixin/openedObjectValidationMixin';
-export default {
-	name: 'OpenedSkillAgentChangePopup',
-	mixins: [
-		openedObjectValidationMixin,
-	],
-	props: {
-		selectedAgents: {
-			type: Array,
-			required: true,
+import type { EngineLookup } from '@webitel/api-services/gen/models';
+import { agentSkillSchema } from '@webitel/api-services/validations';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+defineProps<{
+	shown: boolean;
+}>();
+
+const emit = defineEmits<{
+	close: [];
+	change: [
+		changes: {
+			skill: EngineLookup;
+			enabled: boolean;
 		},
-	},
-	emits: [
-		'close',
-		'change',
-	],
-	setup: () => ({
-		// Reasons for use $stopPropagation
-		// https://webitel.atlassian.net/browse/WTEL-4559?focusedCommentId=621761
-		v$: useVuelidate({
-			$stopPropagation: true,
-		}),
+	];
+}>();
+
+const { t } = useI18n();
+
+const draft = ref({
+	skill: {} as EngineLookup,
+	enabled: false,
+});
+
+const { r$ } = useRegleSchema(
+	draft,
+	agentSkillSchema.pick({
+		skill: true,
+		enabled: true,
 	}),
-	data: () => ({
-		namespace: 'lookups/skills',
-		subNamespace: 'agents',
-		itemInstance: {
-			skill: {},
-		},
-		skillState: false,
-	}),
-	validations: {
-		itemInstance: {
-			skill: {
-				required,
-			},
-		},
+	{
+		autoDirty: true,
 	},
-	computed: {
-		computeDisabled() {
-			return this.checkValidations();
-		},
-	},
-	methods: {
-		loadDropdownOptionsList(params) {
-			return SkillsAPI.getLookup(params);
-		},
-		change() {
-			const id = this.selectedAgents.map((item) => item.id);
-			const changes = {
-				enabled: this.skillState,
-				skill: this.itemInstance.skill,
-			};
-			this.$emit('change', {
-				changes,
-				id,
-			});
-			this.close();
-		},
-		close() {
-			this.$emit('close');
-		},
-	},
+);
+
+const close = () => emit('close');
+
+const change = () => {
+	emit('change', {
+		...draft.value,
+	});
+	close();
 };
 </script>
 
-<style lang="scss" scoped>
-.skill-select-wrapper {
+<style scoped>
+.replace-agent-skill-popup__skill {
   margin-bottom: var(--spacing-sm);
 }
 </style>

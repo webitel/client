@@ -464,7 +464,6 @@ export default {
 				case ChatGatewayProvider.INFOBIP:
 					return [
 						infobipChat,
-						botTemplates,
 					];
 				case ChatGatewayProvider.VIBER:
 					return [

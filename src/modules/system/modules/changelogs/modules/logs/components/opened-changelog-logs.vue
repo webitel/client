@@ -40,7 +40,7 @@
           {{ $t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
         <template #date="{ item }">
-          {{ formatDate(+item.date, FormatDateMode.DATETIME) }}
+          <wt-time-tooltip :text="formatDate(+item.date, FormatDateMode.DATETIME)" />
         </template>
         <template #user="{ item }">
           <adm-item-link
@@ -90,6 +90,7 @@
 <script>
 import { ConfigLogsAPI as LogsAPI } from '@webitel/api-services/api';
 import { LoggerAvailableSystemObjects } from '@webitel/api-services/gen/models';
+import { WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import ExportCSVMixin from '@webitel/ui-sdk/src/modules/CSVExport/mixins/exportCSVMixin';
 import { formatDate } from '@webitel/ui-sdk/utils';
@@ -106,6 +107,7 @@ export default {
 	name: 'OpenedChangelogLogs',
 	components: {
 		RecordLink,
+		WtTimeTooltip,
 	},
 	mixins: [
 		openedObjectTableTabMixin,
