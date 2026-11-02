@@ -27,7 +27,7 @@ import MediaRoutes from '../../modules/lookups/modules/media/router/media';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
-import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
+import RolesRoutes from '../../modules/permissions/modules/roles/router/roles';
 import ChatGatewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGateways';
 import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan';
 import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan';

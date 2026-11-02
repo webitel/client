@@ -1,16 +1,14 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import RolesRouteNames from './_internals/RolesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import RolesRouteNames from './_internals/RolesRouteNames.enum';
 
 const PermissionsRoles = () => import('../components/the-roles.vue');
 const OpenedPermissionsRoles = () => import('../components/opened-role.vue');
 
 const General = () => import('../components/opened-role-general.vue');
 const ApplicationsAccess = () =>
-	import(
-		'../components/role-applications-access/opened-role-applications-access.vue'
-	);
+	import('../components/applications-access/opened-applications-access.vue');
 const Permissions = () =>
 	import('../components/role-permissions/opened-role-permissions.vue');
 
