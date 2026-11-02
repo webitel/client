@@ -1,16 +1,19 @@
 <template>
-  <wt-page-wrapper class="table-page">
+  <wt-page-wrapper
+    :actions-panel="isFiltersPanelShown"
+    class="flow table-page"
+  >
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="() => (isCreateFlowPopup = true)"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
 
     <template #actions-panel>
-      <the-flow-filters :namespace="filtersNamespace" />
+      <flow-filters-panel />
     </template>
 
     <template #main>
@@ -19,7 +22,7 @@
         size="sm"
         @close="isCreateFlowPopup = false"
       />
-      <upload-popup
+      <upload-flow-popup
         :file="jsonFile"
         @close="closeUploadPopup"
       />
@@ -33,52 +36,74 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.routing.flow.allFlowSchemas') }}
+            {{ t('objects.routing.flow.allFlowSchemas') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <filter-search :namespace="filtersNamespace" />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[
+              IconAction.REFRESH,
+              IconAction.FILTERS,
+              IconAction.DELETE,
+            ]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:filters="isFiltersPanelShown = !isFiltersPanelShown"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #filters="{ action, onClick }">
+              <wt-badge :hidden="!hasPanelFilters">
+                <wt-icon-action
+                  :action="action"
+                  @click="onClick"
+                />
+              </wt-badge>
+            </template>
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-              <upload-file-icon-btn
-                v-if="hasCreateAccess"
-                accept=".json"
-                class="icon-action"
-                @change="processJSON"
-              />
-            </wt-table-actions>
-          </div>
+            </template>
+            <upload-file-icon-btn
+              v-if="hasCreateAccess"
+              accept=".json"
+              class="icon-action"
+              @change="processJSON"
+            />
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          :show-action="dummy.showAction"
-          @create="create"
-        ></wt-dummy>
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="isCreateFlowPopup = true"
+          />
 
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :selected="selected"
+            :headers="shownHeaders"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
               <wt-item-link
@@ -89,20 +114,19 @@
               </wt-item-link>
             </template>
             <template #editor="{ item }">
-              <div v-if="item.editor">
-                {{ $t('objects.routing.flow.diagram.diagram') }}
-              </div>
-              <div v-else>
-                {{ $t('objects.routing.flow.code.code') }}
-              </div>
+              {{
+                item.editor
+                  ? t('objects.routing.flow.diagram.diagram')
+                  : t('objects.routing.flow.code.code')
+              }}
             </template>
             <template #type="{ item }">
-              {{ item.type ? $t(`objects.flow.type.${item.type}`) : '' }}
+              {{ item.type ? t(`objects.flow.type.${item.type}`) : '' }}
             </template>
             <template #tags="{ item }">
               <div
                 v-if="item.tags"
-                class="the-flow__tags"
+                class="flow__tags"
               >
                 <wt-chip
                   v-for="(tag, key) of item.tags"
@@ -112,47 +136,42 @@
                 </wt-chip>
               </div>
             </template>
-
-
             <template #createdAt="{ item }">
               {{ formatDate(+item.createdAt, FormatDateMode.DATE) }}
             </template>
-
             <template #updatedAt="{ item }">
               {{ formatDate(+item.updatedAt, FormatDateMode.DATE) }}
             </template>
-
             <template #actions="{ item }">
               <wt-icon-action
                 action="download"
                 @click="download(item)"
               />
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
-                @click="edit(item, {
-                  blank: item.editor
-                })"
+                action="edit"
+                @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -160,144 +179,145 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
 import { FlowsAPI } from '@webitel/api-services/api';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import type { EngineRoutingSchema } from '@webitel/api-services/gen/models';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { saveAsJSON } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import FilterSearch from '@webitel/ui-sdk/src/modules/QueryFilters/components/filter-search.vue';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { storeToRefs } from 'pinia';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import { downloadAsJSON } from '../../../../../app/utils/download';
-import FlowEditor from '../enums/FlowEditor.enum';
-import TheFlowFilters from '../modules/filters/components/the-flow-filters.vue';
-import CreateFlowPopup from './create-flow-popup.vue';
-import UploadPopup from './upload-flow-popup.vue';
+import { filtersOptions } from '../configs/filtersOptions';
+import { FlowEditor } from '../enums/FlowEditor.enum';
+import { useFlowDatalistStore } from '../stores';
+import FlowFiltersPanel from './flow-filters-panel.vue';
+import CreateFlowPopup from './shared/create-flow-popup.vue';
+import UploadFlowPopup from './shared/upload-flow-popup.vue';
 
-const namespace = 'routing/flow';
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-export default {
-	name: 'TheFlow',
-	components: {
-		CreateFlowPopup,
-		UploadPopup,
-		UploadFileIconBtn,
-		TheFlowFilters,
-		FilterSearch,
-		DeleteConfirmationPopup,
+const flowDatalistStore = useFlowDatalistStore();
+
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(flowDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	columnResize,
+	columnReorder,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+	hasFilter,
+} = flowDatalistStore;
+
+initialize();
+
+const isFiltersPanelShown = ref(false);
+
+const hasPanelFilters = computed(() =>
+	filtersOptions.some((filter) =>
+		hasFilter(typeof filter === 'string' ? filter : filter.name),
+	),
+);
+
+const { t } = useI18n();
+const router = useRouter();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.routing.routing'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-			askDeleteConfirmation,
-			closeDelete,
-			dummy,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.routing.flow.flow', 2),
+		route: '/routing/flow',
 	},
+]);
 
-	data: () => ({
-		namespace,
-		routeName: RouteNames.FLOW,
-		jsonFile: null,
-		isCreateFlowPopup: false,
-	}),
+const isCreateFlowPopup = ref(false);
 
-	computed: {
-		FormatDateMode() {
-			return FormatDateMode;
-		},
-		path() {
-			return [
-				{
-					name: this.$t('objects.routing.routing'),
-				},
-				{
-					name: this.$t('objects.routing.flow.flow', 2),
-					route: '/routing/flow',
-				},
-			];
-		},
-		filtersNamespace() {
-			return `${this.namespace}/filters`;
-		},
+const editLink = ({ id, editor }: EngineRoutingSchema) => ({
+	name: `${RouteNames.FLOW}-card`,
+	params: {
+		id,
 	},
-	watch: {
-		'$route.query': {
-			async handler() {
-				await this.loadList();
-			},
-		},
+	query: {
+		editor: editor ? FlowEditor.Diagram : FlowEditor.Code,
 	},
-	methods: {
-		formatDate,
-		create() {
-			this.isCreateFlowPopup = true;
-		},
-		processJSON(files) {
-			const file = files[0];
-			if (file) {
-				this.jsonFile = file;
-			}
-		},
-		closeUploadPopup() {
-			this.jsonFile = null;
-			this.loadList();
-		},
-		async download({ id, name }) {
-			const flow = await FlowsAPI.get({
-				itemId: id,
-			});
-			const filename = `${name}-schema`;
-			downloadAsJSON(flow, filename);
-		},
-		editLink({ id, editor }) {
-			const routeName = this.routeName || this.tableObjectRouteName;
-			return {
-				name: `${routeName}-card`,
-				params: {
-					id,
-				},
-				query: {
-					editor: editor ? FlowEditor.DIAGRAM : FlowEditor.CODE,
-				},
-			};
-		},
-	},
+});
+
+/** [Claude] a diagram opens the external editor, so it gets a tab of its own */
+const edit = (item: EngineRoutingSchema) => {
+	const link = editLink(item);
+	if (item.editor) window.open(router.resolve(link).href, '_blank');
+	else router.push(link);
 };
+
+const download = async ({ id, name }: EngineRoutingSchema) => {
+	const flow = await FlowsAPI.get({
+		itemId: id,
+	});
+	saveAsJSON(`${name}-schema`, flow);
+};
+
+const jsonFile = ref<File | null>(null);
+const processJSON = (files: File[]) => {
+	const [file] = files;
+	if (file) jsonFile.value = file;
+};
+const closeUploadPopup = () => {
+	jsonFile.value = null;
+	loadDataList();
+};
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-.the-flow__tags {
+<style scoped>
+.flow__tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-xs);

@@ -6,7 +6,7 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -15,104 +15,108 @@
     <template #main>
       <delete-confirmation-popup
         :shown="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
         @close="closeDelete"
       />
 
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{
-              $t('objects.all', {
-                entity: $t('objects.system.changelogs.changelogs', 2).toLowerCase(),
-              })
-            }}
+            {{ t('objects.all', { entity: t('objects.system.changelogs.changelogs', 2).toLowerCase() }) }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
+            :selected="selected"
+            :headers="shownHeaders"
+            reorderable-columns
+            resizable-columns
             sortable
-            @sort="sort"
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #object="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="routeName"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.CHANGELOGS}-card`,
+                  params: { id: item.id },
+                }"
               >
-                {{ item.object.name }}
-              </adm-item-link>
+                {{ item.object?.name }}
+              </wt-item-link>
             </template>
             <template #state="{ item, index }">
               <wt-switcher
-                :model-value="item.enabled"
                 :disabled="!hasUpdateAccess"
-                @update:model-value="patchItem({ item, index, prop: 'enabled', value: $event })"
+                :model-value="item.enabled"
+                @update:model-value="patchItemProperty({ index, path: 'enabled', value: $event })"
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -120,75 +124,102 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import type { ChangelogCard } from '@webitel/api-services/validations';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useChangelogsDatalistStore } from '../stores/datalist/changelogsDatalistStore';
 
-const namespace = 'system/changelogs';
+const { t } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheChangelogs',
-	components: {
-		DeleteConfirmationPopup,
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
+
+const changelogsDatalistStore = useChangelogsDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(changelogsDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+	columnResize,
+	columnReorder,
+} = changelogsDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.system.system'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
-		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+	{
+		name: t('objects.system.changelogs.changelogs', 1),
+		route: '/system/changelogs',
 	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.CHANGELOGS,
-	}),
+]);
 
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.system.system'),
-				},
-				{
-					name: this.$t('objects.system.changelogs.changelogs', 1),
-					route: '/system/changelogs',
-				},
-			];
+const add = () =>
+	router.push({
+		name: `${RouteNames.CHANGELOGS}-card`,
+		params: {
+			id: 'new',
 		},
-	},
-};
-</script>
+	});
 
-<style scoped></style>
+const edit = ({ id }: ChangelogCard) =>
+	router.push({
+		name: `${RouteNames.CHANGELOGS}-card`,
+		params: {
+			id,
+		},
+	});
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
+</script>

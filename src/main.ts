@@ -1,5 +1,3 @@
-// dont know why but when i import dropzone css is css files, it brakes build on firefox (only build!)
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import './app/assets/icons/sprite/_index';
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
@@ -57,7 +55,13 @@ const createVueInstance = async () => {
 		await initialize();
 		createUserAccessControl(useUserinfoStore);
 	} catch (err) {
+		// [Claude] without userinfo the access store is empty, so the router would
+		// send the user to /access-denied (and on 401 we're already leaving for auth):
+		// don't build the app at all, same as the other apps.
+		// authGuard won't run then, so do its unauthorized cleanup here
 		console.error('Error initializing app', err);
+		if (!localStorage.getItem('access-token')) clearStorageNotifications();
+		return null;
 	}
 
 	const router = await initRouter({
@@ -93,7 +97,9 @@ const createVueInstance = async () => {
 		console.error('Error initializing app', err);
 	} finally {
 		const app = await createVueInstance();
-		app.provide('$config', config);
-		app.mount('#app');
+		if (app) {
+			app.provide('$config', config);
+			app.mount('#app');
+		}
 	}
 })();
