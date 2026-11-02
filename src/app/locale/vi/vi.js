@@ -233,6 +233,8 @@ export default {
 				roles: 'Vai trò',
 				tokens: 'Mã thông báo',
 				usage: 'Sử dụng',
+				expiryDays: 'Số ngày hiệu lực',
+				expiryDate: 'Ngày hết hạn',
 				roleAdmin: 'Quản trị viên',
 				license: 'Giấy phép',
 				devices: 'Thiết bị',
@@ -478,6 +480,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Đã nhập {imported} số. Đã bỏ qua {skipped} số trùng lặp.',
 			},
 			media: {
 				mediaFiles: 'Tệp phương tiện',
@@ -1078,6 +1082,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Cuộc gọi',
+					attemptsCount: 'Lượt thử',
 				},
 				processing: {
 					processing: 'Đang xử lý',
@@ -1086,6 +1091,7 @@ export default {
 					sec: 'Thời gian xử lý sau (giây)',
 					renewalSec: 'Đề xuất kéo dài xử lý sau khi còn lại (giây)',
 					allowProlongation: 'Cho phép kéo dài xử lý sau',
+					autosave: 'Cho phép tự động lưu xử lý sau',
 					repeatsNumber: 'Số lần lặp lại',
 					prolongationTimeSec: 'Thời gian kéo dài (giây)',
 					isTimeoutRetry: 'Thử lại cho đến hết thời gian chờ',
@@ -1122,6 +1128,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

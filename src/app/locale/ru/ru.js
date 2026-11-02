@@ -236,6 +236,8 @@ export default {
 				roles: 'Роли',
 				tokens: 'Токены',
 				usage: 'Использование',
+				expiryDays: 'Срок действия',
+				expiryDate: 'Срок действия',
 				roleAdmin: 'Администратор',
 				license: 'Лицензия',
 				devices: 'Устройство',
@@ -488,6 +490,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Импортировано номеров: {imported}. Пропущено дубликатов: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медиафайл| Медиафайлы',
@@ -1095,6 +1099,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Звонки',
+					attemptsCount: 'Попытки',
 				},
 				processing: {
 					processing: 'Обработка',
@@ -1104,6 +1109,7 @@ export default {
 					renewalSec:
 						'Предложить продление постобработки, когда осталось (сек)',
 					allowProlongation: 'Разрешить продление постобработки',
+					autosave: 'Разрешить автосохранение обработки',
 					repeatsNumber: 'Количество повторов',
 					prolongationTimeSec: 'Время для продления (сек)',
 					isTimeoutRetry: 'Повтор до таймаута',
@@ -1140,6 +1146,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

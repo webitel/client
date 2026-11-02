@@ -5,6 +5,16 @@ const getList = vi.fn();
 const addBulk = vi.fn();
 
 vi.mock('@webitel/api-services/api', () => ({
+	CalendarsAPI: {
+		getTimezonesLookup: async () => ({
+			items: [
+				{
+					id: '1',
+					name: 'Europe/Kyiv',
+				},
+			],
+		}),
+	},
 	CommunicationsAPI: {
 		getList: (...args: unknown[]) => getList(...args),
 	},
@@ -95,10 +105,11 @@ describe('useNormalizeCsvMembers', () => {
 	});
 
 	/**
-	 * A destination with no code (or the reverse) cannot form a communication,
-	 * so the shorter column wins and the extra value is dropped.
+	 * [Claude] A destination with no code still forms a communication: it goes
+	 * out without a type and the backend assigns the default one.
+	 * [WTEL-10252](https://webitel.atlassian.net/browse/WTEL-10252)
 	 */
-	it('stops at the shorter of the two columns', async () => {
+	it('sends a destination with no code without a type', async () => {
 		const { normalizeData } = setup();
 
 		const [member] = await normalizeData([
@@ -113,8 +124,33 @@ describe('useNormalizeCsvMembers', () => {
 			}),
 		]);
 
-		expect(member.communications).toHaveLength(1);
-		expect(member.communications[0].destination).toBe('380001');
+		expect(member.communications).toEqual([
+			{
+				destination: '380001',
+				type: {
+					id: '10',
+				},
+			},
+			{
+				destination: '380002',
+			},
+		]);
+	});
+
+	it('builds communications when the code column is not mapped', async () => {
+		const { normalizeData } = setup();
+
+		const [member] = await normalizeData([
+			row({
+				code: undefined,
+			}),
+		]);
+
+		expect(member.communications).toEqual([
+			{
+				destination: '380001',
+			},
+		]);
 	});
 
 	it('skips a row whose code is not a known communication type', async () => {

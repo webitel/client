@@ -1,16 +1,16 @@
 <template>
   <wt-popup
-    v-bind="$attrs"
-    class="opened-skill-agent-popup"
+    shown
+    class="select-agents-popup"
     min-width="768"
     width="1440"
     @close="cancel"
   >
     <template #title>
-      {{ $t('objects.lookups.skills.assignSkillToAgents') }}
+      {{ t('objects.lookups.skills.assignSkillToAgents') }}
     </template>
     <template #main>
-      <div class="opened-skill-agent-popup__filters">
+      <div class="select-agents-popup__filters">
         <wt-search-bar
           :value="filters.search"
           debounce
@@ -19,14 +19,14 @@
           @search="handleFilterChange"
         />
         <wt-multi-select
-          :placeholder="$t('objects.team')"
+          :placeholder="t('objects.team')"
           :search-method="TeamsAPI.getLookup"
           :model-value="filters.teams"
           :disabled="!hasReadTeamAccess"
           @update:model-value="handleTeamsSelect"
         />
         <wt-multi-select
-          :placeholder="$t('objects.lookups.skills.skills', 1)"
+          :placeholder="t('objects.lookups.skills.skills', 1)"
           :search-method="SkillsAPI.getLookup"
           :model-value="filters.skills"
           @update:model-value="handleSkillsSelect"
@@ -42,13 +42,16 @@
         :text="textEmpty"
       />
 
-      <div class="opened-skill-agent-popup__loader" v-show="!dataList.length && isLoading">
-        <wt-loader  />
+      <div
+        v-show="!dataList.length && isLoading"
+        class="select-agents-popup__loader"
+      >
+        <wt-loader />
       </div>
 
       <div
         v-show="dataList.length"
-        class="scroll-wrap"
+        class="select-agents-popup__scroll-wrap"
       >
         <wt-table
           :key="tableKey"
@@ -62,21 +65,25 @@
           @sort="sort"
         >
           <template #name="{ item }">
-            <adm-item-link
-              :id="item.id"
-              :route-name="RouteNames.AGENTS"
+            <wt-item-link
+              :link="{
+                name: `${RouteNames.AGENTS}-card`,
+                params: { id: item.id },
+              }"
             >
               {{ item.name }}
-            </adm-item-link>
+            </wt-item-link>
           </template>
           <template #team="{ item }">
-            <adm-item-link
+            <wt-item-link
               v-if="item.team"
-              :id="item.team.id"
-              :route-name="RouteNames.AGENTS"
+              :link="{
+                name: `${RouteNames.TEAMS}-card`,
+                params: { id: item.team.id },
+              }"
             >
               {{ item.team.name }}
-            </adm-item-link>
+            </wt-item-link>
           </template>
         </wt-table>
       </div>
@@ -86,51 +93,60 @@
         :disabled="!selectedRows.length"
         @click="handleNext"
       >
-        {{ $t('objects.next') }}
+        {{ t('objects.next') }}
       </wt-button>
       <wt-button
-        color="secondary"
+        :color="ButtonColor.SECONDARY"
         @click="cancel"
       >
-        {{ $t('objects.close') }}
+        {{ t('objects.close') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script setup>
+
+<script lang="ts" setup>
 import { AgentsAPI, SkillsAPI, TeamsAPI } from '@webitel/api-services/api';
-import { WtObject } from '@webitel/ui-sdk/enums';
+import type {
+	EngineAgent,
+	EngineLookup,
+} from '@webitel/api-services/gen/models';
+import type { DatalistTableHeader } from '@webitel/ui-datalist';
+import { ButtonColor, WtObject } from '@webitel/ui-sdk/enums';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import {
+	type SortOrder,
 	SortSymbols,
 	sortToQueryAdapter,
 } from '@webitel/ui-sdk/src/scripts/sortQueryAdapters';
 import { computed, onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum';
 
-const props = defineProps({
-	skillId: {
-		type: [
-			String,
-			Array,
-		], // Array of strings
-		required: true,
-	},
-});
+type SelectableAgent = EngineAgent & {
+	_isSelected: boolean;
+};
 
-const emit = defineEmits([
-	'select',
-	'cancel',
-]);
+const props = defineProps<{
+	skillId: string | number | Array<string | number>;
+}>();
 
-// we should keep filters schema in separate function
-// in order to reset it completely at "filters reset" action
+const emit = defineEmits<{
+	select: [
+		agents: SelectableAgent[],
+	];
+	cancel: [];
+}>();
+
+const { t } = useI18n();
+
 const getFilters = () => ({
 	search: '',
-	teams: [],
-	skills: [],
+	teams: [] as EngineLookup[],
+	skills: [] as EngineLookup[],
 	sort: '',
 });
 
@@ -140,7 +156,7 @@ const { hasReadAccess: hasReadTeamAccess } = useUserAccessControl(
 
 const filters = ref(getFilters());
 const tableKey = ref(0);
-const headers = reactive([
+const headers = reactive<DatalistTableHeader[]>([
 	{
 		value: 'name',
 		field: 'name',
@@ -154,7 +170,7 @@ const headers = reactive([
 		sort: SortSymbols.NONE,
 	},
 ]);
-const dataList = ref([]);
+const dataList = ref<SelectableAgent[]>([]);
 const page = ref(0);
 const isNext = ref(false);
 const isLoading = ref(false);
@@ -170,91 +186,84 @@ const {
 } = useTableEmpty({
 	dataList,
 	filters,
-	error: false,
+	error: ref(null),
 	isLoading,
 });
 
-function setDataList(items) {
+const setDataList = (items: SelectableAgent[]) => {
 	if (page.value === 1) dataList.value = items;
 	else dataList.value.push(...items);
-}
+};
 
-async function loadDataList() {
-	const size = 20;
-	const params = {
-		size,
+const loadDataList = async () => {
+	const { items, next } = await AgentsAPI.getList({
+		size: 20,
 		...filters.value,
 		team: filters.value.teams.map(({ id }) => id),
 		skill: filters.value.skills.map(({ id }) => id),
 		notSkillId: props.skillId,
 		page: page.value,
-	};
-	const { items, next } = await AgentsAPI.getList(params);
-	const _items = items.map((i) => ({
-		...i,
-		_isSelected: false,
-	}));
-	setDataList(_items);
+	});
+	setDataList(
+		items.map((item: EngineAgent) => ({
+			...item,
+			_isSelected: false,
+		})),
+	);
 	isNext.value = next;
-}
+};
 
-function updateSearchValue(value) {
+const callLoadDataList = async () => {
+	isLoading.value = true;
+	await loadDataList();
+	isLoading.value = false;
+};
+
+const updateSearchValue = (value: string) => {
 	if (!value) {
 		isLoading.value = true;
 	}
 
 	filters.value.search = value;
-}
+};
 
-function handleFilterChange() {
+const handleFilterChange = () => {
 	page.value = 1;
 	tableKey.value += 1;
 	return callLoadDataList();
-}
+};
 
-function handleTeamsSelect(value) {
+const handleTeamsSelect = (value: EngineLookup[]) => {
 	filters.value.teams = value;
 	return handleFilterChange();
-}
+};
 
-function handleSkillsSelect(value) {
+const handleSkillsSelect = (value: EngineLookup[]) => {
 	filters.value.skills = value;
 	return handleFilterChange();
-}
+};
 
-function resetFilters() {
+const resetFilters = () => {
 	isLoading.value = true;
 	filters.value = getFilters();
 	return handleFilterChange();
-}
+};
 
-function handleNext() {
-	emit('select', selectedRows.value);
-}
+const handleNext = () => emit('select', selectedRows.value);
 
-function sort(header, nextSortOrder) {
+const sort = (header: DatalistTableHeader, nextSortOrder: SortOrder) => {
 	filters.value.sort = nextSortOrder
 		? `${sortToQueryAdapter(nextSortOrder)}${header.field}`
 		: nextSortOrder;
 	handleFilterChange();
 
 	headers.forEach((oldHeader) => {
-		if (oldHeader.sort !== undefined) {
-			oldHeader.sort =
-				oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE;
-		}
+		oldHeader.sort =
+			oldHeader.field === header.field ? nextSortOrder : SortSymbols.NONE;
 	});
-}
+};
 
-function cancel() {
-	emit('cancel');
-}
-
-async function callLoadDataList() {
-	isLoading.value = true;
-	await loadDataList();
-	isLoading.value = false;
-}
+const cancel = () => emit('cancel');
 
 const handleIntersect = () => {
 	if (!isNext.value || isLoading.value) return;
@@ -262,45 +271,37 @@ const handleIntersect = () => {
 	callLoadDataList();
 };
 
-onMounted(async () => {
+onMounted(() => {
 	page.value = 1;
-	await callLoadDataList();
+	return callLoadDataList();
 });
 </script>
 
-<style lang="scss">
-.opened-skill-agent-popup {
-  &__filters {
-    display: grid;
-    align-items: center;
-    margin-bottom: var(--spacing-sm);
-    grid-template-columns: repeat(3, 1fr) var(--spacing-md);
-    gap: var(--spacing-xs);
-  }
-
-  &__loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 35vh;
-  }
-
-  &.wt-popup {
-    .wt-popup__main {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .scroll-wrap {
-      overflow: auto;
-      flex-grow: 1;
-      min-height: 0;
-    }
-  }
-
-  .scroll-wrap {
-    height: 35vh;
-  }
+<style scoped>
+.select-agents-popup__filters {
+  display: grid;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+  grid-template-columns: repeat(3, 1fr) var(--spacing-md);
+  gap: var(--spacing-xs);
 }
 
+.select-agents-popup__loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+}
+
+.select-agents-popup :deep(.wt-popup__main) {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-agents-popup__scroll-wrap {
+  overflow: auto;
+  flex-grow: 1;
+  min-height: 0;
+  height: 35vh;
+}
 </style>
