@@ -63,14 +63,18 @@
           {{ prettifyDate(item.date) }}
         </template>
         <template #workStart="{ item }">
-          <div v-if="item.workStart != null">
-            {{ ConvertDurationWithMinutes(item.workStart) }}
-          </div>
+          <wt-time-tooltip
+            v-if="item.workStart != null"
+            :text="ConvertDurationWithMinutes(item.workStart)"
+            :label="calendarTimeZoneLabel"
+          />
         </template>
         <template #workStop="{ item }">
-          <div v-if="item.workStop != null">
-            {{ ConvertDurationWithMinutes(item.workStop) }}
-          </div>
+          <wt-time-tooltip
+            v-if="item.workStop != null"
+            :text="ConvertDurationWithMinutes(item.workStop)"
+            :label="calendarTimeZoneLabel"
+          />
         </template>
         <template #repeat="{ item }">
           <wt-switcher
@@ -103,6 +107,7 @@
 
 <script setup lang="ts">
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -209,6 +214,10 @@ const saveHoliday = (item: CalendarExceptUi) => {
 
 const prettifyDate = (date: number | string | undefined) =>
 	formatDate(Number(date), FormatDateMode.DATE);
+
+const calendarTimeZoneLabel = computed(
+	() => modelValue.value.timezone?.name || '',
+);
 
 const openPopup = (holidayIndex: string) =>
 	router.push({

@@ -20,6 +20,7 @@ import App from './the-app.vue';
 
 import './app/css/main.scss';
 import { configureZod } from '@webitel/ui-sdk/validations';
+import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
 
 const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
@@ -40,27 +41,6 @@ setApiServicesConfig({
 // generated api-services clients call through this app's instance
 setDefaultAxiosInstance(instance);
 
-const setTokenFromUrl = () => {
-	try {
-		const queryMap: {
-			accessToken?: string;
-		} = window.location.search
-			.slice(1)
-			.split('&')
-			.reduce((obj, query) => {
-				const [key, value] = query.split('=');
-				obj[key] = value;
-				return obj;
-			}, {});
-
-		if (queryMap.accessToken) {
-			localStorage.setItem('access-token', queryMap.accessToken);
-		}
-	} catch (err) {
-		console.error('Error restoring token from url', err);
-	}
-};
-
 const createVueInstance = async () => {
 	const app = createApp(App)
 		.use(store)
@@ -75,7 +55,13 @@ const createVueInstance = async () => {
 		await initialize();
 		createUserAccessControl(useUserinfoStore);
 	} catch (err) {
+		// [Claude] without userinfo the access store is empty, so the router would
+		// send the user to /access-denied (and on 401 we're already leaving for auth):
+		// don't build the app at all, same as the other apps.
+		// authGuard won't run then, so do its unauthorized cleanup here
 		console.error('Error initializing app', err);
+		if (!localStorage.getItem('access-token')) clearStorageNotifications();
+		return null;
 	}
 
 	const router = await initRouter({
@@ -111,7 +97,9 @@ const createVueInstance = async () => {
 		console.error('Error initializing app', err);
 	} finally {
 		const app = await createVueInstance();
-		app.provide('$config', config);
-		app.mount('#app');
+		if (app) {
+			app.provide('$config', config);
+			app.mount('#app');
+		}
 	}
 })();

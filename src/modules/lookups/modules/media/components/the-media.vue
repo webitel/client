@@ -269,7 +269,10 @@ const {
 	downloadStatus: filesDownloadProgress,
 	zippingStatus: filesZippingProgress,
 } = useFilesExport({
-	getFileURL: getDownloadUrl,
+	getFileURL: ({ id }) =>
+		getDownloadUrl({
+			id,
+		}),
 	fetch: async (params) => {
 		if (selected.value.length)
 			return {

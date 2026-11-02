@@ -18,14 +18,14 @@ import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-po
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
 import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause';
-import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
-import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
-import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.js';
+import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills';
+import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists';
+import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets';
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
-import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
+import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
-import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
+import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
 import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
@@ -39,6 +39,7 @@ import ConfigurationRoutes from '../../modules/system/modules/configuration/rout
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
 import RouteNames from './_internals/RouteNames.enum.js';
 import RoutePaths from './_internals/RoutePaths';
+import { createAuthGuard } from './authGuard';
 
 const ApplicationHub = () =>
 	import('../../modules/application-hub/components/application-hub.vue');
@@ -163,27 +164,11 @@ export const initRouter = async ({
 		],
 	});
 
-	router.beforeEach((to) => {
-		if (!localStorage.getItem('access-token') && !to.query.accessToken) {
-			// @author @Lear24
-			// remove flag about shown notifications from localStorage
-			onUnauthorized();
-			const desiredUrl = encodeURIComponent(window.location.href);
-			const authUrl = import.meta.env.VITE_AUTH_URL;
-			window.location.href = `${authUrl}?redirectTo=${desiredUrl}`;
-		} else if (to.query.accessToken) {
-			// assume that access token was set from query before app initialization in main.js
-			const newQuery = {
-				...to.query,
-			};
-			newQuery.accessToken = undefined;
-			return {
-				...to,
-				query: newQuery,
-			};
-		}
-		return true;
-	});
+	router.beforeEach(
+		createAuthGuard({
+			onUnauthorized,
+		}),
+	);
 
 	beforeEach.forEach((guard) => {
 		router.beforeEach(guard);
