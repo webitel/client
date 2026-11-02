@@ -624,7 +624,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'caută gateway...',
 				host: 'Gazdă',
-				trunkingACLTitle: 'Control acces',
 				trunkingACL: 'Listă de control acces trunking',
 				hostnameTrunking: 'Nume gazdă/Gateway sau IP',
 				hostnameRegister: 'Nume gazdă/Server/Gateway sau IP',
@@ -638,10 +637,6 @@ export default {
 				SIPregistrationsDescription: 'Descriere înregistrare SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Descriere trunking SIP',
-				errors: {
-					passwordInvalid:
-						"Parola conține caractere interzise. Simbolurile URI rezervate, spațiile și caracterele speciale precum (! * ' ( ) & $) nu sunt permise.",
-				},
 			},
 			chatGateways: {
 				templates: {

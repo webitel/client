@@ -1,75 +1,56 @@
 <template>
-  <selection-popup
+  <wt-selection-popup
     v-bind="$attrs"
     :options="options"
     :selected="selected"
-    :title="$t('objects.routing.gateways.newGateway')"
-    @change="selectOption"
-    @close="close"
-    @select="createGateway"
+    :title="t('objects.routing.gateways.newGateway')"
+    @change="selected = $event"
+    @close="emit('close')"
+    @add="create"
   />
 </template>
 
-<script>
-import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { GatewayType } from '../enums/GatewayType.enum';
 
-export default {
-	name: 'CreateGatewayPopup',
-	components: {
-		SelectionPopup,
-	},
-	data: () => ({
-		selected: null,
-	}),
+interface GatewayTypeOption {
+	value: GatewayType;
+	title: string;
+}
 
-	computed: {
-		options() {
-			const register = {
-				value: 'reg',
-				title: this.$t('objects.routing.gateways.SIPregistrations'),
-				usage: this.$t('objects.routing.gateways.SIPregistrationsDescription'),
-			};
-			const trunking = {
-				value: 'trunk',
-				title: this.$t('objects.routing.gateways.SIPtrunking'),
-				usage: this.$t('objects.routing.gateways.SIPtrunkingDescription'),
-			};
-			return [
-				register,
-				trunking,
-			];
-		},
-	},
+const emit = defineEmits<{
+	close: [];
+}>();
 
-	created() {
-		this.selectOption(this.options[0]);
-	},
+const { t } = useI18n();
+const router = useRouter();
 
-	methods: {
-		selectOption(option) {
-			this.selected = option;
-		},
-		createGateway() {
-			if (this.selected) {
-				this.$router.push({
-					name: `${RouteNames.GATEWAYS}-card`,
-					params: {
-						id: 'new',
-					},
-					query: {
-						type: this.selected.value,
-					},
-				});
-			}
-		},
-		close() {
-			this.$emit('close');
-		},
+const options = computed<GatewayTypeOption[]>(() => [
+	{
+		value: GatewayType.Register,
+		title: t('objects.routing.gateways.SIPregistrations'),
 	},
-};
+	{
+		value: GatewayType.Trunking,
+		title: t('objects.routing.gateways.SIPtrunking'),
+	},
+]);
+
+const selected = ref<GatewayTypeOption>(options.value[0]);
+
+const create = () =>
+	router.push({
+		name: `${RouteNames.GATEWAYS}-card`,
+		params: {
+			id: 'new',
+		},
+		query: {
+			type: selected.value.value,
+		},
+	});
 </script>
-
-<style lang="scss" scoped>
-
-</style>
