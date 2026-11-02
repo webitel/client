@@ -2,7 +2,6 @@ import { createPinia } from 'pinia';
 import { createStore } from 'vuex';
 
 import appearance from '../../modules/appearance/store/appearance';
-import permissions from '../../modules/permissions/store/permissions';
 
 const store = createStore({
 	strict: false,
@@ -15,7 +14,6 @@ const store = createStore({
 		},
 	},
 	modules: {
-		permissions,
 		appearance,
 	},
 });
