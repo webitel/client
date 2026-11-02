@@ -137,6 +137,7 @@ import {
 	FlowsAPI,
 	MediaAPI,
 	QueuesAPI,
+	RolesAPI,
 	TeamsAPI,
 } from '@webitel/api-services/api';
 import {
@@ -149,7 +150,6 @@ import { kebabToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RolesAPI from '../../../../permissions/modules/roles/api/roles';
 import { useQueueTypeControls } from '../composables/useQueueTypeControls';
 import type { Queue } from '../types/Queue';
 

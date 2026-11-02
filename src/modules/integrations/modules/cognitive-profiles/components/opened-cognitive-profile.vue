@@ -1,8 +1,5 @@
 <template>
-  <wt-page-wrapper
-    v-if="showPage"
-    :actions-panel="false"
-  >
+  <wt-page-wrapper :actions-panel="false">
     <template #header>
       <wt-page-header
         :hide-primary="!hasSaveActionAccess"
@@ -16,7 +13,9 @@
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -25,22 +24,14 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <router-view
-          v-if="isPermissionsTab"
-          v-slot="{ Component }"
-        >
+        <router-view v-slot="{ Component }">
           <component
-            v-if="Component"
             :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
             v-bind="permissionsStoreData"
           />
         </router-view>
-        <component
-          v-else
-          :is="currentTab && currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
         <input
           hidden
           type="submit"
@@ -50,194 +41,111 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, requiredIf, requiredUnless } from '@vuelidate/validators';
-import { StorageProviderType } from '@webitel/api-services/gen/models';
-import deepmerge from 'deepmerge';
+<script setup lang="ts">
+import { getCognitiveProfileDefaults } from '@webitel/api-services/api';
+import type { StorageProviderType } from '@webitel/api-services/gen/models';
+import type { CognitiveProfileCard } from '@webitel/api-services/validations';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum';
+import { useCognitiveProfileCardStore } from '../stores/card/cognitiveProfileCardStore';
 import { useCognitiveProfilesPermissionsStore } from '../stores/permissions/cognitiveProfilesPermissionsStore';
-import ElevenLabs from './eleven-labs/opened-cognitive-profile-eleven-labs.vue';
-import Google from './google/opened-cognitive-profile-google.vue';
-import Microsoft from './microsoft/opened-cognitive-profile-microsoft.vue';
 
-export default {
-	name: 'OpenedCognitiveProfile',
-	components: {
-		Microsoft,
-		Google,
-		ElevenLabs,
+const { t } = useI18n();
+const route = useRoute();
+
+const {
+	hasSaveActionAccess,
+	hasReadAccess,
+	hasCreateAccess,
+	hasUpdateAccess,
+	hasDeleteAccess,
+} = useUserAccessControl();
+
+const cognitiveProfileCardStore = useCognitiveProfileCardStore();
+const { draftItemInstance } = storeToRefs(cognitiveProfileCardStore);
+
+/** [Claude] a new profile is seeded with the defaults of the provider chosen in the create popup */
+if (route.params.id === 'new') {
+	draftItemInstance.value = getCognitiveProfileDefaults(
+		route.query.type as StorageProviderType | undefined,
+	);
+}
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<CognitiveProfileCard>({
+	useCardStore: useCognitiveProfileCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed(() => {
+	const array: CardTab[] = [
+		{
+			text: modelValue.value.provider ?? t('objects.general'),
+			value: 'general',
+			pathName: CognitiveProfilesRouteNames.GENERAL,
+		},
+	];
+
+	if (!isNew.value) {
+		array.push({
+			text: t('objects.permissions.permissions', 2),
+			value: 'permissions',
+			pathName: CognitiveProfilesRouteNames.PERMISSIONS,
+		});
+	}
+
+	return array;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const permissionsStoreData = computed(() => ({
+	store: useCognitiveProfilesPermissionsStore,
+	access: {
+		read: hasReadAccess.value,
+		create: hasCreateAccess.value,
+		update: hasUpdateAccess.value,
+		delete: hasDeleteAccess.value,
 	},
-	mixins: [
-		openedObjectMixin,
-	],
+	parentId: route.params.id,
+}));
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const {
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		} = useUserAccessControl();
+const { close } = useClose(RouteNames.COGNITIVE_PROFILES);
 
-		return {
-			v$,
-			hasSaveActionAccess,
-			hasReadAccess,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	data: () => ({
-		namespace: 'integrations/cognitiveProfiles',
-		routeName: RouteNames.COGNITIVE_PROFILES,
-		permissionsTabPathName: CognitiveProfilesRouteNames.PERMISSIONS,
-	}),
-	validations() {
-		const defaults = {
-			itemInstance: {
-				name: {
-					required,
-				},
-				service: {
-					required,
-				},
-				provider: {
-					required,
-				},
-			},
-		};
-		switch (this.provider) {
-			case StorageProviderType.Microsoft:
-				return deepmerge(defaults, {
-					itemInstance: {
-						properties: {
-							key: {
-								required: requiredUnless(() => !!this.id),
-							},
-							region: {
-								required,
-							},
-						},
-					},
-				});
-			case StorageProviderType.Google:
-				return deepmerge(defaults, {
-					itemInstance: {
-						properties: {
-							key: {
-								required: requiredIf(() => {
-									return !this.itemInstance.properties.keyFilename && !!this.id;
-								}),
-							},
-						},
-					},
-				});
-			case StorageProviderType.ElevenLabs:
-				return deepmerge(defaults, {
-					itemInstance: {
-						properties: {
-							key: {
-								required: requiredUnless(() => !!this.id),
-							},
-						},
-					},
-				});
-			default:
-				return defaults;
-		}
+	{
+		name: t('objects.integrations.cognitiveProfiles.cognitiveProfiles', 2),
+		route: '/integrations/cognitive-profiles',
 	},
-
-	computed: {
-		isPermissionsTab() {
-			return this.$route.name === CognitiveProfilesRouteNames.PERMISSIONS;
-		},
-
-		permissionsStoreData() {
-			return {
-				store: useCognitiveProfilesPermissionsStore,
-				access: {
-					read: this.hasReadAccess,
-					create: this.hasCreateAccess,
-					update: this.hasUpdateAccess,
-					delete: this.hasDeleteAccess,
-				},
-				parentId: this.$route.params.id,
-			};
-		},
-
-		showPage() {
-			return this.provider !== null;
-		},
-		provider() {
-			return this.itemInstance.provider;
-		},
-		tabs() {
-			const microsoft = {
-				text: StorageProviderType.Microsoft,
-				value: 'Microsoft',
-				pathName: CognitiveProfilesRouteNames.GENERAL,
-			};
-
-			const google = {
-				text: StorageProviderType.Google,
-				value: 'Google',
-				pathName: CognitiveProfilesRouteNames.GENERAL,
-			};
-
-			const elevenLabs = {
-				text: StorageProviderType.ElevenLabs,
-				value: 'ElevenLabs',
-				pathName: CognitiveProfilesRouteNames.GENERAL,
-			};
-
-			const tabs = [];
-			if (this.provider === StorageProviderType.Microsoft) tabs.push(microsoft);
-			else if (this.provider === StorageProviderType.Google) tabs.push(google);
-			else if (this.provider === StorageProviderType.ElevenLabs)
-				tabs.push(elevenLabs);
-			if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
-		},
-
-		path() {
-			const baseUrl = '/integrations/cognitive-profiles';
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t(
-						'objects.integrations.cognitiveProfiles.cognitiveProfiles',
-						2,
-					),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-	methods: {
-		async loadPageData() {
-			await this.setId(this.$route.params.id);
-			await this.loadItem(this.$route.query.type);
-			this.setInitialTab();
-		},
-	},
-};
+]);
 </script>
-
-<style scoped></style>

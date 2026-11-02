@@ -6,7 +6,7 @@
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -14,86 +14,87 @@
 
     <template #main>
       <delete-confirmation-popup
-        v-show="isDeleteConfirmationPopup"
-        :delete-count="deleteCount"
+        :shown="isDeleteConfirmationPopup"
         :callback="deleteCallback"
+        :delete-count="deleteCount"
         @close="closeDelete"
       />
 
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.integrations.storagePolicies.storagePolicies', 2) }}
+            {{ t('objects.integrations.storagePolicies.storagePolicies', 2) }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="
-                  askDeleteConfirmation({
-                    deleted: selectedRows,
-                    callback: () => deleteData(selectedRows),
-                  })
-                  "
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
 
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :src="dummy.src"
-          :text="dummy.text && $t(dummy.text)"
-          :dark-mode="darkMode"
-          :show-action="dummy.showAction"
-          @create="create"
-        />
+          <wt-loader v-show="isLoading" />
 
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
           <wt-table
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
-            fixed-actions
-            sortable
+            :selected="selected"
+            :headers="shownHeaders"
             :row-reorder="hasUpdateAccess"
-            @sort="sort"
+            fixed-actions
+            reorderable-columns
+            resizable-columns
+            sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @reorder:row="handleReorder"
+            @sort="updateSort"
+            @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <wt-item-link :link="editLink(item)">
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.STORAGE_POLICIES}-card`,
+                  params: { id: item.id },
+                }"
+              >
                 {{ item.name }}
               </wt-item-link>
             </template>
 
             <template #channels="{ item }">
               <wt-display-chip-items
-                v-if="item?.channels.length"
-                :items="item?.channels"
+                v-if="item.channels?.length"
+                :items="item.channels"
               >
                 <template #first-item>
                   <p>
-                    {{
-                      $t(
-                        `objects.integrations.storagePolicies.channels.${item.channels[0]}`
-                      )
-                    }}
+                    {{ t(`objects.integrations.storagePolicies.channels.${item.channels[0]}`) }}
                   </p>
                 </template>
 
@@ -102,11 +103,7 @@
                     v-for="channel of item.channels.slice(1)"
                     :key="channel"
                   >
-                    {{
-                      $t(
-                        `objects.integrations.storagePolicies.channels.${channel}`,
-                      )
-                    }}
+                    {{ t(`objects.integrations.storagePolicies.channels.${channel}`) }}
                   </p>
                 </template>
               </wt-display-chip-items>
@@ -114,19 +111,21 @@
 
             <template #mimeTypes="{ item }">
               <wt-display-chip-items
-                v-if="item?.mimeTypes.length"
-                :items="item?.mimeTypes"
+                v-if="item.mimeTypes?.length"
+                :items="item.mimeTypes"
               >
                 <template #first-item>
-                  <wt-chip color="secondary"> {{ item.mimeTypes[0] }} </wt-chip>
+                  <wt-chip :color="ChipColor.SECONDARY">
+                    {{ item.mimeTypes[0] }}
+                  </wt-chip>
                 </template>
 
                 <template #items>
                   <p
-                    v-for="channel of item.mimeTypes.slice(1)"
-                    :key="channel"
+                    v-for="mimeType of item.mimeTypes.slice(1)"
+                    :key="mimeType"
                   >
-                    {{ channel }}
+                    {{ mimeType }}
                   </p>
                 </template>
               </wt-display-chip-items>
@@ -136,39 +135,37 @@
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="item.enabled"
-                @update:model-value="
-                  patchItem({ item, index, prop: 'enabled', value: $event })
-                  "
+                @update:model-value="patchItemProperty({ index, path: 'enabled', value: $event })"
               />
             </template>
 
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
+                action="delete"
                 @click="
                   askDeleteConfirmation({
                     deleted: [item],
-                    callback: () => deleteData(item),
+                    callback: () => deleteEls([item]),
                   })
-                  "
+                "
               />
             </template>
           </wt-table>
+
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -176,114 +173,123 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup lang="ts">
+import { StoragePoliciesAPI } from '@webitel/api-services/api';
+import type { StoragePolicyCard } from '@webitel/api-services/validations';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems } from '@webitel/ui-sdk/components';
+import { ChipColor, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { mapActions } from 'vuex';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy.js';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useStoragePoliciesDatalistStore } from '../stores/datalist/storagePoliciesDatalistStore';
 
-const namespace = 'integrations/storagePolicies';
+const { t } = useI18n();
+const router = useRouter();
 
-export default {
-	name: 'TheStoragePolicies',
-	components: {
-		DeleteConfirmationPopup,
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
+
+const storagePoliciesDatalistStore = useStoragePoliciesDatalistStore();
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(storagePoliciesDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	patchItemProperty,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+	columnResize,
+	columnReorder,
+} = storagePoliciesDatalistStore;
+
+initialize();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
+	{
+		name: t('objects.integrations.storagePolicies.storagePolicies', 2),
+		route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
+	},
+]);
+
+const add = () =>
+	router.push({
+		name: `${RouteNames.STORAGE_POLICIES}-card`,
+		params: {
+			id: 'new',
+		},
+	});
+
+const edit = ({ id }: StoragePolicyCard) =>
+	router.push({
+		name: `${RouteNames.STORAGE_POLICIES}-card`,
+		params: {
+			id,
+		},
+	});
+
+/** [Claude] the policies apply in their position order, so a dragged row is moved on the backend and the list reloaded */
+const handleReorder = async ({
+	oldIndex,
+	newIndex,
+}: {
+	oldIndex: number;
+	newIndex: number;
+}) => {
+	if (oldIndex === newIndex) return;
+	try {
+		await StoragePoliciesAPI.movePosition({
+			fromId: dataList.value[oldIndex].id,
+			toId: dataList.value[newIndex].id,
 		});
-
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
-	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.STORAGE_POLICIES,
-	}),
-
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t(
-						'objects.integrations.storagePolicies.storagePolicies',
-						2,
-					),
-					route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
-				},
-			];
-		},
-	},
-	methods: {
-		...mapActions({
-			swapRows(dispatch, payload) {
-				return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
-			},
-		}),
-		create() {
-			this.$router.push({
-				name: `${RouteNames.STORAGE_POLICIES}-card`,
-				params: {
-					id: 'new',
-				},
-			});
-		},
-		editLink({ id }) {
-			return {
-				name: `${RouteNames.STORAGE_POLICIES}-card`,
-				params: {
-					id,
-				},
-			};
-		},
-		async handleReorder({ oldIndex, newIndex }) {
-			if (oldIndex === newIndex) return;
-			const fromId = this.dataList[oldIndex].id;
-			const toId = this.dataList[newIndex].id;
-			await this.swapRowsAndReloadList({
-				fromId,
-				toId,
-			});
-		},
-		async swapRowsAndReloadList(swapPayload) {
-			await this.swapRows(swapPayload);
-			await this.loadList();
-		},
-	},
+	} finally {
+		await loadDataList();
+	}
 };
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>

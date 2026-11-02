@@ -1,9 +1,6 @@
 <template>
   <section class="table-section">
-    <header class="table-title">
-      <h3 class="table-title__title">
-        {{ t('objects.ccenter.queues.logs.logs', 1) }}
-      </h3>
+    <header class="table-title opened-queue-logs__header">
       <div class="table-title__actions-wrap">
         <wt-action-bar
           :include="[IconAction.REFRESH, IconAction.FILTERS, IconAction.COLUMNS]"
@@ -85,7 +82,7 @@
           {{ item.attempts || 0 }}
         </template>
         <template #result="{ item }">
-          {{ t(`objects.ccenter.queues.logs.resultName.${item.result}`) }}
+          {{ resultName(item.result) }}
         </template>
 
         <template #column-filter="scope">
@@ -135,7 +132,12 @@ import QueueLogsColumnFilter from './queue-logs-column-filter.vue';
 
 // the card page still passes `namespace` and a vuelidate instance to every tab
 
-const { t } = useI18n();
+const { t, te } = useI18n();
+
+const resultName = (result: string) => {
+	const key = `objects.ccenter.queues.logs.resultName.${result}`;
+	return te(key) ? t(key) : result;
+};
 const route = useRoute();
 
 const parentId = computed(() => route.params.id as string);
@@ -206,7 +208,9 @@ const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+<style scoped>
+/* [Claude] the actions are the header's only child, so they are pushed to the right */
+.opened-queue-logs__header {
+  justify-content: flex-end;
+}
+</style>

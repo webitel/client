@@ -1,10 +1,11 @@
 import RouteNames from '../../../app/router/_internals/RouteNames.enum.js';
-import SettingsRouteNames from './_internals/SettingsRouteNames.enum.js';
+import SettingsRouteNames from './_internals/SettingsRouteNames.enum';
 
 const Settings = () => import('../components/the-settings.vue');
-const GeneralSettings = () => import('../components/general-settings.vue');
-const NotificationSettings = () =>
-	import('../components/notification-settings.vue');
+const SettingsGeneral = () =>
+	import('../modules/general/components/settings-general.vue');
+const SettingsNotifications = () =>
+	import('../modules/notifications/components/settings-notifications.vue');
 
 const SettingsRoutes = [
 	{
@@ -22,12 +23,12 @@ const SettingsRoutes = [
 			{
 				path: 'general',
 				name: SettingsRouteNames.GENERAL,
-				component: GeneralSettings,
+				component: SettingsGeneral,
 			},
 			{
 				path: 'notifications',
 				name: SettingsRouteNames.NOTIFICATIONS,
-				component: NotificationSettings,
+				component: SettingsNotifications,
 			},
 		],
 	},

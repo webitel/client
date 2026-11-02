@@ -4,7 +4,7 @@ import {
 	StorageUploadFileChannel,
 } from '@webitel/api-services/gen/models';
 import { RingtoneType } from '@webitel/ui-sdk/enums';
-import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { NotificationType } from '../../../modules/settings/modules/notifications/enums/NotificationType';
 
 export default {
 	auth: {
@@ -178,7 +178,6 @@ export default {
 		copied: 'Скопійовано!',
 		createdAt: 'Створено',
 		createdBy: 'Ким створено',
-		importCSV: 'Імпортувати CSV',
 		online: 'Онлайн',
 		offline: 'Офлайн',
 		on: 'On',
@@ -209,14 +208,6 @@ export default {
 			undoneActionAlert: 'Дана дія не може бути скасована.',
 			deleteAll: 'ВСІ',
 		},
-		CSV: {
-			skipHeaders: 'Згорнути заголовки',
-			charSet: 'Char set',
-			separator: 'Розділювач',
-			CSVColumn: 'CSV поле',
-			fieldName: 'Назва поля',
-			clearMember: 'Очистити абонента',
-		},
 		generalInfo: 'Загальна інформація',
 		objectHeader: {},
 		directory: {
@@ -235,6 +226,8 @@ export default {
 				roles: 'Ролі',
 				tokens: 'Токени',
 				usage: 'Використання',
+				expiryDays: 'Термін дії',
+				expiryDate: 'Термін дії',
 				roleAdmin: 'Адміністратор',
 				license: 'Ліцензія',
 				devices: 'Пристрій',
@@ -628,7 +621,6 @@ export default {
 				proxy: 'Проксі',
 				searchPlaceholder: 'пошук шлюзу...',
 				host: 'Хост',
-				trunkingACLTitle: 'Контроль доступу',
 				trunkingACL: 'Багатоканальний список доступу',
 				hostnameTrunking: 'Сервер/Хост шлюзу чи IP',
 				hostnameRegister: 'Реєстратор/Сервер/Хост шлюзу чи IP',
@@ -642,10 +634,6 @@ export default {
 				SIPregistrationsDescription: 'Опис SIP-реєстрації',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Опис SIP-транків',
-				errors: {
-					passwordInvalid:
-						"Пароль містить заборонені символи. Зарезервовані символи URI, пробіли, спецсимволи !*'()&$ не підтримуються.",
-				},
 			},
 
 			chatGateways: {
@@ -732,7 +720,6 @@ export default {
 						square: 'Квадратна',
 						right: 'Справа',
 						left: 'Зліва',
-						static: 'Статична',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -784,18 +771,13 @@ export default {
 				newChatGateway: 'Новий текстовий шлюз',
 				metadata: {
 					apiKey: 'Api Key',
-					number: 'Number',
 					baseUrl: 'Base URL',
-					sendApi: 'Send API',
 					allowOrigin: 'Allow Origin',
 					readTimeout: 'Read Timeout (sec)',
 					writeTimeout: 'Write Timeout (sec)',
 					handshakeTimeout: 'Handshake Timeout (sec)',
-					messageSize: 'Message Size max (bytes)',
 					botName: 'Bot Name',
-					eventTypes: 'Event Types',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
@@ -1094,6 +1076,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Дзвінки',
+					attemptsCount: 'Спроби',
 				},
 				processing: {
 					processing: 'Обробка',
@@ -1140,6 +1123,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1352,12 +1337,6 @@ export default {
 					logs: 'Історія запуску',
 					startedAt: 'Початок',
 					result: 'Результат',
-					resultName: {
-						idle: 'Неактивний',
-						active: 'Активний',
-						done: 'Завершений',
-						error: 'Помилка',
-					},
 				},
 				recordCall: 'Запис дзвінка',
 			},

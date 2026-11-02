@@ -11,104 +11,84 @@
         <wt-breadcrumb :path="path" />
       </wt-page-header>
     </template>
-
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
-        > <!--  submit form on Enter  -->
+        >
       </form>
     </template>
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+<script setup lang="ts">
+import type { ChatplanCard } from '@webitel/api-services/validations';
+import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import ChatplanRoutesName from '../router/_internals/ChatplanRouteNames.enum.js';
-import General from './opened-chatplan-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import ChatplanRouteNames from '../router/_internals/ChatplanRouteNames.enum';
+import { useChatplanCardStore } from '../stores';
 
-export default {
-	name: 'OpenedChatplan',
-	components: {
-		General,
-	},
-	mixins: [
-		openedObjectMixin,
-	],
+const { t } = useI18n();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'routing/chatplan',
-		routeName: RouteNames.CHATPLAN,
-	}),
-	validations: {
-		itemInstance: {
-			name: {
-				required,
-			},
-			schema: {
-				required,
-			},
-		},
-	},
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<ChatplanCard>({
+	useCardStore: useChatplanCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
 
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: ChatplanRoutesName.GENERAL,
-				},
-			];
-			return tabs;
-		},
-		path() {
-			const baseUrl = '/routing/chatplan';
-			return [
-				{
-					name: this.$t('objects.routing.routing'),
-				},
-				{
-					name: this.$t('objects.routing.chatplan.chatplan', 1),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
-		},
+const tabs = computed(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: ChatplanRouteNames.GENERAL,
 	},
-};
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+const { close } = useClose(RouteNames.CHATPLAN);
+
+const path = computed(() => [
+	{
+		name: t('objects.routing.routing'),
+	},
+	{
+		name: t('objects.routing.chatplan.chatplan', 2),
+		route: '/routing/chatplan',
+	},
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+	},
+]);
 </script>
-
-<style scoped></style>

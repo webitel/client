@@ -4,7 +4,7 @@ import {
 	StorageUploadFileChannel,
 } from '@webitel/api-services/gen/models';
 import { RingtoneType } from '@webitel/ui-sdk/enums';
-import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { NotificationType } from '../../../modules/settings/modules/notifications/enums/NotificationType';
 
 export default {
 	auth: {
@@ -177,7 +177,6 @@ export default {
 		copied: 'Copiat în clipboard!',
 		createdAt: 'Creat',
 		createdBy: 'Creat de',
-		importCSV: 'Import CSV',
 		online: 'Online',
 		offline: 'Offline',
 		on: 'Pe',
@@ -208,14 +207,6 @@ export default {
 			undoneActionAlert: 'Această acțiune nu poate fi anulată.',
 			deleteAll: 'TOATE',
 		},
-		CSV: {
-			skipHeaders: 'Sari peste anteturi',
-			charSet: 'Set de caractere',
-			separator: 'Separator',
-			CSVColumn: 'Coloană CSV',
-			fieldName: 'Nume câmp',
-			clearMember: 'Șterge membru',
-		},
 		generalInfo: 'Informații generale',
 		objectHeader: {},
 		directory: {
@@ -234,6 +225,8 @@ export default {
 				roles: 'Roluri',
 				tokens: 'Tokenuri',
 				usage: 'Utilizare',
+				expiryDays: 'Zile de valabilitate',
+				expiryDate: 'Data expirării',
 				roleAdmin: 'Admin',
 				license: 'Licență',
 				devices: 'Dispozitive',
@@ -622,7 +615,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'caută gateway...',
 				host: 'Gazdă',
-				trunkingACLTitle: 'Control acces',
 				trunkingACL: 'Listă de control acces trunking',
 				hostnameTrunking: 'Nume gazdă/Gateway sau IP',
 				hostnameRegister: 'Nume gazdă/Server/Gateway sau IP',
@@ -636,10 +628,6 @@ export default {
 				SIPregistrationsDescription: 'Descriere înregistrare SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Descriere trunking SIP',
-				errors: {
-					passwordInvalid:
-						"Parola conține caractere interzise. Simbolurile URI rezervate, spațiile și caracterele speciale precum (! * ' ( ) & $) nu sunt permise.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -723,7 +711,6 @@ export default {
 						square: 'Pătrat',
 						right: 'Dreapta',
 						left: 'Stânga',
-						static: 'Static',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -775,18 +762,13 @@ export default {
 				newChatGateway: 'Gateway chat nou',
 				metadata: {
 					apiKey: 'Cheie API',
-					number: 'Număr',
 					baseUrl: 'URL bază',
-					sendApi: 'API trimitere',
 					allowOrigin: 'Permite Origină',
 					readTimeout: 'Timp citire (sec)',
 					writeTimeout: 'Timp scriere (sec)',
 					handshakeTimeout: 'Timp handshake (sec)',
-					messageSize: 'Mărime maximă mesaj (bytes)',
 					botName: 'Nume bot',
-					eventTypes: 'Tipuri evenimente',
 					telegramToken: 'Token API BOT Telegram',
-					messengerApiUrl: 'URL API Messenger',
 				},
 			},
 
@@ -1087,6 +1069,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Apeluri',
+					attemptsCount: 'Încercări',
 				},
 				processing: {
 					processing: 'Procesare',
@@ -1132,6 +1115,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1348,12 +1333,6 @@ export default {
 					logs: 'Istoric rulare',
 					startedAt: 'Începe',
 					result: 'Rezultat',
-					resultName: {
-						idle: 'Inactiv',
-						active: 'Activ',
-						done: 'Finalizat',
-						error: 'Eroare',
-					},
 				},
 				recordCall: 'Înregistrează apelul',
 			},
