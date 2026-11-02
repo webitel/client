@@ -1,12 +1,11 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import FlowRouteNames from './_internals/FlowRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import FlowRouteNames from './_internals/FlowRouteNames.enum';
 
 const Flow = () => import('../components/the-flow.vue');
 const OpenedFlow = () => import('../components/opened-flow.vue');
-const OpenedFlowDiagram = () =>
-	import('../modules/diagram/components/opened-flow-diagram.vue');
+const OpenedFlowCode = () => import('../components/code/opened-flow-code.vue');
 
 const FlowRoutes = [
 	{
@@ -33,7 +32,7 @@ const FlowRoutes = [
 			{
 				path: 'general',
 				name: FlowRouteNames.GENERAL,
-				component: OpenedFlowDiagram,
+				component: OpenedFlowCode,
 			},
 		],
 	},
