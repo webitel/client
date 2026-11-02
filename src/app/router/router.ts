@@ -34,7 +34,7 @@ import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialpl
 import FlowRoutes from '../../modules/routing/modules/flow/router/flow';
 import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways';
 import SettingsRoutes from '../../modules/settings/routes/routes.js';
-import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
+import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables';
 import RouteNames from './_internals/RouteNames.enum.js';

@@ -1,41 +1,38 @@
 <template>
-  <adm-item-link
+  <wt-item-link
     v-if="recordRouteName"
-    :id="item.record.id"
-    :route-name="recordRouteName"
+    :link="{
+      name: `${recordRouteName}-card`,
+      params: { id: item.record?.id },
+    }"
   >
-    {{ item.record.id }}
-  </adm-item-link>
+    {{ item.record?.id }}
+  </wt-item-link>
   <div v-else>
-    {{ item.record.id }}
+    {{ item.record?.id }}
   </div>
 </template>
 
-<script setup>
-import { LoggerAvailableSystemObjects } from '@webitel/api-services/gen/models';
+<script setup lang="ts">
+import {
+	LoggerAvailableSystemObjects,
+	type LoggerLog,
+} from '@webitel/api-services/gen/models';
 import { computed } from 'vue';
 
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 
-const props = defineProps({
-	item: {
-		type: Object,
-		required: true,
-	},
-});
+const props = defineProps<{
+	item: LoggerLog;
+}>();
 
-const recordRouteName = computed(() => {
-	switch (props.item.object.name) {
-		case LoggerAvailableSystemObjects.Schema:
-			return RouteNames.FLOW;
-		case LoggerAvailableSystemObjects.CcQueue:
-			return RouteNames.QUEUES;
-		default:
-			return null;
-	}
-});
+/** [Claude] the objects whose records have a card to open */
+const recordRouteNames: Partial<Record<string, string>> = {
+	[LoggerAvailableSystemObjects.Schema]: RouteNames.FLOW,
+	[LoggerAvailableSystemObjects.CcQueue]: RouteNames.QUEUES,
+};
+
+const recordRouteName = computed(
+	() => recordRouteNames[props.item.object?.name ?? ''],
+);
 </script>
-
-<style lang="scss" scoped>
-
-</style>

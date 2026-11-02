@@ -3,7 +3,6 @@ import { createStore } from 'vuex';
 
 import appearance from '../../modules/appearance/store/appearance';
 import permissions from '../../modules/permissions/store/permissions';
-import system from '../../modules/system/store/system';
 
 const store = createStore({
 	strict: false,
@@ -17,7 +16,6 @@ const store = createStore({
 	},
 	modules: {
 		permissions,
-		system,
 		appearance,
 	},
 });
