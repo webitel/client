@@ -1,12 +1,12 @@
 <template>
   <wt-page-wrapper
     :actions-panel="false"
-    class="table-page"
+    class="dialplan table-page"
   >
     <template #header>
       <wt-page-header
         :primary-disabled="!hasCreateAccess"
-        :primary-action="create"
+        :primary-action="add"
       >
         <wt-breadcrumb :path="path" />
       </wt-page-header>
@@ -23,59 +23,58 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ $t('objects.routing.dialplan.dialplanRules') }}
+            {{ t('objects.routing.dialplan.dialplanRules') }}
           </h3>
-          <div class="table-title__actions-wrap">
-            <wt-search-bar
-              :value="search"
-              debounce
-              @enter="loadList"
-              @input="setSearch"
-              @search="loadList"
-            />
-            <wt-table-actions
-              :icons="['refresh']"
-              @input="tableActionsHandler"
-            >
-              <delete-all-action
-                v-if="hasDeleteAccess"
-                v-show="!anySelected"
-                :selected-count="selectedRows.length"
-                @click="askDeleteConfirmation({
-                  deleted: selectedRows,
-                  callback: () => deleteData(selectedRows),
-                })"
+          <wt-action-bar
+            :include="[IconAction.REFRESH, IconAction.DELETE]"
+            :disabled:delete="!hasDeleteAccess || !selected.length"
+            @click:refresh="loadDataList"
+            @click:delete="
+              askDeleteConfirmation({
+                deleted: selected,
+                callback: () => deleteEls(selected),
+              })
+            "
+          >
+            <template #search-bar>
+              <dynamic-filter-search
+                :filters-manager="filtersManager"
+                single-search-name="search"
+                @filter:add="addFilter"
+                @filter:update="updateFilter"
+                @filter:delete="deleteFilter"
               />
-            </wt-table-actions>
-          </div>
+            </template>
+          </wt-action-bar>
         </header>
 
-        <wt-loader v-show="!isLoaded" />
-        <wt-dummy
-          v-if="dummy && isLoaded"
-          :show-action="dummy.showAction"
-          :src="dummy.src"
-          :dark-mode="darkMode"
-          :text="dummy.text && $t(dummy.text)"
-          @create="create"
-        />
-        <div
-          v-show="dataList.length && isLoaded"
-          class="table-section__table-wrapper"
-        >
+        <div class="table-section__table-wrapper">
+          <wt-empty
+            v-show="showEmpty"
+            :image="imageEmpty"
+            :text="textEmpty"
+            :primary-action-text="primaryActionTextEmpty"
+            :disabled-primary-action="!hasCreateAccess"
+            @click:primary="add"
+          />
+
+          <wt-loader v-show="isLoading" />
+
           <wt-table
-            ref="dialplan-table"
+            v-show="dataList.length && !isLoading"
             :data="dataList"
-            :headers="headers"
-            sortable
+            :selected="selected"
+            :headers="shownHeaders"
             :row-reorder="hasUpdateAccess"
-            @sort="sort"
-            @reorder:row="handleReorder"
+            sortable
+            @sort="updateSort"
+            @update:selected="updateSelected"
+            @reorder:row="reorder"
           >
             <template #name="{ item }">
               <adm-item-link
                 :id="item.id"
-                :route-name="routeName"
+                :route-name="RouteNames.DIALPLAN"
               >
                 {{ item.name }}
               </adm-item-link>
@@ -97,34 +96,37 @@
               <wt-switcher
                 :disabled="!hasUpdateAccess"
                 :model-value="!item.disabled"
-                @update:model-value="patchProperty({ index, prop: 'disabled', value: !$event })"
+                @update:model-value="
+                  patchItemProperty({ index, path: 'disabled', value: !$event })
+                "
               />
             </template>
             <template #actions="{ item }">
               <wt-icon-action
-                action="edit"
                 :disabled="!hasUpdateAccess"
+                action="edit"
                 @click="edit(item)"
               />
               <wt-icon-action
-                action="delete"
                 :disabled="!hasDeleteAccess"
-                @click="askDeleteConfirmation({
-                  deleted: [item],
-                  callback: () => deleteData(item),
-                })"
+                action="delete"
+                @click="
+                  askDeleteConfirmation({
+                    deleted: [item],
+                    callback: () => deleteEls([item]),
+                  })
+                "
               />
             </template>
           </wt-table>
           <wt-pagination
-            :next="isNext"
+            :next="next"
             :prev="page > 1"
             :size="size"
             debounce
-            @change="loadList"
-            @input="setSize"
-            @next="nextPage"
-            @prev="prevPage"
+            @change="updateSize"
+            @next="updatePage(page + 1)"
+            @prev="updatePage(page - 1)"
           />
         </div>
       </section>
@@ -132,127 +134,114 @@
   </wt-page-wrapper>
 </template>
 
-<script>
+<script setup>
+import { DialplansAPI } from '@webitel/api-services/api';
+import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { mapActions } from 'vuex';
+import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
-import { useDummy } from '../../../../../app/composables/useDummy';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import tableComponentMixin from '../../../../../app/mixins/objectPagesMixins/objectTableMixin/tableComponentMixin';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { useDialplanDatalistStore } from '../stores';
 
-const namespace = 'routing/dialplan';
+const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
+	useUserAccessControl();
 
-export default {
-	name: 'TheDialplan',
-	components: {
-		DeleteConfirmationPopup,
+const dialplanDatalistStore = useDialplanDatalistStore();
+
+const {
+	dataList,
+	error,
+	isLoading,
+	page,
+	size,
+	next,
+	selected,
+	shownHeaders,
+	filtersManager,
+} = storeToRefs(dialplanDatalistStore);
+
+const {
+	initialize,
+	loadDataList,
+	updatePage,
+	updateSize,
+	updateSort,
+	deleteEls,
+	addFilter,
+	updateFilter,
+	deleteFilter,
+	updateSelected,
+	patchItemProperty,
+} = dialplanDatalistStore;
+
+initialize();
+
+const { t } = useI18n();
+const router = useRouter();
+
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
+
+const path = computed(() => [
+	{
+		name: t('objects.routing.routing'),
 	},
-	mixins: [
-		tableComponentMixin,
-	],
-	setup() {
-		const { dummy } = useDummy({
-			namespace,
-			showAction: true,
+	{
+		name: t('objects.routing.dialplan.dialplan'),
+		route: '/routing/dialplan',
+	},
+]);
+
+const add = () =>
+	router.push({
+		name: `${RouteNames.DIALPLAN}-card`,
+		params: {
+			id: 'new',
+		},
+	});
+
+const edit = (item) =>
+	router.push({
+		name: `${RouteNames.DIALPLAN}-card`,
+		params: {
+			id: item.id,
+		},
+	});
+
+/** [Claude] the backend reorders the rules; the list is reloaded to show the new positions */
+const reorder = async ({ oldIndex, newIndex }) => {
+	if (oldIndex === newIndex) return;
+	try {
+		await DialplansAPI.moveDialplan({
+			fromId: dataList.value[oldIndex].id,
+			toId: dataList.value[newIndex].id,
 		});
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
-
-		const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
-			useUserAccessControl();
-
-		return {
-			dummy,
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
-
-			askDeleteConfirmation,
-			closeDelete,
-			hasCreateAccess,
-			hasUpdateAccess,
-			hasDeleteAccess,
-		};
-	},
-	data: () => ({
-		namespace,
-		routeName: RouteNames.DIALPLAN,
-	}),
-	computed: {
-		path() {
-			return [
-				{
-					name: this.$t('objects.routing.routing'),
-				},
-				{
-					name: this.$t('objects.routing.dialplan.dialplan'),
-					route: '/routing/dialplan',
-				},
-			];
-		},
-	},
-	methods: {
-		async handleReorder({ oldIndex, newIndex }) {
-			if (oldIndex === newIndex) return;
-			const fromId = this.dataList[oldIndex].id;
-			const toId = this.dataList[newIndex].id;
-			await this.swapRowsAndReloadList({
-				fromId,
-				toId,
-			});
-		},
-		async swapRowsAndReloadList(swapPayload) {
-			this.isLoading = true;
-			await this.swapRows(swapPayload);
-			await this.loadList();
-			this.isLoading = false;
-		},
-		...mapActions({
-			patchProperty(dispatch, payload) {
-				return dispatch(`${this.namespace}/PATCH_ITEM_PROPERTY`, payload);
-			},
-			swapRows(dispatch, payload) {
-				return dispatch(`${this.namespace}/SWAP_ROWS`, payload);
-			},
-		}),
-	},
+	} finally {
+		await loadDataList();
+	}
 };
+
+const {
+	showEmpty,
+	image: imageEmpty,
+	text: textEmpty,
+	primaryActionText: primaryActionTextEmpty,
+} = useTableEmpty({
+	dataList,
+	error,
+	filters: computed(() => filtersManager.value.getAllValues()),
+	isLoading,
+});
 </script>
-
-<style
-  lang="scss"
-  scoped
->
-.dialplan {
-  :deep(.sortable-chosen) {
-    .dialplan__draggable-icon .wt-icon {
-      fill: var(--icon--active-color);
-    }
-  }
-
-  .dialplan__draggable-icon {
-    cursor: move;
-  }
-
-  .sortable-drag {
-    position: relative;
-    border-radius: var(--border-radius);
-  }
-
-  // Firefox fallback
-  .sortable-fallback {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 42px 1fr 1fr 1fr 10% 240px;
-    grid-column-gap: 10px;
-  }
-}
-</style>

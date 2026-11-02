@@ -235,6 +235,8 @@ export default {
 				roles: 'Ruxsatlar',
 				tokens: 'Tokens',
 				usage: 'Ishlatish',
+				expiryDays: 'Amal qilish muddati',
+				expiryDate: 'Amal qilish muddati',
 				roleAdmin: 'Admin',
 				license: 'Litsenziya',
 				devices: 'Quvurlar',
@@ -482,6 +484,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					"Import qilingan raqamlar: {imported}. O'tkazib yuborilgan dublikatlar: {skipped}.",
 			},
 			media: {
 				mediaFiles: 'Media fayl | Media fayllar',
@@ -621,7 +625,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'gateway qidiruvi...',
 				host: 'Host',
-				trunkingACLTitle: 'Kirish kontrol',
 				trunkingACL: "Trunking kirish kontrol ro'yxati",
 				hostnameTrunking: 'Server/Gateway nomi yoki IP',
 				hostnameRegister: 'Registrator/Server/Gateway nomi yoki IP',
@@ -635,10 +638,6 @@ export default {
 				SIPregistrationsDescription: "SIP ro'yxat tavsifi",
 				SIPtrunking: 'SIP trunking',
 				SIPtrunkingDescription: 'SIP trunking tavsifi',
-				errors: {
-					passwordInvalid:
-						"Parolda ruxsat etilmagan belgilar mavjud. Rezervlangan URI belgilari, bo'sh joylar va (! * ' ( ) & $) kabi maxsus belgilardan foydalanish mumkin emas.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -1083,6 +1082,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Zvonkalar',
+					attemptsCount: 'Urinishlar',
 				},
 				processing: {
 					processing: 'Bajarilmoqda',
@@ -1129,6 +1129,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
