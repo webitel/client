@@ -233,6 +233,8 @@ export default {
 				roles: 'Roles',
 				tokens: 'Tokens',
 				usage: 'Uso',
+				expiryDays: 'Días de vigencia',
+				expiryDate: 'Fecha de vencimiento',
 				roleAdmin: 'Admin',
 				license: 'Licencia',
 				devices: 'Dispositivos',
@@ -484,6 +486,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Números importados: {imported}. Duplicados omitidos: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Archivo de medios | Archivos de medios',
@@ -622,7 +626,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'búsqueda de puerta de enlace...',
 				host: 'Host',
-				trunkingACLTitle: 'Control de acceso',
 				trunkingACL: 'Lista de control de acceso de troncalización',
 				hostnameTrunking: 'Nombre de host/Puerta de enlace del servidor o IP',
 				hostnameRegister:
@@ -637,10 +640,6 @@ export default {
 				SIPregistrationsDescription: 'Descripción del registro SIP',
 				SIPtrunking: 'Troncalización SIP',
 				SIPtrunkingDescription: 'Descripción de la troncalización SIP',
-				errors: {
-					passwordInvalid:
-						"La contraseña contiene caracteres no permitidos. No se permiten símbolos reservados de URI, espacios en blanco ni caracteres especiales como (! * ' ( ) & $).",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -1087,6 +1086,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Llamadas',
+					attemptsCount: 'Intentos',
 				},
 				processing: {
 					processing: 'Procesamiento',
@@ -1133,6 +1133,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

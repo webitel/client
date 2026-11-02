@@ -234,6 +234,8 @@ export default {
 				roles: 'Role',
 				tokens: 'Tokeny',
 				usage: 'Użycie',
+				expiryDays: 'Dni ważności',
+				expiryDate: 'Data wygaśnięcia',
 				roleAdmin: 'Administrator',
 				license: 'Licencja',
 				devices: 'Urządzenia',
@@ -481,6 +483,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Zaimportowane numery: {imported}. Pominięte duplikaty: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Plik multimedialny | Pliki multimedialne',
@@ -618,7 +622,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'wyszukaj bramę...',
 				host: 'Host',
-				trunkingACLTitle: 'Kontrola dostępu',
 				trunkingACL: 'Lista kontroli dostępu trunkingowego',
 				hostnameTrunking: 'Hostname serwera/Bramy lub IP',
 				hostnameRegister: 'Hostname rejestratora/serwera/Bramy lub IP',
@@ -632,10 +635,6 @@ export default {
 				SIPregistrationsDescription: 'Opis rejestracji SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Opis trunkingu SIP',
-				errors: {
-					passwordInvalid:
-						"Hasło zawiera niedozwolone znaki. Zarezerwowane symbole URI, spacje oraz znaki specjalne takie jak (! * ' ( ) & $) są niedozwolone.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -1083,6 +1082,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Połączenia',
+					attemptsCount: 'Próby',
 				},
 				processing: {
 					processing: 'Przetwarzanie',
@@ -1129,6 +1129,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

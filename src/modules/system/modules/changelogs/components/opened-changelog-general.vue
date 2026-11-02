@@ -51,11 +51,10 @@
 </template>
 
 <script>
-import { ChangelogsAPI } from '@webitel/api-services/api';
+import { BackendProfilesAPI, ChangelogsAPI } from '@webitel/api-services/api';
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import storage from '../../../../integrations/modules/storage/api/storage';
 
 export default {
 	name: 'OpenedChangelogGeneral',
@@ -101,7 +100,7 @@ export default {
 	},
 	methods: {
 		getObjectsList: ChangelogsAPI.getObjectsList,
-		getStorageList: storage.getLookup,
+		getStorageList: BackendProfilesAPI.getLookup,
 	},
 };
 </script>
