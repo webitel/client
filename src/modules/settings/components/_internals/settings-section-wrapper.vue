@@ -1,9 +1,9 @@
 <template>
   <section class="settings-section-wrapper">
-    <p class="settings-section-title typo-heading-4">
+    <p class="settings-section-wrapper__title typo-heading-4">
       <slot name="title" />
     </p>
-    <div class="settings-section-content">
+    <div class="settings-section-wrapper__content">
       <slot />
     </div>
   </section>
@@ -25,7 +25,7 @@
 }
 
 
-.settings-section-content {
+.settings-section-wrapper__content {
   flex: 1;
   display: flex;
   flex-direction: column;

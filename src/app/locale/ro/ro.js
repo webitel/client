@@ -4,7 +4,7 @@ import {
 	StorageUploadFileChannel,
 } from '@webitel/api-services/gen/models';
 import { RingtoneType } from '@webitel/ui-sdk/enums';
-import { NotificationType } from '../../../modules/settings/enums/NotificationType';
+import { NotificationType } from '../../../modules/settings/modules/notifications/enums/NotificationType';
 
 export default {
 	auth: {
