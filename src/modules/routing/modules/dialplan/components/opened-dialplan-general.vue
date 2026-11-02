@@ -1,81 +1,67 @@
 <template>
-  <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
+  <section class="opened-dialplan-general">
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
+        v-model:model-value="modelValue.schema"
         :show-clear="false"
         :disabled="disableUserInput || !hasFlowsReadAccess"
-        :label="$t('objects.routing.schema', 1)"
-        :search-method="hasFlowsReadAccess && loadFlows"
-        :v="v.itemInstance.schema"
-        :model-value="itemInstance.schema"
+        :label="t('objects.routing.schema', 1)"
+        :search-method="hasFlowsReadAccess ? FlowsAPI.getLookup : undefined"
+        :regle-validation="validationFields?.schema"
         required
-        @update:model-value="setItemProp({ prop: 'schema', value: $event })"
       />
       <div class="opened-dialplan-general__destination-wrapper">
         <wt-input-text
+          v-model:model-value="modelValue.pattern"
           :disabled="disableUserInput"
-          :label="$t('objects.routing.dialplan.pattern')"
-          :v="v.itemInstance.pattern"
-          :model-value="itemInstance.pattern"
+          :label="t('objects.routing.dialplan.pattern')"
+          :regle-validation="validationFields?.pattern"
           required
-          @update:model-value="setItemProp({ prop: 'pattern', value: $event })"
         />
         <wt-switcher
+          v-model:model-value="modelValue.allowTransfer"
           :disabled="disableUserInput"
-          :label="$t('objects.routing.dialplan.allowTransfer')"
-          :model-value="itemInstance.allowTransfer"
-          @update:model-value="setItemProp({ prop: 'allowTransfer', value: $event })"
+          :label="t('objects.routing.dialplan.allowTransfer')"
         />
       </div>
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { FlowsAPI } from '@webitel/api-services/api';
+import type { DialplanCard } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtObject } from '@webitel/ui-sdk/enums';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-export default {
-	name: 'OpenedDialplan',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
-			WtObject.Flow,
-		);
-		return {
-			disableUserInput,
-			hasFlowsReadAccess,
-		};
-	},
-	methods: {
-		loadFlows(params) {
-			return FlowsAPI.getLookup(params);
-		},
-	},
-};
+
+const modelValue = defineModel<DialplanCard>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<DialplanCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasFlowsReadAccess } = useUserAccessControl(
+	WtObject.Flow,
+);
 </script>
 
 <style scoped>
