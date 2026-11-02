@@ -13,7 +13,7 @@ import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitiv
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
 import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';
-import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
+import StorageRoutes from '../../modules/integrations/modules/storage/router/storage';
 import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
 import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
