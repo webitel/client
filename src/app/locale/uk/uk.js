@@ -235,6 +235,8 @@ export default {
 				roles: 'Ролі',
 				tokens: 'Токени',
 				usage: 'Використання',
+				expiryDays: 'Термін дії',
+				expiryDate: 'Термін дії',
 				roleAdmin: 'Адміністратор',
 				license: 'Ліцензія',
 				devices: 'Пристрій',
@@ -487,6 +489,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Імпортовано номерів: {imported}. Пропущено дублікатів: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медіафайл| Медіафайли',
@@ -626,7 +630,6 @@ export default {
 				proxy: 'Проксі',
 				searchPlaceholder: 'пошук шлюзу...',
 				host: 'Хост',
-				trunkingACLTitle: 'Контроль доступу',
 				trunkingACL: 'Багатоканальний список доступу',
 				hostnameTrunking: 'Сервер/Хост шлюзу чи IP',
 				hostnameRegister: 'Реєстратор/Сервер/Хост шлюзу чи IP',
@@ -640,10 +643,6 @@ export default {
 				SIPregistrationsDescription: 'Опис SIP-реєстрації',
 				SIPtrunking: 'SIP-транки',
 				SIPtrunkingDescription: 'Опис SIP-транків',
-				errors: {
-					passwordInvalid:
-						"Пароль містить заборонені символи. Зарезервовані символи URI, пробіли, спецсимволи !*'()&$ не підтримуються.",
-				},
 			},
 
 			chatGateways: {
@@ -1086,6 +1085,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Дзвінки',
+					attemptsCount: 'Спроби',
 				},
 				processing: {
 					processing: 'Обробка',
@@ -1132,6 +1132,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

@@ -234,6 +234,8 @@ export default {
 				roles: 'Roluri',
 				tokens: 'Tokenuri',
 				usage: 'Utilizare',
+				expiryDays: 'Zile de valabilitate',
+				expiryDate: 'Data expirării',
 				roleAdmin: 'Admin',
 				license: 'Licență',
 				devices: 'Dispozitive',
@@ -482,6 +484,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Numere importate: {imported}. Duplicate omise: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Fișier mediu | Fișiere media',
@@ -620,7 +624,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'caută gateway...',
 				host: 'Gazdă',
-				trunkingACLTitle: 'Control acces',
 				trunkingACL: 'Listă de control acces trunking',
 				hostnameTrunking: 'Nume gazdă/Gateway sau IP',
 				hostnameRegister: 'Nume gazdă/Server/Gateway sau IP',
@@ -634,10 +637,6 @@ export default {
 				SIPregistrationsDescription: 'Descriere înregistrare SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Descriere trunking SIP',
-				errors: {
-					passwordInvalid:
-						"Parola conține caractere interzise. Simbolurile URI rezervate, spațiile și caracterele speciale precum (! * ' ( ) & $) nu sunt permise.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -1079,6 +1078,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Apeluri',
+					attemptsCount: 'Încercări',
 				},
 				processing: {
 					processing: 'Procesare',
@@ -1124,6 +1124,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

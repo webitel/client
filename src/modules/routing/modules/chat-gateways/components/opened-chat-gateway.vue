@@ -162,7 +162,6 @@ const tabs = computed(() => {
 					t('objects.routing.chatGateways.infobip.infobip'),
 					ChatGatewayRouteNames.INFOBIP,
 				),
-				templates,
 			];
 		case ChatGatewayProvider.MESSENGER:
 			return [
