@@ -233,6 +233,8 @@ export default {
 				roles: 'Roles',
 				tokens: 'Tokens',
 				usage: 'Uso',
+				expiryDays: 'Días de vigencia',
+				expiryDate: 'Fecha de vencimiento',
 				roleAdmin: 'Admin',
 				license: 'Licencia',
 				devices: 'Dispositivos',
@@ -484,6 +486,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Números importados: {imported}. Duplicados omitidos: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Archivo de medios | Archivos de medios',
@@ -1082,6 +1086,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Llamadas',
+					attemptsCount: 'Intentos',
 				},
 				processing: {
 					processing: 'Procesamiento',
@@ -1128,6 +1133,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {

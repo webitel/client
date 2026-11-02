@@ -233,6 +233,8 @@ export default {
 				roles: 'Рұқсаттар',
 				tokens: 'Токендер',
 				usage: 'Пайдалану',
+				expiryDays: 'Жарамдылық мерзімі',
+				expiryDate: 'Жарамдылық мерзімі',
 				roleAdmin: 'Админ',
 				license: 'Лицензия',
 				devices: 'Құрылғылар',
@@ -477,6 +479,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Импортталған нөмірлер: {imported}. Өткізіп жіберілген қайталанулар: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Медиа файл | Медиа файлдар',
@@ -1070,6 +1074,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Қоңыраулар',
+					attemptsCount: 'Сынамалар',
 				},
 				processing: {
 					processing: 'Өңдеу',
@@ -1115,6 +1120,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
