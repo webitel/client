@@ -9,7 +9,7 @@ import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices';
 import LicenseRoutes from '../../modules/directory/modules/license/router/license';
 import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js';
-import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
+import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles';
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
 import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';

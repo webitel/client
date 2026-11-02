@@ -109,7 +109,7 @@
 
 <script setup lang="ts">
 import { useRegleSchema } from '@regle/schemas';
-import { MediaAPI } from '@webitel/api-services/api';
+import { CognitiveProfilesAPI, MediaAPI } from '@webitel/api-services/api';
 import {
 	type TtsGoogleVoice,
 	TtsGoogleVoiceList,
@@ -126,8 +126,6 @@ import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { MicrosoftLanguage } from 'webitel-sdk/enums';
-
-import CognitiveProfilesAPI from '../../../../integrations/modules/cognitive-profiles/api/cognitiveProfiles';
 
 const emit = defineEmits<{
 	close: [];
