@@ -144,7 +144,7 @@ export default {
 				pathName: BlacklistRouteNames.PERMISSIONS,
 			};
 
-			if (this.hasReadListNumberAccess) tabs.push(numbers);
+			if (this.hasReadListNumberAccess && this.id) tabs.push(numbers);
 			if (this.id) tabs.push(permissions);
 			return tabs;
 		},
