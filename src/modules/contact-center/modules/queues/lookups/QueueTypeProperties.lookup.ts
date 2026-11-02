@@ -252,7 +252,6 @@ const QueueTypeProperties: Readonly<Record<number, QueueTypeProperty>> =
 			subpath: 'chat-inbound-queue',
 			controls: [
 				// general specific
-				'strategy',
 				'team',
 				// params specific
 				'maxWaitTime',

@@ -19,6 +19,11 @@
         class="opened-card-form"
         @submit.prevent="save"
       >
+        <wt-tabs
+          :current="currentTab"
+          :tabs="tabs"
+          @change="changeTab"
+        />
         <router-view v-slot="{ Component }">
           <component
             :is="Component"
@@ -37,7 +42,11 @@
 
 <script setup lang="ts">
 import type { StoragePolicyCard } from '@webitel/api-services/validations';
-import { useCardComponent } from '@webitel/ui-datalist/card';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -67,6 +76,16 @@ const {
 });
 
 const { close } = useClose(RouteNames.STORAGE_POLICIES);
+
+const tabs = computed<CardTab[]>(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: StoragePoliciesRouteNames.GENERAL,
+	},
+]);
+
+const { currentTab, changeTab } = useCardTabs(tabs);
 
 const path = computed(() => [
 	{

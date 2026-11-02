@@ -230,6 +230,8 @@ export default {
 				roles: 'Roles',
 				tokens: 'Tokens',
 				usage: 'Usage',
+				expiryDays: 'Expiry days',
+				expiryDate: 'Expiry date',
 				roleAdmin: 'Admin',
 				license: 'License',
 				devices: 'Devices',
@@ -617,7 +619,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'gateway search...',
 				host: 'Host',
-				trunkingACLTitle: 'Access Control',
 				trunkingACL: 'Trunking access control list',
 				hostnameTrunking: 'Server/Gateway Hostname or IP',
 				hostnameRegister: 'Registrar/Server/Gateway Hostname or IP',
@@ -631,10 +632,6 @@ export default {
 				SIPregistrationsDescription: 'SIP registration description',
 				SIPtrunking: 'SIP Trunking',
 				SIPtrunkingDescription: 'SIP trunking description',
-				errors: {
-					passwordInvalid:
-						"Password contains forbidden characters. Reserved URI symbols, whitespace, and special characters like (! * ' ( ) & $) are not allowed.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -718,7 +715,6 @@ export default {
 						square: 'Square',
 						right: 'Right',
 						left: 'Left',
-						static: 'Static',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -745,7 +741,7 @@ export default {
 							'Show default heading and subheading on result page',
 					},
 					alternativeChannels: {
-						alternativeChannels: 'Alternative Channels',
+						alternativeChannels: 'Alternative сhannels',
 						title: 'Messaging channels',
 						email: 'Email',
 						whatsapp: 'WhatsApp',
@@ -770,18 +766,13 @@ export default {
 				newChatGateway: 'New chat gateway',
 				metadata: {
 					apiKey: 'Api Key',
-					number: 'Number',
 					baseUrl: 'Base URL',
-					sendApi: 'Send API',
 					allowOrigin: 'Allow Origin',
 					readTimeout: 'Read Timeout (sec)',
 					writeTimeout: 'Write Timeout (sec)',
 					handshakeTimeout: 'Handshake Timeout (sec)',
-					messageSize: 'Message Size max (bytes)',
 					botName: 'Bot Name',
-					eventTypes: 'Event Types',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
@@ -1081,6 +1072,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Calls',
+					attemptsCount: 'Attempts',
 				},
 				processing: {
 					processing: 'Processing',
@@ -1126,6 +1118,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1340,12 +1334,6 @@ export default {
 					logs: 'Running history',
 					startedAt: 'Start',
 					result: 'Result',
-					resultName: {
-						idle: 'Idle',
-						active: 'Active',
-						done: 'Done',
-						error: 'Error',
-					},
 				},
 				recordCall: 'Record call',
 			},

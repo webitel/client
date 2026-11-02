@@ -233,6 +233,8 @@ export default {
 				roles: 'Рұқсаттар',
 				tokens: 'Токендер',
 				usage: 'Пайдалану',
+				expiryDays: 'Жарамдылық мерзімі',
+				expiryDate: 'Жарамдылық мерзімі',
 				roleAdmin: 'Админ',
 				license: 'Лицензия',
 				devices: 'Құрылғылар',
@@ -617,7 +619,6 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'қабылдаушы іздеу...',
 				host: 'Қабылдаушы',
-				trunkingACLTitle: 'Кіру бақылауы',
 				trunkingACL: 'Транкинг кіру бақылауы тізімі',
 				hostnameTrunking: 'Сервер/Қабылдаушы атауы немесе IP',
 				hostnameRegister: 'Тіркеуші/Сервер/Қабылдаушы атауы немесе IP',
@@ -631,10 +632,6 @@ export default {
 				SIPregistrationsDescription: 'SIP тіркеу сипаттамасы',
 				SIPtrunking: 'SIP транкинг',
 				SIPtrunkingDescription: 'SIP транкинг сипаттамасы',
-				errors: {
-					passwordInvalid:
-						"Құпия сөзде рұқсат етілмеген таңбалар бар. Резервтелген URI таңбалары, бос орындар және (! * ' ( ) & $) сияқты арнайы таңбаларды пайдалануға болмайды.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -718,7 +715,6 @@ export default {
 						square: 'Төбе',
 						right: 'Оң',
 						left: 'Сол',
-						static: 'Статикалық',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -770,18 +766,13 @@ export default {
 				newChatGateway: 'Жаңа чат қабылдаушы',
 				metadata: {
 					apiKey: 'Api Кілті',
-					number: 'Нөмір',
 					baseUrl: 'Негізгі URL',
-					sendApi: 'Жіберу API',
 					allowOrigin: 'Қолданушылар',
 					readTimeout: 'Оқу таймақ (сек)',
 					writeTimeout: 'Жазу таймақ (сек)',
 					handshakeTimeout: 'Қол алмау таймақ (сек)',
-					messageSize: 'Хабарлама өлшемі максимум (байт)',
 					botName: 'Бот аты',
-					eventTypes: 'Оқиға түрлері',
 					telegramToken: 'Telegram BOT API Токен',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
@@ -1077,6 +1068,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Қоңыраулар',
+					attemptsCount: 'Сынамалар',
 				},
 				processing: {
 					processing: 'Өңдеу',
@@ -1122,6 +1114,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1336,12 +1330,6 @@ export default {
 					logs: 'Жүргізілген тізім',
 					startedAt: 'Бастау',
 					result: 'Нәтиже',
-					resultName: {
-						idle: 'Қалған',
-						active: 'Активті',
-						done: 'Аяқталды',
-						error: 'Ақау',
-					},
 				},
 				recordCall: 'Қоңырауды жазу',
 			},
