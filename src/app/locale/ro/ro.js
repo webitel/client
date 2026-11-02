@@ -234,6 +234,8 @@ export default {
 				roles: 'Roluri',
 				tokens: 'Tokenuri',
 				usage: 'Utilizare',
+				expiryDays: 'Zile de valabilitate',
+				expiryDate: 'Data expirării',
 				roleAdmin: 'Admin',
 				license: 'Licență',
 				devices: 'Dispozitive',
@@ -482,6 +484,8 @@ export default {
 					description: ({ linked }) => linked('vocabulary.description'),
 					expireAt: ({ linked }) => linked('vocabulary.expireAt'),
 				},
+				importResult:
+					'Numere importate: {imported}. Duplicate omise: {skipped}.',
 			},
 			media: {
 				mediaFiles: 'Fișier mediu | Fișiere media',
@@ -1085,6 +1089,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Apeluri',
+					attemptsCount: 'Încercări',
 				},
 				processing: {
 					processing: 'Procesare',
@@ -1093,6 +1098,7 @@ export default {
 					sec: 'Timp postprocesare (sec)',
 					renewalSec: 'Oferă prelungirea postprocesării când rămân (sec)',
 					allowProlongation: 'Permite prelungirea postprocesării',
+					autosave: 'Permite salvarea automată a postprocesării',
 					repeatsNumber: 'Număr de repetări',
 					prolongationTimeSec: 'Timp pentru prelungire (sec)',
 					isTimeoutRetry: 'Reîncearcă până la timeout',
@@ -1129,6 +1135,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
