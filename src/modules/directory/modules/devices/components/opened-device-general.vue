@@ -17,7 +17,7 @@
         v-if="modelValue.hotdesk"
         :label="t('objects.directory.devices.authId')"
         :regle-validation="validationFields?.account"
-        :value="modelValue.account"
+        :model-value="modelValue.account"
         disabled
         required
       />

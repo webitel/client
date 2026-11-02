@@ -224,6 +224,8 @@ export default {
 				roles: 'Roles',
 				tokens: 'Tokens',
 				usage: 'Uso',
+				expiryDays: 'Días de vigencia',
+				expiryDate: 'Fecha de vencimiento',
 				roleAdmin: 'Admin',
 				license: 'Licencia',
 				devices: 'Dispositivos',
@@ -615,7 +617,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'búsqueda de puerta de enlace...',
 				host: 'Host',
-				trunkingACLTitle: 'Control de acceso',
 				trunkingACL: 'Lista de control de acceso de troncalización',
 				hostnameTrunking: 'Nombre de host/Puerta de enlace del servidor o IP',
 				hostnameRegister:
@@ -630,10 +631,6 @@ export default {
 				SIPregistrationsDescription: 'Descripción del registro SIP',
 				SIPtrunking: 'Troncalización SIP',
 				SIPtrunkingDescription: 'Descripción de la troncalización SIP',
-				errors: {
-					passwordInvalid:
-						"La contraseña contiene caracteres no permitidos. No se permiten símbolos reservados de URI, espacios en blanco ni caracteres especiales como (! * ' ( ) & $).",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -717,7 +714,6 @@ export default {
 						square: 'Cuadrado',
 						right: 'Derecha',
 						left: 'Izquierda',
-						static: 'Estático',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -769,18 +765,13 @@ export default {
 				newChatGateway: 'Nueva puerta de enlace de chat',
 				metadata: {
 					apiKey: 'Clave de API',
-					number: 'Número',
 					baseUrl: 'URL base',
-					sendApi: 'API de envío',
 					allowOrigin: 'Origen permitido',
 					readTimeout: 'Tiempo de lectura (seg)',
 					writeTimeout: 'Tiempo de escritura (seg)',
 					handshakeTimeout: 'Tiempo de handshacke (seg)',
-					messageSize: 'Tamaño máximo del mensaje (bytes)',
 					botName: 'Nombre del bot',
-					eventTypes: 'Tipos de eventos',
 					telegramToken: 'Token de API de BOT de Telegram',
-					messengerApiUrl: 'URL de API de Messenger',
 				},
 			},
 
@@ -1080,6 +1071,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Llamadas',
+					attemptsCount: 'Intentos',
 				},
 				processing: {
 					processing: 'Procesamiento',
@@ -1126,6 +1118,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1345,12 +1339,6 @@ export default {
 					logs: 'Historial de ejecución',
 					startedAt: 'Inicio',
 					result: 'Resultado',
-					resultName: {
-						idle: 'Inactivo',
-						active: 'Activo',
-						done: 'Hecho',
-						error: 'Error',
-					},
 				},
 				recordCall: 'Grabar llamada',
 			},

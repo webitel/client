@@ -224,6 +224,8 @@ export default {
 				roles: 'Vai trò',
 				tokens: 'Mã thông báo',
 				usage: 'Sử dụng',
+				expiryDays: 'Số ngày hiệu lực',
+				expiryDate: 'Ngày hết hạn',
 				roleAdmin: 'Quản trị viên',
 				license: 'Giấy phép',
 				devices: 'Thiết bị',
@@ -608,7 +610,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'tìm kiếm cổng...',
 				host: 'Host',
-				trunkingACLTitle: 'Kiểm soát truy cập',
 				trunkingACL: 'Danh sách kiểm soát truy cập trunking',
 				hostnameTrunking: 'Tên Host/Cổng/IP của Server/Cổng',
 				hostnameRegister: 'Tên Host/Server/Cổng/IP của Đăng ký/Server/Cổng',
@@ -622,10 +623,6 @@ export default {
 				SIPregistrationsDescription: 'Mô tả đăng ký SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Mô tả trunking SIP',
-				errors: {
-					passwordInvalid:
-						"Mật khẩu chứa ký tự không hợp lệ. Không được phép dùng các ký hiệu URI dành riêng, khoảng trắng và ký tự đặc biệt như (! * ' ( ) & $).",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -710,7 +707,6 @@ export default {
 						square: 'Hình vuông',
 						right: 'Phải',
 						left: 'Trái',
-						static: 'Tĩnh',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -762,18 +758,13 @@ export default {
 				newChatGateway: 'Cổng trò chuyện mới',
 				metadata: {
 					apiKey: 'Mã API',
-					number: 'Số',
 					baseUrl: 'URL cơ sở',
-					sendApi: 'API gửi',
 					allowOrigin: 'Cho phép nguồn',
 					readTimeout: 'Thời gian đọc (giây)',
 					writeTimeout: 'Thời gian ghi (giây)',
 					handshakeTimeout: 'Thời gian bắt tay (giây)',
-					messageSize: 'Kích thước tin nhắn tối đa (bytes)',
 					botName: 'Tên bot',
-					eventTypes: 'Loại sự kiện',
 					telegramToken: 'Mã API BOT Telegram',
-					messengerApiUrl: 'URL API Messenger',
 				},
 			},
 
@@ -1071,6 +1062,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Cuộc gọi',
+					attemptsCount: 'Lượt thử',
 				},
 				processing: {
 					processing: 'Đang xử lý',
@@ -1116,6 +1108,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1331,12 +1325,6 @@ export default {
 					logs: 'Lịch sử chạy',
 					startedAt: 'Bắt đầu',
 					result: 'Kết quả',
-					resultName: {
-						idle: 'Nghỉ',
-						active: 'Hoạt động',
-						done: 'Hoàn thành',
-						error: 'Lỗi',
-					},
 				},
 				recordCall: 'Ghi âm cuộc gọi',
 			},

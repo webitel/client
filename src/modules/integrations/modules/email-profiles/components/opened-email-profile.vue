@@ -13,19 +13,24 @@
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
         <wt-tabs
           :current="currentTab"
           :tabs="tabs"
+          @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
@@ -35,138 +40,67 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
+<script setup lang="ts">
+import type { EngineEmailProfile } from '@webitel/api-services/gen/models';
 import {
-	maxValue,
-	minValue,
-	required,
-	requiredIf,
-} from '@vuelidate/validators';
-import { EngineEmailAuthType } from '@webitel/api-services/gen/models';
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import EmailProfilesRouteNames from '../router/_internals/EmailProfilesRouteNames.enum.js';
-import General from './opened-email-profile-general.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import EmailProfilesRouteNames from '../router/_internals/EmailProfilesRouteNames.enum';
+import { useEmailProfileCardStore } from '../stores/card/emailProfileCardStore';
 
-export default {
-	name: 'OpenedEmailProfile',
-	components: {
-		General,
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
+
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<EngineEmailProfile>({
+	useCardStore: useEmailProfileCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
+
+const tabs = computed<CardTab[]>(() => [
+	{
+		text: t('objects.general'),
+		value: 'general',
+		pathName: EmailProfilesRouteNames.GENERAL,
 	},
-	mixins: [
-		openedObjectMixin,
-	],
+]);
 
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const { close } = useClose(RouteNames.EMAIL_PROFILES);
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
 	},
-	data: () => ({
-		namespace: 'integrations/emailProfiles',
-		routeName: RouteNames.EMAIL_PROFILES,
-	}),
-	validations() {
-		const itemInstance = {
-			name: {
-				required,
-			},
-			schema: {
-				required,
-			},
-			imapHost: {
-				required,
-			},
-			smtpHost: {
-				required,
-			},
-			fetchInterval: {
-				required,
-			},
-			imapPort: {
-				required,
-				minValue: minValue(0),
-				maxValue: maxValue(65535),
-			},
-			smtpPort: {
-				required,
-				minValue: minValue(0),
-				maxValue: maxValue(65535),
-			},
-			login: {
-				required,
-			},
-			mailbox: {
-				required,
-			},
-			authType: {
-				required,
-			},
-			password: {
-				required: requiredIf(!this.isOauth2AuthType && !this.id),
-			},
-			params: {
-				oauth2: {
-					clientId: {
-						required: requiredIf(this.isOauth2AuthType),
-					},
-					clientSecret: {
-						required: requiredIf(this.isOauth2AuthType),
-					},
-					redirectUrl: {
-						required: requiredIf(this.isOauth2AuthType),
-					},
-				},
-			},
-		};
-		return {
-			itemInstance,
-		};
+	{
+		name: t('objects.integrations.emailProfiles.emailProfiles', 2),
+		route: '/integrations/email-profiles',
 	},
-
-	computed: {
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: EmailProfilesRouteNames.GENERAL,
-				},
-			];
-			// if (this.id) tabs.push(this.permissionsTab);
-			return tabs;
-		},
-		isOauth2AuthType() {
-			return this.itemInstance.authType === EngineEmailAuthType.OAuth2;
-		},
-
-		path() {
-			const baseUrl = '/integrations/email-profiles';
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t('objects.integrations.emailProfiles.emailProfiles', 2),
-					route: baseUrl,
-				},
-				{
-					name: this.id ? this.pathName : this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+	{
+		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-};
+]);
 </script>
-
-<style scoped></style>

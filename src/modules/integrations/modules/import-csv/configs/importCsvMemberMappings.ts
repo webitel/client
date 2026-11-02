@@ -67,7 +67,6 @@ export const importCsvMemberMappings: ImportCsvMemberMapping[] = [
 	{
 		name: 'code',
 		locale: `${baseLocale}.code`,
-		required: true,
 		multiple: true,
 		csv: [],
 	},

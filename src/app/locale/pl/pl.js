@@ -225,6 +225,8 @@ export default {
 				roles: 'Role',
 				tokens: 'Tokeny',
 				usage: 'Użycie',
+				expiryDays: 'Dni ważności',
+				expiryDate: 'Data wygaśnięcia',
 				roleAdmin: 'Administrator',
 				license: 'Licencja',
 				devices: 'Urządzenia',
@@ -611,7 +613,6 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'wyszukaj bramę...',
 				host: 'Host',
-				trunkingACLTitle: 'Kontrola dostępu',
 				trunkingACL: 'Lista kontroli dostępu trunkingowego',
 				hostnameTrunking: 'Hostname serwera/Bramy lub IP',
 				hostnameRegister: 'Hostname rejestratora/serwera/Bramy lub IP',
@@ -625,10 +626,6 @@ export default {
 				SIPregistrationsDescription: 'Opis rejestracji SIP',
 				SIPtrunking: 'Trunking SIP',
 				SIPtrunkingDescription: 'Opis trunkingu SIP',
-				errors: {
-					passwordInvalid:
-						"Hasło zawiera niedozwolone znaki. Zarezerwowane symbole URI, spacje oraz znaki specjalne takie jak (! * ' ( ) & $) są niedozwolone.",
-				},
 			},
 			chatGateways: {
 				templates: {
@@ -712,7 +709,6 @@ export default {
 						square: 'Kwadratowy',
 						right: 'Prawo',
 						left: 'Lewo',
-						static: 'Statyczny',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -764,18 +760,13 @@ export default {
 				newChatGateway: 'Nowa brama czatu',
 				metadata: {
 					apiKey: 'Klucz API',
-					number: 'Numer',
 					baseUrl: 'Adres bazowy',
-					sendApi: 'API wysyłania',
 					allowOrigin: 'Dozwolone źródło',
 					readTimeout: 'Czas odczytu (sek)',
 					writeTimeout: 'Czas zapisu (sek)',
 					handshakeTimeout: 'Czas ustanowienia połączenia (sek)',
-					messageSize: 'Maksymalny rozmiar wiadomości (bajty)',
 					botName: 'Nazwa botka',
-					eventTypes: 'Typy zdarzeń',
 					telegramToken: 'Token API BOT Telegram',
-					messengerApiUrl: 'URL API Messenger',
 				},
 			},
 
@@ -1076,6 +1067,7 @@ export default {
 					result: ({ linked }) =>
 						linked('objects.integrations.triggers.logs.result'),
 					calls: 'Połączenia',
+					attemptsCount: 'Próby',
 				},
 				processing: {
 					processing: 'Przetwarzanie',
@@ -1122,6 +1114,8 @@ export default {
 							linked('objects.callReportingResult.endless'),
 						transferred: ({ linked }) =>
 							linked('objects.callReportingResult.transferred'),
+						shutdown: ({ linked }) =>
+							linked('objects.callReportingResult.shutdown'),
 					},
 				},
 				hooks: {
@@ -1336,12 +1330,6 @@ export default {
 					logs: 'Historia uruchomienia',
 					startedAt: 'Początek',
 					result: 'Wynik',
-					resultName: {
-						idle: 'Bezczynny',
-						active: 'Aktywny',
-						done: 'Wykonane',
-						error: 'Błąd',
-					},
 				},
 				recordCall: 'Nagraj połączenie',
 			},
