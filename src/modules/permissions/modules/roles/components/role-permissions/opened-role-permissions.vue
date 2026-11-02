@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <permissions-popup @close="closePopup" />
+    <opened-role-permission-popup
+      :permissions="modelValue.permissions ?? []"
+      @add="add"
+    />
     <delete-confirmation-popup
       :callback="deleteCallback"
       :delete-count="deleteCount"
@@ -8,52 +11,44 @@
       @close="closeDelete"
     />
 
-    <header class="table-title">
-      <h3 class="table-title__title">
-        {{ $t('objects.permissions.roles.permissions.permissions', 2) }}
-      </h3>
-      <div class="table-title__actions-wrap">
-        <delete-all-action
-		  v-show="!anySelected"
-          :disabled="disableUserInput"
-          :selected-count="selectedRows.length"
-          @click="
-            askDeleteConfirmation({
-              deleted: selectedRows,
-              callback: () => deleteData(selectedRows),
-            })
-            "
-        />
-        <wt-icon-btn
-          class="icon-action"
-          icon="plus"
-          :disabled="disableUserInput"
-          @click="create"
-        />
-      </div>
+    <header class="table-title opened-role-permissions__header">
+      <wt-action-bar
+        :include="[IconAction.ADD, IconAction.DELETE]"
+        :disabled:add="disableUserInput"
+        :disabled:delete="disableUserInput || !selected.length"
+        @click:add="openPopup"
+        @click:delete="
+          askDeleteConfirmation({
+            deleted: selected,
+            callback: () => remove(selected),
+          })
+        "
+      />
     </header>
 
     <div class="table-section__table-wrapper">
       <wt-table
-        :data="dataList"
+        :data="permissions"
         :headers="headers"
+        :selected="selected"
+        @update:selected="selected = $event"
       >
         <template #name="{ item }">
-          {{ permissionNameLocale[item.id] }}
+          {{ t(`objects.permissions.roles.permissions.${snakeToCamel(item.id)}`) }}
         </template>
         <template #usage="{ item }">
-          {{ permissionUsageLocale[item.id] }}
+          {{ t(`objects.permissions.roles.permissions.${snakeToCamel(item.id)}Description`) }}
         </template>
-        <template #actions="{ item, index }">
+        <template #actions="{ item }">
           <wt-icon-action
-            action="delete"
             :disabled="disableUserInput"
+            action="delete"
             @click="
               askDeleteConfirmation({
                 deleted: [item],
-                callback: () => deleteData(item),
+                callback: () => remove([item]),
               })
-              "
+            "
           />
         </template>
       </wt-table>
@@ -61,229 +56,89 @@
   </section>
 </template>
 
-<script>
-import {
-	CrudGlobalAction,
-	SpecialGlobalAction,
-} from '@webitel/ui-sdk/modules/Userinfo';
+<script setup lang="ts">
+import type {
+	RoleCard,
+	RolePermission,
+} from '@webitel/api-services/validations';
+import { IconAction } from '@webitel/ui-sdk/enums';
+import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
+import { snakeToCamel } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
-import { mapActions, mapState } from 'vuex';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+
 import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
-import openedObjectTableTabMixin from '../../../../../../app/mixins/objectPagesMixins/openedObjectTableTabMixin/openedObjectTableTabMixin';
-import PermissionsPopup from './opened-role-permissions-popup.vue';
+import OpenedRolePermissionPopup from './opened-role-permission-popup.vue';
 
-export default {
-	name: 'OpenedRolePermissions',
-	components: {
-		PermissionsPopup,
-		DeleteConfirmationPopup,
-	},
-	mixins: [
-		openedObjectTableTabMixin,
-	],
-	setup() {
-		const {
-			isVisible: isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const modelValue = defineModel<RoleCard>({
+	required: true,
+});
 
-			askDeleteConfirmation,
-			closeDelete,
-		} = useDeleteConfirmationPopup();
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const { disableUserInput } = useUserAccessControl();
 
-		const { disableUserInput } = useUserAccessControl();
+const {
+	isVisible: isDeleteConfirmationPopup,
+	deleteCount,
+	deleteCallback,
+	askDeleteConfirmation,
+	closeDelete,
+} = useDeleteConfirmationPopup();
 
-		return {
-			isDeleteConfirmationPopup,
-			deleteCount,
-			deleteCallback,
+const headers = computed(() => [
+	{
+		value: 'name',
+		text: t('objects.name'),
+	},
+	{
+		value: 'usage',
+		text: t('objects.permissions.roles.usage'),
+	},
+]);
 
-			askDeleteConfirmation,
-			closeDelete,
-			disableUserInput,
-		};
-	},
-	data: () => ({
-		dataListValue: [],
-	}),
-	watch: {
-		permissionsList() {
-			this.loadList();
-		},
-	},
-	computed: {
-		...mapState('permissions/roles', {
-			// author @Lera24
-			// [WTEL-6858] https://webitel.atlassian.net/browse/WTEL-6858
-			// permissionsList: (state) => state.itemInstance.permissions
-			permissionsList: (state) =>
-				state.itemInstance.permissions.filter(
-					(permission) =>
-						permission.id !== SpecialGlobalAction.ResetActiveAttempts,
-				),
-		}),
-		// override mixin map state
-		dataList: {
-			get() {
-				return this.dataListValue;
-			},
-			set(value) {
-				this.dataListValue = value;
-			},
-		},
-		headers() {
-			return [
-				{
-					value: 'name',
-					text: this.$t('objects.name'),
-				},
-				{
-					value: 'usage',
-					text: this.$t('objects.permissions.roles.usage'),
-				},
-			];
-		},
-		permissionNameLocale() {
-			return {
-				[CrudGlobalAction.Add]: this.$t(
-					'objects.permissions.roles.permissions.add',
-				),
-				[CrudGlobalAction.Delete]: this.$t(
-					'objects.permissions.roles.permissions.delete',
-				),
-				[CrudGlobalAction.Read]: this.$t(
-					'objects.permissions.roles.permissions.read',
-				),
-				[CrudGlobalAction.Write]: this.$t(
-					'objects.permissions.roles.permissions.write',
-				),
-				[SpecialGlobalAction.EavesdropCall]: this.$t(
-					'objects.permissions.roles.permissions.eavesdropCall',
-				),
-				[SpecialGlobalAction.PlaybackRecordFile]: this.$t(
-					'objects.permissions.roles.permissions.playbackRecordFile',
-				),
-				[SpecialGlobalAction.TimeLimitedRecordFile]: this.$t(
-					'objects.permissions.roles.permissions.timeLimitedRecordFile',
-				),
-				[SpecialGlobalAction.ResetActiveAttempts]: this.$t(
-					'objects.permissions.roles.permissions.resetActiveAttempts',
-				),
-				[SpecialGlobalAction.LimitWorkspaceContacts]: this.$t(
-					'objects.permissions.roles.permissions.limitWorkspaceContacts',
-				),
-				[SpecialGlobalAction.ExportDataGrid]: this.$t(
-					'objects.permissions.roles.permissions.exportDataGrid',
-				),
-				[SpecialGlobalAction.ViewCdrPhoneNumbers]: this.$t(
-					'objects.permissions.roles.permissions.viewCdrPhoneNumbers',
-				),
-				[SpecialGlobalAction.ManageUserRoles]: this.$t(
-					'objects.permissions.roles.permissions.manageUserRoles',
-				),
-				[SpecialGlobalAction.ManageUserLicense]: this.$t(
-					'objects.permissions.roles.permissions.manageUserLicense',
-				),
-				[SpecialGlobalAction.ChangeUserPassword]: this.$t(
-					'objects.permissions.roles.permissions.changeUserPassword',
-				),
-				[SpecialGlobalAction.SystemSetting]: this.$t(
-					'objects.permissions.roles.permissions.systemSetting',
-				),
-				[SpecialGlobalAction.SchemeVariables]: this.$t(
-					'objects.permissions.roles.permissions.schemeVariables',
-				),
-				[SpecialGlobalAction.ControlAgentScreen]: this.$t(
-					'objects.permissions.roles.permissions.controlAgentScreen',
-				),
-			};
-		},
-		permissionUsageLocale() {
-			return {
-				[CrudGlobalAction.Add]: this.$t(
-					'objects.permissions.roles.permissions.addDescription',
-				),
-				[CrudGlobalAction.Delete]: this.$t(
-					'objects.permissions.roles.permissions.deleteDescription',
-				),
-				[CrudGlobalAction.Read]: this.$t(
-					'objects.permissions.roles.permissions.readDescription',
-				),
-				[CrudGlobalAction.Write]: this.$t(
-					'objects.permissions.roles.permissions.writeDescription',
-				),
-				[SpecialGlobalAction.EavesdropCall]: this.$t(
-					'objects.permissions.roles.permissions.eavesdropCallDescription',
-				),
-				[SpecialGlobalAction.PlaybackRecordFile]: this.$t(
-					'objects.permissions.roles.permissions.playbackRecordFileDescription',
-				),
-				[SpecialGlobalAction.TimeLimitedRecordFile]: this.$t(
-					'objects.permissions.roles.permissions.timeLimitedRecordFileDescription',
-				),
-				[SpecialGlobalAction.ResetActiveAttempts]: this.$t(
-					'objects.permissions.roles.permissions.resetActiveAttemptsDescription',
-				),
-				[SpecialGlobalAction.LimitWorkspaceContacts]: this.$t(
-					'objects.permissions.roles.permissions.limitWorkspaceContactsDescription',
-				),
-				[SpecialGlobalAction.ExportDataGrid]: this.$t(
-					'objects.permissions.roles.permissions.exportDataGridDescription',
-				),
-				[SpecialGlobalAction.ViewCdrPhoneNumbers]: this.$t(
-					'objects.permissions.roles.permissions.viewCdrPhoneNumbersDescription',
-				),
-				[SpecialGlobalAction.ManageUserRoles]: this.$t(
-					'objects.permissions.roles.permissions.manageUserRolesDescription',
-				),
-				[SpecialGlobalAction.ManageUserLicense]: this.$t(
-					'objects.permissions.roles.permissions.manageUserLicenseDescription',
-				),
-				[SpecialGlobalAction.ChangeUserPassword]: this.$t(
-					'objects.permissions.roles.permissions.changeUserPasswordDescription',
-				),
-				[SpecialGlobalAction.SystemSetting]: this.$t(
-					'objects.permissions.roles.permissions.systemSettingDescription',
-				),
-				[SpecialGlobalAction.SchemeVariables]: this.$t(
-					'objects.permissions.roles.permissions.schemeVariablesDescription',
-				),
-				[SpecialGlobalAction.ControlAgentScreen]: this.$t(
-					'objects.permissions.roles.permissions.controlAgentScreenDescription',
-				),
-			};
-		},
-	},
-	methods: {
-		...mapActions({
-			dispatchDelete(dispatch, payload) {
-				return dispatch(`${this.namespace}/DELETE_ROLE_PERMISSION`, payload);
-			},
-		}),
-		loadList() {
-			this.dataList = this.permissionsList.map((permission) => ({
-				...permission,
-				_isSelected: false,
-			}));
-		},
-		create() {
-			this.addItem();
-		},
-		addItem() {
-			this.$router.push({
-				...this.$route,
-				params: {
-					permissionIndex: 'new',
-				},
-			});
-		},
-		closePopup() {
-			this.$router.go(-1);
-		},
-		setParentId() {},
-	},
+/** [Claude] [WTEL-6858] "reset active attempts" is not managed here, so it is not listed */
+const permissions = computed(() =>
+	(modelValue.value.permissions ?? []).filter(
+		({ id }) => id !== SpecialGlobalAction.ResetActiveAttempts,
+	),
+);
+
+const selected = ref<RolePermission[]>([]);
+
+const add = (permission: RolePermission) => {
+	modelValue.value.permissions = [
+		...(modelValue.value.permissions ?? []),
+		permission,
+	];
 };
+
+const remove = (deleted: RolePermission[]) => {
+	const deletedIds = deleted.map(({ id }) => id);
+	modelValue.value.permissions = (modelValue.value.permissions ?? []).filter(
+		({ id }) => !deletedIds.includes(id),
+	);
+	selected.value = [];
+};
+
+/** [Claude] the popup is opened by the route, as the other card popups */
+const openPopup = () =>
+	router.push({
+		name: route.name,
+		query: route.query,
+		params: {
+			...route.params,
+			permissionIndex: 'new',
+		},
+	});
 </script>
 
-<style scoped></style>
+<style scoped>
+.opened-role-permissions__header {
+  justify-content: flex-end;
+}
+</style>

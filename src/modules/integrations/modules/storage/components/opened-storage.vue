@@ -13,7 +13,9 @@
     </template>
 
     <template #main>
+      <wt-loader v-if="debouncedIsLoading" />
       <form
+        v-else
         class="opened-card-form"
         @submit.prevent="save"
       >
@@ -22,11 +24,13 @@
           :tabs="tabs"
           @change="changeTab"
         />
-        <component
-          :is="currentTab.value"
-          :namespace="namespace"
-          :v="v$"
-        />
+        <router-view v-slot="{ Component }">
+          <component
+            :is="Component"
+            v-model="modelValue"
+            :validation-fields="validationFields"
+          />
+        </router-view>
         <input
           hidden
           type="submit"
@@ -36,242 +40,84 @@
   </wt-page-wrapper>
 </template>
 
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { minValue, required, requiredUnless } from '@vuelidate/validators';
+<script setup lang="ts">
+import { StorageType } from '@webitel/api-services/enums';
+import type { StorageBackendProfile } from '@webitel/api-services/gen/models';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
+import { useClose } from '@webitel/ui-sdk/composables';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedObjectMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectMixin/openedObjectMixin';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import storageMixin from '../mixins/storageMixin';
-import StorageRouteNames from '../router/_internals/StorageRouteNames.enum.js';
-import Storage from '../store/_internals/enums/Storage.enum';
-import Backblaze from './_unused/opened-storage-backblaze.vue';
-import Drive from './_unused/opened-storage-drive.vue';
-import Dropbox from './_unused/opened-storage-dropbox.vue';
-import Local from './_unused/opened-storage-local.vue';
-import General from './opened-storage-general.vue';
-import S3 from './opened-storage-s3.vue';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { getStorageService } from '../lookups/StorageService.lookup';
+import StorageRouteNames from '../router/_internals/StorageRouteNames.enum';
+import { useStorageCardStore } from '../stores/card/storageCardStore';
 
-export default {
-	name: 'OpenedStorage',
-	components: {
-		General,
-		Local,
-		S3,
-		Backblaze,
-		Dropbox,
-		Drive,
-	},
-	mixins: [
-		openedObjectMixin,
-		storageMixin,
-	],
-	setup: () => {
-		const v$ = useVuelidate();
-		const { hasSaveActionAccess } = useUserAccessControl();
-		return {
-			v$,
-			hasSaveActionAccess,
-		};
-	},
-	data: () => ({
-		namespace: 'integrations/storage',
-		routeName: RouteNames.STORAGE,
-	}),
-	validations() {
-		const itemInstanceDefaults = {
-			name: {
-				required,
-			},
-			expireDays: {
-				minValue: minValue(0),
-			},
-			maxSize: {
-				minValue: minValue(0),
-			},
-			priority: {
-				minValue: minValue(0),
-			},
-		};
-		switch (this.$route.params.type) {
-			case Storage.LOCAL:
-				return {
-					itemInstance: {
-						...itemInstanceDefaults,
-					},
-				};
-			case Storage.S3:
-				return {
-					itemInstance: {
-						properties: {
-							keyId: {
-								required,
-							},
-							accessKey: {
-								required: requiredUnless(() => !!this.id),
-							},
-							bucketName: {
-								required,
-							},
-							region: {
-								required,
-							},
-							endpoint: {
-								required,
-							},
-						},
-						...itemInstanceDefaults,
-					},
-				};
-			case Storage.BACKBLAZE:
-				return {
-					itemInstance: {
-						account: {
-							required,
-						},
-						key: {
-							required,
-						},
-						bucket: {
-							required,
-						},
-						bucketId: {
-							required,
-						},
-						...itemInstanceDefaults,
-					},
-				};
-			case Storage.DROPBOX:
-				return {
-					itemInstance: {
-						properties: {
-							token: {
-								required,
-							},
-						},
-						...itemInstanceDefaults,
-					},
-				};
-			case Storage.DRIVE:
-				return {
-					itemInstance: {
-						properties: {
-							directory: {
-								required,
-							},
-							privateKey: {
-								required,
-							},
-							email: {
-								required,
-							},
-						},
-						...itemInstanceDefaults,
-					},
-				};
-			default:
-				return {};
-		}
-	},
+const { t } = useI18n();
+const route = useRoute();
+const { hasSaveActionAccess } = useUserAccessControl();
 
-	computed: {
-		storageType() {
-			switch (this.$route.params.type) {
-				case Storage.LOCAL:
-					return Storage.LOCAL;
-				case Storage.S3:
-					return Storage.S3;
-				case Storage.BACKBLAZE:
-					return Storage.BACKBLAZE;
-				case Storage.DROPBOX:
-					return Storage.DROPBOX;
-				case Storage.DRIVE:
-					return Storage.DRIVE;
-				default:
-					return '';
-			}
-		},
-		tabs() {
-			const tabs = [
-				{
-					text: this.$t('objects.general'),
-					value: 'general',
-					pathName: StorageRouteNames.GENERAL,
-				},
-			];
-			switch (this.$route.params.type) {
-				case Storage.LOCAL:
-					tabs.push({
-						text: this.$t('objects.integrations.storage.configuration'),
-						value: 'local',
-						pathName: StorageRouteNames.LOCAL,
-					});
-					break;
-				case Storage.S3:
-					tabs.push({
-						text: this.$t('objects.integrations.storage.configuration'),
-						value: 's3',
-						pathName: StorageRouteNames.S3,
-					});
-					break;
-				case Storage.BACKBLAZE:
-					tabs.push({
-						text: this.$t('objects.integrations.storage.configuration'),
-						value: 'backblaze',
-						pathName: StorageRouteNames.BACKBLAZE,
-					});
-					break;
-				case Storage.DROPBOX:
-					tabs.push({
-						text: this.$t('objects.integrations.storage.configuration'),
-						value: 'dropbox',
-						pathName: StorageRouteNames.DROPBOX,
-					});
-					break;
-				case Storage.DRIVE:
-					tabs.push({
-						text: this.$t('objects.integrations.storage.configuration'),
-						value: 'drive',
-						pathName: StorageRouteNames.DRIVE,
-					});
-					break;
-				default:
-			}
-			return tabs;
-		},
+const {
+	modelValue,
+	debouncedIsLoading,
+	originalItemInstance,
+	isNew,
+	saveText,
+	disabledSave,
+	validationFields,
+	save,
+} = useCardComponent<StorageBackendProfile>({
+	useCardStore: useStorageCardStore,
+	hasSaveAccess: hasSaveActionAccess,
+});
 
-		path() {
-			const baseUrl = '/integrations/storage';
-			return [
-				{
-					name: this.$t('objects.integrations.integrations'),
-				},
-				{
-					name: this.$t('objects.integrations.storage.storage'),
-					route: baseUrl,
-				},
-				{
-					name: this.id
-						? `${this.pathName} (${this.service.name})`
-						: this.$t('objects.new'),
-					route: {
-						name: this.currentTab.pathName,
-						query: this.$route.query,
-					},
-				},
-			];
+const tabs = computed(() => {
+	const array: CardTab[] = [
+		{
+			text: t('objects.general'),
+			value: 'general',
+			pathName: StorageRouteNames.GENERAL,
+		},
+	];
+
+	// [Claude] only s3 storages can be set up here, other types are edited on the general tab only
+	if (modelValue.value.type === StorageType.S3) {
+		array.push({
+			text: t('objects.integrations.storage.configuration'),
+			value: 's3',
+			pathName: StorageRouteNames.S3,
+		});
+	}
+
+	return array;
+});
+
+const { currentTab, changeTab } = useCardTabs(tabs);
+
+const { close } = useClose(RouteNames.STORAGE);
+
+const path = computed(() => [
+	{
+		name: t('objects.integrations.integrations'),
+	},
+	{
+		name: t('objects.integrations.storage.storage'),
+		route: '/integrations/storage',
+	},
+	{
+		name: isNew.value
+			? t('objects.new')
+			: `${originalItemInstance.value?.name} (${getStorageService(originalItemInstance.value?.properties?.endpoint).name})`,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
 		},
 	},
-	methods: {
-		async loadPageData() {
-			await this.setId(this.$route.params.id);
-			return this.loadItem(this.storageType);
-		},
-	},
-};
+]);
 </script>
-
-<style scoped>
-
-</style>

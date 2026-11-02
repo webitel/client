@@ -41,17 +41,23 @@
 
 <script setup lang="ts">
 import type { EngineBucket } from '@webitel/api-services/gen/models';
-import { useCardComponent, useCardTabs } from '@webitel/ui-datalist/card';
+import {
+	type CardTab,
+	useCardComponent,
+	useCardTabs,
+} from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum';
-import { useBucketsCardStore } from '../stores';
+import { useBucketsCardStore } from '../stores/card/bucketsCardStore';
 
 const { t } = useI18n();
+const route = useRoute();
 const { hasSaveActionAccess } = useUserAccessControl();
 
 const {
@@ -68,7 +74,7 @@ const {
 	hasSaveAccess: hasSaveActionAccess,
 });
 
-const tabs = computed(() => [
+const tabs = computed<CardTab[]>(() => [
 	{
 		text: t('objects.general'),
 		value: 'general',
@@ -89,6 +95,10 @@ const path = computed(() => [
 	},
 	{
 		name: isNew.value ? t('objects.new') : originalItemInstance.value?.name,
+		route: {
+			name: currentTab.value?.pathName,
+			query: route.query,
+		},
 	},
 ]);
 </script>

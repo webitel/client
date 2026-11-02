@@ -1,140 +1,97 @@
 <template>
-  <section>
+  <section class="opened-import-csv-settings">
     <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.integrations.importCsv.settings') }}
-      </h3>
     </header>
     <div class="opened-card-input-grid">
       <wt-single-select
+        v-model:model-value="modelValue.parameters.charset"
+        :label="t('objects.CSV.charSet')"
+        :options="[defaultCsvCharset]"
         :show-clear="false"
-        :label="$t('objects.CSV.charSet')"
-        :v="v.itemInstance.parameters.charset"
-        :model-value="itemInstance.parameters.charset"
         disabled
-        @update:model-value="setItemParamsProp({ prop: 'charset', value: $event })"
       />
       <wt-input-text
+        v-model:model-value="modelValue.parameters.separator"
         :disabled="disableUserInput"
-        :label="$t('objects.CSV.separator')"
-        :v="v.itemInstance.parameters.separator"
-        :model-value="itemInstance.parameters.separator"
+        :label="t('objects.CSV.separator')"
+        :regle-validation="validationFields?.parameters?.$fields?.separator"
         required
-        @update:model-value="setItemParamsProp({ prop: 'separator', value: $event })"
       />
       <wt-switcher
-        :label="$t('objects.CSV.skipHeaders')"
-        :model-value="itemInstance.parameters.skipHeaders"
+        v-model:model-value="modelValue.parameters.skipHeaders"
+        :label="t('objects.CSV.skipHeaders')"
         disabled
-        @update:model-value="setItemParamsProp({ prop: 'skipHeaders', value: $event })"
       />
       <wt-switcher
-        :label="$t('objects.integrations.importCsv.members.clearMembers')"
-        :model-value="itemInstance.parameters.clearMembers"
-        @update:model-value="setItemParamsProp({ prop: 'clearMembers', value: $event })"
+        v-model:model-value="modelValue.parameters.clearMembers"
+        :label="t('objects.integrations.importCsv.members.clearMembers')"
       />
-      <header class="opened-card-header">
+      <header class="opened-card-header opened-import-csv-settings__mappings-header">
         <div>
           <h3 class="opened-card-header__title">
-            {{ $t('objects.integrations.importCsv.mappings') }}
+            {{ t('objects.integrations.importCsv.mappings') }}
           </h3>
-          <p>{{ $t('objects.integrations.importCsv.mappingsHint') }}</p>
+          <p>{{ t('objects.integrations.importCsv.mappingsHint') }}</p>
         </div>
       </header>
-      <div />
       <template
-        v-for="({ multiple, name, locale, required }) of mappingsList"
+        v-for="{ name, locale, multiple, required } of importCsvMemberMappings"
         :key="name"
       >
         <wt-multi-select
           v-if="multiple"
-          :disabled="disableUserInput"
-          :label="$t('objects.integrations.importCsv.columnHeader', { name: localizeName(locale) })"
-          :required="required"
-          :v="v.itemInstance.parameters.mappings[name]"
-          :model-value="itemInstance.parameters.mappings[name]"
-          :options="itemInstance.parameters.mappings[name]"
+          v-model:model-value="modelValue.parameters.mappings[name]"
           :data-key="null"
-          chips-view
+          :disabled="disableUserInput"
+          :label="t('objects.integrations.importCsv.columnHeader', { name: t(locale) })"
+          :options="modelValue.parameters.mappings[name]"
+          :regle-validation="validationFields?.parameters?.$fields?.mappings?.$fields?.[name]"
+          :required="required"
           allow-custom-values
-          @update:model-value="handleMappingInput({ name, value: $event })"
+          chips-view
         />
         <wt-input-text
           v-else
+          v-model:model-value="modelValue.parameters.mappings[name]"
           :disabled="disableUserInput"
-          :label="$t('objects.integrations.importCsv.columnHeader', { name: localizeName(locale) })"
+          :label="t('objects.integrations.importCsv.columnHeader', { name: t(locale) })"
+          :regle-validation="validationFields?.parameters?.$fields?.mappings?.$fields?.[name]"
           :required="required"
-          :v="v.itemInstance.parameters.mappings[name]"
-          :model-value="itemInstance.parameters.mappings[name]"
-          @update:model-value="handleMappingInput({ name, value: $event })"
         />
       </template>
     </div>
   </section>
 </template>
 
-<script>
-import deepCopy from 'deep-copy';
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import type { ImportTemplateCard } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
+import { defaultCsvCharset } from '@webitel/ui-sdk/modules/UploadCsvPopup';
+import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
-import ImportCsvMemberMappings from '../lookups/ImportCsvMemberMappings.lookup';
+import { importCsvMemberMappings } from '../configs/importCsvMemberMappings';
 
-export default {
-	name: 'OpenedImportCsvSettings',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		return {
-			disableUserInput,
-		};
-	},
-	data: () => ({}),
-	computed: {
-		mappingsList() {
-			return Object.entries(ImportCsvMemberMappings).reduce(
-				(list, [name, value]) => {
-					list.push({
-						name,
-						...value,
-					});
-					return list;
-				},
-				[],
-			);
-		},
-	},
-	methods: {
-		...mapActions({
-			setItemParamsProp(dispatch, payload) {
-				return dispatch(`${this.namespace}/SET_ITEM_PARAMETERS_PROP`, payload);
-			},
-		}),
-		handleMappingInput({ name, value }) {
-			const mappings = deepCopy(this.itemInstance.parameters.mappings);
-			mappings[name] = value;
-			this.setItemParamsProp({
-				prop: 'mappings',
-				value: mappings,
-			});
-		},
-		localizeName(locale) {
-			if (Array.isArray(locale)) {
-				if (typeof locale[1] === 'number') return this.$t(...locale);
-				return locale.reduce((text, _locale) => {
-					return `${text} ${this.localizeName(_locale)}`;
-				}, '');
-			}
-			return this.$t(locale);
-		},
-	},
-};
+/** [Claude] a new card is seeded from the schema and a saved one comes with them, so `parameters` is always there */
+const modelValue = defineModel<
+	ImportTemplateCard & {
+		parameters: NonNullable<ImportTemplateCard['parameters']>;
+	}
+>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<ImportTemplateCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
 </script>
 
-<style
-  lang="scss"
-  scoped
-></style>
+<style scoped>
+/* [Claude] the mappings start on a row of their own */
+.opened-import-csv-settings__mappings-header {
+  grid-column: span 2;
+}
+</style>

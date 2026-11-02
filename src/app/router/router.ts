@@ -9,34 +9,34 @@ import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices';
 import LicenseRoutes from '../../modules/directory/modules/license/router/license';
 import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js';
-import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles.js';
-import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles.js';
-import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv.js';
+import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles';
+import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles';
+import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv';
 import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-on/router/singleSignOn';
-import StorageRoutes from '../../modules/integrations/modules/storage/router/storage.js';
-import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies.js';
-import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers.js';
+import StorageRoutes from '../../modules/integrations/modules/storage/router/storage';
+import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies';
+import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers';
 import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause';
-import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills.js';
-import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
-import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.js';
+import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills';
+import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists';
+import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets';
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
-import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
-import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
+import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications';
+import MediaRoutes from '../../modules/lookups/modules/media/router/media';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
-import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
+import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects.js';
-import RolesRoutes from '../../modules/permissions/modules/roles/router/roles.js';
-import ChatGetewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGeteways.js';
-import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan.js';
-import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan.js';
-import FlowRoutes from '../../modules/routing/modules/flow/router/flow.js';
-import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways.js';
+import RolesRoutes from '../../modules/permissions/modules/roles/router/roles';
+import ChatGatewaysRoutes from '../../modules/routing/modules/chat-gateways/router/chatGateways';
+import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatplan';
+import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan';
+import FlowRoutes from '../../modules/routing/modules/flow/router/flow';
+import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways';
 import SettingsRoutes from '../../modules/settings/routes/routes.js';
-import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs.js';
+import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration';
-import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables.js';
+import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables';
 import RouteNames from './_internals/RouteNames.enum.js';
 import RoutePaths from './_internals/RoutePaths';
 import { createAuthGuard } from './authGuard';
@@ -112,7 +112,7 @@ export const initRouter = async ({
 
 					// ----------ROUTING------------
 					...FlowRoutes,
-					...ChatGetewaysRoutes,
+					...ChatGatewaysRoutes,
 					...DialplanRoutes,
 					...GatewaysRoutes,
 					...ChatplanRoutes,

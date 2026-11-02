@@ -71,6 +71,26 @@ describe('configurationSchema', () => {
 		).toEqual([]);
 	});
 
+	it.each([
+		EngineSystemSettingName.MaxLoginAttempts,
+		EngineSystemSettingName.BlockLoginTime,
+	])('requires at least 1 for %s', (name) => {
+		expect(
+			issuePaths({
+				name,
+				value: 0,
+			}),
+		).toEqual([
+			'value',
+		]);
+		expect(
+			issuePaths({
+				name,
+				value: 1,
+			}),
+		).toEqual([]);
+	});
+
 	it('edits an unmapped parameter as a required string', () => {
 		expect(
 			issuePaths({
