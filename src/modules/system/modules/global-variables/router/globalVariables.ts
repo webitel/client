@@ -1,6 +1,6 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 
 const GlobalVariables = () => import('../components/the-global-variables.vue');
 
