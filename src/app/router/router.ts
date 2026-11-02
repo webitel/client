@@ -22,7 +22,7 @@ import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router
 import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists.js';
 import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets.js';
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
-import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications.js';
+import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media.js';
 import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions.js';
