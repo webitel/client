@@ -728,7 +728,6 @@ export default {
 						square: 'Квадратная',
 						right: 'Справа',
 						left: 'Слева',
-						static: 'Статическая',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -780,18 +779,13 @@ export default {
 				newChatGateway: 'Новый текстовый шлюз',
 				metadata: {
 					apiKey: 'Api Key',
-					number: 'Number',
 					baseUrl: 'Base URL',
-					sendApi: 'Send API',
 					allowOrigin: 'Allow Origin',
 					readTimeout: 'Read Timeout (sec)',
 					writeTimeout: 'Write Timeout (sec)',
 					handshakeTimeout: 'Handshake Timeout (sec)',
-					messageSize: 'Message Size max (bytes)',
 					botName: 'Bot Name',
-					eventTypes: 'Event Types',
 					telegramToken: 'Telegram BOT API Token',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 

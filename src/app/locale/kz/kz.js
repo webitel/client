@@ -715,7 +715,6 @@ export default {
 						square: 'Төбе',
 						right: 'Оң',
 						left: 'Сол',
-						static: 'Статикалық',
 					},
 					recaptcha: {
 						recaptcha: 'reCAPTCHA',
@@ -767,18 +766,13 @@ export default {
 				newChatGateway: 'Жаңа чат қабылдаушы',
 				metadata: {
 					apiKey: 'Api Кілті',
-					number: 'Нөмір',
 					baseUrl: 'Негізгі URL',
-					sendApi: 'Жіберу API',
 					allowOrigin: 'Қолданушылар',
 					readTimeout: 'Оқу таймақ (сек)',
 					writeTimeout: 'Жазу таймақ (сек)',
 					handshakeTimeout: 'Қол алмау таймақ (сек)',
-					messageSize: 'Хабарлама өлшемі максимум (байт)',
 					botName: 'Бот аты',
-					eventTypes: 'Оқиға түрлері',
 					telegramToken: 'Telegram BOT API Токен',
-					messengerApiUrl: 'Messenger API URL',
 				},
 			},
 
