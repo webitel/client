@@ -1,80 +1,57 @@
 <template>
   <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
-        {{ $t('objects.generalInfo') }}
-      </h3>
-    </header>
+    <header class="opened-card-header"></header>
     <div class="opened-card-input-grid">
       <wt-input-text
+        v-model:model-value="modelValue.name"
         :disabled="disableUserInput"
-        :label="$t('objects.name')"
-        :v="v.itemInstance.name"
-        :model-value="itemInstance.name"
+        :label="t('objects.name')"
+        :regle-validation="validationFields?.name"
         required
-        @update:model-value="setItemProp({ prop: 'name', value: $event })"
       />
       <wt-single-select
-        :show-clear="false"
+        v-model:model-value="modelValue.source"
         :disabled="disableUserInput || !hasQueuesReadAccess"
-        :label="$t('objects.integrations.importCsv.source')"
-        :search-method="loadQueueOptions"
-        :v="v.itemInstance.source"
-        :model-value="itemInstance.source"
+        :label="t('objects.integrations.importCsv.source')"
+        :regle-validation="validationFields?.source"
+        :search-method="(params) => QueuesAPI.getLookup({ ...params, type: sourceQueueTypes })"
+        :show-clear="false"
         required
-        @update:model-value="setItemProp({ prop: 'source', value: $event })"
       />
       <wt-textarea
+        v-model:model-value="modelValue.description"
         :disabled="disableUserInput"
-        :label="$t('objects.description')"
-        :model-value="itemInstance.description"
-        @update:model-value="setItemProp({ prop: 'description', value: $event })"
+        :label="t('objects.description')"
       />
     </div>
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
 import { QueuesAPI } from '@webitel/api-services/api';
+import type { ImportTemplateCard } from '@webitel/api-services/validations';
+import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { QueueType, WtObject } from '@webitel/ui-sdk/enums';
+import { useI18n } from 'vue-i18n';
+
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import openedTabComponentMixin from '../../../../../app/mixins/objectPagesMixins/openedObjectTabMixin/openedTabComponentMixin';
 
-export default {
-	name: 'OpenedImportCsvGeneral',
-	mixins: [
-		openedTabComponentMixin,
-	],
-	setup: () => {
-		const { disableUserInput } = useUserAccessControl();
-		const { hasReadAccess: hasQueuesReadAccess } = useUserAccessControl(
-			WtObject.Queue,
-		);
-		return {
-			disableUserInput,
-			hasQueuesReadAccess,
-		};
-	},
-	methods: {
-		loadQueueOptions(params) {
-			const type = [
-				QueueType.OFFLINE_QUEUE,
-				QueueType.OUTBOUND_IVR_QUEUE,
-				QueueType.PREVIEW_DIALER,
-				QueueType.PROGRESSIVE_DIALER,
-				QueueType.PREDICTIVE_DIALER,
-				QueueType.CHAT_INBOUND_QUEUE,
-				QueueType.IM_CHAT_QUEUE,
-				QueueType.INBOUND_JOB_QUEUE,
-				QueueType.OUTBOUND_JOB_QUEUE,
-			];
-			return QueuesAPI.getLookup({
-				...params,
-				type,
-			});
-		},
-	},
-};
+const modelValue = defineModel<ImportTemplateCard>({
+	required: true,
+});
+
+defineProps<{
+	validationFields?: CardValidationFields<ImportTemplateCard>;
+}>();
+
+const { t } = useI18n();
+const { disableUserInput } = useUserAccessControl();
+const { hasReadAccess: hasQueuesReadAccess } = useUserAccessControl(
+	WtObject.Queue,
+);
+
+/** [Claude] members are imported into any queue but an inbound one, which holds no member list */
+const sourceQueueTypes = Object.values(QueueType).filter(
+	(type) => type !== QueueType.INBOUND_QUEUE,
+);
 </script>
-
-<style scoped></style>

@@ -1,19 +1,25 @@
 import { shallowMount } from '@vue/test-utils';
-import { reactive } from 'vue';
+import { FlowsAPI } from '@webitel/api-services/api';
+import { createPinia, setActivePinia } from 'pinia';
 
-import tableComponentComputedMock from '../../../../../../../tests/unit/mocks/tableComponentComputed.mock';
-import { useDummy } from '../../../../../../app/composables/useDummy';
 import TheFlow from '../the-flow.vue';
 
-vi.mock('../../../../../../app/composables/useDummy');
-useDummy.mockImplementation(() => ({
-	store: reactive({}),
-}));
-
 describe('TheFlow', () => {
+	const pinia = createPinia();
+	setActivePinia(pinia);
+
+	vi.spyOn(FlowsAPI, 'getList').mockResolvedValue({
+		items: [],
+		next: false,
+	});
+
 	it('renders a component', () => {
 		const wrapper = shallowMount(TheFlow, {
-			computed: tableComponentComputedMock(),
+			global: {
+				plugins: [
+					pinia,
+				],
+			},
 		});
 		expect(wrapper.exists()).toBe(true);
 	});

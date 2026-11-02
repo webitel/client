@@ -71,9 +71,6 @@ const parameterDescriptors: {
 	[EngineSystemSettingName.MemberChunkSize]: {
 		type: ConfigurationValueType.Number,
 	},
-	[EngineSystemSettingName.SchemeVersionLimit]: {
-		type: ConfigurationValueType.Number,
-	},
 	[EngineSystemSettingName.SearchNumberLength]: {
 		type: ConfigurationValueType.Number,
 	},
@@ -208,6 +205,16 @@ const parameterDescriptors: {
 	[EngineSystemSettingName.PasswordWarningDays]: {
 		type: ConfigurationValueType.Number,
 		defaultValue: 30,
+		valueSchema: z.number().min(1),
+	},
+	[EngineSystemSettingName.MaxLoginAttempts]: {
+		type: ConfigurationValueType.Number,
+		defaultValue: 5,
+		valueSchema: z.number().min(1),
+	},
+	[EngineSystemSettingName.BlockLoginTime]: {
+		type: ConfigurationValueType.Number,
+		defaultValue: 1,
 		valueSchema: z.number().min(1),
 	},
 };

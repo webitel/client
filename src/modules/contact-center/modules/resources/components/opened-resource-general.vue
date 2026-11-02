@@ -68,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import { GatewaysAPI } from '@webitel/api-services/api';
 import {
 	ResourceCidType,
 	ResourceIgnoreEarlyMedia,
@@ -82,7 +83,6 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import GatewaysAPI from '../../../../routing/modules/gateways/api/gateways';
 
 const modelValue = defineModel<EngineOutboundResource>({
 	required: true,

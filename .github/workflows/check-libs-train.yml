@@ -28,8 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-
+      # [Claude] no setup-node: lts/* resolves to Node 26 now, and its binary needs
+      # libatomic.so.1, which the runner image lacks. The runner's own Node is what
+      # the shared reusable workflows use too, and the script needs no install.
       - run: npm run check:libs-train

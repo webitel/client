@@ -37,7 +37,7 @@
           {{ t(`objects.system.changelogs.logs.actionType.${item.action}`) }}
         </template>
         <template #date="{ item }">
-          {{ formatDateTime(item.date) }}
+          <wt-time-tooltip :text="formatDateTime(item.date)" />
         </template>
         <template #user="{ item }">
           <wt-item-link
@@ -97,6 +97,7 @@ import {
 } from '@webitel/api-services/gen/models';
 import { useNestedTableList } from '@webitel/ui-datalist';
 import { FilterOption } from '@webitel/ui-datalist/filters';
+import { WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
