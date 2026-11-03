@@ -217,7 +217,7 @@ const parameterDescriptors: {
 	},
 	[EngineSystemSettingName.BlockLoginTime]: {
 		type: ConfigurationValueType.Number,
-		defaultValue: 1,
+		defaultValue: 60,
 		valueSchema: z.number().min(1),
 	},
 };
