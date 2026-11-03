@@ -165,7 +165,11 @@
             :headers="shownHeaders"
             :selected="selected"
             fixed-actions
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -367,6 +371,8 @@ const {
 	updateFilter,
 	deleteFilter,
 	hasFilter,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 const {

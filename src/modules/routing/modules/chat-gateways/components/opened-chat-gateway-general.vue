@@ -1,5 +1,14 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <wt-icon
+        v-if="headerIcon"
+        v-bind="headerIcon"
+      />
+      <h3 class="opened-card-header__title">
+        {{ t(headerTitle) }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid">
       <wt-input-text
         v-model:model-value="modelValue.name"
@@ -91,6 +100,71 @@ defineProps<{
 
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
+
+/** [Claude] each provider's general tab is titled (and iconed) after the provider, a custom one just "General" */
+const providerHeaders: Partial<
+	Record<
+		ChatGatewayProvider,
+		{
+			title: string;
+			icon?: {
+				icon: string;
+				iconPrefix?: string;
+				size: string;
+			};
+		}
+	>
+> = {
+	[ChatGatewayProvider.INFOBIP]: {
+		title: 'objects.routing.chatGateways.infobip.infobip',
+		icon: {
+			icon: 'infobip',
+			iconPrefix: 'messenger',
+			size: 'sm',
+		},
+	},
+	[ChatGatewayProvider.MESSENGER]: {
+		title: 'objects.routing.chatGateways.messenger.meta',
+		icon: {
+			icon: 'meta',
+			size: 'md',
+		},
+	},
+	[ChatGatewayProvider.TELEGRAM_APP]: {
+		title: 'objects.routing.chatGateways.telegramApp.telegramApp',
+		icon: {
+			icon: 'telegram',
+			iconPrefix: 'messenger',
+			size: 'sm',
+		},
+	},
+	[ChatGatewayProvider.TELEGRAM_BOT]: {
+		title: 'objects.routing.chatGateways.telegramBot.telegramBot',
+		icon: {
+			icon: 'telegram',
+			iconPrefix: 'messenger',
+			size: 'sm',
+		},
+	},
+	[ChatGatewayProvider.VIBER]: {
+		title: 'objects.routing.chatGateways.viber.viber',
+		icon: {
+			icon: 'viber',
+			iconPrefix: 'messenger',
+			size: 'sm',
+		},
+	},
+};
+
+const providerHeader = computed(() =>
+	modelValue.value.provider
+		? providerHeaders[modelValue.value.provider as ChatGatewayProvider]
+		: undefined,
+);
+const headerTitle = computed(
+	() => providerHeader.value?.title ?? 'objects.general',
+);
+const headerIcon = computed(() => providerHeader.value?.icon);
 
 /** [Claude] the uri is set once on create, then read-only */
 const isUriEditable = computed(

@@ -1,46 +1,34 @@
 <template>
-  <section class="opened-user-variables">
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
+  <wt-editable-list
+    v-model:model-value="modelValue.variables"
+    :create-row="createVariable"
+    :disabled="disableUserInput"
+    :headers="headers"
+  >
+    <template #title>
+      <h3 class="table-title__title">
         {{ t('objects.directory.users.variables') }}
       </h3>
-      <wt-icon-action
-        v-if="!disableUserInput"
-        action="add"
-        @click="addVariable"
+    </template>
+    <template #key="{ item, index }">
+      <wt-input-text
+        v-model:model-value="item.key"
+        :disabled="disableUserInput"
+        :placeholder="t('objects.directory.users.varKey')"
+        :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.key"
+        @update:model-value="touchVariable(index)"
       />
-    </header>
-    <div class="opened-card-input-grid">
-      <div class="opened-user-variables__list">
-        <div
-          v-for="(variable, index) in variables"
-          :key="index"
-          class="opened-user-variables__pair"
-        >
-          <wt-input-text
-            v-model:model-value="variable.key"
-            :disabled="disableUserInput"
-            :placeholder="t('objects.directory.users.varKey')"
-            :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.key"
-            @update:model-value="touchVariable(index)"
-          />
-          <wt-input-text
-            v-model:model-value="variable.value"
-            :disabled="disableUserInput"
-            :placeholder="t('objects.directory.users.varVal')"
-            :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.value"
-            @update:model-value="touchVariable(index)"
-          />
-          <wt-icon-action
-            v-if="!disableUserInput"
-            action="delete"
-            class="opened-user-variables__delete-button"
-            @click="deleteVariable(index)"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
+    </template>
+    <template #value="{ item, index }">
+      <wt-input-text
+        v-model:model-value="item.value"
+        :disabled="disableUserInput"
+        :placeholder="t('objects.directory.users.varVal')"
+        :regle-validation="validationFields?.variables?.$each?.[index]?.$fields?.value"
+        @update:model-value="touchVariable(index)"
+      />
+    </template>
+  </wt-editable-list>
 </template>
 
 <script setup lang="ts">
@@ -62,43 +50,25 @@ const props = defineProps<{
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 
-const variables = computed<VariablePair[]>(() => {
-	if (!modelValue.value.variables) modelValue.value.variables = [];
-	return modelValue.value.variables;
-});
+const headers = computed(() => [
+	{
+		value: 'key',
+		text: t('objects.directory.users.varKey'),
+	},
+	{
+		value: 'value',
+		text: t('objects.directory.users.varVal'),
+	},
+]);
 
-const addVariable = () => {
-	variables.value.push({
-		key: '',
-		value: '',
-	});
-};
+const createVariable = (): VariablePair => ({
+	key: '',
+	value: '',
+});
 
 // [Claude] key and value are required only together, and regle shows an error
 // only on a dirty field — so editing one half dirties the whole pair
 const touchVariable = (index: number) => {
 	props.validationFields?.variables?.$each?.[index]?.$touch();
 };
-
-const deleteVariable = (index: number) => {
-	variables.value.splice(index, 1);
-};
 </script>
-
-<style scoped>
-.opened-user-variables__pair {
-  display: grid;
-  align-items: start;
-  margin-bottom: var(--spacing-lg);
-  grid-template-columns: 1fr 1fr var(--spacing-md);
-  grid-gap: var(--spacing-sm);
-}
-
-.opened-user-variables__pair:has(.p-message) {
-  margin-bottom: 0;
-}
-
-.opened-user-variables__delete-button {
-  margin-top: var(--spacing-xs);
-}
-</style>

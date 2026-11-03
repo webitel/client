@@ -1,5 +1,13 @@
 <template>
   <section class="opened-chat-gateway-webchat-alternative-channels">
+    <header class="opened-card-header">
+      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
+      <h3 class="opened-card-header__title">
+        {{
+          t('objects.routing.chatGateways.webchat.alternativeChannels.alternativeChannels')
+        }}
+      </h3>
+    </header>
     <article class="opened-chat-gateway-webchat-alternative-channels__section">
       <header class="typo-heading-3">
         {{ t('objects.routing.chatGateways.webchat.alternativeChannels.title') }}

@@ -18,6 +18,9 @@
     />
 
     <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.lookups.blacklist.number', 2) }}
+      </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
           :include="[

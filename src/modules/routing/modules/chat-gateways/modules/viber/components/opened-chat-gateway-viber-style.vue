@@ -1,5 +1,15 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <wt-icon
+        icon="viber"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="opened-card-header__title">
+        {{ t('objects.routing.chatGateways.viber.style.style') }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid">
       <div
         v-for="prop of colorProps"

@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <header class="table-title opened-trigger-logs__header">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.integrations.triggers.logs.logs') }}
+      </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
           :include="[IconAction.REFRESH, IconAction.FILTERS]"
@@ -28,7 +31,11 @@
         :grid-actions="false"
         :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
         @sort="updateSort"
       >
         <template #startedAt="{ item }">
@@ -109,6 +116,8 @@ const {
 	updateSort,
 	addFilter,
 	hasFilter,
+	columnResize,
+	columnReorder,
 } = triggerLogsDatalistStore;
 
 /** [Claude] the badge shows a filter picked in the panel; the start date is always there, so it doesn't count */
@@ -140,9 +149,3 @@ const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 });
 </script>
 
-<style scoped>
-/* [Claude] the actions are the header's only child, so they are pushed to the right */
-.opened-trigger-logs__header {
-  justify-content: flex-end;
-}
-</style>

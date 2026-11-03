@@ -11,7 +11,10 @@
       @close="closeDelete"
     />
 
-    <header class="table-title opened-role-permissions__header">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.permissions.roles.permissions.permissions', 2) }}
+      </h3>
       <wt-action-bar
         :include="[IconAction.ADD, IconAction.DELETE]"
         :disabled:add="disableUserInput"
@@ -137,8 +140,3 @@ const openPopup = () =>
 	});
 </script>
 
-<style scoped>
-.opened-role-permissions__header {
-  justify-content: flex-end;
-}
-</style>

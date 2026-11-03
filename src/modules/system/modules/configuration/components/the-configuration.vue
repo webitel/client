@@ -75,7 +75,11 @@
             :data="dataList"
             :headers="shownHeaders"
             :selected="selected"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -180,6 +184,8 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 initialize();

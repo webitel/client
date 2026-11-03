@@ -1,5 +1,11 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <wt-icon icon="web-chat" icon-prefix="messenger" size="sm" />
+      <h3 class="opened-card-header__title">
+        {{ t('objects.routing.chatGateways.webchat.appointment.appointment') }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid">
       <wt-switcher
         v-model:model-value="appointment.enabled"

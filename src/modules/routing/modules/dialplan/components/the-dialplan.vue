@@ -66,7 +66,11 @@
             :selected="selected"
             :headers="shownHeaders"
             :row-reorder="hasUpdateAccess"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
             @reorder:row="reorder"
@@ -179,6 +183,8 @@ const {
 	deleteFilter,
 	updateSelected,
 	patchItemProperty,
+	columnResize,
+	columnReorder,
 } = dialplanDatalistStore;
 
 initialize();
