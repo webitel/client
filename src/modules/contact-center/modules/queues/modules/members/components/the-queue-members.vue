@@ -39,6 +39,7 @@
       <table-filters-panel
         :filter-options="filtersOptions"
         :filters-manager="filtersManager"
+        :is-filters-restoring="isFiltersRestoring"
         :has-read-access="userinfoStore.hasReadAccess"
         static-mode
         @filter:add="addFilter"
@@ -357,6 +358,7 @@ const {
 	headers,
 	shownHeaders,
 	filtersManager,
+	isFiltersRestoring,
 } = storeToRefs(tableStore);
 const {
 	initialize,

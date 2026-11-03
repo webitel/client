@@ -49,6 +49,7 @@
             <template #search-bar>
               <dynamic-filter-search
                 :filters-manager="filtersManager"
+                :is-filters-restoring="isFiltersRestoring"
                 single-search-name="search"
                 @filter:add="addFilter"
                 @filter:update="updateFilter"
@@ -171,6 +172,7 @@ const {
 	selected,
 	shownHeaders,
 	filtersManager,
+	isFiltersRestoring,
 } = storeToRefs(tableStore);
 
 const {

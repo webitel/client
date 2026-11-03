@@ -21,6 +21,7 @@
           <template #search-bar>
             <dynamic-filter-search
               :filters-manager="filtersManager"
+              :is-filters-restoring="isFiltersRestoring"
               @filter:add="addFilter"
               @filter:delete="deleteFilter"
               @filter:update="updateFilter"
@@ -139,6 +140,7 @@ const {
 	selected,
 	shownHeaders,
 	filtersManager,
+	isFiltersRestoring,
 } = storeToRefs(agentSkillsDatalistStore);
 const {
 	loadDataList,

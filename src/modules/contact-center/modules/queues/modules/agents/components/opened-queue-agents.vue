@@ -22,6 +22,7 @@
           <template #search-bar>
             <dynamic-filter-search
               :filters-manager="filtersManager"
+              :is-filters-restoring="isFiltersRestoring"
               single-search-name="search"
               @filter:add="addFilter"
               @filter:delete="deleteFilter"
@@ -141,6 +142,7 @@ const {
 	next,
 	shownHeaders,
 	filtersManager,
+	isFiltersRestoring,
 } = storeToRefs(tableStore);
 const {
 	loadDataList,
