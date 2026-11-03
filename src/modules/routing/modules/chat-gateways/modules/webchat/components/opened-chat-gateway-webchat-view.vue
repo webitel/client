@@ -1,5 +1,15 @@
 <template>
   <section class="opened-chat-gateway-webchat-view">
+    <header class="opened-card-header">
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="opened-card-header__title">
+        {{ t('objects.routing.chatGateways.webchat.view.view') }}
+      </h3>
+    </header>
     <section class="opened-chat-gateway-webchat-view__preview">
       <div id="chat-preview" />
       <section class="opened-chat-gateway-webchat-view__button-preview">

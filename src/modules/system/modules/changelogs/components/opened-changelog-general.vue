@@ -1,5 +1,10 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.generalInfo') }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid">
       <wt-single-select
         v-model:model-value="modelValue.object"

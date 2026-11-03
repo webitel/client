@@ -2,7 +2,10 @@
   <section class="table-section">
     <opened-object-rbac-role-popup :add="addRolePermissions" />
 
-    <header class="table-title opened-object-rbac__header">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ $t('objects.permissions.object.rbacDefault') }}
+      </h3>
       <wt-action-bar
         :include="[IconAction.ADD, IconAction.REFRESH]"
         :disabled:add="!access.update"
@@ -206,9 +209,3 @@ const {
 });
 </script>
 
-<style scoped>
-/* [Claude] no title in the header, so push the action bar to the right */
-.opened-object-rbac__header {
-	justify-content: flex-end;
-}
-</style>

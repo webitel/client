@@ -65,7 +65,11 @@
             :data="dataList"
             :selected="selected"
             :headers="shownHeaders"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
             @update:selected="updateSelected"
           >
@@ -173,6 +177,8 @@ const {
 	deleteFilter,
 	updateSelected,
 	patchItemProperty,
+	columnResize,
+	columnReorder,
 } = chatplanDatalistStore;
 
 initialize();

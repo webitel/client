@@ -1,51 +1,36 @@
 <template>
-  <section class="opened-resource-group-timerange">
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
+  <wt-editable-list
+    v-model:model-value="modelValue.time"
+    :create-row="getDefaultResourceGroupTimeRange"
+    :disabled="disableUserInput"
+    :headers="headers"
+  >
+    <template #title>
+      <h3 class="table-title__title">
         {{ t('objects.ccenter.resGroups.timerange') }}
       </h3>
-      <wt-icon-action
-        v-if="!disableUserInput"
-        action="add"
-        @click="addRange"
+    </template>
+    <template #start="{ item, index }">
+      <wt-timepicker
+        :disabled="disableUserInput"
+        :model-value="minToSec(item.start)"
+        :regle-validation="getRangeValidation(index, 'start')"
+        format="hh:mm"
+        no-label
+        @update:model-value="item.start = secToMin($event)"
       />
-    </header>
-    <div class="opened-card-input-grid">
-      <div>
-        <div
-          v-for="(range, index) in modelValue.time"
-          :key="index"
-          class="opened-resource-group-timerange__range"
-        >
-          <wt-timepicker
-            :disabled="disableUserInput"
-            :label="t('objects.ccenter.resGroups.timerangeFrom')"
-            :model-value="minToSec(range.start)"
-            :regle-validation="getRangeValidation(index, 'start')"
-            format="hh:mm"
-            required
-            @update:model-value="range.start = secToMin($event)"
-          />
-          <wt-timepicker
-            :disabled="disableUserInput"
-            :label="t('objects.ccenter.resGroups.timerangeTo')"
-            :model-value="minToSec(range.end)"
-            :regle-validation="getRangeValidation(index, 'end')"
-            format="hh:mm"
-            required
-            @update:model-value="range.end = secToMin($event)"
-          />
-          <wt-icon-action
-            v-if="index !== 0"
-            :disabled="disableUserInput"
-            action="delete"
-            class="opened-resource-group-timerange__delete"
-            @click="removeRange(index)"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
+    </template>
+    <template #end="{ item, index }">
+      <wt-timepicker
+        :disabled="disableUserInput"
+        :model-value="minToSec(item.end)"
+        :regle-validation="getRangeValidation(index, 'end')"
+        format="hh:mm"
+        no-label
+        @update:model-value="item.end = secToMin($event)"
+      />
+    </template>
+  </wt-editable-list>
 </template>
 
 <script setup lang="ts">
@@ -58,6 +43,7 @@ import {
 	type CardValidationFields,
 	useTimeRangesValidation,
 } from '@webitel/ui-datalist/card';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
@@ -79,24 +65,14 @@ const { getRangeValidation } = useTimeRangesValidation(
 	getResourceGroupTimeRangeErrors,
 );
 
-const addRange = () => {
-	modelValue.value.time?.push(getDefaultResourceGroupTimeRange());
-};
-
-const removeRange = (index: number) => {
-	modelValue.value.time?.splice(index, 1);
-};
+const headers = computed(() => [
+	{
+		value: 'start',
+		text: t('objects.ccenter.resGroups.timerangeFrom'),
+	},
+	{
+		value: 'end',
+		text: t('objects.ccenter.resGroups.timerangeTo'),
+	},
+]);
 </script>
-
-<style scoped>
-.opened-resource-group-timerange__range {
-  display: flex;
-  align-items: start;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-sm);
-}
-
-.opened-resource-group-timerange__delete {
-  margin-top: var(--spacing-md);
-}
-</style>

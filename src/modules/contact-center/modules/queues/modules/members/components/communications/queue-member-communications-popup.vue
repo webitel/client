@@ -25,7 +25,11 @@
             :lazy="true"
             :on-loading="loadNextPage"
             :selectable="false"
+            reorderable-columns
+            resizable-columns
             sortable
+            @column-reorder="columnReorder"
+            @column-resize="columnResize"
             @sort="updateSort"
           >
             <template #destination="{ item }">
@@ -86,6 +90,8 @@ const {
 	addFilter,
 	updateFilter,
 	$reset,
+	columnResize,
+	columnReorder,
 } = queueMemberCommunicationsDatalistStore;
 
 const {

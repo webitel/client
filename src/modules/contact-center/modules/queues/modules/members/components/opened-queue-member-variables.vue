@@ -1,41 +1,30 @@
 <template>
-  <section>
-    <header class="opened-card-header">
-      <h3 class="opened-card-header__title">
+  <wt-editable-list
+    v-model:model-value="variables"
+    :create-row="createVariable"
+    :disabled="disableUserInput"
+    :headers="headers"
+  >
+    <template #title>
+      <h3 class="table-title__title">
         {{ t('objects.ccenter.queues.variables') }}
       </h3>
-      <wt-icon-action
-        v-if="!disableUserInput"
-        action="add"
-        @click="addVariable"
+    </template>
+    <template #key="{ item }">
+      <wt-input-text
+        v-model:model-value="item.key"
+        :disabled="disableUserInput"
+        :placeholder="t('objects.ccenter.queues.varKey')"
       />
-    </header>
-    <form class="opened-card-input-grid">
-      <div class="variables">
-        <div
-          v-for="(variable, index) in variables"
-          :key="index"
-          class="value-pair"
-        >
-          <wt-input-text
-            v-model:model-value="variable.key"
-            :disabled="disableUserInput"
-            :placeholder="t('objects.ccenter.queues.varKey')"
-          />
-          <wt-input-text
-            v-model:model-value="variable.value"
-            :disabled="disableUserInput"
-            :placeholder="t('objects.ccenter.queues.varVal')"
-          />
-          <wt-icon-action
-            v-if="!disableUserInput"
-            action="delete"
-            @click="deleteVariable(index)"
-          />
-        </div>
-      </div>
-    </form>
-  </section>
+    </template>
+    <template #value="{ item }">
+      <wt-input-text
+        v-model:model-value="item.value"
+        :disabled="disableUserInput"
+        :placeholder="t('objects.ccenter.queues.varVal')"
+      />
+    </template>
+  </wt-editable-list>
 </template>
 
 <script lang="ts" setup>
@@ -56,35 +45,27 @@ const { disableUserInput } = useUserAccessControl({
 });
 
 /** pairs here, a map on the wire; QueueMembersAPI converts between the two */
-const variables = computed<VariablePair[]>(() => {
-	if (!modelValue.value.variables) {
+const variables = computed<VariablePair[]>({
+	get: () => (modelValue.value.variables ?? []) as unknown as VariablePair[],
+	set: (value) => {
 		modelValue.value.variables =
-			[] as unknown as EngineMemberInQueue['variables'];
-	}
-	return modelValue.value.variables as unknown as VariablePair[];
+			value as unknown as EngineMemberInQueue['variables'];
+	},
 });
 
-const addVariable = () => {
-	variables.value.push({
-		key: '',
-		value: '',
-	});
-};
+const headers = computed(() => [
+	{
+		value: 'key',
+		text: t('objects.ccenter.queues.varKey'),
+	},
+	{
+		value: 'value',
+		text: t('objects.ccenter.queues.varVal'),
+	},
+]);
 
-const deleteVariable = (index: number) => {
-	variables.value.splice(index, 1);
-};
+const createVariable = (): VariablePair => ({
+	key: '',
+	value: '',
+});
 </script>
-
-<style
-  lang="scss"
-  scoped
->
-.value-pair {
-  display: grid;
-  align-items: center;
-  margin-bottom: 20px;
-  grid-template-columns: 1fr 1fr 24px;
-  grid-gap: 20px;
-}
-</style>

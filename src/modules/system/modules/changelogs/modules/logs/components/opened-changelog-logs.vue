@@ -1,6 +1,9 @@
 <template>
   <section class="table-section">
-    <header class="table-title opened-changelog-logs__header">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.system.changelogs.logs.logs', 2) }}
+      </h3>
       <div class="table-title__actions-wrap">
         <wt-action-bar
           :include="[IconAction.REFRESH, IconAction.DOWNLOAD, IconAction.FILTERS]"
@@ -30,7 +33,11 @@
         :headers="shownHeaders"
         :selectable="false"
         fixed-actions
+        reorderable-columns
+        resizable-columns
         sortable
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
         @sort="updateSort"
       >
         <template #action="{ item }">
@@ -142,6 +149,8 @@ const {
 	updateSort,
 	hasFilter,
 	addFilter,
+	columnResize,
+	columnReorder,
 } = changelogLogsDatalistStore;
 
 if (!hasFilter(FilterOption.Date)) {
@@ -220,9 +229,3 @@ const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 });
 </script>
 
-<style scoped>
-/* [Claude] no title on the tab, so the actions sit on the right */
-.opened-changelog-logs__header {
-  justify-content: flex-end;
-}
-</style>

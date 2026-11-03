@@ -1,5 +1,15 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="opened-card-header__title">
+        {{ t('objects.routing.chatGateways.webchat.recaptcha.recaptcha') }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid opened-card-input-grid--w50 opened-card-input-grid--1-col">
       <wt-switcher
         v-model:model-value="captcha.enabled"

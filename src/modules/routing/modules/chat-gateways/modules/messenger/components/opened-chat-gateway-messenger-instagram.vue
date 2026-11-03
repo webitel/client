@@ -1,6 +1,9 @@
 <template>
   <section>
     <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.routing.chatGateways.messenger.instagram.instagram') }}
+      </h3>
       <div class="opened-chat-gateway-messenger-instagram__switchers">
         <wt-switcher
           v-model:model-value="modelValue.metadata.instagramComments"

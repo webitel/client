@@ -1,5 +1,10 @@
 <template>
   <section class="table-section">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.permissions.roles.applicationsAccess.applicationsAccess', 2) }}
+      </h3>
+    </header>
     <opened-application-access-popup v-model:model-value="modelValue" />
 
     <div class="table-section__table-wrapper">

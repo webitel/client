@@ -1,5 +1,10 @@
 <template>
   <section class="opened-chat-gateway-messenger-whatsapp">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.routing.chatGateways.messenger.whatsapp.whatsapp') }}
+      </h3>
+    </header>
     <delete-confirmation-popup
       :shown="isDeleteConfirmationPopup"
       :delete-count="deleteCount"

@@ -1,5 +1,10 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.integrations.storage.s3') }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid">
       <wt-input-text
         v-model:model-value="properties.keyId"

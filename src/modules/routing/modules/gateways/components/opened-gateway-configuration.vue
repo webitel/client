@@ -1,58 +1,45 @@
 <template>
-  <section class="opened-gateway-configuration">
-    <header class="table-title opened-gateway-configuration__header">
-      <wt-action-bar
-        :include="[IconAction.ADD]"
-        :disabled:add="disableUserInput"
-        @click:add="add"
+  <wt-editable-list
+    v-model:model-value="modelValue.ipacl"
+    :create-row="createIpAcl"
+    :disabled="disableUserInput"
+    :headers="headers"
+  >
+    <template #title>
+      <h3 class="table-title__title">
+        {{ t('objects.routing.gateways.trunkingACLTitle') }}
+      </h3>
+    </template>
+    <template #proto="{ item }">
+      <wt-single-select
+        v-model:model-value="item.proto"
+        :show-clear="false"
+        :disabled="disableUserInput"
+        :options="protocolOptions"
+        :data-key="null"
       />
-    </header>
-
-    <wt-table
-      :data="modelValue.ipacl"
-      :headers="headers"
-      :grid-actions="!disableUserInput"
-      :selectable="false"
-    >
-      <template #proto="{ item }">
-        <wt-single-select
-          v-model:model-value="item.proto"
-          :show-clear="false"
-          :disabled="disableUserInput"
-          :options="protocolOptions"
-          :data-key="null"
-        />
-      </template>
-      <template #ip="{ item, index }">
-        <wt-input-text
-          v-model:model-value="item.ip"
-          :disabled="disableUserInput"
-          :regle-validation="validationFields?.ipacl?.$each?.[index]?.$fields?.ip"
-          required
-        />
-      </template>
-      <template #port="{ item }">
-        <wt-input-number
-          v-model:model-value="item.port"
-          :disabled="disableUserInput"
-        />
-      </template>
-      <template #actions="{ index }">
-        <wt-icon-action
-          :action="IconAction.DELETE"
-          :disabled="disableUserInput"
-          @click="remove(index)"
-        />
-      </template>
-    </wt-table>
-  </section>
+    </template>
+    <template #ip="{ item, index }">
+      <wt-input-text
+        v-model:model-value="item.ip"
+        :disabled="disableUserInput"
+        :regle-validation="validationFields?.ipacl?.$each?.[index]?.$fields?.ip"
+        required
+      />
+    </template>
+    <template #port="{ item }">
+      <wt-input-number
+        v-model:model-value="item.port"
+        :disabled="disableUserInput"
+      />
+    </template>
+  </wt-editable-list>
 </template>
 
 <script setup lang="ts">
 import { GatewayIpAclProtocol } from '@webitel/api-services/enums';
 import type { GatewayCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
-import { IconAction } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -86,22 +73,9 @@ const headers = computed(() => [
 	},
 ]);
 
-const add = () => {
-	modelValue.value.ipacl?.push({
-		ip: '',
-		proto: GatewayIpAclProtocol.Any,
-		port: null,
-	});
-};
-
-const remove = (index: number) => {
-	modelValue.value.ipacl?.splice(index, 1);
-};
+const createIpAcl = (): NonNullable<GatewayCard['ipacl']>[number] => ({
+	ip: '',
+	proto: GatewayIpAclProtocol.Any,
+	port: null,
+});
 </script>
-
-<style scoped>
-/* [Claude] the bar is the header's only child, so space-between would leave it on the left */
-.opened-gateway-configuration__header {
-  justify-content: flex-end;
-}
-</style>

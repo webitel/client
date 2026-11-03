@@ -1,6 +1,9 @@
 <template>
   <section>
-    <header class="table-title opened-chat-gateway-messenger-facebook__header">
+    <header class="table-title">
+      <h3 class="table-title__title">
+        {{ t('objects.routing.chatGateways.messenger.facebook.pages') }}
+      </h3>
       <div class="table-title__actions-wrap">
         <wt-icon-action
           :action="IconAction.REFRESH"
@@ -113,9 +116,3 @@ const updateSubscription = (item: FacebookPage, value: boolean) =>
 	);
 </script>
 
-<style scoped>
-/* [Claude] the actions are the header's only child, so space-between would leave them on the left */
-.opened-chat-gateway-messenger-facebook__header {
-  justify-content: flex-end;
-}
-</style>

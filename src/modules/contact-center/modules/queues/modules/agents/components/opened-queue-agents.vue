@@ -47,7 +47,11 @@
         :grid-actions="false"
         :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
         sortable
+        @column-reorder="columnReorder"
+        @column-resize="columnResize"
         @sort="updateSort"
       >
         <template #name="{ item }">
@@ -146,6 +150,8 @@ const {
 	addFilter,
 	updateFilter,
 	deleteFilter,
+	columnResize,
+	columnReorder,
 } = tableStore;
 
 /**

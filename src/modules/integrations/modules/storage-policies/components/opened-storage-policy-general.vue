@@ -1,5 +1,10 @@
 <template>
   <section class="opened-storage-policy-general">
+    <header class="opened-card-header">
+      <h3 class="opened-card-header__title">
+        {{ t('objects.generalInfo') }}
+      </h3>
+    </header>
     <apply-to-files-popup
       :id="modelValue.id"
       :shown="isApplyPopupOpened"

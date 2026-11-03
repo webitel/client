@@ -1,10 +1,15 @@
 <template>
   <wt-editable-list
-    v-model="modelValue.variables"
+    v-model:model-value="modelValue.variables"
     :create-row="createVariable"
     :disabled="disableUserInput"
     :headers="headers"
   >
+    <template #title>
+      <h3 class="table-title__title">
+        {{ t('vocabulary.variables', 2) }}
+      </h3>
+    </template>
     <template #key="{ item }">
       <wt-input-text
         v-model:model-value="item.key"

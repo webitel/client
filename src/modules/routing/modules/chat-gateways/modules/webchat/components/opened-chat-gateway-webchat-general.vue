@@ -1,5 +1,15 @@
 <template>
   <section>
+    <header class="opened-card-header">
+      <wt-icon
+        icon="web-chat"
+        icon-prefix="messenger"
+        size="sm"
+      />
+      <h3 class="opened-card-header__title">
+        {{ t('objects.general') }}
+      </h3>
+    </header>
     <div class="opened-card-input-grid">
       <wt-input-text
         v-model:model-value="modelValue.name"
