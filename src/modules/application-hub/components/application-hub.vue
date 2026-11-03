@@ -225,10 +225,7 @@ const apps = computed(() => {
 			: []),
 		wfmApp,
 	];
-	// [Claude] WTEL-10755: WFM is not part of the 26.10 release, hidden from the list
-	return allApps.filter(
-		({ name }) => name !== WtApplication.Wfm && hasApplicationVisibility(name),
-	);
+	return allApps.filter(({ name }) => hasApplicationVisibility(name));
 });
 </script>
 
