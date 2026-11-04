@@ -17,7 +17,7 @@ const resettableState = {
 		type: TriggerTypes[0],
 		variables: [],
 		expression: '0 */1 12 * * *',
-		event: {},
+		event: undefined,
 		object: TriggerObjects[0],
 	},
 };
