@@ -299,3 +299,10 @@ const path = computed(() => [
 	},
 ]);
 </script>
+
+<style scoped>
+:deep(.opened-card-header) {
+  justify-content: flex-start;
+  gap: var(--spacing-xs);
+}
+</style>
