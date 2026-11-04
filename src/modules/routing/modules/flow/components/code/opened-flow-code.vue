@@ -25,7 +25,7 @@
       />
     </div>
     <code-editor
-      v-model="modelValue.schema"
+      v-model:model-value="modelValue.schema"
       :autocomplete="autocomplete"
       :disabled="disableUserInput"
       :label="t('objects.routing.flow.flow', 1)"
