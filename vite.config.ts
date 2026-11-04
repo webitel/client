@@ -20,6 +20,7 @@ export default ({ mode }) => {
 		},
 		optimizeDeps: {
 			include: [
+				'deep-copy',
 				'deep-equal',
 				'webitel-sdk',
 			],
