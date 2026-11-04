@@ -23,7 +23,7 @@
       <section class="table-section">
         <header class="table-title">
           <h3 class="table-title__title">
-            {{ t('objects.all', { entity: t('objects.integrations.triggers.triggers', 2) }) }}
+            {{ t('objects.integrations.triggers.allTriggers') }}
           </h3>
           <wt-action-bar
             :include="[IconAction.REFRESH, IconAction.DELETE]"
