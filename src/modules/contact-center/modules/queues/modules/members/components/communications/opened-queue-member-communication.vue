@@ -203,6 +203,7 @@ const removeSelected = () => {
 .member-communications {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   width: 100%;
 }
 
