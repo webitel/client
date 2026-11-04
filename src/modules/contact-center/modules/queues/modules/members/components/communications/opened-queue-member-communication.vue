@@ -1,5 +1,5 @@
 <template>
-  <section class="table-section">
+  <section class="member-communications">
     <communication-popup
       v-model:communication-index="editingIndex"
       :communications="communications"
@@ -18,7 +18,7 @@
         class="table-title__title"
       >
         {{ t('objects.lookups.communications.communications', 2) }}
-        
+
 
         <wt-icon
           v-if="isMissingCommunication"
@@ -49,10 +49,7 @@
       :text="textEmpty"
     />
 
-    <div
-      v-show="communications.length"
-      class="table-section__table-wrapper"
-    >
+    <div v-show="communications.length">
       <wt-table
         :data="communications"
         :headers="headers"
@@ -203,6 +200,12 @@ const removeSelected = () => {
   lang="scss"
   scoped
 >
+.member-communications {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .table-title__title {
   display: flex;
   align-items: center;
