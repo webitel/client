@@ -26,21 +26,22 @@
         :regle-validation="validationFields?.uri"
         required
       />
-      <wt-single-select
-        :disabled="disableUserInput || !hasFlowsReadAccess"
-        :label="t('objects.routing.flow.flow', 1)"
-        :model-value="modelValue.flow"
-        :regle-validation="validationFields?.flow"
-        :search-method="hasFlowsReadAccess && FlowsAPI.getLookup"
-        required
-        @update:model-value="setFlow"
-      />
       <template
         v-for="field of config.fields"
         :key="field.prop"
       >
+        <wt-single-select
+          v-if="field.type === 'flow'"
+          :disabled="disableUserInput || !hasFlowsReadAccess"
+          :label="t('objects.routing.flow.flow', 1)"
+          :model-value="modelValue.flow"
+          :regle-validation="validationFields?.flow"
+          :search-method="hasFlowsReadAccess && FlowsAPI.getLookup"
+          required
+          @update:model-value="setFlow"
+        />
         <generate-value-input
-          v-if="field.type === 'generate'"
+          v-else-if="field.type === 'generate'"
           :disabled="disableUserInput"
           :label="fieldLabel(field)"
           :label-props="fieldLabelProps(field)"

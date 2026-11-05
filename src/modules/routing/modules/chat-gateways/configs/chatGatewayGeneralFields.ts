@@ -13,8 +13,11 @@ export interface ChatGatewayGeneralField {
 	required?: boolean;
 	/** [Claude] i18n key of the label hint */
 	hint?: string;
-	/** [Claude] `generate`: a secret the user may generate instead of typing */
-	type?: 'text' | 'number' | 'generate';
+	/**
+	 * [Claude] `generate`: a secret the user may generate instead of typing;
+	 * `flow`: the gateway's flow select, placed where it stands in the list
+	 */
+	type?: 'text' | 'number' | 'generate' | 'flow';
 }
 
 export interface ChatGatewayGeneralConfig {
@@ -25,10 +28,21 @@ export interface ChatGatewayGeneralConfig {
 
 const baseLocale = 'objects.routing.chatGateways';
 
+/** [Claude] the flow select, shared by every provider form */
+const flowField: ChatGatewayGeneralField = {
+	prop: 'flow',
+	label: [
+		'objects.routing.flow.flow',
+		1,
+	],
+	type: 'flow',
+	required: true,
+};
+
 /**
- * [Claude] The provider fields of the general form; name, uri and flow are the
- * same for every provider. Webchat has a form of its own: no flow there, as the
- * flow belongs to its chat tab.
+ * [Claude] The provider fields of the general form, in the order they render
+ * (flow included, via `flowField`); name and uri are the same for every provider.
+ * Webchat has a form of its own: no flow there, as the flow belongs to its chat tab.
  */
 export const chatGatewayGeneralFields: Record<
 	string,
@@ -36,6 +50,7 @@ export const chatGatewayGeneralFields: Record<
 > = {
 	[ChatGatewayProvider.TELEGRAM_BOT]: {
 		fields: [
+			flowField,
 			{
 				prop: 'token',
 				label: `${baseLocale}.metadata.telegramToken`,
@@ -52,6 +67,7 @@ export const chatGatewayGeneralFields: Record<
 				type: 'number',
 				required: true,
 			},
+			flowField,
 			{
 				prop: 'apiHash',
 				label: `${baseLocale}.telegramApp.metadata.apiHash`,
@@ -61,6 +77,7 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.INFOBIP]: {
 		fields: [
+			flowField,
 			{
 				prop: 'apiKey',
 				label: `${baseLocale}.metadata.apiKey`,
@@ -75,6 +92,7 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.MESSENGER]: {
 		fields: [
+			flowField,
 			{
 				prop: 'clientId',
 				label: `${baseLocale}.messenger.metadata.clientId`,
@@ -94,6 +112,7 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.VIBER]: {
 		fields: [
+			flowField,
 			{
 				prop: 'token',
 				label: [
@@ -110,6 +129,7 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.CUSTOM]: {
 		fields: [
+			flowField,
 			{
 				prop: 'secret',
 				label: `${baseLocale}.customChat.metadata.appSecret`,
