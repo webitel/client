@@ -25,7 +25,7 @@
           :label="t('objects.routing.gateways.authID')"
         />
         <password-input
-          v-model="modelValue.password"
+          v-model:model-value="modelValue.password"
           :disabled="disableUserInput"
           :regle-validation="validationFields?.password"
           required
