@@ -1327,6 +1327,7 @@ export default {
 					result: 'Kết quả',
 				},
 				recordCall: 'Ghi âm cuộc gọi',
+				runTrigger: 'Chạy kích hoạt',
 			},
 		},
 		system: {

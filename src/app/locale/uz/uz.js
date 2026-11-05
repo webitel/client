@@ -1332,6 +1332,7 @@ export default {
 					result: 'Natija',
 				},
 				recordCall: "Qo'ng'iroqni yozib olish",
+				runTrigger: 'Triggerni ishga tushirish',
 			},
 		},
 		system: {

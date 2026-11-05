@@ -1327,6 +1327,7 @@ export default {
 					result: 'Result',
 				},
 				recordCall: 'Record call',
+				runTrigger: 'Run trigger',
 			},
 		},
 		system: {

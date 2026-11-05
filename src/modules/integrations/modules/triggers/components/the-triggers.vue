@@ -108,6 +108,7 @@
             </template>
             <template #actions="{ item }">
               <wt-icon-btn
+                v-tooltip="t('objects.integrations.triggers.runTrigger')"
                 icon="trigger-start"
                 icon-prefix="adm"
                 @click="TriggersAPI.start({}, item)"
