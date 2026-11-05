@@ -132,7 +132,7 @@
         </div>
         <password-input
           v-if="isPlainAuth"
-          v-model="modelValue.password"
+          v-model:model-value="modelValue.password"
           :disabled="disableUserInput"
           :regle-validation="passwordField"
         />
