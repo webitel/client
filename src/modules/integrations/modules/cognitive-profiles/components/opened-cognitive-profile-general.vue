@@ -33,7 +33,7 @@
 
       <opened-cognitive-profile-google-key
         v-if="isGoogle"
-        v-model="properties"
+        v-model:model-value="properties"
         :disabled="disableUserInput"
         :invalid="propertiesFields?.key?.$error"
       />
