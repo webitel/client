@@ -65,7 +65,9 @@
         :disabled="disableUserInput"
         :label="t('objects.integrations.cognitiveProfiles.properties.region')"
         :options="MicrosoftRegion"
-        :data-key="null"
+        option-label="name"
+        option-value="id"
+        data-key="id"
         :regle-validation="propertiesFields?.region"
         :show-clear="false"
         required
