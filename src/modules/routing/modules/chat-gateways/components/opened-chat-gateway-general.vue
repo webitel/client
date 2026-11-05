@@ -154,6 +154,13 @@ const providerHeaders: Partial<
 			size: 'sm',
 		},
 	},
+	[ChatGatewayProvider.CUSTOM]: {
+		title: 'objects.routing.chatGateways.customChat.customChat',
+		icon: {
+			icon: 'custom-chat-gateway',
+			size: 'sm',
+		},
+	},
 };
 
 const providerHeader = computed(() =>

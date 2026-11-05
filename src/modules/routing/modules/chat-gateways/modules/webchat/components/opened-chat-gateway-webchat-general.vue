@@ -7,7 +7,7 @@
         size="sm"
       />
       <h3 class="opened-card-header__title">
-        {{ t('objects.general') }}
+        {{ t('objects.routing.chatGateways.webchat.webchat') }}
       </h3>
     </header>
     <div class="opened-card-input-grid">
