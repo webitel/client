@@ -1323,6 +1323,7 @@ export default {
 					result: 'Нәтиже',
 				},
 				recordCall: 'Қоңырауды жазу',
+				runTrigger: 'Триггерді іске қосу',
 			},
 		},
 		system: {

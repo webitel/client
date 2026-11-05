@@ -1335,6 +1335,7 @@ export default {
 					result: 'Rezultat',
 				},
 				recordCall: 'Înregistrează apelul',
+				runTrigger: 'Rulează trigger-ul',
 			},
 		},
 		system: {

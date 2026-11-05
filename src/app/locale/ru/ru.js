@@ -1345,6 +1345,7 @@ export default {
 					result: 'Результат',
 				},
 				recordCall: 'Запись звонка',
+				runTrigger: 'Запустить триггер',
 			},
 		},
 		system: {

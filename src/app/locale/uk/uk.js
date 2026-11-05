@@ -1339,6 +1339,7 @@ export default {
 					result: 'Результат',
 				},
 				recordCall: 'Запис дзвінка',
+				runTrigger: 'Запустити тригер',
 			},
 		},
 		system: {

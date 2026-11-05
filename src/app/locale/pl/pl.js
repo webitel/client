@@ -1332,6 +1332,7 @@ export default {
 					result: 'Wynik',
 				},
 				recordCall: 'Nagraj połączenie',
+				runTrigger: 'Uruchom wyzwalacz',
 			},
 		},
 		system: {

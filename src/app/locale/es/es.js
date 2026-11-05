@@ -1341,6 +1341,7 @@ export default {
 					result: 'Resultado',
 				},
 				recordCall: 'Grabar llamada',
+				runTrigger: 'Ejecutar desencadenador',
 			},
 		},
 		system: {
