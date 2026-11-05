@@ -15,15 +15,13 @@ export interface ChatGatewayGeneralField {
 	hint?: string;
 	/**
 	 * [Claude] `generate`: a secret the user may generate instead of typing;
-	 * `flow`: the gateway's flow select, placed where it stands in the list
+	 * `flow`, `uri`: the gateway's flow select and webhook uri, placed where they stand in the list
 	 */
-	type?: 'text' | 'number' | 'generate' | 'flow';
+	type?: 'text' | 'number' | 'generate' | 'flow' | 'uri';
 }
 
 export interface ChatGatewayGeneralConfig {
 	fields: ChatGatewayGeneralField[];
-	/** [Claude] a telegram app is reached by its own sign-in, not by a webhook uri */
-	hasUri?: boolean;
 }
 
 const baseLocale = 'objects.routing.chatGateways';
@@ -39,9 +37,17 @@ const flowField: ChatGatewayGeneralField = {
 	required: true,
 };
 
+/** [Claude] the webhook uri; a telegram app has none, as it's reached by its own sign-in */
+const uriField: ChatGatewayGeneralField = {
+	prop: 'uri',
+	label: `${baseLocale}.uri`,
+	type: 'uri',
+	required: true,
+};
+
 /**
- * [Claude] The provider fields of the general form, in the order they render
- * (flow included, via `flowField`); name and uri are the same for every provider.
+ * [Claude] The provider fields of the general form, in the order they render after
+ * the name (flow and uri included, via `flowField` and `uriField`).
  * Webchat has a form of its own: no flow there, as the flow belongs to its chat tab.
  */
 export const chatGatewayGeneralFields: Record<
@@ -50,16 +56,16 @@ export const chatGatewayGeneralFields: Record<
 > = {
 	[ChatGatewayProvider.TELEGRAM_BOT]: {
 		fields: [
-			flowField,
 			{
 				prop: 'token',
 				label: `${baseLocale}.metadata.telegramToken`,
 				required: true,
 			},
+			uriField,
+			flowField,
 		],
 	},
 	[ChatGatewayProvider.TELEGRAM_APP]: {
-		hasUri: false,
 		fields: [
 			{
 				prop: 'apiId',
@@ -77,12 +83,13 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.INFOBIP]: {
 		fields: [
-			flowField,
 			{
 				prop: 'apiKey',
 				label: `${baseLocale}.metadata.apiKey`,
 				required: true,
 			},
+			uriField,
+			flowField,
 			{
 				prop: 'url',
 				label: `${baseLocale}.metadata.baseUrl`,
@@ -92,17 +99,18 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.MESSENGER]: {
 		fields: [
-			flowField,
 			{
 				prop: 'clientId',
 				label: `${baseLocale}.messenger.metadata.clientId`,
 				required: true,
 			},
+			uriField,
 			{
 				prop: 'clientSecret',
 				label: `${baseLocale}.messenger.metadata.clientSecret`,
 				required: true,
 			},
+			flowField,
 			{
 				prop: 'version',
 				label: `${baseLocale}.messenger.metadata.apiVersion`,
@@ -112,7 +120,6 @@ export const chatGatewayGeneralFields: Record<
 	},
 	[ChatGatewayProvider.VIBER]: {
 		fields: [
-			flowField,
 			{
 				prop: 'token',
 				label: [
@@ -121,15 +128,16 @@ export const chatGatewayGeneralFields: Record<
 				],
 				required: true,
 			},
+			uriField,
 			{
 				prop: 'botName',
 				label: `${baseLocale}.metadata.botName`,
 			},
+			flowField,
 		],
 	},
 	[ChatGatewayProvider.CUSTOM]: {
 		fields: [
-			flowField,
 			{
 				prop: 'secret',
 				label: `${baseLocale}.customChat.metadata.appSecret`,
@@ -137,6 +145,8 @@ export const chatGatewayGeneralFields: Record<
 				type: 'generate',
 				required: true,
 			},
+			uriField,
+			flowField,
 			{
 				prop: 'webhook',
 				label: `${baseLocale}.customChat.metadata.callback`,

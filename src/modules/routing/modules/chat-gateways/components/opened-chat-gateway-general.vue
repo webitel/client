@@ -17,21 +17,21 @@
         :regle-validation="validationFields?.name"
         required
       />
-      <copy-input
-        v-model="modelValue.uri"
-        v-if="config.hasUri !== false"
-        :copy-modifier="modifyUriCopy"
-        :disabled="!isUriEditable"
-        :label="t('objects.routing.chatGateways.uri')"
-        :regle-validation="validationFields?.uri"
-        required
-      />
       <template
         v-for="field of config.fields"
         :key="field.prop"
       >
+        <copy-input
+          v-if="field.type === 'uri'"
+          v-model="modelValue.uri"
+          :copy-modifier="modifyUriCopy"
+          :disabled="!isUriEditable"
+          :label="t('objects.routing.chatGateways.uri')"
+          :regle-validation="validationFields?.uri"
+          required
+        />
         <wt-single-select
-          v-if="field.type === 'flow'"
+          v-else-if="field.type === 'flow'"
           :disabled="disableUserInput || !hasFlowsReadAccess"
           :label="t('objects.routing.flow.flow', 1)"
           :model-value="modelValue.flow"
