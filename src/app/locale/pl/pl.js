@@ -211,8 +211,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Katalog',
-			passwordInfo:
-				'Wprowadź wartość tylko wtedy, gdy chcesz ją edytować (lub utworzyć nową). Puste pole pozostawi wartość bez zmian',
 			users: {
 				users: 'Użytkownik | Użytkownicy',
 				allUsers: 'Wszystkie użytkownicy',

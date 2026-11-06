@@ -24,11 +24,14 @@
           :disabled="disableUserInput"
           :label="t('objects.routing.gateways.authID')"
         />
-        <password-input
+        <wt-password
           v-model:model-value="modelValue.password"
+          hide-hash
           :disabled="disableUserInput"
           :regle-validation="validationFields?.password"
           required
+          :actions="[PasswordAction.Copy, PasswordAction.Generate]"
+          @click:generate="modelValue.password = generatePassword()"
         />
       </template>
       <wt-input-text
@@ -73,11 +76,10 @@
 import { FlowsAPI } from '@webitel/api-services/api';
 import type { GatewayCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
-import { WtObject } from '@webitel/ui-sdk/enums';
+import { PasswordAction, WtObject } from '@webitel/ui-sdk/enums';
+import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 const modelValue = defineModel<GatewayCard>({

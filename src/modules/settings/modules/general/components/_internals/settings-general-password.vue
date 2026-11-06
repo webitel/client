@@ -7,15 +7,16 @@
 
       <settings-general-password-autocomplete />
 
-      <generate-password-input
+      <wt-password
         v-model:model-value="newPassword"
         :v="v$.newPassword"
+        :actions="[PasswordAction.Copy, PasswordAction.Generate]"
+        @click:generate="newPassword = generatePassword()"
       />
-      <wt-input-text
+      <wt-password
         v-model:model-value="confirmNewPassword"
         :label="t('auth.confirmPassword')"
         :v="v$.confirmNewPassword"
-				hide-input-value
       />
       <wt-button
         :disabled="v$.$invalid"
@@ -30,9 +31,9 @@
 </template>
 
 <script setup lang="ts">
+import { PasswordAction } from '@webitel/ui-sdk/enums';
+import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { useI18n } from 'vue-i18n';
-
-import GeneratePasswordInput from '../../../../../../app/components/utils/generate-password-input.vue';
 import SettingsSectionWrapper from '../../../../components/_internals/settings-section-wrapper.vue';
 import { useChangePassword } from '../../composables/useChangePassword';
 import SettingsGeneralPasswordAutocomplete from './settings-general-password-autocomplete.vue';

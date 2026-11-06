@@ -212,8 +212,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Katalog',
-			passwordInfo:
-				"Qiymatni o'zgartirmoqchi bo'lsangiz (yoki yangi qo'shmoqchi bo'lsangiz) bo'sh maydonga qo'yilsin. Bo'sh maydonga qo'yilsa, qiymat o'zgarishi qoladi",
 			users: {
 				users: 'Foydalanuvchi | Foydalanuvchilar',
 				allUsers: 'Barcha foydalanuvchilar',
