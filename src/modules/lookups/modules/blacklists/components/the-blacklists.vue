@@ -97,7 +97,12 @@
               {{ item.count }}
             </template>
             <template #actions="{ item }">
+              <wt-loader
+                v-if="isKeyLoading(item.id)"
+                size="sm"
+              />
               <wt-icon-action
+                v-else
                 action="download"
                 @click="download(item)"
               />
@@ -138,6 +143,7 @@
 import { BlacklistNumbersAPI } from '@webitel/api-services/api';
 import type { EngineList } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -210,14 +216,22 @@ initCSVExport(BlacklistNumbersAPI.getList, {
 	filename: 'numbers',
 });
 
+const { isKeyLoading, runDownload } = useDownloadAction();
+
 const download = ({ id }: EngineList) =>
-	exportCSV({
-		parentId: id,
-		fields: [
-			'number',
-			'description',
-		],
-	});
+	runDownload(
+		() =>
+			exportCSV({
+				parentId: id,
+				fields: [
+					'number',
+					'description',
+				],
+			}),
+		{
+			key: id,
+		},
+	);
 
 const path = computed(() => [
 	{
