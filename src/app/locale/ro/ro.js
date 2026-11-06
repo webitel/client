@@ -211,8 +211,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Director',
-			passwordInfo:
-				'Introduceți valoarea doar dacă doriți să o editați (sau să creați una nouă). Câmpul gol va lăsa valoarea neschimbată',
 			users: {
 				users: 'Utilizator | Utilizatori',
 				allUsers: 'Toți utilizatorii',

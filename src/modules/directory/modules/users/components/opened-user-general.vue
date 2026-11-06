@@ -24,11 +24,14 @@
             required
           />
 
-          <generate-password-input
+          <wt-password
+            v-model:model-value="modelValue.password"
+            hide-hash
             :disabled="disableUserInput"
             :regle-validation="validationFields?.password"
-            v-model:model-value="modelValue.password"
             required
+            :actions="[PasswordAction.Copy, PasswordAction.Generate]"
+            @click:generate="modelValue.password = generatePassword()"
           />
 
           <wt-input-text
@@ -166,11 +169,11 @@ import { DevicesAPI, LicenseAPI, RolesAPI } from '@webitel/api-services/api';
 import type { ApiLicenseV1 } from '@webitel/api-services/gen/models';
 import type { UserCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
-import { IconColor, WtObject } from '@webitel/ui-sdk/enums';
+import { IconColor, PasswordAction, WtObject } from '@webitel/ui-sdk/enums';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
+import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import GeneratePasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';

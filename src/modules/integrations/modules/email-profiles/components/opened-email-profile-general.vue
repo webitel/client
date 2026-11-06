@@ -130,11 +130,14 @@
             {{ modelValue.logged ? t('vocabulary.logout') : t('vocabulary.login') }}
           </wt-button>
         </div>
-        <password-input
+        <wt-password
           v-if="isPlainAuth"
           v-model:model-value="modelValue.password"
+          hide-hash
           :disabled="disableUserInput"
           :regle-validation="passwordField"
+          :actions="[PasswordAction.Copy, PasswordAction.Generate]"
+          @click:generate="modelValue.password = generatePassword()"
         />
       </div>
     </div>
@@ -151,13 +154,12 @@ import {
 } from '@webitel/api-services/gen/models';
 import { EMAIL_PROFILE_MAX_PORT } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
-import { ButtonColor, WtObject } from '@webitel/ui-sdk/enums';
+import { ButtonColor, PasswordAction, WtObject } from '@webitel/ui-sdk/enums';
+import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { isEqual } from 'lodash-es';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import { useEmailProfileCardStore } from '../stores/card/emailProfileCardStore';
 

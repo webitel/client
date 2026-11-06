@@ -210,8 +210,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Directorio',
-			passwordInfo:
-				'Ingrese el valor solo si desea editarlo (o crear uno nuevo). El campo vacío dejará el valor sin cambios',
 			users: {
 				users: 'Usuario | Usuarios',
 				allUsers: 'Todos los usuarios',
