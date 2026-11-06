@@ -11,6 +11,17 @@
           @click:download="downloadCSV"
           @click:filters="emit('click:filters')"
         >
+          <template #download="{ action, onClick }">
+            <wt-loader
+              v-if="isDownloading"
+              size="sm"
+            />
+            <wt-icon-action
+              v-else
+              :action="action"
+              @click="onClick"
+            />
+          </template>
           <template #filters="{ action, onClick }">
             <wt-badge :hidden="!hasPanelFilters">
               <wt-icon-action
@@ -104,6 +115,7 @@ import {
 	DynamicFilterSearchComponent as DynamicFilterSearch,
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -189,12 +201,15 @@ const getDataForCSVExport = async (params: Record<string, unknown>) => {
 	};
 };
 
-const downloadCSV = () => {
-	initCSVExport(getDataForCSVExport, {
-		filename: `${user.value?.name}-logs-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
+const { isLoading: isDownloading, runDownload } = useDownloadAction();
+
+const downloadCSV = () =>
+	runDownload(() => {
+		initCSVExport(getDataForCSVExport, {
+			filename: `${user.value?.name}-logs-at-${formatDate(new Date(), FormatDateMode.DATETIME)}`,
+		});
+		return exportCSV(filtersManager.value.getAllValues());
 	});
-	return exportCSV(filtersManager.value.getAllValues());
-};
 
 const { image: imageEmpty, text: textEmpty } = useTableEmpty({
 	dataList,
