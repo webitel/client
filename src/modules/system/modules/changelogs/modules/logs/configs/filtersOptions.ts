@@ -16,8 +16,8 @@ export const filterConfigs = {
 		name: FilterOption.Action,
 		showFilterName: true,
 	}),
-	[FilterOption.User]: createFilterConfig({
-		name: FilterOption.User,
+	[FilterOption.ModifiedBy]: createFilterConfig({
+		name: FilterOption.ModifiedBy,
 		showFilterName: true,
 	}),
 } satisfies Record<string, FilterConfigDefinition>;
