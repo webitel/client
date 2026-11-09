@@ -17,7 +17,7 @@
         v-model:model-value="properties.accessKey"
         :disabled="disableUserInput"
         :label="t('objects.integrations.storage.s3Access')"
-        :label-props="{ hint: t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+        :label-props="{ hint: t('webitelUI.password.hashHint'), hintPosition: 'right' }"
         :regle-validation="propertiesFields?.accessKey"
         required
       />

@@ -29,11 +29,13 @@
         :regle-validation="validationFields?.account"
         required
       />
-      <password-input
+      <wt-password
+        v-model:model-value="modelValue.password"
+        hide-hash
         :disabled="disableUserInput"
         :regle-validation="validationFields?.password"
-        v-model:model-value="modelValue.password"
         required
+        :actions="[PasswordAction.Copy, PasswordAction.Generate]"
       />
       <wt-single-select
         v-model:model-value="modelValue.user"
@@ -50,10 +52,9 @@ import type { RegleSchemaFieldStatus } from '@regle/schemas';
 import { UsersAPI } from '@webitel/api-services/api';
 import type { ApiDevice } from '@webitel/api-services/gen/models';
 import { WtInputText, WtSingleSelect } from '@webitel/ui-sdk/components';
+import { PasswordAction } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
-
 import CopyInput from '../../../../../app/components/utils/copy-input.vue';
-import PasswordInput from '../../../../../app/components/utils/generate-password-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 const modelValue = defineModel<ApiDevice>({

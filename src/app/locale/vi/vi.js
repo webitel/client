@@ -210,8 +210,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Danh bạ',
-			passwordInfo:
-				'Nhập giá trị chỉ khi bạn muốn chỉnh sửa nó (hoặc tạo mới). Trường trống sẽ để lại giá trị không đổi',
 			users: {
 				users: 'Người dùng',
 				allUsers: 'Tất cả người dùng',

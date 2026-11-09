@@ -43,7 +43,7 @@
           v-model:model-value="properties.key"
           :disabled="disableUserInput"
           :label="t('objects.key')"
-          :label-props="{ hint: t('objects.directory.passwordInfo'), hintPosition: 'right' }"
+          :label-props="{ hint: t('webitelUI.password.hashHint'), hintPosition: 'right' }"
           :regle-validation="propertiesFields?.key"
           required
         />
