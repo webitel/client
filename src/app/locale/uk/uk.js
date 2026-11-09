@@ -619,6 +619,7 @@ export default {
 				proxy: 'Проксі',
 				searchPlaceholder: 'пошук шлюзу...',
 				host: 'Хост',
+				trunkingACLTitle: 'Контроль доступу',
 				trunkingACL: 'Багатоканальний список доступу',
 				hostnameTrunking: 'Сервер/Хост шлюзу чи IP',
 				hostnameRegister: 'Реєстратор/Сервер/Хост шлюзу чи IP',
