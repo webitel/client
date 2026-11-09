@@ -116,7 +116,7 @@ import { useI18n } from 'vue-i18n';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { downloadAsJSON } from '../../../../../../../app/utils/download';
 import { useChangelogsCardStore } from '../../../stores/card/changelogsCardStore';
-import { defaultDateFilter } from '../configs/filtersOptions';
+import { defaultDateFilter, filterConfigs } from '../configs/filtersOptions';
 import { useChangelogLogsDatalistStore } from '../stores/datalist/changelogLogsDatalistStore';
 import ChangelogLogsRecordLink from './changelog-logs-record-link.vue';
 
@@ -161,11 +161,9 @@ useNestedTableList({
 	useTableStore: useChangelogLogsDatalistStore,
 });
 
+// [Claude] the date counts too, as on the other logs pages
 const hasPanelFilters = computed(() =>
-	[
-		FilterOption.Action,
-		FilterOption.ModifiedBy,
-	].some((name) => hasFilter(name)),
+	Object.keys(filterConfigs).some((name) => hasFilter(name)),
 );
 
 /** [Claude] only a flow keeps a state worth downloading */
