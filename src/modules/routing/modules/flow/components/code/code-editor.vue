@@ -64,6 +64,9 @@ const createEditor = (element: HTMLElement) => {
 		value: model.value || '[]',
 		language: 'json',
 		automaticLayout: true,
+		stickyScroll: {
+			enabled: false,
+		},
 	});
 	instance.value.onDidChangeModelContent(() => {
 		model.value = instance.value?.getValue();
