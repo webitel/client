@@ -616,6 +616,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'gateway qidiruvi...',
 				host: 'Host',
+				trunkingACLTitle: 'Kirish kontrol',
 				trunkingACL: "Trunking kirish kontrol ro'yxati",
 				hostnameTrunking: 'Server/Gateway nomi yoki IP',
 				hostnameRegister: 'Registrator/Server/Gateway nomi yoki IP',
