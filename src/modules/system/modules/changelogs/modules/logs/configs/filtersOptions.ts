@@ -7,17 +7,17 @@ import {
 import { RelativeDatetimeValue } from '@webitel/ui-sdk/enums';
 
 export const filterConfigs = {
-	[FilterOption.Date]: createDateRangeFilterConfig({
-		name: FilterOption.Date,
-		notDeletable: true,
-		showFilterName: true,
-	}),
 	[FilterOption.Action]: createFilterConfig({
 		name: FilterOption.Action,
 		showFilterName: true,
 	}),
 	[FilterOption.ModifiedBy]: createFilterConfig({
 		name: FilterOption.ModifiedBy,
+		showFilterName: true,
+	}),
+	[FilterOption.Date]: createDateRangeFilterConfig({
+		name: FilterOption.Date,
+		notDeletable: true,
 		showFilterName: true,
 	}),
 } satisfies Record<string, FilterConfigDefinition>;
