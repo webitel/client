@@ -18,6 +18,8 @@ const SettingsRoutes = [
 		meta: {
 			// prevent beforeEnter: checkAppAccess on parent route [WTEL-4321]
 			alwaysAllowed: true,
+			// [Claude] hide admin navigation menu in header [WTEL-10954]
+			hideNavigationBar: true,
 		},
 		children: [
 			{
