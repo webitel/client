@@ -31,7 +31,6 @@
             :regle-validation="validationFields?.password"
             required
             :actions="[PasswordAction.Copy, PasswordAction.Generate]"
-            @click:generate="modelValue.password = generatePassword()"
           />
 
           <wt-input-text
@@ -171,7 +170,6 @@ import type { UserCard } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { IconColor, PasswordAction, WtObject } from '@webitel/ui-sdk/enums';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
-import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';

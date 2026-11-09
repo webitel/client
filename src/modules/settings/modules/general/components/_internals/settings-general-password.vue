@@ -11,7 +11,6 @@
         v-model:model-value="newPassword"
         :v="v$.newPassword"
         :actions="[PasswordAction.Copy, PasswordAction.Generate]"
-        @click:generate="newPassword = generatePassword()"
       />
       <wt-password
         v-model:model-value="confirmNewPassword"
@@ -32,7 +31,6 @@
 
 <script setup lang="ts">
 import { PasswordAction } from '@webitel/ui-sdk/enums';
-import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { useI18n } from 'vue-i18n';
 import SettingsSectionWrapper from '../../../../components/_internals/settings-section-wrapper.vue';
 import { useChangePassword } from '../../composables/useChangePassword';

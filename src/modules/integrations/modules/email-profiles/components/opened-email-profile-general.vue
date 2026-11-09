@@ -137,7 +137,6 @@
           :disabled="disableUserInput"
           :regle-validation="passwordField"
           :actions="[PasswordAction.Copy, PasswordAction.Generate]"
-          @click:generate="modelValue.password = generatePassword()"
         />
       </div>
     </div>
@@ -155,7 +154,6 @@ import {
 import { EMAIL_PROFILE_MAX_PORT } from '@webitel/api-services/validations';
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { ButtonColor, PasswordAction, WtObject } from '@webitel/ui-sdk/enums';
-import { generatePassword } from '@webitel/ui-sdk/scripts';
 import { isEqual } from 'lodash-es';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
