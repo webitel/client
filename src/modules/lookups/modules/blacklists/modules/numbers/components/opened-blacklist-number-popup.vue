@@ -28,6 +28,7 @@
           v-if="isTemporary"
           v-model:model-value="modelValue.expireAt"
           :label="t('objects.lookups.blacklist.expireAt')"
+          :min-date="minExpireDate"
           show-time
         />
         <wt-textarea
@@ -57,6 +58,7 @@
 import { useNestedCardComponent } from '@webitel/ui-datalist/card';
 import { useClose } from '@webitel/ui-sdk/composables';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
+import { addWeeks } from 'date-fns';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -105,13 +107,17 @@ watch(
 	},
 );
 
+/* [Claude] backend rejects past expiration dates; the popup stays mounted, so "now" is refreshed on each open */
+const minExpireDate = ref(new Date());
+
 watch(numberId, (id) => {
-	if (!id) isTemporary.value = false;
+	if (id) minExpireDate.value = new Date();
+	else isTemporary.value = false;
 });
 
 const toggleTemporary = (value: boolean) => {
 	isTemporary.value = value;
-	modelValue.value.expireAt = value ? Date.now() : 0;
+	modelValue.value.expireAt = value ? addWeeks(Date.now(), 1).getTime() : 0;
 };
 
 const popupTitle = computed(() => {
