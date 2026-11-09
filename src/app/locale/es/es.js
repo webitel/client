@@ -617,6 +617,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'búsqueda de puerta de enlace...',
 				host: 'Host',
+				trunkingACLTitle: 'Control de acceso',
 				trunkingACL: 'Lista de control de acceso de troncalización',
 				hostnameTrunking: 'Nombre de host/Puerta de enlace del servidor o IP',
 				hostnameRegister:

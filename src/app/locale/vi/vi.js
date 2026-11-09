@@ -610,6 +610,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'tìm kiếm cổng...',
 				host: 'Host',
+				trunkingACLTitle: 'Kiểm soát truy cập',
 				trunkingACL: 'Danh sách kiểm soát truy cập trunking',
 				hostnameTrunking: 'Tên Host/Cổng/IP của Server/Cổng',
 				hostnameRegister: 'Tên Host/Server/Cổng/IP của Đăng ký/Server/Cổng',

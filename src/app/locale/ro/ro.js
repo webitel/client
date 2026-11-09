@@ -615,6 +615,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'caută gateway...',
 				host: 'Gazdă',
+				trunkingACLTitle: 'Control acces',
 				trunkingACL: 'Listă de control acces trunking',
 				hostnameTrunking: 'Nume gazdă/Gateway sau IP',
 				hostnameRegister: 'Nume gazdă/Server/Gateway sau IP',

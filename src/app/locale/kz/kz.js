@@ -610,6 +610,7 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'қабылдаушы іздеу...',
 				host: 'Қабылдаушы',
+				trunkingACLTitle: 'Кіру бақылауы',
 				trunkingACL: 'Транкинг кіру бақылауы тізімі',
 				hostnameTrunking: 'Сервер/Қабылдаушы атауы немесе IP',
 				hostnameRegister: 'Тіркеуші/Сервер/Қабылдаушы атауы немесе IP',
