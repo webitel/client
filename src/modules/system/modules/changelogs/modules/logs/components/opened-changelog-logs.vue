@@ -164,7 +164,7 @@ useNestedTableList({
 const hasPanelFilters = computed(() =>
 	[
 		FilterOption.Action,
-		FilterOption.User,
+		FilterOption.ModifiedBy,
 	].some((name) => hasFilter(name)),
 );
 
