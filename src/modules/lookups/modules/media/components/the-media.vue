@@ -195,7 +195,10 @@ import {
 	IconAction,
 } from '@webitel/ui-sdk/enums';
 import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
-import { getFileTypeIcon } from '@webitel/ui-sdk/scripts/file';
+import {
+	getFileTypeIcon,
+	openStorageFileInNewTab,
+} from '@webitel/ui-sdk/scripts/file';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -375,13 +378,16 @@ const getMediaFileFormat = ({ name = '', mimeType = '' }: StorageMediaFile) => {
 	return format || mimeType.split('/').pop() || 'N/A';
 };
 
-const openFile = ({ id = '' }: StorageMediaFile) => {
-	window.open(
-		getMediaStreamUrl(id, {
+const openFile = ({ id = '', name = '' }: StorageMediaFile) => {
+	// Navigating to the stream URL put the token in the address bar and rendered
+	// the file as a same-origin document, so an uploaded `.html` ran script in
+	// the app's origin. The helper fetches the bytes and opens a blob instead.
+	openStorageFileInNewTab({
+		url: getMediaStreamUrl(id, {
 			auth: getMediaUrlAuth(),
 		}),
-		'_blank',
-	);
+		name,
+	});
 };
 </script>
 
