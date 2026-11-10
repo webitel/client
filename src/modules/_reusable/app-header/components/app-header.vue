@@ -46,6 +46,7 @@ import { useStore } from 'vuex';
 
 import packageJson from '../../../../../package.json' with { type: 'json' };
 import RoutePaths from '../../../../app/router/_internals/RoutePaths';
+import { useAppearanceStore } from '../../../appearance/store/appearanceStore';
 import { useNavStore } from '../../../start-page/stores/navStore';
 import { useUserinfoStore } from '../../../userinfo/stores/userinfoStore';
 
@@ -57,6 +58,8 @@ const config = inject<{
 
 const navStore = useNavStore();
 const userInfoStore = useUserinfoStore();
+const appearanceStore = useAppearanceStore();
+const { setTheme: setAppearanceTheme } = appearanceStore;
 const { hasApplicationVisibility, logoutUser: logout } = userInfoStore;
 const { userInfo } = storeToRefs(userInfoStore);
 
@@ -72,8 +75,10 @@ const hideNavigationBar = computed(() =>
 );
 
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-const setTheme = (theme: string) =>
+const setTheme = (theme: string) => {
 	store.dispatch('appearance/SET_THEME', theme);
+	setAppearanceTheme(theme);
+};
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
 const buildInfo = {
