@@ -99,7 +99,7 @@
             <template #actions="{ item }">
               <wt-loader
                 v-if="isKeyLoading(item.id)"
-                size="sm"
+                :size="ComponentSize.SM"
               />
               <wt-icon-action
                 v-else
@@ -144,7 +144,7 @@ import { BlacklistNumbersAPI } from '@webitel/api-services/api';
 import type { EngineList } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { useDownloadAction } from '@webitel/ui-sdk/composables';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import { ComponentSize, IconAction } from '@webitel/ui-sdk/enums';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';

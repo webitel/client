@@ -14,7 +14,7 @@
           <template #download="{ action, onClick }">
             <wt-loader
               v-if="isDownloading"
-              size="sm"
+              :size="ComponentSize.SM"
             />
             <wt-icon-action
               v-else
@@ -116,7 +116,11 @@ import {
 	FilterOption,
 } from '@webitel/ui-datalist/filters';
 import { useDownloadAction } from '@webitel/ui-sdk/composables';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import {
+	ComponentSize,
+	FormatDateMode,
+	IconAction,
+} from '@webitel/ui-sdk/enums';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
