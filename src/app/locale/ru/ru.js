@@ -213,8 +213,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Каталог',
-			passwordInfo:
-				'Введите значение только если хотите его перезаписать (или задать новое). Пустое поле оставит значение тем же.',
 			users: {
 				users: 'Пользователь | Пользователи',
 				allUsers: 'Все пользователи',
@@ -621,6 +619,7 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'поиск шлюза...',
 				host: 'Хост',
+				trunkingACLTitle: 'Контроль доступа',
 				trunkingACL: 'Многоканальный список доступа',
 				hostnameTrunking: 'Сервер/Хост шлюза или IP',
 				hostnameRegister: 'Регистратор/Сервер/Хост шлюза или IP',

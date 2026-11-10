@@ -211,8 +211,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Katalog',
-			passwordInfo:
-				'Wprowadź wartość tylko wtedy, gdy chcesz ją edytować (lub utworzyć nową). Puste pole pozostawi wartość bez zmian',
 			users: {
 				users: 'Użytkownik | Użytkownicy',
 				allUsers: 'Wszystkie użytkownicy',
@@ -613,6 +611,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'wyszukaj bramę...',
 				host: 'Host',
+				trunkingACLTitle: 'Kontrola dostępu',
 				trunkingACL: 'Lista kontroli dostępu trunkingowego',
 				hostnameTrunking: 'Hostname serwera/Bramy lub IP',
 				hostnameRegister: 'Hostname rejestratora/serwera/Bramy lub IP',

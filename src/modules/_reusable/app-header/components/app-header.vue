@@ -1,6 +1,7 @@
 <template>
   <wt-app-header>
     <wt-navigation-bar
+      v-if="!hideNavigationBar"
       :current-app="currentApp"
       :dark-mode="darkMode"
       :logo-route="RoutePaths.StartPage"
@@ -40,20 +41,25 @@ import { WtApplication } from '@webitel/ui-sdk/enums';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { storeToRefs } from 'pinia';
 import { computed, inject } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import packageJson from '../../../../../package.json' with { type: 'json' };
 import RoutePaths from '../../../../app/router/_internals/RoutePaths';
+import { useAppearanceStore } from '../../../appearance/store/appearanceStore';
 import { useNavStore } from '../../../start-page/stores/navStore';
 import { useUserinfoStore } from '../../../userinfo/stores/userinfoStore';
 
 const store = useStore();
+const route = useRoute();
 const config = inject<{
 	ON_SITE?: boolean;
 }>('$config');
 
 const navStore = useNavStore();
 const userInfoStore = useUserinfoStore();
+const appearanceStore = useAppearanceStore();
+const { setTheme: setAppearanceTheme } = appearanceStore;
 const { hasApplicationVisibility, logoutUser: logout } = userInfoStore;
 const { userInfo } = storeToRefs(userInfoStore);
 
@@ -64,9 +70,15 @@ navStore.initializeNav();
 
 const { nav } = storeToRefs(navStore);
 
+const hideNavigationBar = computed(() =>
+	route.matched.some(({ meta }) => meta.hideNavigationBar),
+);
+
 const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-const setTheme = (theme: string) =>
+const setTheme = (theme: string) => {
 	store.dispatch('appearance/SET_THEME', theme);
+	setAppearanceTheme(theme);
+};
 const startPageHref = computed(() => import.meta.env.VITE_START_PAGE_URL);
 
 const buildInfo = {

@@ -211,8 +211,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Director',
-			passwordInfo:
-				'Introduceți valoarea doar dacă doriți să o editați (sau să creați una nouă). Câmpul gol va lăsa valoarea neschimbată',
 			users: {
 				users: 'Utilizator | Utilizatori',
 				allUsers: 'Toți utilizatorii',
@@ -615,6 +613,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'caută gateway...',
 				host: 'Gazdă',
+				trunkingACLTitle: 'Control acces',
 				trunkingACL: 'Listă de control acces trunking',
 				hostnameTrunking: 'Nume gazdă/Gateway sau IP',
 				hostnameRegister: 'Nume gazdă/Server/Gateway sau IP',

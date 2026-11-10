@@ -207,8 +207,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Directory',
-			passwordInfo:
-				'Enter value only if you want to edit it (or create a new one). The empty field will leave the value unchanged',
 			users: {
 				users: 'User | Users',
 				allUsers: 'All users',
@@ -610,6 +608,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'gateway search...',
 				host: 'Host',
+				trunkingACLTitle: 'Access Control',
 				trunkingACL: 'Trunking access control list',
 				hostnameTrunking: 'Server/Gateway Hostname or IP',
 				hostnameRegister: 'Registrar/Server/Gateway Hostname or IP',

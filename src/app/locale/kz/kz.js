@@ -210,8 +210,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Директория',
-			passwordInfo:
-				'Мәніңізді өзгерту үшін (немесе жаңа құру үшін) бос өрісті қалпына келтіру үшін, бос өрісті қалпына келтіру керек',
 			users: {
 				users: 'Пайдаланушы | Пайдаланушылар',
 				allUsers: 'Барлық пайдаланушылар',
@@ -610,6 +608,7 @@ export default {
 				proxy: 'Прокси',
 				searchPlaceholder: 'қабылдаушы іздеу...',
 				host: 'Қабылдаушы',
+				trunkingACLTitle: 'Кіру бақылауы',
 				trunkingACL: 'Транкинг кіру бақылауы тізімі',
 				hostnameTrunking: 'Сервер/Қабылдаушы атауы немесе IP',
 				hostnameRegister: 'Тіркеуші/Сервер/Қабылдаушы атауы немесе IP',

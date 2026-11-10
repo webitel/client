@@ -210,8 +210,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Directorio',
-			passwordInfo:
-				'Ingrese el valor solo si desea editarlo (o crear uno nuevo). El campo vacío dejará el valor sin cambios',
 			users: {
 				users: 'Usuario | Usuarios',
 				allUsers: 'Todos los usuarios',
@@ -617,6 +615,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'búsqueda de puerta de enlace...',
 				host: 'Host',
+				trunkingACLTitle: 'Control de acceso',
 				trunkingACL: 'Lista de control de acceso de troncalización',
 				hostnameTrunking: 'Nombre de host/Puerta de enlace del servidor o IP',
 				hostnameRegister:

@@ -210,8 +210,6 @@ export default {
 		objectHeader: {},
 		directory: {
 			directory: 'Danh bạ',
-			passwordInfo:
-				'Nhập giá trị chỉ khi bạn muốn chỉnh sửa nó (hoặc tạo mới). Trường trống sẽ để lại giá trị không đổi',
 			users: {
 				users: 'Người dùng',
 				allUsers: 'Tất cả người dùng',
@@ -610,6 +608,7 @@ export default {
 				proxy: 'Proxy',
 				searchPlaceholder: 'tìm kiếm cổng...',
 				host: 'Host',
+				trunkingACLTitle: 'Kiểm soát truy cập',
 				trunkingACL: 'Danh sách kiểm soát truy cập trunking',
 				hostnameTrunking: 'Tên Host/Cổng/IP của Server/Cổng',
 				hostnameRegister: 'Tên Host/Server/Cổng/IP của Đăng ký/Server/Cổng',
