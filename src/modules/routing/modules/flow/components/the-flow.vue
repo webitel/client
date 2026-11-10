@@ -146,7 +146,7 @@
             <template #actions="{ item }">
               <wt-loader
                 v-if="isKeyLoading(item.id)"
-                size="sm"
+                :size="ComponentSize.SM"
               />
               <wt-icon-action
                 v-else
@@ -190,7 +190,11 @@ import { FlowsAPI } from '@webitel/api-services/api';
 import type { EngineRoutingSchema } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { useDownloadAction } from '@webitel/ui-sdk/composables';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import {
+	ComponentSize,
+	FormatDateMode,
+	IconAction,
+} from '@webitel/ui-sdk/enums';
 import { saveAsJSON } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';

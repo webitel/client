@@ -75,7 +75,7 @@
         >
           <wt-loader
             v-if="isUploading"
-            size="sm"
+            :size="ComponentSize.SM"
           />
           <template v-else>
             <wt-icon
@@ -138,7 +138,7 @@
               />
               <wt-loader
                 v-if="isFileDownloading(item.id)"
-                size="sm"
+                :size="ComponentSize.SM"
               />
               <wt-icon-action
                 v-else
@@ -189,7 +189,11 @@ import type { StorageMediaFile } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtPlayer } from '@webitel/ui-sdk/components';
 import { useDownloadAction } from '@webitel/ui-sdk/composables';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import {
+	ComponentSize,
+	FormatDateMode,
+	IconAction,
+} from '@webitel/ui-sdk/enums';
 import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
 import { getFileTypeIcon } from '@webitel/ui-sdk/scripts/file';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
