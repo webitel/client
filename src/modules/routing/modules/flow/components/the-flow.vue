@@ -144,7 +144,12 @@
               {{ formatDate(+item.updatedAt, FormatDateMode.DATE) }}
             </template>
             <template #actions="{ item }">
+              <wt-loader
+                v-if="isKeyLoading(item.id)"
+                :size="ComponentSize.SM"
+              />
               <wt-icon-action
+                v-else
                 action="download"
                 @click="download(item)"
               />
@@ -184,7 +189,12 @@
 import { FlowsAPI } from '@webitel/api-services/api';
 import type { EngineRoutingSchema } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
+import {
+	ComponentSize,
+	FormatDateMode,
+	IconAction,
+} from '@webitel/ui-sdk/enums';
 import { saveAsJSON } from '@webitel/ui-sdk/scripts';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -288,12 +298,20 @@ const edit = (item: EngineRoutingSchema) => {
 	else router.push(link);
 };
 
-const download = async ({ id, name }: EngineRoutingSchema) => {
-	const flow = await FlowsAPI.get({
-		itemId: id,
-	});
-	saveAsJSON(`${name}-schema`, flow);
-};
+const { isKeyLoading, runDownload } = useDownloadAction();
+
+const download = ({ id, name }: EngineRoutingSchema) =>
+	runDownload(
+		async () => {
+			const flow = await FlowsAPI.get({
+				itemId: id,
+			});
+			saveAsJSON(`${name}-schema`, flow);
+		},
+		{
+			key: id,
+		},
+	);
 
 const jsonFile = ref<File | null>(null);
 const processJSON = (files: File[]) => {
