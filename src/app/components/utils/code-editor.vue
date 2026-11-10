@@ -44,6 +44,9 @@ const config = {
 	autoClosingQuotes: true,
 	autoClosingBrackets: true,
 	automaticLayout: true,
+	stickyScroll: {
+		enabled: false,
+	},
 	autoIndent: true,
 	horizontal: 'scroll',
 	readOnly: false,
