@@ -1436,7 +1436,6 @@ export default {
 		resetSelected:
 			'Resetează {count} membru selectat | Resetează {count} membri selectați',
 		resetFiltered: 'Resetează toți membrii filtrați',
-		generate: 'Generează',
 		add: 'Adaugă',
 		history: 'Istoric',
 		download: 'Descarcă',
@@ -1454,8 +1453,6 @@ export default {
 		moveDown: 'Mare în jos',
 		nextPage: 'Pagina următoare',
 		prevPage: 'Pagina anterioară',
-		expand: 'Extinde',
-		collapse: 'Restinge',
 	},
 	errors: {
 		invalidJson: 'JSON este invalid',

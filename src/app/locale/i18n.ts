@@ -1,4 +1,4 @@
-import { createI18n } from 'vue-i18n';
+import { createI18n, type I18nOptions } from 'vue-i18n';
 
 import en from './en/en';
 import es from './es/es';
@@ -10,7 +10,9 @@ import uk from './uk/uk';
 import uz from './uz/uz';
 import vi from './vi/vi';
 
-const messages = {
+// [Claude] typed loosely so `i18n.global.t` keeps vue-i18n's default signature,
+// which shared ui-sdk helpers (e.g. `configureZod`) expect
+const messages: I18nOptions['messages'] = {
 	en,
 	es,
 	ru,

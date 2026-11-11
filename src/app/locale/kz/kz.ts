@@ -1424,7 +1424,6 @@ export default {
 		resetSelected:
 			'Таңдалған {count} меншікті қалпына келтіру | Таңдалған {count} меншікті қалпына келтіру',
 		resetFiltered: 'Фильтрленген барлық меншіктерді қалпына келтіру',
-		generate: 'Құру',
 		add: 'Қосу',
 		history: 'Тарих',
 		download: 'Жүктеу',
@@ -1442,8 +1441,6 @@ export default {
 		moveDown: 'Төмен қозғау',
 		nextPage: 'Келесі бет',
 		prevPage: 'Алдыңғы бет',
-		expand: 'Ұлғаю',
-		collapse: 'Қысу',
 	},
 	errors: {
 		invalidJson: 'JSON қате',

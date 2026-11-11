@@ -1434,7 +1434,6 @@ export default {
 		resetSelected:
 			"Tanlangan {count} a'zolchalarni tiklash | Tanlangan {count} a'zolchalarni tiklash",
 		resetFiltered: "Barcha filtrlangan a'zolchalarni tiklash",
-		generate: 'Yaratish',
 		add: "Qo'shish",
 		history: 'Tarix',
 		download: 'Yuklash',
@@ -1451,8 +1450,6 @@ export default {
 		moveDown: "Pastga ko'chirish",
 		nextPage: 'Keyingi sahifa',
 		prevPage: 'Oldingi sahifa',
-		expand: 'Kengaytirish',
-		collapse: 'Qisqartirish',
 	},
 	errors: {
 		invalidJson: "JSON noto'g'ri",

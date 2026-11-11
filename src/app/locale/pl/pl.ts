@@ -1433,7 +1433,6 @@ export default {
 		resetSelected:
 			'Zresetuj {count} wybranego członka | Zresetuj {count} wybranych członków',
 		resetFiltered: 'Zresetuj wszystkich filtrowanych członków',
-		generate: 'Generuj',
 		add: 'Dodaj',
 		history: 'Historia',
 		download: 'Pobierz',
@@ -1451,8 +1450,6 @@ export default {
 		moveDown: 'Przenieś w dół',
 		nextPage: 'Następna strona',
 		prevPage: 'Poprzednia strona',
-		expand: 'Rozwiń',
-		collapse: 'Zwiń',
 	},
 	errors: {
 		invalidJson: 'JSON jest nieprawidłowy',

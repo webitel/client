@@ -1445,7 +1445,6 @@ export default {
 		resetSelected:
 			'Перезапустить {count} выбранного абонента | Перезапустить {count} выбранных абонентов',
 		resetFiltered: 'Перезапустить всех отфильтрованных абонентов',
-		generate: 'Создать',
 		add: 'Добавить',
 		history: 'История',
 		download: 'Скачать',
@@ -1462,8 +1461,6 @@ export default {
 		moveDown: 'Передвинуть вниз',
 		nextPage: 'Следующая страница',
 		prevPage: 'Предыдущая страница',
-		expand: 'Развернуть',
-		collapse: 'Свернуть',
 	},
 	errors: {
 		invalidJson: 'Некорректный JSON',

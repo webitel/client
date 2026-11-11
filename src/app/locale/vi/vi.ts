@@ -1427,7 +1427,6 @@ export default {
 		resetAll: 'Đặt lại tất cả thành viên',
 		resetSelected: 'Đặt lại {count} thành viên đã chọn',
 		resetFiltered: 'Đặt lại tất cả thành viên đã lọc',
-		generate: 'Tạo',
 		add: 'Thêm',
 		history: 'Lịch sử',
 		download: 'Tải xuống',
@@ -1445,8 +1444,6 @@ export default {
 		moveDown: 'Đưa xuống',
 		nextPage: 'Trang tiếp theo',
 		prevPage: 'Trang trước',
-		expand: 'Mở rộng',
-		collapse: 'Thu gọn',
 	},
 	errors: {
 		invalidJson: 'JSON không hợp lệ',

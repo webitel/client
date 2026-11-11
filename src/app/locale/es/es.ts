@@ -1442,7 +1442,6 @@ export default {
 		resetSelected:
 			'Restablecer {count} miembro seleccionado | Restablecer {count} miembros seleccionados',
 		resetFiltered: 'Restablecer todos los miembros filtrados',
-		generate: 'Generar',
 		add: 'Añadir',
 		history: 'Historial',
 		download: 'Descargar',
@@ -1460,8 +1459,6 @@ export default {
 		moveDown: 'Mover abajo',
 		nextPage: 'Página siguiente',
 		prevPage: 'Página anterior',
-		expand: 'Expandir',
-		collapse: 'Colapsar',
 	},
 	errors: {
 		invalidJson: 'JSON inválido',
