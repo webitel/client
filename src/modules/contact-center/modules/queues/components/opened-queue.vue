@@ -86,7 +86,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import {
 	createEnsureQueueSaved,
 	provideEnsureQueueSaved,
@@ -388,8 +388,3 @@ onMounted(async () => {
 
 onUnmounted(() => cardStore.$reset());
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

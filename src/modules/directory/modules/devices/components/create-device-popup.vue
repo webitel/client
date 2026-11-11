@@ -109,8 +109,6 @@ const close = () => emit('close');
 </script>
 
 <style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
 .popup-options__item-wrap {
   position: relative;
   margin-bottom: 10px;

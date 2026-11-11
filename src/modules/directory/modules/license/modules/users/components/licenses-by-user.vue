@@ -215,7 +215,7 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 :deep(.wt-table th) {
   word-break: normal;
 }

@@ -18,7 +18,7 @@ import store, { pinia } from './app/store/store';
 import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 import App from './the-app.vue';
 
-import './app/css/main.scss';
+import './app/css/main.css';
 import { configureZod } from '@webitel/ui-sdk/validations';
 import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
 
