@@ -106,6 +106,7 @@ import { useNestedTableList } from '@webitel/ui-datalist';
 import { FilterOption } from '@webitel/ui-datalist/filters';
 import { WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
+import { saveAsJSON } from '@webitel/ui-sdk/scripts';
 import { useCSVExport } from '@webitel/ui-sdk/src/modules/CSVExport/composables/useCSVExport';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import { formatDate } from '@webitel/ui-sdk/utils';
@@ -114,7 +115,6 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
-import { downloadAsJSON } from '../../../../../../../app/utils/download';
 import { useChangelogsCardStore } from '../../../stores/card/changelogsCardStore';
 import { defaultDateFilter, filterConfigs } from '../configs/filtersOptions';
 import { useChangelogLogsDatalistStore } from '../stores/datalist/changelogLogsDatalistStore';
@@ -186,9 +186,9 @@ const downloadNewState = async ({ id, date, record }: LoggerLog) => {
 	const { newState } = await ConfigLogsAPI.get({
 		itemId: id,
 	});
-	downloadAsJSON(
-		JSON.parse(newState),
+	saveAsJSON(
 		`${record?.name}-${record?.id}-new-state-${formatDateTime(date)}`,
+		JSON.parse(newState),
 	);
 };
 

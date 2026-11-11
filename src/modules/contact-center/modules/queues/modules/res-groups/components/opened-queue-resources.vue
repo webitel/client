@@ -56,14 +56,16 @@
         @update:selected="updateSelected"
       >
         <template #name="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.resourceGroup"
-            :id="item.resourceGroup.id"
-            :route-name="RouteNames.RESOURCE_GROUPS"
+            :link="{
+              name: `${RouteNames.RESOURCE_GROUPS}-card`,
+              params: { id: item.resourceGroup.id },
+            }"
             target="_blank"
           >
             {{ item.resourceGroup.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #communication="{ item }">
           <div v-if="item.communication">
@@ -187,8 +189,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

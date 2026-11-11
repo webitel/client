@@ -238,5 +238,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style scoped></style>

@@ -75,22 +75,26 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.CHATPLAN"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.CHATPLAN}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #schema="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.schema"
-                :id="item.schema.id"
-                :route-name="RouteNames.FLOW"
+                :link="{
+                  name: `${RouteNames.FLOW}-card`,
+                  params: { id: item.schema.id },
+                }"
                 target="_blank"
               >
                 {{ item.schema.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #state="{ item, index }">
               <wt-switcher
@@ -134,7 +138,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';

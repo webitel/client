@@ -1,11 +1,11 @@
 <template>
-  <selection-popup
-    v-bind="$attrs"
-    v-model="selected"
+  <wt-selection-popup
     :options="options"
+    :selected="selected"
     :title="t('objects.ccenter.queues.newQueue')"
+    @change="selected = $event"
     @close="emit('close')"
-    @select="createQueue"
+    @add="createQueue"
   />
 </template>
 
@@ -14,8 +14,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import SelectionPopup from '../../../../../app/components/utils/selection-popup/selection-popup.vue';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 interface QueueTypeOption {
@@ -59,5 +58,3 @@ const createQueue = () =>
 		},
 	});
 </script>
-
-<style lang="scss" scoped></style>

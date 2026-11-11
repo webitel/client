@@ -58,14 +58,16 @@
           {{ getEventText(item.event) }}
         </template>
         <template #schema="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.schema"
-            :id="item.schema.id"
-            :route-name="RouteNames.FLOW"
+            :link="{
+              name: `${RouteNames.FLOW}-card`,
+              params: { id: item.schema.id },
+            }"
             target="_blank"
           >
             {{ item.schema.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher

@@ -41,13 +41,6 @@
         :delete-count="deleteCount"
         @close="closeDelete"
       />
-      <object-list-popup
-        v-show="objectListPopupData"
-        :data-list="objectListPopupData"
-        :route-name="objectListPopupItemRouteName"
-        :title="objectListPopupTitle"
-        @close="closeObjectListPopup"
-      />
 
       <section class="table-section">
         <header class="table-title">
@@ -119,12 +112,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.QUEUES"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.QUEUES}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #type="{ item }">
@@ -140,14 +135,16 @@
               {{ item.priority }}
             </template>
             <template #team="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.team"
-                :id="item.team.id"
-                :route-name="RouteNames.TEAMS"
+                :link="{
+                  name: `${RouteNames.TEAMS}-card`,
+                  params: { id: item.team.id },
+                }"
                 target="_blank"
               >
                 {{ item.team.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #tags="{ item }">
               <div
@@ -170,20 +167,72 @@
               />
             </template>
             <template #resourceGroups="{ item }">
-              <one-plus-many
-                v-if="item.resourceGroups"
-                :collection="item.resourceGroups"
-                :route-name="RouteNames.RESOURCE_GROUPS"
-                @input="openResourceGroupsPopup(item)"
-              />
+              <wt-display-chip-items
+                v-if="item.resourceGroups?.length"
+                :items="item.resourceGroups"
+              >
+                <template #first-item>
+                  <wt-item-link
+                    :link="{
+                      name: `${RouteNames.RESOURCE_GROUPS}-card`,
+                      params: { id: item.resourceGroups[0].id },
+                    }"
+                    target="_blank"
+                  >
+                    {{ item.resourceGroups[0].name }}
+                  </wt-item-link>
+                </template>
+                <template #items="{ items }">
+                  <div
+                    v-for="listItem of items"
+                    :key="listItem.id"
+                  >
+                    <wt-item-link
+                      :link="{
+                        name: `${RouteNames.RESOURCE_GROUPS}-card`,
+                        params: { id: listItem.id },
+                      }"
+                      target="_blank"
+                    >
+                      {{ listItem.name }}
+                    </wt-item-link>
+                  </div>
+                </template>
+              </wt-display-chip-items>
             </template>
             <template #resources="{ item }">
-              <one-plus-many
-                v-if="item.resources"
-                :collection="item.resources"
-                :route-name="RouteNames.RESOURCES"
-                @input="openResourcesPopup(item)"
-              />
+              <wt-display-chip-items
+                v-if="item.resources?.length"
+                :items="item.resources"
+              >
+                <template #first-item>
+                  <wt-item-link
+                    :link="{
+                      name: `${RouteNames.RESOURCES}-card`,
+                      params: { id: item.resources[0].id },
+                    }"
+                    target="_blank"
+                  >
+                    {{ item.resources[0].name }}
+                  </wt-item-link>
+                </template>
+                <template #items="{ items }">
+                  <div
+                    v-for="listItem of items"
+                    :key="listItem.id"
+                  >
+                    <wt-item-link
+                      :link="{
+                        name: `${RouteNames.RESOURCES}-card`,
+                        params: { id: listItem.id },
+                      }"
+                      target="_blank"
+                    >
+                      {{ listItem.name }}
+                    </wt-item-link>
+                  </div>
+                </template>
+              </wt-display-chip-items>
             </template>
             <template #column-filter="scope">
               <queues-column-filter v-bind="scope" />
@@ -254,8 +303,6 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import ObjectListPopup from '../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import OnePlusMany from '../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
@@ -324,21 +371,6 @@ const hasPanelFilters = computed(() =>
 const isQueueSelectPopup = ref(false);
 const isAttemptsResetPopup = ref(false);
 
-/**
- * What `object-list-popup` accepts. The generated resource models are
- * interfaces without an index signature, so TS will not widen them to this
- * shape on its own — hence the casts at each assignment below.
- */
-type ObjectListItem = {
-	id?: string | number;
-	name?: string;
-	[key: string]: unknown;
-};
-
-const objectListPopupData = ref<ObjectListItem[] | null>(null);
-const objectListPopupTitle = ref('');
-const objectListPopupItemRouteName = ref<string | null>(null);
-
 const {
 	isVisible: isDeleteConfirmationPopup,
 	deleteCount,
@@ -390,23 +422,6 @@ const openMembers = (item: Queue) =>
 		},
 	});
 
-const openResourcesPopup = (item: Queue) => {
-	objectListPopupData.value = item.resources as ObjectListItem[];
-	objectListPopupTitle.value = t('objects.ccenter.queues.resources', 2);
-	objectListPopupItemRouteName.value = RouteNames.RESOURCES;
-};
-
-const openResourceGroupsPopup = (item: Queue) => {
-	objectListPopupData.value = item.resourceGroups as ObjectListItem[];
-	objectListPopupTitle.value = t('objects.ccenter.queues.resourceGroups', 2);
-	objectListPopupItemRouteName.value = RouteNames.RESOURCE_GROUPS;
-};
-
-const closeObjectListPopup = () => {
-	objectListPopupData.value = null;
-	objectListPopupTitle.value = '';
-};
-
 const changeStateItem = async (index: number, value: boolean) => {
 	await patchItemProperty({
 		index,
@@ -434,10 +449,7 @@ const {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .the-queues__tags {
   display: flex;
   flex-wrap: wrap;

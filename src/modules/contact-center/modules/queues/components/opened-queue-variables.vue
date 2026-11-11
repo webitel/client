@@ -32,8 +32,8 @@ import type { VariablePair } from '@webitel/api-services/validations';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import type { Queue } from '../../../types/Queue';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import type { Queue } from '../types/Queue';
 
 const modelValue = defineModel<Queue>({
 	required: true,

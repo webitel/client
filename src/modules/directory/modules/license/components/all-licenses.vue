@@ -132,10 +132,10 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
-import { useUserAccessControl } from '../../../../../../app/composables/useUserAccessControl';
-import LicenseUsersPopup from '../../modules/license-users/components/license-users-popup.vue';
-import LicencesRouteNames from '../../router/_internals/LicencesRouteNames.enum';
-import { useLicenseDatalistStore } from '../../stores';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import LicenseUsersPopup from '../modules/license-users/components/license-users-popup.vue';
+import LicencesRouteNames from '../router/_internals/LicencesRouteNames.enum';
+import { useLicenseDatalistStore } from '../stores';
 import LicensePopup from './license-popup.vue';
 
 const { t } = useI18n();

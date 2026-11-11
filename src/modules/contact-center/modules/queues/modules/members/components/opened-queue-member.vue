@@ -57,7 +57,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueuesRoutesName from '../../../router/_internals/QueuesRoutesName.enum';
 import { useParentQueue } from '../composables/useParentQueue';
 import { useQueueMembersCardStore } from '../stores/card/queueMembersCardStore';
@@ -169,5 +169,3 @@ async function saveAs() {
 	});
 }
 </script>
-
-<style scoped></style>

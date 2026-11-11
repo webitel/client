@@ -74,12 +74,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.QUICK_REPLIES"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.QUICK_REPLIES}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #text="{ item }">
               {{ item.text }}
@@ -141,7 +143,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems, WtTimeTooltip } from '@webitel/ui-sdk/components';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';

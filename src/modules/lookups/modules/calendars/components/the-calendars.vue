@@ -74,12 +74,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.CALENDARS"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.CALENDARS}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #actions="{ item }">

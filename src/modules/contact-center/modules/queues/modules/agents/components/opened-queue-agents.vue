@@ -1,17 +1,5 @@
 <template>
   <section class="table-section">
-    <object-list-popup
-      :data-list="shownSupervisors"
-      :shown="!!supervisorsRowId"
-      :title="t('objects.ccenter.agents.supervisors', 2)"
-      @close="closeListPopup"
-    />
-    <object-list-popup
-      :data-list="shownSkills"
-      :shown="!!skillsRowId"
-      :title="t('objects.lookups.skills.skills', 2)"
-      @close="closeListPopup"
-    />
 
     <header class="table-title">
       <h3 class="table-title__title">
@@ -56,19 +44,18 @@
         @sort="updateSort"
       >
         <template #name="{ item }">
-          <adm-item-link
-            :id="item.id"
-            :route-name="RouteNames.AGENTS"
+          <wt-item-link
+            :link="{
+              name: `${RouteNames.AGENTS}-card`,
+              params: { id: item.id },
+            }"
             target="_blank"
           >
             {{ item.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #supervisor="{ item }">
-          <one-plus-many
-            :collection="item.supervisor"
-            @input="openSupervisors(item)"
-          />
+          <wt-display-chip-items :items="item.supervisor" />
         </template>
         <template #state="{ item }">
           <wt-indicator
@@ -80,10 +67,7 @@
           {{ formatStatusType(item) }}
         </template>
         <template #skills="{ item }">
-          <one-plus-many
-            :collection="item.skills"
-            @input="openSkills(item)"
-          />
+          <wt-display-chip-items :items="item.skills" />
         </template>
       </wt-table>
       <wt-pagination
@@ -109,10 +93,7 @@ import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
 
-import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useAgentStatusIndicator } from '../../../../agents/composables/useAgentStatusIndicator';
 import { useQueueAgentsDatalistStore } from '../stores/datalist/queueAgentsDatalistStore';
@@ -120,8 +101,6 @@ import { useQueueAgentsDatalistStore } from '../stores/datalist/queueAgentsDatal
 // the card page still passes `namespace` and a vuelidate instance to every tab
 
 const { t } = useI18n();
-const route = useRoute();
-const router = useRouter();
 
 const { statusIndicatorColor, statusIndicatorText } = useAgentStatusIndicator();
 
@@ -156,58 +135,6 @@ const {
 	columnReorder,
 } = tableStore;
 
-/**
- * Both list popups are deep-linkable through a query param naming the row.
- * The row already carries the collection, so there is nothing to fetch — this
- * replaces a store getter that only ever looked the row up by id.
- */
-const supervisorsRowId = computed(
-	() => route.query.supervisor as string | undefined,
-);
-const skillsRowId = computed(() => route.query.skills as string | undefined);
-
-const rowById = (id?: string) =>
-	dataList.value.find((item) => String(item.id) === String(id));
-
-const shownSupervisors = computed(
-	() => rowById(supervisorsRowId.value)?.supervisor ?? [],
-);
-const shownSkills = computed(() => rowById(skillsRowId.value)?.skills ?? []);
-
-const openSupervisors = (item: EngineAgent) =>
-	router.push({
-		name: route.name,
-		params: route.params,
-		query: {
-			...route.query,
-			supervisor: String(item.id),
-		},
-	});
-
-const openSkills = (item: EngineAgent) =>
-	router.push({
-		name: route.name,
-		params: route.params,
-		query: {
-			...route.query,
-			skills: String(item.id),
-		},
-	});
-
-const closeListPopup = () => {
-	const query = {
-		...route.query,
-	};
-	delete query.supervisor;
-	delete query.skills;
-	// strip the params rather than go(-1), which left the page on a cold open
-	return router.push({
-		name: route.name,
-		params: route.params,
-		query,
-	});
-};
-
 const {
 	showEmpty,
 	image: imageEmpty,
@@ -219,8 +146,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

@@ -62,7 +62,7 @@
               />
             </template>
             <template #upload>
-              <upload-file-icon-btn
+              <wt-upload-file-icon-btn
                 v-if="hasCreateAccess"
                 accept=".csv"
                 class="icon-action"
@@ -178,6 +178,7 @@
 <script setup lang="ts">
 import type { ApiDevice } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import WtUploadFileIconBtn from '@webitel/ui-sdk/components/on-demand/wt-upload-file-icon-btn/wt-upload-file-icon-btn.vue';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -186,8 +187,6 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-
-import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum';

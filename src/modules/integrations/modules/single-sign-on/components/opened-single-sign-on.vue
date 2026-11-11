@@ -140,5 +140,3 @@ const path = computed(() => {
 	];
 });
 </script>
-
-<style scoped></style>

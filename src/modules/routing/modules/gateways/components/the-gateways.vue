@@ -79,12 +79,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.GATEWAYS"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.GATEWAYS}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #proxy="{ item }">
               {{ item.proxy }}

@@ -216,14 +216,16 @@
               {{ item.attempts || 0 }}
             </template>
             <template #agent="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.agent"
-                :id="item.agent.id"
-                :route-name="RouteNames.AGENTS"
+                :link="{
+                  name: `${RouteNames.AGENTS}-card`,
+                  params: { id: item.agent.id },
+                }"
                 target="_blank"
               >
                 {{ item.agent.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #bucket="{ item }">
               {{ item.bucket?.name }}
@@ -675,12 +677,7 @@ onMounted(() =>
 );
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .the-queue-members__communications-counter {
   cursor: pointer;
 }

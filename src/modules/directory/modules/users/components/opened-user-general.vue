@@ -153,7 +153,7 @@
       </div>
     </div>
 
-    <global-state-confirmation-popup
+    <confirmation-popup
       :description="t('objects.directory.users.generateDeviceConfirmation')"
       :shown="isReplaceConfirmShown"
       :title="t('objects.directory.users.deviceGenerationConfirmTitle')"
@@ -172,10 +172,10 @@ import { IconColor, PasswordAction, WtObject } from '@webitel/ui-sdk/enums';
 import { SpecialGlobalAction } from '@webitel/ui-sdk/modules/Userinfo';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import ConfirmationPopup from '../../../../../app/components/confirmation-popup.vue';
+import LogoutAction from '../../../../../app/components/logout-action.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import GlobalStateConfirmationPopup from '../../../../_shared/global-state-confirmation-popup/global-state-confirmation-popup.vue';
-import LogoutAction from '../../../../_shared/logout-action/logout-action.vue';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import QrcodeTwoFactorAuth from './_internals/qrcode-two-factor-auth.vue';
 

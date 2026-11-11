@@ -63,13 +63,15 @@
           {{ formatDateTime(item.date) }}
         </template>
         <template #object="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.object"
-            :id="item.configId"
-            :route-name="RouteNames.CHANGELOGS"
+            :link="{
+              name: `${RouteNames.CHANGELOGS}-card`,
+              params: { id: item.configId },
+            }"
           >
             {{ item.object.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #record="{ item }">
           <record-link :item="item" />

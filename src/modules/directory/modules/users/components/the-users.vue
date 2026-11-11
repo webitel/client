@@ -26,14 +26,16 @@
         @close="closeDelete"
       />
 
-      <logout-confirmation-popup
-        :shown="isLogoutConfirmationPopup"
-        :text="t('objects.directory.users.logout.endMultipleSessionsConfirmationText', {
+      <confirmation-popup
+        :confirm-color="ButtonColor.ERROR"
+        :description="t('objects.directory.users.logout.endMultipleSessionsConfirmationText', {
           count: selected.length,
         })"
-        :is-loading="isLoadingUsersLogout"
+        :loading="isLoadingUsersLogout"
+        :shown="isLogoutConfirmationPopup"
+        :title="t('objects.directory.users.logout.endSessionConfirmation')"
         @close="isLogoutConfirmationPopup = false"
-        @logout="logoutUsers"
+        @confirm="logoutUsers"
       />
 
       <section class="table-section">
@@ -69,7 +71,7 @@
               />
             </template>
             <template #upload>
-              <upload-file-icon-btn
+              <wt-upload-file-icon-btn
                 :disabled="!hasCreateAccess"
                 accept=".csv"
                 class="icon-action"
@@ -169,7 +171,8 @@ import { UsersAPI } from '@webitel/api-services/api';
 import { UserPresenceStatus } from '@webitel/api-services/enums';
 import type { ApiUser } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { IconAction } from '@webitel/ui-sdk/enums';
+import WtUploadFileIconBtn from '@webitel/ui-sdk/components/on-demand/wt-upload-file-icon-btn/wt-upload-file-icon-btn.vue';
+import { ButtonColor, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -177,11 +180,9 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-
-import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
+import ConfirmationPopup from '../../../../../app/components/confirmation-popup.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
-import LogoutConfirmationPopup from '../../../../_shared/logout-action/logout-confirmation-popup.vue';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import { useUsersDatalistStore } from '../stores/datalist/usersDatalistStore';
 import UserStatusChips from './_internals/user-status-chips.vue';
@@ -300,10 +301,14 @@ const closeCSVPopup = () => {
 const logoutUsers = async () => {
 	isLoadingUsersLogout.value = true;
 	const selection = selected.value.map((user: ApiUser) => user.id);
-	await UsersAPI.logoutMultipleUsers(selection);
-	isLogoutConfirmationPopup.value = false;
-	isLoadingUsersLogout.value = false;
-	clearStorageNotifications(selection);
+	try {
+		await UsersAPI.logoutMultipleUsers(selection);
+		isLogoutConfirmationPopup.value = false;
+		clearStorageNotifications(selection);
+	} finally {
+		// [Claude] reset even on a failed request, or the button spins forever
+		isLoadingUsersLogout.value = false;
+	}
 	await loadDataList();
 };
 

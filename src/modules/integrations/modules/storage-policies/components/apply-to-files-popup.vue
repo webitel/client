@@ -34,7 +34,7 @@
   </wt-popup>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { StoragePoliciesAPI } from '@webitel/api-services/api';
 import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { defineEmits, useAttrs } from 'vue';

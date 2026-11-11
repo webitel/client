@@ -65,14 +65,16 @@
         @update:selected="updateSelected"
       >
         <template #schema="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.schema"
-            :id="item.schema.id"
-            :route-name="RouteNames.FLOW"
+            :link="{
+              name: `${RouteNames.FLOW}-card`,
+              params: { id: item.schema.id },
+            }"
             target="_blank"
           >
             {{ item.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher

@@ -77,25 +77,29 @@
             @reorder:row="reorder"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.DIALPLAN"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.DIALPLAN}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #pattern="{ item }">
               {{ item.pattern }}
             </template>
             <template #schema="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.schema"
-                :id="item.schema.id"
-                :route-name="RouteNames.FLOW"
+                :link="{
+                  name: `${RouteNames.FLOW}-card`,
+                  params: { id: item.schema.id },
+                }"
                 target="_blank"
               >
                 {{ item.schema.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #state="{ item, index }">
               <wt-switcher
@@ -139,7 +143,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DialplansAPI } from '@webitel/api-services/api';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
