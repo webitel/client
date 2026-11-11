@@ -71,7 +71,7 @@
               <wt-item-link
                 v-if="hasDevicesCreateAccess"
                 :link="{
-                  name: `${RouteNames.DEVICES}-card`,
+                  name: `${RouteNames.Devices}-card`,
                   params: { id: 'new' },
                 }"
                 class="opened-user-general__hint-link-link typo-subtitle-2"
@@ -175,7 +175,7 @@ import { useI18n } from 'vue-i18n';
 import ConfirmationPopup from '../../../../../app/components/confirmation-popup.vue';
 import LogoutAction from '../../../../../app/components/logout-action.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import QrcodeTwoFactorAuth from './_internals/qrcode-two-factor-auth.vue';
 

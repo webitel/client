@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import EmailProfilesRouteNames from './_internals/EmailProfilesRouteNames.enum';
 
 const TheEmailProfiles = () => import('../components/the-email-profiles.vue');
@@ -13,7 +13,7 @@ const General = () => import('../components/opened-email-profile-general.vue');
 const EmailProfilesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/email-profiles',
-		name: RouteNames.EMAIL_PROFILES,
+		name: RouteNames.EmailProfiles,
 		component: TheEmailProfiles,
 		meta: {
 			WtObject: WtObject.EmailProfile,
@@ -22,7 +22,7 @@ const EmailProfilesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/integrations/email-profiles/:id',
-		name: `${RouteNames.EMAIL_PROFILES}-card`,
+		name: `${RouteNames.EmailProfiles}-card`,
 		redirect: {
 			name: EmailProfilesRouteNames.GENERAL,
 		},

@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import FlowRouteNames from './_internals/FlowRouteNames.enum';
 
 const Flow = () => import('../components/the-flow.vue');
@@ -11,7 +11,7 @@ const OpenedFlowCode = () => import('../components/code/opened-flow-code.vue');
 const FlowRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/flow',
-		name: RouteNames.FLOW,
+		name: RouteNames.Flow,
 		component: Flow,
 		meta: {
 			WtObject: WtObject.Flow,
@@ -20,7 +20,7 @@ const FlowRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/routing/flow/:id',
-		name: `${RouteNames.FLOW}-card`,
+		name: `${RouteNames.Flow}-card`,
 		redirect: {
 			name: FlowRouteNames.GENERAL,
 		},

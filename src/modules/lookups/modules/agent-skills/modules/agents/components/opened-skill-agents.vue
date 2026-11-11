@@ -88,7 +88,7 @@
         <template #name="{ item }">
           <wt-item-link
             :link="{
-              name: `${RouteNames.AGENTS}-card`,
+              name: `${RouteNames.Agents}-card`,
               params: { id: item.agent.id },
             }"
           >
@@ -99,7 +99,7 @@
           <wt-item-link
             v-if="item.team?.id"
             :link="{
-              name: `${RouteNames.TEAMS}-card`,
+              name: `${RouteNames.Teams}-card`,
               params: { id: item.team.id },
             }"
           >
@@ -161,7 +161,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useSkillsCardStore } from '../../../stores/card/skillsCardStore';
 import { useSkillAgentsDatalistStore } from '../stores/datalist/skillAgentsDatalistStore';
 import AddSkillToAgentPopup from './add-skill-to-agent-popup/add-skill-to-agent-popup.vue';

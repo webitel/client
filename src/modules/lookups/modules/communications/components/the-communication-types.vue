@@ -86,7 +86,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.COMMUNICATIONS}-card`,
+                  name: `${RouteNames.Communications}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -159,7 +159,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useCommunicationTypesDatalistStore } from '../stores/datalist/communicationTypesDatalistStore';
 
 const { t } = useI18n();
@@ -222,7 +222,7 @@ const path = computed(() => [
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.COMMUNICATIONS}-card`,
+		name: `${RouteNames.Communications}-card`,
 		params: {
 			id: 'new',
 		},
@@ -230,7 +230,7 @@ const create = () =>
 
 const edit = (item: EngineCommunicationType) =>
 	router.push({
-		name: `${RouteNames.COMMUNICATIONS}-card`,
+		name: `${RouteNames.Communications}-card`,
 		params: {
 			id: item.id,
 		},

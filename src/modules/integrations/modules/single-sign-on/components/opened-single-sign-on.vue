@@ -50,7 +50,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import SingleSignOnRouteNames from '../router/_internals/SingleSignOnRouteNames.enum';
 import {
 	useSingleSignOnCardStore,
@@ -123,7 +123,7 @@ const permissionsStoreData = computed(() => ({
 	},
 	parentId: route.params.id,
 }));
-const { close } = useClose(RouteNames.SINGLE_SIGN_ON);
+const { close } = useClose(RouteNames.SingleSignOn);
 
 const path = computed(() => {
 	return [

@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import RegionRouteNames from './_internals/RegionRouteNames.enum';
 
 const Regions = () => import('../components/the-regions.vue');
@@ -12,7 +12,7 @@ const OpenedRegionGeneral = () =>
 const RegionsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/regions',
-		name: RouteNames.REGIONS,
+		name: RouteNames.Regions,
 		component: Regions,
 		meta: {
 			WtObject: WtObject.Region,
@@ -21,7 +21,7 @@ const RegionsRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/lookups/regions/:id',
-		name: `${RouteNames.REGIONS}-card`,
+		name: `${RouteNames.Regions}-card`,
 		redirect: {
 			name: RegionRouteNames.GENERAL,
 		},

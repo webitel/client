@@ -66,7 +66,7 @@
           <wt-item-link
             v-if="item.object"
             :link="{
-              name: `${RouteNames.CHANGELOGS}-card`,
+              name: `${RouteNames.Changelogs}-card`,
               params: { id: item.configId },
             }"
           >
@@ -114,7 +114,7 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
 import { useUsersCardStore } from '../../../stores/card/usersCardStore';
 import { defaultDateFilter, filterConfigs } from '../configs/filtersOptions';

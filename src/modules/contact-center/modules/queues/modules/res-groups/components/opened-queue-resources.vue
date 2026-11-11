@@ -59,7 +59,7 @@
           <wt-item-link
             v-if="item.resourceGroup"
             :link="{
-              name: `${RouteNames.RESOURCE_GROUPS}-card`,
+              name: `${RouteNames.ResourceGroups}-card`,
               params: { id: item.resourceGroup.id },
             }"
             target="_blank"
@@ -108,7 +108,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
 import { useQueueResGroupsDatalistStore } from '../stores/datalist/queueResGroupsDatalistStore';
 import ResourcePopup from './opened-queue-resources-popup.vue';

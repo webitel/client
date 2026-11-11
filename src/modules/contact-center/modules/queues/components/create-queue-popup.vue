@@ -14,7 +14,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
 
 interface QueueTypeOption {
@@ -49,7 +49,7 @@ const selected = ref<QueueTypeOption | undefined>(options.value[0]);
  */
 const createQueue = () =>
 	router.push({
-		name: `${RouteNames.QUEUES}-card`,
+		name: `${RouteNames.Queues}-card`,
 		params: {
 			id: 'new',
 		},

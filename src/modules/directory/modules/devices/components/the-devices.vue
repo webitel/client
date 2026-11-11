@@ -106,7 +106,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.DEVICES}-card`,
+                  name: `${RouteNames.Devices}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -122,7 +122,7 @@
               <wt-item-link
                 v-if="item.user"
                 :link="{
-                  name: `${RouteNames.USERS}-card`,
+                  name: `${RouteNames.Users}-card`,
                   params: { id: item.user.id },
                 }"
               >
@@ -188,7 +188,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum';
 import { useDevicesDatalistStore } from '../stores';
 import DevicePopup from './create-device-popup.vue';
@@ -264,7 +264,7 @@ const create = () =>
 
 const edit = (item: ApiDevice) =>
 	router.push({
-		name: `${RouteNames.DEVICES}-card`,
+		name: `${RouteNames.Devices}-card`,
 		params: {
 			id: item.id,
 		},
@@ -288,7 +288,7 @@ const openHistory = (id: string) =>
 
 const closeHistoryPopup = () =>
 	router.push({
-		name: RouteNames.DEVICES,
+		name: RouteNames.Devices,
 	});
 
 const closeCSVPopup = () => {
