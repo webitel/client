@@ -9,15 +9,8 @@
   </main>
 </template>
 
-<script>
-import AppHeader from '../../_reusable/app-header/components/app-header.vue';
-
-export default {
-	name: 'ModuleWrap',
-	components: {
-		AppHeader,
-	},
-};
+<script setup lang="ts">
+import AppHeader from './app-header.vue';
 </script>
 
 <style scoped>

@@ -8,7 +8,7 @@ import ResourcesRoutes from '../../modules/contact-center/modules/resources/rout
 import TeamsRoutes from '../../modules/contact-center/modules/teams/router/teams';
 import DevicesRoutes from '../../modules/directory/modules/devices/router/devices';
 import LicenseRoutes from '../../modules/directory/modules/license/router/license';
-import UsersRoutes from '../../modules/directory/modules/users/routes/routes.js';
+import UsersRoutes from '../../modules/directory/modules/users/routes/routes';
 import CognitiveProfilesRoutes from '../../modules/integrations/modules/cognitive-profiles/router/cognitiveProfiles';
 import EmailProfilesRoutes from '../../modules/integrations/modules/email-profiles/router/emailProfiles';
 import ImportCsvRoutes from '../../modules/integrations/modules/import-csv/router/importCsv';
@@ -16,7 +16,7 @@ import SingleSignOnRoutes from '../../modules/integrations/modules/single-sign-o
 import StorageRoutes from '../../modules/integrations/modules/storage/router/storage';
 import StoragePoliciesRoutes from '../../modules/integrations/modules/storage-policies/router/storage-policies';
 import TriggersRoutes from '../../modules/integrations/modules/triggers/router/triggers';
-import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes.js';
+import ActivityTypeRoutes from '../../modules/lookups/modules/activity-types/router/activityTypes';
 import AgentPauseCauseRoutes from '../../modules/lookups/modules/agent-pause-cause/router/agentPauseCause';
 import AgentSkillsRoutes from '../../modules/lookups/modules/agent-skills/router/agentSkills';
 import BlacklistsRoutes from '../../modules/lookups/modules/blacklists/router/blacklists';
@@ -24,7 +24,7 @@ import BucketsRoutes from '../../modules/lookups/modules/buckets/router/buckets'
 import CalendarsRoutes from '../../modules/lookups/modules/calendars/router/calendars';
 import CommunicationsRoutes from '../../modules/lookups/modules/communications/router/communications';
 import MediaRoutes from '../../modules/lookups/modules/media/router/media';
-import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies.js';
+import QuickRepliesRoutes from '../../modules/lookups/modules/quick-replies/router/quickReplies';
 import RegionsRoutes from '../../modules/lookups/modules/regions/router/regions';
 import ObjectsRoutes from '../../modules/permissions/modules/objects/router/objects';
 import RolesRoutes from '../../modules/permissions/modules/roles/router/roles';
@@ -33,26 +33,21 @@ import ChatplanRoutes from '../../modules/routing/modules/chatplan/router/chatpl
 import DialplanRoutes from '../../modules/routing/modules/dialplan/router/dialplan';
 import FlowRoutes from '../../modules/routing/modules/flow/router/flow';
 import GatewaysRoutes from '../../modules/routing/modules/gateways/router/gateways';
-import SettingsRoutes from '../../modules/settings/routes/routes.js';
+import SettingsRoutes from '../../modules/settings/routes/routes';
+import StartPageRoutes from '../../modules/start-page/router/startPage';
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables';
-import RouteNames from './_internals/RouteNames.enum.js';
+import RouteNames from './_internals/RouteNames.enum';
 import RoutePaths from './_internals/RoutePaths';
 import { createAuthGuard } from './authGuard';
 
 const ApplicationHub = () =>
 	import('../../modules/application-hub/components/application-hub.vue');
-const ModuleWrap = () =>
-	import('../../modules/_shared/object-wrap/the-object-wrap.vue');
-const StartPage = () =>
-	import('../../modules/start-page/components/the-start-page.vue');
+const ModuleWrap = () => import('../components/object-wrap.vue');
 const AccessDenied = () =>
-	import(
-		'../../modules/error-pages/components/the-access-denied-component.vue'
-	);
-const NotFound = () =>
-	import('../../modules/error-pages/components/the-not-found-component.vue');
+	import('../components/the-access-denied-component.vue');
+const NotFound = () => import('../components/the-not-found-component.vue');
 
 export let router = null;
 
@@ -87,19 +82,10 @@ export const initRouter = async ({
 					WtApplication: WtApplication.Admin,
 				},
 				children: [
-					{
-						path: RoutePaths.StartPage,
-						name: RouteNames.START,
-						component: StartPage,
-					},
+					...StartPageRoutes,
 					...SettingsRoutes,
 					{
 						path: '/:pathMatch(.*)*',
-						name: RouteNames.PAGE_404,
-						component: NotFound,
-					},
-					{
-						path: '/404',
 						name: RouteNames.PAGE_404,
 						component: NotFound,
 					},
