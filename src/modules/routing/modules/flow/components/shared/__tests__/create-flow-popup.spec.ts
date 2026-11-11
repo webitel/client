@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
+import { describe, expect, it } from 'vitest';
 
 import CreateFlowPopup from '../create-flow-popup.vue';
 

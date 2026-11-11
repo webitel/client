@@ -1,20 +1,21 @@
 import { shallowMount } from '@vue/test-utils';
-import { ChatplansAPI } from '@webitel/api-services/api';
+import { GatewaysAPI } from '@webitel/api-services/api';
 import { createPinia, setActivePinia } from 'pinia';
+import { describe, expect, it, vi } from 'vitest';
 
-import TheChatplan from '../the-chatplan.vue';
+import TheGateways from '../the-gateways.vue';
 
-describe('TheChatplan', () => {
+describe('TheGateways', () => {
 	const pinia = createPinia();
 	setActivePinia(pinia);
 
-	vi.spyOn(ChatplansAPI, 'getList').mockResolvedValue({
+	vi.spyOn(GatewaysAPI, 'getList').mockResolvedValue({
 		items: [],
 		next: false,
 	});
 
 	it('renders a component', () => {
-		const wrapper = shallowMount(TheChatplan, {
+		const wrapper = shallowMount(TheGateways, {
 			global: {
 				plugins: [
 					pinia,

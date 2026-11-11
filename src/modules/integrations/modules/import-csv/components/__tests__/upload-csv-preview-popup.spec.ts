@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+import { describe, expect, it } from 'vitest';
 
 import UploadCsvPreviewPopup from '../upload-csv-preview-popup.vue';
 

@@ -86,7 +86,7 @@ export default ({ mode }) => {
 				VITE_API_URL: 'https://api.example.test/api',
 			},
 			setupFiles: [
-				'./tests/config/config.js',
+				'./tests/config/config.ts',
 			],
 			server: {
 				deps: {
