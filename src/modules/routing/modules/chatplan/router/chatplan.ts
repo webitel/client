@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatplanRouteNames from './_internals/ChatplanRouteNames.enum';
@@ -8,7 +9,7 @@ const OpenedChatplan = () => import('../components/opened-chatplan.vue');
 const OpenedChatplanGeneral = () =>
 	import('../components/opened-chatplan-general.vue');
 
-const ChatplanRoutes = [
+const ChatplanRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/chatplan',
 		name: RouteNames.CHATPLAN,

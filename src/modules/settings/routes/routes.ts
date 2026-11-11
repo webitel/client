@@ -1,4 +1,5 @@
-import RouteNames from '../../../app/router/_internals/RouteNames.enum.js';
+import type { RouteRecordRaw } from 'vue-router';
+import RouteNames from '../../../app/router/_internals/RouteNames.enum';
 import SettingsRouteNames from './_internals/SettingsRouteNames.enum';
 
 const Settings = () => import('../components/the-settings.vue');
@@ -7,7 +8,7 @@ const SettingsGeneral = () =>
 const SettingsNotifications = () =>
 	import('../modules/notifications/components/settings-notifications.vue');
 
-const SettingsRoutes = [
+const SettingsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/settings',
 		name: RouteNames.SETTINGS_PAGE,

@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import SingleSignOnRouteNames from './_internals/SingleSignOnRouteNames.enum';
@@ -11,7 +12,7 @@ const Mapping = () => import('../components/opened-single-sign-on-mapping.vue');
 
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 
-const SingleSignOnRoutes = [
+const SingleSignOnRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/single-sign-on',
 		name: RouteNames.SINGLE_SIGN_ON,

@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import RolesRouteNames from './_internals/RolesRouteNames.enum';
@@ -12,7 +13,7 @@ const ApplicationsAccess = () =>
 const Permissions = () =>
 	import('../components/role-permissions/opened-role-permissions.vue');
 
-const RolesRoutes = [
+const RolesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/permissions/roles',
 		name: RouteNames.ROLES,

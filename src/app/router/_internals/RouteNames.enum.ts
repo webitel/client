@@ -56,5 +56,5 @@ export default Object.freeze({
 
 	SETTINGS_PAGE: 'settings',
 	PAGE_403: 'access-denied',
-	PAGE_404: '',
+	PAGE_404: 'not-found',
 });

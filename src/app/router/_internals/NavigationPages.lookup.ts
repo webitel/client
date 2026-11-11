@@ -1,6 +1,13 @@
 import { AdminSections, WtApplication } from '@webitel/ui-sdk/enums';
 
-const nav = Object.freeze([
+export interface NavigationPage {
+	value: string;
+	locale: string;
+	route: string;
+	subNav?: NavigationPage[];
+}
+
+const nav: readonly NavigationPage[] = Object.freeze([
 	{
 		value: 'directory',
 		locale: 'nav.directory.directory',

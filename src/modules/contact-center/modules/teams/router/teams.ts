@@ -1,5 +1,6 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import TeamsRouteNames from './_internals/TeamsRouteNames.enum';
@@ -18,7 +19,7 @@ const OpenedTeamHooks = () =>
 const OpenedTeamFlows = () =>
 	import('../modules/flow/components/opened-team-flows.vue');
 
-const TeamsRoutes = [
+const TeamsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/teams',
 		name: RouteNames.TEAMS,

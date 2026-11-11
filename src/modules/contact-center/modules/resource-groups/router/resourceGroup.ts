@@ -1,5 +1,6 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ResourcesGroupsRouteNames from './_internals/ResourcesGroupsRouteNames.enum';
@@ -13,7 +14,7 @@ const Timerange = () =>
 const Resources = () =>
 	import('../modules/resources/components/opened-resource-group-resources.vue');
 
-const ResourceGroupRoutes = [
+const ResourceGroupRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/resource-groups',
 		name: RouteNames.RESOURCE_GROUPS,

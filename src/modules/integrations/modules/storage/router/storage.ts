@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import StorageRouteNames from './_internals/StorageRouteNames.enum';
@@ -8,7 +9,7 @@ const OpenedStorage = () => import('../components/opened-storage.vue');
 const General = () => import('../components/opened-storage-general.vue');
 const S3 = () => import('../components/opened-storage-s3.vue');
 
-const StorageRoutes = [
+const StorageRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/storage',
 		name: RouteNames.STORAGE,

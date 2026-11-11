@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import BucketsRouteNamesEnum from './_internals/BucketsRouteNames.enum';
@@ -9,7 +10,7 @@ const OpenedBucket = () => import('../components/opened-bucket.vue');
 const OpenedBucketGeneral = () =>
 	import('../components/opened-bucket-general.vue');
 
-const BucketsRoutes = [
+const BucketsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/buckets',
 		name: RouteNames.BUCKETS,

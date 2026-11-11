@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import RegionRouteNames from './_internals/RegionRouteNames.enum';
@@ -8,7 +9,7 @@ const OpenedRegion = () => import('../components/opened-region.vue');
 const OpenedRegionGeneral = () =>
 	import('../components/opened-region-general.vue');
 
-const RegionsRoutes = [
+const RegionsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/regions',
 		name: RouteNames.REGIONS,

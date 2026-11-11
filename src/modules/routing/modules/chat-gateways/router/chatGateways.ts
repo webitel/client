@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatGatewayRouteNames from './_internals/ChatGatewayRouteNames.enum';
@@ -44,7 +45,7 @@ const OpenedChatGatewayWebchatRecaptcha = () =>
 const OpenedChatGatewayViberStyle = () =>
 	import('../modules/viber/components/opened-chat-gateway-viber-style.vue');
 
-const ChatGatewaysRoutes = [
+const ChatGatewaysRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/chat-gateways',
 		name: RouteNames.CHAT_GATEWAYS,

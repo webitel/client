@@ -1,5 +1,6 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import UsersRouteNames from './_internals/UsersRouteNames.enum';
@@ -16,7 +17,7 @@ const OpenedUserTokens = () =>
 const OpenedUserLogs = () =>
 	import('../modules/logs/components/opened-user-logs.vue');
 
-const UsersRoutes = [
+const UsersRoutes: RouteRecordRaw[] = [
 	{
 		path: '/directory/users',
 		name: RouteNames.USERS,

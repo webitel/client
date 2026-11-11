@@ -1,5 +1,6 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import AgentsRouteNames from './_internals/AgentsRouteNames.enum';
@@ -15,7 +16,7 @@ const Subordinates = () =>
 	import('../modules/subordinates/components/opened-agent-subordinates.vue');
 const Wfm = () => import('../components/opened-agent-wfm.vue');
 
-const AgentRoutes = [
+const AgentRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/agents',
 		name: RouteNames.AGENTS,

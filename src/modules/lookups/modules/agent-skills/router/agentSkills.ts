@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import AgentSkillsRouteNames from './_internals/AgentSkillsRouteNames.enum';
@@ -11,7 +12,7 @@ const OpenedAgentSkillGeneral = () =>
 const OpenedSkillAgents = () =>
 	import('../modules/agents/components/opened-skill-agents.vue');
 
-const AgentSkillsRoutes = [
+const AgentSkillsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/skills',
 		name: RouteNames.SKILLS,

@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import GatewaysRouteNames from './_internals/GatewaysRouteNames.enum';
@@ -10,7 +11,7 @@ const OpenedGatewayGeneral = () =>
 const OpenedGatewayConfiguration = () =>
 	import('../components/opened-gateway-configuration.vue');
 
-const GatewaysRoutes = [
+const GatewaysRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/gateways',
 		name: RouteNames.GATEWAYS,

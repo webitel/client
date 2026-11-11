@@ -1,7 +1,8 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
-import QuickRepliesRouteNamesEnum from './_internals/QuickRepliesRouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import QuickRepliesRouteNamesEnum from './_internals/QuickRepliesRouteNames.enum';
 
 const QuickReplies = () => import('../components/the-quick-replies.vue');
 const OpenedQuickReply = () => import('../components/opened-quick-reply.vue');
@@ -9,7 +10,7 @@ const OpenedQuickReply = () => import('../components/opened-quick-reply.vue');
 const OpenedQuickReplyGeneral = () =>
 	import('../components/opened-quick-reply-general.vue');
 
-const QuickRepliesRoutes = [
+const QuickRepliesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/quick-replies',
 		name: RouteNames.QUICK_REPLIES,

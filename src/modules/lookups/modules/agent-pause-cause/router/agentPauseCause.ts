@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import AgentPauseCauseRouteNames from './_internals/AgentPauseCauseRouteNames.enum';
@@ -10,7 +11,7 @@ const OpenedAgentPauseCause = () =>
 const OpenedAgentPauseCauseGeneral = () =>
 	import('../components/opened-agent-pause-cause-general.vue');
 
-const AgentPauseCauseRoutes = [
+const AgentPauseCauseRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/pause-cause',
 		name: RouteNames.PAUSE_CAUSE,

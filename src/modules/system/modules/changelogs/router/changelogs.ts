@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import OpenedChangelog from '../components/opened-changelog.vue';
@@ -7,7 +8,7 @@ import Changelogs from '../components/the-changelogs.vue';
 import OpenedChangelogLogs from '../modules/logs/components/opened-changelog-logs.vue';
 import ChangelogsRouteNames from './_internals/ChangelogsRouteNames.enum';
 
-const ChangeLogsRoutes = [
+const ChangeLogsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/system/changelogs',
 		name: RouteNames.CHANGELOGS,

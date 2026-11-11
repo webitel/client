@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import EmailProfilesRouteNames from './_internals/EmailProfilesRouteNames.enum';
@@ -9,7 +10,7 @@ const OpenedEmailProfile = () =>
 
 const General = () => import('../components/opened-email-profile-general.vue');
 
-const EmailProfilesRoutes = [
+const EmailProfilesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/email-profiles',
 		name: RouteNames.EMAIL_PROFILES,

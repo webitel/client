@@ -1,5 +1,6 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import DevicesRouteNames from './_internals/DevicesRouteNames.enum';
@@ -13,7 +14,7 @@ const OpenedDevicePhoneInfo = () =>
 const OpenedHotdeskDeviceHotdesking = () =>
 	import('../components/opened-hotdesk-device-hotdesking.vue');
 
-const DevicesRoutes = [
+const DevicesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/directory/devices',
 		name: RouteNames.DEVICES,

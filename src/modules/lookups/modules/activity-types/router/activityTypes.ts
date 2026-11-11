@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import ActivityTypeRouteNames from './_internals/ActivityTypeRouteNames.enum';
@@ -8,14 +9,14 @@ const OpenedActivityType = () =>
 	import('../components/opened-activity-type.vue');
 const General = () => import('../components/opened-activity-type-general.vue');
 
-const ActivityTypeRoutes = [
+const ActivityTypeRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/activity-types',
 		name: RouteNames.ACTIVITY_TYPES,
 		component: ActivityTypes,
 		meta: {
 			WtObject: WtObject.ActivityType,
-			UiSection: AdminSections.ActivityType,
+			UiSection: AdminSections.ActivityTypes,
 		},
 	},
 	{
@@ -27,7 +28,7 @@ const ActivityTypeRoutes = [
 		component: OpenedActivityType,
 		meta: {
 			WtObject: WtObject.ActivityType,
-			UiSection: AdminSections.ActivityType,
+			UiSection: AdminSections.ActivityTypes,
 		},
 		children: [
 			{

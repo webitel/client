@@ -1,4 +1,5 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
 import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import CommunicationsRouteNamesEnum from './_internals/CommunicationsRouteNames.enum';
@@ -10,7 +11,7 @@ const OpenedCommunicationType = () =>
 const OpenedCommunicationTypeGeneral = () =>
 	import('../components/opened-communication-type-general.vue');
 
-const CommunicationsRoutes = [
+const CommunicationsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/communications',
 		name: RouteNames.COMMUNICATIONS,

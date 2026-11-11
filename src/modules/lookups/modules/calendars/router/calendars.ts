@@ -1,7 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum.js';
+import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
 import CalendarRouteNames from './_internals/CalendarRouteNames.enum';
 
 const Calendars = () => import('../components/the-calendars.vue');
@@ -16,7 +17,7 @@ const OpenedCalendarWorkingWeek = () =>
 const OpenedCalendarSpecialTime = () =>
 	import('../components/opened-calendar-special-time.vue');
 
-const CalendarsRoutes = [
+const CalendarsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/calendars',
 		name: RouteNames.CALENDARS,
