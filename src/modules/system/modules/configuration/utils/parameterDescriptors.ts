@@ -210,6 +210,16 @@ const parameterDescriptors: {
 		defaultValue: 30,
 		valueSchema: z.number().min(1),
 	},
+	[EngineSystemSettingName.MaxLoginAttempts]: {
+		type: ConfigurationValueType.Number,
+		defaultValue: 5,
+		valueSchema: z.number().min(1),
+	},
+	[EngineSystemSettingName.BlockLoginTime]: {
+		type: ConfigurationValueType.Number,
+		defaultValue: 60,
+		valueSchema: z.number().min(1),
+	},
 };
 
 // parameters the backend already exposes but the frontend hasn't mapped yet
