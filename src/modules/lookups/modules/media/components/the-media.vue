@@ -294,6 +294,16 @@ const downloadZip = () =>
 		progress: {
 			loaded: () => filesDownloadProgress.value.count,
 		},
+		/* [Claude] files that failed are left out of the zip – tell how many instead of a plain success */
+		getNotification: ({ skipped }) =>
+			skipped
+				? {
+						type: 'warning',
+						text: t('systemNotifications.download.successWithSkipped', {
+							count: skipped,
+						}),
+					}
+				: undefined,
 	});
 
 /* [Claude] fetched instead of a plain link, so we know when the download ends – for the loader and toasts */
