@@ -42,7 +42,7 @@
         @close="closeDelete"
       />
       <object-list-popup
-        v-show="objectListPopupData"
+        v-if="objectListPopupData"
         :data-list="objectListPopupData"
         :route-name="objectListPopupItemRouteName"
         :title="objectListPopupTitle"

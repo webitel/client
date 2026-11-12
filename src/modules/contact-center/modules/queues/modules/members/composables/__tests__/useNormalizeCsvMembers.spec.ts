@@ -375,5 +375,7 @@ describe('useNormalizeCsvMembers', () => {
 		expect(payload.parentId).toBe('42');
 		expect(payload.fileName).toBe('members.csv');
 		expect(payload.items).toHaveLength(1);
+		// [Claude] the import shows one "imported" toast, so chunks don't notify each (WTEL-10817)
+		expect(payload.notifySuccess).toBe(false);
 	});
 });

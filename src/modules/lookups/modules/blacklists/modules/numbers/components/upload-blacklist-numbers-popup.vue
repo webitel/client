@@ -2,6 +2,7 @@
   <wt-upload-csv-popup
     :add-bulk-items="saveBulkData"
     :file="file"
+    :import-runner="importRunner"
     :mapping-fields="mappingFields"
     @change-mapping-fields="mappingFields = $event as CsvMappingField[]"
     @close="close"
@@ -10,7 +11,7 @@
 
 <script lang="ts" setup>
 import { BlacklistNumbersAPI } from '@webitel/api-services/api';
-import { useEventBus } from '@webitel/ui-sdk/composables';
+import { type ImportRunner, useEventBus } from '@webitel/ui-sdk/composables';
 import {
 	type CsvMappingField,
 	WtUploadCsvPopup,
@@ -21,6 +22,7 @@ import { useI18n } from 'vue-i18n';
 const props = defineProps<{
 	file: File | null;
 	parentId: string | number; // required to create new numbers
+	importRunner: ImportRunner;
 }>();
 
 const emit = defineEmits<{
@@ -53,7 +55,7 @@ const mappingFields = ref<CsvMappingField[]>([
 	},
 ]);
 
-// [Claude] the popup saves the file in chunks, so counts are summed up to report once on close
+// [Claude] the file is saved in chunks, so counts are summed up to report once the import is done
 const importedCount = ref(0);
 const skippedCount = ref(0);
 
@@ -66,7 +68,11 @@ const saveBulkData = async (items: unknown[]) => {
 	skippedCount.value += failures.length;
 };
 
-const close = () => {
+// [Claude] the popup closes when the import starts, so skipped numbers are reported after the page's runner is done
+const importRunner: ImportRunner = async (job, options) => {
+	importedCount.value = 0;
+	skippedCount.value = 0;
+	await props.importRunner(job, options);
 	if (skippedCount.value) {
 		eventBus.$emit('notification', {
 			type: 'info',
@@ -76,8 +82,7 @@ const close = () => {
 			}),
 		});
 	}
-	importedCount.value = 0;
-	skippedCount.value = 0;
-	emit('close');
 };
+
+const close = () => emit('close');
 </script>

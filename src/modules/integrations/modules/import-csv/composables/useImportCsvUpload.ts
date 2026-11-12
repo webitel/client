@@ -1,5 +1,9 @@
 import { QueueMembersAPI } from '@webitel/api-services/api';
 import type { ImportTemplateCard } from '@webitel/api-services/validations';
+import {
+	type ImportRunner,
+	useImportAction,
+} from '@webitel/ui-sdk/composables';
 import { computed, ref } from 'vue';
 
 import { useNormalizeCsvMembers } from '../../../../contact-center/modules/queues/modules/members/composables/useNormalizeCsvMembers';
@@ -13,6 +17,9 @@ import { importCsvMemberMappings } from '../configs/importCsvMemberMappings';
 export const useImportCsvUpload = () => {
 	const uploadingItem = ref<ImportTemplateCard | null>(null);
 	const file = ref<File | null>(null);
+	const isPopupShown = ref(false);
+
+	const { isImporting, isKeyImporting, runImport } = useImportAction();
 
 	const parameters = computed(() => uploadingItem.value?.parameters);
 
@@ -36,11 +43,28 @@ export const useImportCsvUpload = () => {
 		if (!selected) return;
 		uploadingItem.value = item;
 		file.value = selected;
+		isPopupShown.value = true;
 	};
 
-	const closeUpload = () => {
+	const clearUpload = () => {
 		file.value = null;
 		uploadingItem.value = null;
+	};
+
+	// [Claude] chunks are saved after the popup closes, and they read the queue and mappings from uploadingItem – so it is kept until the import ends (WTEL-10817)
+	const closeUpload = () => {
+		isPopupShown.value = false;
+		if (!isImporting.value) clearUpload();
+	};
+
+	const importCsv: ImportRunner = async (job) => {
+		try {
+			await runImport(job, {
+				key: uploadingItem.value?.id,
+			});
+		} finally {
+			clearUpload();
+		}
 	};
 
 	const clearMembersBeforeUpload = () => {
@@ -53,6 +77,10 @@ export const useImportCsvUpload = () => {
 
 	return {
 		file,
+		isPopupShown,
+		isImporting,
+		isKeyImporting,
+		importCsv,
 		parameters,
 		mappingFields,
 		saveBulkData,

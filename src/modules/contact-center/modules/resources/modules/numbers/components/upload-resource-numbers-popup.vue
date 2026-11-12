@@ -4,12 +4,14 @@
     :mapping-fields="mappingFields"
     :handling-mode="HandlingCSVMode.UPLOAD"
     :file-upload-handler="uploadFile"
+    :import-runner="importRunner"
     @close="emit('close')"
   />
 </template>
 
 <script lang="ts" setup>
 import { ResourceDisplaysAPI } from '@webitel/api-services/api';
+import type { ImportRunner } from '@webitel/ui-sdk/composables';
 import {
 	type CsvMappingField,
 	HandlingCSVMode,
@@ -20,6 +22,7 @@ import { ref } from 'vue';
 const props = defineProps<{
 	file: File;
 	parentId: string | number;
+	importRunner?: ImportRunner;
 }>();
 
 const emit = defineEmits<{

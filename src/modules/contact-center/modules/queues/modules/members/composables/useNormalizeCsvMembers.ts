@@ -8,7 +8,7 @@ import {
 	memberCommunicationSchema,
 	phoneNumberSchema,
 } from '@webitel/api-services/validations';
-import type { Ref } from 'vue';
+import { type Ref, ref, watch } from 'vue';
 
 const { dtmf: dtmfSchema } = memberCommunicationSchema.shape;
 const destinationSchemaByChannel = {
@@ -194,11 +194,25 @@ export const useNormalizeCsvMembers = ({
 		});
 	};
 
+	// [Claude] chunks are saved after the popup closes and the page clears the file, so its name is kept (WTEL-10817)
+	const fileName = ref('');
+	watch(
+		file,
+		(value) => {
+			if (value) fileName.value = value.name;
+		},
+		{
+			immediate: true,
+		},
+	);
+
 	const saveBulkData = async (data: CsvRow[]) =>
 		QueueMembersAPI.addBulk({
 			parentId: parentId.value,
-			fileName: file.value?.name ?? '',
+			fileName: fileName.value,
 			items: await normalizeData(data),
+			// [Claude] one "imported" toast comes from the import itself, not one per chunk (WTEL-10817)
+			notifySuccess: false,
 		});
 
 	return {
