@@ -81,7 +81,7 @@ import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import QueueTypeProperties from '../../../../queues/lookups/QueueTypeProperties.lookup';
 import { useAgentQueuesDatalistStore } from '../stores/datalist/agentQueuesDatalistStore';
 
@@ -110,7 +110,7 @@ const {
 } = agentQueuesDatalistStore;
 
 const queueLink = (item: EngineAgentInQueue) => ({
-	name: `${RouteNames.QUEUES}-card`,
+	name: `${RouteNames.Queues}-card`,
 	params: {
 		id: item.queue?.id,
 		type: QueueTypeProperties[item.type].subpath,

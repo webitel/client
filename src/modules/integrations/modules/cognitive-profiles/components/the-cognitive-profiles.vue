@@ -81,7 +81,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.COGNITIVE_PROFILES}-card`,
+                  name: `${RouteNames.CognitiveProfiles}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -156,7 +156,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import emptyPicDark from '../assets/adm-empty-cognitive-profiles-dark.svg';
 import emptyPicLight from '../assets/adm-empty-cognitive-profiles-light.svg';
 import { useCognitiveProfilesDatalistStore } from '../stores/datalist/cognitiveProfilesDatalistStore';
@@ -265,7 +265,7 @@ const add = () => {
 
 const edit = ({ id }: CognitiveProfileCard) =>
 	router.push({
-		name: `${RouteNames.COGNITIVE_PROFILES}-card`,
+		name: `${RouteNames.CognitiveProfiles}-card`,
 		params: {
 			id,
 		},

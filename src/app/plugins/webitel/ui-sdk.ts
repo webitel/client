@@ -4,21 +4,11 @@ import WebitelUI from '@webitel/ui-sdk';
 import * as locales from '@webitel/ui-sdk/locale';
 import { eventBus } from '@webitel/ui-sdk/scripts';
 
-import '@webitel/ui-sdk/css/main.css';
-
 import i18n from '../../locale/i18n';
 
 const globals = {
 	$baseURL: import.meta.env.BASE_URL,
 };
-
-export default [
-	WebitelUI,
-	{
-		eventBus,
-		globals,
-	},
-];
 
 export const plugin = WebitelUI;
 export const options = {

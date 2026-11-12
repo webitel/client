@@ -16,7 +16,7 @@
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import LogoutAction from '../../../../../_shared/logout-action/logout-action.vue';
+import LogoutAction from '../../../../../../app/components/logout-action.vue';
 import { useUserinfoStore } from '../../../../../userinfo/stores/userinfoStore';
 import SettingsSectionWrapper from '../../../../components/_internals/settings-section-wrapper.vue';
 

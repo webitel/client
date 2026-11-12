@@ -121,5 +121,3 @@ const loadFlowOptions = (params: object) =>
 		],
 	});
 </script>
-
-<style lang="scss" scoped></style>

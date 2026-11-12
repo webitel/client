@@ -57,7 +57,7 @@
               <wt-item-link
                 v-if="item.user"
                 :link="{
-                  name: `${RouteNames.USERS}-card`,
+                  name: `${RouteNames.Users}-card`,
                   params: { id: item.user.id },
                 }"
               >
@@ -99,7 +99,7 @@ import { storeToRefs } from 'pinia';
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import {
 	useLicenseDatalistStore,
 	useLicenseUsersDatalistStore,

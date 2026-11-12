@@ -1,6 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import SingleSignOnRouteNames from './_internals/SingleSignOnRouteNames.enum';
 
 const TheSingleSignOn = () => import('../components/the-single-sign-on.vue');
@@ -11,10 +12,10 @@ const Mapping = () => import('../components/opened-single-sign-on-mapping.vue');
 
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 
-const SingleSignOnRoutes = [
+const SingleSignOnRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/single-sign-on',
-		name: RouteNames.SINGLE_SIGN_ON,
+		name: RouteNames.SingleSignOn,
 		component: TheSingleSignOn,
 		meta: {
 			WtObject: WtObject.SingleSignOn,
@@ -23,7 +24,7 @@ const SingleSignOnRoutes = [
 	},
 	{
 		path: '/integrations/single-sign-on/:id',
-		name: `${RouteNames.SINGLE_SIGN_ON}-card`,
+		name: `${RouteNames.SingleSignOn}-card`,
 		redirect: {
 			name: SingleSignOnRouteNames.GENERAL,
 		},

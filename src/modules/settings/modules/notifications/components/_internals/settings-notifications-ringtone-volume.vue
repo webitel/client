@@ -49,9 +49,7 @@ const {
 } = useRingtoneVolume();
 </script>
 
-<style scoped lang="scss">
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .settings-notifications-ringtone-volume__save {
   align-self: flex-end;
 }
