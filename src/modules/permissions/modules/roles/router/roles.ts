@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import RolesRouteNames from './_internals/RolesRouteNames.enum';
 
 const PermissionsRoles = () => import('../components/the-roles.vue');
@@ -16,7 +16,7 @@ const Permissions = () =>
 const RolesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/permissions/roles',
-		name: RouteNames.ROLES,
+		name: RouteNames.Roles,
 		component: PermissionsRoles,
 		meta: {
 			WtObject: WtObject.Role,
@@ -25,7 +25,7 @@ const RolesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/permissions/roles/:id',
-		name: `${RouteNames.ROLES}-card`,
+		name: `${RouteNames.Roles}-card`,
 		redirect: {
 			name: RolesRouteNames.GENERAL,
 		},

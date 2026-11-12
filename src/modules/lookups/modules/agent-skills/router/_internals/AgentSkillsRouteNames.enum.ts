@@ -1,6 +1,6 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default Object.freeze({
-	GENERAL: `${RouteNames.SKILLS}-general`,
-	AGENTS: `${RouteNames.SKILLS}-agents`,
+	GENERAL: `${RouteNames.Skills}-general`,
+	AGENTS: `${RouteNames.Skills}-agents`,
 });

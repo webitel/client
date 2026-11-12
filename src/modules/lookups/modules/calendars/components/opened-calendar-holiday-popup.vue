@@ -167,7 +167,7 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .opened-calendar-holiday-popup__wrapper {
   display: flex;
   gap: var(--spacing-sm);

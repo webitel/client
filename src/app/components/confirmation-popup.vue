@@ -1,15 +1,15 @@
 <template>
   <wt-popup
     v-if="shown"
-    class="global-state-confirmation-popup"
+    class="confirmation-popup"
     size="sm"
-    @close="handleClose"
+    @close="emit('close')"
   >
     <template #title>
       {{ title ?? t('objects.ccenter.globalStateConfirmation.title') }}
     </template>
     <template #main>
-      <div class="global-state-confirmation-popup__main">
+      <div class="confirmation-popup__main">
         <wt-icon
           icon="attention"
           color="error"
@@ -19,13 +19,15 @@
     </template>
     <template #actions>
       <wt-button
-        @click="handleConfirm"
+        :color="confirmColor"
+        :loading="loading"
+        @click="emit('confirm')"
       >
         {{ t('vocabulary.yes') }}
       </wt-button>
       <wt-button
         color="secondary"
-        @click="handleClose"
+        @click="emit('close')"
       >
         {{ t('vocabulary.no') }}
       </wt-button>
@@ -34,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
 
 interface Props {
@@ -41,6 +44,9 @@ interface Props {
 	description?: string | null;
 	shown?: boolean;
 	affectedCount?: number;
+	/** [Claude] spinner on "yes" while the confirmed action runs */
+	loading?: boolean;
+	confirmColor?: ButtonColor;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -48,6 +54,8 @@ withDefaults(defineProps<Props>(), {
 	affectedCount: 0,
 	title: null,
 	description: null,
+	loading: false,
+	confirmColor: ButtonColor.PRIMARY,
 });
 
 const emit = defineEmits<{
@@ -56,26 +64,18 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-
-function handleConfirm() {
-	emit('confirm');
-}
-
-function handleClose() {
-	emit('close');
-}
 </script>
 
-<style lang="scss" scoped>
-.global-state-confirmation-popup__main {
+<style scoped>
+.confirmation-popup__main {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+}
 
-  .wt-icon {
-    margin-bottom: var(--spacing-sm);
-  }
+.confirmation-popup__main .wt-icon {
+  margin-bottom: var(--spacing-sm);
 }
 </style>
 

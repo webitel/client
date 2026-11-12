@@ -77,7 +77,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.PAUSE_CAUSE}-card`,
+                  name: `${RouteNames.PauseCause}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -162,7 +162,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useAgentPauseCauseDatalistStore } from '../stores/datalist/agentPauseCauseDatalistStore';
 
 const { t } = useI18n();
@@ -223,7 +223,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.PAUSE_CAUSE}-card`,
+		name: `${RouteNames.PauseCause}-card`,
 		params: {
 			id: 'new',
 		},
@@ -231,7 +231,7 @@ const add = () =>
 
 const edit = (item: EngineAgentPauseCause) =>
 	router.push({
-		name: `${RouteNames.PAUSE_CAUSE}-card`,
+		name: `${RouteNames.PauseCause}-card`,
 		params: {
 			id: item.id,
 		},

@@ -1,5 +1,5 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default Object.freeze({
-	GENERAL: `${RouteNames.ACTIVITY_TYPES}-general`,
+	GENERAL: `${RouteNames.ActivityTypes}-general`,
 });

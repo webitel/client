@@ -11,14 +11,11 @@
     </template>
     <template #main>
       <div class="attempts-reset-popup__main">
-        <wt-single-select
-          disabled
-          :model-value="selectedAttemptTypeOption"
-          :options="attemptsResetTypesOptions"
+        <!-- [Claude] calls is the only attempt type: shown, not chosen -->
+        <wt-input-text
           :label="t('objects.ccenter.queues.attemptsReset.attemptType')"
-          :placeholder="t('objects.ccenter.queues.attemptsReset.attemptType')"
-          data-key="value"
-          @update:model-value="attemptTypeInputHandler"
+          :model-value="t('objects.ccenter.queues.attemptsReset.calls')"
+          disabled
         />
         <wt-input-number
           v-model:model-value="resetAttemptsForm.idleForMinutes"
@@ -50,10 +47,8 @@
 
 </template>
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import { AttemptsResetTypeEnum } from '../enums/AttemptsResetType.enum';
 
 type ResetAttemptsFormType = {
 	attemptType: string[];
@@ -68,32 +63,13 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
-const attemptsResetTypesOptions = computed(() => {
-	return Object.values(AttemptsResetTypeEnum).map((type) => ({
-		value: type,
-		locale: `objects.ccenter.queues.attemptsReset.${type}`,
-	}));
-});
-
 const resetAttemptsForm = reactive<ResetAttemptsFormType>({
 	attemptType: [
-		AttemptsResetTypeEnum.CALLS,
+		'calls',
 	],
 	idleForMinutes: 1,
 	result: 'Error',
 });
-
-const selectedAttemptTypeOption = computed(() =>
-	attemptsResetTypesOptions.value.find(
-		(option) => option.value === resetAttemptsForm.attemptType[0],
-	),
-);
-
-function attemptTypeInputHandler(option: { value: string; locale: string }) {
-	resetAttemptsForm.attemptType = [
-		option.value,
-	];
-}
 
 function reset() {
 	emit('reset', resetAttemptsForm);

@@ -12,7 +12,7 @@
 const model = defineModel<boolean>();
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .settings-switcher-row {
   display: flex;
   justify-content: space-between;

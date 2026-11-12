@@ -1,14 +1,14 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 
 const TheConfiguration = () => import('../components/the-configuration.vue');
 
 const ConfigurationRoutes: RouteRecordRaw[] = [
 	{
 		path: '/system/configuration/:id?',
-		name: RouteNames.CONFIGURATION,
+		name: RouteNames.Configuration,
 		component: TheConfiguration,
 		meta: {
 			WtObject: WtObject.Configuration,
