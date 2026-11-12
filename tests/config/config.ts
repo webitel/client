@@ -1,4 +1,5 @@
 import { config } from '@vue/test-utils';
+import ToastService from 'primevue/toastservice';
 import { vi } from 'vitest';
 import { createI18n } from 'vue-i18n';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -49,3 +50,5 @@ const i18n = createI18n({
 
 config.global.plugins.push(router);
 config.global.plugins.push(i18n);
+// [Claude] the ui-sdk plugin isn't installed here, so components calling useToast() (e.g. via useDownloadAction) need it directly
+config.global.plugins.push(ToastService);

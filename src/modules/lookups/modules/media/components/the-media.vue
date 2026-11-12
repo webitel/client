@@ -7,12 +7,12 @@
       <wt-page-header hide-primary>
         <wt-breadcrumb :path="path" />
         <template #actions>
-          <download-media-files-action
-            :loading="isFilesLoading"
-            :downloaded-count="filesDownloadProgress.count"
-            :zipping-percent="filesZippingProgress.percent"
-            @click="exportFiles"
-          />
+          <wt-button
+            :loading="isZipDownloading"
+            @click="downloadZip"
+          >
+            {{ t('utils.downloadFilesBtn.downloadFiles') }}
+          </wt-button>
         </template>
       </wt-page-header>
     </template>
@@ -75,7 +75,7 @@
         >
           <wt-loader
             v-if="isUploading"
-            size="sm"
+            :size="ComponentSize.SM"
           />
           <template v-else>
             <wt-icon
@@ -136,14 +136,14 @@
                 :icon="getFileTypeIcon(item.mimeType, { fallback: 'docs' })"
                 @click="openFile(item)"
               />
+              <wt-loader
+                v-if="isFileDownloading(item.id)"
+                :size="ComponentSize.SM"
+              />
               <wt-icon-action
+                v-else
                 action="download"
-                @click="
-                  downloadStorageFile({
-                    url: getDownloadUrl(item),
-                    name: item.name,
-                  })
-                "
+                @click="downloadFile(item)"
               />
               <wt-icon-action
                 :disabled="!hasDeleteAccess"
@@ -188,17 +188,20 @@ import {
 import type { StorageMediaFile } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { WtPlayer } from '@webitel/ui-sdk/components';
-import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
-import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
+import { useDownloadAction } from '@webitel/ui-sdk/composables';
 import {
-	downloadStorageFile,
-	getFileTypeIcon,
-} from '@webitel/ui-sdk/scripts/file';
+	ComponentSize,
+	FormatDateMode,
+	IconAction,
+} from '@webitel/ui-sdk/enums';
+import { useFilesExport } from '@webitel/ui-sdk/modules/FilesExport';
+import { getFileTypeIcon } from '@webitel/ui-sdk/scripts/file';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
 import prettifyFileSize from '@webitel/ui-sdk/src/scripts/prettifyFileSize';
 import { formatDate } from '@webitel/ui-sdk/utils';
+import { saveAs } from 'file-saver-es';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -209,7 +212,6 @@ import { useMediaPlayer } from '../composables/useMediaPlayer';
 import { useMediaUpload } from '../composables/useMediaUpload';
 import { getMediaUrlAuth } from '../scripts/getMediaUrlAuth';
 import { useMediaDatalistStore } from '../stores/datalist/mediaDatalistStore';
-import DownloadMediaFilesAction from './download-media-files-action.vue';
 import TextToSpeechPopup from './text-to-speech-popup.vue';
 
 const { t } = useI18n();
@@ -263,12 +265,7 @@ const getDownloadUrl = ({ id }: { id?: unknown }) =>
 		auth: getMediaUrlAuth(),
 	});
 
-const {
-	exportFiles,
-	isLoading: isFilesLoading,
-	downloadStatus: filesDownloadProgress,
-	zippingStatus: filesZippingProgress,
-} = useFilesExport({
+const { exportFiles, downloadStatus: filesDownloadProgress } = useFilesExport({
 	getFileURL: ({ id }) =>
 		getDownloadUrl({
 			id,
@@ -284,6 +281,33 @@ const {
 	filename: 'media',
 	skipFilesWithError: true,
 });
+
+/* [Claude] separate instances: a row download must not spin the zip button and vice versa */
+const { isLoading: isZipDownloading, runDownload: runZipDownload } =
+	useDownloadAction();
+const { isKeyLoading: isFileDownloading, runDownload: runFileDownload } =
+	useDownloadAction();
+
+/* [Claude] backend gives no total count, so the toast shows only the loaded count */
+const downloadZip = () =>
+	runZipDownload(exportFiles, {
+		progress: {
+			loaded: () => filesDownloadProgress.value.count,
+		},
+	});
+
+/* [Claude] fetched instead of a plain link, so we know when the download ends – for the loader and toasts */
+const downloadFile = (item: StorageMediaFile) =>
+	runFileDownload(
+		async () => {
+			const response = await fetch(getDownloadUrl(item));
+			if (!response.ok) throw new Error(response.statusText);
+			saveAs(await response.blob(), item.name);
+		},
+		{
+			key: item.id,
+		},
+	);
 
 const path = computed(() => [
 	{
