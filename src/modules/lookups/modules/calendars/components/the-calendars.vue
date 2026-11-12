@@ -74,12 +74,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.CALENDARS"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.Calendars}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #actions="{ item }">
@@ -128,7 +130,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useCalendarsDatalistStore } from '../stores';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
@@ -189,7 +191,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.CALENDARS}-card`,
+		name: `${RouteNames.Calendars}-card`,
 		params: {
 			id: 'new',
 		},
@@ -197,7 +199,7 @@ const add = () =>
 
 const edit = (item: EngineCalendar) =>
 	router.push({
-		name: `${RouteNames.CALENDARS}-card`,
+		name: `${RouteNames.Calendars}-card`,
 		params: {
 			id: item.id,
 		},

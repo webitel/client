@@ -77,7 +77,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.EMAIL_PROFILES}-card`,
+                  name: `${RouteNames.EmailProfiles}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -88,7 +88,7 @@
               <wt-item-link
                 v-if="item.schema"
                 :link="{
-                  name: `${RouteNames.FLOW}-card`,
+                  name: `${RouteNames.Flow}-card`,
                   params: { id: item.schema.id },
                 }"
                 target="_blank"
@@ -157,7 +157,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import emptyPicDark from '../assets/adm-empty-email-profile-dark.svg';
 import emptyPicLight from '../assets/adm-empty-email-profile-light.svg';
 import { useEmailProfilesDatalistStore } from '../stores/datalist/emailProfilesDatalistStore';
@@ -220,7 +220,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.EMAIL_PROFILES}-card`,
+		name: `${RouteNames.EmailProfiles}-card`,
 		params: {
 			id: 'new',
 		},
@@ -228,7 +228,7 @@ const add = () =>
 
 const edit = ({ id }: EngineEmailProfile) =>
 	router.push({
-		name: `${RouteNames.EMAIL_PROFILES}-card`,
+		name: `${RouteNames.EmailProfiles}-card`,
 		params: {
 			id,
 		},

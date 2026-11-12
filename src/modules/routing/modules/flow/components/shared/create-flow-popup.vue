@@ -64,7 +64,7 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../app/router/_internals/RouteNames.enum';
 import { useAppearanceStore } from '../../../../../appearance/store/appearanceStore';
 import CodeSectionDark from '../../assets/code-section-dark.svg';
 import CodeSectionLight from '../../assets/code-section-light.svg';
@@ -119,7 +119,7 @@ const close = () => {
 /** [Claude] the card reads the editor and type from the query, so nothing is stored here */
 const create = () => {
 	const { href } = router.resolve({
-		name: `${RouteNames.FLOW}-card`,
+		name: `${RouteNames.Flow}-card`,
 		params: {
 			id: 'new',
 		},

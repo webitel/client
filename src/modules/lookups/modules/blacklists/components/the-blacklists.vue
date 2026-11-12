@@ -86,7 +86,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.BLACKLIST}-card`,
+                  name: `${RouteNames.Blacklist}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -149,7 +149,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import dummyPicDark from '../assets/adm-dummy-blacklist-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-blacklist-light.svg';
 import { useBlacklistsDatalistStore } from '../stores/datalist/blacklistsDatalistStore';
@@ -231,7 +231,7 @@ const path = computed(() => [
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.BLACKLIST}-card`,
+		name: `${RouteNames.Blacklist}-card`,
 		params: {
 			id: 'new',
 		},
@@ -239,7 +239,7 @@ const create = () =>
 
 const edit = (item: EngineList) =>
 	router.push({
-		name: `${RouteNames.BLACKLIST}-card`,
+		name: `${RouteNames.Blacklist}-card`,
 		params: {
 			id: item.id,
 		},

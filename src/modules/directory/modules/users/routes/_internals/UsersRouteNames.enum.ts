@@ -1,10 +1,10 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default Object.freeze({
-	GENERAL: `${RouteNames.USERS}-general`,
-	COMMUNICATIONS: `${RouteNames.USERS}-communications`,
-	VARIABLES: `${RouteNames.USERS}-variables`,
-	TOKENS: `${RouteNames.USERS}-tokens`,
-	LOGS: `${RouteNames.USERS}-logs`,
-	PERMISSIONS: `${RouteNames.USERS}-permissions`,
+	GENERAL: `${RouteNames.Users}-general`,
+	COMMUNICATIONS: `${RouteNames.Users}-communications`,
+	VARIABLES: `${RouteNames.Users}-variables`,
+	TOKENS: `${RouteNames.Users}-tokens`,
+	LOGS: `${RouteNames.Users}-logs`,
+	PERMISSIONS: `${RouteNames.Users}-permissions`,
 });

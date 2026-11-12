@@ -1,60 +1,62 @@
-export default Object.freeze({
-	AUTH: 'auth',
-	APPLICATION_HUB: 'application-hub',
-	HOME: 'home',
-	START: 'start',
+export const RouteNames = {
+	Auth: 'auth',
+	ApplicationHub: 'application-hub',
+	Home: 'home',
+	Start: 'start',
 
 	// DIRECTORY
-	LICENSE: 'license',
-	USERS: 'users',
-	DEVICES: 'devices',
+	License: 'license',
+	Users: 'users',
+	Devices: 'devices',
 
 	// ROUTING
-	FLOW: 'flow',
-	DIALPLAN: 'dialplan',
-	GATEWAYS: 'gateways',
-	CHATPLAN: 'chatplan',
-	CHAT_GATEWAYS: 'chat-gateways',
+	Flow: 'flow',
+	Dialplan: 'dialplan',
+	Gateways: 'gateways',
+	Chatplan: 'chatplan',
+	ChatGateways: 'chat-gateways',
 
 	// LOOKUPS
-	SKILLS: 'skills',
-	BUCKETS: 'buckets',
-	BLACKLIST: 'blacklists',
-	REGIONS: 'regions',
-	CALENDARS: 'calendars',
-	COMMUNICATIONS: 'communications',
-	PAUSE_CAUSE: 'agent-pause-cause',
-	ACTIVITY_TYPES: 'activity-types',
-	MEDIA: 'media',
-	QUICK_REPLIES: 'quick-replies',
+	Skills: 'skills',
+	Buckets: 'buckets',
+	Blacklist: 'blacklists',
+	Regions: 'regions',
+	Calendars: 'calendars',
+	Communications: 'communications',
+	PauseCause: 'agent-pause-cause',
+	ActivityTypes: 'activity-types',
+	Media: 'media',
+	QuickReplies: 'quick-replies',
 
 	// CONTACT-CENTER
-	AGENTS: 'agents',
-	TEAMS: 'teams',
-	RESOURCES: 'resources',
-	RESOURCE_GROUPS: 'resource-groups',
-	QUEUES: 'queues',
-	MEMBERS: 'queues-members',
+	Agents: 'agents',
+	Teams: 'teams',
+	Resources: 'resources',
+	ResourceGroups: 'resource-groups',
+	Queues: 'queues',
+	Members: 'queues-members',
 
 	// INTEGRATIONS
-	STORAGE: 'storage',
-	STORAGE_POLICIES: 'storage-policies',
-	COGNITIVE_PROFILES: 'cognitive-profiles',
-	EMAIL_PROFILES: 'email-profiles',
-	SINGLE_SIGN_ON: 'single-sign-on',
-	IMPORT_CSV: 'import-csv',
-	TRIGGERS: 'triggers',
+	Storage: 'storage',
+	StoragePolicies: 'storage-policies',
+	CognitiveProfiles: 'cognitive-profiles',
+	EmailProfiles: 'email-profiles',
+	SingleSignOn: 'single-sign-on',
+	ImportCsv: 'import-csv',
+	Triggers: 'triggers',
 
 	// PERMISSIONS
-	OBJECTS: 'objects',
-	ROLES: 'roles',
+	Objects: 'objects',
+	Roles: 'roles',
 
 	// SYSTEM
-	CHANGELOGS: 'changelogs',
-	CONFIGURATION: 'configuration',
-	GLOBAL_VARIABLES: 'global-variables',
+	Changelogs: 'changelogs',
+	Configuration: 'configuration',
+	GlobalVariables: 'global-variables',
 
-	SETTINGS_PAGE: 'settings',
-	PAGE_403: 'access-denied',
-	PAGE_404: 'not-found',
-});
+	SettingsPage: 'settings',
+	Page403: 'access-denied',
+	Page404: 'not-found',
+} as const;
+
+export type RouteNames = (typeof RouteNames)[keyof typeof RouteNames];

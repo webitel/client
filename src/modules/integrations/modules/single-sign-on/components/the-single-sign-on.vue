@@ -72,7 +72,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.SINGLE_SIGN_ON}-card`,
+                  name: `${RouteNames.SingleSignOn}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -141,7 +141,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useSingleSignOnDataListStore } from '../stores';
 
 const { t } = useI18n();
@@ -210,7 +210,7 @@ const getProviderIcon = (url) => {
 
 const add = () => {
 	return router.push({
-		name: `${RouteNames.SINGLE_SIGN_ON}-card`,
+		name: `${RouteNames.SingleSignOn}-card`,
 		params: {
 			id: 'new',
 		},
@@ -219,7 +219,7 @@ const add = () => {
 
 const edit = (item: ApiOAuthService) => {
 	return router.push({
-		name: `${RouteNames.SINGLE_SIGN_ON}-card`,
+		name: `${RouteNames.SingleSignOn}-card`,
 		params: {
 			id: item.id,
 		},
@@ -238,5 +238,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style scoped></style>

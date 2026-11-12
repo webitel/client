@@ -2,7 +2,7 @@ import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import CalendarRouteNames from './_internals/CalendarRouteNames.enum';
 
 const Calendars = () => import('../components/the-calendars.vue');
@@ -20,7 +20,7 @@ const OpenedCalendarSpecialTime = () =>
 const CalendarsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/calendars',
-		name: RouteNames.CALENDARS,
+		name: RouteNames.Calendars,
 		component: Calendars,
 		meta: {
 			WtObject: WtObject.Calendar,
@@ -29,7 +29,7 @@ const CalendarsRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/lookups/calendars/:id',
-		name: `${RouteNames.CALENDARS}-card`,
+		name: `${RouteNames.Calendars}-card`,
 		redirect: {
 			name: CalendarRouteNames.GENERAL,
 		},

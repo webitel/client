@@ -93,5 +93,3 @@ const save = async () => {
 const loadResGroupsOptions = (params: unknown) =>
 	ResourceGroupsAPI.getLookup(params);
 </script>
-
-<style lang="scss" scoped></style>

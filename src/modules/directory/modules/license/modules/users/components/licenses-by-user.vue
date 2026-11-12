@@ -52,7 +52,7 @@
         <template #name="{ item }">
           <wt-item-link
             :link="{
-              name: `${RouteNames.USERS}-card`,
+              name: `${RouteNames.Users}-card`,
               params: { id: item.id },
             }"
           >
@@ -97,7 +97,7 @@ import { storeToRefs } from 'pinia';
 import { computed, getCurrentInstance, onMounted } from 'vue';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { buildLicenseByUserHeaders } from '../../../scripts/buildLicenseByUserHeaders';
 import {
 	type LicenseByUserRow,
@@ -215,7 +215,7 @@ onMounted(async () => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 :deep(.wt-table th) {
   word-break: normal;
 }

@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import CommunicationsRouteNamesEnum from './_internals/CommunicationsRouteNames.enum';
 
 const CommunicationTypes = () =>
@@ -14,7 +14,7 @@ const OpenedCommunicationTypeGeneral = () =>
 const CommunicationsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/communications',
-		name: RouteNames.COMMUNICATIONS,
+		name: RouteNames.Communications,
 		component: CommunicationTypes,
 		meta: {
 			WtObject: WtObject.Communication,
@@ -23,7 +23,7 @@ const CommunicationsRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/lookups/communications/:id',
-		name: `${RouteNames.COMMUNICATIONS}-card`,
+		name: `${RouteNames.Communications}-card`,
 		redirect: {
 			name: CommunicationsRouteNamesEnum.GENERAL,
 		},

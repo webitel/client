@@ -61,7 +61,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useGlobalVariablesCardStore } from '../stores/card/globalVariablesCardStore';
 
 const emit = defineEmits<{
@@ -99,7 +99,7 @@ const isSavedEncrypted = computed(
 	() => !isNew.value && !!originalItemInstance.value?.encrypt,
 );
 
-const { close } = useClose(RouteNames.GLOBAL_VARIABLES);
+const { close } = useClose(RouteNames.GlobalVariables);
 
 const save = async () => {
 	await saveItem();

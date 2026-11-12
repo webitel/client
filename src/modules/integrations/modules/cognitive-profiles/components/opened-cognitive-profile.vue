@@ -57,7 +57,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import CognitiveProfilesRouteNames from '../router/_internals/CognitiveProfilesRouteNames.enum';
 import { useCognitiveProfileCardStore } from '../stores/card/cognitiveProfileCardStore';
 import { useCognitiveProfilesPermissionsStore } from '../stores/permissions/cognitiveProfilesPermissionsStore';
@@ -130,7 +130,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: route.params.id,
 }));
 
-const { close } = useClose(RouteNames.COGNITIVE_PROFILES);
+const { close } = useClose(RouteNames.CognitiveProfiles);
 
 const path = computed(() => [
 	{

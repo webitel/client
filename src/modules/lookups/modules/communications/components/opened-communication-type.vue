@@ -53,7 +53,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import CommunicationsRouteNames from '../router/_internals/CommunicationsRouteNames.enum';
 import { useCommunicationTypesCardStore } from '../stores/card/communicationTypesCardStore';
 
@@ -86,7 +86,7 @@ const tabs = computed<CardTab[]>(() => [
 
 const { currentTab, changeTab } = useCardTabs(tabs);
 
-const { close } = useClose(RouteNames.COMMUNICATIONS);
+const { close } = useClose(RouteNames.Communications);
 
 const path = computed(() => [
 	{
