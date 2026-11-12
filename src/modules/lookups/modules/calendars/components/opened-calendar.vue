@@ -66,7 +66,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
 import {
@@ -173,7 +173,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: route.params.id,
 }));
 
-const { close } = useClose(RouteNames.CALENDARS);
+const { close } = useClose(RouteNames.Calendars);
 
 const path = computed(() => [
 	{

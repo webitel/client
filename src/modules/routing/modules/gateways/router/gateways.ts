@@ -1,6 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import GatewaysRouteNames from './_internals/GatewaysRouteNames.enum';
 
 const Gateways = () => import('../components/the-gateways.vue');
@@ -10,10 +11,10 @@ const OpenedGatewayGeneral = () =>
 const OpenedGatewayConfiguration = () =>
 	import('../components/opened-gateway-configuration.vue');
 
-const GatewaysRoutes = [
+const GatewaysRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/gateways',
-		name: RouteNames.GATEWAYS,
+		name: RouteNames.Gateways,
 		component: Gateways,
 		meta: {
 			WtObject: WtObject.Gateway,
@@ -22,7 +23,7 @@ const GatewaysRoutes = [
 	},
 	{
 		path: '/routing/gateways/:id',
-		name: `${RouteNames.GATEWAYS}-card`,
+		name: `${RouteNames.Gateways}-card`,
 		redirect: {
 			name: GatewaysRouteNames.GENERAL,
 		},

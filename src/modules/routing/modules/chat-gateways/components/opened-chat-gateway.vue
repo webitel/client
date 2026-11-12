@@ -63,7 +63,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import OpenedChatGatewayWebchatCopyCodeButton from '../modules/webchat/components/opened-chat-gateway-webchat-copy-code-button.vue';
 import ChatGatewayRouteNames from '../router/_internals/ChatGatewayRouteNames.enum';
 import { useChatGatewayCardStore } from '../stores/card/chatGatewayCardStore';
@@ -249,7 +249,7 @@ const { currentTab, changeTab } = useCardTabs(tabs);
 watch(
 	() => tabs.value[0],
 	(firstTab) => {
-		if (firstTab && route.name === `${RouteNames.CHAT_GATEWAYS}-card`) {
+		if (firstTab && route.name === `${RouteNames.ChatGateways}-card`) {
 			router.replace({
 				name: firstTab.pathName,
 				params: route.params,
@@ -261,7 +261,7 @@ watch(
 		immediate: true,
 	},
 );
-const { close } = useClose(RouteNames.CHAT_GATEWAYS);
+const { close } = useClose(RouteNames.ChatGateways);
 
 const providerTitleLocale: Record<string, string> = {
 	[ChatGatewayProvider.INFOBIP]: 'infobip.infobip',

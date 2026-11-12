@@ -1,7 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import BlacklistRouteNamesEnum from './_internals/BlacklistRouteNames.enum';
 
 const Blacklists = () => import('../components/the-blacklists.vue');
@@ -11,10 +12,10 @@ const OpenedBlacklistGeneral = () =>
 const OpenedBlacklistNumbers = () =>
 	import('../modules/numbers/components/opened-blacklist-numbers.vue');
 
-const BlacklistsRoutes = [
+const BlacklistsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/blacklist',
-		name: RouteNames.BLACKLIST,
+		name: RouteNames.Blacklist,
 		component: Blacklists,
 		meta: {
 			WtObject: WtObject.Blacklist,
@@ -23,7 +24,7 @@ const BlacklistsRoutes = [
 	},
 	{
 		path: '/lookups/blacklist/:id',
-		name: `${RouteNames.BLACKLIST}-card`,
+		name: `${RouteNames.Blacklist}-card`,
 		redirect: {
 			name: BlacklistRouteNamesEnum.GENERAL,
 		},

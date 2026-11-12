@@ -59,14 +59,16 @@
           {{ t(`objects.ccenter.queues.hooks.eventTypes.${item.event}`) }}
         </template>
         <template #schema="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.schema"
-            :id="item.schema.id"
-            :route-name="RouteNames.FLOW"
+            :link="{
+              name: `${RouteNames.Flow}-card`,
+              params: { id: item.schema.id },
+            }"
             target="_blank"
           >
             {{ item.schema.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher
@@ -119,7 +121,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
 import { useQueueHooksDatalistStore } from '../stores/datalist/queueHooksDatalistStore';
 import HookPopup from './opened-queue-hooks-popup.vue';
@@ -215,8 +217,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

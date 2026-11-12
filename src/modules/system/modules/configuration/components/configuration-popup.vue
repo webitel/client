@@ -171,7 +171,7 @@ const save = async () => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .configuration-popup__form {
   display: flex;
   flex-direction: column;

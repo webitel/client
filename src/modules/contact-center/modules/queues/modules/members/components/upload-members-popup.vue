@@ -45,5 +45,3 @@ const { saveBulkData } = useNormalizeCsvMembers({
 	mappingFields,
 });
 </script>
-
-<style lang="scss" scoped></style>

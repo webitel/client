@@ -1,6 +1,6 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../app/router/_internals/RouteNames.enum';
 
 export default Object.freeze({
-	OBAC: `${RouteNames.OBJECTS}-obac`,
-	RBAC: `${RouteNames.OBJECTS}-rbac`,
+	OBAC: `${RouteNames.Objects}-obac`,
+	RBAC: `${RouteNames.Objects}-rbac`,
 });

@@ -61,7 +61,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import UserLogsFiltersPanel from '../modules/logs/components/user-logs-filters-panel.vue';
 import { useUserTokensAccess } from '../modules/tokens/composables/useUserTokensAccess';
 import UsersRouteNames from '../routes/_internals/UsersRouteNames.enum';
@@ -167,7 +167,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: itemId.value,
 }));
 
-const { close } = useClose(RouteNames.USERS);
+const { close } = useClose(RouteNames.Users);
 
 const path = computed(() => [
 	{

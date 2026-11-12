@@ -88,7 +88,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.AGENTS}-card`,
+                  name: `${RouteNames.Agents}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -108,7 +108,7 @@
               <wt-item-link
                 v-if="item.team"
                 :link="{
-                  name: `${RouteNames.TEAMS}-card`,
+                  name: `${RouteNames.Teams}-card`,
                   params: { id: item.team.id },
                 }"
                 target="_blank"
@@ -168,7 +168,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useAgentStatusIndicator } from '../composables/useAgentStatusIndicator';
 import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum';
 import { useAgentsDatalistStore } from '../stores/datalist/agentsDatalistStore';
@@ -235,7 +235,7 @@ const path = computed(() => [
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.AGENTS}-card`,
+		name: `${RouteNames.Agents}-card`,
 		params: {
 			id: 'new',
 		},
@@ -243,7 +243,7 @@ const create = () =>
 
 const edit = (item: EngineAgent) =>
 	router.push({
-		name: `${RouteNames.AGENTS}-card`,
+		name: `${RouteNames.Agents}-card`,
 		params: {
 			id: item.id,
 		},
@@ -260,7 +260,7 @@ const openHistory = (id: string) =>
 
 const closeHistoryPopup = () =>
 	router.push({
-		name: RouteNames.AGENTS,
+		name: RouteNames.Agents,
 		query: route.query,
 	});
 
