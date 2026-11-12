@@ -1,6 +1,11 @@
 <template>
   <div :class="{ 'upload-file-icon-btn--disabled': disabled }" class="upload-file-icon-btn">
+    <wt-loader
+      v-if="loading"
+      :size="ComponentSize.SM"
+    />
     <wt-icon-btn
+      v-else
       v-tooltip="$t('iconHints.upload')"
       icon="upload"
       :disabled="disabled"
@@ -19,6 +24,8 @@
 </template>
 
 <script>
+import { ComponentSize } from '@webitel/ui-sdk/enums';
+
 export default {
 	name: 'UploadFileIconBtn',
 	props: {
@@ -30,7 +37,15 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		// [Claude] shows a loader instead of the icon, e.g. while the picked file is being imported
+		loading: {
+			type: Boolean,
+			default: false,
+		},
 	},
+	setup: () => ({
+		ComponentSize,
+	}),
 	emits: [
 		'change',
 	],

@@ -7,6 +7,7 @@
     <upload-popup
       v-if="csvFile && resourceId"
       :file="csvFile"
+      :import-runner="importCsv"
       :parent-id="resourceId"
       @close="closeCsvPopup"
     />
@@ -52,6 +53,7 @@
           </template>
           <template #upload>
             <upload-file-icon-btn
+              :loading="isImporting"
               :disabled="disableUserInput || !resourceId"
               accept=".csv"
               class="icon-action"
@@ -128,6 +130,10 @@
 import { useNestedTableList } from '@webitel/ui-datalist';
 import { useCardListNavigation } from '@webitel/ui-datalist/card';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import {
+	type ImportRunner,
+	useImportAction,
+} from '@webitel/ui-sdk/composables';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -205,6 +211,13 @@ const processCsv = (files: FileList | File[]) => {
 const closeCsvPopup = () => {
 	csvFile.value = null;
 	loadDataList();
+};
+
+/* [Claude] the popup closes on "Save" and the import continues here, so the list is reloaded once it is done */
+const { isImporting, runImport } = useImportAction();
+const importCsv: ImportRunner = async (job, options) => {
+	await runImport(job, options);
+	await loadDataList();
 };
 
 const {

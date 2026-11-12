@@ -11,6 +11,7 @@
         <template #primary-action>
           <wt-button-select
             :disabled="disableUserInput"
+            :loading="isImporting"
             :options="saveOptions"
             @click="create"
             @click:option="({ callback }) => callback()"
@@ -59,6 +60,7 @@
 
       <upload-popup
         :file="csvFile"
+        :import-runner="importCsv"
         :parent-id="queueId"
         @close="closeCsvPopup"
       />
@@ -294,6 +296,10 @@ import {
 	TableFiltersPanelComponent as TableFiltersPanel,
 } from '@webitel/ui-datalist/filters';
 import { WtDisplayChipItems, WtTimeTooltip } from '@webitel/ui-sdk/components';
+import {
+	type ImportRunner,
+	useImportAction,
+} from '@webitel/ui-sdk/composables';
 import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -589,6 +595,13 @@ const inputFileHandler = (event: Event) => {
 const closeCsvPopup = () => {
 	csvFile.value = null;
 	return loadDataList();
+};
+
+/* [Claude] the popup closes on "Save" and the import continues here, so the list is reloaded once it is done */
+const { isImporting, runImport } = useImportAction();
+const importCsv: ImportRunner = async (job, options) => {
+	await runImport(job, options);
+	await loadDataList();
 };
 
 const memberLink = (item: EngineMemberInQueue) => ({
