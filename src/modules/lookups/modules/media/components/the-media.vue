@@ -207,7 +207,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useMediaPlayer } from '../composables/useMediaPlayer';
 import { useMediaUpload } from '../composables/useMediaUpload';
 import { getMediaUrlAuth } from '../scripts/getMediaUrlAuth';
@@ -355,7 +355,7 @@ const isTextToSpeechOpened = computed(() => route.params.mediaId === 'new');
 const openTextToSpeech = () => {
 	closePlayer();
 	router.push({
-		name: RouteNames.MEDIA,
+		name: RouteNames.Media,
 		params: {
 			mediaId: 'new',
 		},
@@ -365,7 +365,7 @@ const openTextToSpeech = () => {
 
 const closeTextToSpeech = () =>
 	router.replace({
-		name: RouteNames.MEDIA,
+		name: RouteNames.Media,
 		query: route.query,
 	});
 

@@ -1,26 +1,21 @@
+import './app/css/main.css';
 import './app/assets/icons/sprite/_index';
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
-import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
 import { eventBus, reloadOnStaleChunk } from '@webitel/ui-sdk/scripts';
+import * as BreakpointPlugin from '@webitel/ui-sdk/src/plugins/breakpoint/breakpoint.plugin';
+import { configureZod } from '@webitel/ui-sdk/validations';
+import { createPinia } from 'pinia';
 import { createApp } from 'vue';
-import instance from './app/api/instance';
-import ActionComponents from './app/components/actions';
-import AdmItemLink from './app/components/utils/adm-item-link.vue';
 import { createUserAccessControl } from './app/composables/useUserAccessControl';
 import i18n from './app/locale/i18n';
-import BreakpointPlugin from './app/plugins/breakpoint';
 import {
 	plugin as WebitelUi,
 	options as WebitelUiOptions,
 } from './app/plugins/webitel/ui-sdk';
 import { initRouter } from './app/router/router';
-import store, { pinia } from './app/store/store';
+import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
 import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 import App from './the-app.vue';
-
-import './app/css/main.scss';
-import { configureZod } from '@webitel/ui-sdk/validations';
-import { setTokenFromUrl } from './app/scripts/setTokenFromUrl';
 
 const fetchConfig = async () => {
 	const response = await fetch(`${import.meta.env.BASE_URL}config.json`);
@@ -38,15 +33,10 @@ setApiServicesConfig({
 	i18n,
 });
 
-// generated api-services clients call through this app's instance
-setDefaultAxiosInstance(instance);
+const pinia = createPinia();
 
 const createVueInstance = async () => {
-	const app = createApp(App)
-		.use(store)
-		.use(i18n)
-		.use(pinia)
-		.use(BreakpointPlugin);
+	const app = createApp(App).use(i18n).use(pinia).use(BreakpointPlugin);
 
 	const { initialize, routeAccessGuard, clearStorageNotifications } =
 		useUserinfoStore();
@@ -76,12 +66,6 @@ const createVueInstance = async () => {
 		...WebitelUiOptions,
 		router,
 	}); // setup webitel ui after router init
-
-	ActionComponents.forEach((component) => {
-		app.component(component.name, component);
-	});
-
-	app.component('AdmItemLink', AdmItemLink);
 
 	return app;
 };

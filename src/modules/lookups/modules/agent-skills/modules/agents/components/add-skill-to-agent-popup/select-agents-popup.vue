@@ -67,7 +67,7 @@
           <template #name="{ item }">
             <wt-item-link
               :link="{
-                name: `${RouteNames.AGENTS}-card`,
+                name: `${RouteNames.Agents}-card`,
                 params: { id: item.id },
               }"
             >
@@ -78,7 +78,7 @@
             <wt-item-link
               v-if="item.team"
               :link="{
-                name: `${RouteNames.TEAMS}-card`,
+                name: `${RouteNames.Teams}-card`,
                 params: { id: item.team.id },
               }"
             >
@@ -124,7 +124,7 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../../app/router/_internals/RouteNames.enum';
 
 type SelectableAgent = EngineAgent & {
 	_isSelected: boolean;

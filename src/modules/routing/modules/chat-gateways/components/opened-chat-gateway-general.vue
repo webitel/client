@@ -21,15 +21,18 @@
         v-for="field of config.fields"
         :key="field.prop"
       >
-        <copy-input
+        <wt-input-text
           v-if="field.type === 'uri'"
-          v-model="modelValue.uri"
-          :copy-modifier="modifyUriCopy"
+          v-model:model-value="modelValue.uri"
           :disabled="!isUriEditable"
           :label="t('objects.routing.chatGateways.uri')"
           :regle-validation="validationFields?.uri"
           required
-        />
+        >
+          <template #suffix>
+            <wt-copy-action :value="modifyUriCopy(modelValue.uri ?? '')" />
+          </template>
+        </wt-input-text>
         <wt-single-select
           v-else-if="field.type === 'flow'"
           :disabled="disableUserInput || !hasFlowsReadAccess"
@@ -40,16 +43,23 @@
           required
           @update:model-value="setFlow"
         />
-        <generate-value-input
+        <wt-password
           v-else-if="field.type === 'generate'"
+          :actions="[
+            PasswordAction.Copy,
+            PasswordAction.Generate,
+            PasswordAction.Toggle,
+          ]"
           :disabled="disableUserInput"
+          :generator="generateSecret"
           :label="fieldLabel(field)"
           :label-props="fieldLabelProps(field)"
+          :model-value="String(metadata[field.prop] ?? '')"
           :placeholder="fieldLabel(field)"
           :regle-validation="validationFields?.metadata?.$fields?.[field.prop]"
           :required="field.required"
-          :value="String(metadata[field.prop] ?? '')"
-          @input="metadata[field.prop] = $event"
+          hide-hash
+          @update:model-value="metadata[field.prop] = $event"
         />
         <wt-input-text
           v-else
@@ -75,13 +85,16 @@
 import { FlowsAPI } from '@webitel/api-services/api';
 import { ChatGatewayProvider } from '@webitel/api-services/enums';
 import type { ChatGatewayCard } from '@webitel/api-services/validations';
-import { WtObject } from '@webitel/ui-sdk/enums';
+import {
+	PasswordAction,
+	PasswordCategories,
+	WtObject,
+} from '@webitel/ui-sdk/enums';
+import { generatePassword } from '@webitel/ui-sdk/scripts';
 import path from 'path';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CopyInput from '../../../../../app/components/utils/copy-input.vue';
-import GenerateValueInput from '../../../../../app/components/utils/generate-value-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 import {
 	type ChatGatewayGeneralConfig,
@@ -178,6 +191,17 @@ const headerIcon = computed(() => providerHeader.value?.icon);
 const isUriEditable = computed(
 	() => !disableUserInput.value && !modelValue.value.id,
 );
+
+/** [Claude] app secret keeps its old format: 16 letters and digits, no special chars */
+const generateSecret = () =>
+	generatePassword({
+		length: 16,
+		categories: [
+			PasswordCategories.Lowercase,
+			PasswordCategories.Uppercase,
+			PasswordCategories.Digits,
+		],
+	});
 
 /** [Claude] the uri is copied as the full chat url rather than the bare path */
 const modifyUriCopy = (value: string) =>

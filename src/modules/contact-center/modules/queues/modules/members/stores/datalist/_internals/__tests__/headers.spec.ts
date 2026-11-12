@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import en from '../../../../../../../../../../app/locale/en/en.js';
+import en from '../../../../../../../../../../app/locale/en/en';
 import { headers } from '../headers';
 
 const byValue = (value: string) => {

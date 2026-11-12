@@ -89,7 +89,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.IMPORT_CSV}-card`,
+                  name: `${RouteNames.ImportCsv}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -100,7 +100,7 @@
               <wt-item-link
                 v-if="item.source?.id"
                 :link="{
-                  name: `${RouteNames.QUEUES}-card`,
+                  name: `${RouteNames.Queues}-card`,
                   params: { id: item.source.id },
                 }"
               >
@@ -160,7 +160,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useImportCsvUpload } from '../composables/useImportCsvUpload';
 import { useImportCsvDatalistStore } from '../stores/datalist/importCsvDatalistStore';
 import UploadCsvPreviewPopup from './upload-csv-preview-popup.vue';
@@ -226,7 +226,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.IMPORT_CSV}-card`,
+		name: `${RouteNames.ImportCsv}-card`,
 		params: {
 			id: 'new',
 		},
@@ -234,7 +234,7 @@ const add = () =>
 
 const edit = ({ id }: ImportTemplateCard) =>
 	router.push({
-		name: `${RouteNames.IMPORT_CSV}-card`,
+		name: `${RouteNames.ImportCsv}-card`,
 		params: {
 			id,
 		},

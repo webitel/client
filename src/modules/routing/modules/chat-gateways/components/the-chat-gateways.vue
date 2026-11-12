@@ -79,12 +79,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.CHAT_GATEWAYS"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.ChatGateways}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #uri="{ item }">
@@ -92,14 +94,16 @@
             </template>
 
             <template #flow="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.flow"
-                :id="item.flow.id"
-                :route-name="RouteNames.FLOW"
+                :link="{
+                  name: `${RouteNames.Flow}-card`,
+                  params: { id: item.flow.id },
+                }"
                 target="_blank"
               >
                 {{ item.flow.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
 
             <template #provider="{ item }">
@@ -175,7 +179,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useChatGatewayDatalistStore } from '../stores/datalist/chatGatewayDatalistStore';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 
@@ -271,7 +275,7 @@ const path = computed(() => [
 
 const edit = (item: ChatGatewayCard) =>
 	router.push({
-		name: `${RouteNames.CHAT_GATEWAYS}-card`,
+		name: `${RouteNames.ChatGateways}-card`,
 		params: {
 			id: item.id,
 		},

@@ -1,12 +1,12 @@
 export const HookQueueEvent = {
-	JOINED: 'joined',
-	ANSWERED: 'answered',
-	OFFERING: 'offering',
-	BRIDGED: 'bridged',
-	MISSED: 'missed',
-	LEAVING: 'leaving',
-	PROCESSING: 'processing',
-	ACTIVE: 'active',
+	Joined: 'joined',
+	Answered: 'answered',
+	Offering: 'offering',
+	Bridged: 'bridged',
+	Missed: 'missed',
+	Leaving: 'leaving',
+	Processing: 'processing',
+	Active: 'active',
 } as const;
 
 export type HookQueueEvent =

@@ -56,14 +56,16 @@
         @update:selected="updateSelected"
       >
         <template #name="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.resourceGroup"
-            :id="item.resourceGroup.id"
-            :route-name="RouteNames.RESOURCE_GROUPS"
+            :link="{
+              name: `${RouteNames.ResourceGroups}-card`,
+              params: { id: item.resourceGroup.id },
+            }"
             target="_blank"
           >
             {{ item.resourceGroup.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #communication="{ item }">
           <div v-if="item.communication">
@@ -106,7 +108,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useEnsureQueueSaved } from '../../../composables/useEnsureQueueSaved';
 import { useQueueResGroupsDatalistStore } from '../stores/datalist/queueResGroupsDatalistStore';
 import ResourcePopup from './opened-queue-resources-popup.vue';
@@ -187,8 +189,3 @@ const {
 	isLoading,
 });
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>
