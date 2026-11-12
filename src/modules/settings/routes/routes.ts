@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
-import RouteNames from '../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../app/router/_internals/RouteNames.enum';
 import SettingsRouteNames from './_internals/SettingsRouteNames.enum';
 
 const Settings = () => import('../components/the-settings.vue');
@@ -11,7 +11,7 @@ const SettingsNotifications = () =>
 const SettingsRoutes: RouteRecordRaw[] = [
 	{
 		path: '/settings',
-		name: RouteNames.SETTINGS_PAGE,
+		name: RouteNames.SettingsPage,
 		component: Settings,
 		redirect: {
 			name: SettingsRouteNames.GENERAL,

@@ -2,7 +2,7 @@ import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ResourcesRouteNames from './_internals/ResourcesRouteNames.enum';
 
 const TheResources = () => import('../components/the-resources.vue');
@@ -15,7 +15,7 @@ const Numbers = () =>
 const ResourcesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/resources',
-		name: RouteNames.RESOURCES,
+		name: RouteNames.Resources,
 		component: TheResources,
 		meta: {
 			WtObject: WtObject.Resource,
@@ -24,7 +24,7 @@ const ResourcesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/contact-center/resources/:id',
-		name: `${RouteNames.RESOURCES}-card`,
+		name: `${RouteNames.Resources}-card`,
 		redirect: {
 			name: ResourcesRouteNames.GENERAL,
 		},

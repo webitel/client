@@ -58,7 +58,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import TriggerLogsFiltersPanel from '../modules/logs/components/trigger-logs-filters-panel.vue';
 import TriggersRouteNames from '../router/_internals/TriggersRouteNames.enum';
 import { useTriggerCardStore } from '../stores/card/triggerCardStore';
@@ -112,7 +112,7 @@ const { currentTab, changeTab } = useCardTabs(tabs);
 const isLogsTab = computed(() => currentTab.value?.value === 'logs');
 const isLogsFiltersPanelShown = ref(false);
 
-const { close } = useClose(RouteNames.TRIGGERS);
+const { close } = useClose(RouteNames.Triggers);
 
 const path = computed(() => [
 	{

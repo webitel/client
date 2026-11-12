@@ -61,7 +61,7 @@
           <wt-item-link
             v-if="item.schema"
             :link="{
-              name: `${RouteNames.FLOW}-card`,
+              name: `${RouteNames.Flow}-card`,
               params: { id: item.schema.id },
             }"
             target="_blank"
@@ -122,7 +122,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useTeamsCardStore } from '../../../stores/card/teamsCardStore';
 import { useTeamHooksDatalistStore } from '../stores/datalist/teamHooksDatalistStore';
 import HookPopup from './opened-team-hooks-popup.vue';

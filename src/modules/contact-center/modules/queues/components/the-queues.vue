@@ -114,7 +114,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.QUEUES}-card`,
+                  name: `${RouteNames.Queues}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -138,7 +138,7 @@
               <wt-item-link
                 v-if="item.team"
                 :link="{
-                  name: `${RouteNames.TEAMS}-card`,
+                  name: `${RouteNames.Teams}-card`,
                   params: { id: item.team.id },
                 }"
                 target="_blank"
@@ -174,7 +174,7 @@
                 <template #first-item>
                   <wt-item-link
                     :link="{
-                      name: `${RouteNames.RESOURCE_GROUPS}-card`,
+                      name: `${RouteNames.ResourceGroups}-card`,
                       params: { id: item.resourceGroups[0].id },
                     }"
                     target="_blank"
@@ -189,7 +189,7 @@
                   >
                     <wt-item-link
                       :link="{
-                        name: `${RouteNames.RESOURCE_GROUPS}-card`,
+                        name: `${RouteNames.ResourceGroups}-card`,
                         params: { id: listItem.id },
                       }"
                       target="_blank"
@@ -208,7 +208,7 @@
                 <template #first-item>
                   <wt-item-link
                     :link="{
-                      name: `${RouteNames.RESOURCES}-card`,
+                      name: `${RouteNames.Resources}-card`,
                       params: { id: item.resources[0].id },
                     }"
                     target="_blank"
@@ -223,7 +223,7 @@
                   >
                     <wt-item-link
                       :link="{
-                        name: `${RouteNames.RESOURCES}-card`,
+                        name: `${RouteNames.Resources}-card`,
                         params: { id: listItem.id },
                       }"
                       target="_blank"
@@ -304,7 +304,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import { filtersOptions } from '../configs/filtersOptions';
 import QueueTypeProperties from '../lookups/QueueTypeProperties.lookup';
@@ -408,7 +408,7 @@ const create = () => {
 
 const edit = (item: Queue) =>
 	router.push({
-		name: `${RouteNames.QUEUES}-card`,
+		name: `${RouteNames.Queues}-card`,
 		params: {
 			id: item.id,
 		},
@@ -416,7 +416,7 @@ const edit = (item: Queue) =>
 
 const openMembers = (item: Queue) =>
 	router.push({
-		name: RouteNames.MEMBERS,
+		name: RouteNames.Members,
 		params: {
 			queueId: item.id,
 		},

@@ -30,7 +30,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 
 interface ChatGatewayProviderOption {
 	value: ChatGatewayProvider;
@@ -107,7 +107,7 @@ const selected = ref<ChatGatewayProviderOption>(options.value[0]);
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.CHAT_GATEWAYS}-card`,
+		name: `${RouteNames.ChatGateways}-card`,
 		params: {
 			id: 'new',
 		},

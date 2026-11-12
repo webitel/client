@@ -76,7 +76,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.QUICK_REPLIES}-card`,
+                  name: `${RouteNames.QuickReplies}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -157,7 +157,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useQuickRepliesDatalistStore } from '../stores';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
@@ -218,7 +218,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.QUICK_REPLIES}-card`,
+		name: `${RouteNames.QuickReplies}-card`,
 		params: {
 			id: 'new',
 		},
@@ -226,7 +226,7 @@ const add = () =>
 
 const edit = (item) =>
 	router.push({
-		name: `${RouteNames.QUICK_REPLIES}-card`,
+		name: `${RouteNames.QuickReplies}-card`,
 		params: {
 			id: item.id,
 		},

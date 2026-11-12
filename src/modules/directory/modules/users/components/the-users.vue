@@ -109,7 +109,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.USERS}-card`,
+                  name: `${RouteNames.Users}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -182,7 +182,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import ConfirmationPopup from '../../../../../app/components/confirmation-popup.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import { useUsersDatalistStore } from '../stores/datalist/usersDatalistStore';
 import UserStatusChips from './_internals/user-status-chips.vue';
@@ -256,7 +256,7 @@ const path = computed(() => [
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.USERS}-card`,
+		name: `${RouteNames.Users}-card`,
 		params: {
 			id: 'new',
 		},
@@ -264,7 +264,7 @@ const create = () =>
 
 const edit = (item: ApiUser) =>
 	router.push({
-		name: `${RouteNames.USERS}-card`,
+		name: `${RouteNames.Users}-card`,
 		params: {
 			id: item.id,
 		},

@@ -80,7 +80,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.STORAGE_POLICIES}-card`,
+                  name: `${RouteNames.StoragePolicies}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -189,7 +189,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useStoragePoliciesDatalistStore } from '../stores/datalist/storagePoliciesDatalistStore';
 
 const { t } = useI18n();
@@ -244,13 +244,13 @@ const path = computed(() => [
 	},
 	{
 		name: t('objects.integrations.storagePolicies.storagePolicies', 2),
-		route: `/integrations/${RouteNames.STORAGE_POLICIES}`,
+		route: `/integrations/${RouteNames.StoragePolicies}`,
 	},
 ]);
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.STORAGE_POLICIES}-card`,
+		name: `${RouteNames.StoragePolicies}-card`,
 		params: {
 			id: 'new',
 		},
@@ -258,7 +258,7 @@ const add = () =>
 
 const edit = ({ id }: StoragePolicyCard) =>
 	router.push({
-		name: `${RouteNames.STORAGE_POLICIES}-card`,
+		name: `${RouteNames.StoragePolicies}-card`,
 		params: {
 			id,
 		},

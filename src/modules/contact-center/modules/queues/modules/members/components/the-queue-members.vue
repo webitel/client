@@ -219,7 +219,7 @@
               <wt-item-link
                 v-if="item.agent"
                 :link="{
-                  name: `${RouteNames.AGENTS}-card`,
+                  name: `${RouteNames.Agents}-card`,
                   params: { id: item.agent.id },
                 }"
                 target="_blank"
@@ -313,7 +313,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
@@ -594,7 +594,7 @@ const closeCsvPopup = () => {
 };
 
 const memberLink = (item: EngineMemberInQueue) => ({
-	name: `${RouteNames.MEMBERS}-card`,
+	name: `${RouteNames.Members}-card`,
 	params: {
 		queueId: queueId.value,
 		id: item.id,
@@ -603,7 +603,7 @@ const memberLink = (item: EngineMemberInQueue) => ({
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.MEMBERS}-card`,
+		name: `${RouteNames.Members}-card`,
 		params: {
 			queueId: queueId.value,
 			id: 'new',
@@ -614,7 +614,7 @@ const edit = (item: EngineMemberInQueue) => router.push(memberLink(item));
 
 const close = () =>
 	router.push({
-		name: RouteNames.QUEUES,
+		name: RouteNames.Queues,
 	});
 
 const userChosenFilters = computed(() =>

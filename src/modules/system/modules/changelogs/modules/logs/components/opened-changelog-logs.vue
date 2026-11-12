@@ -114,7 +114,7 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useChangelogsCardStore } from '../../../stores/card/changelogsCardStore';
 import { defaultDateFilter, filterConfigs } from '../configs/filtersOptions';
 import { useChangelogLogsDatalistStore } from '../stores/datalist/changelogLogsDatalistStore';
@@ -172,7 +172,7 @@ const isSchemaObject = computed(
 );
 
 const userLink = (id?: string | number) => ({
-	name: `${RouteNames.USERS}-card`,
+	name: `${RouteNames.Users}-card`,
 	params: {
 		id,
 	},

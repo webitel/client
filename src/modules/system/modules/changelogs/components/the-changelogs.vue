@@ -77,7 +77,7 @@
             <template #object="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.CHANGELOGS}-card`,
+                  name: `${RouteNames.Changelogs}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -138,7 +138,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useChangelogsDatalistStore } from '../stores/datalist/changelogsDatalistStore';
 
 const { t } = useI18n();
@@ -199,7 +199,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.CHANGELOGS}-card`,
+		name: `${RouteNames.Changelogs}-card`,
 		params: {
 			id: 'new',
 		},
@@ -207,7 +207,7 @@ const add = () =>
 
 const edit = ({ id }: ChangelogCard) =>
 	router.push({
-		name: `${RouteNames.CHANGELOGS}-card`,
+		name: `${RouteNames.Changelogs}-card`,
 		params: {
 			id,
 		},

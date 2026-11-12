@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import LicencesRouteNames from './_internals/LicencesRouteNames.enum';
 
 const License = () => import('../components/the-license.vue');
@@ -12,7 +12,7 @@ const LicensesByUser = () =>
 const LicenseRoutes: RouteRecordRaw[] = [
 	{
 		path: '/directory/license',
-		name: RouteNames.LICENSE,
+		name: RouteNames.License,
 		component: License,
 		redirect: {
 			name: `${LicencesRouteNames.ALL}-card`,

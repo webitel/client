@@ -196,7 +196,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { filtersOptions } from '../configs/filtersOptions';
 import { FlowEditor } from '../enums/FlowEditor.enum';
 import { useFlowDatalistStore } from '../stores';
@@ -272,7 +272,7 @@ const path = computed(() => [
 const isCreateFlowPopup = ref(false);
 
 const editLink = ({ id, editor }: EngineRoutingSchema) => ({
-	name: `${RouteNames.FLOW}-card`,
+	name: `${RouteNames.Flow}-card`,
 	params: {
 		id,
 	},

@@ -2,7 +2,7 @@ import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import DevicesRouteNames from './_internals/DevicesRouteNames.enum';
 
 const Devices = () => import('../components/the-devices.vue');
@@ -17,7 +17,7 @@ const OpenedHotdeskDeviceHotdesking = () =>
 const DevicesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/directory/devices',
-		name: RouteNames.DEVICES,
+		name: RouteNames.Devices,
 		component: Devices,
 		meta: {
 			WtObject: WtObject.Device,
@@ -33,7 +33,7 @@ const DevicesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/directory/devices/:id',
-		name: `${RouteNames.DEVICES}-card`,
+		name: `${RouteNames.Devices}-card`,
 		redirect: {
 			name: DevicesRouteNames.GENERAL,
 		},

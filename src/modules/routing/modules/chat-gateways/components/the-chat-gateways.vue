@@ -81,7 +81,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.CHAT_GATEWAYS}-card`,
+                  name: `${RouteNames.ChatGateways}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -97,7 +97,7 @@
               <wt-item-link
                 v-if="item.flow"
                 :link="{
-                  name: `${RouteNames.FLOW}-card`,
+                  name: `${RouteNames.Flow}-card`,
                   params: { id: item.flow.id },
                 }"
                 target="_blank"
@@ -179,7 +179,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useChatGatewayDatalistStore } from '../stores/datalist/chatGatewayDatalistStore';
 import CreateChatGatewayPopup from './create-chat-gateway-popup.vue';
 
@@ -275,7 +275,7 @@ const path = computed(() => [
 
 const edit = (item: ChatGatewayCard) =>
 	router.push({
-		name: `${RouteNames.CHAT_GATEWAYS}-card`,
+		name: `${RouteNames.ChatGateways}-card`,
 		params: {
 			id: item.id,
 		},

@@ -81,7 +81,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.GATEWAYS}-card`,
+                  name: `${RouteNames.Gateways}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -150,7 +150,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useGatewayDatalistStore } from '../stores';
 import CreateGatewayPopup from './create-gateway-popup.vue';
 
@@ -215,7 +215,7 @@ const path = computed(() => [
 
 const edit = (item: GatewayCard) =>
 	router.push({
-		name: `${RouteNames.GATEWAYS}-card`,
+		name: `${RouteNames.Gateways}-card`,
 		params: {
 			id: item.id,
 		},

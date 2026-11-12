@@ -86,7 +86,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import {
 	createEnsureQueueSaved,
 	provideEnsureQueueSaved,
@@ -280,7 +280,7 @@ const changeTab = (tab: { pathName: string }) =>
 		hash: route.hash,
 	});
 
-const { close } = useClose(RouteNames.QUEUES);
+const { close } = useClose(RouteNames.Queues);
 
 const permissionsStoreData = computed(() => ({
 	store: useQueuesPermissionsStore,

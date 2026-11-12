@@ -73,7 +73,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.ACTIVITY_TYPES}-card`,
+                  name: `${RouteNames.ActivityTypes}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -149,7 +149,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useActivityTypesDataListStore } from '../stores/datalist/activityTypesDataListStore';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
@@ -208,7 +208,7 @@ const path = computed(() => [
 
 const add = () => {
 	return router.push({
-		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		name: `${RouteNames.ActivityTypes}-card`,
 		params: {
 			id: 'new',
 		},
@@ -217,7 +217,7 @@ const add = () => {
 
 const edit = (item) => {
 	return router.push({
-		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		name: `${RouteNames.ActivityTypes}-card`,
 		params: {
 			id: item.id,
 		},

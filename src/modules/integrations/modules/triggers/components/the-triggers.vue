@@ -77,7 +77,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.TRIGGERS}-card`,
+                  name: `${RouteNames.Triggers}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -91,7 +91,7 @@
               <wt-item-link
                 v-if="item.schema"
                 :link="{
-                  name: `${RouteNames.FLOW}-card`,
+                  name: `${RouteNames.Flow}-card`,
                   params: { id: item.schema.id },
                 }"
                 target="_blank"
@@ -160,7 +160,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useTriggersDatalistStore } from '../stores/datalist/triggersDatalistStore';
 
 const { t } = useI18n();
@@ -221,7 +221,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.TRIGGERS}-card`,
+		name: `${RouteNames.Triggers}-card`,
 		params: {
 			id: 'new',
 		},
@@ -229,7 +229,7 @@ const add = () =>
 
 const edit = ({ id }: TriggerCard) =>
 	router.push({
-		name: `${RouteNames.TRIGGERS}-card`,
+		name: `${RouteNames.Triggers}-card`,
 		params: {
 			id,
 		},

@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import DialplanRouteNames from './_internals/DialplanRouteNames.enum';
 
 const Dialplan = () => import('../components/the-dialplan.vue');
@@ -12,7 +12,7 @@ const OpenedDialplanGeneral = () =>
 const DialplanRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/dialplan',
-		name: RouteNames.DIALPLAN,
+		name: RouteNames.Dialplan,
 		component: Dialplan,
 		meta: {
 			WtObject: WtObject.Dialplan,
@@ -21,7 +21,7 @@ const DialplanRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/routing/dialplan/:id',
-		name: `${RouteNames.DIALPLAN}-card`,
+		name: `${RouteNames.Dialplan}-card`,
 		redirect: {
 			name: DialplanRouteNames.GENERAL,
 		},

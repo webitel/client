@@ -54,7 +54,7 @@
         <template #name="{ item }">
           <wt-item-link
             :link="{
-              name: `${RouteNames.AGENTS}-card`,
+              name: `${RouteNames.Agents}-card`,
               params: { id: item.id },
             }"
             target="_blank"
@@ -100,7 +100,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useAgentStatusIndicator } from '../../../../agents/composables/useAgentStatusIndicator';
 import { useTeamsCardStore } from '../../../stores/card/teamsCardStore';
 import { useTeamAgentsDatalistStore } from '../stores/datalist/teamAgentsDatalistStore';
