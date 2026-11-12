@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.security.security') }}
     </template>
-    <template>
+    <template #default>
       <logout-action
         :id="userId"
         my-sessions

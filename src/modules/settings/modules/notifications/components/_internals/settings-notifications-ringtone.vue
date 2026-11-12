@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.ringtones.title') }}
     </template>
-    <template>
+    <template #default>
 
         <wt-checkbox
           :selected="isCustomRingtone"

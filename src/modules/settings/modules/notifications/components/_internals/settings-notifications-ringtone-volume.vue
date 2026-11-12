@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.ringtoneVolume.title') }}
     </template>
-    <template>
+    <template #default>
         <div
           v-for="entity in ringtoneEntities"
           :key="entity.type"
