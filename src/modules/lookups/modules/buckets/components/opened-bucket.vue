@@ -52,7 +52,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import BucketsRouteNames from '../router/_internals/BucketsRouteNames.enum';
 import { useBucketsCardStore } from '../stores/card/bucketsCardStore';
 
@@ -83,7 +83,7 @@ const tabs = computed<CardTab[]>(() => [
 ]);
 
 const { currentTab, changeTab } = useCardTabs(tabs);
-const { close } = useClose(RouteNames.BUCKETS);
+const { close } = useClose(RouteNames.Buckets);
 
 const path = computed(() => [
 	{

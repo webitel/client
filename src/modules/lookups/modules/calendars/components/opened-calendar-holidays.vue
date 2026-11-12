@@ -18,28 +18,26 @@
         {{ t('objects.lookups.calendars.holidays', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <!-- wt-search-bar is `value` + `input`, not v-model -->
-        <wt-search-bar
-          :value="search"
-          @input="search = $event"
-        />
-        <delete-all-action
-          v-if="!disableUserInput"
-          v-show="selectedRows.length"
-          :selected-count="selectedRows.length"
-          @click="
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.DELETE]"
+          :disabled:add="disableUserInput"
+          :disabled:delete="disableUserInput || !selectedRows.length"
+          @click:add="create"
+          @click:delete="
             askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteHolidays(selectedRows),
             })
           "
-        />
-        <wt-icon-btn
-          :disabled="disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="create"
-        />
+        >
+          <template #search-bar>
+            <!-- wt-search-bar is `value` + `input`, not v-model -->
+            <wt-search-bar
+              :value="search"
+              @input="search = $event"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
@@ -108,7 +106,7 @@
 <script setup lang="ts">
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtTimeTooltip } from '@webitel/ui-sdk/components';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';

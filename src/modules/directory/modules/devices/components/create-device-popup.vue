@@ -46,7 +46,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 
 type DeviceCreateOption = {
 	value: string;
@@ -68,13 +68,13 @@ const options = computed<DeviceCreateOption[]>(() => [
 		value: 'default',
 		title: t('objects.directory.devices.devices', 1),
 		description: t('objects.directory.devices.deviceSettings', 1),
-		routeName: `${RouteNames.DEVICES}-card`,
+		routeName: `${RouteNames.Devices}-card`,
 	},
 	{
 		value: 'hotdesk',
 		title: t('objects.directory.devices.hotdeskDevice'),
 		description: t('objects.directory.devices.hotdeskDeviceSettings'),
-		routeName: `${RouteNames.DEVICES}-card`,
+		routeName: `${RouteNames.Devices}-card`,
 	},
 ]);
 

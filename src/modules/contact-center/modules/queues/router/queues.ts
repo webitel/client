@@ -2,7 +2,7 @@ import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import QueuesRoutesName from './_internals/QueuesRoutesName.enum';
 
 const Queues = () => import('../components/the-queues.vue');
@@ -37,7 +37,7 @@ const MembersVariables = () =>
 const QueuesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/queues',
-		name: RouteNames.QUEUES,
+		name: RouteNames.Queues,
 		component: Queues,
 		meta: {
 			WtObject: WtObject.Queue,
@@ -46,7 +46,7 @@ const QueuesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/contact-center/queues/:id',
-		name: `${RouteNames.QUEUES}-card`,
+		name: `${RouteNames.Queues}-card`,
 		redirect: {
 			name: QueuesRoutesName.GENERAL,
 		},
@@ -120,7 +120,7 @@ const QueuesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/contact-center/queues/:queueId/members',
-		name: RouteNames.MEMBERS,
+		name: RouteNames.Members,
 		component: Members,
 		meta: {
 			WtObject: WtObject.Queue,
@@ -129,7 +129,7 @@ const QueuesRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/contact-center/queues/:queueId/members/:id',
-		name: `${RouteNames.MEMBERS}-card`,
+		name: `${RouteNames.Members}-card`,
 		redirect: {
 			name: QueuesRoutesName.MEMBERS_GENERAL,
 		},

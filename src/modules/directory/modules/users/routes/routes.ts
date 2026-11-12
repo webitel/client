@@ -2,7 +2,7 @@ import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import UsersRouteNames from './_internals/UsersRouteNames.enum';
 
 const Users = () => import('../components/the-users.vue');
@@ -20,7 +20,7 @@ const OpenedUserLogs = () =>
 const UsersRoutes: RouteRecordRaw[] = [
 	{
 		path: '/directory/users',
-		name: RouteNames.USERS,
+		name: RouteNames.Users,
 		component: Users,
 		meta: {
 			WtObject: WtObject.User,
@@ -29,7 +29,7 @@ const UsersRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/directory/users/:id',
-		name: `${RouteNames.USERS}-card`,
+		name: `${RouteNames.Users}-card`,
 		component: OpenedUser,
 		redirect: {
 			name: UsersRouteNames.GENERAL,

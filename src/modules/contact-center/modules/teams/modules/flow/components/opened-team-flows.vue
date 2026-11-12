@@ -65,14 +65,16 @@
         @update:selected="updateSelected"
       >
         <template #schema="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.schema"
-            :id="item.schema.id"
-            :route-name="RouteNames.FLOW"
+            :link="{
+              name: `${RouteNames.Flow}-card`,
+              params: { id: item.schema.id },
+            }"
             target="_blank"
           >
             {{ item.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #state="{ item, index }">
           <wt-switcher
@@ -127,7 +129,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useTeamsCardStore } from '../../../stores/card/teamsCardStore';
 import { useTeamFlowsDatalistStore } from '../stores/datalist/teamFlowsDatalistStore';
 import FlowPopup from './opened-team-flow-popup.vue';

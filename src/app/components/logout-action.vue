@@ -18,23 +18,26 @@
         {{ buttonText }}
       </wt-button>
     </div>
-    <logout-confirmation-popup
+    <confirmation-popup
+      :confirm-color="ButtonColor.ERROR"
+      :description="t('objects.directory.users.logout.endSessionConfirmationText')"
+      :loading="isLoadingUsersLogout"
       :shown="isPopupOpened"
-      :text="t('objects.directory.users.logout.endSessionConfirmationText')"
-      :is-loading="isLoadingUsersLogout"
+      :title="t('objects.directory.users.logout.endSessionConfirmation')"
       @close="closePopup"
-      @logout="logoutUser"
+      @confirm="logoutUser"
     />
   </div>
 </template>
 
 <script setup lang="ts">
 import { UsersAPI } from '@webitel/api-services/api';
+import { ButtonColor } from '@webitel/ui-sdk/enums';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
-import LogoutConfirmationPopup from './logout-confirmation-popup.vue';
+import { useUserinfoStore } from '../../modules/userinfo/stores/userinfoStore';
+import ConfirmationPopup from './confirmation-popup.vue';
 
 const props = withDefaults(
 	defineProps<{
@@ -67,16 +70,20 @@ const closePopup = () => (isPopupOpened.value = false);
 
 const logoutUser = async () => {
 	isLoadingUsersLogout.value = true;
-	await UsersAPI.logoutUser({
-		id: props.id,
-	});
-	closePopup();
-	isLoadingUsersLogout.value = false;
-	clearStorageNotifications(props.id);
+	try {
+		await UsersAPI.logoutUser({
+			id: props.id,
+		});
+		closePopup();
+		clearStorageNotifications(props.id);
+	} finally {
+		// [Claude] reset even on a failed request, or the button spins forever
+		isLoadingUsersLogout.value = false;
+	}
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .logout-action__title-wrapper {
   display: flex;
   flex-direction: column;

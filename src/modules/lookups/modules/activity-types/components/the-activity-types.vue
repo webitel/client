@@ -73,7 +73,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.ACTIVITY_TYPES}-card`,
+                  name: `${RouteNames.ActivityTypes}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -138,9 +138,9 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
-import { ChipColor, IconAction } from '@webitel/ui-sdk/enums';
+import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -149,7 +149,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useActivityTypesDataListStore } from '../stores/datalist/activityTypesDataListStore';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
@@ -208,7 +208,7 @@ const path = computed(() => [
 
 const add = () => {
 	return router.push({
-		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		name: `${RouteNames.ActivityTypes}-card`,
 		params: {
 			id: 'new',
 		},
@@ -217,7 +217,7 @@ const add = () => {
 
 const edit = (item) => {
 	return router.push({
-		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		name: `${RouteNames.ActivityTypes}-card`,
 		params: {
 			id: item.id,
 		},
