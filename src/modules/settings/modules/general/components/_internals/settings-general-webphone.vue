@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.webPhone') }}
     </template>
-    <template>
+    <template #default>
         <settings-switcher-row
           :model-value="webrtc"
           @update:model-value="changeWebrtc"
