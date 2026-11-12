@@ -133,7 +133,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useGlobalVariablesDatalistStore } from '../stores/datalist/globalVariablesDatalistStore';
 import OpenedGlobalVariablePopup from './opened-global-variable-popup.vue';
 
@@ -196,7 +196,7 @@ const path = computed(() => [
 /** [Claude] the card is a popup on this page, opened by the route's `id` */
 const openPopup = (id: SchemaVariableCard['id'] | 'new') =>
 	router.push({
-		name: RouteNames.GLOBAL_VARIABLES,
+		name: RouteNames.GlobalVariables,
 		params: {
 			id,
 		},

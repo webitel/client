@@ -2,7 +2,7 @@ import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import AgentsRouteNames from './_internals/AgentsRouteNames.enum';
 
 const Agents = () => import('../components/the-agents.vue');
@@ -19,7 +19,7 @@ const Wfm = () => import('../components/opened-agent-wfm.vue');
 const AgentRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/agents',
-		name: RouteNames.AGENTS,
+		name: RouteNames.Agents,
 		component: Agents,
 		meta: {
 			WtObject: WtObject.Agent,
@@ -35,7 +35,7 @@ const AgentRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/contact-center/agents/:id',
-		name: `${RouteNames.AGENTS}-card`,
+		name: `${RouteNames.Agents}-card`,
 		redirect: {
 			name: AgentsRouteNames.GENERAL,
 		},

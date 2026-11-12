@@ -108,9 +108,9 @@ import { MediaAPI } from '@webitel/api-services/api';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import AmdAiLabels from '../../../enums/AmdAiLabels.enum';
-import type { Queue } from '../../../types/Queue';
+import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import { AmdAiLabel } from '../enums/AmdAiLabel.enum';
+import type { Queue } from '../types/Queue';
 
 const modelValue = defineModel<Queue>({
 	required: true,
@@ -119,9 +119,7 @@ const modelValue = defineModel<Queue>({
 const { t } = useI18n();
 const { disableUserInput } = useUserAccessControl();
 
-const amdAiLabels = [
-	...AmdAiLabels,
-];
+const amdAiLabels = Object.values(AmdAiLabel);
 
 /**
  * Only the three queue types that show this tab seed `payload.amd`, so the
@@ -134,10 +132,7 @@ const amd = computed<Record<string, unknown>>(() => {
 });
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .amd-content-block {
   display: contents;
 }

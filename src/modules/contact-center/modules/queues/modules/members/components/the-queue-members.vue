@@ -216,14 +216,16 @@
               {{ item.attempts || 0 }}
             </template>
             <template #agent="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.agent"
-                :id="item.agent.id"
-                :route-name="RouteNames.AGENTS"
+                :link="{
+                  name: `${RouteNames.Agents}-card`,
+                  params: { id: item.agent.id },
+                }"
                 target="_blank"
               >
                 {{ item.agent.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #bucket="{ item }">
               {{ item.bucket?.name }}
@@ -311,7 +313,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../../../userinfo/stores/userinfoStore';
 import dummyPicDark from '../assets/adm-dummy-members-dark.svg';
 import dummyPicLight from '../assets/adm-dummy-members-light.svg';
@@ -592,7 +594,7 @@ const closeCsvPopup = () => {
 };
 
 const memberLink = (item: EngineMemberInQueue) => ({
-	name: `${RouteNames.MEMBERS}-card`,
+	name: `${RouteNames.Members}-card`,
 	params: {
 		queueId: queueId.value,
 		id: item.id,
@@ -601,7 +603,7 @@ const memberLink = (item: EngineMemberInQueue) => ({
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.MEMBERS}-card`,
+		name: `${RouteNames.Members}-card`,
 		params: {
 			queueId: queueId.value,
 			id: 'new',
@@ -612,7 +614,7 @@ const edit = (item: EngineMemberInQueue) => router.push(memberLink(item));
 
 const close = () =>
 	router.push({
-		name: RouteNames.QUEUES,
+		name: RouteNames.Queues,
 	});
 
 const userChosenFilters = computed(() =>
@@ -675,12 +677,7 @@ onMounted(() =>
 );
 </script>
 
-<style
-  lang="scss"
-  scoped
->
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .the-queue-members__communications-counter {
   cursor: pointer;
 }

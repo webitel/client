@@ -55,7 +55,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import BlacklistRouteNames from '../router/_internals/BlacklistRouteNames.enum';
 import { useBlacklistsCardStore } from '../stores/card/blacklistsCardStore';
 import { useBlacklistsPermissionsStore } from '../stores/permissions/blacklistsPermissionsStore';
@@ -133,7 +133,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: itemId.value,
 }));
 
-const { close } = useClose(RouteNames.BLACKLIST);
+const { close } = useClose(RouteNames.Blacklist);
 
 const path = computed(() => [
 	{

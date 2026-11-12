@@ -71,7 +71,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import TeamsRouteNames from '../router/_internals/TeamsRouteNames.enum';
 import { useTeamsCardStore } from '../stores/card/teamsCardStore';
 import { useTeamsPermissionsStore } from '../stores/permissions/teamsPermissionsStore';
@@ -184,7 +184,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: itemId.value,
 }));
 
-const { close } = useClose(RouteNames.TEAMS);
+const { close } = useClose(RouteNames.Teams);
 
 const path = computed(() => [
 	{

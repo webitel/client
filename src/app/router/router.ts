@@ -38,7 +38,7 @@ import StartPageRoutes from '../../modules/start-page/router/startPage';
 import ChangeLogsRoutes from '../../modules/system/modules/changelogs/router/changelogs';
 import ConfigurationRoutes from '../../modules/system/modules/configuration/router/configuration';
 import GlobalVariablesRoutes from '../../modules/system/modules/global-variables/router/globalVariables';
-import RouteNames from './_internals/RouteNames.enum';
+import { RouteNames } from './_internals/RouteNames.enum';
 import RoutePaths from './_internals/RoutePaths';
 import { createAuthGuard } from './authGuard';
 
@@ -66,12 +66,12 @@ export const initRouter = async ({
 		routes: [
 			{
 				path: '/',
-				name: RouteNames.APPLICATION_HUB,
+				name: RouteNames.ApplicationHub,
 				component: ApplicationHub,
 			},
 			{
 				path: '/access-denied',
-				name: RouteNames.PAGE_403,
+				name: RouteNames.Page403,
 				component: AccessDenied,
 			},
 			{
@@ -86,7 +86,7 @@ export const initRouter = async ({
 					...SettingsRoutes,
 					{
 						path: '/:pathMatch(.*)*',
-						name: RouteNames.PAGE_404,
+						name: RouteNames.Page404,
 						component: NotFound,
 					},
 

@@ -54,7 +54,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import DevicesRouteNames from '../router/_internals/DevicesRouteNames.enum';
 import { generateHotdeskAccount } from '../scripts/generateHotdeskAccount';
 import { useDevicesCardStore, useDevicesPermissionsStore } from '../stores';
@@ -171,7 +171,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: route.params.id,
 }));
 
-const { close } = useClose(RouteNames.DEVICES);
+const { close } = useClose(RouteNames.Devices);
 
 const path = computed(() => [
 	{

@@ -54,7 +54,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ResourcesGroupsRouteNames from '../router/_internals/ResourcesGroupsRouteNames.enum';
 import {
 	type ResourceGroupCard,
@@ -141,7 +141,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: itemId.value,
 }));
 
-const { close } = useClose(RouteNames.RESOURCE_GROUPS);
+const { close } = useClose(RouteNames.ResourceGroups);
 
 const path = computed(() => [
 	{

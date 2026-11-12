@@ -75,22 +75,26 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.CHATPLAN"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.Chatplan}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #schema="{ item }">
-              <adm-item-link
+              <wt-item-link
                 v-if="item.schema"
-                :id="item.schema.id"
-                :route-name="RouteNames.FLOW"
+                :link="{
+                  name: `${RouteNames.Flow}-card`,
+                  params: { id: item.schema.id },
+                }"
                 target="_blank"
               >
                 {{ item.schema.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #state="{ item, index }">
               <wt-switcher
@@ -134,7 +138,7 @@
   </wt-page-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
@@ -146,7 +150,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useChatplanDatalistStore } from '../stores';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
@@ -208,7 +212,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.CHATPLAN}-card`,
+		name: `${RouteNames.Chatplan}-card`,
 		params: {
 			id: 'new',
 		},
@@ -216,7 +220,7 @@ const add = () =>
 
 const edit = (item) =>
 	router.push({
-		name: `${RouteNames.CHATPLAN}-card`,
+		name: `${RouteNames.Chatplan}-card`,
 		params: {
 			id: item.id,
 		},

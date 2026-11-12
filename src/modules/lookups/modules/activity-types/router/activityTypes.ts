@@ -1,7 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
 import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ActivityTypeRouteNames from './_internals/ActivityTypeRouteNames.enum';
 
 const ActivityTypes = () => import('../components/the-activity-types.vue');
@@ -12,7 +12,7 @@ const General = () => import('../components/opened-activity-type-general.vue');
 const ActivityTypeRoutes: RouteRecordRaw[] = [
 	{
 		path: '/lookups/activity-types',
-		name: RouteNames.ACTIVITY_TYPES,
+		name: RouteNames.ActivityTypes,
 		component: ActivityTypes,
 		meta: {
 			WtObject: WtObject.ActivityType,
@@ -21,7 +21,7 @@ const ActivityTypeRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/lookups/activity-types/:id',
-		name: `${RouteNames.ACTIVITY_TYPES}-card`,
+		name: `${RouteNames.ActivityTypes}-card`,
 		redirect: {
 			name: ActivityTypeRouteNames.GENERAL,
 		},
