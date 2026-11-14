@@ -39,7 +39,6 @@ describe('TheMedia', () => {
 			wrapper.vm.openFile({
 				id: '42',
 				name: 'payload.html',
-				mimeType: 'text/html',
 			});
 
 			expect(openStorageFileInNewTab).toHaveBeenCalledWith({

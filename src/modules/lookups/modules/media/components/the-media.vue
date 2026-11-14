@@ -379,9 +379,7 @@ const getMediaFileFormat = ({ name = '', mimeType = '' }: StorageMediaFile) => {
 };
 
 const openFile = ({ id = '', name = '' }: StorageMediaFile) => {
-	// Navigating to the stream URL put the token in the address bar and rendered
-	// the file as a same-origin document, so an uploaded `.html` ran script in
-	// the app's origin. The helper fetches the bytes and opens a blob instead.
+	// not window.open(streamUrl): an uploaded .html would run in the app's origin
 	openStorageFileInNewTab({
 		url: getMediaStreamUrl(id, {
 			auth: getMediaUrlAuth(),
