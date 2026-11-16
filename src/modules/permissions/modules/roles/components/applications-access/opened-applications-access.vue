@@ -10,8 +10,11 @@
     <div class="table-section__table-wrapper">
       <wt-table
         :data="applications"
-        :headers="headers"
+        :headers="shownHeaders"
         :selectable="false"
+        reorderable-columns
+        resizable-columns
+        @column-reorder="columnOrder = $event"
       >
         <template #name="{ item }">
           {{ item.displayName }}
@@ -39,7 +42,7 @@
 <script setup lang="ts">
 import type { ApplicationsAccessTree } from '@webitel/api-services/scripts';
 import type { RoleCard } from '@webitel/api-services/validations';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -73,6 +76,21 @@ const headers = computed(() => [
 		text: t('objects.permissions.roles.applicationsAccess.access'),
 	},
 ]);
+
+/** [Claude] wt-table remounts after columns reorder, so the order is kept here (widths are kept by wt-table itself) */
+const columnOrder = ref<string[]>([]);
+
+const shownHeaders = computed(() =>
+	columnOrder.value.length
+		? [
+				...headers.value,
+			].sort(
+				(a, b) =>
+					columnOrder.value.indexOf(a.value) -
+					columnOrder.value.indexOf(b.value),
+			)
+		: headers.value,
+);
 
 const applications = computed(() =>
 	Object.entries(access.value).map(([name, application]) => ({
