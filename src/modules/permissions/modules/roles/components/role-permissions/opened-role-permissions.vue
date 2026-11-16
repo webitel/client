@@ -32,8 +32,11 @@
     <div class="table-section__table-wrapper">
       <wt-table
         :data="permissions"
-        :headers="headers"
+        :headers="shownHeaders"
         :selected="selected"
+        reorderable-columns
+        resizable-columns
+        @column-reorder="columnOrder = $event"
         @update:selected="selected = $event"
       >
         <template #name="{ item }">
@@ -103,6 +106,21 @@ const headers = computed(() => [
 		text: t('objects.permissions.roles.usage'),
 	},
 ]);
+
+/** [Claude] wt-table remounts after columns reorder, so the order is kept here (widths are kept by wt-table itself) */
+const columnOrder = ref<string[]>([]);
+
+const shownHeaders = computed(() =>
+	columnOrder.value.length
+		? [
+				...headers.value,
+			].sort(
+				(a, b) =>
+					columnOrder.value.indexOf(a.value) -
+					columnOrder.value.indexOf(b.value),
+			)
+		: headers.value,
+);
 
 /** [Claude] [WTEL-6858] "reset active attempts" is not managed here, so it is not listed */
 const permissions = computed(() =>
