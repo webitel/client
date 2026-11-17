@@ -3,6 +3,7 @@
     <holiday-popup
       :shown="!!holidayIndex"
       :item="editedHoliday"
+      :timezone="holidayTimeZone"
       @close="closePopup"
       @save="saveHoliday"
     />
@@ -124,6 +125,7 @@ import {
 	useCalendarHolidays,
 } from '../composables/useCalendarHolidays';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
+import { resolveCalendarTimeZone } from '../scripts/resolveCalendarTimeZone';
 import type { CalendarCard, CalendarExceptUi } from '../stores';
 import HolidayPopup from './opened-calendar-holiday-popup.vue';
 
@@ -212,12 +214,19 @@ const saveHoliday = (item: CalendarExceptUi) => {
 	upsert(holidayIndex.value, item);
 };
 
-const prettifyDate = (date: number | string | undefined) =>
-	formatDate(Number(date), FormatDateMode.DATE);
-
 const calendarTimeZoneLabel = computed(
 	() => modelValue.value.timezone?.name || '',
 );
+
+/** shared with the popup's datepicker, so a picked day reads back as that day */
+const holidayTimeZone = computed(() =>
+	resolveCalendarTimeZone(modelValue.value.timezone?.name),
+);
+
+const prettifyDate = (date: number | string | undefined) =>
+	formatDate(Number(date), FormatDateMode.DATE, {
+		timezone: holidayTimeZone.value,
+	});
 
 const openPopup = (holidayIndex: string) =>
 	router.push({
