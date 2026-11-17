@@ -93,10 +93,10 @@ const {
 	hasSaveAccess: hasSaveActionAccess,
 });
 
+const isDiagramQuery = route.query.editor === FlowEditor.Diagram;
+
 const isDiagram = computed(
-	() =>
-		route.query.editor === FlowEditor.Diagram ||
-		!!originalItemInstance.value?.editor,
+	() => isDiagramQuery || !!originalItemInstance.value?.editor,
 );
 
 // [https://webitel.atlassian.net/browse/WTEL-4509]
