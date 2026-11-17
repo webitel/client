@@ -19,6 +19,7 @@
         <wt-datepicker
           v-model:model-value="draft.date"
           :label="t('objects.lookups.calendars.date')"
+          :timezone="timezone"
         />
         <wt-switcher
           :model-value="draft.working"
@@ -78,6 +79,8 @@ const props = defineProps<{
 	shown: boolean;
 	/** the holiday being edited; absent means "new" */
 	item?: CalendarExceptUi;
+	/** zone the date is picked in; must match the one the table shows it in */
+	timezone: string;
 }>();
 
 const emit = defineEmits<{
