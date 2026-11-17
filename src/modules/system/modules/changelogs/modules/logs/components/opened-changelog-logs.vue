@@ -204,6 +204,7 @@ const getDataForCSVExport = async (params: Record<string, unknown>) => {
 		items: items.map((item: LoggerLog) => ({
 			...item,
 			date: formatDateTime(item.date),
+			userId: item.user?.id,
 		})),
 		next,
 	};
