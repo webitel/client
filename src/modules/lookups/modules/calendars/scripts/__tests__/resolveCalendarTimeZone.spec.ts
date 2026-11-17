@@ -18,6 +18,16 @@ describe('resolveCalendarTimeZone', () => {
 		expect(resolveCalendarTimeZone('Europe/Kyiv')).toBe('Europe/Kyiv');
 	});
 
+	// the backend names the zone with its offset appended, e.g. "Europe/Kyiv 03:00"
+	it('strips the UTC offset the backend appends to the zone name', () => {
+		localStorage.setItem(TIMEZONE_STORAGE_KEY, 'Asia/Tokyo');
+
+		expect(resolveCalendarTimeZone('Europe/Kyiv 03:00')).toBe('Europe/Kyiv');
+		expect(resolveCalendarTimeZone('America/New_York -05:00')).toBe(
+			'America/New_York',
+		);
+	});
+
 	it('falls back to the profile time zone when the calendar has none', () => {
 		localStorage.setItem(TIMEZONE_STORAGE_KEY, 'Europe/Kyiv');
 

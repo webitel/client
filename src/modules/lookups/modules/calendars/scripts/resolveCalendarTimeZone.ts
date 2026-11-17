@@ -12,6 +12,12 @@ const isValidTimeZone = (timeZone: string): boolean => {
 };
 
 /**
+ * The backend names a calendar's zone with its UTC offset appended,
+ * e.g. `Europe/Kyiv 03:00` — only the leading IANA name is a real zone.
+ */
+const toIanaName = (name: string): string => name.trim().split(/\s+/)[0];
+
+/**
  * Time zone a calendar's holiday dates are picked and shown in.
  *
  * A holiday is a calendar day stored as an instant, so the picker and the
@@ -20,5 +26,8 @@ const isValidTimeZone = (timeZone: string): boolean => {
  * holiday work hours are already labelled with; without it, fall back to the
  * operator's zone, which is what `formatDate` uses by default.
  */
-export const resolveCalendarTimeZone = (timeZone?: string | null): string =>
-	timeZone && isValidTimeZone(timeZone) ? timeZone : getUserTimeZone();
+export const resolveCalendarTimeZone = (timeZone?: string | null): string => {
+	const iana = timeZone ? toIanaName(timeZone) : '';
+
+	return iana && isValidTimeZone(iana) ? iana : getUserTimeZone();
+};
