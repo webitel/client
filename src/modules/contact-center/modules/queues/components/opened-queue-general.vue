@@ -210,8 +210,3 @@ const loadServiceFlowOptions = (params: object) =>
 		],
 	});
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

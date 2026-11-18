@@ -67,9 +67,7 @@ function changeTab(tab: { pathName: string }) {
 }
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .the-settings__content {
   display: flex;
   flex-direction: column;

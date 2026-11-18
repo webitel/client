@@ -22,12 +22,17 @@
             :icon="channelIcon[channel]"
             size="lg"
           />
-          <copy-input
+          <wt-input-text
             :disabled="disableUserInput"
             :placeholder="t(channelUrlPlaceholder[channel])"
             :model-value="metadata.alternativeChannels[channel].url"
+            class="opened-chat-gateway-webchat-alternative-channels__channel-url"
             @update:model-value="setChannelUrl(channel, $event)"
-          />
+          >
+            <template #suffix>
+              <wt-copy-action :value="metadata.alternativeChannels[channel].url" />
+            </template>
+          </wt-input-text>
           <wt-switcher
             v-model:model-value="metadata.alternativeChannels[channel].enabled"
             :disabled="disableUserInput"
@@ -76,7 +81,6 @@ import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CopyInput from '../../../../../../../app/components/utils/copy-input.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import type { ChatGatewayValidationFields } from '../../../types/ChatGatewayValidationFields';
 import { useWebchatMetadata } from '../types/WebchatMetadata';
@@ -170,7 +174,7 @@ const searchCallFlows = (params: object) =>
   gap: var(--spacing-sm);
 }
 
-.opened-chat-gateway-webchat-alternative-channels__channel .copy-input {
+.opened-chat-gateway-webchat-alternative-channels__channel-url {
   flex-grow: 1;
 }
 

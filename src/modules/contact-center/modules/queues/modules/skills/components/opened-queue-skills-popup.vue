@@ -129,7 +129,7 @@ const loadSkillsOptions = (params: unknown) => SkillsAPI.getLookup(params);
 const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .input-row-wrap {
   display: flex;
   gap: var(--spacing-xs);

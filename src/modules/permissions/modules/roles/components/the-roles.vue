@@ -77,7 +77,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.ROLES}-card`,
+                  name: `${RouteNames.Roles}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -131,7 +131,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useRolesDatalistStore } from '../stores/datalist/rolesDatalistStore';
 
 const { t } = useI18n();
@@ -191,7 +191,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.ROLES}-card`,
+		name: `${RouteNames.Roles}-card`,
 		params: {
 			id: 'new',
 		},
@@ -199,7 +199,7 @@ const add = () =>
 
 const edit = ({ id }: RoleCard) =>
 	router.push({
-		name: `${RouteNames.ROLES}-card`,
+		name: `${RouteNames.Roles}-card`,
 		params: {
 			id,
 		},

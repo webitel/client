@@ -67,7 +67,7 @@ const changeTab = (tab: { pathName: string }) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .table-page-tabs-group-wrapper {
   display: flex;
   flex-direction: column;

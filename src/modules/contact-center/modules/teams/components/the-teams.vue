@@ -86,7 +86,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.TEAMS}-card`,
+                  name: `${RouteNames.Teams}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -144,7 +144,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useTeamsDatalistStore } from '../stores/datalist/teamsDatalistStore';
 
 const { t } = useI18n();
@@ -211,7 +211,7 @@ const getStrategyText = (strategy?: string) =>
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.TEAMS}-card`,
+		name: `${RouteNames.Teams}-card`,
 		params: {
 			id: 'new',
 		},
@@ -219,7 +219,7 @@ const create = () =>
 
 const edit = (item: EngineAgentTeam) =>
 	router.push({
-		name: `${RouteNames.TEAMS}-card`,
+		name: `${RouteNames.Teams}-card`,
 		params: {
 			id: item.id,
 		},

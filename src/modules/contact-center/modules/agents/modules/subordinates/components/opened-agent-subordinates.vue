@@ -4,18 +4,6 @@
       :parent-id="agentId"
       @saved="loadDataList"
     />
-    <object-list-popup
-      :data-list="shownSupervisors"
-      :shown="!!supervisorsRowId"
-      :title="t('objects.ccenter.agents.supervisors', 2)"
-      @close="closeListPopup"
-    />
-    <object-list-popup
-      :data-list="shownSkills"
-      :shown="!!skillsRowId"
-      :title="t('objects.lookups.skills.skills', 2)"
-      @close="closeListPopup"
-    />
 
     <header class="table-title">
       <h3 class="table-title__title">
@@ -69,7 +57,7 @@
         <template #name="{ item }">
           <wt-item-link
             :link="{
-              name: `${RouteNames.AGENTS}-card`,
+              name: `${RouteNames.Agents}-card`,
               params: { id: item.id },
             }"
             target="_blank"
@@ -78,16 +66,10 @@
           </wt-item-link>
         </template>
         <template #supervisor="{ item }">
-          <one-plus-many
-            :collection="item.supervisor"
-            @input="openListPopup('supervisor', item)"
-          />
+          <wt-display-chip-items :items="item.supervisor" />
         </template>
         <template #skills="{ item }">
-          <one-plus-many
-            :collection="item.skills"
-            @input="openListPopup('skills', item)"
-          />
+          <wt-display-chip-items :items="item.skills" />
         </template>
         <template #actions="{ item }">
           <wt-icon-action
@@ -114,7 +96,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { EngineAgent } from '@webitel/api-services/gen/models';
 import { useNestedTableList } from '@webitel/ui-datalist';
 import { useCardListNavigation } from '@webitel/ui-datalist/card';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
@@ -123,19 +104,14 @@ import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
 
-import ObjectListPopup from '../../../../../../../app/components/utils/object-list-popup/object-list-popup.vue';
-import OnePlusMany from '../../../../../../../app/components/utils/table-cell/one-plus-many-table-cell/one-plus-many-table-cell.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import { useAgentsCardStore } from '../../../stores/card/agentsCardStore';
 import { useAgentSubordinatesDatalistStore } from '../stores/datalist/agentSubordinatesDatalistStore';
 import SubordinatePopup from './opened-agent-subordinates-popup.vue';
 
 const { t } = useI18n();
-const route = useRoute();
-const router = useRouter();
 
 const { disableUserInput } = useUserAccessControl({
 	useUpdateAccessAsAllMutableChecksSource: true,
@@ -176,45 +152,6 @@ const {
 const { open } = useCardListNavigation({
 	routeParamName: 'subordinateId',
 });
-
-const supervisorsRowId = computed(
-	() => route.query.supervisor as string | undefined,
-);
-const skillsRowId = computed(() => route.query.skills as string | undefined);
-
-const rowById = (id?: string) =>
-	dataList.value.find((item) => String(item.id) === String(id));
-
-const shownSupervisors = computed(
-	() => rowById(supervisorsRowId.value)?.supervisor ?? [],
-);
-const shownSkills = computed(() => rowById(skillsRowId.value)?.skills ?? []);
-
-const openListPopup = (
-	queryParam: 'supervisor' | 'skills',
-	item: EngineAgent,
-) =>
-	router.push({
-		name: route.name,
-		params: route.params,
-		query: {
-			...route.query,
-			[queryParam]: String(item.id),
-		},
-	});
-
-const closeListPopup = () => {
-	const query = {
-		...route.query,
-	};
-	delete query.supervisor;
-	delete query.skills;
-	return router.push({
-		name: route.name,
-		params: route.params,
-		query,
-	});
-};
 
 const {
 	showEmpty,

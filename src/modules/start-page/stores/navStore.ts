@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import NavigationPages from '../../../app/router/_internals/NavigationPages.lookup';
+import NavigationPages, {
+	type NavigationPage,
+} from '../../../app/router/_internals/NavigationPages.lookup';
 import { useUserinfoStore } from '../../userinfo/stores/userinfoStore';
 
 type NavItem = {
@@ -30,17 +32,20 @@ export const useNavStore = defineStore('nav', () => {
 		route: ReturnType<typeof router.resolve>,
 	) => boolean;
 
-	const isInitialized = ref(false);
-
 	const nav = computed(() => {
-		const navWithLocale = (navItem: (typeof NavigationPages)[0]): NavItem => ({
-			...navItem,
-			name: t(navItem.locale),
+		// [Claude] subNav is left out here: navWithSubNavLocale adds it back, localized
+		const navWithLocale = ({
+			value,
+			locale,
+			route,
+		}: NavigationPage): NavItem => ({
+			value,
+			locale,
+			route,
+			name: t(locale),
 		});
 
-		const navWithSubNavLocale = (
-			navItem: (typeof NavigationPages)[0],
-		): NavItem => {
+		const navWithSubNavLocale = (navItem: NavigationPage): NavItem => {
 			const baseNav = navWithLocale(navItem);
 			if (navItem.subNav) {
 				return {
@@ -124,15 +129,7 @@ export const useNavStore = defineStore('nav', () => {
 		});
 	});
 
-	const initializeNav = async () => {
-		if (isInitialized.value) {
-			return;
-		}
-		isInitialized.value = true;
-	};
-
 	return {
 		nav,
-		initializeNav,
 	};
 });

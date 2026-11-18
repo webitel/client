@@ -86,7 +86,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.RESOURCES}-card`,
+                  name: `${RouteNames.Resources}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -155,7 +155,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useResourcesDatalistStore } from '../stores/datalist/resourcesDatalistStore';
 
 const { t } = useI18n();
@@ -218,7 +218,7 @@ const path = computed(() => [
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.RESOURCES}-card`,
+		name: `${RouteNames.Resources}-card`,
 		params: {
 			id: 'new',
 		},
@@ -226,7 +226,7 @@ const create = () =>
 
 const edit = (item: EngineOutboundResource) =>
 	router.push({
-		name: `${RouteNames.RESOURCES}-card`,
+		name: `${RouteNames.Resources}-card`,
 		params: {
 			id: item.id,
 		},

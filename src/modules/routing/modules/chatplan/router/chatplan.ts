@@ -1,6 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatplanRouteNames from './_internals/ChatplanRouteNames.enum';
 
 const Chatplan = () => import('../components/the-chatplan.vue');
@@ -8,10 +9,10 @@ const OpenedChatplan = () => import('../components/opened-chatplan.vue');
 const OpenedChatplanGeneral = () =>
 	import('../components/opened-chatplan-general.vue');
 
-const ChatplanRoutes = [
+const ChatplanRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/chatplan',
-		name: RouteNames.CHATPLAN,
+		name: RouteNames.Chatplan,
 		component: Chatplan,
 		meta: {
 			WtObject: WtObject.Chatplan,
@@ -20,7 +21,7 @@ const ChatplanRoutes = [
 	},
 	{
 		path: '/routing/chatplan/:id',
-		name: `${RouteNames.CHATPLAN}-card`,
+		name: `${RouteNames.Chatplan}-card`,
 		redirect: {
 			name: ChatplanRouteNames.GENERAL,
 		},

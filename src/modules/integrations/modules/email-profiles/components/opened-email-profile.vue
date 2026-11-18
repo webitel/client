@@ -53,7 +53,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import EmailProfilesRouteNames from '../router/_internals/EmailProfilesRouteNames.enum';
 import { useEmailProfileCardStore } from '../stores/card/emailProfileCardStore';
 
@@ -85,7 +85,7 @@ const tabs = computed<CardTab[]>(() => [
 
 const { currentTab, changeTab } = useCardTabs(tabs);
 
-const { close } = useClose(RouteNames.EMAIL_PROFILES);
+const { close } = useClose(RouteNames.EmailProfiles);
 
 const path = computed(() => [
 	{

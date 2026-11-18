@@ -13,14 +13,18 @@
         :regle-validation="validationFields?.name"
         required
       />
-      <copy-input
+      <wt-input-text
         v-if="modelValue.hotdesk"
         :label="t('objects.directory.devices.authId')"
         :regle-validation="validationFields?.account"
         :model-value="modelValue.account"
         disabled
         required
-      />
+      >
+        <template #suffix>
+          <wt-copy-action :value="modelValue.account" />
+        </template>
+      </wt-input-text>
       <wt-input-text
         v-else
         v-model:model-value="modelValue.account"
@@ -54,7 +58,6 @@ import type { ApiDevice } from '@webitel/api-services/gen/models';
 import { WtInputText, WtSingleSelect } from '@webitel/ui-sdk/components';
 import { PasswordAction } from '@webitel/ui-sdk/enums';
 import { useI18n } from 'vue-i18n';
-import CopyInput from '../../../../../app/components/utils/copy-input.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
 
 const modelValue = defineModel<ApiDevice>({

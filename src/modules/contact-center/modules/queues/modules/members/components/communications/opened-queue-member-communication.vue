@@ -196,10 +196,7 @@ const removeSelected = () => {
 };
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .member-communications {
   display: flex;
   flex-direction: column;

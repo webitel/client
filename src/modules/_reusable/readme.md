@@ -1,1 +1,0 @@
-these modules are reusable across frontend apps

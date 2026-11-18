@@ -1,6 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import StoragePoliciesRouteNames from './_internals/StoragePoliciesRouteNames.enum';
 
 const StoragePolicies = () => import('../components/the-storage-policies.vue');
@@ -8,10 +9,10 @@ const OpenedStoragePolicy = () =>
 	import('../components/opened-storage-policy.vue');
 const General = () => import('../components/opened-storage-policy-general.vue');
 
-const StoragePoliciesRoutes = [
+const StoragePoliciesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/storage-policies',
-		name: RouteNames.STORAGE_POLICIES,
+		name: RouteNames.StoragePolicies,
 		component: StoragePolicies,
 		meta: {
 			WtObject: WtObject.FilePolicy,
@@ -20,7 +21,7 @@ const StoragePoliciesRoutes = [
 	},
 	{
 		path: '/integrations/storage-policies/:id',
-		name: `${RouteNames.STORAGE_POLICIES}-card`,
+		name: `${RouteNames.StoragePolicies}-card`,
 		redirect: {
 			name: StoragePoliciesRouteNames.GENERAL,
 		},

@@ -32,9 +32,8 @@
 <script setup lang="ts">
 import { ButtonColor } from '@webitel/ui-sdk/enums';
 import clipboardCopy from 'clipboard-copy';
+import { saveAs } from 'file-saver-es';
 import { useI18n } from 'vue-i18n';
-
-import { downloadAsTXT } from '../../../../../../../app/utils/download';
 
 const props = defineProps<{
 	token: string;
@@ -49,7 +48,18 @@ const { t } = useI18n();
 
 const copy = () => clipboardCopy(props.token);
 
-const saveTxt = () => downloadAsTXT(props.token, `${props.userName}-token`);
+const saveTxt = () =>
+	saveAs(
+		new Blob(
+			[
+				props.token,
+			],
+			{
+				type: 'text/plain;charset=utf-8',
+			},
+		),
+		`${props.userName}-token.txt`,
+	);
 </script>
 
 <style scoped>

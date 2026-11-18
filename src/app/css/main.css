@@ -1,0 +1,14 @@
+/* [Claude] first: declares the cascade layer order before any other styles load [WTEL-9107] */
+@import "@webitel/ui-sdk/css/main.css";
+
+/* [Claude] full-size root, so pages can stretch to the viewport (and no scrollbar on 100vh auth on small laptops) */
+body {
+	width: 100%;
+	height: 100%;
+	color: var(--text-main-color);
+}
+
+#app {
+	width: 100%;
+	height: 100%;
+}

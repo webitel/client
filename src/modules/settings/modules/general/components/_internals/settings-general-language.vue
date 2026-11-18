@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.language') }}
     </template>
-    <template>
+    <template #default>
       <wt-single-select
         :label="t('settings.language')"
         :options="languageOptions"

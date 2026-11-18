@@ -123,7 +123,7 @@ initialize({
 onUnmounted($reset);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .queue-member-communications-popup__table-wrapper {
   flex: 0 0 440px;
 }

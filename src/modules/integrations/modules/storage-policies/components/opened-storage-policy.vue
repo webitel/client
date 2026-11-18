@@ -53,7 +53,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import StoragePoliciesRouteNames from '../router/_internals/StoragePoliciesRouteNames.enum';
 import { useStoragePolicyCardStore } from '../stores/card/storagePolicyCardStore';
 
@@ -75,7 +75,7 @@ const {
 	hasSaveAccess: hasSaveActionAccess,
 });
 
-const { close } = useClose(RouteNames.STORAGE_POLICIES);
+const { close } = useClose(RouteNames.StoragePolicies);
 
 const tabs = computed<CardTab[]>(() => [
 	{

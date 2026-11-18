@@ -196,5 +196,3 @@ const loadCommunicationTypes = async (params: Record<string, unknown>) => {
 };
 const loadResources = (params: unknown) => ResourcesAPI.getLookup(params);
 </script>
-
-<style lang="scss" scoped></style>

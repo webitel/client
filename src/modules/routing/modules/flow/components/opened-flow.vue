@@ -68,7 +68,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { FlowEditor } from '../enums/FlowEditor.enum';
 import FlowRouteNames from '../router/_internals/FlowRouteNames.enum';
 import { useFlowCardStore } from '../stores';
@@ -93,10 +93,10 @@ const {
 	hasSaveAccess: hasSaveActionAccess,
 });
 
+const isDiagramQuery = route.query.editor === FlowEditor.Diagram;
+
 const isDiagram = computed(
-	() =>
-		route.query.editor === FlowEditor.Diagram ||
-		!!originalItemInstance.value?.editor,
+	() => isDiagramQuery || !!originalItemInstance.value?.editor,
 );
 
 // [https://webitel.atlassian.net/browse/WTEL-4509]
@@ -150,7 +150,7 @@ const tabs = computed(() => [
 ]);
 
 const { currentTab, changeTab } = useCardTabs(tabs);
-const { close } = useClose(RouteNames.FLOW);
+const { close } = useClose(RouteNames.Flow);
 
 const path = computed(() => [
 	{

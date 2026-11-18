@@ -15,9 +15,6 @@ import { useNavStore } from '../stores/navStore';
 
 const navStore = useNavStore();
 
-// Initialize nav, if not initialized yet
-navStore.initializeNav();
-
 const { nav } = storeToRefs(navStore);
 
 const icons = [
@@ -30,8 +27,3 @@ const icons = [
 	'adm-contact-center',
 ];
 </script>
-
-<style
-  lang="scss"
-  scoped
-></style>

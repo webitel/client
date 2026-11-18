@@ -20,7 +20,7 @@ import {
 } from '@webitel/api-services/gen/models';
 import { computed } from 'vue';
 
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 
 const props = defineProps<{
 	item: LoggerLog;
@@ -28,8 +28,8 @@ const props = defineProps<{
 
 /** [Claude] the objects whose records have a card to open */
 const recordRouteNames: Partial<Record<string, string>> = {
-	[LoggerAvailableSystemObjects.Schema]: RouteNames.FLOW,
-	[LoggerAvailableSystemObjects.CcQueue]: RouteNames.QUEUES,
+	[LoggerAvailableSystemObjects.Schema]: RouteNames.Flow,
+	[LoggerAvailableSystemObjects.CcQueue]: RouteNames.Queues,
 };
 
 const recordRouteName = computed(

@@ -55,7 +55,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.OBJECTS}-card`,
+                  name: `${RouteNames.Objects}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -115,7 +115,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useObjectsDatalistStore } from '../stores/datalist/objectsDatalistStore';
 
 /** [Claude] a switcher patches one boolean property of a row */
@@ -200,7 +200,7 @@ const toggleRbac = async ({ item, index, value }: ToggleParams) => {
 
 const edit = (item: ApiObjectClass) =>
 	router.push({
-		name: `${RouteNames.OBJECTS}-card`,
+		name: `${RouteNames.Objects}-card`,
 		params: {
 			id: item.id,
 		},

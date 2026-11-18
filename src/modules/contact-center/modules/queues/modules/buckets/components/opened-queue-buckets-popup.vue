@@ -101,5 +101,3 @@ const save = async () => {
 
 const loadBucketsOptions = (params: unknown) => BucketsAPI.getLookup(params);
 </script>
-
-<style lang="scss" scoped></style>

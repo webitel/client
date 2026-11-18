@@ -54,7 +54,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useUserinfoStore } from '../../../../userinfo/stores/userinfoStore';
 import AgentsRouteNames from '../router/_internals/AgentsRouteNames.enum';
 import {
@@ -153,7 +153,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: itemId.value,
 }));
 
-const { close } = useClose(RouteNames.AGENTS);
+const { close } = useClose(RouteNames.Agents);
 
 const path = computed(() => [
 	{

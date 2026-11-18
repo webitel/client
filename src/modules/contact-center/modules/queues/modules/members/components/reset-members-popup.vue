@@ -6,7 +6,7 @@
     @close="close"
   >
     <template #title>
-      {{ $t('objects.ccenter.members.resetMembers.resetMembers') }}
+      {{ t('objects.ccenter.members.resetMembers.resetMembers') }}
     </template>
     <template #main>
       <div class="reset-members-popup--description">
@@ -27,7 +27,7 @@
         color="secondary"
         @click="cancel"
       >
-        {{ $t(!!quantity ? 'reusable.cancel' : 'objects.ok') }}
+        {{ t(!!quantity ? 'reusable.cancel' : 'objects.ok') }}
       </wt-button>
       <wt-button
         v-if="!!quantity"
@@ -35,86 +35,84 @@
         color="error"
         @click="confirm"
       >
-        {{ $t('objects.ccenter.members.resetMembers.reset') }}
+        {{ t('objects.ccenter.members.resetMembers.reset') }}
       </wt-button>
     </template>
   </wt-popup>
 </template>
 
-<script>
+<script setup lang="ts">
+import { useEventBus } from '@webitel/ui-sdk/composables';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { ActionOptions } from '../types/ActionOptions';
 
-export default {
-	name: 'ResetMembersPopup',
-	inject: [
-		'$eventBus',
-	],
-	props: {
-		callback: {
-			type: Function,
-			required: true,
-		},
-		dateRange: {
-			type: Object,
-		},
-		quantity: {
-			type: Number,
-		},
-		scope: {
-			type: String,
-			default: ActionOptions.All,
-		},
+const props = withDefaults(
+	defineProps<{
+		callback: () => unknown;
+		dateRange?: {
+			from?: string;
+			to?: string;
+		};
+		quantity?: number;
+		scope?: ActionOptions;
+	}>(),
+	{
+		scope: ActionOptions.All,
 	},
-	data: () => ({
-		isResetting: false,
+);
+
+const emit = defineEmits<{
+	close: [];
+	cancel: [];
+}>();
+
+const { t } = useI18n();
+const $eventBus = useEventBus();
+
+const isResetting = ref(false);
+
+const descriptionMainText = computed(() =>
+	t(`objects.ccenter.members.resetMembers.description.${props.scope}`, {
+		dateFrom: props.dateRange?.from,
+		dateTo: props.dateRange?.to,
 	}),
-	computed: {
-		descriptionMainText() {
-			return this.$t(
-				`objects.ccenter.members.resetMembers.description.${this.scope}`,
-				{
-					dateFrom: this.dateRange?.from,
-					dateTo: this.dateRange?.to,
-				},
-			);
+);
+
+const descriptionCountText = computed(() =>
+	t(
+		`objects.ccenter.members.resetMembers.${props.quantity ? 'descriptionCount' : 'emptyDescription'}`,
+		{
+			count: props.quantity,
 		},
-		descriptionCountText() {
-			return this.$t(
-				`objects.ccenter.members.resetMembers.${this.quantity ? 'descriptionCount' : 'emptyDescription'}`,
-				{
-					count: this.quantity,
-				},
-			);
-		},
-	},
-	methods: {
-		close() {
-			this.$emit('close');
-		},
-		async confirm() {
-			try {
-				this.isResetting = true;
-				const response = await this.callback();
-				const { count = 0 } = response;
-				this.$eventBus.$emit('notification', {
-					type: 'success',
-					text: this.$t(
-						'objects.ccenter.members.resetMembers.successResetCount',
-						{
-							count,
-						},
-					),
-				});
-			} finally {
-				this.isResetting = false;
-				this.close();
-			}
-		},
-		cancel() {
-			this.$emit('cancel');
-			this.close();
-		},
-	},
+	),
+);
+
+const close = () => emit('close');
+
+const confirm = async () => {
+	try {
+		isResetting.value = true;
+		const response = (await props.callback()) as {
+			count?: number;
+		} | null;
+		const count = response?.count ?? 0;
+		$eventBus?.$emit('notification', {
+			type: 'success',
+			text: t('objects.ccenter.members.resetMembers.successResetCount', {
+				count,
+			}),
+		});
+	} finally {
+		isResetting.value = false;
+		close();
+	}
+};
+
+const cancel = () => {
+	emit('cancel');
+	close();
 };
 </script>
 

@@ -15,7 +15,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { GatewayType } from '../enums/GatewayType.enum';
 
 interface GatewayTypeOption {
@@ -45,7 +45,7 @@ const selected = ref<GatewayTypeOption>(options.value[0]);
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.GATEWAYS}-card`,
+		name: `${RouteNames.Gateways}-card`,
 		params: {
 			id: 'new',
 		},

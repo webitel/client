@@ -30,7 +30,6 @@ export default ({ mode }) => {
 		},
 		resolve: {
 			alias: {
-				vue: '@vue/compat',
 				'@': resolve(__dirname, 'src'),
 				lodash: 'lodash-es',
 			},
@@ -38,7 +37,6 @@ export default ({ mode }) => {
 				'vue',
 				'pinia',
 				'zod',
-				'@vue/compat',
 				'vidstack',
 			],
 		},
@@ -46,9 +44,6 @@ export default ({ mode }) => {
 			vue({
 				template: {
 					compilerOptions: {
-						compatConfig: {
-							MODE: 2,
-						},
 						isCustomElement: (tag) => tag.startsWith('media-'),
 					},
 				},
@@ -86,7 +81,7 @@ export default ({ mode }) => {
 				VITE_API_URL: 'https://api.example.test/api',
 			},
 			setupFiles: [
-				'./tests/config/config.js',
+				'./tests/config/config.ts',
 			],
 			server: {
 				deps: {

@@ -58,7 +58,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ChangelogLogsFiltersPanel from '../modules/logs/components/changelog-logs-filters-panel.vue';
 import ChangelogsRouteNames from '../router/_internals/ChangelogsRouteNames.enum';
 import { useChangelogsCardStore } from '../stores/card/changelogsCardStore';
@@ -107,7 +107,7 @@ const { currentTab, changeTab } = useCardTabs(tabs);
 const isLogsTab = computed(() => currentTab.value?.value === 'logs');
 const isLogsFiltersPanelShown = ref(false);
 
-const { close } = useClose(RouteNames.CHANGELOGS);
+const { close } = useClose(RouteNames.Changelogs);
 
 const path = computed(() => [
 	{

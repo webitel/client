@@ -36,7 +36,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ObjectsRouteNames from '../router/_internals/ObjectsRouteNames.enum';
 import { useObjectsObacStore } from '../stores/obac/objectsObacStore';
 
@@ -96,7 +96,7 @@ const tabProps = computed(() => ({
 	}),
 }));
 
-const { close } = useClose(RouteNames.OBJECTS);
+const { close } = useClose(RouteNames.Objects);
 
 const path = computed(() => [
 	{

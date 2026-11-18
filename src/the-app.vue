@@ -4,14 +4,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, provide } from 'vue';
+import { storeToRefs } from 'pinia';
+import { onMounted, provide } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
+import { useAppearanceStore } from './modules/appearance/store/appearanceStore';
 import { useUserinfoStore } from './modules/userinfo/stores/userinfoStore';
 
-const store = useStore();
+const appearanceStore = useAppearanceStore();
+const { darkMode } = storeToRefs(appearanceStore);
 
-const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
 const { showUserNotifications } = useUserinfoStore();
 
 provide('darkMode', darkMode);
@@ -34,5 +35,3 @@ onMounted(() => {
 	showUserNotifications();
 });
 </script>
-
-<style></style>

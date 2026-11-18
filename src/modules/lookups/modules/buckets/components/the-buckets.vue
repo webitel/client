@@ -86,7 +86,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.BUCKETS}-card`,
+                  name: `${RouteNames.Buckets}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -144,7 +144,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useBucketsDatalistStore } from '../stores/datalist/bucketsDatalistStore';
 
 const { hasCreateAccess, hasUpdateAccess, hasDeleteAccess } =
@@ -207,7 +207,7 @@ const path = computed(() => [
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.BUCKETS}-card`,
+		name: `${RouteNames.Buckets}-card`,
 		params: {
 			id: 'new',
 		},
@@ -215,7 +215,7 @@ const add = () =>
 
 const edit = (item: EngineBucket) =>
 	router.push({
-		name: `${RouteNames.BUCKETS}-card`,
+		name: `${RouteNames.Buckets}-card`,
 		params: {
 			id: item.id,
 		},

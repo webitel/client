@@ -55,7 +55,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ImportCsvRouteNames from '../router/_internals/ImportCsvRouteNames.enum';
 import { useImportCsvCardStore } from '../stores/card/importCsvCardStore';
 import { useImportCsvPermissionsStore } from '../stores/permissions/importCsvPermissionsStore';
@@ -128,7 +128,7 @@ const permissionsStoreData = computed(() => ({
 	parentId: route.params.id,
 }));
 
-const { close } = useClose(RouteNames.IMPORT_CSV);
+const { close } = useClose(RouteNames.ImportCsv);
 
 const path = computed(() => [
 	{

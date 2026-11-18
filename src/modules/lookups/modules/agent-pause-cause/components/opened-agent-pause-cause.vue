@@ -49,7 +49,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import AgentPauseCauseRouteNames from '../router/_internals/AgentPauseCauseRouteNames.enum';
 import { useAgentPauseCauseCardStore } from '../stores/card/agentPauseCauseCardStore';
 
@@ -80,7 +80,7 @@ const tabs = computed(() => [
 ]);
 
 const { currentTab, changeTab } = useCardTabs(tabs);
-const { close } = useClose(RouteNames.PAUSE_CAUSE);
+const { close } = useClose(RouteNames.PauseCause);
 
 const path = computed(() => [
 	{

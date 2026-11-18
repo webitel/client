@@ -1,6 +1,7 @@
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ChatGatewayRouteNames from './_internals/ChatGatewayRouteNames.enum';
 
 const ChatGateways = () => import('../components/the-chat-gateways.vue');
@@ -44,10 +45,10 @@ const OpenedChatGatewayWebchatRecaptcha = () =>
 const OpenedChatGatewayViberStyle = () =>
 	import('../modules/viber/components/opened-chat-gateway-viber-style.vue');
 
-const ChatGatewaysRoutes = [
+const ChatGatewaysRoutes: RouteRecordRaw[] = [
 	{
 		path: '/routing/chat-gateways',
-		name: RouteNames.CHAT_GATEWAYS,
+		name: RouteNames.ChatGateways,
 		component: ChatGateways,
 		meta: {
 			WtObject: WtObject.ChatGateway,
@@ -56,7 +57,7 @@ const ChatGatewaysRoutes = [
 	},
 	{
 		path: '/routing/chat-gateways/:id',
-		name: `${RouteNames.CHAT_GATEWAYS}-card`,
+		name: `${RouteNames.ChatGateways}-card`,
 		// [Claude] no redirect: the first tab depends on the provider, so the card opens it once that is known
 		component: OpenedChatGateway,
 		meta: {

@@ -47,7 +47,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import QuickRepliesRouteNames from '../router/_internals/QuickRepliesRouteNames.enum';
 import { useQuickRepliesCardStore } from '../stores';
 
@@ -77,7 +77,7 @@ const tabs = computed(() => [
 ]);
 
 const { currentTab, changeTab } = useCardTabs(tabs);
-const { close } = useClose(RouteNames.QUICK_REPLIES);
+const { close } = useClose(RouteNames.QuickReplies);
 
 const path = computed(() => [
 	{

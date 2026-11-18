@@ -74,13 +74,15 @@
           {{ formatDateTime(item.date) }}
         </template>
         <template #object="{ item }">
-          <adm-item-link
+          <wt-item-link
             v-if="item.object"
-            :id="item.configId"
-            :route-name="RouteNames.CHANGELOGS"
+            :link="{
+              name: `${RouteNames.Changelogs}-card`,
+              params: { id: item.configId },
+            }"
           >
             {{ item.object.name }}
-          </adm-item-link>
+          </wt-item-link>
         </template>
         <template #record="{ item }">
           <record-link :item="item" />
@@ -128,7 +130,7 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import RouteNames from '../../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../../app/router/_internals/RouteNames.enum';
 import RecordLink from '../../../../../../system/modules/changelogs/modules/logs/components/changelog-logs-record-link.vue';
 import { useUsersCardStore } from '../../../stores/card/usersCardStore';
 import { defaultDateFilter, filterConfigs } from '../configs/filtersOptions';

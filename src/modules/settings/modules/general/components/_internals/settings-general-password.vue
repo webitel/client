@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.changePassword') }}
     </template>
-    <template>
+    <template #default>
 
       <settings-general-password-autocomplete />
 

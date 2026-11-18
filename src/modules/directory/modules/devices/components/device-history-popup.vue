@@ -187,7 +187,7 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .history-popup__table-wrapper {
   flex: 0 0 440px;
 }

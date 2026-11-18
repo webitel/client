@@ -3,6 +3,7 @@
     <holiday-popup
       :shown="!!holidayIndex"
       :item="editedHoliday"
+      :timezone="holidayTimeZone"
       @close="closePopup"
       @save="saveHoliday"
     />
@@ -18,28 +19,26 @@
         {{ t('objects.lookups.calendars.holidays', 2) }}
       </h3>
       <div class="table-title__actions-wrap">
-        <!-- wt-search-bar is `value` + `input`, not v-model -->
-        <wt-search-bar
-          :value="search"
-          @input="search = $event"
-        />
-        <delete-all-action
-          v-if="!disableUserInput"
-          v-show="selectedRows.length"
-          :selected-count="selectedRows.length"
-          @click="
+        <wt-action-bar
+          :include="[IconAction.ADD, IconAction.DELETE]"
+          :disabled:add="disableUserInput"
+          :disabled:delete="disableUserInput || !selectedRows.length"
+          @click:add="create"
+          @click:delete="
             askDeleteConfirmation({
               deleted: selectedRows,
               callback: () => deleteHolidays(selectedRows),
             })
           "
-        />
-        <wt-icon-btn
-          :disabled="disableUserInput"
-          class="icon-action"
-          icon="plus"
-          @click="create"
-        />
+        >
+          <template #search-bar>
+            <!-- wt-search-bar is `value` + `input`, not v-model -->
+            <wt-search-bar
+              :value="search"
+              @input="search = $event"
+            />
+          </template>
+        </wt-action-bar>
       </div>
     </header>
 
@@ -108,7 +107,7 @@
 <script setup lang="ts">
 import type { CardValidationFields } from '@webitel/ui-datalist/card';
 import { WtTimeTooltip } from '@webitel/ui-sdk/components';
-import { FormatDateMode } from '@webitel/ui-sdk/enums';
+import { FormatDateMode, IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
 import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/composables/useTableEmpty';
@@ -124,6 +123,7 @@ import {
 	useCalendarHolidays,
 } from '../composables/useCalendarHolidays';
 import CalendarRouteNames from '../router/_internals/CalendarRouteNames.enum';
+import { resolveCalendarTimeZone } from '../scripts/resolveCalendarTimeZone';
 import type { CalendarCard, CalendarExceptUi } from '../stores';
 import HolidayPopup from './opened-calendar-holiday-popup.vue';
 
@@ -212,12 +212,19 @@ const saveHoliday = (item: CalendarExceptUi) => {
 	upsert(holidayIndex.value, item);
 };
 
-const prettifyDate = (date: number | string | undefined) =>
-	formatDate(Number(date), FormatDateMode.DATE);
-
 const calendarTimeZoneLabel = computed(
 	() => modelValue.value.timezone?.name || '',
 );
+
+/** shared with the popup's datepicker, so a picked day reads back as that day */
+const holidayTimeZone = computed(() =>
+	resolveCalendarTimeZone(modelValue.value.timezone?.name),
+);
+
+const prettifyDate = (date: number | string | undefined) =>
+	formatDate(Number(date), FormatDateMode.DATE, {
+		timezone: holidayTimeZone.value,
+	});
 
 const openPopup = (holidayIndex: string) =>
 	router.push({

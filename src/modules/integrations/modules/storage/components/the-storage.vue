@@ -77,7 +77,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.STORAGE}-card`,
+                  name: `${RouteNames.Storage}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -148,7 +148,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import emptyPicDark from '../assets/adm-empty-storage-dark.svg';
 import emptyPicLight from '../assets/adm-empty-storage-light.svg';
 import { useStorageDatalistStore } from '../stores/datalist/storageDatalistStore';
@@ -222,7 +222,7 @@ const typeText = (type?: string) =>
 
 const edit = ({ id }: StorageBackendProfile) =>
 	router.push({
-		name: `${RouteNames.STORAGE}-card`,
+		name: `${RouteNames.Storage}-card`,
 		params: {
 			id,
 		},
@@ -230,7 +230,7 @@ const edit = ({ id }: StorageBackendProfile) =>
 
 const add = () =>
 	router.push({
-		name: `${RouteNames.STORAGE}-card`,
+		name: `${RouteNames.Storage}-card`,
 		params: {
 			id: 'new',
 		},

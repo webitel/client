@@ -1,7 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import CognitiveProfilesRouteNames from './_internals/CognitiveProfilesRouteNames.enum';
 
 const TheCognitiveProfiles = () =>
@@ -11,10 +12,10 @@ const OpenedCognitiveProfile = () =>
 const General = () =>
 	import('../components/opened-cognitive-profile-general.vue');
 
-const CognitiveProfilesRoutes = [
+const CognitiveProfilesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/cognitive-profiles',
-		name: RouteNames.COGNITIVE_PROFILES,
+		name: RouteNames.CognitiveProfiles,
 		component: TheCognitiveProfiles,
 		meta: {
 			WtObject: WtObject.CognitiveProfile,
@@ -23,7 +24,7 @@ const CognitiveProfilesRoutes = [
 	},
 	{
 		path: '/integrations/cognitive-profiles/:id',
-		name: `${RouteNames.COGNITIVE_PROFILES}-card`,
+		name: `${RouteNames.CognitiveProfiles}-card`,
 		redirect: {
 			name: CognitiveProfilesRouteNames.GENERAL,
 		},

@@ -1,7 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import QueuesRoutesName from './_internals/QueuesRoutesName.enum';
 
 const Queues = () => import('../components/the-queues.vue');
@@ -21,9 +22,8 @@ const Skills = () =>
 const General = () => import('../components/opened-queue-general.vue');
 const Params = () => import('../components/opened-queue-params.vue');
 const Processing = () => import('../components/opened-queue-processing.vue');
-const Amd = () => import('../components/shared/amd/opened-queue-amd.vue');
-const Variables = () =>
-	import('../components/shared/variables/opened-queue-variables.vue');
+const Amd = () => import('../components/opened-queue-amd.vue');
+const Variables = () => import('../components/opened-queue-variables.vue');
 
 const Members = () =>
 	import('../modules/members/components/the-queue-members.vue');
@@ -34,10 +34,10 @@ const MembersGeneral = () =>
 const MembersVariables = () =>
 	import('../modules/members/components/opened-queue-member-variables.vue');
 
-const QueuesRoutes = [
+const QueuesRoutes: RouteRecordRaw[] = [
 	{
 		path: '/contact-center/queues',
-		name: RouteNames.QUEUES,
+		name: RouteNames.Queues,
 		component: Queues,
 		meta: {
 			WtObject: WtObject.Queue,
@@ -46,7 +46,7 @@ const QueuesRoutes = [
 	},
 	{
 		path: '/contact-center/queues/:id',
-		name: `${RouteNames.QUEUES}-card`,
+		name: `${RouteNames.Queues}-card`,
 		redirect: {
 			name: QueuesRoutesName.GENERAL,
 		},
@@ -120,7 +120,7 @@ const QueuesRoutes = [
 	},
 	{
 		path: '/contact-center/queues/:queueId/members',
-		name: RouteNames.MEMBERS,
+		name: RouteNames.Members,
 		component: Members,
 		meta: {
 			WtObject: WtObject.Queue,
@@ -129,7 +129,7 @@ const QueuesRoutes = [
 	},
 	{
 		path: '/contact-center/queues/:queueId/members/:id',
-		name: `${RouteNames.MEMBERS}-card`,
+		name: `${RouteNames.Members}-card`,
 		redirect: {
 			name: QueuesRoutesName.MEMBERS_GENERAL,
 		},

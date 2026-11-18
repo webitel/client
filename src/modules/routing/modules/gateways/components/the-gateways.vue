@@ -79,12 +79,14 @@
             @update:selected="updateSelected"
           >
             <template #name="{ item }">
-              <adm-item-link
-                :id="item.id"
-                :route-name="RouteNames.GATEWAYS"
+              <wt-item-link
+                :link="{
+                  name: `${RouteNames.Gateways}-card`,
+                  params: { id: item.id },
+                }"
               >
                 {{ item.name }}
-              </adm-item-link>
+              </wt-item-link>
             </template>
             <template #proxy="{ item }">
               {{ item.proxy }}
@@ -148,7 +150,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { useGatewayDatalistStore } from '../stores';
 import CreateGatewayPopup from './create-gateway-popup.vue';
 
@@ -213,7 +215,7 @@ const path = computed(() => [
 
 const edit = (item: GatewayCard) =>
 	router.push({
-		name: `${RouteNames.GATEWAYS}-card`,
+		name: `${RouteNames.Gateways}-card`,
 		params: {
 			id: item.id,
 		},

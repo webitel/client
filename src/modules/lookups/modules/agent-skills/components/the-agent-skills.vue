@@ -102,7 +102,7 @@
             <template #name="{ item }">
               <wt-item-link
                 :link="{
-                  name: `${RouteNames.SKILLS}-card`,
+                  name: `${RouteNames.Skills}-card`,
                   params: { id: item.id },
                 }"
               >
@@ -165,7 +165,7 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import AddSkillToAgentPopup from '../modules/agents/components/add-skill-to-agent-popup/add-skill-to-agent-popup.vue';
 import { useSkillsDatalistStore } from '../stores/datalist/skillsDatalistStore';
 
@@ -240,7 +240,7 @@ const path = computed(() => [
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.SKILLS}-card`,
+		name: `${RouteNames.Skills}-card`,
 		params: {
 			id: 'new',
 		},
@@ -248,7 +248,7 @@ const create = () =>
 
 const edit = (item: EngineSkill) =>
 	router.push({
-		name: `${RouteNames.SKILLS}-card`,
+		name: `${RouteNames.Skills}-card`,
 		params: {
 			id: item.id,
 		},

@@ -27,14 +27,17 @@
         allow-custom-values
         :data-key="null"
       />
-      <copy-input
-        v-model="modelValue.uri"
-        :copy-modifier="modifyUriCopy"
+      <wt-input-text
+        v-model:model-value="modelValue.uri"
         :disabled="!isUriEditable"
         :label="t('objects.routing.chatGateways.uri')"
         :regle-validation="validationFields?.uri"
         required
-      />
+      >
+        <template #suffix>
+          <wt-copy-action :value="modifyUriCopy(modelValue.uri ?? '')" />
+        </template>
+      </wt-input-text>
     </div>
   </section>
 </template>
@@ -45,7 +48,6 @@ import path from 'path';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CopyInput from '../../../../../../../app/components/utils/copy-input.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import type { ChatGatewayValidationFields } from '../../../types/ChatGatewayValidationFields';
 import { useWebchatMetadata } from '../types/WebchatMetadata';

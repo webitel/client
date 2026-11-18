@@ -52,7 +52,7 @@
             />
           </template>
           <template #upload>
-            <upload-file-icon-btn
+            <wt-upload-file-icon-btn
               :loading="isImporting"
               :disabled="disableUserInput || !resourceId"
               accept=".csv"
@@ -130,6 +130,7 @@
 import { useNestedTableList } from '@webitel/ui-datalist';
 import { useCardListNavigation } from '@webitel/ui-datalist/card';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import WtUploadFileIconBtn from '@webitel/ui-sdk/components/on-demand/wt-upload-file-icon-btn/wt-upload-file-icon-btn.vue';
 import {
 	type ImportRunner,
 	useImportAction,
@@ -141,8 +142,6 @@ import { useTableEmpty } from '@webitel/ui-sdk/src/modules/TableComponentModule/
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-import UploadFileIconBtn from '../../../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useUserAccessControl } from '../../../../../../../app/composables/useUserAccessControl';
 import { useResourcesCardStore } from '../../../stores/card/resourcesCardStore';
 import { useResourceNumbersDatalistStore } from '../stores/datalist/resourceNumbersDatalistStore';

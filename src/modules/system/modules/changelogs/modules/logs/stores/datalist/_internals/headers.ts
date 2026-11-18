@@ -36,7 +36,7 @@ export const headers = [
 		value: 'userId',
 		locale: 'objects.directory.users.userId',
 		show: true,
-		field: 'user',
+		field: 'user_id',
 		sort: SortSymbols.NONE,
 	},
 	{

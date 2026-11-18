@@ -3,7 +3,7 @@
     <template #title>
       {{ t('settings.ringtoneVolume.title') }}
     </template>
-    <template>
+    <template #default>
         <div
           v-for="entity in ringtoneEntities"
           :key="entity.type"
@@ -49,9 +49,7 @@ const {
 } = useRingtoneVolume();
 </script>
 
-<style scoped lang="scss">
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .settings-notifications-ringtone-volume__save {
   align-self: flex-end;
 }

@@ -15,7 +15,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 
 interface ProviderOption {
 	value: StorageProviderType;
@@ -57,7 +57,7 @@ const title = computed(
 
 const create = () =>
 	router.push({
-		name: `${RouteNames.COGNITIVE_PROFILES}-card`,
+		name: `${RouteNames.CognitiveProfiles}-card`,
 		params: {
 			id: 'new',
 		},

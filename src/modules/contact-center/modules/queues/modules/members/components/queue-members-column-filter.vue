@@ -31,5 +31,3 @@ const { filtersManager } = storeToRefs(tableStore);
 
 const { addFilter, updateFilter, deleteFilter } = tableStore;
 </script>
-
-<style lang="scss" scoped></style>

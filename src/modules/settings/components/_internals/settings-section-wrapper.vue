@@ -12,9 +12,7 @@
 <script setup lang="ts">
 </script>
 
-<style lang="scss" scoped>
-@use '@webitel/ui-sdk/src/css/main' as *;
-
+<style scoped>
 .settings-section-wrapper {
   display: flex;
   flex-direction: column;

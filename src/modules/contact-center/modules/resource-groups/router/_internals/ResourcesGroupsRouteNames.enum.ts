@@ -1,7 +1,7 @@
-import RouteNames from '../../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../../app/router/_internals/RouteNames.enum';
 export default Object.freeze({
-	GENERAL: `${RouteNames.RESOURCE_GROUPS}-general`,
-	RESOURCES: `${RouteNames.RESOURCE_GROUPS}-resources`,
-	TIME_RANGE: `${RouteNames.RESOURCE_GROUPS}-time-range`,
-	PERMISSIONS: `${RouteNames.RESOURCE_GROUPS}-permissions`,
+	GENERAL: `${RouteNames.ResourceGroups}-general`,
+	RESOURCES: `${RouteNames.ResourceGroups}-resources`,
+	TIME_RANGE: `${RouteNames.ResourceGroups}-time-range`,
+	PERMISSIONS: `${RouteNames.ResourceGroups}-permissions`,
 });

@@ -72,7 +72,7 @@
                 @filter:delete="deleteFilter"
               />
             </template>
-            <upload-file-icon-btn
+            <wt-upload-file-icon-btn
               v-if="hasCreateAccess"
               accept=".json"
               class="icon-action"
@@ -189,6 +189,7 @@
 import { FlowsAPI } from '@webitel/api-services/api';
 import type { EngineRoutingSchema } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
+import WtUploadFileIconBtn from '@webitel/ui-sdk/components/on-demand/wt-upload-file-icon-btn/wt-upload-file-icon-btn.vue';
 import { useDownloadAction } from '@webitel/ui-sdk/composables';
 import {
 	ComponentSize,
@@ -204,9 +205,8 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import UploadFileIconBtn from '../../../../../app/components/utils/upload-file-icon-btn.vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import { filtersOptions } from '../configs/filtersOptions';
 import { FlowEditor } from '../enums/FlowEditor.enum';
 import { useFlowDatalistStore } from '../stores';
@@ -282,7 +282,7 @@ const path = computed(() => [
 const isCreateFlowPopup = ref(false);
 
 const editLink = ({ id, editor }: EngineRoutingSchema) => ({
-	name: `${RouteNames.FLOW}-card`,
+	name: `${RouteNames.Flow}-card`,
 	params: {
 		id,
 	},
@@ -314,8 +314,8 @@ const download = ({ id, name }: EngineRoutingSchema) =>
 	);
 
 const jsonFile = ref<File | null>(null);
-const processJSON = (files: File[]) => {
-	const [file] = files;
+const processJSON = (files: FileList | null) => {
+	const file = files?.[0];
 	if (file) jsonFile.value = file;
 };
 const closeUploadPopup = () => {

@@ -91,10 +91,7 @@ const loadTimezoneOptions = (params: unknown) =>
 const loadAgentsOptions = (params: unknown) => AgentsAPI.getLookup(params);
 </script>
 
-<style
-  lang="scss"
-  scoped
->
+<style scoped>
 .member-general {
   display: flex;
   flex-direction: column;

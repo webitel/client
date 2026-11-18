@@ -1,7 +1,8 @@
 import { PermissionsTab } from '@webitel/ui-datalist/permissions';
 import { AdminSections, WtObject } from '@webitel/ui-sdk/enums';
+import type { RouteRecordRaw } from 'vue-router';
 
-import RouteNames from '../../../../../app/router/_internals/RouteNames.enum';
+import { RouteNames } from '../../../../../app/router/_internals/RouteNames.enum';
 import ImportCsvRouteNames from './_internals/ImportCsvRouteNames.enum';
 
 const ImportCsv = () => import('../components/the-import-csv.vue');
@@ -10,10 +11,10 @@ const OpenedImportCsv = () => import('../components/opened-import-csv.vue');
 const General = () => import('../components/opened-import-csv-general.vue');
 const Settings = () => import('../components/opened-import-csv-settings.vue');
 
-const ImportCsvRoutes = [
+const ImportCsvRoutes: RouteRecordRaw[] = [
 	{
 		path: '/integrations/import-csv',
-		name: RouteNames.IMPORT_CSV,
+		name: RouteNames.ImportCsv,
 		component: ImportCsv,
 		meta: {
 			WtObject: WtObject.ImportCsv,
@@ -22,7 +23,7 @@ const ImportCsvRoutes = [
 	},
 	{
 		path: '/integrations/import-csv/:id',
-		name: `${RouteNames.IMPORT_CSV}-card`,
+		name: `${RouteNames.ImportCsv}-card`,
 		component: OpenedImportCsv,
 		redirect: {
 			name: ImportCsvRouteNames.GENERAL,

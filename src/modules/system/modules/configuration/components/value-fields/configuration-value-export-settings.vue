@@ -75,7 +75,7 @@ const setSeparator = (separator: string) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .configuration-value-export-settings {
   display: flex;
   flex-direction: column;
