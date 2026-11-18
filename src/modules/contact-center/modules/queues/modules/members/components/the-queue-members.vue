@@ -10,7 +10,7 @@
       >
         <template #primary-action>
           <wt-button-select
-            :disabled="disableUserInput"
+            :disabled="disableUserInput || isImporting"
             :loading="isImporting"
             :options="saveOptions"
             @click="create"
