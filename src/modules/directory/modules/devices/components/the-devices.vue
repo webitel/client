@@ -18,6 +18,7 @@
       <upload-popup
         v-if="csvFile"
         :file="csvFile"
+        :import-runner="importCsv"
         @close="closeCSVPopup"
       />
 
@@ -63,6 +64,7 @@
             </template>
             <template #upload>
               <wt-upload-file-icon-btn
+                :loading="isImporting"
                 v-if="hasCreateAccess"
                 accept=".csv"
                 class="icon-action"
@@ -179,6 +181,10 @@
 import type { ApiDevice } from '@webitel/api-services/gen/models';
 import { DynamicFilterSearchComponent as DynamicFilterSearch } from '@webitel/ui-datalist/filters';
 import WtUploadFileIconBtn from '@webitel/ui-sdk/components/on-demand/wt-upload-file-icon-btn/wt-upload-file-icon-btn.vue';
+import {
+	type ImportRunner,
+	useImportAction,
+} from '@webitel/ui-sdk/composables';
 import { IconAction } from '@webitel/ui-sdk/enums';
 import DeleteConfirmationPopup from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/components/delete-confirmation-popup.vue';
 import { useDeleteConfirmationPopup } from '@webitel/ui-sdk/src/modules/DeleteConfirmationPopup/composables/useDeleteConfirmationPopup';
@@ -294,6 +300,13 @@ const closeHistoryPopup = () =>
 const closeCSVPopup = () => {
 	csvFile.value = null;
 	loadDataList();
+};
+
+/* [Claude] the popup closes on "Save" and the import continues here, so the list is reloaded once it is done */
+const { isImporting, runImport } = useImportAction();
+const importCsv: ImportRunner = async (job, options) => {
+	await runImport(job, options);
+	await loadDataList();
 };
 
 const stateClass = (state: number) => {

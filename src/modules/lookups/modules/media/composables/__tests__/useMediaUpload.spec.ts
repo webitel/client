@@ -16,6 +16,29 @@ vi.mock('@webitel/api-services/api', () => ({
 	},
 }));
 
+// [Claude] the real one needs a component (i18n, toasts); this keeps its contract: loader state, errors swallowed
+vi.mock('@webitel/ui-sdk/composables', async () => {
+	const { computed, ref } = await import('vue');
+	return {
+		useImportAction: () => {
+			const running = ref(0);
+			return {
+				isImporting: computed(() => running.value > 0),
+				runImport: async ({ run }) => {
+					running.value += 1;
+					try {
+						return await run(() => {});
+					} catch {
+						return undefined;
+					} finally {
+						running.value -= 1;
+					}
+				},
+			};
+		},
+	};
+});
+
 vi.mock('@vueuse/core', async () => {
 	const { shallowRef } = await import('vue');
 	return {
@@ -55,7 +78,9 @@ describe('useMediaUpload', () => {
 		expect(upload.isUploading.value).toBe(true);
 		await pending;
 
-		expect(uploadMedia).toHaveBeenCalledWith(files);
+		expect(uploadMedia).toHaveBeenCalledWith(files, {
+			notifySuccess: false,
+		});
 		expect(upload.isUploading.value).toBe(false);
 		expect(onUploaded).toHaveBeenCalledOnce();
 	});

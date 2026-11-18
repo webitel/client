@@ -17,9 +17,10 @@
         :add-bulk-items="saveBulkData"
         :charset="parameters?.charset.value"
         :file="file"
+        :import-runner="importCsv"
         :mapping-fields="mappingFields"
         :separator="parameters?.separator"
-        :shown="!!file"
+        :shown="isPopupShown"
         :skip-headers="parameters?.skipHeaders"
         @close="closeUpload"
         @save="clearMembersBeforeUpload"
@@ -109,7 +110,8 @@
             </template>
             <template #actions="{ item }">
               <wt-upload-file-icon-btn
-                :disabled="!hasUploadAccess"
+                :disabled="!hasUploadAccess || isImporting"
+                :loading="isKeyImporting(item.id)"
                 accept=".csv"
                 @change="openUpload(item, $event)"
               />
@@ -242,6 +244,10 @@ const edit = ({ id }: ImportTemplateCard) =>
 
 const {
 	file,
+	isPopupShown,
+	isImporting,
+	isKeyImporting,
+	importCsv,
 	parameters,
 	mappingFields,
 	saveBulkData,
