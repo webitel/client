@@ -135,7 +135,10 @@ const path = computed(() => [
 
 const { saveOptions } = useSaveCopy(() =>
 	RolesAPI.add({
-		itemInstance: modelValue.value,
+		itemInstance: {
+			...modelValue.value,
+			id: undefined,
+		},
 	}),
 );
 </script>
