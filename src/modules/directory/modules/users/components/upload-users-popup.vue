@@ -61,6 +61,8 @@ const close = () => emit('close');
 const addItem = (itemInstance: Record<string, string>) =>
 	UsersAPI.add({
 		itemInstance,
+		// [Claude] the import shows its own error; server errors still show theirs (WTEL-11052)
+		notifyNetworkError: false,
 	});
 
 const saveBulkData = async (

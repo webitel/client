@@ -59,7 +59,7 @@ export const useImportCsvUpload = () => {
 
 	const importCsv: ImportRunner = async (job) => {
 		try {
-			await runImport(job, {
+			return await runImport(job, {
 				key: uploadingItem.value?.id,
 			});
 		} finally {

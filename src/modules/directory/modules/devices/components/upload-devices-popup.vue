@@ -84,6 +84,8 @@ const addItem = (item: Record<string, string>) => {
 	if (!item.password) item.password = item.account;
 	return DevicesAPI.add({
 		itemInstance: item,
+		// [Claude] the import shows its own error; server errors still show theirs (WTEL-11052)
+		notifyNetworkError: false,
 	});
 };
 

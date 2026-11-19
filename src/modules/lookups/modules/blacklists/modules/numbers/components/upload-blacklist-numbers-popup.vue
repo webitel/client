@@ -63,6 +63,8 @@ const saveBulkData = async (items: unknown[]) => {
 	const { data = [], failures = [] } = await BlacklistNumbersAPI.addBulk({
 		parentId: props.parentId,
 		items: items as Record<string, unknown>[],
+		// [Claude] the import shows its own error; server errors still show theirs (WTEL-11052)
+		notifyNetworkError: false,
 	});
 	importedCount.value += data.length;
 	skippedCount.value += failures.length;
@@ -72,7 +74,7 @@ const saveBulkData = async (items: unknown[]) => {
 const importRunner: ImportRunner = async (job, options) => {
 	importedCount.value = 0;
 	skippedCount.value = 0;
-	await props.importRunner(job, options);
+	const succeeded = await props.importRunner(job, options);
 	if (skippedCount.value) {
 		eventBus.$emit('notification', {
 			type: 'info',
@@ -82,6 +84,7 @@ const importRunner: ImportRunner = async (job, options) => {
 			}),
 		});
 	}
+	return succeeded;
 };
 
 const close = () => emit('close');

@@ -377,5 +377,7 @@ describe('useNormalizeCsvMembers', () => {
 		expect(payload.items).toHaveLength(1);
 		// [Claude] the import shows one "imported" toast, so chunks don't notify each (WTEL-10817)
 		expect(payload.notifySuccess).toBe(false);
+		// [Claude] network errors are left to the import's own error toast (WTEL-11052)
+		expect(payload.notifyNetworkError).toBe(false);
 	});
 });

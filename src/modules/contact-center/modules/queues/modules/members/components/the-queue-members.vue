@@ -602,8 +602,10 @@ const closeCsvPopup = () => {
 /* [Claude] the popup closes on "Save" and the import continues here, so the list is reloaded once it is done */
 const { isImporting, runImport } = useImportAction();
 const importCsv: ImportRunner = async (job, options) => {
-	await runImport(job, options);
-	await loadDataList();
+	const succeeded = await runImport(job, options);
+	// [Claude] reload only after success: offline it would just fail again with another error toast (WTEL-11052)
+	if (succeeded) await loadDataList();
+	return succeeded;
 };
 
 const memberLink = (item: EngineMemberInQueue) => ({

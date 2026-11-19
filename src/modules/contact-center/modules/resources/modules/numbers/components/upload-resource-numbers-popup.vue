@@ -44,6 +44,8 @@ const uploadFile = async ({ separator }: { separator?: string }) => {
 		file: props.file,
 		delimiter: separator || ',',
 		map: mappingFields.value[0].csv as string,
+		// [Claude] the import shows its own error; server errors still show theirs (WTEL-11052)
+		notifyNetworkError: false,
 	});
 };
 </script>
