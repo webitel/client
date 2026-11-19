@@ -27,9 +27,10 @@ vi.mock('@webitel/ui-sdk/composables', async () => {
 				runImport: async ({ run }) => {
 					running.value += 1;
 					try {
-						return await run(() => {});
+						await run(() => {});
+						return true;
 					} catch {
-						return undefined;
+						return false;
 					} finally {
 						running.value -= 1;
 					}
@@ -80,12 +81,14 @@ describe('useMediaUpload', () => {
 
 		expect(uploadMedia).toHaveBeenCalledWith(files, {
 			notifySuccess: false,
+			notifyNetworkError: false,
 		});
 		expect(upload.isUploading.value).toBe(false);
 		expect(onUploaded).toHaveBeenCalledOnce();
 	});
 
-	it('reloads the list even when the upload fails', async () => {
+	// [Claude] https://webitel.atlassian.net/browse/WTEL-11052
+	it('does not reload the list when the upload fails', async () => {
 		uploadMedia.mockRejectedValue(new Error('Too big'));
 		const onUploaded = vi.fn();
 		const upload = useMediaUpload({
@@ -95,7 +98,7 @@ describe('useMediaUpload', () => {
 		await handlers.pick?.(files as unknown as FileList);
 
 		expect(upload.isUploading.value).toBe(false);
-		expect(onUploaded).toHaveBeenCalledOnce();
+		expect(onUploaded).not.toHaveBeenCalled();
 	});
 
 	it('ignores an empty pick', async () => {

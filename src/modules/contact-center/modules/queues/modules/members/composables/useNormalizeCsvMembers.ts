@@ -213,6 +213,8 @@ export const useNormalizeCsvMembers = ({
 			items: await normalizeData(data),
 			// [Claude] one "imported" toast comes from the import itself, not one per chunk (WTEL-10817)
 			notifySuccess: false,
+			// [Claude] the import shows its own error; server errors still show theirs (WTEL-11052)
+			notifyNetworkError: false,
 		});
 
 	return {

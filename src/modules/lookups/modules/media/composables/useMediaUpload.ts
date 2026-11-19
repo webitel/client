@@ -3,7 +3,7 @@ import { MediaAPI } from '@webitel/api-services/api';
 import { useImportAction } from '@webitel/ui-sdk/composables';
 import { ref } from 'vue';
 
-/** [Claude] drop or pick files into `dropZone`; `onUploaded` fires after the request, failed or not */
+/** [Claude] drop or pick files into `dropZone`; `onUploaded` fires after a successful upload */
 export function useMediaUpload({ onUploaded }: { onUploaded: () => void }) {
 	const dropZone = ref<HTMLElement>();
 	const { isImporting: isUploading, runImport } = useImportAction();
@@ -12,13 +12,16 @@ export function useMediaUpload({ onUploaded }: { onUploaded: () => void }) {
 		if (!files?.length || isUploading.value) return;
 
 		// [Claude] all files go in one request, so there is nothing to count – only the loader and import toasts (WTEL-10817)
-		await runImport({
+		const succeeded = await runImport({
 			run: () =>
 				MediaAPI.upload(Array.from(files), {
 					notifySuccess: false,
+					// [Claude] the import shows its own error; server errors still show theirs (WTEL-11052)
+					notifyNetworkError: false,
 				}),
 		});
-		onUploaded();
+		// [Claude] a failed upload has nothing new to show, and reloading offline would only add another error (WTEL-11052)
+		if (succeeded) onUploaded();
 	};
 
 	const { isOverDropZone } = useDropZone(dropZone, {
