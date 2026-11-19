@@ -6,7 +6,19 @@
     @change="selected = $event"
     @close="emit('close')"
     @add="createQueue"
-  />
+  >
+    <template #option="{ option }">
+      <p class="typo-subtitle-2">
+        {{ option.title }}
+      </p>
+      <wt-icon-btn
+        v-tooltip="option.description"
+        class="create-queue-popup__info"
+        color="info"
+        icon="rounded-info"
+      />
+    </template>
+  </wt-selection-popup>
 </template>
 
 <script lang="ts" setup>
@@ -58,3 +70,9 @@ const createQueue = () =>
 		},
 	});
 </script>
+
+<style scoped>
+.create-queue-popup__info {
+  margin-left: auto;
+}
+</style>
