@@ -94,6 +94,16 @@ export default {
 			[RingtoneType.Chat]: 'Chat',
 			[RingtoneType.Task]: 'Sarcină',
 		},
+		debugRecorder: {
+			title: 'Înregistrare pentru depanare',
+			toggle: 'Înregistrează date pentru suport',
+			description:
+				'Timp de 24 de ore, acest browser înregistrează cererile de rețea, apelurile, starea dispozitivelor și erorile în toate aplicațiile Webitel. Parolele și datele personale sunt eliminate și nimic nu părăsește browserul până când nu descărcați arhiva și nu o trimiteți echipei de suport.',
+			status: 'Înregistrare până la {until} · evenimente înregistrate: {count}',
+			reloadHint:
+				'Reîncărcați filele Webitel deschise (sau deschideți aplicația cu problema) pentru ca și conexiunile deschise anterior să fie înregistrate.',
+			download: 'Descarcă arhiva',
+		},
 		security: {
 			security: 'Securitate',
 			logoutTitle: 'Deconectați acest utilizator de pe alte dispozitive',

@@ -96,6 +96,16 @@ export default {
 			[RingtoneType.Chat]: 'Czat',
 			[RingtoneType.Task]: 'Zadanie',
 		},
+		debugRecorder: {
+			title: 'Nagrywanie do debugowania',
+			toggle: 'Nagrywaj dane dla pomocy technicznej',
+			description:
+				'Przez 24 godziny ta przeglądarka nagrywa żądania sieciowe, połączenia, stan urządzeń i błędy we wszystkich aplikacjach Webitel. Hasła i dane osobowe są usuwane, a nic nie opuszcza przeglądarki, dopóki nie pobierzesz archiwum i nie wyślesz go do pomocy technicznej.',
+			status: 'Nagrywanie do {until} · nagrane zdarzenia: {count}',
+			reloadHint:
+				'Odśwież otwarte karty Webitel (lub otwórz aplikację, w której występuje problem), aby nagrywać także połączenia otwarte wcześniej.',
+			download: 'Pobierz archiwum',
+		},
 		security: {
 			security: 'Bezpieczeństwo',
 			logoutTitle: 'Wyloguj tego użytkownika z innych urządzeń',
