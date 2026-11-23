@@ -19,7 +19,13 @@ export default ({ mode }) => {
 			minify: !isStagingEnv, // Disable minification for readable debugging
 		},
 		optimizeDeps: {
+			// Vite 7 does not follow the recorder's worker into pre-bundled deps: serve it as source,
+			// and pre-bundle the CommonJS jszip it loads for the archive
+			exclude: [
+				'@webitel/ui-sdk/modules/DebugRecorder',
+			],
 			include: [
+				'jszip',
 				'deep-copy',
 				'deep-equal',
 				'webitel-sdk',
