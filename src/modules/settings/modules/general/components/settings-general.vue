@@ -7,6 +7,7 @@
   <div class="opened-card-tabs__tab">
     <settings-general-webphone />
     <settings-general-timezone />
+    <settings-general-debug-recorder />
   </div>
 </template>
 
@@ -14,6 +15,7 @@
 import { WtObject } from '@webitel/ui-sdk/enums';
 import { computed } from 'vue';
 import { useUserAccessControl } from '../../../../../app/composables/useUserAccessControl';
+import SettingsGeneralDebugRecorder from './_internals/settings-general-debug-recorder.vue';
 import SettingsGeneralLanguage from './_internals/settings-general-language.vue';
 import SettingsGeneralLogout from './_internals/settings-general-logout.vue';
 import SettingsGeneralPassword from './_internals/settings-general-password.vue';

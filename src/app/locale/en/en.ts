@@ -93,6 +93,16 @@ export default {
 			[RingtoneType.Chat]: 'Chat',
 			[RingtoneType.Task]: 'Task',
 		},
+		debugRecorder: {
+			title: 'Debug recording',
+			toggle: 'Record debug data for support',
+			description:
+				'For 24 hours, this browser records network requests, calls, device state and errors in every Webitel app. Passwords and personal data are removed, and nothing leaves the browser until you download the archive and send it to support.',
+			status: 'Recording until {until} · {count} events recorded',
+			reloadHint:
+				'Reload the open Webitel tabs (or open the app with the problem) so that connections opened before now are recorded too.',
+			download: 'Download archive',
+		},
 		security: {
 			security: 'Security',
 			logoutTitle: 'Log out this user from all devices',

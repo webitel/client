@@ -39,7 +39,6 @@ import {
 } from '@webitel/ui-sdk/components';
 import { WtApplication } from '@webitel/ui-sdk/enums';
 import { WtDarkModeSwitcher } from '@webitel/ui-sdk/modules/Appearance';
-import { wipeDebugRecorder } from '@webitel/ui-sdk/modules/DebugRecorder';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
@@ -59,11 +58,7 @@ const userInfoStore = useUserinfoStore();
 const appearanceStore = useAppearanceStore();
 const { darkMode } = storeToRefs(appearanceStore);
 const { setTheme } = appearanceStore;
-const logout = async () => {
-	// shared workstations: the next user must not get this user's debug records
-	await wipeDebugRecorder();
-	await userInfoStore.logoutUser();
-};
+const { logoutUser: logout } = userInfoStore;
 const { userInfo } = storeToRefs(userInfoStore);
 
 const currentApp = WtApplication.Admin;
